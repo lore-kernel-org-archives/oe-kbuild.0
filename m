@@ -1,83 +1,56 @@
-Content-Type: multipart/mixed; boundary="===============1758171640730125362=="
+Content-Type: multipart/mixed; boundary="===============1601975484691247924=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [staging:staging-next 50/93] drivers/staging/wfx/debug.c:112 wfx_send_hif_msg_read() warn: maybe return -EFAULT instead of the bytes remaining?
-Date: Tue, 08 Oct 2019 07:35:18 +0300
-Message-ID: <20191008043518.GL21515@kadam>
+Subject: Re: [usb:usb-next 32/38] drivers/usb/typec/hd3ss3220.c:182 hd3ss3220_probe() warn: passing zero to 'PTR_ERR'
+Date: Mon, 07 Oct 2019 17:33:10 +0300
+Message-ID: <20191007143310.GK21515@kadam>
+In-Reply-To: <OSBPR01MB2103FEAFF4E52D3E881179C7B89B0@OSBPR01MB2103.jpnprd01.prod.outlook.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1758171640730125362==
+--===============1601975484691247924==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
-staging-next
-head:   e772cd8c9c9cd3d08715800aabaf50b771b395d9
-commit: 4f8b7fabb15df3658564a98971fc67029be1815d [50/93] staging: wfx: allo=
-w to send commands to chip
+On Mon, Oct 07, 2019 at 02:19:05PM +0000, Biju Das wrote:
+> OK.  Are you ok with the below changes?
+> =
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/staging/wfx/debug.c:112 wfx_send_hif_msg_read() warn: maybe return =
--EFAULT instead of the bytes remaining?
+It will generate a compile warning so no...  :P
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit=
-/?id=3D4f8b7fabb15df3658564a98971fc67029be1815d
-git remote add staging https://git.kernel.org/pub/scm/linux/kernel/git/greg=
-kh/staging.git
-git remote update staging
-git checkout 4f8b7fabb15df3658564a98971fc67029be1815d
-vim +112 drivers/staging/wfx/debug.c
+> @@ -178,7 +178,7 @@ static int hd3ss3220_probe(struct i2c_client *client,
+>  =
 
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19   95  static ssize_t wf=
-x_send_hif_msg_read(struct file *file, char __user *user_buf,
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19   96  				     size_t c=
-ount, loff_t *ppos)
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19   97  {
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19   98  	struct dbgfs_hif=
-_msg *context =3D file->private_data;
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19   99  	int ret;
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  100  =
+>         hd3ss3220->role_sw =3D fwnode_usb_role_switch_get(connector);
+>         fwnode_handle_put(connector);
+> -       if (IS_ERR_OR_NULL(hd3ss3220->role_sw))
+> +       if (IS_ERR(hd3ss3220->role_sw))
+>                 return PTR_ERR(hd3ss3220->role_sw);
+>  =
 
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  101  	if (count > size=
-of(context->reply))
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  102  		return -EINVAL;
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  103  	ret =3D wait_for=
-_completion_interruptible(&context->complete);
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  104  	if (ret)
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  105  		return ret;
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  106  	if (context->ret=
- < 0)
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  107  		return context-=
->ret;
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  108  	// Be carefull, =
-write() is waiting for a full message while read()
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  109  	// only return a=
- payload
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  110  	ret =3D copy_to_=
-user(user_buf, context->reply, count);
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  111  	if (ret)
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19 @112  		return ret;
+>         hd3ss3220->typec_cap.prefer_role =3D TYPEC_NO_PREFERRED_ROLE;
+> @@ -188,20 +188,22 @@ static int hd3ss3220_probe(struct i2c_client *clien=
+t,
+>  =
 
-Yeah.  It should be:
+>         hd3ss3220->port =3D typec_register_port(&client->dev,
+>                                               &hd3ss3220->typec_cap);
+> -       if (IS_ERR(hd3ss3220->port))
+> +       if (IS_ERR(hd3ss3220->port)) {
+> +               usb_role_switch_put(hd3ss3220->role_sw);
+>                 return PTR_ERR(hd3ss3220->port);
 
-	if (copy_to_user(user_buf, context->reply, count))
-		return -EFAULT;
+		ret =3D PTR_ERR(hd3ss3220->port);
+		goto err_put_role
 
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  113  =
+> +       }
 
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  114  	return count;
-4f8b7fabb15df3 J=C3=A9r=C3=B4me Pouiller 2019-09-19  115  }
+Otherwise I think it's the right thing.  Thanks!
 
----
-0-DAY kernel test infrastructure                Open Source Technology Cent=
-er
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
-on
---===============1758171640730125362==--
+regards,
+dan carpenter
+
+--===============1601975484691247924==--
 
