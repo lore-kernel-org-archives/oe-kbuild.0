@@ -1,69 +1,101 @@
-Content-Type: multipart/mixed; boundary="===============7673764666030801396=="
+Content-Type: multipart/mixed; boundary="===============3312150655947595146=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [staging:staging-testing 55/111] drivers/staging/wfx/wfx.h:91 wdev_to_wvif() warn: potential spectre issue 'wdev->vif' [r] (local cap)
-Date: Wed, 09 Oct 2019 12:00:48 +0300
-Message-ID: <20191009090048.GA13286@kadam>
+Subject: Re: [RFC PATCH V3 2/2] scsi: core: don't limit per-LUN queue depth for SSD
+Date: Wed, 09 Oct 2019 11:29:06 +0300
+Message-ID: <20191009082321.GA13048@kadam>
+In-Reply-To: <20191008100945.24951-3-ming.lei@redhat.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7673764666030801396==
+--===============3312150655947595146==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
-staging-testing
-head:   d49d1c76b96ebf39539e93d5ab7943a01ef70e4f
-commit: 9bca45f3d6924f19f29c0d019e961af3f41bdc9e [55/111] staging: wfx: all=
-ow to send 802.11 frames
+Hi Ming,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on scsi/for-next]
+[cannot apply to v5.4-rc2 next-20191009]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Ming-Lei/scsi-core-avoid-h=
+ost-wide-host_busy-counter-for-scsi_mq/20191009-015827
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-n=
+ext
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/staging/wfx/wfx.h:91 wdev_to_wvif() warn: potential spectre issue '=
-wdev->vif' [r] (local cap)
-drivers/staging/wfx/data_tx.c:479 wfx_tx_get_raw_link_id() warn: signedness=
- bug returning '(-2)'
+smatch warnings:
+drivers/scsi/scsi_lib.c:1293 scsi_dev_queue_ready() error: uninitialized sy=
+mbol 'busy'.
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit=
-/?id=3D9bca45f3d6924f19f29c0d019e961af3f41bdc9e
-git remote add staging https://git.kernel.org/pub/scm/linux/kernel/git/greg=
-kh/staging.git
-git remote update staging
-git checkout 9bca45f3d6924f19f29c0d019e961af3f41bdc9e
-vim +91 drivers/staging/wfx/wfx.h
+# https://github.com/0day-ci/linux/commit/74eb6c22dc70e395b333c9ca579855cd8=
+8db8845
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 74eb6c22dc70e395b333c9ca579855cd88db8845
+vim +/busy +1293 drivers/scsi/scsi_lib.c
 
-e16e7f0716a6ba J=C3=A9r=C3=B4me Pouiller 2019-09-19  80  =
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1284  static inline int scsi_d=
+ev_queue_ready(struct request_queue *q,
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1285  				  struct scsi_device=
+ *sdev)
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1286  {
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1287  	unsigned int busy;
 
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  81  static inline stru=
-ct wfx_vif *wdev_to_wvif(struct wfx_dev *wdev, int vif_id)
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  82  {
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  83  	if (vif_id >=3D A=
-RRAY_SIZE(wdev->vif)) {
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  84  		dev_dbg(wdev->de=
-v, "requesting non-existent vif: %d\n", vif_id);
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  85  		return NULL;
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  86  	}
+Needs to be busy =3D 0;
 
-		vaf_id =3D array_index_nospec(wdev->vif, ARRAY_SIZE(wdev->vif)); ?
+74eb6c22dc70e3 Ming Lei          2019-10-08  1288  	bool bypass =3D blk_que=
+ue_nonrot(sdev->request_queue);
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1289  =
 
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  87  	if (!wdev->vif[vi=
-f_id]) {
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  88  		dev_dbg(wdev->de=
-v, "requesting non-allocated vif: %d\n", vif_id);
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  89  		return NULL;
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  90  	}
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19 @91  	return (struct wf=
-x_vif *) wdev->vif[vif_id]->drv_priv;
-f4a71ba8753d94 J=C3=A9r=C3=B4me Pouiller 2019-09-19  92  }
+74eb6c22dc70e3 Ming Lei          2019-10-08  1290  	if (!bypass)
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1291  		busy =3D atomic_inc_re=
+turn(&sdev->device_busy) - 1;
+                                                                ^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+cd9070c9c512ff Christoph Hellwig 2014-01-23  1292  	if (atomic_read(&sdev->=
+device_blocked)) {
+71e75c97f97a96 Christoph Hellwig 2014-04-11 @1293  		if (busy)
+                                                                    ^^^^
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1294  			goto out_dec;
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1295  =
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1296  		/*
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1297  		 * unblock after devic=
+e_blocked iterates to zero
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1298  		 */
+f664a3cc17b7d0 Jens Axboe        2018-11-01  1299  		if (atomic_dec_return(=
+&sdev->device_blocked) > 0)
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1300  			goto out_dec;
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1301  		SCSI_LOG_MLQUEUE(3, sd=
+ev_printk(KERN_INFO, sdev,
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1302  				   "unblocking devic=
+e at zero depth\n"));
+^1da177e4c3f41 Linus Torvalds    2005-04-16  1303  	}
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1304  =
+
+74eb6c22dc70e3 Ming Lei          2019-10-08  1305  	if (bypass)
+74eb6c22dc70e3 Ming Lei          2019-10-08  1306  		return 1;
+74eb6c22dc70e3 Ming Lei          2019-10-08  1307  =
+
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1308  	if (busy >=3D sdev->que=
+ue_depth)
+71e75c97f97a96 Christoph Hellwig 2014-04-11  1309  		goto out_dec;
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Cent=
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============7673764666030801396==--
+--===============3312150655947595146==--
 
