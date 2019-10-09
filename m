@@ -1,108 +1,145 @@
-Content-Type: multipart/mixed; boundary="===============1330824394542898529=="
+Content-Type: multipart/mixed; boundary="===============7061783930270488091=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [peterz-queue:locking/jump_label 19/30] kernel/tracepoint.c:296 tracepoint_remove_func() error: we previously assumed 'tp_funcs' could be null (see line 286)
-Date: Wed, 09 Oct 2019 22:14:29 +0300
-Message-ID: <20191009191429.GI13286@kadam>
+Subject: [omap-audio:peter/ti-linux-4.19.y/wip 40/47] sound/soc/ti/j721e-evm.c:399 j721e_audio_hw_params() warn: inconsistent returns 'mutex:&priv->mutex'.
+Date: Wed, 09 Oct 2019 21:54:50 +0300
+Message-ID: <20191009185450.GH13286@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1330824394542898529==
+--===============7061783930270488091==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git lo=
-cking/jump_label
-head:   ef36041eb3c323ddc4050649298755a82b367782
-commit: 0e669b8d46545cae6903cb0dd6fbfb4058728ce1 [19/30] tracepoints: Use s=
-tatic_call
+tree:   https://github.com/omap-audio/linux-audio peter/ti-linux-4.19.y/wip
+head:   0288109696d1bb4b24553465fdb779256148618e
+commit: 098c67f22952c25146488c9adafeb18ae6d32ef4 [40/47] ASoC: ti: j721e-ev=
+m: Add support for Infotainment Expansion Board
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-kernel/tracepoint.c:296 tracepoint_remove_func() error: we previously assum=
-ed 'tp_funcs' could be null (see line 286)
+sound/soc/ti/j721e-evm.c:399 j721e_audio_hw_params() warn: inconsistent ret=
+urns 'mutex:&priv->mutex'.
+  Locked on:   line 367
+  Unlocked on: line 399
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?=
-id=3D0e669b8d46545cae6903cb0dd6fbfb4058728ce1
-git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git=
-/peterz/queue.git
-git remote update peterz-queue
-git checkout 0e669b8d46545cae6903cb0dd6fbfb4058728ce1
-vim +/tp_funcs +296 kernel/tracepoint.c
+# https://github.com/omap-audio/linux-audio/commit/098c67f22952c25146488c9a=
+dafeb18ae6d32ef4
+git remote add omap-audio https://github.com/omap-audio/linux-audio
+git remote update omap-audio
+git checkout 098c67f22952c25146488c9adafeb18ae6d32ef4
+vim +399 sound/soc/ti/j721e-evm.c
 
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  272  static int tracepoi=
-nt_remove_func(struct tracepoint *tp,
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  273  		struct tracepoint=
-_func *func)
-97e1c18e8d17bd Mathieu Desnoyers       2008-07-18  274  {
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  275  	struct tracepoint_=
-func *old, *tp_funcs;
-0e669b8d46545c Steven Rostedt (VMware  2018-10-05  276) 	int probes_left =
-=3D 0;
-97e1c18e8d17bd Mathieu Desnoyers       2008-07-18  277  =
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  338  static int j721e_audio_hw_pa=
+rams(struct snd_pcm_substream *substream,
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  339  				 struct snd_pcm_hw_param=
+s *params)
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  340  {
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  341  	struct 	snd_soc_pcm_runtime=
+ *rtd =3D substream->private_data;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  342  	struct snd_soc_card *card =
+=3D rtd->card;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  343  	struct j721e_priv *priv =3D=
+ snd_soc_card_get_drvdata(card);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  344  	unsigned int domain_id =3D =
+J721E_DAI_LINK_ID_TO_DOMAIN(rtd->dai_link->id);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  345  	struct j721e_audio_domain *=
+domain =3D &priv->audio_domains[domain_id];
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  346  	int slot_width =3D 32;
+098c67f22952c2 Peter Ujfalusi 2019-08-23  347  	int ret, i;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  348  =
 
-b725dfea24b89d Mathieu Desnoyers       2014-04-09  278  	tp_funcs =3D rcu_d=
-ereference_protected(tp->funcs,
-b725dfea24b89d Mathieu Desnoyers       2014-04-09  279  			lockdep_is_held(=
-&tracepoints_mutex));
-0e669b8d46545c Steven Rostedt (VMware  2018-10-05  280) 	old =3D func_remov=
-e(&tp_funcs, func, &probes_left);
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  349  	mutex_lock(&priv->mutex);
+                                                ^^^^^^^^^^^^^^^^^^^^^^^
 
-I'm looking at FETCH_HEAD and func_remove() doesn't touch/use
-probes_left.
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  350  =
 
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  281  	if (IS_ERR(old)) {
-d66a270be3310d Mathieu Desnoyers       2018-03-15  282  		WARN_ON_ONCE(PTR_=
-ERR(old) !=3D -ENOMEM);
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  283  		return PTR_ERR(ol=
-d);
-b75ef8b44b1cb9 Mathieu Desnoyers       2011-08-10  284  	}
-b75ef8b44b1cb9 Mathieu Desnoyers       2011-08-10  285  =
+098c67f22952c2 Peter Ujfalusi 2019-08-23  351  	if (domain->rate && domain-=
+>rate !=3D params_rate(params)) {
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  352  		ret =3D -EINVAL;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  353  		goto out;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  354  	}
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  355  =
 
-de7b2973903c6c Mathieu Desnoyers       2014-04-08 @286  	if (!tp_funcs) {
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  287  		/* Removed last f=
-unction */
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  288  		if (tp->unregfunc=
- && static_key_enabled(&tp->key))
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  289  			tp->unregfunc();
-b75ef8b44b1cb9 Mathieu Desnoyers       2011-08-10  290  =
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  356  	if (params_width(params) =
+=3D=3D 16)
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  357  		slot_width =3D 16;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  358  =
 
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  291  		if (static_key_en=
-abled(&tp->key))
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  292  			static_key_slow_=
-dec(&tp->key);
-97e1c18e8d17bd Mathieu Desnoyers       2008-07-18  293  	}
-0e669b8d46545c Steven Rostedt (VMware  2018-10-05  294) =
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  359  	ret =3D snd_soc_dai_set_tdm=
+_slot(rtd->cpu_dai, 0x3, 0x3, 2, slot_width);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  360  	if (ret && ret !=3D -ENOTSU=
+PP)
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  361  		goto out;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  362  =
 
-0e669b8d46545c Steven Rostedt (VMware  2018-10-05  295) 	__static_call_upda=
-te(tp->static_call_key, tp->static_call_tramp,
-0e669b8d46545c Steven Rostedt (VMware  2018-10-05 @296) 			     probes_left=
- =3D=3D 1 ? tp_funcs->func : tp->iterator);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  363  	for (i =3D 0; i < rtd->num_=
+codecs; i++) {
+098c67f22952c2 Peter Ujfalusi 2019-08-23  364  		ret =3D snd_soc_dai_set_td=
+m_slot(rtd->codec_dais[i], 0x3, 0x3, 2,
+098c67f22952c2 Peter Ujfalusi 2019-08-23  365  					       slot_width);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  366  		if (ret && ret !=3D -ENOTS=
+UPP)
+098c67f22952c2 Peter Ujfalusi 2019-08-23  367  			return ret;
 
-So Smatch says that "The 'probes_left =3D=3D 1' condition is impossible, so
-probably that just means I'm confused so I'm going to ignore it." so
-then it complains that it's not clear if "tp_funcs" is NULL or not.
+goto out;
 
-I could silence this false positive if I added an if statement:
+098c67f22952c2 Peter Ujfalusi 2019-08-23  368  	}
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  369  =
 
-	if (is_impossible_path())
-		return;
+098c67f22952c2 Peter Ujfalusi 2019-08-23  370  	ret =3D j721e_configure_ref=
+clk(priv, domain_id, params_rate(params));
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  371  	if (ret)
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  372  		goto out;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  373  =
 
-I do that for some warnings but not for this one.
+098c67f22952c2 Peter Ujfalusi 2019-08-23  374  	for (i =3D 0; i < rtd->num_=
+codecs; i++) {
+098c67f22952c2 Peter Ujfalusi 2019-08-23  375  		ret =3D snd_soc_dai_set_sy=
+sclk(rtd->codec_dais[i], 0,
+098c67f22952c2 Peter Ujfalusi 2019-08-23  376  				priv->hsdiv_rates[domain=
+->parent_clk_id],
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  377  				SND_SOC_CLOCK_IN);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  378  		if (ret && ret !=3D -ENOTS=
+UPP) {
+098c67f22952c2 Peter Ujfalusi 2019-08-23  379  			dev_err(priv->dev, "codec=
+ set_sysclk failed for %u Hz\n",
+098c67f22952c2 Peter Ujfalusi 2019-08-23  380  				priv->hsdiv_rates[domain=
+->parent_clk_id]);
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  381  			goto out;
+098c67f22952c2 Peter Ujfalusi 2019-08-23  382  		}
+098c67f22952c2 Peter Ujfalusi 2019-08-23  383  	}
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  384  =
 
-0e669b8d46545c Steven Rostedt (VMware  2018-10-05  297) =
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  385  	ret =3D snd_soc_dai_set_sys=
+clk(rtd->cpu_dai, MCASP_CLK_HCLK_AUXCLK,
+098c67f22952c2 Peter Ujfalusi 2019-08-23  386  				     priv->hsdiv_rates[d=
+omain->parent_clk_id],
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  387  				     SND_SOC_CLOCK_IN);
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  388  =
 
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  298  	rcu_assign_pointer=
-(tp->funcs, tp_funcs);
-8058bd0faad860 Mathieu Desnoyers       2014-05-08  299  	release_probes(old=
-);
-de7b2973903c6c Mathieu Desnoyers       2014-04-08  300  	return 0;
-127cafbb276266 Lai Jiangshan           2008-10-28  301  }
-127cafbb276266 Lai Jiangshan           2008-10-28  302  =
+098c67f22952c2 Peter Ujfalusi 2019-08-23  389  	if (ret && ret !=3D -ENOTSU=
+PP) {
+098c67f22952c2 Peter Ujfalusi 2019-08-23  390  		dev_err(priv->dev, "mcasp =
+set_sysclk failed for %u Hz\n",
+098c67f22952c2 Peter Ujfalusi 2019-08-23  391  			priv->hsdiv_rates[domain-=
+>parent_clk_id]);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  392  	} else {
+098c67f22952c2 Peter Ujfalusi 2019-08-23  393  		domain->rate =3D params_ra=
+te(params);
+098c67f22952c2 Peter Ujfalusi 2019-08-23  394  		ret =3D 0;
+098c67f22952c2 Peter Ujfalusi 2019-08-23  395  	}
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  396  =
+
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  397  out:
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  398  	mutex_unlock(&priv->mutex);
+457eebe1cf0729 Peter Ujfalusi 2019-08-09 @399  	return ret;
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  400  }
+457eebe1cf0729 Peter Ujfalusi 2019-08-09  401  =
 
 
 ---
@@ -110,5 +147,5 @@ de7b2973903c6c Mathieu Desnoyers       2014-04-08  300  	return 0;
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============1330824394542898529==--
+--===============7061783930270488091==--
 
