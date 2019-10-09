@@ -1,223 +1,114 @@
-Content-Type: multipart/mixed; boundary="===============0194520204106948781=="
+Content-Type: multipart/mixed; boundary="===============1330824394542898529=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [linux-next:master 2697/3843] drivers/mtd/nand/raw/cadence-nand-controller.c:1903 cadence_nand_read_buf() error: we previously assumed 'cdns_ctrl->dmac' could be null (see line 1889)
-Date: Thu, 10 Oct 2019 11:39:26 +0300
-Message-ID: <20191010083926.GJ13286@kadam>
+Subject: [peterz-queue:locking/jump_label 19/30] kernel/tracepoint.c:296 tracepoint_remove_func() error: we previously assumed 'tp_funcs' could be null (see line 286)
+Date: Wed, 09 Oct 2019 22:14:29 +0300
+Message-ID: <20191009191429.GI13286@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0194520204106948781==
+--===============1330824394542898529==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   1ba4389f4572d716d73f8bacab4e181d82504780
-commit: ec4ba01e894d3165e4d1ccbef782ef5593b708b4 [2697/3843] mtd: rawnand: =
-Add new Cadence NAND driver to MTD subsystem
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git lo=
+cking/jump_label
+head:   ef36041eb3c323ddc4050649298755a82b367782
+commit: 0e669b8d46545cae6903cb0dd6fbfb4058728ce1 [19/30] tracepoints: Use s=
+tatic_call
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/mtd/nand/raw/cadence-nand-controller.c:1903 cadence_nand_read_buf()=
- error: we previously assumed 'cdns_ctrl->dmac' could be null (see line 188=
-9)
-drivers/mtd/nand/raw/cadence-nand-controller.c:1959 cadence_nand_write_buf(=
-) error: we previously assumed 'cdns_ctrl->dmac' could be null (see line 19=
-43)
+smatch warnings:
+kernel/tracepoint.c:296 tracepoint_remove_func() error: we previously assum=
+ed 'tp_funcs' could be null (see line 286)
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
-t/?id=3Dec4ba01e894d3165e4d1ccbef782ef5593b708b4
-git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
-ext/linux-next.git
-git remote update linux-next
-git checkout ec4ba01e894d3165e4d1ccbef782ef5593b708b4
-vim +1903 drivers/mtd/nand/raw/cadence-nand-controller.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/commit/?=
+id=3D0e669b8d46545cae6903cb0dd6fbfb4058728ce1
+git remote add peterz-queue https://git.kernel.org/pub/scm/linux/kernel/git=
+/peterz/queue.git
+git remote update peterz-queue
+git checkout 0e669b8d46545cae6903cb0dd6fbfb4058728ce1
+vim +/tp_funcs +296 kernel/tracepoint.c
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1861  static int cadence_nand_read_b=
-uf(struct cdns_nand_ctrl *cdns_ctrl,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1862  				 u8 *buf, int len)
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1863  {
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1864  	u8 thread_nr =3D 0;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1865  	u32 sdma_size;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1866  	int status;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1867  =
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  272  static int tracepoi=
+nt_remove_func(struct tracepoint *tp,
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  273  		struct tracepoint=
+_func *func)
+97e1c18e8d17bd Mathieu Desnoyers       2008-07-18  274  {
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  275  	struct tracepoint_=
+func *old, *tp_funcs;
+0e669b8d46545c Steven Rostedt (VMware  2018-10-05  276) 	int probes_left =
+=3D 0;
+97e1c18e8d17bd Mathieu Desnoyers       2008-07-18  277  =
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1868  	/* Wait until slave DMA inter=
-face is ready to data transfer. */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1869  	status =3D cadence_nand_wait_=
-on_sdma(cdns_ctrl, &thread_nr, &sdma_size);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1870  	if (status)
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1871  		return status;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1872  =
+b725dfea24b89d Mathieu Desnoyers       2014-04-09  278  	tp_funcs =3D rcu_d=
+ereference_protected(tp->funcs,
+b725dfea24b89d Mathieu Desnoyers       2014-04-09  279  			lockdep_is_held(=
+&tracepoints_mutex));
+0e669b8d46545c Steven Rostedt (VMware  2018-10-05  280) 	old =3D func_remov=
+e(&tp_funcs, func, &probes_left);
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1873  	if (!cdns_ctrl->caps1->has_dm=
-a) {
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1874  		int len_in_words =3D len >> =
-2;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1875  =
+I'm looking at FETCH_HEAD and func_remove() doesn't touch/use
+probes_left.
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1876  		/* read alingment data */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1877  		ioread32_rep(cdns_ctrl->io.v=
-irt, buf, len_in_words);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1878  		if (sdma_size > len) {
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1879  			/* read rest data from slav=
-e DMA interface if any */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1880  			ioread32_rep(cdns_ctrl->io.=
-virt, cdns_ctrl->buf,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1881  				     sdma_size / 4 - len_i=
-n_words);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1882  			/* copy rest of data */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1883  			memcpy(buf + (len_in_words =
-<< 2), cdns_ctrl->buf,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1884  			       len - (len_in_words =
-<< 2));
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1885  		}
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1886  		return 0;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1887  	}
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1888  =
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  281  	if (IS_ERR(old)) {
+d66a270be3310d Mathieu Desnoyers       2018-03-15  282  		WARN_ON_ONCE(PTR_=
+ERR(old) !=3D -ENOMEM);
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  283  		return PTR_ERR(ol=
+d);
+b75ef8b44b1cb9 Mathieu Desnoyers       2011-08-10  284  	}
+b75ef8b44b1cb9 Mathieu Desnoyers       2011-08-10  285  =
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26 @1889  	if (cdns_ctrl->dmac && cadenc=
-e_nand_dma_buf_ok(cdns_ctrl, buf, len)) {
-                                                    ^^^^^^^^^^^^^^^
-If this is NULL
+de7b2973903c6c Mathieu Desnoyers       2014-04-08 @286  	if (!tp_funcs) {
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  287  		/* Removed last f=
+unction */
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  288  		if (tp->unregfunc=
+ && static_key_enabled(&tp->key))
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  289  			tp->unregfunc();
+b75ef8b44b1cb9 Mathieu Desnoyers       2011-08-10  290  =
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1890  		status =3D cadence_nand_slav=
-e_dma_transfer(cdns_ctrl, buf,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1891  							 cdns_ctrl->io.dma,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1892  							 len, DMA_FROM_DEVICE);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1893  		if (status =3D=3D 0)
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1894  			return 0;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1895  =
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  291  		if (static_key_en=
+abled(&tp->key))
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  292  			static_key_slow_=
+dec(&tp->key);
+97e1c18e8d17bd Mathieu Desnoyers       2008-07-18  293  	}
+0e669b8d46545c Steven Rostedt (VMware  2018-10-05  294) =
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1896  		dev_warn(cdns_ctrl->dev,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1897  			 "Slave DMA transfer failed=
-. Try again using bounce buffer.");
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1898  	}
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1899  =
+0e669b8d46545c Steven Rostedt (VMware  2018-10-05  295) 	__static_call_upda=
+te(tp->static_call_key, tp->static_call_tramp,
+0e669b8d46545c Steven Rostedt (VMware  2018-10-05 @296) 			     probes_left=
+ =3D=3D 1 ? tp_funcs->func : tp->iterator);
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1900  	/* If DMA transfer is not pos=
-sible or failed then use bounce buffer. */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1901  	status =3D cadence_nand_slave=
-_dma_transfer(cdns_ctrl, cdns_ctrl->buf,
-                                                                           =
-              ^^^^^^^^^
-that's a problem because it gets dereferenced inside the function here.
+So Smatch says that "The 'probes_left =3D=3D 1' condition is impossible, so
+probably that just means I'm confused so I'm going to ignore it." so
+then it complains that it's not clear if "tp_funcs" is NULL or not.
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1902  						 cdns_ctrl->io.dma,
-ec4ba01e894d31 Piotr Sroka 2019-09-26 @1903  						 sdma_size, DMA_FROM_DEV=
-ICE);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1904  =
+I could silence this false positive if I added an if statement:
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1905  	if (status) {
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1906  		dev_err(cdns_ctrl->dev, "Sla=
-ve DMA transfer failed");
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1907  		return status;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1908  	}
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1909  =
+	if (is_impossible_path())
+		return;
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1910  	memcpy(buf, cdns_ctrl->buf, l=
-en);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1911  =
+I do that for some warnings but not for this one.
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1912  	return 0;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1913  }
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1914  =
+0e669b8d46545c Steven Rostedt (VMware  2018-10-05  297) =
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1915  static int cadence_nand_write_=
-buf(struct cdns_nand_ctrl *cdns_ctrl,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1916  				  const u8 *buf, int len)
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1917  {
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1918  	u8 thread_nr =3D 0;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1919  	u32 sdma_size;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1920  	int status;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1921  =
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  298  	rcu_assign_pointer=
+(tp->funcs, tp_funcs);
+8058bd0faad860 Mathieu Desnoyers       2014-05-08  299  	release_probes(old=
+);
+de7b2973903c6c Mathieu Desnoyers       2014-04-08  300  	return 0;
+127cafbb276266 Lai Jiangshan           2008-10-28  301  }
+127cafbb276266 Lai Jiangshan           2008-10-28  302  =
 
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1922  	/* Wait until slave DMA inter=
-face is ready to data transfer. */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1923  	status =3D cadence_nand_wait_=
-on_sdma(cdns_ctrl, &thread_nr, &sdma_size);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1924  	if (status)
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1925  		return status;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1926  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1927  	if (!cdns_ctrl->caps1->has_dm=
-a) {
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1928  		int len_in_words =3D len >> =
-2;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1929  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1930  		iowrite32_rep(cdns_ctrl->io.=
-virt, buf, len_in_words);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1931  		if (sdma_size > len) {
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1932  			/* copy rest of data */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1933  			memcpy(cdns_ctrl->buf, buf =
-+ (len_in_words << 2),
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1934  			       len - (len_in_words =
-<< 2));
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1935  			/* write all expected by na=
-nd controller data */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1936  			iowrite32_rep(cdns_ctrl->io=
-.virt, cdns_ctrl->buf,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1937  				      sdma_size / 4 - len_=
-in_words);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1938  		}
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1939  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1940  		return 0;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1941  	}
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1942  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26 @1943  	if (cdns_ctrl->dmac && cadenc=
-e_nand_dma_buf_ok(cdns_ctrl, buf, len)) {
-                                                    ^^^^^^^^^^^^^^^
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1944  		status =3D cadence_nand_slav=
-e_dma_transfer(cdns_ctrl, (void *)buf,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1945  							 cdns_ctrl->io.dma,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1946  							 len, DMA_TO_DEVICE);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1947  		if (status =3D=3D 0)
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1948  			return 0;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1949  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1950  		dev_warn(cdns_ctrl->dev,
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1951  			 "Slave DMA transfer failed=
-. Try again using bounce buffer.");
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1952  	}
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1953  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1954  	/* If DMA transfer is not pos=
-sible or failed then use bounce buffer. */
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1955  	memcpy(cdns_ctrl->buf, buf, l=
-en);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1956  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1957  	status =3D cadence_nand_slave=
-_dma_transfer(cdns_ctrl, cdns_ctrl->buf,
-                                                         ^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1958  						 cdns_ctrl->io.dma,
-ec4ba01e894d31 Piotr Sroka 2019-09-26 @1959  						 sdma_size, DMA_TO_DEVIC=
-E);
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1960  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1961  	if (status)
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1962  		dev_err(cdns_ctrl->dev, "Sla=
-ve DMA transfer failed");
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1963  =
-
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1964  	return status;
-ec4ba01e894d31 Piotr Sroka 2019-09-26  1965  }
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Cent=
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============0194520204106948781==--
+--===============1330824394542898529==--
 
