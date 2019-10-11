@@ -1,79 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============3886256863703545623=="
+Content-Type: multipart/mixed; boundary="===============0293406780657081454=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [arm-integrator:ixp4xx-test 22/23] drivers/crypto/ixp4xx_crypto.c:1060 aead_perform() error: uninitialized symbol 'icv_rev_aes'.
-Date: Sat, 12 Oct 2019 11:08:17 +0300
-Message-ID: <20191012080817.GU13286@kadam>
-In-Reply-To: <CAK8P3a2ispwHfyBmRQa3GTAw8EWOEfNKHOinkQO=v-DNvWi9pw@mail.gmail.com>
+Subject: Re: [PATCH] staging: wfx: fix potential vulnerability to spectre
+Date: Fri, 11 Oct 2019 15:54:47 +0300
+Message-ID: <20191011125446.GD4774@kadam>
+In-Reply-To: <2165496.I6CF8xJYvu@pc-42>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3886256863703545623==
+--===============0293406780657081454==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 11, 2019 at 11:48:16PM +0200, Arnd Bergmann wrote:
-> On Fri, Oct 11, 2019 at 12:41 PM Dan Carpenter <dan.carpenter@oracle.co=
-m> wrote:
-> >
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-in=
-tegrator.git ixp4xx-test
-> > head:   1b826e686b390fd1eeb347def38185fefcbd5140
-> > commit: 811c4aaa704314770fe5a70944100732fdc1f3b8 [22/23] crypto: ixp4xx=
-: avoid BUILD_BUG_ON()
-> >
-> > If you fix the issue, kindly add following tag
-> > Reported-by: kbuild test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> >
-> > New smatch warnings:
-> > drivers/crypto/ixp4xx_crypto.c:1060 aead_perform() error: uninitialized=
- symbol 'icv_rev_aes'.
+On Fri, Oct 11, 2019 at 12:35:36PM +0000, Jerome Pouiller wrote:
+> On Friday 11 October 2019 14:10:35 CEST Greg Kroah-Hartman wrote:
+> > On Fri, Oct 11, 2019 at 10:15:54AM +0000, Jerome Pouiller wrote:
+> > > From: J=C3=A9r=C3=B4me Pouiller <jerome.pouiller@silabs.com>
+> > >
+> > > array_index_nospec() should be applied after a bound check.
+> > >
+> > > Fixes: 9bca45f3d6924f19f29c0d019e961af3f41bdc9e ("staging: wfx: allow=
+ to send 802.11 frames")
+> > =
+
+> > No need for the full sha1, this should be:
+> >         Fixes: 9bca45f3d692 ("staging: wfx: allow to send 802.11 frames=
+")
 > =
 
-> Right, this was uncovered by allowing the driver to be compile-tested on
-> x86. smatch is of course right to point out the uninitialized variable,
-> but it seems harmless as it is only uninitialized in case of an error,
-> and the uninitialized variable here gets copied into another data structu=
-re
-> that then gets put back, so it seems completely harmless
+> I copy-pasted information from kbuild robot notification.
 > =
 
-> There is a trivial fix:
+> I suggest that commit-id in robot notification is also cut down to 12
+> characters. Or even better, to use this snippet:
 > =
 
-> diff --git a/drivers/crypto/ixp4xx_crypto.c b/drivers/crypto/ixp4xx_crypt=
-o.c
-> index 1c6a04ecbf8f..a4eb1e98c87b 100644
-> --- a/drivers/crypto/ixp4xx_crypto.c
-> +++ b/drivers/crypto/ixp4xx_crypto.c
-> @@ -1057,9 +1057,9 @@ static int aead_perform(struct aead_request
-> *req, int encrypt,
->                  * we need to copy them into a safe buffer */
->                 req_ctx->hmac_virt =3D dma_pool_alloc(buffer_pool, flags,
->                                                     &icv_rev_aes);
-> -               crypt->icv_rev_aes =3D (u32)icv_rev_aes;
->                 if (unlikely(!req_ctx->hmac_virt))
->                         goto free_buf_dst;
-> +               crypt->icv_rev_aes =3D (u32)icv_rev_aes;
->                 if (!encrypt) {
->                         scatterwalk_map_and_copy(req_ctx->hmac_virt,
->                                 req->src, cryptlen, authsize, 0);
+> If you fix the issue, kindly add following tag
+> Reported-by: kbuild test robot <lkp@intel.com>
+> Fixes: 9bca45f3d692 ("staging: wfx: allow to send 802.11 frames")
 > =
 
-> Dan, I think I would just leave it unchanged for a case like this, but I
-> can send a patch if you think it's worth addressing the warning.
+> (I added lkp(a)lists.01.org in CC but, I am not sure it is the correct
+> ML. I am sorry if it is not the case)
 
-This is a new sort of harmless but not false positive warning.  I've
-been conflicted on what to do with them, so I just report them when
-they're new or ignore them when they're old.
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
+staging-testing
+head:   d49d1c76b96ebf39539e93d5ab7943a01ef70e4f
+commit: 9bca45f3d6924f19f29c0d019e961af3f41bdc9e [55/111] staging: wfx: all=
+ow to send 802.11 frames
 
-I feel like ten years from now we will have fixed all these sorts of
-warnings.
+If you cut and paste then you the "[55/111] " text isn't right either.
+Also kbuild works on rebase-able trees as well as non-rebase/published
+trees so the hash could change as well.
+
+I am a little bit surprised that checkpatch.pl doesn't complain about
+this, though.  You could consider adding that?
 
 regards,
 dan carpenter
 
---===============3886256863703545623==--
+
+--===============0293406780657081454==--
 
