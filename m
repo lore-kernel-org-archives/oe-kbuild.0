@@ -1,85 +1,102 @@
-Content-Type: multipart/mixed; boundary="===============2868587989124832032=="
+Content-Type: multipart/mixed; boundary="===============7358302457017887236=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [drm-drm-intel:drm-intel-next-queued 9/12] drivers/gpu/drm/i915/i915_perf.c:386 i915_oa_config_release() warn: passing zero to 'PTR_ERR'
-Date: Sun, 13 Oct 2019 12:23:14 +0300
-Message-ID: <20191013092152.GW13286@kadam>
+Subject: Re: [PATCH v4] drm/ioctl: Add a ioctl to label GEM objects
+Date: Sat, 12 Oct 2019 16:35:57 +0300
+Message-ID: <20191012133557.GV13286@kadam>
+In-Reply-To: <20191011143009.17503-1-rohan.garg@collabora.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2868587989124832032==
+--===============7358302457017887236==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   git://anongit.freedesktop.org/drm/drm-intel drm-intel-next-queued
-head:   5f5c382ecfdd06e17316d1c9f1362522c20cdfef
-commit: 6a45008ab7bb5e13b543de0c141b94aaa71d8397 [9/12] drm/i915/perf: allo=
-w for CS OA configs to be created lazily
+Hi Rohan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[cannot apply to v5.4-rc2 next-20191011]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Rohan-Garg/drm-ioctl-Add-a=
+-ioctl-to-label-GEM-objects/20191012-062955
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_perf.c:386 i915_oa_config_release() warn: passing=
- zero to 'PTR_ERR'
+smatch warnings:
+drivers/gpu/drm/drm_gem.c:967 drm_dumb_set_label_ioctl() error: 'label' der=
+eferencing possible ERR_PTR()
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_perf.c:388 i915_oa_config_release() warn: passing=
- zero to 'PTR_ERR'
-drivers/gpu/drm/i915/i915_perf.c:390 i915_oa_config_release() warn: passing=
- zero to 'PTR_ERR'
-drivers/gpu/drm/i915/i915_perf.c:3420 i915_perf_add_config_ioctl() error: d=
-ouble unlock 'mutex:&perf->metrics_lock'
-drivers/gpu/drm/i915/i915_perf.c:3427 i915_perf_add_config_ioctl() error: d=
-ouble unlock 'mutex:&perf->metrics_lock'
-drivers/gpu/drm/i915/i915_perf.c:3481 i915_perf_remove_config_ioctl() error=
-: double unlock 'mutex:&perf->metrics_lock'
-drivers/gpu/drm/i915/i915_perf.c:3490 i915_perf_remove_config_ioctl() error=
-: double unlock 'mutex:&perf->metrics_lock'
+# https://github.com/0day-ci/linux/commit/0f0cd7ef9f3b1623ab982f12dc748998f=
+31e10b4
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 0f0cd7ef9f3b1623ab982f12dc748998f31e10b4
+vim +/label +967 drivers/gpu/drm/drm_gem.c
 
-git remote add drm-drm-intel git://anongit.freedesktop.org/drm/drm-intel
-git remote update drm-drm-intel
-git checkout 6a45008ab7bb5e13b543de0c141b94aaa71d8397
-vim +/PTR_ERR +386 drivers/gpu/drm/i915/i915_perf.c
+673a394b1e3b69 Eric Anholt 2008-07-30  943  =
 
-6a45008ab7bb5e Lionel Landwerlin     2019-10-12  381  void i915_oa_config_r=
-elease(struct kref *ref)
-f89823c212246d Lionel Landwerlin     2017-08-03  382  {
-6a45008ab7bb5e Lionel Landwerlin     2019-10-12  383  	struct i915_oa_confi=
-g *oa_config =3D
-6a45008ab7bb5e Lionel Landwerlin     2019-10-12  384  		container_of(ref, t=
-ypeof(*oa_config), ref);
-6a45008ab7bb5e Lionel Landwerlin     2019-10-12  385  =
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  944  int drm_dumb_set_label_ioctl(st=
+ruct drm_device *dev,
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  945  				void *data, struct drm_file=
+ *file_priv)
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  946  {
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  947  	char *label;
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  948  	struct drm_dumb_set_label_obje=
+ct *args =3D data;
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  949  	int ret =3D 0;
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  950  =
 
-f89823c212246d Lionel Landwerlin     2017-08-03 @386  	if (!PTR_ERR(oa_conf=
-ig->flex_regs))
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  951  	if (!args->len || !args->name)
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  952  		return -EINVAL;
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  953  =
 
-These should be IS_ERR() instead of PTR_ERR().  I haven't looked at
-the conext outside of this email but it feels like a design mistake
-that it's possible for these to be error pointers anyway.
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  954  	if (!dev->driver->label)
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  955  		return -EOPNOTSUPP;
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  956  =
 
-f89823c212246d Lionel Landwerlin     2017-08-03  387  		kfree(oa_config->fl=
-ex_regs);
-f89823c212246d Lionel Landwerlin     2017-08-03  388  	if (!PTR_ERR(oa_conf=
-ig->b_counter_regs))
-f89823c212246d Lionel Landwerlin     2017-08-03  389  		kfree(oa_config->b_=
-counter_regs);
-f89823c212246d Lionel Landwerlin     2017-08-03  390  	if (!PTR_ERR(oa_conf=
-ig->mux_regs))
-f89823c212246d Lionel Landwerlin     2017-08-03  391  		kfree(oa_config->mu=
-x_regs);
-f89823c212246d Lionel Landwerlin     2017-08-03  392  =
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  957  	label =3D strndup_user(u64_to_=
+user_ptr(args->name), args->len);
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  958  =
 
-6a45008ab7bb5e Lionel Landwerlin     2019-10-12  393  	kfree_rcu(oa_config,=
- rcu);
-f89823c212246d Lionel Landwerlin     2017-08-03  394  }
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  959  	if (IS_ERR(label)) {
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  960  		ret =3D PTR_ERR(label);
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  961  		goto err;
+                                                        ^^^^^^^^
+Just return PTR_ERR(label);
+
+
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  962  	}
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  963  =
+
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  964  	ret =3D dev->driver->label(dev=
+, file_priv, args->handle, label);
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  965  =
+
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  966  err:
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11 @967  	kfree(label);
+                                                ^^^^^^^^^^^^
+This will Oops.
+
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  968  	return ret;
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  969  }
+0f0cd7ef9f3b16 Rohan Garg  2019-10-11  970  =
+
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Cent=
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============2868587989124832032==--
+--===============7358302457017887236==--
 
