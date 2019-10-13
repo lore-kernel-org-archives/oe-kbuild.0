@@ -1,93 +1,85 @@
-Content-Type: multipart/mixed; boundary="===============6471057193061497319=="
+Content-Type: multipart/mixed; boundary="===============2868587989124832032=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v2 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP bridge driver
-Date: Tue, 15 Oct 2019 12:19:21 +0300
-Message-ID: <20191015091921.GC21344@kadam>
-In-Reply-To: <55295c49503a963f3417b917fd7163feb26ed0b6.1570760115.git.xji@analogixsemi.com>
+Subject: [drm-drm-intel:drm-intel-next-queued 9/12] drivers/gpu/drm/i915/i915_perf.c:386 i915_oa_config_release() warn: passing zero to 'PTR_ERR'
+Date: Sun, 13 Oct 2019 12:23:14 +0300
+Message-ID: <20191013092152.GW13286@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6471057193061497319==
+--===============2868587989124832032==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-[  These are automated text from the 0-day bot -dan ]
-
-Hi Xin,
-
-Thank you for the patch! Perhaps something to improve:
-
-url:    https://github.com/0day-ci/linux/commits/Xin-Ji/dt-bindings-drm-bri=
-dge-anx7625-MIPI-to-DP-transmitter-binding/20191014-043019
+tree:   git://anongit.freedesktop.org/drm/drm-intel drm-intel-next-queued
+head:   5f5c382ecfdd06e17316d1c9f1362522c20cdfef
+commit: 6a45008ab7bb5e13b543de0c141b94aaa71d8397 [9/12] drm/i915/perf: allo=
+w for CS OA configs to be created lazily
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/bridge/analogix/anx7625.c:1274 anx7625_start_dp_work() erro=
-r: uninitialized symbol 'sp_tx_lane_count'.
+drivers/gpu/drm/i915/i915_perf.c:386 i915_oa_config_release() warn: passing=
+ zero to 'PTR_ERR'
 
-# https://github.com/0day-ci/linux/commit/152a82b6747f10d6c13c7a422173947c2=
-f2e1aa2
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 152a82b6747f10d6c13c7a422173947c2f2e1aa2
-vim +/sp_tx_lane_count +1274 drivers/gpu/drm/bridge/analogix/anx7625.c
+Old smatch warnings:
+drivers/gpu/drm/i915/i915_perf.c:388 i915_oa_config_release() warn: passing=
+ zero to 'PTR_ERR'
+drivers/gpu/drm/i915/i915_perf.c:390 i915_oa_config_release() warn: passing=
+ zero to 'PTR_ERR'
+drivers/gpu/drm/i915/i915_perf.c:3420 i915_perf_add_config_ioctl() error: d=
+ouble unlock 'mutex:&perf->metrics_lock'
+drivers/gpu/drm/i915/i915_perf.c:3427 i915_perf_add_config_ioctl() error: d=
+ouble unlock 'mutex:&perf->metrics_lock'
+drivers/gpu/drm/i915/i915_perf.c:3481 i915_perf_remove_config_ioctl() error=
+: double unlock 'mutex:&perf->metrics_lock'
+drivers/gpu/drm/i915/i915_perf.c:3490 i915_perf_remove_config_ioctl() error=
+: double unlock 'mutex:&perf->metrics_lock'
 
-152a82b6747f10 Xin Ji 2019-10-11  1253  static void anx7625_start_dp_work(s=
-truct anx7625_data *ctx)
-152a82b6747f10 Xin Ji 2019-10-11  1254  {
-152a82b6747f10 Xin Ji 2019-10-11  1255  	int ret;
-152a82b6747f10 Xin Ji 2019-10-11  1256  	u8 buf[MAX_DPCD_BUFFER_SIZE];
-152a82b6747f10 Xin Ji 2019-10-11  1257  	u8 hdcp_cap;
-152a82b6747f10 Xin Ji 2019-10-11  1258  	struct device *dev =3D &ctx->clien=
-t->dev;
-152a82b6747f10 Xin Ji 2019-10-11  1259  	u8 sp_tx_bw; /* linktraining banwi=
-dth */
-152a82b6747f10 Xin Ji 2019-10-11  1260  	u8 sp_tx_lane_count; /* link train=
-ing lane count */
-152a82b6747f10 Xin Ji 2019-10-11  1261  =
+git remote add drm-drm-intel git://anongit.freedesktop.org/drm/drm-intel
+git remote update drm-drm-intel
+git checkout 6a45008ab7bb5e13b543de0c141b94aaa71d8397
+vim +/PTR_ERR +386 drivers/gpu/drm/i915/i915_perf.c
 
-152a82b6747f10 Xin Ji 2019-10-11  1262  	if (ctx->hpd_high_cnt >=3D 2) {
-152a82b6747f10 Xin Ji 2019-10-11  1263  		DRM_DEV_DEBUG_DRIVER(dev, "anx762=
-5 filter useless HPD\n");
-152a82b6747f10 Xin Ji 2019-10-11  1264  		return;
-152a82b6747f10 Xin Ji 2019-10-11  1265  	}
-152a82b6747f10 Xin Ji 2019-10-11  1266  =
+6a45008ab7bb5e Lionel Landwerlin     2019-10-12  381  void i915_oa_config_r=
+elease(struct kref *ref)
+f89823c212246d Lionel Landwerlin     2017-08-03  382  {
+6a45008ab7bb5e Lionel Landwerlin     2019-10-12  383  	struct i915_oa_confi=
+g *oa_config =3D
+6a45008ab7bb5e Lionel Landwerlin     2019-10-12  384  		container_of(ref, t=
+ypeof(*oa_config), ref);
+6a45008ab7bb5e Lionel Landwerlin     2019-10-12  385  =
 
-152a82b6747f10 Xin Ji 2019-10-11  1267  	ctx->hpd_high_cnt++;
-152a82b6747f10 Xin Ji 2019-10-11  1268  =
+f89823c212246d Lionel Landwerlin     2017-08-03 @386  	if (!PTR_ERR(oa_conf=
+ig->flex_regs))
 
-152a82b6747f10 Xin Ji 2019-10-11  1269  	sp_tx_get_rx_bw(ctx, &sp_tx_bw);
-152a82b6747f10 Xin Ji 2019-10-11  1270  =
+These should be IS_ERR() instead of PTR_ERR().  I haven't looked at
+the conext outside of this email but it feels like a design mistake
+that it's possible for these to be error pointers anyway.
 
-152a82b6747f10 Xin Ji 2019-10-11  1271  	sp_tx_aux_dpcdread_bytes(ctx, 0x00=
-, 0x00, DPCD_MAX_LANE_COUNT,
-152a82b6747f10 Xin Ji 2019-10-11  1272  				 1, &sp_tx_lane_count);
-                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^
-Smatch thinks sp_tx_aux_dpcdread_bytes() can fail and we don't check
-for errors.
+f89823c212246d Lionel Landwerlin     2017-08-03  387  		kfree(oa_config->fl=
+ex_regs);
+f89823c212246d Lionel Landwerlin     2017-08-03  388  	if (!PTR_ERR(oa_conf=
+ig->b_counter_regs))
+f89823c212246d Lionel Landwerlin     2017-08-03  389  		kfree(oa_config->b_=
+counter_regs);
+f89823c212246d Lionel Landwerlin     2017-08-03  390  	if (!PTR_ERR(oa_conf=
+ig->mux_regs))
+f89823c212246d Lionel Landwerlin     2017-08-03  391  		kfree(oa_config->mu=
+x_regs);
+f89823c212246d Lionel Landwerlin     2017-08-03  392  =
 
-152a82b6747f10 Xin Ji 2019-10-11  1273  =
-
-152a82b6747f10 Xin Ji 2019-10-11 @1274  	sp_tx_lane_count =3D sp_tx_lane_co=
-unt & 0x1f;
-152a82b6747f10 Xin Ji 2019-10-11  1275  	sp_tx_aux_dpcdread_bytes(ctx, 0x06=
-, 0x80, 0x28, 1, buf);/* read Bcap */
-152a82b6747f10 Xin Ji 2019-10-11  1276  =
-
-152a82b6747f10 Xin Ji 2019-10-11  1277  	hdcp_cap =3D buf[0] & 0x01;
-152a82b6747f10 Xin Ji 2019-10-11  1278  =
-
+6a45008ab7bb5e Lionel Landwerlin     2019-10-12  393  	kfree_rcu(oa_config,=
+ rcu);
+f89823c212246d Lionel Landwerlin     2017-08-03  394  }
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Cent=
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============6471057193061497319==--
+--===============2868587989124832032==--
 
