@@ -1,81 +1,93 @@
-Content-Type: multipart/mixed; boundary="===============8169114622866493840=="
+Content-Type: multipart/mixed; boundary="===============6471057193061497319=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH nf-next] netfilter: ctnetlink: don't dump ct extensions of unconfirmed conntracks
-Date: Tue, 15 Oct 2019 12:23:23 +0300
-Message-ID: <20191015092322.GD21344@kadam>
-In-Reply-To: <20191014194141.17626-1-fw@strlen.de>
+Subject: Re: [PATCH v2 2/2] drm/bridge: anx7625: Add anx7625 MIPI DSI/DPI to DP bridge driver
+Date: Tue, 15 Oct 2019 12:19:21 +0300
+Message-ID: <20191015091921.GC21344@kadam>
+In-Reply-To: <55295c49503a963f3417b917fd7163feb26ed0b6.1570760115.git.xji@analogixsemi.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8169114622866493840==
+--===============6471057193061497319==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Florian,
+[  These are automated text from the 0-day bot -dan ]
 
-I love your patch! Perhaps something to improve:
+Hi Xin,
 
-url:    https://github.com/0day-ci/linux/commits/Florian-Westphal/netfilter=
--ctnetlink-don-t-dump-ct-extensions-of-unconfirmed-conntracks/20191015-0400=
-05
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/pablo/nf-next.git m=
-aster
+Thank you for the patch! Perhaps something to improve:
+
+url:    https://github.com/0day-ci/linux/commits/Xin-Ji/dt-bindings-drm-bri=
+dge-anx7625-MIPI-to-DP-transmitter-binding/20191014-043019
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/netfilter/nf_conntrack_netlink.c:537 ctnetlink_dump_info() warn: if sta=
-tement not indented
+New smatch warnings:
+drivers/gpu/drm/bridge/analogix/anx7625.c:1274 anx7625_start_dp_work() erro=
+r: uninitialized symbol 'sp_tx_lane_count'.
 
-# https://github.com/0day-ci/linux/commit/c8040548c0416425c95ae3b7008ef5d82=
-9168d3b
+# https://github.com/0day-ci/linux/commit/152a82b6747f10d6c13c7a422173947c2=
+f2e1aa2
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout c8040548c0416425c95ae3b7008ef5d829168d3b
-vim +537 net/netfilter/nf_conntrack_netlink.c
+git checkout 152a82b6747f10d6c13c7a422173947c2f2e1aa2
+vim +/sp_tx_lane_count +1274 drivers/gpu/drm/bridge/analogix/anx7625.c
 
-c8040548c04164 Florian Westphal 2019-10-14  527  static int ctnetlink_dump_=
-info(struct sk_buff *skb, struct nf_conn *ct)
-c8040548c04164 Florian Westphal 2019-10-14  528  {
-c8040548c04164 Florian Westphal 2019-10-14  529  	if (ctnetlink_dump_status=
-(skb, ct) < 0 ||
-c8040548c04164 Florian Westphal 2019-10-14  530  	    ctnetlink_dump_mark(s=
-kb, ct) < 0 ||
-c8040548c04164 Florian Westphal 2019-10-14  531  	    ctnetlink_dump_secctx=
-(skb, ct) < 0 ||
-c8040548c04164 Florian Westphal 2019-10-14  532  	    ctnetlink_dump_id(skb=
-, ct) < 0 ||
-c8040548c04164 Florian Westphal 2019-10-14  533  	    ctnetlink_dump_use(sk=
-b, ct) < 0 ||
-c8040548c04164 Florian Westphal 2019-10-14  534  	    ctnetlink_dump_master=
-(skb, ct) < 0)
-c8040548c04164 Florian Westphal 2019-10-14  535  		return -1;
-c8040548c04164 Florian Westphal 2019-10-14  536  =
+152a82b6747f10 Xin Ji 2019-10-11  1253  static void anx7625_start_dp_work(s=
+truct anx7625_data *ctx)
+152a82b6747f10 Xin Ji 2019-10-11  1254  {
+152a82b6747f10 Xin Ji 2019-10-11  1255  	int ret;
+152a82b6747f10 Xin Ji 2019-10-11  1256  	u8 buf[MAX_DPCD_BUFFER_SIZE];
+152a82b6747f10 Xin Ji 2019-10-11  1257  	u8 hdcp_cap;
+152a82b6747f10 Xin Ji 2019-10-11  1258  	struct device *dev =3D &ctx->clien=
+t->dev;
+152a82b6747f10 Xin Ji 2019-10-11  1259  	u8 sp_tx_bw; /* linktraining banwi=
+dth */
+152a82b6747f10 Xin Ji 2019-10-11  1260  	u8 sp_tx_lane_count; /* link train=
+ing lane count */
+152a82b6747f10 Xin Ji 2019-10-11  1261  =
 
-c8040548c04164 Florian Westphal 2019-10-14 @537  	if (!test_bit(IPS_OFFLOAD=
-_BIT, &ct->status) &&
-c8040548c04164 Florian Westphal 2019-10-14  538  	    (ctnetlink_dump_timeo=
-ut(skb, ct) < 0 ||
-c8040548c04164 Florian Westphal 2019-10-14  539  	     ctnetlink_dump_proto=
-info(skb, ct) < 0))
+152a82b6747f10 Xin Ji 2019-10-11  1262  	if (ctx->hpd_high_cnt >=3D 2) {
+152a82b6747f10 Xin Ji 2019-10-11  1263  		DRM_DEV_DEBUG_DRIVER(dev, "anx762=
+5 filter useless HPD\n");
+152a82b6747f10 Xin Ji 2019-10-11  1264  		return;
+152a82b6747f10 Xin Ji 2019-10-11  1265  	}
+152a82b6747f10 Xin Ji 2019-10-11  1266  =
 
-Part of the "return -EINVAL;" commit must be missing.  This should
-generate a compile warning about reaching the end of a non-void
-function.
+152a82b6747f10 Xin Ji 2019-10-11  1267  	ctx->hpd_high_cnt++;
+152a82b6747f10 Xin Ji 2019-10-11  1268  =
 
-c8040548c04164 Florian Westphal 2019-10-14  540  =
+152a82b6747f10 Xin Ji 2019-10-11  1269  	sp_tx_get_rx_bw(ctx, &sp_tx_bw);
+152a82b6747f10 Xin Ji 2019-10-11  1270  =
 
-c8040548c04164 Florian Westphal 2019-10-14  541  	return 0;
-c8040548c04164 Florian Westphal 2019-10-14  542  }
+152a82b6747f10 Xin Ji 2019-10-11  1271  	sp_tx_aux_dpcdread_bytes(ctx, 0x00=
+, 0x00, DPCD_MAX_LANE_COUNT,
+152a82b6747f10 Xin Ji 2019-10-11  1272  				 1, &sp_tx_lane_count);
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^
+Smatch thinks sp_tx_aux_dpcdread_bytes() can fail and we don't check
+for errors.
+
+152a82b6747f10 Xin Ji 2019-10-11  1273  =
+
+152a82b6747f10 Xin Ji 2019-10-11 @1274  	sp_tx_lane_count =3D sp_tx_lane_co=
+unt & 0x1f;
+152a82b6747f10 Xin Ji 2019-10-11  1275  	sp_tx_aux_dpcdread_bytes(ctx, 0x06=
+, 0x80, 0x28, 1, buf);/* read Bcap */
+152a82b6747f10 Xin Ji 2019-10-11  1276  =
+
+152a82b6747f10 Xin Ji 2019-10-11  1277  	hdcp_cap =3D buf[0] & 0x01;
+152a82b6747f10 Xin Ji 2019-10-11  1278  =
+
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Cent=
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============8169114622866493840==--
+--===============6471057193061497319==--
 
