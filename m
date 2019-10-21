@@ -1,105 +1,113 @@
-Content-Type: multipart/mixed; boundary="===============3625153567921714768=="
+Content-Type: multipart/mixed; boundary="===============0696117441356790941=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v4 02/11] crypto: Add Allwinner sun8i-ce Crypto Engine
-Date: Tue, 22 Oct 2019 12:23:12 +0300
-Message-ID: <20191022092312.GC10833@kadam>
-In-Reply-To: <20191012184852.28329-3-clabbe.montjoie@gmail.com>
+Subject: [thierryreding:for-5.5/dp 79/124] drivers/memory/core.c:79 of_memory_controller_get() error: double unlock 'mutex:&controllers_lock'
+Date: Mon, 21 Oct 2019 10:54:28 +0300
+Message-ID: <20191021075428.GA10833@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3625153567921714768==
+--===============0696117441356790941==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Corentin,
-
-url:    https://github.com/0day-ci/linux/commits/Corentin-Labbe/crypto-add-=
-sun8i-ce-driver-for-Allwinner-crypto-engine/20191014-104401
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
-.6.git master
+tree:   https://github.com/thierryreding/linux for-5.5/dp
+head:   c80326581f9bf16162c2f3d5dcc5f006bbc93f86
+commit: 429583789bbda8c3ef59f9b6c33fb483145752a4 [79/124] memory: Introduce=
+ memory controller mini-framework
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c:371 sun8i_ce_allocate_cha=
-nlist() error: uninitialized symbol 'err'.
+New smatch warnings:
+drivers/memory/core.c:79 of_memory_controller_get() error: double unlock 'm=
+utex:&controllers_lock'
 
-# https://github.com/0day-ci/linux/commit/f113059e7b4f94c545994aeafdc809a3e=
-4907ae4
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout f113059e7b4f94c545994aeafdc809a3e4907ae4
-vim +/err +371 drivers/crypto/allwinner/sun8i-ce/sun8i-ce-core.c
+Old smatch warnings:
+include/linux/compiler.h:226 __write_once_size() warn: potential memory cor=
+rupting cast 8 vs 4 bytes
 
-f113059e7b4f94 Corentin Labbe 2019-10-12  334  static int sun8i_ce_allocate=
-_chanlist(struct sun8i_ce_dev *ce)
-f113059e7b4f94 Corentin Labbe 2019-10-12  335  {
-f113059e7b4f94 Corentin Labbe 2019-10-12  336  	int i, err;
-f113059e7b4f94 Corentin Labbe 2019-10-12  337  =
+# https://github.com/thierryreding/linux/commit/429583789bbda8c3ef59f9b6c33=
+fb483145752a4
+git remote add thierryreding https://github.com/thierryreding/linux
+git remote update thierryreding
+git checkout 429583789bbda8c3ef59f9b6c33fb483145752a4
+vim +79 drivers/memory/core.c
 
-f113059e7b4f94 Corentin Labbe 2019-10-12  338  	ce->chanlist =3D devm_kcall=
-oc(ce->dev, MAXFLOW,
-f113059e7b4f94 Corentin Labbe 2019-10-12  339  				    sizeof(struct sun8i_=
-ce_flow), GFP_KERNEL);
-f113059e7b4f94 Corentin Labbe 2019-10-12  340  	if (!ce->chanlist)
-f113059e7b4f94 Corentin Labbe 2019-10-12  341  		return -ENOMEM;
-f113059e7b4f94 Corentin Labbe 2019-10-12  342  =
+429583789bbda8 Thierry Reding 2019-08-20  41  static struct memory_controll=
+er *
+429583789bbda8 Thierry Reding 2019-08-20  42  of_memory_controller_get(stru=
+ct device *dev, struct device_node *np,
+429583789bbda8 Thierry Reding 2019-08-20  43  			 const char *con_id)
+429583789bbda8 Thierry Reding 2019-08-20  44  {
+429583789bbda8 Thierry Reding 2019-08-20  45  	const char *cells =3D "#memo=
+ry-controller-cells";
+429583789bbda8 Thierry Reding 2019-08-20  46  	const char *names =3D "memor=
+y-controller-names";
+429583789bbda8 Thierry Reding 2019-08-20  47  	const char *prop =3D "memory=
+-controllers";
+429583789bbda8 Thierry Reding 2019-08-20  48  	struct memory_controller *mc;
+429583789bbda8 Thierry Reding 2019-08-20  49  	struct of_phandle_args args;
+429583789bbda8 Thierry Reding 2019-08-20  50  	int index =3D 0, err;
+429583789bbda8 Thierry Reding 2019-08-20  51  =
 
-f113059e7b4f94 Corentin Labbe 2019-10-12  343  	for (i =3D 0; i < MAXFLOW; =
-i++) {
-f113059e7b4f94 Corentin Labbe 2019-10-12  344  		init_completion(&ce->chanl=
-ist[i].complete);
-f113059e7b4f94 Corentin Labbe 2019-10-12  345  =
+429583789bbda8 Thierry Reding 2019-08-20  52  	if (con_id) {
+429583789bbda8 Thierry Reding 2019-08-20  53  		index =3D of_property_match=
+_string(np, names, con_id);
+429583789bbda8 Thierry Reding 2019-08-20  54  		if (index < 0)
+429583789bbda8 Thierry Reding 2019-08-20  55  			return ERR_PTR(index);
+429583789bbda8 Thierry Reding 2019-08-20  56  	}
+429583789bbda8 Thierry Reding 2019-08-20  57  =
 
-f113059e7b4f94 Corentin Labbe 2019-10-12  346  		ce->chanlist[i].engine =3D=
- crypto_engine_alloc_init(ce->dev, true);
-f113059e7b4f94 Corentin Labbe 2019-10-12  347  		if (!ce->chanlist[i].engin=
-e) {
-f113059e7b4f94 Corentin Labbe 2019-10-12  348  			dev_err(ce->dev, "Cannot =
-allocate engine\n");
-f113059e7b4f94 Corentin Labbe 2019-10-12  349  			i--;
-f113059e7b4f94 Corentin Labbe 2019-10-12  350  			goto error_engine;
+429583789bbda8 Thierry Reding 2019-08-20  58  	err =3D of_parse_phandle_wit=
+h_args(np, prop, cells, index, &args);
+429583789bbda8 Thierry Reding 2019-08-20  59  	if (err) {
+429583789bbda8 Thierry Reding 2019-08-20  60  		if (err =3D=3D -ENOENT)
+429583789bbda8 Thierry Reding 2019-08-20  61  			err =3D -ENODEV;
+429583789bbda8 Thierry Reding 2019-08-20  62  =
 
-err =3D -ENOMEM;
+429583789bbda8 Thierry Reding 2019-08-20  63  		return ERR_PTR(err);
+429583789bbda8 Thierry Reding 2019-08-20  64  	}
+429583789bbda8 Thierry Reding 2019-08-20  65  =
 
-f113059e7b4f94 Corentin Labbe 2019-10-12  351  		}
-f113059e7b4f94 Corentin Labbe 2019-10-12  352  		err =3D crypto_engine_star=
-t(ce->chanlist[i].engine);
-f113059e7b4f94 Corentin Labbe 2019-10-12  353  		if (err) {
-f113059e7b4f94 Corentin Labbe 2019-10-12  354  			dev_err(ce->dev, "Cannot =
-start engine\n");
-f113059e7b4f94 Corentin Labbe 2019-10-12  355  			goto error_engine;
-f113059e7b4f94 Corentin Labbe 2019-10-12  356  		}
-f113059e7b4f94 Corentin Labbe 2019-10-12  357  		ce->chanlist[i].tl =3D dma=
-_alloc_coherent(ce->dev,
-f113059e7b4f94 Corentin Labbe 2019-10-12  358  							sizeof(struct ce_task=
-),
-f113059e7b4f94 Corentin Labbe 2019-10-12  359  							&ce->chanlist[i].t_ph=
-y,
-f113059e7b4f94 Corentin Labbe 2019-10-12  360  							GFP_KERNEL);
-f113059e7b4f94 Corentin Labbe 2019-10-12  361  		if (!ce->chanlist[i].tl) {
-f113059e7b4f94 Corentin Labbe 2019-10-12  362  			dev_err(ce->dev, "Cannot =
-get DMA memory for task %d\n",
-f113059e7b4f94 Corentin Labbe 2019-10-12  363  				i);
-f113059e7b4f94 Corentin Labbe 2019-10-12  364  			err =3D -ENOMEM;
-f113059e7b4f94 Corentin Labbe 2019-10-12  365  			goto error_engine;
-f113059e7b4f94 Corentin Labbe 2019-10-12  366  		}
-f113059e7b4f94 Corentin Labbe 2019-10-12  367  	}
-f113059e7b4f94 Corentin Labbe 2019-10-12  368  	return 0;
-f113059e7b4f94 Corentin Labbe 2019-10-12  369  error_engine:
-f113059e7b4f94 Corentin Labbe 2019-10-12  370  	sun8i_ce_free_chanlist(ce, =
-i);
-f113059e7b4f94 Corentin Labbe 2019-10-12 @371  	return err;
-f113059e7b4f94 Corentin Labbe 2019-10-12  372  }
+429583789bbda8 Thierry Reding 2019-08-20  66  	mutex_lock(&controllers_lock=
+);
+429583789bbda8 Thierry Reding 2019-08-20  67  =
+
+429583789bbda8 Thierry Reding 2019-08-20  68  	list_for_each_entry(mc, &con=
+trollers, list) {
+429583789bbda8 Thierry Reding 2019-08-20  69  		if (mc->dev && mc->dev->of_=
+node =3D=3D args.np) {
+429583789bbda8 Thierry Reding 2019-08-20  70  			kref_get(&mc->ref);
+429583789bbda8 Thierry Reding 2019-08-20  71  			mutex_unlock(&controllers_=
+lock);
+                                                                ^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^
+
+429583789bbda8 Thierry Reding 2019-08-20  72  			goto unlock;
+429583789bbda8 Thierry Reding 2019-08-20  73  		}
+429583789bbda8 Thierry Reding 2019-08-20  74  	}
+429583789bbda8 Thierry Reding 2019-08-20  75  =
+
+429583789bbda8 Thierry Reding 2019-08-20  76  	mc =3D ERR_PTR(-EPROBE_DEFER=
+);
+429583789bbda8 Thierry Reding 2019-08-20  77  =
+
+429583789bbda8 Thierry Reding 2019-08-20  78  unlock:
+429583789bbda8 Thierry Reding 2019-08-20 @79  	mutex_unlock(&controllers_lo=
+ck);
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^
+429583789bbda8 Thierry Reding 2019-08-20  80  	of_node_put(args.np);
+429583789bbda8 Thierry Reding 2019-08-20  81  	return mc;
+429583789bbda8 Thierry Reding 2019-08-20  82  }
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Cent=
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============3625153567921714768==--
+--===============0696117441356790941==--
 
