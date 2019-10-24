@@ -1,87 +1,169 @@
-Content-Type: multipart/mixed; boundary="===============3280746508391068493=="
+Content-Type: multipart/mixed; boundary="===============6717351859814198740=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [plbossart-sound:integration/soundwire-20191022 51/53] drivers/soundwire/stream.c:1557 sdw_prepare_stream() warn: variable dereferenced before check 'stream' (see line 1555)
-Date: Sat, 26 Oct 2019 07:45:33 +0300
-Message-ID: <20191026044533.GI23523@kadam>
+Subject: Re: drivers/usb/usbip/stub_rx.c:505 stub_recv_cmd_submit() error: uninitialized symbol 'nents'.
+Date: Thu, 24 Oct 2019 22:45:00 +0300
+Message-ID: <20191024194500.GD23523@kadam>
+In-Reply-To: <20191023071120.GA3061@localhost.localdomain>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3280746508391068493==
+--===============6717351859814198740==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/plbossart/sound integration/soundwire-20191022
-head:   40ac17aeeb4954510b3db3a8314fa5ab3a0169f6
-commit: 8b1325343c5c750a0b25120bf354c7a73cfda4c6 [51/53] [HACK] add traces =
-to debug aplay suspend/resume issue
+On Wed, Oct 23, 2019 at 04:11:20PM +0900, Suwan Kim wrote:
+> On Tue, Oct 22, 2019 at 12:28:39PM +0300, Dan Carpenter wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.=
+git master
+> > head:   7d194c2100ad2a6dded545887d02754948ca5241
+> > commit: ea44d190764b4422af4d1c29eaeb9e69e353b406 usbip: Implement SG su=
+pport to vhci-hcd and stub driver
+> > date:   7 weeks ago
+> > =
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > If you fix the issue, kindly add following tag
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > =
 
-New smatch warnings:
-drivers/soundwire/stream.c:1557 sdw_prepare_stream() warn: variable derefer=
-enced before check 'stream' (see line 1555)
-drivers/soundwire/stream.c:1655 sdw_enable_stream() warn: variable derefere=
-nced before check 'stream' (see line 1653)
-drivers/soundwire/stream.c:1744 sdw_disable_stream() warn: variable derefer=
-enced before check 'stream' (see line 1742)
-drivers/soundwire/stream.c:1816 sdw_deprepare_stream() warn: variable deref=
-erenced before check 'stream' (see line 1814)
+> > New smatch warnings:
+> > drivers/usb/usbip/stub_rx.c:505 stub_recv_cmd_submit() error: uninitial=
+ized symbol 'nents'.
+> > =
 
-Old smatch warnings:
-drivers/soundwire/stream.c:102 _sdw_program_slave_port_params() warn: '(t_p=
-arams->sample_interval - 1)' 4294967295 can't fit into 65535 'wbuf'
-include/linux/compiler.h:226 __write_once_size() warn: potential memory cor=
-rupting cast 8 vs 4 bytes
+> > Old smatch warnings:
+> > drivers/usb/usbip/stub_rx.c:450 stub_recv_xbuff() error: uninitialized =
+symbol 'ret'.
+> > =
 
-# https://github.com/plbossart/sound/commit/8b1325343c5c750a0b25120bf354c7a=
-73cfda4c6
-git remote add plbossart-sound https://github.com/plbossart/sound
-git remote update plbossart-sound
-git checkout 8b1325343c5c750a0b25120bf354c7a73cfda4c6
-vim +/stream +1557 drivers/soundwire/stream.c
+> > # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/co=
+mmit/?id=3Dea44d190764b4422af4d1c29eaeb9e69e353b406
+> > git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/to=
+rvalds/linux.git
+> > git remote update linus
+> > git checkout ea44d190764b4422af4d1c29eaeb9e69e353b406
+> > vim +/nents +505 drivers/usb/usbip/stub_rx.c
+> > =
 
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26  1550  int sdw_prepare_stre=
-am(struct sdw_stream_runtime *stream)
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26  1551  {
-564e8992e95ea1 Pierre-Louis Bossart  2019-10-15  1552  	bool update_params =
-=3D true;
-36269dcfbd2d7f Bard Liao             2019-09-20  1553  	int ret;
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26  1554  =
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  453  static void stub_recv_cmd_submit(struct stub_device *sdev,
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  454  				 struct usbip_header *pdu)
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  455  {
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  456  	struct stub_priv *priv;
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  457  	struct usbip_device *ud =3D &sdev->ud;
+> > 2d8f4595d1f275 drivers/staging/usbip/stub_rx.c Max Vozeler        2011-=
+01-12  458  	struct usb_device *udev =3D sdev->udev;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  459  	struct scatterlist *sgl =3D NULL, *sg;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  460  	void *buffer =3D NULL;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  461  	unsigned long long buf_len;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  462  	int nents;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  463  	int num_urbs =3D 1;
+> > c6688ef9f29762 drivers/usb/usbip/stub_rx.c     Shuah Khan         2017-=
+12-07  464  	int pipe =3D get_pipe(sdev, pdu);
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  465  	int use_sg =3D pdu->u.cmd_submit.transfer_flags & URB_DMA_MAP_=
+SG;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  466  	int support_sg =3D 1;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  467  	int np =3D 0;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  468  	int ret, i;
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  469  =
 
-8b1325343c5c75 Pierre-Louis Bossart  2019-10-12 @1555  	pr_err("%s: %s star=
-t\n", __func__, stream->name);
-                                                                           =
-                ^^^^^^^^^^^^
-Unchecked dereference.
+> > 635f545a7e8be7 drivers/usb/usbip/stub_rx.c     Shuah Khan         2017-=
+12-07  470  	if (pipe =3D=3D -1)
+> > 635f545a7e8be7 drivers/usb/usbip/stub_rx.c     Shuah Khan         2017-=
+12-07  471  		return;
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  472  =
 
-8b1325343c5c75 Pierre-Louis Bossart  2019-10-12  1556  =
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  473  	priv =3D stub_priv_alloc(sdev, pdu);
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  474  	if (!priv)
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  475  		return;
+> > 4d7b5c7f8ad49b drivers/staging/usbip/stub_rx.c Takahiro Hirofuchi 2008-=
+07-09  476  =
 
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26 @1557  	if (!stream) {
-                                                            ^^^^^^^
-Too late.
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  477  	buf_len =3D (unsigned long long)pdu->u.cmd_submit.transfer_buf=
+fer_length;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  478  =
 
-17ed5bef49f42e Pierre-Louis Bossart  2019-05-01  1558  		pr_err("SoundWire:=
- Handle not found for stream\n");
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26  1559  		return -EINVAL;
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26  1560  	}
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26  1561  =
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  479  	/* allocate urb transfer buffer, if needed */
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  480  	if (buf_len) {
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  481  		if (use_sg) {
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  482  			sgl =3D sgl_alloc(buf_len, GFP_KERNEL, &nents);
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  483  			if (!sgl)
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  484  				goto err_malloc;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  485  		} else {
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  486  			buffer =3D kzalloc(buf_len, GFP_KERNEL);
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  487  			if (!buffer)
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  488  				goto err_malloc;
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  489  		}
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  490  	}
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  491  =
 
-48949722ced4da Vinod Koul            2018-07-27  1562  	sdw_acquire_bus_loc=
-k(stream);
-5c3eb9f7bdf1f1 Sanyog Kale           2018-04-26  1563  =
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  492  	/* Check if the server's HCD supports SG */
+> > ea44d190764b44 drivers/usb/usbip/stub_rx.c     Suwan Kim          2019-=
+08-28  493  	if (use_sg && !udev->bus->sg_tablesize) {
+> > =
 
-36269dcfbd2d7f Bard Liao             2019-09-20  1564  	if (stream->state =
-=3D=3D SDW_STREAM_PREPARED) {
-36269dcfbd2d7f Bard Liao             2019-09-20  1565  		ret =3D 0;
+> > Smatch thinks "use_sg" can be true when "buf_len" is zero.  It's hard
+> > to tell if Smatch is right or wrong without more context...
+> =
 
----
-0-DAY kernel test infrastructure                Open Source Technology Cent=
-er
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
-on
---===============3280746508391068493==--
+> This is a bit strange. The meaning of "use_sg" is that client will
+> use scatter-gather and client's urb->num_sgs is not zero. And buffer
+> length should not be zero.
+> =
+
+> usb_sg and buf_len are both client-dependent variables, so I think
+> if they have wrong value in the server side, the client must have
+> sent use_sg and buf_len with incorrect values.
+> =
+
+> Did this error occur when compiling?
+
+Smatch is doing static analysis, yes.
+
+> If then, Did Smatch also consider vhci tx side?
+
+I'm not really sure...  I can't reproduce the warning because on my
+system Smatch doesn't parse usbip_recv() correctly so it ends up
+silencing that warning.  :/
+
+regards,
+dan carpenter
+
+--===============6717351859814198740==--
 
