@@ -1,147 +1,108 @@
-Content-Type: multipart/mixed; boundary="===============3283461489589933483=="
+Content-Type: multipart/mixed; boundary="===============4573827835343066434=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [pm:bleeding-edge 62/70] drivers/acpi/acpica/dbnames.c:576 acpi_db_walk_for_fields() error: double free of 'buffer.pointer'
-Date: Fri, 01 Nov 2019 13:28:26 +0300
-Message-ID: <20191101102553.GH18421@kadam>
+From: Darrick J. Wong <darrick.wong@oracle.com>
+Subject: Re: [djwong-xfs:mount-api-crash 91/104] fs/xfs/xfs_message.c:23:40: warning: address of array 'mp->m_super->s_id' will always evaluate to 'true'
+Date: Wed, 30 Oct 2019 08:45:43 -0700
+Message-ID: <20191030154543.GF15221@magnolia>
+In-Reply-To: <20191030033925.GA14630@ubuntu-m2-xlarge-x86>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3283461489589933483==
+--===============4573827835343066434==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- bleeding-edge
-head:   aaa43552df9b1f8c788d18df5f5989f8a13433f5
-commit: 5fd033288a86676045d9e16243dfc5f988013371 [62/70] ACPICA: debugger: =
-add command to dump all fields of particular subtype
+On Tue, Oct 29, 2019 at 08:39:25PM -0700, Nathan Chancellor wrote:
+> On Tue, Oct 29, 2019 at 02:45:40PM +0800, kbuild test robot wrote:
+> > CC: kbuild-all(a)lists.01.org
+> > CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+> > TO: Ian Kent <raven@themaw.net>
+> > CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+> > CC: Christoph Hellwig <hch@lst.de>
 
-If you fix the issue, kindly add following tag
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+FYI, It's customary to cc the patch author [and the xfs list]...
 
-smatch warnings:
-drivers/acpi/acpica/dbnames.c:576 acpi_db_walk_for_fields() error: double f=
-ree of 'buffer.pointer'
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linu=
+x.git mount-api-crash
+> > head:   e35c37b1b9987c8d87d91dbeca6c24aade2a3390
+> > commit: a5a36409da3a608c815b38b0ff2eb5bcfc1adec6 [91/104] xfs: use supe=
+r s_id instead of struct xfs_mount
+> > config: x86_64-rhel-7.6 (attached as .config)
+> > compiler: clang version 10.0.0 (git://gitmirror/llvm_project 7cd595df96=
+d5929488063d8ff5cc3b5d800386da)
+> > reproduce:
+> >         git checkout a5a36409da3a608c815b38b0ff2eb5bcfc1adec6
+> >         # save the attached .config to linux build tree
+> >         make ARCH=3Dx86_64 =
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/commi=
-t/?id=3D5fd033288a86676045d9e16243dfc5f988013371
-git remote add pm https://git.kernel.org/pub/scm/linux/kernel/git/rafael/li=
-nux-pm.git
-git remote update pm
-git checkout 5fd033288a86676045d9e16243dfc5f988013371
-vim +576 drivers/acpi/acpica/dbnames.c
+> > =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  518  static acpi_status
-5fd033288a8667 Erik Schmauss 2019-10-25  519  acpi_db_walk_for_fields(acpi_=
-handle obj_handle,
-5fd033288a8667 Erik Schmauss 2019-10-25  520  			u32 nesting_level, void *c=
-ontext, void **return_value)
-5fd033288a8667 Erik Schmauss 2019-10-25  521  {
-5fd033288a8667 Erik Schmauss 2019-10-25  522  	union acpi_object *ret_value;
-5fd033288a8667 Erik Schmauss 2019-10-25  523  	struct acpi_region_walk_info=
- *info =3D
-5fd033288a8667 Erik Schmauss 2019-10-25  524  	    (struct acpi_region_walk=
-_info *)context;
-5fd033288a8667 Erik Schmauss 2019-10-25  525  	struct acpi_buffer buffer;
-5fd033288a8667 Erik Schmauss 2019-10-25  526  	acpi_status status;
-5fd033288a8667 Erik Schmauss 2019-10-25  527  	struct acpi_namespace_node *=
-node =3D acpi_ns_validate_handle(obj_handle);
-5fd033288a8667 Erik Schmauss 2019-10-25  528  =
+> > If you fix the issue, kindly add following tag
+> > Reported-by: kbuild test robot <lkp@intel.com>
+> > =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  529  	if (!node) {
-5fd033288a8667 Erik Schmauss 2019-10-25  530  		return (AE_OK);
-5fd033288a8667 Erik Schmauss 2019-10-25  531  	}
-5fd033288a8667 Erik Schmauss 2019-10-25  532  	if (node->object->field.regi=
-on_obj->region.space_id !=3D
-5fd033288a8667 Erik Schmauss 2019-10-25  533  	    info->address_space_id) {
-5fd033288a8667 Erik Schmauss 2019-10-25  534  		return (AE_OK);
-5fd033288a8667 Erik Schmauss 2019-10-25  535  	}
-5fd033288a8667 Erik Schmauss 2019-10-25  536  =
+> > All warnings (new ones prefixed by >>):
+> > =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  537  	info->count++;
-5fd033288a8667 Erik Schmauss 2019-10-25  538  =
+> > >> fs/xfs/xfs_message.c:23:40: warning: address of array 'mp->m_super->=
+s_id' will always evaluate to 'true' [-Wpointer-bool-conversion]
+> >            if (mp && mp->m_super && mp->m_super->s_id) {
+> >                                  ~~ ~~~~~~~~~~~~~^~~~
 
-5fd033288a8667 Erik Schmauss 2019-10-25  539  	/* Get and display the full =
-pathname to this object */
-5fd033288a8667 Erik Schmauss 2019-10-25  540  =
+...so, Ian, I guess this isn't necessary ^^^^^^^^^^^^^^^^
+because it's a char array, not a pointer. :)
 
-5fd033288a8667 Erik Schmauss 2019-10-25  541  	buffer.length =3D ACPI_ALLOC=
-ATE_LOCAL_BUFFER;
-5fd033288a8667 Erik Schmauss 2019-10-25  542  	status =3D acpi_ns_handle_to=
-_pathname(obj_handle, &buffer, TRUE);
-5fd033288a8667 Erik Schmauss 2019-10-25  543  	if (ACPI_FAILURE(status)) {
-5fd033288a8667 Erik Schmauss 2019-10-25  544  		acpi_os_printf("Could Not g=
-et pathname for object %p\n",
-5fd033288a8667 Erik Schmauss 2019-10-25  545  			       obj_handle);
-5fd033288a8667 Erik Schmauss 2019-10-25  546  		return (AE_OK);
-5fd033288a8667 Erik Schmauss 2019-10-25  547  	}
-5fd033288a8667 Erik Schmauss 2019-10-25  548  =
+Good catch!
 
-5fd033288a8667 Erik Schmauss 2019-10-25  549  	acpi_os_printf("%s ", (char =
-*)buffer.pointer);
-5fd033288a8667 Erik Schmauss 2019-10-25  550  	ACPI_FREE(buffer.pointer);
+--D
 
-Freed here.
+> >    1 warning generated.
+> > =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  551  =
+> > vim +23 fs/xfs/xfs_message.c
+> > =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  552  	buffer.length =3D ACPI_ALLOC=
-ATE_LOCAL_BUFFER;
-5fd033288a8667 Erik Schmauss 2019-10-25  553  	acpi_evaluate_object(obj_han=
-dle, NULL, NULL, &buffer);
+> >     13	=
 
-No error handling here so "buffer.pointer" isn't necessarily modified.
+> >     14	/*
+> >     15	 * XFS logging functions
+> >     16	 */
+> >     17	static void
+> >     18	__xfs_printk(
+> >     19		const char		*level,
+> >     20		const struct xfs_mount	*mp,
+> >     21		struct va_format	*vaf)
+> >     22	{
+> >   > 23		if (mp && mp->m_super && mp->m_super->s_id) {
+> >     24			printk("%sXFS (%s): %pV\n", level, mp->m_super->s_id, vaf);
+> >     25			return;
+> >     26		}
+> >     27		printk("%sXFS: %pV\n", level, vaf);
+> >     28	}
+> >     29	=
 
-5fd033288a8667 Erik Schmauss 2019-10-25  554  =
+> > =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  555  	ret_value =3D (union acpi_ob=
-ject *)buffer.pointer;
-5fd033288a8667 Erik Schmauss 2019-10-25  556  	switch (ret_value->type) {
-5fd033288a8667 Erik Schmauss 2019-10-25  557  	case ACPI_TYPE_INTEGER:
-5fd033288a8667 Erik Schmauss 2019-10-25  558  =
+> > ---
+> > 0-DAY kernel test infrastructure                Open Source Technology =
+Center
+> > https://lists.01.org/pipermail/kbuild-all                   Intel Corpo=
+ration
+> > =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  559  		acpi_os_printf("%8.8X%8.8X",
-5fd033288a8667 Erik Schmauss 2019-10-25  560  			       ACPI_FORMAT_UINT64(=
-ret_value->integer.value));
-5fd033288a8667 Erik Schmauss 2019-10-25  561  		break;
-5fd033288a8667 Erik Schmauss 2019-10-25  562  =
+> =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  563  	case ACPI_TYPE_BUFFER:
-5fd033288a8667 Erik Schmauss 2019-10-25  564  =
+> Hi Darrick,
+> =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  565  		acpi_ut_dump_buffer(ret_val=
-ue->buffer.pointer,
-5fd033288a8667 Erik Schmauss 2019-10-25  566  				    ret_value->buffer.len=
-gth,
-5fd033288a8667 Erik Schmauss 2019-10-25  567  				    DB_DISPLAY_DATA_ONLY =
-| DB_BYTE_DISPLAY, 0);
-5fd033288a8667 Erik Schmauss 2019-10-25  568  		break;
-5fd033288a8667 Erik Schmauss 2019-10-25  569  =
+> The 0day team has been doing clang builds for us and we've been
+> forwarding the valid warnings along to developers. This appeared after
+> the commit listed above. That check should be unnecessary, perhaps you
+> meant to check for something else? Thanks for looking into this.
+> =
 
-5fd033288a8667 Erik Schmauss 2019-10-25  570  	default:
-5fd033288a8667 Erik Schmauss 2019-10-25  571  =
-
-5fd033288a8667 Erik Schmauss 2019-10-25  572  		break;
-5fd033288a8667 Erik Schmauss 2019-10-25  573  	}
-5fd033288a8667 Erik Schmauss 2019-10-25  574  	acpi_os_printf("\n");
-5fd033288a8667 Erik Schmauss 2019-10-25  575  =
-
-5fd033288a8667 Erik Schmauss 2019-10-25 @576  	ACPI_FREE(buffer.pointer);
-
-Double free.
-
-5fd033288a8667 Erik Schmauss 2019-10-25  577  =
-
-5fd033288a8667 Erik Schmauss 2019-10-25  578  	return (AE_OK);
-5fd033288a8667 Erik Schmauss 2019-10-25  579  }
-
----
-0-DAY kernel test infrastructure                Open Source Technology Cent=
-er
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
-on
---===============3283461489589933483==--
+> Cheers,
+> Nathan
+--===============4573827835343066434==--
 
