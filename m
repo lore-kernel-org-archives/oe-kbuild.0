@@ -1,52 +1,94 @@
-Content-Type: multipart/mixed; boundary="===============4728559398864560752=="
+Content-Type: multipart/mixed; boundary="===============5179109414491389049=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [linux-next:master 7938/8210] fs/erofs/super.c:190 erofs_read_superblock() warn: passing the wrong variable to kunmap()
-Date: Mon, 04 Nov 2019 09:52:50 +0300
-Message-ID: <20191104065250.GE21796@kadam>
-In-Reply-To: <20191103021836.GA6810@hsiangkao-HP-ZHAN-66-Pro-G1>
+Subject: [wireless-drivers-next:master 106/112] drivers/net/wireless/realtek/rtw88/main.c:1030 rtw_load_firmware_cb() error: we previously assumed 'firmware' could be null (see line 1027)
+Date: Sat, 02 Nov 2019 21:57:04 +0300
+Message-ID: <20191102185704.GD21796@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4728559398864560752==
+--===============5179109414491389049==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Nov 03, 2019 at 10:18:39AM +0800, Gao Xiang wrote:
-> > 0259f209487c83 fs/erofs/super.c              Gao Xiang        2019-09-0=
-4  181  	ret =3D strscpy(sbi->volume_name, dsb->volume_name,
-> > 0259f209487c83 fs/erofs/super.c              Gao Xiang        2019-09-0=
-4  182  		      sizeof(dsb->volume_name));
-> > a64d9493f587f8 drivers/staging/erofs/super.c Gao Xiang        2019-08-1=
-8  183  	if (ret < 0) {	/* -E2BIG */
-> > 4f761fa253b49f fs/erofs/super.c              Gao Xiang        2019-09-0=
-4  184  		erofs_err(sb, "bad volume name without NIL terminator");
-> > a64d9493f587f8 drivers/staging/erofs/super.c Gao Xiang        2019-08-1=
-8  185  		ret =3D -EFSCORRUPTED;
-> > a64d9493f587f8 drivers/staging/erofs/super.c Gao Xiang        2019-08-1=
-8  186  		goto out;
-> > a64d9493f587f8 drivers/staging/erofs/super.c Gao Xiang        2019-08-1=
-8  187  	}
-> > ba2b77a8202287 drivers/staging/erofs/super.c Gao Xiang        2018-07-2=
-6  188  	ret =3D 0;
-> > ba2b77a8202287 drivers/staging/erofs/super.c Gao Xiang        2018-07-2=
-6  189  out:
-> > f0a6634246f9d8 fs/erofs/super.c              Pratik Shinde    2019-10-3=
-0 @190  	kunmap(data);
-> >                                                                        =
-         ^^^^^^^^^^^^
-> > This should be kunmap(page);.  kmap() and kmap_atomic() are tricky like
-> > that.
-> =
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/wireless-driv=
+ers-next.git master
+head:   086ddf860650cfa3065d6698fae81335b1846cdb
+commit: 5195b904264098839144d08d23c600811de2e2da [106/112] rtw88: avoid FW =
+info flood
 
-> Thanks for your report. I will fix it soon (would you mind me fold it
-> info the original patch?).
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-No problem.  Go ahead an fold it in.
+New smatch warnings:
+drivers/net/wireless/realtek/rtw88/main.c:1030 rtw_load_firmware_cb() error=
+: we previously assumed 'firmware' could be null (see line 1027)
 
-regards,
-dan carpenter
+Old smatch warnings:
+include/linux/compiler.h:226 __write_once_size() warn: potential memory cor=
+rupting cast 8 vs 4 bytes
 
---===============4728559398864560752==--
+# https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/wireless-drivers-ne=
+xt.git/commit/?id=3D5195b904264098839144d08d23c600811de2e2da
+git remote add wireless-drivers-next https://git.kernel.org/pub/scm/linux/k=
+ernel/git/kvalo/wireless-drivers-next.git
+git remote update wireless-drivers-next
+git checkout 5195b904264098839144d08d23c600811de2e2da
+vim +/firmware +1030 drivers/net/wireless/realtek/rtw88/main.c
+
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1021  static void rtw_load_firm=
+ware_cb(const struct firmware *firmware, void *context)
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1022  {
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1023  	struct rtw_dev *rtwdev =
+=3D context;
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1024  	struct rtw_fw_state *fw =
+=3D &rtwdev->fw;
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1025  	const struct rtw_fw_hdr =
+*fw_hdr;
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1026  =
+
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26 @1027  	if (!firmware)
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1028  		rtw_err(rtwdev, "failed=
+ to request firmware\n");
+
+If firmware is NULL then
+
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1029  =
+
+5195b904264098 Yan-Hsuan Chuang 2019-10-25 @1030  	fw_hdr =3D (const struct=
+ rtw_fw_hdr *)firmware->data;
+                                                                           =
+                 ^^^^^^^^^^^^^^^
+the current code just prints an error message and then crashes.
+
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1031  	fw->h2c_version =3D le16=
+_to_cpu(fw_hdr->h2c_fmt_ver);
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1032  	fw->version =3D le16_to_=
+cpu(fw_hdr->version);
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1033  	fw->sub_version =3D fw_h=
+dr->subversion;
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1034  	fw->sub_index =3D fw_hdr=
+->subindex;
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1035  =
+
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1036  	fw->firmware =3D firmwar=
+e;
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1037  	complete_all(&fw->comple=
+tion);
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1038  =
+
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1039  	rtw_info(rtwdev, "Firmwa=
+re version %u.%u.%u, H2C version %u\n",
+5195b904264098 Yan-Hsuan Chuang 2019-10-25  1040  		 fw->version, fw->sub_v=
+ersion, fw->sub_index, fw->h2c_version);
+e3037485c68ec1 Yan-Hsuan Chuang 2019-04-26  1041  }
+
+---
+0-DAY kernel test infrastructure                Open Source Technology Cent=
+er
+https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
+on
+--===============5179109414491389049==--
 
