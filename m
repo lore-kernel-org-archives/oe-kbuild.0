@@ -1,152 +1,193 @@
-Content-Type: multipart/mixed; boundary="===============7157253233798093558=="
+Content-Type: multipart/mixed; boundary="===============1584995775250119692=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v2 1/2] kernfs: Convert to u64 id
-Date: Tue, 05 Nov 2019 11:54:02 +0300
-Message-ID: <20191105085402.GH21796@kadam>
-In-Reply-To: <20191104084520.398584-2-namhyung@kernel.org>
+Subject: [dhowells-fs:fscache-next 10/11] fs/cachefiles/interface.c:101 cachefiles_alloc_object() error: uninitialized symbol 'lookup_data'.
+Date: Mon, 04 Nov 2019 09:56:53 +0300
+Message-ID: <20191104065653.GF21796@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7157253233798093558==
+--===============1584995775250119692==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Namhyung,
-
-url:    https://github.com/0day-ci/linux/commits/Namhyung-Kim/cgroup-Sync-c=
-group-id-and-inode-number/20191104-165256
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.=
-git 9927c6fa3e1d941c9b89f807f5d0480390eb0471
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
+it fscache-next
+head:   a378de860278da7a006db7135ce24cf56cd8b552
+commit: 22691addb04f46468ead9648b7e95d213312c82f [10/11] cachefiles: Reduce=
+ cleanup in cachefiles_alloc_object()
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/trace/blktrace.c:104 trace_note() warn: potential pointer math issue=
- ('t' is a 384 bit pointer)
+New smatch warnings:
+fs/cachefiles/interface.c:101 cachefiles_alloc_object() error: uninitialize=
+d symbol 'lookup_data'.
 
-# https://github.com/0day-ci/linux/commit/a2dbd125b386ea824c182d058d78ddb62=
-7bb633c
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout a2dbd125b386ea824c182d058d78ddb627bb633c
-vim +104 kernel/trace/blktrace.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/com=
+mit/?id=3D22691addb04f46468ead9648b7e95d213312c82f
+git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/=
+dhowells/linux-fs.git
+git remote update dhowells-fs
+git checkout 22691addb04f46468ead9648b7e95d213312c82f
+vim +/lookup_data +101 fs/cachefiles/interface.c
 
-a863055b1066be block/blktrace.c        Jens Axboe               2006-12-04 =
-  66  static void trace_note(struct blk_trace *bt, pid_t pid, int action,
-a2dbd125b386ea kernel/trace/blktrace.c Tejun Heo                2019-11-04 =
-  67  		       const void *data, size_t len, u64 cgid)
-2056a782f8e7e6 block/blktrace.c        Jens Axboe               2006-03-23 =
-  68  {
-2056a782f8e7e6 block/blktrace.c        Jens Axboe               2006-03-23 =
-  69  	struct blk_io_trace *t;
+9ae326a69004de David Howells 2009-04-03   26  static struct fscache_object =
+*cachefiles_alloc_object(
+9ae326a69004de David Howells 2009-04-03   27  	struct fscache_cache *_cache,
+9ae326a69004de David Howells 2009-04-03   28  	struct fscache_cookie *cooki=
+e)
+9ae326a69004de David Howells 2009-04-03   29  {
+9ae326a69004de David Howells 2009-04-03   30  	struct cachefiles_lookup_dat=
+a *lookup_data;
+
+This is only used for the sizeof().
+
+9ae326a69004de David Howells 2009-04-03   31  	struct cachefiles_object *ob=
+ject;
+9ae326a69004de David Howells 2009-04-03   32  	struct cachefiles_cache *cac=
+he;
+9ae326a69004de David Howells 2009-04-03   33  	struct cachefiles_xattr *aux=
+data;
+9ae326a69004de David Howells 2009-04-03   34  	unsigned keylen, auxlen;
+402cb8dda949d9 David Howells 2018-04-04   35  	void *buffer, *p;
+9ae326a69004de David Howells 2009-04-03   36  =
+
+9ae326a69004de David Howells 2009-04-03   37  	cache =3D container_of(_cach=
+e, struct cachefiles_cache, cache);
+9ae326a69004de David Howells 2009-04-03   38  =
+
+9ae326a69004de David Howells 2009-04-03   39  	_enter("{%s},%p,", cache->ca=
+che.identifier, cookie);
+9ae326a69004de David Howells 2009-04-03   40  =
+
+9ae326a69004de David Howells 2009-04-03   41  	/* create a new object recor=
+d and a temporary leaf image */
+6feed675ec5813 David Howells 2019-10-31   42  	object =3D kmem_cache_zalloc=
+(cachefiles_object_jar, cachefiles_gfp);
+9ae326a69004de David Howells 2009-04-03   43  	if (!object)
+22691addb04f46 David Howells 2019-10-31   44  		goto nomem;
+9ae326a69004de David Howells 2009-04-03   45  =
+
+9ae326a69004de David Howells 2009-04-03   46  	ASSERTCMP(object->backer, =
+=3D=3D, NULL);
+9ae326a69004de David Howells 2009-04-03   47  =
+
+9ae326a69004de David Howells 2009-04-03   48  	BUG_ON(test_bit(CACHEFILES_O=
+BJECT_ACTIVE, &object->flags));
+9ae326a69004de David Howells 2009-04-03   49  	atomic_set(&object->usage, 1=
+);
+6feed675ec5813 David Howells 2019-10-31   50  	spin_lock_init(&object->work=
+_lock);
+9ae326a69004de David Howells 2009-04-03   51  =
+
+9ae326a69004de David Howells 2009-04-03   52  	fscache_object_init(&object-=
+>fscache, cookie, &cache->cache);
+9ae326a69004de David Howells 2009-04-03   53  =
+
+9ae326a69004de David Howells 2009-04-03   54  	object->type =3D cookie->def=
+->type;
+9ae326a69004de David Howells 2009-04-03   55  =
+
+22691addb04f46 David Howells 2019-10-31   56  	object->lookup_data =3D kzal=
+loc(sizeof(*lookup_data), cachefiles_gfp);
                                                                            =
-                                  ^
+         ^^^^^^^^^^^^^^
 
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  70  	struct ring_buffer_event *event =3D NULL;
-e77405ad80f539 kernel/trace/blktrace.c Steven Rostedt           2009-09-02 =
-  71  	struct ring_buffer *buffer =3D NULL;
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  72  	int pc =3D 0;
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  73  	int cpu =3D smp_processor_id();
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  74  	bool blk_tracer =3D blk_tracer_enabled;
-a2dbd125b386ea kernel/trace/blktrace.c Tejun Heo                2019-11-04 =
-  75  	ssize_t cgid_len =3D cgid ? sizeof(cgid) : 0;
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  76  =
+22691addb04f46 David Howells 2019-10-31   57  	if (!object->lookup_data)
+22691addb04f46 David Howells 2019-10-31   58  		goto nomem_object;
+22691addb04f46 David Howells 2019-10-31   59  =
 
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  77  	if (blk_tracer) {
-12883efb670c28 kernel/trace/blktrace.c Steven Rostedt (Red Hat  2013-03-05 =
-  78) 		buffer =3D blk_tr->trace_buffer.buffer;
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  79  		pc =3D preempt_count();
-e77405ad80f539 kernel/trace/blktrace.c Steven Rostedt           2009-09-02 =
-  80  		event =3D trace_buffer_lock_reserve(buffer, TRACE_BLK,
-ca1136c99b66b1 kernel/trace/blktrace.c Shaohua Li               2017-07-12 =
-  81  						  sizeof(*t) + len + cgid_len,
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  82  						  0, pc);
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  83  		if (!event)
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  84  			return;
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  85  		t =3D ring_buffer_event_data(event);
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  86  		goto record_it;
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  87  	}
-be1c63411addba block/blktrace.c        Olaf Kirch               2006-12-01 =
-  88  =
+9ae326a69004de David Howells 2009-04-03   60  	/* get hold of the raw key
+9ae326a69004de David Howells 2009-04-03   61  	 * - stick the length on the=
+ front and leave space on the back for the
+9ae326a69004de David Howells 2009-04-03   62  	 *   encoder
+9ae326a69004de David Howells 2009-04-03   63  	 */
+22691addb04f46 David Howells 2019-10-31   64  	object->lookup_data->auxdata=
+ =3D kmalloc((2 + 512) + 3, cachefiles_gfp);
+22691addb04f46 David Howells 2019-10-31   65  	if (!object->lookup_data->au=
+xdata)
+22691addb04f46 David Howells 2019-10-31   66  		goto nomem_object;
+9ae326a69004de David Howells 2009-04-03   67  =
 
-c71a896154119f block/blktrace.c        Arnaldo Carvalho de Melo 2009-01-23 =
-  89  	if (!bt->rchan)
-c71a896154119f block/blktrace.c        Arnaldo Carvalho de Melo 2009-01-23 =
-  90  		return;
-c71a896154119f block/blktrace.c        Arnaldo Carvalho de Melo 2009-01-23 =
-  91  =
+402cb8dda949d9 David Howells 2018-04-04   68  	keylen =3D cookie->key_len;
+402cb8dda949d9 David Howells 2018-04-04   69  	if (keylen <=3D sizeof(cooki=
+e->inline_key))
+402cb8dda949d9 David Howells 2018-04-04   70  		p =3D cookie->inline_key;
+402cb8dda949d9 David Howells 2018-04-04   71  	else
+402cb8dda949d9 David Howells 2018-04-04   72  		p =3D cookie->key;
+22691addb04f46 David Howells 2019-10-31   73  =
 
-ca1136c99b66b1 kernel/trace/blktrace.c Shaohua Li               2017-07-12 =
-  92  	t =3D relay_reserve(bt->rchan, sizeof(*t) + len + cgid_len);
-d3d9d2a5ea9770 block/blktrace.c        Jens Axboe               2006-12-04 =
-  93  	if (t) {
-2056a782f8e7e6 block/blktrace.c        Jens Axboe               2006-03-23 =
-  94  		t->magic =3D BLK_IO_TRACE_MAGIC | BLK_IO_TRACE_VERSION;
-2997c8c4a0b179 block/blktrace.c        Ingo Molnar              2008-01-11 =
-  95  		t->time =3D ktime_to_ns(ktime_get());
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
-  96  record_it:
-2056a782f8e7e6 block/blktrace.c        Jens Axboe               2006-03-23 =
-  97  		t->device =3D bt->dev;
-ca1136c99b66b1 kernel/trace/blktrace.c Shaohua Li               2017-07-12 =
-  98  		t->action =3D action | (cgid ? __BLK_TN_CGROUP : 0);
-be1c63411addba block/blktrace.c        Olaf Kirch               2006-12-01 =
-  99  		t->pid =3D pid;
-be1c63411addba block/blktrace.c        Olaf Kirch               2006-12-01 =
- 100  		t->cpu =3D cpu;
-ca1136c99b66b1 kernel/trace/blktrace.c Shaohua Li               2017-07-12 =
- 101  		t->pdu_len =3D len + cgid_len;
-a2dbd125b386ea kernel/trace/blktrace.c Tejun Heo                2019-11-04 =
- 102  		if (cgid_len)
-a2dbd125b386ea kernel/trace/blktrace.c Tejun Heo                2019-11-04 =
- 103  			*(u64 *)(t + 1) =3D cgid;
-a2dbd125b386ea kernel/trace/blktrace.c Tejun Heo                2019-11-04 =
-@104  		memcpy((void *)( t + sizeof(*t)) + cgid_len, data, len);
+22691addb04f46 David Howells 2019-10-31   74  	buffer =3D object->lookup_da=
+ta->auxdata;
+402cb8dda949d9 David Howells 2018-04-04   75  	memcpy(buffer + 2, p, keylen=
+);
+9ae326a69004de David Howells 2009-04-03   76  =
+
+9ae326a69004de David Howells 2009-04-03   77  	*(uint16_t *)buffer =3D keyl=
+en;
+9ae326a69004de David Howells 2009-04-03   78  	((char *)buffer)[keylen + 2]=
+ =3D 0;
+9ae326a69004de David Howells 2009-04-03   79  	((char *)buffer)[keylen + 3]=
+ =3D 0;
+9ae326a69004de David Howells 2009-04-03   80  	((char *)buffer)[keylen + 4]=
+ =3D 0;
+9ae326a69004de David Howells 2009-04-03   81  =
+
+9ae326a69004de David Howells 2009-04-03   82  	/* turn the raw key into som=
+ething that can work with as a filename */
+22691addb04f46 David Howells 2019-10-31   83  	object->lookup_data->key =3D=
+ cachefiles_cook_key(buffer, keylen + 2, object->type);
+22691addb04f46 David Howells 2019-10-31   84  	if (!object->lookup_data->ke=
+y)
+22691addb04f46 David Howells 2019-10-31   85  		goto nomem_object;
+9ae326a69004de David Howells 2009-04-03   86  =
+
+9ae326a69004de David Howells 2009-04-03   87  	/* get hold of the auxiliary=
+ data and prepend the object type */
+22691addb04f46 David Howells 2019-10-31   88  	auxdata =3D object->lookup_d=
+ata->auxdata;
+402cb8dda949d9 David Howells 2018-04-04   89  	auxlen =3D cookie->aux_len;
+402cb8dda949d9 David Howells 2018-04-04   90  	if (auxlen) {
+402cb8dda949d9 David Howells 2018-04-04   91  		if (auxlen <=3D sizeof(cook=
+ie->inline_aux))
+402cb8dda949d9 David Howells 2018-04-04   92  			p =3D cookie->inline_aux;
+402cb8dda949d9 David Howells 2018-04-04   93  		else
+402cb8dda949d9 David Howells 2018-04-04   94  			p =3D cookie->aux;
+402cb8dda949d9 David Howells 2018-04-04   95  		memcpy(auxdata->data, p, au=
+xlen);
+9ae326a69004de David Howells 2009-04-03   96  	}
+9ae326a69004de David Howells 2009-04-03   97  =
+
+9ae326a69004de David Howells 2009-04-03   98  	auxdata->len =3D auxlen + 1;
+402cb8dda949d9 David Howells 2018-04-04   99  	auxdata->type =3D cookie->ty=
+pe;
+9ae326a69004de David Howells 2009-04-03  100  =
+
+9ae326a69004de David Howells 2009-04-03 @101  	_leave(" =3D %p [%p]", &obje=
+ct->fscache, lookup_data);
                                                                            =
-                                      ^
-This will corrupt memory.  It should be:
+            ^^^^^^^^^^^
 
-	memcpy((void *)t + sizeof(*t) + cgid_len, data, len);
+9ae326a69004de David Howells 2009-04-03  102  	return &object->fscache;
+9ae326a69004de David Howells 2009-04-03  103  =
 
-Or
-	memcpy((void *)(t + 1) + cgid_len, data, len);
+9ae326a69004de David Howells 2009-04-03  104  nomem_object:
+22691addb04f46 David Howells 2019-10-31  105  	cachefiles_put_object(&objec=
+t->fscache, fscache_obj_put_alloc_fail);
+22691addb04f46 David Howells 2019-10-31  106  nomem:
+9ae326a69004de David Howells 2009-04-03  107  	_leave(" =3D -ENOMEM");
+9ae326a69004de David Howells 2009-04-03  108  	return ERR_PTR(-ENOMEM);
+9ae326a69004de David Howells 2009-04-03  109  }
+9ae326a69004de David Howells 2009-04-03  110  =
 
-I don't know why zero day bot is complaining to you instead of Tejun or
-Jens...
-
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
- 105  =
-
-18cea4591a9881 kernel/trace/blktrace.c Li Zefan                 2009-03-27 =
- 106  		if (blk_tracer)
-b7f0c959edfb44 kernel/trace/blktrace.c Steven Rostedt (Red Hat  2015-09-25 =
- 107) 			trace_buffer_unlock_commit(blk_tr, buffer, event, 0, pc);
-d3d9d2a5ea9770 block/blktrace.c        Jens Axboe               2006-12-04 =
- 108  	}
-2056a782f8e7e6 block/blktrace.c        Jens Axboe               2006-03-23 =
- 109  }
 
 ---
 0-DAY kernel test infrastructure                Open Source Technology Cent=
 er
 https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
 on
---===============7157253233798093558==--
+--===============1584995775250119692==--
 
