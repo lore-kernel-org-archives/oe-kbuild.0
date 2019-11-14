@@ -1,206 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============2285391867383186913=="
+Content-Type: multipart/mixed; boundary="===============0224308975574461914=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [usb:usb-next 32/38] drivers/usb/typec/hd3ss3220.c:182 hd3ss3220_probe() warn: passing zero to 'PTR_ERR'
-Date: Mon, 07 Oct 2019 13:22:14 +0300
-Message-ID: <20191007102214.GE21515@kadam>
+Subject: Re: [Intel-gfx] [PATCH] drm/i915: switch intel_ddi_init() to intel types
+Date: Thu, 14 Nov 2019 11:52:34 +0000
+Message-ID: <20191114115053.GG19079@kadam.lan>
+In-Reply-To: <20191106064713.8201-1-lucas.demarchi@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2285391867383186913==
+--===============0224308975574461914==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-=
-next
-head:   dd3fd317e2beb899cbffcf364de049b9f9a02db5
-commit: 1c48c759ef4bb9031b3347277f04484e07e27d97 [32/38] usb: typec: driver=
- for TI HD3SS3220 USB Type-C DRP port controller
+[ Resending with corrected From header.  -dan ]
+[ This does feel like potentially a bad merge...  -dan ]
+
+Hi Lucas,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on next-20191112]
+[cannot apply to v5.4-rc7]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Lucas-De-Marchi/drm-i915-s=
+witch-intel_ddi_init-to-intel-types/20191108-185646
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/usb/typec/hd3ss3220.c:182 hd3ss3220_probe() warn: passing zero to '=
-PTR_ERR'
+drivers/gpu/drm/i915/display/intel_ddi.c:4717 intel_ddi_init() error: unini=
+tialized symbol 'encoder'.
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git/commit/?id=
-=3D1c48c759ef4bb9031b3347277f04484e07e27d97
-git remote add usb https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/u=
-sb.git
-git remote update usb
-git checkout 1c48c759ef4bb9031b3347277f04484e07e27d97
-vim +/PTR_ERR +182 drivers/usb/typec/hd3ss3220.c
+# https://github.com/0day-ci/linux/commit/be1087a2f14d66a04a24e7cb5a7cc6a51=
+66ff836
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout be1087a2f14d66a04a24e7cb5a7cc6a5166ff836
+vim +/encoder +4717 drivers/gpu/drm/i915/display/intel_ddi.c
 
-1c48c759ef4bb9 Biju Das 2019-09-04  152  =
+c39055b072f8b1 drivers/gpu/drm/i915/intel_ddi.c         Ander Conselvan de =
+Oliveira 2016-11-23  4683  void intel_ddi_init(struct drm_i915_private *dev=
+_priv, enum port port)
+00c09d70df6b30 drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2012-10-26  4684  {
+f6bff60e927b2f drivers/gpu/drm/i915/intel_ddi.c         Imre Deak          =
+         2018-12-14  4685  	struct ddi_vbt_port_info *port_info =3D
+f6bff60e927b2f drivers/gpu/drm/i915/intel_ddi.c         Imre Deak          =
+         2018-12-14  4686  		&dev_priv->vbt.ddi_port_info[port];
+00c09d70df6b30 drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2012-10-26  4687  	struct intel_digital_port *intel_dig_port;
+be1087a2f14d66 drivers/gpu/drm/i915/display/intel_ddi.c Lucas De Marchi    =
+         2019-11-05  4688  	struct intel_encoder *encoder;
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4689  	bool init_hdmi, init_dp, init_lspcon =3D false;
+d8fe2ab6bb283d drivers/gpu/drm/i915/display/intel_ddi.c Matt Roper         =
+         2019-07-09  4690  	enum phy phy =3D intel_port_to_phy(dev_priv, po=
+rt);
+10e7bec38bbda4 drivers/gpu/drm/i915/intel_ddi.c         Ville Syrj=C3=A4l=
+=C3=A4               2015-12-08  4691  =
 
-1c48c759ef4bb9 Biju Das 2019-09-04  153  static int hd3ss3220_probe(struct =
-i2c_client *client,
-1c48c759ef4bb9 Biju Das 2019-09-04  154  		const struct i2c_device_id *id)
-1c48c759ef4bb9 Biju Das 2019-09-04  155  {
-1c48c759ef4bb9 Biju Das 2019-09-04  156  	struct hd3ss3220 *hd3ss3220;
-1c48c759ef4bb9 Biju Das 2019-09-04  157  	struct fwnode_handle *connector;
-1c48c759ef4bb9 Biju Das 2019-09-04  158  	int ret;
-1c48c759ef4bb9 Biju Das 2019-09-04  159  	unsigned int data;
-1c48c759ef4bb9 Biju Das 2019-09-04  160  =
+f6bff60e927b2f drivers/gpu/drm/i915/intel_ddi.c         Imre Deak          =
+         2018-12-14  4692  	init_hdmi =3D port_info->supports_dvi || port_i=
+nfo->supports_hdmi;
+f6bff60e927b2f drivers/gpu/drm/i915/intel_ddi.c         Imre Deak          =
+         2018-12-14  4693  	init_dp =3D port_info->supports_dp;
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4694  =
 
-1c48c759ef4bb9 Biju Das 2019-09-04  161  	hd3ss3220 =3D devm_kzalloc(&clien=
-t->dev, sizeof(struct hd3ss3220),
-1c48c759ef4bb9 Biju Das 2019-09-04  162  				 GFP_KERNEL);
-1c48c759ef4bb9 Biju Das 2019-09-04  163  	if (!hd3ss3220)
-1c48c759ef4bb9 Biju Das 2019-09-04  164  		return -ENOMEM;
-1c48c759ef4bb9 Biju Das 2019-09-04  165  =
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4695  	if (intel_bios_is_lspcon_present(dev_priv, port=
+)) {
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4696  		/*
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4697  		 * Lspcon device needs to be driven with DP co=
+nnector
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4698  		 * with special detection sequence. So make su=
+re DP
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4699  		 * is initialized before lspcon.
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4700  		 */
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4701  		init_dp =3D true;
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4702  		init_lspcon =3D true;
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4703  		init_hdmi =3D false;
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4704  		DRM_DEBUG_KMS("VBT says port %c has lspcon\n",=
+ port_name(port));
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4705  	}
+ff66212415e324 drivers/gpu/drm/i915/intel_ddi.c         Shashank Sharma    =
+         2016-10-14  4706  =
 
-1c48c759ef4bb9 Biju Das 2019-09-04  166  	i2c_set_clientdata(client, hd3ss3=
-220);
-1c48c759ef4bb9 Biju Das 2019-09-04  167  =
+311a20949f047a drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2013-09-12  4707  	if (!init_dp && !init_hdmi) {
+500ea70d503ed9 drivers/gpu/drm/i915/intel_ddi.c         Rodrigo Vivi       =
+         2015-08-07  4708  		DRM_DEBUG_KMS("VBT says port %c is not DVI/HDM=
+I/DP compatible, respect it\n",
+311a20949f047a drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2013-09-12  4709  			      port_name(port));
+500ea70d503ed9 drivers/gpu/drm/i915/intel_ddi.c         Rodrigo Vivi       =
+         2015-08-07  4710  		return;
+311a20949f047a drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2013-09-12  4711  	}
+00c09d70df6b30 drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2012-10-26  4712  =
 
-1c48c759ef4bb9 Biju Das 2019-09-04  168  	hd3ss3220->dev =3D &client->dev;
-1c48c759ef4bb9 Biju Das 2019-09-04  169  	hd3ss3220->regmap =3D devm_regmap=
-_init_i2c(client, &config);
-1c48c759ef4bb9 Biju Das 2019-09-04  170  	if (IS_ERR(hd3ss3220->regmap))
-1c48c759ef4bb9 Biju Das 2019-09-04  171  		return PTR_ERR(hd3ss3220->regmap=
-);
-1c48c759ef4bb9 Biju Das 2019-09-04  172  =
+b14c5679dd2c87 drivers/gpu/drm/i915/intel_ddi.c         Daniel Vetter      =
+         2013-09-19  4713  	intel_dig_port =3D kzalloc(sizeof(*intel_dig_po=
+rt), GFP_KERNEL);
+00c09d70df6b30 drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2012-10-26  4714  	if (!intel_dig_port)
+00c09d70df6b30 drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2012-10-26  4715  		return;
+00c09d70df6b30 drivers/gpu/drm/i915/intel_ddi.c         Paulo Zanoni       =
+         2012-10-26  4716  =
 
-1c48c759ef4bb9 Biju Das 2019-09-04  173  	hd3ss3220_set_source_pref(hd3ss32=
-20,
-1c48c759ef4bb9 Biju Das 2019-09-04  174  				  HD3SS3220_REG_GEN_CTRL_SRC_P=
-REF_DRP_DEFAULT);
-1c48c759ef4bb9 Biju Das 2019-09-04  175  	connector =3D device_get_named_ch=
-ild_node(hd3ss3220->dev, "connector");
-1c48c759ef4bb9 Biju Das 2019-09-04  176  	if (IS_ERR(connector))
-1c48c759ef4bb9 Biju Das 2019-09-04  177  		return PTR_ERR(connector);
-1c48c759ef4bb9 Biju Das 2019-09-04  178  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  179  	hd3ss3220->role_sw =3D fwnode_usb=
-_role_switch_get(connector);
-1c48c759ef4bb9 Biju Das 2019-09-04  180  	fwnode_handle_put(connector);
-1c48c759ef4bb9 Biju Das 2019-09-04  181  	if (IS_ERR_OR_NULL(hd3ss3220->rol=
-e_sw))
-1c48c759ef4bb9 Biju Das 2019-09-04 @182  		return PTR_ERR(hd3ss3220->role_s=
-w);
-
-When fwnode_usb_role_switch_get() returns NULL then we return success
-here.  It seems like a bug.
-
-When function returns a mix of NULL and error pointers then NULL is a
-special case of success.  For example, a module tries to request a
-feature but that feature is deliberately turned off.  It's not an error
-so we can't return an error pointer, but at same time we can't return
-a valid pointer because the feature is disabled.
-
-For fwnode_usb_role_switch_get() it is a bit unclear to me what NULL
-means in that context, and there are no comments to explain it...  The
-fwnode_connection_find_match() is the same way where it mixes NULL and
-error pointers, doesn't have a comment, and it really seems like NULL is
-an error, not a special case of success like it's supposed to be.  I
-have added Heikki Krogerus to the CC list.
-
-1c48c759ef4bb9 Biju Das 2019-09-04  183  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  184  	hd3ss3220->typec_cap.prefer_role =
-=3D TYPEC_NO_PREFERRED_ROLE;
-1c48c759ef4bb9 Biju Das 2019-09-04  185  	hd3ss3220->typec_cap.dr_set =3D h=
-d3ss3220_dr_set;
-1c48c759ef4bb9 Biju Das 2019-09-04  186  	hd3ss3220->typec_cap.type =3D TYP=
-EC_PORT_DRP;
-1c48c759ef4bb9 Biju Das 2019-09-04  187  	hd3ss3220->typec_cap.data =3D TYP=
-EC_PORT_DRD;
-1c48c759ef4bb9 Biju Das 2019-09-04  188  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  189  	hd3ss3220->port =3D typec_registe=
-r_port(&client->dev,
-1c48c759ef4bb9 Biju Das 2019-09-04  190  					      &hd3ss3220->typec_cap);
-1c48c759ef4bb9 Biju Das 2019-09-04  191  	if (IS_ERR(hd3ss3220->port))
-1c48c759ef4bb9 Biju Das 2019-09-04  192  		return PTR_ERR(hd3ss3220->port);
-
-This error path should call usb_role_switch_put(hd3ss3220->role_sw) and
-probably a fwnode_handle_put() as well?
-
-I noticed this because I scrolled to the bottom of the fucntion and
-noticed that there was only one error label.  When you see a single
-error label like that, it's normally a red flag that the error handling
-is buggy.  Error labels should have descriptive names which say what
-they do.  I suggest something like:
-
-err_unreg_port:
-	typec_unregister_port(hd3ss3220->port);
-err_put_role:
-	usb_role_switch_put(hd3ss3220->role_sw);
-err_put_handle:
-	fwnode_handle_put(foo bar);
-
-	return ret;
-
-The rule behind this style of error handling is that you just have to
-keep track of the most recently allocated resource and at the bottom
-you free them in the reverse order from how you allocated them.  Here we
-had allocated ->role_sw but the typec_register_port() so we do goto
-free_role_sw;  Now people can guess what the goto does because the
-name is descriptive and since it matches the most recently allocated
-resource that means it's okay.
-
-1c48c759ef4bb9 Biju Das 2019-09-04  193  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  194  	hd3ss3220_set_role(hd3ss3220);
-1c48c759ef4bb9 Biju Das 2019-09-04  195  	ret =3D regmap_read(hd3ss3220->re=
-gmap, HD3SS3220_REG_CN_STAT_CTRL, &data);
-1c48c759ef4bb9 Biju Das 2019-09-04  196  	if (ret < 0)
-1c48c759ef4bb9 Biju Das 2019-09-04  197  		goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  198  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  199  	if (data & HD3SS3220_REG_CN_STAT_=
-CTRL_INT_STATUS) {
-1c48c759ef4bb9 Biju Das 2019-09-04  200  		ret =3D regmap_write(hd3ss3220->=
-regmap,
-1c48c759ef4bb9 Biju Das 2019-09-04  201  				HD3SS3220_REG_CN_STAT_CTRL,
-1c48c759ef4bb9 Biju Das 2019-09-04  202  				data | HD3SS3220_REG_CN_STAT_C=
-TRL_INT_STATUS);
-1c48c759ef4bb9 Biju Das 2019-09-04  203  		if (ret < 0)
-1c48c759ef4bb9 Biju Das 2019-09-04  204  			goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  205  	}
-1c48c759ef4bb9 Biju Das 2019-09-04  206  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  207  	if (client->irq > 0) {
-1c48c759ef4bb9 Biju Das 2019-09-04  208  		ret =3D devm_request_threaded_ir=
-q(&client->dev, client->irq, NULL,
-1c48c759ef4bb9 Biju Das 2019-09-04  209  					hd3ss3220_irq_handler,
-1c48c759ef4bb9 Biju Das 2019-09-04  210  					IRQF_TRIGGER_FALLING | IRQF_O=
-NESHOT,
-1c48c759ef4bb9 Biju Das 2019-09-04  211  					"hd3ss3220", &client->dev);
-1c48c759ef4bb9 Biju Das 2019-09-04  212  		if (ret)
-1c48c759ef4bb9 Biju Das 2019-09-04  213  			goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  214  	}
-1c48c759ef4bb9 Biju Das 2019-09-04  215  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  216  	ret =3D i2c_smbus_read_byte_data(=
-client, HD3SS3220_REG_DEV_REV);
-1c48c759ef4bb9 Biju Das 2019-09-04  217  	if (ret < 0)
-1c48c759ef4bb9 Biju Das 2019-09-04  218  		goto error;
-1c48c759ef4bb9 Biju Das 2019-09-04  219  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  220  	dev_info(&client->dev, "probed re=
-vision=3D0x%x\n", ret);
-1c48c759ef4bb9 Biju Das 2019-09-04  221  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  222  	return 0;
-1c48c759ef4bb9 Biju Das 2019-09-04  223  error:
-1c48c759ef4bb9 Biju Das 2019-09-04  224  	typec_unregister_port(hd3ss3220->=
-port);
-1c48c759ef4bb9 Biju Das 2019-09-04  225  	usb_role_switch_put(hd3ss3220->ro=
-le_sw);
-1c48c759ef4bb9 Biju Das 2019-09-04  226  =
-
-1c48c759ef4bb9 Biju Das 2019-09-04  227  	return ret;
-1c48c759ef4bb9 Biju Das 2019-09-04  228  }
+be1087a2f14d66 drivers/gpu/drm/i915/display/intel_ddi.c Lucas De Marchi    =
+         2019-11-05 @4717  	drm_encoder_init(&dev_priv->drm, &encoder->base=
+, &intel_ddi_funcs,
 
 ---
-0-DAY kernel test infrastructure                Open Source Technology Cent=
-er
-https://lists.01.org/pipermail/kbuild-all                   Intel Corporati=
-on
---===============2285391867383186913==--
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============0224308975574461914==--
 
