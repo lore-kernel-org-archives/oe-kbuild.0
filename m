@@ -1,141 +1,93 @@
-Content-Type: multipart/mixed; boundary="===============6174188698475120026=="
+Content-Type: multipart/mixed; boundary="===============4927148136386709626=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [zx2c4:jd/wireguard-azinc 1/3] drivers/net/wireguard/send.c:180 encrypt_packet() error: uninitialized symbol 'trailer'.
-Date: Mon, 25 Nov 2019 09:24:07 +0300
-Message-ID: <20191125062106.GC1749@kadam>
+Subject: Re: [PATCH v5 25/27] NFS: Add fs_context support.
+Date: Fri, 22 Nov 2019 11:22:25 +0300
+Message-ID: <20191122082225.GG617@kadam>
+In-Reply-To: <20191120152750.6880-26-smayhew@redhat.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6174188698475120026==
+--===============4927148136386709626==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zx2c4/linux.git jd/=
-wireguard-azinc
-head:   a513c826006403507e87a596ee8a00e57c39d6e4
-commit: 2b36c25d88d5f0c47b6fd3e24ef026a10054a4b1 [1/3] net: WireGuard secur=
-e network tunnel
+Hi Scott,
+
+url:    https://github.com/0day-ci/linux/commits/Scott-Mayhew/nfs-Mount-API=
+-conversion/20191121-164447
+base:    af42d3466bdc8f39806b26f593604fdc54140bcb
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/wireguard/socket.c:413 wg_socket_init() warn: variable derefere=
-nced before check 'new4' (see line 393)
-drivers/net/wireguard/selftest/allowedips.c:419 randomized_test() error: do=
-uble lock 'mutex:&mutex'
+smatch warnings:
+fs/nfs/nfs4namespace.c:147 nfs4_validate_fspath() error: uninitialized symb=
+ol 'len'.
+fs/nfs/nfs4namespace.c:149 nfs4_validate_fspath() error: 'fs_path' derefere=
+ncing possible ERR_PTR()
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/zx2c4/linux.git/commit/?i=
-d=3D2b36c25d88d5f0c47b6fd3e24ef026a10054a4b1
-git remote add zx2c4 https://git.kernel.org/pub/scm/linux/kernel/git/zx2c4/=
-linux.git
-git remote update zx2c4
-git checkout 2b36c25d88d5f0c47b6fd3e24ef026a10054a4b1
+# https://github.com/0day-ci/linux/commit/deebb47534c8b45696a02a0d8aff35b23=
+2b24e15
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout deebb47534c8b45696a02a0d8aff35b232b24e15
+vim +/len +147 fs/nfs/nfs4namespace.c
 
-drivers/net/wireguard/socket.c
-   387  =
+b514f872f86d4b Al Viro       2011-03-16  129  static int nfs4_validate_fspa=
+th(struct dentry *dentry,
+54ceac45159860 David Howells 2006-08-22  130  				const struct nfs4_fs_loca=
+tions *locations,
+deebb47534c8b4 David Howells 2019-11-20  131  				struct nfs_fs_context *ct=
+x)
+54ceac45159860 David Howells 2006-08-22  132  {
+54ceac45159860 David Howells 2006-08-22  133  	const char *path, *fs_path;
+deebb47534c8b4 David Howells 2019-11-20  134  	char *buf;
+deebb47534c8b4 David Howells 2019-11-20  135  	unsigned short len;
+deebb47534c8b4 David Howells 2019-11-20  136  	int n;
+54ceac45159860 David Howells 2006-08-22  137  =
 
-   388          ret =3D udp_sock_create(wg->creating_net, &port4, &new4);
-   389          if (ret < 0) {
-   390                  pr_err("%s: Could not create IPv4 socket\n", wg->de=
-v->name);
-   391                  return ret;
-   392          }
-   393          set_sock_opts(new4);
-                ^^^^^^^^^^^^^^^^^^^
-Dereferenced
+deebb47534c8b4 David Howells 2019-11-20  138  	buf =3D kmalloc(4096, GFP_KE=
+RNEL);
+deebb47534c8b4 David Howells 2019-11-20  139  	path =3D nfs4_path(dentry, b=
+uf, 4096);
+deebb47534c8b4 David Howells 2019-11-20  140  	if (IS_ERR(path)) {
+deebb47534c8b4 David Howells 2019-11-20  141  		kfree(buf);
+54ceac45159860 David Howells 2006-08-22  142  		return PTR_ERR(path);
+deebb47534c8b4 David Howells 2019-11-20  143  	}
+54ceac45159860 David Howells 2006-08-22  144  =
 
-   394          setup_udp_tunnel_sock(wg->creating_net, new4, &cfg);
-   395  =
+deebb47534c8b4 David Howells 2019-11-20  145  	fs_path =3D nfs4_pathname_st=
+ring(&locations->fs_path, &len);
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^
+Both warnings are because Smatch thinks nfs4_pathname_string() can
+return an error pointer without initializing "len".
 
-   396  #if IS_ENABLED(CONFIG_IPV6)
-   397          if (ipv6_mod_enabled()) {
-   398                  port6.local_udp_port =3D inet_sk(new4->sk)->inet_sp=
-ort;
-   399                  ret =3D udp_sock_create(wg->creating_net, &port6, &=
-new6);
-   400                  if (ret < 0) {
-   401                          udp_tunnel_sock_release(new4);
-   402                          if (ret =3D=3D -EADDRINUSE && !port && retr=
-ies++ < 100)
-   403                                  goto retry;
-   404                          pr_err("%s: Could not create IPv6 socket\n",
-   405                                 wg->dev->name);
-   406                          return ret;
-   407                  }
-   408                  set_sock_opts(new6);
-   409                  setup_udp_tunnel_sock(wg->creating_net, new6, &cfg);
-   410          }
-   411  #endif
-   412  =
+54ceac45159860 David Howells 2006-08-22  146  =
 
-   413          wg_socket_reinit(wg, new4 ? new4->sk : NULL, new6 ? new6->s=
-k : NULL);
-                                     ^^^^
-This check can be removed.
+deebb47534c8b4 David Howells 2019-11-20 @147  	n =3D strncmp(path, fs_path,=
+ len);
+deebb47534c8b4 David Howells 2019-11-20  148  	kfree(buf);
+deebb47534c8b4 David Howells 2019-11-20 @149  	kfree(fs_path);
+deebb47534c8b4 David Howells 2019-11-20  150  	if (n !=3D 0) {
+54ceac45159860 David Howells 2006-08-22  151  		dprintk("%s: path %s does n=
+ot begin with fsroot %s\n",
+deebb47534c8b4 David Howells 2019-11-20  152  			__func__, path, ctx->nfs_s=
+erver.export_path);
+54ceac45159860 David Howells 2006-08-22  153  		return -ENOENT;
+54ceac45159860 David Howells 2006-08-22  154  	}
+54ceac45159860 David Howells 2006-08-22  155  =
 
-   414          return 0;
-   415  }
-
-drivers/net/wireguard/selftest/allowedips.c
-   301          mutex_lock(&mutex);
-   302  =
-
-   303          for (i =3D 0; i < NUM_RAND_ROUTES; ++i) {
-   304                  prandom_bytes(ip, 4);
-   305                  cidr =3D prandom_u32_max(32) + 1;
-   306                  peer =3D peers[prandom_u32_max(NUM_PEERS)];
-   307                  if (wg_allowedips_insert_v4(&t, (struct in_addr *)i=
-p, cidr,
-   308                                              peer, &mutex) < 0) {
-   309                          pr_err("allowedips random self-test malloc:=
- FAIL\n");
-   310                          goto free;
-                                ^^^^^^^^^^
-Mutex non necessarily released on error.
-
-   311                  }
-   312                  if (horrible_allowedips_insert_v4(&h, (struct in_ad=
-dr *)ip,
-   313                                                    cidr, peer) < 0) {
-   314                          pr_err("allowedips random self-test malloc:=
- FAIL\n");
-   315                          goto free;
-   316                  }
-   317                  for (j =3D 0; j < NUM_MUTATED_ROUTES; ++j) {
-   318                          memcpy(mutated, ip, 4);
-   319                          prandom_bytes(mutate_mask, 4);
-   320                          mutate_amount =3D prandom_u32_max(32);
-   321                          for (k =3D 0; k < mutate_amount / 8; ++k)
-
-[ snip ]
-
-   418  free:
-   419          mutex_lock(&mutex);
-                ^^^^^^^^^^^^^^^^^^
-Double lock.
-
-   420          wg_allowedips_free(&t, &mutex);
-   421          mutex_unlock(&mutex);
-   422          horrible_allowedips_free(&h);
-   423          if (peers) {
-   424                  for (i =3D 0; i < NUM_PEERS; ++i)
-   425                          kfree(peers[i]);
-   426          }
-   427          kfree(peers);
-   428          return ret;
-   429  }
-   430  =
-
-
+54ceac45159860 David Howells 2006-08-22  156  	return 0;
+54ceac45159860 David Howells 2006-08-22  157  }
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Cen=
 ter
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org Intel Corpor=
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
 ation
---===============6174188698475120026==--
+--===============4927148136386709626==--
 
