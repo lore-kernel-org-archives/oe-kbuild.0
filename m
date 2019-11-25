@@ -1,627 +1,149 @@
-Content-Type: multipart/mixed; boundary="===============7957440307863489439=="
+Content-Type: multipart/mixed; boundary="===============1909300683808048980=="
 MIME-Version: 1.0
-From: Rong Chen <rong.a.chen@intel.com>
-Subject: Re: [atishp04:efi_stub 1/1] drivers/firmware/efi/libstub/arm-stub.c:203:7: warning: variable 'secure_boot' is uninitialized when used here
-Date: Mon, 25 Nov 2019 16:10:59 +0800
-Message-ID: <07bd7e95-c28e-6890-96e6-1a1c3b97dbcd@intel.com>
-In-Reply-To: <CAKwvOdkntuMELqccE2UT9p0878OWnGLDWfqaxeB7wHSJNRXETw@mail.gmail.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH 2/2] tty: add retry to tty_init_dev() to workaround a race condition
+Date: Mon, 25 Nov 2019 09:27:22 +0300
+Message-ID: <20191125062722.GD1749@kadam>
+In-Reply-To: <20191120151709.14148-2-sudipm.mukherjee@gmail.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7957440307863489439==
+--===============1909300683808048980==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Nick,
+Hi Sudip,
 
-On 11/22/19 3:10 AM, Nick Desaulniers wrote:
-> On Wed, Nov 20, 2019 at 2:46 PM Atish Patra <Atish.Patra@wdc.com> wrote:
->> On Mon, 2019-11-18 at 22:39 -0800, Nick Desaulniers wrote:
->>> Atish, below is a report from 0day bot from a build with Clang. The
->>> warning looks legit, can you please take a look?
->>>
->> Hi Nick,
->> Thanks for the email. This is a work in progress branch. Is there way
->> not to trigger kbuild tests on this branch ?
-> That's a common question that Rong or Philip can answer (I forgot what
-> the answer has been in the past).  Rong/Philip, it may be good to have
-> a URL/link that I can point people to in the future, since it's a FAQ.
+[auto build test WARNING on v5.4-rc8]
+[cannot apply to tty/tty-testing next-20191122]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
 
-We have blacklisted "efi_stub" and "wip_.*" branches for Atish. In =
+url:    https://github.com/0day-ci/linux/commits/Sudip-Mukherjee/tty-remove=
+-unused-argument-from-tty_open_by_driver/20191123-164153
+base:    af42d3466bdc8f39806b26f593604fdc54140bcb
 
-general, branches named as ".*experimental.*" or ".*dont-build"
-won't be tested by default. and we have a doc to introduce basic =
+If you fix the issue, kindly add following tag
+Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-configurations: https://github.com/intel/lkp-tests/wiki/Repo-Spec
+smatch warnings:
+drivers/tty/tty_io.c:1360 tty_init_dev() error: we previously assumed 'tty-=
+>port' could be null (see line 1348)
 
-Best Regards,
-Rong Chen
+# https://github.com/0day-ci/linux/commit/8de47da07f8c6fe6f631965cafb384cd0=
+d72ce40
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 8de47da07f8c6fe6f631965cafb384cd0d72ce40
+vim +1360 drivers/tty/tty_io.c
 
->
->> --
->> Regards,
->> Atish
->>
->>
->>> On Mon, Nov 18, 2019 at 10:17 PM kbuild test robot <lkp@intel.com>
->>> wrote:
->>>> CC: kbuild-all(a)lists.01.org
->>>> TO: Atish Patra <atish.patra@wdc.com>
->>>>
->>>> tree:   https://github.com/atishp04/linux efi_stub
->>>> head:   7dbf2060ab3115d2edcfba8f0f677a321a1611f1
->>>> commit: 7dbf2060ab3115d2edcfba8f0f677a321a1611f1 [1/1] Add efi stub
->>>> config: arm64-defconfig (attached as .config)
->>>> compiler: clang version 10.0.0 (git://gitmirror/llvm_project
->>>> 0213adde218530bc31e5c4e50b49704c6bb2f2e9)
->>>> reproduce:
->>>>          wget
->>>> https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cro=
-ss
->>>> -O ~/bin/make.cross
->>>>          chmod +x ~/bin/make.cross
->>>>          git checkout 7dbf2060ab3115d2edcfba8f0f677a321a1611f1
->>>>          # save the attached .config to linux build tree
->>>>          make.cross ARCH=3Darm64
->>>>
->>>> If you fix the issue, kindly add following tag
->>>> Reported-by: kbuild test robot <lkp@intel.com>
->>>>
->>>> All warnings (new ones prefixed by >>):
->>>>
->>>>     drivers/firmware/efi/libstub/arm-stub.c:132:22: warning: unused
->>>> variable 'si' [-Wunused-variable]
->>>>             struct screen_info *si;
->>>>                                 ^
->>>>>> drivers/firmware/efi/libstub/arm-stub.c:203:7: warning:
->>>>>> variable 'secure_boot' is uninitialized when used here [-
->>>>>> Wuninitialized]
->>>>                  secure_boot !=3D efi_secureboot_mode_disabled) {
->>>>                  ^~~~~~~~~~~
->>>>     drivers/firmware/efi/libstub/arm-stub.c:131:2: note: variable
->>>> 'secure_boot' is declared here
->>>>             enum efi_secureboot_mode secure_boot;
->>>>             ^
->>>>     2 warnings generated.
->>>>
->>>> vim +/secure_boot +203 drivers/firmware/efi/libstub/arm-stub.c
->>>>
->>>> b844470f22061e drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2018-09-21   92
->>>> b844470f22061e drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2018-09-21   93
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15   94  /*
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15   95   * This function handles the
->>>> architcture specific differences between arm and
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15   96   * arm64 regarding where the kernel
->>>> image must be loaded and any memory that
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15   97   * must be reserved. On failure it is
->>>> required to free all
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15   98   * all allocations it has made.
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15   99   */
->>>> bd669475d14e32 drivers/firmware/efi/arm-stub.c         Ard
->>>> Biesheuvel  2014-07-02  100  efi_status_t
->>>> handle_kernel_image(efi_system_table_t *sys_table,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  101                                   unsigned long
->>>> *image_addr,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  102                                   unsigned long
->>>> *image_size,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  103                                   unsigned long
->>>> *reserve_addr,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  104                                   unsigned long
->>>> *reserve_size,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  105                                   unsigned long dram_base,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  106                                   efi_loaded_image_t
->>>> *image);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  107  /*
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  108   * EFI entry point for the arm/arm64
->>>> EFI stubs.  This is the entrypoint
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  109   * that is described in the PE/COFF
->>>> header.  Most of the code is the same
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  110   * for both archictectures, with the
->>>> arch-specific code provided in the
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  111   * handle_kernel_image() function.
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  112   */
->>>> ddeeefe2dfbe1f drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2015-01-12  113  unsigned long efi_entry(void *handle,
->>>> efi_system_table_t *sys_table,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  114                                 unsigned
->>>> long *image_addr)
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  115  {
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  116          efi_loaded_image_t *image;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  117          efi_status_t status;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  118          unsigned long image_size =3D 0;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  119          unsigned long dram_base;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  120          /* addr/point and size pairs
->>>> for memory management*/
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  121          unsigned long initrd_addr;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  122          u64 initrd_size =3D 0;
->>>> 345c736edd07b6 drivers/firmware/efi/arm-stub.c         Ard
->>>> Biesheuvel  2014-04-03  123          unsigned long fdt_addr =3D
->>>> 0;  /* Original DTB */
->>>> a643375f4b1755 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2015-03-04  124          unsigned long fdt_size =3D 0;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  125          char *cmdline_ptr =3D NULL;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  126          int cmdline_size =3D 0;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  127          unsigned long new_fdt_addr;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  128          efi_guid_t loaded_image_proto =3D
->>>> LOADED_IMAGE_PROTOCOL_GUID;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  129          unsigned long reserve_addr =3D 0;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  130          unsigned long reserve_size =3D 0;
->>>> de8cb458625c16 drivers/firmware/efi/libstub/arm-stub.c David
->>>> Howells   2017-02-06  131          enum efi_secureboot_mode
->>>> secure_boot;
->>>> f0827e18a7a1da drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-04-25 @132          struct screen_info *si;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  133
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  134          /* Check if we were booted by
->>>> the EFI firmware */
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  135          if (sys_table->hdr.signature !=3D
->>>> EFI_SYSTEM_TABLE_SIGNATURE)
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  136                  goto fail;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  137
->>>> b9d6769b5678db drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-02-17  138          status =3D
->>>> check_platform_features(sys_table);
->>>> b9d6769b5678db drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-02-17  139          if (status !=3D EFI_SUCCESS)
->>>> b9d6769b5678db drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-02-17  140                  goto fail;
->>>> b9d6769b5678db drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-02-17  141
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  142          /*
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  143           * Get a handle to the loaded
->>>> image protocol.  This is used to get
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  144           * information about the
->>>> running image, such as size and the command
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  145           * line.
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  146           */
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  147          status =3D sys_table->boottime-
->>>>> handle_protocol(handle,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  148                                          &loaded_image_prot
->>>> o, (void *)&image);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  149          if (status !=3D EFI_SUCCESS) {
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  150                  pr_efi_err(sys_table,
->>>> "Failed to get loaded image protocol\n");
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  151                  goto fail;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  152          }
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  153
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  154          dram_base =3D
->>>> get_dram_base(sys_table);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  155          if (dram_base =3D=3D EFI_ERROR) {
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  156                  pr_efi_err(sys_table,
->>>> "Failed to find DRAM base\n");
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  157                  goto fail;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  158          }
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  159
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  160          /*
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  161           * Get the command line from
->>>> EFI, using the LOADED_IMAGE
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  162           * protocol. We are going to
->>>> copy the command line into the
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  163           * device tree, so this can be
->>>> allocated anywhere.
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  164           */
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  165          cmdline_ptr =3D
->>>> efi_convert_cmdline(sys_table, image, &cmdline_size);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  166          if (!cmdline_ptr) {
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  167                  pr_efi_err(sys_table,
->>>> "getting command line via LOADED_IMAGE_PROTOCOL\n");
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  168                  goto fail;
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  169          }
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  170
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  171          if
->>>> (IS_ENABLED(CONFIG_CMDLINE_EXTEND) ||
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  172              IS_ENABLED(CONFIG_CMDLINE_FORCE) ||
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  173              cmdline_size =3D=3D 0)
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  174                  efi_parse_options(CONFIG_CMDLINE);
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  175
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  176          if
->>>> (!IS_ENABLED(CONFIG_CMDLINE_FORCE) && cmdline_size > 0)
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  177                  efi_parse_options(cmdline_ptr);
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  178
->>>> eeff7d634f4750 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  179          pr_efi(sys_table, "Booting
->>>> Linux Kernel...\n");
->>>> 7dbf2060ab3115 drivers/firmware/efi/libstub/arm-stub.c Atish
->>>> Patra     2019-11-18  180  #if 0
->>>> f0827e18a7a1da drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-04-25  181          si =3D
->>>> setup_graphics(sys_table);
->>>> 7dbf2060ab3115 drivers/firmware/efi/libstub/arm-stub.c Atish
->>>> Patra     2019-11-18  182  #endif
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  183          status =3D
->>>> handle_kernel_image(sys_table, image_addr, &image_size,
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-
->>>> 26  184                                       &reserve_addr,
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-
->>>> 26  185                                       &reserve_size,
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-
->>>> 26  186                                       dram_base, image);
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  187          if (status !=3D EFI_SUCCESS) {
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  188                  pr_efi_err(sys_table,
->>>> "Failed to relocate kernel\n");
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  189                  goto
->>>> fail_free_cmdline;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  190          }
->>>> 7dbf2060ab3115 drivers/firmware/efi/libstub/arm-stub.c Atish
->>>> Patra     2019-11-18  191  #if 0
->>>> ccc829ba3624be drivers/firmware/efi/libstub/arm-stub.c Matthew
->>>> Garrett 2017-08-25  192          /* Ask the firmware to clear
->>>> memory on unclean shutdown */
->>>> ccc829ba3624be drivers/firmware/efi/libstub/arm-stub.c Matthew
->>>> Garrett 2017-08-
->>>> 25  193          efi_enable_reset_attack_mitigation(sys_table);
->>>> ccc829ba3624be drivers/firmware/efi/libstub/arm-stub.c Matthew
->>>> Garrett 2017-08-25  194
->>>> 73a6492589c87c drivers/firmware/efi/libstub/arm-stub.c Linn
->>>> Crosetto   2016-04-25  195          secure_boot =3D
->>>> efi_get_secureboot(sys_table);
->>>> 7dbf2060ab3115 drivers/firmware/efi/libstub/arm-stub.c Atish
->>>> Patra     2019-11-18  196  #endif
->>>> 345c736edd07b6 drivers/firmware/efi/arm-stub.c         Ard
->>>> Biesheuvel  2014-04-03  197          /*
->>>> de8cb458625c16 drivers/firmware/efi/libstub/arm-stub.c David
->>>> Howells   2017-02-06  198           * Unauthenticated device tree
->>>> data is a security hazard, so ignore
->>>> de8cb458625c16 drivers/firmware/efi/libstub/arm-stub.c David
->>>> Howells   2017-02-06  199           * 'dtb=3D' unless UEFI Secure
->>>> Boot is disabled.  We assume that secure
->>>> de8cb458625c16 drivers/firmware/efi/libstub/arm-stub.c David
->>>> Howells   2017-02-06  200           * boot is enabled if we can't
->>>> determine its state.
->>>> 345c736edd07b6 drivers/firmware/efi/arm-stub.c         Ard
->>>> Biesheuvel  2014-04-03  201           */
->>>> 3d7ee348aa4127 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2018-07-11  202          if
->>>> (!IS_ENABLED(CONFIG_EFI_ARMSTUB_DTB_LOADER) ||
->>>> 3d7ee348aa4127 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2018-07-11 @203               secure_boot !=3D
->>>> efi_secureboot_mode_disabled) {
->>>> 3d7ee348aa4127 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2018-07-11  204                  if
->>>> (strstr(cmdline_ptr, "dtb=3D"))
->>>> 73a6492589c87c drivers/firmware/efi/libstub/arm-stub.c Linn
->>>> Crosetto   2016-04-
->>>> 25  205                          pr_efi(sys_table, "Ignoring DTB
->>>> from command line.\n");
->>>> 345c736edd07b6 drivers/firmware/efi/arm-stub.c         Ard
->>>> Biesheuvel  2014-04-03  206          } else {
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  207                  status =3D
->>>> handle_cmdline_files(sys_table, image, cmdline_ptr,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  208                                                "dtb=3D",
->>>> a643375f4b1755 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2015-03-
->>>> 04  209                                                ~0UL,
->>>> &fdt_addr, &fdt_size);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  210
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  211                  if (status !=3D
->>>> EFI_SUCCESS) {
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  212                          pr_efi_err(sys_table, "Failed to
->>>> load device tree!\n");
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  213                          goto
->>>> fail_free_image;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  214                  }
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  215          }
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  216
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  217          if (fdt_addr) {
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  218                  pr_efi(sys_table,
->>>> "Using DTB from command line\n");
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  219          } else {
->>>> 345c736edd07b6 drivers/firmware/efi/arm-stub.c         Ard
->>>> Biesheuvel  2014-04-03  220                  /* Look for a device
->>>> tree configuration table entry. */
->>>> a643375f4b1755 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2015-03-04  221                  fdt_addr =3D
->>>> (uintptr_t)get_fdt(sys_table, &fdt_size);
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  222                  if (fdt_addr)
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-
->>>> 23  223                          pr_efi(sys_table, "Using DTB from
->>>> configuration table\n");
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  224          }
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  225
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  226          if (!fdt_addr)
->>>> 0bcaa9040d0586 drivers/firmware/efi/libstub/arm-stub.c Mark
->>>> Rutland    2014-10-23  227                  pr_efi(sys_table,
->>>> "Generating empty DTB\n");
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  228
->>>> 138728dd4ee30d drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  229          status =3D
->>>> handle_cmdline_files(sys_table, image, cmdline_ptr, "initrd=3D",
->>>> 138728dd4ee30d drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  230                                        efi_get_max_initrd_a
->>>> ddr(dram_base,
->>>> 138728dd4ee30d drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  231
->>>>      *image_addr),
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  232                                        (unsigned long
->>>> *)&initrd_addr,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  233                                        (unsigned long
->>>> *)&initrd_size);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  234          if (status !=3D EFI_SUCCESS)
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  235                  pr_efi_err(sys_table,
->>>> "Failed initrd from command line!\n");
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  236
->>>> 568bc4e87033d2 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-11-
->>>> 12  237          efi_random_get_seed(sys_table);
->>>> 568bc4e87033d2 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-11-12  238
->>>> 38fb6652229c21 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-10-25  239          /* hibernation expects the
->>>> runtime regions to stay in the same place */
->>>> 38fb6652229c21 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-10-25  240          if
->>>> (!IS_ENABLED(CONFIG_HIBERNATION) && !nokaslr()) {
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  241                  /*
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  242                   * Randomize the base
->>>> of the UEFI runtime services region.
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  243                   * Preserve the 2 MB
->>>> alignment of the region by taking a
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  244                   * shift of 21 bit
->>>> positions into account when scaling
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  245                   * the headroom value
->>>> using a 32-bit random value.
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  246                   */
->>>> 197decefdb79d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-17  247                  static const u64
->>>> headroom =3D EFI_RT_VIRTUAL_LIMIT -
->>>> 197decefdb79d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 17  248                                              EFI_RT_VIRTUAL
->>>> _BASE -
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  249                                              EFI_RT_VIRTUAL
->>>> _SIZE;
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  250                  u32 rnd;
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  251
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  252                  status =3D
->>>> efi_get_random_bytes(sys_table, sizeof(rnd),
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  253                                                (u8 *)&rnd);
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  254                  if (status =3D=3D
->>>> EFI_SUCCESS) {
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  255                          virtmap_base =3D
->>>> EFI_RT_VIRTUAL_BASE +
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  256                                         (((headroom >> 21)
->>>> * rnd) >> (32 - 21));
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  257                  }
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  258          }
->>>> e69176d68d26d6 drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-04  259
->>>> b844470f22061e drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2018-09-
->>>> 21  260          install_memreserve_table(sys_table);
->>>> b844470f22061e drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2018-09-21  261
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  262          new_fdt_addr =3D fdt_addr;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  263          status =3D
->>>> allocate_new_fdt_and_exit_boot(sys_table, handle,
->>>> 138728dd4ee30d drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2017-04-
->>>> 04  264                                  &new_fdt_addr,
->>>> efi_get_max_fdt_addr(dram_base),
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  265                                  initrd_addr, initrd_size,
->>>> cmdline_ptr,
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-
->>>> 15  266                                  fdt_addr, fdt_size);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  267
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  268          /*
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  269           * If all went well, we need to
->>>> return the FDT address to the
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  270           * calling function so it can
->>>> be passed to kernel as part of
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  271           * the kernel boot protocol.
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  272           */
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  273          if (status =3D=3D EFI_SUCCESS)
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  274                  return new_fdt_addr;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  275
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  276          pr_efi_err(sys_table, "Failed
->>>> to update FDT and exit boot services\n");
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  277
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  278          efi_free(sys_table,
->>>> initrd_size, initrd_addr);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  279          efi_free(sys_table, fdt_size,
->>>> fdt_addr);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  280
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  281  fail_free_image:
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  282          efi_free(sys_table, image_size,
->>>> *image_addr);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  283          efi_free(sys_table,
->>>> reserve_size, reserve_addr);
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  284  fail_free_cmdline:
->>>> 7dbf2060ab3115 drivers/firmware/efi/libstub/arm-stub.c Atish
->>>> Patra     2019-11-18  285          //free_screen_info(sys_table,
->>>> si);
->>>> 2b5fe07a78a09a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2016-01-26  286          efi_free(sys_table,
->>>> cmdline_size, (unsigned long)cmdline_ptr);
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  287  fail:
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  288          return EFI_ERROR;
->>>> 3c7f255039a2ad drivers/firmware/efi/arm-stub.c         Mark
->>>> Salter     2014-04-15  289  }
->>>> f3cdfd239da56a drivers/firmware/efi/libstub/arm-stub.c Ard
->>>> Biesheuvel  2014-10-20  290
->>>>
->>>> :::::: The code at line 203 was first introduced by commit
->>>> :::::: 3d7ee348aa4127a7893c11261da9b76371a970e6 efi/libstub/arm:
->>>> Add opt-in Kconfig option for the DTB loader
->>>>
->>>> :::::: TO: Ard Biesheuvel <ard.biesheuvel@linaro.org>
->>>> :::::: CC: Ingo Molnar <mingo@kernel.org>
->>>>
->>>> ---
->>>> 0-DAY kernel test infrastructure                 Open Source
->>>> Technology Center
->>>> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel
->>>> Corporation
->>>
->
+8de47da07f8c6f drivers/tty/tty_io.c  Sudip Mukherjee     2019-11-20  1318  =
+struct tty_struct *tty_init_dev(struct tty_driver *driver, int idx,
+8de47da07f8c6f drivers/tty/tty_io.c  Sudip Mukherjee     2019-11-20  1319  =
+				int retry)
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1320  {
+bf970ee46e0fb3 drivers/char/tty_io.c Alan Cox            2008-10-13  1321  =
+	struct tty_struct *tty;
+73ec06fc5f5c8e drivers/char/tty_io.c Alan Cox            2008-10-13  1322  =
+	int retval;
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1323  =
 
---===============7957440307863489439==--
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1324  =
+	/*
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1325  =
+	 * First time open is complex, especially for PTY devices.
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1326  =
+	 * This code guarantees that either everything succeeds and the
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1327  =
+	 * TTY is ready for operation, or else the table slots are vacated
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1328  =
+	 * and the allocated memory released.  (Except that the termios
+16b00ae82dce0e drivers/tty/tty_io.c  Johan Hovold        2017-03-30  1329  =
+	 * may be retained.)
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1330  =
+	 */
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1331  =
+
+73ec06fc5f5c8e drivers/char/tty_io.c Alan Cox            2008-10-13  1332  =
+	if (!try_module_get(driver->owner))
+73ec06fc5f5c8e drivers/char/tty_io.c Alan Cox            2008-10-13  1333  =
+		return ERR_PTR(-ENODEV);
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1334  =
+
+2c964a2f4191f2 drivers/tty/tty_io.c  Rasmus Villemoes    2014-07-10  1335  =
+	tty =3D alloc_tty_struct(driver, idx);
+d5543503753983 drivers/tty/tty_io.c  Jiri Slaby          2011-03-23  1336  =
+	if (!tty) {
+d5543503753983 drivers/tty/tty_io.c  Jiri Slaby          2011-03-23  1337  =
+		retval =3D -ENOMEM;
+d5543503753983 drivers/tty/tty_io.c  Jiri Slaby          2011-03-23  1338  =
+		goto err_module_put;
+d5543503753983 drivers/tty/tty_io.c  Jiri Slaby          2011-03-23  1339  =
+	}
+^1da177e4c3f41 drivers/char/tty_io.c Linus Torvalds      2005-04-16  1340  =
+
+89c8d91e31f267 drivers/tty/tty_io.c  Alan Cox            2012-08-08  1341  =
+	tty_lock(tty);
+73ec06fc5f5c8e drivers/char/tty_io.c Alan Cox            2008-10-13  1342  =
+	retval =3D tty_driver_install_tty(driver, tty);
+d5543503753983 drivers/tty/tty_io.c  Jiri Slaby          2011-03-23  1343  =
+	if (retval < 0)
+c8b710b3e43481 drivers/tty/tty_io.c  Peter Hurley        2016-01-09  1344  =
+		goto err_free_tty;
+8b0a88d5912ab5 drivers/char/tty_io.c Alan Cox            2008-10-13  1345  =
+
+04831dc154df9b drivers/tty/tty_io.c  Jiri Slaby          2012-06-04  1346  =
+	if (!tty->port)
+04831dc154df9b drivers/tty/tty_io.c  Jiri Slaby          2012-06-04  1347  =
+		tty->port =3D driver->ports[idx];
+8de47da07f8c6f drivers/tty/tty_io.c  Sudip Mukherjee     2019-11-20 @1348  =
+	if (!tty->port && retry) {
+                                                                           =
+         ^^^^^^^^^^
+Check
+
+8de47da07f8c6f drivers/tty/tty_io.c  Sudip Mukherjee     2019-11-20  1349  =
+		retval =3D -EAGAIN;
+8de47da07f8c6f drivers/tty/tty_io.c  Sudip Mukherjee     2019-11-20  1350  =
+		goto err_release_driver;
+8de47da07f8c6f drivers/tty/tty_io.c  Sudip Mukherjee     2019-11-20  1351  =
+	}
+04831dc154df9b drivers/tty/tty_io.c  Jiri Slaby          2012-06-04  1352  =
+
+5d4121c04b3577 drivers/tty/tty_io.c  Jiri Slaby          2012-08-17  1353  =
+	WARN_RATELIMIT(!tty->port,
+5d4121c04b3577 drivers/tty/tty_io.c  Jiri Slaby          2012-08-17  1354  =
+			"%s: %s driver does not set tty->port. This will crash the kernel later.=
+ Fix the driver!\n",
+5d4121c04b3577 drivers/tty/tty_io.c  Jiri Slaby          2012-08-17  1355  =
+			__func__, tty->driver->name);
+5d4121c04b3577 drivers/tty/tty_io.c  Jiri Slaby          2012-08-17  1356  =
+
+b027e2298bd588 drivers/tty/tty_io.c  Gaurav Kohli        2018-01-23  1357  =
+	retval =3D tty_ldisc_lock(tty, 5 * HZ);
+b027e2298bd588 drivers/tty/tty_io.c  Gaurav Kohli        2018-01-23  1358  =
+	if (retval)
+b027e2298bd588 drivers/tty/tty_io.c  Gaurav Kohli        2018-01-23  1359  =
+		goto err_release_lock;
+967fab6916681e drivers/tty/tty_io.c  Jiri Slaby          2012-10-18 @1360  =
+	tty->port->itty =3D tty;
+                                                                           =
+     ^^^^^^^^^^^^^^^^^^^^^^
+Unchecked dereference.
+
+967fab6916681e drivers/tty/tty_io.c  Jiri Slaby          2012-10-18  1361  =
+
+
+---
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============1909300683808048980==--
 
