@@ -1,63 +1,122 @@
-Content-Type: multipart/mixed; boundary="===============8130759612917852375=="
+Content-Type: multipart/mixed; boundary="===============2778702801860085226=="
 MIME-Version: 1.0
-From: Rong Chen <rong.a.chen@intel.com>
-Subject: Re: [atishp04:efi_stub 1/1] drivers/firmware/efi/libstub/arm-stub.c:203:7: warning: variable 'secure_boot' is uninitialized when used here
-Date: Tue, 03 Dec 2019 16:52:20 +0800
-Message-ID: <0960ae97-8758-628e-7c42-2d0f982c3759@intel.com>
-In-Reply-To: <CAKwvOdkoixg0D0_6F7v=PyhkgbR6UEe1CHKYM3M=5PrwtLkdgw@mail.gmail.com>
+From: Philip Li <philip.li@intel.com>
+Subject: Re: [PATCH 05/22] btrfs: add the beginning of async discard, discard workqueue
+Date: Tue, 26 Nov 2019 12:09:08 +0800
+Message-ID: <20191126040908.GE26032@intel.com>
+In-Reply-To: <CAKwvOdnp6kjJkmnDj=bmnN-VaRrNunNCQ5ngUNbCEUXCqYvq5w@mail.gmail.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8130759612917852375==
+--===============2778702801860085226==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+On Mon, Nov 25, 2019 at 05:47:00PM -0800, Nick Desaulniers wrote:
+> On Mon, Nov 25, 2019 at 5:35 PM Philip Li <philip.li@intel.com> wrote:
+> >
+> > On Mon, Nov 25, 2019 at 11:39:08AM -0800, Nick Desaulniers wrote:
+> > > On Mon, Nov 25, 2019 at 10:59 AM Dennis Zhou <dennis@kernel.org> wr=
+ote:
+> > > >
+> > > > On Thu, Nov 21, 2019 at 08:27:43PM -0800, Nick Desaulniers wrote:
+> > > > > Hi Dennis,
+> > > > > Below is a 0day bot report from a build w/ Clang. Warning looks l=
+egit,
+> > > > > can you please take a look?
+> > > > >
+> > > >
+> > > > Ah thanks for this! Yeah that was a miss when I switched from flags=
+ ->
+> > > > an enum and didn't update the declaration properly. I'll be sending=
+ out
+> > > > a v4 as another fix for arm has some rebase conflicts.
+> > > >
+> > > > Is there a way to enable so I get these emails directly?
+> > >
+> > > + Rong, Philip
+> > >
+> > > The reports have only been sent to our mailing list where we've been
+> > > manually triaging them.  The issue with enabling them globally was
+> > > that the script to reproduce the warning still doesn't mention how to
+> > > build w/ Clang.
+Hi Nick, i forgot one question. Is it still expected to use latest clang
+to build test? Any possibility the issue is related to clang compiler itsel=
+f?
 
+Thanks
 
-On 11/26/19 2:11 AM, Nick Desaulniers wrote:
-> On Mon, Nov 25, 2019 at 12:11 AM Rong Chen <rong.a.chen@intel.com> wrot=
-e:
->> Hi Nick,
->>
->> On 11/22/19 3:10 AM, Nick Desaulniers wrote:
->>> On Wed, Nov 20, 2019 at 2:46 PM Atish Patra <Atish.Patra@wdc.com> wro=
-te:
->>>> On Mon, 2019-11-18 at 22:39 -0800, Nick Desaulniers wrote:
->>>>> Atish, below is a report from 0day bot from a build with Clang. The
->>>>> warning looks legit, can you please take a look?
->>>>>
->>>> Hi Nick,
->>>> Thanks for the email. This is a work in progress branch. Is there way
->>>> not to trigger kbuild tests on this branch ?
->>> That's a common question that Rong or Philip can answer (I forgot what
->>> the answer has been in the past).  Rong/Philip, it may be good to have
->>> a URL/link that I can point people to in the future, since it's a FAQ.
->> We have blacklisted "efi_stub" and "wip_.*" branches for Atish. In
->> general, branches named as ".*experimental.*" or ".*dont-build"
->> won't be tested by default. and we have a doc to introduce basic
->> configurations: https://github.com/intel/lkp-tests/wiki/Repo-Spec
-> Thanks for the link. Looks like it doesn't mention the `wip_`
-> convention, and it says `*experiment*` (more specifically).  Would you
-> mind either adding the note about `wip_` or a new wiki page saying "If
-> you don't want 0day bot to find/test your branches, please use the
-> following naming conventions when pushing branches: XXX."  That way in
-> the future when I nag someone, and it was just an experimental branch,
-> I can just send them the link to the wiki about the convention, and
-> don't have to nag you?
->
->
+> > Thanks Nick for continuous caring on this. One thing we initially worry
+> > is how to avoid duplicated reports to developer, like the one that can
+> > be same as gcc's finding. We haven't found a way to effectively handle
+> > this.
+> =
 
-Hi Nick,
+> Thanks for maintaining an invaluable tool.
+> =
 
-Sorry for the delay,=C2=A0 I just got the permission to write a doc in =
+> How would the reports be duplicated? Does 0day bot build with GCC,
+> then rebuild with Clang?
+> =
 
-github, please see
+> Regardless, does it matter? If I make a mistake, and get two build
+> failure emails from 0day bot instead of one, does it matter? Sometimes
+> developers may just get one, as some warnings are unique to each
+> compiler.  Maybe it runs the risk of folks ignoring the email if the
+> volume is too much, but do authors generally ignore 0day bot emails?
+> (I'd hope not).
+> =
 
-https://github.com/intel/lkp-tests/wiki/LKP-FAQ#is-there-a-way-not-to-trigg=
-er-kbuild-tests-on-a-specific-branch
+> >
+> > >
+> > > In general the reports have been high value (I ignore most reports
+> > > with -Wimplicit-function-declaration, which is the most frequent as it
+> > > shows the patch was not compile tested at all).
+> > Do we mean the report with -Wimplicit-function-declaration can be dupli=
+cated
+> > to gcc, so we can ignore them to avoid duplication to developer?
+> =
 
-Best Regards,
-Rong Chen
---===============8130759612917852375==--
+> Many of the warnings GCC has Clang does as well.
+> -Wimplicit-function-declaration is the most common warning I see in
+> triage, which developers would see regardless of toolchain had they
+> compiled first before pushing.  It might be interesting to see maybe
+> the intersection or common flags between GCC and Clang, and only email
+> Clang reports for warnings unique to clang?  I think CFLAGS can even
+> be passed into make invocations so you could do:
+> $ make CC=3Dclang KBUILD_CFLAGS=3D<list of flags common to GCC and Clang;
+> -Wno-implicit-function-declaration -Wno-...>
+> such that any resulting warnings were unique to Clang.  I'd expect
+> such a list to quickly get stale over time though.
+> =
+
+> >
+> > >
+> > > Rong, Philip, it's been a while since we talked about this last. Is
+> > > there a general timeline of when these reports will be turned on
+> > > globally?  Even if the directions to reproduce aren't quite right,
+> > For the timeline, it's not decided due to the duplication concern. We t=
+end
+> > to look into next year after other priorities are solved for this year.
+> >
+> > > generally there's enough info in the existing bugs where authors can
+> > > rewrite their patch without even needing to rebuild with Clang (though
+> > > having correct directions to reproduce would be nice, we could wait
+> > > until someone asked for them explicitly).
+> > >
+> > > --
+> > > Thanks,
+> > > ~Nick Desaulniers
+> =
+
+> =
+
+> =
+
+> -- =
+
+> Thanks,
+> ~Nick Desaulniers
+--===============2778702801860085226==--
 
