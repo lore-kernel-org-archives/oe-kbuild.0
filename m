@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2778702801860085226=="
+Content-Type: multipart/mixed; boundary="===============4449020689100513263=="
 MIME-Version: 1.0
 From: Philip Li <philip.li@intel.com>
 Subject: Re: [PATCH 05/22] btrfs: add the beginning of async discard, discard workqueue
-Date: Tue, 26 Nov 2019 12:09:08 +0800
-Message-ID: <20191126040908.GE26032@intel.com>
+Date: Tue, 26 Nov 2019 12:07:25 +0800
+Message-ID: <20191126040725.GD26032@intel.com>
 In-Reply-To: <CAKwvOdnp6kjJkmnDj=bmnN-VaRrNunNCQ5ngUNbCEUXCqYvq5w@mail.gmail.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2778702801860085226==
+--===============4449020689100513263==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -41,12 +41,6 @@ egit,
 > > > manually triaging them.  The issue with enabling them globally was
 > > > that the script to reproduce the warning still doesn't mention how to
 > > > build w/ Clang.
-Hi Nick, i forgot one question. Is it still expected to use latest clang
-to build test? Any possibility the issue is related to clang compiler itsel=
-f?
-
-Thanks
-
 > > Thanks Nick for continuous caring on this. One thing we initially worry
 > > is how to avoid duplicated reports to developer, like the one that can
 > > be same as gcc's finding. We haven't found a way to effectively handle
@@ -58,6 +52,9 @@ Thanks
 
 > How would the reports be duplicated? Does 0day bot build with GCC,
 > then rebuild with Clang?
+no, they are built separately. For duplication, i refer to the issue
+can be detected by both tool, and gcc reports out already (or clang first).
+
 > =
 
 > Regardless, does it matter? If I make a mistake, and get two build
@@ -66,6 +63,9 @@ Thanks
 > compiler.  Maybe it runs the risk of folks ignoring the email if the
 > volume is too much, but do authors generally ignore 0day bot emails?
 > (I'd hope not).
+:-) this is a good point, and recently we are working to make the
+service more stable to generate reports in time.
+
 > =
 
 > >
@@ -89,6 +89,9 @@ cated
 > -Wno-implicit-function-declaration -Wno-...>
 > such that any resulting warnings were unique to Clang.  I'd expect
 > such a list to quickly get stale over time though.
+thanks for the idea, we will look into this. =
+
+
 > =
 
 > >
@@ -118,5 +121,5 @@ end
 
 > Thanks,
 > ~Nick Desaulniers
---===============2778702801860085226==--
+--===============4449020689100513263==--
 
