@@ -1,111 +1,150 @@
-Content-Type: multipart/mixed; boundary="===============5560625164509169491=="
+Content-Type: multipart/mixed; boundary="===============4744925554673951300=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Add lmem fault handler
-Date: Fri, 13 Dec 2019 12:49:46 +0300
-Message-ID: <20191213094946.GA2407@kadam>
-In-Reply-To: <20191211055907.8398-1-abdiel.janulgue@linux.intel.com>
+Subject: sound/firewire/motu/motu-pcm.c:191 pcm_open() error: double unlocked 'motu->mutex' (orig line 179)
+Date: Sun, 08 Dec 2019 11:40:34 +0300
+Message-ID: <20191208084034.GU1787@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5560625164509169491==
+--===============4744925554673951300==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Abdiel,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-tip/drm-tip next-20191210]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Abdiel-Janulgue/drm-i915-A=
-dd-lmem-fault-handler/20191212-031235
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   94e89b40235476a83a53a47b9ffb0cb91a4c335e
+commit: 3fd80b2003882b6a328caff9e6b3a14bed61f27c ALSA: firewire-motu: use t=
+he same size of period for PCM substream in AMDTP streams
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_lmem.c:40 vm_fault_lmem() error: uninitia=
-lized symbol 'vmf_ret'.
+sound/firewire/motu/motu-pcm.c:191 pcm_open() error: double unlocked 'motu-=
+>mutex' (orig line 179)
 
-# https://github.com/0day-ci/linux/commit/527bcb2414222221b5b3cea4909756095=
-ae07d6a
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 527bcb2414222221b5b3cea4909756095ae07d6a
-vim +/vmf_ret +40 drivers/gpu/drm/i915/gem/i915_gem_lmem.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D3fd80b2003882b6a328caff9e6b3a14bed61f27c
+git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
+ds/linux.git
+git remote update linus
+git checkout 3fd80b2003882b6a328caff9e6b3a14bed61f27c
+vim +191 sound/firewire/motu/motu-pcm.c
 
-527bcb24142222 Abdiel Janulgue 2019-12-11  12  vm_fault_t vm_fault_lmem(str=
-uct vm_fault *vmf)
-527bcb24142222 Abdiel Janulgue 2019-12-11  13  {
-527bcb24142222 Abdiel Janulgue 2019-12-11  14  	struct vm_area_struct *area=
- =3D vmf->vma;
-527bcb24142222 Abdiel Janulgue 2019-12-11  15  	struct i915_mmap_offset *pr=
-iv =3D area->vm_private_data;
-527bcb24142222 Abdiel Janulgue 2019-12-11  16  	struct drm_i915_gem_object =
-*obj =3D priv->obj;
-527bcb24142222 Abdiel Janulgue 2019-12-11  17  	unsigned long size =3D area=
-->vm_end - area->vm_start;
-527bcb24142222 Abdiel Janulgue 2019-12-11  18  	bool write =3D area->vm_fla=
-gs & VM_WRITE;
-527bcb24142222 Abdiel Janulgue 2019-12-11  19  	vm_fault_t vmf_ret;
-                                                ^^^^^^^^^^^^^^^^^^^
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  133  static int pcm_open(struct=
+ snd_pcm_substream *substream)
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  134  {
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  135  	struct snd_motu *motu =3D=
+ substream->private_data;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  136  	const struct snd_motu_pro=
+tocol *const protocol =3D motu->spec->protocol;
+3fd80b2003882b Takashi Sakamoto 2019-10-07  137  	struct amdtp_domain *d =
+=3D &motu->domain;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  138  	enum snd_motu_clock_sourc=
+e src;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  139  	int err;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  140  =
 
-527bcb24142222 Abdiel Janulgue 2019-12-11  20  	int i, ret;
-527bcb24142222 Abdiel Janulgue 2019-12-11  21  =
+71c3797779d3cd Takashi Sakamoto 2017-03-22  141  	err =3D snd_motu_stream_l=
+ock_try(motu);
+71c3797779d3cd Takashi Sakamoto 2017-03-22  142  	if (err < 0)
+71c3797779d3cd Takashi Sakamoto 2017-03-22  143  		return err;
+71c3797779d3cd Takashi Sakamoto 2017-03-22  144  =
 
-527bcb24142222 Abdiel Janulgue 2019-12-11  22  	/* Sanity check that we all=
-ow writing into this object */
-527bcb24142222 Abdiel Janulgue 2019-12-11  23  	if (i915_gem_object_is_read=
-only(obj) && write)
-527bcb24142222 Abdiel Janulgue 2019-12-11  24  		return VM_FAULT_SIGBUS;
-527bcb24142222 Abdiel Janulgue 2019-12-11  25  =
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  145  	mutex_lock(&motu->mutex);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  146  =
 
-527bcb24142222 Abdiel Janulgue 2019-12-11  26  	ret =3D i915_gem_object_pin=
-_pages(obj);
-527bcb24142222 Abdiel Janulgue 2019-12-11  27  	if (ret)
-527bcb24142222 Abdiel Janulgue 2019-12-11  28  		return i915_error_to_vmf_f=
-ault(ret);
-527bcb24142222 Abdiel Janulgue 2019-12-11  29  =
+8b460c76bd1712 Takashi Sakamoto 2017-08-20  147  	err =3D snd_motu_stream_c=
+ache_packet_formats(motu);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  148  	if (err < 0)
+71c3797779d3cd Takashi Sakamoto 2017-03-22  149  		goto err_locked;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  150  =
 
-527bcb24142222 Abdiel Janulgue 2019-12-11  30  	for (i =3D 0; i < size >> P=
-AGE_SHIFT; i++) {
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  151  	err =3D init_hw_info(motu=
+, substream);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  152  	if (err < 0)
+71c3797779d3cd Takashi Sakamoto 2017-03-22  153  		goto err_locked;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  154  =
 
-Can size be less than a page?
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  155  	err =3D protocol->get_clo=
+ck_source(motu, &src);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  156  	if (err < 0)
+71c3797779d3cd Takashi Sakamoto 2017-03-22  157  		goto err_locked;
+3fd80b2003882b Takashi Sakamoto 2019-10-07  158  =
 
-527bcb24142222 Abdiel Janulgue 2019-12-11  31  		vmf_ret =3D vmf_insert_pfn=
-(area,
-527bcb24142222 Abdiel Janulgue 2019-12-11  32  					 (unsigned long)area->v=
-m_start + i * PAGE_SIZE,
-527bcb24142222 Abdiel Janulgue 2019-12-11  33  					 i915_gem_object_lmem_i=
-o_pfn(obj, i));
-527bcb24142222 Abdiel Janulgue 2019-12-11  34  		if (vmf_ret !=3D VM_FAULT_=
-NOPAGE)
-527bcb24142222 Abdiel Janulgue 2019-12-11  35  			break;
-527bcb24142222 Abdiel Janulgue 2019-12-11  36  	}
-527bcb24142222 Abdiel Janulgue 2019-12-11  37  =
+3fd80b2003882b Takashi Sakamoto 2019-10-07  159  	// When source of clock i=
+s not internal or any stream is reserved for
+3fd80b2003882b Takashi Sakamoto 2019-10-07  160  	// transmission of PCM fr=
+ames, the available sampling rate is limited
+3fd80b2003882b Takashi Sakamoto 2019-10-07  161  	//@current one.
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  162  	if (src !=3D SND_MOTU_CLO=
+CK_SOURCE_INTERNAL ||
+3fd80b2003882b Takashi Sakamoto 2019-10-07  163  	    (motu->substreams_cou=
+nter > 0 && d->events_per_period > 0)) {
+3fd80b2003882b Takashi Sakamoto 2019-10-07  164  		unsigned int frames_per_=
+period =3D d->events_per_period;
+3fd80b2003882b Takashi Sakamoto 2019-10-07  165  		unsigned int rate;
+3fd80b2003882b Takashi Sakamoto 2019-10-07  166  =
 
-527bcb24142222 Abdiel Janulgue 2019-12-11  38  	i915_gem_object_unpin_pages=
-(obj);
-527bcb24142222 Abdiel Janulgue 2019-12-11  39  =
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  167  		err =3D protocol->get_cl=
+ock_rate(motu, &rate);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  168  		if (err < 0)
+71c3797779d3cd Takashi Sakamoto 2017-03-22  169  			goto err_locked;
+3fd80b2003882b Takashi Sakamoto 2019-10-07  170  =
 
-527bcb24142222 Abdiel Janulgue 2019-12-11 @40  	return vmf_ret;
-527bcb24142222 Abdiel Janulgue 2019-12-11  41  }
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  171  		substream->runtime->hw.r=
+ate_min =3D rate;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  172  		substream->runtime->hw.r=
+ate_max =3D rate;
+3fd80b2003882b Takashi Sakamoto 2019-10-07  173  =
+
+3fd80b2003882b Takashi Sakamoto 2019-10-07  174  		if (frames_per_period > =
+0) {
+3fd80b2003882b Takashi Sakamoto 2019-10-07  175  			err =3D snd_pcm_hw_cons=
+traint_minmax(substream->runtime,
+3fd80b2003882b Takashi Sakamoto 2019-10-07  176  					SNDRV_PCM_HW_PARAM_PE=
+RIOD_SIZE,
+3fd80b2003882b Takashi Sakamoto 2019-10-07  177  					frames_per_period, fr=
+ames_per_period);
+3fd80b2003882b Takashi Sakamoto 2019-10-07  178  			if (err < 0) {
+3fd80b2003882b Takashi Sakamoto 2019-10-07 @179  				mutex_unlock(&motu->mu=
+tex);
+                                                                           =
+     ^^^^^^^^^^^^^^^^^^^^^^^^^^
+Delete this.
+
+3fd80b2003882b Takashi Sakamoto 2019-10-07  180  				goto err_locked;
+3fd80b2003882b Takashi Sakamoto 2019-10-07  181  			}
+3fd80b2003882b Takashi Sakamoto 2019-10-07  182  		}
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  183  	}
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  184  =
+
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  185  	snd_pcm_set_sync(substrea=
+m);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  186  =
+
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  187  	mutex_unlock(&motu->mutex=
+);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  188  =
+
+3fd80b2003882b Takashi Sakamoto 2019-10-07  189  	return 0;
+71c3797779d3cd Takashi Sakamoto 2017-03-22  190  err_locked:
+71c3797779d3cd Takashi Sakamoto 2017-03-22 @191  	mutex_unlock(&motu->mutex=
+);
+71c3797779d3cd Takashi Sakamoto 2017-03-22  192  	snd_motu_stream_lock_rele=
+ase(motu);
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  193  	return err;
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  194  }
+dd49b2d1f04af9 Takashi Sakamoto 2017-03-22  195  =
+
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Cen=
 ter
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
 ation
---===============5560625164509169491==--
+--===============4744925554673951300==--
 
