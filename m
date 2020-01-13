@@ -1,337 +1,204 @@
-Content-Type: multipart/mixed; boundary="===============3886352698080108103=="
+Content-Type: multipart/mixed; boundary="===============2139639711100684763=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v27 12/12] LRNG - add power-on and runtime self-tests
-Date: Mon, 13 Jan 2020 13:39:41 +0300
-Message-ID: <20200113103941.GC9488@kadam>
-In-Reply-To: <2355906.JbblJTOqSk@positron.chronox.de>
+Subject: [mlankhorst:locking-rework 11/13] drivers/gpu/drm/i915/gt/intel_renderstate.c:233 intel_renderstate_init() error: uninitialized symbol 'obj'.
+Date: Mon, 13 Jan 2020 13:37:44 +0300
+Message-ID: <20200113103743.GB9488@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3886352698080108103==
+--===============2139639711100684763==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi "Stephan,
-
-url:    https://github.com/0day-ci/linux/commits/Stephan-M-ller/dev-random-=
-a-new-approach-with-full-SP800-90B/20200110-084934
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.gi=
-t 68faa679b8be1a74e6663c21c3a9d25d32f1c079
+tree:   git://people.freedesktop.org/~mlankhorst/linux locking-rework
+head:   9f6ac3cc57cdcc31f3dad6a029e3a09464d47a67
+commit: 8ecb06e80c2bbd0f47689a5c6720f7e87344d34d [11/13] drm/i915: Use ww l=
+ocking in intel_renderstate.
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/char/lrng/lrng_selftest.c:117 lrng_pool_lfsr_selftest() warn: sizeo=
-f(NUMBER)?
-drivers/char/lrng/lrng_selftest.c:229 lrng_hash_df_selftest() warn: sizeof(=
-NUMBER)?
+New smatch warnings:
+drivers/gpu/drm/i915/gt/intel_renderstate.c:233 intel_renderstate_init() er=
+ror: uninitialized symbol 'obj'.
 
-# https://github.com/0day-ci/linux/commit/5b6f2811172c968d8eb78167825c58557=
-ea91995
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 5b6f2811172c968d8eb78167825c58557ea91995
-vim +117 drivers/char/lrng/lrng_selftest.c
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:124 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 116)
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   89  static unsigned int lrn=
-g_pool_lfsr_selftest(void)
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   90  {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   91  	/*
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   92  	 * First, 67th and las=
-t entry of entropy pool.
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   93  	 *
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   94  	 * The 67th entry is p=
-icked because this one is the first to receive
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   95  	 * an entry. As we sta=
-rt with 1 to inject into the LFSR, the
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   96  	 * 67th entry should b=
-e equal to rol(1, 7) >> 3 considering that
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   97  	 * all other values of=
- the LFSR are zero and the the twist value of 0
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   98  	 * is applied.
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   99  	 */
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  100  	static u32 const lrng_=
-lfsr_selftest_result[][3] =3D {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  101  		{ 0xf56df24a, 0x00000=
-010, 0x0e014939 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  102  		{ 0x4b130726, 0x00000=
-010, 0x2802f509 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  103  		{ 0x87279152, 0x00000=
-010, 0x00150000 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  104  		{ 0x0b67f997, 0x00000=
-010, 0x00150000 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  105  		{ 0x4fea174f, 0x00000=
-010, 0xcbf4a6ae },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  106  		{ 0x77149108, 0x00000=
-010, 0x77bfadf2 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  107  		{ 0x1e96037e, 0x00000=
-010, 0x18017e79 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  108  		{ 0xc84acef2, 0x00000=
-010, 0x6345f7a8 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  109  		{ 0x6a2eb6df, 0x00000=
-010, 0x03950000 },
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  110  	};
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  111  	struct lrng_pool *lrng=
-_pool, *lrng_pool_aligned;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  112  	u32 i, ret =3D LRNG_SE=
-LFTEST_PASSED;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  113  =
+git remote add mlankhorst git://people.freedesktop.org/~mlankhorst/linux
+git remote update mlankhorst
+git checkout 8ecb06e80c2bbd0f47689a5c6720f7e87344d34d
+vim +/obj +233 drivers/gpu/drm/i915/gt/intel_renderstate.c
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  114  	BUILD_BUG_ON(ARRAY_SIZ=
-E(lrng_lfsr_selftest_result) <
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  115  							CONFIG_LRNG_POOL=
-_SIZE);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  116  =
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  171  int intel_renderstate_init(struct intel_renderstate *so,
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  172  			   struct intel_context *ce)
+9d0a6fa6c5e618 drivers/gpu/drm/i915/i915_gem_render_state.c Mika Kuoppala  =
+   2014-05-14  173  {
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  174  	struct intel_engine_cs *engine =3D ce->engine;
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  175  	struct drm_i915_gem_object *obj;
+7c2fa7faf18f80 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2017-11-10  176  	int err;
+9d0a6fa6c5e618 drivers/gpu/drm/i915/i915_gem_render_state.c Mika Kuoppala  =
+   2014-05-14  177  =
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09 @117  	lrng_pool =3D kzalloc(=
-sizeof(struct lrng_pool) + sizeof(LRNG_KCAPI_ALIGN),
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  178  	memset(so, 0, sizeof(*so));
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  179  =
+
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  180  	so->rodata =3D render_state_get_rodata(engine);
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  181  	if (so->rodata) {
                                                                            =
-                    ^^^^^^^^^^^^^^^^^^^^^^^^
-Probably just LRNG_KCAPI_ALIGN is intended with no sizeof().
+                         ^^^^^^^^^^
+"obj" isn't initialize in it's writable
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  118  			    GFP_KERNEL);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  119  	if (!lrng_pool)
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  120  		return LRNG_SEFLTEST_=
-ERROR_LFSR;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  121  	lrng_pool_aligned =3D =
-PTR_ALIGN(lrng_pool, sizeof(u32));
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  122  =
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  182  		if (so->rodata->batch_items * 4 > PAGE_SIZE)
+15d21db8723984 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2016-08-02  183  			return -EINVAL;
+564ddb2fae4da0 drivers/gpu/drm/i915/i915_gem_render_state.c Oscar Mateo    =
+   2014-08-21  184  =
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  123  	for (i =3D 1; i <=3D L=
-RNG_POOL_SIZE; i++)
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  124  		_lrng_pool_lfsr_u32(l=
-rng_pool_aligned, i);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  125  =
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  185  		obj =3D i915_gem_object_create_internal(engine->i915,=
+ PAGE_SIZE);
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  186  		if (IS_ERR(obj))
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  187  			return PTR_ERR(obj);
+4e50f082ac51c9 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2016-10-28  188  =
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  126  	if ((atomic_read_u32(&=
-lrng_pool_aligned->pool[0]) !=3D
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  127  	     lrng_lfsr_selftes=
-t_result[CONFIG_LRNG_POOL_SIZE][0]) ||
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  128  	    (atomic_read_u32(&=
-lrng_pool_aligned->pool[67 &
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  129  						      (LRNG_POOL_=
-SIZE - 1)]) !=3D
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  130  	     lrng_lfsr_selftes=
-t_result[CONFIG_LRNG_POOL_SIZE][1]) ||
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  131  	    (atomic_read_u32(&=
-lrng_pool_aligned->pool[LRNG_POOL_SIZE - 1]) !=3D
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  132  	     lrng_lfsr_selftes=
-t_result[CONFIG_LRNG_POOL_SIZE][2])) {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  133  		pr_err("LRNG LFSR sel=
-f-test FAILED\n");
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  134  		ret =3D LRNG_SEFLTEST=
-_ERROR_LFSR;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  135  	}
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  136  =
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  189  		so->vma =3D i915_vma_instance(obj, &engine->gt->ggtt-=
+>vm, NULL);
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  190  		if (IS_ERR(so->vma)) {
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  191  			err =3D PTR_ERR(so->vma);
+15d21db8723984 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2016-08-02  192  			goto err_obj;
+a5e85c8a4dca07 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2016-08-15  193  		}
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  194  	}
+564ddb2fae4da0 drivers/gpu/drm/i915/i915_gem_render_state.c Oscar Mateo    =
+   2014-08-21  195  =
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  137  	kfree(lrng_pool);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  138  	return ret;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  139  }
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  140  =
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  196  	i915_gem_ww_ctx_init(&so->ww, true);
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  197  retry:
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  198  	err =3D intel_context_pin(ce);
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  199  	if (err)
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  200  		goto err_fini;
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  141  /*
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  142   * The test vectors are=
- generated with the hash_df_testvector_generation tool
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  143   * provided as part of =
-the test tool set of the LRNG.
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  144   */
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  145  static unsigned int lrn=
-g_hash_df_selftest(void)
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  146  {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  147  	const struct lrng_cryp=
-to_cb *crypto_cb =3D &lrng_cc20_crypto_cb;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  148  =
+And we this this goto.
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  149  	/*
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  150  	 * The size of 45 byte=
-s is chosen arbitrarily. Yet, this size should
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  151  	 * ensure that we have=
- at least two hash blocks plus some fraction
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  152  	 * of a hash block gen=
-erated.
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  153  	 */
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  154  	static u8 const lrng_h=
-ash_df_selftest_result[][45] =3D {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  155  		{
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  156  			0x3b, 0xbe, 0x7a, 0x=
-bd, 0x2b, 0x16, 0x02, 0x4c,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  157  			0xfc, 0xd3, 0x02, 0x=
-15, 0xf0, 0x86, 0xd4, 0xdb,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  158  			0x49, 0xec, 0x26, 0x=
-53, 0xd6, 0xc9, 0x6d, 0xad,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  159  			0x24, 0xca, 0x72, 0x=
-89, 0x2c, 0xfa, 0x48, 0x18,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  160  			0xf7, 0x47, 0xb5, 0x=
-2f, 0x92, 0xa2, 0x1b, 0xd9,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  161  			0x24, 0xa7, 0x2f, 0x=
-a2, 0x0b,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  162  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  163  			0xd2, 0xaa, 0xf9, 0x=
-76, 0x26, 0xc6, 0x13, 0xea,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  164  			0xb8, 0xde, 0xe6, 0x=
-88, 0x8f, 0xc4, 0x7a, 0x7d,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  165  			0x9c, 0xb4, 0x1b, 0x=
-d1, 0xd1, 0x8a, 0x40, 0xc9,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  166  			0xaa, 0x45, 0xa6, 0x=
-b6, 0xb5, 0x6f, 0xf6, 0xbc,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  167  			0xbb, 0x77, 0x37, 0x=
-bc, 0x5a, 0x2d, 0xcc, 0x84,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  168  			0x25, 0x68, 0x5e, 0x=
-ba, 0x16,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  169  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  170  			0x58, 0x66, 0x82, 0x=
-88, 0x29, 0x19, 0xa4, 0xbb,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  171  			0x33, 0x42, 0xc9, 0x=
-72, 0x0d, 0x68, 0x6e, 0xb9,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  172  			0xc6, 0xe0, 0x7a, 0x=
-f9, 0x20, 0xca, 0x6d, 0x18,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  173  			0x35, 0xec, 0xfa, 0x=
-9e, 0xf6, 0x3a, 0xa7, 0xb6,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  174  			0x92, 0x7a, 0xe5, 0x=
-cd, 0xc5, 0x13, 0x9f, 0x65,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  175  			0x6a, 0xe1, 0xe4, 0x=
-3f, 0xb9,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  176  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  177  			0xdd, 0xf1, 0x34, 0x=
-ca, 0x08, 0xe3, 0xce, 0x8a,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  178  			0x26, 0x6b, 0xce, 0x=
-99, 0x8a, 0x84, 0xd2, 0x21,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  179  			0x98, 0x10, 0x95, 0x=
-5f, 0x9f, 0xc3, 0xf2, 0xe4,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  180  			0x79, 0x75, 0xb5, 0x=
-15, 0xa7, 0xa2, 0xf1, 0xc4,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  181  			0xdc, 0x67, 0xcb, 0x=
-67, 0x8c, 0xb2, 0x1b, 0xd5,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  182  			0xd6, 0x8b, 0xc2, 0x=
-34, 0xd6,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  183  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  184  			0xc3, 0x16, 0x9d, 0x=
-f0, 0x78, 0x15, 0xab, 0xf2,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  185  			0x2f, 0xc9, 0x2e, 0x=
-e1, 0xc6, 0x5e, 0xfa, 0x03,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  186  			0xaf, 0xd4, 0xd5, 0x=
-47, 0x2a, 0xe8, 0x06, 0xe8,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  187  			0x7e, 0x0a, 0x71, 0x=
-c7, 0x0d, 0x39, 0xb1, 0xa9,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  188  			0x5a, 0x49, 0xee, 0x=
-8b, 0x2f, 0xcd, 0xea, 0x96,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  189  			0xcc, 0x08, 0x71, 0x=
-ef, 0x9c,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  190  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  191  			0x1a, 0x3d, 0x70, 0x=
-39, 0xc2, 0x02, 0x4d, 0x3a,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  192  			0xaa, 0x14, 0x20, 0x=
-88, 0x96, 0x4c, 0x7c, 0xe4,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  193  			0xaa, 0x49, 0x89, 0x=
-30, 0x50, 0x96, 0xb6, 0xa7,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  194  			0x55, 0x0a, 0xf8, 0x=
-d2, 0x4e, 0x83, 0x9d, 0x1f,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  195  			0x56, 0x49, 0x13, 0x=
-c6, 0x46, 0x55, 0x73, 0x0d,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  196  			0x74, 0xcd, 0x81, 0x=
-e0, 0x65,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  197  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  198  			0x4b, 0xf6, 0x49, 0x=
-89, 0x2a, 0x9f, 0x67, 0xd7,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  199  			0xb8, 0x1d, 0xbb, 0x=
-5d, 0xf0, 0x1b, 0x60, 0xb6,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  200  			0xb7, 0xf3, 0x86, 0x=
-6d, 0xe0, 0x04, 0xa1, 0xbc,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  201  			0x3b, 0xb0, 0x10, 0x=
-91, 0xe8, 0x22, 0x67, 0x5b,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  202  			0xe8, 0xf0, 0x4f, 0x=
-82, 0x70, 0xc7, 0xe1, 0xc8,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  203  			0xd8, 0xad, 0x70, 0x=
-cf, 0xf6,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  204  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  205  			0x60, 0x1f, 0x71, 0x=
-07, 0x92, 0xae, 0xa0, 0x24,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  206  			0xb6, 0xa4, 0x10, 0x=
-70, 0x1f, 0x94, 0x51, 0x9a,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  207  			0x5a, 0x81, 0xc4, 0x=
-46, 0x78, 0x56, 0x71, 0xdd,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  208  			0x45, 0x63, 0x01, 0x=
-34, 0x87, 0x79, 0xb4, 0xd5,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  209  			0x91, 0x79, 0xb9, 0x=
-93, 0x11, 0x44, 0x50, 0xad,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  210  			0x64, 0x7e, 0x5c, 0x=
-ec, 0x16,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  211  		}, {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  212  			0x49, 0x2f, 0xa0, 0x=
-45, 0xf8, 0xb0, 0x80, 0x88,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  213  			0x79, 0xeb, 0xb6, 0x=
-82, 0x1c, 0xf3, 0x67, 0xc4,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  214  			0x88, 0x88, 0xe9, 0x=
-75, 0x20, 0x54, 0x78, 0xc6,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  215  			0x5c, 0x59, 0xcf, 0x=
-d9, 0x73, 0x12, 0x17, 0xf4,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  216  			0x30, 0x9c, 0xb7, 0x=
-21, 0x45, 0xe2, 0xb6, 0x0c,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  217  			0x0c, 0xeb, 0x1b, 0x=
-dc, 0xdc,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  218  		}
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  219  	};
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  220  	struct lrng_pool *lrng=
-_pool, *lrng_pool_aligned;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  221  	u8 hash_df[sizeof(lrng=
-_hash_df_selftest_result[0])]
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  222  							__aligned(sizeof=
-(u32));
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  223  	u32 generated;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  224  	int ret =3D 0;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  225  =
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  201  =
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  226  	BUILD_BUG_ON(ARRAY_SIZ=
-E(lrng_hash_df_selftest_result) <
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  227  							CONFIG_LRNG_POOL=
-_SIZE);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  228  =
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  202  	/* return early if there's nothing to setup */
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  203  	if (!err && !so->rodata)
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  204  		return 0;
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  205  =
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09 @229  	lrng_pool =3D kzalloc(=
-sizeof(struct lrng_pool) + sizeof(LRNG_KCAPI_ALIGN),
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  206  	err =3D i915_gem_object_lock(so->vma->obj, &so->ww);
+7c2fa7faf18f80 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2017-11-10  207  	if (err)
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  208  		goto err_context;
+4c7d62c6b8a2b4 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2016-10-28  209  =
+
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  210  	err =3D i915_vma_pin(so->vma, 0, 0, PIN_GLOBAL | PIN_H=
+IGH);
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  211  	if (err)
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  212  		goto err_context;
+7e82ad50023cee drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-04  213  =
+
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  214  	err =3D render_state_setup(so, engine->i915);
+7c2fa7faf18f80 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2017-11-10  215  	if (err)
+15d21db8723984 drivers/gpu/drm/i915/i915_gem_render_state.c Chris Wilson   =
+   2016-08-02  216  		goto err_unpin;
+9d0a6fa6c5e618 drivers/gpu/drm/i915/i915_gem_render_state.c Mika Kuoppala  =
+   2014-05-14  217  =
+
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  218  	return 0;
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  219  =
+
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  220  err_unpin:
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  221  	i915_vma_unpin(so->vma);
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  222  err_context:
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  223  	intel_context_unpin(ce);
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  224  err_fini:
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  225  	if (err =3D=3D -EDEADLK) {
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  226  		err =3D i915_gem_ww_ctx_backoff(&so->ww);
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  227  		if (!err)
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  228  			goto retry;
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  229  	}
+8ecb06e80c2bbd drivers/gpu/drm/i915/gt/intel_renderstate.c  Maarten Lankhor=
+st 2019-12-18  230  	i915_gem_ww_ctx_fini(&so->ww);
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  231  	i915_vma_close(so->vma);
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  232  err_obj:
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02 @233  	i915_gem_object_put(obj);
                                                                            =
-                    ^^^^^^^^^^^^^^^^^^^^^^^^
-Here too.
+                     ^^^^^^^^^^^^^^^^^^^^^^^^
+Problem.
 
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  234  	so->vma =3D NULL;
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  235  	return err;
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  236  }
+42d105113018a5 drivers/gpu/drm/i915/gt/intel_renderstate.c  Chris Wilson   =
+   2019-12-02  237  =
 
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  230  			    GFP_KERNEL);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  231  	if (!lrng_pool)
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  232  		return LRNG_SEFLTEST_=
-ERROR_HASHDF;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  233  	lrng_pool_aligned =3D =
-PTR_ALIGN(lrng_pool, sizeof(u32));
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  234  =
-
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  235  	generated =3D __lrng_p=
-ool_hash_df(crypto_cb, NULL, lrng_pool_aligned,
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  236  					hash_df, sizeof(ha=
-sh_df) << 3);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  237  =
-
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  238  	if ((generated >> 3) !=
-=3D sizeof(hash_df) ||
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  239  	    memcmp(hash_df, lr=
-ng_hash_df_selftest_result[CONFIG_LRNG_POOL_SIZE],
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  240  		   sizeof(hash_df))) {
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  241  		pr_err("LRNG Hash DF =
-self-test FAILED\n");
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  242  		ret =3D LRNG_SEFLTEST=
-_ERROR_HASHDF;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  243  	}
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  244  =
-
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  245  	kfree(lrng_pool);
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  246  	return ret;
-5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  247  }
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Cen=
 ter
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
 ation
---===============3886352698080108103==--
+--===============2139639711100684763==--
 
