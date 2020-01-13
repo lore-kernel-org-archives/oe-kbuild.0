@@ -1,234 +1,337 @@
-Content-Type: multipart/mixed; boundary="===============1939386228496296095=="
+Content-Type: multipart/mixed; boundary="===============3886352698080108103=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 3/4] SFH: Transport Driver to add support of AMD sensor fusion Hub (SFH)
-Date: Mon, 13 Jan 2020 13:45:10 +0300
-Message-ID: <20200113104510.GD9488@kadam>
-In-Reply-To: <1578558528-10108-1-git-send-email-Sandeep.Singh@amd.com>
+Subject: Re: [PATCH v27 12/12] LRNG - add power-on and runtime self-tests
+Date: Mon, 13 Jan 2020 13:39:41 +0300
+Message-ID: <20200113103941.GC9488@kadam>
+In-Reply-To: <2355906.JbblJTOqSk@positron.chronox.de>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1939386228496296095==
+--===============3886352698080108103==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sandeep,
+Hi "Stephan,
 
-url:    https://github.com/0day-ci/linux/commits/Sandeep-Singh/SFH-Add-Supp=
-ort-for-AMD-Sensor-Fusion-Hub/20200110-084435
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-b07f636fca1c8fbba124b0082487c0b3890a0e0c
+url:    https://github.com/0day-ci/linux/commits/Stephan-M-ller/dev-random-=
+a-new-approach-with-full-SP800-90B/20200110-084934
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.gi=
+t 68faa679b8be1a74e6663c21c3a9d25d32f1c079
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/hid/amd-sfh-hid/amdsfh-hid-client.c:157 amd_sfh_hid_client_probe() =
-warn: possible memory leak of 'cl_dev'
-drivers/hid/amd-sfh-hid/amdsfh-hid-client.c:225 amd_sfh_hid_client_remove()=
- warn: variable dereferenced before check 'cl_dev' (see line 218)
-drivers/hid/amd-sfh-hid/amdsfh-hid-client.c:225 amd_sfh_hid_client_remove()=
- warn: variable dereferenced before check 'cl_data' (see line 220)
-drivers/hid/amd-sfh-hid/amdsfh-debugfs.c:42 amdsfh_debugfs_accel_read() war=
-n: possible memory leak of 'obuf'
-drivers/hid/amd-sfh-hid/amdsfh-debugfs.c:78 amdsfh_debugfs_gyro_read() warn=
-: possible memory leak of 'obuf'
-drivers/hid/amd-sfh-hid/amdsfh-debugfs.c:114 amdsfh_debugfs_mag_read() warn=
-: possible memory leak of 'obuf'
-drivers/hid/amd-sfh-hid/amdsfh-debugfs.c:150 amdsfh_debugfs_als_read() warn=
-: possible memory leak of 'obuf'
+drivers/char/lrng/lrng_selftest.c:117 lrng_pool_lfsr_selftest() warn: sizeo=
+f(NUMBER)?
+drivers/char/lrng/lrng_selftest.c:229 lrng_hash_df_selftest() warn: sizeof(=
+NUMBER)?
 
-# https://github.com/0day-ci/linux/commit/da2b6403065dd09f90ffdd06c25cbc139=
-acde2b8
+# https://github.com/0day-ci/linux/commit/5b6f2811172c968d8eb78167825c58557=
+ea91995
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout da2b6403065dd09f90ffdd06c25cbc139acde2b8
-vim +/cl_dev +157 drivers/hid/amd-sfh-hid/amdsfh-hid-client.c
+git checkout 5b6f2811172c968d8eb78167825c58557ea91995
+vim +117 drivers/char/lrng/lrng_selftest.c
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  140  static int amd_sfh_hid_client=
-_probe(struct platform_device *pdev)
-da2b6403065dd0 Sandeep Singh 2020-01-09  141  {
-da2b6403065dd0 Sandeep Singh 2020-01-09  142  	struct amd_mp2_sensor_info i=
-nfo;
-da2b6403065dd0 Sandeep Singh 2020-01-09  143  	int rc =3D 0;
-da2b6403065dd0 Sandeep Singh 2020-01-09  144  	int i;
-da2b6403065dd0 Sandeep Singh 2020-01-09  145  	struct amdtp_cl_device *cl_d=
-ev;
-da2b6403065dd0 Sandeep Singh 2020-01-09  146  	struct amdtp_cl_data *cl_dat=
-a;
-da2b6403065dd0 Sandeep Singh 2020-01-09  147  	u32 feature_report_size =3D =
-0;
-da2b6403065dd0 Sandeep Singh 2020-01-09  148  	u32 input_report_size =3D 0;
-da2b6403065dd0 Sandeep Singh 2020-01-09  149  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   89  static unsigned int lrn=
+g_pool_lfsr_selftest(void)
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   90  {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   91  	/*
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   92  	 * First, 67th and las=
+t entry of entropy pool.
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   93  	 *
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   94  	 * The 67th entry is p=
+icked because this one is the first to receive
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   95  	 * an entry. As we sta=
+rt with 1 to inject into the LFSR, the
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   96  	 * 67th entry should b=
+e equal to rol(1, 7) >> 3 considering that
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   97  	 * all other values of=
+ the LFSR are zero and the the twist value of 0
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   98  	 * is applied.
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09   99  	 */
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  100  	static u32 const lrng_=
+lfsr_selftest_result[][3] =3D {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  101  		{ 0xf56df24a, 0x00000=
+010, 0x0e014939 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  102  		{ 0x4b130726, 0x00000=
+010, 0x2802f509 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  103  		{ 0x87279152, 0x00000=
+010, 0x00150000 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  104  		{ 0x0b67f997, 0x00000=
+010, 0x00150000 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  105  		{ 0x4fea174f, 0x00000=
+010, 0xcbf4a6ae },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  106  		{ 0x77149108, 0x00000=
+010, 0x77bfadf2 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  107  		{ 0x1e96037e, 0x00000=
+010, 0x18017e79 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  108  		{ 0xc84acef2, 0x00000=
+010, 0x6345f7a8 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  109  		{ 0x6a2eb6df, 0x00000=
+010, 0x03950000 },
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  110  	};
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  111  	struct lrng_pool *lrng=
+_pool, *lrng_pool_aligned;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  112  	u32 i, ret =3D LRNG_SE=
+LFTEST_PASSED;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  113  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  150  	cl_dev =3D kzalloc(sizeof(*c=
-l_dev), GFP_KERNEL);
-da2b6403065dd0 Sandeep Singh 2020-01-09  151  	if (!cl_dev)
-da2b6403065dd0 Sandeep Singh 2020-01-09  152  		return -ENOMEM;
-da2b6403065dd0 Sandeep Singh 2020-01-09  153  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  114  	BUILD_BUG_ON(ARRAY_SIZ=
+E(lrng_lfsr_selftest_result) <
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  115  							CONFIG_LRNG_POOL=
+_SIZE);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  116  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  154  	cl_dev->pdev =3D pci_get_dev=
-ice(PCI_VENDOR_ID_AMD,
-da2b6403065dd0 Sandeep Singh 2020-01-09  155  				      PCI_DEVICE_ID_AMD_M=
-P2, NULL);
-da2b6403065dd0 Sandeep Singh 2020-01-09  156  	if (!cl_dev->pdev)
-da2b6403065dd0 Sandeep Singh 2020-01-09 @157  		return -ENOMEM;
-                                                        ^^^^^^^^^^^^^^
-You might want to consider using devm_kzalloc().
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09 @117  	lrng_pool =3D kzalloc(=
+sizeof(struct lrng_pool) + sizeof(LRNG_KCAPI_ALIGN),
+                                                                           =
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+Probably just LRNG_KCAPI_ALIGN is intended with no sizeof().
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  158  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  118  			    GFP_KERNEL);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  119  	if (!lrng_pool)
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  120  		return LRNG_SEFLTEST_=
+ERROR_LFSR;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  121  	lrng_pool_aligned =3D =
+PTR_ALIGN(lrng_pool, sizeof(u32));
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  122  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  159  	cl_data =3D kzalloc(sizeof(*=
-cl_data), GFP_KERNEL);
-da2b6403065dd0 Sandeep Singh 2020-01-09  160  	cl_data->num_hid_devices =3D=
- amd_mp2_get_sensor_num
-da2b6403065dd0 Sandeep Singh 2020-01-09  161  				   (cl_dev->pdev, &cl_dat=
-a->sensor_idx[0]);
-da2b6403065dd0 Sandeep Singh 2020-01-09  162  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  123  	for (i =3D 1; i <=3D L=
+RNG_POOL_SIZE; i++)
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  124  		_lrng_pool_lfsr_u32(l=
+rng_pool_aligned, i);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  125  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  163  	INIT_DELAYED_WORK(&cl_data->=
-work, amd_sfh_work);
-da2b6403065dd0 Sandeep Singh 2020-01-09  164  	INIT_DELAYED_WORK(&cl_data->=
-work_buffer, amd_sfh_work_buffer);
-da2b6403065dd0 Sandeep Singh 2020-01-09  165  	INIT_LIST_HEAD(&req_list.lis=
-t);
-da2b6403065dd0 Sandeep Singh 2020-01-09  166  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  126  	if ((atomic_read_u32(&=
+lrng_pool_aligned->pool[0]) !=3D
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  127  	     lrng_lfsr_selftes=
+t_result[CONFIG_LRNG_POOL_SIZE][0]) ||
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  128  	    (atomic_read_u32(&=
+lrng_pool_aligned->pool[67 &
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  129  						      (LRNG_POOL_=
+SIZE - 1)]) !=3D
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  130  	     lrng_lfsr_selftes=
+t_result[CONFIG_LRNG_POOL_SIZE][1]) ||
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  131  	    (atomic_read_u32(&=
+lrng_pool_aligned->pool[LRNG_POOL_SIZE - 1]) !=3D
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  132  	     lrng_lfsr_selftes=
+t_result[CONFIG_LRNG_POOL_SIZE][2])) {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  133  		pr_err("LRNG LFSR sel=
+f-test FAILED\n");
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  134  		ret =3D LRNG_SEFLTEST=
+_ERROR_LFSR;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  135  	}
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  136  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  167  	amdsfh_debugfs_setup(cl_data=
-);
-da2b6403065dd0 Sandeep Singh 2020-01-09  168  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  137  	kfree(lrng_pool);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  138  	return ret;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  139  }
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  140  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  169  	for (i =3D 0; i < cl_data->n=
-um_hid_devices; i++) {
-da2b6403065dd0 Sandeep Singh 2020-01-09  170  		cl_data->sensor_virt_addr[i=
-] =3D dma_alloc_coherent
-da2b6403065dd0 Sandeep Singh 2020-01-09  171  			(&pdev->dev, sizeof(int) *=
- 8,
-da2b6403065dd0 Sandeep Singh 2020-01-09  172  			&cl_data->sensor_phy_addr[=
-i], GFP_KERNEL);
-da2b6403065dd0 Sandeep Singh 2020-01-09  173  		cl_data->sensor_sts[i] =3D =
-0;
-da2b6403065dd0 Sandeep Singh 2020-01-09  174  		cl_data->sensor_requested_c=
-nt[i] =3D 0;
-da2b6403065dd0 Sandeep Singh 2020-01-09  175  		cl_data->cur_hid_dev =3D i;
-da2b6403065dd0 Sandeep Singh 2020-01-09  176  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  141  /*
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  142   * The test vectors are=
+ generated with the hash_df_testvector_generation tool
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  143   * provided as part of =
+the test tool set of the LRNG.
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  144   */
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  145  static unsigned int lrn=
+g_hash_df_selftest(void)
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  146  {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  147  	const struct lrng_cryp=
+to_cb *crypto_cb =3D &lrng_cc20_crypto_cb;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  148  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  177  		cl_data->report_descr_size[=
-i] =3D get_descriptor_size
-da2b6403065dd0 Sandeep Singh 2020-01-09  178  				(cl_data->sensor_idx[i], =
-descr_size);
-da2b6403065dd0 Sandeep Singh 2020-01-09  179  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  149  	/*
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  150  	 * The size of 45 byte=
+s is chosen arbitrarily. Yet, this size should
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  151  	 * ensure that we have=
+ at least two hash blocks plus some fraction
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  152  	 * of a hash block gen=
+erated.
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  153  	 */
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  154  	static u8 const lrng_h=
+ash_df_selftest_result[][45] =3D {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  155  		{
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  156  			0x3b, 0xbe, 0x7a, 0x=
+bd, 0x2b, 0x16, 0x02, 0x4c,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  157  			0xfc, 0xd3, 0x02, 0x=
+15, 0xf0, 0x86, 0xd4, 0xdb,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  158  			0x49, 0xec, 0x26, 0x=
+53, 0xd6, 0xc9, 0x6d, 0xad,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  159  			0x24, 0xca, 0x72, 0x=
+89, 0x2c, 0xfa, 0x48, 0x18,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  160  			0xf7, 0x47, 0xb5, 0x=
+2f, 0x92, 0xa2, 0x1b, 0xd9,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  161  			0x24, 0xa7, 0x2f, 0x=
+a2, 0x0b,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  162  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  163  			0xd2, 0xaa, 0xf9, 0x=
+76, 0x26, 0xc6, 0x13, 0xea,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  164  			0xb8, 0xde, 0xe6, 0x=
+88, 0x8f, 0xc4, 0x7a, 0x7d,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  165  			0x9c, 0xb4, 0x1b, 0x=
+d1, 0xd1, 0x8a, 0x40, 0xc9,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  166  			0xaa, 0x45, 0xa6, 0x=
+b6, 0xb5, 0x6f, 0xf6, 0xbc,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  167  			0xbb, 0x77, 0x37, 0x=
+bc, 0x5a, 0x2d, 0xcc, 0x84,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  168  			0x25, 0x68, 0x5e, 0x=
+ba, 0x16,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  169  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  170  			0x58, 0x66, 0x82, 0x=
+88, 0x29, 0x19, 0xa4, 0xbb,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  171  			0x33, 0x42, 0xc9, 0x=
+72, 0x0d, 0x68, 0x6e, 0xb9,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  172  			0xc6, 0xe0, 0x7a, 0x=
+f9, 0x20, 0xca, 0x6d, 0x18,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  173  			0x35, 0xec, 0xfa, 0x=
+9e, 0xf6, 0x3a, 0xa7, 0xb6,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  174  			0x92, 0x7a, 0xe5, 0x=
+cd, 0xc5, 0x13, 0x9f, 0x65,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  175  			0x6a, 0xe1, 0xe4, 0x=
+3f, 0xb9,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  176  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  177  			0xdd, 0xf1, 0x34, 0x=
+ca, 0x08, 0xe3, 0xce, 0x8a,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  178  			0x26, 0x6b, 0xce, 0x=
+99, 0x8a, 0x84, 0xd2, 0x21,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  179  			0x98, 0x10, 0x95, 0x=
+5f, 0x9f, 0xc3, 0xf2, 0xe4,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  180  			0x79, 0x75, 0xb5, 0x=
+15, 0xa7, 0xa2, 0xf1, 0xc4,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  181  			0xdc, 0x67, 0xcb, 0x=
+67, 0x8c, 0xb2, 0x1b, 0xd5,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  182  			0xd6, 0x8b, 0xc2, 0x=
+34, 0xd6,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  183  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  184  			0xc3, 0x16, 0x9d, 0x=
+f0, 0x78, 0x15, 0xab, 0xf2,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  185  			0x2f, 0xc9, 0x2e, 0x=
+e1, 0xc6, 0x5e, 0xfa, 0x03,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  186  			0xaf, 0xd4, 0xd5, 0x=
+47, 0x2a, 0xe8, 0x06, 0xe8,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  187  			0x7e, 0x0a, 0x71, 0x=
+c7, 0x0d, 0x39, 0xb1, 0xa9,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  188  			0x5a, 0x49, 0xee, 0x=
+8b, 0x2f, 0xcd, 0xea, 0x96,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  189  			0xcc, 0x08, 0x71, 0x=
+ef, 0x9c,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  190  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  191  			0x1a, 0x3d, 0x70, 0x=
+39, 0xc2, 0x02, 0x4d, 0x3a,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  192  			0xaa, 0x14, 0x20, 0x=
+88, 0x96, 0x4c, 0x7c, 0xe4,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  193  			0xaa, 0x49, 0x89, 0x=
+30, 0x50, 0x96, 0xb6, 0xa7,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  194  			0x55, 0x0a, 0xf8, 0x=
+d2, 0x4e, 0x83, 0x9d, 0x1f,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  195  			0x56, 0x49, 0x13, 0x=
+c6, 0x46, 0x55, 0x73, 0x0d,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  196  			0x74, 0xcd, 0x81, 0x=
+e0, 0x65,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  197  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  198  			0x4b, 0xf6, 0x49, 0x=
+89, 0x2a, 0x9f, 0x67, 0xd7,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  199  			0xb8, 0x1d, 0xbb, 0x=
+5d, 0xf0, 0x1b, 0x60, 0xb6,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  200  			0xb7, 0xf3, 0x86, 0x=
+6d, 0xe0, 0x04, 0xa1, 0xbc,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  201  			0x3b, 0xb0, 0x10, 0x=
+91, 0xe8, 0x22, 0x67, 0x5b,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  202  			0xe8, 0xf0, 0x4f, 0x=
+82, 0x70, 0xc7, 0xe1, 0xc8,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  203  			0xd8, 0xad, 0x70, 0x=
+cf, 0xf6,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  204  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  205  			0x60, 0x1f, 0x71, 0x=
+07, 0x92, 0xae, 0xa0, 0x24,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  206  			0xb6, 0xa4, 0x10, 0x=
+70, 0x1f, 0x94, 0x51, 0x9a,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  207  			0x5a, 0x81, 0xc4, 0x=
+46, 0x78, 0x56, 0x71, 0xdd,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  208  			0x45, 0x63, 0x01, 0x=
+34, 0x87, 0x79, 0xb4, 0xd5,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  209  			0x91, 0x79, 0xb9, 0x=
+93, 0x11, 0x44, 0x50, 0xad,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  210  			0x64, 0x7e, 0x5c, 0x=
+ec, 0x16,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  211  		}, {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  212  			0x49, 0x2f, 0xa0, 0x=
+45, 0xf8, 0xb0, 0x80, 0x88,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  213  			0x79, 0xeb, 0xb6, 0x=
+82, 0x1c, 0xf3, 0x67, 0xc4,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  214  			0x88, 0x88, 0xe9, 0x=
+75, 0x20, 0x54, 0x78, 0xc6,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  215  			0x5c, 0x59, 0xcf, 0x=
+d9, 0x73, 0x12, 0x17, 0xf4,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  216  			0x30, 0x9c, 0xb7, 0x=
+21, 0x45, 0xe2, 0xb6, 0x0c,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  217  			0x0c, 0xeb, 0x1b, 0x=
+dc, 0xdc,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  218  		}
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  219  	};
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  220  	struct lrng_pool *lrng=
+_pool, *lrng_pool_aligned;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  221  	u8 hash_df[sizeof(lrng=
+_hash_df_selftest_result[0])]
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  222  							__aligned(sizeof=
+(u32));
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  223  	u32 generated;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  224  	int ret =3D 0;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  225  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  180  		feature_report_size =3D get=
-_descriptor_size
-da2b6403065dd0 Sandeep Singh 2020-01-09  181  				(cl_data->sensor_idx[i], =
-feature_size);
-da2b6403065dd0 Sandeep Singh 2020-01-09  182  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  226  	BUILD_BUG_ON(ARRAY_SIZ=
+E(lrng_hash_df_selftest_result) <
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  227  							CONFIG_LRNG_POOL=
+_SIZE);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  228  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  183  		input_report_size =3D  get_=
-descriptor_size
-da2b6403065dd0 Sandeep Singh 2020-01-09  184  			(cl_data->sensor_idx[i], i=
-nput_size);
-da2b6403065dd0 Sandeep Singh 2020-01-09  185  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09 @229  	lrng_pool =3D kzalloc(=
+sizeof(struct lrng_pool) + sizeof(LRNG_KCAPI_ALIGN),
+                                                                           =
+                    ^^^^^^^^^^^^^^^^^^^^^^^^
+Here too.
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  186  		cl_data->feature_report[i] =
-=3D kzalloc(feature_report_size,
-da2b6403065dd0 Sandeep Singh 2020-01-09  187  						     GFP_KERNEL);
-da2b6403065dd0 Sandeep Singh 2020-01-09  188  		cl_data->input_report[i] =
-=3D kzalloc(input_report_size,
-da2b6403065dd0 Sandeep Singh 2020-01-09  189  						   GFP_KERNEL);
-da2b6403065dd0 Sandeep Singh 2020-01-09  190  		info.period =3D PERIOD;
-da2b6403065dd0 Sandeep Singh 2020-01-09  191  		info.sensor_idx =3D cl_data=
-->sensor_idx[i];
-da2b6403065dd0 Sandeep Singh 2020-01-09  192  		info.phy_address =3D cl_dat=
-a->sensor_phy_addr[i];
-da2b6403065dd0 Sandeep Singh 2020-01-09  193  		cl_data->report_descr[i] =
-=3D kzalloc
-da2b6403065dd0 Sandeep Singh 2020-01-09  194  			(cl_data->report_descr_siz=
-e[i], GFP_KERNEL);
-da2b6403065dd0 Sandeep Singh 2020-01-09  195  		if (!cl_data->report_descr[=
-i])
-da2b6403065dd0 Sandeep Singh 2020-01-09  196  			return -ENOMEM;
-da2b6403065dd0 Sandeep Singh 2020-01-09  197  		rc =3D get_report_descripto=
-r(cl_data->sensor_idx[i],
-da2b6403065dd0 Sandeep Singh 2020-01-09  198  					   cl_data->report_descr=
-[i]);
-da2b6403065dd0 Sandeep Singh 2020-01-09  199  		rc =3D amdtp_hid_probe(cl_d=
-ata->cur_hid_dev, cl_data);
-da2b6403065dd0 Sandeep Singh 2020-01-09  200  		rc =3D amd_start_sensor(cl_=
-dev->pdev, info);
-da2b6403065dd0 Sandeep Singh 2020-01-09  201  			cl_data->sensor_sts[i] =3D=
- 1;
-da2b6403065dd0 Sandeep Singh 2020-01-09  202  	}
-da2b6403065dd0 Sandeep Singh 2020-01-09  203  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  204  	cl_dev->cl_data =3D cl_data;
-da2b6403065dd0 Sandeep Singh 2020-01-09  205  	cl_data_context =3D cl_data;
-da2b6403065dd0 Sandeep Singh 2020-01-09  206  	platform_set_drvdata(pdev, c=
-l_dev);
-da2b6403065dd0 Sandeep Singh 2020-01-09  207  	schedule_delayed_work(&cl_da=
-ta->work_buffer, PERIOD);
-da2b6403065dd0 Sandeep Singh 2020-01-09  208  	return 0;
-da2b6403065dd0 Sandeep Singh 2020-01-09  209  }
-da2b6403065dd0 Sandeep Singh 2020-01-09  210  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  230  			    GFP_KERNEL);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  231  	if (!lrng_pool)
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  232  		return LRNG_SEFLTEST_=
+ERROR_HASHDF;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  233  	lrng_pool_aligned =3D =
+PTR_ALIGN(lrng_pool, sizeof(u32));
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  234  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  211  static int amd_sfh_hid_client=
-_remove(struct platform_device *pdev)
-da2b6403065dd0 Sandeep Singh 2020-01-09  212  {
-da2b6403065dd0 Sandeep Singh 2020-01-09  213  	int i;
-da2b6403065dd0 Sandeep Singh 2020-01-09  214  	struct amdtp_cl_device *cl_d=
-ev;
-da2b6403065dd0 Sandeep Singh 2020-01-09  215  	struct amdtp_cl_data *cl_dat=
-a;
-da2b6403065dd0 Sandeep Singh 2020-01-09  216  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  235  	generated =3D __lrng_p=
+ool_hash_df(crypto_cb, NULL, lrng_pool_aligned,
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  236  					hash_df, sizeof(ha=
+sh_df) << 3);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  237  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09  217  	cl_dev =3D platform_get_drvd=
-ata(pdev);
-da2b6403065dd0 Sandeep Singh 2020-01-09 @218  	cl_data =3D cl_dev->cl_data;
-da2b6403065dd0 Sandeep Singh 2020-01-09  219  =
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  238  	if ((generated >> 3) !=
+=3D sizeof(hash_df) ||
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  239  	    memcmp(hash_df, lr=
+ng_hash_df_selftest_result[CONFIG_LRNG_POOL_SIZE],
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  240  		   sizeof(hash_df))) {
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  241  		pr_err("LRNG Hash DF =
+self-test FAILED\n");
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  242  		ret =3D LRNG_SEFLTEST=
+_ERROR_HASHDF;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  243  	}
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  244  =
 
-da2b6403065dd0 Sandeep Singh 2020-01-09 @220  	for (i =3D 0; i < cl_data->n=
-um_hid_devices; i++)
-da2b6403065dd0 Sandeep Singh 2020-01-09  221  		amd_stop_sensor(cl_dev->pde=
-v, i);
-da2b6403065dd0 Sandeep Singh 2020-01-09  222  	cancel_delayed_work_sync(&cl=
-_data->work);
-da2b6403065dd0 Sandeep Singh 2020-01-09  223  	cancel_delayed_work_sync(&cl=
-_data->work_buffer);
-da2b6403065dd0 Sandeep Singh 2020-01-09  224  	amdsfh_debugfs_destroy(cl_da=
-ta);
-da2b6403065dd0 Sandeep Singh 2020-01-09 @225  	if (cl_dev && cl_data)
-                                                    ^^^^^^    ^^^^^^^
-If these are NULL, it's too late.
-
-da2b6403065dd0 Sandeep Singh 2020-01-09  226  		amdtp_hid_remove(cl_data);
-da2b6403065dd0 Sandeep Singh 2020-01-09  227  =
-
-da2b6403065dd0 Sandeep Singh 2020-01-09  228  	for (i =3D 0; i < cl_data->n=
-um_hid_devices; i++) {
-da2b6403065dd0 Sandeep Singh 2020-01-09  229  		if (cl_data->sensor_virt_ad=
-dr[i])
-da2b6403065dd0 Sandeep Singh 2020-01-09  230  			dma_free_coherent(&pdev->d=
-ev, 8 * sizeof(int),
-da2b6403065dd0 Sandeep Singh 2020-01-09  231  					  cl_data->sensor_virt_a=
-ddr[i],
-da2b6403065dd0 Sandeep Singh 2020-01-09  232  					  cl_data->sensor_phy_ad=
-dr[i]);
-da2b6403065dd0 Sandeep Singh 2020-01-09  233  	}
-da2b6403065dd0 Sandeep Singh 2020-01-09  234  =
-
-da2b6403065dd0 Sandeep Singh 2020-01-09  235  	kfree(cl_data);
-da2b6403065dd0 Sandeep Singh 2020-01-09  236  	pr_info("%s:%s Exit\n", DRIV=
-ER_NAME, __func__);
-da2b6403065dd0 Sandeep Singh 2020-01-09  237  	return 0;
-da2b6403065dd0 Sandeep Singh 2020-01-09  238  }
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  245  	kfree(lrng_pool);
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  246  	return ret;
+5b6f2811172c96 Stephan M=C3=BCller 2020-01-09  247  }
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Cen=
 ter
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
 ation
---===============1939386228496296095==--
+--===============3886352698080108103==--
 
