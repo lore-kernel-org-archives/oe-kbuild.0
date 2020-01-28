@@ -1,100 +1,86 @@
-Content-Type: multipart/mixed; boundary="===============8054505180412932576=="
+Content-Type: multipart/mixed; boundary="===============1154310624915608288=="
 MIME-Version: 1.0
-From: kbuild test robot <lkp@intel.com>
-Subject: [marex:ks8851-v5 18/20] drivers/net/ethernet/micrel/ks8851_par.c:68:13: sparse: sparse: context imbalance in 'ks8851_lock_par' - wrong count at exit
-Date: Tue, 21 Apr 2020 21:17:43 +0800
-Message-ID: <202004212140.Q9NfMacy%lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [PATCH 5/5] vdpasim: vDPA device simulator
+Date: Tue, 28 Jan 2020 06:32:15 +0300
+Message-ID: <20200128033215.GO1870@kadam>
+In-Reply-To: <20200116124231.20253-6-jasowang@redhat.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8054505180412932576==
+--===============1154310624915608288==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-TO: Marek Vasut <marex@denx.de>
+Hi Jason,
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/marex/linux-2.6.git=
- ks8851-v5
-head:   52117de6ac7930a4517345943cf8c9be9abb0e17
-commit: a385abbd26b7d823630a325a71b3cc7a4e195494 [18/20] net: ks8851: Imple=
-ment Parallel bus operations
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-191-gc51a0382-dirty
-        git checkout a385abbd26b7d823630a325a71b3cc7a4e195494
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
+url:    https://github.com/0day-ci/linux/commits/Jason-Wang/vDPA-support/20=
+200117-170243
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux=
+-next
 
-If you fix the issue, kindly add following tag as appropriate
+If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/virtio/vdpa/vdpa_sim.c:288 vdpasim_alloc_coherent() warn: returning=
+ freed memory 'addr'
 
-sparse warnings: (new ones prefixed by >>)
+# https://github.com/0day-ci/linux/commit/55047769b3e974d68b2aab5ce0022459b=
+172a23f
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 55047769b3e974d68b2aab5ce0022459b172a23f
+vim +/addr +288 drivers/virtio/vdpa/vdpa_sim.c
 
->> drivers/net/ethernet/micrel/ks8851_par.c:68:13: sparse: sparse: context =
-imbalance in 'ks8851_lock_par' - wrong count at exit
->> drivers/net/ethernet/micrel/ks8851_par.c:82:13: sparse: sparse: context =
-imbalance in 'ks8851_unlock_par' - unexpected unlock
+55047769b3e974 Jason Wang 2020-01-16  263  static void *vdpasim_alloc_coher=
+ent(struct device *dev, size_t size,
+55047769b3e974 Jason Wang 2020-01-16  264  				    dma_addr_t *dma_addr, gf=
+p_t flag,
+55047769b3e974 Jason Wang 2020-01-16  265  				    unsigned long attrs)
+55047769b3e974 Jason Wang 2020-01-16  266  {
+55047769b3e974 Jason Wang 2020-01-16  267  	struct vdpa_device *vdpa =3D de=
+v_to_vdpa(dev);
+55047769b3e974 Jason Wang 2020-01-16  268  	struct vdpasim *vdpasim =3D vdp=
+a_to_sim(vdpa);
+55047769b3e974 Jason Wang 2020-01-16  269  	struct vhost_iotlb *iommu =3D v=
+dpasim->iommu;
+55047769b3e974 Jason Wang 2020-01-16  270  	void *addr =3D kmalloc(size, fl=
+ag);
+55047769b3e974 Jason Wang 2020-01-16  271  	int ret;
+55047769b3e974 Jason Wang 2020-01-16  272  =
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/marex/linux-2.6.git/commi=
-t/?id=3Da385abbd26b7d823630a325a71b3cc7a4e195494
-git remote add marex https://git.kernel.org/pub/scm/linux/kernel/git/marex/=
-linux-2.6.git
-git remote update marex
-git checkout a385abbd26b7d823630a325a71b3cc7a4e195494
-vim +/ks8851_lock_par +68 drivers/net/ethernet/micrel/ks8851_par.c
+55047769b3e974 Jason Wang 2020-01-16  273  	if (!addr)
+55047769b3e974 Jason Wang 2020-01-16  274  		*dma_addr =3D DMA_MAPPING_ERRO=
+R;
+55047769b3e974 Jason Wang 2020-01-16  275  	else {
+55047769b3e974 Jason Wang 2020-01-16  276  		u64 pa =3D virt_to_phys(addr);
+55047769b3e974 Jason Wang 2020-01-16  277  =
 
-a385abbd26b7d8 Marek Vasut 2020-03-23  60  =
+55047769b3e974 Jason Wang 2020-01-16  278  		ret =3D vhost_iotlb_add_range(=
+iommu, (u64)pa,
+55047769b3e974 Jason Wang 2020-01-16  279  					    (u64)pa + size - 1,
+55047769b3e974 Jason Wang 2020-01-16  280  					    pa, VHOST_MAP_RW);
+55047769b3e974 Jason Wang 2020-01-16  281  		if (ret) {
+55047769b3e974 Jason Wang 2020-01-16  282  			kfree(addr);
+                                                                ^^^^^^^^^^^
+55047769b3e974 Jason Wang 2020-01-16  283  			*dma_addr =3D DMA_MAPPING_ERR=
+OR;
+55047769b3e974 Jason Wang 2020-01-16  284  		} else
+55047769b3e974 Jason Wang 2020-01-16  285  			*dma_addr =3D (dma_addr_t)pa;
+55047769b3e974 Jason Wang 2020-01-16  286  	}
+55047769b3e974 Jason Wang 2020-01-16  287  =
 
-a385abbd26b7d8 Marek Vasut 2020-03-23  61  /**
-a385abbd26b7d8 Marek Vasut 2020-03-23  62   * ks8851_lock_par - register ac=
-cess lock
-a385abbd26b7d8 Marek Vasut 2020-03-23  63   * @ks: The chip state
-a385abbd26b7d8 Marek Vasut 2020-03-23  64   * @flags: Spinlock flags
-a385abbd26b7d8 Marek Vasut 2020-03-23  65   *
-a385abbd26b7d8 Marek Vasut 2020-03-23  66   * Claim chip register access lo=
-ck
-a385abbd26b7d8 Marek Vasut 2020-03-23  67   */
-a385abbd26b7d8 Marek Vasut 2020-03-23 @68  static void ks8851_lock_par(stru=
-ct ks8851_net *ks, unsigned long *flags)
-a385abbd26b7d8 Marek Vasut 2020-03-23  69  {
-a385abbd26b7d8 Marek Vasut 2020-03-23  70  	struct ks8851_net_par *ksp =3D =
-to_ks8851_par(ks);
-a385abbd26b7d8 Marek Vasut 2020-03-23  71  =
-
-a385abbd26b7d8 Marek Vasut 2020-03-23  72  	spin_lock_irqsave(&ksp->lock, *=
-flags);
-a385abbd26b7d8 Marek Vasut 2020-03-23  73  }
-a385abbd26b7d8 Marek Vasut 2020-03-23  74  =
-
-a385abbd26b7d8 Marek Vasut 2020-03-23  75  /**
-a385abbd26b7d8 Marek Vasut 2020-03-23  76   * ks8851_unlock_par - register =
-access unlock
-a385abbd26b7d8 Marek Vasut 2020-03-23  77   * @ks: The chip state
-a385abbd26b7d8 Marek Vasut 2020-03-23  78   * @flags: Spinlock flags
-a385abbd26b7d8 Marek Vasut 2020-03-23  79   *
-a385abbd26b7d8 Marek Vasut 2020-03-23  80   * Release chip register access =
-lock
-a385abbd26b7d8 Marek Vasut 2020-03-23  81   */
-a385abbd26b7d8 Marek Vasut 2020-03-23 @82  static void ks8851_unlock_par(st=
-ruct ks8851_net *ks, unsigned long *flags)
-a385abbd26b7d8 Marek Vasut 2020-03-23  83  {
-a385abbd26b7d8 Marek Vasut 2020-03-23  84  	struct ks8851_net_par *ksp =3D =
-to_ks8851_par(ks);
-a385abbd26b7d8 Marek Vasut 2020-03-23  85  =
-
-a385abbd26b7d8 Marek Vasut 2020-03-23  86  	spin_unlock_irqrestore(&ksp->lo=
-ck, *flags);
-a385abbd26b7d8 Marek Vasut 2020-03-23  87  }
-a385abbd26b7d8 Marek Vasut 2020-03-23  88  =
-
+55047769b3e974 Jason Wang 2020-01-16 @288  	return addr;
+                                                ^^^^^^^^^^^^
+55047769b3e974 Jason Wang 2020-01-16  289  }
 
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8054505180412932576==--
+0-DAY kernel test infrastructure                 Open Source Technology Cen=
+ter
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
+ation
+--===============1154310624915608288==--
 
