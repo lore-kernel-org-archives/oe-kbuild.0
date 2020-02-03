@@ -1,63 +1,82 @@
-Content-Type: multipart/mixed; boundary="===============5173532304761046213=="
+Content-Type: multipart/mixed; boundary="===============1990627942221127833=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v3 2/2] PCI: HIP: Add handling of HiSilicon HIP PCIe controller's errors
-Date: Tue, 04 Feb 2020 17:31:42 +0300
-Message-ID: <20200204143142.GQ11068@kadam>
-In-Reply-To: <20200203165122.17748-3-shiju.jose@huawei.com>
+Subject: [nbd168-wireless:mt76 63/120] drivers/net/wireless/mediatek/mt76/mt7615/mac.c:1451 mt7615_mac_adjust_sensitivity() warn: if statement not indented
+Date: Mon, 03 Feb 2020 13:21:01 +0300
+Message-ID: <20200203102101.GL11068@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5173532304761046213==
+--===============1990627942221127833==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Shiju,
-
-Thank you for the patch! Perhaps something to improve:
-
-url:    https://github.com/0day-ci/linux/commits/Shiju-Jose/ACPI-APEI-Add-s=
-upport-to-notify-the-vendor-specific-HW-errors/20200204-073736
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- linux-next
+tree:   https://github.com/nbd168/wireless mt76
+head:   ce1154404fd63e1ff567395382f716044bbe972f
+commit: 7c9eb168979ee1222205ee624d1fca59830acabe [63/120] mt76: mt7615: add=
+ missing settings for simultaneous dual-band support
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/pci/controller/pcie-hisi-error.c:234 hisi_pcie_handle_one_error() w=
-arn: should '((((1))) << (9 + i))' be a 64 bit type?
+New smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7615/mac.c:1451 mt7615_mac_adjust_sens=
+itivity() warn: if statement not indented
 
-# https://github.com/0day-ci/linux/commit/71688ac6d222c137b66a707f8a6fdf28b=
-48e1942
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 71688ac6d222c137b66a707f8a6fdf28b48e1942
-vim +234 drivers/pci/controller/pcie-hisi-error.c
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7615/mac.c:1402 mt7615_mac_adjust_sens=
+itivity() warn: assigning (-98) to unsigned variable 'def_th'
+drivers/net/wireless/mediatek/mt76/mt7615/mac.c:1402 mt7615_mac_adjust_sens=
+itivity() warn: assigning (-110) to unsigned variable 'def_th'
 
-71688ac6d222c1 Yicong Yang 2020-02-03  228  	p +=3D snprintf(p, end - p, "]=
-\n");
-71688ac6d222c1 Yicong Yang 2020-02-03  229  	dev_info(dev, "\nHISI : HIP : =
-PCIe controller error\n");
-71688ac6d222c1 Yicong Yang 2020-02-03  230  	dev_info(dev, "%s\n", buf);
-71688ac6d222c1 Yicong Yang 2020-02-03  231  =
+# https://github.com/nbd168/wireless/commit/7c9eb168979ee1222205ee624d1fca5=
+9830acabe
+git remote add nbd168-wireless https://github.com/nbd168/wireless
+git remote update nbd168-wireless
+git checkout 7c9eb168979ee1222205ee624d1fca59830acabe
+vim +1451 drivers/net/wireless/mediatek/mt76/mt7615/mac.c
 
-71688ac6d222c1 Yicong Yang 2020-02-03  232  	dev_info(dev, "Reg Dump:\n");
-71688ac6d222c1 Yicong Yang 2020-02-03  233  	for (i =3D 0; i < HISI_PCIE_ER=
-R_MISC_REGS; i++) {
-71688ac6d222c1 Yicong Yang 2020-02-03 @234  		if (err->val_bits & BIT(HISI_=
-PCIE_LOCAL_VALID_ERR_MISC + i))
-                                                                           =
- ^^^
-This should be BIT_ULL() because it goes up to 9 + 32.
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1436  	if (*sensitivity > signa=
+l) {
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1437  		*sensitivity =3D signal;
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1438  		update =3D true;
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1439  	}
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1440  =
 
-71688ac6d222c1 Yicong Yang 2020-02-03  235  			dev_info(dev,
-71688ac6d222c1 Yicong Yang 2020-02-03  236  				 "ERR_MISC_%d=3D0x%x\n", i,=
- err->err_misc[i]);
-71688ac6d222c1 Yicong Yang 2020-02-03  237  	}
-71688ac6d222c1 Yicong Yang 2020-02-03  238  =
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1441  	if (update) {
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1442  		u16 val;
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1443  =
+
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1444  		if (ofdm) {
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1445  			val =3D *sensitivity *=
+ 2 + 512;
+7c9eb168979ee1 Ryder Lee        2019-12-24  1446  			mt76_rmw(dev, MT_WF_PH=
+Y_MIN_PRI_PWR(ext_phy),
+7c9eb168979ee1 Ryder Lee        2019-12-24  1447  				 MT_WF_PHY_PD_OFDM_MA=
+SK(ext_phy),
+7c9eb168979ee1 Ryder Lee        2019-12-24  1448  				 MT_WF_PHY_PD_OFDM(ex=
+t_phy, val));
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1449  		} else {
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1450  			val =3D *sensitivity +=
+ 256;
+e65b8bc2cbc0a0 Felix Fietkau    2019-10-26 @1451  			if (!ext_phy)
+
+Missing if return or something?
+
+7c9eb168979ee1 Ryder Lee        2019-12-24  1452  			mt76_rmw(dev, MT_WF_PH=
+Y_RXTD_CCK_PD(ext_phy),
+7c9eb168979ee1 Ryder Lee        2019-12-24  1453  				 MT_WF_PHY_PD_CCK_MAS=
+K(ext_phy),
+7c9eb168979ee1 Ryder Lee        2019-12-24  1454  				 MT_WF_PHY_PD_CCK(ext=
+_phy, val));
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1455  		}
+e65b8bc2cbc0a0 Felix Fietkau    2019-10-26  1456  		phy->last_cca_adj =3D j=
+iffies;
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1457  	}
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1458  }
+49de79ad9a748c Lorenzo Bianconi 2019-07-28  1459  =
 
 
 ---
@@ -65,5 +84,5 @@ This should be BIT_ULL() because it goes up to 9 + 32.
 ter
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
 ation
---===============5173532304761046213==--
+--===============1990627942221127833==--
 
