@@ -1,90 +1,130 @@
-Content-Type: multipart/mixed; boundary="===============5573645408166717500=="
+Content-Type: multipart/mixed; boundary="===============5117634294986587896=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [chrome-os:chromeos-4.19 5/5] drivers/gpu/drm/i915/intel_modes.c:168 intel_attach_privacy_screen_property() error: uninitialized symbol 'prop'.
-Date: Mon, 03 Feb 2020 11:47:40 +0300
-Message-ID: <20200203084740.GJ11068@kadam>
+Subject: [hwmon:hwmon-playground 6/16] drivers/hwmon/pmbus/pmbus_core.c:174 pmbus_set_page() warn: this array is probably non-NULL. 'data->info->phases'
+Date: Mon, 03 Feb 2020 11:45:22 +0300
+Message-ID: <20200203084521.GI11068@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5573645408166717500==
+--===============5117634294986587896==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-4.19
-head:   6e9ad418e3e56843809b2de0e833818fd9fe72eb
-commit: 6e9ad418e3e56843809b2de0e833818fd9fe72eb [5/5] BACKPORT: FROMLIST: =
-drm/i915: Add support for integrated privacy screens
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-stagin=
+g.git hwmon-playground
+head:   b6b911a2f7d675c768f19e75ba2e8ed216fce65a
+commit: 17e064db5aa2cfbfd254c0951544f88b2b1258ee [6/16] hwmon: (pmbus) Impl=
+ement multi-phase support
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/i915/intel_modes.c:168 intel_attach_privacy_screen_property=
-() error: uninitialized symbol 'prop'.
+drivers/hwmon/pmbus/pmbus_core.c:174 pmbus_set_page() warn: this array is n=
+on-NULL. 'data->info->phases'
 
-git remote add chrome-os https://chromium.googlesource.com/chromiumos/third=
-_party/kernel
-git remote update chrome-os
-git checkout 6e9ad418e3e56843809b2de0e833818fd9fe72eb
-vim +/prop +168 drivers/gpu/drm/i915/intel_modes.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/=
+commit/?id=3D17e064db5aa2cfbfd254c0951544f88b2b1258ee
+git remote add hwmon https://git.kernel.org/pub/scm/linux/kernel/git/groeck=
+/linux-staging.git
+git remote update hwmon
+git checkout 17e064db5aa2cfbfd254c0951544f88b2b1258ee
+vim +174 drivers/hwmon/pmbus/pmbus_core.c
 
-6e9ad418e3e568 Rajat Jain 2019-12-18  141  =
+ce603b18f30aea drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2013-01-26  =
+150  =
 
-6e9ad418e3e568 Rajat Jain 2019-12-18  142  /**
-6e9ad418e3e568 Rajat Jain 2019-12-18  143   * intel_attach_privacy_screen_p=
-roperty -
-6e9ad418e3e568 Rajat Jain 2019-12-18  144   *     create and attach the con=
-necter's privacy-screen property. *
-6e9ad418e3e568 Rajat Jain 2019-12-18  145   * @connector: connector for whi=
-ch to init the privacy-screen property
-6e9ad418e3e568 Rajat Jain 2019-12-18  146   *
-6e9ad418e3e568 Rajat Jain 2019-12-18  147   * This function creates and att=
-aches the "privacy-screen" property to the
-6e9ad418e3e568 Rajat Jain 2019-12-18  148   * connector. Initial state of p=
-rivacy-screen is set to disabled.
-6e9ad418e3e568 Rajat Jain 2019-12-18  149   */
-6e9ad418e3e568 Rajat Jain 2019-12-18  150  void
-6e9ad418e3e568 Rajat Jain 2019-12-18  151  intel_attach_privacy_screen_prop=
-erty(struct drm_connector *connector)
-6e9ad418e3e568 Rajat Jain 2019-12-18  152  {
-6e9ad418e3e568 Rajat Jain 2019-12-18  153  	struct intel_connector *intel_c=
-onnector =3D to_intel_connector(connector);
-6e9ad418e3e568 Rajat Jain 2019-12-18  154  	struct drm_property *prop;
-                                                                     ^^^^
-6e9ad418e3e568 Rajat Jain 2019-12-18  155  =
+6db8d5dba444f2 drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-14  =
+151  int pmbus_set_page(struct i2c_client *client, int page, int phase)
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+152  {
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+153  	struct pmbus_data *data =3D i2c_get_clientdata(client);
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+154  	int rv;
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+155  =
 
-6e9ad418e3e568 Rajat Jain 2019-12-18  156  	if (!intel_connector->privacy_s=
-creen_property) {
-6e9ad418e3e568 Rajat Jain 2019-12-18  157  		prop =3D drm_property_create_e=
-num(connector->dev,
-6e9ad418e3e568 Rajat Jain 2019-12-18  158  						DRM_MODE_PROP_ENUM,
-6e9ad418e3e568 Rajat Jain 2019-12-18  159  						"privacy-screen",
-6e9ad418e3e568 Rajat Jain 2019-12-18  160  						privacy_screen_enum,
-6e9ad418e3e568 Rajat Jain 2019-12-18  161  					    ARRAY_SIZE(privacy_scre=
-en_enum));
-6e9ad418e3e568 Rajat Jain 2019-12-18  162  		if (!prop)
-6e9ad418e3e568 Rajat Jain 2019-12-18  163  			return;
-6e9ad418e3e568 Rajat Jain 2019-12-18  164  =
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+156  	if (page < 0)
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+157  		return 0;
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+158  =
 
-6e9ad418e3e568 Rajat Jain 2019-12-18  165  		intel_connector->privacy_scree=
-n_property =3D prop;
-6e9ad418e3e568 Rajat Jain 2019-12-18  166  	}
-6e9ad418e3e568 Rajat Jain 2019-12-18  167  =
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+159  	if (!(data->info->func[page] & PMBUS_PAGE_VIRTUAL) &&
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+160  	    data->info->pages > 1 && page !=3D data->currpage) {
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+161  		rv =3D i2c_smbus_write_byte_data(client, PMBUS_PAGE, page);
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+162  		if (rv < 0)
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+163  			return rv;
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+164  =
 
-6e9ad418e3e568 Rajat Jain 2019-12-18 @168  	drm_object_attach_property(&con=
-nector->base, prop,
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+165  		rv =3D i2c_smbus_read_byte_data(client, PMBUS_PAGE);
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+166  		if (rv < 0)
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+167  			return rv;
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+168  =
+
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+169  		if (rv !=3D page)
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+170  			return -EIO;
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+171  	}
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+172  	data->currpage =3D page;
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+173  =
+
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13 @=
+174  	if (data->info->phases && data->currphase !=3D phase &&
                                                                            =
-                  ^^^^
-Move this into the if condition?
+                 ^^^^^^^^^^^^^^^^^^
+Delete this condition?
+
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+175  	    !(data->info->func[page] & PMBUS_PHASE_VIRTUAL)) {
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+176  		rv =3D i2c_smbus_write_byte_data(client, PMBUS_PHASE,
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+177  					       phase);
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+178  		if (rv)
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+179  			return rv;
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+180  	}
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+181  	data->currphase =3D phase;
+17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
+182  =
+
+464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
+183  	return 0;
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+184  }
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+185  EXPORT_SYMBOL_GPL(pmbus_set_page);
+442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
+186  =
+
 
 ---
 0-DAY kernel test infrastructure                 Open Source Technology Cen=
 ter
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
 ation
---===============5573645408166717500==--
+--===============5117634294986587896==--
 
