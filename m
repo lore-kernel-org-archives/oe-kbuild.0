@@ -1,16 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============8440360735168938548=="
+Content-Type: multipart/mixed; boundary="===============7221134148217020366=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 Subject: [iio:testing 16/16] drivers/iio/light/vcnl4000.c:153 vcnl4200_set_power_state() warn: ignoring unreachable code.
-Date: Fri, 07 Feb 2020 06:35:21 +0300
-Message-ID: <20200207033521.GN24804@kadam>
+Date: Fri, 07 Feb 2020 06:34:48 +0300
+Message-ID: <20200207033448.GM24804@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8440360735168938548==
+--===============7221134148217020366==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: "Guido G=C3=BCnther" <agx@sigxcpu.org>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testi=
 ng
@@ -52,8 +56,9 @@ ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  151  =
 
 ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  152  	return i2c_smbus_write=
 _word_data(data->client, VCNL4200_PS_CONF1, val);
-                                                ^^^^^^^^^^^^^^^
-ret =3D
+
+ret =3D =
+
 
 ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03 @153  	if (ret < 0)
 ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  154  		return ret;
@@ -77,5 +82,5 @@ ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  164  =
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8440360735168938548==--
+--===============7221134148217020366==--
 
