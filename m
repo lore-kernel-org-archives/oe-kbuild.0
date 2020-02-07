@@ -1,86 +1,71 @@
-Content-Type: multipart/mixed; boundary="===============7221134148217020366=="
+Content-Type: multipart/mixed; boundary="===============6863290477661433303=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [iio:testing 16/16] drivers/iio/light/vcnl4000.c:153 vcnl4200_set_power_state() warn: ignoring unreachable code.
-Date: Fri, 07 Feb 2020 06:34:48 +0300
-Message-ID: <20200207033448.GM24804@kadam>
+Subject: [android-goldfish:android-3.18 260/303] net/ipv4/tcp_input.c:875 tcp_verify_retransmit_hint() warn: if statement not indented
+Date: Fri, 07 Feb 2020 06:33:50 +0300
+Message-ID: <20200207033350.GL24804@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7221134148217020366==
+--===============6863290477661433303==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-TO: "Guido G=C3=BCnther" <agx@sigxcpu.org>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git testi=
-ng
-head:   ce08fb79f9c866d1fe6dba977a32954cdc444059
-commit: ce08fb79f9c866d1fe6dba977a32954cdc444059 [16/16] iio: vcnl4000: Ena=
-ble runtime pm for vcnl4200/4040
+tree:   https://android.googlesource.com/kernel/goldfish android-3.18
+head:   00127200e529357755b80e4ccdd1e956a2014e0f
+commit: aead6225458bac4a4cf6329bc8accf3c68863495 [260/303] tcp: fix marked =
+lost packets not being retransmitted
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/iio/light/vcnl4000.c:153 vcnl4200_set_power_state() warn: ignoring =
-unreachable code.
+New smatch warnings:
+net/ipv4/tcp_input.c:875 tcp_verify_retransmit_hint() warn: if statement no=
+t indented
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git/commit/?id=
-=3Dce08fb79f9c866d1fe6dba977a32954cdc444059
-git remote add iio https://git.kernel.org/pub/scm/linux/kernel/git/jic23/ii=
-o.git
-git remote update iio
-git checkout ce08fb79f9c866d1fe6dba977a32954cdc444059
-vim +153 drivers/iio/light/vcnl4000.c
+Old smatch warnings:
+include/linux/netdevice.h:3585 net_gso_ok() warn: should 'gso_type << 16' b=
+e a 64 bit type?
 
-be38866fbb97f0e Tomas Novotny 2018-07-25  142  =
+git remote add android-goldfish https://android.googlesource.com/kernel/gol=
+dfish
+git remote update android-goldfish
+git checkout aead6225458bac4a4cf6329bc8accf3c68863495
+vim +875 net/ipv4/tcp_input.c
 
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  143  static int vcnl4200_set=
-_power_state(struct vcnl4000_data *data, bool on)
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  144  {
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  145  	u16 val =3D on ? 0 /* =
-power on */ : 1 /* shut down */;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  146  	int ret;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  147  =
+^1da177e4c3f415 Linus Torvalds 2005-04-16  871  =
 
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  148  	ret =3D i2c_smbus_writ=
-e_word_data(data->client, VCNL4200_AL_CONF, val);
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  149  	if (ret < 0)
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  150  		return ret;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  151  =
-
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  152  	return i2c_smbus_write=
-_word_data(data->client, VCNL4200_PS_CONF1, val);
-
-ret =3D =
+006f582c73f4eda Ilpo J=C3=A4rvinen  2008-09-20  872  /* This must be called=
+ before lost_out is incremented */
+c8c213f20ce97c6 Ilpo J=C3=A4rvinen  2008-09-20  873  static void tcp_verify=
+_retransmit_hint(struct tcp_sock *tp, struct sk_buff *skb)
+c8c213f20ce97c6 Ilpo J=C3=A4rvinen  2008-09-20  874  {
+aead6225458bac4 Pengcheng Yang 2020-01-14 @875  	if (((tp->retransmit_skb_h=
+int =3D=3D NULL) && tp->retrans_out >=3D tp->lost_out) ||
+aead6225458bac4 Pengcheng Yang 2020-01-14  876  	    (tp->retransmit_skb_hi=
+nt &&
+c8c213f20ce97c6 Ilpo J=C3=A4rvinen  2008-09-20  877  	     before(TCP_SKB_C=
+B(skb)->seq,
+aead6225458bac4 Pengcheng Yang 2020-01-14  878  		    TCP_SKB_CB(tp->retran=
+smit_skb_hint)->seq)))
+006f582c73f4eda Ilpo J=C3=A4rvinen  2008-09-20  879  =
 
 
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03 @153  	if (ret < 0)
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  154  		return ret;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  155  =
+What was this if statement supposed to do?
 
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  156  	if (on) {
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  157  		/* Wait@least one =
-integration cycle before fetching data */
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  158  		data->vcnl4200_al.las=
-t_measurement =3D ktime_get();
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  159  		data->vcnl4200_ps.las=
-t_measurement =3D ktime_get();
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  160  	}
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  161  =
-
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  162  	return 0;
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  163  }
-ce08fb79f9c866d Guido G=C3=BCnther 2020-02-03  164  =
+006f582c73f4eda Ilpo J=C3=A4rvinen  2008-09-20  880  	if (!tp->lost_out ||
+006f582c73f4eda Ilpo J=C3=A4rvinen  2008-09-20  881  	    after(TCP_SKB_CB(=
+skb)->end_seq, tp->retransmit_high))
+006f582c73f4eda Ilpo J=C3=A4rvinen  2008-09-20  882  		tp->retransmit_high =
+=3D TCP_SKB_CB(skb)->end_seq;
+c8c213f20ce97c6 Ilpo J=C3=A4rvinen  2008-09-20  883  }
+c8c213f20ce97c6 Ilpo J=C3=A4rvinen  2008-09-20  884  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7221134148217020366==--
+--===============6863290477661433303==--
 
