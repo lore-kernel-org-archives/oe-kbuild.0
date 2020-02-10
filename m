@@ -1,93 +1,105 @@
-Content-Type: multipart/mixed; boundary="===============3947317468578834217=="
+Content-Type: multipart/mixed; boundary="===============3693918405087135295=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [rcar:gmsl/dev 23/23] lib/vsprintf.c:800 ptr_to_id() warn: ignoring unreachable code.
-Date: Tue, 11 Feb 2020 09:04:48 +0300
-Message-ID: <20200211060447.GS24804@kadam>
+Subject: [mkl-can-next:v5.4/mcp25xxfd 5/99] drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1305 mcp25xxfd_irq() warn: ignoring unreachable code.
+Date: Mon, 10 Feb 2020 10:42:27 +0300
+Message-ID: <20200210074227.GR24804@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3947317468578834217==
+--===============3693918405087135295==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git g=
-msl/dev
-head:   93aef18a872beaf24093f699268e56a484e31f64
-commit: 93aef18a872beaf24093f699268e56a484e31f64 [23/23] lib: vsprint debug=
--ptrval
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.=
+git v5.4/mcp25xxfd
+head:   cdcc21e4acc1a753bc4fb151b938ba292ecf686b
+commit: 6499ad52b2ad766769d55b8d59df0d36db848e95 [5/99] can: mcp25xxfd: ini=
+tial commit
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-lib/vsprintf.c:800 ptr_to_id() warn: ignoring unreachable code.
+drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1305 mcp25xxfd_irq() warn: i=
+gnoring unreachable code.
 
 Old smatch warnings:
-lib/vsprintf.c:1405 ip6_compressed_string() warn: possible spectre second h=
-alf.  '*p'
-lib/vsprintf.c:1408 ip6_compressed_string() warn: possible spectre second h=
-alf.  '*p'
+drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1667 mcp25xxfd_probe() warn:=
+ passing zero to 'PTR_ERR'
+drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1675 mcp25xxfd_probe() warn:=
+ passing zero to 'PTR_ERR'
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git/commit/=
-?id=3D93aef18a872beaf24093f699268e56a484e31f64
-git remote add rcar https://git.kernel.org/pub/scm/linux/kernel/git/kbingha=
-m/rcar.git
-git remote update rcar
-git checkout 93aef18a872beaf24093f699268e56a484e31f64
-vim +800 lib/vsprintf.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git/co=
+mmit/?id=3D6499ad52b2ad766769d55b8d59df0d36db848e95
+git remote add mkl-can-next https://git.kernel.org/pub/scm/linux/kernel/git=
+/mkl/linux-can-next.git
+git remote update mkl-can-next
+git checkout 6499ad52b2ad766769d55b8d59df0d36db848e95
+vim +1305 drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c
 
-e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  789) =
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1280  =
 
-9073dac14e397f Geert Uytterhoeven      2018-10-11  790  static char *ptr_to=
-_id(char *buf, char *end, const void *ptr,
-9073dac14e397f Geert Uytterhoeven      2018-10-11  791  		       struct pri=
-ntf_spec spec)
-9073dac14e397f Geert Uytterhoeven      2018-10-11  792  {
-9073dac14e397f Geert Uytterhoeven      2018-10-11  793  	const char *str =
-=3D sizeof(ptr) =3D=3D 8 ? "(____ptrval____)" : "(ptrval)";
-9073dac14e397f Geert Uytterhoeven      2018-10-11  794  	unsigned long hash=
-val;
-e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  795) 	int ret;
-9073dac14e397f Geert Uytterhoeven      2018-10-11  796  =
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1281  		if (IS_ENABLED(CONFIG_=
+CAN_MCP25XXFD_DEBUG) &&
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1282  		    intf_pending & ~(M=
+CP25XXFD_CAN_INT_MODIF |
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1283  				     MCP25XXFD_CAN_I=
+NT_TEFIF |
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1284  				     MCP25XXFD_CAN_I=
+NT_RXIF |
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1285  				     MCP25XXFD_CAN_I=
+NT_SERRIF |
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1286  				     MCP25XXFD_CAN_I=
+NT_IVMIF)) {
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1287  			netdev_err(priv->ndev=
+, "%s: intf_pending=3D0x%04x\n",
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1288  				   __func__, intf_pe=
+nding);
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1289  			mcp25xxfd_dump(priv);
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1290  		}
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1291  =
 
-93aef18a872bea Laurent Pinchart        2020-02-10  797  	return pointer_str=
-ing(buf, end, ptr, spec);
-                                                                ^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-93aef18a872bea Laurent Pinchart        2020-02-10  798  =
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1292  		/* ACK interrupts that=
+ need to be ACKed in the
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1293  		 * MCP25XXFD_CAN_INT r=
+egister.
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1294  		 */
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1295  		intf_pending_clearable=
+ =3D intf_pending &
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1296  			MCP25XXFD_CAN_INT_INT=
+ERRUPT_CLEARABLE;
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1297  		if (intf_pending_clear=
+able) {
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1298  			err =3D regmap_update=
+_bits(priv->map, MCP25XXFD_CAN_INT,
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1299  						 intf_pending_clea=
+rable, 0x0);
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1300  			if (err)
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1301  				goto out_fail;
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1302  		}
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1303  	} while (1);
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1304  =
 
-9073dac14e397f Geert Uytterhoeven      2018-10-11  799  	/* When debugging =
-early boot use non-cryptographically secure hash. */
-9073dac14e397f Geert Uytterhoeven      2018-10-11 @800  	if (unlikely(debug=
-_boot_weak_hash)) {
-9073dac14e397f Geert Uytterhoeven      2018-10-11  801  		hashval =3D hash_=
-long((unsigned long)ptr, 32);
-9073dac14e397f Geert Uytterhoeven      2018-10-11  802  		return pointer_st=
-ring(buf, end, (const void *)hashval, spec);
-9073dac14e397f Geert Uytterhoeven      2018-10-11  803  	}
-9073dac14e397f Geert Uytterhoeven      2018-10-11  804  =
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14 @1305  	return handled;
 
-e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  805) 	ret =3D __ptr_to_h=
-ashval(ptr, &hashval);
-e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  806) 	if (ret) {
-9073dac14e397f Geert Uytterhoeven      2018-10-11  807  		spec.field_width =
-=3D 2 * sizeof(ptr);
-9073dac14e397f Geert Uytterhoeven      2018-10-11  808  		/* string length =
-must be less than default_width */
-c8c3b584343cb7 Petr Mladek             2019-04-17  809  		return error_stri=
-ng(buf, end, str, spec);
-9073dac14e397f Geert Uytterhoeven      2018-10-11  810  	}
-9073dac14e397f Geert Uytterhoeven      2018-10-11  811  =
+I guess the while (1) loop has no breaks.
 
-9073dac14e397f Geert Uytterhoeven      2018-10-11  812  	return pointer_str=
-ing(buf, end, (const void *)hashval, spec);
-9073dac14e397f Geert Uytterhoeven      2018-10-11  813  }
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1306  =
+
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1307   out_fail:
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1308  	mcp25xxfd_dump(priv);
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1309  	mcp25xxfd_chip_interrup=
+ts_disable(priv);
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1310  =
+
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1311  	return handled;
+6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1312  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3947317468578834217==--
+--===============3693918405087135295==--
 
