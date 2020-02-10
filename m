@@ -1,105 +1,123 @@
-Content-Type: multipart/mixed; boundary="===============3693918405087135295=="
+Content-Type: multipart/mixed; boundary="===============2690921604689516557=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [mkl-can-next:v5.4/mcp25xxfd 5/99] drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1305 mcp25xxfd_irq() warn: ignoring unreachable code.
-Date: Mon, 10 Feb 2020 10:42:27 +0300
-Message-ID: <20200210074227.GR24804@kadam>
+Subject: [balbi-usb:testing/next 5/10] drivers/usb/dwc3/dwc3-meson-g12a.c:455 dwc3_meson_g12a_otg_init() error: uninitialized symbol 'ret'.
+Date: Mon, 10 Feb 2020 10:31:10 +0300
+Message-ID: <20200210073110.GQ24804@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3693918405087135295==
+--===============2690921604689516557==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.=
-git v5.4/mcp25xxfd
-head:   cdcc21e4acc1a753bc4fb151b938ba292ecf686b
-commit: 6499ad52b2ad766769d55b8d59df0d36db848e95 [5/99] can: mcp25xxfd: ini=
-tial commit
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git testi=
+ng/next
+head:   b081f1dc121c0bdeacc45cf02c35d1ee95120680
+commit: 729149c53f048f16aff9e662bf444c275b59ba8a [5/10] usb: dwc3: Add Amlo=
+gic A1 DWC3 glue
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1305 mcp25xxfd_irq() warn: i=
-gnoring unreachable code.
+smatch warnings:
+drivers/usb/dwc3/dwc3-meson-g12a.c:455 dwc3_meson_g12a_otg_init() error: un=
+initialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1667 mcp25xxfd_probe() warn:=
- passing zero to 'PTR_ERR'
-drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c:1675 mcp25xxfd_probe() warn:=
- passing zero to 'PTR_ERR'
+# https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git/commit/?id=
+=3D729149c53f048f16aff9e662bf444c275b59ba8a
+git remote add balbi-usb https://git.kernel.org/pub/scm/linux/kernel/git/ba=
+lbi/usb.git
+git remote update balbi-usb
+git checkout 729149c53f048f16aff9e662bf444c275b59ba8a
+vim +/ret +455 drivers/usb/dwc3/dwc3-meson-g12a.c
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/mkl/linux-can-next.git/co=
-mmit/?id=3D6499ad52b2ad766769d55b8d59df0d36db848e95
-git remote add mkl-can-next https://git.kernel.org/pub/scm/linux/kernel/git=
-/mkl/linux-can-next.git
-git remote update mkl-can-next
-git checkout 6499ad52b2ad766769d55b8d59df0d36db848e95
-vim +1305 drivers/net/can/spi/mcp25xxfd/mcp25xxfd-core.c
+729149c53f048f Hanjie Lin     2020-01-20  411  static int dwc3_meson_g12a_o=
+tg_init(struct platform_device *pdev,
+729149c53f048f Hanjie Lin     2020-01-20  412  				    struct dwc3_meson_g1=
+2a *priv)
+729149c53f048f Hanjie Lin     2020-01-20  413  {
+729149c53f048f Hanjie Lin     2020-01-20  414  	enum phy_mode otg_id;
+729149c53f048f Hanjie Lin     2020-01-20  415  	int ret, irq;
+729149c53f048f Hanjie Lin     2020-01-20  416  	struct device *dev =3D &pde=
+v->dev;
+729149c53f048f Hanjie Lin     2020-01-20  417  =
 
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1280  =
+729149c53f048f Hanjie Lin     2020-01-20  418  	if (!priv->drvdata->otg_swi=
+tch_supported)
+729149c53f048f Hanjie Lin     2020-01-20  419  		return 0;
+729149c53f048f Hanjie Lin     2020-01-20  420  =
 
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1281  		if (IS_ENABLED(CONFIG_=
-CAN_MCP25XXFD_DEBUG) &&
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1282  		    intf_pending & ~(M=
-CP25XXFD_CAN_INT_MODIF |
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1283  				     MCP25XXFD_CAN_I=
-NT_TEFIF |
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1284  				     MCP25XXFD_CAN_I=
-NT_RXIF |
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1285  				     MCP25XXFD_CAN_I=
-NT_SERRIF |
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1286  				     MCP25XXFD_CAN_I=
-NT_IVMIF)) {
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1287  			netdev_err(priv->ndev=
-, "%s: intf_pending=3D0x%04x\n",
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1288  				   __func__, intf_pe=
-nding);
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1289  			mcp25xxfd_dump(priv);
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1290  		}
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1291  =
+729149c53f048f Hanjie Lin     2020-01-20  421  	if (priv->otg_mode =3D=3D U=
+SB_DR_MODE_OTG) {
+729149c53f048f Hanjie Lin     2020-01-20  422  		/* Ack irq before register=
+ing */
+729149c53f048f Hanjie Lin     2020-01-20  423  		regmap_update_bits(priv->r=
+egmap, USB_R5,
+729149c53f048f Hanjie Lin     2020-01-20  424  				   USB_R5_ID_DIG_IRQ, 0);
+729149c53f048f Hanjie Lin     2020-01-20  425  =
 
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1292  		/* ACK interrupts that=
- need to be ACKed in the
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1293  		 * MCP25XXFD_CAN_INT r=
-egister.
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1294  		 */
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1295  		intf_pending_clearable=
- =3D intf_pending &
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1296  			MCP25XXFD_CAN_INT_INT=
-ERRUPT_CLEARABLE;
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1297  		if (intf_pending_clear=
-able) {
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1298  			err =3D regmap_update=
-_bits(priv->map, MCP25XXFD_CAN_INT,
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1299  						 intf_pending_clea=
-rable, 0x0);
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1300  			if (err)
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1301  				goto out_fail;
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1302  		}
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1303  	} while (1);
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1304  =
+729149c53f048f Hanjie Lin     2020-01-20  426  		irq =3D platform_get_irq(p=
+dev, 0);
+729149c53f048f Hanjie Lin     2020-01-20  427  		ret =3D devm_request_threa=
+ded_irq(&pdev->dev, irq, NULL,
+729149c53f048f Hanjie Lin     2020-01-20  428  						dwc3_meson_g12a_irq_th=
+read,
+729149c53f048f Hanjie Lin     2020-01-20  429  						IRQF_ONESHOT, pdev->na=
+me, priv);
+729149c53f048f Hanjie Lin     2020-01-20  430  		if (ret)
+729149c53f048f Hanjie Lin     2020-01-20  431  			return ret;
+729149c53f048f Hanjie Lin     2020-01-20  432  	}
+729149c53f048f Hanjie Lin     2020-01-20  433  =
 
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14 @1305  	return handled;
+729149c53f048f Hanjie Lin     2020-01-20  434  	/* Setup OTG mode correspon=
+ding to the ID pin */
+729149c53f048f Hanjie Lin     2020-01-20  435  	if (priv->otg_mode =3D=3D U=
+SB_DR_MODE_OTG) {
+729149c53f048f Hanjie Lin     2020-01-20  436  		otg_id =3D dwc3_meson_g12a=
+_get_id(priv);
+729149c53f048f Hanjie Lin     2020-01-20  437  		if (otg_id !=3D priv->otg_=
+phy_mode) {
+729149c53f048f Hanjie Lin     2020-01-20  438  			if (dwc3_meson_g12a_otg_m=
+ode_set(priv, otg_id))
+729149c53f048f Hanjie Lin     2020-01-20  439  				dev_warn(dev, "Failed to=
+ switch OTG mode\n");
+729149c53f048f Hanjie Lin     2020-01-20  440  		}
+729149c53f048f Hanjie Lin     2020-01-20  441  	}
+729149c53f048f Hanjie Lin     2020-01-20  442  =
 
-I guess the while (1) loop has no breaks.
+729149c53f048f Hanjie Lin     2020-01-20  443  	/* Setup role switcher */
+729149c53f048f Hanjie Lin     2020-01-20  444  	priv->switch_desc.usb2_port=
+ =3D dwc3_meson_g12_find_child(dev,
+729149c53f048f Hanjie Lin     2020-01-20  445  								"snps,dwc3");
+729149c53f048f Hanjie Lin     2020-01-20  446  	priv->switch_desc.udc =3D d=
+wc3_meson_g12_find_child(dev, "snps,dwc2");
+729149c53f048f Hanjie Lin     2020-01-20  447  	priv->switch_desc.allow_use=
+rspace_control =3D true;
+729149c53f048f Hanjie Lin     2020-01-20  448  	priv->switch_desc.set =3D d=
+wc3_meson_g12a_role_set;
+729149c53f048f Hanjie Lin     2020-01-20  449  	priv->switch_desc.get =3D d=
+wc3_meson_g12a_role_get;
+729149c53f048f Hanjie Lin     2020-01-20  450  =
 
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1306  =
+729149c53f048f Hanjie Lin     2020-01-20  451  	priv->role_switch =3D usb_r=
+ole_switch_register(dev, &priv->switch_desc);
+729149c53f048f Hanjie Lin     2020-01-20  452  	if (IS_ERR(priv->role_switc=
+h))
+729149c53f048f Hanjie Lin     2020-01-20  453  		dev_warn(dev, "Unable to r=
+egister Role Switch\n");
+729149c53f048f Hanjie Lin     2020-01-20  454  =
 
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1307   out_fail:
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1308  	mcp25xxfd_dump(priv);
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1309  	mcp25xxfd_chip_interrup=
-ts_disable(priv);
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1310  =
+729149c53f048f Hanjie Lin     2020-01-20 @455  	return ret;
 
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1311  	return handled;
-6499ad52b2ad76 Marc Kleine-Budde 2019-10-14  1312  }
+"ret" can be uninitialized.  It should be "return 0;" anyway.
+
+729149c53f048f Hanjie Lin     2020-01-20  456  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3693918405087135295==--
+--===============2690921604689516557==--
 
