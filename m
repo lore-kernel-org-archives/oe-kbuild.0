@@ -1,164 +1,137 @@
-Content-Type: multipart/mixed; boundary="===============5820283705161417524=="
+Content-Type: multipart/mixed; boundary="===============5734235323741407840=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [linux-next:master 1249/1397] drivers/hwmon/axi-fan-control.c:418 axi_fan_control_probe() error: potentially dereferencing uninitialized 'res'.
-Date: Tue, 11 Feb 2020 13:46:42 +0300
-Message-ID: <20200211104642.GA7838@kadam>
+Subject: [sashal-linux-stable:queue-4.9 37/96] drivers/crypto/atmel-aes.c:944 atmel_aes_ctr_transfer() warn: right shifting more than type allows 16 vs 16
+Date: Tue, 11 Feb 2020 09:21:25 +0300
+Message-ID: <20200211062125.GT24804@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5820283705161417524==
+--===============5734235323741407840==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   ac431e2d7b1be81bfe58163b9f81ba79bc987dc3
-commit: 690dd9ce04f6a1b319bcb211ee0b3e125a4fa4f2 [1249/1397] hwmon: Support=
- ADI Fan Control IP
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable=
+.git queue-4.9
+head:   89d815750d288127abb27eedf62fb7606c59cd69
+commit: 5f5295e65a5cd95f1c9c208547be07a5bb0ec6c5 [37/96] crypto: atmel-aes =
+- Fix counter overflow in CTR mode
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/hwmon/axi-fan-control.c:418 axi_fan_control_probe() error: potentia=
-lly dereferencing uninitialized 'res'.
+drivers/crypto/atmel-aes.c:944 atmel_aes_ctr_transfer() warn: right shiftin=
+g more than type allows 16 vs 16
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
-t/?id=3D690dd9ce04f6a1b319bcb211ee0b3e125a4fa4f2
-git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
-ext/linux-next.git
-git remote update linux-next
-git checkout 690dd9ce04f6a1b319bcb211ee0b3e125a4fa4f2
-vim +/res +418 drivers/hwmon/axi-fan-control.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/c=
+ommit/?id=3D5f5295e65a5cd95f1c9c208547be07a5bb0ec6c5
+git remote add sashal-linux-stable https://git.kernel.org/pub/scm/linux/ker=
+nel/git/sashal/linux-stable.git
+git remote update sashal-linux-stable
+git checkout 5f5295e65a5cd95f1c9c208547be07a5bb0ec6c5
+vim +944 drivers/crypto/atmel-aes.c
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  386  static int axi_fan_control_pro=
-be(struct platform_device *pdev)
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  387  {
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  388  	struct axi_fan_control_data *=
-ctl;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  389  	struct clk *clk;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  390  	const struct of_device_id *id;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  391  	const char *name =3D "axi_fan=
-_control";
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  392  	struct resource *res;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  393  	u32 version;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  394  	int ret;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  395  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  920  static int atmel_aes_ctr_tr=
+ansfer(struct atmel_aes_dev *dd)
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  921  {
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  922  	struct atmel_aes_ctr_ctx *=
+ctx =3D atmel_aes_ctr_ctx_cast(dd->ctx);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  923  	struct ablkcipher_request =
+*req =3D ablkcipher_request_cast(dd->areq);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  924  	struct scatterlist *src, *=
+dst;
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  925  	size_t datalen;
+5f5295e65a5cd9 Tudor Ambarus   2019-12-05  926  	u32 ctr;
+5f5295e65a5cd9 Tudor Ambarus   2019-12-05  927  	u16 blocks, start, end;
+                                                        ^^^^^^^^^^
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  396  	id =3D of_match_node(axi_fan_=
-control_of_match, pdev->dev.of_node);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  397  	if (!id)
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  398  		return -EINVAL;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  399  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  928  	bool use_dma, fragmented =
+=3D false;
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  929  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  400  	ctl =3D devm_kzalloc(&pdev->d=
-ev, sizeof(*ctl), GFP_KERNEL);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  401  	if (!ctl)
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  402  		return -ENOMEM;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  403  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  930  	/* Check for transfer comp=
+letion. */
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  931  	ctx->offset +=3D dd->total;
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  932  	if (ctx->offset >=3D req->=
+nbytes)
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  933  		return atmel_aes_transfer=
+_complete(dd);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  934  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  404  	ctl->base =3D devm_platform_i=
-oremap_resource(pdev, 0);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  405  	if (IS_ERR(ctl->base))
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  406  		return PTR_ERR(ctl->base);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  407  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  935  	/* Compute data length. */
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  936  	datalen =3D req->nbytes - =
+ctx->offset;
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  937  	blocks =3D DIV_ROUND_UP(da=
+talen, AES_BLOCK_SIZE);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  938  	ctr =3D be32_to_cpu(ctx->i=
+v[3]);
+5f5295e65a5cd9 Tudor Ambarus   2019-12-05  939  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  408  	clk =3D devm_clk_get(&pdev->d=
-ev, NULL);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  409  	if (IS_ERR(clk)) {
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  410  		dev_err(&pdev->dev, "clk_get=
- failed with %ld\n", PTR_ERR(clk));
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  411  		return PTR_ERR(clk);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  412  	}
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  413  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  940  	/* Check 16bit counter ove=
+rflow. */
+5f5295e65a5cd9 Tudor Ambarus   2019-12-05  941  	start =3D ctr & 0xffff;
+5f5295e65a5cd9 Tudor Ambarus   2019-12-05  942  	end =3D start + blocks - 1;
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  943  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  414  	ctl->clk_rate =3D clk_get_rat=
-e(clk);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  415  	if (!ctl->clk_rate)
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  416  		return -EINVAL;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  417  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17 @944  	if (blocks >> 16 || end < =
+start) {
+                                                            ^^^^^^^^^^^^
+This is always non-zero.
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09 @418  	dev_dbg(&pdev->dev, "Re-mappe=
-d from 0x%08llX to %p\n",
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  419  		(unsigned long long)res->sta=
-rt, ctl->base);
-                                                                           =
- ^^^^^^^^^^
-"res" is never set or used anywhere.
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  945  		ctr |=3D 0xffff;
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  946  		datalen =3D AES_BLOCK_SIZ=
+E * (0x10000 - start);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  947  		fragmented =3D true;
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  948  	}
+5f5295e65a5cd9 Tudor Ambarus   2019-12-05  949  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  420  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  950  	use_dma =3D (datalen >=3D =
+ATMEL_AES_DMA_THRESHOLD);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  951  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  421  	version =3D axi_ioread(ADI_AX=
-I_REG_VERSION, ctl);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  422  	if (ADI_AXI_PCORE_VER_MAJOR(v=
-ersion) !=3D
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  423  	    ADI_AXI_PCORE_VER_MAJOR((=
-*(u32 *)id->data))) {
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  424  		dev_err(&pdev->dev, "Major v=
-ersion mismatch. Expected %d.%.2d.%c, Reported %d.%.2d.%c\n",
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  425  			ADI_AXI_PCORE_VER_MAJOR((*(=
-u32 *)id->data)),
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  426  			ADI_AXI_PCORE_VER_MINOR((*(=
-u32 *)id->data)),
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  427  			ADI_AXI_PCORE_VER_PATCH((*(=
-u32 *)id->data)),
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  428  			ADI_AXI_PCORE_VER_MAJOR(ver=
-sion),
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  429  			ADI_AXI_PCORE_VER_MINOR(ver=
-sion),
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  430  			ADI_AXI_PCORE_VER_PATCH(ver=
-sion));
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  431  		return -ENODEV;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  432  	}
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  433  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  952  	/* Jump to offset. */
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  953  	src =3D scatterwalk_ffwd(c=
+tx->src, req->src, ctx->offset);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  954  	dst =3D ((req->src =3D=3D =
+req->dst) ? src :
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  955  	       scatterwalk_ffwd(ct=
+x->dst, req->dst, ctx->offset));
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  956  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  434  	ctl->irq =3D platform_get_irq=
-(pdev, 0);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  435  	if (ctl->irq < 0)
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  436  		return ctl->irq;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  437  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  957  	/* Configure hardware. */
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  958  	atmel_aes_write_ctrl(dd, u=
+se_dma, ctx->iv);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  959  	if (unlikely(fragmented)) {
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  960  		/*
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  961  		 * Increment the counter =
+manually to cope with the hardware
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  962  		 * counter overflow.
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  963  		 */
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  964  		ctx->iv[3] =3D cpu_to_be3=
+2(ctr);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  965  		crypto_inc((u8 *)ctx->iv,=
+ AES_BLOCK_SIZE);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  966  	}
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  967  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  438  	ret =3D devm_request_threaded=
-_irq(&pdev->dev, ctl->irq, NULL,
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  439  					axi_fan_control_irq_handl=
-er,
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  440  					IRQF_ONESHOT | IRQF_TRIGG=
-ER_HIGH,
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  441  					pdev->driver_override, ct=
-l);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  442  	if (ret) {
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  443  		dev_err(&pdev->dev, "failed =
-to request an irq, %d", ret);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  444  		return ret;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  445  	}
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  446  =
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  968  	if (use_dma)
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  969  		return atmel_aes_dma_star=
+t(dd, src, dst, datalen,
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  970  					   atmel_aes_ctr_trans=
+fer);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  971  =
 
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  447  	ret =3D axi_fan_control_init(=
-ctl, pdev->dev.of_node);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  448  	if (ret) {
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  449  		dev_err(&pdev->dev, "Failed =
-to initialize device\n");
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  450  		return ret;
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  451  	}
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  452  =
-
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  453  	ctl->hdev =3D devm_hwmon_devi=
-ce_register_with_info(&pdev->dev,
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  454  							 name,
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  455  							 ctl,
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  456  							 &axi_chip_info,
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  457  							 NULL);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  458  =
-
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  459  	return PTR_ERR_OR_ZERO(ctl->h=
-dev);
-690dd9ce04f6a1 Nuno S=C3=A1 2019-10-09  460  }
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  972  	return atmel_aes_cpu_start=
+(dd, src, dst, datalen,
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  973  				   atmel_aes_ctr_transf=
+er);
+fcac83656a3e3b Cyrille Pitchen 2015-12-17  974  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5820283705161417524==--
+--===============5734235323741407840==--
 
