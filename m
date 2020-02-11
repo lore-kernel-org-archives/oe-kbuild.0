@@ -1,137 +1,93 @@
-Content-Type: multipart/mixed; boundary="===============5734235323741407840=="
+Content-Type: multipart/mixed; boundary="===============3947317468578834217=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [sashal-linux-stable:queue-4.9 37/96] drivers/crypto/atmel-aes.c:944 atmel_aes_ctr_transfer() warn: right shifting more than type allows 16 vs 16
-Date: Tue, 11 Feb 2020 09:21:25 +0300
-Message-ID: <20200211062125.GT24804@kadam>
+Subject: [rcar:gmsl/dev 23/23] lib/vsprintf.c:800 ptr_to_id() warn: ignoring unreachable code.
+Date: Tue, 11 Feb 2020 09:04:48 +0300
+Message-ID: <20200211060447.GS24804@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5734235323741407840==
+--===============3947317468578834217==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable=
-.git queue-4.9
-head:   89d815750d288127abb27eedf62fb7606c59cd69
-commit: 5f5295e65a5cd95f1c9c208547be07a5bb0ec6c5 [37/96] crypto: atmel-aes =
-- Fix counter overflow in CTR mode
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git g=
+msl/dev
+head:   93aef18a872beaf24093f699268e56a484e31f64
+commit: 93aef18a872beaf24093f699268e56a484e31f64 [23/23] lib: vsprint debug=
+-ptrval
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/crypto/atmel-aes.c:944 atmel_aes_ctr_transfer() warn: right shiftin=
-g more than type allows 16 vs 16
+New smatch warnings:
+lib/vsprintf.c:800 ptr_to_id() warn: ignoring unreachable code.
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/sashal/linux-stable.git/c=
-ommit/?id=3D5f5295e65a5cd95f1c9c208547be07a5bb0ec6c5
-git remote add sashal-linux-stable https://git.kernel.org/pub/scm/linux/ker=
-nel/git/sashal/linux-stable.git
-git remote update sashal-linux-stable
-git checkout 5f5295e65a5cd95f1c9c208547be07a5bb0ec6c5
-vim +944 drivers/crypto/atmel-aes.c
+Old smatch warnings:
+lib/vsprintf.c:1405 ip6_compressed_string() warn: possible spectre second h=
+alf.  '*p'
+lib/vsprintf.c:1408 ip6_compressed_string() warn: possible spectre second h=
+alf.  '*p'
 
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  920  static int atmel_aes_ctr_tr=
-ansfer(struct atmel_aes_dev *dd)
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  921  {
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  922  	struct atmel_aes_ctr_ctx *=
-ctx =3D atmel_aes_ctr_ctx_cast(dd->ctx);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  923  	struct ablkcipher_request =
-*req =3D ablkcipher_request_cast(dd->areq);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  924  	struct scatterlist *src, *=
-dst;
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  925  	size_t datalen;
-5f5295e65a5cd9 Tudor Ambarus   2019-12-05  926  	u32 ctr;
-5f5295e65a5cd9 Tudor Ambarus   2019-12-05  927  	u16 blocks, start, end;
-                                                        ^^^^^^^^^^
+# https://git.kernel.org/pub/scm/linux/kernel/git/kbingham/rcar.git/commit/=
+?id=3D93aef18a872beaf24093f699268e56a484e31f64
+git remote add rcar https://git.kernel.org/pub/scm/linux/kernel/git/kbingha=
+m/rcar.git
+git remote update rcar
+git checkout 93aef18a872beaf24093f699268e56a484e31f64
+vim +800 lib/vsprintf.c
 
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  928  	bool use_dma, fragmented =
-=3D false;
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  929  =
+e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  789) =
 
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  930  	/* Check for transfer comp=
-letion. */
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  931  	ctx->offset +=3D dd->total;
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  932  	if (ctx->offset >=3D req->=
-nbytes)
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  933  		return atmel_aes_transfer=
-_complete(dd);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  934  =
+9073dac14e397f Geert Uytterhoeven      2018-10-11  790  static char *ptr_to=
+_id(char *buf, char *end, const void *ptr,
+9073dac14e397f Geert Uytterhoeven      2018-10-11  791  		       struct pri=
+ntf_spec spec)
+9073dac14e397f Geert Uytterhoeven      2018-10-11  792  {
+9073dac14e397f Geert Uytterhoeven      2018-10-11  793  	const char *str =
+=3D sizeof(ptr) =3D=3D 8 ? "(____ptrval____)" : "(ptrval)";
+9073dac14e397f Geert Uytterhoeven      2018-10-11  794  	unsigned long hash=
+val;
+e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  795) 	int ret;
+9073dac14e397f Geert Uytterhoeven      2018-10-11  796  =
 
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  935  	/* Compute data length. */
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  936  	datalen =3D req->nbytes - =
-ctx->offset;
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  937  	blocks =3D DIV_ROUND_UP(da=
-talen, AES_BLOCK_SIZE);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  938  	ctr =3D be32_to_cpu(ctx->i=
-v[3]);
-5f5295e65a5cd9 Tudor Ambarus   2019-12-05  939  =
+93aef18a872bea Laurent Pinchart        2020-02-10  797  	return pointer_str=
+ing(buf, end, ptr, spec);
+                                                                ^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+93aef18a872bea Laurent Pinchart        2020-02-10  798  =
 
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  940  	/* Check 16bit counter ove=
-rflow. */
-5f5295e65a5cd9 Tudor Ambarus   2019-12-05  941  	start =3D ctr & 0xffff;
-5f5295e65a5cd9 Tudor Ambarus   2019-12-05  942  	end =3D start + blocks - 1;
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  943  =
+9073dac14e397f Geert Uytterhoeven      2018-10-11  799  	/* When debugging =
+early boot use non-cryptographically secure hash. */
+9073dac14e397f Geert Uytterhoeven      2018-10-11 @800  	if (unlikely(debug=
+_boot_weak_hash)) {
+9073dac14e397f Geert Uytterhoeven      2018-10-11  801  		hashval =3D hash_=
+long((unsigned long)ptr, 32);
+9073dac14e397f Geert Uytterhoeven      2018-10-11  802  		return pointer_st=
+ring(buf, end, (const void *)hashval, spec);
+9073dac14e397f Geert Uytterhoeven      2018-10-11  803  	}
+9073dac14e397f Geert Uytterhoeven      2018-10-11  804  =
 
-fcac83656a3e3b Cyrille Pitchen 2015-12-17 @944  	if (blocks >> 16 || end < =
-start) {
-                                                            ^^^^^^^^^^^^
-This is always non-zero.
+e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  805) 	ret =3D __ptr_to_h=
+ashval(ptr, &hashval);
+e4dcad204d3a28 Joel Fernandes (Google  2019-11-30  806) 	if (ret) {
+9073dac14e397f Geert Uytterhoeven      2018-10-11  807  		spec.field_width =
+=3D 2 * sizeof(ptr);
+9073dac14e397f Geert Uytterhoeven      2018-10-11  808  		/* string length =
+must be less than default_width */
+c8c3b584343cb7 Petr Mladek             2019-04-17  809  		return error_stri=
+ng(buf, end, str, spec);
+9073dac14e397f Geert Uytterhoeven      2018-10-11  810  	}
+9073dac14e397f Geert Uytterhoeven      2018-10-11  811  =
 
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  945  		ctr |=3D 0xffff;
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  946  		datalen =3D AES_BLOCK_SIZ=
-E * (0x10000 - start);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  947  		fragmented =3D true;
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  948  	}
-5f5295e65a5cd9 Tudor Ambarus   2019-12-05  949  =
-
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  950  	use_dma =3D (datalen >=3D =
-ATMEL_AES_DMA_THRESHOLD);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  951  =
-
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  952  	/* Jump to offset. */
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  953  	src =3D scatterwalk_ffwd(c=
-tx->src, req->src, ctx->offset);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  954  	dst =3D ((req->src =3D=3D =
-req->dst) ? src :
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  955  	       scatterwalk_ffwd(ct=
-x->dst, req->dst, ctx->offset));
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  956  =
-
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  957  	/* Configure hardware. */
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  958  	atmel_aes_write_ctrl(dd, u=
-se_dma, ctx->iv);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  959  	if (unlikely(fragmented)) {
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  960  		/*
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  961  		 * Increment the counter =
-manually to cope with the hardware
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  962  		 * counter overflow.
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  963  		 */
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  964  		ctx->iv[3] =3D cpu_to_be3=
-2(ctr);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  965  		crypto_inc((u8 *)ctx->iv,=
- AES_BLOCK_SIZE);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  966  	}
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  967  =
-
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  968  	if (use_dma)
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  969  		return atmel_aes_dma_star=
-t(dd, src, dst, datalen,
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  970  					   atmel_aes_ctr_trans=
-fer);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  971  =
-
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  972  	return atmel_aes_cpu_start=
-(dd, src, dst, datalen,
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  973  				   atmel_aes_ctr_transf=
-er);
-fcac83656a3e3b Cyrille Pitchen 2015-12-17  974  }
+9073dac14e397f Geert Uytterhoeven      2018-10-11  812  	return pointer_str=
+ing(buf, end, (const void *)hashval, spec);
+9073dac14e397f Geert Uytterhoeven      2018-10-11  813  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5734235323741407840==--
+--===============3947317468578834217==--
 
