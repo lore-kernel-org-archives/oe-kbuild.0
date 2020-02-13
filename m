@@ -1,128 +1,184 @@
-Content-Type: multipart/mixed; boundary="===============6280031471332339280=="
+Content-Type: multipart/mixed; boundary="===============6681924883222207822=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] proc: faster open/read/close with "permanent" files
-Date: Wed, 19 Feb 2020 08:29:21 +0300
-Message-ID: <20200219052921.GF19641@kadam>
-In-Reply-To: <20200216152649.GA2693@avx2>
+Subject: Re: [PATCH v3 2/2] input: adp5589: Add basic devicetree support
+Date: Thu, 13 Feb 2020 09:52:10 +0300
+Message-ID: <20200213065210.GE7838@kadam>
+In-Reply-To: <20200205142218.15973-2-alexandru.ardelean@analog.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6280031471332339280==
+--===============6681924883222207822==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Alexey,
+Hi Alexandru,
 
+url:    https://urldefense.com/v3/__https://github.com/0day-ci/linux/commit=
+s/Alexandru-Ardelean/input-adp5589-Add-default-platform-data/20200206-07394=
+4__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLKcqgchKaYGVs4ZR=
+unDQ5YstlQ$ =
 
-url:    https://github.com/0day-ci/linux/commits/Alexey-Dobriyan/proc-faste=
-r-open-read-close-with-permanent-files/20200218-231203
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jeyu/linux.git modu=
-les-next
+base:   https://urldefense.com/v3/__https://git.kernel.org/pub/scm/linux/ke=
+rnel/git/dtor/input.git__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8=
+vYxgXFLKcqgchKaYGVs4ZRunDPI_jD3g$  next
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/proc/generic.c:752 remove_proc_subtree() warn: inconsistent returns 'pro=
-c_subdir_lock'.
+New smatch warnings:
+drivers/input/keyboard/adp5589-keys.c:1053 adp5589_probe() warn: possible m=
+emory leak of 'kpad'
 
-# https://github.com/0day-ci/linux/commit/3cd4ad42ca7c52d1513e7ba9f08a06197=
-a7380c8
-git remote add linux-review https://github.com/0day-ci/linux
+Old smatch warnings:
+drivers/input/keyboard/adp5589-keys.c:913 adp5589_keypad_add() error: we pr=
+eviously assumed 'pdata->gpimap' could be null (see line 902)
+
+# https://urldefense.com/v3/__https://github.com/0day-ci/linux/commit/e537d=
+c5175805cf765da36bdd9cafe98b0a191d9__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmx=
+s-c72f_T0MK8vYxgXFLKcqgchKaYGVs4ZRunBH8qj3xg$ =
+
+git remote add linux-review https://urldefense.com/v3/__https://github.com/=
+0day-ci/linux__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLKcq=
+gchKaYGVs4ZRunDP90BKkw$ =
+
 git remote update linux-review
-git checkout 3cd4ad42ca7c52d1513e7ba9f08a06197a7380c8
-vim +/proc_subdir_lock +752 fs/proc/generic.c
+git checkout e537dc5175805cf765da36bdd9cafe98b0a191d9
+vim +/kpad +1053 drivers/input/keyboard/adp5589-keys.c
 
-8ce584c7416d8a Al Viro         2013-03-30  699  =
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1030  static int adp5589_prob=
+e(struct i2c_client *client,
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1031  			 const struct i2c_de=
+vice_id *id)
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1032  {
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1033  	struct adp5589_kpad *k=
+pad;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1034  	const struct adp5589_k=
+pad_platform_data *pdata =3D
+ba322093a2bfbb Lars-Peter Clausen 2020-02-05  1035  		adp5589_kpad_pdata_ge=
+t(&client->dev);
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1036  	unsigned int revid;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1037  	int error, ret;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1038  =
 
-8ce584c7416d8a Al Viro         2013-03-30  700  int remove_proc_subtree(con=
-st char *name, struct proc_dir_entry *parent)
-8ce584c7416d8a Al Viro         2013-03-30  701  {
-8ce584c7416d8a Al Viro         2013-03-30  702  	struct proc_dir_entry *roo=
-t =3D NULL, *de, *next;
-8ce584c7416d8a Al Viro         2013-03-30  703  	const char *fn =3D name;
-8ce584c7416d8a Al Viro         2013-03-30  704  	unsigned int len;
-8ce584c7416d8a Al Viro         2013-03-30  705  =
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1039  	if (!i2c_check_functio=
+nality(client->adapter,
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1040  				     I2C_FUNC_SMBUS=
+_BYTE_DATA)) {
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1041  		dev_err(&client->dev,=
+ "SMBUS Byte Data not Supported\n");
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1042  		return -EIO;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1043  	}
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1044  =
 
-ecf1a3dfff22bd Waiman Long     2015-09-09  706  	write_lock(&proc_subdir_lo=
-ck);
-8ce584c7416d8a Al Viro         2013-03-30  707  	if (__xlate_proc_name(name=
-, &parent, &fn) !=3D 0) {
-ecf1a3dfff22bd Waiman Long     2015-09-09  708  		write_unlock(&proc_subdir=
-_lock);
-8ce584c7416d8a Al Viro         2013-03-30  709  		return -ENOENT;
-8ce584c7416d8a Al Viro         2013-03-30  710  	}
-8ce584c7416d8a Al Viro         2013-03-30  711  	len =3D strlen(fn);
-8ce584c7416d8a Al Viro         2013-03-30  712  =
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1045  	kpad =3D kzalloc(sizeo=
+f(*kpad), GFP_KERNEL);
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1046  	if (!kpad)
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1047  		return -ENOMEM;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1048  =
 
-710585d4922fd3 Nicolas Dichtel 2014-12-10  713  	root =3D pde_subdir_find(p=
-arent, fn, len);
-8ce584c7416d8a Al Viro         2013-03-30  714  	if (!root) {
-ecf1a3dfff22bd Waiman Long     2015-09-09  715  		write_unlock(&proc_subdir=
-_lock);
-8ce584c7416d8a Al Viro         2013-03-30  716  		return -ENOENT;
-8ce584c7416d8a Al Viro         2013-03-30  717  	}
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  718  	if (unlikely(pde_is_perman=
-ent(root))) {
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  719  		WARN(1, "removing permane=
-nt /proc entry '%s/%s'",
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  720  			root->parent->name, root=
-->name);
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1049  	kpad->client =3D clien=
+t;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1050  =
 
-unlock?
+e537dc5175805c Lars-Peter Clausen 2020-02-05  1051  	ret =3D adp5589_i2c_ge=
+t_driver_data(client, id);
+e537dc5175805c Lars-Peter Clausen 2020-02-05  1052  	if (ret < 0)
+e537dc5175805c Lars-Peter Clausen 2020-02-05 @1053  		return ret;
 
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  721  		return -EINVAL;
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  722  	}
-4f1134370a29a5 Alexey Dobriyan 2018-04-10  723  	rb_erase(&root->subdir_nod=
-e, &parent->subdir);
-710585d4922fd3 Nicolas Dichtel 2014-12-10  724  =
+	error =3D ret;
+	goto err_free_mem;
 
-8ce584c7416d8a Al Viro         2013-03-30  725  	de =3D root;
-8ce584c7416d8a Al Viro         2013-03-30  726  	while (1) {
-710585d4922fd3 Nicolas Dichtel 2014-12-10  727  		next =3D pde_subdir_first=
-(de);
-8ce584c7416d8a Al Viro         2013-03-30  728  		if (next) {
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  729  			if (unlikely(pde_is_perm=
-anent(root))) {
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  730  				WARN(1, "removing perma=
-nent /proc entry '%s/%s'",
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  731  					next->parent->name, ne=
-xt->name);
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  732  				return -EINVAL;
-3cd4ad42ca7c52 Alexey Dobriyan 2020-02-16  733  			}
-4f1134370a29a5 Alexey Dobriyan 2018-04-10  734  			rb_erase(&next->subdir_n=
-ode, &de->subdir);
-8ce584c7416d8a Al Viro         2013-03-30  735  			de =3D next;
-8ce584c7416d8a Al Viro         2013-03-30  736  			continue;
-8ce584c7416d8a Al Viro         2013-03-30  737  		}
-8ce584c7416d8a Al Viro         2013-03-30  738  		next =3D de->parent;
-8ce584c7416d8a Al Viro         2013-03-30  739  		if (S_ISDIR(de->mode))
-8ce584c7416d8a Al Viro         2013-03-30  740  			next->nlink--;
-e06689bf57017a Alexey Dobriyan 2019-12-04  741  		write_unlock(&proc_subdir=
-_lock);
-e06689bf57017a Alexey Dobriyan 2019-12-04  742  =
+Better to just delete the "error" variable though and make everything
+ret.
 
-e06689bf57017a Alexey Dobriyan 2019-12-04  743  		proc_entry_rundown(de);
-8ce584c7416d8a Al Viro         2013-03-30  744  		if (de =3D=3D root)
-8ce584c7416d8a Al Viro         2013-03-30  745  			break;
-8ce584c7416d8a Al Viro         2013-03-30  746  		pde_put(de);
-8ce584c7416d8a Al Viro         2013-03-30  747  =
+e537dc5175805c Lars-Peter Clausen 2020-02-05  1054  =
 
-ecf1a3dfff22bd Waiman Long     2015-09-09  748  		write_lock(&proc_subdir_l=
-ock);
-8ce584c7416d8a Al Viro         2013-03-30  749  		de =3D next;
-8ce584c7416d8a Al Viro         2013-03-30  750  	}
-8ce584c7416d8a Al Viro         2013-03-30  751  	pde_put(root);
-8ce584c7416d8a Al Viro         2013-03-30 @752  	return 0;
-8ce584c7416d8a Al Viro         2013-03-30  753  }
-8ce584c7416d8a Al Viro         2013-03-30  754  EXPORT_SYMBOL(remove_proc_s=
-ubtree);
+e537dc5175805c Lars-Peter Clausen 2020-02-05  1055  	switch (ret) {
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1056  	case ADP5585_02:
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1057  		kpad->support_row5 =
+=3D true;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1058  		/* fall through */
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1059  	case ADP5585_01:
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1060  		kpad->is_adp5585 =3D =
+true;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1061  		kpad->var =3D &const_=
+adp5585;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1062  		break;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1063  	case ADP5589:
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1064  		kpad->support_row5 =
+=3D true;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1065  		kpad->var =3D &const_=
+adp5589;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1066  		break;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1067  	}
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1068  =
+
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1069  	ret =3D adp5589_read(c=
+lient, ADP5589_5_ID);
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1070  	if (ret < 0) {
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1071  		error =3D ret;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1072  		goto err_free_mem;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1073  	}
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1074  =
+
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1075  	revid =3D (u8) ret & A=
+DP5589_5_DEVICE_ID_MASK;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1076  =
+
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1077  	if (pdata->keymapsize)=
+ {
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1078  		error =3D adp5589_key=
+pad_add(kpad, revid);
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1079  		if (error)
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1080  			goto err_free_mem;
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1081  	}
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1082  =
+
+9d2e173644bb5c Michael Hennerich  2011-05-19  1083  	error =3D adp5589_setu=
+p(kpad);
+9d2e173644bb5c Michael Hennerich  2011-05-19  1084  	if (error)
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1085  		goto err_keypad_remov=
+e;
+9d2e173644bb5c Michael Hennerich  2011-05-19  1086  =
+
+9d2e173644bb5c Michael Hennerich  2011-05-19  1087  	if (kpad->gpimapsize)
+9d2e173644bb5c Michael Hennerich  2011-05-19  1088  		adp5589_report_switch=
+_state(kpad);
+9d2e173644bb5c Michael Hennerich  2011-05-19  1089  =
+
+9d2e173644bb5c Michael Hennerich  2011-05-19  1090  	error =3D adp5589_gpio=
+_add(kpad);
+9d2e173644bb5c Michael Hennerich  2011-05-19  1091  	if (error)
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1092  		goto err_keypad_remov=
+e;
+9d2e173644bb5c Michael Hennerich  2011-05-19  1093  =
+
+9d2e173644bb5c Michael Hennerich  2011-05-19  1094  	i2c_set_clientdata(cli=
+ent, kpad);
+9d2e173644bb5c Michael Hennerich  2011-05-19  1095  =
+
+9d2e173644bb5c Michael Hennerich  2011-05-19  1096  	dev_info(&client->dev,=
+ "Rev.%d keypad, irq %d\n", revid, client->irq);
+9d2e173644bb5c Michael Hennerich  2011-05-19  1097  	return 0;
+9d2e173644bb5c Michael Hennerich  2011-05-19  1098  =
+
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1099  err_keypad_remove:
+cb3efd5a38855e Lars-Peter Clausen 2019-10-23  1100  	adp5589_keypad_remove(=
+kpad);
+3f48e735435851 Michael Hennerich  2011-10-18  1101  err_free_mem:
+9d2e173644bb5c Michael Hennerich  2011-05-19  1102  	kfree(kpad);
+9d2e173644bb5c Michael Hennerich  2011-05-19  1103  =
+
+9d2e173644bb5c Michael Hennerich  2011-05-19  1104  	return error;
+9d2e173644bb5c Michael Hennerich  2011-05-19  1105  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6280031471332339280==--
+https://urldefense.com/v3/__https://lists.01.org/hyperkitty/list/kbuild-all=
+(a)lists.01.org__;!!GqivPVa7Brio!MY2_vTOsanTGzkj1sG9gmxs-c72f_T0MK8vYxgXFLK=
+cqgchKaYGVs4ZRunCDo3i4pw$=20
+--===============6681924883222207822==--
 
