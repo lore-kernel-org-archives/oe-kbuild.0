@@ -1,81 +1,101 @@
-Content-Type: multipart/mixed; boundary="===============1424933298636349640=="
+Content-Type: multipart/mixed; boundary="===============9158078141611395175=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [linux-next:master 2227/3715] drivers/staging/wfx/sta.c:155 wfx_filter_mcast() warn: ignoring unreachable code.
-Date: Tue, 21 Apr 2020 20:33:17 +0300
-Message-ID: <20200421173317.GF2682@kadam>
+Subject: [pinchartl-media:media/drm/dpsub/next 5/14] drivers/dma/xilinx/xilinx_dpdma.c:389 xilinx_dpdma_debugfs_read() warn: maybe return -EFAULT instead of the bytes remaining?
+Date: Thu, 12 Mar 2020 06:56:42 -0700
+Message-ID: <20200312135642.GL11561@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1424933298636349640==
+--===============9158078141611395175==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   39a314cd1168cbcb05ebcd973098c8f1440a3064
+tree:   git://linuxtv.org/pinchartl/media.git media/drm/dpsub/next
+head:   fc1d178201c64a7b0106f84de5503eead44c0586
+commit: efaa5ceddb7bdb19307a215e8ec207ded1c87474 [5/14] dmaengine: xilinx: =
+dpdma: Add debugfs support
 
-If you fix the issue, kindly add following tag as appropriate
+If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/staging/wfx/sta.c:155 wfx_filter_mcast() warn: ignoring unreachable=
- code.
+drivers/dma/xilinx/xilinx_dpdma.c:389 xilinx_dpdma_debugfs_read() warn: may=
+be return -EFAULT instead of the bytes remaining?
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
-t/?id=3Dc801351a9d4587aab131d018330d4b35a0b3cdcf
-git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
-ext/linux-next.git
-git remote update linux-next
-git checkout c801351a9d4587aab131d018330d4b35a0b3cdcf
-vim +155 drivers/staging/wfx/sta.c
+git remote add pinchartl-media git://linuxtv.org/pinchartl/media.git
+git remote update pinchartl-media
+git checkout efaa5ceddb7bdb19307a215e8ec207ded1c87474
+vim +389 drivers/dma/xilinx/xilinx_dpdma.c
 
-c801351a9d4587 J=C3=A9r=C3=B4me Pouiller 2020-04-15  147  static void wfx_f=
-ilter_mcast(struct wfx_vif *wvif, bool filter_mcast)
-2c69b2da378243 J=C3=A9r=C3=B4me Pouiller 2020-04-15  148  {
-2c69b2da378243 J=C3=A9r=C3=B4me Pouiller 2020-04-15  149  	int i;
-40115bbc40e2fd J=C3=A9r=C3=B4me Pouiller 2019-09-19  150  =
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  357  static ssize_t xilinx_dpdm=
+a_debugfs_read(struct file *f, char __user *buf,
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  358  					 size_t size, loff_t =
+*pos)
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  359  {
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  360  	enum xilinx_dpdma_testcas=
+es testcase;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  361  	char *kern_buff;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  362  	int ret;
 
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  151  	// Temporary wor=
-karound for filters
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  152  	hif_set_data_fil=
-tering(wvif, false, true);
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  153  	return;
-                                                        ^^^^^^^
-Temporary code creates a temporary static checker warning from the
-zero day kbuild bot.
+	ret =3D 0;
 
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  154  =
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  363  =
 
-c801351a9d4587 J=C3=A9r=C3=B4me Pouiller 2020-04-15 @155  	if (!filter_mcas=
-t) {
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  156  		hif_set_data_fi=
-ltering(wvif, false, true);
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  157  		return;
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  158  	}
-981132aa039d90 J=C3=A9r=C3=B4me Pouiller 2020-04-15  159  	for (i =3D 0; i =
-< wvif->filter_mcast_count; i++)
-981132aa039d90 J=C3=A9r=C3=B4me Pouiller 2020-04-15  160  		hif_set_mac_add=
-r_condition(wvif, i, wvif->filter_mcast_addr[i]);
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  161  	hif_set_uc_mc_bc=
-_condition(wvif, 0,
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  162  				   HIF_FILTER=
-_UNICAST | HIF_FILTER_BROADCAST);
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  163  	hif_set_config_d=
-ata_filter(wvif, true, 0, BIT(1),
-981132aa039d90 J=C3=A9r=C3=B4me Pouiller 2020-04-15  164  				   BIT(wvif->=
-filter_mcast_count) - 1);
-e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  165  	hif_set_data_fil=
-tering(wvif, true, true);
-40115bbc40e2fd J=C3=A9r=C3=B4me Pouiller 2019-09-19  166  }
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  364  	if (*pos !=3D 0 || size <=
+=3D 0)
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  365  		return -EINVAL;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  366  =
+
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  367  	kern_buff =3D kzalloc(XIL=
+INX_DPDMA_DEBUGFS_READ_MAX_SIZE, GFP_KERNEL);
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  368  	if (!kern_buff) {
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  369  		dpdma_debugfs.testcase =
+=3D DPDMA_TC_NONE;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  370  		return -ENOMEM;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  371  	}
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  372  =
+
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  373  	testcase =3D READ_ONCE(dp=
+dma_debugfs.testcase);
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  374  	if (testcase !=3D DPDMA_T=
+C_NONE) {
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  375  		ret =3D dpdma_debugfs_re=
+qs[testcase].read(kern_buff);
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  376  		if (ret < 0)
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  377  			goto done;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  378  	} else {
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  379  		strlcpy(kern_buff, "No t=
+estcase executed",
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  380  			XILINX_DPDMA_DEBUGFS_RE=
+AD_MAX_SIZE);
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  381  	}
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  382  =
+
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  383  	size =3D min(size, strlen=
+(kern_buff));
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  384  	ret =3D copy_to_user(buf,=
+ kern_buff, size);
+
+	if (copy_to_user(buf, kern_buff, size))
+		ret =3D -EFAULT;
+
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  385  =
+
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  386  done:
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  387  	kfree(kern_buff);
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  388  	if (ret)
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07 @389  		return ret;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  390  =
+
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  391  	*pos =3D size + 1;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  392  	return size;
+efaa5ceddb7bdb Laurent Pinchart 2019-11-07  393  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
---===============1424933298636349640==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============9158078141611395175==--
 
