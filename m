@@ -1,80 +1,96 @@
-Content-Type: multipart/mixed; boundary="===============8499388766690972490=="
+Content-Type: multipart/mixed; boundary="===============6243377288993896661=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 11/14] efi/gop: Allow specifying mode number on command line
-Date: Fri, 20 Mar 2020 17:36:04 +0300
-Message-ID: <20200320143526.GI4650@kadam>
-In-Reply-To: <20200319192855.29876-12-nivedita@alum.mit.edu>
+Subject: Re: [Intel-gfx] [PATCH 5/6] drm/i915/tc/icl: Implement the TC cold exit sequence
+Date: Fri, 20 Mar 2020 16:11:12 +0300
+Message-ID: <20200320131112.GG4650@kadam>
+In-Reply-To: <20200318235956.118409-5-jose.souza@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8499388766690972490==
+--===============6243377288993896661==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Arvind,
+Hi "Jos=C3=A9,
 
 Thank you for the patch! Perhaps something to improve:
 
-url:    https://github.com/0day-ci/linux/commits/Arvind-Sankar/efi-gop-Refa=
-ctoring-mode-setting-feature/20200320-044605
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
+url:    https://github.com/0day-ci/linux/commits/Jos-Roberto-de-Souza/drm-i=
+915-tc-tgl-Implement-TCCOLD-sequences/20200319-080253
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/firmware/efi/libstub/gop.c:113 set_mode() error: uninitialized symb=
-ol 'new_mode'.
+smatch warnings:
+drivers/gpu/drm/i915/display/intel_tc.c:554 icl_tc_cold_request() error: un=
+initialized symbol 'ret'.
 
-# https://github.com/0day-ci/linux/commit/af85e496c9f577df9743784171b1cda94=
-220dd8f
+# https://github.com/0day-ci/linux/commit/29f27e6df6ad82b09a3c9ddaf5f51b2fc=
+1647178
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout af85e496c9f577df9743784171b1cda94220dd8f
-vim +/info +85 drivers/firmware/efi/libstub/gop.c
+git checkout 29f27e6df6ad82b09a3c9ddaf5f51b2fc1647178
+vim +/ret +554 drivers/gpu/drm/i915/display/intel_tc.c
 
-af85e496c9f577 Arvind Sankar 2020-03-19   97  static void set_mode(efi_grap=
-hics_output_protocol_t *gop)
-af85e496c9f577 Arvind Sankar 2020-03-19   98  {
-af85e496c9f577 Arvind Sankar 2020-03-19   99  	efi_graphics_output_protocol=
-_mode_t *mode;
-af85e496c9f577 Arvind Sankar 2020-03-19  100  	u32 cur_mode, new_mode;
-af85e496c9f577 Arvind Sankar 2020-03-19  101  =
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  528  static inline in=
+t icl_tc_cold_request(struct intel_digital_port *dig_port,
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  529  				      bool b=
+lock)
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  530  {
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  531  	struct drm_i915=
+_private *i915 =3D to_i915(dig_port->base.base.dev);
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  532  	enum intel_disp=
+lay_power_domain aux_domain;
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  533  	int ret;
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  534  =
 
-af85e496c9f577 Arvind Sankar 2020-03-19  102  	switch (cmdline.option) {
-af85e496c9f577 Arvind Sankar 2020-03-19  103  	case EFI_CMDLINE_NONE:
-af85e496c9f577 Arvind Sankar 2020-03-19  104  		return;
-af85e496c9f577 Arvind Sankar 2020-03-19  105  	case EFI_CMDLINE_MODE_NUM:
-af85e496c9f577 Arvind Sankar 2020-03-19  106  		new_mode =3D choose_mode_mo=
-denum(gop);
-af85e496c9f577 Arvind Sankar 2020-03-19  107  		break;
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  535  	aux_domain =3D =
+intel_aux_ch_to_power_domain(dig_port->aux_ch);
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  536  =
 
-No default case?
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  537  	if (block) {
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  538  		dig_port->tc_c=
+old_wakeref =3D
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  539  			intel_display=
+_power_get_without_ack(i915, aux_domain);
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  540  =
 
-af85e496c9f577 Arvind Sankar 2020-03-19  108  	}
-af85e496c9f577 Arvind Sankar 2020-03-19  109  =
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  541  		do {
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  542  			ret =3D sandy=
+bridge_pcode_write_timeout(i915,
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  543  							      ICL=
+_PCODE_EXIT_TCCOLD,
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  544  							      0, =
+250, 1);
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  545  =
 
-af85e496c9f577 Arvind Sankar 2020-03-19  110  	mode =3D efi_table_attr(gop,=
- mode);
-af85e496c9f577 Arvind Sankar 2020-03-19  111  	cur_mode =3D efi_table_attr(=
-mode, mode);
-af85e496c9f577 Arvind Sankar 2020-03-19  112  =
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  546  		} while (ret =
+=3D=3D -EAGAIN);
 
-af85e496c9f577 Arvind Sankar 2020-03-19 @113  	if (new_mode =3D=3D cur_mode)
-af85e496c9f577 Arvind Sankar 2020-03-19  114  		return;
-af85e496c9f577 Arvind Sankar 2020-03-19  115  =
+ret is only initialized on this path
 
-af85e496c9f577 Arvind Sankar 2020-03-19  116  	if (efi_call_proto(gop, set_=
-mode, new_mode) !=3D EFI_SUCCESS)
-af85e496c9f577 Arvind Sankar 2020-03-19  117  		efi_printk("Failed to set r=
-equested mode\n");
-af85e496c9f577 Arvind Sankar 2020-03-19  118  }
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  547  	} else if (dig_=
+port->tc_mode =3D=3D TC_PORT_LEGACY) {
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  548  		drm_WARN_ON(&i=
+915->drm, !dig_port->tc_lock_wakeref);
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  549  		intel_display_=
+power_put(i915, aux_domain,
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  550  					dig_port->t=
+c_cold_wakeref);
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  551  		dig_port->tc_c=
+old_wakeref =3D 0;
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  552  	}
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  553  =
+
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18 @554  	return ret;
+29f27e6df6ad82 Jos=C3=A9 Roberto de Souza 2020-03-18  555  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8499388766690972490==--
+--===============6243377288993896661==--
 
