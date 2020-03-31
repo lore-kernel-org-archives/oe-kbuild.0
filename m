@@ -1,83 +1,85 @@
-Content-Type: multipart/mixed; boundary="===============3579415387329080253=="
+Content-Type: multipart/mixed; boundary="===============6380542947256540885=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [linux-review:UPDATE-20200328-034657/Chris-Wilson/drm-i915-execlists-Prevent-GPU-death-on-ELSP-1-promotion-to-idle-context/20200328-034420 1/1] drivers/gpu/drm/i915/gt/intel_gt_irq.c:33 cs_irq_handler() error: we previously assumed 'engine' could be null (see line 27)
-Date: Thu, 02 Apr 2020 12:40:01 +0300
-Message-ID: <20200402094001.GH2001@kadam>
+Subject: [staging:staging-testing 278/280] drivers/most/core.c:1287 most_register_interface() error: we previously assumed 'iface' could be null (see line 1285)
+Date: Tue, 31 Mar 2020 13:45:30 +0300
+Message-ID: <20200331104530.GA2001@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3579415387329080253==
+--===============6380542947256540885==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/0day-ci/linux/commits/UPDATE-20200328-034657/Chr=
-is-Wilson/drm-i915-execlists-Prevent-GPU-death-on-ELSP-1-promotion-to-idle-=
-context/20200328-034420
-head:   40476f4cc604a9d39e96ad5483fc8f21e8144aa8
-commit: 40476f4cc604a9d39e96ad5483fc8f21e8144aa8 [1/1] drm/i915/execlists: =
-Prevent GPU death on ELSP[1] promotion to idle context
+Hi Christian,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
+staging-testing
+head:   4a1a3e9bf5654e98bb48f5b074af17af96ded30d
+commit: b276527539188f1f61c082ebef27803db93e536d [278/280] staging: most: m=
+ove core files out of the staging area
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/i915/gt/intel_gt_irq.c:33 cs_irq_handler() error: we previo=
-usly assumed 'engine' could be null (see line 27)
+drivers/most/core.c:1287 most_register_interface() error: we previously ass=
+umed 'iface' could be null (see line 1285)
 
-# https://github.com/0day-ci/linux/commit/40476f4cc604a9d39e96ad5483fc8f21e=
-8144aa8
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 40476f4cc604a9d39e96ad5483fc8f21e8144aa8
-vim +/engine +33 drivers/gpu/drm/i915/gt/intel_gt_irq.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git/commit=
+/?id=3Db276527539188f1f61c082ebef27803db93e536d
+git remote add staging https://git.kernel.org/pub/scm/linux/kernel/git/greg=
+kh/staging.git
+git remote update staging
+git checkout b276527539188f1f61c082ebef27803db93e536d
+vim +/iface +1287 drivers/most/core.c
 
-cf1c97dcb96cb2 Andi Shyti   2019-08-11  22  static void
-cf1c97dcb96cb2 Andi Shyti   2019-08-11  23  cs_irq_handler(struct intel_eng=
-ine_cs *engine, u32 iir)
-cf1c97dcb96cb2 Andi Shyti   2019-08-11  24  {
-cf1c97dcb96cb2 Andi Shyti   2019-08-11  25  	bool tasklet =3D false;
-cf1c97dcb96cb2 Andi Shyti   2019-08-11  26  =
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1279  int most_register_interface(struct most_interface *iface)
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1280  {
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1281  	unsigned int i;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1282  	int id;
+fcb7fad82e23f6 drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1283  	struct most_channel *c;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1284  =
 
-40476f4cc604a9 Chris Wilson 2020-03-27 @27  	if (engine)
-                                                    ^^^^^^
-Check for NULL
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24 @1285  	if (!iface || !iface->enqueue || !iface->configure ||
+                                                                           =
+                         ^^^^^^
 
-40476f4cc604a9 Chris Wilson 2020-03-27  28  		ENGINE_TRACE(engine, "iir: %0=
-4x\n", iir);
-40476f4cc604a9 Chris Wilson 2020-03-27  29  =
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1286  	    !iface->poison_channel || (iface->num_channels > MAX_CH=
+ANNELS)) {
+6a82c775812944 drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23 @1287  		dev_err(iface->dev, "Bad interface or channel overflow\n");
+                                                                           =
+                                     ^^^^^^^^^^
 
-70a76a9b8e9d55 Chris Wilson 2020-01-28  30  	if (unlikely(iir & GT_CS_MASTE=
-R_ERROR_INTERRUPT)) {
-70a76a9b8e9d55 Chris Wilson 2020-01-28  31  		u32 eir;
-70a76a9b8e9d55 Chris Wilson 2020-01-28  32  =
+Hopefully, we can just remove the NULL check?
 
-70a76a9b8e9d55 Chris Wilson 2020-01-28 @33  		eir =3D ENGINE_READ(engine, R=
-ING_EIR);
-                                                                          ^=
-^^^^^
-unchecked dereference.
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1288  		return -EINVAL;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1289  	}
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1290  =
 
-70a76a9b8e9d55 Chris Wilson 2020-01-28  34  		ENGINE_TRACE(engine, "CS erro=
-r: %x\n", eir);
-70a76a9b8e9d55 Chris Wilson 2020-01-28  35  =
-
-70a76a9b8e9d55 Chris Wilson 2020-01-28  36  		/* Disable the error interrup=
-t until after the reset */
-70a76a9b8e9d55 Chris Wilson 2020-01-28  37  		if (likely(eir)) {
-70a76a9b8e9d55 Chris Wilson 2020-01-28  38  			ENGINE_WRITE(engine, RING_EM=
-R, ~0u);
-70a76a9b8e9d55 Chris Wilson 2020-01-28  39  			ENGINE_WRITE(engine, RING_EI=
-R, eir);
-70a76a9b8e9d55 Chris Wilson 2020-01-28  40  			WRITE_ONCE(engine->execlists=
-.error_interrupt, eir);
-70a76a9b8e9d55 Chris Wilson 2020-01-28  41  			tasklet =3D true;
-70a76a9b8e9d55 Chris Wilson 2020-01-28  42  		}
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1291  	id =3D ida_simple_get(&mdev_id, 0, 0, GFP_KERNEL);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1292  	if (id < 0) {
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3579415387329080253==--
+--===============6380542947256540885==--
 
