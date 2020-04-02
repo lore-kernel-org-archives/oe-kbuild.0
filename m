@@ -1,84 +1,156 @@
-Content-Type: multipart/mixed; boundary="===============1416134421349532950=="
+Content-Type: multipart/mixed; boundary="===============5913566297731548208=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v2] btrfs: Only require sector size alignment for parent eb bytenr
-Date: Fri, 03 Apr 2020 11:11:31 +0300
-Message-ID: <20200403081131.GV2001@kadam>
-In-Reply-To: <20200326055403.22748-1-wqu@suse.com>
+Subject: Re: [PATCH] x86/perf: Add hardware performance events support for Zhaoxin CPU.
+Date: Thu, 02 Apr 2020 15:10:10 +0300
+Message-ID: <20200402121010.GO2001@kadam>
+In-Reply-To: <1585647599-6649-1-git-send-email-CodyYao-oc@zhaoxin.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1416134421349532950==
+--===============5913566297731548208==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Qu,
+Hi CodyYao-oc,
 
-url:    https://github.com/0day-ci/linux/commits/Qu-Wenruo/btrfs-Only-requi=
-re-sector-size-alignment-for-parent-eb-bytenr/20200327-034045
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/mason/linux-btrfs.g=
-it next
+Thank you for the patch! Perhaps something to improve:
+
+url:    https://github.com/0day-ci/linux/commits/CodyYao-oc/x86-perf-Add-ha=
+rdware-performance-events-support-for-Zhaoxin-CPU/20200331-223205
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 629b3df=
+7ecb01fddfdf71cb5d3c563d143117c33
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/btrfs/extent-tree.c:1178 btrfs_get_extent_inline_ref_type() warn: '0x' p=
-refix is confusing together with '%lu' specifier
-fs/btrfs/extent-tree.c:1178 btrfs_get_extent_inline_ref_type() warn: argume=
-nt 4 to %lu specifier is cast from pointer
+smatch warnings:
+arch/x86/events/zhaoxin/core.c:369 zhaoxin_pmu_handle_irq() error: uninitia=
+lized symbol 'is_zxc'.
 
-Old smatch warnings:
-fs/btrfs/extent-tree.c:6343 update_block_group() warn: inconsistent indenti=
-ng
-fs/btrfs/extent-tree.c:7620 find_free_extent() warn: inconsistent indenting
-
-# https://github.com/0day-ci/linux/commit/8a07080e7e5051c75e67e30bf635fc230=
-b2ab720
+# https://github.com/0day-ci/linux/commit/41b71fb039d254422d4d46c8e7beef30c=
+11c9d39
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout 8a07080e7e5051c75e67e30bf635fc230b2ab720
-vim +1178 fs/btrfs/extent-tree.c
+git checkout 41b71fb039d254422d4d46c8e7beef30c11c9d39
+vim +/is_zxc +369 arch/x86/events/zhaoxin/core.c
 
-64ecdb647ddb83 Liu Bo    2017-08-18  1166  				 */
-64ecdb647ddb83 Liu Bo    2017-08-18  1167  				if (offset &&
-8a07080e7e5051 Qu Wenruo 2020-03-26  1168  				    IS_ALIGNED(offset, eb->f=
-s_info->sectorsize))
-64ecdb647ddb83 Liu Bo    2017-08-18  1169  					return type;
-64ecdb647ddb83 Liu Bo    2017-08-18  1170  			}
-167ce953ca55bd Liu Bo    2017-08-18  1171  		} else {
-167ce953ca55bd Liu Bo    2017-08-18  1172  			ASSERT(is_data =3D=3D BTRFS_R=
-EF_TYPE_ANY);
-167ce953ca55bd Liu Bo    2017-08-18  1173  			return type;
-167ce953ca55bd Liu Bo    2017-08-18  1174  		}
-167ce953ca55bd Liu Bo    2017-08-18  1175  	}
-167ce953ca55bd Liu Bo    2017-08-18  1176  =
+41b71fb039d254 CodyYao-oc 2020-03-31  346  static int zhaoxin_pmu_handle_ir=
+q(struct pt_regs *regs)
+41b71fb039d254 CodyYao-oc 2020-03-31  347  {
+41b71fb039d254 CodyYao-oc 2020-03-31  348  	struct perf_sample_data data;
+41b71fb039d254 CodyYao-oc 2020-03-31  349  	struct cpu_hw_events *cpuc;
+41b71fb039d254 CodyYao-oc 2020-03-31  350  	int bit;
+41b71fb039d254 CodyYao-oc 2020-03-31  351  	u64 status;
+41b71fb039d254 CodyYao-oc 2020-03-31  352  	bool is_zxc;
+                                                ^^^^^^^^^^^
+bool is_zxc =3D false;
 
-167ce953ca55bd Liu Bo    2017-08-18  1177  	btrfs_print_leaf((struct extent=
-_buffer *)eb);
-8a07080e7e5051 Qu Wenruo 2020-03-26 @1178  	btrfs_err(eb->fs_info,
-8a07080e7e5051 Qu Wenruo 2020-03-26  1179  		  "eb %llu iref 0x%lu invalid =
-extent inline ref type %d",
-                                                                        ^^^=
-^^
+41b71fb039d254 CodyYao-oc 2020-03-31  353  	int handled =3D 0;
+41b71fb039d254 CodyYao-oc 2020-03-31  354  =
 
-8a07080e7e5051 Qu Wenruo 2020-03-26  1180  		  eb->start, (unsigned long)ir=
-ef, type);
-                                                                     ^^^^^^=
-^^^^^^^^^^^^^
-0x indicates hex, but this is decimal.  But use %p for pointers so that
-the can be hidden to people without enough privilege.  #kernelHardenning
+41b71fb039d254 CodyYao-oc 2020-03-31  355  	cpuc =3D this_cpu_ptr(&cpu_hw_e=
+vents);
+41b71fb039d254 CodyYao-oc 2020-03-31  356  	apic_write(APIC_LVTPC, APIC_DM_=
+NMI);
+41b71fb039d254 CodyYao-oc 2020-03-31  357  	zhaoxin_pmu_disable_all();
+41b71fb039d254 CodyYao-oc 2020-03-31  358  	status =3D zhaoxin_pmu_get_stat=
+us();
+41b71fb039d254 CodyYao-oc 2020-03-31  359  	if (!status)
+41b71fb039d254 CodyYao-oc 2020-03-31  360  		goto done;
+41b71fb039d254 CodyYao-oc 2020-03-31  361  =
 
-167ce953ca55bd Liu Bo    2017-08-18  1181  	WARN_ON(1);
-167ce953ca55bd Liu Bo    2017-08-18  1182  =
+41b71fb039d254 CodyYao-oc 2020-03-31  362  	if (boot_cpu_data.x86 =3D=3D 0x=
+06 &&
+41b71fb039d254 CodyYao-oc 2020-03-31  363  		(boot_cpu_data.x86_model =3D=
+=3D 0x0f ||
+41b71fb039d254 CodyYao-oc 2020-03-31  364  			boot_cpu_data.x86_model =3D=
+=3D 0x19))
+41b71fb039d254 CodyYao-oc 2020-03-31  365  		is_zxc =3D true;
+41b71fb039d254 CodyYao-oc 2020-03-31  366  again:
+41b71fb039d254 CodyYao-oc 2020-03-31  367  =
 
-167ce953ca55bd Liu Bo    2017-08-18  1183  	return BTRFS_REF_TYPE_INVALID;
-167ce953ca55bd Liu Bo    2017-08-18  1184  }
+41b71fb039d254 CodyYao-oc 2020-03-31  368  	/*Clearing status works only if=
+ the global control is enable on zxc.*/
+41b71fb039d254 CodyYao-oc 2020-03-31 @369  	if (is_zxc)
+                                                    ^^^^^^
+
+41b71fb039d254 CodyYao-oc 2020-03-31  370  		wrmsrl(MSR_CORE_PERF_GLOBAL_CT=
+RL, x86_pmu.intel_ctrl);
+41b71fb039d254 CodyYao-oc 2020-03-31  371  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  372  	zhaoxin_pmu_ack_status(status);
+41b71fb039d254 CodyYao-oc 2020-03-31  373  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  374  	if (is_zxc)
+41b71fb039d254 CodyYao-oc 2020-03-31  375  		wrmsrl(MSR_CORE_PERF_GLOBAL_CT=
+RL, 0);
+41b71fb039d254 CodyYao-oc 2020-03-31  376  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  377  	inc_irq_stat(apic_perf_irqs);
+41b71fb039d254 CodyYao-oc 2020-03-31  378  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  379  	/*
+41b71fb039d254 CodyYao-oc 2020-03-31  380  	 * CondChgd bit 63 doesn't mean=
+ any overflow status. Ignore
+41b71fb039d254 CodyYao-oc 2020-03-31  381  	 * and clear the bit.
+41b71fb039d254 CodyYao-oc 2020-03-31  382  	 */
+41b71fb039d254 CodyYao-oc 2020-03-31  383  	if (__test_and_clear_bit(63, (u=
+nsigned long *)&status)) {
+41b71fb039d254 CodyYao-oc 2020-03-31  384  		if (!status)
+41b71fb039d254 CodyYao-oc 2020-03-31  385  			goto done;
+41b71fb039d254 CodyYao-oc 2020-03-31  386  	}
+41b71fb039d254 CodyYao-oc 2020-03-31  387  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  388  	for_each_set_bit(bit, (unsigned=
+ long *)&status, X86_PMC_IDX_MAX) {
+41b71fb039d254 CodyYao-oc 2020-03-31  389  		struct perf_event *event =3D c=
+puc->events[bit];
+41b71fb039d254 CodyYao-oc 2020-03-31  390  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  391  		handled++;
+41b71fb039d254 CodyYao-oc 2020-03-31  392  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  393  		if (!test_bit(bit, cpuc->activ=
+e_mask))
+41b71fb039d254 CodyYao-oc 2020-03-31  394  			continue;
+41b71fb039d254 CodyYao-oc 2020-03-31  395  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  396  		x86_perf_event_update(event);
+41b71fb039d254 CodyYao-oc 2020-03-31  397  		perf_sample_data_init(&data, 0=
+, event->hw.last_period);
+41b71fb039d254 CodyYao-oc 2020-03-31  398  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  399  		if (!x86_perf_event_set_period=
+(event))
+41b71fb039d254 CodyYao-oc 2020-03-31  400  			continue;
+41b71fb039d254 CodyYao-oc 2020-03-31  401  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  402  		if (perf_event_overflow(event,=
+ &data, regs))
+41b71fb039d254 CodyYao-oc 2020-03-31  403  			x86_pmu_stop(event, 0);
+41b71fb039d254 CodyYao-oc 2020-03-31  404  	}
+41b71fb039d254 CodyYao-oc 2020-03-31  405  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  406  	/*
+41b71fb039d254 CodyYao-oc 2020-03-31  407  	 * Repeat if there is more work=
+ to be done:
+41b71fb039d254 CodyYao-oc 2020-03-31  408  	 */
+41b71fb039d254 CodyYao-oc 2020-03-31  409  	status =3D zhaoxin_pmu_get_stat=
+us();
+41b71fb039d254 CodyYao-oc 2020-03-31  410  	if (status)
+41b71fb039d254 CodyYao-oc 2020-03-31  411  		goto again;
+41b71fb039d254 CodyYao-oc 2020-03-31  412  =
+
+41b71fb039d254 CodyYao-oc 2020-03-31  413  done:
+41b71fb039d254 CodyYao-oc 2020-03-31  414  	zhaoxin_pmu_enable_all(0);
+41b71fb039d254 CodyYao-oc 2020-03-31  415  	return handled;
+41b71fb039d254 CodyYao-oc 2020-03-31  416  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1416134421349532950==--
+--===============5913566297731548208==--
 
