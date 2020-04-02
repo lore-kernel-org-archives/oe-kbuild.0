@@ -1,113 +1,83 @@
-Content-Type: multipart/mixed; boundary="===============6122372521850432311=="
+Content-Type: multipart/mixed; boundary="===============3579415387329080253=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] acpica: clear global_lock bits at FACS initialization
-Date: Thu, 02 Apr 2020 14:28:41 +0300
-Message-ID: <20200402112712.GN2001@kadam>
-In-Reply-To: <20200330085852.31328-1-jengelh@inai.de>
+Subject: [linux-review:UPDATE-20200328-034657/Chris-Wilson/drm-i915-execlists-Prevent-GPU-death-on-ELSP-1-promotion-to-idle-context/20200328-034420 1/1] drivers/gpu/drm/i915/gt/intel_gt_irq.c:33 cs_irq_handler() error: we previously assumed 'engine' could be null (see line 27)
+Date: Thu, 02 Apr 2020 12:40:01 +0300
+Message-ID: <20200402094001.GH2001@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6122372521850432311==
+--===============3579415387329080253==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Jan,
-
-url:    https://github.com/0day-ci/linux/commits/Jan-Engelhardt/acpica-clea=
-r-global_lock-bits-at-FACS-initialization/20200330-183705
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- linux-next
+tree:   https://github.com/0day-ci/linux/commits/UPDATE-20200328-034657/Chr=
+is-Wilson/drm-i915-execlists-Prevent-GPU-death-on-ELSP-1-promotion-to-idle-=
+context/20200328-034420
+head:   40476f4cc604a9d39e96ad5483fc8f21e8144aa8
+commit: 40476f4cc604a9d39e96ad5483fc8f21e8144aa8 [1/1] drm/i915/execlists: =
+Prevent GPU death on ELSP[1] promotion to idle context
 
 If you fix the issue, kindly add following tag
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/acpi/acpica/tbutils.c:60 acpi_tb_initialize_facs() error: uninitial=
-ized symbol 'facs'.
+drivers/gpu/drm/i915/gt/intel_gt_irq.c:33 cs_irq_handler() error: we previo=
+usly assumed 'engine' could be null (see line 27)
 
-# https://github.com/0day-ci/linux/commit/cc0fd9e263391ff230ac700aa76dbcf71=
-95c8c42
+# https://github.com/0day-ci/linux/commit/40476f4cc604a9d39e96ad5483fc8f21e=
+8144aa8
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout cc0fd9e263391ff230ac700aa76dbcf7195c8c42
-vim +/facs +60 drivers/acpi/acpica/tbutils.c
+git checkout 40476f4cc604a9d39e96ad5483fc8f21e8144aa8
+vim +/engine +33 drivers/gpu/drm/i915/gt/intel_gt_irq.c
 
-009c4cbe99bea2 drivers/acpi/tables/tbutils.c Bob Moore      2008-11-12  35 =
- acpi_status acpi_tb_initialize_facs(void)
-009c4cbe99bea2 drivers/acpi/tables/tbutils.c Bob Moore      2008-11-12  36 =
- {
-7484619bff495c drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  37 =
- 	struct acpi_table_facs *facs;
-009c4cbe99bea2 drivers/acpi/tables/tbutils.c Bob Moore      2008-11-12  38  =
+cf1c97dcb96cb2 Andi Shyti   2019-08-11  22  static void
+cf1c97dcb96cb2 Andi Shyti   2019-08-11  23  cs_irq_handler(struct intel_eng=
+ine_cs *engine, u32 iir)
+cf1c97dcb96cb2 Andi Shyti   2019-08-11  24  {
+cf1c97dcb96cb2 Andi Shyti   2019-08-11  25  	bool tasklet =3D false;
+cf1c97dcb96cb2 Andi Shyti   2019-08-11  26  =
 
-22e5b40ab21fca drivers/acpi/acpica/tbutils.c Bob Moore      2011-11-16  39 =
- 	/* If Hardware Reduced flag is set, there is no FACS */
-22e5b40ab21fca drivers/acpi/acpica/tbutils.c Bob Moore      2011-11-16  40  =
+40476f4cc604a9 Chris Wilson 2020-03-27 @27  	if (engine)
+                                                    ^^^^^^
+Check for NULL
 
-22e5b40ab21fca drivers/acpi/acpica/tbutils.c Bob Moore      2011-11-16  41 =
- 	if (acpi_gbl_reduced_hardware) {
-22e5b40ab21fca drivers/acpi/acpica/tbutils.c Bob Moore      2011-11-16  42 =
- 		acpi_gbl_FACS =3D NULL;
-22e5b40ab21fca drivers/acpi/acpica/tbutils.c Bob Moore      2011-11-16  43 =
- 		return (AE_OK);
-8ec3f459073e67 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  44 =
- 	} else if (acpi_gbl_FADT.Xfacs &&
-8ec3f459073e67 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  45 =
- 		   (!acpi_gbl_FADT.facs
-8ec3f459073e67 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  46 =
- 		    || !acpi_gbl_use32_bit_facs_addresses)) {
-8ec3f459073e67 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  47 =
- 		(void)acpi_get_table_by_index(acpi_gbl_xfacs_index,
-c04e1fb4396d27 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-07-01  48 =
- 					      ACPI_CAST_INDIRECT_PTR(struct
-c04e1fb4396d27 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-07-01  49 =
- 								     acpi_table_header,
-7484619bff495c drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  50 =
- 								     &facs));
-7484619bff495c drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  51 =
- 		acpi_gbl_FACS =3D facs;
-8ec3f459073e67 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  52 =
- 	} else if (acpi_gbl_FADT.facs) {
-                                                                           =
-       ^^^^^^^
+40476f4cc604a9 Chris Wilson 2020-03-27  28  		ENGINE_TRACE(engine, "iir: %0=
+4x\n", iir);
+40476f4cc604a9 Chris Wilson 2020-03-27  29  =
 
-8ec3f459073e67 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  53 =
- 		(void)acpi_get_table_by_index(acpi_gbl_facs_index,
-009c4cbe99bea2 drivers/acpi/tables/tbutils.c Bob Moore      2008-11-12  54 =
- 					      ACPI_CAST_INDIRECT_PTR(struct
-009c4cbe99bea2 drivers/acpi/tables/tbutils.c Bob Moore      2008-11-12  55 =
- 								     acpi_table_header,
-7484619bff495c drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  56 =
- 								     &facs));
-7484619bff495c drivers/acpi/acpica/tbutils.c Lv Zheng       2015-08-25  57 =
- 		acpi_gbl_FACS =3D facs;
-c04e1fb4396d27 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-07-01  58 =
- 	}
+70a76a9b8e9d55 Chris Wilson 2020-01-28  30  	if (unlikely(iir & GT_CS_MASTE=
+R_ERROR_INTERRUPT)) {
+70a76a9b8e9d55 Chris Wilson 2020-01-28  31  		u32 eir;
+70a76a9b8e9d55 Chris Wilson 2020-01-28  32  =
 
-There is no else path, only else if paths.
+70a76a9b8e9d55 Chris Wilson 2020-01-28 @33  		eir =3D ENGINE_READ(engine, R=
+ING_EIR);
+                                                                          ^=
+^^^^^
+unchecked dereference.
 
-cc0fd9e263391f drivers/acpi/acpica/tbutils.c Jan Engelhardt 2020-03-30  59 =
- 	/* Clear potential garbage from the initial FACS table. */
-cc0fd9e263391f drivers/acpi/acpica/tbutils.c Jan Engelhardt 2020-03-30 @60 =
- 	if (facs !=3D NULL)
-cc0fd9e263391f drivers/acpi/acpica/tbutils.c Jan Engelhardt 2020-03-30  61 =
- 		facs->global_lock &=3D ~0x3;
-c04e1fb4396d27 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-07-01  62  =
+70a76a9b8e9d55 Chris Wilson 2020-01-28  34  		ENGINE_TRACE(engine, "CS erro=
+r: %x\n", eir);
+70a76a9b8e9d55 Chris Wilson 2020-01-28  35  =
 
-f06147f9fbf134 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-07-01  63 =
- 	/* If there is no FACS, just continue. There was already an error msg */
-f06147f9fbf134 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-07-01  64  =
-
-c04e1fb4396d27 drivers/acpi/acpica/tbutils.c Lv Zheng       2015-07-01  65 =
- 	return (AE_OK);
-009c4cbe99bea2 drivers/acpi/tables/tbutils.c Bob Moore      2008-11-12  66 =
- }
+70a76a9b8e9d55 Chris Wilson 2020-01-28  36  		/* Disable the error interrup=
+t until after the reset */
+70a76a9b8e9d55 Chris Wilson 2020-01-28  37  		if (likely(eir)) {
+70a76a9b8e9d55 Chris Wilson 2020-01-28  38  			ENGINE_WRITE(engine, RING_EM=
+R, ~0u);
+70a76a9b8e9d55 Chris Wilson 2020-01-28  39  			ENGINE_WRITE(engine, RING_EI=
+R, eir);
+70a76a9b8e9d55 Chris Wilson 2020-01-28  40  			WRITE_ONCE(engine->execlists=
+.error_interrupt, eir);
+70a76a9b8e9d55 Chris Wilson 2020-01-28  41  			tasklet =3D true;
+70a76a9b8e9d55 Chris Wilson 2020-01-28  42  		}
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6122372521850432311==--
+--===============3579415387329080253==--
 
