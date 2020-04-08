@@ -1,287 +1,143 @@
-Content-Type: multipart/mixed; boundary="===============6496822740387514328=="
+Content-Type: multipart/mixed; boundary="===============5713169018727408021=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH RESEND] net: qrtr: support qrtr service and lookup route
-Date: Thu, 09 Apr 2020 10:14:49 +0800
-Message-ID: <202004091028.xeWZwWwR%lkp@intel.com>
+Subject: [linux-next:master 13120/13818] drivers/bluetooth/btusb.c:1665 btusb_work() error: we previously assumed 'data->isoc' could be null (see line 1642)
+Date: Thu, 09 Apr 2020 07:03:38 +0800
+Message-ID: <202004090726.huc5U1o9%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6496822740387514328==
+--===============5713169018727408021==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200408104833.6880-1-wenhu.wang@vivo.com>
-References: <20200408104833.6880-1-wenhu.wang@vivo.com>
-TO: Wang Wenhu <wenhu.wang@vivo.com>
-CC: kernel(a)vivo.com
+TO: Sathish Narasimman <sathish.narasimman@intel.com>
+CC: Johan Hedberg <johan.hedberg@intel.com>
+CC: Chethan T N <chethan.tumkur.narayan@intel.com>
+CC: "Hsin-Yu Chao" <hychao@chromium.org>
+CC: Amit K Bag <amit.k.bag@intel.com>
+CC: Marcel Holtmann <marcel@holtmann.org>
 
-Hi Wang,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on v5.6]
-[cannot apply to net-next/master net/master linus/master sparc-next/master =
-next-20200408]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Wang-Wenhu/net-qrtr-suppor=
-t-qrtr-service-and-lookup-route/20200408-234613
-base:    7111951b8d4973bda27ff663f2cf18b663d15b48
-reproduce:
-        # apt-get install sparse
-        # sparse version: =
-
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   5798bd75ab137611da5c4cb11b6795d14cb60ba2
+commit: baac6276c0a9f36f1fe1f00590ef00d2ba5ba626 [13120/13818] Bluetooth: b=
+tusb: handle mSBC audio over USB Endpoints
+:::::: branch date: 20 hours ago
+:::::: commit date: 3 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/bluetooth/btusb.c:1665 btusb_work() error: we previously assumed 'd=
+ata->isoc' could be null (see line 1642)
 
-sparse warnings: (new ones prefixed by >>)
+Old smatch warnings:
+drivers/bluetooth/btusb.c:2026 btusb_setup_intel() warn: inconsistent inden=
+ting
 
-   net/qrtr/qsr.c:116:71: sparse: warning: incorrect type in argument 2 (di=
-fferent base types)
->> net/qrtr/qsr.c:116:71: sparse:    expected unsigned int [usertype] node
->> net/qrtr/qsr.c:116:71: sparse:    got restricted __le32 [usertype] node
-   net/qrtr/qsr.c:117:71: sparse: warning: incorrect type in argument 3 (di=
-fferent base types)
->> net/qrtr/qsr.c:117:71: sparse:    expected unsigned int [usertype] port
->> net/qrtr/qsr.c:117:71: sparse:    got restricted __le32 [usertype] port
-   net/qrtr/qsr.c:139:30: sparse: warning: cast from restricted __le32
-   net/qrtr/qsr.c:140:31: sparse: warning: cast from restricted __le32
-   net/qrtr/qsr.c:141:27: sparse: warning: cast from restricted __le32
-   net/qrtr/qsr.c:142:27: sparse: warning: cast from restricted __le32
-   net/qrtr/qsr.c:178:25: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:178:53: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:189:22: sparse: warning: incorrect type in assignment (di=
-fferent base types)
->> net/qrtr/qsr.c:189:22: sparse:    expected restricted __le32 [usertype] =
-service
->> net/qrtr/qsr.c:189:22: sparse:    got unsigned int [usertype] service
-   net/qrtr/qsr.c:190:23: sparse: warning: incorrect type in assignment (di=
-fferent base types)
->> net/qrtr/qsr.c:190:23: sparse:    expected restricted __le32 [usertype] =
-instance
->> net/qrtr/qsr.c:190:23: sparse:    got unsigned int [usertype] instance
-   net/qrtr/qsr.c:191:26: sparse: warning: incorrect type in assignment (di=
-fferent base types)
->> net/qrtr/qsr.c:191:26: sparse:    expected restricted __le32 [usertype] =
-node
->> net/qrtr/qsr.c:191:26: sparse:    got unsigned int [usertype] node
-   net/qrtr/qsr.c:192:26: sparse: warning: incorrect type in assignment (di=
-fferent base types)
->> net/qrtr/qsr.c:192:26: sparse:    expected restricted __le32 [usertype] =
-port
->> net/qrtr/qsr.c:192:26: sparse:    got unsigned int [usertype] port
-   net/qrtr/qsr.c:206:24: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:206:51: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:229:25: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:230:25: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:231:33: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:232:33: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:240:24: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:240:51: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:256:22: sparse: warning: incorrect type in assignment (di=
-fferent base types)
-   net/qrtr/qsr.c:256:22: sparse:    expected restricted __le32 [usertype] =
-service
-   net/qrtr/qsr.c:256:22: sparse:    got unsigned int [usertype] service
-   net/qrtr/qsr.c:257:23: sparse: warning: incorrect type in assignment (di=
-fferent base types)
-   net/qrtr/qsr.c:257:23: sparse:    expected restricted __le32 [usertype] =
-instance
-   net/qrtr/qsr.c:257:23: sparse:    got unsigned int [usertype] instance
-   net/qrtr/qsr.c:258:26: sparse: warning: incorrect type in assignment (di=
-fferent base types)
-   net/qrtr/qsr.c:258:26: sparse:    expected restricted __le32 [usertype] =
-node
-   net/qrtr/qsr.c:258:26: sparse:    got unsigned int [usertype] node
-   net/qrtr/qsr.c:259:26: sparse: warning: incorrect type in assignment (di=
-fferent base types)
-   net/qrtr/qsr.c:259:26: sparse:    expected restricted __le32 [usertype] =
-port
-   net/qrtr/qsr.c:259:26: sparse:    got unsigned int [usertype] port
-   net/qrtr/qsr.c:275:27: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:276:27: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:277:35: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:278:35: sparse: warning: restricted __le32 degrades to in=
-teger
-   net/qrtr/qsr.c:482:16: sparse: warning: symbol 'qsr_handle_ops' was not =
-declared. Should it be static?
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3Dbaac6276c0a9f36f1fe1f00590ef00d2ba5ba626
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git remote update linux-next
+git checkout baac6276c0a9f36f1fe1f00590ef00d2ba5ba626
+vim +1665 drivers/bluetooth/btusb.c
 
-# https://github.com/0day-ci/linux/commit/c66a78864319437062e4d506cc771623d=
-0486bae
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout c66a78864319437062e4d506cc771623d0486bae
-vim +116 net/qrtr/qsr.c
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1632  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  102  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1633  static void btusb_work(=
+struct work_struct *work)
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1634  {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1635  	struct btusb_data *dat=
+a =3D container_of(work, struct btusb_data, work);
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1636  	struct hci_dev *hdev =
+=3D data->hdev;
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1637  	int new_alts =3D 0;
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1638  	int err;
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1639  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  103  static int qsr_new_server(struc=
-t qsr_info *new)
-c66a78864319437 Wang Wenhu 2020-04-08  104  {
-c66a78864319437 Wang Wenhu 2020-04-08  105  	struct qsr_info *lookup;
-c66a78864319437 Wang Wenhu 2020-04-08  106  	struct qsr_ops *ops =3D qsr->o=
-ps;
-c66a78864319437 Wang Wenhu 2020-04-08  107  	int ret;
-c66a78864319437 Wang Wenhu 2020-04-08  108  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1640  	if (data->sco_num > 0)=
+ {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1641  		if (!test_bit(BTUSB_D=
+ID_ISO_RESUME, &data->flags)) {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03 @1642  			err =3D usb_autopm_g=
+et_interface(data->isoc ? data->isoc : data->intf);
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1643  			if (err < 0) {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1644  				clear_bit(BTUSB_ISO=
+C_RUNNING, &data->flags);
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1645  				usb_kill_anchored_u=
+rbs(&data->isoc_anchor);
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1646  				return;
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1647  			}
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1648  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  109  	if (!ops->new_lookup)
-c66a78864319437 Wang Wenhu 2020-04-08  110  		return 0;
-c66a78864319437 Wang Wenhu 2020-04-08  111  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1649  			set_bit(BTUSB_DID_IS=
+O_RESUME, &data->flags);
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1650  		}
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1651  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  112  	list_for_each_entry(lookup, &q=
-sr->lookups, list) {
-c66a78864319437 Wang Wenhu 2020-04-08  113  		if (lookup->service =3D=3D ne=
-w->service &&
-c66a78864319437 Wang Wenhu 2020-04-08  114  		    lookup->instance =3D=3D n=
-ew->instance) {
-c66a78864319437 Wang Wenhu 2020-04-08  115  			ret =3D ops->new_lookup(new,
-c66a78864319437 Wang Wenhu 2020-04-08 @116  							lookup->client.node,
-c66a78864319437 Wang Wenhu 2020-04-08 @117  							lookup->client.port);
-c66a78864319437 Wang Wenhu 2020-04-08  118  			if (ret < 0)
-c66a78864319437 Wang Wenhu 2020-04-08  119  				pr_err("Error to notice cli=
-ent of new server, %d\n", ret);
-c66a78864319437 Wang Wenhu 2020-04-08  120  			else
-c66a78864319437 Wang Wenhu 2020-04-08  121  				list_del(&lookup->list);
-c66a78864319437 Wang Wenhu 2020-04-08  122  			return 0;
-c66a78864319437 Wang Wenhu 2020-04-08  123  		}
-c66a78864319437 Wang Wenhu 2020-04-08  124  	}
-c66a78864319437 Wang Wenhu 2020-04-08  125  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1652  		if (data->air_mode =
+=3D=3D HCI_NOTIFY_ENABLE_SCO_CVSD) {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1653  			if (hdev->voice_sett=
+ing & 0x0020) {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1654  				static const int al=
+ts[3] =3D { 2, 4, 5 };
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1655  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  126  	return 0;
-c66a78864319437 Wang Wenhu 2020-04-08  127  }
-c66a78864319437 Wang Wenhu 2020-04-08  128  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1656  				new_alts =3D alts[d=
+ata->sco_num - 1];
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1657  			} else {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1658  				new_alts =3D data->=
+sco_num;
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1659  			}
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1660  		} else if (data->air_=
+mode =3D=3D HCI_NOTIFY_ENABLE_SCO_TRANSP) {
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1661  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  129  static int qsr_new_lookup(struc=
-t qsr_info *svc, u32 node, u32 port)
-c66a78864319437 Wang Wenhu 2020-04-08  130  {
-c66a78864319437 Wang Wenhu 2020-04-08  131  	struct qrtr_ctrl_pkt pkt;
-c66a78864319437 Wang Wenhu 2020-04-08  132  	struct sockaddr_qrtr sq;
-c66a78864319437 Wang Wenhu 2020-04-08  133  	struct msghdr msg =3D { };
-c66a78864319437 Wang Wenhu 2020-04-08  134  	struct kvec iv =3D { &pkt, siz=
-eof(pkt) };
-c66a78864319437 Wang Wenhu 2020-04-08  135  	int ret =3D 0;
-c66a78864319437 Wang Wenhu 2020-04-08  136  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1662  			data->usb_alt6_packe=
+t_flow =3D true;
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1663  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  137  	memset(&pkt, 0, sizeof(pkt));
-c66a78864319437 Wang Wenhu 2020-04-08  138  	pkt.cmd =3D cpu_to_le32(QRTR_T=
-YPE_NEW_SERVER);
-c66a78864319437 Wang Wenhu 2020-04-08  139  	pkt.server.service =3D cpu_to_=
-le32(svc->service);
-c66a78864319437 Wang Wenhu 2020-04-08 @140  	pkt.server.instance =3D cpu_to=
-_le32(svc->instance);
-c66a78864319437 Wang Wenhu 2020-04-08 @141  	pkt.server.node =3D cpu_to_le3=
-2(svc->server.node);
-c66a78864319437 Wang Wenhu 2020-04-08  142  	pkt.server.port =3D cpu_to_le3=
-2(svc->server.port);
-c66a78864319437 Wang Wenhu 2020-04-08  143  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1664  			/* Check if Alt 6 is=
+ supported for Transparent audio */
+baac6276c0a9f3 Sathish Narasimman 2020-04-03 @1665  			if (btusb_find_altse=
+tting(data, 6))
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1666  				new_alts =3D 6;
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1667  			else
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1668  				bt_dev_err(hdev, "D=
+evice does not support ALT setting 6");
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1669  		}
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1670  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  144  	sq.sq_family =3D AF_QIPCRTR;
-c66a78864319437 Wang Wenhu 2020-04-08  145  	sq.sq_node =3D node;
-c66a78864319437 Wang Wenhu 2020-04-08  146  	sq.sq_port =3D port;
-c66a78864319437 Wang Wenhu 2020-04-08  147  =
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1671  		if (btusb_switch_alt_=
+setting(hdev, new_alts) < 0)
+baac6276c0a9f3 Sathish Narasimman 2020-04-03  1672  			bt_dev_err(hdev, "se=
+t USB alt:(%d) failed!", new_alts);
+9bfa35fe422c74 Marcel Holtmann    2008-08-18  1673  	} else {
+9bfa35fe422c74 Marcel Holtmann    2008-08-18  1674  		clear_bit(BTUSB_ISOC_=
+RUNNING, &data->flags);
+9bfa35fe422c74 Marcel Holtmann    2008-08-18  1675  		usb_kill_anchored_urb=
+s(&data->isoc_anchor);
+9bfa35fe422c74 Marcel Holtmann    2008-08-18  1676  =
 
-c66a78864319437 Wang Wenhu 2020-04-08  148  	msg.msg_name =3D &sq;
-c66a78864319437 Wang Wenhu 2020-04-08  149  	msg.msg_namelen =3D sizeof(sq);
-c66a78864319437 Wang Wenhu 2020-04-08  150  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  151  	mutex_lock(&qsr->qsr_lock);
-c66a78864319437 Wang Wenhu 2020-04-08  152  	if (qsr->sk) {
-c66a78864319437 Wang Wenhu 2020-04-08  153  		ret =3D kernel_sendmsg(qsr->s=
-k, &msg, &iv, 1, sizeof(pkt));
-c66a78864319437 Wang Wenhu 2020-04-08  154  		if (ret < 0)
-c66a78864319437 Wang Wenhu 2020-04-08  155  			pr_err("Error to send server=
- info to client, %d\n", ret);
-c66a78864319437 Wang Wenhu 2020-04-08  156  	}
-c66a78864319437 Wang Wenhu 2020-04-08  157  	mutex_unlock(&qsr->qsr_lock);
-c66a78864319437 Wang Wenhu 2020-04-08  158  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  159  	return ret;
-c66a78864319437 Wang Wenhu 2020-04-08  160  }
-c66a78864319437 Wang Wenhu 2020-04-08  161  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  162  static void qsr_recv_new_server=
-(u32 service,
-c66a78864319437 Wang Wenhu 2020-04-08  163  				u32 instance,
-c66a78864319437 Wang Wenhu 2020-04-08  164  				u32 node,
-c66a78864319437 Wang Wenhu 2020-04-08  165  				u32 port)
-c66a78864319437 Wang Wenhu 2020-04-08  166  {
-c66a78864319437 Wang Wenhu 2020-04-08  167  	struct qsr_ops *ops =3D qsr->o=
-ps;
-c66a78864319437 Wang Wenhu 2020-04-08  168  	struct qsr_info *svc, *temp;
-c66a78864319437 Wang Wenhu 2020-04-08  169  	int ret;
-c66a78864319437 Wang Wenhu 2020-04-08  170  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  171  	if (!ops->new_server)
-c66a78864319437 Wang Wenhu 2020-04-08  172  		return;
-c66a78864319437 Wang Wenhu 2020-04-08  173  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  174  	if (!node && !port)
-c66a78864319437 Wang Wenhu 2020-04-08  175  		return;
-c66a78864319437 Wang Wenhu 2020-04-08  176  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  177  	list_for_each_entry(temp, &qsr=
-->services, list) {
-c66a78864319437 Wang Wenhu 2020-04-08 @178  		if (temp->service =3D=3D serv=
-ice && temp->instance =3D=3D instance) {
-c66a78864319437 Wang Wenhu 2020-04-08  179  			pr_err("Error server exists,=
- service:0x%x instance:0x%x",
-c66a78864319437 Wang Wenhu 2020-04-08  180  			       service, instance);
-c66a78864319437 Wang Wenhu 2020-04-08  181  			return;
-c66a78864319437 Wang Wenhu 2020-04-08  182  		}
-c66a78864319437 Wang Wenhu 2020-04-08  183  	}
-c66a78864319437 Wang Wenhu 2020-04-08  184  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  185  	svc =3D kzalloc(sizeof(*svc), =
-GFP_KERNEL);
-c66a78864319437 Wang Wenhu 2020-04-08  186  	if (!svc)
-c66a78864319437 Wang Wenhu 2020-04-08  187  		return;
-c66a78864319437 Wang Wenhu 2020-04-08  188  =
-
-c66a78864319437 Wang Wenhu 2020-04-08 @189  	svc->service =3D service;
-c66a78864319437 Wang Wenhu 2020-04-08 @190  	svc->instance =3D instance;
-c66a78864319437 Wang Wenhu 2020-04-08 @191  	svc->server.node =3D node;
-c66a78864319437 Wang Wenhu 2020-04-08 @192  	svc->server.port =3D port;
-c66a78864319437 Wang Wenhu 2020-04-08  193  =
-
-c66a78864319437 Wang Wenhu 2020-04-08  194  	ret =3D ops->new_server(svc);
-c66a78864319437 Wang Wenhu 2020-04-08  195  	if (ret < 0)
-c66a78864319437 Wang Wenhu 2020-04-08  196  		kfree(svc);
-c66a78864319437 Wang Wenhu 2020-04-08  197  	else
-c66a78864319437 Wang Wenhu 2020-04-08  198  		list_add(&svc->list, &qsr->se=
-rvices);
-c66a78864319437 Wang Wenhu 2020-04-08  199  }
-c66a78864319437 Wang Wenhu 2020-04-08  200  =
+9bfa35fe422c74 Marcel Holtmann    2008-08-18  1677  		__set_isoc_interface(=
+hdev, 0);
+08b8b6c454092a Gustavo Padovan    2010-07-16  1678  		if (test_and_clear_bi=
+t(BTUSB_DID_ISO_RESUME, &data->flags))
+8efdd0cdc54f3b Oliver Neukum      2011-02-11  1679  			usb_autopm_put_inter=
+face(data->isoc ? data->isoc : data->intf);
+7bee549e197c9c Oliver Neukum      2009-08-24  1680  	}
+7bee549e197c9c Oliver Neukum      2009-08-24  1681  }
+7bee549e197c9c Oliver Neukum      2009-08-24  1682  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6496822740387514328==--
+--===============5713169018727408021==--
 
