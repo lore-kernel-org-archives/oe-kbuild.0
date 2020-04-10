@@ -1,42 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============1867376546937425463=="
+Content-Type: multipart/mixed; boundary="===============0388509873853202972=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 4/4] drm/selftests: selftest for timeline semaphore
-Date: Sat, 11 Apr 2020 13:52:33 +0800
-Message-ID: <202004111318.VlLDNk0s%lkp@intel.com>
+Subject: [dhowells-fs:afs-fixes 6/6] fs/afs/dir_silly.c:188:11: warning: The if condition is the same as the previous if condition [duplicateCondition]
+Date: Sat, 11 Apr 2020 04:22:35 +0800
+Message-ID: <202004110426.nalZpUGs%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1867376546937425463==
+--===============0388509873853202972==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200410165158.29546-4-venkata.s.dhanalakota@intel.com>
-References: <20200410165158.29546-4-venkata.s.dhanalakota@intel.com>
-TO: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-CC: intel-gfx(a)lists.freedesktop.org
-CC: chris.p.wilson(a)intel.com
+TO: David Howells <dhowells@redhat.com>
 
-Hi Venkata,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next linus/master v5.6 next-20200410]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Venkata-Sandeep-Dhanalakot=
-a/drm-i915-introduce-a-mechanism-to-extend-execbuf2/20200411-031057
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
+it afs-fixes
+head:   0a2d3be765d4a808eddcda5e3f303e57c19dd61f
+commit: 0a2d3be765d4a808eddcda5e3f303e57c19dd61f [6/6] afs: Fix race betwee=
+n post-modification dir edit and readdir/d_revalidate
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -44,76 +29,133 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:335:20: warning:=
- The scope of the variable 'f' can be reduced. [variableScope]
-    struct dma_fence *f;
-                      ^
-   drivers/gpu/drm/selftests/drm_selftest.c:96:6: warning: The scope of the=
- variable 'err' can be reduced. [variableScope]
-    int err;
+>> fs/afs/dir_silly.c:188:11: warning: The if condition is the same as the =
+previous if condition [duplicateCondition]
+     if (ret =3D=3D 0) {
+             ^
+   fs/afs/dir_silly.c:181:11: note: First condition
+     if (ret =3D=3D 0) {
+             ^
+   fs/afs/dir_silly.c:188:11: note: Second condition
+     if (ret =3D=3D 0) {
+             ^
+   fs/afs/dir_silly.c:211:6: warning: The scope of the variable 'ret' can b=
+e reduced. [variableScope]
+    int ret;
         ^
->> drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:410:24: warning:=
- Local variable 'timeline' shadows outer function [shadowFunction]
-    struct mock_timeline *timeline =3D arg;
-                          ^
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:91:30: note: Sha=
-dowed declaration
-   static struct mock_timeline *timeline(u64 point, u32 flags)
-                                ^
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:410:24: note: Sh=
-adow variable
-    struct mock_timeline *timeline =3D arg;
-                          ^
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:425:24: warning:=
- Local variable 'timeline' shadows outer function [shadowFunction]
-    struct mock_timeline *timeline =3D arg;
-                          ^
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:91:30: note: Sha=
-dowed declaration
-   static struct mock_timeline *timeline(u64 point, u32 flags)
-                                ^
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:425:24: note: Sh=
-adow variable
-    struct mock_timeline *timeline =3D arg;
-                          ^
 
-# https://github.com/0day-ci/linux/commit/362cf777546c74e0be786cf6ae2f42031=
-a6a03c8
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 362cf777546c74e0be786cf6ae2f42031a6a03c8
-vim +/timeline +410 drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/com=
+mit/?id=3D0a2d3be765d4a808eddcda5e3f303e57c19dd61f
+git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/=
+dhowells/linux-fs.git
+git remote update dhowells-fs
+git checkout 0a2d3be765d4a808eddcda5e3f303e57c19dd61f
+vim +188 fs/afs/dir_silly.c
 
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  407  =
+79ddbfa500b37a David Howells 2019-04-25  141  =
 
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  408  static int __si=
-gnal_timeline(void *arg)
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  409  {
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10 @410  	struct mock_ti=
-meline *timeline =3D arg;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  411  	struct dma_fen=
-ce *f;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  412  =
+79ddbfa500b37a David Howells 2019-04-25  142  /*
+79ddbfa500b37a David Howells 2019-04-25  143   * Tell the server to remove =
+a sillyrename file.
+79ddbfa500b37a David Howells 2019-04-25  144   */
+79ddbfa500b37a David Howells 2019-04-25  145  static int afs_do_silly_unlin=
+k(struct afs_vnode *dvnode, struct afs_vnode *vnode,
+79ddbfa500b37a David Howells 2019-04-25  146  			       struct dentry *dent=
+ry, struct key *key)
+79ddbfa500b37a David Howells 2019-04-25  147  {
+79ddbfa500b37a David Howells 2019-04-25  148  	struct afs_fs_cursor fc;
+a58823ac458968 David Howells 2019-05-09  149  	struct afs_status_cb *scb;
+79ddbfa500b37a David Howells 2019-04-25  150  	int ret =3D -ERESTARTSYS;
+79ddbfa500b37a David Howells 2019-04-25  151  =
 
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  413  	f =3D drm_sync=
-obj_fence_get(timeline->syncobj);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  414  =
+79ddbfa500b37a David Howells 2019-04-25  152  	_enter("");
+79ddbfa500b37a David Howells 2019-04-25  153  =
 
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  415  	if (f && dma_f=
-ence_wait(f, true)){
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  416  		drm_syncobj_p=
-ut(timeline->syncobj);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  417  		return -EIO;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  418  	}
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  419  =
+a58823ac458968 David Howells 2019-05-09  154  	scb =3D kcalloc(2, sizeof(st=
+ruct afs_status_cb), GFP_KERNEL);
+a58823ac458968 David Howells 2019-05-09  155  	if (!scb)
+a58823ac458968 David Howells 2019-05-09  156  		return -ENOMEM;
+a58823ac458968 David Howells 2019-05-09  157  =
 
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  420  	return 0;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  421  }
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  422  =
+79ddbfa500b37a David Howells 2019-04-25  158  	trace_afs_silly_rename(vnode=
+, true);
+20b8391fff56f6 David Howells 2019-05-08  159  	if (afs_begin_vnode_operatio=
+n(&fc, dvnode, key, false)) {
+a58823ac458968 David Howells 2019-05-09  160  		afs_dataversion_t dir_data_=
+version =3D dvnode->status.data_version + 1;
+a58823ac458968 David Howells 2019-05-09  161  =
+
+79ddbfa500b37a David Howells 2019-04-25  162  		while (afs_select_fileserve=
+r(&fc)) {
+79ddbfa500b37a David Howells 2019-04-25  163  			fc.cb_break =3D afs_calc_v=
+node_cb_break(dvnode);
+79ddbfa500b37a David Howells 2019-04-25  164  =
+
+79ddbfa500b37a David Howells 2019-04-25  165  			if (test_bit(AFS_SERVER_FL=
+_IS_YFS, &fc.cbi->server->flags) &&
+79ddbfa500b37a David Howells 2019-04-25  166  			    !test_bit(AFS_SERVER_F=
+L_NO_RM2, &fc.cbi->server->flags)) {
+79ddbfa500b37a David Howells 2019-04-25  167  				yfs_fs_remove_file2(&fc, =
+vnode, dentry->d_name.name,
+a58823ac458968 David Howells 2019-05-09  168  						    &scb[0], &scb[1]);
+79ddbfa500b37a David Howells 2019-04-25  169  				if (fc.ac.error !=3D -ECO=
+NNABORTED ||
+79ddbfa500b37a David Howells 2019-04-25  170  				    fc.ac.abort_code !=3D=
+ RXGEN_OPCODE)
+79ddbfa500b37a David Howells 2019-04-25  171  					continue;
+79ddbfa500b37a David Howells 2019-04-25  172  				set_bit(AFS_SERVER_FL_NO_=
+RM2, &fc.cbi->server->flags);
+79ddbfa500b37a David Howells 2019-04-25  173  			}
+79ddbfa500b37a David Howells 2019-04-25  174  =
+
+a58823ac458968 David Howells 2019-05-09  175  			afs_fs_remove(&fc, vnode, =
+dentry->d_name.name, false, &scb[0]);
+79ddbfa500b37a David Howells 2019-04-25  176  		}
+79ddbfa500b37a David Howells 2019-04-25  177  =
+
+a58823ac458968 David Howells 2019-05-09  178  		afs_vnode_commit_status(&fc=
+, dvnode, fc.cb_break,
+a58823ac458968 David Howells 2019-05-09  179  					&dir_data_version, &scb[=
+0]);
+79ddbfa500b37a David Howells 2019-04-25  180  		ret =3D afs_end_vnode_opera=
+tion(&fc);
+79ddbfa500b37a David Howells 2019-04-25  181  		if (ret =3D=3D 0) {
+79ddbfa500b37a David Howells 2019-04-25  182  			drop_nlink(&vnode->vfs_ino=
+de);
+79ddbfa500b37a David Howells 2019-04-25  183  			if (vnode->vfs_inode.i_nli=
+nk =3D=3D 0) {
+79ddbfa500b37a David Howells 2019-04-25  184  				set_bit(AFS_VNODE_DELETED=
+, &vnode->flags);
+79ddbfa500b37a David Howells 2019-04-25  185  				clear_bit(AFS_VNODE_CB_PR=
+OMISED, &vnode->flags);
+79ddbfa500b37a David Howells 2019-04-25  186  			}
+79ddbfa500b37a David Howells 2019-04-25  187  		}
+0a2d3be765d4a8 David Howells 2020-04-10 @188  		if (ret =3D=3D 0) {
+0a2d3be765d4a8 David Howells 2020-04-10  189  			down_write(&dvnode->valida=
+te_lock);
+0a2d3be765d4a8 David Howells 2020-04-10  190  			if (test_bit(AFS_VNODE_DIR=
+_VALID, &dvnode->flags) &&
+0a2d3be765d4a8 David Howells 2020-04-10  191  			    dvnode->status.data_ve=
+rsion =3D=3D dir_data_version)
+79ddbfa500b37a David Howells 2019-04-25  192  				afs_edit_dir_remove(dvnod=
+e, &dentry->d_name,
+79ddbfa500b37a David Howells 2019-04-25  193  						    afs_edit_dir_for_un=
+link);
+0a2d3be765d4a8 David Howells 2020-04-10  194  			up_write(&dvnode->validate=
+_lock);
+0a2d3be765d4a8 David Howells 2020-04-10  195  		}
+79ddbfa500b37a David Howells 2019-04-25  196  	}
+79ddbfa500b37a David Howells 2019-04-25  197  =
+
+a58823ac458968 David Howells 2019-05-09  198  	kfree(scb);
+79ddbfa500b37a David Howells 2019-04-25  199  	_leave(" =3D %d", ret);
+79ddbfa500b37a David Howells 2019-04-25  200  	return ret;
+79ddbfa500b37a David Howells 2019-04-25  201  }
+79ddbfa500b37a David Howells 2019-04-25  202  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1867376546937425463==--
+--===============0388509873853202972==--
 
