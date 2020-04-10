@@ -1,161 +1,114 @@
-Content-Type: multipart/mixed; boundary="===============0388509873853202972=="
+Content-Type: multipart/mixed; boundary="===============8366211182559370350=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [dhowells-fs:afs-fixes 6/6] fs/afs/dir_silly.c:188:11: warning: The if condition is the same as the previous if condition [duplicateCondition]
-Date: Sat, 11 Apr 2020 04:22:35 +0800
-Message-ID: <202004110426.nalZpUGs%lkp@intel.com>
+Subject: [lee:android-3.18-preview 119/185] net/batman-adv/bat_iv_ogm.c:342 batadv_iv_ogm_iface_enable() error: double unlocked 'hard_iface->bat_iv.ogm_buff_mutex' (orig line 325)
+Date: Sat, 11 Apr 2020 00:37:01 +0800
+Message-ID: <202004110030.8gildiga%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0388509873853202972==
+--===============8366211182559370350==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: David Howells <dhowells@redhat.com>
+TO: Lee Jones <lee.jones@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
-it afs-fixes
-head:   0a2d3be765d4a808eddcda5e3f303e57c19dd61f
-commit: 0a2d3be765d4a808eddcda5e3f303e57c19dd61f [6/6] afs: Fix race betwee=
-n post-modification dir edit and readdir/d_revalidate
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/linux.git andro=
+id-3.18-preview
+head:   50896cc052e256af7bc02e3202c5c2c3d3bebbee
+commit: 8ce6294364ab0866e1a36598fc3a4ea8e9c216a0 [119/185] batman-adv: Avoi=
+d free/alloc race when handling OGM buffer
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+net/batman-adv/bat_iv_ogm.c:342 batadv_iv_ogm_iface_enable() error: double =
+unlocked 'hard_iface->bat_iv.ogm_buff_mutex' (orig line 325)
 
-cppcheck warnings: (new ones prefixed by >>)
+# https://git.kernel.org/pub/scm/linux/kernel/git/lee/linux.git/commit/?id=
+=3D8ce6294364ab0866e1a36598fc3a4ea8e9c216a0
+git remote add lee https://git.kernel.org/pub/scm/linux/kernel/git/lee/linu=
+x.git
+git remote update lee
+git checkout 8ce6294364ab0866e1a36598fc3a4ea8e9c216a0
+vim +342 net/batman-adv/bat_iv_ogm.c
 
->> fs/afs/dir_silly.c:188:11: warning: The if condition is the same as the =
-previous if condition [duplicateCondition]
-     if (ret =3D=3D 0) {
-             ^
-   fs/afs/dir_silly.c:181:11: note: First condition
-     if (ret =3D=3D 0) {
-             ^
-   fs/afs/dir_silly.c:188:11: note: Second condition
-     if (ret =3D=3D 0) {
-             ^
-   fs/afs/dir_silly.c:211:6: warning: The scope of the variable 'ret' can b=
-e reduced. [variableScope]
-    int ret;
-        ^
+7ae8b2852f946c Marek Lindner    2012-03-01  308  =
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/com=
-mit/?id=3D0a2d3be765d4a808eddcda5e3f303e57c19dd61f
-git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/=
-dhowells/linux-fs.git
-git remote update dhowells-fs
-git checkout 0a2d3be765d4a808eddcda5e3f303e57c19dd61f
-vim +188 fs/afs/dir_silly.c
+56303d34a332be Sven Eckelmann   2012-06-05  309  static int batadv_iv_ogm_i=
+face_enable(struct batadv_hard_iface *hard_iface)
+d0b9fd89c2e446 Marek Lindner    2011-07-30  310  {
+96412690116afc Sven Eckelmann   2012-06-05  311  	struct batadv_ogm_packet =
+*batadv_ogm_packet;
+14511519d4b49a Marek Lindner    2012-08-02  312  	unsigned char *ogm_buff;
+d7d32ec0f199cc Marek Lindner    2012-02-07  313  	uint32_t random_seqno;
+5346c35ebfbdb1 Sven Eckelmann   2012-05-05  314  	int res =3D -ENOMEM;
+d7d32ec0f199cc Marek Lindner    2012-02-07  315  =
 
-79ddbfa500b37a David Howells 2019-04-25  141  =
+8ce6294364ab08 Sven Eckelmann   2020-03-18  316  	mutex_lock(&hard_iface->b=
+at_iv.ogm_buff_mutex);
+8ce6294364ab08 Sven Eckelmann   2020-03-18  317  =
 
-79ddbfa500b37a David Howells 2019-04-25  142  /*
-79ddbfa500b37a David Howells 2019-04-25  143   * Tell the server to remove =
-a sillyrename file.
-79ddbfa500b37a David Howells 2019-04-25  144   */
-79ddbfa500b37a David Howells 2019-04-25  145  static int afs_do_silly_unlin=
-k(struct afs_vnode *dvnode, struct afs_vnode *vnode,
-79ddbfa500b37a David Howells 2019-04-25  146  			       struct dentry *dent=
-ry, struct key *key)
-79ddbfa500b37a David Howells 2019-04-25  147  {
-79ddbfa500b37a David Howells 2019-04-25  148  	struct afs_fs_cursor fc;
-a58823ac458968 David Howells 2019-05-09  149  	struct afs_status_cb *scb;
-79ddbfa500b37a David Howells 2019-04-25  150  	int ret =3D -ERESTARTSYS;
-79ddbfa500b37a David Howells 2019-04-25  151  =
+d7d32ec0f199cc Marek Lindner    2012-02-07  318  	/* randomize initial seqn=
+o to avoid collision */
+d7d32ec0f199cc Marek Lindner    2012-02-07  319  	get_random_bytes(&random_=
+seqno, sizeof(random_seqno));
+14511519d4b49a Marek Lindner    2012-08-02  320  	atomic_set(&hard_iface->b=
+at_iv.ogm_seqno, random_seqno);
+d0b9fd89c2e446 Marek Lindner    2011-07-30  321  =
 
-79ddbfa500b37a David Howells 2019-04-25  152  	_enter("");
-79ddbfa500b37a David Howells 2019-04-25  153  =
+14511519d4b49a Marek Lindner    2012-08-02  322  	hard_iface->bat_iv.ogm_bu=
+ff_len =3D BATADV_OGM_HLEN;
+14511519d4b49a Marek Lindner    2012-08-02  323  	ogm_buff =3D kmalloc(hard=
+_iface->bat_iv.ogm_buff_len, GFP_ATOMIC);
+8ce6294364ab08 Sven Eckelmann   2020-03-18  324  	if (!ogm_buff) {
+8ce6294364ab08 Sven Eckelmann   2020-03-18 @325  		mutex_unlock(&hard_iface=
+->bat_iv.ogm_buff_mutex);
+77af7575c4b11c Marek Lindner    2012-02-07  326  		goto out;
+8ce6294364ab08 Sven Eckelmann   2020-03-18  327  	}
+77af7575c4b11c Marek Lindner    2012-02-07  328  =
 
-a58823ac458968 David Howells 2019-05-09  154  	scb =3D kcalloc(2, sizeof(st=
-ruct afs_status_cb), GFP_KERNEL);
-a58823ac458968 David Howells 2019-05-09  155  	if (!scb)
-a58823ac458968 David Howells 2019-05-09  156  		return -ENOMEM;
-a58823ac458968 David Howells 2019-05-09  157  =
+14511519d4b49a Marek Lindner    2012-08-02  329  	hard_iface->bat_iv.ogm_bu=
+ff =3D ogm_buff;
+14511519d4b49a Marek Lindner    2012-08-02  330  =
 
-79ddbfa500b37a David Howells 2019-04-25  158  	trace_afs_silly_rename(vnode=
-, true);
-20b8391fff56f6 David Howells 2019-05-08  159  	if (afs_begin_vnode_operatio=
-n(&fc, dvnode, key, false)) {
-a58823ac458968 David Howells 2019-05-09  160  		afs_dataversion_t dir_data_=
-version =3D dvnode->status.data_version + 1;
-a58823ac458968 David Howells 2019-05-09  161  =
+14511519d4b49a Marek Lindner    2012-08-02  331  	batadv_ogm_packet =3D (st=
+ruct batadv_ogm_packet *)ogm_buff;
+a40d9b075c21f0 Simon Wunderlich 2013-12-02  332  	batadv_ogm_packet->packet=
+_type =3D BATADV_IV_OGM;
+a40d9b075c21f0 Simon Wunderlich 2013-12-02  333  	batadv_ogm_packet->versio=
+n =3D BATADV_COMPAT_VERSION;
+a40d9b075c21f0 Simon Wunderlich 2013-12-02  334  	batadv_ogm_packet->ttl =
+=3D 2;
+96412690116afc Sven Eckelmann   2012-06-05  335  	batadv_ogm_packet->flags =
+=3D BATADV_NO_FLAGS;
+414254e342a0d5 Marek Lindner    2013-04-23  336  	batadv_ogm_packet->reserv=
+ed =3D 0;
+96412690116afc Sven Eckelmann   2012-06-05  337  	batadv_ogm_packet->tq =3D=
+ BATADV_TQ_MAX_VALUE;
+77af7575c4b11c Marek Lindner    2012-02-07  338  =
 
-79ddbfa500b37a David Howells 2019-04-25  162  		while (afs_select_fileserve=
-r(&fc)) {
-79ddbfa500b37a David Howells 2019-04-25  163  			fc.cb_break =3D afs_calc_v=
-node_cb_break(dvnode);
-79ddbfa500b37a David Howells 2019-04-25  164  =
+77af7575c4b11c Marek Lindner    2012-02-07  339  	res =3D 0;
+77af7575c4b11c Marek Lindner    2012-02-07  340  =
 
-79ddbfa500b37a David Howells 2019-04-25  165  			if (test_bit(AFS_SERVER_FL=
-_IS_YFS, &fc.cbi->server->flags) &&
-79ddbfa500b37a David Howells 2019-04-25  166  			    !test_bit(AFS_SERVER_F=
-L_NO_RM2, &fc.cbi->server->flags)) {
-79ddbfa500b37a David Howells 2019-04-25  167  				yfs_fs_remove_file2(&fc, =
-vnode, dentry->d_name.name,
-a58823ac458968 David Howells 2019-05-09  168  						    &scb[0], &scb[1]);
-79ddbfa500b37a David Howells 2019-04-25  169  				if (fc.ac.error !=3D -ECO=
-NNABORTED ||
-79ddbfa500b37a David Howells 2019-04-25  170  				    fc.ac.abort_code !=3D=
- RXGEN_OPCODE)
-79ddbfa500b37a David Howells 2019-04-25  171  					continue;
-79ddbfa500b37a David Howells 2019-04-25  172  				set_bit(AFS_SERVER_FL_NO_=
-RM2, &fc.cbi->server->flags);
-79ddbfa500b37a David Howells 2019-04-25  173  			}
-79ddbfa500b37a David Howells 2019-04-25  174  =
+77af7575c4b11c Marek Lindner    2012-02-07  341  out:
+8ce6294364ab08 Sven Eckelmann   2020-03-18 @342  	mutex_unlock(&hard_iface-=
+>bat_iv.ogm_buff_mutex);
+8ce6294364ab08 Sven Eckelmann   2020-03-18  343  =
 
-a58823ac458968 David Howells 2019-05-09  175  			afs_fs_remove(&fc, vnode, =
-dentry->d_name.name, false, &scb[0]);
-79ddbfa500b37a David Howells 2019-04-25  176  		}
-79ddbfa500b37a David Howells 2019-04-25  177  =
-
-a58823ac458968 David Howells 2019-05-09  178  		afs_vnode_commit_status(&fc=
-, dvnode, fc.cb_break,
-a58823ac458968 David Howells 2019-05-09  179  					&dir_data_version, &scb[=
-0]);
-79ddbfa500b37a David Howells 2019-04-25  180  		ret =3D afs_end_vnode_opera=
-tion(&fc);
-79ddbfa500b37a David Howells 2019-04-25  181  		if (ret =3D=3D 0) {
-79ddbfa500b37a David Howells 2019-04-25  182  			drop_nlink(&vnode->vfs_ino=
-de);
-79ddbfa500b37a David Howells 2019-04-25  183  			if (vnode->vfs_inode.i_nli=
-nk =3D=3D 0) {
-79ddbfa500b37a David Howells 2019-04-25  184  				set_bit(AFS_VNODE_DELETED=
-, &vnode->flags);
-79ddbfa500b37a David Howells 2019-04-25  185  				clear_bit(AFS_VNODE_CB_PR=
-OMISED, &vnode->flags);
-79ddbfa500b37a David Howells 2019-04-25  186  			}
-79ddbfa500b37a David Howells 2019-04-25  187  		}
-0a2d3be765d4a8 David Howells 2020-04-10 @188  		if (ret =3D=3D 0) {
-0a2d3be765d4a8 David Howells 2020-04-10  189  			down_write(&dvnode->valida=
-te_lock);
-0a2d3be765d4a8 David Howells 2020-04-10  190  			if (test_bit(AFS_VNODE_DIR=
-_VALID, &dvnode->flags) &&
-0a2d3be765d4a8 David Howells 2020-04-10  191  			    dvnode->status.data_ve=
-rsion =3D=3D dir_data_version)
-79ddbfa500b37a David Howells 2019-04-25  192  				afs_edit_dir_remove(dvnod=
-e, &dentry->d_name,
-79ddbfa500b37a David Howells 2019-04-25  193  						    afs_edit_dir_for_un=
-link);
-0a2d3be765d4a8 David Howells 2020-04-10  194  			up_write(&dvnode->validate=
-_lock);
-0a2d3be765d4a8 David Howells 2020-04-10  195  		}
-79ddbfa500b37a David Howells 2019-04-25  196  	}
-79ddbfa500b37a David Howells 2019-04-25  197  =
-
-a58823ac458968 David Howells 2019-05-09  198  	kfree(scb);
-79ddbfa500b37a David Howells 2019-04-25  199  	_leave(" =3D %d", ret);
-79ddbfa500b37a David Howells 2019-04-25  200  	return ret;
-79ddbfa500b37a David Howells 2019-04-25  201  }
-79ddbfa500b37a David Howells 2019-04-25  202  =
+77af7575c4b11c Marek Lindner    2012-02-07  344  	return res;
+d0b9fd89c2e446 Marek Lindner    2011-07-30  345  }
+d0b9fd89c2e446 Marek Lindner    2011-07-30  346  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0388509873853202972==--
+--===============8366211182559370350==--
 
