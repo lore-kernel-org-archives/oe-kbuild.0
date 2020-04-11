@@ -1,163 +1,201 @@
-Content-Type: multipart/mixed; boundary="===============1724266332369080232=="
+Content-Type: multipart/mixed; boundary="===============0364749006585492142=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 4/4] drm/selftests: selftest for timeline semaphore
-Date: Sat, 11 Apr 2020 17:36:36 +0800
-Message-ID: <202004111758.khTQ26ya%lkp@intel.com>
+Subject: [drm-drm-misc:drm-misc-next 19/44] drivers/gpu/drm/drm_mode_config.c:450 drmm_mode_config_init() error: double unlocked 'resv' (orig line 446)
+Date: Sat, 11 Apr 2020 17:08:47 +0800
+Message-ID: <202004111734.AyYrUETV%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1724266332369080232==
+--===============0364749006585492142==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200410165158.29546-4-venkata.s.dhanalakota@intel.com>
-References: <20200410165158.29546-4-venkata.s.dhanalakota@intel.com>
-TO: Venkata Sandeep Dhanalakota <venkata.s.dhanalakota@intel.com>
-CC: intel-gfx(a)lists.freedesktop.org
-CC: chris.p.wilson(a)intel.com
+TO: Daniel Vetter <daniel.vetter@ffwll.ch>
+CC: Sam Ravnborg <sam@ravnborg.org>
 
-Hi Venkata,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next linus/master v5.6 next-20200410]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Venkata-Sandeep-Dhanalakot=
-a/drm-i915-introduce-a-mechanism-to-extend-execbuf2/20200411-031057
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-reproduce:
-        # apt-get install sparse
-        # sparse version: =
-
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 14 hours ago
-:::::: commit date: 14 hours ago
+tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
+head:   9e1ed9fb1eb0a4bc43a26365c592d3095286038b
+commit: c3b790ea07a13da0c46816bda6b04abef346af15 [19/44] drm: Manage drm_mo=
+de_config_init with drmm_
+:::::: branch date: 2 weeks ago
+:::::: commit date: 2 weeks ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/gpu/drm/drm_mode_config.c:450 drmm_mode_config_init() error: double=
+ unlocked 'resv' (orig line 446)
+
+git remote add drm-drm-misc git://anongit.freedesktop.org/drm/drm-misc
+git remote update drm-drm-misc
+git checkout c3b790ea07a13da0c46816bda6b04abef346af15
+vim +/resv +450 drivers/gpu/drm/drm_mode_config.c
+
+c3b790ea07a13d Daniel Vetter         2020-03-23  381  =
+
+28575f165d3605 Daniel Vetter         2016-11-14  382  /**
+c3b790ea07a13d Daniel Vetter         2020-03-23  383   * drmm_mode_config_i=
+nit - managed DRM mode_configuration structure
+c3b790ea07a13d Daniel Vetter         2020-03-23  384   * 	initialization
+28575f165d3605 Daniel Vetter         2016-11-14  385   * @dev: DRM device
+28575f165d3605 Daniel Vetter         2016-11-14  386   *
+28575f165d3605 Daniel Vetter         2016-11-14  387   * Initialize @dev's =
+mode_config structure, used for tracking the graphics
+28575f165d3605 Daniel Vetter         2016-11-14  388   * configuration of @=
+dev.
+28575f165d3605 Daniel Vetter         2016-11-14  389   *
+28575f165d3605 Daniel Vetter         2016-11-14  390   * Since this initial=
+izes the modeset locks, no locking is possible. Which is no
+28575f165d3605 Daniel Vetter         2016-11-14  391   * problem, since thi=
+s should happen single threaded at init time. It is the
+28575f165d3605 Daniel Vetter         2016-11-14  392   * driver's problem t=
+o ensure this guarantee.
+28575f165d3605 Daniel Vetter         2016-11-14  393   *
+c3b790ea07a13d Daniel Vetter         2020-03-23  394   * Cleanup is automat=
+ically handled through registering drm_mode_config_cleanup
+c3b790ea07a13d Daniel Vetter         2020-03-23  395   * with drmm_add_acti=
+on().
+c3b790ea07a13d Daniel Vetter         2020-03-23  396   *
+c3b790ea07a13d Daniel Vetter         2020-03-23  397   * Returns: 0 on succ=
+ess, negative error value on failure.
+28575f165d3605 Daniel Vetter         2016-11-14  398   */
+c3b790ea07a13d Daniel Vetter         2020-03-23  399  int drmm_mode_config_=
+init(struct drm_device *dev)
+28575f165d3605 Daniel Vetter         2016-11-14  400  {
+28575f165d3605 Daniel Vetter         2016-11-14  401  	mutex_init(&dev->mod=
+e_config.mutex);
+28575f165d3605 Daniel Vetter         2016-11-14  402  	drm_modeset_lock_ini=
+t(&dev->mode_config.connection_mutex);
+28575f165d3605 Daniel Vetter         2016-11-14  403  	mutex_init(&dev->mod=
+e_config.idr_mutex);
+28575f165d3605 Daniel Vetter         2016-11-14  404  	mutex_init(&dev->mod=
+e_config.fb_lock);
+28575f165d3605 Daniel Vetter         2016-11-14  405  	mutex_init(&dev->mod=
+e_config.blob_lock);
+28575f165d3605 Daniel Vetter         2016-11-14  406  	INIT_LIST_HEAD(&dev-=
+>mode_config.fb_list);
+28575f165d3605 Daniel Vetter         2016-11-14  407  	INIT_LIST_HEAD(&dev-=
+>mode_config.crtc_list);
+28575f165d3605 Daniel Vetter         2016-11-14  408  	INIT_LIST_HEAD(&dev-=
+>mode_config.connector_list);
+28575f165d3605 Daniel Vetter         2016-11-14  409  	INIT_LIST_HEAD(&dev-=
+>mode_config.encoder_list);
+28575f165d3605 Daniel Vetter         2016-11-14  410  	INIT_LIST_HEAD(&dev-=
+>mode_config.property_list);
+28575f165d3605 Daniel Vetter         2016-11-14  411  	INIT_LIST_HEAD(&dev-=
+>mode_config.property_blob_list);
+28575f165d3605 Daniel Vetter         2016-11-14  412  	INIT_LIST_HEAD(&dev-=
+>mode_config.plane_list);
+b962a12050a387 Rob Clark             2018-10-22  413  	INIT_LIST_HEAD(&dev-=
+>mode_config.privobj_list);
+b5f06893c49925 Shayenne da Luz Moura 2018-12-13  414  	idr_init(&dev->mode_=
+config.object_idr);
+28575f165d3605 Daniel Vetter         2016-11-14  415  	idr_init(&dev->mode_=
+config.tile_idr);
+28575f165d3605 Daniel Vetter         2016-11-14  416  	ida_init(&dev->mode_=
+config.connector_ida);
+613051dac40da1 Daniel Vetter         2016-12-14  417  	spin_lock_init(&dev-=
+>mode_config.connector_list_lock);
+28575f165d3605 Daniel Vetter         2016-11-14  418  =
+
+ea497bb9206487 Daniel Vetter         2017-12-13  419  	init_llist_head(&dev=
+->mode_config.connector_free_list);
+ea497bb9206487 Daniel Vetter         2017-12-13  420  	INIT_WORK(&dev->mode=
+_config.connector_free_work, drm_connector_free_work_fn);
+ea497bb9206487 Daniel Vetter         2017-12-13  421  =
+
+28575f165d3605 Daniel Vetter         2016-11-14  422  	drm_mode_create_stan=
+dard_properties(dev);
+28575f165d3605 Daniel Vetter         2016-11-14  423  =
+
+28575f165d3605 Daniel Vetter         2016-11-14  424  	/* Just to be sure */
+28575f165d3605 Daniel Vetter         2016-11-14  425  	dev->mode_config.num=
+_fb =3D 0;
+28575f165d3605 Daniel Vetter         2016-11-14  426  	dev->mode_config.num=
+_connector =3D 0;
+28575f165d3605 Daniel Vetter         2016-11-14  427  	dev->mode_config.num=
+_crtc =3D 0;
+28575f165d3605 Daniel Vetter         2016-11-14  428  	dev->mode_config.num=
+_encoder =3D 0;
+28575f165d3605 Daniel Vetter         2016-11-14  429  	dev->mode_config.num=
+_total_plane =3D 0;
+2c51419e8c06f6 Daniel Vetter         2019-11-19  430  =
+
+2c51419e8c06f6 Daniel Vetter         2019-11-19  431  	if (IS_ENABLED(CONFI=
+G_LOCKDEP)) {
+2c51419e8c06f6 Daniel Vetter         2019-11-19  432  		struct drm_modeset_=
+acquire_ctx modeset_ctx;
+2c51419e8c06f6 Daniel Vetter         2019-11-19  433  		struct ww_acquire_c=
+tx resv_ctx;
+2c51419e8c06f6 Daniel Vetter         2019-11-19  434  		struct dma_resv res=
+v;
+2c51419e8c06f6 Daniel Vetter         2019-11-19  435  		int ret;
+2c51419e8c06f6 Daniel Vetter         2019-11-19  436  =
+
+2c51419e8c06f6 Daniel Vetter         2019-11-19  437  		dma_resv_init(&resv=
+);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  438  =
+
+2c51419e8c06f6 Daniel Vetter         2019-11-19  439  		drm_modeset_acquire=
+_init(&modeset_ctx, 0);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  440  		ret =3D drm_modeset=
+_lock(&dev->mode_config.connection_mutex,
+2c51419e8c06f6 Daniel Vetter         2019-11-19  441  				       &modeset_c=
+tx);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  442  		if (ret =3D=3D -EDE=
+ADLK)
+2c51419e8c06f6 Daniel Vetter         2019-11-19  443  			ret =3D drm_modese=
+t_backoff(&modeset_ctx);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  444  =
+
+2c51419e8c06f6 Daniel Vetter         2019-11-19  445  		ww_acquire_init(&re=
+sv_ctx, &reservation_ww_class);
+2c51419e8c06f6 Daniel Vetter         2019-11-19 @446  		ret =3D dma_resv_lo=
+ck(&resv, &resv_ctx);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  447  		if (ret =3D=3D -EDE=
+ADLK)
+2c51419e8c06f6 Daniel Vetter         2019-11-19  448  			dma_resv_lock_slow=
+(&resv, &resv_ctx);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  449  =
+
+2c51419e8c06f6 Daniel Vetter         2019-11-19 @450  		dma_resv_unlock(&re=
+sv);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  451  		ww_acquire_fini(&re=
+sv_ctx);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  452  =
+
+2c51419e8c06f6 Daniel Vetter         2019-11-19  453  		drm_modeset_drop_lo=
+cks(&modeset_ctx);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  454  		drm_modeset_acquire=
+_fini(&modeset_ctx);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  455  		dma_resv_fini(&resv=
+);
+2c51419e8c06f6 Daniel Vetter         2019-11-19  456  	}
+c3b790ea07a13d Daniel Vetter         2020-03-23  457  =
+
+c3b790ea07a13d Daniel Vetter         2020-03-23  458  	return drmm_add_acti=
+on_or_reset(dev, drm_mode_config_init_release,
+c3b790ea07a13d Daniel Vetter         2020-03-23  459  					NULL);
+28575f165d3605 Daniel Vetter         2016-11-14  460  }
+c3b790ea07a13d Daniel Vetter         2020-03-23  461  EXPORT_SYMBOL(drmm_mo=
+de_config_init);
+28575f165d3605 Daniel Vetter         2016-11-14  462  =
 
 
-sparse warnings: (new ones prefixed by >>)
+:::::: The code at line 450 was first introduced by commit
+:::::: 2c51419e8c06f6b8b1b91892688b17dd9a7f6e39 drm/modeset: Prime modeset =
+lock vs dma_resv
 
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:349:53: sparse: =
-warning: incorrect type in argument 1 (different address spaces)
->> drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:349:53: sparse: =
-   expected struct dma_fence *fence
->> drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:349:53: sparse: =
-   got struct dma_fence [noderef] <asn:4> *fence
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:366:44: sparse: =
-warning: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:366:44: sparse: =
-   expected struct dma_fence *fence
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:366:44: sparse: =
-   got struct dma_fence [noderef] <asn:4> *fence
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:471:53: sparse: =
-warning: incorrect type in argument 1 (different address spaces)
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:471:53: sparse: =
-   expected struct dma_fence *fence
-   drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c:471:53: sparse: =
-   got struct dma_fence [noderef] <asn:4> *fence
-
-# https://github.com/0day-ci/linux/commit/362cf777546c74e0be786cf6ae2f42031=
-a6a03c8
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 362cf777546c74e0be786cf6ae2f42031a6a03c8
-vim +349 drivers/gpu/drm/selftests/test-drm_timeline_semaphore.c
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  329  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  330  static int igt_=
-waitseqno(void *ignored)
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  331  {
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  332  	struct fence_c=
-hain *signal;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  333  	struct mock_ti=
-meline *t[6];
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  334  	struct chain_i=
-nfo ci;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  335  	struct dma_fen=
-ce *f;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  336  	int i, count =
-=3D 5;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  337  	int err =3D 0;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  338  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  339  	allocate_chain=
-s(&ci, 1, 0);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  340  	if (IS_ERR_OR_=
-NULL(ci.chains))
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  341  		return -ENOME=
-M;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  342  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  343  	signal =3D ci.=
-chains[0];
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  344  	atomic_set(&si=
-gnal->signalers, count);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  345  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  346  	/* wait for su=
-bmit */
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  347  	for (i =3D 0;i=
- < count; i++) {
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  348  		t[i] =3D time=
-line(i, 0x0);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10 @349  		dma_fence_add=
-_callback(t[i]->syncobj->fence,
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  350  				       &sig=
-nal->cb,
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  351  				       fenc=
-e_callback);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  352  	}
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  353  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  354  	for (i =3D 0;i=
- < count; i++) {
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  355  		if(dma_fence_=
-is_signaled(&signal->chain.base))
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  356  			 err =3D -1;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  357  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  358  		f =3D drm_syn=
-cobj_fence_get(t[i]->syncobj);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  359  		dma_fence_sig=
-nal(f);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  360  	}
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  361  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  362  	if(!dma_fence_=
-is_signaled(&signal->chain.base))
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  363  		 err =3D -1;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  364  =
-
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  365  	for (i =3D 0;i=
- < count; i++) {
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  366  		dma_fence_put=
-(t[i]->syncobj->fence);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  367  		kmem_cache_fr=
-ee(slab_timeline, t[i]);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  368  	}
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  369  	delete_chains(=
-&ci);
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  370  	return err;
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  371  }
-362cf777546c74 Venkata Sandeep Dhanalakota 2020-04-10  372  =
-
+:::::: TO: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1724266332369080232==--
+--===============0364749006585492142==--
 
