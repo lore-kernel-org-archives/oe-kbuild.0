@@ -1,130 +1,113 @@
-Content-Type: multipart/mixed; boundary="===============6373003560962339812=="
+Content-Type: multipart/mixed; boundary="===============5488663753375635142=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [afaerber:rtd1295-next 53/165] drivers/soc/realtek/sb2.c:25:27: warning: 'base' is of type 'void *'. When using void pointers in calculations, the behaviour is undefined. [arithOperationsOnVoidPointer]
-Date: Sun, 12 Apr 2020 20:07:55 +0800
-Message-ID: <202004122052.0lLUCpZk%lkp@intel.com>
+Subject: Re: [PATCH v3 31/31] elx: efct: Tie into kernel Kconfig and build process
+Date: Sun, 12 Apr 2020 15:22:50 +0800
+Message-ID: <202004121504.E6ItoFUo%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6373003560962339812==
+--===============5488663753375635142==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: "Andreas F=C3=A4rber" <afaerber@suse.de>
+In-Reply-To: <20200412033303.29574-32-jsmart2021@gmail.com>
+References: <20200412033303.29574-32-jsmart2021@gmail.com>
+TO: James Smart <jsmart2021@gmail.com>
+CC: linux-scsi(a)vger.kernel.org
+CC: dwagner(a)suse.de, maier(a)linux.ibm.com, bvanassche(a)acm.org, herbszt=
+(a)gmx.de, natechancellor(a)gmail.com, rdunlap(a)infradead.org, hare(a)suse=
+.de, James Smart <jsmart2021@gmail.com>, Ram Vegesna <ram.vegesna@broad=
+com.com>
 
-tree:   https://github.com/afaerber/linux.git rtd1295-next
-head:   89dddc4c437454ce2c1df9bf0503a7efdfcf1102
-commit: fa76fee43094640fbec4ac88b854e020f26970a8 [53/165] soc: realtek: Add=
- SB2 driver
+Hi James,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on scsi/for-next linus/master v5.6 next-20200412]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/James-Smart/efct-Broadcom-=
+Emulex-FC-Target-driver/20200412-114125
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-ne=
+xt
 :::::: branch date: 4 hours ago
 :::::: commit date: 4 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck warnings: (new ones prefixed by >>)
+coccinelle warnings: (new ones prefixed by >>)
 
->> drivers/soc/realtek/sb2.c:25:27: warning: 'base' is of type 'void *'. Wh=
-en using void pointers in calculations, the behaviour is undefined. [arithO=
-perationsOnVoidPointer]
-    val =3D readl_relaxed(base + SB2_DBG_INT);
-                             ^
-   drivers/soc/realtek/sb2.c:30:99: warning: 'base' is of type 'void *'. Wh=
-en using void pointers in calculations, the behaviour is undefined. [arithO=
-perationsOnVoidPointer]
-     writel_relaxed(SB2_DBG_INT_ACPU_INT_EN | SB2_DBG_INT_SCPU_INT_EN | SB2=
-_DBG_INT_WRITE_DATA, base + SB2_DBG_INT);
-                                                                           =
-                          ^
-   drivers/soc/realtek/sb2.c:32:30: warning: 'base' is of type 'void *'. Wh=
-en using void pointers in calculations, the behaviour is undefined. [arithO=
-perationsOnVoidPointer]
-     cause =3D readl_relaxed(base + SB2_DBG_ADDR1);
-                                ^
-   drivers/soc/realtek/sb2.c:35:30: warning: 'base' is of type 'void *'. Wh=
-en using void pointers in calculations, the behaviour is undefined. [arithO=
-perationsOnVoidPointer]
-      addr =3D readl_relaxed(base + SB2_DBG_ADDR_SYSTEM);
-                                ^
-   drivers/soc/realtek/sb2.c:38:30: warning: 'base' is of type 'void *'. Wh=
-en using void pointers in calculations, the behaviour is undefined. [arithO=
-perationsOnVoidPointer]
-      addr =3D readl_relaxed(base + SB2_DBG_ADDR_AUDIO);
-                                ^
+>> drivers/scsi/elx/efct/efct_hw.c:3897:25-28: ERROR: reference preceded by=
+ free on line 3893
+   drivers/scsi/elx/efct/efct_hw.c:3898:7-10: ERROR: reference preceded by =
+free on line 3893
+--
+>> drivers/scsi/elx/efct/efct_hw.c:3882:7-14: WARNING: kzalloc should be us=
+ed for ctx, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_hw.c:4509:7-14: WARNING: kzalloc should be us=
+ed for cmd, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_hw.c:4595:7-14: WARNING: kzalloc should be us=
+ed for buf, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_hw.c:5306:11-18: WARNING: kzalloc should be u=
+sed for mbxdata, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:3484:11-18: WARNING: kzalloc should be u=
+sed for mbxdata, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:3385:11-18: WARNING: kzalloc should be u=
+sed for mbxdata, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:5162:11-18: WARNING: kzalloc should be u=
+sed for mbxdata, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:3122:11-18: WARNING: kzalloc should be u=
+sed for mbxdata, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:3229:11-18: WARNING: kzalloc should be u=
+sed for mbxdata, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:4827:7-14: WARNING: kzalloc should be us=
+ed for buf, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:5003:8-15: WARNING: kzalloc should be us=
+ed for buf, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:5096:7-14: WARNING: kzalloc should be us=
+ed for buf, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:4181:8-15: WARNING: kzalloc should be us=
+ed for cmd, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_hw.c:4263:7-14: WARNING: kzalloc should be us=
+ed for buf, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_hw.c:3977:9-16: WARNING: kzalloc should be us=
+ed for data, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_hw.c:532:18-25: WARNING: kzalloc should be us=
+ed for hw -> wqe_buffs, instead of kmalloc/memset
+--
+>> drivers/scsi/elx/efct/efct_hw_queues.c:173:7-14: WARNING: kzalloc should=
+ be used for cq, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_hw_queues.c:376:7-14: WARNING: kzalloc should=
+ be used for rq, instead of kmalloc/memset
+--
+>> drivers/scsi/elx/efct/efct_lio.c:265:22-29: WARNING: kzalloc should be u=
+sed for filp -> private_data, instead of kmalloc/memset
+   drivers/scsi/elx/efct/efct_lio.c:303:22-29: WARNING: kzalloc should be u=
+sed for filp -> private_data, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_lio.c:1462:11-18: WARNING: kzalloc should be =
+used for wq_data, instead of kmalloc/memset
+--
+>> drivers/scsi/elx/efct/efct_xport.c:44:9-16: WARNING: kzalloc should be u=
+sed for xport, instead of kmalloc/memset
+>> drivers/scsi/elx/efct/efct_xport.c:688:12-19: WARNING: kzalloc should be=
+ used for payload, instead of kmalloc/memset
 
-# https://github.com/afaerber/linux/commit/fa76fee43094640fbec4ac88b854e020=
-f26970a8
-git remote add afaerber https://github.com/afaerber/linux.git
-git remote update afaerber
-git checkout fa76fee43094640fbec4ac88b854e020f26970a8
-vim +25 drivers/soc/realtek/sb2.c
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  20  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  21  static irqreturn_t rtd_s=
-b2_handle_irq(int irq, void *base)
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  22  {
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  23  	u32 val;
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  24  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06 @25  	val =3D readl_relaxed(b=
-ase + SB2_DBG_INT);
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  26  	pr_info("sb2 interrupt =
-0x%0x08x\n", val);
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  27  	if (val & (SB2_DBG_INT_=
-ACPU_INT | SB2_DBG_INT_SCPU_INT | SB2_DBG_INT_ACPU_NEG_INT | SB2_DBG_INT_SC=
-PU_NEG_INT)) {
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  28  		u32 addr, cause;
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  29  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  30  		writel_relaxed(SB2_DBG=
-_INT_ACPU_INT_EN | SB2_DBG_INT_SCPU_INT_EN | SB2_DBG_INT_WRITE_DATA, base +=
- SB2_DBG_INT);
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  31  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  32  		cause =3D readl_relaxe=
-d(base + SB2_DBG_ADDR1);
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  33  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  34  		if (val & SB2_DBG_INT_=
-SCPU_INT) {
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  35  			addr =3D readl_relaxe=
-d(base + SB2_DBG_ADDR_SYSTEM);
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  36  			cause =3D (cause >> 2=
-) & 0x3;
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  37  		} else {
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  38  			addr =3D readl_relaxe=
-d(base + SB2_DBG_ADDR_AUDIO);
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  39  			cause =3D (cause >> 4=
-) & 0x3;
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  40  		}
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  41  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  42  		pr_warn("Memory 0x%08x=
- trashed by %s with %s %s\n", addr,
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  43  			(val & SB2_DBG_INT_SC=
-PU_INT) ? "SCPU" : "ACPU",
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  44  			(cause & 1) ? "D" : "=
-I",
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  45  			(cause & 2) ? "W" : "=
-R");
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  46  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  47  		return IRQ_HANDLED;
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  48  	}
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  49  =
-
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  50  	return IRQ_NONE;
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  51  }
-fa76fee4309464 Andreas F=C3=A4rber 2017-08-06  52  =
-
+Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6373003560962339812==--
+--===============5488663753375635142==--
 
