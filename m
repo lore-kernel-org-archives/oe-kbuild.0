@@ -1,155 +1,344 @@
-Content-Type: multipart/mixed; boundary="===============1282768512559924844=="
+Content-Type: multipart/mixed; boundary="===============0605680758771300418=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [frank-w-bpi-r2-4.14:5.6-main 37/41] drivers/net/wireless/mediatek/mt76_new/mt7615/mac.c:1515 mt7615_mac_adjust_sensitivity() warn: assigning (-98) to unsigned variable 'def_th'
-Date: Wed, 22 Apr 2020 20:06:52 +0800
-Message-ID: <202004222048.YzGPPt7j%lkp@intel.com>
+Subject: [PATCH] elx: efct: fix zalloc-simple.cocci warnings
+Date: Sun, 12 Apr 2020 15:22:51 +0800
+Message-ID: <20200412072251.GA18807@9dbb232d854f>
+In-Reply-To: <202004121504.E6ItoFUo%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1282768512559924844==
+--===============0605680758771300418==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Frank Wunderlich <frank-w@public-files.de>
+In-Reply-To: <20200412033303.29574-32-jsmart2021@gmail.com>
+References: <20200412033303.29574-32-jsmart2021@gmail.com>
+TO: James Smart <jsmart2021@gmail.com>
+CC: linux-scsi(a)vger.kernel.org
+CC: dwagner(a)suse.de, maier(a)linux.ibm.com, bvanassche(a)acm.org, herbszt=
+(a)gmx.de, natechancellor(a)gmail.com, rdunlap(a)infradead.org, hare(a)suse=
+.de, James Smart <jsmart2021@gmail.com>, Ram Vegesna <ram.vegesna@broad=
+com.com>
 
-tree:   https://github.com/frank-w/BPI-R2-4.14 5.6-main
-head:   1944ca382365022a8bf3895ee49b47f24e810b5d
-commit: 53a7ee94e2f945237664b17bf744c9a2889c81de [37/41] mt7622: add mt76 w=
-ireless driver folder from openwrt
-:::::: branch date: 10 days ago
-:::::: commit date: 11 days ago
+From: kbuild test robot <lkp@intel.com>
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/net/wireless/mediatek/mt76_new/mt7615/mac.c:1515 mt7615_mac_adjust_=
-sensitivity() warn: assigning (-98) to unsigned variable 'def_th'
-drivers/net/wireless/mediatek/mt76_new/agg-rx.c:135 mt76_rx_aggr_check_ctl(=
-) warn: potential spectre issue 'wcid->aggr' [w]
-drivers/net/wireless/mediatek/mt76_new/agg-rx.c:135 mt76_rx_aggr_check_ctl(=
-) warn: possible spectre second half.  '__u.__val'
-
-Old smatch warnings:
-drivers/net/wireless/mediatek/mt76_new/mt7615/mac.c:1515 mt7615_mac_adjust_=
-sensitivity() warn: assigning (-110) to unsigned variable 'def_th'
-drivers/net/wireless/mediatek/mt76_new/mt7615/mac.c:1564 mt7615_mac_adjust_=
-sensitivity() warn: if statement not indented
-
-# https://github.com/frank-w/BPI-R2-4.14/commit/53a7ee94e2f945237664b17bf74=
-4c9a2889c81de
-git remote add frank-w-bpi-r2-4.14 https://github.com/frank-w/BPI-R2-4.14
-git remote update frank-w-bpi-r2-4.14
-git checkout 53a7ee94e2f945237664b17bf744c9a2889c81de
-vim +/def_th +1515 drivers/net/wireless/mediatek/mt76_new/mt7615/mac.c
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1507  =
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1508  static void
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1509  mt7615_mac_adjust_sensiti=
-vity(struct mt7615_phy *phy,
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1510  			      u32 rts_err_rate=
-, bool ofdm)
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1511  {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1512  	struct mt7615_dev *dev =
-=3D phy->dev;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1513  	int false_cca =3D ofdm ?=
- phy->false_cca_ofdm : phy->false_cca_cck;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1514  	bool ext_phy =3D phy !=
-=3D &dev->phy;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11 @1515  	u16 def_th =3D ofdm ? -9=
-8 : -110;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1516  	bool update =3D false;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1517  	s8 *sensitivity;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1518  	int signal;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1519  =
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1520  	sensitivity =3D ofdm ? &=
-phy->ofdm_sensitivity : &phy->cck_sensitivity;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1521  	signal =3D mt76_get_min_=
-avg_rssi(&dev->mt76, ext_phy);
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1522  	if (!signal) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1523  		mt7615_mac_set_default_=
-sensitivity(phy);
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1524  		return;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1525  	}
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1526  =
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1527  	signal =3D min(signal, -=
-72);
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1528  	if (false_cca > 500) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1529  		if (rts_err_rate > MT_F=
-RAC(40, 100))
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1530  			return;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1531  =
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1532  		/* decrease coverage */
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1533  		if (*sensitivity =3D=3D=
- def_th && signal > -90) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1534  			*sensitivity =3D -90;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1535  			update =3D true;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1536  		} else if (*sensitivity=
- + 2 < signal) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1537  			*sensitivity +=3D 2;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1538  			update =3D true;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1539  		}
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1540  	} else if ((false_cca > =
-0 && false_cca < 50) ||
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1541  		   rts_err_rate > MT_FR=
-AC(60, 100)) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1542  		/* increase coverage */
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1543  		if (*sensitivity - 2 >=
-=3D def_th) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1544  			*sensitivity -=3D 2;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1545  			update =3D true;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1546  		}
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1547  	}
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1548  =
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1549  	if (*sensitivity > signa=
-l) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1550  		*sensitivity =3D signal;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1551  		update =3D true;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1552  	}
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1553  =
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1554  	if (update) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1555  		u16 val;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1556  =
-
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1557  		if (ofdm) {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1558  			val =3D *sensitivity *=
- 2 + 512;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1559  			mt76_rmw(dev, MT_WF_PH=
-Y_MIN_PRI_PWR(ext_phy),
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1560  				 MT_WF_PHY_PD_OFDM_MA=
-SK(ext_phy),
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1561  				 MT_WF_PHY_PD_OFDM(ex=
-t_phy, val));
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1562  		} else {
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1563  			val =3D *sensitivity +=
- 256;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1564  			if (!ext_phy)
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1565  			mt76_rmw(dev, MT_WF_PH=
-Y_RXTD_CCK_PD(ext_phy),
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1566  				 MT_WF_PHY_PD_CCK_MAS=
-K(ext_phy),
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1567  				 MT_WF_PHY_PD_CCK(ext=
-_phy, val));
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1568  		}
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1569  		phy->last_cca_adj =3D j=
-iffies;
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1570  	}
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1571  }
-53a7ee94e2f945 Frank Wunderlich 2020-04-11  1572  =
+drivers/scsi/elx/efct/efct_hw.c:3882:7-14: WARNING: kzalloc should be used =
+for ctx, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:4509:7-14: WARNING: kzalloc should be used =
+for cmd, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:4595:7-14: WARNING: kzalloc should be used =
+for buf, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:5306:11-18: WARNING: kzalloc should be used=
+ for mbxdata, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:3484:11-18: WARNING: kzalloc should be used=
+ for mbxdata, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:3385:11-18: WARNING: kzalloc should be used=
+ for mbxdata, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:5162:11-18: WARNING: kzalloc should be used=
+ for mbxdata, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:3122:11-18: WARNING: kzalloc should be used=
+ for mbxdata, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:3229:11-18: WARNING: kzalloc should be used=
+ for mbxdata, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:4827:7-14: WARNING: kzalloc should be used =
+for buf, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:5003:8-15: WARNING: kzalloc should be used =
+for buf, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:5096:7-14: WARNING: kzalloc should be used =
+for buf, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:4181:8-15: WARNING: kzalloc should be used =
+for cmd, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:4263:7-14: WARNING: kzalloc should be used =
+for buf, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:3977:9-16: WARNING: kzalloc should be used =
+for data, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw.c:532:18-25: WARNING: kzalloc should be used =
+for hw -> wqe_buffs, instead of kmalloc/memset
 
 
+ Use zeroing allocator rather than allocator followed by memset with 0
+
+ This considers some simple cases that are common and easy to validate
+ Note in particular that there are no ...s in the rule, so all of the
+ matched code has to be contiguous
+
+Generated by: scripts/coccinelle/api/alloc/zalloc-simple.cocci
+
+CC: James Smart <jsmart2021@gmail.com>
+Signed-off-by: kbuild test robot <lkp@intel.com>
 ---
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1282768512559924844==--
+
+url:    https://github.com/0day-ci/linux/commits/James-Smart/efct-Broadcom-=
+Emulex-FC-Target-driver/20200412-114125
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-ne=
+xt
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
+
+ efct_hw.c |   61 +++++++++++++++++----------------------------------------=
+----
+ 1 file changed, 17 insertions(+), 44 deletions(-)
+
+--- a/drivers/scsi/elx/efct/efct_hw.c
++++ b/drivers/scsi/elx/efct/efct_hw.c
+@@ -529,15 +529,12 @@ efct_hw_setup_io(struct efct_hw *hw)
+ 		}
+ =
+
+ 		/* Create WQE buffs for IO */
+-		hw->wqe_buffs =3D kmalloc((hw->config.n_io *
+-					     hw->sli.wqe_size),
+-					     GFP_ATOMIC);
++		hw->wqe_buffs =3D kzalloc((hw->config.n_io * hw->sli.wqe_size),
++					GFP_ATOMIC);
+ 		if (!hw->wqe_buffs) {
+ 			kfree(hw->io);
+ 			return EFCT_HW_RTN_NO_MEMORY;
+ 		}
+-		memset(hw->wqe_buffs, 0, (hw->config.n_io *
+-					hw->sli.wqe_size));
+ =
+
+ 	} else {
+ 		/* re-use existing IOs, including SGLs */
+@@ -3119,11 +3116,9 @@ efct_hw_get_sfp(struct efct_hw *hw, u16
+ 	struct efc_dma *dma;
+ =
+
+ 	/* mbxdata holds the header of the command */
+-	mbxdata =3D kmalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
++	mbxdata =3D kzalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
+ 	if (!mbxdata)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+-
+-	memset(mbxdata, 0, SLI4_BMBX_SIZE);
+ 	/*
+ 	 * cb_arg holds the data that will be passed to the callback on
+ 	 * completion
+@@ -3226,12 +3221,10 @@ efct_hw_get_temperature(struct efct_hw *
+ 	struct efct_hw_temp_cb_arg *cb_arg;
+ 	u8 *mbxdata;
+ =
+
+-	mbxdata =3D kmalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
++	mbxdata =3D kzalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
+ 	if (!mbxdata)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(mbxdata, 0, SLI4_BMBX_SIZE);
+-
+ 	cb_arg =3D kmalloc(sizeof(*cb_arg), GFP_KERNEL);
+ 	if (!cb_arg) {
+ 		kfree(mbxdata);
+@@ -3382,12 +3375,10 @@ efct_hw_get_link_stats(struct efct_hw *h
+ 	struct efct_hw_link_stat_cb_arg *cb_arg;
+ 	u8 *mbxdata;
+ =
+
+-	mbxdata =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++	mbxdata =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 	if (!mbxdata)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(mbxdata, 0, SLI4_BMBX_SIZE);
+-
+ 	cb_arg =3D kmalloc(sizeof(*cb_arg), GFP_ATOMIC);
+ 	if (!cb_arg) {
+ 		kfree(mbxdata);
+@@ -3481,12 +3472,10 @@ efct_hw_get_host_stats(struct efct_hw *h
+ 	struct efct_hw_host_stat_cb_arg *cb_arg;
+ 	u8 *mbxdata;
+ =
+
+-	mbxdata =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++	mbxdata =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 	if (!mbxdata)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(mbxdata, 0, SLI4_BMBX_SIZE);
+-
+ 	cb_arg =3D kmalloc(sizeof(*cb_arg), GFP_ATOMIC);
+ 	if (!cb_arg) {
+ 		kfree(mbxdata);
+@@ -3879,11 +3868,10 @@ efct_hw_async_call(struct efct_hw *hw,
+ 	 * we need this to be persistent as the mbox cmd submission may be
+ 	 * queued and executed later execution.
+ 	 */
+-	ctx =3D kmalloc(sizeof(*ctx), GFP_ATOMIC);
++	ctx =3D kzalloc(sizeof(*ctx), GFP_ATOMIC);
+ 	if (!ctx)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(ctx, 0, sizeof(*ctx));
+ 	ctx->callback =3D callback;
+ 	ctx->arg =3D arg;
+ =
+
+@@ -3974,14 +3962,13 @@ efct_hw_port_free_unreg_vpi(struct efc_s
+ =
+
+ 	/* Allocate memory and send unreg_vpi */
+ 	if (!data) {
+-		data =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++		data =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 		if (!data) {
+ 			efct_hw_port_free_resources(sport,
+ 						    EFC_HW_PORT_FREE_FAIL,
+ 						    data);
+ 			return;
+ 		}
+-		memset(data, 0, SLI4_BMBX_SIZE);
+ 	}
+ =
+
+ 	rc =3D sli_cmd_unreg_vpi(&hw->sli, data, SLI4_BMBX_SIZE,
+@@ -4178,12 +4165,11 @@ efct_hw_port_alloc(struct efc *efc, stru
+ 	}
+ =
+
+ 	if (domain) {
+-		cmd =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++		cmd =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 		if (!cmd) {
+ 			rc =3D EFCT_HW_RTN_NO_MEMORY;
+ 			goto efct_hw_port_alloc_out;
+ 		}
+-		memset(cmd, 0, SLI4_BMBX_SIZE);
+ =
+
+ 		/*
+ 		 * If the WWPN is NULL, fetch the default
+@@ -4260,11 +4246,10 @@ efct_hw_port_attach(struct efc *efc, str
+ 		return EFCT_HW_RTN_ERROR;
+ 	}
+ =
+
+-	buf =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++	buf =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 	if (!buf)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(buf, 0, SLI4_BMBX_SIZE);
+ 	sport->fc_id =3D fc_id;
+ =
+
+ 	rc =3D sli_cmd_reg_vpi(&hw->sli, buf, SLI4_BMBX_SIZE, sport->fc_id,
+@@ -4506,12 +4491,10 @@ efct_hw_domain_alloc(struct efc *efc, st
+ 		return EFCT_HW_RTN_ERROR;
+ 	}
+ =
+
+-	cmd =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++	cmd =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 	if (!cmd)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(cmd, 0, SLI4_BMBX_SIZE);
+-
+ 	/* allocate memory for the service parameters */
+ 	domain->dma.size =3D 112;
+ 	domain->dma.virt =3D dma_alloc_coherent(&efct->pcidev->dev,
+@@ -4592,11 +4575,10 @@ efct_hw_domain_attach(struct efc *efc,
+ 		return EFCT_HW_RTN_ERROR;
+ 	}
+ =
+
+-	buf =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++	buf =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 	if (!buf)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(buf, 0, SLI4_BMBX_SIZE);
+ 	domain->sport->fc_id =3D fc_id;
+ =
+
+ 	rc =3D sli_cmd_reg_vfi(&hw->sli, buf, SLI4_BMBX_SIZE, domain->indicator,
+@@ -4824,11 +4806,9 @@ efct_hw_node_attach(struct efc *efc, str
+ 		return EFCT_HW_RTN_ERROR;
+ 	}
+ =
+
+-	buf =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++	buf =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 	if (!buf)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+-
+-	memset(buf, 0, SLI4_BMBX_SIZE);
+ 	/*
+ 	 * If the attach count is non-zero, this RPI has already been reg'd.
+ 	 * Otherwise, register the RPI
+@@ -5000,11 +4980,10 @@ efct_hw_node_detach(struct efc *efc, str
+ 		if (!rnode->attached)
+ 			return EFCT_HW_RTN_SUCCESS_SYNC;
+ =
+
+-		buf =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++		buf =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 		if (!buf)
+ 			return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-		memset(buf, 0, SLI4_BMBX_SIZE);
+ 		count =3D atomic_sub_return(1, &hw->rpi_ref[index].rpi_count);
+ 		count++;
+ 		if (count <=3D 1) {
+@@ -5093,12 +5072,10 @@ efct_hw_node_free_all(struct efct_hw *hw
+ 		return EFCT_HW_RTN_ERROR;
+ 	}
+ =
+
+-	buf =3D kmalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
++	buf =3D kzalloc(SLI4_BMBX_SIZE, GFP_ATOMIC);
+ 	if (!buf)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(buf, 0, SLI4_BMBX_SIZE);
+-
+ 	if (!sli_cmd_unreg_rpi(&hw->sli, buf, SLI4_BMBX_SIZE, 0xffff,
+ 			      SLI_RSRC_FCFI, U32_MAX))
+ 		rc =3D efct_hw_command(hw, buf, EFCT_CMD_NOWAIT,
+@@ -5159,12 +5136,10 @@ efct_hw_get_nvparms(struct efct_hw *hw,
+ 	enum efct_hw_rtn rc =3D EFCT_HW_RTN_SUCCESS;
+ =
+
+ 	/* mbxdata holds the header of the command */
+-	mbxdata =3D kmalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
++	mbxdata =3D kzalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
+ 	if (!mbxdata)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(mbxdata, 0, SLI4_BMBX_SIZE);
+-
+ 	/*
+ 	 * cb_arg holds the data that will be passed to the callback on
+ 	 * completion
+@@ -5303,12 +5278,10 @@ efct_hw_firmware_write_sli4_intf_2(struc
+ 	struct efct_hw_fw_wr_cb_arg *cb_arg;
+ 	int noc =3D 0;
+ =
+
+-	mbxdata =3D kmalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
++	mbxdata =3D kzalloc(SLI4_BMBX_SIZE, GFP_KERNEL);
+ 	if (!mbxdata)
+ 		return EFCT_HW_RTN_NO_MEMORY;
+ =
+
+-	memset(mbxdata, 0, SLI4_BMBX_SIZE);
+-
+ 	cb_arg =3D kmalloc(sizeof(*cb_arg), GFP_KERNEL);
+ 	if (!cb_arg) {
+ 		kfree(mbxdata);
+--===============0605680758771300418==--
 
