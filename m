@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2923956957988418946=="
+Content-Type: multipart/mixed; boundary="===============5395732462642073680=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 Subject: [PATCH] elx: efct: fix zalloc-simple.cocci warnings
-Date: Sun, 12 Apr 2020 15:22:57 +0800
-Message-ID: <20200412072257.GA19038@9dbb232d854f>
+Date: Sun, 12 Apr 2020 15:22:55 +0800
+Message-ID: <20200412072255.GA18961@9dbb232d854f>
 In-Reply-To: <202004121504.E6ItoFUo%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2923956957988418946==
+--===============5395732462642073680==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -25,10 +25,12 @@ com.com>
 
 From: kbuild test robot <lkp@intel.com>
 
-drivers/scsi/elx/efct/efct_xport.c:44:9-16: WARNING: kzalloc should be used=
- for xport, instead of kmalloc/memset
-drivers/scsi/elx/efct/efct_xport.c:688:12-19: WARNING: kzalloc should be us=
-ed for payload, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_lio.c:265:22-29: WARNING: kzalloc should be used=
+ for filp -> private_data, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_lio.c:303:22-29: WARNING: kzalloc should be used=
+ for filp -> private_data, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_lio.c:1462:11-18: WARNING: kzalloc should be use=
+d for wq_data, instead of kmalloc/memset
 
 
  Use zeroing allocator rather than allocator followed by memset with 0
@@ -50,41 +52,55 @@ xt
 :::::: branch date: 4 hours ago
 :::::: commit date: 4 hours ago
 
- efct_xport.c |    7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ efct_lio.c |    9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
 
---- a/drivers/scsi/elx/efct/efct_xport.c
-+++ b/drivers/scsi/elx/efct/efct_xport.c
-@@ -41,11 +41,10 @@ efct_xport_alloc(struct efct *efct)
- {
- 	struct efct_xport *xport;
+--- a/drivers/scsi/elx/efct/efct_lio.c
++++ b/drivers/scsi/elx/efct/efct_lio.c
+@@ -262,11 +262,10 @@ static int efct_debugfs_session_open(str
+ 		return EFC_SUCCESS;
+ 	}
  =
 
--	xport =3D kmalloc(sizeof(*xport), GFP_KERNEL);
-+	xport =3D kzalloc(sizeof(*xport), GFP_KERNEL);
- 	if (!xport)
- 		return xport;
+-	filp->private_data =3D kmalloc(size, GFP_KERNEL);
++	filp->private_data =3D kzalloc(size, GFP_KERNEL);
+ 	if (!filp->private_data)
+ 		return -ENOMEM;
  =
 
--	memset(xport, 0, sizeof(*xport));
- 	xport->efct =3D efct;
- 	return xport;
- }
-@@ -685,12 +684,10 @@ efct_xport_control(struct efct_xport *xp
- 		context =3D va_arg(argp, void *);
- 		va_end(argp);
+-	memset(filp->private_data, 0, size);
+ 	efct_lio_tgt_session_data(sport->efct, sport->wwpn, filp->private_data,
+ 				  size);
+ 	return EFC_SUCCESS;
+@@ -300,11 +299,10 @@ static int efct_npiv_debugfs_session_ope
+ 		return EFC_SUCCESS;
+ 	}
  =
 
--		payload =3D kmalloc(sizeof(*payload), GFP_KERNEL);
-+		payload =3D kzalloc(sizeof(*payload), GFP_KERNEL);
- 		if (!payload)
- 			return EFC_FAIL;
+-	filp->private_data =3D kmalloc(size, GFP_KERNEL);
++	filp->private_data =3D kzalloc(size, GFP_KERNEL);
+ 	if (!filp->private_data)
+ 		return -ENOMEM;
  =
 
--		memset(payload, 0, sizeof(*payload));
--
- 		efct =3D node->efc->base;
- 		hw =3D &efct->hw;
-=20
---===============2923956957988418946==--
+-	memset(filp->private_data, 0, size);
+ 	efct_lio_tgt_session_data(sport->efct, sport->npiv_wwpn,
+ 				  filp->private_data, size);
+ 	return EFC_SUCCESS;
+@@ -1459,11 +1457,10 @@ int efct_scsi_del_initiator(struct efc *
+ 	if (reason =3D=3D EFCT_SCSI_INITIATOR_MISSING)
+ 		return EFCT_SCSI_CALL_COMPLETE;
+ =
+
+-	wq_data =3D kmalloc(sizeof(*wq_data), GFP_ATOMIC);
++	wq_data =3D kzalloc(sizeof(*wq_data), GFP_ATOMIC);
+ 	if (!wq_data)
+ 		return EFCT_SCSI_CALL_COMPLETE;
+ =
+
+-	memset(wq_data, 0, sizeof(*wq_data));
+ 	wq_data->ptr =3D node;
+ 	wq_data->efct =3D efct;
+ 	INIT_WORK(&wq_data->work, efct_lio_remove_session);
+--===============5395732462642073680==--
 
