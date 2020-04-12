@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============5395732462642073680=="
+Content-Type: multipart/mixed; boundary="===============7701043793056806946=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
 Subject: [PATCH] elx: efct: fix zalloc-simple.cocci warnings
-Date: Sun, 12 Apr 2020 15:22:55 +0800
-Message-ID: <20200412072255.GA18961@9dbb232d854f>
+Date: Sun, 12 Apr 2020 15:22:54 +0800
+Message-ID: <20200412072254.GA18884@9dbb232d854f>
 In-Reply-To: <202004121504.E6ItoFUo%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5395732462642073680==
+--===============7701043793056806946==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -25,12 +25,10 @@ com.com>
 
 From: kbuild test robot <lkp@intel.com>
 
-drivers/scsi/elx/efct/efct_lio.c:265:22-29: WARNING: kzalloc should be used=
- for filp -> private_data, instead of kmalloc/memset
-drivers/scsi/elx/efct/efct_lio.c:303:22-29: WARNING: kzalloc should be used=
- for filp -> private_data, instead of kmalloc/memset
-drivers/scsi/elx/efct/efct_lio.c:1462:11-18: WARNING: kzalloc should be use=
-d for wq_data, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw_queues.c:173:7-14: WARNING: kzalloc should be=
+ used for cq, instead of kmalloc/memset
+drivers/scsi/elx/efct/efct_hw_queues.c:376:7-14: WARNING: kzalloc should be=
+ used for rq, instead of kmalloc/memset
 
 
  Use zeroing allocator rather than allocator followed by memset with 0
@@ -52,55 +50,40 @@ xt
 :::::: branch date: 4 hours ago
 :::::: commit date: 4 hours ago
 
- efct_lio.c |    9 +++------
- 1 file changed, 3 insertions(+), 6 deletions(-)
+ efct_hw_queues.c |    6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
---- a/drivers/scsi/elx/efct/efct_lio.c
-+++ b/drivers/scsi/elx/efct/efct_lio.c
-@@ -262,11 +262,10 @@ static int efct_debugfs_session_open(str
- 		return EFC_SUCCESS;
- 	}
+--- a/drivers/scsi/elx/efct/efct_hw_queues.c
++++ b/drivers/scsi/elx/efct/efct_hw_queues.c
+@@ -170,11 +170,10 @@ efct_hw_new_cq_set(struct hw_eq *eqs[],
+ 		cqs[i] =3D NULL;
  =
 
--	filp->private_data =3D kmalloc(size, GFP_KERNEL);
-+	filp->private_data =3D kzalloc(size, GFP_KERNEL);
- 	if (!filp->private_data)
- 		return -ENOMEM;
+ 	for (i =3D 0; i < num_cqs; i++) {
+-		cq =3D kmalloc(sizeof(*cq), GFP_KERNEL);
++		cq =3D kzalloc(sizeof(*cq), GFP_KERNEL);
+ 		if (!cq)
+ 			goto error;
  =
 
--	memset(filp->private_data, 0, size);
- 	efct_lio_tgt_session_data(sport->efct, sport->wwpn, filp->private_data,
- 				  size);
- 	return EFC_SUCCESS;
-@@ -300,11 +299,10 @@ static int efct_npiv_debugfs_session_ope
- 		return EFC_SUCCESS;
- 	}
+-		memset(cq, 0, sizeof(*cq));
+ 		cqs[i]          =3D cq;
+ 		cq->eq          =3D eqs[i];
+ 		cq->type        =3D SLI_QTYPE_CQ;
+@@ -373,11 +372,10 @@ efct_hw_new_rq_set(struct hw_cq *cqs[],
+ 		rqs[i] =3D NULL;
  =
 
--	filp->private_data =3D kmalloc(size, GFP_KERNEL);
-+	filp->private_data =3D kzalloc(size, GFP_KERNEL);
- 	if (!filp->private_data)
- 		return -ENOMEM;
+ 	for (i =3D 0, q_count =3D 0; i < num_rq_pairs; i++, q_count +=3D 2) {
+-		rq =3D kmalloc(sizeof(*rq), GFP_KERNEL);
++		rq =3D kzalloc(sizeof(*rq), GFP_KERNEL);
+ 		if (!rq)
+ 			goto error;
  =
 
--	memset(filp->private_data, 0, size);
- 	efct_lio_tgt_session_data(sport->efct, sport->npiv_wwpn,
- 				  filp->private_data, size);
- 	return EFC_SUCCESS;
-@@ -1459,11 +1457,10 @@ int efct_scsi_del_initiator(struct efc *
- 	if (reason =3D=3D EFCT_SCSI_INITIATOR_MISSING)
- 		return EFCT_SCSI_CALL_COMPLETE;
- =
-
--	wq_data =3D kmalloc(sizeof(*wq_data), GFP_ATOMIC);
-+	wq_data =3D kzalloc(sizeof(*wq_data), GFP_ATOMIC);
- 	if (!wq_data)
- 		return EFCT_SCSI_CALL_COMPLETE;
- =
-
--	memset(wq_data, 0, sizeof(*wq_data));
- 	wq_data->ptr =3D node;
- 	wq_data->efct =3D efct;
- 	INIT_WORK(&wq_data->work, efct_lio_remove_session);
---===============5395732462642073680==--
+-		memset(rq, 0, sizeof(*rq));
+ 		rqs[i] =3D rq;
+ 		rq->instance =3D hw->hw_rq_count++;
+ 		rq->cq =3D cqs[i];
+--===============7701043793056806946==--
 
