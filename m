@@ -1,29 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============2458606738164160188=="
+Content-Type: multipart/mixed; boundary="===============7161016758932709382=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [drm-drm-misc:drm-misc-next 2/2] drivers/gpu/drm/bridge/nwl-dsi.c:51:14: warning: struct member 'nwl_dsi_plat_clk_config::id' is never used. [unusedStructMember]
-Date: Tue, 14 Apr 2020 08:45:20 +0800
-Message-ID: <202004140818.uUoD4SKI%lkp@intel.com>
+Subject: [brauner:loopfs_v1 2/8] drivers/block/loopfs/loopfs.c:401:6: warning: Redundant initialization for 'ctx'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Tue, 14 Apr 2020 07:10:19 +0800
+Message-ID: <202004140743.lqrKdqWk%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2458606738164160188==
+--===============7161016758932709382==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: "Guido G=C3=BCnther" <agx@sigxcpu.org>
-CC: Sam Ravnborg <sam@ravnborg.org>
-CC: Robert Chiras <robert.chiras@nxp.com>
-CC: Fabio Estevam <festevam@gmail.com>
+TO: Christian Brauner <christian.brauner@ubuntu.com>
 
-tree:   git://anongit.freedesktop.org/drm/drm-misc drm-misc-next
-head:   44cfc6233447cb2cf47aeb99457de35826a363f6
-commit: 44cfc6233447cb2cf47aeb99457de35826a363f6 [2/2] drm/bridge: Add NWL =
-MIPI DSI host controller support
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git l=
+oopfs_v1
+head:   e3796aa0ebdf297c4a3273c64aed421530d8a1e3
+commit: 36eb087fffce637de710a065ce6ccf9d7b83d08a [2/8] loopfs: implement lo=
+opfs
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -31,37 +29,58 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/gpu/drm/bridge/nwl-dsi.c:51:14: warning: struct member 'nwl_dsi_=
-plat_clk_config::id' is never used. [unusedStructMember]
-    const char *id;
-                ^
->> drivers/gpu/drm/bridge/nwl-dsi.c:52:14: warning: struct member 'nwl_dsi_=
-plat_clk_config::clk' is never used. [unusedStructMember]
-    struct clk *clk;
-                ^
->> drivers/gpu/drm/bridge/nwl-dsi.c:53:7: warning: struct member 'nwl_dsi_p=
-lat_clk_config::present' is never used. [unusedStructMember]
-    bool present;
-         ^
+>> drivers/block/loopfs/loopfs.c:401:6: warning: Redundant initialization f=
+or 'ctx'. The initialized value is overwritten before it is read. [redundan=
+tInitialization]
+    ctx =3D kzalloc(sizeof(struct loopfs_mount_opts), GFP_KERNEL);
+        ^
+   drivers/block/loopfs/loopfs.c:399:32: note: ctx is initialized
+    struct loopfs_mount_opts *ctx =3D fc->fs_private;
+                                  ^
+   drivers/block/loopfs/loopfs.c:401:6: note: ctx is overwritten
+    ctx =3D kzalloc(sizeof(struct loopfs_mount_opts), GFP_KERNEL);
+        ^
 
-git remote add drm-drm-misc git://anongit.freedesktop.org/drm/drm-misc
-git remote update drm-drm-misc
-git checkout 44cfc6233447cb2cf47aeb99457de35826a363f6
-vim +51 drivers/gpu/drm/bridge/nwl-dsi.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/commit/=
+?id=3D36eb087fffce637de710a065ce6ccf9d7b83d08a
+git remote add brauner https://git.kernel.org/pub/scm/linux/kernel/git/brau=
+ner/linux.git
+git remote update brauner
+git checkout 36eb087fffce637de710a065ce6ccf9d7b83d08a
+vim +/ctx +401 drivers/block/loopfs/loopfs.c
 
-44cfc6233447cb Guido G=C3=BCnther 2020-04-09  49  =
+36eb087fffce63 Christian Brauner 2020-04-02  396  =
 
-44cfc6233447cb Guido G=C3=BCnther 2020-04-09  50  struct nwl_dsi_plat_clk_c=
-onfig {
-44cfc6233447cb Guido G=C3=BCnther 2020-04-09 @51  	const char *id;
-44cfc6233447cb Guido G=C3=BCnther 2020-04-09 @52  	struct clk *clk;
-44cfc6233447cb Guido G=C3=BCnther 2020-04-09 @53  	bool present;
-44cfc6233447cb Guido G=C3=BCnther 2020-04-09  54  };
-44cfc6233447cb Guido G=C3=BCnther 2020-04-09  55  =
+36eb087fffce63 Christian Brauner 2020-04-02  397  static int loopfs_init_fs=
+_context(struct fs_context *fc)
+36eb087fffce63 Christian Brauner 2020-04-02  398  {
+36eb087fffce63 Christian Brauner 2020-04-02  399  	struct loopfs_mount_opts=
+ *ctx =3D fc->fs_private;
+36eb087fffce63 Christian Brauner 2020-04-02  400  =
+
+36eb087fffce63 Christian Brauner 2020-04-02 @401  	ctx =3D kzalloc(sizeof(s=
+truct loopfs_mount_opts), GFP_KERNEL);
+36eb087fffce63 Christian Brauner 2020-04-02  402  	if (!ctx)
+36eb087fffce63 Christian Brauner 2020-04-02  403  		return -ENOMEM;
+36eb087fffce63 Christian Brauner 2020-04-02  404  =
+
+36eb087fffce63 Christian Brauner 2020-04-02  405  	ctx->max =3D max_devices;
+36eb087fffce63 Christian Brauner 2020-04-02  406  =
+
+36eb087fffce63 Christian Brauner 2020-04-02  407  	fc->fs_private =3D ctx;
+36eb087fffce63 Christian Brauner 2020-04-02  408  =
+
+36eb087fffce63 Christian Brauner 2020-04-02  409  	fc->ops =3D &loopfs_fs_c=
+ontext_ops;
+36eb087fffce63 Christian Brauner 2020-04-02  410  =
+
+36eb087fffce63 Christian Brauner 2020-04-02  411  	return 0;
+36eb087fffce63 Christian Brauner 2020-04-02  412  }
+36eb087fffce63 Christian Brauner 2020-04-02  413  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2458606738164160188==--
+--===============7161016758932709382==--
 
