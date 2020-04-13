@@ -1,31 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============7907170592002255646=="
+Content-Type: multipart/mixed; boundary="===============2045895260853428442=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/9] crypto: sun8i-ce: split into prepare/run/unprepare
-Date: Tue, 14 Apr 2020 06:32:43 +0800
-Message-ID: <202004140628.EHDfjVT3%lkp@intel.com>
+Subject: Re: [RFC PATCH v2 1/3] mfd: syscon: Support physical regmap bus
+Date: Tue, 14 Apr 2020 06:11:51 +0800
+Message-ID: <202004140617.GiZPNwLC%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7907170592002255646==
+--===============2045895260853428442==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1586771889-3299-4-git-send-email-clabbe@baylibre.com>
-References: <1586771889-3299-4-git-send-email-clabbe@baylibre.com>
-TO: Corentin Labbe <clabbe@baylibre.com>
-CC: davem(a)davemloft.net, herbert(a)gondor.apana.org.au, mripard(a)kernel.=
-org, wens(a)csie.org
+In-Reply-To: <a3187ff166bf4434362b92d91149a8e445c4ed0c.1586757922.git.baoli=
+n.wang7@gmail.com>
+References: <a3187ff166bf4434362b92d91149a8e445c4ed0c.1586757922.git.baolin=
+.wang7@gmail.com>
+TO: Baolin Wang <baolin.wang7@gmail.com>
 
-Hi Corentin,
+Hi Baolin,
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on cryptodev/master]
-[also build test WARNING on crypto/master v5.7-rc1 next-20200413]
-[cannot apply to sunxi/sunxi/for-next]
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.7-rc1 next-20200413]
+[cannot apply to ljones-mfd/for-mfd-next regmap/for-next arm-soc/for-next]
 [if your patch is applied to the wrong git tree, please drop us a note to h=
 elp
 improve the system. BTW, we also suggest to use '--base' option to specify =
@@ -33,18 +32,18 @@ the
 base tree in git format-patch, please see https://stackoverflow.com/a/37406=
 982]
 
-url:    https://github.com/0day-ci/linux/commits/Corentin-Labbe/crypto-sun8=
-i-ce-support-TRNG-PRNG-and-hashes/20200413-235954
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
-.6.git master
+url:    https://github.com/0day-ci/linux/commits/Baolin-Wang/Add-new-reg_up=
+date_bits-support/20200413-143713
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+8f3d9f354286745c751374f5f1fcafee6b3f3136
 reproduce:
         # apt-get install sparse
         # sparse version: =
 
         make ARCH=3Dx86_64 allmodconfig
         make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -52,130 +51,185 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
 
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:277:5: sparse: warni=
-ng: symbol 'sun8i_ce_cipher_run' was not declared. Should it be static?
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:321:25: sparse: warn=
-ing: incorrect type in argument 2 (different base types)
->> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:321:25: sparse:    e=
-xpected unsigned long long [usertype] addr
->> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:321:25: sparse:    g=
-ot restricted __le32 [usertype] t_iv
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:334:9: sparse: warni=
-ng: incorrect type in argument 2 (different base types)
-   drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:334:9: sparse:    ex=
-pected unsigned long long [usertype] addr
->> drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c:334:9: sparse:    go=
-t restricted __le32 [usertype] t_key
+   drivers/mfd/syscon.c:111:26: sparse: warning: incorrect type in argument=
+ 3 (different address spaces)
+>> drivers/mfd/syscon.c:111:26: sparse:    expected void *bus_context
+>> drivers/mfd/syscon.c:111:26: sparse:    got void [noderef] <asn:2> *[ass=
+igned] base
 
-# https://github.com/0day-ci/linux/commit/90d7b544421a35ed15f08ef20ad1fbe63=
-bbf9f8a
+# https://github.com/0day-ci/linux/commit/ff9a2d5184cbf0f5c4a40f77f56e383ee=
+c7ca306
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout 90d7b544421a35ed15f08ef20ad1fbe63bbf9f8a
-vim +321 drivers/crypto/allwinner/sun8i-ce/sun8i-ce-cipher.c
+git checkout ff9a2d5184cbf0f5c4a40f77f56e383eec7ca306
+vim +111 drivers/mfd/syscon.c
 
-06f751b613296c Corentin Labbe 2019-10-23  276  =
+87d687301f3807 Dong Aisheng    2012-09-05   43  =
 
-90d7b544421a35 Corentin Labbe 2020-04-13 @277  int sun8i_ce_cipher_run(stru=
-ct crypto_engine *engine, void *areq)
-06f751b613296c Corentin Labbe 2019-10-23  278  {
-06f751b613296c Corentin Labbe 2019-10-23  279  	struct skcipher_request *br=
-eq =3D container_of(areq, struct skcipher_request, base);
-90d7b544421a35 Corentin Labbe 2020-04-13  280  	struct crypto_skcipher *tfm=
- =3D crypto_skcipher_reqtfm(breq);
-90d7b544421a35 Corentin Labbe 2020-04-13  281  	struct sun8i_cipher_tfm_ctx=
- *op =3D crypto_skcipher_ctx(tfm);
-90d7b544421a35 Corentin Labbe 2020-04-13  282  	struct sun8i_ce_dev *ce =3D=
- op->ce;
-90d7b544421a35 Corentin Labbe 2020-04-13  283  	struct sun8i_cipher_req_ctx=
- *rctx =3D skcipher_request_ctx(breq);
-90d7b544421a35 Corentin Labbe 2020-04-13  284  	int flow, err;
-06f751b613296c Corentin Labbe 2019-10-23  285  =
+39233b7c611248 Paul Cercueil   2019-07-24   44  static struct syscon *of_sy=
+scon_register(struct device_node *np, bool check_clk)
+87d687301f3807 Dong Aisheng    2012-09-05   45  {
+a00406b71c5f08 Fabrice Gasnier 2018-12-12   46  	struct clk *clk;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   47  	struct syscon *syscon;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   48  	struct regmap *regmap;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   49  	void __iomem *base;
+db2fb60cd35d2d Damien Riegel   2015-11-30   50  	u32 reg_io_width;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   51  	int ret;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   52  	struct regmap_config sysco=
+n_config =3D syscon_regmap_config;
+ca668f0edfae65 Philipp Zabel   2016-01-29   53  	struct resource res;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   54  =
 
-90d7b544421a35 Corentin Labbe 2020-04-13  286  	flow =3D rctx->flow;
-90d7b544421a35 Corentin Labbe 2020-04-13  287  	err =3D sun8i_ce_run_task(c=
-e, flow, crypto_tfm_alg_name(breq->base.tfm));
-06f751b613296c Corentin Labbe 2019-10-23  288  	crypto_finalize_skcipher_re=
-quest(engine, breq, err);
-90d7b544421a35 Corentin Labbe 2020-04-13  289  	return 0;
-90d7b544421a35 Corentin Labbe 2020-04-13  290  }
-90d7b544421a35 Corentin Labbe 2020-04-13  291  =
+bdb0066df96e74 Pankaj Dubey    2014-09-30   55  	syscon =3D kzalloc(sizeof(=
+*syscon), GFP_KERNEL);
+bdb0066df96e74 Pankaj Dubey    2014-09-30   56  	if (!syscon)
+bdb0066df96e74 Pankaj Dubey    2014-09-30   57  		return ERR_PTR(-ENOMEM);
+bdb0066df96e74 Pankaj Dubey    2014-09-30   58  =
 
-90d7b544421a35 Corentin Labbe 2020-04-13  292  static int sun8i_ce_cipher_u=
-nprepare(struct crypto_engine *engine, void *async_req)
-90d7b544421a35 Corentin Labbe 2020-04-13  293  {
-90d7b544421a35 Corentin Labbe 2020-04-13  294  	struct skcipher_request *ar=
-eq =3D container_of(async_req, struct skcipher_request, base);
-90d7b544421a35 Corentin Labbe 2020-04-13  295  	struct crypto_skcipher *tfm=
- =3D crypto_skcipher_reqtfm(areq);
-90d7b544421a35 Corentin Labbe 2020-04-13  296  	struct sun8i_cipher_tfm_ctx=
- *op =3D crypto_skcipher_ctx(tfm);
-90d7b544421a35 Corentin Labbe 2020-04-13  297  	struct sun8i_ce_dev *ce =3D=
- op->ce;
-90d7b544421a35 Corentin Labbe 2020-04-13  298  	struct sun8i_cipher_req_ctx=
- *rctx =3D skcipher_request_ctx(areq);
-90d7b544421a35 Corentin Labbe 2020-04-13  299  	struct sun8i_ce_flow *chan;
-90d7b544421a35 Corentin Labbe 2020-04-13  300  	struct ce_task *cet;
-90d7b544421a35 Corentin Labbe 2020-04-13  301  	unsigned int ivsize, offset;
-90d7b544421a35 Corentin Labbe 2020-04-13  302  	int nr_sgs =3D rctx->nr_sgs;
-90d7b544421a35 Corentin Labbe 2020-04-13  303  	int nr_sgd =3D rctx->nr_sgd;
-90d7b544421a35 Corentin Labbe 2020-04-13  304  	int flow;
-90d7b544421a35 Corentin Labbe 2020-04-13  305  =
+ca668f0edfae65 Philipp Zabel   2016-01-29   59  	if (of_address_to_resource=
+(np, 0, &res)) {
+ca668f0edfae65 Philipp Zabel   2016-01-29   60  		ret =3D -ENOMEM;
+ca668f0edfae65 Philipp Zabel   2016-01-29   61  		goto err_map;
+ca668f0edfae65 Philipp Zabel   2016-01-29   62  	}
+ca668f0edfae65 Philipp Zabel   2016-01-29   63  =
 
-90d7b544421a35 Corentin Labbe 2020-04-13  306  	flow =3D rctx->flow;
-90d7b544421a35 Corentin Labbe 2020-04-13  307  	chan =3D &ce->chanlist[flow=
-];
-90d7b544421a35 Corentin Labbe 2020-04-13  308  	cet =3D chan->tl;
-90d7b544421a35 Corentin Labbe 2020-04-13  309  	ivsize =3D crypto_skcipher_=
-ivsize(tfm);
-90d7b544421a35 Corentin Labbe 2020-04-13  310  =
+ca668f0edfae65 Philipp Zabel   2016-01-29   64  	base =3D ioremap(res.start=
+, resource_size(&res));
+bdb0066df96e74 Pankaj Dubey    2014-09-30   65  	if (!base) {
+bdb0066df96e74 Pankaj Dubey    2014-09-30   66  		ret =3D -ENOMEM;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   67  		goto err_map;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   68  	}
+bdb0066df96e74 Pankaj Dubey    2014-09-30   69  =
 
-90d7b544421a35 Corentin Labbe 2020-04-13  311  	if (areq->src =3D=3D areq->=
-dst) {
-90d7b544421a35 Corentin Labbe 2020-04-13  312  		dma_unmap_sg(ce->dev, areq=
-->src, nr_sgs, DMA_BIDIRECTIONAL);
-90d7b544421a35 Corentin Labbe 2020-04-13  313  	} else {
-90d7b544421a35 Corentin Labbe 2020-04-13  314  		if (nr_sgs > 0)
-90d7b544421a35 Corentin Labbe 2020-04-13  315  			dma_unmap_sg(ce->dev, are=
-q->src, nr_sgs, DMA_TO_DEVICE);
-90d7b544421a35 Corentin Labbe 2020-04-13  316  		dma_unmap_sg(ce->dev, areq=
-->dst, nr_sgd, DMA_FROM_DEVICE);
-90d7b544421a35 Corentin Labbe 2020-04-13  317  	}
-90d7b544421a35 Corentin Labbe 2020-04-13  318  =
+bdb0066df96e74 Pankaj Dubey    2014-09-30   70  	/* Parse the device's DT n=
+ode for an endianness specification */
+bdb0066df96e74 Pankaj Dubey    2014-09-30   71  	if (of_property_read_bool(=
+np, "big-endian"))
+bdb0066df96e74 Pankaj Dubey    2014-09-30   72  		syscon_config.val_format_=
+endian =3D REGMAP_ENDIAN_BIG;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   73  	else if (of_property_read_=
+bool(np, "little-endian"))
+bdb0066df96e74 Pankaj Dubey    2014-09-30   74  		syscon_config.val_format_=
+endian =3D REGMAP_ENDIAN_LITTLE;
+d29ccdb3f0e5dc Paul Burton     2016-10-14   75  	else if (of_property_read_=
+bool(np, "native-endian"))
+d29ccdb3f0e5dc Paul Burton     2016-10-14   76  		syscon_config.val_format_=
+endian =3D REGMAP_ENDIAN_NATIVE;
+bdb0066df96e74 Pankaj Dubey    2014-09-30   77  =
 
-90d7b544421a35 Corentin Labbe 2020-04-13  319  	if (areq->iv && ivsize > 0)=
- {
-90d7b544421a35 Corentin Labbe 2020-04-13  320  		if (cet->t_iv)
-90d7b544421a35 Corentin Labbe 2020-04-13 @321  			dma_unmap_single(ce->dev,=
- cet->t_iv, rctx->ivlen,
-90d7b544421a35 Corentin Labbe 2020-04-13  322  					 DMA_TO_DEVICE);
-90d7b544421a35 Corentin Labbe 2020-04-13  323  		offset =3D areq->cryptlen =
-- ivsize;
-90d7b544421a35 Corentin Labbe 2020-04-13  324  		if (rctx->op_dir & CE_DECR=
-YPTION) {
-90d7b544421a35 Corentin Labbe 2020-04-13  325  			memcpy(areq->iv, rctx->ba=
-ckup_iv, ivsize);
-90d7b544421a35 Corentin Labbe 2020-04-13  326  			kzfree(rctx->backup_iv);
-90d7b544421a35 Corentin Labbe 2020-04-13  327  		} else {
-90d7b544421a35 Corentin Labbe 2020-04-13  328  			scatterwalk_map_and_copy(=
-areq->iv, areq->dst, offset,
-90d7b544421a35 Corentin Labbe 2020-04-13  329  						 ivsize, 0);
-90d7b544421a35 Corentin Labbe 2020-04-13  330  		}
-90d7b544421a35 Corentin Labbe 2020-04-13  331  		kfree(rctx->bounce_iv);
-90d7b544421a35 Corentin Labbe 2020-04-13  332  	}
-90d7b544421a35 Corentin Labbe 2020-04-13  333  =
+db2fb60cd35d2d Damien Riegel   2015-11-30   78  	/*
+db2fb60cd35d2d Damien Riegel   2015-11-30   79  	 * search for reg-io-width=
+ property in DT. If it is not provided,
+db2fb60cd35d2d Damien Riegel   2015-11-30   80  	 * default to 4 bytes. reg=
+map_init_mmio will return an error if values
+db2fb60cd35d2d Damien Riegel   2015-11-30   81  	 * are invalid so there is=
+ no need to check them here.
+db2fb60cd35d2d Damien Riegel   2015-11-30   82  	 */
+db2fb60cd35d2d Damien Riegel   2015-11-30   83  	ret =3D of_property_read_u=
+32(np, "reg-io-width", &reg_io_width);
+db2fb60cd35d2d Damien Riegel   2015-11-30   84  	if (ret)
+db2fb60cd35d2d Damien Riegel   2015-11-30   85  		reg_io_width =3D 4;
+db2fb60cd35d2d Damien Riegel   2015-11-30   86  =
 
-90d7b544421a35 Corentin Labbe 2020-04-13 @334  	dma_unmap_single(ce->dev, c=
-et->t_key, op->keylen, DMA_TO_DEVICE);
-06f751b613296c Corentin Labbe 2019-10-23  335  =
+3bafc09e779710 Baolin Wang     2017-12-25   87  	ret =3D of_hwspin_lock_get=
+_id(np, 0);
+3bafc09e779710 Baolin Wang     2017-12-25   88  	if (ret > 0 || (IS_ENABLED=
+(CONFIG_HWSPINLOCK) && ret =3D=3D 0)) {
+3bafc09e779710 Baolin Wang     2017-12-25   89  		syscon_config.use_hwlock =
+=3D true;
+3bafc09e779710 Baolin Wang     2017-12-25   90  		syscon_config.hwlock_id =
+=3D ret;
+3bafc09e779710 Baolin Wang     2017-12-25   91  		syscon_config.hwlock_mode=
+ =3D HWLOCK_IRQSTATE;
+3bafc09e779710 Baolin Wang     2017-12-25   92  	} else if (ret < 0) {
+3bafc09e779710 Baolin Wang     2017-12-25   93  		switch (ret) {
+3bafc09e779710 Baolin Wang     2017-12-25   94  		case -ENOENT:
+3bafc09e779710 Baolin Wang     2017-12-25   95  			/* Ignore missing hwlock=
+, it's optional. */
+3bafc09e779710 Baolin Wang     2017-12-25   96  			break;
+3bafc09e779710 Baolin Wang     2017-12-25   97  		default:
+3bafc09e779710 Baolin Wang     2017-12-25   98  			pr_err("Failed to retrie=
+ve valid hwlock: %d\n", ret);
+3bafc09e779710 Baolin Wang     2017-12-25   99  			/* fall-through */
+3bafc09e779710 Baolin Wang     2017-12-25  100  		case -EPROBE_DEFER:
+3bafc09e779710 Baolin Wang     2017-12-25  101  			goto err_regmap;
+3bafc09e779710 Baolin Wang     2017-12-25  102  		}
+3bafc09e779710 Baolin Wang     2017-12-25  103  	}
+3bafc09e779710 Baolin Wang     2017-12-25  104  =
 
-06f751b613296c Corentin Labbe 2019-10-23  336  	return 0;
-06f751b613296c Corentin Labbe 2019-10-23  337  }
-06f751b613296c Corentin Labbe 2019-10-23  338  =
+408d1d570a6339 David Lechner   2018-01-23  105  	syscon_config.name =3D of_=
+node_full_name(np);
+db2fb60cd35d2d Damien Riegel   2015-11-30  106  	syscon_config.reg_stride =
+=3D reg_io_width;
+db2fb60cd35d2d Damien Riegel   2015-11-30  107  	syscon_config.val_bits =3D=
+ reg_io_width * 8;
+ca668f0edfae65 Philipp Zabel   2016-01-29  108  	syscon_config.max_register=
+ =3D resource_size(&res) - reg_io_width;
+db2fb60cd35d2d Damien Riegel   2015-11-30  109  =
+
+ff9a2d5184cbf0 Baolin Wang     2020-04-13  110  	if (syscon_phy_regmap_bus)
+ff9a2d5184cbf0 Baolin Wang     2020-04-13 @111  		regmap =3D regmap_init(NU=
+LL, syscon_phy_regmap_bus, base,
+ff9a2d5184cbf0 Baolin Wang     2020-04-13  112  				     &syscon_config);
+ff9a2d5184cbf0 Baolin Wang     2020-04-13  113  	else
+bdb0066df96e74 Pankaj Dubey    2014-09-30  114  		regmap =3D regmap_init_mm=
+io(NULL, base, &syscon_config);
+bdb0066df96e74 Pankaj Dubey    2014-09-30  115  	if (IS_ERR(regmap)) {
+bdb0066df96e74 Pankaj Dubey    2014-09-30  116  		pr_err("regmap init faile=
+d\n");
+bdb0066df96e74 Pankaj Dubey    2014-09-30  117  		ret =3D PTR_ERR(regmap);
+bdb0066df96e74 Pankaj Dubey    2014-09-30  118  		goto err_regmap;
+bdb0066df96e74 Pankaj Dubey    2014-09-30  119  	}
+bdb0066df96e74 Pankaj Dubey    2014-09-30  120  =
+
+ff9a2d5184cbf0 Baolin Wang     2020-04-13  121  	if (check_clk && !syscon_p=
+hy_regmap_bus) {
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  122  		clk =3D of_clk_get(np, 0);
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  123  		if (IS_ERR(clk)) {
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  124  			ret =3D PTR_ERR(clk);
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  125  			/* clock is optional */
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  126  			if (ret !=3D -ENOENT)
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  127  				goto err_clk;
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  128  		} else {
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  129  			ret =3D regmap_mmio_atta=
+ch_clk(regmap, clk);
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  130  			if (ret)
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  131  				goto err_attach;
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  132  		}
+39233b7c611248 Paul Cercueil   2019-07-24  133  	}
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  134  =
+
+bdb0066df96e74 Pankaj Dubey    2014-09-30  135  	syscon->regmap =3D regmap;
+bdb0066df96e74 Pankaj Dubey    2014-09-30  136  	syscon->np =3D np;
+bdb0066df96e74 Pankaj Dubey    2014-09-30  137  =
+
+bdb0066df96e74 Pankaj Dubey    2014-09-30  138  	spin_lock(&syscon_list_slo=
+ck);
+bdb0066df96e74 Pankaj Dubey    2014-09-30  139  	list_add_tail(&syscon->lis=
+t, &syscon_list);
+bdb0066df96e74 Pankaj Dubey    2014-09-30  140  	spin_unlock(&syscon_list_s=
+lock);
+87d687301f3807 Dong Aisheng    2012-09-05  141  =
+
+bdb0066df96e74 Pankaj Dubey    2014-09-30  142  	return syscon;
+bdb0066df96e74 Pankaj Dubey    2014-09-30  143  =
+
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  144  err_attach:
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  145  	if (!IS_ERR(clk))
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  146  		clk_put(clk);
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  147  err_clk:
+a00406b71c5f08 Fabrice Gasnier 2018-12-12  148  	regmap_exit(regmap);
+bdb0066df96e74 Pankaj Dubey    2014-09-30  149  err_regmap:
+bdb0066df96e74 Pankaj Dubey    2014-09-30  150  	iounmap(base);
+bdb0066df96e74 Pankaj Dubey    2014-09-30  151  err_map:
+bdb0066df96e74 Pankaj Dubey    2014-09-30  152  	kfree(syscon);
+bdb0066df96e74 Pankaj Dubey    2014-09-30  153  	return ERR_PTR(ret);
+87d687301f3807 Dong Aisheng    2012-09-05  154  }
+87d687301f3807 Dong Aisheng    2012-09-05  155  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7907170592002255646==--
+--===============2045895260853428442==--
 
