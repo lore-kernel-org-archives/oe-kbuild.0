@@ -1,42 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============4463558043773918491=="
+Content-Type: multipart/mixed; boundary="===============3428812944340857070=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 1/5] arch/x86/kvm: Refactor l1d flush lifecycle management
-Date: Mon, 13 Apr 2020 17:49:41 +0800
-Message-ID: <202004131723.uKknzs7f%lkp@intel.com>
+Subject: [djwong-xfs:refactor-log-recovery 294/314] fs/xfs/scrub/rtrmap_repair.c:111:16: warning: Argument 'error==0' to function ASSERT is always 0 [constArgument]
+Date: Mon, 13 Apr 2020 16:14:41 +0800
+Message-ID: <202004131633.zIzz3dmW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4463558043773918491==
+--===============3428812944340857070==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200408090229.16467-2-sblbir@amazon.com>
-References: <20200408090229.16467-2-sblbir@amazon.com>
-TO: Balbir Singh <sblbir@amazon.com>
-CC: tglx(a)linutronix.de, linux-kernel(a)vger.kernel.org
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-Hi Balbir,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on kvm/linux-next]
-[also build test WARNING on linus/master v5.7-rc1 next-20200413]
-[cannot apply to tip/auto-latest tip/x86/mm tip/x86/core]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Balbir-Singh/Optionally-fl=
-ush-L1D-on-context-switch/20200408-192153
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git linux-next
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t refactor-log-recovery
+head:   2dcdc305cfc2b8b1beee483cf8ae5c674d9fac86
+commit: 9c766c8019d8de7f1a65645f01b179209b3f7b3c [294/314] xfs: online repa=
+ir of the realtime rmap btree
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -44,65 +30,91 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> arch/x86/kernel/l1d_flush.c:25:26: warning: 'l1d_flush_pages' is of type=
- 'void *'. When using void pointers in calculations, the behaviour is undef=
-ined. [arithOperationsOnVoidPointer]
-     memset(l1d_flush_pages + i * PAGE_SIZE, i + 1,
-                            ^
+>> fs/xfs/scrub/rtrmap_repair.c:111:16: warning: Argument 'error=3D=3D0' to=
+ function ASSERT is always 0 [constArgument]
+     ASSERT(error =3D=3D 0);
+                  ^
+   fs/xfs/scrub/rtrmap_repair.c:110:6: note: Assuming that condition 'error=
+' is not redundant
+    if (error)
+        ^
+   fs/xfs/scrub/rtrmap_repair.c:111:16: note: Argument 'error=3D=3D0' to fu=
+nction ASSERT is always 0
+     ASSERT(error =3D=3D 0);
+                  ^
+   fs/xfs/scrub/rtrmap_repair.c:115:16: warning: Argument 'error=3D=3D0' to=
+ function ASSERT is always 0 [constArgument]
+     ASSERT(error =3D=3D 0);
+                  ^
+   fs/xfs/scrub/rtrmap_repair.c:114:6: note: Assuming that condition 'error=
+' is not redundant
+    if (error)
+        ^
+   fs/xfs/scrub/rtrmap_repair.c:115:16: note: Argument 'error=3D=3D0' to fu=
+nction ASSERT is always 0
+     ASSERT(error =3D=3D 0);
+                  ^
 
-# https://github.com/0day-ci/linux/commit/01f030960171a1eb6e3183aa69d002464=
-fdb4194
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 01f030960171a1eb6e3183aa69d002464fdb4194
-vim +25 arch/x86/kernel/l1d_flush.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
+it/?id=3D9c766c8019d8de7f1a65645f01b179209b3f7b3c
+git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/d=
+jwong/xfs-linux.git
+git remote update djwong-xfs
+git checkout 9c766c8019d8de7f1a65645f01b179209b3f7b3c
+vim +111 fs/xfs/scrub/rtrmap_repair.c
 
-01f030960171a1 Balbir Singh 2020-04-08   3  =
+9c766c8019d8de Darrick J. Wong 2020-03-06   88  =
 
-01f030960171a1 Balbir Singh 2020-04-08   4  void *alloc_l1d_flush_pages(voi=
-d)
-01f030960171a1 Balbir Singh 2020-04-08   5  {
-01f030960171a1 Balbir Singh 2020-04-08   6  	struct page *page;
-01f030960171a1 Balbir Singh 2020-04-08   7  	void *l1d_flush_pages =3D NULL;
-01f030960171a1 Balbir Singh 2020-04-08   8  	int i;
-01f030960171a1 Balbir Singh 2020-04-08   9  =
+9c766c8019d8de Darrick J. Wong 2020-03-06   89  /* Compare two rtrmapbt ext=
+ents. */
+9c766c8019d8de Darrick J. Wong 2020-03-06   90  static int
+9c766c8019d8de Darrick J. Wong 2020-03-06   91  xrep_rtrmap_extent_cmp(
+9c766c8019d8de Darrick J. Wong 2020-03-06   92  	const void			*a,
+9c766c8019d8de Darrick J. Wong 2020-03-06   93  	const void			*b)
+9c766c8019d8de Darrick J. Wong 2020-03-06   94  {
+9c766c8019d8de Darrick J. Wong 2020-03-06   95  	const struct xrep_rtrmap_e=
+xtent	*ap =3D a;
+9c766c8019d8de Darrick J. Wong 2020-03-06   96  	const struct xrep_rtrmap_e=
+xtent	*bp =3D b;
+9c766c8019d8de Darrick J. Wong 2020-03-06   97  	struct xfs_rmap_irec		ar =
+=3D {
+9c766c8019d8de Darrick J. Wong 2020-03-06   98  		.rm_startblock		=3D ap->s=
+tartblock,
+9c766c8019d8de Darrick J. Wong 2020-03-06   99  		.rm_blockcount		=3D ap->b=
+lockcount,
+9c766c8019d8de Darrick J. Wong 2020-03-06  100  		.rm_owner		=3D ap->owner,
+9c766c8019d8de Darrick J. Wong 2020-03-06  101  	};
+9c766c8019d8de Darrick J. Wong 2020-03-06  102  	struct xfs_rmap_irec		br =
+=3D {
+9c766c8019d8de Darrick J. Wong 2020-03-06  103  		.rm_startblock		=3D bp->s=
+tartblock,
+9c766c8019d8de Darrick J. Wong 2020-03-06  104  		.rm_blockcount		=3D bp->b=
+lockcount,
+9c766c8019d8de Darrick J. Wong 2020-03-06  105  		.rm_owner		=3D bp->owner,
+9c766c8019d8de Darrick J. Wong 2020-03-06  106  	};
+9c766c8019d8de Darrick J. Wong 2020-03-06  107  	int				error;
+9c766c8019d8de Darrick J. Wong 2020-03-06  108  =
 
-01f030960171a1 Balbir Singh 2020-04-08  10  	/*
-01f030960171a1 Balbir Singh 2020-04-08  11  	 * This allocation for l1d_flu=
-sh_pages is not tied to a VM/task's
-01f030960171a1 Balbir Singh 2020-04-08  12  	 * lifetime and so should not =
-be charged to a memcg.
-01f030960171a1 Balbir Singh 2020-04-08  13  	 */
-01f030960171a1 Balbir Singh 2020-04-08  14  	page =3D alloc_pages(GFP_KERNE=
-L, L1D_CACHE_ORDER);
-01f030960171a1 Balbir Singh 2020-04-08  15  	if (!page)
-01f030960171a1 Balbir Singh 2020-04-08  16  		return NULL;
-01f030960171a1 Balbir Singh 2020-04-08  17  	l1d_flush_pages =3D page_addre=
-ss(page);
-01f030960171a1 Balbir Singh 2020-04-08  18  =
+9c766c8019d8de Darrick J. Wong 2020-03-06  109  	error =3D xfs_rmap_irec_of=
+fset_unpack(ap->offset, &ar);
+9c766c8019d8de Darrick J. Wong 2020-03-06  110  	if (error)
+9c766c8019d8de Darrick J. Wong 2020-03-06 @111  		ASSERT(error =3D=3D 0);
+9c766c8019d8de Darrick J. Wong 2020-03-06  112  =
 
-01f030960171a1 Balbir Singh 2020-04-08  19  	/*
-01f030960171a1 Balbir Singh 2020-04-08  20  	 * Initialize each page with a=
- different pattern in
-01f030960171a1 Balbir Singh 2020-04-08  21  	 * order to protect against KS=
-M in the nested
-01f030960171a1 Balbir Singh 2020-04-08  22  	 * virtualization case.
-01f030960171a1 Balbir Singh 2020-04-08  23  	 */
-01f030960171a1 Balbir Singh 2020-04-08  24  	for (i =3D 0; i < 1u << L1D_CA=
-CHE_ORDER; ++i) {
-01f030960171a1 Balbir Singh 2020-04-08 @25  		memset(l1d_flush_pages + i * =
-PAGE_SIZE, i + 1,
-01f030960171a1 Balbir Singh 2020-04-08  26  				PAGE_SIZE);
-01f030960171a1 Balbir Singh 2020-04-08  27  	}
-01f030960171a1 Balbir Singh 2020-04-08  28  	return l1d_flush_pages;
-01f030960171a1 Balbir Singh 2020-04-08  29  }
-01f030960171a1 Balbir Singh 2020-04-08  30  EXPORT_SYMBOL_GPL(alloc_l1d_flu=
-sh_pages);
-01f030960171a1 Balbir Singh 2020-04-08  31  =
+9c766c8019d8de Darrick J. Wong 2020-03-06  113  	error =3D xfs_rmap_irec_of=
+fset_unpack(bp->offset, &br);
+9c766c8019d8de Darrick J. Wong 2020-03-06  114  	if (error)
+9c766c8019d8de Darrick J. Wong 2020-03-06  115  		ASSERT(error =3D=3D 0);
+9c766c8019d8de Darrick J. Wong 2020-03-06  116  =
+
+9c766c8019d8de Darrick J. Wong 2020-03-06  117  	return xfs_rmap_compare(&a=
+r, &br);
+9c766c8019d8de Darrick J. Wong 2020-03-06  118  }
+9c766c8019d8de Darrick J. Wong 2020-03-06  119  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============4463558043773918491==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3428812944340857070==--
 
