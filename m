@@ -1,170 +1,76 @@
-Content-Type: multipart/mixed; boundary="===============4319138207793911710=="
+Content-Type: multipart/mixed; boundary="===============4477758903046691531=="
 MIME-Version: 1.0
-From: kbuild test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH 3/3] media: imx378: Add imx378 camera sensor driver
-Date: Wed, 15 Apr 2020 15:26:45 +0800
-Message-ID: <202004151548.A7CrfgXd%lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [RFC PATCH 5/5] ACPI: processor: do update when maximum cooling state changed
+Date: Tue, 14 Apr 2020 15:37:08 +0300
+Message-ID: <20200414123708.GH1163@kadam>
+In-Reply-To: <20200408041917.2329-5-rui.zhang@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4319138207793911710==
+--===============4477758903046691531==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200414200151.80089-4-daniel@qtec.com>
-References: <20200414200151.80089-4-daniel@qtec.com>
-TO: Daniel Gomez <daniel@qtec.com>
+Hi Zhang,
 
-Hi Daniel,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on linuxtv-media/master]
-[also build test WARNING on v5.7-rc1 next-20200414]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Daniel-Gomez/v4l2-api-chan=
-ges-for-imx378-driver/20200415-053427
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
+url:    https://github.com/0day-ci/linux/commits/Zhang-Rui/thermal-rename-t=
+hermal_cooling_device_stats_update/20200408-122131
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
+ linux-next
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/acpi/processor_thermal.c:158 acpi_thermal_cpufreq_exit() error: we =
+previously assumed 'pr' could be null (see line 156)
 
-coccinelle warnings: (new ones prefixed by >>)
-
->> drivers/media/i2c/imx378.c:978:2-8: preceding lock on line 975
-
-# https://github.com/0day-ci/linux/commit/f64d4e1406bfb5507f25b050f49c07d89=
-711772d
+# https://github.com/0day-ci/linux/commit/7d1c8f3879a36c7230c2842c651c4a3ce=
+66b3d61
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout f64d4e1406bfb5507f25b050f49c07d89711772d
-vim +978 drivers/media/i2c/imx378.c
+git checkout 7d1c8f3879a36c7230c2842c651c4a3ce66b3d61
+vim +/pr +158 drivers/acpi/processor_thermal.c
 
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   965  =
+3000ce3c52f8b8 Rafael J. Wysocki 2019-10-16  149  void acpi_thermal_cpufreq=
+_exit(struct cpufreq_policy *policy)
+4be44fcd3bf648 Len Brown         2005-08-05  150  {
+a1bb46c36ce389 Rafael J. Wysocki 2019-10-25  151  	unsigned int cpu;
+a1bb46c36ce389 Rafael J. Wysocki 2019-10-25  152  =
 
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   966  static int imx378_set_fmt(str=
-uct v4l2_subdev *sd,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   967  			  struct v4l2_subdev_pad_c=
-onfig *cfg,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   968  			  struct v4l2_subdev_forma=
-t *fmt)
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   969  {
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   970  	struct imx378 *imx378 =3D to=
-_imx378(sd);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   971  	struct v4l2_mbus_framefmt *_=
-_fmt;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   972  	struct v4l2_rect *__crop;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   973  	struct v4l2_subdev_frame_int=
-erval fival =3D { };
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   974  =
+a1bb46c36ce389 Rafael J. Wysocki 2019-10-25  153  	for_each_cpu(cpu, policy=
+->related_cpus) {
+3000ce3c52f8b8 Rafael J. Wysocki 2019-10-16  154  		struct acpi_processor *=
+pr =3D per_cpu(processors, policy->cpu);
+^1da177e4c3f41 Linus Torvalds    2005-04-16  155  =
 
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  @975  	mutex_lock(&imx378->mutex);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   976  =
+2d8b39a62a5d38 Rafael J. Wysocki 2019-10-15 @156  		if (pr)
+                                                                    ^^
+Check
 
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   977  	if (imx378->streaming && fmt=
-->which !=3D V4L2_SUBDEV_FORMAT_TRY)
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  @978  		return -EBUSY;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   979  =
+3000ce3c52f8b8 Rafael J. Wysocki 2019-10-16  157  			freq_qos_remove_reques=
+t(&pr->thermal_req);
+7d1c8f3879a36c Zhang Rui         2020-04-08 @158  		thermal_cdev_stats_upda=
+te_max(pr->cdev);
+                                                                           =
+                   ^^^^^^^^
+Unchecked dereference.
 
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   980  	__crop =3D __imx378_get_pad_=
-crop(imx378, cfg, fmt->pad, fmt->which);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   981  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   982  	v4l_bound_align_image(&fmt->=
-format.width, IMX378_MIN_WIDTH,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   983  			      IMX378_MAX_BOUNDS_WI=
-DTH, ilog2(4),
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   984  			      &fmt->format.height,=
- IMX378_MIN_HEIGHT,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   985  			      IMX378_MAX_BOUNDS_HE=
-IGHT, ilog2(8), 0);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   986  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   987  	__crop->width =3D fmt->forma=
-t.width;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   988  	__crop->height =3D fmt->form=
-at.height;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   989  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   990  	v4l_bound_align_image(&__cro=
-p->left, 0,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   991  			      IMX378_MAX_BOUNDS_WI=
-DTH - __crop->width, ilog2(4),
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   992  			      &__crop->top, 0,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   993  			      IMX378_MAX_BOUNDS_HE=
-IGHT - __crop->height,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   994  			      ilog2(8), 0);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   995  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   996  	__fmt =3D __imx378_get_pad_f=
-ormat(imx378, cfg, fmt->pad, fmt->which);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   997  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   998  	__fmt->width =3D __crop->wid=
-th;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14   999  	__fmt->height =3D __crop->he=
-ight;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1000  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1001  	if (fmt->format.code && fmt-=
->which !=3D V4L2_SUBDEV_FORMAT_TRY)
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1002  		imx378_set_flip_mode(imx378=
-, fmt->format.code);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1003  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1004  	__fmt->code =3D imx378_get_f=
-ormat_code(imx378);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1005  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1006  	__fmt->field =3D V4L2_FIELD_=
-NONE;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1007  	__fmt->colorspace =3D V4L2_C=
-OLORSPACE_SRGB;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1008  	__fmt->ycbcr_enc =3D V4L2_MA=
-P_YCBCR_ENC_DEFAULT(fmt->format.colorspace);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1009  	__fmt->quantization =3D V4L2=
-_MAP_QUANTIZATION_DEFAULT(true,
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1010  			      __fmt->colorspace, _=
-_fmt->ycbcr_enc);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1011  	__fmt->xfer_func =3D V4L2_MA=
-P_XFER_FUNC_DEFAULT(__fmt->colorspace);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1012  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1013  	fmt->format =3D *__fmt;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1014  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1015  	/* Frame interval depends on=
- the format so, update it accordingly */
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1016  	if (fmt->which !=3D V4L2_SUB=
-DEV_FORMAT_TRY) {
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1017  		fival.interval =3D imx378->=
-fival;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1018  		imx378_s_frame_interval(sd,=
- &fival);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1019  	}
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1020  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1021  	mutex_unlock(&imx378->mutex);
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1022  =
-
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1023  	return 0;
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1024  }
-f64d4e1406bfb5 Daniel Gomez 2020-04-14  1025  =
-
+^1da177e4c3f41 Linus Torvalds    2005-04-16  159  	}
+a1bb46c36ce389 Rafael J. Wysocki 2019-10-25  160  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  161  #else				/* ! CONFIG_CPU_=
+FREQ */
+d9460fd227ed2c Zhang Rui         2008-01-17  162  static int cpufreq_get_ma=
+x_state(unsigned int cpu)
+d9460fd227ed2c Zhang Rui         2008-01-17  163  {
+d9460fd227ed2c Zhang Rui         2008-01-17  164  	return 0;
+d9460fd227ed2c Zhang Rui         2008-01-17  165  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4319138207793911710==--
+--===============4477758903046691531==--
 
