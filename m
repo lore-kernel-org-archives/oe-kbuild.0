@@ -1,103 +1,116 @@
-Content-Type: multipart/mixed; boundary="===============0467119485437313102=="
+Content-Type: multipart/mixed; boundary="===============3663845265142135006=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH] drm/i915/gt: remove redundant assignment to variable x
-Date: Tue, 14 Apr 2020 12:23:59 +0300
-Message-ID: <20200414092359.GC1163@kadam>
-In-Reply-To: <20200410192252.76908-1-colin.king@canonical.com>
+Subject: [lee:android-3.18-preview 119/185] net/batman-adv/bat_iv_ogm.c:342 batadv_iv_ogm_iface_enable() error: double unlocked 'hard_iface->bat_iv.ogm_buff_mutex' (orig line 325)
+Date: Tue, 14 Apr 2020 12:19:40 +0300
+Message-ID: <20200414091940.GB1163@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0467119485437313102==
+--===============3663845265142135006==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Colin,
-
-url:    https://github.com/0day-ci/linux/commits/Colin-King/drm-i915-gt-rem=
-ove-redundant-assignment-to-variable-x/20200411-032731
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/lee/linux.git andro=
+id-3.18-preview
+head:   50896cc052e256af7bc02e3202c5c2c3d3bebbee
+commit: 8ce6294364ab0866e1a36598fc3a4ea8e9c216a0 [119/185] batman-adv: Avoi=
+d free/alloc race when handling OGM buffer
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/gpu/drm/i915/gt/intel_engine_cs.c:1210 print_request() error: unini=
-tialized symbol 'x'.
+net/batman-adv/bat_iv_ogm.c:342 batadv_iv_ogm_iface_enable() error: double =
+unlocked 'hard_iface->bat_iv.ogm_buff_mutex' (orig line 325)
 
-# https://github.com/0day-ci/linux/commit/6ee08d455bba0066e8f5f276dcd43d9e3=
-e594dc5
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 6ee08d455bba0066e8f5f276dcd43d9e3e594dc5
-vim +/x +1210 drivers/gpu/drm/i915/gt/intel_engine_cs.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/lee/linux.git/commit/?id=
+=3D8ce6294364ab0866e1a36598fc3a4ea8e9c216a0
+git remote add lee https://git.kernel.org/pub/scm/linux/kernel/git/lee/linu=
+x.git
+git remote update lee
+git checkout 8ce6294364ab0866e1a36598fc3a4ea8e9c216a0
+vim +342 net/batman-adv/bat_iv_ogm.c
 
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-7-10-09  1202  static void print_request(struct drm_printer *m,
-e61e0f51ba7974 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-02-21  1203  			  struct i915_request *rq,
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-7-10-09  1204  			  const char *prefix)
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-7-10-09  1205  {
-ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-03-14  1206  	const char *name =3D rq->fence.ops->get_timeline_name(&rq->=
-fence);
-96d4f03c20d04c drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-05-17  1207  	char buf[80] =3D "";
-6ee08d455bba00 drivers/gpu/drm/i915/gt/intel_engine_cs.c Colin Ian King 202=
-0-04-10  1208  	int x;
-                                                                           =
-                     ^^^^^
+56303d34a332be Sven Eckelmann   2012-06-05  309  static int batadv_iv_ogm_i=
+face_enable(struct batadv_hard_iface *hard_iface)
+d0b9fd89c2e446 Marek Lindner    2011-07-30  310  {
+96412690116afc Sven Eckelmann   2012-06-05  311  	struct batadv_ogm_packet =
+*batadv_ogm_packet;
+14511519d4b49a Marek Lindner    2012-08-02  312  	unsigned char *ogm_buff;
+d7d32ec0f199cc Marek Lindner    2012-02-07  313  	uint32_t random_seqno;
+5346c35ebfbdb1 Sven Eckelmann   2012-05-05  314  	int res =3D -ENOMEM;
+d7d32ec0f199cc Marek Lindner    2012-02-07  315  =
 
-247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-04-24  1209  =
+8ce6294364ab08 Sven Eckelmann   2020-03-18  316  	mutex_lock(&hard_iface->b=
+at_iv.ogm_buff_mutex);
+8ce6294364ab08 Sven Eckelmann   2020-03-18  317  =
 
-247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-04-24 @1210  	x =3D print_sched_attr(rq->i915, &rq->sched.attr, buf, x, s=
-izeof(buf));
-                                                                           =
-                                                                          ^
-Uninitialized variable
+d7d32ec0f199cc Marek Lindner    2012-02-07  318  	/* randomize initial seqn=
+o to avoid collision */
+d7d32ec0f199cc Marek Lindner    2012-02-07  319  	get_random_bytes(&random_=
+seqno, sizeof(random_seqno));
+14511519d4b49a Marek Lindner    2012-08-02  320  	atomic_set(&hard_iface->b=
+at_iv.ogm_seqno, random_seqno);
+d0b9fd89c2e446 Marek Lindner    2011-07-30  321  =
 
-ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-03-14  1211  =
+14511519d4b49a Marek Lindner    2012-08-02  322  	hard_iface->bat_iv.ogm_bu=
+ff_len =3D BATADV_OGM_HLEN;
+14511519d4b49a Marek Lindner    2012-08-02  323  	ogm_buff =3D kmalloc(hard=
+_iface->bat_iv.ogm_buff_len, GFP_ATOMIC);
+8ce6294364ab08 Sven Eckelmann   2020-03-18  324  	if (!ogm_buff) {
+8ce6294364ab08 Sven Eckelmann   2020-03-18 @325  		mutex_unlock(&hard_iface=
+->bat_iv.ogm_buff_mutex);
+                                                                ^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Unlock.
 
-b300fde8965fdd drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-9-02-26  1212  	drm_printf(m, "%s %llx:%llx%s%s %s @ %dms: %s\n",
-b7268c5eed0ab4 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-04-18  1213  		   prefix,
-b300fde8965fdd drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-9-02-26  1214  		   rq->fence.context, rq->fence.seqno,
-8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-9-01-29  1215  		   i915_request_completed(rq) ? "!" :
-8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-9-01-29  1216  		   i915_request_started(rq) ? "*" :
-8547444137ec61 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-9-01-29  1217  		   "",
-8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   201=
-9-05-01  1218  		   test_bit(DMA_FENCE_FLAG_SIGNALED_BIT,
-8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   201=
-9-05-01  1219  			    &rq->fence.flags) ? "+" :
-52c0fdb25c7c91 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-9-01-29  1220  		   test_bit(DMA_FENCE_FLAG_ENABLE_SIGNAL_BIT,
-8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   201=
-9-05-01  1221  			    &rq->fence.flags) ? "-" :
-8c334f24e3b448 drivers/gpu/drm/i915/gt/intel_engine_cs.c Chris Wilson   201=
-9-05-01  1222  		   "",
-247870ac8ea729 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-04-24  1223  		   buf,
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-7-10-09  1224  		   jiffies_to_msecs(jiffies - rq->emitted_jiffies),
-ab2681512b4c10 drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-8-03-14  1225  		   name);
-f636edb214a5ff drivers/gpu/drm/i915/intel_engine_cs.c    Chris Wilson   201=
-7-10-09  1226  }
+Btw, it would be nicer to move this allocation outsie of the lock.  Also
+we could move the get_random_bytes() out of the lock too.
+
+77af7575c4b11c Marek Lindner    2012-02-07  326  		goto out;
+8ce6294364ab08 Sven Eckelmann   2020-03-18  327  	}
+77af7575c4b11c Marek Lindner    2012-02-07  328  =
+
+14511519d4b49a Marek Lindner    2012-08-02  329  	hard_iface->bat_iv.ogm_bu=
+ff =3D ogm_buff;
+14511519d4b49a Marek Lindner    2012-08-02  330  =
+
+14511519d4b49a Marek Lindner    2012-08-02  331  	batadv_ogm_packet =3D (st=
+ruct batadv_ogm_packet *)ogm_buff;
+a40d9b075c21f0 Simon Wunderlich 2013-12-02  332  	batadv_ogm_packet->packet=
+_type =3D BATADV_IV_OGM;
+a40d9b075c21f0 Simon Wunderlich 2013-12-02  333  	batadv_ogm_packet->versio=
+n =3D BATADV_COMPAT_VERSION;
+a40d9b075c21f0 Simon Wunderlich 2013-12-02  334  	batadv_ogm_packet->ttl =
+=3D 2;
+96412690116afc Sven Eckelmann   2012-06-05  335  	batadv_ogm_packet->flags =
+=3D BATADV_NO_FLAGS;
+414254e342a0d5 Marek Lindner    2013-04-23  336  	batadv_ogm_packet->reserv=
+ed =3D 0;
+96412690116afc Sven Eckelmann   2012-06-05  337  	batadv_ogm_packet->tq =3D=
+ BATADV_TQ_MAX_VALUE;
+77af7575c4b11c Marek Lindner    2012-02-07  338  =
+
+77af7575c4b11c Marek Lindner    2012-02-07  339  	res =3D 0;
+77af7575c4b11c Marek Lindner    2012-02-07  340  =
+
+77af7575c4b11c Marek Lindner    2012-02-07  341  out:
+8ce6294364ab08 Sven Eckelmann   2020-03-18 @342  	mutex_unlock(&hard_iface-=
+>bat_iv.ogm_buff_mutex);
+                                                        ^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Double unlock.
+
+8ce6294364ab08 Sven Eckelmann   2020-03-18  343  =
+
+77af7575c4b11c Marek Lindner    2012-02-07  344  	return res;
+d0b9fd89c2e446 Marek Lindner    2011-07-30  345  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0467119485437313102==--
+--===============3663845265142135006==--
 
