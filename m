@@ -1,116 +1,111 @@
-Content-Type: multipart/mixed; boundary="===============7895779798060148828=="
+Content-Type: multipart/mixed; boundary="===============5009890006930590600=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [leon-rdma:rdma-next 94/94] drivers/infiniband/ulp/srp/ib_srp.c:4202 srp_add_one() error: dereferencing freed memory 'srp_dev'
-Date: Tue, 14 Apr 2020 10:34:59 +0300
-Message-ID: <20200414073410.GB14722@kadam>
+From: kbuild test robot <lkp@intel.com>
+Subject: [android-common:android-4.19 4/6] fs/incfs/data_mgmt.c:76:13-35: ERROR: reference preceded by free on line 75
+Date: Tue, 14 Apr 2020 08:49:26 +0800
+Message-ID: <202004140824.oKwa0i94%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7895779798060148828==
+--===============5009890006930590600==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Jason Gunthorpe <jgg@mellanox.com>
-CC: Leon Romanovsky <leon@kernel.org>
+TO: cros-kernel-buildreports(a)googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git=
- rdma-next
-head:   ebf91e681f9ddd176c30210aa0a6140e6dbf14f1
-commit: ebf91e681f9ddd176c30210aa0a6140e6dbf14f1 [94/94] RDMA: Allow ib_cli=
-ent's to fail when add() is called
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
+tree:   https://android.googlesource.com/kernel/common android-4.19
+head:   580b23c95aa91155ff918f9e7f60024ec8684faa
+commit: 5e6feacb2a7c782f5299ab29bc934b93aa601fcf [4/6] ANDROID: Incremental=
+ fs: make remount log buffer change atomic
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/infiniband/ulp/srp/ib_srp.c:4202 srp_add_one() error: dereferencing=
- freed memory 'srp_dev'
-net/rds/ib.c:194 rds_ib_add_one() warn: passing zero to 'PTR_ERR'
 
-Old smatch warnings:
-drivers/infiniband/ulp/srp/ib_srp.c:2585 srp_cm_rep_handler() error: we pre=
-viously assumed 'ch->rx_ring' could be null (see line 2578)
-net/rds/ib.c:210 rds_ib_add_one() warn: passing zero to 'PTR_ERR'
-net/rds/ib.c:218 rds_ib_add_one() warn: passing zero to 'PTR_ERR'
-net/rds/ib.c:334 rds_ib_conn_info_visitor() error: we previously assumed 'i=
-c' could be null (see line 324)
-net/rds/ib.c:372 rds6_ib_conn_info_visitor() error: we previously assumed '=
-ic' could be null (see line 361)
+coccinelle warnings: (new ones prefixed by >>)
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git/commi=
-t/?id=3Debf91e681f9ddd176c30210aa0a6140e6dbf14f1
-git remote add leon-rdma https://git.kernel.org/pub/scm/linux/kernel/git/le=
-on/linux-rdma.git
-git remote update leon-rdma
-git checkout ebf91e681f9ddd176c30210aa0a6140e6dbf14f1
-vim +/srp_dev +4202 drivers/infiniband/ulp/srp/ib_srp.c
+>> fs/incfs/data_mgmt.c:76:13-35: ERROR: reference preceded by free on line=
+ 75
 
-f071777f9cbd7 Christoph Hellwig 2016-09-05  4180  	if (never_register || !r=
-egister_always ||
-5f071777f9cbd7 Christoph Hellwig 2016-09-05  4181  	    (!srp_dev->has_fmr =
-&& !srp_dev->has_fr))
-5f071777f9cbd7 Christoph Hellwig 2016-09-05  4182  		flags |=3D IB_PD_UNSAF=
-E_GLOBAL_RKEY;
-5f071777f9cbd7 Christoph Hellwig 2016-09-05  4183  =
+git remote add android-common https://android.googlesource.com/kernel/common
+git remote update android-common
+git checkout 5e6feacb2a7c782f5299ab29bc934b93aa601fcf
+vim +76 fs/incfs/data_mgmt.c
 
-5cfb17828d877a Bart Van Assche   2014-05-20  4184  	if (srp_dev->use_fast_r=
-eg) {
-5cfb17828d877a Bart Van Assche   2014-05-20  4185  		srp_dev->max_pages_per=
-_mr =3D
-5cfb17828d877a Bart Van Assche   2014-05-20  4186  			min_t(u32, srp_dev->m=
-ax_pages_per_mr,
-042dd765bdf401 Bart Van Assche   2016-11-21  4187  			      attr->max_fast_=
-reg_page_list_len);
-5cfb17828d877a Bart Van Assche   2014-05-20  4188  	}
-52ede08f00ebfc Bart Van Assche   2014-05-20  4189  	srp_dev->mr_max_size	=
-=3D srp_dev->mr_page_size *
-52ede08f00ebfc Bart Van Assche   2014-05-20  4190  				   srp_dev->max_page=
-s_per_mr;
-4a061b287b1eb5 Or Gerlitz        2015-12-18  4191  	pr_debug("%s: mr_page_s=
-hift =3D %d, device->max_mr_size =3D %#llx, device->max_fast_reg_page_list_=
-len =3D %u, max_pages_per_mr =3D %d, mr_max_size =3D %#x\n",
-6c8541118bd53b Jason Gunthorpe   2018-09-20  4192  		 dev_name(&device->dev=
-), mr_page_shift, attr->max_mr_size,
-042dd765bdf401 Bart Van Assche   2016-11-21  4193  		 attr->max_fast_reg_pa=
-ge_list_len,
-52ede08f00ebfc Bart Van Assche   2014-05-20  4194  		 srp_dev->max_pages_pe=
-r_mr, srp_dev->mr_max_size);
-f5358a172f79e3 Roland Dreier     2006-06-17  4195  =
+040942fc50b203 Eugene Zemtsov   2019-11-18  51  =
 
-f5358a172f79e3 Roland Dreier     2006-06-17  4196  	INIT_LIST_HEAD(&srp_dev=
-->dev_list);
-f5358a172f79e3 Roland Dreier     2006-06-17  4197  =
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  52  int incfs_realloc_mount_inf=
+o(struct mount_info *mi,
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  53  			     struct mount_option=
+s *options)
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  54  {
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  55  	void *new_buffer =3D NULL;
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  56  	size_t new_buffer_size =3D=
+ 0;
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  57  =
 
-f5358a172f79e3 Roland Dreier     2006-06-17  4198  	srp_dev->dev =3D device;
-5f071777f9cbd7 Christoph Hellwig 2016-09-05  4199  	srp_dev->pd  =3D ib_all=
-oc_pd(device, flags);
-ebf91e681f9ddd Jason Gunthorpe   2020-03-03  4200  	if (IS_ERR(srp_dev->pd)=
-) {
-ebf91e681f9ddd Jason Gunthorpe   2020-03-03  4201  		kfree(srp_dev);
-                                                                      ^^^^^=
-^^
-Free
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  58  	if (options->read_log_page=
+s !=3D mi->mi_options.read_log_pages) {
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  59  		struct read_log_state log=
+_state;
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  60  		/*
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  61  		 * Even though having two=
+ buffers allocated at once isn't
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  62  		 * usually good, allocati=
+ng a multipage buffer under a spinlock
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  63  		 * is even worse, so let'=
+s optimize for the shorter lock
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  64  		 * duration. It's not end=
+ of the world if we fail to increase
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  65  		 * the buffer size anyway.
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  66  		 */
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  67  		if (options->read_log_pag=
+es > 0) {
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  68  			new_buffer_size =3D PAGE=
+_SIZE * options->read_log_pages;
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  69  			new_buffer =3D kzalloc(n=
+ew_buffer_size, GFP_NOFS);
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  70  			if (!new_buffer)
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  71  				return -ENOMEM;
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  72  		}
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  73  =
 
-ebf91e681f9ddd Jason Gunthorpe   2020-03-03 @4202  		return PTR_ERR(srp_dev=
-->pd);
-                                                                           =
-    ^^^^^^^^^^^
-Dereference
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  74  		write_lock(&mi->mi_log.rl=
+_access_lock);
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06 @75  		kfree(mi->mi_log.rl_ring_=
+buf);
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06 @76  		WRITE_ONCE(mi->mi_log.rl_=
+ring_buf, new_buffer);
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  77  		WRITE_ONCE(mi->mi_log.rl_=
+size,
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  78  			   new_buffer_size / siz=
+eof(*mi->mi_log.rl_ring_buf));
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  79  		log_state =3D READ_ONCE(m=
+i->mi_log.rl_state);
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  80  		log_state.generation_id++;
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  81  		log_state.next_index =3D =
+log_state.current_pass_no =3D 0;
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  82  		WRITE_ONCE(mi->mi_log.rl_=
+state, log_state);
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  83  		write_unlock(&mi->mi_log.=
+rl_access_lock);
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  84  	}
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  85  =
 
-ebf91e681f9ddd Jason Gunthorpe   2020-03-03  4203  	}
-f5358a172f79e3 Roland Dreier     2006-06-17  4204  =
+5e6feacb2a7c78 Yurii Zubrytskyi 2020-04-06  86  	mi->mi_options =3D *option=
+s;
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  87  	return 0;
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  88  }
+ae41ea981b3dd5 Paul Lawrence    2020-04-01  89  =
 
-cee687b68dbc71 Bart Van Assche   2017-10-11  4205  	if (flags & IB_PD_UNSAF=
-E_GLOBAL_RKEY) {
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7895779798060148828==--
+--===============5009890006930590600==--
 
