@@ -1,217 +1,127 @@
-Content-Type: multipart/mixed; boundary="===============2459734526238813435=="
+Content-Type: multipart/mixed; boundary="===============2160087202112836851=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [brauner:loopfs 2/8] drivers/block/loopfs/loopfs.c:194:14-23: ERROR: lo_info is NULL but dereferenced.
-Date: Thu, 23 Apr 2020 05:01:48 +0800
-Message-ID: <202004230545.Jl3nPNqS%lkp@intel.com>
+Subject: [linux-next:master 759/2366] drivers/gpu/drm/udl/udl_modeset.c:490:15: warning: Redundant initialization for 'format_count'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Thu, 16 Apr 2020 13:50:27 +0800
+Message-ID: <202004161305.8kJO03uS%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2459734526238813435==
+--===============2160087202112836851==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Christian Brauner <christian.brauner@ubuntu.com>
+TO: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git l=
-oopfs
-head:   ad3014dee3e5228885046a8439b26014f5a4ebc1
-commit: f22ce7d13f84b6d2ae0c3abe225b1d5ec506e925 [2/8] loopfs: implement lo=
-opfs
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   ac935d22736659be734251247dcc6f444fb98972
+commit: fe5b7c86d6068ac33df2d46cf3c7a1859c3b84a8 [759/2366] drm/udl: Drop e=
+xplicit drm_mode_config_cleanup call
 :::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
+:::::: commit date: 3 weeks ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-coccinelle warnings: (new ones prefixed by >>)
+cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/block/loopfs/loopfs.c:194:14-23: ERROR: lo_info is NULL but dere=
-ferenced.
+   drivers/gpu/drm/udl/udl_modeset.c:333:6: warning: Variable 'ret' is reas=
+signed a value before the old one has been used. [redundantAssignment]
+    ret =3D 0;
+        ^
+   drivers/gpu/drm/udl/udl_modeset.c:328:7: note: ret is assigned
+     ret =3D udl_submit_urb(dev, urb, len);
+         ^
+   drivers/gpu/drm/udl/udl_modeset.c:333:6: note: ret is overwritten
+    ret =3D 0;
+        ^
+>> drivers/gpu/drm/udl/udl_modeset.c:490:15: warning: Redundant initializat=
+ion for 'format_count'. The initialized value is overwritten before it is r=
+ead. [redundantInitialization]
+    format_count =3D ARRAY_SIZE(udl_simple_display_pipe_formats);
+                 ^
+   drivers/gpu/drm/udl/udl_modeset.c:466:22: note: format_count is initiali=
+zed
+    size_t format_count =3D ARRAY_SIZE(udl_simple_display_pipe_formats);
+                        ^
+   drivers/gpu/drm/udl/udl_modeset.c:490:15: note: format_count is overwrit=
+ten
+    format_count =3D ARRAY_SIZE(udl_simple_display_pipe_formats);
+                 ^
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/commit/=
-?id=3Df22ce7d13f84b6d2ae0c3abe225b1d5ec506e925
-git remote add brauner https://git.kernel.org/pub/scm/linux/kernel/git/brau=
-ner/linux.git
-git remote update brauner
-git checkout f22ce7d13f84b6d2ae0c3abe225b1d5ec506e925
-vim +194 drivers/block/loopfs/loopfs.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3Dfe5b7c86d6068ac33df2d46cf3c7a1859c3b84a8
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git remote update linux-next
+git checkout fe5b7c86d6068ac33df2d46cf3c7a1859c3b84a8
+vim +/format_count +490 drivers/gpu/drm/udl/udl_modeset.c
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02   88  =
+5320918b9a87865 Dave Airlie       2010-12-15  463  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02   89  /**
-f22ce7d13f84b6 Christian Brauner 2020-04-02   90   * loopfs_add - allocate =
-inode from super block of a loopfs mount
-f22ce7d13f84b6 Christian Brauner 2020-04-02   91   * @lo:		loop device for =
-which we are creating a new device entry
-f22ce7d13f84b6 Christian Brauner 2020-04-02   92   * @ref_inode:	inode from=
- wich the super block will be taken
-f22ce7d13f84b6 Christian Brauner 2020-04-02   93   * @device_nr:  device nu=
-mber of the associated disk device
-f22ce7d13f84b6 Christian Brauner 2020-04-02   94   *
-f22ce7d13f84b6 Christian Brauner 2020-04-02   95   * This function creates =
-a new device node for @lo.
-f22ce7d13f84b6 Christian Brauner 2020-04-02   96   * Minor numbers are limi=
-ted and tracked globally. The
-f22ce7d13f84b6 Christian Brauner 2020-04-02   97   * function will stash a =
-struct loop_device for the specific loop
-f22ce7d13f84b6 Christian Brauner 2020-04-02   98   * device in i_private of=
- the inode.
-f22ce7d13f84b6 Christian Brauner 2020-04-02   99   * It will go on to alloc=
-ate a new inode from the super block of the
-f22ce7d13f84b6 Christian Brauner 2020-04-02  100   * filesystem mount, stas=
-h a struct loop_device in its i_private field
-f22ce7d13f84b6 Christian Brauner 2020-04-02  101   * and attach a dentry to=
- that inode.
-f22ce7d13f84b6 Christian Brauner 2020-04-02  102   *
-f22ce7d13f84b6 Christian Brauner 2020-04-02  103   * Return: 0 on success, =
-negative errno on failure
-f22ce7d13f84b6 Christian Brauner 2020-04-02  104   */
-f22ce7d13f84b6 Christian Brauner 2020-04-02  105  int loopfs_add(struct loo=
-p_device *lo, struct inode *ref_inode, dev_t device_nr)
-f22ce7d13f84b6 Christian Brauner 2020-04-02  106  {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  107  	int ret;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  108  	char name[DISK_NAME_LEN];
-f22ce7d13f84b6 Christian Brauner 2020-04-02  109  	struct super_block *sb;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  110  	struct loopfs_info *info;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  111  	struct dentry *root, *de=
-ntry;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  112  	struct inode *inode;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  113  	struct lo_loopfs *lo_inf=
-o;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  114  =
+5320918b9a87865 Dave Airlie       2010-12-15  464  int udl_modeset_init(str=
+uct drm_device *dev)
+5320918b9a87865 Dave Airlie       2010-12-15  465  {
+9fda81e00e060e3 Thomas Zimmermann 2019-12-10  466  	size_t format_count =3D=
+ ARRAY_SIZE(udl_simple_display_pipe_formats);
+9fda81e00e060e3 Thomas Zimmermann 2019-12-10  467  	struct udl_device *udl =
+=3D dev->dev_private;
+e829cf0b30b4b55 Thomas Zimmermann 2019-12-10  468  	struct drm_connector *c=
+onnector;
+e829cf0b30b4b55 Thomas Zimmermann 2019-12-10  469  	int ret;
+e829cf0b30b4b55 Thomas Zimmermann 2019-12-10  470  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  115  	sb =3D loopfs_i_sb(ref_i=
-node);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  116  	if (!sb)
-f22ce7d13f84b6 Christian Brauner 2020-04-02  117  		return 0;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  118  =
+fe5b7c86d6068ac Daniel Vetter     2020-03-23  471  	ret =3D drmm_mode_confi=
+g_init(dev);
+fe5b7c86d6068ac Daniel Vetter     2020-03-23  472  	if (ret)
+fe5b7c86d6068ac Daniel Vetter     2020-03-23  473  		return ret;
+5320918b9a87865 Dave Airlie       2010-12-15  474  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  119  	if (MAJOR(device_nr) !=
-=3D LOOP_MAJOR)
-f22ce7d13f84b6 Christian Brauner 2020-04-02  120  		return -EINVAL;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  121  =
+5320918b9a87865 Dave Airlie       2010-12-15  475  	dev->mode_config.min_wi=
+dth =3D 640;
+5320918b9a87865 Dave Airlie       2010-12-15  476  	dev->mode_config.min_he=
+ight =3D 480;
+5320918b9a87865 Dave Airlie       2010-12-15  477  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  122  	lo_info =3D kzalloc(size=
-of(struct lo_loopfs), GFP_KERNEL);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  123  	if (!lo_info) {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  124  		ret =3D -ENOMEM;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  125  		goto err;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  126  	}
-f22ce7d13f84b6 Christian Brauner 2020-04-02  127  =
+5320918b9a87865 Dave Airlie       2010-12-15  478  	dev->mode_config.max_wi=
+dth =3D 2048;
+5320918b9a87865 Dave Airlie       2010-12-15  479  	dev->mode_config.max_he=
+ight =3D 2048;
+5320918b9a87865 Dave Airlie       2010-12-15  480  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  128  	info =3D LOOPFS_SB(sb);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  129  	if ((info->device_count =
-+ 1) > info->mount_opts.max) {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  130  		ret =3D -ENOSPC;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  131  		goto err;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  132  	}
-f22ce7d13f84b6 Christian Brauner 2020-04-02  133  =
+5320918b9a87865 Dave Airlie       2010-12-15  481  	dev->mode_config.prefer=
+_shadow =3D 0;
+d8177841aa8a5d3 Thomas Zimmermann 2019-12-10  482  	dev->mode_config.prefer=
+red_depth =3D 16;
+5320918b9a87865 Dave Airlie       2010-12-15  483  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  134  	lo_info->lo_ucount =3D i=
-nc_ucount(sb->s_user_ns,
-f22ce7d13f84b6 Christian Brauner 2020-04-02  135  					info->root_uid, UCOU=
-NT_LOOP_DEVICES);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  136  	if (!lo_info->lo_ucount)=
- {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  137  		ret =3D -ENOSPC;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  138  		goto err;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  139  	}
-f22ce7d13f84b6 Christian Brauner 2020-04-02  140  =
+e6ecefaadfcdb03 Laurent Pinchart  2012-05-17  484  	dev->mode_config.funcs =
+=3D &udl_mode_funcs;
+5320918b9a87865 Dave Airlie       2010-12-15  485  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  141  	if (snprintf(name, sizeo=
-f(name), "loop%d", lo->lo_number) >=3D sizeof(name)) {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  142  		ret =3D -EINVAL;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  143  		goto err;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  144  	}
-f22ce7d13f84b6 Christian Brauner 2020-04-02  145  =
+e829cf0b30b4b55 Thomas Zimmermann 2019-12-10  486  	connector =3D udl_conne=
+ctor_init(dev);
+fe5b7c86d6068ac Daniel Vetter     2020-03-23  487  	if (IS_ERR(connector))
+fe5b7c86d6068ac Daniel Vetter     2020-03-23  488  		return PTR_ERR(connect=
+or);
+e829cf0b30b4b55 Thomas Zimmermann 2019-12-10  489  =
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  146  	inode =3D new_inode(sb);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  147  	if (!inode) {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  148  		ret =3D -ENOMEM;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  149  		goto err;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  150  	}
-f22ce7d13f84b6 Christian Brauner 2020-04-02  151  =
+9fda81e00e060e3 Thomas Zimmermann 2019-12-10 @490  	format_count =3D ARRAY_=
+SIZE(udl_simple_display_pipe_formats);
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  152  	/*
-f22ce7d13f84b6 Christian Brauner 2020-04-02  153  	 * The i_fop field will =
-be set to the correct fops by the device layer
-f22ce7d13f84b6 Christian Brauner 2020-04-02  154  	 * when the loop device =
-in this loopfs instance is opened.
-f22ce7d13f84b6 Christian Brauner 2020-04-02  155  	 */
-f22ce7d13f84b6 Christian Brauner 2020-04-02  156  	inode->i_ino =3D MINOR(d=
-evice_nr) + INODE_OFFSET;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  157  	inode->i_mtime =3D inode=
-->i_atime =3D inode->i_ctime =3D current_time(inode);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  158  	inode->i_uid =3D info->r=
-oot_uid;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  159  	inode->i_gid =3D info->r=
-oot_gid;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  160  	init_special_inode(inode=
-, S_IFBLK | 0600, device_nr);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  161  =
+:::::: The code at line 490 was first introduced by commit
+:::::: 9fda81e00e060e3ab9a56d77552d2d5e296f1007 drm/udl: Convert to struct =
+drm_simple_display_pipe
 
-f22ce7d13f84b6 Christian Brauner 2020-04-02  162  	root =3D sb->s_root;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  163  	inode_lock(d_inode(root)=
-);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  164  	/* look it up */
-f22ce7d13f84b6 Christian Brauner 2020-04-02  165  	dentry =3D lookup_one_le=
-n(name, root, strlen(name));
-f22ce7d13f84b6 Christian Brauner 2020-04-02  166  	if (IS_ERR(dentry)) {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  167  		inode_unlock(d_inode(ro=
-ot));
-f22ce7d13f84b6 Christian Brauner 2020-04-02  168  		iput(inode);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  169  		ret =3D PTR_ERR(dentry);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  170  		goto err;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  171  	}
-f22ce7d13f84b6 Christian Brauner 2020-04-02  172  =
-
-f22ce7d13f84b6 Christian Brauner 2020-04-02  173  	if (d_really_is_positive=
-(dentry)) {
-f22ce7d13f84b6 Christian Brauner 2020-04-02  174  		/* already exists */
-f22ce7d13f84b6 Christian Brauner 2020-04-02  175  		dput(dentry);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  176  		inode_unlock(d_inode(ro=
-ot));
-f22ce7d13f84b6 Christian Brauner 2020-04-02  177  		iput(inode);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  178  		ret =3D -EEXIST;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  179  		goto err;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  180  	}
-f22ce7d13f84b6 Christian Brauner 2020-04-02  181  =
-
-f22ce7d13f84b6 Christian Brauner 2020-04-02  182  	d_instantiate(dentry, in=
-ode);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  183  	fsnotify_create(d_inode(=
-root), dentry);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  184  	inode_unlock(d_inode(roo=
-t));
-f22ce7d13f84b6 Christian Brauner 2020-04-02  185  =
-
-f22ce7d13f84b6 Christian Brauner 2020-04-02  186  	lo_info->lo_inode =3D in=
-ode;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  187  	lo->lo_info =3D lo_info;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  188  	inode->i_private =3D lo;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  189  	info->device_count++;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  190  =
-
-f22ce7d13f84b6 Christian Brauner 2020-04-02  191  	return 0;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  192  =
-
-f22ce7d13f84b6 Christian Brauner 2020-04-02  193  err:
-f22ce7d13f84b6 Christian Brauner 2020-04-02 @194  	if (lo_info->lo_ucount)
-f22ce7d13f84b6 Christian Brauner 2020-04-02  195  		dec_ucount(lo_info->lo_=
-ucount, UCOUNT_LOOP_DEVICES);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  196  	kfree(lo_info);
-f22ce7d13f84b6 Christian Brauner 2020-04-02  197  	return ret;
-f22ce7d13f84b6 Christian Brauner 2020-04-02  198  }
-f22ce7d13f84b6 Christian Brauner 2020-04-02  199  =
-
+:::::: TO: Thomas Zimmermann <tzimmermann@suse.de>
+:::::: CC: Thomas Zimmermann <tzimmermann@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2459734526238813435==--
+--===============2160087202112836851==--
 
