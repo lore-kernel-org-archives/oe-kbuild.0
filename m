@@ -1,251 +1,210 @@
-Content-Type: multipart/mixed; boundary="===============8135137343799604442=="
+Content-Type: multipart/mixed; boundary="===============2881366056296912638=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [android-common:android-4.14-stable 22/22] drivers/gpu/drm/virtio/virtgpu_ioctl.c:661:50: warning: Either the condition 'rc_blob->cmd_size&&vfpriv' is redundant or there is possible null pointer dereference: vfpriv. [nullPointerRedundantCheck]
-Date: Mon, 20 Apr 2020 18:42:07 +0800
-Message-ID: <202004201859.OOshoZEc%lkp@intel.com>
+Subject: [linux-review:UPDATE-20200417-054402/Sahitya-Tummala/f2fs-prevent-meta-updates-while-checkpoint-is-in-progress/20200327-044221 1/1] fs/f2fs/checkpoint.c:1628:1-7: preceding lock on line 1557
+Date: Mon, 20 Apr 2020 15:43:18 +0800
+Message-ID: <202004201512.SIHDEu1o%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8135137343799604442==
+--===============2881366056296912638==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Jaegeuk Kim <jaegeuk@kernel.org>
+CC: 0day robot <lkp@intel.com>
+CC: Sahitya Tummala <stummala@codeaurora.org>
 
-tree:   https://android.googlesource.com/kernel/common android-4.14-stable
-head:   4d701a3899580b291122ab7b147bc20981afd349
-commit: 4d701a3899580b291122ab7b147bc20981afd349 [22/22] CHROMIUM: drm/virt=
-io: rebase zero-copy patches to virgl/drm-misc-next
+tree:   https://github.com/0day-ci/linux/commits/UPDATE-20200417-054402/Sah=
+itya-Tummala/f2fs-prevent-meta-updates-while-checkpoint-is-in-progress/2020=
+0327-044221
+head:   6f5d43888de06d19b134a1470fb0174889b8059c
+commit: 6f5d43888de06d19b134a1470fb0174889b8059c [1/1] f2fs: prevent meta u=
+pdates while checkpoint is in progress
 :::::: branch date: 3 days ago
 :::::: commit date: 3 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck warnings: (new ones prefixed by >>)
+coccinelle warnings: (new ones prefixed by >>)
 
->> drivers/gpu/drm/virtio/virtgpu_ioctl.c:661:50: warning: Either the condi=
-tion 'rc_blob->cmd_size&&vfpriv' is redundant or there is possible null poi=
-nter dereference: vfpriv. [nullPointerRedundantCheck]
-    virtio_gpu_cmd_resource_create_blob(vgdev, obj, vfpriv->ctx_id,
-                                                    ^
-   drivers/gpu/drm/virtio/virtgpu_ioctl.c:606:24: note: Assuming that condi=
-tion 'rc_blob->cmd_size&&vfpriv' is not redundant
-    if (rc_blob->cmd_size && vfpriv) {
-                          ^
-   drivers/gpu/drm/virtio/virtgpu_ioctl.c:597:40: note: Assignment 'vfpriv=
-=3Dfile->driver_priv', assigned value is 0
-    struct virtio_gpu_fpriv *vfpriv =3D file->driver_priv;
-                                          ^
-   drivers/gpu/drm/virtio/virtgpu_ioctl.c:661:50: note: Null pointer derefe=
-rence
-    virtio_gpu_cmd_resource_create_blob(vgdev, obj, vfpriv->ctx_id,
-                                                    ^
->> drivers/gpu/drm/virtio/virtgpu_ioctl.c:607:9: warning: Local variable 'b=
-uf' shadows outer variable [shadowVariable]
-     void *buf;
-           ^
-   drivers/gpu/drm/virtio/virtgpu_ioctl.c:587:8: note: Shadowed declaration
-    void *buf;
-          ^
-   drivers/gpu/drm/virtio/virtgpu_ioctl.c:607:9: note: Shadow variable
-     void *buf;
-           ^
->> drivers/gpu/drm/virtio/virtgpu_ioctl.c:587:8: warning: Variable 'buf' is=
- not assigned a value. [unassignedVariable]
-    void *buf;
-          ^
+>> fs/f2fs/checkpoint.c:1628:1-7: preceding lock on line 1557
 
-git remote add android-common https://android.googlesource.com/kernel/common
-git remote update android-common
-git checkout 4d701a3899580b291122ab7b147bc20981afd349
-vim +661 drivers/gpu/drm/virtio/virtgpu_ioctl.c
+# https://github.com/0day-ci/linux/commit/6f5d43888de06d19b134a1470fb017488=
+9b8059c
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 6f5d43888de06d19b134a1470fb0174889b8059c
+vim +1628 fs/f2fs/checkpoint.c
 
-62fb7a5e10962a Gerd Hoffmann 2014-10-28  583  =
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1541  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  584  static int virtio_gpu_resourc=
-e_create_blob_ioctl(struct drm_device *dev,
-73738beaa7074c Lingfeng Yang 2020-04-16  585  				void *data, struct drm_fi=
-le *file)
-73738beaa7074c Lingfeng Yang 2020-04-16  586  {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16 @587  	void *buf;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  588  	int ret, si, nents;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  589  	uint32_t handle =3D 0;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  590  	struct scatterlist *sg;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  591  	struct virtio_gpu_object *ob=
-j;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  592  	struct virtio_gpu_fence *fen=
-ce;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  593  	struct virtio_gpu_mem_entry =
-*ents;
-4d701a3899580b Lingfeng Yang 2020-04-16  594  	struct drm_virtgpu_resource_=
-create_blob *rc_blob =3D data;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  595  	struct virtio_gpu_object_par=
-ams params =3D { 0 };
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  596  	struct virtio_gpu_device *vg=
-dev =3D dev->dev_private;
-4d701a3899580b Lingfeng Yang 2020-04-16  597  	struct virtio_gpu_fpriv *vfp=
-riv =3D file->driver_priv;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  598  	bool use_dma_api =3D !virtio=
-_has_iommu_quirk(vgdev->vdev);
-4d701a3899580b Lingfeng Yang 2020-04-16  599  	bool mappable =3D rc_blob->f=
-lags & VIRTGPU_RES_BLOB_USE_MAPPABLE;
-4d701a3899580b Lingfeng Yang 2020-04-16  600  	bool guest =3D rc_blob->flag=
-s & VIRTGPU_RES_BLOB_GUEST_MASK;
-4d701a3899580b Lingfeng Yang 2020-04-16  601  =
+4d57b86dd86404 Chao Yu          2018-05-30  1542  int f2fs_write_checkpoint=
+(struct f2fs_sb_info *sbi, struct cp_control *cpc)
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1543  {
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1544  	struct f2fs_checkpoint *=
+ckpt =3D F2FS_CKPT(sbi);
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1545  	unsigned long long ckpt_=
+ver;
+c34f42e2cb2d27 Chao Yu          2015-12-23  1546  	int err =3D 0;
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1547  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  602  	params.size =3D rc_blob->siz=
-e;
-4d701a3899580b Lingfeng Yang 2020-04-16  603  	params.blob_flags =3D rc_blo=
-b->flags;
-4d701a3899580b Lingfeng Yang 2020-04-16  604  	params.blob =3D true;
-4d701a3899580b Lingfeng Yang 2020-04-16  605  =
+f5a131bb236d02 Chao Yu          2019-04-22  1548  	if (f2fs_readonly(sbi->s=
+b) || f2fs_hw_is_readonly(sbi))
+f5a131bb236d02 Chao Yu          2019-04-22  1549  		return -EROFS;
+f5a131bb236d02 Chao Yu          2019-04-22  1550  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  606  	if (rc_blob->cmd_size && vfp=
-riv) {
-4d701a3899580b Lingfeng Yang 2020-04-16 @607  		void *buf;
-4d701a3899580b Lingfeng Yang 2020-04-16  608  		void __user *cmd =3D u64_to=
-_user_ptr(rc_blob->cmd);
-4d701a3899580b Lingfeng Yang 2020-04-16  609  =
+4354994f097d06 Daniel Rosenberg 2018-08-20  1551  	if (unlikely(is_sbi_flag=
+_set(sbi, SBI_CP_DISABLED))) {
+4354994f097d06 Daniel Rosenberg 2018-08-20  1552  		if (cpc->reason !=3D CP=
+_PAUSE)
+4354994f097d06 Daniel Rosenberg 2018-08-20  1553  			return 0;
+dcbb4c10e6d969 Joe Perches      2019-06-18  1554  		f2fs_warn(sbi, "Start c=
+heckpoint disabled!");
+4354994f097d06 Daniel Rosenberg 2018-08-20  1555  	}
+6f5d43888de06d Jaegeuk Kim      2020-04-16  1556  	if (cpc->reason !=3D CP_=
+RESIZE)
+127e670abfa7fa Jaegeuk Kim      2012-11-02 @1557  		mutex_lock(&sbi->cp_mut=
+ex);
+8501017e50fb75 Jaegeuk Kim      2014-08-11  1558  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  610  		buf =3D kzalloc(rc_blob->cm=
-d_size, GFP_KERNEL);
-4d701a3899580b Lingfeng Yang 2020-04-16  611  		if (!buf)
-4d701a3899580b Lingfeng Yang 2020-04-16  612  			return -ENOMEM;
-4d701a3899580b Lingfeng Yang 2020-04-16  613  =
+caf0047e7e1e60 Chao Yu          2015-01-28  1559  	if (!is_sbi_flag_set(sbi=
+, SBI_IS_DIRTY) &&
+c473f1a9658b6c Chao Yu          2017-04-27  1560  		((cpc->reason & CP_FAST=
+BOOT) || (cpc->reason & CP_SYNC) ||
+c473f1a9658b6c Chao Yu          2017-04-27  1561  		((cpc->reason & CP_DISC=
+ARD) && !sbi->discard_blks)))
+8501017e50fb75 Jaegeuk Kim      2014-08-11  1562  		goto out;
+c34f42e2cb2d27 Chao Yu          2015-12-23  1563  	if (unlikely(f2fs_cp_err=
+or(sbi))) {
+c34f42e2cb2d27 Chao Yu          2015-12-23  1564  		err =3D -EIO;
+cf779cab14d50a Jaegeuk Kim      2014-08-11  1565  		goto out;
+c34f42e2cb2d27 Chao Yu          2015-12-23  1566  	}
+2bda542d59f970 Wanpeng Li       2015-02-27  1567  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  614  		if (copy_from_user(buf, cmd=
-, rc_blob->cmd_size)) {
-4d701a3899580b Lingfeng Yang 2020-04-16  615  			kfree(buf);
-4d701a3899580b Lingfeng Yang 2020-04-16  616  			return -EFAULT;
-4d701a3899580b Lingfeng Yang 2020-04-16  617  		}
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  618  =
+2bda542d59f970 Wanpeng Li       2015-02-27  1568  	trace_f2fs_write_checkpo=
+int(sbi->sb, cpc->reason, "start block_ops");
+2bda542d59f970 Wanpeng Li       2015-02-27  1569  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  619  		virtio_gpu_cmd_submit(vgdev=
-, buf, rc_blob->cmd_size,
-4d701a3899580b Lingfeng Yang 2020-04-16  620  				      vfpriv->ctx_id, NUL=
-L);
-4d701a3899580b Lingfeng Yang 2020-04-16  621  	}
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  622  =
+c34f42e2cb2d27 Chao Yu          2015-12-23  1570  	err =3D block_operations=
+(sbi);
+c34f42e2cb2d27 Chao Yu          2015-12-23  1571  	if (err)
+cf779cab14d50a Jaegeuk Kim      2014-08-11  1572  		goto out;
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1573  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  623  	obj =3D virtio_gpu_alloc_obj=
-ect(dev, &params, NULL);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  624  	if (IS_ERR(obj))
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  625  		return PTR_ERR(obj);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  626  =
+75ab4cb8301adb Jaegeuk Kim      2014-09-20  1574  	trace_f2fs_write_checkpo=
+int(sbi->sb, cpc->reason, "finish block_ops");
+2af4bd6ca556d6 Namjae Jeon      2013-04-23  1575  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  627  	if (!obj->pages) {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  628                  ret =3D virti=
-o_gpu_object_get_sg_table(vgdev, obj);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  629                  if (ret)
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  630  			goto err_free_obj;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  631          }
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  632  =
+b9109b0e49b93b Jaegeuk Kim      2017-05-10  1576  	f2fs_flush_merged_writes=
+(sbi);
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1577  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  633  	if (!guest) {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  634  		nents =3D 0;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  635  	} else if (use_dma_api) {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  636                  obj->mapped =
-=3D dma_map_sg(vgdev->vdev->dev.parent,
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  637                               =
-            obj->pages->sgl, obj->pages->nents,
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  638                               =
-            DMA_TO_DEVICE);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  639                  nents =3D obj=
-->mapped;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  640          } else {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  641                  nents =3D obj=
-->pages->nents;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  642          }
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  643  =
+58cce381fa4e8c Yunlei He        2016-08-18  1578  	/* this is the case of m=
+ultiple fstrims without any changes */
+c473f1a9658b6c Chao Yu          2017-04-27  1579  	if (cpc->reason & CP_DIS=
+CARD) {
+4d57b86dd86404 Chao Yu          2018-05-30  1580  		if (!f2fs_exist_trim_ca=
+ndidates(sbi, cpc)) {
+25290fa5591d81 Jaegeuk Kim      2016-12-29  1581  			unblock_operations(sbi=
+);
+25290fa5591d81 Jaegeuk Kim      2016-12-29  1582  			goto out;
+25290fa5591d81 Jaegeuk Kim      2016-12-29  1583  		}
+25290fa5591d81 Jaegeuk Kim      2016-12-29  1584  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  644  	ents =3D kzalloc(nents * siz=
-eof(struct virtio_gpu_mem_entry), GFP_KERNEL);
-4d701a3899580b Lingfeng Yang 2020-04-16  645  	if (guest) {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  646  		for_each_sg(obj->pages->sgl=
-, sg, nents, si) {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  647  			ents[si].addr =3D cpu_to_l=
-e64(use_dma_api
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  648  						    ? sg_dma_address(sg)
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  649  						    : sg_phys(sg));
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  650  			ents[si].length =3D cpu_to=
-_le32(sg->length);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  651  			ents[si].padding =3D 0;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  652  		}
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  653  	}
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  654  =
+0333ad4e4f49e1 Jaegeuk Kim      2016-12-29  1585  		if (NM_I(sbi)->dirty_na=
+t_cnt =3D=3D 0 &&
+0333ad4e4f49e1 Jaegeuk Kim      2016-12-29  1586  				SIT_I(sbi)->dirty_sen=
+tries =3D=3D 0 &&
+0333ad4e4f49e1 Jaegeuk Kim      2016-12-29  1587  				prefree_segments(sbi)=
+ =3D=3D 0) {
+4d57b86dd86404 Chao Yu          2018-05-30  1588  			f2fs_flush_sit_entries=
+(sbi, cpc);
+4d57b86dd86404 Chao Yu          2018-05-30  1589  			f2fs_clear_prefree_seg=
+ments(sbi, cpc);
+58cce381fa4e8c Yunlei He        2016-08-18  1590  			unblock_operations(sbi=
+);
+58cce381fa4e8c Yunlei He        2016-08-18  1591  			goto out;
+58cce381fa4e8c Yunlei He        2016-08-18  1592  		}
+0333ad4e4f49e1 Jaegeuk Kim      2016-12-29  1593  	}
+58cce381fa4e8c Yunlei He        2016-08-18  1594  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  655  	fence =3D virtio_gpu_fence_a=
-lloc(vgdev);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  656  	if (!fence) {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  657  		ret =3D -ENOMEM;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  658  		goto err_free_buf;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  659  	}
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  660  =
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1595  	/*
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1596  	 * update checkpoint pac=
+k index
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1597  	 * Increase the version =
+number so that
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1598  	 * SIT entries and seg s=
+ummaries are written at correct place
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1599  	 */
+d71b5564c0da4f Jaegeuk Kim      2013-08-09  1600  	ckpt_ver =3D cur_cp_vers=
+ion(ckpt);
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1601  	ckpt->checkpoint_ver =3D=
+ cpu_to_le64(++ckpt_ver);
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1602  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16 @661  	virtio_gpu_cmd_resource_crea=
-te_blob(vgdev, obj, vfpriv->ctx_id,
-4d701a3899580b Lingfeng Yang 2020-04-16  662  					    rc_blob->flags, rc_b=
-lob->size,
-4d701a3899580b Lingfeng Yang 2020-04-16  663  					    rc_blob->memory_id, =
-nents,
-4d701a3899580b Lingfeng Yang 2020-04-16  664  					    ents);
-4d701a3899580b Lingfeng Yang 2020-04-16  665  =
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1603  	/* write cached NAT/SIT =
+entries to NAT/SIT area */
+edc55aaf0d1712 Jaegeuk Kim      2018-09-17  1604  	err =3D f2fs_flush_nat_e=
+ntries(sbi, cpc);
+edc55aaf0d1712 Jaegeuk Kim      2018-09-17  1605  	if (err)
+edc55aaf0d1712 Jaegeuk Kim      2018-09-17  1606  		goto stop;
+edc55aaf0d1712 Jaegeuk Kim      2018-09-17  1607  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  666  	ret =3D drm_gem_handle_creat=
-e(file, &obj->gem_base, &handle);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  667  	if (ret)
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  668  		goto err_fence_put;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  669  =
+4d57b86dd86404 Chao Yu          2018-05-30  1608  	f2fs_flush_sit_entries(s=
+bi, cpc);
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1609  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  670  	if (!guest && mappable) {
-4d701a3899580b Lingfeng Yang 2020-04-16  671  		virtio_gpu_cmd_map(vgdev, o=
-bj, obj->tbo.offset, fence);
-4d701a3899580b Lingfeng Yang 2020-04-16  672  	}
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  673  =
+c34f42e2cb2d27 Chao Yu          2015-12-23  1610  	err =3D do_checkpoint(sb=
+i, cpc);
+4e6a8d9b224f88 Jaegeuk Kim      2016-12-29  1611  	if (err)
+4d57b86dd86404 Chao Yu          2018-05-30  1612  		f2fs_release_discard_ad=
+drs(sbi);
+4e6a8d9b224f88 Jaegeuk Kim      2016-12-29  1613  	else
+4d57b86dd86404 Chao Yu          2018-05-30  1614  		f2fs_clear_prefree_segm=
+ents(sbi, cpc);
+edc55aaf0d1712 Jaegeuk Kim      2018-09-17  1615  stop:
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1616  	unblock_operations(sbi);
+942e0be6219cc8 Changman Lee     2014-02-13  1617  	stat_inc_cp_count(sbi->s=
+tat_info);
+10027551ccf545 Jaegeuk Kim      2015-04-09  1618  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  674  	/*
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  675  	 * No need to call virtio_gp=
-u_object_reserve since the buffer is not
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  676  	 * being used for ttm valida=
-tion and no other processes can access
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  677  	 * the reservation object at=
- this point.
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  678  	 */
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  679  	reservation_object_add_excl_=
-fence(obj->tbo.resv, &fence->f);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  680  =
+c473f1a9658b6c Chao Yu          2017-04-27  1619  	if (cpc->reason & CP_REC=
+OVERY)
+dcbb4c10e6d969 Joe Perches      2019-06-18  1620  		f2fs_notice(sbi, "check=
+point: version =3D %llx", ckpt_ver);
+60b99b486b568c Jaegeuk Kim      2015-10-05  1621  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  681  	dma_fence_put(&fence->f);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  682  	drm_gem_object_put_unlocked(=
-&obj->gem_base);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  683  =
+7a88ddb56077d0 Chao Yu          2020-02-27  1622  	/* update CP_TIME to tri=
+gger checkpoint periodically */
+6beceb5427aa87 Jaegeuk Kim      2016-01-08  1623  	f2fs_update_time(sbi, CP=
+_TIME);
+55d1cdb25a815b Jaegeuk Kim      2015-12-15  1624  	trace_f2fs_write_checkpo=
+int(sbi->sb, cpc->reason, "finish checkpoint");
+8501017e50fb75 Jaegeuk Kim      2014-08-11  1625  out:
+6f5d43888de06d Jaegeuk Kim      2020-04-16  1626  	if (cpc->reason !=3D CP_=
+RESIZE)
+8501017e50fb75 Jaegeuk Kim      2014-08-11  1627  		mutex_unlock(&sbi->cp_m=
+utex);
+c34f42e2cb2d27 Chao Yu          2015-12-23 @1628  	return err;
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1629  }
+127e670abfa7fa Jaegeuk Kim      2012-11-02  1630  =
 
-4d701a3899580b Lingfeng Yang 2020-04-16  684  	rc_blob->res_handle =3D obj-=
->hw_res_handle;
-4d701a3899580b Lingfeng Yang 2020-04-16  685  	rc_blob->bo_handle =3D handl=
-e;
-73738beaa7074c Lingfeng Yang 2020-04-16  686  	return 0;
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  687  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  688  err_fence_put:
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  689  	dma_fence_put(&fence->f);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  690  err_free_buf:
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  691  	kfree(buf);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  692  err_free_obj:
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  693  	drm_gem_object_release(&obj-=
->gem_base);
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  694  	return ret;
-73738beaa7074c Lingfeng Yang 2020-04-16  695  }
-73738beaa7074c Lingfeng Yang 2020-04-16  696  =
+:::::: The code at line 1628 was first introduced by commit
+:::::: c34f42e2cb2d27650549306de5ff36839e9177d6 f2fs: report error of do_ch=
+eckpoint
 
+:::::: TO: Chao Yu <chao2.yu@samsung.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8135137343799604442==--
+--===============2881366056296912638==--
 
