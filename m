@@ -1,106 +1,89 @@
-Content-Type: multipart/mixed; boundary="===============6619491998169521888=="
+Content-Type: multipart/mixed; boundary="===============7022532048562512986=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH net 4/5] netdevsim: use IS_ERR instead of IS_ERR_OR_NULL for debugfs
-Date: Fri, 17 Jan 2020 06:38:02 +0300
-Message-ID: <20200117033802.GA19765@kadam>
-In-Reply-To: <20200111163743.4339-1-ap420073@gmail.com>
+From: kbuild test robot <lkp@intel.com>
+Subject: [f2fs:dev-test 11/18] fs/f2fs/file.c:764:9: warning: Identical condition and return expression 'err', return value is always 0 [identicalConditionAfterEarlyExit]
+Date: Tue, 21 Apr 2020 15:13:06 +0800
+Message-ID: <202004211558.d7hhGq9S%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6619491998169521888==
+--===============7022532048562512986==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Taehee,
+CC: kbuild-all(a)lists.01.org
+CC: linux-f2fs-devel(a)lists.sourceforge.net
+TO: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
+CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
-url:    https://github.com/0day-ci/linux/commits/Taehee-Yoo/netdevsim-fix-a=
--several-bugs-in-netdevsim-module/20200112-004546
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net.git a5c3a=
-7c0ce1a1cfab15404018933775d7222a517
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git de=
+v-test
+head:   a24dac2d3e3b8411acd2cfa3a6fe1a18cae762c6
+commit: 86ae1c8db4b3e9d4c34dd69f6324cddab61bc572 [11/18] f2fs: support part=
+ial truncation on compressed inode
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 days ago
 
-If you fix the issue, kindly add following tag
+If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/netdevsim/bpf.c:246 nsim_bpf_create_prog() error: dereferencing=
- freed memory 'state'
 
-# https://github.com/0day-ci/linux/commit/923e31529b0b3f039f837f54c4a1bbd77=
-793256b
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 923e31529b0b3f039f837f54c4a1bbd77793256b
-vim +/state +246 drivers/net/netdevsim/bpf.c
+cppcheck warnings: (new ones prefixed by >>)
 
-d514f41e793d2c Jiri Pirko     2019-04-25  227  static int nsim_bpf_create_p=
-rog(struct nsim_dev *nsim_dev,
-b26b6946a62f37 Jiri Pirko     2019-04-12  228  				struct bpf_prog *prog)
-31d3ad832948c7 Jakub Kicinski 2017-12-01  229  {
-31d3ad832948c7 Jakub Kicinski 2017-12-01  230  	struct nsim_bpf_bound_prog =
-*state;
-31d3ad832948c7 Jakub Kicinski 2017-12-01  231  	char name[16];
-31d3ad832948c7 Jakub Kicinski 2017-12-01  232  =
+>> fs/f2fs/file.c:764:9: warning: Identical condition and return expression=
+ 'err', return value is always 0 [identicalConditionAfterEarlyExit]
+    return err;
+           ^
+   fs/f2fs/file.c:756:6: note: If condition 'err' is true, the function wil=
+l return/exit
+    if (err)
+        ^
+   fs/f2fs/file.c:764:9: note: Returning identical expression 'err'
+    return err;
+           ^
+   fs/f2fs/node.h:169:30: warning: Checking if unsigned expression 'nm_i->n=
+id_cnt[FREE_NID]' is less than zero. [unsignedLessThanZero]
+    if (nm_i->nid_cnt[FREE_NID] <=3D 0) {
+                                ^
+   fs/f2fs/f2fs.h:2213:15: warning: Local variable 'valid_node_count' shado=
+ws outer function [shadowFunction]
+    unsigned int valid_node_count, user_block_count;
+                 ^
+   fs/f2fs/f2fs.h:2309:28: note: Shadowed declaration
+   static inline unsigned int valid_node_count(struct f2fs_sb_info *sbi)
+                              ^
+   fs/f2fs/f2fs.h:2213:15: note: Shadow variable
+    unsigned int valid_node_count, user_block_count;
+                 ^
+   fs/f2fs/file.c:1649:11: warning: Local variable 'len' shadows outer argu=
+ment [shadowArgument]
+     block_t len =3D (map.m_len >> sbi->log_blocks_per_seg) <<
+             ^
+   fs/f2fs/file.c:1616:13: note: Shadowed declaration
+        loff_t len, int mode)
+               ^
+   fs/f2fs/file.c:1649:11: note: Shadow variable
+     block_t len =3D (map.m_len >> sbi->log_blocks_per_seg) <<
+             ^
 
-31d3ad832948c7 Jakub Kicinski 2017-12-01  233  	state =3D kzalloc(sizeof(*s=
-tate), GFP_KERNEL);
-31d3ad832948c7 Jakub Kicinski 2017-12-01  234  	if (!state)
-31d3ad832948c7 Jakub Kicinski 2017-12-01  235  		return -ENOMEM;
-31d3ad832948c7 Jakub Kicinski 2017-12-01  236  =
+# https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs.git/commit/?=
+id=3D86ae1c8db4b3e9d4c34dd69f6324cddab61bc572
+git remote add f2fs https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk=
+/f2fs.git
+git remote update f2fs
+git checkout 86ae1c8db4b3e9d4c34dd69f6324cddab61bc572
+vim +/err +764 fs/f2fs/file.c
 
-d514f41e793d2c Jiri Pirko     2019-04-25  237  	state->nsim_dev =3D nsim_de=
-v;
-31d3ad832948c7 Jakub Kicinski 2017-12-01  238  	state->prog =3D prog;
-31d3ad832948c7 Jakub Kicinski 2017-12-01  239  	state->state =3D "verify";
-31d3ad832948c7 Jakub Kicinski 2017-12-01  240  =
+4c8ff7095bef64 Chao Yu 2019-11-01  763  =
 
-31d3ad832948c7 Jakub Kicinski 2017-12-01  241  	/* Program id is not popula=
-ted yet when we create the state. */
-d514f41e793d2c Jiri Pirko     2019-04-25  242  	sprintf(name, "%u", nsim_de=
-v->prog_id_gen++);
-d514f41e793d2c Jiri Pirko     2019-04-25  243  	state->ddir =3D debugfs_cre=
-ate_dir(name, nsim_dev->ddir_bpf_bound_progs);
-923e31529b0b3f Taehee Yoo     2020-01-11  244  	if (IS_ERR(state->ddir)) {
-31d3ad832948c7 Jakub Kicinski 2017-12-01  245  		kfree(state);
-                                                              ^^^^^
-state is freed.
+86ae1c8db4b3e9 Chao Yu 2020-03-18 @764  	return err;
+4c8ff7095bef64 Chao Yu 2019-11-01  765  }
+4c8ff7095bef64 Chao Yu 2019-11-01  766  =
 
-923e31529b0b3f Taehee Yoo     2020-01-11 @246  		return PTR_ERR(state->ddir=
-);
-                                                                       ^^^^=
-^^^^^^^
-Then dereferenced afterward.
-
-31d3ad832948c7 Jakub Kicinski 2017-12-01  247  	}
-31d3ad832948c7 Jakub Kicinski 2017-12-01  248  =
-
-31d3ad832948c7 Jakub Kicinski 2017-12-01  249  	debugfs_create_u32("id", 04=
-00, state->ddir, &prog->aux->id);
-31d3ad832948c7 Jakub Kicinski 2017-12-01  250  	debugfs_create_file("state"=
-, 0400, state->ddir,
-31d3ad832948c7 Jakub Kicinski 2017-12-01  251  			    &state->state, &nsim_=
-bpf_string_fops);
-31d3ad832948c7 Jakub Kicinski 2017-12-01  252  	debugfs_create_bool("loaded=
-", 0400, state->ddir, &state->is_loaded);
-31d3ad832948c7 Jakub Kicinski 2017-12-01  253  =
-
-d514f41e793d2c Jiri Pirko     2019-04-25  254  	list_add_tail(&state->l, &n=
-sim_dev->bpf_bound_progs);
-31d3ad832948c7 Jakub Kicinski 2017-12-01  255  =
-
-31d3ad832948c7 Jakub Kicinski 2017-12-01  256  	prog->aux->offload->dev_pri=
-v =3D state;
-31d3ad832948c7 Jakub Kicinski 2017-12-01  257  =
-
-31d3ad832948c7 Jakub Kicinski 2017-12-01  258  	return 0;
-31d3ad832948c7 Jakub Kicinski 2017-12-01  259  }
 
 ---
-0-DAY kernel test infrastructure                 Open Source Technology Cen=
-ter
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
-ation
---===============6619491998169521888==--
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============7022532048562512986==--
 
