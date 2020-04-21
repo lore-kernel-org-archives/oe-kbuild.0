@@ -1,78 +1,86 @@
-Content-Type: multipart/mixed; boundary="===============3489790350259594303=="
+Content-Type: multipart/mixed; boundary="===============1451248317385496500=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Intel-wired-lan] [PATCH v2 1/2] igb: Use device_lock() insead of rtnl_lock()
-Date: Fri, 07 Feb 2020 07:11:23 +0300
-Message-ID: <20200207041123.GO24804@kadam>
-In-Reply-To: <20200205081616.18378-1-kai.heng.feng@canonical.com>
+From: kbuild test robot <lkp@intel.com>
+Subject: [linux-next:master 2227/3715] drivers/staging/wfx/sta.c:155 wfx_filter_mcast() warn: ignoring unreachable code.
+Date: Wed, 22 Apr 2020 00:35:17 +0800
+Message-ID: <202004220013.FJygLtnx%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3489790350259594303==
+--===============1451248317385496500==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Kai-Heng,
+CC: kbuild-all(a)lists.01.org
+TO: "J=C3=A9r=C3=B4me Pouiller" <jerome.pouiller@silabs.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-url:    https://github.com/0day-ci/linux/commits/Kai-Heng-Feng/igb-Use-devi=
-ce_lock-insead-of-rtnl_lock/20200205-174208
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/next-queue=
-.git dev-queue
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   39a314cd1168cbcb05ebcd973098c8f1440a3064
+commit: c801351a9d4587aab131d018330d4b35a0b3cdcf [2227/3715] staging: wfx: =
+drop useless attribute 'filter_mcast'
+:::::: branch date: 10 hours ago
+:::::: commit date: 5 days ago
 
-If you fix the issue, kindly add following tag
+If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/intel/igb/igb_main.c:4036 igb_close() warn: inconsiste=
-nt returns 'dev->mutex'.
+smatch warnings:
+drivers/staging/wfx/sta.c:155 wfx_filter_mcast() warn: ignoring unreachable=
+ code.
 
-# https://github.com/0day-ci/linux/commit/905877ae7d44efc1d9c5c1ae9f4489f56=
-bcb13a6
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 905877ae7d44efc1d9c5c1ae9f4489f56bcb13a6
-vim +4036 drivers/net/ethernet/intel/igb/igb_main.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3Dc801351a9d4587aab131d018330d4b35a0b3cdcf
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git remote update linux-next
+git checkout c801351a9d4587aab131d018330d4b35a0b3cdcf
+vim +155 drivers/staging/wfx/sta.c
 
-9d5c824399dea8 drivers/net/igb/igb_main.c                Auke Kok       200=
-8-01-24  4026  =
+2c69b2da378243 J=C3=A9r=C3=B4me Pouiller 2020-04-15  146  =
 
-46eafa59e18d03 drivers/net/ethernet/intel/igb/igb_main.c Stefan Assmann 201=
-6-02-03  4027  int igb_close(struct net_device *netdev)
-749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
-2-01-04  4028  {
-905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
-0-02-05  4029  	struct igb_adapter *adapter =3D netdev_priv(netdev);
-905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
-0-02-05  4030  	struct device *dev =3D &adapter->pdev->dev;
-905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
-0-02-05  4031  =
+c801351a9d4587 J=C3=A9r=C3=B4me Pouiller 2020-04-15  147  static void wfx_f=
+ilter_mcast(struct wfx_vif *wvif, bool filter_mcast)
+2c69b2da378243 J=C3=A9r=C3=B4me Pouiller 2020-04-15  148  {
+2c69b2da378243 J=C3=A9r=C3=B4me Pouiller 2020-04-15  149  	int i;
+40115bbc40e2fd J=C3=A9r=C3=B4me Pouiller 2019-09-19  150  =
 
-905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
-0-02-05  4032  	device_lock(dev);
-888f22931478a0 drivers/net/ethernet/intel/igb/igb_main.c Lyude Paul     201=
-7-12-12  4033  	if (netif_device_present(netdev) || netdev->dismantle)
-749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
-2-01-04  4034  		return __igb_close(netdev, false);
-                                                                           =
-                             ^^^^^^
-Lock held for this return.
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  151  	// Temporary wor=
+karound for filters
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  152  	hif_set_data_fil=
+tering(wvif, false, true);
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  153  	return;
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  154  =
 
-905877ae7d44ef drivers/net/ethernet/intel/igb/igb_main.c Kai-Heng Feng  202=
-0-02-05  4035  	device_unlock(dev);
-9474933caf21a4 drivers/net/ethernet/intel/igb/igb_main.c Todd Fujinaka  201=
-6-11-15 @4036  	return 0;
-749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
-2-01-04  4037  }
-749ab2cd127046 drivers/net/ethernet/intel/igb/igb_main.c Yan, Zheng     201=
-2-01-04  4038  =
+c801351a9d4587 J=C3=A9r=C3=B4me Pouiller 2020-04-15 @155  	if (!filter_mcas=
+t) {
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  156  		hif_set_data_fi=
+ltering(wvif, false, true);
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  157  		return;
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  158  	}
+981132aa039d90 J=C3=A9r=C3=B4me Pouiller 2020-04-15  159  	for (i =3D 0; i =
+< wvif->filter_mcast_count; i++)
+981132aa039d90 J=C3=A9r=C3=B4me Pouiller 2020-04-15  160  		hif_set_mac_add=
+r_condition(wvif, i, wvif->filter_mcast_addr[i]);
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  161  	hif_set_uc_mc_bc=
+_condition(wvif, 0,
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  162  				   HIF_FILTER=
+_UNICAST | HIF_FILTER_BROADCAST);
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  163  	hif_set_config_d=
+ata_filter(wvif, true, 0, BIT(1),
+981132aa039d90 J=C3=A9r=C3=B4me Pouiller 2020-04-15  164  				   BIT(wvif->=
+filter_mcast_count) - 1);
+e86bc725ba5f96 J=C3=A9r=C3=B4me Pouiller 2020-04-15  165  	hif_set_data_fil=
+tering(wvif, true, true);
+40115bbc40e2fd J=C3=A9r=C3=B4me Pouiller 2019-09-19  166  }
+40115bbc40e2fd J=C3=A9r=C3=B4me Pouiller 2019-09-19  167  =
 
 
 ---
-0-DAY kernel test infrastructure                 Open Source Technology Cen=
-ter
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
-ation
---===============3489790350259594303==--
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============1451248317385496500==--
 
