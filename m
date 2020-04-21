@@ -1,130 +1,100 @@
-Content-Type: multipart/mixed; boundary="===============5117634294986587896=="
+Content-Type: multipart/mixed; boundary="===============8054505180412932576=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [hwmon:hwmon-playground 6/16] drivers/hwmon/pmbus/pmbus_core.c:174 pmbus_set_page() warn: this array is probably non-NULL. 'data->info->phases'
-Date: Mon, 03 Feb 2020 11:45:22 +0300
-Message-ID: <20200203084521.GI11068@kadam>
+From: kbuild test robot <lkp@intel.com>
+Subject: [marex:ks8851-v5 18/20] drivers/net/ethernet/micrel/ks8851_par.c:68:13: sparse: sparse: context imbalance in 'ks8851_lock_par' - wrong count at exit
+Date: Tue, 21 Apr 2020 21:17:43 +0800
+Message-ID: <202004212140.Q9NfMacy%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5117634294986587896==
+--===============8054505180412932576==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-stagin=
-g.git hwmon-playground
-head:   b6b911a2f7d675c768f19e75ba2e8ed216fce65a
-commit: 17e064db5aa2cfbfd254c0951544f88b2b1258ee [6/16] hwmon: (pmbus) Impl=
-ement multi-phase support
+CC: kbuild-all(a)lists.01.org
+TO: Marek Vasut <marex@denx.de>
 
-If you fix the issue, kindly add following tag
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/marex/linux-2.6.git=
+ ks8851-v5
+head:   52117de6ac7930a4517345943cf8c9be9abb0e17
+commit: a385abbd26b7d823630a325a71b3cc7a4e195494 [18/20] net: ks8851: Imple=
+ment Parallel bus operations
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        git checkout a385abbd26b7d823630a325a71b3cc7a4e195494
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+
+If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/hwmon/pmbus/pmbus_core.c:174 pmbus_set_page() warn: this array is n=
-on-NULL. 'data->info->phases'
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git/=
-commit/?id=3D17e064db5aa2cfbfd254c0951544f88b2b1258ee
-git remote add hwmon https://git.kernel.org/pub/scm/linux/kernel/git/groeck=
-/linux-staging.git
-git remote update hwmon
-git checkout 17e064db5aa2cfbfd254c0951544f88b2b1258ee
-vim +174 drivers/hwmon/pmbus/pmbus_core.c
+sparse warnings: (new ones prefixed by >>)
 
-ce603b18f30aea drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2013-01-26  =
-150  =
+>> drivers/net/ethernet/micrel/ks8851_par.c:68:13: sparse: sparse: context =
+imbalance in 'ks8851_lock_par' - wrong count at exit
+>> drivers/net/ethernet/micrel/ks8851_par.c:82:13: sparse: sparse: context =
+imbalance in 'ks8851_unlock_par' - unexpected unlock
 
-6db8d5dba444f2 drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-14  =
-151  int pmbus_set_page(struct i2c_client *client, int page, int phase)
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-152  {
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-153  	struct pmbus_data *data =3D i2c_get_clientdata(client);
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-154  	int rv;
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-155  =
+# https://git.kernel.org/pub/scm/linux/kernel/git/marex/linux-2.6.git/commi=
+t/?id=3Da385abbd26b7d823630a325a71b3cc7a4e195494
+git remote add marex https://git.kernel.org/pub/scm/linux/kernel/git/marex/=
+linux-2.6.git
+git remote update marex
+git checkout a385abbd26b7d823630a325a71b3cc7a4e195494
+vim +/ks8851_lock_par +68 drivers/net/ethernet/micrel/ks8851_par.c
 
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-156  	if (page < 0)
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-157  		return 0;
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-158  =
+a385abbd26b7d8 Marek Vasut 2020-03-23  60  =
 
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-159  	if (!(data->info->func[page] & PMBUS_PAGE_VIRTUAL) &&
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-160  	    data->info->pages > 1 && page !=3D data->currpage) {
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-161  		rv =3D i2c_smbus_write_byte_data(client, PMBUS_PAGE, page);
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-162  		if (rv < 0)
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-163  			return rv;
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-164  =
+a385abbd26b7d8 Marek Vasut 2020-03-23  61  /**
+a385abbd26b7d8 Marek Vasut 2020-03-23  62   * ks8851_lock_par - register ac=
+cess lock
+a385abbd26b7d8 Marek Vasut 2020-03-23  63   * @ks: The chip state
+a385abbd26b7d8 Marek Vasut 2020-03-23  64   * @flags: Spinlock flags
+a385abbd26b7d8 Marek Vasut 2020-03-23  65   *
+a385abbd26b7d8 Marek Vasut 2020-03-23  66   * Claim chip register access lo=
+ck
+a385abbd26b7d8 Marek Vasut 2020-03-23  67   */
+a385abbd26b7d8 Marek Vasut 2020-03-23 @68  static void ks8851_lock_par(stru=
+ct ks8851_net *ks, unsigned long *flags)
+a385abbd26b7d8 Marek Vasut 2020-03-23  69  {
+a385abbd26b7d8 Marek Vasut 2020-03-23  70  	struct ks8851_net_par *ksp =3D =
+to_ks8851_par(ks);
+a385abbd26b7d8 Marek Vasut 2020-03-23  71  =
 
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-165  		rv =3D i2c_smbus_read_byte_data(client, PMBUS_PAGE);
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-166  		if (rv < 0)
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-167  			return rv;
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-168  =
+a385abbd26b7d8 Marek Vasut 2020-03-23  72  	spin_lock_irqsave(&ksp->lock, *=
+flags);
+a385abbd26b7d8 Marek Vasut 2020-03-23  73  }
+a385abbd26b7d8 Marek Vasut 2020-03-23  74  =
 
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-169  		if (rv !=3D page)
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-170  			return -EIO;
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-171  	}
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-172  	data->currpage =3D page;
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-173  =
+a385abbd26b7d8 Marek Vasut 2020-03-23  75  /**
+a385abbd26b7d8 Marek Vasut 2020-03-23  76   * ks8851_unlock_par - register =
+access unlock
+a385abbd26b7d8 Marek Vasut 2020-03-23  77   * @ks: The chip state
+a385abbd26b7d8 Marek Vasut 2020-03-23  78   * @flags: Spinlock flags
+a385abbd26b7d8 Marek Vasut 2020-03-23  79   *
+a385abbd26b7d8 Marek Vasut 2020-03-23  80   * Release chip register access =
+lock
+a385abbd26b7d8 Marek Vasut 2020-03-23  81   */
+a385abbd26b7d8 Marek Vasut 2020-03-23 @82  static void ks8851_unlock_par(st=
+ruct ks8851_net *ks, unsigned long *flags)
+a385abbd26b7d8 Marek Vasut 2020-03-23  83  {
+a385abbd26b7d8 Marek Vasut 2020-03-23  84  	struct ks8851_net_par *ksp =3D =
+to_ks8851_par(ks);
+a385abbd26b7d8 Marek Vasut 2020-03-23  85  =
 
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13 @=
-174  	if (data->info->phases && data->currphase !=3D phase &&
-                                                                           =
-                 ^^^^^^^^^^^^^^^^^^
-Delete this condition?
-
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-175  	    !(data->info->func[page] & PMBUS_PHASE_VIRTUAL)) {
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-176  		rv =3D i2c_smbus_write_byte_data(client, PMBUS_PHASE,
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-177  					       phase);
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-178  		if (rv)
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-179  			return rv;
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-180  	}
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-181  	data->currphase =3D phase;
-17e064db5aa2cf drivers/hwmon/pmbus/pmbus_core.c Guenter Roeck  2020-01-13  =
-182  =
-
-464df6fa376678 drivers/hwmon/pmbus/pmbus_core.c Andrew Jeffery 2017-11-20  =
-183  	return 0;
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-184  }
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-185  EXPORT_SYMBOL_GPL(pmbus_set_page);
-442aba78728e77 drivers/hwmon/pmbus_core.c       Guenter Roeck  2011-01-26  =
-186  =
+a385abbd26b7d8 Marek Vasut 2020-03-23  86  	spin_unlock_irqrestore(&ksp->lo=
+ck, *flags);
+a385abbd26b7d8 Marek Vasut 2020-03-23  87  }
+a385abbd26b7d8 Marek Vasut 2020-03-23  88  =
 
 
 ---
-0-DAY kernel test infrastructure                 Open Source Technology Cen=
-ter
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org Intel Corpor=
-ation
---===============5117634294986587896==--
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============8054505180412932576==--
 
