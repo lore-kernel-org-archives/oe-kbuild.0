@@ -1,285 +1,217 @@
-Content-Type: multipart/mixed; boundary="===============0125469587146754832=="
+Content-Type: multipart/mixed; boundary="===============2459734526238813435=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [Intel-gfx] [PATCH 2/9] drm/i915: Update client name on context create
-Date: Thu, 16 Apr 2020 14:12:52 +0800
-Message-ID: <202004161432.klfRM0ss%lkp@intel.com>
+Subject: [brauner:loopfs 2/8] drivers/block/loopfs/loopfs.c:194:14-23: ERROR: lo_info is NULL but dereferenced.
+Date: Thu, 23 Apr 2020 05:01:48 +0800
+Message-ID: <202004230545.Jl3nPNqS%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0125469587146754832==
+--===============2459734526238813435==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200415101138.26126-3-tvrtko.ursulin@linux.intel.com>
-References: <20200415101138.26126-3-tvrtko.ursulin@linux.intel.com>
-TO: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
-TO: Intel-gfx(a)lists.freedesktop.org
-CC: Chris Wilson <chris@chris-wilson.co.uk>
+TO: Christian Brauner <christian.brauner@ubuntu.com>
 
-Hi Tvrtko,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on v5.7-rc1 next-20200415]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Tvrtko-Ursulin/Per-client-=
-engine-busyness/20200416-032109
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-reproduce:
-        # apt-get install sparse
-        # sparse version: =
-
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git l=
+oopfs
+head:   ad3014dee3e5228885046a8439b26014f5a4ebc1
+commit: f22ce7d13f84b6d2ae0c3abe225b1d5ec506e925 [2/8] loopfs: implement lo=
+opfs
+:::::: branch date: 25 hours ago
+:::::: commit date: 25 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-sparse warnings: (new ones prefixed by >>)
+coccinelle warnings: (new ones prefixed by >>)
 
-   drivers/gpu/drm/i915/i915_drm_client.c:130:23: sparse: warning: incorrec=
-t type in argument 1 (different address spaces)
->> drivers/gpu/drm/i915/i915_drm_client.c:130:23: sparse:    expected struc=
-t pid *pid
->> drivers/gpu/drm/i915/i915_drm_client.c:130:23: sparse:    got struct pid=
- [noderef] <asn:4> *pid
-   drivers/gpu/drm/i915/i915_drm_client.c:131:21: sparse: warning: incorrec=
-t type in argument 1 (different address spaces)
->> drivers/gpu/drm/i915/i915_drm_client.c:131:21: sparse:    expected void =
-const *
->> drivers/gpu/drm/i915/i915_drm_client.c:131:21: sparse:    got char [node=
-ref] <asn:4> *name
-   drivers/gpu/drm/i915/i915_drm_client.c:232:17: sparse: error: incompatib=
-le types in comparison expression (different address spaces):
->> drivers/gpu/drm/i915/i915_drm_client.c:232:17: sparse:    struct pid *
->> drivers/gpu/drm/i915/i915_drm_client.c:232:17: sparse:    struct pid [no=
-deref] <asn:4> *
+>> drivers/block/loopfs/loopfs.c:194:14-23: ERROR: lo_info is NULL but dere=
+ferenced.
 
-# https://github.com/0day-ci/linux/commit/68e51ee0010d0e158add87c4362668f00=
-9fc8130
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 68e51ee0010d0e158add87c4362668f009fc8130
-vim +130 drivers/gpu/drm/i915/i915_drm_client.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/brauner/linux.git/commit/=
+?id=3Df22ce7d13f84b6d2ae0c3abe225b1d5ec506e925
+git remote add brauner https://git.kernel.org/pub/scm/linux/kernel/git/brau=
+ner/linux.git
+git remote update brauner
+git checkout f22ce7d13f84b6d2ae0c3abe225b1d5ec506e925
+vim +194 drivers/block/loopfs/loopfs.c
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  104  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02   88  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  105  static int
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  106  __i915_drm_client_register(s=
-truct i915_drm_client *client,
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  107  			   struct task_struct *ta=
-sk)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  108  {
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  109  	struct i915_drm_clients *cl=
-ients =3D client->clients;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  110  	char *name;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  111  	int ret;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  112  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02   89  /**
+f22ce7d13f84b6 Christian Brauner 2020-04-02   90   * loopfs_add - allocate =
+inode from super block of a loopfs mount
+f22ce7d13f84b6 Christian Brauner 2020-04-02   91   * @lo:		loop device for =
+which we are creating a new device entry
+f22ce7d13f84b6 Christian Brauner 2020-04-02   92   * @ref_inode:	inode from=
+ wich the super block will be taken
+f22ce7d13f84b6 Christian Brauner 2020-04-02   93   * @device_nr:  device nu=
+mber of the associated disk device
+f22ce7d13f84b6 Christian Brauner 2020-04-02   94   *
+f22ce7d13f84b6 Christian Brauner 2020-04-02   95   * This function creates =
+a new device node for @lo.
+f22ce7d13f84b6 Christian Brauner 2020-04-02   96   * Minor numbers are limi=
+ted and tracked globally. The
+f22ce7d13f84b6 Christian Brauner 2020-04-02   97   * function will stash a =
+struct loop_device for the specific loop
+f22ce7d13f84b6 Christian Brauner 2020-04-02   98   * device in i_private of=
+ the inode.
+f22ce7d13f84b6 Christian Brauner 2020-04-02   99   * It will go on to alloc=
+ate a new inode from the super block of the
+f22ce7d13f84b6 Christian Brauner 2020-04-02  100   * filesystem mount, stas=
+h a struct loop_device in its i_private field
+f22ce7d13f84b6 Christian Brauner 2020-04-02  101   * and attach a dentry to=
+ that inode.
+f22ce7d13f84b6 Christian Brauner 2020-04-02  102   *
+f22ce7d13f84b6 Christian Brauner 2020-04-02  103   * Return: 0 on success, =
+negative errno on failure
+f22ce7d13f84b6 Christian Brauner 2020-04-02  104   */
+f22ce7d13f84b6 Christian Brauner 2020-04-02  105  int loopfs_add(struct loo=
+p_device *lo, struct inode *ref_inode, dev_t device_nr)
+f22ce7d13f84b6 Christian Brauner 2020-04-02  106  {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  107  	int ret;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  108  	char name[DISK_NAME_LEN];
+f22ce7d13f84b6 Christian Brauner 2020-04-02  109  	struct super_block *sb;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  110  	struct loopfs_info *info;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  111  	struct dentry *root, *de=
+ntry;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  112  	struct inode *inode;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  113  	struct lo_loopfs *lo_inf=
+o;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  114  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  113  	name =3D kstrdup(task->comm=
-, GFP_KERNEL);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  114  	if (!name)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  115  		return -ENOMEM;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  116  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  115  	sb =3D loopfs_i_sb(ref_i=
+node);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  116  	if (!sb)
+f22ce7d13f84b6 Christian Brauner 2020-04-02  117  		return 0;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  118  =
 
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  117  	rcu_assign_pointer(client->=
-pid, get_task_pid(task, PIDTYPE_PID));
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  118  	rcu_assign_pointer(client->=
-name, name);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  119  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  119  	if (MAJOR(device_nr) !=
+=3D LOOP_MAJOR)
+f22ce7d13f84b6 Christian Brauner 2020-04-02  120  		return -EINVAL;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  121  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  120  	if (!clients->root)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  121  		return 0; /* intel_fbdev_i=
-nit registers a client before sysfs */
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  122  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  122  	lo_info =3D kzalloc(size=
+of(struct lo_loopfs), GFP_KERNEL);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  123  	if (!lo_info) {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  124  		ret =3D -ENOMEM;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  125  		goto err;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  126  	}
+f22ce7d13f84b6 Christian Brauner 2020-04-02  127  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  123  	ret =3D __client_register_s=
-ysfs(client);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  124  	if (ret)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  125  		goto err_sysfs;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  126  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  128  	info =3D LOOPFS_SB(sb);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  129  	if ((info->device_count =
++ 1) > info->mount_opts.max) {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  130  		ret =3D -ENOSPC;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  131  		goto err;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  132  	}
+f22ce7d13f84b6 Christian Brauner 2020-04-02  133  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  127  	return 0;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  128  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  134  	lo_info->lo_ucount =3D i=
+nc_ucount(sb->s_user_ns,
+f22ce7d13f84b6 Christian Brauner 2020-04-02  135  					info->root_uid, UCOU=
+NT_LOOP_DEVICES);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  136  	if (!lo_info->lo_ucount)=
+ {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  137  		ret =3D -ENOSPC;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  138  		goto err;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  139  	}
+f22ce7d13f84b6 Christian Brauner 2020-04-02  140  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  129  err_sysfs:
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15 @130  	put_pid(client->pid);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15 @131  	kfree(client->name);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  132  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  141  	if (snprintf(name, sizeo=
+f(name), "loop%d", lo->lo_number) >=3D sizeof(name)) {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  142  		ret =3D -EINVAL;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  143  		goto err;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  144  	}
+f22ce7d13f84b6 Christian Brauner 2020-04-02  145  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  133  	return ret;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  134  }
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  135  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  146  	inode =3D new_inode(sb);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  147  	if (!inode) {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  148  		ret =3D -ENOMEM;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  149  		goto err;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  150  	}
+f22ce7d13f84b6 Christian Brauner 2020-04-02  151  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  136  static void
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  137  __i915_drm_client_unregister=
-(struct i915_drm_client *client)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  138  {
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  139  	__client_unregister_sysfs(c=
-lient);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  140  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  152  	/*
+f22ce7d13f84b6 Christian Brauner 2020-04-02  153  	 * The i_fop field will =
+be set to the correct fops by the device layer
+f22ce7d13f84b6 Christian Brauner 2020-04-02  154  	 * when the loop device =
+in this loopfs instance is opened.
+f22ce7d13f84b6 Christian Brauner 2020-04-02  155  	 */
+f22ce7d13f84b6 Christian Brauner 2020-04-02  156  	inode->i_ino =3D MINOR(d=
+evice_nr) + INODE_OFFSET;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  157  	inode->i_mtime =3D inode=
+->i_atime =3D inode->i_ctime =3D current_time(inode);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  158  	inode->i_uid =3D info->r=
+oot_uid;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  159  	inode->i_gid =3D info->r=
+oot_gid;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  160  	init_special_inode(inode=
+, S_IFBLK | 0600, device_nr);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  161  =
 
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  141  	put_pid(rcu_replace_pointer=
-(client->pid, NULL, true));
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  142  	kfree(rcu_replace_pointer(c=
-lient->name, NULL, true));
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  143  }
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  144  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  162  	root =3D sb->s_root;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  163  	inode_lock(d_inode(root)=
+);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  164  	/* look it up */
+f22ce7d13f84b6 Christian Brauner 2020-04-02  165  	dentry =3D lookup_one_le=
+n(name, root, strlen(name));
+f22ce7d13f84b6 Christian Brauner 2020-04-02  166  	if (IS_ERR(dentry)) {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  167  		inode_unlock(d_inode(ro=
+ot));
+f22ce7d13f84b6 Christian Brauner 2020-04-02  168  		iput(inode);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  169  		ret =3D PTR_ERR(dentry);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  170  		goto err;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  171  	}
+f22ce7d13f84b6 Christian Brauner 2020-04-02  172  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  145  struct i915_drm_client *
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  146  i915_drm_client_add(struct i=
-915_drm_clients *clients, struct task_struct *task)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  147  {
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  148  	struct i915_drm_client *cli=
-ent;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  149  	int ret;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  150  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  173  	if (d_really_is_positive=
+(dentry)) {
+f22ce7d13f84b6 Christian Brauner 2020-04-02  174  		/* already exists */
+f22ce7d13f84b6 Christian Brauner 2020-04-02  175  		dput(dentry);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  176  		inode_unlock(d_inode(ro=
+ot));
+f22ce7d13f84b6 Christian Brauner 2020-04-02  177  		iput(inode);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  178  		ret =3D -EEXIST;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  179  		goto err;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  180  	}
+f22ce7d13f84b6 Christian Brauner 2020-04-02  181  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  151  	client =3D kzalloc(sizeof(*=
-client), GFP_KERNEL);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  152  	if (!client)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  153  		return ERR_PTR(-ENOMEM);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  154  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  182  	d_instantiate(dentry, in=
+ode);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  183  	fsnotify_create(d_inode(=
+root), dentry);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  184  	inode_unlock(d_inode(roo=
+t));
+f22ce7d13f84b6 Christian Brauner 2020-04-02  185  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  155  	kref_init(&client->kref);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  156  	mutex_init(&client->update_=
-lock);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  157  	client->clients =3D clients;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  158  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  186  	lo_info->lo_inode =3D in=
+ode;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  187  	lo->lo_info =3D lo_info;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  188  	inode->i_private =3D lo;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  189  	info->device_count++;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  190  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  159  	ret =3D xa_alloc_cyclic(&cl=
-ients->xarray, &client->id, client,
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  160  			      xa_limit_32b, &clie=
-nts->next_id, GFP_KERNEL);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  161  	if (ret)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  162  		goto err_id;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  163  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  191  	return 0;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  192  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  164  	ret =3D __i915_drm_client_r=
-egister(client, task);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  165  	if (ret)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  166  		goto err_register;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  167  =
+f22ce7d13f84b6 Christian Brauner 2020-04-02  193  err:
+f22ce7d13f84b6 Christian Brauner 2020-04-02 @194  	if (lo_info->lo_ucount)
+f22ce7d13f84b6 Christian Brauner 2020-04-02  195  		dec_ucount(lo_info->lo_=
+ucount, UCOUNT_LOOP_DEVICES);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  196  	kfree(lo_info);
+f22ce7d13f84b6 Christian Brauner 2020-04-02  197  	return ret;
+f22ce7d13f84b6 Christian Brauner 2020-04-02  198  }
+f22ce7d13f84b6 Christian Brauner 2020-04-02  199  =
 
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  168  	return client;
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  169  =
-
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  170  err_register:
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  171  	xa_erase(&clients->xarray, =
-client->id);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  172  err_id:
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  173  	kfree(client);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  174  =
-
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  175  	return ERR_PTR(ret);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  176  }
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  177  =
-
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  178  void __i915_drm_client_free(=
-struct kref *kref)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  179  {
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  180  	struct i915_drm_client *cli=
-ent =3D
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  181  		container_of(kref, typeof(=
-*client), kref);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  182  =
-
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  183  	__i915_drm_client_unregiste=
-r(client);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  184  	xa_erase(&client->clients->=
-xarray, client->id);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  185  	kfree_rcu(client, rcu);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  186  }
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  187  =
-
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  188  void i915_drm_client_close(s=
-truct i915_drm_client *client)
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  189  {
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  190  	GEM_BUG_ON(READ_ONCE(client=
-->closed));
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  191  	WRITE_ONCE(client->closed, =
-true);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  192  	i915_drm_client_put(client);
-d76ac5524c4129 Tvrtko Ursulin 2020-04-15  193  }
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  194  =
-
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  195  struct client_update_free {
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  196  	struct rcu_head rcu;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  197  	struct pid *pid;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  198  	char *name;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  199  };
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  200  =
-
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  201  static void __client_update_=
-free(struct rcu_head *rcu)
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  202  {
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  203  	struct client_update_free *=
-old =3D container_of(rcu, typeof(*old), rcu);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  204  =
-
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  205  	put_pid(old->pid);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  206  	kfree(old->name);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  207  	kfree(old);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  208  }
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  209  =
-
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  210  int
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  211  i915_drm_client_update(struc=
-t i915_drm_client *client,
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  212  		       struct task_struct =
-*task)
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  213  {
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  214  	struct drm_i915_private *i9=
-15 =3D
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  215  		container_of(client->clien=
-ts, typeof(*i915), clients);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  216  	struct client_update_free *=
-old;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  217  	struct pid *pid;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  218  	char *name;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  219  	int ret;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  220  =
-
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  221  	old =3D kmalloc(sizeof(*old=
-), GFP_KERNEL);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  222  	if (!old)
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  223  		return -ENOMEM;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  224  =
-
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  225  	ret =3D mutex_lock_interrup=
-tible(&client->update_lock);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  226  	if (ret)
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  227  		goto out_free;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  228  =
-
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  229  	pid =3D get_task_pid(task, =
-PIDTYPE_PID);
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  230  	if (!pid)
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15  231  		goto out_pid;
-68e51ee0010d0e Tvrtko Ursulin 2020-04-15 @232  	if (pid =3D=3D client->pid)
-
-:::::: The code at line 130 was first introduced by commit
-:::::: d76ac5524c4129b1718d52109a90ec752b1ba2fe drm/i915: Expose list of cl=
-ients in sysfs
-
-:::::: TO: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
-:::::: CC: 0day robot <lkp@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0125469587146754832==--
+--===============2459734526238813435==--
 
