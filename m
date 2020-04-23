@@ -1,126 +1,105 @@
-Content-Type: multipart/mixed; boundary="===============7829758934380644635=="
+Content-Type: multipart/mixed; boundary="===============2784441751176192350=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH bpf-next 1/2] bpf: Change error code when ops is NULL
-Date: Fri, 24 Apr 2020 09:46:08 +0800
-Message-ID: <202004240935.SUrKOCon%lkp@intel.com>
+Subject: [linux-next:master 2326/4517] drivers/gpio/gpio-pca953x.c:499 pca953x_gpio_get_multiple() error: uninitialized symbol 'reg_val'.
+Date: Fri, 24 Apr 2020 03:33:54 +0800
+Message-ID: <202004240349.89mccCeV%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7829758934380644635==
+--===============2784441751176192350==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200422083010.28000-2-maowenan@huawei.com>
-References: <20200422083010.28000-2-maowenan@huawei.com>
-TO: Mao Wenan <maowenan@huawei.com>
-TO: ast(a)kernel.org
-TO: daniel(a)iogearbox.net
-TO: kafai(a)fb.com
-TO: songliubraving(a)fb.com
-TO: yhs(a)fb.com
-TO: andriin(a)fb.com
-TO: john.fastabend(a)gmail.com
-TO: kpsingh(a)chromium.org
-CC: netdev(a)vger.kernel.org
-CC: bpf(a)vger.kernel.org
-CC: linux-kernel(a)vger.kernel.org
-CC: kernel-janitors(a)vger.kernel.org
+TO: Paul Thomas <pthomas8589@gmail.com>
+CC: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Hi Mao,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-[also build test WARNING on bpf/master net/master net-next/master ipvs/mast=
-er v5.7-rc2 next-20200423]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Mao-Wenan/Change-return-co=
-de-if-failed-to-load-object/20200424-025339
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   aefe184e814492e36b2ca350c1522bd71b09b520
+commit: 96d7c7b3e6545612c1d37944621fdd611afd6adf [2326/4517] gpio: gpio-pca=
+953x, Add get_multiple function
+:::::: branch date: 12 hours ago
+:::::: commit date: 7 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/gpio/gpio-pca953x.c:499 pca953x_gpio_get_multiple() error: uninitia=
+lized symbol 'reg_val'.
 
-cppcheck warnings: (new ones prefixed by >>)
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3D96d7c7b3e6545612c1d37944621fdd611afd6adf
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git remote update linux-next
+git checkout 96d7c7b3e6545612c1d37944621fdd611afd6adf
+vim +/reg_val +499 drivers/gpio/gpio-pca953x.c
 
->> kernel/bpf/syscall.c:116:11: warning: No pair for character ("). Can't p=
-rocess file. File is either invalid or unicode, which is currently not supp=
-orted. [syntaxError]
-     pr_warn("map type %d not supported or
-             ^
+66e57192319bdd Andy Shevchenko 2017-03-22  469  =
 
-# https://github.com/0day-ci/linux/commit/45c88e856945c443c39e3f519ad9740b8=
-e487d8d
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 45c88e856945c443c39e3f519ad9740b8e487d8d
-vim +116 kernel/bpf/syscall.c
+96d7c7b3e65456 Paul Thomas     2020-04-14  470  static int pca953x_gpio_get=
+_multiple(struct gpio_chip *gc,
+96d7c7b3e65456 Paul Thomas     2020-04-14  471  				      unsigned long *ma=
+sk, unsigned long *bits)
+96d7c7b3e65456 Paul Thomas     2020-04-14  472  {
+96d7c7b3e65456 Paul Thomas     2020-04-14  473  	struct pca953x_chip *chip =
+=3D gpiochip_get_data(gc);
+96d7c7b3e65456 Paul Thomas     2020-04-14  474  	unsigned int reg_val;
+96d7c7b3e65456 Paul Thomas     2020-04-14  475  	int offset, value, i, ret =
+=3D 0;
+96d7c7b3e65456 Paul Thomas     2020-04-14  476  	u8 inreg;
+96d7c7b3e65456 Paul Thomas     2020-04-14  477  =
 
-a38845729ea398 Jakub Kicinski     2018-01-11  103  =
-
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  104  static struct bpf_map *f=
-ind_and_alloc_map(union bpf_attr *attr)
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  105  {
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  106  	const struct bpf_map_op=
-s *ops;
-9ef09e35e521bf Mark Rutland       2018-05-03  107  	u32 type =3D attr->map_=
-type;
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  108  	struct bpf_map *map;
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  109  	int err;
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  110  =
-
-9ef09e35e521bf Mark Rutland       2018-05-03  111  	if (type >=3D ARRAY_SIZ=
-E(bpf_map_types))
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  112  		return ERR_PTR(-EINVAL=
-);
-9ef09e35e521bf Mark Rutland       2018-05-03  113  	type =3D array_index_no=
-spec(type, ARRAY_SIZE(bpf_map_types));
-9ef09e35e521bf Mark Rutland       2018-05-03  114  	ops =3D bpf_map_types[t=
-ype];
-45c88e856945c4 Mao Wenan          2020-04-22  115  	if (!ops) {
-45c88e856945c4 Mao Wenan          2020-04-22 @116  		pr_warn("map type %d n=
-ot supported or
-45c88e856945c4 Mao Wenan          2020-04-22  117  			 kernel config not op=
-ened\n", type);
-45c88e856945c4 Mao Wenan          2020-04-22  118  		return ERR_PTR(-EOPNOT=
-SUPP);
-45c88e856945c4 Mao Wenan          2020-04-22  119  	}
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  120  	if (ops->map_alloc_chec=
-k) {
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  121  		err =3D ops->map_alloc=
-_check(attr);
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  122  		if (err)
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  123  			return ERR_PTR(err);
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  124  	}
-a38845729ea398 Jakub Kicinski     2018-01-11  125  	if (attr->map_ifindex)
-a38845729ea398 Jakub Kicinski     2018-01-11  126  		ops =3D &bpf_map_offlo=
-ad_ops;
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  127  	map =3D ops->map_alloc(=
-attr);
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  128  	if (IS_ERR(map))
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  129  		return map;
-1110f3a9bcf394 Jakub Kicinski     2018-01-11  130  	map->ops =3D ops;
-9ef09e35e521bf Mark Rutland       2018-05-03  131  	map->map_type =3D type;
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  132  	return map;
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  133  }
-99c55f7d47c0dc Alexei Starovoitov 2014-09-26  134  =
+96d7c7b3e65456 Paul Thomas     2020-04-14  478  	/* Force offset outside th=
+e range of i so that
+96d7c7b3e65456 Paul Thomas     2020-04-14  479  	 * at least the first rele=
+vant register is read
+96d7c7b3e65456 Paul Thomas     2020-04-14  480  	 */
+96d7c7b3e65456 Paul Thomas     2020-04-14  481  	offset =3D gc->ngpio;
+96d7c7b3e65456 Paul Thomas     2020-04-14  482  	for_each_set_bit(i, mask, =
+gc->ngpio) {
+96d7c7b3e65456 Paul Thomas     2020-04-14  483  		/* whenever i goes into a=
+ new bank update inreg
+96d7c7b3e65456 Paul Thomas     2020-04-14  484  		 * and read the register
+96d7c7b3e65456 Paul Thomas     2020-04-14  485  		 */
+96d7c7b3e65456 Paul Thomas     2020-04-14  486  		if ((offset >> BANK_SFT) =
+!=3D (i >> BANK_SFT)) {
+96d7c7b3e65456 Paul Thomas     2020-04-14  487  			offset =3D i;
+96d7c7b3e65456 Paul Thomas     2020-04-14  488  			inreg =3D pca953x_recalc=
+_addr(chip, chip->regs->input,
+96d7c7b3e65456 Paul Thomas     2020-04-14  489  						    offset, true, fal=
+se);
+96d7c7b3e65456 Paul Thomas     2020-04-14  490  			mutex_lock(&chip->i2c_lo=
+ck);
+96d7c7b3e65456 Paul Thomas     2020-04-14  491  			ret =3D regmap_read(chip=
+->regmap, inreg, &reg_val);
+96d7c7b3e65456 Paul Thomas     2020-04-14  492  			mutex_unlock(&chip->i2c_=
+lock);
+96d7c7b3e65456 Paul Thomas     2020-04-14  493  			if (ret < 0)
+96d7c7b3e65456 Paul Thomas     2020-04-14  494  				return ret;
+96d7c7b3e65456 Paul Thomas     2020-04-14  495  		}
+96d7c7b3e65456 Paul Thomas     2020-04-14  496  		/* reg_val is relative to=
+ the last read byte,
+96d7c7b3e65456 Paul Thomas     2020-04-14  497  		 * so only shift the rela=
+tive bits
+96d7c7b3e65456 Paul Thomas     2020-04-14  498  		 */
+96d7c7b3e65456 Paul Thomas     2020-04-14 @499  		value =3D (reg_val >> (i =
+% 8)) & 0x01;
+96d7c7b3e65456 Paul Thomas     2020-04-14  500  		__assign_bit(i, bits, val=
+ue);
+96d7c7b3e65456 Paul Thomas     2020-04-14  501  	}
+96d7c7b3e65456 Paul Thomas     2020-04-14  502  	return ret;
+96d7c7b3e65456 Paul Thomas     2020-04-14  503  }
+96d7c7b3e65456 Paul Thomas     2020-04-14  504  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7829758934380644635==--
+--===============2784441751176192350==--
 
