@@ -1,123 +1,119 @@
-Content-Type: multipart/mixed; boundary="===============2690921604689516557=="
+Content-Type: multipart/mixed; boundary="===============5508158611306066910=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [balbi-usb:testing/next 5/10] drivers/usb/dwc3/dwc3-meson-g12a.c:455 dwc3_meson_g12a_otg_init() error: uninitialized symbol 'ret'.
-Date: Mon, 10 Feb 2020 10:31:10 +0300
-Message-ID: <20200210073110.GQ24804@kadam>
+From: kbuild test robot <lkp@intel.com>
+Subject: [arm-perf:rwonce/cleanup 6/11] net/ipv6/esp6_offload.c:189 xfrm6_beet_gso_segment() warn: potential spectre issue 'inet6_offloads' [r] (local cap)
+Date: Thu, 23 Apr 2020 18:03:18 +0800
+Message-ID: <202004231801.SwL8BwpS%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2690921604689516557==
+--===============5508158611306066910==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git testi=
-ng/next
-head:   b081f1dc121c0bdeacc45cf02c35d1ee95120680
-commit: 729149c53f048f16aff9e662bf444c275b59ba8a [5/10] usb: dwc3: Add Amlo=
-gic A1 DWC3 glue
+CC: kbuild-all(a)lists.01.org
+TO: Will Deacon <will@kernel.org>
 
-If you fix the issue, kindly add following tag
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git rwon=
+ce/cleanup
+head:   10415533a9062c9e5e27c421d9c232f0cae108fd
+commit: a5460b5e5fb82656807840d40d3deaecad094044 [6/11] READ_ONCE: Simplify=
+ implementations of {READ,WRITE}_ONCE()
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+
+If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/usb/dwc3/dwc3-meson-g12a.c:455 dwc3_meson_g12a_otg_init() error: un=
-initialized symbol 'ret'.
+net/ipv6/esp6_offload.c:189 xfrm6_beet_gso_segment() warn: potential spectr=
+e issue 'inet6_offloads' [r] (local cap)
+net/ipv4/esp4_offload.c:158 xfrm4_beet_gso_segment() warn: potential spectr=
+e issue 'inet_offloads' [r] (local cap)
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/balbi/usb.git/commit/?id=
-=3D729149c53f048f16aff9e662bf444c275b59ba8a
-git remote add balbi-usb https://git.kernel.org/pub/scm/linux/kernel/git/ba=
-lbi/usb.git
-git remote update balbi-usb
-git checkout 729149c53f048f16aff9e662bf444c275b59ba8a
-vim +/ret +455 drivers/usb/dwc3/dwc3-meson-g12a.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/will/linux.git/commit/?id=
+=3Da5460b5e5fb82656807840d40d3deaecad094044
+git remote add arm-perf https://git.kernel.org/pub/scm/linux/kernel/git/wil=
+l/linux.git
+git remote update arm-perf
+git checkout a5460b5e5fb82656807840d40d3deaecad094044
+vim +/inet6_offloads +189 net/ipv6/esp6_offload.c
 
-729149c53f048f Hanjie Lin     2020-01-20  411  static int dwc3_meson_g12a_o=
-tg_init(struct platform_device *pdev,
-729149c53f048f Hanjie Lin     2020-01-20  412  				    struct dwc3_meson_g1=
-2a *priv)
-729149c53f048f Hanjie Lin     2020-01-20  413  {
-729149c53f048f Hanjie Lin     2020-01-20  414  	enum phy_mode otg_id;
-729149c53f048f Hanjie Lin     2020-01-20  415  	int ret, irq;
-729149c53f048f Hanjie Lin     2020-01-20  416  	struct device *dev =3D &pde=
-v->dev;
-729149c53f048f Hanjie Lin     2020-01-20  417  =
+7613b92b1ae371 Florian Westphal 2019-03-29  161  =
 
-729149c53f048f Hanjie Lin     2020-01-20  418  	if (!priv->drvdata->otg_swi=
-tch_supported)
-729149c53f048f Hanjie Lin     2020-01-20  419  		return 0;
-729149c53f048f Hanjie Lin     2020-01-20  420  =
+7f9e40eb18a999 Xin Long         2020-03-26  162  static struct sk_buff *xfr=
+m6_beet_gso_segment(struct xfrm_state *x,
+7f9e40eb18a999 Xin Long         2020-03-26  163  					      struct sk_buff =
+*skb,
+7f9e40eb18a999 Xin Long         2020-03-26  164  					      netdev_features=
+_t features)
+7f9e40eb18a999 Xin Long         2020-03-26  165  {
+7f9e40eb18a999 Xin Long         2020-03-26  166  	struct xfrm_offload *xo =
+=3D xfrm_offload(skb);
+7f9e40eb18a999 Xin Long         2020-03-26  167  	struct sk_buff *segs =3D =
+ERR_PTR(-EINVAL);
+7f9e40eb18a999 Xin Long         2020-03-26  168  	const struct net_offload =
+*ops;
+7f9e40eb18a999 Xin Long         2020-03-26  169  	int proto =3D xo->proto;
+7f9e40eb18a999 Xin Long         2020-03-26  170  =
 
-729149c53f048f Hanjie Lin     2020-01-20  421  	if (priv->otg_mode =3D=3D U=
-SB_DR_MODE_OTG) {
-729149c53f048f Hanjie Lin     2020-01-20  422  		/* Ack irq before register=
-ing */
-729149c53f048f Hanjie Lin     2020-01-20  423  		regmap_update_bits(priv->r=
-egmap, USB_R5,
-729149c53f048f Hanjie Lin     2020-01-20  424  				   USB_R5_ID_DIG_IRQ, 0);
-729149c53f048f Hanjie Lin     2020-01-20  425  =
+7f9e40eb18a999 Xin Long         2020-03-26  171  	skb->transport_header +=
+=3D x->props.header_len;
+7f9e40eb18a999 Xin Long         2020-03-26  172  =
 
-729149c53f048f Hanjie Lin     2020-01-20  426  		irq =3D platform_get_irq(p=
-dev, 0);
-729149c53f048f Hanjie Lin     2020-01-20  427  		ret =3D devm_request_threa=
-ded_irq(&pdev->dev, irq, NULL,
-729149c53f048f Hanjie Lin     2020-01-20  428  						dwc3_meson_g12a_irq_th=
-read,
-729149c53f048f Hanjie Lin     2020-01-20  429  						IRQF_ONESHOT, pdev->na=
-me, priv);
-729149c53f048f Hanjie Lin     2020-01-20  430  		if (ret)
-729149c53f048f Hanjie Lin     2020-01-20  431  			return ret;
-729149c53f048f Hanjie Lin     2020-01-20  432  	}
-729149c53f048f Hanjie Lin     2020-01-20  433  =
+7f9e40eb18a999 Xin Long         2020-03-26  173  	if (proto =3D=3D IPPROTO_=
+BEETPH) {
+7f9e40eb18a999 Xin Long         2020-03-26  174  		struct ip_beet_phdr *ph =
+=3D (struct ip_beet_phdr *)skb->data;
+7f9e40eb18a999 Xin Long         2020-03-26  175  =
 
-729149c53f048f Hanjie Lin     2020-01-20  434  	/* Setup OTG mode correspon=
-ding to the ID pin */
-729149c53f048f Hanjie Lin     2020-01-20  435  	if (priv->otg_mode =3D=3D U=
-SB_DR_MODE_OTG) {
-729149c53f048f Hanjie Lin     2020-01-20  436  		otg_id =3D dwc3_meson_g12a=
-_get_id(priv);
-729149c53f048f Hanjie Lin     2020-01-20  437  		if (otg_id !=3D priv->otg_=
-phy_mode) {
-729149c53f048f Hanjie Lin     2020-01-20  438  			if (dwc3_meson_g12a_otg_m=
-ode_set(priv, otg_id))
-729149c53f048f Hanjie Lin     2020-01-20  439  				dev_warn(dev, "Failed to=
- switch OTG mode\n");
-729149c53f048f Hanjie Lin     2020-01-20  440  		}
-729149c53f048f Hanjie Lin     2020-01-20  441  	}
-729149c53f048f Hanjie Lin     2020-01-20  442  =
+7f9e40eb18a999 Xin Long         2020-03-26  176  		skb->transport_header +=
+=3D ph->hdrlen * 8;
+7f9e40eb18a999 Xin Long         2020-03-26  177  		proto =3D ph->nexthdr;
+7f9e40eb18a999 Xin Long         2020-03-26  178  	}
+7f9e40eb18a999 Xin Long         2020-03-26  179  =
 
-729149c53f048f Hanjie Lin     2020-01-20  443  	/* Setup role switcher */
-729149c53f048f Hanjie Lin     2020-01-20  444  	priv->switch_desc.usb2_port=
- =3D dwc3_meson_g12_find_child(dev,
-729149c53f048f Hanjie Lin     2020-01-20  445  								"snps,dwc3");
-729149c53f048f Hanjie Lin     2020-01-20  446  	priv->switch_desc.udc =3D d=
-wc3_meson_g12_find_child(dev, "snps,dwc2");
-729149c53f048f Hanjie Lin     2020-01-20  447  	priv->switch_desc.allow_use=
-rspace_control =3D true;
-729149c53f048f Hanjie Lin     2020-01-20  448  	priv->switch_desc.set =3D d=
-wc3_meson_g12a_role_set;
-729149c53f048f Hanjie Lin     2020-01-20  449  	priv->switch_desc.get =3D d=
-wc3_meson_g12a_role_get;
-729149c53f048f Hanjie Lin     2020-01-20  450  =
+7f9e40eb18a999 Xin Long         2020-03-26  180  	if (x->sel.family !=3D AF=
+_INET6) {
+7f9e40eb18a999 Xin Long         2020-03-26  181  		skb->transport_header -=
+=3D
+7f9e40eb18a999 Xin Long         2020-03-26  182  			(sizeof(struct ipv6hdr)=
+ - sizeof(struct iphdr));
+7f9e40eb18a999 Xin Long         2020-03-26  183  =
 
-729149c53f048f Hanjie Lin     2020-01-20  451  	priv->role_switch =3D usb_r=
-ole_switch_register(dev, &priv->switch_desc);
-729149c53f048f Hanjie Lin     2020-01-20  452  	if (IS_ERR(priv->role_switc=
-h))
-729149c53f048f Hanjie Lin     2020-01-20  453  		dev_warn(dev, "Unable to r=
-egister Role Switch\n");
-729149c53f048f Hanjie Lin     2020-01-20  454  =
+7f9e40eb18a999 Xin Long         2020-03-26  184  		if (proto =3D=3D IPPROTO=
+_TCP)
+7f9e40eb18a999 Xin Long         2020-03-26  185  			skb_shinfo(skb)->gso_ty=
+pe |=3D SKB_GSO_TCPV6;
+7f9e40eb18a999 Xin Long         2020-03-26  186  	}
+7f9e40eb18a999 Xin Long         2020-03-26  187  =
 
-729149c53f048f Hanjie Lin     2020-01-20 @455  	return ret;
+7f9e40eb18a999 Xin Long         2020-03-26  188  	__skb_pull(skb, skb_trans=
+port_offset(skb));
+7f9e40eb18a999 Xin Long         2020-03-26 @189  	ops =3D rcu_dereference(i=
+net6_offloads[proto]);
+7f9e40eb18a999 Xin Long         2020-03-26  190  	if (likely(ops && ops->ca=
+llbacks.gso_segment))
+7f9e40eb18a999 Xin Long         2020-03-26  191  		segs =3D ops->callbacks.=
+gso_segment(skb, features);
+7f9e40eb18a999 Xin Long         2020-03-26  192  =
 
-"ret" can be uninitialized.  It should be "return 0;" anyway.
+7f9e40eb18a999 Xin Long         2020-03-26  193  	return segs;
+7f9e40eb18a999 Xin Long         2020-03-26  194  }
+7f9e40eb18a999 Xin Long         2020-03-26  195  =
 
-729149c53f048f Hanjie Lin     2020-01-20  456  }
+
+:::::: The code at line 189 was first introduced by commit
+:::::: 7f9e40eb18a99979f194aa1bdc9bf1c358d3111a esp6: add gso_segment for e=
+sp6 beet mode
+
+:::::: TO: Xin Long <lucien.xin@gmail.com>
+:::::: CC: Steffen Klassert <steffen.klassert@secunet.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2690921604689516557==--
+--===============5508158611306066910==--
 
