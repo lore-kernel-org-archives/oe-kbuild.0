@@ -1,32 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============8729646238455786272=="
+Content-Type: multipart/mixed; boundary="===============0376469403825700558=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [yyu168-linux_cet:cet 30/47] arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: missing identifier in declaration
-Date: Wed, 29 Apr 2020 21:52:16 +0800
-Message-ID: <202004292149.HJWhSYY7%lkp@intel.com>
+Subject: [dhowells-fs:afs-operation /17] fs/afs/super.c:539:61: sparse: expected struct afs_server_list *
+Date: Tue, 28 Apr 2020 07:44:52 +0800
+Message-ID: <202004280747.g9YfdY4z%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8729646238455786272==
+--===============0376469403825700558==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: "Yu-cheng Yu" <yu-cheng.yu@intel.com>
+TO: David Howells <dhowells@redhat.com>
 
-tree:   https://github.com/yyu168/linux_cet.git cet
-head:   80138cab012f983a4395ac70e3804739eaff02eb
-commit: 0087ee9f497dcb2ae98a00a0b6c95994848c9943 [30/47] x86/cet/shstk: Han=
-dle signals for shadow stack
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
+it afs-operation
+head:   71607840c8097c9f8cd0dcada9c96a1500ce7837
+commit: e54a7a021c8c23c3eaca54c7b60f99263eeec267 [/17] afs: Detect cell ali=
+ases 1 - Cells with root volumes
 reproduce:
         # apt-get install sparse
-        # sparse version: v0.6.1-191-gc51a0382-dirty
-        git checkout 0087ee9f497dcb2ae98a00a0b6c95994848c9943
+        # sparse version: =
+
+        git checkout e54a7a021c8c23c3eaca54c7b60f99263eeec267
         make ARCH=3Dx86_64 allmodconfig
         make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
+:::::: branch date: 31 minutes ago
+:::::: commit date: 3 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -34,65 +36,87 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
 
->> arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: missing ident=
-ifier in declaration
-   arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: Expected ; at=
- the end of type declaration
-   arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: got {
-   arch/x86/include/asm/fpu/internal.h:487:1: sparse: sparse: Expected ; at=
- the end of type declaration
-   arch/x86/include/asm/fpu/internal.h:487:1: sparse: sparse: got }
+   fs/afs/rotate.c:28:56: sparse: warning: incorrect type in argument 1 (di=
+fferent address spaces)
+>> fs/afs/rotate.c:28:56: sparse:    expected struct afs_server_list *slist
+>> fs/afs/rotate.c:28:56: sparse:    got struct afs_server_list [noderef] <=
+asn:4> *servers
+   fs/afs/rotate.c:176:49: sparse: error: incompatible types in comparison =
+expression (different address spaces):
+>> fs/afs/rotate.c:176:49: sparse:    struct afs_server_list [noderef] <asn=
+:4> *
+>> fs/afs/rotate.c:176:49: sparse:    struct afs_server_list *
+   fs/afs/rotate.c:266:49: sparse: error: incompatible types in comparison =
+expression (different address spaces):
+   fs/afs/rotate.c:266:49: sparse:    struct afs_server_list [noderef] <asn=
+:4> *
+   fs/afs/rotate.c:266:49: sparse:    struct afs_server_list *
 --
->> arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: missing ident=
-ifier in declaration
-   arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: Expected ; at=
- the end of type declaration
-   arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: got {
-   arch/x86/include/asm/fpu/internal.h:487:1: sparse: sparse: Expected ; at=
- the end of type declaration
-   arch/x86/include/asm/fpu/internal.h:487:1: sparse: sparse: got }
-   arch/x86/kernel/signal.c:282:15: sparse: sparse: undefined identifier 'c=
-opy_fpstate_to_sigframe'
+   fs/afs/super.c:539:61: sparse: warning: incorrect type in argument 2 (di=
+fferent address spaces)
+>> fs/afs/super.c:539:61: sparse:    expected struct afs_server_list *
+>> fs/afs/super.c:539:61: sparse:    got struct afs_server_list [noderef] <=
+asn:4> *servers
+--
+   fs/afs/volume.c:12:24: sparse: warning: symbol 'afs_volume_gc_delay' was=
+ not declared. Should it be static?
+   fs/afs/volume.c:13:24: sparse: warning: symbol 'afs_volume_record_life' =
+was not declared. Should it be static?
+   fs/afs/volume.c:159:39: sparse: warning: incorrect type in argument 2 (d=
+ifferent address spaces)
+>> fs/afs/volume.c:159:39: sparse:    expected struct afs_server_list *
+>> fs/afs/volume.c:159:39: sparse:    got struct afs_server_list [noderef] =
+<asn:4> *servers
 
-# https://github.com/yyu168/linux_cet/commit/0087ee9f497dcb2ae98a00a0b6c959=
-94848c9943
-git remote add yyu168-linux_cet https://github.com/yyu168/linux_cet.git
-git remote update yyu168-linux_cet
-git checkout 0087ee9f497dcb2ae98a00a0b6c95994848c9943
-vim +485 arch/x86/include/asm/fpu/internal.h
+# https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/com=
+mit/?id=3De54a7a021c8c23c3eaca54c7b60f99263eeec267
+git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/=
+dhowells/linux-fs.git
+git remote update dhowells-fs
+git checkout e54a7a021c8c23c3eaca54c7b60f99263eeec267
+vim +539 fs/afs/super.c
 
-1361b83a13d4d9 arch/x86/include/asm/fpu-internal.h Linus Torvalds 2012-02-2=
-1  478  =
+49566f6f06b38d David Howells 2017-11-02  526  =
 
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  479  #ifdef CONFIG_X86_INTEL_CET
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  480  extern int save_cet_to_sigframe(int ia32, void __user *fp,
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  481  				unsigned long restorer);
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  482  #else
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  483  static inline int save_cet_to_sigframe(int ia32, void __user *fp,
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  484  				unsigned long restorer);
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5 @485  {
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  486  	return 0;
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  487  }
-0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
-5  488  #endif
-87dafd41a4423c arch/x86/include/asm/fpu/internal.h Ingo Molnar    2015-05-2=
-5  489  extern int copy_fpstate_to_sigframe(void __user *buf, void __user *=
-fp, int size);
-b1b64dc3558b7b arch/x86/include/asm/fpu/internal.h Ingo Molnar    2015-05-0=
-5  490  =
+0da0b7fd73e4f2 David Howells 2018-06-15  527  static void afs_kill_super(st=
+ruct super_block *sb)
+0da0b7fd73e4f2 David Howells 2018-06-15  528  {
+0da0b7fd73e4f2 David Howells 2018-06-15  529  	struct afs_super_info *as =
+=3D AFS_FS_S(sb);
+0da0b7fd73e4f2 David Howells 2018-06-15  530  	struct afs_net *net =3D afs_=
+net(as->net_ns);
+0da0b7fd73e4f2 David Howells 2018-06-15  531  =
 
+0da0b7fd73e4f2 David Howells 2018-06-15  532  	if (as->dyn_root)
+0da0b7fd73e4f2 David Howells 2018-06-15  533  		afs_dynroot_depopulate(sb);
+0da0b7fd73e4f2 David Howells 2018-06-15  534  =
+
+0da0b7fd73e4f2 David Howells 2018-06-15  535  	/* Clear the callback intere=
+sts (which will do ilookup5) before
+0da0b7fd73e4f2 David Howells 2018-06-15  536  	 * deactivating the superblo=
+ck.
+0da0b7fd73e4f2 David Howells 2018-06-15  537  	 */
+0da0b7fd73e4f2 David Howells 2018-06-15  538  	if (as->volume)
+0da0b7fd73e4f2 David Howells 2018-06-15 @539  		afs_clear_callback_interest=
+s(net, as->volume->servers);
+0da0b7fd73e4f2 David Howells 2018-06-15  540  	kill_anon_super(sb);
+0da0b7fd73e4f2 David Howells 2018-06-15  541  	if (as->volume)
+0da0b7fd73e4f2 David Howells 2018-06-15  542  		afs_deactivate_volume(as->v=
+olume);
+0da0b7fd73e4f2 David Howells 2018-06-15  543  	afs_destroy_sbi(as);
+0da0b7fd73e4f2 David Howells 2018-06-15  544  }
+0da0b7fd73e4f2 David Howells 2018-06-15  545  =
+
+
+:::::: The code at line 539 was first introduced by commit
+:::::: 0da0b7fd73e4f20e1a987dfade0b36bb4813cf10 afs: Display manually added=
+ cells in dynamic root mount
+
+:::::: TO: David Howells <dhowells@redhat.com>
+:::::: CC: David Howells <dhowells@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8729646238455786272==--
+--===============0376469403825700558==--
 
