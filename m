@@ -1,16 +1,19 @@
-Content-Type: multipart/mixed; boundary="===============9082063346491386568=="
+Content-Type: multipart/mixed; boundary="===============8729646238455786272=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kbuild test robot <lkp@intel.com>
 Subject: [yyu168-linux_cet:cet 30/47] arch/x86/include/asm/fpu/internal.h:485:1: sparse: sparse: missing identifier in declaration
-Date: Wed, 29 Apr 2020 17:15:43 +0300
-Message-ID: <20200429141543.GB1992@kadam>
+Date: Wed, 29 Apr 2020 21:52:16 +0800
+Message-ID: <202004292149.HJWhSYY7%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9082063346491386568==
+--===============8729646238455786272==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: "Yu-cheng Yu" <yu-cheng.yu@intel.com>
 
 tree:   https://github.com/yyu168/linux_cet.git cet
 head:   80138cab012f983a4395ac70e3804739eaff02eb
@@ -22,6 +25,8 @@ reproduce:
         git checkout 0087ee9f497dcb2ae98a00a0b6c95994848c9943
         make ARCH=3Dx86_64 allmodconfig
         make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -56,6 +61,9 @@ git remote update yyu168-linux_cet
 git checkout 0087ee9f497dcb2ae98a00a0b6c95994848c9943
 vim +485 arch/x86/include/asm/fpu/internal.h
 
+1361b83a13d4d9 arch/x86/include/asm/fpu-internal.h Linus Torvalds 2012-02-2=
+1  478  =
+
 0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
 5  479  #ifdef CONFIG_X86_INTEL_CET
 0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
@@ -68,10 +76,6 @@ vim +485 arch/x86/include/asm/fpu/internal.h
 5  483  static inline int save_cet_to_sigframe(int ia32, void __user *fp,
 0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
 5  484  				unsigned long restorer);
-                                                                           =
-                                                            ^
-Extra semi-colon.
-
 0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
 5 @485  {
 0087ee9f497dcb arch/x86/include/asm/fpu/internal.h Yu-cheng Yu    2017-01-0=
@@ -83,12 +87,12 @@ Extra semi-colon.
 87dafd41a4423c arch/x86/include/asm/fpu/internal.h Ingo Molnar    2015-05-2=
 5  489  extern int copy_fpstate_to_sigframe(void __user *buf, void __user *=
 fp, int size);
+b1b64dc3558b7b arch/x86/include/asm/fpu/internal.h Ingo Molnar    2015-05-0=
+5  490  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
---===============9082063346491386568==--
+--===============8729646238455786272==--
 
