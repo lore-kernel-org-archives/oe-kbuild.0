@@ -1,209 +1,298 @@
-Content-Type: multipart/mixed; boundary="===============3937654270381470637=="
+Content-Type: multipart/mixed; boundary="===============0536381104286890003=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/3] tty: n_gsm: Fix waking up upper tty layer when room available
-Date: Fri, 01 May 2020 15:31:17 +0800
-Message-ID: <202005011550.V7tpvSl3%lkp@intel.com>
+Subject: [hare-scsi-devel:reserved-tags.v3 30/41] drivers/scsi/snic/snic_scsi.c:1711:1: sparse: sparse: context imbalance in 'snic_dr_clean_single_req' - different lock contexts for basic block
+Date: Fri, 01 May 2020 14:07:30 +0800
+Message-ID: <202005011454.v0M827sR%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3937654270381470637==
+--===============0536381104286890003==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200430113433.2162886-5-gregory.clement@bootlin.com>
-References: <20200430113433.2162886-5-gregory.clement@bootlin.com>
-TO: Gregory CLEMENT <gregory.clement@bootlin.com>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-TO: Jiri Slaby <jslaby@suse.com>
-TO: linux-kernel(a)vger.kernel.org
-CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-CC: Gregory CLEMENT <gregory.clement@bootlin.com>
+TO: Hannes Reinecke <hare@suse.com>
 
-Hi Gregory,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on tty/tty-testing]
-[also build test WARNING on v5.7-rc3 next-20200430]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Gregory-CLEMENT/TTY-improv=
-e-n_gsm-support/20200501-025835
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
-testing
-:::::: branch date: 13 hours ago
-:::::: commit date: 13 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git=
+ reserved-tags.v3
+head:   7e846b812c89291eaaf342f3a37944fefc17473b
+commit: 183c7fff937d1eb611c630552ed5d1922196f451 [30/41] snic: use tagset i=
+ter for traversing commands
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        git checkout 183c7fff937d1eb611c630552ed5d1922196f451
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 19 hours ago
+:::::: commit date: 21 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
+sparse warnings: (new ones prefixed by >>)
 
->> drivers/tty/n_gsm.c:711:22: warning: Local variable 'dlci' shadows outer=
- argument [shadowArgument]
-       struct gsm_dlci *dlci;
-                        ^
-   drivers/tty/n_gsm.c:668:65: note: Shadowed declaration
-   static void gsm_data_kick(struct gsm_mux *gsm, struct gsm_dlci *dlci)
-                                                                   ^
-   drivers/tty/n_gsm.c:711:22: note: Shadow variable
-       struct gsm_dlci *dlci;
-                        ^
+>> drivers/scsi/snic/snic_scsi.c:1711:1: sparse: sparse: context imbalance =
+in 'snic_dr_clean_single_req' - different lock contexts for basic block
 
-# https://github.com/0day-ci/linux/commit/e8a71fbfa1dedd6b7a8f24787d207d389=
-2d5b394
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout e8a71fbfa1dedd6b7a8f24787d207d3892d5b394
-vim +/dlci +711 drivers/tty/n_gsm.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git/commi=
+t/?id=3D183c7fff937d1eb611c630552ed5d1922196f451
+git remote add hare-scsi-devel https://git.kernel.org/pub/scm/linux/kernel/=
+git/hare/scsi-devel.git
+git remote update hare-scsi-devel
+git checkout 183c7fff937d1eb611c630552ed5d1922196f451
+vim +/snic_dr_clean_single_req +1711 drivers/scsi/snic/snic_scsi.c
 
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  655  =
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1709  =
 
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  656  /**
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  657   *	gsm=
-_data_kick		-	poke the queue
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  658   *	@gs=
-m: GSM Mux
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  659   *
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  660   *	The=
- tty device has called us to indicate that room has appeared in
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  661   *	the=
- transmit queue. Ram more data into the pipe if we have any
-c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  662   *	If =
-we have been flow-stopped by a CMD_FCOFF, then we can only
-c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  663   *	sen=
-d messages on DLCI0 until CMD_FCON
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  664   *
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  665   *	FIX=
-ME: lock against link layer control transmissions
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  666   */
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  667  =
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1710  static bool
+183c7fff937d1eb Hannes Reinecke   2019-03-24 @1711  snic_dr_clean_single_re=
+q(struct scsi_cmnd *sc, void *data, bool reserved)
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1712  {
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1713  	struct snic_req_info *=
+rqi =3D NULL;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1714  	struct snic_tgt *tgt =
+=3D NULL;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1715  	spinlock_t *io_lock =
+=3D NULL;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1716  	u32 sv_state =3D 0, tm=
+f =3D 0;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1717  	DECLARE_COMPLETION_ONS=
+TACK(tm_done);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1718  	unsigned long flags;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1719  	int ret =3D 0;
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1720  	struct snic_cmd_pendin=
+g_iter_data *iter_data =3D data;
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1721  	struct snic *snic =3D =
+iter_data->snic;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1722  =
 
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  668  static=
- void gsm_data_kick(struct gsm_mux *gsm, struct gsm_dlci *dlci)
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  669  {
-b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  670  	struc=
-t gsm_msg *msg, *nmsg;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  671  	int l=
-en;
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  672  	struc=
-t tty_struct *tty_dlci =3D NULL;
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  673  =
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1723  	if (reserved)
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1724  		return true;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1725  =
 
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  674  =
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1726  	if (sc->device !=3D it=
+er_data->sdev)
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1727  		return true;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1728  =
 
-b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  675  	list_=
-for_each_entry_safe(msg, nmsg, &gsm->tx_list, list) {
-b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  676  		if (=
-gsm->constipated && msg->addr)
-c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  677  			con=
-tinue;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  678  		if (=
-gsm->encoding !=3D 0) {
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  679  			gsm=
-->txframe[0] =3D GSM1_SOF;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  680  			len=
- =3D gsm_stuff_frame(msg->data,
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  681  						=
-gsm->txframe + 1, msg->len);
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  682  			gsm=
-->txframe[len + 1] =3D GSM1_SOF;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  683  			len=
- +=3D 2;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  684  		} el=
-se {
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  685  			gsm=
-->txframe[0] =3D GSM0_SOF;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  686  			mem=
-cpy(gsm->txframe + 1 , msg->data, msg->len);
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  687  			gsm=
-->txframe[msg->len + 1] =3D GSM0_SOF;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  688  			len=
- =3D msg->len + 2;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  689  		}
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  690  =
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1729  	io_lock =3D snic_io_lo=
+ck_tag(snic, sc->request->tag);
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1730  	spin_lock_irqsave(io_l=
+ock, flags);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1731  	rqi =3D (struct snic_r=
+eq_info *) CMD_SP(sc);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1732  	if (!rqi)
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1733  		goto skip_clean;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1734  =
 
-0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  691  		if (=
-debug & 4)
-0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  692  			pri=
-nt_hex_dump_bytes("gsm_data_kick: ",
-0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  693  					 =
-    DUMP_PREFIX_OFFSET,
-0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  694  					 =
-    gsm->txframe, len);
-6ffac3413ab519 drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  695  		if (=
-gsm->output(gsm, gsm->txframe, len) < 0)
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  696  			bre=
-ak;
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  697  		/* F=
-IXME: Can eliminate one SOF in many more cases */
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  698  		gsm-=
->tx_bytes -=3D msg->len;
-c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  699  =
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1735  =
 
-b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  700  		list=
-_del(&msg->list);
-b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  701  		kfre=
-e(msg);
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  702  =
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1736  	if (CMD_STATE(sc) =3D=
+=3D SNIC_IOREQ_ABTS_PENDING)
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1737  		goto skip_clean;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1738  =
 
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  703  		if (=
-dlci) {
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  704  			tty=
-_dlci =3D tty_port_tty_get(&dlci->port);
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  705  			if =
-(tty_dlci)
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  706  				tt=
-y_wakeup(tty_dlci);
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  707  		} el=
-se {
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  708  			int=
- i =3D 0;
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  709  =
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1739  =
 
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  710  			whi=
-le (i < NUM_DLCI) {
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30 @711  				st=
-ruct gsm_dlci *dlci;
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  712  =
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1740  	if ((CMD_FLAGS(sc) & S=
+NIC_DEVICE_RESET) &&
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1741  			(!(CMD_FLAGS(sc) & S=
+NIC_DEV_RST_ISSUED))) {
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1742  =
 
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  713  				dl=
-ci =3D gsm->dlci[i];
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  714  				if=
- (dlci =3D=3D NULL) {
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  715  					i=
-++;
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  716  					c=
-ontinue;
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  717  				}
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  718  =
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1743  		SNIC_SCSI_DBG(snic->s=
+host,
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1744  			      "clean_single_=
+req: devrst is not pending sc 0x%p\n",
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1745  			      sc);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1746  =
 
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  719  				tt=
-y_dlci =3D tty_port_tty_get(&dlci->port);
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  720  				if=
- (tty_dlci)
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  721  					t=
-ty_wakeup(tty_dlci);
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  722  				i+=
-+;
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  723  			}
-e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  724  		}
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  725  	}
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  726  }
-e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  727  =
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1747  		goto skip_clean;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1748  	}
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1749  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1750  	SNIC_SCSI_DBG(snic->sh=
+ost,
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1751  		"clean_single_req: Fo=
+und IO in %s on lun\n",
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1752  		snic_ioreq_state_to_s=
+tr(CMD_STATE(sc)));
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1753  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1754  	/* Save Command State =
+*/
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1755  	sv_state =3D CMD_STATE=
+(sc);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1756  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1757  	/*
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1758  	 * Any pending IO issu=
+ed prior to reset is expected to be
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1759  	 * in abts pending sta=
+te, if not we need to set SNIC_IOREQ_ABTS_PENDING
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1760  	 * to indicate the IO =
+is abort pending.
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1761  	 * When IO is complete=
+d, the IO will be handed over and handled
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1762  	 * in this function.
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1763  	 */
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1764  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1765  	CMD_STATE(sc) =3D SNIC=
+_IOREQ_ABTS_PENDING;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1766  	SNIC_BUG_ON(rqi->abts_=
+done);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1767  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1768  	if (CMD_FLAGS(sc) & SN=
+IC_DEVICE_RESET) {
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1769  		rqi->tm_tag =3D SNIC_=
+TAG_DEV_RST;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1770  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1771  		SNIC_SCSI_DBG(snic->s=
+host,
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1772  			      "clean_single_=
+req:devrst sc 0x%p\n", sc);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1773  	}
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1774  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1775  	CMD_ABTS_STATUS(sc) =
+=3D SNIC_INVALID_CODE;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1776  	rqi->abts_done =3D &tm=
+_done;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1777  	spin_unlock_irqrestore=
+(io_lock, flags);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1778  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1779  	tgt =3D starget_to_tgt=
+(scsi_target(sc->device));
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1780  	if ((snic_tgt_chkready=
+(tgt) !=3D 0) && (tgt->tdata.typ =3D=3D SNIC_TGT_SAN))
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1781  		tmf =3D SNIC_ITMF_ABT=
+S_TASK_TERM;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1782  	else
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1783  		tmf =3D SNIC_ITMF_ABT=
+S_TASK;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1784  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1785  	/* Now queue the abort=
+ command to firmware */
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1786  	ret =3D snic_queue_abo=
+rt_req(snic, rqi, sc, tmf);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1787  	if (ret) {
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1788  		SNIC_HOST_ERR(snic->s=
+host,
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1789  			      "clean_single_=
+req_err:sc %p, tag %d abt failed. tm_tag %d flags 0x%llx\n",
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1790  			      sc, sc->reques=
+t->tag, rqi->tm_tag, CMD_FLAGS(sc));
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1791  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1792  		spin_lock_irqsave(io_=
+lock, flags);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1793  		rqi =3D (struct snic_=
+req_info *) CMD_SP(sc);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1794  		if (rqi)
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1795  			rqi->abts_done =3D N=
+ULL;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1796  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1797  		/* Restore Command St=
+ate */
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1798  		if (CMD_STATE(sc) =3D=
+=3D SNIC_IOREQ_ABTS_PENDING)
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1799  			CMD_STATE(sc) =3D sv=
+_state;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1800  =
+
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1801  		iter_data->ret =3D 1;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1802  		goto skip_clean;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1803  	}
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1804  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1805  	spin_lock_irqsave(io_l=
+ock, flags);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1806  	if (CMD_FLAGS(sc) & SN=
+IC_DEVICE_RESET)
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1807  		CMD_FLAGS(sc) |=3D SN=
+IC_DEV_RST_TERM_ISSUED;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1808  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1809  	CMD_FLAGS(sc) |=3D SNI=
+C_IO_INTERNAL_TERM_ISSUED;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1810  	spin_unlock_irqrestore=
+(io_lock, flags);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1811  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1812  	wait_for_completion_ti=
+meout(&tm_done, SNIC_ABTS_TIMEOUT);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1813  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1814  	/* Recheck cmd state t=
+o check if it now aborted. */
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1815  	spin_lock_irqsave(io_l=
+ock, flags);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1816  	rqi =3D (struct snic_r=
+eq_info *) CMD_SP(sc);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1817  	if (!rqi) {
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1818  		CMD_FLAGS(sc) |=3D SN=
+IC_IO_ABTS_TERM_REQ_NULL;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1819  		goto skip_clean;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1820  	}
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1821  	rqi->abts_done =3D NUL=
+L;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1822  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1823  	/* if abort is still p=
+ending w/ fw, fail */
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1824  	if (CMD_ABTS_STATUS(sc=
+) =3D=3D SNIC_INVALID_CODE) {
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1825  		SNIC_HOST_ERR(snic->s=
+host,
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1826  			      "clean_single_=
+req_err:sc %p tag %d abt still pending w/ fw, tm_tag %d flags 0x%llx\n",
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1827  			      sc, sc->reques=
+t->tag, rqi->tm_tag, CMD_FLAGS(sc));
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1828  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1829  		CMD_FLAGS(sc) |=3D SN=
+IC_IO_ABTS_TERM_DONE;
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1830  		iter_data->ret =3D 1;
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1831  	} else {
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1832  		CMD_STATE(sc) =3D SNI=
+C_IOREQ_ABTS_COMPLETE;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1833  		CMD_SP(sc) =3D NULL;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1834  		spin_unlock_irqrestor=
+e(io_lock, flags);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1835  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1836  		snic_release_req_buf(=
+snic, rqi, sc);
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1837  =
+
+f352a0d5bafa62d Narsimhulu Musini 2016-03-17  1838  		sc->result =3D (DID_E=
+RROR << 16);
+f352a0d5bafa62d Narsimhulu Musini 2016-03-17  1839  		sc->scsi_done(sc);
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1840  	}
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1841  	return true;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1842  =
+
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1843  skip_clean:
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1844  	spin_unlock_irqrestore=
+(io_lock, flags);
+183c7fff937d1eb Hannes Reinecke   2019-03-24  1845  	return true;
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1846  } /* end of snic_dr_cle=
+an_single_req */
+c8806b6c9e824f4 Narsimhulu Musini 2015-05-29  1847  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3937654270381470637==--
+--===============0536381104286890003==--
 
