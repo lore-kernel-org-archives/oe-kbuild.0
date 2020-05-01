@@ -1,29 +1,33 @@
-Content-Type: multipart/mixed; boundary="===============1651248488230229950=="
+Content-Type: multipart/mixed; boundary="===============3937654270381470637=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v4 08/11] drm/i915: Link planes in a bigjoiner configuration, v3.
-Date: Fri, 01 May 2020 16:21:55 +0800
-Message-ID: <202005011641.5nDzxk1r%lkp@intel.com>
+Subject: Re: [PATCH 3/3] tty: n_gsm: Fix waking up upper tty layer when room available
+Date: Fri, 01 May 2020 15:31:17 +0800
+Message-ID: <202005011550.V7tpvSl3%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1651248488230229950==
+--===============3937654270381470637==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200430230951.2508-9-manasi.d.navare@intel.com>
-References: <20200430230951.2508-9-manasi.d.navare@intel.com>
-TO: Manasi Navare <manasi.d.navare@intel.com>
+In-Reply-To: <20200430113433.2162886-5-gregory.clement@bootlin.com>
+References: <20200430113433.2162886-5-gregory.clement@bootlin.com>
+TO: Gregory CLEMENT <gregory.clement@bootlin.com>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Jiri Slaby <jslaby@suse.com>
+TO: linux-kernel(a)vger.kernel.org
+CC: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+CC: Gregory CLEMENT <gregory.clement@bootlin.com>
 
-Hi Manasi,
+Hi Gregory,
 
 I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on drm-tip/drm-tip]
-[also build test WARNING on next-20200430]
-[cannot apply to drm-intel/for-linux-next linus/master v5.7-rc3]
+[auto build test WARNING on tty/tty-testing]
+[also build test WARNING on v5.7-rc3 next-20200430]
 [if your patch is applied to the wrong git tree, please drop us a note to h=
 elp
 improve the system. BTW, we also suggest to use '--base' option to specify =
@@ -31,11 +35,12 @@ the
 base tree in git format-patch, please see https://stackoverflow.com/a/37406=
 982]
 
-url:    https://github.com/0day-ci/linux/commits/Manasi-Navare/Rebased-Big-=
-Joiner-patch-series-for-8K-2p1p/20200501-071225
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
+url:    https://github.com/0day-ci/linux/commits/Gregory-CLEMENT/TTY-improv=
+e-n_gsm-support/20200501-025835
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/tty.git tty-=
+testing
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -43,205 +48,162 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
-   drivers/gpu/drm/i915/display/intel_display.c:6168:10: warning: Either th=
-e condition '!fb' is redundant or there is possible null pointer dereferenc=
-e: fb. [nullPointerRedundantCheck]
-    switch (fb->format->format) {
-            ^
-   drivers/gpu/drm/i915/display/intel_display.c:6136:22: note: Assuming tha=
-t condition '!fb' is not redundant
-    bool force_detach =3D !fb || !plane_state->uapi.visible;
+>> drivers/tty/n_gsm.c:711:22: warning: Local variable 'dlci' shadows outer=
+ argument [shadowArgument]
+       struct gsm_dlci *dlci;
                         ^
-   drivers/gpu/drm/i915/display/intel_display.c:6134:46: note: Assignment '=
-fb=3Dplane_state->hw.fb', assigned value is 0
-    struct drm_framebuffer *fb =3D plane_state->hw.fb;
-                                                ^
-   drivers/gpu/drm/i915/display/intel_display.c:6168:10: note: Null pointer=
- dereference
-    switch (fb->format->format) {
-            ^
-   drivers/gpu/drm/i915/display/intel_display.c:17402:42: warning: Possible=
- null pointer dereference: obj [nullPointer]
-    struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
-                                            ^
-   drivers/gpu/drm/i915/display/intel_display.c:17401:36: note: Assignment =
-'obj=3D(fb)?to_intel_bo(fb->obj[0]):NULL', assigned value is 0
-    struct drm_i915_gem_object *obj =3D intel_fb_obj(fb);
-                                      ^
-   drivers/gpu/drm/i915/display/intel_display.c:17402:42: note: Null pointe=
-r dereference
-    struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
-                                            ^
-   drivers/gpu/drm/i915/display/intel_display.c:17404:6: warning: Possible =
-null pointer dereference: obj [nullPointer]
-    if (obj->userptr.mm) {
-        ^
-   drivers/gpu/drm/i915/display/intel_display.c:17401:36: note: Assignment =
-'obj=3D(fb)?to_intel_bo(fb->obj[0]):NULL', assigned value is 0
-    struct drm_i915_gem_object *obj =3D intel_fb_obj(fb);
-                                      ^
-   drivers/gpu/drm/i915/display/intel_display.c:17404:6: note: Null pointer=
- dereference
-    if (obj->userptr.mm) {
-        ^
-   drivers/gpu/drm/i915/display/intel_display.c:4302:7: warning: Local vari=
-able 'src_w' shadows outer variable [shadowVariable]
-     int src_w =3D drm_rect_width(&plane_state->uapi.src) >> 16;
-         ^
-   drivers/gpu/drm/i915/display/intel_display.c:4265:20: note: Shadowed dec=
-laration
-    int src_x, src_y, src_w;
-                      ^
-   drivers/gpu/drm/i915/display/intel_display.c:4302:7: note: Shadow variab=
-le
-     int src_w =3D drm_rect_width(&plane_state->uapi.src) >> 16;
-         ^
-   drivers/gpu/drm/i915/display/intel_display.c:11253:7: warning: Local var=
-iable 'tmp' shadows outer variable [shadowVariable]
-     u32 tmp =3D intel_de_read(dev_priv,
-         ^
-   drivers/gpu/drm/i915/display/intel_display.c:11209:6: note: Shadowed dec=
-laration
-    u32 tmp;
-        ^
-   drivers/gpu/drm/i915/display/intel_display.c:11253:7: note: Shadow varia=
-ble
-     u32 tmp =3D intel_de_read(dev_priv,
-         ^
-   drivers/gpu/drm/i915/display/intel_display.c:18711:23: warning: Local va=
-riable 'crtc' shadows outer variable [shadowVariable]
-      struct intel_crtc *crtc;
-                         ^
-   drivers/gpu/drm/i915/display/intel_display.c:18640:21: note: Shadowed de=
-claration
-    struct intel_crtc *crtc;
-                       ^
-   drivers/gpu/drm/i915/display/intel_display.c:18711:23: note: Shadow vari=
-able
-      struct intel_crtc *crtc;
-                         ^
->> drivers/gpu/drm/i915/display/intel_display.c:12632:12: warning: Argument=
- '!found_plane' to function WARN_ON is always 1 [constArgument]
-      WARN_ON(!found_plane);
-              ^
-   drivers/gpu/drm/i915/display/intel_display.c:12630:7: note: Assuming tha=
-t condition '!found_plane' is not redundant
-     if (!found_plane) {
-         ^
-   drivers/gpu/drm/i915/display/intel_display.c:12632:12: note: Argument '!=
-found_plane' to function WARN_ON is always 1
-      WARN_ON(!found_plane);
-              ^
-   drivers/gpu/drm/i915/display/intel_display.c:12200:53: warning: Clarify =
-calculation precedence for '&' and '?'. [clarifyCalculation]
-      clock.p2 =3D dpll & DPLL_DAC_SERIAL_P2_CLOCK_DIV_5 ?
-                                                       ^
-   drivers/gpu/drm/i915/display/intel_display.c:12204:48: warning: Clarify =
-calculation precedence for '&' and '?'. [clarifyCalculation]
-      clock.p2 =3D dpll & DPLLB_LVDS_P2_CLOCK_DIV_7 ?
-                                                  ^
-   drivers/gpu/drm/i915/display/intel_display.c:10542:36: warning: Shifting=
- signed 32-bit value by 31 bits is implementation-defined behaviour [shiftT=
-ooManyBitsSigned]
-     scaler_state->scaler_users |=3D (1 << SKL_CRTC_INDEX);
-                                      ^
-   drivers/gpu/drm/i915/display/intel_display.c:10544:37: warning: Shifting=
- signed 32-bit value by 31 bits is implementation-defined behaviour [shiftT=
-ooManyBitsSigned]
-     scaler_state->scaler_users &=3D ~(1 << SKL_CRTC_INDEX);
-                                       ^
+   drivers/tty/n_gsm.c:668:65: note: Shadowed declaration
+   static void gsm_data_kick(struct gsm_mux *gsm, struct gsm_dlci *dlci)
+                                                                   ^
+   drivers/tty/n_gsm.c:711:22: note: Shadow variable
+       struct gsm_dlci *dlci;
+                        ^
 
-# https://github.com/0day-ci/linux/commit/5c3b3baacd079c52fa2f307ae54261429=
-c906b72
+# https://github.com/0day-ci/linux/commit/e8a71fbfa1dedd6b7a8f24787d207d389=
+2d5b394
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout 5c3b3baacd079c52fa2f307ae54261429c906b72
-vim +12632 drivers/gpu/drm/i915/display/intel_display.c
+git checkout e8a71fbfa1dedd6b7a8f24787d207d3892d5b394
+vim +/dlci +711 drivers/tty/n_gsm.c
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12592  =
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  655  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12593  static int icl_set_bigj=
-oiner_plane_links(struct intel_atomic_state *state,
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12594  					 struct intel_crtc=
-_state *new_crtc_state)
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12595  {
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12596  	struct intel_plane *pl=
-ane;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12597  	struct intel_crtc *crt=
-c =3D to_intel_crtc(new_crtc_state->uapi.crtc);
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12598  	struct intel_crtc *oth=
-er_crtc =3D new_crtc_state->bigjoiner_linked_crtc;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12599  =
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  656  /**
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  657   *	gsm=
+_data_kick		-	poke the queue
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  658   *	@gs=
+m: GSM Mux
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  659   *
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  660   *	The=
+ tty device has called us to indicate that room has appeared in
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  661   *	the=
+ transmit queue. Ram more data into the pipe if we have any
+c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  662   *	If =
+we have been flow-stopped by a CMD_FCOFF, then we can only
+c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  663   *	sen=
+d messages on DLCI0 until CMD_FCON
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  664   *
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  665   *	FIX=
+ME: lock against link layer control transmissions
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  666   */
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  667  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12600  	/*
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12601           * Setup and te=
-ardown the new bigjoiner plane mappings.
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12602           */
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12603  	for_each_intel_plane_o=
-n_crtc(crtc->base.dev, crtc, plane) {
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12604  		struct intel_plane_st=
-ate *plane_state;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12605  		struct intel_plane *o=
-ther_plane =3D NULL;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12606  		bool found_plane =3D =
-false;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12607  =
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  668  static=
+ void gsm_data_kick(struct gsm_mux *gsm, struct gsm_dlci *dlci)
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  669  {
+b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  670  	struc=
+t gsm_msg *msg, *nmsg;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  671  	int l=
+en;
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  672  	struc=
+t tty_struct *tty_dlci =3D NULL;
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  673  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12608  		plane_state =3D intel=
-_atomic_get_plane_state(state, plane);
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12609  		if (IS_ERR(plane_stat=
-e))
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12610  			return PTR_ERR(plane=
-_state);
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12611  =
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  674  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12612  		for_each_intel_plane_=
-on_crtc(crtc->base.dev, other_crtc, other_plane) {
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12613  			if (other_plane->id =
-!=3D plane->id)
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12614  				continue;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12615  =
+b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  675  	list_=
+for_each_entry_safe(msg, nmsg, &gsm->tx_list, list) {
+b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  676  		if (=
+gsm->constipated && msg->addr)
+c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  677  			con=
+tinue;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  678  		if (=
+gsm->encoding !=3D 0) {
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  679  			gsm=
+->txframe[0] =3D GSM1_SOF;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  680  			len=
+ =3D gsm_stuff_frame(msg->data,
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  681  						=
+gsm->txframe + 1, msg->len);
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  682  			gsm=
+->txframe[len + 1] =3D GSM1_SOF;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  683  			len=
+ +=3D 2;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  684  		} el=
+se {
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  685  			gsm=
+->txframe[0] =3D GSM0_SOF;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  686  			mem=
+cpy(gsm->txframe + 1 , msg->data, msg->len);
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  687  			gsm=
+->txframe[msg->len + 1] =3D GSM0_SOF;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  688  			len=
+ =3D msg->len + 2;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  689  		}
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  690  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12616  			plane_state->bigjoin=
-er_plane =3D other_plane;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12617  			plane_state->bigjoin=
-er_slave =3D new_crtc_state->bigjoiner_slave;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12618  =
+0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  691  		if (=
+debug & 4)
+0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  692  			pri=
+nt_hex_dump_bytes("gsm_data_kick: ",
+0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  693  					 =
+    DUMP_PREFIX_OFFSET,
+0a77c4f9d451a6 drivers/tty/n_gsm.c  Joe Perches     2011-04-25  694  					 =
+    gsm->txframe, len);
+6ffac3413ab519 drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  695  		if (=
+gsm->output(gsm, gsm->txframe, len) < 0)
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  696  			bre=
+ak;
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  697  		/* F=
+IXME: Can eliminate one SOF in many more cases */
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  698  		gsm-=
+>tx_bytes -=3D msg->len;
+c01af4fec2c8f3 drivers/tty/n_gsm.c  Frederic Berat  2012-08-13  699  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12619  			plane_state =3D inte=
-l_atomic_get_plane_state(state, other_plane);
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12620  			if (IS_ERR(plane_sta=
-te))
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12621  				return PTR_ERR(plan=
-e_state);
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12622  =
+b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  700  		list=
+_del(&msg->list);
+b4338e1efc3399 drivers/tty/n_gsm.c  Russ Gorby      2012-08-13  701  		kfre=
+e(msg);
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  702  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12623  			plane_state->bigjoin=
-er_plane =3D plane;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12624  			plane_state->bigjoin=
-er_slave =3D !new_crtc_state->bigjoiner_slave;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12625  =
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  703  		if (=
+dlci) {
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  704  			tty=
+_dlci =3D tty_port_tty_get(&dlci->port);
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  705  			if =
+(tty_dlci)
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  706  				tt=
+y_wakeup(tty_dlci);
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  707  		} el=
+se {
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  708  			int=
+ i =3D 0;
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  709  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12626  			found_plane =3D true;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12627  			break;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12628  		}
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12629  =
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  710  			whi=
+le (i < NUM_DLCI) {
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30 @711  				st=
+ruct gsm_dlci *dlci;
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  712  =
 
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12630  		if (!found_plane) {
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12631  			/* All pipes should =
-have identical planes. */
-5c3b3baacd079c Maarten Lankhorst 2020-04-30 @12632  			WARN_ON(!found_plane=
-);
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12633  			return -EINVAL;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12634  		}
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12635  	}
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12636  	return 0;
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12637  }
-5c3b3baacd079c Maarten Lankhorst 2020-04-30  12638  =
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  713  				dl=
+ci =3D gsm->dlci[i];
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  714  				if=
+ (dlci =3D=3D NULL) {
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  715  					i=
+++;
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  716  					c=
+ontinue;
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  717  				}
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  718  =
+
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  719  				tt=
+y_dlci =3D tty_port_tty_get(&dlci->port);
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  720  				if=
+ (tty_dlci)
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  721  					t=
+ty_wakeup(tty_dlci);
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  722  				i+=
++;
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  723  			}
+e8a71fbfa1dedd drivers/tty/n_gsm.c  Gregory CLEMENT 2020-04-30  724  		}
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  725  	}
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  726  }
+e1eaea46bb4020 drivers/char/n_gsm.c Alan Cox        2010-03-26  727  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1651248488230229950==--
+--===============3937654270381470637==--
 
