@@ -1,150 +1,207 @@
-Content-Type: multipart/mixed; boundary="===============5214257790711923606=="
+Content-Type: multipart/mixed; boundary="===============4730982220704506149=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v7 16/18] KVM: x86: Add guest support for detecting and enabling SEV Live Migration feature.
-Date: Fri, 01 May 2020 21:39:34 +0800
-Message-ID: <202005012154.HBENGSFW%lkp@intel.com>
+Subject: [hare-scsi-devel:reserved-tags.v3 39/41] drivers/scsi/hisi_sas/hisi_sas_main.c:1972:1: warning: Label 'err_out' is not used. [unusedLabel]
+Date: Fri, 01 May 2020 17:00:30 +0800
+Message-ID: <202005011633.sa8Wlw5d%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5214257790711923606==
+--===============4730982220704506149==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <42947fc3dc7a01c73677560c84dfd87498d381e0.1588234824.git.ashis=
-h.kalra@amd.com>
-References: <42947fc3dc7a01c73677560c84dfd87498d381e0.1588234824.git.ashish=
-.kalra@amd.com>
-TO: Ashish Kalra <Ashish.Kalra@amd.com>
-TO: pbonzini(a)redhat.com
-CC: tglx(a)linutronix.de
-CC: mingo(a)redhat.com
-CC: hpa(a)zytor.com
-CC: joro(a)8bytes.org
-CC: bp(a)suse.de
-CC: thomas.lendacky(a)amd.com
-CC: x86(a)kernel.org
-CC: kvm(a)vger.kernel.org
-CC: linux-kernel(a)vger.kernel.org
+TO: Hannes Reinecke <hare@suse.de>
 
-Hi Ashish,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on v5.7-rc3]
-[cannot apply to kvm/linux-next tip/x86/mm tip/x86/core next-20200501]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Ashish-Kalra/Add-AMD-SEV-g=
-uest-live-migration-support/20200430-202702
-base:    6a8b55ed4056ea5559ebe4f6a4b247f627870d4c
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-191-gc51a0382-dirty
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 25 hours ago
-:::::: commit date: 25 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git=
+ reserved-tags.v3
+head:   7e846b812c89291eaaf342f3a37944fefc17473b
+commit: 0b5ae3c0eabfefb5573b84647788cc5d9af89135 [39/41] hisi_sas: use task=
+ tag to reference the slot
+:::::: branch date: 22 hours ago
+:::::: commit date: 22 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
+cppcheck warnings: (new ones prefixed by >>)
 
->> arch/x86/kernel/kvm.c:410:56: sparse: sparse: invalid initializer
-   arch/x86/kernel/kvm.c:795:6: sparse: sparse: symbol 'kvm_sev_migration_h=
-call' was not declared. Should it be static?
+>> drivers/scsi/hisi_sas/hisi_sas_main.c:1972:1: warning: Label 'err_out' i=
+s not used. [unusedLabel]
+   err_out:
+   ^
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1045:6: warning: Null pointer dere=
+ference: r [ctunullpointer]
+    if (r->minimum_linkrate > SAS_LINK_RATE_1_5_GBPS)
+        ^
+   drivers/scsi/hisi_sas/hisi_sas_main.c:819:22: note: Calling function his=
+i_sas_control_phy, 3rd argument is null
+    hisi_sas_control_phy(sas_phy, PHY_FUNC_LINK_RESET, NULL);
+                        ^
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1094:10: note: Calling function hi=
+si_sas_phy_set_linkrate, 3rd argument is null
+     return hisi_sas_phy_set_linkrate(hisi_hba, phy_no, funcdata);
+            ^
+   drivers/scsi/hisi_sas/hisi_sas_main.c:1045:6: note: Dereferencing argume=
+nt r that is null
+    if (r->minimum_linkrate > SAS_LINK_RATE_1_5_GBPS)
+        ^
 
-# https://github.com/0day-ci/linux/commit/ec31b001157e1122024857a2b8ffcb9c7=
-30e165d
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout ec31b001157e1122024857a2b8ffcb9c730e165d
-vim +410 arch/x86/kernel/kvm.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/hare/scsi-devel.git/commi=
+t/?id=3D0b5ae3c0eabfefb5573b84647788cc5d9af89135
+git remote add hare-scsi-devel https://git.kernel.org/pub/scm/linux/kernel/=
+git/hare/scsi-devel.git
+git remote update hare-scsi-devel
+git checkout 0b5ae3c0eabfefb5573b84647788cc5d9af89135
+vim +/err_out +1972 drivers/scsi/hisi_sas/hisi_sas_main.c
 
-4716276184ec67 Brijesh Singh 2017-10-20  406  =
+0efff300c72df7 John Garry      2015-11-18  1899  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  407  #ifdef CONFIG_EFI
-ec31b001157e11 Ashish Kalra  2020-04-30  408  static bool setup_kvm_sev_mig=
-ration(void)
-ec31b001157e11 Ashish Kalra  2020-04-30  409  {
-ec31b001157e11 Ashish Kalra  2020-04-30 @410  	efi_char16_t efi_Sev_Live_Mi=
-g_support_name[] =3D L"SevLiveMigrationEnabled";
-ec31b001157e11 Ashish Kalra  2020-04-30  411  	efi_guid_t efi_variable_guid=
- =3D MEM_ENCRYPT_GUID;
-ec31b001157e11 Ashish Kalra  2020-04-30  412  	efi_status_t status;
-ec31b001157e11 Ashish Kalra  2020-04-30  413  	unsigned long size;
-ec31b001157e11 Ashish Kalra  2020-04-30  414  	bool enabled;
-ec31b001157e11 Ashish Kalra  2020-04-30  415  =
+441c27401470c4 John Garry      2016-08-24  1900  static int
+ad6048325c7807 John Garry      2017-06-14  1901  hisi_sas_internal_abort_ta=
+sk_exec(struct hisi_hba *hisi_hba, int device_id,
+441c27401470c4 John Garry      2016-08-24  1902  				  struct sas_task *tas=
+k, int abort_flag,
+795f25a31b542d John Garry      2019-02-06  1903  				  int task_tag, struct=
+ hisi_sas_dq *dq)
+441c27401470c4 John Garry      2016-08-24  1904  {
+441c27401470c4 John Garry      2016-08-24  1905  	struct domain_device *dev=
+ice =3D task->dev;
+441c27401470c4 John Garry      2016-08-24  1906  	struct hisi_sas_device *s=
+as_dev =3D device->lldd_dev;
+11b752490a051b John Garry      2017-06-14  1907  	struct device *dev =3D hi=
+si_hba->dev;
+441c27401470c4 John Garry      2016-08-24  1908  	struct hisi_sas_port *por=
+t;
+441c27401470c4 John Garry      2016-08-24  1909  	struct hisi_sas_slot *slo=
+t;
+2e244f0f5bcaa9 John Garry      2017-03-23  1910  	struct asd_sas_port *sas_=
+port =3D device->port;
+441c27401470c4 John Garry      2016-08-24  1911  	struct hisi_sas_cmd_hdr *=
+cmd_hdr_base;
+441c27401470c4 John Garry      2016-08-24  1912  	int dlvry_queue_slot, dlv=
+ry_queue, n_elem =3D 0, rc, slot_idx;
+897cc769bcc092 John Garry      2019-08-05  1913  	unsigned long flags;
+fa222db0b03689 Xiang Chen      2018-05-09  1914  	int wr_q_index;
+441c27401470c4 John Garry      2016-08-24  1915  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  416  	if (!sev_live_migration_enab=
-led())
-ec31b001157e11 Ashish Kalra  2020-04-30  417  		return false;
-ec31b001157e11 Ashish Kalra  2020-04-30  418  =
+917d3bdaf8f2ab Xiaofei Tan     2017-08-11  1916  	if (unlikely(test_bit(HIS=
+I_SAS_REJECT_CMD_BIT, &hisi_hba->flags)))
+06ec0fb97c0281 Xiang Chen      2017-03-23  1917  		return -EINVAL;
+06ec0fb97c0281 Xiang Chen      2017-03-23  1918  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  419  	size =3D sizeof(enabled);
-ec31b001157e11 Ashish Kalra  2020-04-30  420  =
+441c27401470c4 John Garry      2016-08-24  1919  	if (!device->port)
+441c27401470c4 John Garry      2016-08-24  1920  		return -1;
+441c27401470c4 John Garry      2016-08-24  1921  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  421  	if (!efi_enabled(EFI_RUNTIME=
-_SERVICES)) {
-ec31b001157e11 Ashish Kalra  2020-04-30  422  		pr_info("setup_kvm_sev_migr=
-ation: no efi\n");
-ec31b001157e11 Ashish Kalra  2020-04-30  423  		return false;
-ec31b001157e11 Ashish Kalra  2020-04-30  424  	}
-ec31b001157e11 Ashish Kalra  2020-04-30  425  =
+2e244f0f5bcaa9 John Garry      2017-03-23  1922  	port =3D to_hisi_sas_port=
+(sas_port);
+441c27401470c4 John Garry      2016-08-24  1923  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  426  	/* Get variable contents int=
-o buffer */
-ec31b001157e11 Ashish Kalra  2020-04-30  427  	status =3D efi.get_variable(=
-efi_Sev_Live_Mig_support_name,
-ec31b001157e11 Ashish Kalra  2020-04-30  428  				  &efi_variable_guid, NUL=
-L, &size, &enabled);
-ec31b001157e11 Ashish Kalra  2020-04-30  429  =
+0b5ae3c0eabfef Hannes Reinecke 2020-04-29  1924  	slot_idx =3D task->tag;
+0b5ae3c0eabfef Hannes Reinecke 2020-04-29  1925  	if (task->tag =3D=3D -1)
+0b5ae3c0eabfef Hannes Reinecke 2020-04-29  1926  		return -EAGAIN;
+b1a49412f0aed7 Xiang Chen      2017-06-14  1927  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  430  	if (status =3D=3D EFI_NOT_FO=
-UND) {
-ec31b001157e11 Ashish Kalra  2020-04-30  431  		pr_info("setup_kvm_sev_migr=
-ation: variable not found\n");
-ec31b001157e11 Ashish Kalra  2020-04-30  432  		return false;
-ec31b001157e11 Ashish Kalra  2020-04-30  433  	}
-ec31b001157e11 Ashish Kalra  2020-04-30  434  =
+3de0026dad6b8e Xiang Chen      2018-05-09  1928  	slot =3D &hisi_hba->slot_=
+info[slot_idx];
+fa222db0b03689 Xiang Chen      2018-05-09  1929  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  435  	if (status !=3D EFI_SUCCESS)=
- {
-ec31b001157e11 Ashish Kalra  2020-04-30  436  		pr_info("setup_kvm_sev_migr=
-ation: get_variable fail\n");
-ec31b001157e11 Ashish Kalra  2020-04-30  437  		return false;
-ec31b001157e11 Ashish Kalra  2020-04-30  438  	}
-ec31b001157e11 Ashish Kalra  2020-04-30  439  =
+e9dc5e11c97ee9 Xiang Chen      2020-01-20  1930  	spin_lock(&dq->lock);
+897cc769bcc092 John Garry      2019-08-05  1931  	wr_q_index =3D dq->wr_poi=
+nt;
+897cc769bcc092 John Garry      2019-08-05  1932  	dq->wr_point =3D (dq->wr_=
+point + 1) % HISI_SAS_QUEUE_SLOTS;
+fa222db0b03689 Xiang Chen      2018-05-09  1933  	list_add_tail(&slot->deli=
+very, &dq->list);
+e9dc5e11c97ee9 Xiang Chen      2020-01-20  1934  	spin_unlock(&dq->lock);
+e9dc5e11c97ee9 Xiang Chen      2020-01-20  1935  	spin_lock(&sas_dev->lock);
+4fefe5bbf599d6 Xiang Chen      2019-02-06  1936  	list_add_tail(&slot->entr=
+y, &sas_dev->list);
+e9dc5e11c97ee9 Xiang Chen      2020-01-20  1937  	spin_unlock(&sas_dev->loc=
+k);
+441c27401470c4 John Garry      2016-08-24  1938  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  440  	if (enabled =3D=3D 0) {
-ec31b001157e11 Ashish Kalra  2020-04-30  441  		pr_info("setup_kvm_sev_migr=
-ation: live migration disabled in OVMF\n");
-ec31b001157e11 Ashish Kalra  2020-04-30  442  		return false;
-ec31b001157e11 Ashish Kalra  2020-04-30  443  	}
-ec31b001157e11 Ashish Kalra  2020-04-30  444  =
+b1a49412f0aed7 Xiang Chen      2017-06-14  1939  	dlvry_queue =3D dq->id;
+fa222db0b03689 Xiang Chen      2018-05-09  1940  	dlvry_queue_slot =3D wr_q=
+_index;
+b1a49412f0aed7 Xiang Chen      2017-06-14  1941  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  445  	pr_info("setup_kvm_sev_migra=
-tion: live migration enabled in OVMF\n");
-ec31b001157e11 Ashish Kalra  2020-04-30  446  	wrmsrl(MSR_KVM_SEV_LIVE_MIG_=
-EN, KVM_SEV_LIVE_MIGRATION_ENABLED);
-ec31b001157e11 Ashish Kalra  2020-04-30  447  =
+4fefe5bbf599d6 Xiang Chen      2019-02-06  1942  	slot->device_id =3D sas_d=
+ev->device_id;
+441c27401470c4 John Garry      2016-08-24  1943  	slot->n_elem =3D n_elem;
+441c27401470c4 John Garry      2016-08-24  1944  	slot->dlvry_queue =3D dlv=
+ry_queue;
+441c27401470c4 John Garry      2016-08-24  1945  	slot->dlvry_queue_slot =
+=3D dlvry_queue_slot;
+441c27401470c4 John Garry      2016-08-24  1946  	cmd_hdr_base =3D hisi_hba=
+->cmd_hdr[dlvry_queue];
+441c27401470c4 John Garry      2016-08-24  1947  	slot->cmd_hdr =3D &cmd_hd=
+r_base[dlvry_queue_slot];
+441c27401470c4 John Garry      2016-08-24  1948  	slot->task =3D task;
+441c27401470c4 John Garry      2016-08-24  1949  	slot->port =3D port;
+cd938e535e909b Xiang Chen      2018-05-02  1950  	slot->is_internal =3D tru=
+e;
+441c27401470c4 John Garry      2016-08-24  1951  	task->lldd_task =3D slot;
+441c27401470c4 John Garry      2016-08-24  1952  =
 
-ec31b001157e11 Ashish Kalra  2020-04-30  448  	return true;
-ec31b001157e11 Ashish Kalra  2020-04-30  449  }
-ec31b001157e11 Ashish Kalra  2020-04-30  450  =
+441c27401470c4 John Garry      2016-08-24  1953  	memset(slot->cmd_hdr, 0, =
+sizeof(struct hisi_sas_cmd_hdr));
+031da09c110106 Xiang Chen      2017-08-11  1954  	memset(hisi_sas_cmd_hdr_a=
+ddr_mem(slot), 0, HISI_SAS_COMMAND_TABLE_SZ);
+d380f55503ed28 Xiang Chen      2019-08-05  1955  	memset(hisi_sas_status_bu=
+f_addr_mem(slot), 0,
+d380f55503ed28 Xiang Chen      2019-08-05  1956  	       sizeof(struct hisi=
+_sas_err_record));
+441c27401470c4 John Garry      2016-08-24  1957  =
 
+a2b3820bddfbff Xiang Chen      2018-05-09  1958  	hisi_sas_task_prep_abort(=
+hisi_hba, slot, device_id,
+441c27401470c4 John Garry      2016-08-24  1959  				      abort_flag, task=
+_tag);
+441c27401470c4 John Garry      2016-08-24  1960  =
+
+54c9dd2d26d095 John Garry      2017-03-23  1961  	spin_lock_irqsave(&task->=
+task_state_lock, flags);
+441c27401470c4 John Garry      2016-08-24  1962  	task->task_state_flags |=
+=3D SAS_TASK_AT_INITIATOR;
+54c9dd2d26d095 John Garry      2017-03-23  1963  	spin_unlock_irqrestore(&t=
+ask->task_state_lock, flags);
+1c09b663168bb5 Xiaofei Tan     2018-07-18  1964  	WRITE_ONCE(slot->ready, 1=
+);
+b1a49412f0aed7 Xiang Chen      2017-06-14  1965  	/* send abort command to =
+the chip */
+e9dc5e11c97ee9 Xiang Chen      2020-01-20  1966  	spin_lock(&dq->lock);
+b1a49412f0aed7 Xiang Chen      2017-06-14  1967  	hisi_hba->hw->start_deliv=
+ery(dq);
+e9dc5e11c97ee9 Xiang Chen      2020-01-20  1968  	spin_unlock(&dq->lock);
+441c27401470c4 John Garry      2016-08-24  1969  =
+
+441c27401470c4 John Garry      2016-08-24  1970  	return 0;
+441c27401470c4 John Garry      2016-08-24  1971  =
+
+441c27401470c4 John Garry      2016-08-24 @1972  err_out:
+441c27401470c4 John Garry      2016-08-24  1973  	dev_err(dev, "internal ab=
+ort task prep: failed[%d]!\n", rc);
+441c27401470c4 John Garry      2016-08-24  1974  =
+
+441c27401470c4 John Garry      2016-08-24  1975  	return rc;
+441c27401470c4 John Garry      2016-08-24  1976  }
+441c27401470c4 John Garry      2016-08-24  1977  =
+
+
+:::::: The code at line 1972 was first introduced by commit
+:::::: 441c27401470c417cf4a33ab9c17bcefdf1ecca3 scsi: hisi_sas: add interna=
+l abort main code
+
+:::::: TO: John Garry <john.garry@huawei.com>
+:::::: CC: Martin K. Petersen <martin.petersen@oracle.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5214257790711923606==--
+--===============4730982220704506149==--
 
