@@ -1,160 +1,107 @@
-Content-Type: multipart/mixed; boundary="===============3543563398355015484=="
+Content-Type: multipart/mixed; boundary="===============8144946304608169496=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [vhost:vhost 8/22] drivers/virtio/virtio_mem.c:1389:5: warning: Redundant initialization for 'rc'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Tue, 05 May 2020 19:09:27 +0800
-Message-ID: <202005051923.Z8P1BYp1%lkp@intel.com>
+Subject: Re: [PATCH 1/1] usb: chipidea: udc: add software sg list support
+Date: Sat, 02 May 2020 17:01:49 +0800
+Message-ID: <202005021636.JlI1NJAJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3543563398355015484==
+--===============8144946304608169496==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: kvm(a)vger.kernel.org
-CC: virtualization(a)lists.linux-foundation.org
-CC: netdev(a)vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Pankaj Gupta <pankaj.gupta.linux@gmail.com>
+In-Reply-To: <20200501060223.23715-1-peter.chen@kernel.org>
+References: <20200501060223.23715-1-peter.chen@kernel.org>
+TO: Peter Chen <peter.chen@kernel.org>
+TO: linux-usb(a)vger.kernel.org
+TO: linux-imx(a)nxp.com
+TO: jun.li(a)nxp.com
+TO: Peter Chen <peter.chen@nxp.com>
+TO: linux-imx(a)nxp.com
+TO: jun.li(a)nxp.com
+TO: Peter Chen <peter.chen@nxp.com>
+CC: linux-imx(a)nxp.com
+CC: jun.li(a)nxp.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git vhost
-head:   da1742791d8c0c0a8e5471f181549c4726a5c5f9
-commit: 7527631e900d464ed2d533f799cb0da2b29cc6f0 [8/22] virtio-mem: Paravir=
-tualized memory hotplug
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
+Hi Peter,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on peter.chen-usb/ci-for-usb-next]
+[also build test WARNING on balbi-usb/next usb/usb-testing v5.7-rc3 next-20=
+200501]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Peter-Chen/usb-chipidea-ud=
+c-add-software-sg-list-support/20200501-144717
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/peter.chen/usb.git =
+ci-for-usb-next
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
+sparse warnings: (new ones prefixed by >>)
 
->> drivers/virtio/virtio_mem.c:1389:5: warning: Redundant initialization fo=
-r 'rc'. The initialized value is overwritten before it is read. [redundantI=
-nitialization]
-    rc =3D virtio_mem_init_vq(vm);
-       ^
-   drivers/virtio/virtio_mem.c:1373:9: note: rc is initialized
-    int rc =3D -EINVAL;
-           ^
-   drivers/virtio/virtio_mem.c:1389:5: note: rc is overwritten
-    rc =3D virtio_mem_init_vq(vm);
-       ^
->> drivers/virtio/virtio_mem.c:799:22: warning: int result is assigned to l=
-ong variable. If the variable is long to avoid loss of information, then yo=
-u have loss of information. [truncLongCastAssignment]
-    const uint64_t size =3D count * vm->subblock_size;
-                        ^
-   drivers/virtio/virtio_mem.c:820:22: warning: int result is assigned to l=
-ong variable. If the variable is long to avoid loss of information, then yo=
-u have loss of information. [truncLongCastAssignment]
-    const uint64_t size =3D count * vm->subblock_size;
-                        ^
+>> drivers/usb/chipidea/udc.c:477:26: sparse: sparse: bad assignment (+=3D)=
+ to restricted __le32
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git/commit/?id=
-=3D7527631e900d464ed2d533f799cb0da2b29cc6f0
-git remote add vhost https://git.kernel.org/pub/scm/linux/kernel/git/mst/vh=
-ost.git
-git remote update vhost
-git checkout 7527631e900d464ed2d533f799cb0da2b29cc6f0
-vim +/rc +1389 drivers/virtio/virtio_mem.c
+# https://github.com/0day-ci/linux/commit/0f541fb00a98fe49b6dddc65929085b85=
+396259e
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 0f541fb00a98fe49b6dddc65929085b85396259e
+vim +477 drivers/usb/chipidea/udc.c
 
-7527631e900d46 David Hildenbrand 2020-03-11  1369  =
+0f541fb00a98fe Peter Chen 2020-05-01  470  =
 
-7527631e900d46 David Hildenbrand 2020-03-11  1370  static int virtio_mem_pr=
-obe(struct virtio_device *vdev)
-7527631e900d46 David Hildenbrand 2020-03-11  1371  {
-7527631e900d46 David Hildenbrand 2020-03-11  1372  	struct virtio_mem *vm;
-7527631e900d46 David Hildenbrand 2020-03-11  1373  	int rc =3D -EINVAL;
-7527631e900d46 David Hildenbrand 2020-03-11  1374  =
+0f541fb00a98fe Peter Chen 2020-05-01  471  static void ci_add_buffer_entry(=
+struct td_node *node, struct scatterlist *s)
+0f541fb00a98fe Peter Chen 2020-05-01  472  {
+0f541fb00a98fe Peter Chen 2020-05-01  473  	int empty_td_slot_index =3D (CI=
+_MAX_BUF_SIZE - node->td_remaining_size)
+0f541fb00a98fe Peter Chen 2020-05-01  474  			/ CI_HDRC_PAGE_SIZE;
+0f541fb00a98fe Peter Chen 2020-05-01  475  	int i;
+0f541fb00a98fe Peter Chen 2020-05-01  476  =
 
-7527631e900d46 David Hildenbrand 2020-03-11  1375  	vdev->priv =3D vm =3D k=
-zalloc(sizeof(*vm), GFP_KERNEL);
-7527631e900d46 David Hildenbrand 2020-03-11  1376  	if (!vm)
-7527631e900d46 David Hildenbrand 2020-03-11  1377  		return -ENOMEM;
-7527631e900d46 David Hildenbrand 2020-03-11  1378  =
+0f541fb00a98fe Peter Chen 2020-05-01 @477  	node->ptr->token +=3D
+0f541fb00a98fe Peter Chen 2020-05-01  478  		cpu_to_le32(sg_dma_len(s) << _=
+_ffs(TD_TOTAL_BYTES));
+0f541fb00a98fe Peter Chen 2020-05-01  479  =
 
-7527631e900d46 David Hildenbrand 2020-03-11  1379  	init_waitqueue_head(&vm=
-->host_resp);
-7527631e900d46 David Hildenbrand 2020-03-11  1380  	vm->vdev =3D vdev;
-7527631e900d46 David Hildenbrand 2020-03-11  1381  	INIT_WORK(&vm->wq, virt=
-io_mem_run_wq);
-7527631e900d46 David Hildenbrand 2020-03-11  1382  	mutex_init(&vm->hotplug=
-_mutex);
-7527631e900d46 David Hildenbrand 2020-03-11  1383  	INIT_LIST_HEAD(&vm->nex=
-t);
-7527631e900d46 David Hildenbrand 2020-03-11  1384  	spin_lock_init(&vm->rem=
-oval_lock);
-7527631e900d46 David Hildenbrand 2020-03-11  1385  	hrtimer_init(&vm->retry=
-_timer, CLOCK_MONOTONIC, HRTIMER_MODE_REL);
-7527631e900d46 David Hildenbrand 2020-03-11  1386  	vm->retry_timer.functio=
-n =3D virtio_mem_timer_expired;
-7527631e900d46 David Hildenbrand 2020-03-11  1387  =
+0f541fb00a98fe Peter Chen 2020-05-01  480  	for (i =3D empty_td_slot_index;=
+ i < TD_PAGE_COUNT; i++) {
+0f541fb00a98fe Peter Chen 2020-05-01  481  		u32 page =3D (u32) sg_dma_addr=
+ess(s) +
+0f541fb00a98fe Peter Chen 2020-05-01  482  			(i - empty_td_slot_index) * C=
+I_HDRC_PAGE_SIZE;
+0f541fb00a98fe Peter Chen 2020-05-01  483  =
 
-7527631e900d46 David Hildenbrand 2020-03-11  1388  	/* register the virtque=
-ue */
-7527631e900d46 David Hildenbrand 2020-03-11 @1389  	rc =3D virtio_mem_init_=
-vq(vm);
-7527631e900d46 David Hildenbrand 2020-03-11  1390  	if (rc)
-7527631e900d46 David Hildenbrand 2020-03-11  1391  		goto out_free_vm;
-7527631e900d46 David Hildenbrand 2020-03-11  1392  =
-
-7527631e900d46 David Hildenbrand 2020-03-11  1393  	/* initialize the devic=
-e by querying the config */
-7527631e900d46 David Hildenbrand 2020-03-11  1394  	rc =3D virtio_mem_init(=
-vm);
-7527631e900d46 David Hildenbrand 2020-03-11  1395  	if (rc)
-7527631e900d46 David Hildenbrand 2020-03-11  1396  		goto out_del_vq;
-7527631e900d46 David Hildenbrand 2020-03-11  1397  =
-
-7527631e900d46 David Hildenbrand 2020-03-11  1398  	/* register callbacks */
-7527631e900d46 David Hildenbrand 2020-03-11  1399  	vm->memory_notifier.not=
-ifier_call =3D virtio_mem_memory_notifier_cb;
-7527631e900d46 David Hildenbrand 2020-03-11  1400  	rc =3D register_memory_=
-notifier(&vm->memory_notifier);
-7527631e900d46 David Hildenbrand 2020-03-11  1401  	if (rc)
-7527631e900d46 David Hildenbrand 2020-03-11  1402  		goto out_del_vq;
-7527631e900d46 David Hildenbrand 2020-03-11  1403  	rc =3D register_virtio_=
-mem_device(vm);
-7527631e900d46 David Hildenbrand 2020-03-11  1404  	if (rc)
-7527631e900d46 David Hildenbrand 2020-03-11  1405  		goto out_unreg_mem;
-7527631e900d46 David Hildenbrand 2020-03-11  1406  =
-
-7527631e900d46 David Hildenbrand 2020-03-11  1407  	virtio_device_ready(vde=
-v);
-7527631e900d46 David Hildenbrand 2020-03-11  1408  =
-
-7527631e900d46 David Hildenbrand 2020-03-11  1409  	/* trigger a config upd=
-ate to start processing the requested_size */
-7527631e900d46 David Hildenbrand 2020-03-11  1410  	atomic_set(&vm->config_=
-changed, 1);
-7527631e900d46 David Hildenbrand 2020-03-11  1411  	queue_work(system_freez=
-able_wq, &vm->wq);
-7527631e900d46 David Hildenbrand 2020-03-11  1412  =
-
-7527631e900d46 David Hildenbrand 2020-03-11  1413  	return 0;
-7527631e900d46 David Hildenbrand 2020-03-11  1414  out_unreg_mem:
-7527631e900d46 David Hildenbrand 2020-03-11  1415  	unregister_memory_notif=
-ier(&vm->memory_notifier);
-7527631e900d46 David Hildenbrand 2020-03-11  1416  out_del_vq:
-7527631e900d46 David Hildenbrand 2020-03-11  1417  	vdev->config->del_vqs(v=
-dev);
-7527631e900d46 David Hildenbrand 2020-03-11  1418  out_free_vm:
-7527631e900d46 David Hildenbrand 2020-03-11  1419  	kfree(vm);
-7527631e900d46 David Hildenbrand 2020-03-11  1420  	vdev->priv =3D NULL;
-7527631e900d46 David Hildenbrand 2020-03-11  1421  =
-
-7527631e900d46 David Hildenbrand 2020-03-11  1422  	return rc;
-7527631e900d46 David Hildenbrand 2020-03-11  1423  }
-7527631e900d46 David Hildenbrand 2020-03-11  1424  =
+0f541fb00a98fe Peter Chen 2020-05-01  484  		page &=3D ~TD_RESERVED_MASK;
+0f541fb00a98fe Peter Chen 2020-05-01  485  		node->ptr->page[i] =3D cpu_to_=
+le32(page);
+0f541fb00a98fe Peter Chen 2020-05-01  486  	}
+0f541fb00a98fe Peter Chen 2020-05-01  487  }
+0f541fb00a98fe Peter Chen 2020-05-01  488  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3543563398355015484==--
+--===============8144946304608169496==--
 
