@@ -1,178 +1,97 @@
-Content-Type: multipart/mixed; boundary="===============1593096467141723226=="
+Content-Type: multipart/mixed; boundary="===============1290721325769583590=="
 MIME-Version: 1.0
-From: kbuild test robot <lkp@intel.com>
-Subject: [ti:ti-linux-5.4.y 5467/6347] drivers/crypto/sa2ul.c:1938:9: sparse: sparse: non size-preserving pointer to integer cast
-Date: Fri, 08 May 2020 05:09:52 +0800
-Message-ID: <202005080544.0gqTAEie%lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [Intel-gfx] [PATCH v12 3/4] drm/i915/perf: prepare driver to receive multiple ctx handles
+Date: Thu, 07 May 2020 17:42:33 +0300
+Message-ID: <20200507144233.GO1992@kadam>
+In-Reply-To: <20200504111249.1367096-4-lionel.g.landwerlin@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1593096467141723226==
+--===============1290721325769583590==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-TO: Tero Kristo <t-kristo@ti.com>
+Hi Lionel,
 
-tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-linux-5.4.y
-head:   c8469270aa0e018913e0af1de913a70257742e6e
-commit: 40741e7feb85b1a21bee7cd518ed4ef6e600bf23 [5467/6347] crypto: sa2ul:=
- add support for multichunk sha handling
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-191-gc51a0382-dirty
-        git checkout 40741e7feb85b1a21bee7cd518ed4ef6e600bf23
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 27 hours ago
-:::::: commit date: 4 weeks ago
+Thank you for the patch! Perhaps something to improve:
+
+url:    https://github.com/0day-ci/linux/commits/Lionel-Landwerlin/drm-i915=
+-perf-Add-support-for-multi-context-perf-queries/20200505-060720
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/i915/i915_perf.c:1457 i915_oa_stream_destroy() error: unini=
+tialized symbol 'err'.
 
-sparse warnings: (new ones prefixed by >>)
+Old smatch warnings:
+drivers/gpu/drm/i915/i915_perf.c:1383 oa_get_render_ctx_ids() error: double=
+ unlocked 'ctx->engines_mutex' (orig line 1351)
+drivers/gpu/drm/i915/i915_perf.c:3044 i915_oa_stream_init() error: uninitia=
+lized symbol 'timeline'.
+drivers/gpu/drm/i915/i915_perf.c:3664 i915_perf_open_ioctl_locked() error: =
+uninitialized symbol 'ret'.
 
-   drivers/crypto/sa2ul.c:341:25: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:341:25: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:341:25: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:348:25: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:348:25: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:348:25: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:351:6: sparse: sparse: symbol 'sa2ul_sha256_init'=
- was not declared. Should it be static?
-   drivers/crypto/sa2ul.c:377:25: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:377:25: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:377:25: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:384:25: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:384:25: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:384:25: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:592:31: sparse: sparse: cast to restricted __be32
-   drivers/crypto/sa2ul.c:592:31: sparse: sparse: cast to restricted __be32
-   drivers/crypto/sa2ul.c:592:31: sparse: sparse: cast to restricted __be32
-   drivers/crypto/sa2ul.c:592:31: sparse: sparse: cast to restricted __be32
-   drivers/crypto/sa2ul.c:592:31: sparse: sparse: cast to restricted __be32
-   drivers/crypto/sa2ul.c:592:31: sparse: sparse: cast to restricted __be32
-   drivers/crypto/sa2ul.c:1021:35: sparse: sparse: incorrect type in assign=
-ment (different base types) @@    expected unsigned int [usertype] @@    go=
-t restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:1021:35: sparse:    expected unsigned int [userty=
-pe]
-   drivers/crypto/sa2ul.c:1021:35: sparse:    got restricted __be32 [userty=
-pe]
-   drivers/crypto/sa2ul.c:1253:30: sparse: sparse: incorrect type in assign=
-ment (different base types) @@    expected unsigned int [usertype] @@    go=
-t restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:1253:30: sparse:    expected unsigned int [userty=
-pe]
-   drivers/crypto/sa2ul.c:1253:30: sparse:    got restricted __be32 [userty=
-pe]
-   drivers/crypto/sa2ul.c:1667:27: sparse: sparse: incorrect type in assign=
-ment (different base types) @@    expected unsigned int [usertype] @@    go=
-t restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:1667:27: sparse:    expected unsigned int [userty=
-pe]
-   drivers/crypto/sa2ul.c:1667:27: sparse:    got restricted __be32 [userty=
-pe]
-   drivers/crypto/sa2ul.c:2360:6: sparse: sparse: symbol 'sa_register_algos=
-' was not declared. Should it be static?
-   drivers/crypto/sa2ul.c:2398:6: sparse: sparse: symbol 'sa_unregister_alg=
-os' was not declared. Should it be static?
-   drivers/crypto/sa2ul.c:622:41: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:622:41: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:622:41: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:483:22: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:483:22: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:483:22: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:622:41: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:622:41: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:622:41: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:483:22: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:483:22: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:483:22: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:622:41: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:622:41: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:622:41: sparse:    got restricted __be32 [usertyp=
-e]
-   drivers/crypto/sa2ul.c:483:22: sparse: sparse: incorrect type in assignm=
-ent (different base types) @@    expected unsigned int [usertype] @@    got=
- restrunsigned int [usertype] @@
-   drivers/crypto/sa2ul.c:483:22: sparse:    expected unsigned int [usertyp=
-e]
-   drivers/crypto/sa2ul.c:483:22: sparse:    got restricted __be32 [usertyp=
-e]
->> drivers/crypto/sa2ul.c:1938:9: sparse: sparse: non size-preserving point=
-er to integer cast
+# https://github.com/0day-ci/linux/commit/dc9d77b54dfbfd0de4e30e59d29d5216b=
+80a51b2
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout dc9d77b54dfbfd0de4e30e59d29d5216b80a51b2
+vim +/err +1457 drivers/gpu/drm/i915/i915_perf.c
 
-git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
-git remote update ti
-git checkout 40741e7feb85b1a21bee7cd518ed4ef6e600bf23
-vim +1938 drivers/crypto/sa2ul.c
+307ca63ef54097 Lionel Landwerlin     2020-05-04  1441  =
 
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1932  =
+d79651522e89c4 Robert Bragg          2016-11-07  1442  static void i915_oa_=
+stream_destroy(struct i915_perf_stream *stream)
+d79651522e89c4 Robert Bragg          2016-11-07  1443  {
+8f8b1171e1a514 Chris Wilson          2019-10-07  1444  	struct i915_perf *p=
+erf =3D stream->perf;
+307ca63ef54097 Lionel Landwerlin     2020-05-04  1445  	int err;
+                                                        ^^^^^^^
 
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1933  static int sa_sham_init(struct=
- ahash_request *req)
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1934  {
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1935  	struct crypto_ahash *tfm =3D =
-crypto_ahash_reqtfm(req);
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1936  	struct sa_dma_req_ctx *rctx =
-=3D ahash_request_ctx(req);
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1937  =
+d79651522e89c4 Robert Bragg          2016-11-07  1446  =
 
-40741e7feb85b1 Tero Kristo 2020-03-20 @1938  	dev_dbg(sa_k3_dev, "init: dig=
-est size: %d, rctx=3D%llx\n",
-40741e7feb85b1 Tero Kristo 2020-03-20  1939  		crypto_ahash_digestsize(tfm)=
-, (u64)rctx);
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1940  =
+8f8b1171e1a514 Chris Wilson          2019-10-07  1447  	BUG_ON(stream !=3D =
+perf->exclusive_stream);
+d79651522e89c4 Robert Bragg          2016-11-07  1448  =
 
-40741e7feb85b1 Tero Kristo 2020-03-20  1941  	memzero_explicit(rctx, sizeof=
-(*rctx));
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1942  =
+19f81df2859eb1 Robert Bragg          2017-06-13  1449  	/*
+f89823c212246d Lionel Landwerlin     2017-08-03  1450  	 * Unset exclusive_=
+stream first, it will be checked while disabling
+f89823c212246d Lionel Landwerlin     2017-08-03  1451  	 * the metric set o=
+n gen8+.
+a5af081d012e8b Chris Wilson          2020-02-27  1452  	 *
+a5af081d012e8b Chris Wilson          2020-02-27  1453  	 * See i915_oa_init=
+_reg_state() and lrc_configure_all_contexts()
+19f81df2859eb1 Robert Bragg          2017-06-13  1454  	 */
+a5af081d012e8b Chris Wilson          2020-02-27  1455  	WRITE_ONCE(perf->ex=
+clusive_stream, NULL);
+dc9d77b54dfbfd Lionel Landwerlin     2020-05-04  1456  =
 
-40741e7feb85b1 Tero Kristo 2020-03-20  1943  	return 0;
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1944  }
-dfcac7a6a1f9e0 Keerthy     2020-01-17  1945  =
+dc9d77b54dfbfd Lionel Landwerlin     2020-05-04 @1457  	if (!err) {
+                                                            ^^^^^
+Uninitialized
 
+307ca63ef54097 Lionel Landwerlin     2020-05-04  1458  		err =3D i915_perf_=
+stream_sync(stream, false /* enable */);
+307ca63ef54097 Lionel Landwerlin     2020-05-04  1459  		if (err) {
+307ca63ef54097 Lionel Landwerlin     2020-05-04  1460  			drm_err(&perf->i9=
+15->drm,
+307ca63ef54097 Lionel Landwerlin     2020-05-04  1461  				"Error while dis=
+abling OA stream\n");
+307ca63ef54097 Lionel Landwerlin     2020-05-04  1462  		}
+dc9d77b54dfbfd Lionel Landwerlin     2020-05-04  1463  	}
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1593096467141723226==--
+_______________________________________________
+kbuild mailing list -- kbuild(a)lists.01.org
+To unsubscribe send an email to kbuild-leave(a)lists.01.org
+--===============1290721325769583590==--
 
