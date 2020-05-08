@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7479104449549763981=="
+Content-Type: multipart/mixed; boundary="===============3259037043763674383=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [xlnx:xlnx_rebase_v5.4 234/1296] drivers/gpu/drm/xlnx/xlnx_bridge.c:266:7: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Fri, 08 May 2020 14:07:58 +0800
-Message-ID: <202005081432.DVcsMEAQ%lkp@intel.com>
+Subject: [xlnx:xlnx_rebase_v5.4 144/1296] drivers/dma/xilinx/xilinx_dpdma.c:442:24: warning: Checking if unsigned expression 'size' is less than zero. [unsignedLessThanZero]
+Date: Fri, 08 May 2020 09:51:38 +0800
+Message-ID: <202005080914.GbPA7UyK%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7479104449549763981==
+--===============3259037043763674383==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,11 +16,13 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-arm-kernel(a)lists.infradead.org
 TO: Hyun Kwon <hyun.kwon@xilinx.com>
 CC: Michal Simek <monstr@monstr.eu>
+CC: Rohit Visavalia <rvisaval@xilinx.com>
+CC: Tejas Upadhyay <tejasu@xilinx.com>
 
 tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.4
 head:   0b197959bbbdb68e1da974bd013339f08704b178
-commit: 96aa986a927952f39a11c5e5c77175001c93443a [234/1296] drm: xlnx: drv:=
- Add Xilinx bridge support
+commit: b78c51347044f6c34b8c6542a62255950f72bdc2 [144/1296] dma: xilinx: dp=
+dma: Add the Xilinx DisplayPort DMA engine driver
 :::::: branch date: 2 days ago
 :::::: commit date: 3 weeks ago
 
@@ -30,150 +32,88 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/gpu/drm/xlnx/xlnx_bridge.c:266:7: warning: Redundant initializat=
-ion for 'ret'. The initialized value is overwritten before it is read. [red=
-undantInitialization]
-     ret =3D strncpy_from_user(cmd, buf, size);
-         ^
-   drivers/gpu/drm/xlnx/xlnx_bridge.c:263:11: note: ret is initialized
-     int ret =3D -EINVAL;
-             ^
-   drivers/gpu/drm/xlnx/xlnx_bridge.c:266:7: note: ret is overwritten
-     ret =3D strncpy_from_user(cmd, buf, size);
-         ^
->> drivers/gpu/drm/xlnx/xlnx_bridge.c:232:11: warning: Checking if unsigned=
- expression 'size' is less than zero. [unsignedLessThanZero]
-    if (size <=3D 0)
-             ^
-   drivers/gpu/drm/xlnx/xlnx_bridge.c:252:24: warning: Checking if unsigned=
- expression 'size' is less than zero. [unsignedLessThanZero]
+>> drivers/dma/xilinx/xilinx_dpdma.c:442:24: warning: Checking if unsigned =
+expression 'size' is less than zero. [unsignedLessThanZero]
     if (*pos !=3D 0 || size <=3D 0)
                           ^
->> drivers/gpu/drm/xlnx/xlnx_bridge.c:261:17: warning: Local variable 'f' s=
-hadows outer argument [shadowArgument]
-     char *w, *h, *f;
-                   ^
-   drivers/gpu/drm/xlnx/xlnx_bridge.c:247:55: note: Shadowed declaration
-   static ssize_t xlnx_bridge_debugfs_write(struct file *f, const char __us=
-er *buf,
-                                                         ^
-   drivers/gpu/drm/xlnx/xlnx_bridge.c:261:17: note: Shadow variable
-     char *w, *h, *f;
-                   ^
+   drivers/dma/xilinx/xilinx_dpdma.c:484:11: warning: Checking if unsigned =
+expression 'size' is less than zero. [unsignedLessThanZero]
+    if (size <=3D 0)
+             ^
 
-# https://github.com/Xilinx/linux-xlnx/commit/96aa986a927952f39a11c5e5c7717=
-5001c93443a
+# https://github.com/Xilinx/linux-xlnx/commit/b78c51347044f6c34b8c6542a6225=
+5950f72bdc2
 git remote add xlnx https://github.com/Xilinx/linux-xlnx
 git remote update xlnx
-git checkout 96aa986a927952f39a11c5e5c77175001c93443a
-vim +/ret +266 drivers/gpu/drm/xlnx/xlnx_bridge.c
+git checkout b78c51347044f6c34b8c6542a62255950f72bdc2
+vim +/size +442 drivers/dma/xilinx/xilinx_dpdma.c
 
-96aa986a927952f Hyun Kwon 2018-01-23  225  =
+b78c51347044f6 Hyun Kwon 2014-06-13  433  =
 
-96aa986a927952f Hyun Kwon 2018-01-23  226  static ssize_t xlnx_bridge_debug=
-fs_read(struct file *f, char __user *buf,
-96aa986a927952f Hyun Kwon 2018-01-23  227  					size_t size, loff_t *pos)
-96aa986a927952f Hyun Kwon 2018-01-23  228  {
-96aa986a927952f Hyun Kwon 2018-01-23  229  	struct xlnx_bridge *bridge =3D =
-f->f_inode->i_private;
-96aa986a927952f Hyun Kwon 2018-01-23  230  	int ret;
-96aa986a927952f Hyun Kwon 2018-01-23  231  =
+b78c51347044f6 Hyun Kwon 2014-06-13  434  static ssize_t xilinx_dpdma_debug=
+fs_write(struct file *f, const char __user
+b78c51347044f6 Hyun Kwon 2014-06-13  435  					       *buf, size_t size, lo=
+ff_t *pos)
+b78c51347044f6 Hyun Kwon 2014-06-13  436  {
+b78c51347044f6 Hyun Kwon 2014-06-13  437  	char *kern_buff, *kern_buff_star=
+t;
+b78c51347044f6 Hyun Kwon 2014-06-13  438  	char *dpdma_test_req;
+b78c51347044f6 Hyun Kwon 2014-06-13  439  	int ret;
+b78c51347044f6 Hyun Kwon 2014-06-13  440  	int i;
+b78c51347044f6 Hyun Kwon 2014-06-13  441  =
 
-96aa986a927952f Hyun Kwon 2018-01-23 @232  	if (size <=3D 0)
-96aa986a927952f Hyun Kwon 2018-01-23  233  		return -EINVAL;
-96aa986a927952f Hyun Kwon 2018-01-23  234  =
+b78c51347044f6 Hyun Kwon 2014-06-13 @442  	if (*pos !=3D 0 || size <=3D 0)
+b78c51347044f6 Hyun Kwon 2014-06-13  443  		return -EINVAL;
+b78c51347044f6 Hyun Kwon 2014-06-13  444  =
 
-96aa986a927952f Hyun Kwon 2018-01-23  235  	if (*pos !=3D 0)
-96aa986a927952f Hyun Kwon 2018-01-23  236  		return 0;
-96aa986a927952f Hyun Kwon 2018-01-23  237  =
+b78c51347044f6 Hyun Kwon 2014-06-13  445  	/* Supporting single instance of=
+ test as of now*/
+b78c51347044f6 Hyun Kwon 2014-06-13  446  	if (dpdma_debugfs.testcase !=3D =
+DPDMA_TC_NONE)
+b78c51347044f6 Hyun Kwon 2014-06-13  447  		return -EBUSY;
+b78c51347044f6 Hyun Kwon 2014-06-13  448  =
 
-96aa986a927952f Hyun Kwon 2018-01-23  238  	size =3D min(size, strlen(bridg=
-e->debugfs_file->status));
-96aa986a927952f Hyun Kwon 2018-01-23  239  	ret =3D copy_to_user(buf, bridg=
-e->debugfs_file->status, size);
-96aa986a927952f Hyun Kwon 2018-01-23  240  	if (ret)
-96aa986a927952f Hyun Kwon 2018-01-23  241  		return ret;
-96aa986a927952f Hyun Kwon 2018-01-23  242  =
+b78c51347044f6 Hyun Kwon 2014-06-13  449  	kern_buff =3D kzalloc(size, GFP_=
+KERNEL);
+b78c51347044f6 Hyun Kwon 2014-06-13  450  	if (!kern_buff)
+b78c51347044f6 Hyun Kwon 2014-06-13  451  		return -ENOMEM;
+b78c51347044f6 Hyun Kwon 2014-06-13  452  	kern_buff_start =3D kern_buff;
+b78c51347044f6 Hyun Kwon 2014-06-13  453  =
 
-96aa986a927952f Hyun Kwon 2018-01-23  243  	*pos =3D size + 1;
-96aa986a927952f Hyun Kwon 2018-01-23  244  	return size;
-96aa986a927952f Hyun Kwon 2018-01-23  245  }
-96aa986a927952f Hyun Kwon 2018-01-23  246  =
+b78c51347044f6 Hyun Kwon 2014-06-13  454  	ret =3D strncpy_from_user(kern_b=
+uff, buf, size);
+b78c51347044f6 Hyun Kwon 2014-06-13  455  	if (ret < 0) {
+b78c51347044f6 Hyun Kwon 2014-06-13  456  		kfree(kern_buff_start);
+b78c51347044f6 Hyun Kwon 2014-06-13  457  		return ret;
+b78c51347044f6 Hyun Kwon 2014-06-13  458  	}
+b78c51347044f6 Hyun Kwon 2014-06-13  459  =
 
-96aa986a927952f Hyun Kwon 2018-01-23  247  static ssize_t xlnx_bridge_debug=
-fs_write(struct file *f, const char __user *buf,
-96aa986a927952f Hyun Kwon 2018-01-23  248  					 size_t size, loff_t *pos)
-96aa986a927952f Hyun Kwon 2018-01-23  249  {
-96aa986a927952f Hyun Kwon 2018-01-23  250  	struct xlnx_bridge *bridge =3D =
-f->f_inode->i_private;
-96aa986a927952f Hyun Kwon 2018-01-23  251  =
+b78c51347044f6 Hyun Kwon 2014-06-13  460  	/* Read the testcase name from a=
+ user request */
+b78c51347044f6 Hyun Kwon 2014-06-13  461  	dpdma_test_req =3D strsep(&kern_=
+buff, " ");
+b78c51347044f6 Hyun Kwon 2014-06-13  462  =
 
-96aa986a927952f Hyun Kwon 2018-01-23  252  	if (*pos !=3D 0 || size <=3D 0)
-96aa986a927952f Hyun Kwon 2018-01-23  253  		return -EINVAL;
-96aa986a927952f Hyun Kwon 2018-01-23  254  =
-
-96aa986a927952f Hyun Kwon 2018-01-23  255  	if (!strncmp(buf, "enable", 5))=
- {
-96aa986a927952f Hyun Kwon 2018-01-23  256  		xlnx_bridge_enable(bridge);
-96aa986a927952f Hyun Kwon 2018-01-23  257  	} else if (!strncmp(buf, "disab=
-le", 6)) {
-96aa986a927952f Hyun Kwon 2018-01-23  258  		xlnx_bridge_disable(bridge);
-96aa986a927952f Hyun Kwon 2018-01-23  259  	} else if (!strncmp(buf, "set_i=
-nput", 3)) {
-96aa986a927952f Hyun Kwon 2018-01-23  260  		char *cmd, **tmp;
-96aa986a927952f Hyun Kwon 2018-01-23 @261  		char *w, *h, *f;
-96aa986a927952f Hyun Kwon 2018-01-23  262  		u32 width, height, fmt;
-96aa986a927952f Hyun Kwon 2018-01-23  263  		int ret =3D -EINVAL;
-96aa986a927952f Hyun Kwon 2018-01-23  264  =
-
-96aa986a927952f Hyun Kwon 2018-01-23  265  		cmd =3D kzalloc(size, GFP_KERN=
-EL);
-96aa986a927952f Hyun Kwon 2018-01-23 @266  		ret =3D strncpy_from_user(cmd,=
- buf, size);
-96aa986a927952f Hyun Kwon 2018-01-23  267  		if (ret < 0) {
-96aa986a927952f Hyun Kwon 2018-01-23  268  			pr_err("%s %d failed to copy =
-the command  %s\n",
-96aa986a927952f Hyun Kwon 2018-01-23  269  			       __func__, __LINE__, bu=
-f);
-96aa986a927952f Hyun Kwon 2018-01-23  270  			return ret;
-96aa986a927952f Hyun Kwon 2018-01-23  271  		}
-96aa986a927952f Hyun Kwon 2018-01-23  272  =
-
-96aa986a927952f Hyun Kwon 2018-01-23  273  		tmp =3D &cmd;
-96aa986a927952f Hyun Kwon 2018-01-23  274  		strsep(tmp, " ");
-96aa986a927952f Hyun Kwon 2018-01-23  275  		w =3D strsep(tmp, " ");
-96aa986a927952f Hyun Kwon 2018-01-23  276  		h =3D strsep(tmp, " ");
-96aa986a927952f Hyun Kwon 2018-01-23  277  		f =3D strsep(tmp, " ");
-96aa986a927952f Hyun Kwon 2018-01-23  278  		if (w && h && f) {
-96aa986a927952f Hyun Kwon 2018-01-23  279  			ret =3D kstrtouint(w, 0, &wid=
-th);
-96aa986a927952f Hyun Kwon 2018-01-23  280  			ret |=3D kstrtouint(h, 0, &he=
-ight);
-96aa986a927952f Hyun Kwon 2018-01-23  281  			ret |=3D kstrtouint(f, 0, &fm=
-t);
-96aa986a927952f Hyun Kwon 2018-01-23  282  		}
-96aa986a927952f Hyun Kwon 2018-01-23  283  =
-
-96aa986a927952f Hyun Kwon 2018-01-23  284  		kfree(cmd);
-96aa986a927952f Hyun Kwon 2018-01-23  285  		if (ret) {
-96aa986a927952f Hyun Kwon 2018-01-23  286  			pr_err("%s %d invalid command=
-: %s\n",
-96aa986a927952f Hyun Kwon 2018-01-23  287  			       __func__, __LINE__, bu=
-f);
-96aa986a927952f Hyun Kwon 2018-01-23  288  			return -EINVAL;
-96aa986a927952f Hyun Kwon 2018-01-23  289  		}
-96aa986a927952f Hyun Kwon 2018-01-23  290  		xlnx_bridge_set_input(bridge, =
-width, height, fmt);
-96aa986a927952f Hyun Kwon 2018-01-23  291  	}
-96aa986a927952f Hyun Kwon 2018-01-23  292  =
-
-96aa986a927952f Hyun Kwon 2018-01-23  293  	return size;
-96aa986a927952f Hyun Kwon 2018-01-23  294  }
-96aa986a927952f Hyun Kwon 2018-01-23  295  =
+b78c51347044f6 Hyun Kwon 2014-06-13  463  	for (i =3D 0; i < ARRAY_SIZE(dpd=
+ma_debugfs_reqs); i++) {
+b78c51347044f6 Hyun Kwon 2014-06-13  464  		if (!strcasecmp(dpdma_test_req,=
+ dpdma_debugfs_reqs[i].req)) {
+b78c51347044f6 Hyun Kwon 2014-06-13  465  			if (!dpdma_debugfs_reqs[i].wri=
+te_handler(&kern_buff)) {
+b78c51347044f6 Hyun Kwon 2014-06-13  466  				kfree(kern_buff_start);
+b78c51347044f6 Hyun Kwon 2014-06-13  467  				return size;
+b78c51347044f6 Hyun Kwon 2014-06-13  468  			}
+b78c51347044f6 Hyun Kwon 2014-06-13  469  			break;
+b78c51347044f6 Hyun Kwon 2014-06-13  470  		}
+b78c51347044f6 Hyun Kwon 2014-06-13  471  	}
+b78c51347044f6 Hyun Kwon 2014-06-13  472  	kfree(kern_buff_start);
+b78c51347044f6 Hyun Kwon 2014-06-13  473  	return -EINVAL;
+b78c51347044f6 Hyun Kwon 2014-06-13  474  }
+b78c51347044f6 Hyun Kwon 2014-06-13  475  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7479104449549763981==--
+--===============3259037043763674383==--
 
