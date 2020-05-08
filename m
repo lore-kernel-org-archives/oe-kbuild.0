@@ -1,130 +1,179 @@
-Content-Type: multipart/mixed; boundary="===============4121301281040557699=="
+Content-Type: multipart/mixed; boundary="===============7479104449549763981=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-4.4 86/91] drivers/staging/gasket/gasket_core.c:1013:15: sparse: expected void *cpu_addr
-Date: Fri, 08 May 2020 18:14:36 +0800
-Message-ID: <202005081833.3aHLSFBM%lkp@intel.com>
+Subject: [xlnx:xlnx_rebase_v5.4 234/1296] drivers/gpu/drm/xlnx/xlnx_bridge.c:266:7: warning: Redundant initialization for 'ret'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Fri, 08 May 2020 14:07:58 +0800
+Message-ID: <202005081432.DVcsMEAQ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4121301281040557699==
+--===============7479104449549763981==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Hyun Kwon <hyun.kwon@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-4.4
-head:   1231e06d9791a1cb79112533c0405c40300fbd95
-commit: f7b1f7e308f5663ca90b5f1d0c039cf7a3b97110 [86/91] CHROMIUM: staging:=
- gasket: fix mmap of coherent buffer when IOMMU translation on
-reproduce:
-        # apt-get install sparse
-        # sparse version: =
-
-        git checkout f7b1f7e308f5663ca90b5f1d0c039cf7a3b97110
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.4
+head:   0b197959bbbdb68e1da974bd013339f08704b178
+commit: 96aa986a927952f39a11c5e5c77175001c93443a [234/1296] drm: xlnx: drv:=
+ Add Xilinx bridge support
+:::::: branch date: 2 days ago
+:::::: commit date: 3 weeks ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
+cppcheck warnings: (new ones prefixed by >>)
 
-   drivers/staging/gasket/gasket_core.c:1013:15: sparse: warning: incorrect=
- type in argument 3 (different address spaces)
->> drivers/staging/gasket/gasket_core.c:1013:15: sparse:    expected void *=
-cpu_addr
->> drivers/staging/gasket/gasket_core.c:1013:15: sparse:    got unsigned ch=
-ar [noderef] [usertype] <asn:2> *virt_base
+>> drivers/gpu/drm/xlnx/xlnx_bridge.c:266:7: warning: Redundant initializat=
+ion for 'ret'. The initialized value is overwritten before it is read. [red=
+undantInitialization]
+     ret =3D strncpy_from_user(cmd, buf, size);
+         ^
+   drivers/gpu/drm/xlnx/xlnx_bridge.c:263:11: note: ret is initialized
+     int ret =3D -EINVAL;
+             ^
+   drivers/gpu/drm/xlnx/xlnx_bridge.c:266:7: note: ret is overwritten
+     ret =3D strncpy_from_user(cmd, buf, size);
+         ^
+>> drivers/gpu/drm/xlnx/xlnx_bridge.c:232:11: warning: Checking if unsigned=
+ expression 'size' is less than zero. [unsignedLessThanZero]
+    if (size <=3D 0)
+             ^
+   drivers/gpu/drm/xlnx/xlnx_bridge.c:252:24: warning: Checking if unsigned=
+ expression 'size' is less than zero. [unsignedLessThanZero]
+    if (*pos !=3D 0 || size <=3D 0)
+                          ^
+>> drivers/gpu/drm/xlnx/xlnx_bridge.c:261:17: warning: Local variable 'f' s=
+hadows outer argument [shadowArgument]
+     char *w, *h, *f;
+                   ^
+   drivers/gpu/drm/xlnx/xlnx_bridge.c:247:55: note: Shadowed declaration
+   static ssize_t xlnx_bridge_debugfs_write(struct file *f, const char __us=
+er *buf,
+                                                         ^
+   drivers/gpu/drm/xlnx/xlnx_bridge.c:261:17: note: Shadow variable
+     char *w, *h, *f;
+                   ^
 
-git remote add chrome-os https://chromium.googlesource.com/chromiumos/third=
-_party/kernel
-git remote update chrome-os
-git checkout f7b1f7e308f5663ca90b5f1d0c039cf7a3b97110
-vim +1013 drivers/staging/gasket/gasket_core.c
+# https://github.com/Xilinx/linux-xlnx/commit/96aa986a927952f39a11c5e5c7717=
+5001c93443a
+git remote add xlnx https://github.com/Xilinx/linux-xlnx
+git remote update xlnx
+git checkout 96aa986a927952f39a11c5e5c77175001c93443a
+vim +/ret +266 drivers/gpu/drm/xlnx/xlnx_bridge.c
 
-f3463fa3ff0459 Simon Que   2018-06-29   987  =
+96aa986a927952f Hyun Kwon 2018-01-23  225  =
 
-2a498bf1f01090 Todd Poynor 2018-07-29   988  /* Map a region of coherent me=
-mory. */
-fea755803823c5 Todd Poynor 2018-07-31   989  static int gasket_mmap_coheren=
-t(struct gasket_dev *gasket_dev,
-fea755803823c5 Todd Poynor 2018-07-31   990  				struct vm_area_struct *vma)
-f3463fa3ff0459 Simon Que   2018-06-29   991  {
-f3463fa3ff0459 Simon Que   2018-06-29   992  	const struct gasket_driver_de=
-sc *driver_desc =3D
-f3463fa3ff0459 Simon Que   2018-06-29   993  		gasket_dev->internal_desc->d=
-river_desc;
-f3463fa3ff0459 Simon Que   2018-06-29   994  	const ulong requested_length =
-=3D vma->vm_end - vma->vm_start;
-f3463fa3ff0459 Simon Que   2018-06-29   995  	int ret;
-f3463fa3ff0459 Simon Que   2018-06-29   996  	ulong permissions;
-f3463fa3ff0459 Simon Que   2018-06-29   997  =
+96aa986a927952f Hyun Kwon 2018-01-23  226  static ssize_t xlnx_bridge_debug=
+fs_read(struct file *f, char __user *buf,
+96aa986a927952f Hyun Kwon 2018-01-23  227  					size_t size, loff_t *pos)
+96aa986a927952f Hyun Kwon 2018-01-23  228  {
+96aa986a927952f Hyun Kwon 2018-01-23  229  	struct xlnx_bridge *bridge =3D =
+f->f_inode->i_private;
+96aa986a927952f Hyun Kwon 2018-01-23  230  	int ret;
+96aa986a927952f Hyun Kwon 2018-01-23  231  =
 
-f3463fa3ff0459 Simon Que   2018-06-29   998  	if (requested_length =3D=3D 0=
- || requested_length >
-f3463fa3ff0459 Simon Que   2018-06-29   999  	    gasket_dev->coherent_buff=
-er.length_bytes) {
-f3463fa3ff0459 Simon Que   2018-06-29  1000  		trace_gasket_mmap_exit(-EINV=
-AL);
-f3463fa3ff0459 Simon Que   2018-06-29  1001  		return -EINVAL;
-f3463fa3ff0459 Simon Que   2018-06-29  1002  	}
-f3463fa3ff0459 Simon Que   2018-06-29  1003  =
+96aa986a927952f Hyun Kwon 2018-01-23 @232  	if (size <=3D 0)
+96aa986a927952f Hyun Kwon 2018-01-23  233  		return -EINVAL;
+96aa986a927952f Hyun Kwon 2018-01-23  234  =
 
-f3463fa3ff0459 Simon Que   2018-06-29  1004  	permissions =3D driver_desc->=
-coherent_buffer_description.permissions;
-f3463fa3ff0459 Simon Que   2018-06-29  1005  	if (!gasket_mmap_has_permissi=
-ons(gasket_dev, vma, permissions)) {
-0407a129da6e98 Todd Poynor 2018-07-26  1006  		dev_err(gasket_dev->dev, "Pe=
-rmission checking failed.\n");
-f3463fa3ff0459 Simon Que   2018-06-29  1007  		trace_gasket_mmap_exit(-EPER=
-M);
-f3463fa3ff0459 Simon Que   2018-06-29  1008  		return -EPERM;
-f3463fa3ff0459 Simon Que   2018-06-29  1009  	}
-f3463fa3ff0459 Simon Que   2018-06-29  1010  =
+96aa986a927952f Hyun Kwon 2018-01-23  235  	if (*pos !=3D 0)
+96aa986a927952f Hyun Kwon 2018-01-23  236  		return 0;
+96aa986a927952f Hyun Kwon 2018-01-23  237  =
 
-f3463fa3ff0459 Simon Que   2018-06-29  1011  	vma->vm_page_prot =3D pgprot_=
-noncached(vma->vm_page_prot);
-f7b1f7e308f566 Todd Poynor 2019-08-27  1012  	vma->vm_pgoff =3D 0;
-f7b1f7e308f566 Todd Poynor 2019-08-27 @1013  	ret =3D dma_mmap_coherent(gas=
-ket_dev->dma_dev, vma,
-f7b1f7e308f566 Todd Poynor 2019-08-27  1014  				gasket_dev->coherent_buffe=
-r.virt_base,
-f7b1f7e308f566 Todd Poynor 2019-08-27  1015  				gasket_dev->coherent_buffe=
-r.phys_base,
-f7b1f7e308f566 Todd Poynor 2019-08-27  1016  				requested_length);
-f3463fa3ff0459 Simon Que   2018-06-29  1017  	if (ret) {
-f7b1f7e308f566 Todd Poynor 2019-08-27  1018  		dev_err(gasket_dev->dev,
-f7b1f7e308f566 Todd Poynor 2019-08-27  1019  			"Error mmapping coherent bu=
-ffer err=3D%d.\n", ret);
-f3463fa3ff0459 Simon Que   2018-06-29  1020  		trace_gasket_mmap_exit(ret);
-f3463fa3ff0459 Simon Que   2018-06-29  1021  		return ret;
-f3463fa3ff0459 Simon Que   2018-06-29  1022  	}
-f3463fa3ff0459 Simon Que   2018-06-29  1023  =
+96aa986a927952f Hyun Kwon 2018-01-23  238  	size =3D min(size, strlen(bridg=
+e->debugfs_file->status));
+96aa986a927952f Hyun Kwon 2018-01-23  239  	ret =3D copy_to_user(buf, bridg=
+e->debugfs_file->status, size);
+96aa986a927952f Hyun Kwon 2018-01-23  240  	if (ret)
+96aa986a927952f Hyun Kwon 2018-01-23  241  		return ret;
+96aa986a927952f Hyun Kwon 2018-01-23  242  =
 
-f3463fa3ff0459 Simon Que   2018-06-29  1024  	/* Record the user virtual to=
- dma_address mapping that was
-f3463fa3ff0459 Simon Que   2018-06-29  1025  	 * created by the kernel.
-f3463fa3ff0459 Simon Que   2018-06-29  1026  	 */
-fea755803823c5 Todd Poynor 2018-07-31  1027  	gasket_set_user_virt(gasket_d=
-ev, requested_length,
-fea755803823c5 Todd Poynor 2018-07-31  1028  			     gasket_dev->coherent_b=
-uffer.phys_base,
-fea755803823c5 Todd Poynor 2018-07-31  1029  			     vma->vm_start);
-f3463fa3ff0459 Simon Que   2018-06-29  1030  	return 0;
-f3463fa3ff0459 Simon Que   2018-06-29  1031  }
-f3463fa3ff0459 Simon Que   2018-06-29  1032  =
+96aa986a927952f Hyun Kwon 2018-01-23  243  	*pos =3D size + 1;
+96aa986a927952f Hyun Kwon 2018-01-23  244  	return size;
+96aa986a927952f Hyun Kwon 2018-01-23  245  }
+96aa986a927952f Hyun Kwon 2018-01-23  246  =
+
+96aa986a927952f Hyun Kwon 2018-01-23  247  static ssize_t xlnx_bridge_debug=
+fs_write(struct file *f, const char __user *buf,
+96aa986a927952f Hyun Kwon 2018-01-23  248  					 size_t size, loff_t *pos)
+96aa986a927952f Hyun Kwon 2018-01-23  249  {
+96aa986a927952f Hyun Kwon 2018-01-23  250  	struct xlnx_bridge *bridge =3D =
+f->f_inode->i_private;
+96aa986a927952f Hyun Kwon 2018-01-23  251  =
+
+96aa986a927952f Hyun Kwon 2018-01-23  252  	if (*pos !=3D 0 || size <=3D 0)
+96aa986a927952f Hyun Kwon 2018-01-23  253  		return -EINVAL;
+96aa986a927952f Hyun Kwon 2018-01-23  254  =
+
+96aa986a927952f Hyun Kwon 2018-01-23  255  	if (!strncmp(buf, "enable", 5))=
+ {
+96aa986a927952f Hyun Kwon 2018-01-23  256  		xlnx_bridge_enable(bridge);
+96aa986a927952f Hyun Kwon 2018-01-23  257  	} else if (!strncmp(buf, "disab=
+le", 6)) {
+96aa986a927952f Hyun Kwon 2018-01-23  258  		xlnx_bridge_disable(bridge);
+96aa986a927952f Hyun Kwon 2018-01-23  259  	} else if (!strncmp(buf, "set_i=
+nput", 3)) {
+96aa986a927952f Hyun Kwon 2018-01-23  260  		char *cmd, **tmp;
+96aa986a927952f Hyun Kwon 2018-01-23 @261  		char *w, *h, *f;
+96aa986a927952f Hyun Kwon 2018-01-23  262  		u32 width, height, fmt;
+96aa986a927952f Hyun Kwon 2018-01-23  263  		int ret =3D -EINVAL;
+96aa986a927952f Hyun Kwon 2018-01-23  264  =
+
+96aa986a927952f Hyun Kwon 2018-01-23  265  		cmd =3D kzalloc(size, GFP_KERN=
+EL);
+96aa986a927952f Hyun Kwon 2018-01-23 @266  		ret =3D strncpy_from_user(cmd,=
+ buf, size);
+96aa986a927952f Hyun Kwon 2018-01-23  267  		if (ret < 0) {
+96aa986a927952f Hyun Kwon 2018-01-23  268  			pr_err("%s %d failed to copy =
+the command  %s\n",
+96aa986a927952f Hyun Kwon 2018-01-23  269  			       __func__, __LINE__, bu=
+f);
+96aa986a927952f Hyun Kwon 2018-01-23  270  			return ret;
+96aa986a927952f Hyun Kwon 2018-01-23  271  		}
+96aa986a927952f Hyun Kwon 2018-01-23  272  =
+
+96aa986a927952f Hyun Kwon 2018-01-23  273  		tmp =3D &cmd;
+96aa986a927952f Hyun Kwon 2018-01-23  274  		strsep(tmp, " ");
+96aa986a927952f Hyun Kwon 2018-01-23  275  		w =3D strsep(tmp, " ");
+96aa986a927952f Hyun Kwon 2018-01-23  276  		h =3D strsep(tmp, " ");
+96aa986a927952f Hyun Kwon 2018-01-23  277  		f =3D strsep(tmp, " ");
+96aa986a927952f Hyun Kwon 2018-01-23  278  		if (w && h && f) {
+96aa986a927952f Hyun Kwon 2018-01-23  279  			ret =3D kstrtouint(w, 0, &wid=
+th);
+96aa986a927952f Hyun Kwon 2018-01-23  280  			ret |=3D kstrtouint(h, 0, &he=
+ight);
+96aa986a927952f Hyun Kwon 2018-01-23  281  			ret |=3D kstrtouint(f, 0, &fm=
+t);
+96aa986a927952f Hyun Kwon 2018-01-23  282  		}
+96aa986a927952f Hyun Kwon 2018-01-23  283  =
+
+96aa986a927952f Hyun Kwon 2018-01-23  284  		kfree(cmd);
+96aa986a927952f Hyun Kwon 2018-01-23  285  		if (ret) {
+96aa986a927952f Hyun Kwon 2018-01-23  286  			pr_err("%s %d invalid command=
+: %s\n",
+96aa986a927952f Hyun Kwon 2018-01-23  287  			       __func__, __LINE__, bu=
+f);
+96aa986a927952f Hyun Kwon 2018-01-23  288  			return -EINVAL;
+96aa986a927952f Hyun Kwon 2018-01-23  289  		}
+96aa986a927952f Hyun Kwon 2018-01-23  290  		xlnx_bridge_set_input(bridge, =
+width, height, fmt);
+96aa986a927952f Hyun Kwon 2018-01-23  291  	}
+96aa986a927952f Hyun Kwon 2018-01-23  292  =
+
+96aa986a927952f Hyun Kwon 2018-01-23  293  	return size;
+96aa986a927952f Hyun Kwon 2018-01-23  294  }
+96aa986a927952f Hyun Kwon 2018-01-23  295  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4121301281040557699==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============7479104449549763981==--
 
