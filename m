@@ -1,30 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============7657979078929175848=="
+Content-Type: multipart/mixed; boundary="===============8305630674082854200=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [block:for-5.8/drivers 62/115] drivers/nvme/host/fc.c:1533:22-26: ERROR: invalid reference to the index variable of the iterator on line 1511
-Date: Sun, 10 May 2020 09:06:39 +0800
-Message-ID: <202005100935.eZP2cFU8%lkp@intel.com>
+Subject: [linux-next:master 7513/7905] drivers/net/dsa/sja1105/sja1105_vl.c:447:21-22: ERROR: invalid reference to the index variable of the iterator on line 436
+Date: Sun, 10 May 2020 07:08:05 +0800
+Message-ID: <202005100702.AGgW8hXF%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7657979078929175848==
+--===============8305630674082854200==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: James Smart <jsmart2021@gmail.com>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Hannes Reinecke <hare@suse.de>
-CC: Christoph Hellwig <hch@lst.de>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
-it for-5.8/drivers
-head:   92decf118f1da4c866515f80387f9cf4d48611d6
-commit: 14fd1e98afafc0027a6a86ea1962e31dceafb400 [62/115] nvme-fc: Add Disc=
-onnect Association Rcv support
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   30e2206e11ce27ae910cc0dab21472429e400a87
+commit: 834f8933d5ddd732274cb6050252bd1c7cc7349d [7513/7905] net: dsa: sja1=
+105: implement tc-gate using time-triggered virtual links
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -33,93 +30,90 @@ Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 coccinelle warnings: (new ones prefixed by >>)
 
->> drivers/nvme/host/fc.c:1533:22-26: ERROR: invalid reference to the index=
- variable of the iterator on line 1511
+>> drivers/net/dsa/sja1105/sja1105_vl.c:447:21-22: ERROR: invalid reference=
+ to the index variable of the iterator on line 436
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.git/com=
-mit/?id=3D14fd1e98afafc0027a6a86ea1962e31dceafb400
-git remote add block https://git.kernel.org/pub/scm/linux/kernel/git/axboe/=
-linux-block.git
-git remote update block
-git checkout 14fd1e98afafc0027a6a86ea1962e31dceafb400
-vim +1533 drivers/nvme/host/fc.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3D834f8933d5ddd732274cb6050252bd1c7cc7349d
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git remote update linux-next
+git checkout 834f8933d5ddd732274cb6050252bd1c7cc7349d
+vim +447 drivers/net/dsa/sja1105/sja1105_vl.c
 
-14fd1e98afafc0 James Smart 2020-03-31  1497  =
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  413  =
 
-14fd1e98afafc0 James Smart 2020-03-31  1498  static struct nvme_fc_ctrl *
-14fd1e98afafc0 James Smart 2020-03-31  1499  nvme_fc_match_disconn_ls(struc=
-t nvme_fc_rport *rport,
-14fd1e98afafc0 James Smart 2020-03-31  1500  		      struct nvmefc_ls_rcv_o=
-p *lsop)
-14fd1e98afafc0 James Smart 2020-03-31  1501  {
-14fd1e98afafc0 James Smart 2020-03-31  1502  	struct fcnvme_ls_disconnect_a=
-ssoc_rqst *rqst =3D
-14fd1e98afafc0 James Smart 2020-03-31  1503  					&lsop->rqstbuf->rq_dis_as=
-soc;
-14fd1e98afafc0 James Smart 2020-03-31  1504  	struct nvme_fc_ctrl *ctrl, *r=
-et =3D NULL;
-14fd1e98afafc0 James Smart 2020-03-31  1505  	struct nvmefc_ls_rcv_op *oldl=
-s =3D NULL;
-14fd1e98afafc0 James Smart 2020-03-31  1506  	u64 association_id =3D be64_t=
-o_cpu(rqst->associd.association_id);
-14fd1e98afafc0 James Smart 2020-03-31  1507  	unsigned long flags;
-14fd1e98afafc0 James Smart 2020-03-31  1508  =
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  414  /* Insert into the global g=
+ate list, sorted by gate action time. */
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  415  static int sja1105_insert_g=
+ate_entry(struct sja1105_gating_config *gating_cfg,
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  416  				     struct sja1105_rul=
+e *rule,
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  417  				     u8 gate_state, s64=
+ entry_time,
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  418  				     struct netlink_ext=
+_ack *extack)
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  419  {
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  420  	struct sja1105_gate_entry =
+*e;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  421  	int rc;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  422  =
 
-14fd1e98afafc0 James Smart 2020-03-31  1509  	spin_lock_irqsave(&rport->loc=
-k, flags);
-14fd1e98afafc0 James Smart 2020-03-31  1510  =
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  423  	e =3D kzalloc(sizeof(*e), =
+GFP_KERNEL);
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  424  	if (!e)
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  425  		return -ENOMEM;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  426  =
 
-14fd1e98afafc0 James Smart 2020-03-31 @1511  	list_for_each_entry(ctrl, &rp=
-ort->ctrl_list, ctrl_list) {
-14fd1e98afafc0 James Smart 2020-03-31  1512  		if (!nvme_fc_ctrl_get(ctrl))
-14fd1e98afafc0 James Smart 2020-03-31  1513  			continue;
-14fd1e98afafc0 James Smart 2020-03-31  1514  		spin_lock(&ctrl->lock);
-14fd1e98afafc0 James Smart 2020-03-31  1515  		if (association_id =3D=3D ct=
-rl->association_id) {
-14fd1e98afafc0 James Smart 2020-03-31  1516  			oldls =3D ctrl->rcv_disconn;
-14fd1e98afafc0 James Smart 2020-03-31  1517  			ctrl->rcv_disconn =3D lsop;
-14fd1e98afafc0 James Smart 2020-03-31  1518  			ret =3D ctrl;
-14fd1e98afafc0 James Smart 2020-03-31  1519  		}
-14fd1e98afafc0 James Smart 2020-03-31  1520  		spin_unlock(&ctrl->lock);
-14fd1e98afafc0 James Smart 2020-03-31  1521  		if (ret)
-14fd1e98afafc0 James Smart 2020-03-31  1522  			/* leave the ctrl get refer=
-ence */
-14fd1e98afafc0 James Smart 2020-03-31  1523  			break;
-14fd1e98afafc0 James Smart 2020-03-31  1524  		nvme_fc_ctrl_put(ctrl);
-14fd1e98afafc0 James Smart 2020-03-31  1525  	}
-14fd1e98afafc0 James Smart 2020-03-31  1526  =
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  427  	e->rule =3D rule;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  428  	e->gate_state =3D gate_sta=
+te;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  429  	e->interval =3D entry_time;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  430  =
 
-14fd1e98afafc0 James Smart 2020-03-31  1527  	spin_unlock_irqrestore(&rport=
-->lock, flags);
-14fd1e98afafc0 James Smart 2020-03-31  1528  =
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  431  	if (list_empty(&gating_cfg=
+->entries)) {
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  432  		list_add(&e->list, &gatin=
+g_cfg->entries);
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  433  	} else {
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  434  		struct sja1105_gate_entry=
+ *p;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  435  =
 
-14fd1e98afafc0 James Smart 2020-03-31  1529  	/* transmit a response for an=
-ything that was pending */
-14fd1e98afafc0 James Smart 2020-03-31  1530  	if (oldls) {
-14fd1e98afafc0 James Smart 2020-03-31  1531  		dev_info(rport->lport->dev,
-14fd1e98afafc0 James Smart 2020-03-31  1532  			"NVME-FC{%d}: Multiple Disc=
-onnect Association "
-14fd1e98afafc0 James Smart 2020-03-31 @1533  			"LS's received\n", ctrl->cn=
-um);
-14fd1e98afafc0 James Smart 2020-03-31  1534  		/* overwrite good response w=
-ith bogus failure */
-14fd1e98afafc0 James Smart 2020-03-31  1535  		oldls->lsrsp->rsplen =3D nvm=
-e_fc_format_rjt(oldls->rspbuf,
-14fd1e98afafc0 James Smart 2020-03-31  1536  						sizeof(*oldls->rspbuf),
-14fd1e98afafc0 James Smart 2020-03-31  1537  						rqst->w0.ls_cmd,
-14fd1e98afafc0 James Smart 2020-03-31  1538  						FCNVME_RJT_RC_UNAB,
-14fd1e98afafc0 James Smart 2020-03-31  1539  						FCNVME_RJT_EXP_NONE, 0);
-14fd1e98afafc0 James Smart 2020-03-31  1540  		nvme_fc_xmt_ls_rsp(oldls);
-14fd1e98afafc0 James Smart 2020-03-31  1541  	}
-14fd1e98afafc0 James Smart 2020-03-31  1542  =
+834f8933d5ddd7 Vladimir Oltean 2020-05-05 @436  		list_for_each_entry(p, &g=
+ating_cfg->entries, list) {
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  437  			if (p->interval =3D=3D e=
+->interval) {
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  438  				NL_SET_ERR_MSG_MOD(exta=
+ck,
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  439  						   "Gate conflict");
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  440  				rc =3D -EBUSY;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  441  				goto err;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  442  			}
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  443  =
 
-14fd1e98afafc0 James Smart 2020-03-31  1543  	return ret;
-14fd1e98afafc0 James Smart 2020-03-31  1544  }
-14fd1e98afafc0 James Smart 2020-03-31  1545  =
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  444  			if (e->interval < p->int=
+erval)
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  445  				break;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  446  		}
+834f8933d5ddd7 Vladimir Oltean 2020-05-05 @447  		list_add(&e->list, p->lis=
+t.prev);
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  448  	}
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  449  =
+
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  450  	gating_cfg->num_entries++;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  451  =
+
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  452  	return 0;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  453  err:
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  454  	kfree(e);
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  455  	return rc;
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  456  }
+834f8933d5ddd7 Vladimir Oltean 2020-05-05  457  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7657979078929175848==--
+--===============8305630674082854200==--
 
