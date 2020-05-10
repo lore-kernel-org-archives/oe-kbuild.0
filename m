@@ -1,30 +1,41 @@
-Content-Type: multipart/mixed; boundary="===============6954498923071661169=="
+Content-Type: multipart/mixed; boundary="===============2307318113964861176=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [net-next:master 1212/1217] drivers/net/phy/phy.c:521:6: warning: Redundant initialization for 'err'. The initialized value is overwritten before it is read. [redundantInitialization]
-Date: Mon, 11 May 2020 08:36:52 +0800
-Message-ID: <202005110848.p5w47SNP%lkp@intel.com>
+Subject: Re: [PATCH v7 15/18] pstore/blk: Provide way to query pstore configuration
+Date: Mon, 11 May 2020 07:11:20 +0800
+Message-ID: <202005110726.inndUuNl%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6954498923071661169==
+--===============2307318113964861176==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: netdev(a)vger.kernel.org
-TO: Andrew Lunn <andrew@lunn.ch>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Michal Kubecek <mkubecek@suse.cz>
+In-Reply-To: <20200510202436.63222-16-keescook@chromium.org>
+References: <20200510202436.63222-16-keescook@chromium.org>
+TO: Kees Cook <keescook@chromium.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-master
-head:   bed37f0ba6bc1ff702d87be727d9e740509809aa
-commit: 1dd3f212af30b42c90ba252c165f2f6d2ddf5230 [1212/1217] net: ethtool: =
-Add infrastructure for reporting cable test results
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
+Hi Kees,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20200508]
+[cannot apply to kees/for-next/pstore ia64/next linus/master v5.7-rc4 v5.7-=
+rc3 v5.7-rc2 v5.7-rc5]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Kees-Cook/pstore-mtd-suppo=
+rt-crash-log-to-block-and-mtd-device/20200511-043555
+base:    30e2206e11ce27ae910cc0dab21472429e400a87
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -32,118 +43,140 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/net/phy/phy.c:521:6: warning: Redundant initialization for 'err'=
-. The initialized value is overwritten before it is read. [redundantInitial=
-ization]
-    err =3D ethnl_cable_test_alloc(phydev);
+>> fs/pstore/zone.c:822:12: warning: Either the condition '!record' is redu=
+ndant or there is possible null pointer dereference: record. [nullPointerRe=
+dundantCheck]
+    int cnt =3D record->size;
+              ^
+   fs/pstore/zone.c:826:15: note: Assuming that condition '!record' is not =
+redundant
+    if (!zone || !record)
+                 ^
+   fs/pstore/zone.c:822:12: note: Null pointer dereference
+    int cnt =3D record->size;
+              ^
+   fs/pstore/zone.c:824:14: warning: Either the condition '!record' is redu=
+ndant or there is possible null pointer dereference: record. [nullPointerRe=
+dundantCheck]
+    char *buf =3D record->buf;
+                ^
+   fs/pstore/zone.c:826:15: note: Assuming that condition '!record' is not =
+redundant
+    if (!zone || !record)
+                 ^
+   fs/pstore/zone.c:824:14: note: Null pointer dereference
+    char *buf =3D record->buf;
+                ^
+   fs/pstore/zone.c:995:28: warning: Either the condition '!record' is redu=
+ndant or there is possible null pointer dereference: record. [nullPointerRe=
+dundantCheck]
+    struct psz_context *cxt =3D record->psi->data;
+                              ^
+   fs/pstore/zone.c:999:15: note: Assuming that condition '!record' is not =
+redundant
+    if (!zone || !record)
+                 ^
+   fs/pstore/zone.c:995:28: note: Null pointer dereference
+    struct psz_context *cxt =3D record->psi->data;
+                              ^
+   fs/pstore/zone.c:608:6: warning: Redundant initialization for 'ret'. The=
+ initialized value is overwritten before it is read. [redundantInitializati=
+on]
+    ret =3D psz_kmsg_recover(cxt);
         ^
-   drivers/net/phy/phy.c:495:10: note: err is initialized
-    int err =3D -ENOMEM;
+   fs/pstore/zone.c:603:10: note: ret is initialized
+    int ret =3D -EBUSY;
             ^
-   drivers/net/phy/phy.c:521:6: note: err is overwritten
-    err =3D ethnl_cable_test_alloc(phydev);
+   fs/pstore/zone.c:608:6: note: ret is overwritten
+    ret =3D psz_kmsg_recover(cxt);
         ^
+   fs/pstore/zone.c:1351:6: warning: Redundant initialization for 'err'. Th=
+e initialized value is overwritten before it is read. [redundantInitializat=
+ion]
+    err =3D psz_alloc_zones(cxt);
+        ^
+   fs/pstore/zone.c:1288:10: note: err is initialized
+    int err =3D -EINVAL;
+            ^
+   fs/pstore/zone.c:1351:6: note: err is overwritten
+    err =3D psz_alloc_zones(cxt);
+        ^
+   fs/pstore/blk.c:233:7: warning: Redundant initialization for 'bdev'. The=
+ initialized value is overwritten before it is read. [redundantInitializati=
+on]
+    bdev =3D blkdev_get_by_path(blkdev, mode, holder);
+         ^
+   fs/pstore/blk.c:218:28: note: bdev is initialized
+    struct block_device *bdev =3D ERR_PTR(-ENODEV);
+                              ^
+   fs/pstore/blk.c:233:7: note: bdev is overwritten
+    bdev =3D blkdev_get_by_path(blkdev, mode, holder);
+         ^
+   fs/pstore/blk.c:402:6: warning: Redundant initialization for 'ret'. The =
+initialized value is overwritten before it is read. [redundantInitializatio=
+n]
+    ret =3D psblk_register_do(&dev);
+        ^
+   fs/pstore/blk.c:364:10: note: ret is initialized
+    int ret =3D -ENODEV;
+            ^
+   fs/pstore/blk.c:402:6: note: ret is overwritten
+    ret =3D psblk_register_do(&dev);
+        ^
+>> fs/pstore/blk.c:472:20: warning: Unused variable value '_name_' [constSt=
+atement]
+    info->kmsg_size =3D check_size(kmsg_size, 4096);
+                      ^
+   fs/pstore/blk.c:473:20: warning: Unused variable value '_name_' [constSt=
+atement]
+    info->pmsg_size =3D check_size(pmsg_size, 4096);
+                      ^
+   fs/pstore/blk.c:474:22: warning: Unused variable value '_name_' [constSt=
+atement]
+    info->ftrace_size =3D check_size(ftrace_size, 4096);
+                        ^
+   fs/pstore/blk.c:475:23: warning: Unused variable value '_name_' [constSt=
+atement]
+    info->console_size =3D check_size(console_size, 4096);
+                         ^
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git/commit=
-/?id=3D1dd3f212af30b42c90ba252c165f2f6d2ddf5230
-git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/dav=
-em/net-next.git
-git remote update net-next
-git checkout 1dd3f212af30b42c90ba252c165f2f6d2ddf5230
-vim +/err +521 drivers/net/phy/phy.c
+# https://github.com/0day-ci/linux/commit/2ce3ca24c0ecefdcce529c9295843ab71=
+8791f65
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 2ce3ca24c0ecefdcce529c9295843ab718791f65
+vim +/_name_ +472 fs/pstore/blk.c
 
-a68a813836e12b Andrew Lunn 2020-05-10  491  =
+1fe49524a73cc3 WeiXiong Liao 2020-05-10  466  =
 
-a68a813836e12b Andrew Lunn 2020-05-10  492  int phy_start_cable_test(struct=
- phy_device *phydev,
-a68a813836e12b Andrew Lunn 2020-05-10  493  			 struct netlink_ext_ack *ext=
-ack)
-a68a813836e12b Andrew Lunn 2020-05-10  494  {
-1dd3f212af30b4 Andrew Lunn 2020-05-10  495  	int err =3D -ENOMEM;
-a68a813836e12b Andrew Lunn 2020-05-10  496  =
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  467  /* get information of pstore/=
+blk */
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  468  int pstore_blk_get_config(str=
+uct pstore_blk_config *info)
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  469  {
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  470  	strncpy(info->device, blkdev=
+, 80);
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  471  	info->max_reason =3D max_rea=
+son;
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10 @472  	info->kmsg_size =3D check_si=
+ze(kmsg_size, 4096);
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  473  	info->pmsg_size =3D check_si=
+ze(pmsg_size, 4096);
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  474  	info->ftrace_size =3D check_=
+size(ftrace_size, 4096);
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  475  	info->console_size =3D check=
+_size(console_size, 4096);
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  476  =
 
-a68a813836e12b Andrew Lunn 2020-05-10  497  	if (!(phydev->drv &&
-a68a813836e12b Andrew Lunn 2020-05-10  498  	      phydev->drv->cable_test_=
-start &&
-a68a813836e12b Andrew Lunn 2020-05-10  499  	      phydev->drv->cable_test_=
-get_status)) {
-a68a813836e12b Andrew Lunn 2020-05-10  500  		NL_SET_ERR_MSG(extack,
-a68a813836e12b Andrew Lunn 2020-05-10  501  			       "PHY driver does not =
-support cable testing");
-a68a813836e12b Andrew Lunn 2020-05-10  502  		return -EOPNOTSUPP;
-a68a813836e12b Andrew Lunn 2020-05-10  503  	}
-a68a813836e12b Andrew Lunn 2020-05-10  504  =
-
-a68a813836e12b Andrew Lunn 2020-05-10  505  	mutex_lock(&phydev->lock);
-a68a813836e12b Andrew Lunn 2020-05-10  506  	if (phydev->state =3D=3D PHY_C=
-ABLETEST) {
-a68a813836e12b Andrew Lunn 2020-05-10  507  		NL_SET_ERR_MSG(extack,
-a68a813836e12b Andrew Lunn 2020-05-10  508  			       "PHY already performi=
-ng a test");
-a68a813836e12b Andrew Lunn 2020-05-10  509  		err =3D -EBUSY;
-a68a813836e12b Andrew Lunn 2020-05-10  510  		goto out;
-a68a813836e12b Andrew Lunn 2020-05-10  511  	}
-a68a813836e12b Andrew Lunn 2020-05-10  512  =
-
-a68a813836e12b Andrew Lunn 2020-05-10  513  	if (phydev->state < PHY_UP ||
-a68a813836e12b Andrew Lunn 2020-05-10  514  	    phydev->state > PHY_CABLET=
-EST) {
-a68a813836e12b Andrew Lunn 2020-05-10  515  		NL_SET_ERR_MSG(extack,
-a68a813836e12b Andrew Lunn 2020-05-10  516  			       "PHY not configured. =
-Try setting interface up");
-a68a813836e12b Andrew Lunn 2020-05-10  517  		err =3D -EBUSY;
-a68a813836e12b Andrew Lunn 2020-05-10  518  		goto out;
-a68a813836e12b Andrew Lunn 2020-05-10  519  	}
-a68a813836e12b Andrew Lunn 2020-05-10  520  =
-
-1dd3f212af30b4 Andrew Lunn 2020-05-10 @521  	err =3D ethnl_cable_test_alloc=
-(phydev);
-1dd3f212af30b4 Andrew Lunn 2020-05-10  522  	if (err)
-1dd3f212af30b4 Andrew Lunn 2020-05-10  523  		goto out;
-1dd3f212af30b4 Andrew Lunn 2020-05-10  524  =
-
-a68a813836e12b Andrew Lunn 2020-05-10  525  	/* Mark the carrier down until=
- the test is complete */
-a68a813836e12b Andrew Lunn 2020-05-10  526  	phy_link_down(phydev, true);
-a68a813836e12b Andrew Lunn 2020-05-10  527  =
-
-a68a813836e12b Andrew Lunn 2020-05-10  528  	err =3D phydev->drv->cable_tes=
-t_start(phydev);
-a68a813836e12b Andrew Lunn 2020-05-10  529  	if (err) {
-a68a813836e12b Andrew Lunn 2020-05-10  530  		phy_link_up(phydev);
-1dd3f212af30b4 Andrew Lunn 2020-05-10  531  		goto out_free;
-a68a813836e12b Andrew Lunn 2020-05-10  532  	}
-a68a813836e12b Andrew Lunn 2020-05-10  533  =
-
-a68a813836e12b Andrew Lunn 2020-05-10  534  	phydev->state =3D PHY_CABLETES=
-T;
-a68a813836e12b Andrew Lunn 2020-05-10  535  =
-
-97c22438963a74 Andrew Lunn 2020-05-10  536  	if (phy_polling_mode(phydev))
-97c22438963a74 Andrew Lunn 2020-05-10  537  		phy_trigger_machine(phydev);
-1dd3f212af30b4 Andrew Lunn 2020-05-10  538  =
-
-1dd3f212af30b4 Andrew Lunn 2020-05-10  539  	mutex_unlock(&phydev->lock);
-1dd3f212af30b4 Andrew Lunn 2020-05-10  540  =
-
-1dd3f212af30b4 Andrew Lunn 2020-05-10  541  	return 0;
-1dd3f212af30b4 Andrew Lunn 2020-05-10  542  =
-
-1dd3f212af30b4 Andrew Lunn 2020-05-10  543  out_free:
-1dd3f212af30b4 Andrew Lunn 2020-05-10  544  	ethnl_cable_test_free(phydev);
-a68a813836e12b Andrew Lunn 2020-05-10  545  out:
-a68a813836e12b Andrew Lunn 2020-05-10  546  	mutex_unlock(&phydev->lock);
-a68a813836e12b Andrew Lunn 2020-05-10  547  =
-
-a68a813836e12b Andrew Lunn 2020-05-10  548  	return err;
-a68a813836e12b Andrew Lunn 2020-05-10  549  }
-a68a813836e12b Andrew Lunn 2020-05-10  550  EXPORT_SYMBOL(phy_start_cable_t=
-est);
-a68a813836e12b Andrew Lunn 2020-05-10  551  =
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  477  	return 0;
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  478  }
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  479  EXPORT_SYMBOL_GPL(pstore_blk_=
+get_config);
+2ce3ca24c0ecef WeiXiong Liao 2020-05-10  480  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6954498923071661169==--
+--===============2307318113964861176==--
 
