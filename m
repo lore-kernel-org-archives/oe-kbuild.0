@@ -1,46 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============4310240304237947480=="
+Content-Type: multipart/mixed; boundary="===============8798922609679158669=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v6 5/9] w1_therm: adding resolution sysfs entry
-Date: Mon, 11 May 2020 00:28:03 +0800
-Message-ID: <202005110026.OCMXE3M8%lkp@intel.com>
+Subject: [habanaai:dev/ogabbay/gaudi 4/31] drivers/misc/habanalabs/firmware_if.c:305:18: warning: Shifting signed 32-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBitsSigned]
+Date: Sun, 10 May 2020 23:57:35 +0800
+Message-ID: <202005102333.vBMNPewF%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4310240304237947480==
+--===============8798922609679158669==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200510141707.173273-1-akira215corp@gmail.com>
-References: <20200510141707.173273-1-akira215corp@gmail.com>
-TO: Akira Shimahara <akira215corp@gmail.com>
-TO: greg(a)kroah.com
-TO: rdunlap(a)infradead.org
-CC: zbr(a)ioremap.net
-CC: linux-kernel(a)vger.kernel.org
-CC: Akira Shimahara <akira215corp@gmail.com>
+TO: Oded Gabbay <oded.gabbay@gmail.com>
+CC: Omer Shpigelman <oshpigelman@habana.ai>
 
-Hi Akira,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.7-rc4 next-20200508]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Akira-Shimahara/w1_therm-a=
-dding-code-comments-and-code-reordering/20200510-222040
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-e99332e7b4cda6e60f5b5916cf9943a79dbef902
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
+tree:   https://github.com/HabanaAI/linux.git dev/ogabbay/gaudi
+head:   88a18dc3dfc1d290279b597cf82085ac994971be
+commit: 63cd1cfdd076ed1dbcc6d2a1dcd3793aa1b72ea3 [4/31] habanalabs: unify a=
+nd improve device cpu init
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -48,103 +29,90 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/w1/slaves/w1_therm.c:390:6: warning: Redundant initialization fo=
-r 'ret'. The initialized value is overwritten before it is read. [redundant=
-Initialization]
-    ret =3D read_scratchpad(sl, &info);
-        ^
-   drivers/w1/slaves/w1_therm.c:376:10: note: ret is initialized
-    int ret =3D -ENODEV;
-            ^
-   drivers/w1/slaves/w1_therm.c:390:6: note: ret is overwritten
-    ret =3D read_scratchpad(sl, &info);
-        ^
-   drivers/w1/slaves/w1_therm.c:412:6: warning: Redundant initialization fo=
-r 'ret'. The initialized value is overwritten before it is read. [redundant=
-Initialization]
-    ret =3D read_scratchpad(sl, &info);
-        ^
-   drivers/w1/slaves/w1_therm.c:408:10: note: ret is initialized
-    int ret =3D -ENODEV;
-            ^
-   drivers/w1/slaves/w1_therm.c:412:6: note: ret is overwritten
-    ret =3D read_scratchpad(sl, &info);
-        ^
->> drivers/w1/slaves/w1_therm.c:765:9: warning: Variable 'ret' is reassigne=
-d a value before the old one has been used. [redundantAssignment]
-       ret =3D 0;
-           ^
-   drivers/w1/slaves/w1_therm.c:758:9: note: ret is assigned
-       ret =3D -EIO;
-           ^
-   drivers/w1/slaves/w1_therm.c:765:9: note: ret is overwritten
-       ret =3D 0;
-           ^
+>> drivers/misc/habanalabs/firmware_if.c:305:18: warning: Shifting signed 3=
+2-bit value by 31 bits is implementation-defined behaviour [shiftTooManyBit=
+sSigned]
+    if (!(err_val & CPU_BOOT_ERR0_ENABLED))
+                    ^
 
-# https://github.com/0day-ci/linux/commit/660c8cc0fcf6b44dc06925055938090c4=
-c937dab
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 660c8cc0fcf6b44dc06925055938090c4c937dab
-vim +/ret +390 drivers/w1/slaves/w1_therm.c
+# https://github.com/HabanaAI/linux/commit/63cd1cfdd076ed1dbcc6d2a1dcd3793a=
+a1b72ea3
+git remote add habanaai https://github.com/HabanaAI/linux.git
+git remote update habanaai
+git checkout 63cd1cfdd076ed1dbcc6d2a1dcd3793aa1b72ea3
+vim +305 drivers/misc/habanalabs/firmware_if.c
 
-0a19f129d71f18 Ben Sen            2016-05-01  373  =
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  290  =
 
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  374  static inline int w1_DS1=
-8B20_set_resolution(struct w1_slave *sl, int val)
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  375  {
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  376  	int ret =3D -ENODEV;
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  377  	u8 new_config_register[=
-3];	/* array of data to be written */
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  378  	struct therm_info info;
-f53459c00871a7 Alexey Khoroshilov 2017-10-22  379  =
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  291  static void fw_read_errors(str=
+uct hl_device *hdev, u32 boot_err0_reg)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  292  {
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  293  	u32 err_val;
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  294  =
 
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  380  	/* resolution of DS18B2=
-0 is in the range [9..12] bits */
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  381  	if (val < 9 || val > 12)
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  382  		return -EINVAL;
-f53459c00871a7 Alexey Khoroshilov 2017-10-22  383  =
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  295  	/* Some of the firmware statu=
+s codes are deprecated in newer f/w
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  296  	 * versions. In those version=
+s, the errors are reported
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  297  	 * in different registers. Th=
+erefore, we need to check those
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  298  	 * registers and print the ex=
+act errors. Moreover, there
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  299  	 * may be multiple errors, so=
+ we need to report on each error
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  300  	 * separately. Some of the er=
+ror codes might indicate a state
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  301  	 * that is not an error per-s=
+e, but it is an error in production
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  302  	 * environment
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  303  	 */
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  304  	err_val =3D RREG32(boot_err0_=
+reg);
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26 @305  	if (!(err_val & CPU_BOOT_ERR0=
+_ENABLED))
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  306  		return;
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  307  =
 
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  384  	val -=3D 9; /* soustrac=
-t 9 the lowest resolution in bit */
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  385  	val =3D (val << 5); /* =
-shift to position bit 5 & bit 6 */
-0a19f129d71f18 Ben Sen            2016-05-01  386  =
-
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  387  	/* Read the scratchpad =
-to change only the required bits
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  388  	 * (bit5 & bit 6 from b=
-yte 4)
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  389  	 */
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10 @390  	ret =3D read_scratchpad=
-(sl, &info);
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  391  	if (!ret) {
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  392  		new_config_register[0]=
- =3D info.rom[2];
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  393  		new_config_register[1]=
- =3D info.rom[3];
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  394  		/* config register is =
-byte 4 & mask 0b10011111*/
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  395  		new_config_register[2]=
- =3D (info.rom[4] & 0x9F) |
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  396  					(u8) val;
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  397  	} else
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  398  		return ret;
-0a19f129d71f18 Ben Sen            2016-05-01  399  =
-
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  400  	/* Write data in the de=
-vice RAM */
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  401  	ret =3D w1_DS18B20_writ=
-e_data(sl, new_config_register);
-0a19f129d71f18 Ben Sen            2016-05-01  402  =
-
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  403  	return ret;
-660c8cc0fcf6b4 Akira Shimahara    2020-05-10  404  }
-0a19f129d71f18 Ben Sen            2016-05-01  405  =
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  308  	if (err_val & CPU_BOOT_ERR0_D=
+RAM_INIT_FAIL)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  309  		dev_err(hdev->dev,
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  310  			"Device boot error - DRAM i=
+nitialization failed\n");
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  311  	if (err_val & CPU_BOOT_ERR0_F=
+IT_CORRUPTED)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  312  		dev_err(hdev->dev, "Device b=
+oot error - FIT image corrupted\n");
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  313  	if (err_val & CPU_BOOT_ERR0_T=
+S_INIT_FAIL)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  314  		dev_err(hdev->dev,
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  315  			"Device boot error - Therma=
+l Sensor initialization failed\n");
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  316  	if (err_val & CPU_BOOT_ERR0_D=
+RAM_SKIPPED)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  317  		dev_warn(hdev->dev,
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  318  			"Device boot warning - Skip=
+ped DRAM initialization\n");
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  319  	if (err_val & CPU_BOOT_ERR0_B=
+MC_WAIT_SKIPPED)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  320  		dev_warn(hdev->dev,
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  321  			"Device boot error - Skippe=
+d waiting for BMC\n");
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  322  	if (err_val & CPU_BOOT_ERR0_N=
+IC_DATA_NOT_RDY)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  323  		dev_err(hdev->dev,
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  324  			"Device boot error - Serdes=
+ data from BMC not available\n");
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  325  	if (err_val & CPU_BOOT_ERR0_N=
+IC_FW_FAIL)
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  326  		dev_err(hdev->dev,
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  327  			"Device boot error - NIC F/=
+W initialization failed\n");
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  328  }
+63cd1cfdd076ed1 Oded Gabbay 2020-03-26  329  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============4310240304237947480==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============8798922609679158669==--
 
