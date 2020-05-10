@@ -1,95 +1,118 @@
-Content-Type: multipart/mixed; boundary="===============0912631725273729579=="
+Content-Type: multipart/mixed; boundary="===============2697838550566314506=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [bpf-next:master 801/821] kernel/bpf/bpf_iter.c:148:15-20: ERROR: invalid reference to the index variable of the iterator on line 133
-Date: Sun, 10 May 2020 12:01:28 +0800
-Message-ID: <202005101225.wGdrxsZo%lkp@intel.com>
+Subject: [linux-next:master 6663/7905] drivers/net/wireless/ath/ath11k/mac.c:3706:7: warning: Redundant initialization for 'info'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Sun, 10 May 2020 09:50:15 +0800
+Message-ID: <202005100911.nORSVIw0%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0912631725273729579==
+--===============2697838550566314506==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Yonghong Song <yhs@fb.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: John Crispin <john@phrozen.org>
+CC: Kalle Valo <kvalo@codeaurora.org>
+CC: Shashidhar Lakkavalli <slakkavalli@datto.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-head:   b4563facdcae55c83039d5efcc3b45a63da14d2f
-commit: de4e05cac46d206f9090051ef09930514bff73e4 [801/821] bpf: Support bpf=
- tracing/iter programs for BPF_LINK_CREATE
-:::::: branch date: 3 hours ago
-:::::: commit date: 4 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   30e2206e11ce27ae910cc0dab21472429e400a87
+commit: e7f33e0c52c0df42f817a8468bf55be6648f9b5f [6663/7905] ath11k: add tx=
+ hw 802.11 encapsulation offloading support
+:::::: branch date: 2 days ago
+:::::: commit date: 4 days ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-coccinelle warnings: (new ones prefixed by >>)
+cppcheck warnings: (new ones prefixed by >>)
 
->> kernel/bpf/bpf_iter.c:148:15-20: ERROR: invalid reference to the index v=
-ariable of the iterator on line 133
+   drivers/net/wireless/ath/ath11k/mac.c:4480:2: warning: Assignment of fun=
+ction parameter has no effect outside the function. [uselessAssignmentArg]
+    changed_flags &=3D SUPPORTED_FILTERS;
+    ^
+>> drivers/net/wireless/ath/ath11k/mac.c:3706:7: warning: Redundant initial=
+ization for 'info'. The initialized value is overwritten before it is read.=
+ [redundantInitialization]
+    info =3D IEEE80211_SKB_CB(msdu);
+         ^
+   drivers/net/wireless/ath/ath11k/mac.c:3696:33: note: info is initialized
+    struct ieee80211_tx_info *info =3D IEEE80211_SKB_CB(msdu);
+                                   ^
+   drivers/net/wireless/ath/ath11k/mac.c:3706:7: note: info is overwritten
+    info =3D IEEE80211_SKB_CB(msdu);
+         ^
+   drivers/net/wireless/ath/ath11k/mac.c:1876:7: warning: Local variable 'p=
+reamble' shadows outer variable [shadowVariable]
+     u32 preamble;
+         ^
+   drivers/net/wireless/ath/ath11k/mac.c:1745:6: note: Shadowed declaration
+    u32 preamble;
+        ^
+   drivers/net/wireless/ath/ath11k/mac.c:1876:7: note: Shadow variable
+     u32 preamble;
+         ^
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git/commit/?=
-id=3Dde4e05cac46d206f9090051ef09930514bff73e4
-git remote add bpf-next https://git.kernel.org/pub/scm/linux/kernel/git/bpf=
-/bpf-next.git
-git remote update bpf-next
-git checkout de4e05cac46d206f9090051ef09930514bff73e4
-vim +148 kernel/bpf/bpf_iter.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3De7f33e0c52c0df42f817a8468bf55be6648f9b5f
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git remote update linux-next
+git checkout e7f33e0c52c0df42f817a8468bf55be6648f9b5f
+vim +/info +3706 drivers/net/wireless/ath/ath11k/mac.c
 
-de4e05cac46d20 Yonghong Song 2020-05-09  118  =
+d5c65159f28953 Kalle Valo   2019-11-23  3692  =
 
-de4e05cac46d20 Yonghong Song 2020-05-09  119  int bpf_iter_link_attach(cons=
-t union bpf_attr *attr, struct bpf_prog *prog)
-de4e05cac46d20 Yonghong Song 2020-05-09  120  {
-de4e05cac46d20 Yonghong Song 2020-05-09  121  	struct bpf_link_primer link_=
-primer;
-de4e05cac46d20 Yonghong Song 2020-05-09  122  	struct bpf_iter_target_info =
-*tinfo;
-de4e05cac46d20 Yonghong Song 2020-05-09  123  	struct bpf_iter_link *link;
-de4e05cac46d20 Yonghong Song 2020-05-09  124  	bool existed =3D false;
-de4e05cac46d20 Yonghong Song 2020-05-09  125  	u32 prog_btf_id;
-de4e05cac46d20 Yonghong Song 2020-05-09  126  	int err;
-de4e05cac46d20 Yonghong Song 2020-05-09  127  =
+d5c65159f28953 Kalle Valo   2019-11-23  3693  int ath11k_mac_tx_mgmt_pendin=
+g_free(int buf_id, void *skb, void *ctx)
+d5c65159f28953 Kalle Valo   2019-11-23  3694  {
+e7f33e0c52c0df John Crispin 2020-05-05  3695  	struct sk_buff *msdu =3D skb;
+e7f33e0c52c0df John Crispin 2020-05-05  3696  	struct ieee80211_tx_info *in=
+fo =3D IEEE80211_SKB_CB(msdu);
+d5c65159f28953 Kalle Valo   2019-11-23  3697  	struct ath11k *ar =3D ctx;
+d5c65159f28953 Kalle Valo   2019-11-23  3698  	struct ath11k_base *ab =3D a=
+r->ab;
+d5c65159f28953 Kalle Valo   2019-11-23  3699  =
 
-de4e05cac46d20 Yonghong Song 2020-05-09  128  	if (attr->link_create.target=
-_fd || attr->link_create.flags)
-de4e05cac46d20 Yonghong Song 2020-05-09  129  		return -EINVAL;
-de4e05cac46d20 Yonghong Song 2020-05-09  130  =
+d5c65159f28953 Kalle Valo   2019-11-23  3700  	spin_lock_bh(&ar->txmgmt_idr=
+_lock);
+d5c65159f28953 Kalle Valo   2019-11-23  3701  	idr_remove(&ar->txmgmt_idr, =
+buf_id);
+d5c65159f28953 Kalle Valo   2019-11-23  3702  	spin_unlock_bh(&ar->txmgmt_i=
+dr_lock);
+d5c65159f28953 Kalle Valo   2019-11-23  3703  	dma_unmap_single(ab->dev, AT=
+H11K_SKB_CB(msdu)->paddr, msdu->len,
+d5c65159f28953 Kalle Valo   2019-11-23  3704  			 DMA_TO_DEVICE);
+d5c65159f28953 Kalle Valo   2019-11-23  3705  =
 
-de4e05cac46d20 Yonghong Song 2020-05-09  131  	prog_btf_id =3D prog->aux->a=
-ttach_btf_id;
-de4e05cac46d20 Yonghong Song 2020-05-09  132  	mutex_lock(&targets_mutex);
-de4e05cac46d20 Yonghong Song 2020-05-09 @133  	list_for_each_entry(tinfo, &=
-targets, list) {
-de4e05cac46d20 Yonghong Song 2020-05-09  134  		if (tinfo->btf_id =3D=3D pr=
-og_btf_id) {
-de4e05cac46d20 Yonghong Song 2020-05-09  135  			existed =3D true;
-de4e05cac46d20 Yonghong Song 2020-05-09  136  			break;
-de4e05cac46d20 Yonghong Song 2020-05-09  137  		}
-de4e05cac46d20 Yonghong Song 2020-05-09  138  	}
-de4e05cac46d20 Yonghong Song 2020-05-09  139  	mutex_unlock(&targets_mutex);
-de4e05cac46d20 Yonghong Song 2020-05-09  140  	if (!existed)
-de4e05cac46d20 Yonghong Song 2020-05-09  141  		return -ENOENT;
-de4e05cac46d20 Yonghong Song 2020-05-09  142  =
+d5c65159f28953 Kalle Valo   2019-11-23 @3706  	info =3D IEEE80211_SKB_CB(ms=
+du);
+d5c65159f28953 Kalle Valo   2019-11-23  3707  	memset(&info->status, 0, siz=
+eof(info->status));
+d5c65159f28953 Kalle Valo   2019-11-23  3708  =
 
-de4e05cac46d20 Yonghong Song 2020-05-09  143  	link =3D kzalloc(sizeof(*lin=
-k), GFP_USER | __GFP_NOWARN);
-de4e05cac46d20 Yonghong Song 2020-05-09  144  	if (!link)
-de4e05cac46d20 Yonghong Song 2020-05-09  145  		return -ENOMEM;
-de4e05cac46d20 Yonghong Song 2020-05-09  146  =
+d5c65159f28953 Kalle Valo   2019-11-23  3709  	ieee80211_free_txskb(ar->hw,=
+ msdu);
+d5c65159f28953 Kalle Valo   2019-11-23  3710  =
 
-de4e05cac46d20 Yonghong Song 2020-05-09  147  	bpf_link_init(&link->link, B=
-PF_LINK_TYPE_ITER, &bpf_iter_link_lops, prog);
-de4e05cac46d20 Yonghong Song 2020-05-09 @148  	link->tinfo =3D tinfo;
+d5c65159f28953 Kalle Valo   2019-11-23  3711  	return 0;
+d5c65159f28953 Kalle Valo   2019-11-23  3712  }
+d5c65159f28953 Kalle Valo   2019-11-23  3713  =
+
+
+:::::: The code at line 3706 was first introduced by commit
+:::::: d5c65159f2895379e11ca13f62feabe93278985d ath11k: driver for Qualcomm=
+ IEEE 802.11ax devices
+
+:::::: TO: Kalle Valo <kvalo@codeaurora.org>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0912631725273729579==--
+--===============2697838550566314506==--
 
