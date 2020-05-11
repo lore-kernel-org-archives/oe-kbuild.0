@@ -1,139 +1,149 @@
-Content-Type: multipart/mixed; boundary="===============2000964035421690424=="
+Content-Type: multipart/mixed; boundary="===============6954498923071661169=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] ACPI: Drop rcu usage for MMIO mappings
-Date: Tue, 12 May 2020 01:51:33 +0800
-Message-ID: <202005120116.equMXMsi%lkp@intel.com>
+Subject: [net-next:master 1212/1217] drivers/net/phy/phy.c:521:6: warning: Redundant initialization for 'err'. The initialized value is overwritten before it is read. [redundantInitialization]
+Date: Mon, 11 May 2020 08:36:52 +0800
+Message-ID: <202005110848.p5w47SNP%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2000964035421690424==
+--===============6954498923071661169==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <158889473309.2292982.18007035454673387731.stgit@dwillia2-de=
-sk3.amr.corp.intel.com>
-References: <158889473309.2292982.18007035454673387731.stgit@dwillia2-des=
-k3.amr.corp.intel.com>
-TO: Dan Williams <dan.j.williams@intel.com>
-TO: rafael.j.wysocki(a)intel.com
-TO: stable(a)vger.kernel.org
-TO: Len Brown <lenb@kernel.org>
-TO: Borislav Petkov <bp@alien8.de>
-TO: Ira Weiny <ira.weiny@intel.com>
-TO: James Morse <james.morse@arm.com>
-TO: Erik Kaneda <erik.kaneda@intel.com>
-TO: Myron Stowe <myron.stowe@redhat.com>
-TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-TO: linux-kernel(a)vger.kernel.org
-TO: linux-acpi(a)vger.kernel.org
-TO: linux-nvdimm(a)lists.01.org
-TO: stable(a)vger.kernel.org
-TO: Len Brown <lenb@kernel.org>
-TO: Borislav Petkov <bp@alien8.de>
-TO: Ira Weiny <ira.weiny@intel.com>
-TO: James Morse <james.morse@arm.com>
-TO: Erik Kaneda <erik.kaneda@intel.com>
-TO: Myron Stowe <myron.stowe@redhat.com>
-TO: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-TO: linux-kernel(a)vger.kernel.org
-TO: linux-acpi(a)vger.kernel.org
-TO: linux-nvdimm(a)lists.01.org
-CC: stable(a)vger.kernel.org
-CC: Len Brown <lenb@kernel.org>
-CC: Borislav Petkov <bp@alien8.de>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: James Morse <james.morse@arm.com>
-CC: Erik Kaneda <erik.kaneda@intel.com>
-CC: Myron Stowe <myron.stowe@redhat.com>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: netdev(a)vger.kernel.org
+TO: Andrew Lunn <andrew@lunn.ch>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Michal Kubecek <mkubecek@suse.cz>
 
-Hi Dan,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on pm/linux-next]
-[also build test WARNING on v5.7-rc5 next-20200511]
-[if your patch is applied to the wrong git tree, please drop us a note to h=
-elp
-improve the system. BTW, we also suggest to use '--base' option to specify =
-the
-base tree in git format-patch, please see https://stackoverflow.com/a/37406=
-982]
-
-url:    https://github.com/0day-ci/linux/commits/Dan-Williams/ACPI-Drop-rcu=
--usage-for-MMIO-mappings/20200509-013208
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git=
- linux-next
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+master
+head:   bed37f0ba6bc1ff702d87be727d9e740509809aa
+commit: 1dd3f212af30b42c90ba252c165f2f6d2ddf5230 [1212/1217] net: ethtool: =
+Add infrastructure for reporting cable test results
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/acpi/osl.c:707 acpi_os_rw_map() warn: inconsistent returns 'acpi_io=
-remap_lock'.
 
-Old smatch warnings:
-drivers/acpi/osl.c:326 acpi_os_map_iomem() warn: impossible condition '(phy=
-s > (~0)) =3D> (0-u64max > u64max)'
+cppcheck warnings: (new ones prefixed by >>)
 
-# https://github.com/0day-ci/linux/commit/5a91d41f89e8874053e12766fa8eb5eaa=
-997d277
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 5a91d41f89e8874053e12766fa8eb5eaa997d277
-vim +/acpi_ioremap_lock +707 drivers/acpi/osl.c
+>> drivers/net/phy/phy.c:521:6: warning: Redundant initialization for 'err'=
+. The initialized value is overwritten before it is read. [redundantInitial=
+ization]
+    err =3D ethnl_cable_test_alloc(phydev);
+        ^
+   drivers/net/phy/phy.c:495:10: note: err is initialized
+    int err =3D -ENOMEM;
+            ^
+   drivers/net/phy/phy.c:521:6: note: err is overwritten
+    err =3D ethnl_cable_test_alloc(phydev);
+        ^
 
-eeb2d80d502af2 Srinivas Pandruvada 2017-10-05  687  =
+# https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git/commit=
+/?id=3D1dd3f212af30b42c90ba252c165f2f6d2ddf5230
+git remote add net-next https://git.kernel.org/pub/scm/linux/kernel/git/dav=
+em/net-next.git
+git remote update net-next
+git checkout 1dd3f212af30b42c90ba252c165f2f6d2ddf5230
+vim +/err +521 drivers/net/phy/phy.c
 
-5a91d41f89e887 Dan Williams        2020-05-07  688  static void __iomem *ac=
-pi_os_rw_map(acpi_physical_address phys_addr,
-5a91d41f89e887 Dan Williams        2020-05-07  689  				    unsigned int si=
-ze, bool *did_fallback)
-5a91d41f89e887 Dan Williams        2020-05-07  690  {
-5a91d41f89e887 Dan Williams        2020-05-07  691  	void __iomem *virt_add=
-r;
-5a91d41f89e887 Dan Williams        2020-05-07  692  =
+a68a813836e12b Andrew Lunn 2020-05-10  491  =
 
-5a91d41f89e887 Dan Williams        2020-05-07  693  	if (WARN_ONCE(in_inter=
-rupt(), "ioremap in interrupt context\n"))
-5a91d41f89e887 Dan Williams        2020-05-07  694  		return NULL;
-5a91d41f89e887 Dan Williams        2020-05-07  695  =
+a68a813836e12b Andrew Lunn 2020-05-10  492  int phy_start_cable_test(struct=
+ phy_device *phydev,
+a68a813836e12b Andrew Lunn 2020-05-10  493  			 struct netlink_ext_ack *ext=
+ack)
+a68a813836e12b Andrew Lunn 2020-05-10  494  {
+1dd3f212af30b4 Andrew Lunn 2020-05-10  495  	int err =3D -ENOMEM;
+a68a813836e12b Andrew Lunn 2020-05-10  496  =
 
-5a91d41f89e887 Dan Williams        2020-05-07  696  	/* Try to use a cached=
- mapping and fallback otherwise */
-5a91d41f89e887 Dan Williams        2020-05-07  697  	*did_fallback =3D fals=
-e;
-5a91d41f89e887 Dan Williams        2020-05-07  698  	mutex_lock(&acpi_iorem=
-ap_lock);
-5a91d41f89e887 Dan Williams        2020-05-07  699  	virt_addr =3D acpi_map=
-_vaddr_lookup(phys_addr, size);
-5a91d41f89e887 Dan Williams        2020-05-07  700  	if (virt_addr)
-5a91d41f89e887 Dan Williams        2020-05-07  701  		return virt_addr;
-5a91d41f89e887 Dan Williams        2020-05-07  702  	mutex_unlock(&acpi_ior=
-emap_lock);
-5a91d41f89e887 Dan Williams        2020-05-07  703  =
+a68a813836e12b Andrew Lunn 2020-05-10  497  	if (!(phydev->drv &&
+a68a813836e12b Andrew Lunn 2020-05-10  498  	      phydev->drv->cable_test_=
+start &&
+a68a813836e12b Andrew Lunn 2020-05-10  499  	      phydev->drv->cable_test_=
+get_status)) {
+a68a813836e12b Andrew Lunn 2020-05-10  500  		NL_SET_ERR_MSG(extack,
+a68a813836e12b Andrew Lunn 2020-05-10  501  			       "PHY driver does not =
+support cable testing");
+a68a813836e12b Andrew Lunn 2020-05-10  502  		return -EOPNOTSUPP;
+a68a813836e12b Andrew Lunn 2020-05-10  503  	}
+a68a813836e12b Andrew Lunn 2020-05-10  504  =
 
-5a91d41f89e887 Dan Williams        2020-05-07  704  	virt_addr =3D acpi_os_=
-ioremap(phys_addr, size);
-5a91d41f89e887 Dan Williams        2020-05-07  705  	*did_fallback =3D true;
-5a91d41f89e887 Dan Williams        2020-05-07  706  =
+a68a813836e12b Andrew Lunn 2020-05-10  505  	mutex_lock(&phydev->lock);
+a68a813836e12b Andrew Lunn 2020-05-10  506  	if (phydev->state =3D=3D PHY_C=
+ABLETEST) {
+a68a813836e12b Andrew Lunn 2020-05-10  507  		NL_SET_ERR_MSG(extack,
+a68a813836e12b Andrew Lunn 2020-05-10  508  			       "PHY already performi=
+ng a test");
+a68a813836e12b Andrew Lunn 2020-05-10  509  		err =3D -EBUSY;
+a68a813836e12b Andrew Lunn 2020-05-10  510  		goto out;
+a68a813836e12b Andrew Lunn 2020-05-10  511  	}
+a68a813836e12b Andrew Lunn 2020-05-10  512  =
 
-5a91d41f89e887 Dan Williams        2020-05-07 @707  	return virt_addr;
-5a91d41f89e887 Dan Williams        2020-05-07  708  }
-5a91d41f89e887 Dan Williams        2020-05-07  709  =
+a68a813836e12b Andrew Lunn 2020-05-10  513  	if (phydev->state < PHY_UP ||
+a68a813836e12b Andrew Lunn 2020-05-10  514  	    phydev->state > PHY_CABLET=
+EST) {
+a68a813836e12b Andrew Lunn 2020-05-10  515  		NL_SET_ERR_MSG(extack,
+a68a813836e12b Andrew Lunn 2020-05-10  516  			       "PHY not configured. =
+Try setting interface up");
+a68a813836e12b Andrew Lunn 2020-05-10  517  		err =3D -EBUSY;
+a68a813836e12b Andrew Lunn 2020-05-10  518  		goto out;
+a68a813836e12b Andrew Lunn 2020-05-10  519  	}
+a68a813836e12b Andrew Lunn 2020-05-10  520  =
+
+1dd3f212af30b4 Andrew Lunn 2020-05-10 @521  	err =3D ethnl_cable_test_alloc=
+(phydev);
+1dd3f212af30b4 Andrew Lunn 2020-05-10  522  	if (err)
+1dd3f212af30b4 Andrew Lunn 2020-05-10  523  		goto out;
+1dd3f212af30b4 Andrew Lunn 2020-05-10  524  =
+
+a68a813836e12b Andrew Lunn 2020-05-10  525  	/* Mark the carrier down until=
+ the test is complete */
+a68a813836e12b Andrew Lunn 2020-05-10  526  	phy_link_down(phydev, true);
+a68a813836e12b Andrew Lunn 2020-05-10  527  =
+
+a68a813836e12b Andrew Lunn 2020-05-10  528  	err =3D phydev->drv->cable_tes=
+t_start(phydev);
+a68a813836e12b Andrew Lunn 2020-05-10  529  	if (err) {
+a68a813836e12b Andrew Lunn 2020-05-10  530  		phy_link_up(phydev);
+1dd3f212af30b4 Andrew Lunn 2020-05-10  531  		goto out_free;
+a68a813836e12b Andrew Lunn 2020-05-10  532  	}
+a68a813836e12b Andrew Lunn 2020-05-10  533  =
+
+a68a813836e12b Andrew Lunn 2020-05-10  534  	phydev->state =3D PHY_CABLETES=
+T;
+a68a813836e12b Andrew Lunn 2020-05-10  535  =
+
+97c22438963a74 Andrew Lunn 2020-05-10  536  	if (phy_polling_mode(phydev))
+97c22438963a74 Andrew Lunn 2020-05-10  537  		phy_trigger_machine(phydev);
+1dd3f212af30b4 Andrew Lunn 2020-05-10  538  =
+
+1dd3f212af30b4 Andrew Lunn 2020-05-10  539  	mutex_unlock(&phydev->lock);
+1dd3f212af30b4 Andrew Lunn 2020-05-10  540  =
+
+1dd3f212af30b4 Andrew Lunn 2020-05-10  541  	return 0;
+1dd3f212af30b4 Andrew Lunn 2020-05-10  542  =
+
+1dd3f212af30b4 Andrew Lunn 2020-05-10  543  out_free:
+1dd3f212af30b4 Andrew Lunn 2020-05-10  544  	ethnl_cable_test_free(phydev);
+a68a813836e12b Andrew Lunn 2020-05-10  545  out:
+a68a813836e12b Andrew Lunn 2020-05-10  546  	mutex_unlock(&phydev->lock);
+a68a813836e12b Andrew Lunn 2020-05-10  547  =
+
+a68a813836e12b Andrew Lunn 2020-05-10  548  	return err;
+a68a813836e12b Andrew Lunn 2020-05-10  549  }
+a68a813836e12b Andrew Lunn 2020-05-10  550  EXPORT_SYMBOL(phy_start_cable_t=
+est);
+a68a813836e12b Andrew Lunn 2020-05-10  551  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2000964035421690424==--
+--===============6954498923071661169==--
 
