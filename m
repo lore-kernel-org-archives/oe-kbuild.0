@@ -1,109 +1,227 @@
-Content-Type: multipart/mixed; boundary="===============7590396588407109346=="
+Content-Type: multipart/mixed; boundary="===============8948884072194217786=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-4.4 4/4] drivers/gpu/drm/i915/i915_guc_submission.c:1109 intel_guc_resume() warn: ignoring unreachable code.
-Date: Tue, 12 May 2020 07:22:13 +0800
-Message-ID: <202005120708.ujQJ6wUy%lkp@intel.com>
+Subject: Re: [PATCH v1] ASoC: rsnd: add interrupt support for SSI BUSIF buffer
+Date: Tue, 12 May 2020 03:07:44 +0800
+Message-ID: <202005120301.pQ1Z8bFa%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7590396588407109346==
+--===============8948884072194217786==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+In-Reply-To: <20200511100415.12502-1-giraffesnn123@gmail.com>
+References: <20200511100415.12502-1-giraffesnn123@gmail.com>
+TO: Yongbo Zhang <giraffesnn123@gmail.com>
+TO: broonie(a)kernel.org
+TO: lgirdwood(a)gmail.com
+CC: alsa-devel(a)alsa-project.org
+CC: linux-renesas-soc(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+CC: Yongbo Zhang <giraffesnn123@gmail.com>
+CC: Chen Li <licheng0822@thundersoft.com>
+CC: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-4.4
-head:   facf9b5fa586b01b72c4616da261566b9089593b
-commit: facf9b5fa586b01b72c4616da261566b9089593b [4/4] CHROMIUM: drm/i915/g=
-uc: Init GuC completely even if submission disabled
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
+Hi Yongbo,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on asoc/for-next]
+[also build test WARNING on v5.7-rc5 next-20200511]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Yongbo-Zhang/ASoC-rsnd-add=
+-interrupt-support-for-SSI-BUSIF-buffer/20200511-184903
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git f=
+or-next
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/gpu/drm/i915/i915_guc_submission.c:1109 intel_guc_resume() warn: ig=
-noring unreachable code.
-
-git remote add chrome-os https://chromium.googlesource.com/chromiumos/third=
-_party/kernel
-git remote update chrome-os
-git checkout facf9b5fa586b01b72c4616da261566b9089593b
-vim +1109 drivers/gpu/drm/i915/i915_guc_submission.c
-
-a1c4199414539d Alex Dai          2015-09-30  1090  =
-
-a1c4199414539d Alex Dai          2015-09-30  1091  =
-
-a1c4199414539d Alex Dai          2015-09-30  1092  /**
-a1c4199414539d Alex Dai          2015-09-30  1093   * intel_guc_resume() - =
-notify GuC resuming from suspend state
-194e83e951e8f7 Tvrtko Ursulin    2016-12-01  1094   * @dev_priv:	i915 devic=
-e private
-a1c4199414539d Alex Dai          2015-09-30  1095   */
-194e83e951e8f7 Tvrtko Ursulin    2016-12-01  1096  int intel_guc_resume(str=
-uct drm_i915_private *dev_priv)
-a1c4199414539d Alex Dai          2015-09-30  1097  {
-a1c4199414539d Alex Dai          2015-09-30  1098  	struct intel_guc *guc =
-=3D &dev_priv->guc;
-36f917dd0596b2 Chris Wilson      2016-05-24  1099  	struct i915_gem_context=
- *ctx;
-a1c4199414539d Alex Dai          2015-09-30  1100  	u32 data[3];
-a1c4199414539d Alex Dai          2015-09-30  1101  =
-
-facf9b5fa586b0 Eugene Nemkov     2019-10-09  1102  	/*
-facf9b5fa586b0 Eugene Nemkov     2019-10-09  1103  	 * http://crbug.com/965=
-320
-facf9b5fa586b0 Eugene Nemkov     2019-10-09  1104  	 * Do not wake GuC: we =
-don't need it after startup.
-facf9b5fa586b0 Eugene Nemkov     2019-10-09  1105  	 * Otherwise it consume=
-s ~0.1W after GPU D3->D0 transition.
-facf9b5fa586b0 Eugene Nemkov     2019-10-09  1106  	 */
-a1c4199414539d Alex Dai          2015-09-30  1107  	return 0;
-a1c4199414539d Alex Dai          2015-09-30  1108  =
-
-4afb65d8e534a8 Sagar Arun Kamble 2016-10-12 @1109  	if (i915.guc_log_level =
->=3D 0)
-4afb65d8e534a8 Sagar Arun Kamble 2016-10-12  1110  		gen9_enable_guc_interr=
-upts(dev_priv);
-4afb65d8e534a8 Sagar Arun Kamble 2016-10-12  1111  =
-
-5b90ebb3a95244 Dave Gordon       2016-01-19  1112  	ctx =3D dev_priv->kerne=
-l_context;
-a1c4199414539d Alex Dai          2015-09-30  1113  =
-
-2572d1111c5594 Arkadiusz Hiler   2016-11-25  1114  	data[0] =3D INTEL_GUC_A=
-CTION_EXIT_S_STATE;
-a1c4199414539d Alex Dai          2015-09-30  1115  	data[1] =3D GUC_POWER_D=
-0;
-a1c4199414539d Alex Dai          2015-09-30  1116  	/* first page is shared=
- data with GuC */
-4ae491d33f9aae Chris Wilson      2016-12-24  1117  	data[2] =3D guc_ggtt_of=
-fset(ctx->engine[RCS].state);
-a1c4199414539d Alex Dai          2015-09-30  1118  =
-
-772c08e8204060 Arkadiusz Hiler   2016-11-25  1119  	return intel_guc_send(g=
-uc, data, ARRAY_SIZE(data));
-a1c4199414539d Alex Dai          2015-09-30  1120  }
-e4af452877e835 Sagar Arun Kamble 2016-10-12  1121  =
 
 
-:::::: The code at line 1109 was first introduced by commit
-:::::: 4afb65d8e534a87d0f65672354f7b777d08d8679 BACKPORT: drm/i915: Support=
- for GuC interrupts
+sparse warnings: (new ones prefixed by >>)
 
-:::::: TO: Sagar Arun Kamble <sagar.a.kamble@intel.com>
-:::::: CC: Commit Bot <commit-bot@chromium.org>
+   sound/soc/sh/rcar/ssi.c:596:1: sparse: sparse: mixing declarations and c=
+ode
+   include/sound/pcm_params.h:377:0: sparse: sparse: Expected } at end of f=
+unction
+   include/sound/pcm_params.h:377:0: sparse: sparse: got end-of-input
+>> sound/soc/sh/rcar/ssi.c:798:56: sparse: sparse: not enough arguments for=
+ function rsnd_mod_write
+
+# https://github.com/0day-ci/linux/commit/23aaae15fe2b41fd05caf5e0773d41021=
+bc03e27
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 23aaae15fe2b41fd05caf5e0773d41021bc03e27
+vim +798 sound/soc/sh/rcar/ssi.c
+
+615fb6c7b13b7f Kuninori Morimoto 2016-02-18  733  =
+
+d8d9b9730cd62c Kuninori Morimoto 2017-12-11  734  static bool rsnd_ssi_pio_=
+interrupt(struct rsnd_mod *mod,
+d8d9b9730cd62c Kuninori Morimoto 2017-12-11  735  				   struct rsnd_dai_st=
+ream *io);
+bfc0cfe6b7acb1 Kuninori Morimoto 2015-06-15  736  static void __rsnd_ssi_in=
+terrupt(struct rsnd_mod *mod,
+bfc0cfe6b7acb1 Kuninori Morimoto 2015-06-15  737  				 struct rsnd_dai_stre=
+am *io)
+ae5c322303fff5 Kuninori Morimoto 2013-07-21  738  {
+690602fcd85385 Kuninori Morimoto 2015-01-15  739  	struct rsnd_priv *priv =
+=3D rsnd_mod_to_priv(mod);
+2b62786951ca38 Kuninori Morimoto 2018-02-13  740  	struct device *dev =3D r=
+snd_priv_to_dev(priv);
+765ae7c8dda7d0 Kuninori Morimoto 2015-01-15  741  	int is_dma =3D rsnd_ssi_=
+is_dma_mode(mod);
+02299d9875bab5 Kuninori Morimoto 2015-05-21  742  	u32 status;
+75defee0f1b3fc Kuninori Morimoto 2015-06-15  743  	bool elapsed =3D false;
+6a25c8da00284f Kuninori Morimoto 2016-01-26  744  	bool stop =3D false;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  745  	int is_tdm, is_tdm_split;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  746  =
+
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  747  	is_tdm		=3D rsnd_runtime=
+_is_tdm(io);
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  748  	is_tdm_split	=3D rsnd_ru=
+ntime_is_tdm_split(io);
+02299d9875bab5 Kuninori Morimoto 2015-05-21  749  =
+
+02299d9875bab5 Kuninori Morimoto 2015-05-21  750  	spin_lock(&priv->lock);
+ae5c322303fff5 Kuninori Morimoto 2013-07-21  751  =
+
+02299d9875bab5 Kuninori Morimoto 2015-05-21  752  	/* ignore all cases if n=
+ot working */
+d5bbe7de563ccc Kuninori Morimoto 2015-06-15  753  	if (!rsnd_io_is_working(=
+io))
+02299d9875bab5 Kuninori Morimoto 2015-05-21  754  		goto rsnd_ssi_interrupt=
+_out;
+02299d9875bab5 Kuninori Morimoto 2015-05-21  755  =
+
+6a25c8da00284f Kuninori Morimoto 2016-01-26  756  	status =3D rsnd_ssi_stat=
+us_get(mod);
+4e7d606cd52aa8 Kuninori Morimoto 2014-11-27  757  =
+
+4e7d606cd52aa8 Kuninori Morimoto 2014-11-27  758  	/* PIO only */
+d8d9b9730cd62c Kuninori Morimoto 2017-12-11  759  	if (!is_dma && (status &=
+ DIRQ))
+d8d9b9730cd62c Kuninori Morimoto 2017-12-11  760  		elapsed =3D rsnd_ssi_pi=
+o_interrupt(mod, io);
+ae5c322303fff5 Kuninori Morimoto 2013-07-21  761  =
+
+12927a8f802642 Kuninori Morimoto 2015-06-15  762  	/* DMA only */
+2b62786951ca38 Kuninori Morimoto 2018-02-13  763  	if (is_dma && (status & =
+(UIRQ | OIRQ))) {
+c0ea089dbad47a Kuninori Morimoto 2018-10-30  764  		rsnd_dbg_irq_status(dev=
+, "%s err status : 0x%08x\n",
+c0ea089dbad47a Kuninori Morimoto 2018-10-30  765  			rsnd_mod_name(mod), st=
+atus);
+2b62786951ca38 Kuninori Morimoto 2018-02-13  766  =
+
+6a25c8da00284f Kuninori Morimoto 2016-01-26  767  		stop =3D true;
+2b62786951ca38 Kuninori Morimoto 2018-02-13  768  	}
+69e32a58bde674 Kuninori Morimoto 2015-10-26  769  =
+
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  770  	status =3D 0;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  771  =
+
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  772  	if (is_tdm || is_tdm_spl=
+it) {
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  773  		switch (id) {
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  774  		case 0:
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  775  		case 1:
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  776  		case 2:
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  777  		case 3:
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  778  		case 4:
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  779  			for (i =3D 0; i < 4; i=
+++) {
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  780  				status =3D rsnd_mod_r=
+ead(mod,
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  781  						       SSI_SYS_STAT=
+US(i * 2));
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  782  				status &=3D 0xf << (i=
+d * 4);
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  783  =
+
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  784  				if (status) {
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  785  					rsnd_dbg_irq_status(=
+dev,
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  786  						"%s err status : 0x=
+%08x\n",
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  787  						rsnd_mod_name(mod),=
+ status);
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  788  					rsnd_mod_write(mod,
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  789  						       SSI_SYS_STAT=
+US(i * 2),
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  790  						       0xf << (id *=
+ 4));
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  791  					stop =3D true;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  792  					break;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  793  				}
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  794  			}
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  795  			break;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  796  		case 9:
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  797  			for (i =3D 0; i < 4; i=
+++) {
+23aaae15fe2b41 Yongbo Zhang      2020-05-11 @798  				status =3D rsnd_mod_w=
+rite(mod,
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  799  						SSI_SYS_STATUS((i *=
+ 2) + 1));
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  800  				status &=3D 0xf << 4;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  801  =
+
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  802  				if (status) {
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  803  					rsnd_dbg_irq_status(=
+dev,
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  804  						"%s err status : 0x=
+%08x\n",
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  805  						rsnd_mod_name(mod),=
+ status);
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  806  					rsnd_mod_write(mod,
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  807  						SSI_SYS_STATUS((i *=
+ 2) + 1),
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  808  						0xf << 4);
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  809  					stop =3D true;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  810  					break;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  811  				}
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  812  			}
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  813  			break;
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  814  		}
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  815  	}
+23aaae15fe2b41 Yongbo Zhang      2020-05-11  816  =
+
+5342dff2326393 Kuninori Morimoto 2015-11-26  817  	rsnd_ssi_status_clear(mo=
+d);
+02299d9875bab5 Kuninori Morimoto 2015-05-21  818  rsnd_ssi_interrupt_out:
+02299d9875bab5 Kuninori Morimoto 2015-05-21  819  	spin_unlock(&priv->lock);
+02299d9875bab5 Kuninori Morimoto 2015-05-21  820  =
+
+75defee0f1b3fc Kuninori Morimoto 2015-06-15  821  	if (elapsed)
+75defee0f1b3fc Kuninori Morimoto 2015-06-15  822  		rsnd_dai_period_elapsed=
+(io);
+6a25c8da00284f Kuninori Morimoto 2016-01-26  823  =
+
+6a25c8da00284f Kuninori Morimoto 2016-01-26  824  	if (stop)
+6a25c8da00284f Kuninori Morimoto 2016-01-26  825  		snd_pcm_stop_xrun(io->s=
+ubstream);
+6a25c8da00284f Kuninori Morimoto 2016-01-26  826  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7590396588407109346==--
+--===============8948884072194217786==--
 
