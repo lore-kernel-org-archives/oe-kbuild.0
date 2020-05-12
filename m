@@ -1,32 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============0231972631445587163=="
+Content-Type: multipart/mixed; boundary="===============8125183473686231980=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [miquelraynal:perso/nand-next/flags 94/102] drivers/mtd/nand/raw/brcmnand/brcmnand.c:2580:25: sparse: sparse: cannot dereference this type
-Date: Wed, 13 May 2020 06:39:19 +0800
-Message-ID: <202005130614.Enpxtg7j%lkp@intel.com>
+Subject: [linux-platform-drivers-x86:review-andy 11/16] drivers/platform/x86/thinkpad_acpi.c:9017:31: sparse: sparse: dubious: !x & y
+Date: Wed, 13 May 2020 05:59:34 +0800
+Message-ID: <202005130521.4SgoFoiY%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0231972631445587163==
+--===============8125183473686231980==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-tree:   https://github.com/miquelraynal/linux-0day.git perso/nand-next/flags
-head:   c5212e24213cba25bcc57e3bbe0781f3e9d83611
-commit: 5b2d31e2ed6c6ddd94a27c4d4694a1a2046c7fc2 [94/102] fixup! migrate na=
-nd_uses_dma to nand controller options
+tree:   git://git.infradead.org/linux-platform-drivers-x86 review-andy
+head:   b10e72bd695b5224adab14dbbb0315f22ba3a529
+commit: 9744746abf7cc8fcf9bd449aecd5e83a4f78e286 [11/16] platform/x86: thin=
+kpad_acpi: Use enabled() helper in fan_read()
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.1-191-gc51a0382-dirty
-        git checkout 5b2d31e2ed6c6ddd94a27c4d4694a1a2046c7fc2
+        git checkout 9744746abf7cc8fcf9bd449aecd5e83a4f78e286
         make ARCH=3Dx86_64 allmodconfig
         make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
@@ -34,108 +34,182 @@ Reported-by: kbuild test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
 
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:1688:42: sparse: sparse: cast t=
-o restricted __be32
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:1688:42: sparse: sparse: cast t=
-o restricted __be32
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:1688:42: sparse: sparse: cast t=
-o restricted __be32
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:1688:42: sparse: sparse: cast t=
-o restricted __be32
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:1688:42: sparse: sparse: cast t=
-o restricted __be32
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:1688:42: sparse: sparse: cast t=
-o restricted __be32
-   drivers/mtd/nand/raw/brcmnand/brcmnand.c:1877:41: sparse: sparse: dubiou=
-s: x | !y
->> drivers/mtd/nand/raw/brcmnand/brcmnand.c:2580:25: sparse: sparse: cannot=
- dereference this type
+>> drivers/platform/x86/thinkpad_acpi.c:9017:31: sparse: sparse: dubious: !=
+x & y
+   drivers/platform/x86/thinkpad_acpi.c:9026:50: sparse: sparse: dubious: !=
+x & y
 
-# https://github.com/miquelraynal/linux-0day/commit/5b2d31e2ed6c6ddd94a27c4=
-d4694a1a2046c7fc2
-git remote add miquelraynal https://github.com/miquelraynal/linux-0day.git
-git remote update miquelraynal
-git checkout 5b2d31e2ed6c6ddd94a27c4d4694a1a2046c7fc2
-vim +2580 drivers/mtd/nand/raw/brcmnand/brcmnand.c
+git remote add linux-platform-drivers-x86 git://git.infradead.org/linux-pla=
+tform-drivers-x86
+git remote update linux-platform-drivers-x86
+git checkout 9744746abf7cc8fcf9bd449aecd5e83a4f78e286
+vim +9017 drivers/platform/x86/thinkpad_acpi.c
 
-27c5b17cd1b105 drivers/mtd/nand/brcmnand/brcmnand.c     Brian Norris  2015-=
-03-06  2566  =
+75700e53cd14cc drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-10-18  9001  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2567  static int brcmnand_attach_chip(struct nand_chip *chip)
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2568  {
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2569  	struct mtd_info *mtd =3D nand_to_mtd(chip);
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2570  	struct brcmnand_host *host =3D nand_get_controller_data(chip);
-ff9915e8d4d5cb drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2020-=
-05-12  2571  	struct brcmnand_controller *ctrl =3D host->ctrl;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2572  	int ret;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2573  =
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9002  static int fan_read(struct seq_file *m)
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9003  {
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9004  	int rc;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9005  	u8 status;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9006  	unsigned int speed =3D 0;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9007  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2574  	chip->options |=3D NAND_NO_SUBPAGE_WRITE;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2575  	/*
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2576  	 * Avoid (for instance) kmap()'d buffers from JFFS2, which we=
- can't DMA
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2577  	 * to/from, and have nand_base pass us a bounce buffer instea=
-d, as
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2578  	 * needed.
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2579  	 */
-5b2d31e2ed6c6d drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2020-=
-05-12 @2580  	ctrl->controller->flags |=3D NAND_CONTROLLER_USES_DMA;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2581  =
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9008  	switch (fan_status_access_mode) {
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9009  	case TPACPI_FAN_RD_ACPI_GFAN:
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9010  		/* 570, 600e/x, 770e, 770x */
+35ff8b9fa90d97 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-01-08  9011  		rc =3D fan_get_status_safe(&status);
+35ff8b9fa90d97 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-01-08  9012  		if (rc < 0)
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9013  			return rc;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9014  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2582  	if (chip->bbt_options & NAND_BBT_USE_FLASH)
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2583  		chip->bbt_options |=3D NAND_BBT_NO_OOB;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2584  =
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9015  		seq_printf(m, "status:\t\t%s\n"
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9016  			      "level:\t\t%d\n",
+9744746abf7cc8 drivers/platform/x86/thinkpad_acpi.c Andy Shevchenko        =
+     2020-05-12 @9017  			      enabled(!!status, 0), status);
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9018  		break;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9019  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2585  	if (brcmnand_setup_dev(host))
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2586  		return -ENXIO;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2587  =
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9020  	case TPACPI_FAN_RD_TPEC:
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9021  		/* all except 570, 600e/x, 770e, 770x */
+35ff8b9fa90d97 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-01-08  9022  		rc =3D fan_get_status_safe(&status);
+35ff8b9fa90d97 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-01-08  9023  		if (rc < 0)
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9024  			return rc;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9025  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2588  	chip->ecc.size =3D host->hwcfg.sector_size_1k ? 1024 : 512;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2589  =
+9744746abf7cc8 drivers/platform/x86/thinkpad_acpi.c Andy Shevchenko        =
+     2020-05-12  9026  		seq_printf(m, "status:\t\t%s\n", enabled(!!status,=
+ 0));
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9027  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2590  	/* only use our internal HW threshold */
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2591  	mtd->bitflip_threshold =3D 1;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2592  =
+35ff8b9fa90d97 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-01-08  9028  		rc =3D fan_get_speed(&speed);
+35ff8b9fa90d97 drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2008-01-08  9029  		if (rc < 0)
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9030  			return rc;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9031  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2593  	ret =3D brcmstb_choose_ecc_layout(host);
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2594  =
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9032  		seq_printf(m, "speed:\t\t%d\n", speed);
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9033  =
 
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2595  	return ret;
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2596  }
-4918b905736fdd drivers/mtd/nand/raw/brcmnand/brcmnand.c Miquel Raynal 2018-=
-07-25  2597  =
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9034  		if (status & TP_EC_FAN_FULLSPEED)
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9035  			/* Disengaged mode takes precedence */
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9036  			seq_printf(m, "level:\t\tdisengaged\n");
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9037  		else if (status & TP_EC_FAN_AUTO)
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9038  			seq_printf(m, "level:\t\tauto\n");
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9039  		else
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9040  			seq_printf(m, "level:\t\t%d\n", status);
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9041  		break;
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9042  =
+
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9043  	case TPACPI_FAN_NONE:
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9044  	default:
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9045  		seq_printf(m, "status:\t\tnot supported\n");
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9046  	}
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9047  =
+
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9048  	if (fan_control_commands & TPACPI_FAN_CMD_LEVEL) {
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9049  		seq_printf(m, "commands:\tlevel <level>");
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9050  =
+
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9051  		switch (fan_control_access_mode) {
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9052  		case TPACPI_FAN_WR_ACPI_SFAN:
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9053  			seq_printf(m, " (<level> is 0-7)\n");
+18ad7996e17649 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2006-11-24  9054  			break;
+18ad7996e17649 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2006-11-24  9055  =
+
+18ad7996e17649 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2006-11-24  9056  		default:
+5cac62ac92689e drivers/platform/x86/thinkpad_acpi.c Andy Shevchenko        =
+     2017-05-09  9057  			seq_printf(m, " (<level> is 0-7, auto, disengaged=
+, full-speed)\n");
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9058  			break;
+18ad7996e17649 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2006-11-24  9059  		}
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9060  	}
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9061  =
+
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9062  	if (fan_control_commands & TPACPI_FAN_CMD_ENABLE)
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9063  		seq_printf(m, "commands:\tenable, disable\n"
+5cac62ac92689e drivers/platform/x86/thinkpad_acpi.c Andy Shevchenko        =
+     2017-05-09  9064  			       "commands:\twatchdog <timeout> (<timeout> =
+is 0 (off), 1-120 (seconds))\n");
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9065  =
+
+efa27145df34ea drivers/misc/thinkpad_acpi.c         Henrique de Moraes Hols=
+chuh 2007-04-21  9066  	if (fan_control_commands & TPACPI_FAN_CMD_SPEED)
+5cac62ac92689e drivers/platform/x86/thinkpad_acpi.c Andy Shevchenko        =
+     2017-05-09  9067  		seq_printf(m, "commands:\tspeed <speed> (<speed> i=
+s 0-65535)\n");
+56b6aeb05890f2 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2007-03-23  9068  =
+
+887965e6576a78 drivers/platform/x86/thinkpad_acpi.c Alexey Dobriyan        =
+     2009-12-15  9069  	return 0;
+18ad7996e17649 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2006-11-24  9070  }
+18ad7996e17649 drivers/acpi/ibm_acpi.c              Henrique de Moraes Hols=
+chuh 2006-11-24  9071  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0231972631445587163==--
+--===============8125183473686231980==--
 
