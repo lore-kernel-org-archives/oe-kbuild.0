@@ -1,314 +1,287 @@
-Content-Type: multipart/mixed; boundary="===============2318961266469936650=="
+Content-Type: multipart/mixed; boundary="===============6723735101343123525=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [djwong-xfs:repair-metadata-atomically 126/229] fs/xfs/xfs_qm.c:1399:6: warning: The if condition is the same as the previous if condition [duplicateCondition]
-Date: Mon, 25 May 2020 15:43:42 +0800
-Message-ID: <202005251530.FSl7Qq7k%lkp@intel.com>
+Subject: [hch-misc:kernel_setsockopt 23/34] svcsock.c:undefined reference to `ip6_sock_set_v6only'
+Date: Tue, 12 May 2020 19:01:51 +0800
+Message-ID: <202005121948.iuLMOyhm%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2318961266469936650==
+--===============6723735101343123525==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
+TO: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t repair-metadata-atomically
-head:   d334005df02786c9f288f2c7060603e9680946b5
-commit: 9d81ac3b1eeab4e8fc2561d27fdff1f76f223b30 [126/229] xfs: implement l=
-ive quotacheck as part of quota repair
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
-reproduce (this is a W=3D1 build):
-        git checkout 9d81ac3b1eeab4e8fc2561d27fdff1f76f223b30
+tree:   git://git.infradead.org/users/hch/misc.git kernel_setsockopt
+head:   5d4c5b26ec31dd2befd5dcb637742019f5bd899c
+commit: 33dff5fa865d34d4a3a9b531a2d2c133481a2e3f [23/34] ip6_sock_set_v6only
+config: m68k-sun3_defconfig (attached as .config)
+compiler: m68k-linux-gcc (GCC) 9.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git checkout 33dff5fa865d34d4a3a9b531a2d2c133481a2e3f
         # save the attached .config to linux build tree
-        make W=3D1 ARCH=3Dx86_64 =
+        COMPILER_INSTALL_PATH=3D$HOME/0day GCC_VERSION=3D9.3.0 make.cross A=
+RCH=3Dm68k =
 
+:::::: branch date: 3 hours ago
+:::::: commit date: 4 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 
+All errors (new ones prefixed by >>):
 
-cppcheck warnings: (new ones prefixed by >>)
-
->> fs/xfs/xfs_qm.c:1399:6: warning: The if condition is the same as the pre=
-vious if condition [duplicateCondition]
-    if (error) {
-        ^
-   fs/xfs/xfs_qm.c:1389:6: note: First condition
-    if (error)
-        ^
-   fs/xfs/xfs_qm.c:1399:6: note: Second condition
-    if (error) {
-        ^
-   fs/xfs/xfs_buf.h:278:38: warning: Clarify calculation precedence for '&'=
- and '?'. [clarifyCalculation]
-    bool wait =3D bp->b_flags & XBF_ASYNC ? false : true;
-                                        ^
-   fs/xfs/xfs_qm.c:933:34: warning: Clarify calculation precedence for '&' =
-and '?'. [clarifyCalculation]
-    type =3D flags & XFS_QMOPT_UQUOTA ? XFS_DQ_USER :
-                                    ^
-   fs/xfs/xfs_qm.c:934:29: warning: Clarify calculation precedence for '&' =
-and '?'. [clarifyCalculation]
-     (flags & XFS_QMOPT_PQUOTA ? XFS_DQ_PROJ : XFS_DQ_GROUP);
-                               ^
-   fs/xfs/xfs_qm.c:1623:6: warning: Either the condition 'qi!=3DNULL' is re=
-dundant or there is possible null pointer dereference: qi. [nullPointerRedu=
-ndantCheck]
-    if (qi->qi_uquotaip) {
-        ^
-   fs/xfs/xfs_qm.c:736:2: note: Assuming that condition 'qi!=3DNULL' is not=
- redundant
-    ASSERT(qi !=3D NULL);
-    ^
-   fs/xfs/xfs_qm.c:735:9: note: Assignment 'qi=3Dmp->m_quotainfo', assigned=
- value is 0
-    qi =3D mp->m_quotainfo;
-           ^
-   fs/xfs/xfs_qm.c:740:27: note: Calling function 'xfs_qm_destroy_quotainos=
-', 1st argument 'qi' value is 0
-    xfs_qm_destroy_quotainos(qi);
-                             ^
-   fs/xfs/xfs_qm.c:1623:6: note: Null pointer dereference
-    if (qi->qi_uquotaip) {
-        ^
-   fs/xfs/xfs_qm.c:1623:6: warning: Null pointer dereference: qi [ctunullpo=
-inter]
-    if (qi->qi_uquotaip) {
-        ^
-   fs/xfs/xfs_qm.c:736:2: note: Assuming that condition 'qi!=3DNULL' is not=
- redundant
-   =
-
-    ^
-   fs/xfs/xfs_qm.c:735:9: note: Assignment 'qi=3Dmp->m_quotainfo', assigned=
- value is 0
-   =
-
-           ^
-   fs/xfs/xfs_qm.c:740:26: note: Calling function xfs_qm_destroy_quotainos,=
- 1st argument is null
-    xfs_qm_destroy_quotainos(qi);
-                            ^
-   fs/xfs/xfs_qm.c:1623:6: note: Dereferencing argument qi that is null
-    if (qi->qi_uquotaip) {
-        ^
-
-# https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
-it/?id=3D9d81ac3b1eeab4e8fc2561d27fdff1f76f223b30
-git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/d=
-jwong/xfs-linux.git
-git remote update djwong-xfs
-git checkout 9d81ac3b1eeab4e8fc2561d27fdff1f76f223b30
-vim +1399 fs/xfs/xfs_qm.c
-
-9d81ac3b1eeab4 fs/xfs/xfs_qm.c       Darrick J. Wong     2020-02-19  1336  =
-
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1337  =
-/*
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1338  =
- * Walk thru all the filesystem inodes and construct a consistent view
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1339  =
- * of the disk quota world. If the quotacheck fails, disable quotas.
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1340  =
- */
-eb866bbf095ec6 fs/xfs/xfs_qm.c       Jie Liu             2014-07-24  1341  =
-STATIC int
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1342  =
-xfs_qm_quotacheck(
-9d81ac3b1eeab4 fs/xfs/xfs_qm.c       Darrick J. Wong     2020-02-19  1343  =
-	struct xfs_mount	*mp)
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1344  {
-9d81ac3b1eeab4 fs/xfs/xfs_qm.c       Darrick J. Wong     2020-02-19  1345  =
-	int			error;
-43ff2122e6492b fs/xfs/xfs_qm.c       Christoph Hellwig   2012-04-23  1346  =
-	LIST_HEAD		(buffer_list);
-9d81ac3b1eeab4 fs/xfs/xfs_qm.c       Darrick J. Wong     2020-02-19  1347  =
-	uint			flags;
-113a56835d938d fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-06-27  1348  =
-	struct xfs_inode	*uip =3D mp->m_quotainfo->qi_uquotaip;
-113a56835d938d fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-06-27  1349  =
-	struct xfs_inode	*gip =3D mp->m_quotainfo->qi_gquotaip;
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1350  =
-	struct xfs_inode	*pip =3D mp->m_quotainfo->qi_pquotaip;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1351  =
-
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1352  =
-	flags =3D 0;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1353  =
-
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1354  =
-	ASSERT(uip || gip || pip);
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1355  =
-	ASSERT(XFS_IS_QUOTA_RUNNING(mp));
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1356  =
-
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1357  =
-	xfs_notice(mp, "Quotacheck needed: Please wait.");
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1358  =
-
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1359  =
-	/*
-c8ad20ffeb592d fs/xfs/quota/xfs_qm.c Nathan Scott        2005-06-21  1360  =
-	 * First we go thru all the dquots on disk, USR and GRP/PRJ, and reset
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1361  =
-	 * their counters to zero. We need a clean slate.
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1362  =
-	 * We don't log our changes till later.
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1363  =
-	 */
-8a7b8a89a3ae5b fs/xfs/quota/xfs_qm.c Christoph Hellwig   2010-04-20  1364  =
-	if (uip) {
-28b9060bd80851 fs/xfs/xfs_qm.c       Darrick J. Wong     2018-05-04  1365  =
-		error =3D xfs_qm_reset_dqcounts_buf(mp, uip, XFS_QMOPT_UQUOTA,
-43ff2122e6492b fs/xfs/xfs_qm.c       Christoph Hellwig   2012-04-23  1366  =
-					 &buffer_list);
-8a7b8a89a3ae5b fs/xfs/quota/xfs_qm.c Christoph Hellwig   2010-04-20  1367  =
-		if (error)
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1368  =
-			goto error_return;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1369  =
-		flags |=3D XFS_UQUOTA_CHKD;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1370  =
-	}
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1371  =
-
-8a7b8a89a3ae5b fs/xfs/quota/xfs_qm.c Christoph Hellwig   2010-04-20  1372  =
-	if (gip) {
-28b9060bd80851 fs/xfs/xfs_qm.c       Darrick J. Wong     2018-05-04  1373  =
-		error =3D xfs_qm_reset_dqcounts_buf(mp, gip, XFS_QMOPT_GQUOTA,
-43ff2122e6492b fs/xfs/xfs_qm.c       Christoph Hellwig   2012-04-23  1374  =
-					 &buffer_list);
-8a7b8a89a3ae5b fs/xfs/quota/xfs_qm.c Christoph Hellwig   2010-04-20  1375  =
-		if (error)
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1376  =
-			goto error_return;
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1377  =
-		flags |=3D XFS_GQUOTA_CHKD;
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1378  =
-	}
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1379  =
-
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1380  =
-	if (pip) {
-28b9060bd80851 fs/xfs/xfs_qm.c       Darrick J. Wong     2018-05-04  1381  =
-		error =3D xfs_qm_reset_dqcounts_buf(mp, pip, XFS_QMOPT_PQUOTA,
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1382  =
-					 &buffer_list);
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1383  =
-		if (error)
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1384  =
-			goto error_return;
-92f8ff73f18672 fs/xfs/xfs_qm.c       Chandra Seetharaman 2013-07-11  1385  =
-		flags |=3D XFS_PQUOTA_CHKD;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1386  =
-	}
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1387  =
-
-9d81ac3b1eeab4 fs/xfs/xfs_qm.c       Darrick J. Wong     2020-02-19  1388  =
-	error =3D xfs_qm_quotacheck_walk_and_flush(mp, false, &buffer_list);
-7dce11dbac54fc fs/xfs/quota/xfs_qm.c Christoph Hellwig   2010-06-23  1389  =
-	if (error)
-ebd126a651f83c fs/xfs/xfs_qm.c       Darrick J. Wong     2019-07-02  1390  =
-		goto error_return;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1391  =
-
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1392  =
-	/*
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1393  =
-	 * We can get this error if we couldn't do a dquot allocation inside
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1394  =
-	 * xfs_qm_dqusage_adjust (via bulkstat). We don't care about the
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1395  =
-	 * dirty dquots that might be cached, we just want to get rid of them
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1396  =
-	 * and turn quotaoff. The dquots won't be attached to any of the inodes
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1397  =
-	 * at this point (because we intentionally didn't in dqget_noattach).
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1398  =
-	 */
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16 @1399  =
-	if (error) {
-8112e9dc6d1494 fs/xfs/quota/xfs_qm.c Christoph Hellwig   2010-04-20  1400  =
-		xfs_qm_dqpurge_all(mp, XFS_QMOPT_QUOTALL);
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1401  =
-		goto error_return;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1402  =
-	}
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1403  =
-
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1404  =
-	/*
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1405  =
-	 * If one type of quotas is off, then it will lose its
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1406  =
-	 * quotachecked status, since we won't be doing accounting for
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1407  =
-	 * that type anymore.
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1408  =
-	 */
-4177af3a8a6f11 fs/xfs/xfs_qm.c       Chandra Seetharaman 2012-01-23  1409  =
-	mp->m_qflags &=3D ~XFS_ALL_QUOTA_CHKD;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1410  =
-	mp->m_qflags |=3D flags;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1411  =
-
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1412  =
- error_return:
-20e8a063786050 fs/xfs/xfs_qm.c       Brian Foster        2017-04-21  1413  =
-	xfs_buf_delwri_cancel(&buffer_list);
-43ff2122e6492b fs/xfs/xfs_qm.c       Christoph Hellwig   2012-04-23  1414  =
-
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1415  =
-	if (error) {
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1416  =
-		xfs_warn(mp,
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1417  =
-	"Quotacheck: Unsuccessful (Error %d): Disabling quotas.",
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1418  =
-			error);
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1419  =
-		/*
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1420  =
-		 * We must turn off quotas.
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1421  =
-		 */
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1422  =
-		ASSERT(mp->m_quotainfo !=3D NULL);
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1423  =
-		xfs_qm_destroy_quotainfo(mp);
-31d5577b35d839 fs/xfs/quota/xfs_qm.c David Chinner       2008-04-10  1424  =
-		if (xfs_mount_reset_sbqflags(mp)) {
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1425  =
-			xfs_warn(mp,
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1426  =
-				"Quotacheck: Failed to reset quota flags.");
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1427  =
-		}
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1428  =
-	} else
-0b932cccbdc09a fs/xfs/quota/xfs_qm.c Dave Chinner        2011-03-07  1429  =
-		xfs_notice(mp, "Quotacheck: Done.");
-d99831ff393ff2 fs/xfs/xfs_qm.c       Eric Sandeen        2014-06-22  1430  =
-	return error;
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1431  }
-^1da177e4c3f41 fs/xfs/quota/xfs_qm.c Linus Torvalds      2005-04-16  1432  =
-
-
-:::::: The code at line 1399 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+m68k-linux-ld: net/sunrpc/svcsock.o: in function `svc_create_socket':
+>> svcsock.c:(.text+0x1038): undefined reference to `ip6_sock_set_v6only'
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2318961266469936650==--
+
+--===============6723735101343123525==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+--===============6723735101343123525==--
 
