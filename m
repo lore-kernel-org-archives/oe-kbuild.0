@@ -1,32 +1,29 @@
-Content-Type: multipart/mixed; boundary="===============4218267933842714387=="
+Content-Type: multipart/mixed; boundary="===============7422740421457065308=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: Re: [PATCH] staging: android: ashmem: Fixed a issue related to file_operations
-Date: Thu, 14 May 2020 05:56:13 +0800
-Message-ID: <202005140556.iZTdRAYw%lkp@intel.com>
+Subject: Re: [PATCH v5 17/18] READ_ONCE: Use data_race() to avoid KCSAN instrumentation
+Date: Wed, 13 May 2020 10:38:19 +0800
+Message-ID: <202005131048.vsoHppMT%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4218267933842714387==
+--===============7422740421457065308==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200513114116.26410-1-user@debian>
-References: <20200513114116.26410-1-user@debian>
-TO: Anmol <anmol.karan123@gmail.com>
-TO: gregkh(a)linuxfoundation.org
-CC: devel(a)driverdev.osuosl.org
-CC: linux-kernel(a)vger.kernel.org
-CC: Anmol <anmol.karan123@gmail.com>
+In-Reply-To: <20200511204150.27858-18-will@kernel.org>
+References: <20200511204150.27858-18-will@kernel.org>
+TO: Will Deacon <will@kernel.org>
 
-Hi Anmol,
+Hi Will,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on staging/staging-testing]
-[also build test WARNING on v5.7-rc5 next-20200512]
+[auto build test WARNING on next-20200511]
+[cannot apply to sparc/master linus/master sparc-next/master v5.7-rc5 v5.7-=
+rc4 v5.7-rc3 v5.7-rc5]
 [if your patch is applied to the wrong git tree, please drop us a note to h=
 elp
 improve the system. BTW, we also suggest to use '--base' option to specify =
@@ -34,176 +31,112 @@ the
 base tree in git format-patch, please see https://stackoverflow.com/a/37406=
 982]
 
-url:    https://github.com/0day-ci/linux/commits/Anmol/staging-android-ashm=
-em-Fixed-a-issue-related-to-file_operations/20200513-194410
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
-1ff4388a06eb001efbc272754ef750c0b97817cb
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-191-gc51a0382-dirty
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
+url:    https://github.com/0day-ci/linux/commits/Will-Deacon/Rework-READ_ON=
+CE-to-improve-codegen/20200512-050702
+base:    4b20e7462caa697f8a2cdab04ed8a5881cc65427
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/i915/gt/intel_lrc.c:1374 __execlists_schedule_in() warn: su=
+btract is higher precedence than shift
 
-sparse warnings: (new ones prefixed by >>)
+Old smatch warnings:
+drivers/gpu/drm/i915/gt/intel_lrc.c:5589 intel_execlists_create_virtual() w=
+arn: assigning (-2) to unsigned variable 've->base.instance'
+drivers/gpu/drm/i915/gt/intel_lrc.c:5590 intel_execlists_create_virtual() w=
+arn: assigning (-2) to unsigned variable 've->base.uabi_instance'
 
->> drivers/staging/android/ashmem.c:418:25: sparse: sparse: assignment to c=
-onst expression
-   drivers/staging/android/ashmem.c:419:36: sparse: sparse: assignment to c=
-onst expression
-   drivers/staging/android/ashmem.c:420:36: sparse: sparse: assignment to c=
-onst expression
-
-# https://github.com/0day-ci/linux/commit/823a00202dabb17bef093c5c29956b78f=
-ae754f0
+# https://github.com/0day-ci/linux/commit/f4da55a875afdc38f9732cf74200a9c62=
+9539475
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout 823a00202dabb17bef093c5c29956b78fae754f0
-vim +418 drivers/staging/android/ashmem.c
+git checkout f4da55a875afdc38f9732cf74200a9c629539475
+vim +1374 drivers/gpu/drm/i915/gt/intel_lrc.c
 
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  367  =
+1883a0a4658eab Tvrtko Ursulin 2020-02-16  1349  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  368  static int ashmem_mmap(s=
-truct file *file, struct vm_area_struct *vma)
-11980c2ac4ccfa Robert Love        2011-12-20  369  {
-823a00202dabb1 Anmol              2020-05-13  370  	static const struct fil=
-e_operations vmfile_fops;
-11980c2ac4ccfa Robert Love        2011-12-20  371  	struct ashmem_area *asm=
-a =3D file->private_data;
-11980c2ac4ccfa Robert Love        2011-12-20  372  	int ret =3D 0;
-11980c2ac4ccfa Robert Love        2011-12-20  373  =
+df403069029dc6 Chris Wilson   2019-08-16  1350  static inline struct intel_=
+engine_cs *
+df403069029dc6 Chris Wilson   2019-08-16  1351  __execlists_schedule_in(str=
+uct i915_request *rq)
+df403069029dc6 Chris Wilson   2019-08-16  1352  {
+df403069029dc6 Chris Wilson   2019-08-16  1353  	struct intel_engine_cs * c=
+onst engine =3D rq->engine;
+9f3ccd40acf4a3 Chris Wilson   2019-12-20  1354  	struct intel_context * con=
+st ce =3D rq->context;
+df403069029dc6 Chris Wilson   2019-08-16  1355  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  374  	mutex_lock(&ashmem_mute=
-x);
-11980c2ac4ccfa Robert Love        2011-12-20  375  =
+df403069029dc6 Chris Wilson   2019-08-16  1356  	intel_context_get(ce);
+df403069029dc6 Chris Wilson   2019-08-16  1357  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  376  	/* user needs to SET_SI=
-ZE before mapping */
-59848d6aded59a Alistair Strachan  2018-06-19  377  	if (!asma->size) {
-11980c2ac4ccfa Robert Love        2011-12-20  378  		ret =3D -EINVAL;
-11980c2ac4ccfa Robert Love        2011-12-20  379  		goto out;
-11980c2ac4ccfa Robert Love        2011-12-20  380  	}
-11980c2ac4ccfa Robert Love        2011-12-20  381  =
+9f3ccd40acf4a3 Chris Wilson   2019-12-20  1358  	if (unlikely(intel_context=
+_is_banned(ce)))
+31b61f0ef9af62 Chris Wilson   2019-11-11  1359  		reset_active(rq, engine);
+31b61f0ef9af62 Chris Wilson   2019-11-11  1360  =
 
-8632c614565d0c Alistair Strachan  2018-06-19  382  	/* requested mapping si=
-ze larger than object size */
-8632c614565d0c Alistair Strachan  2018-06-19  383  	if (vma->vm_end - vma->=
-vm_start > PAGE_ALIGN(asma->size)) {
-11980c2ac4ccfa Robert Love        2011-12-20  384  		ret =3D -EINVAL;
-11980c2ac4ccfa Robert Love        2011-12-20  385  		goto out;
-11980c2ac4ccfa Robert Love        2011-12-20  386  	}
-11980c2ac4ccfa Robert Love        2011-12-20  387  =
+b0b10248866455 Chris Wilson   2019-11-02  1361  	if (IS_ENABLED(CONFIG_DRM_=
+I915_DEBUG_GEM))
+31b61f0ef9af62 Chris Wilson   2019-11-11  1362  		execlists_check_context(c=
+e, engine);
+b0b10248866455 Chris Wilson   2019-11-02  1363  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  388  	/* requested protection=
- bits must match our allowed protection mask */
-59848d6aded59a Alistair Strachan  2018-06-19  389  	if ((vma->vm_flags & ~c=
-alc_vm_prot_bits(asma->prot_mask, 0)) &
-59848d6aded59a Alistair Strachan  2018-06-19  390  	    calc_vm_prot_bits(P=
-ROT_MASK, 0)) {
-11980c2ac4ccfa Robert Love        2011-12-20  391  		ret =3D -EPERM;
-11980c2ac4ccfa Robert Love        2011-12-20  392  		goto out;
-11980c2ac4ccfa Robert Love        2011-12-20  393  	}
-56f76fc68492af Arve Hj=C3=B8nnev=C3=A5g     2011-12-20  394  	vma->vm_flags=
- &=3D ~calc_vm_may_flags(~asma->prot_mask);
-11980c2ac4ccfa Robert Love        2011-12-20  395  =
+2935ed5339c495 Chris Wilson   2019-10-04  1364  	if (ce->tag) {
+2935ed5339c495 Chris Wilson   2019-10-04  1365  		/* Use a fixed tag for OA=
+ and friends */
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28  1366  		GEM_BUG_ON(ce->tag <=3D B=
+ITS_PER_LONG);
+2632f174a2e1a5 Chris Wilson   2020-04-28  1367  		ce->lrc.ccid =3D ce->tag;
+2935ed5339c495 Chris Wilson   2019-10-04  1368  	} else {
+2935ed5339c495 Chris Wilson   2019-10-04  1369  		/* We don't need a strict=
+ matching tag, just different values */
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28  1370  		unsigned int tag =3D ffs(=
+engine->context_tag);
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28  1371  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  396  	if (!asma->file) {
-11980c2ac4ccfa Robert Love        2011-12-20  397  		char *name =3D ASHMEM_=
-NAME_DEF;
-11980c2ac4ccfa Robert Love        2011-12-20  398  		struct file *vmfile;
-11980c2ac4ccfa Robert Love        2011-12-20  399  =
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28  1372  		GEM_BUG_ON(tag =3D=3D 0 |=
+| tag >=3D BITS_PER_LONG);
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28  1373  		clear_bit(tag - 1, &engin=
+e->context_tag);
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28 @1374  		ce->lrc.ccid =3D tag << (=
+GEN11_SW_CTX_ID_SHIFT - 32);
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28  1375  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  400  		if (asma->name[ASHMEM_=
-NAME_PREFIX_LEN] !=3D '\0')
-11980c2ac4ccfa Robert Love        2011-12-20  401  			name =3D asma->name;
-11980c2ac4ccfa Robert Love        2011-12-20  402  =
+5c4a53e3b1cbc3 Chris Wilson   2020-04-28  1376  		BUILD_BUG_ON(BITS_PER_LON=
+G > GEN12_MAX_CONTEXT_HW_ID);
+2935ed5339c495 Chris Wilson   2019-10-04  1377  	}
+2935ed5339c495 Chris Wilson   2019-10-04  1378  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  403  		/* ... and allocate th=
-e backing shmem file */
-11980c2ac4ccfa Robert Love        2011-12-20  404  		vmfile =3D shmem_file_=
-setup(name, asma->size, vma->vm_flags);
-7f44cb0ba88b40 Viresh Kumar       2015-07-31  405  		if (IS_ERR(vmfile)) {
-11980c2ac4ccfa Robert Love        2011-12-20  406  			ret =3D PTR_ERR(vmfil=
-e);
-11980c2ac4ccfa Robert Love        2011-12-20  407  			goto out;
-11980c2ac4ccfa Robert Love        2011-12-20  408  		}
-97fbfef6bd5978 Shuxiao Zhang      2017-04-06  409  		vmfile->f_mode |=3D FM=
-ODE_LSEEK;
-11980c2ac4ccfa Robert Love        2011-12-20  410  		asma->file =3D vmfile;
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  411  		/*
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  412  		 * override mmap opera=
-tion of the vmfile so that it can't be
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  413  		 * remapped which woul=
-d lead to creation of a new vma with no
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  414  		 * asma permission che=
-cks. Have to override get_unmapped_area
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  415  		 * as well to prevent =
-VM_BUG_ON check for f_ops modification.
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  416  		 */
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  417  		if (!vmfile_fops.mmap)=
- {
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27 @418  			vmfile_fops =3D *vmfi=
-le->f_op;
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  419  			vmfile_fops.mmap =3D =
-ashmem_vmfile_mmap;
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  420  			vmfile_fops.get_unmap=
-ped_area =3D
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  421  					ashmem_vmfile_get_u=
-nmapped_area;
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  422  		}
-6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  423  		vmfile->f_op =3D &vmfi=
-le_fops;
-11980c2ac4ccfa Robert Love        2011-12-20  424  	}
-11980c2ac4ccfa Robert Love        2011-12-20  425  	get_file(asma->file);
-11980c2ac4ccfa Robert Love        2011-12-20  426  =
+2632f174a2e1a5 Chris Wilson   2020-04-28  1379  	ce->lrc.ccid |=3D engine->=
+execlists.ccid;
+2632f174a2e1a5 Chris Wilson   2020-04-28  1380  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  427  	/*
-11980c2ac4ccfa Robert Love        2011-12-20  428  	 * XXX - Reworked to us=
-e shmem_zero_setup() instead of
-11980c2ac4ccfa Robert Love        2011-12-20  429  	 * shmem_set_file while=
- we're in staging. -jstultz
-11980c2ac4ccfa Robert Love        2011-12-20  430  	 */
-11980c2ac4ccfa Robert Love        2011-12-20  431  	if (vma->vm_flags & VM_=
-SHARED) {
-11980c2ac4ccfa Robert Love        2011-12-20  432  		ret =3D shmem_zero_set=
-up(vma);
-11980c2ac4ccfa Robert Love        2011-12-20  433  		if (ret) {
-11980c2ac4ccfa Robert Love        2011-12-20  434  			fput(asma->file);
-11980c2ac4ccfa Robert Love        2011-12-20  435  			goto out;
-11980c2ac4ccfa Robert Love        2011-12-20  436  		}
-44960f2a7b63e2 John Stultz        2018-07-31  437  	} else {
-44960f2a7b63e2 John Stultz        2018-07-31  438  		vma_set_anonymous(vma);
-11980c2ac4ccfa Robert Love        2011-12-20  439  	}
-11980c2ac4ccfa Robert Love        2011-12-20  440  =
+93b0e8fe4753e0 Chris Wilson   2019-11-21  1381  	__intel_gt_pm_get(engine->=
+gt);
+df403069029dc6 Chris Wilson   2019-08-16  1382  	execlists_context_status_c=
+hange(rq, INTEL_CONTEXT_SCHEDULE_IN);
+df403069029dc6 Chris Wilson   2019-08-16  1383  	intel_engine_context_in(en=
+gine);
+df403069029dc6 Chris Wilson   2019-08-16  1384  =
 
-11980c2ac4ccfa Robert Love        2011-12-20  441  	if (vma->vm_file)
-11980c2ac4ccfa Robert Love        2011-12-20  442  		fput(vma->vm_file);
-11980c2ac4ccfa Robert Love        2011-12-20  443  	vma->vm_file =3D asma->=
-file;
-11980c2ac4ccfa Robert Love        2011-12-20  444  =
-
-11980c2ac4ccfa Robert Love        2011-12-20  445  out:
-11980c2ac4ccfa Robert Love        2011-12-20  446  	mutex_unlock(&ashmem_mu=
-tex);
-11980c2ac4ccfa Robert Love        2011-12-20  447  	return ret;
-11980c2ac4ccfa Robert Love        2011-12-20  448  }
-11980c2ac4ccfa Robert Love        2011-12-20  449  =
+df403069029dc6 Chris Wilson   2019-08-16  1385  	return engine;
+df403069029dc6 Chris Wilson   2019-08-16  1386  }
+df403069029dc6 Chris Wilson   2019-08-16  1387  =
 
 
-:::::: The code at line 418 was first introduced by commit
-:::::: 6d67b0290b4b84c477e6a2fc6e005e174d3c7786 staging: android: ashmem: D=
-isallow ashmem memory from being remapped
+:::::: The code at line 1374 was first introduced by commit
+:::::: 5c4a53e3b1cbc38d0906e382f1037290658759bb drm/i915/execlists: Track i=
+nflight CCID
 
-:::::: TO: Suren Baghdasaryan <surenb@google.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+:::::: TO: Chris Wilson <chris@chris-wilson.co.uk>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4218267933842714387==--
+--===============7422740421457065308==--
 
