@@ -1,228 +1,209 @@
-Content-Type: multipart/mixed; boundary="===============8315561749921007512=="
+Content-Type: multipart/mixed; boundary="===============4218267933842714387=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [vireshk-pm:opp/linux-next 4/9] drivers/opp/of.c:662 _read_opp_key() error: double free of 'peak_bw'
-Date: Thu, 14 May 2020 09:59:00 +0800
-Message-ID: <202005140953.oVmSR7jY%lkp@intel.com>
+Subject: Re: [PATCH] staging: android: ashmem: Fixed a issue related to file_operations
+Date: Thu, 14 May 2020 05:56:13 +0800
+Message-ID: <202005140556.iZTdRAYw%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8315561749921007512==
+--===============4218267933842714387==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Georgi Djakov <georgi.djakov@linaro.org>
-CC: Viresh Kumar <viresh.kumar@linaro.org>
-CC: Matthias Kaehlcke <mka@chromium.org>
+In-Reply-To: <20200513114116.26410-1-user@debian>
+References: <20200513114116.26410-1-user@debian>
+TO: Anmol <anmol.karan123@gmail.com>
+TO: gregkh(a)linuxfoundation.org
+CC: devel(a)driverdev.osuosl.org
+CC: linux-kernel(a)vger.kernel.org
+CC: Anmol <anmol.karan123@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/=
-linux-next
-head:   b9fd171ae7781c5eb2ecc5f3a59cb41b33c05be0
-commit: 6b6c64a05ad880d425db18c52b7ff79d4be148a6 [4/9] OPP: Add support for=
- parsing interconnect bandwidth
-:::::: branch date: 16 hours ago
-:::::: commit date: 19 hours ago
+Hi Anmol,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on staging/staging-testing]
+[also build test WARNING on v5.7-rc5 next-20200512]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Anmol/staging-android-ashm=
+em-Fixed-a-issue-related-to-file_operations/20200513-194410
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/staging.git =
+1ff4388a06eb001efbc272754ef750c0b97817cb
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.1-191-gc51a0382-dirty
+        make ARCH=3Dx86_64 allmodconfig
+        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/opp/of.c:662 _read_opp_key() error: double free of 'peak_bw'
 
-Old smatch warnings:
-drivers/opp/of.c:779 _opp_add_static_v2() warn: passing zero to 'ERR_PTR'
+sparse warnings: (new ones prefixed by >>)
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git/commit/?id=
-=3D6b6c64a05ad880d425db18c52b7ff79d4be148a6
-git remote add vireshk-pm https://git.kernel.org/pub/scm/linux/kernel/git/v=
-ireshk/pm.git
-git remote update vireshk-pm
-git checkout 6b6c64a05ad880d425db18c52b7ff79d4be148a6
-vim +/peak_bw +662 drivers/opp/of.c
+>> drivers/staging/android/ashmem.c:418:25: sparse: sparse: assignment to c=
+onst expression
+   drivers/staging/android/ashmem.c:419:36: sparse: sparse: assignment to c=
+onst expression
+   drivers/staging/android/ashmem.c:420:36: sparse: sparse: assignment to c=
+onst expression
 
-f47b72a15a9679 drivers/base/power/opp/of.c Viresh Kumar    2016-05-05  579  =
+# https://github.com/0day-ci/linux/commit/823a00202dabb17bef093c5c29956b78f=
+ae754f0
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 823a00202dabb17bef093c5c29956b78fae754f0
+vim +418 drivers/staging/android/ashmem.c
 
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  580 =
- static int _read_opp_key(struct dev_pm_opp *new_opp, struct device_node *n=
-p,
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  581 =
- 			 bool *rate_not_available)
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  582 =
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  367  =
+
+11980c2ac4ccfa Robert Love        2011-12-20  368  static int ashmem_mmap(s=
+truct file *file, struct vm_area_struct *vma)
+11980c2ac4ccfa Robert Love        2011-12-20  369  {
+823a00202dabb1 Anmol              2020-05-13  370  	static const struct fil=
+e_operations vmfile_fops;
+11980c2ac4ccfa Robert Love        2011-12-20  371  	struct ashmem_area *asm=
+a =3D file->private_data;
+11980c2ac4ccfa Robert Love        2011-12-20  372  	int ret =3D 0;
+11980c2ac4ccfa Robert Love        2011-12-20  373  =
+
+11980c2ac4ccfa Robert Love        2011-12-20  374  	mutex_lock(&ashmem_mute=
+x);
+11980c2ac4ccfa Robert Love        2011-12-20  375  =
+
+11980c2ac4ccfa Robert Love        2011-12-20  376  	/* user needs to SET_SI=
+ZE before mapping */
+59848d6aded59a Alistair Strachan  2018-06-19  377  	if (!asma->size) {
+11980c2ac4ccfa Robert Love        2011-12-20  378  		ret =3D -EINVAL;
+11980c2ac4ccfa Robert Love        2011-12-20  379  		goto out;
+11980c2ac4ccfa Robert Love        2011-12-20  380  	}
+11980c2ac4ccfa Robert Love        2011-12-20  381  =
+
+8632c614565d0c Alistair Strachan  2018-06-19  382  	/* requested mapping si=
+ze larger than object size */
+8632c614565d0c Alistair Strachan  2018-06-19  383  	if (vma->vm_end - vma->=
+vm_start > PAGE_ALIGN(asma->size)) {
+11980c2ac4ccfa Robert Love        2011-12-20  384  		ret =3D -EINVAL;
+11980c2ac4ccfa Robert Love        2011-12-20  385  		goto out;
+11980c2ac4ccfa Robert Love        2011-12-20  386  	}
+11980c2ac4ccfa Robert Love        2011-12-20  387  =
+
+11980c2ac4ccfa Robert Love        2011-12-20  388  	/* requested protection=
+ bits must match our allowed protection mask */
+59848d6aded59a Alistair Strachan  2018-06-19  389  	if ((vma->vm_flags & ~c=
+alc_vm_prot_bits(asma->prot_mask, 0)) &
+59848d6aded59a Alistair Strachan  2018-06-19  390  	    calc_vm_prot_bits(P=
+ROT_MASK, 0)) {
+11980c2ac4ccfa Robert Love        2011-12-20  391  		ret =3D -EPERM;
+11980c2ac4ccfa Robert Love        2011-12-20  392  		goto out;
+11980c2ac4ccfa Robert Love        2011-12-20  393  	}
+56f76fc68492af Arve Hj=C3=B8nnev=C3=A5g     2011-12-20  394  	vma->vm_flags=
+ &=3D ~calc_vm_may_flags(~asma->prot_mask);
+11980c2ac4ccfa Robert Love        2011-12-20  395  =
+
+11980c2ac4ccfa Robert Love        2011-12-20  396  	if (!asma->file) {
+11980c2ac4ccfa Robert Love        2011-12-20  397  		char *name =3D ASHMEM_=
+NAME_DEF;
+11980c2ac4ccfa Robert Love        2011-12-20  398  		struct file *vmfile;
+11980c2ac4ccfa Robert Love        2011-12-20  399  =
+
+11980c2ac4ccfa Robert Love        2011-12-20  400  		if (asma->name[ASHMEM_=
+NAME_PREFIX_LEN] !=3D '\0')
+11980c2ac4ccfa Robert Love        2011-12-20  401  			name =3D asma->name;
+11980c2ac4ccfa Robert Love        2011-12-20  402  =
+
+11980c2ac4ccfa Robert Love        2011-12-20  403  		/* ... and allocate th=
+e backing shmem file */
+11980c2ac4ccfa Robert Love        2011-12-20  404  		vmfile =3D shmem_file_=
+setup(name, asma->size, vma->vm_flags);
+7f44cb0ba88b40 Viresh Kumar       2015-07-31  405  		if (IS_ERR(vmfile)) {
+11980c2ac4ccfa Robert Love        2011-12-20  406  			ret =3D PTR_ERR(vmfil=
+e);
+11980c2ac4ccfa Robert Love        2011-12-20  407  			goto out;
+11980c2ac4ccfa Robert Love        2011-12-20  408  		}
+97fbfef6bd5978 Shuxiao Zhang      2017-04-06  409  		vmfile->f_mode |=3D FM=
+ODE_LSEEK;
+11980c2ac4ccfa Robert Love        2011-12-20  410  		asma->file =3D vmfile;
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  411  		/*
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  412  		 * override mmap opera=
+tion of the vmfile so that it can't be
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  413  		 * remapped which woul=
+d lead to creation of a new vma with no
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  414  		 * asma permission che=
+cks. Have to override get_unmapped_area
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  415  		 * as well to prevent =
+VM_BUG_ON check for f_ops modification.
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  416  		 */
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  417  		if (!vmfile_fops.mmap)=
  {
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  583 =
- 	struct property *peak, *avg;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  584 =
- 	u32 *peak_bw, *avg_bw;
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  585 =
- 	u64 rate;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  586 =
- 	int ret, i, count;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  587 =
- 	bool found =3D false;
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  588  =
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27 @418  			vmfile_fops =3D *vmfi=
+le->f_op;
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  419  			vmfile_fops.mmap =3D =
+ashmem_vmfile_mmap;
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  420  			vmfile_fops.get_unmap=
+ped_area =3D
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  421  					ashmem_vmfile_get_u=
+nmapped_area;
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  422  		}
+6d67b0290b4b84 Suren Baghdasaryan 2020-01-27  423  		vmfile->f_op =3D &vmfi=
+le_fops;
+11980c2ac4ccfa Robert Love        2011-12-20  424  	}
+11980c2ac4ccfa Robert Love        2011-12-20  425  	get_file(asma->file);
+11980c2ac4ccfa Robert Love        2011-12-20  426  =
 
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  589 =
- 	ret =3D of_property_read_u64(np, "opp-hz", &rate);
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  590 =
- 	if (!ret) {
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  591 =
- 		/*
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  592 =
- 		 * Rate is defined as an unsigned long in clk API, and so
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  593 =
- 		 * casting explicitly to its type. Must be fixed once rate is 64
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  594 =
- 		 * bit guaranteed in clk API.
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  595 =
- 		 */
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  596 =
- 		new_opp->rate =3D (unsigned long)rate;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  597 =
- 		found =3D true;
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  598 =
- 	}
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  599 =
- 	*rate_not_available =3D !!ret;
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  600  =
+11980c2ac4ccfa Robert Love        2011-12-20  427  	/*
+11980c2ac4ccfa Robert Love        2011-12-20  428  	 * XXX - Reworked to us=
+e shmem_zero_setup() instead of
+11980c2ac4ccfa Robert Love        2011-12-20  429  	 * shmem_set_file while=
+ we're in staging. -jstultz
+11980c2ac4ccfa Robert Love        2011-12-20  430  	 */
+11980c2ac4ccfa Robert Love        2011-12-20  431  	if (vma->vm_flags & VM_=
+SHARED) {
+11980c2ac4ccfa Robert Love        2011-12-20  432  		ret =3D shmem_zero_set=
+up(vma);
+11980c2ac4ccfa Robert Love        2011-12-20  433  		if (ret) {
+11980c2ac4ccfa Robert Love        2011-12-20  434  			fput(asma->file);
+11980c2ac4ccfa Robert Love        2011-12-20  435  			goto out;
+11980c2ac4ccfa Robert Love        2011-12-20  436  		}
+44960f2a7b63e2 John Stultz        2018-07-31  437  	} else {
+44960f2a7b63e2 John Stultz        2018-07-31  438  		vma_set_anonymous(vma);
+11980c2ac4ccfa Robert Love        2011-12-20  439  	}
+11980c2ac4ccfa Robert Love        2011-12-20  440  =
 
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  601 =
- 	peak =3D of_find_property(np, "opp-peak-kBps", NULL);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  602 =
- 	if (peak) {
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  603 =
- 		/*
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  604 =
- 		 * Bandwidth consists of peak and average (optional) values:
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  605 =
- 		 * opp-peak-kBps =3D <path1_value path2_value>;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  606 =
- 		 * opp-avg-kBps =3D <path1_value path2_value>;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  607 =
- 		 */
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  608 =
- 		count =3D peak->length / sizeof(u32);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  609 =
- 		peak_bw =3D kmalloc_array(count, sizeof(*peak_bw), GFP_KERNEL);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  610 =
- 		if (!peak_bw)
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  611 =
- 			return -ENOMEM;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  612  =
+11980c2ac4ccfa Robert Love        2011-12-20  441  	if (vma->vm_file)
+11980c2ac4ccfa Robert Love        2011-12-20  442  		fput(vma->vm_file);
+11980c2ac4ccfa Robert Love        2011-12-20  443  	vma->vm_file =3D asma->=
+file;
+11980c2ac4ccfa Robert Love        2011-12-20  444  =
 
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  613 =
- 		ret =3D of_property_read_u32_array(np, "opp-peak-kBps", peak_bw,
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  614 =
- 						 count);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  615 =
- 		if (ret) {
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  616 =
- 			pr_err("%s: Error parsing opp-peak-kBps: %d\n",
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  617 =
- 			       __func__, ret);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  618 =
- 			goto free_peak_bw;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  619 =
- 		}
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  620  =
+11980c2ac4ccfa Robert Love        2011-12-20  445  out:
+11980c2ac4ccfa Robert Love        2011-12-20  446  	mutex_unlock(&ashmem_mu=
+tex);
+11980c2ac4ccfa Robert Love        2011-12-20  447  	return ret;
+11980c2ac4ccfa Robert Love        2011-12-20  448  }
+11980c2ac4ccfa Robert Love        2011-12-20  449  =
 
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  621 =
- 		for (i =3D 0; i < count; i++)
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  622 =
- 			new_opp->bandwidth[i].peak =3D kBps_to_icc(peak_bw[i]);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  623  =
 
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  624 =
- 		found =3D true;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  625 =
- 		kfree(peak_bw);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  626 =
- 	}
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  627  =
+:::::: The code at line 418 was first introduced by commit
+:::::: 6d67b0290b4b84c477e6a2fc6e005e174d3c7786 staging: android: ashmem: D=
+isallow ashmem memory from being remapped
 
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  628 =
- 	avg =3D of_find_property(np, "opp-avg-kBps", NULL);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  629 =
- 	if (peak && avg) {
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  630 =
- 		count =3D avg->length / sizeof(u32);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  631 =
- 		avg_bw =3D kmalloc_array(count, sizeof(*avg_bw), GFP_KERNEL);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  632 =
- 		if (!avg_bw) {
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  633 =
- 			ret =3D -ENOMEM;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  634 =
- 			goto free_peak_bw;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  635 =
- 		}
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  636  =
-
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  637 =
- 		ret =3D of_property_read_u32_array(np, "opp-avg-kBps", avg_bw,
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  638 =
- 						 count);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  639 =
- 		if (ret) {
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  640 =
- 			pr_err("%s: Error parsing opp-avg-kBps: %d\n",
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  641 =
- 			       __func__, ret);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  642 =
- 			goto free_avg_bw;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  643 =
- 		}
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  644  =
-
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  645 =
- 		for (i =3D 0; i < count; i++)
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  646 =
- 			new_opp->bandwidth[i].avg =3D kBps_to_icc(avg_bw[i]);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  647  =
-
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  648 =
- 		kfree(avg_bw);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  649 =
- 	}
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  650  =
-
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  651 =
- 	if (!of_property_read_u32(np, "opp-level", &new_opp->level))
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  652 =
- 		found =3D true;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  653  =
-
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  654 =
- 	if (found)
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  655 =
- 		return 0;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  656  =
-
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  657 =
- 	return ret;
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  658  =
-
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  659 =
- free_avg_bw:
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  660 =
- 	kfree(avg_bw);
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12  661 =
- free_peak_bw:
-6b6c64a05ad880 drivers/opp/of.c            Georgi Djakov   2020-05-12 @662 =
- 	kfree(peak_bw);
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  663  =
-
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  664 =
- 	return ret;
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  665 =
- }
-6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  666  =
-
+:::::: TO: Suren Baghdasaryan <surenb@google.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8315561749921007512==--
+--===============4218267933842714387==--
 
