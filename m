@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3698793001108578308=="
+Content-Type: multipart/mixed; boundary="===============8390406089313345795=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [baolu:iommu/next/20200514 4/16] drivers/iommu/intel-svm.c:369 intel_svm_bind_gpasid() error: 'svm' dereferencing possible ERR_PTR()
-Date: Thu, 14 May 2020 18:34:35 +0800
-Message-ID: <202005141819.xsD3Ilze%lkp@intel.com>
+Subject: [baolu:iommu/next/20200514 4/16] drivers/iommu/intel-svm.c:367:22-26: ERROR: svm is NULL but dereferenced.
+Date: Thu, 14 May 2020 18:31:21 +0800
+Message-ID: <202005141806.GhjkjC5Y%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3698793001108578308==
+--===============8390406089313345795==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -25,16 +25,17 @@ d guest PASID support
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-smatch warnings:
-drivers/iommu/intel-svm.c:369 intel_svm_bind_gpasid() error: 'svm' derefere=
-ncing possible ERR_PTR()
+
+coccinelle warnings: (new ones prefixed by >>)
+
+>> drivers/iommu/intel-svm.c:367:22-26: ERROR: svm is NULL but dereferenced.
 
 git remote add baolu git://bee.sh.intel.com/git/blu2/usb.git
 git remote update baolu
 git checkout 64e95c1afbadc5601bc100f6424b1848888613f7
-vim +/svm +369 drivers/iommu/intel-svm.c
+vim +367 drivers/iommu/intel-svm.c
 
 2f26e0a9c9860d David Woodhouse 2015-09-09  224  =
 
@@ -251,11 +252,11 @@ UEST_MODE;
 64e95c1afbadc5 Jacob Pan       2020-05-14  365  	list_add_rcu(&sdev->list, =
 &svm->devs);
 64e95c1afbadc5 Jacob Pan       2020-05-14  366   out:
-64e95c1afbadc5 Jacob Pan       2020-05-14  367  	if (list_empty(&svm->devs)=
+64e95c1afbadc5 Jacob Pan       2020-05-14 @367  	if (list_empty(&svm->devs)=
 ) {
 64e95c1afbadc5 Jacob Pan       2020-05-14  368  		ioasid_set_data(data->hpa=
 sid, NULL);
-64e95c1afbadc5 Jacob Pan       2020-05-14 @369  		kfree(svm);
+64e95c1afbadc5 Jacob Pan       2020-05-14  369  		kfree(svm);
 64e95c1afbadc5 Jacob Pan       2020-05-14  370  	}
 64e95c1afbadc5 Jacob Pan       2020-05-14  371  =
 
@@ -268,5 +269,5 @@ sid, NULL);
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3698793001108578308==--
+--===============8390406089313345795==--
 
