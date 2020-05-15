@@ -1,26 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============8178688628175750606=="
+Content-Type: multipart/mixed; boundary="===============0530420368681620581=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kbuild test robot <lkp@intel.com>
 Subject: [vireshk-pm:opp/linux-next 4/11] drivers/opp/of.c:662:7-14: ERROR: reference preceded by free on line 625
-Date: Fri, 15 May 2020 14:58:41 +0300
-Message-ID: <20200515115841.GK3041@kadam>
+Date: Fri, 15 May 2020 19:10:14 +0800
+Message-ID: <202005151908.4MKSSS9P%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8178688628175750606==
+--===============0530420368681620581==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Georgi Djakov <georgi.djakov@linaro.org>
+CC: Viresh Kumar <viresh.kumar@linaro.org>
+CC: Matthias Kaehlcke <mka@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vireshk/pm.git opp/=
 linux-next
 head:   f4111e2e1ae16a32002ba348a18a59691fcedec3
 commit: 0f438abc246a03c0c7a212738329f87000a9e527 [4/11] OPP: Add support fo=
 r parsing interconnect bandwidth
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+
 
 coccinelle warnings: (new ones prefixed by >>)
 
@@ -33,6 +41,8 @@ ireshk/pm.git
 git remote update vireshk-pm
 git checkout 0f438abc246a03c0c7a212738329f87000a9e527
 vim +662 drivers/opp/of.c
+
+f47b72a15a9679 drivers/base/power/opp/of.c Viresh Kumar    2016-05-05  579  =
 
 6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  580 =
  static int _read_opp_key(struct dev_pm_opp *new_opp, struct device_node *n=
@@ -127,8 +137,6 @@ p,
  		found =3D true;
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12 @625 =
  		kfree(peak_bw);
-                                                                           =
-             ^^^^^^^^^^^^^
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  626 =
  	}
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  627  =
@@ -147,10 +155,6 @@ p,
  			ret =3D -ENOMEM;
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  634 =
  			goto free_peak_bw;
-                                                                           =
-                     ^^^^^^^^^^^^^^^^^^
-Obviously this goto leads to a double free etc...
-
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  635 =
  		}
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  636  =
@@ -159,16 +163,6 @@ Obviously this goto leads to a double free etc...
  		ret =3D of_property_read_u32_array(np, "opp-avg-kBps", avg_bw,
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  638 =
  						 count);
-
-This code is really confusing.  This assignment over writes the "ret"
-variable.  I guess that's intended instead of using "found =3D true;" on
-this path???
-
-It really feels like this function should be split into multiple
-functions.  If I read it correctly, then if it can find any property
-then that's counted as a success?  I guess we'd like to find them all
-but if we can find one then that's enough?
-
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  639 =
  		if (ret) {
 0f438abc246a03 drivers/opp/of.c            Georgi Djakov   2020-05-12  640 =
@@ -223,12 +217,11 @@ but if we can find one then that's enough?
  	return ret;
 6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  665 =
  }
+6c591eec67cbb4 drivers/opp/of.c            Saravana Kannan 2020-05-12  666  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
---===============8178688628175750606==--
+--===============0530420368681620581==--
 
