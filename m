@@ -1,239 +1,115 @@
-Content-Type: multipart/mixed; boundary="===============7806996336550407782=="
+Content-Type: multipart/mixed; boundary="===============2183031049334239925=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [nbd168-wireless:mt76 110/138] drivers/net/wireless/mediatek/mt76/mt7915/main.c:694:1: sparse: sparse: context imbalance in 'mt7915_sta_rc_update' - wrong count at exit
-Date: Sat, 16 May 2020 13:51:38 +0800
-Message-ID: <202005161335.oHtpy5Ps%lkp@intel.com>
+Subject: Re: [next-queue RFC 2/4] ethtool: Add support for configuring frame preemption via netlink
+Date: Sat, 16 May 2020 13:06:34 +0800
+Message-ID: <202005161202.Lqz2RLsh%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7806996336550407782==
+--===============2183031049334239925==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Ryder Lee <ryder.lee@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Shayne Chen <shayne.chen@mediatek.com>
-CC: "Chih-Min Chen" <chih-min.chen@mediatek.com>
+In-Reply-To: <20200516012948.3173993-3-vinicius.gomes@intel.com>
+References: <20200516012948.3173993-3-vinicius.gomes@intel.com>
+TO: Vinicius Costa Gomes <vinicius.gomes@intel.com>
 
-tree:   https://github.com/nbd168/wireless mt76
-head:   12a87174accd29ff943d4c5fb735e1541b92630b
-commit: e57b7901469fc0b021930b83a8094baaf3d81b09 [110/138] mt76: add mac802=
-11 driver for MT7915 PCIe-based chipsets
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.1-193-gb8fad4bc-dirty
-        git checkout e57b7901469fc0b021930b83a8094baaf3d81b09
-        make ARCH=3Dx86_64 allmodconfig
-        make C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
-:::::: branch date: 2 days ago
-:::::: commit date: 4 days ago
+Hi Vinicius,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on jkirsher-next-queue/dev-queue]
+[also build test WARNING on net-next/master next-20200515]
+[cannot apply to net/master linus/master ipvs/master v5.7-rc5]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
+url:    https://github.com/0day-ci/linux/commits/Vinicius-Costa-Gomes/ethto=
+ol-Add-support-for-frame-preemption/20200516-093235
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/next-queue=
+.git dev-queue
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+net/ethtool/preempt.c:152 ethnl_set_preempt() warn: variable dereferenced b=
+efore check 'info' (see line 127)
 
-sparse warnings: (new ones prefixed by >>)
+# https://github.com/0day-ci/linux/commit/5d130ebd7a21741d4fda1c8829a32353e=
+10d49d5
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 5d130ebd7a21741d4fda1c8829a32353e10d49d5
+vim +/info +152 net/ethtool/preempt.c
 
->> drivers/net/wireless/mediatek/mt76/mt7915/main.c:694:1: sparse: sparse: =
-context imbalance in 'mt7915_sta_rc_update' - wrong count at exit
---
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:244:16: sparse: sparse: =
-mixing different enum types:
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:244:16: sparse:    unsig=
-ned int enum mt7915_txq_id
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:244:16: sparse:    unsig=
-ned int enum mt76_txq_id
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- incorrect type in argument 1 (different base types) @@    expected unsigne=
-d int w @@    got restricted __le3unsigned int w @@
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse:    expe=
-cted unsigned int w
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse:    got =
-restricted __le32 [usertype] supp_ht_mcs
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1288:23: sparse: sparse:=
- restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1328:33: sparse: sparse:=
- restricted __le16 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1327:60: sparse: sparse:=
- bad assignment (>>=3D) to restricted __le16
-   drivers/net/wireless/mediatek/mt76/mt7915/mcu.c:1671:16: sparse: sparse:=
- restricted __le32 degrades to integer
---
->> drivers/net/wireless/mediatek/mt76/mt7915/mac.c:299:26: sparse: sparse: =
-restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mac.c:303:43: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:303:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:303:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:304:43: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:304:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:304:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:305:43: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:305:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:305:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:306:43: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:306:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:306:43: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:319:35: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:319:35: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:319:35: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:320:33: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:320:33: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:320:33: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:327:35: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:327:35: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:327:35: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:328:35: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:328:35: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:328:35: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:345:41: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:345:41: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:345:41: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:355:33: sparse: sparse: =
-cast to restricted __le32
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:355:33: sparse: sparse: =
-restricted __le32 degrades to integer
-   drivers/net/wireless/mediatek/mt76/mt7915/mac.c:355:33: sparse: sparse: =
-restricted __le32 degrades to integer
->> drivers/net/wireless/mediatek/mt76/mt7915/mac.c:451:21: sparse: sparse: =
-invalid assignment: |=3D
->> drivers/net/wireless/mediatek/mt76/mt7915/mac.c:451:21: sparse:    left =
-side has type unsigned int
->> drivers/net/wireless/mediatek/mt76/mt7915/mac.c:451:21: sparse:    right=
- side has type restricted __le32
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  117  =
 
-# https://github.com/nbd168/wireless/commit/e57b7901469fc0b021930b83a8094ba=
-af3d81b09
-git remote add nbd168-wireless https://github.com/nbd168/wireless
-git remote update nbd168-wireless
-git checkout e57b7901469fc0b021930b83a8094baaf3d81b09
-vim +/mt7915_sta_rc_update +694 drivers/net/wireless/mediatek/mt76/mt7915/m=
-ain.c
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  118  int ethnl_set_preempt(=
+struct sk_buff *skb, struct genl_info *info)
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  119  {
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  120  	struct nlattr *tb[ETH=
+TOOL_A_LINKINFO_MAX + 1];
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  121  	struct ethtool_fp pre=
+empt =3D {};
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  122  	struct ethnl_req_info=
+ req_info =3D {};
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  123  	struct net_device *de=
+v;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  124  	bool mod =3D false;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  125  	int ret;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  126  =
 
-e57b7901469fc0 Ryder Lee 2020-04-25  692  =
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15 @127  	ret =3D nlmsg_parse(i=
+nfo->nlhdr, GENL_HDRLEN, tb,
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  128  			  ETHTOOL_A_PREEMPT=
+_MAX, preempt_set_policy,
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  129  			  info->extack);
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  130  	if (ret < 0)
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  131  		return ret;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  132  =
 
-e57b7901469fc0 Ryder Lee 2020-04-25  693  static void
-e57b7901469fc0 Ryder Lee 2020-04-25 @694  mt7915_sta_rc_update(struct ieee8=
-0211_hw *hw,
-e57b7901469fc0 Ryder Lee 2020-04-25  695  		     struct ieee80211_vif *vif,
-e57b7901469fc0 Ryder Lee 2020-04-25  696  		     struct ieee80211_sta *sta,
-e57b7901469fc0 Ryder Lee 2020-04-25  697  		     u32 changed)
-e57b7901469fc0 Ryder Lee 2020-04-25  698  {
-e57b7901469fc0 Ryder Lee 2020-04-25  699  	struct mt7915_sta *msta =3D (str=
-uct mt7915_sta *)sta->drv_priv;
-e57b7901469fc0 Ryder Lee 2020-04-25  700  =
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  133  	ret =3D ethnl_parse_h=
+eader_dev_get(&req_info,
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  134  					 tb[ETHTOOL_A_PRE=
+EMPT_HEADER],
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  135  					 genl_info_net(in=
+fo), info->extack,
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  136  					 true);
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  137  	if (ret < 0)
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  138  		return ret;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  139  	dev =3D req_info.dev;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  140  	ret =3D -EOPNOTSUPP;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  141  	if (!dev->ethtool_ops=
+->get_preempt ||
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  142  	    !dev->ethtool_ops=
+->set_preempt)
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  143  		goto out_dev;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  144  =
 
-e57b7901469fc0 Ryder Lee 2020-04-25  701  	rcu_read_lock();
-e57b7901469fc0 Ryder Lee 2020-04-25  702  	sta =3D ieee80211_find_sta(vif, =
-sta->addr);
-e57b7901469fc0 Ryder Lee 2020-04-25  703  	if (!sta) {
-e57b7901469fc0 Ryder Lee 2020-04-25  704  		rcu_read_unlock();
-e57b7901469fc0 Ryder Lee 2020-04-25  705  		return;
-e57b7901469fc0 Ryder Lee 2020-04-25  706  	}
-e57b7901469fc0 Ryder Lee 2020-04-25  707  	rcu_read_lock();
-e57b7901469fc0 Ryder Lee 2020-04-25  708  =
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  145  	rtnl_lock();
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  146  	ret =3D ethnl_ops_beg=
+in(dev);
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  147  	if (ret < 0)
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  148  		goto out_rtnl;
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  149  =
 
-e57b7901469fc0 Ryder Lee 2020-04-25  709  	set_bit(changed, &msta->stats.ch=
-anged);
-e57b7901469fc0 Ryder Lee 2020-04-25  710  	ieee80211_queue_work(hw, &msta->=
-stats_work);
-e57b7901469fc0 Ryder Lee 2020-04-25  711  }
-e57b7901469fc0 Ryder Lee 2020-04-25  712  =
-
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  150  	ret =3D dev->ethtool_=
+ops->get_preempt(dev, &preempt);
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  151  	if (ret < 0) {
+5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15 @152  		if (info)
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7806996336550407782==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============2183031049334239925==--
 
