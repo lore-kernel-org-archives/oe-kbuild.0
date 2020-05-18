@@ -1,102 +1,83 @@
-Content-Type: multipart/mixed; boundary="===============7473316471570445823=="
+Content-Type: multipart/mixed; boundary="===============0497022198366382867=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [next-queue RFC 2/4] ethtool: Add support for configuring frame preemption via netlink
-Date: Mon, 18 May 2020 15:27:23 +0300
-Message-ID: <20200518122723.GH2078@kadam>
-In-Reply-To: <20200516012948.3173993-3-vinicius.gomes@intel.com>
+From: kbuild test robot <lkp@intel.com>
+Subject: [linux-next:master 1000/9662] drivers/gpu/drm/bridge/nwl-dsi.c:51:14: warning: struct member 'nwl_dsi_plat_clk_config::id' is never used. [unusedStructMember]
+Date: Mon, 18 May 2020 19:18:42 +0800
+Message-ID: <202005181929.Ig60vjsW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7473316471570445823==
+--===============0497022198366382867==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Vinicius,
+CC: kbuild-all(a)lists.01.org
+TO: "Guido G=C3=BCnther" <agx@sigxcpu.org>
+CC: Sam Ravnborg <sam@ravnborg.org>
+CC: Robert Chiras <robert.chiras@nxp.com>
+CC: Fabio Estevam <festevam@gmail.com>
 
-url:    https://github.com/0day-ci/linux/commits/Vinicius-Costa-Gomes/ethto=
-ol-Add-support-for-frame-preemption/20200516-093235
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/jkirsher/next-queue=
-.git dev-queue
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   bdecf38f228bcca73b31ada98b5b7ba1215eb9c9
+commit: 44cfc6233447cb2cf47aeb99457de35826a363f6 [1000/9662] drm/bridge: Ad=
+d NWL MIPI DSI host controller support
+:::::: branch date: 3 days ago
+:::::: commit date: 6 weeks ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/ethtool/preempt.c:152 ethnl_set_preempt() warn: variable dereferenced b=
-efore check 'info' (see line 127)
 
-# https://github.com/0day-ci/linux/commit/5d130ebd7a21741d4fda1c8829a32353e=
-10d49d5
-git remote add linux-review https://github.com/0day-ci/linux
-git remote update linux-review
-git checkout 5d130ebd7a21741d4fda1c8829a32353e10d49d5
-vim +/info +152 net/ethtool/preempt.c
+cppcheck warnings: (new ones prefixed by >>)
 
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  118  int ethnl_set_preempt(=
-struct sk_buff *skb, struct genl_info *info)
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  119  {
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  120  	struct nlattr *tb[ETH=
-TOOL_A_LINKINFO_MAX + 1];
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  121  	struct ethtool_fp pre=
-empt =3D {};
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  122  	struct ethnl_req_info=
- req_info =3D {};
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  123  	struct net_device *de=
-v;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  124  	bool mod =3D false;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  125  	int ret;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  126  =
+>> drivers/gpu/drm/bridge/nwl-dsi.c:51:14: warning: struct member 'nwl_dsi_=
+plat_clk_config::id' is never used. [unusedStructMember]
+    const char *id;
+                ^
+>> drivers/gpu/drm/bridge/nwl-dsi.c:52:14: warning: struct member 'nwl_dsi_=
+plat_clk_config::clk' is never used. [unusedStructMember]
+    struct clk *clk;
+                ^
+>> drivers/gpu/drm/bridge/nwl-dsi.c:53:7: warning: struct member 'nwl_dsi_p=
+lat_clk_config::present' is never used. [unusedStructMember]
+    bool present;
+         ^
+--
+>> drivers/gpu/drm/drm_auth.c:289:6: warning: Redundant initialization for =
+'ret'. The initialized value is overwritten before it is read. [redundantIn=
+itialization]
+    ret =3D drm_master_check_perm(dev, file_priv);
+        ^
+   drivers/gpu/drm/drm_auth.c:285:10: note: ret is initialized
+    int ret =3D -EINVAL;
+            ^
+   drivers/gpu/drm/drm_auth.c:289:6: note: ret is overwritten
+    ret =3D drm_master_check_perm(dev, file_priv);
+        ^
 
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15 @127  	ret =3D nlmsg_parse(i=
-nfo->nlhdr, GENL_HDRLEN, tb,
-                                                                          ^=
-^^^^^^^^^^
-Unchecked dereference.
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3D44cfc6233447cb2cf47aeb99457de35826a363f6
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git remote update linux-next
+git checkout 44cfc6233447cb2cf47aeb99457de35826a363f6
+vim +51 drivers/gpu/drm/bridge/nwl-dsi.c
 
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  128  			  ETHTOOL_A_PREEMPT=
-_MAX, preempt_set_policy,
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  129  			  info->extack);
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  130  	if (ret < 0)
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  131  		return ret;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  132  =
+44cfc6233447cb Guido G=C3=BCnther 2020-04-09  49  =
 
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  133  	ret =3D ethnl_parse_h=
-eader_dev_get(&req_info,
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  134  					 tb[ETHTOOL_A_PRE=
-EMPT_HEADER],
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  135  					 genl_info_net(in=
-fo), info->extack,
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  136  					 true);
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  137  	if (ret < 0)
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  138  		return ret;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  139  	dev =3D req_info.dev;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  140  	ret =3D -EOPNOTSUPP;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  141  	if (!dev->ethtool_ops=
-->get_preempt ||
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  142  	    !dev->ethtool_ops=
-->set_preempt)
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  143  		goto out_dev;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  144  =
+44cfc6233447cb Guido G=C3=BCnther 2020-04-09  50  struct nwl_dsi_plat_clk_c=
+onfig {
+44cfc6233447cb Guido G=C3=BCnther 2020-04-09 @51  	const char *id;
+44cfc6233447cb Guido G=C3=BCnther 2020-04-09 @52  	struct clk *clk;
+44cfc6233447cb Guido G=C3=BCnther 2020-04-09 @53  	bool present;
+44cfc6233447cb Guido G=C3=BCnther 2020-04-09  54  };
+44cfc6233447cb Guido G=C3=BCnther 2020-04-09  55  =
 
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  145  	rtnl_lock();
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  146  	ret =3D ethnl_ops_beg=
-in(dev);
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  147  	if (ret < 0)
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  148  		goto out_rtnl;
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  149  =
-
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  150  	ret =3D dev->ethtool_=
-ops->get_preempt(dev, &preempt);
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15  151  	if (ret < 0) {
-5d130ebd7a2174 Vinicius Costa Gomes 2020-05-15 @152  		if (info)
-                                                                ^^^^^^^^^
-Check is too late to help.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7473316471570445823==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============0497022198366382867==--
 
