@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1554630034735014115=="
+Content-Type: multipart/mixed; boundary="===============4134853917992876221=="
 MIME-Version: 1.0
 From: kbuild test robot <lkp@intel.com>
-Subject: [efi:next 39/40] drivers/firmware/efi/libstub/efi-stub-helper.c:265 efi_convert_cmdline() warn: qualifier 'l' ignored for %s specifier
-Date: Wed, 20 May 2020 06:51:55 +0800
-Message-ID: <202005200649.M30Wfv8K%lkp@intel.com>
+Subject: [efi:next 34/40] drivers/firmware/efi/libstub/efi-stub-helper.c:483 efi_wait_for_key() error: uninitialized symbol 'timer'.
+Date: Wed, 20 May 2020 06:05:20 +0800
+Message-ID: <202005200616.REXXY4eE%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1554630034735014115==
+--===============4134853917992876221==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ CC: Ard Biesheuvel <ardb@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git next
 head:   e5fbadd1179cdadeaa44d71a9ec068c5bc100524
-commit: 85f5afd4322d294a7eca0d304744a1646113fbd9 [39/40] efi/libstub: Use s=
-nprintf with %ls to convert the command line
+commit: 1ad1b805ec393c054a64a3d131f1d776458983c1 [34/40] efi/gop: Add an op=
+tion to list out the available GOP modes
 config: x86_64-defconfig (attached as .config)
-:::::: branch date: 14 hours ago
+:::::: branch date: 13 hours ago
 :::::: commit date: 14 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
@@ -30,186 +30,79 @@ Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/firmware/efi/libstub/efi-stub-helper.c:265 efi_convert_cmdline() wa=
-rn: qualifier 'l' ignored for %s specifier
+drivers/firmware/efi/libstub/efi-stub-helper.c:483 efi_wait_for_key() error=
+: uninitialized symbol 'timer'.
+drivers/firmware/efi/libstub/efi-stub-helper.c:483 efi_wait_for_key() error=
+: uninitialized symbol 'timer'.
+drivers/firmware/efi/libstub/gop.c:340 choose_mode_list() error: potentiall=
+y dereferencing uninitialized 'info'.
 
 Old smatch warnings:
-drivers/firmware/efi/libstub/efi-stub-helper.c:173 efi_parse_options() erro=
+drivers/firmware/efi/libstub/efi-stub-helper.c:116 efi_parse_options() erro=
 r: uninitialized symbol 'buf'.
-drivers/firmware/efi/libstub/efi-stub-helper.c:423 efi_load_initrd_dev_path=
+drivers/firmware/efi/libstub/efi-stub-helper.c:400 efi_load_initrd_dev_path=
 () error: uninitialized symbol 'handle'.
-drivers/firmware/efi/libstub/efi-stub-helper.c:423 efi_load_initrd_dev_path=
+drivers/firmware/efi/libstub/efi-stub-helper.c:400 efi_load_initrd_dev_path=
 () error: uninitialized symbol 'handle'.
-drivers/firmware/efi/libstub/efi-stub-helper.c:428 efi_load_initrd_dev_path=
+drivers/firmware/efi/libstub/efi-stub-helper.c:405 efi_load_initrd_dev_path=
 () error: potentially dereferencing uninitialized 'lf2'.
-drivers/firmware/efi/libstub/efi-stub-helper.c:428 efi_load_initrd_dev_path=
+drivers/firmware/efi/libstub/efi-stub-helper.c:405 efi_load_initrd_dev_path=
 () error: potentially dereferencing uninitialized 'lf2'.
-drivers/firmware/efi/libstub/efi-stub-helper.c:506 efi_wait_for_key() error=
-: uninitialized symbol 'timer'.
-drivers/firmware/efi/libstub/efi-stub-helper.c:506 efi_wait_for_key() error=
-: uninitialized symbol 'timer'.
+drivers/firmware/efi/libstub/gop.c:164 choose_mode_modenum() error: potenti=
+ally dereferencing uninitialized 'info'.
+drivers/firmware/efi/libstub/gop.c:487 find_gop() error: potentially derefe=
+rencing uninitialized 'gop'.
+drivers/firmware/efi/libstub/gop.c:487 find_gop() error: potentially derefe=
+rencing uninitialized 'gop'.
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.git/commit/?id=3D=
-85f5afd4322d294a7eca0d304744a1646113fbd9
+1ad1b805ec393c054a64a3d131f1d776458983c1
 git remote add efi https://git.kernel.org/pub/scm/linux/kernel/git/efi/efi.=
 git
 git remote update efi
-git checkout 85f5afd4322d294a7eca0d304744a1646113fbd9
-vim +/l +265 drivers/firmware/efi/libstub/efi-stub-helper.c
+git checkout 1ad1b805ec393c054a64a3d131f1d776458983c1
+vim +/timer +483 drivers/firmware/efi/libstub/efi-stub-helper.c
 
-7721da4c1ebf96 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  207  =
+1ad1b805ec393c Arvind Sankar 2020-05-18  466  =
 
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  208  /*
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  209   * Convert the unicode UEFI command line to ASCII to pas=
-s to kernel.
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  210   * Size of memory allocated return in *cmd_line_len.
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  211   * Returns NULL on error.
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  212   */
-cd33a5c1d53e43 drivers/firmware/efi/libstub/efi-stub-helper.c Ard Biesheuve=
-l 2019-12-24  213  char *efi_convert_cmdline(efi_loaded_image_t *image,
-1e45bf7372c48c drivers/firmware/efi/libstub/efi-stub-helper.c Ard Biesheuve=
-l 2020-02-10  214  			  int *cmd_line_len, unsigned long max_addr)
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  215  {
-c625d1c203941f drivers/firmware/efi/efi-stub-helper.c         H. Peter Anvi=
-n 2013-09-20  216  	const u16 *s2;
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  217  	unsigned long cmdline_addr =3D 0;
-85f5afd4322d29 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  218  	int options_chars =3D efi_table_attr(image, load_option=
-s_size) / 2;
-f7b85b33eb0b30 drivers/firmware/efi/libstub/efi-stub-helper.c Ard Biesheuve=
-l 2020-02-14  219  	const u16 *options =3D efi_table_attr(image, load_optio=
-ns);
-c625d1c203941f drivers/firmware/efi/efi-stub-helper.c         H. Peter Anvi=
-n 2013-09-20  220  	int options_bytes =3D 0;  /* UTF-8 bytes */
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  221  	efi_status_t status;
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  222  =
+1ad1b805ec393c Arvind Sankar 2020-05-18  467  efi_status_t efi_wait_for_key=
+(unsigned long usec, efi_input_key_t *key)
+1ad1b805ec393c Arvind Sankar 2020-05-18  468  {
+1ad1b805ec393c Arvind Sankar 2020-05-18  469  	efi_event_t events[2], timer;
+1ad1b805ec393c Arvind Sankar 2020-05-18  470  	unsigned long index;
+1ad1b805ec393c Arvind Sankar 2020-05-18  471  	efi_simple_text_input_protoc=
+ol_t *con_in;
+1ad1b805ec393c Arvind Sankar 2020-05-18  472  	efi_status_t status;
+1ad1b805ec393c Arvind Sankar 2020-05-18  473  =
 
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  223  	if (options) {
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  224  		s2 =3D options;
-85f5afd4322d29 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  225  		while (options_chars--) {
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  226  			u16 c =3D *s2++;
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  227  =
+1ad1b805ec393c Arvind Sankar 2020-05-18  474  	con_in =3D efi_table_attr(ef=
+i_system_table, con_in);
+1ad1b805ec393c Arvind Sankar 2020-05-18  475  	if (!con_in)
+1ad1b805ec393c Arvind Sankar 2020-05-18  476  		return EFI_UNSUPPORTED;
+1ad1b805ec393c Arvind Sankar 2020-05-18  477  	efi_set_event_at(events, 0, =
+efi_table_attr(con_in, wait_for_key));
+1ad1b805ec393c Arvind Sankar 2020-05-18  478  =
 
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  228  			if (c =3D=3D L'\0' || c =3D=3D L'\n')
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  229  				break;
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  230  			/*
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  231  			 * Get the number of UTF-8 bytes corresponding to a
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  232  			 * UTF-16 character.
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  233  			 * The first part handles everything in the BMP.
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  234  			 */
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  235  			options_bytes +=3D 1 + (c >=3D 0x80) + (c >=3D 0x800);
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  236  			/*
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  237  			 * Add one more byte for valid surrogate pairs. Inval=
-id
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  238  			 * surrogates will be replaced with 0xfffd and take up
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  239  			 * only 3 bytes.
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  240  			 */
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  241  			if ((c & 0xfc00) =3D=3D 0xd800) {
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  242  				/*
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  243  				 * If the very last word is a high surrogate,
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  244  				 * we must ignore it since we can't access the
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  245  				 * low surrogate.
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  246  				 */
-85f5afd4322d29 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  247  				if (!options_chars) {
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  248  					options_bytes -=3D 3;
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  249  				} else if ((*s2 & 0xfc00) =3D=3D 0xdc00) {
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  250  					options_bytes++;
-85f5afd4322d29 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  251  					options_chars--;
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  252  					s2++;
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  253  				}
-74a7b47e636144 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  254  			}
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  255  		}
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  256  	}
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  257  =
+1ad1b805ec393c Arvind Sankar 2020-05-18  479  	status =3D efi_bs_call(creat=
+e_event, EFI_EVT_TIMER, 0, NULL, NULL, &timer);
+1ad1b805ec393c Arvind Sankar 2020-05-18  480  	if (status !=3D EFI_SUCCESS)
+1ad1b805ec393c Arvind Sankar 2020-05-18  481  		return status;
+1ad1b805ec393c Arvind Sankar 2020-05-18  482  =
 
-c625d1c203941f drivers/firmware/efi/efi-stub-helper.c         H. Peter Anvi=
-n 2013-09-20  258  	options_bytes++;	/* NUL termination */
-9403e462fb5ffa drivers/firmware/efi/efi-stub-helper.c         Leif Lindholm=
-  2014-04-04  259  =
-
-1e45bf7372c48c drivers/firmware/efi/libstub/efi-stub-helper.c Ard Biesheuve=
-l 2020-02-10  260  	status =3D efi_allocate_pages(options_bytes, &cmdline_a=
-ddr, max_addr);
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  261  	if (status !=3D EFI_SUCCESS)
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  262  		return NULL;
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  263  =
-
-85f5afd4322d29 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18  264  	snprintf((char *)cmdline_addr, options_bytes, "%.*ls",
-85f5afd4322d29 drivers/firmware/efi/libstub/efi-stub-helper.c Arvind Sankar=
-  2020-05-18 @265  		 options_bytes - 1, options);
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  266  =
-
-c625d1c203941f drivers/firmware/efi/efi-stub-helper.c         H. Peter Anvi=
-n 2013-09-20  267  	*cmd_line_len =3D options_bytes;
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  268  	return (char *)cmdline_addr;
-5fef3870c572a3 drivers/firmware/efi/efi-stub-helper.c         Roy Franz    =
-  2013-09-22  269  }
-fc07716ba80348 drivers/firmware/efi/libstub/efi-stub-helper.c Jeffrey Hugo =
-  2016-08-29  270  =
-
+1ad1b805ec393c Arvind Sankar 2020-05-18 @483  	status =3D efi_bs_call(set_t=
+imer, timer, EfiTimerRelative,
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1554630034735014115==
+--===============4134853917992876221==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICBBhxF4AAy5jb25maWcAlDxLc9w20vf8iqnkkhzslWRZ8bdbOoAkOIMMSdAAOA9dWIo8dlRr
+H4sICGpUxF4AAy5jb25maWcAlDxLc9w20vf8iqnkkhzslWRZ8bdbOoAkOIMMSdAAOA9dWIo8dlRr
 S97RaNf+9183wEcDBJXElYo96Ma7393gTz/8tGDPp8cvt6f7u9vPn78vPh0eDsfb0+HD4uP958O/
 FplcVNIseCbMa0Au7h+ev/3j27ur9upy8fb1r6/PXh3vLhbrw/Hh8HmRPj58vP/0DP3vHx9++OkH
 +O8naPzyFYY6/nPx6e7u1a+Ln5vfnx9Oz4tfX7+F3lfP9tfFL+439EhllYtlm6at0O0yTa+/903w
@@ -720,5 +613,5 @@ OY4IH5+LHXR6582SDFNVsKjB27PjiIkKvCSwdHFfv7pgLs7qAE2iBcvvxAiKlz0RXoE56FtcGTDR
 HIRdFyAqJnQyAYQxEk8Xr45OOuyXxM7kCFHXTGQAoi7oWZ+nY5jTEZc6ihAFWs1SuA7HgHNGv0SN
 Qy5gNe6IqWO7tFpdR+fxLsgG3BAjmLuGH43QJvgyCpKAXZxCiyyYhX3SGdY2iovZ3GNCAooFRYE8
 Hf3hT6t2QVJ8EDYujFiUs8yxIkDeCeBa4dwdZBfHsHBZCQsAGqvXch4gRvwB8Xr+P6e5yhOJ6QEA
---===============1554630034735014115==--
+--===============4134853917992876221==--
 
