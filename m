@@ -1,19 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============7066500013250477351=="
+Content-Type: multipart/mixed; boundary="===============6910368779545604604=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kbuild test robot <lkp@intel.com>
 Subject: Re: [PATCH v5 1/5] iommu/arm-smmu: add NVIDIA implementation for dual ARM MMU-500 usage
-Date: Fri, 22 May 2020 14:50:59 +0300
-Message-ID: <20200522115059.GE22511@kadam>
-In-Reply-To: <20200521233107.11968-2-vdumpa@nvidia.com>
+Date: Fri, 22 May 2020 19:35:30 +0800
+Message-ID: <202005221957.NGcVsKxS%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7066500013250477351==
+--===============6910368779545604604==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200521233107.11968-2-vdumpa@nvidia.com>
+References: <20200521233107.11968-2-vdumpa@nvidia.com>
+TO: Krishna Reddy <vdumpa@nvidia.com>
+
 Hi Krishna,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on 365f8d504da50feaebf826d180113529c9383670]
 
 url:    https://github.com/0day-ci/linux/commits/Krishna-Reddy/Nvidia-Arm-S=
 MMUv2-Implementation/20200522-073239
@@ -25,9 +33,12 @@ reproduce:
         # sparse version: v0.6.1-193-gb8fad4bc-dirty
         # save the attached .config to linux build tree
         make C=3D1 ARCH=3Di386 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__'
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+
 
 sparse warnings: (new ones prefixed by >>)
 
@@ -78,22 +89,12 @@ remap_resource(dev, res);
 74ddf19a83203a Krishna Reddy 2020-05-21  150  		if (IS_ERR(nsmmu->bases[i]))
 74ddf19a83203a Krishna Reddy 2020-05-21 @151  			return (struct arm_smmu_de=
 vice *)nsmmu->bases[i];
-                                                                       ^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This should be "return ERR_CAST(nsmmu->bases[i]);"
-
-regards,
-dan carepenter
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============7066500013250477351==
+--===============6910368779545604604==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -1372,5 +1373,5 @@ hskbywJfH+fV0QmqdkHrp7db5P0cBTqgqpCnJ9oTWPqpUeD1E7VjR19TxZtEnVRSbJso4dL3iNol
 UDFKH3gD50sbQffzdaaOm7b0NcrLGlr+qK72vayNNWZ1pp2CTv8WFwztIE8JVvc6azkfgSr8qfL3
 5x+3SbLAguwDGv4ijCMEFpy0walHiuVx074fdzbpYtkWxlEA+Hevr2FmbVtRSRftkyu0E16J3wJQ
 O5YqrylG2cn8OjHG0v8B4s4PIRujBAA=
---===============7066500013250477351==--
+--===============6910368779545604604==--
 
