@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6687284959856505543=="
+Content-Type: multipart/mixed; boundary="===============4150877702835560932=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [djwong-xfs:repair-metadata-atomically 77/229] fs/xfs/scrub/rtsummary.c:75 xchk_setup_rtsummary() error: uninitialized symbol 'resblks'.
-Date: Tue, 26 May 2020 17:42:48 +0300
-Message-ID: <20200526144248.GX30374@kadam>
+Subject: [djwong-xfs:repair-metadata-atomically 206/229] fs/xfs/xfs_bmap_item.c:503 xfs_bui_item_recover() error: uninitialized symbol 'type'.
+Date: Tue, 26 May 2020 17:39:55 +0300
+Message-ID: <20200526143955.GW30374@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6687284959856505543==
+--===============4150877702835560932==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t repair-metadata-atomically
 head:   d334005df02786c9f288f2c7060603e9680946b5
-commit: 0d44a170037d3e6825d8ca4b52f3cf6019a40850 [77/229] xfs: online repai=
-r of realtime summaries
+commit: ff363fee12a5518f3bcd0f904b46d737e811cf0b [206/229] xfs: clean up xf=
+s_bui_item_recover
 
 config: i386-allyesconfig (attached as .config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
@@ -26,102 +26,200 @@ Reported-by: kbuild test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/xfs/scrub/rtsummary.c:75 xchk_setup_rtsummary() error: uninitialized sym=
-bol 'resblks'.
+fs/xfs/xfs_bmap_item.c:503 xfs_bui_item_recover() error: uninitialized symb=
+ol 'type'.
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
-it/?id=3D0d44a170037d3e6825d8ca4b52f3cf6019a40850
+it/?id=3Dff363fee12a5518f3bcd0f904b46d737e811cf0b
 git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/d=
 jwong/xfs-linux.git
 git remote update djwong-xfs
-git checkout 0d44a170037d3e6825d8ca4b52f3cf6019a40850
-vim +/resblks +75 fs/xfs/scrub/rtsummary.c
+git checkout ff363fee12a5518f3bcd0f904b46d737e811cf0b
+vim +/type +503 fs/xfs/xfs_bmap_item.c
 
-7a9053f61cc608e Darrick J. Wong 2020-03-10  56  int
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  57  xchk_setup_rtsummary(
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  58  	struct xfs_scrub	*sc,
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  59  	struct xfs_inode	*ip)
-7a9053f61cc608e Darrick J. Wong 2020-03-10  60  {
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  61  	struct xfs_mount	*mp =3D s=
-c->mp;
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  62  	unsigned long long	resblks;
+ba266f4f4c84ea Darrick J. Wong   2020-05-15  423  STATIC int
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  424  xfs_bui_item_recover(
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  425  	struct xfs_log_item		*li=
+p,
+aaddb7e46e876a Darrick J. Wong   2020-05-15  426  	struct xfs_defer_capture=
+	**dfcp)
+77d61fe45e7205 Darrick J. Wong   2016-10-03  427  {
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  428  	struct xfs_bmbt_irec		ir=
+ec;
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  429  	struct xfs_bui_log_item	=
+	*buip =3D BUI_ITEM(lip);
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  430  	struct xfs_trans		*tp;
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  431  	struct xfs_inode		*ip =
+=3D NULL;
+aaddb7e46e876a Darrick J. Wong   2020-05-15  432  	struct xfs_mount		*mp =
+=3D lip->li_mountp;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  433  	struct xfs_map_extent		*=
+bmap;
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  434  	struct xfs_bud_log_item	=
+	*budp;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  435  	xfs_fsblock_t			startblo=
+ck_fsb;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  436  	xfs_fsblock_t			inode_fs=
+b;
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  437  	xfs_filblks_t			count;
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  438  	xfs_exntst_t			state;
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  439  	enum xfs_bmap_intent_typ=
+e	type;
                                                         ^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^
 
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  63  	int			error;
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  64  =
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  440  	unsigned int			bui_type;
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  441  	int				whichfork;
+c557f2b9dcf4ed Darrick J. Wong   2020-05-15  442  	int				error =3D 0;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  443  =
 
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  65  	/*
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  66  	 * If we're doing a repair=
-, we reserve 2x the summary blocks: once for
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  67  	 * the new summary content=
-s and again for the bmbt blocks and the
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  68  	 * remapping operation.
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  69  	 */
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  70  	if (sc->sm->sm_flags & XFS=
-_SCRUB_IFLAG_REPAIR) {
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  71  		resblks =3D XFS_B_TO_FSB(=
-sc->mp, sc->mp->m_rsumsize) * 2;
-                                                                ^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+77d61fe45e7205 Darrick J. Wong   2016-10-03  444  	/* Only one mapping oper=
+ation per BUI... */
+ff363fee12a551 Darrick J. Wong   2020-05-21  445  	if (buip->bui_format.bui=
+_nextents !=3D XFS_BUI_MAX_FAST_EXTENTS)
+ff363fee12a551 Darrick J. Wong   2020-05-21  446  		goto garbage;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  447  =
 
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  72  		if (resblks > UINT_MAX)
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  73  			return -EOPNOTSUPP;
-0d44a170037d3e6 Darrick J. Wong 2020-03-12  74  	}
-0d44a170037d3e6 Darrick J. Wong 2020-03-12 @75  	error =3D xchk_trans_alloc=
-(sc, resblks);
-                                                                           =
-          ^^^^^^^
-Uninitialized on else path.
+77d61fe45e7205 Darrick J. Wong   2016-10-03  448  	/*
+77d61fe45e7205 Darrick J. Wong   2016-10-03  449  	 * First check the valid=
+ity of the extent described by the
+77d61fe45e7205 Darrick J. Wong   2016-10-03  450  	 * BUI.  If anything is =
+bad, then toss the BUI.
+77d61fe45e7205 Darrick J. Wong   2016-10-03  451  	 */
+77d61fe45e7205 Darrick J. Wong   2016-10-03  452  	bmap =3D &buip->bui_form=
+at.bui_extents[0];
+77d61fe45e7205 Darrick J. Wong   2016-10-03  453  	startblock_fsb =3D XFS_B=
+B_TO_FSB(mp,
+77d61fe45e7205 Darrick J. Wong   2016-10-03  454  			   XFS_FSB_TO_DADDR(mp=
+, bmap->me_startblock));
+77d61fe45e7205 Darrick J. Wong   2016-10-03  455  	inode_fsb =3D XFS_BB_TO_=
+FSB(mp, XFS_FSB_TO_DADDR(mp,
+77d61fe45e7205 Darrick J. Wong   2016-10-03  456  			XFS_INO_TO_FSB(mp, bma=
+p->me_owner)));
+ff363fee12a551 Darrick J. Wong   2020-05-21  457  	state =3D (bmap->me_flag=
+s & XFS_BMAP_EXTENT_UNWRITTEN) ?
+ff363fee12a551 Darrick J. Wong   2020-05-21  458  			XFS_EXT_UNWRITTEN : XF=
+S_EXT_NORM;
+ff363fee12a551 Darrick J. Wong   2020-05-21  459  	whichfork =3D (bmap->me_=
+flags & XFS_BMAP_EXTENT_ATTR_FORK) ?
+ff363fee12a551 Darrick J. Wong   2020-05-21  460  			XFS_ATTR_FORK : XFS_DA=
+TA_FORK;
+ff363fee12a551 Darrick J. Wong   2020-05-21  461  	bui_type =3D bmap->me_fl=
+ags & XFS_BMAP_EXTENT_TYPE_MASK;
+ff363fee12a551 Darrick J. Wong   2020-05-21  462  	switch (bui_type) {
+77d61fe45e7205 Darrick J. Wong   2016-10-03  463  	case XFS_BMAP_MAP:
+77d61fe45e7205 Darrick J. Wong   2016-10-03  464  	case XFS_BMAP_UNMAP:
+77d61fe45e7205 Darrick J. Wong   2016-10-03  465  		break;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  466  	default:
+ff363fee12a551 Darrick J. Wong   2020-05-21  467  		goto garbage;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  468  	}
+ff363fee12a551 Darrick J. Wong   2020-05-21  469  	if (startblock_fsb =3D=
+=3D 0 ||
+77d61fe45e7205 Darrick J. Wong   2016-10-03  470  	    bmap->me_len =3D=3D =
+0 ||
+77d61fe45e7205 Darrick J. Wong   2016-10-03  471  	    inode_fsb =3D=3D 0 ||
+77d61fe45e7205 Darrick J. Wong   2016-10-03  472  	    startblock_fsb >=3D =
+mp->m_sb.sb_dblocks ||
+77d61fe45e7205 Darrick J. Wong   2016-10-03  473  	    bmap->me_len >=3D mp=
+->m_sb.sb_agblocks ||
+77d61fe45e7205 Darrick J. Wong   2016-10-03  474  	    inode_fsb >=3D mp->m=
+_sb.sb_dblocks ||
+ff363fee12a551 Darrick J. Wong   2020-05-21  475  	    (bmap->me_flags & ~X=
+FS_BMAP_EXTENT_FLAGS))
+ff363fee12a551 Darrick J. Wong   2020-05-21  476  		goto garbage;
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  477  =
 
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  76  	if (error)
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  77  		return error;
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  78  =
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  478  	/* Grab the inode. */
+ff363fee12a551 Darrick J. Wong   2020-05-21  479  	error =3D xfs_iget(mp, N=
+ULL, bmap->me_owner, 0, 0, &ip);
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  480  	if (error)
+ff363fee12a551 Darrick J. Wong   2020-05-21  481  		return error;
+17c12bcd3030e4 Darrick J. Wong   2016-10-03  482  	if (VFS_I(ip)->i_nlink =
+=3D=3D 0)
+17c12bcd3030e4 Darrick J. Wong   2016-10-03  483  		xfs_iflags_set(ip, XFS_=
+IRECOVERY);
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  484  =
 
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  79  	/* Allocate a memory buffe=
-r for the summary comparison. */
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  80  	sc->buf =3D kmem_alloc_lar=
-ge(sc->mp->m_sb.sb_blocksize, KM_MAYFAIL);
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  81  	if (!sc->buf)
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  82  		return -ENOMEM;
-7a9053f61cc608e Darrick J. Wong 2020-03-10  83  =
+ff363fee12a551 Darrick J. Wong   2020-05-21  485  	/* Allocate transaction =
+and do the work. */
+ff363fee12a551 Darrick J. Wong   2020-05-21  486  	error =3D xfs_trans_allo=
+c(mp, &M_RES(mp)->tr_itruncate,
+ff363fee12a551 Darrick J. Wong   2020-05-21  487  			XFS_EXTENTADD_SPACE_RE=
+S(mp, XFS_DATA_FORK), 0, 0, &tp);
+ff363fee12a551 Darrick J. Wong   2020-05-21  488  	if (error)
+ff363fee12a551 Darrick J. Wong   2020-05-21  489  		goto err_rele;
+ff363fee12a551 Darrick J. Wong   2020-05-21  490  =
 
-7a9053f61cc608e Darrick J. Wong 2020-03-10  84  	/*
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  85  	 * Locking order requires =
-us to take the rtbitmap first.  We must be
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  86  	 * careful to unlock it ou=
-rselves when we are done with the rtbitmap
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  87  	 * file since the scrub in=
-frastructure won't do that for us.
-7a9053f61cc608e Darrick J. Wong 2020-03-10  88  	 */
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  89  	xfs_ilock(mp->m_rbmip, XFS=
-_ILOCK_SHARED | XFS_ILOCK_RTBITMAP);
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  90  =
+ff363fee12a551 Darrick J. Wong   2020-05-21  491  	budp =3D xfs_trans_get_b=
+ud(tp, buip);
+ff363fee12a551 Darrick J. Wong   2020-05-21  492  	xfs_ilock(ip, XFS_ILOCK_=
+EXCL);
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  493  	xfs_trans_ijoin(tp, ip, =
+0);
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  494  =
 
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  91  	/* ...and then we can lock=
- the rtsummary inode. */
-7a9053f61cc608e Darrick J. Wong 2020-03-10  92  	sc->ilock_flags =3D XFS_IL=
-OCK_EXCL | XFS_ILOCK_RTSUM;
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  93  	sc->ip =3D sc->mp->m_rsumi=
-p;
-7a9053f61cc608e Darrick J. Wong 2020-03-10  94  	xfs_ilock(sc->ip, sc->iloc=
-k_flags);
-7a9053f61cc608e Darrick J. Wong 2020-03-10  95  =
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  495  	count =3D bmap->me_len;
+ff363fee12a551 Darrick J. Wong   2020-05-21  496  	error =3D xfs_trans_log_=
+finish_bmap_update(tp, budp, bui_type, ip,
+ff363fee12a551 Darrick J. Wong   2020-05-21  497  			whichfork, bmap->me_st=
+artoff, bmap->me_startblock,
+ff363fee12a551 Darrick J. Wong   2020-05-21  498  			&count, state);
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  499  	if (error)
+ff363fee12a551 Darrick J. Wong   2020-05-21  500  		goto err_cancel;
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  501  =
 
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  96  	return 0;
-d11bb52d9fe16ea Darrick J. Wong 2020-03-16  97  }
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  502  	if (count > 0) {
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14 @503  		ASSERT(type =3D=3D XFS_=
+BMAP_UNMAP);
+                                                                       ^^^^=
+^^^^^^^^^^^^^^^^^^
+Dead code.
+
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  504  		irec.br_startblock =3D =
+bmap->me_startblock;
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  505  		irec.br_blockcount =3D =
+count;
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  506  		irec.br_startoff =3D bm=
+ap->me_startoff;
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  507  		irec.br_state =3D state;
+3e08f42ae7828b Darrick J. Wong   2019-08-26  508  		xfs_bmap_unmap_extent(t=
+p, ip, &irec);
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  509  	}
+e1a4e37cc7b665 Darrick J. Wong   2017-06-14  510  =
+
+ff363fee12a551 Darrick J. Wong   2020-05-21  511  	/* Commit transaction, w=
+hich frees tp. */
+aaddb7e46e876a Darrick J. Wong   2020-05-15  512  	error =3D xlog_recover_t=
+rans_commit(tp, dfcp);
+ff363fee12a551 Darrick J. Wong   2020-05-21  513  	if (error)
+ff363fee12a551 Darrick J. Wong   2020-05-21  514  		goto err_unlock;
+ff363fee12a551 Darrick J. Wong   2020-05-21  515  	return 0;
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  516  =
+
+ff363fee12a551 Darrick J. Wong   2020-05-21  517  err_cancel:
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  518  	xfs_trans_cancel(tp);
+ff363fee12a551 Darrick J. Wong   2020-05-21  519  err_unlock:
+9f3afb57d5f1e7 Darrick J. Wong   2016-10-03  520  	xfs_iunlock(ip, XFS_ILOC=
+K_EXCL);
+ff363fee12a551 Darrick J. Wong   2020-05-21  521  err_rele:
+44a8736bd20a08 Darrick J. Wong   2018-07-25  522  	xfs_irele(ip);
+77d61fe45e7205 Darrick J. Wong   2016-10-03  523  	return error;
+ff363fee12a551 Darrick J. Wong   2020-05-21  524  garbage:
+ff363fee12a551 Darrick J. Wong   2020-05-21  525  	xfs_bui_release(buip);
+ff363fee12a551 Darrick J. Wong   2020-05-21  526  	return -EFSCORRUPTED;
+77d61fe45e7205 Darrick J. Wong   2016-10-03  527  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6687284959856505543==
+--===============4150877702835560932==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEUQy14AAy5jb25maWcAlDzbcty2ku/5iqnkJXlIjm6WXbulB5AEOcgQBAOAoxm/sBR57KjW
+H4sICOT5yl4AAy5jb25maWcAlDzbcty2ku/5iqnkJXlIjm6WXbulB5AEOcgQBAOAoxm/sBR57KjW
 lry6nBP//XYD5LABgnI2lbLNblwbfUdjfvrhpxV7eX74cvN8d3vz+fO31afD/eHx5vnwYfXx7vPh
 v1eFWjXKrngh7G/QuL67f/n7X3fn7y5Xb357+9vJr4+3l6vN4fH+8HmVP9x/vPv0Ar3vHu5/+OkH
 +P8nAH75CgM9/tfq0+3tr29XP3d/vtw/v6ze/vYGel++uK+zX/w39MhVU4qqz/NemL7K86tvIwg+
@@ -1394,5 +1492,5 @@ a7R+entE3s9RoC2q8n56oj2BpZ8aBV4/Udt49DVVvEnUTSXFtokSLn1J1CmBclf6wBs4X9oIWqKv
 M3XdtKWfUQbX0PJHdbXvY63bMasz7Wh0+re4YGhbeUqwutdZy/kIVJ5Qlek/r9wmyQILsi9o+IfQ
 pRDs4KQDTj1SLOOb9vt4skkXyzYzjgLA672+hpm1bUUlXbRPrtCOpyX+IECdWKoQp+hwJ/PrxGyW
 /g+lljMH96IEAA==
---===============6687284959856505543==--
+--===============4150877702835560932==--
 
