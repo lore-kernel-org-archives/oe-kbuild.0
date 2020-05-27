@@ -1,27 +1,52 @@
-Content-Type: multipart/mixed; boundary="===============7188345292374234751=="
+Content-Type: multipart/mixed; boundary="===============9117788745930948724=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kbuild test robot <lkp@intel.com>
 Subject: Re: [PATCH 7/8] drm/msm/dpu: add SM8150 to hw catalog
-Date: Wed, 27 May 2020 14:09:43 +0300
-Message-ID: <20200527110943.GJ22511@kadam>
-In-Reply-To: <20200526032235.21930-8-jonathan@marek.ca>
+Date: Wed, 27 May 2020 18:59:34 +0800
+Message-ID: <202005271838.zuNIHjXA%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7188345292374234751==
+--===============9117788745930948724==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200526032235.21930-8-jonathan@marek.ca>
+References: <20200526032235.21930-8-jonathan@marek.ca>
+TO: Jonathan Marek <jonathan@marek.ca>
+TO: freedreno(a)lists.freedesktop.org
+CC: Rob Clark <robdclark@gmail.com>
+CC: Sean Paul <sean@poorly.run>
+CC: David Airlie <airlied@linux.ie>
+CC: Daniel Vetter <daniel@ffwll.ch>
+CC: Shubhashree Dhar <dhar@codeaurora.org>
+CC: Raviteja Tamatam <travitej@codeaurora.org>
+CC: Kalyan Thota <kalyan_t@codeaurora.org>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Stephen Boyd <swboyd@chromium.org>
 
 Hi Jonathan,
 
 Thank you for the patch! Perhaps something to improve:
 
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.7-rc7]
+[cannot apply to next-20200526]
+[if your patch is applied to the wrong git tree, please drop us a note to h=
+elp
+improve the system. BTW, we also suggest to use '--base' option to specify =
+the
+base tree in git format-patch, please see https://stackoverflow.com/a/37406=
+982]
+
 url:    https://github.com/0day-ci/linux/commits/Jonathan-Marek/Initial-SM8=
 150-and-SM8250-DPU-bringup/20200526-112725
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 9cb1fd0efd195590b828b9b865421ad345a4a145
-
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
 config: arm64-randconfig-s031-20200527 (attached as .config)
 compiler: aarch64-linux-gcc (GCC) 9.3.0
 reproduce:
@@ -33,6 +58,7 @@ NDIAN__'
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kbuild test robot <lkp@intel.com>
+
 
 sparse warnings: (new ones prefixed by >>)
 
@@ -59,9 +85,6 @@ LT_DPU_OUTPUT_LINE_WIDTH,
 6a90302321af832 Jonathan Marek 2020-05-25   95  	.max_mixer_blendstages =3D=
  0xb,
 6a90302321af832 Jonathan Marek 2020-05-25   96  	.max_linewidth =3D 4096,
-                                                        ^^^^^^^^^^^^^^^^^^^=
-^^^
-
 6a90302321af832 Jonathan Marek 2020-05-25   97  	.qseed_type =3D DPU_SSPP_S=
 CALER_QSEED3,
 6a90302321af832 Jonathan Marek 2020-05-25   98  	.smart_dma_rev =3D DPU_SSP=
@@ -73,10 +96,6 @@ BWC_VER_30,
 6a90302321af832 Jonathan Marek 2020-05-25  102  	.has_idle_pc =3D true,
 6a90302321af832 Jonathan Marek 2020-05-25  103  	.has_3d_merge =3D true,
 6a90302321af832 Jonathan Marek 2020-05-25 @104  	.max_linewidth =3D 4096,
-                                                        ^^^^^^^^^^^^^^^^^^^=
-^^^
-Delete duplicate code.
-
 6a90302321af832 Jonathan Marek 2020-05-25  105  	.pixel_ram_size =3D DEFAUL=
 T_PIXEL_RAM_SIZE,
 6a90302321af832 Jonathan Marek 2020-05-25  106  	.max_hdeci_exp =3D MAX_HOR=
@@ -84,16 +103,14 @@ Z_DECIMATION,
 6a90302321af832 Jonathan Marek 2020-05-25  107  	.max_vdeci_exp =3D MAX_VER=
 T_DECIMATION,
 6a90302321af832 Jonathan Marek 2020-05-25  108  };
+6a90302321af832 Jonathan Marek 2020-05-25  109  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============7188345292374234751==
+--===============9117788745930948724==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -864,5 +881,5 @@ a9BRWcotmpXDBMMtrc4pwaYOGaiaqLLeEVLwFSDakrvYV+jBy/LBAg73xG5RAAZWz/gsD/rKogvk
 gFBY7T8TxmPe2MRJW2tT1Ogt1+INwp7xDMXVKGwac27fmrFXuTMO61wbUWyoilpRaUecUau8cUSv
 2GWp7jvWdDiTFN9ESQOqCC0iSet8I6h7gp5tk/PUGX+lDIRZRCUpsTPMaCbJy9ibbtiAItB9OcuQ
 KQ5tP9SObb4boGN5AAq+MLN3D/DyGWjHg/8CXkMVG2C6AgA=
---===============7188345292374234751==--
+--===============9117788745930948724==--
 
