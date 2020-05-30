@@ -1,22 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============3555990950019873056=="
+Content-Type: multipart/mixed; boundary="===============5035973350752061839=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kbuild test robot <lkp@intel.com>
 Subject: [jlayton:ceph-fscache-iter 76/77] fs/ceph/addr.c:225 ceph_fsreq_issue_op() error: uninitialized symbol 'err'.
-Date: Sat, 30 May 2020 23:44:35 +0300
-Message-ID: <20200530204435.GR22511@kadam>
+Date: Sun, 31 May 2020 03:59:04 +0800
+Message-ID: <202005310359.hwJ3sFmg%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3555990950019873056==
+--===============5035973350752061839==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: "Jeff, Layton," <jlayton@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jlayton/linux.git c=
 eph-fscache-iter
 head:   ce11bedb85675dee88f70d28fc09cb5bca59c73e
 commit: abd9e1c4c6c6d86ef46c1782a886b52f09d87ebb [76/77] ceph: convert writ=
 epage over to new helper
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 config: x86_64-randconfig-m001-20200529 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
 
@@ -47,6 +52,8 @@ git remote update jlayton
 git checkout abd9e1c4c6c6d86ef46c1782a886b52f09d87ebb
 vim +/err +225 fs/ceph/addr.c
 
+1d3576fd10f0d7 Sage Weil   2009-10-06  187  =
+
 e4de9a35b08dcf Jeff Layton 2020-05-21  188  static void ceph_fsreq_issue_op=
 (struct fscache_io_request *fsreq)
 e4de9a35b08dcf Jeff Layton 2020-05-21  189  {
@@ -74,9 +81,6 @@ ing Fcr caps.
 abd9e1c4c6c6d8 Jeff Layton 2020-05-26  202  		 */
 abd9e1c4c6c6d8 Jeff Layton 2020-05-26  203  		if (fsreq->pos =3D=3D 0)
 abd9e1c4c6c6d8 Jeff Layton 2020-05-26  204  			err =3D -EINVAL;
-
-err not set if ->pos !=3D 0
-
 abd9e1c4c6c6d8 Jeff Layton 2020-05-26  205  		goto out;
 abd9e1c4c6c6d8 Jeff Layton 2020-05-26  206  	}
 abd9e1c4c6c6d8 Jeff Layton 2020-05-26  207  =
@@ -114,15 +118,18 @@ e4de9a35b08dcf Jeff Layton 2020-05-21  228  }
 e4de9a35b08dcf Jeff Layton 2020-05-21  229  =
 
 
+:::::: The code at line 225 was first introduced by commit
+:::::: e4de9a35b08dcfef40ba17f087c6a4a984407445 ceph: convert to using fsca=
+che_read_helper
+
+:::::: TO: Jeff Layton <jlayton@kernel.org>
+:::::: CC: Jeff Layton <jlayton@kernel.org>
+
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============3555990950019873056==
+--===============5035973350752061839==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -784,5 +791,5 @@ dZQ3PpvYbqBqourKVHLUmwsg2pKLqk/owar63gIOtkJuUQCGBZDxOzhRdF0gkAphd2FFi/Co2iew
 D4cpajSCpUA/M/wMRR0kbBpzXl9qum9yhw/6HcuG0tURxfRxuFZ5fEQr+HVJ77mXJjvJrBvYOX9A
 wCKStM63opZOyWN0acMuCSGG4OQuwshknxWtqmfeHmnPMIoRRM4Idms2eRl7swW0pghO45yKMUiX
 QTl1u9aSFX7qNw9KDBwiAOMasc1uRl60F2XT9n/AAB9SM1oCAA==
---===============3555990950019873056==--
+--===============5035973350752061839==--
 
