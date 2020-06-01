@@ -1,16 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============5073492191853289681=="
+Content-Type: multipart/mixed; boundary="===============0118712328998801186=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kbuild test robot <lkp@intel.com>
 Subject: drivers/most/core.c:1287 most_register_interface() error: we previously assumed 'iface' could be null (see line 1285)
-Date: Mon, 01 Jun 2020 22:53:43 +0300
-Message-ID: <20200601195343.GV22511@kadam>
+Date: Tue, 02 Jun 2020 03:10:39 +0800
+Message-ID: <202006020333.96nVxYeZ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5073492191853289681==
+--===============0118712328998801186==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: "Christian, Gromm," <christian.gromm@microchip.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
 Hi Christian,
 
@@ -22,7 +27,8 @@ head:   3d77e6a8804abcc0504c904bd6e5cdf3a5cf8162
 commit: b276527539188f1f61c082ebef27803db93e536d staging: most: move core f=
 iles out of the staging area
 date:   10 weeks ago
-
+:::::: branch date: 19 hours ago
+:::::: commit date: 10 weeks ago
 config: mips-randconfig-m031-20200601 (attached as .config)
 compiler: mipsel-linux-gcc (GCC) 9.3.0
 
@@ -43,6 +49,24 @@ git checkout b276527539188f1f61c082ebef27803db93e536d
 vim +/iface +1287 drivers/most/core.c
 
 4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1271  =
+
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1272  /**
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1273   * most_register_interface - registers an interface with core
+b7937dc41362f7 drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1274   * @iface: device interface
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1275   *
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1276   * Allocates and initializes a new interface instance and al=
+l of its channels.
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1277   * Returns a pointer to kobject or an error pointer.
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1278   */
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
 7-11-21  1279  int most_register_interface(struct most_interface *iface)
 57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
 5-07-24  1280  {
@@ -57,19 +81,11 @@ fcb7fad82e23f6 drivers/staging/most/core.c          Christian Gromm     201=
 
 57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
 5-07-24 @1285  	if (!iface || !iface->enqueue || !iface->configure ||
-                                                                           =
-                         ^^^^^^
-Check for NULL.
-
 57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
 5-07-24  1286  	    !iface->poison_channel || (iface->num_channels > MAX_CH=
 ANNELS)) {
 6a82c775812944 drivers/staging/most/core.c          Christian Gromm     202=
 0-01-23 @1287  		dev_err(iface->dev, "Bad interface or channel overflow\n");
-                                                                           =
-                                     ^^^^^^^^^^
-Dereference.  "iface" can't be NULL.  Just delete the check.
-
 4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
 7-11-21  1288  		return -EINVAL;
 57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
@@ -90,16 +106,186 @@ b7935e52dd9869 drivers/staging/most/core.c          Christian Gromm     202=
 57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
 5-07-24  1296  =
 
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1297  	iface->p =3D kzalloc(sizeof(*iface->p), GFP_KERNEL);
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1298  	if (!iface->p) {
+b7382d44a530cd drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-12-22  1299  		ida_simple_remove(&mdev_id, id);
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1300  		return -ENOMEM;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1301  	}
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1302  =
+
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1303  	INIT_LIST_HEAD(&iface->p->channel_list);
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1304  	iface->p->dev_id =3D id;
+3970d0d8181631 drivers/staging/most/core.c          Gustavo A. R. Silva 201=
+9-04-22  1305  	strscpy(iface->p->name, iface->description, sizeof(iface->p=
+->name));
+d693e90d897854 drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1306  	iface->dev->bus =3D &mostbus;
+723de0f9171eeb drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1307  	iface->dev->groups =3D interface_attr_groups;
+723de0f9171eeb drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1308  	dev_set_drvdata(iface->dev, iface);
+723de0f9171eeb drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1309  	if (device_register(iface->dev)) {
+b7935e52dd9869 drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1310  		dev_err(iface->dev, "Failed to register interface device\n=
+");
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1311  		kfree(iface->p);
+723de0f9171eeb drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1312  		put_device(iface->dev);
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1313  		ida_simple_remove(&mdev_id, id);
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1314  		return -ENOMEM;
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1315  	}
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1316  =
+
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1317  	for (i =3D 0; i < iface->num_channels; i++) {
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1318  		const char *name_suffix =3D iface->channel_vector[i].name_=
+suffix;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1319  =
+
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1320  		c =3D kzalloc(sizeof(*c), GFP_KERNEL);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1321  		if (!c)
+bddd3c2546e9c4 drivers/staging/most/core.c          Christian Gromm     201=
+8-09-21  1322  			goto err_free_resources;
+845101bed86786 drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1323  		if (!name_suffix)
+845101bed86786 drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1324  			snprintf(c->name, STRING_SIZE, "ch%d", i);
+845101bed86786 drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1325  		else
+845101bed86786 drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1326  			snprintf(c->name, STRING_SIZE, "%s", name_suffix);
+845101bed86786 drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1327  		c->dev.init_name =3D c->name;
+723de0f9171eeb drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1328  		c->dev.parent =3D iface->dev;
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1329  		c->dev.groups =3D channel_attr_groups;
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1330  		c->dev.release =3D release_channel;
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1331  		iface->p->channel[i] =3D c;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1332  		c->is_starving =3D 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1333  		c->iface =3D iface;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1334  		c->channel_id =3D i;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1335  		c->keep_mbo =3D false;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1336  		c->enqueue_halt =3D false;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1337  		c->is_poisoned =3D false;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1338  		c->cfg.direction =3D 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1339  		c->cfg.data_type =3D 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1340  		c->cfg.num_buffers =3D 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1341  		c->cfg.buffer_size =3D 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1342  		c->cfg.subbuffer_size =3D 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1343  		c->cfg.packets_per_xact =3D 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1344  		spin_lock_init(&c->fifo_lock);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1345  		INIT_LIST_HEAD(&c->fifo);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1346  		INIT_LIST_HEAD(&c->trash_fifo);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1347  		INIT_LIST_HEAD(&c->halt_fifo);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1348  		init_completion(&c->cleanup);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1349  		atomic_set(&c->mbo_ref, 0);
+f13f6981bca3c7 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-09-28  1350  		mutex_init(&c->start_mutex);
+bf9503f11dedf4 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+6-08-19  1351  		mutex_init(&c->nq_mutex);
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1352  		list_add_tail(&c->list, &iface->p->channel_list);
+f0b4a22a484818 drivers/staging/most/core.c          Christian Gromm     201=
+8-08-13  1353  		if (device_register(&c->dev)) {
+b7935e52dd9869 drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1354  			dev_err(&c->dev, "Failed to register channel device\n");
+bddd3c2546e9c4 drivers/staging/most/core.c          Christian Gromm     201=
+8-09-21  1355  			goto err_free_most_channel;
+f0b4a22a484818 drivers/staging/most/core.c          Christian Gromm     201=
+8-08-13  1356  		}
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1357  	}
+acdbb89753734f drivers/staging/most/core.c          Christian Gromm     201=
+9-04-03  1358  	most_interface_register_notify(iface->description);
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1359  	return 0;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1360  =
+
+bddd3c2546e9c4 drivers/staging/most/core.c          Christian Gromm     201=
+8-09-21  1361  err_free_most_channel:
+723de0f9171eeb drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1362  	put_device(&c->dev);
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1363  =
+
+bddd3c2546e9c4 drivers/staging/most/core.c          Christian Gromm     201=
+8-09-21  1364  err_free_resources:
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1365  	while (i > 0) {
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1366  		c =3D iface->p->channel[--i];
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1367  		device_unregister(&c->dev);
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1368  	}
+9136fccf38a7aa drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1369  	kfree(iface->p);
+723de0f9171eeb drivers/staging/most/core.c          Christian Gromm     202=
+0-01-23  1370  	device_unregister(iface->dev);
+b7382d44a530cd drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-12-22  1371  	ida_simple_remove(&mdev_id, id);
+4d5f022f3a664e drivers/staging/most/core.c          Christian Gromm     201=
+7-11-21  1372  	return -ENOMEM;
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1373  }
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1374  EXPORT_SYMBOL_GPL(most_register_interface);
+57562a72414ca3 drivers/staging/most/mostcore/core.c Christian Gromm     201=
+5-07-24  1375  =
+
+
+:::::: The code at line 1287 was first introduced by commit
+:::::: 6a82c7758129441e7450703e6887d6cde003ff85 staging: most: remove struc=
+t device core driver
+
+:::::: TO: Christian Gromm <christian.gromm@microchip.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============5073492191853289681==
+--===============0118712328998801186==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -592,5 +778,5 @@ ppuD2ivxwmE0HzKv8F+J2Woi29w4ZeVhBlf3pHlbgyArHTWGfCDJg0GKD9ZSxItkTtKynXX2qKQs
 itObaVOslnCLat3u9ijZoMAdYK7a1UvL9YvbJhPvX/XBjlbHvGQZmnjCxlQmk+Ng6RWXX/jASg11
 zORzi5ERtvIGOhqAu9ngd5Ud9TAESNYp0HjL55VocJC2BVGiGbBs0NhjG4xKOHaIt8K04VK0n3no
 CUGzdVebGZAiz5sTtaLM5f8H7cNclVixAQA=
---===============5073492191853289681==--
+--===============0118712328998801186==--
 
