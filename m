@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3126370177338891871=="
+Content-Type: multipart/mixed; boundary="===============6858437951007241946=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 12926/15259] fs/ext4/mballoc.c:2175:12: sparse: sparse: context imbalance in 'ext4_mb_good_group_nolock' - wrong count at exit
-Date: Wed, 03 Jun 2020 22:30:14 +0800
-Message-ID: <202006032209.mwFXXvjX%lkp@intel.com>
+Subject: [linux-next:master 12906/15259] fs/ext4/mballoc.c:4142:9: sparse: sparse: context imbalance in 'ext4_mb_new_blocks' - different lock contexts for basic block
+Date: Wed, 03 Jun 2020 21:15:36 +0800
+Message-ID: <202006032128.MV08JDVN%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3126370177338891871==
+--===============6858437951007241946==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,16 +19,16 @@ CC: "Theodore Ts'o" <tytso@mit.edu>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   48f99181fc118d82dc8bf6c7221ad1c654cb8bc2
-commit: bf53b03e9d2ac23fb4a3e639fe023f5f1af607b0 [12926/15259] ext4: mballo=
-c: use lock for checking free blocks while retrying
-:::::: branch date: 4 hours ago
+commit: e64e813cf070e355ec5ed4fc76ecf5bfcdf279ea [12906/15259] ext4: mballo=
+c: add more mb_debug() msgs
+:::::: branch date: 3 hours ago
 :::::: commit date: 5 days ago
 config: arm-randconfig-s032-20200603 (attached as .config)
 compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.1-244-g0ee050a8-dirty
-        git checkout bf53b03e9d2ac23fb4a3e639fe023f5f1af607b0
+        git checkout e64e813cf070e355ec5ed4fc76ecf5bfcdf279ea
         # save the attached .config to linux build tree
         make W=3D1 C=3D1 ARCH=3Darm CF=3D'-fdiagnostic-prefix -D__CHECK_END=
 IAN__'
@@ -39,139 +39,138 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
 
-   fs/ext4/mballoc.c:946:9: sparse: sparse: context imbalance in 'ext4_mb_i=
+   fs/ext4/mballoc.c:885:9: sparse: sparse: context imbalance in 'ext4_mb_i=
 nit_cache' - different lock contexts for basic block
-   fs/ext4/mballoc.c:1860:5: sparse: sparse: context imbalance in 'ext4_mb_=
+   fs/ext4/mballoc.c:1789:5: sparse: sparse: context imbalance in 'ext4_mb_=
 try_best_found' - different lock contexts for basic block
-   fs/ext4/mballoc.c:1888:5: sparse: sparse: context imbalance in 'ext4_mb_=
+   fs/ext4/mballoc.c:1817:5: sparse: sparse: context imbalance in 'ext4_mb_=
 find_by_goal' - different lock contexts for basic block
->> fs/ext4/mballoc.c:2175:12: sparse: sparse: context imbalance in 'ext4_mb=
-_good_group_nolock' - wrong count at exit
-   fs/ext4/mballoc.c:2286:49: sparse: sparse: context imbalance in 'ext4_mb=
+   fs/ext4/mballoc.c:2181:49: sparse: sparse: context imbalance in 'ext4_mb=
 _regular_allocator' - different lock contexts for basic block
-   fs/ext4/mballoc.c:2825:17: sparse: sparse: context imbalance in 'ext4_mb=
+   fs/ext4/mballoc.c:2736:17: sparse: sparse: context imbalance in 'ext4_mb=
 _release' - different lock contexts for basic block
-   include/linux/spinlock.h:393:9: sparse: sparse: context imbalance in 'ex=
-t4_free_data_in_buddy' - wrong count at exit
-   fs/ext4/mballoc.c:3158:15: sparse: sparse: context imbalance in 'ext4_mb=
+   fs/ext4/mballoc.c:2856:9: sparse: sparse: context imbalance in 'ext4_fre=
+e_data_in_buddy' - wrong count at exit
+   fs/ext4/mballoc.c:3064:15: sparse: sparse: context imbalance in 'ext4_mb=
 _mark_diskspace_used' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3409:13: sparse: sparse: context imbalance in 'ext4_di=
+   fs/ext4/mballoc.c:3316:13: sparse: sparse: context imbalance in 'ext4_di=
 scard_allocated_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:3691:13: sparse: sparse: context imbalance in 'ext4_mb=
+   fs/ext4/mballoc.c:3597:13: sparse: sparse: context imbalance in 'ext4_mb=
 _put_pa' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4027:24: sparse: sparse: context imbalance in 'ext4_mb=
+   fs/ext4/mballoc.c:3657:1: sparse: sparse: context imbalance in 'ext4_mb_=
+new_inode_pa' - different lock contexts for basic block
+   fs/ext4/mballoc.c:3751:1: sparse: sparse: context imbalance in 'ext4_mb_=
+new_group_pa' - different lock contexts for basic block
+   fs/ext4/mballoc.c:3949:24: sparse: sparse: context imbalance in 'ext4_mb=
 _discard_group_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4177:9: sparse: sparse: context imbalance in 'ext4_dis=
+   fs/ext4/mballoc.c:4097:9: sparse: sparse: context imbalance in 'ext4_dis=
 card_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4244:9: sparse: sparse: context imbalance in 'ext4_mb_=
+   fs/ext4/mballoc.c:4142:9: sparse: sparse: context imbalance in 'ext4_mb_=
 show_ac' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4472:9: sparse: sparse: context imbalance in 'ext4_mb_=
+   fs/ext4/mballoc.c:4373:9: sparse: sparse: context imbalance in 'ext4_mb_=
 discard_lg_preallocations' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4244:9: sparse: sparse: context imbalance in 'ext4_mb_=
+>> fs/ext4/mballoc.c:4142:9: sparse: sparse: context imbalance in 'ext4_mb_=
 new_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:4979:9: sparse: sparse: context imbalance in 'ext4_fre=
+   fs/ext4/mballoc.c:4846:9: sparse: sparse: context imbalance in 'ext4_fre=
 e_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5279:15: sparse: sparse: context imbalance in 'ext4_gr=
+   fs/ext4/mballoc.c:5146:15: sparse: sparse: context imbalance in 'ext4_gr=
 oup_add_blocks' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5319:24: sparse: sparse: context imbalance in 'ext4_tr=
+   fs/ext4/mballoc.c:5186:24: sparse: sparse: context imbalance in 'ext4_tr=
 im_extent' - wrong count at exit
-   fs/ext4/mballoc.c:5343:1: sparse: sparse: context imbalance in 'ext4_tri=
+   fs/ext4/mballoc.c:5210:1: sparse: sparse: context imbalance in 'ext4_tri=
 m_all_free' - different lock contexts for basic block
-   fs/ext4/mballoc.c:5509:1: sparse: sparse: context imbalance in 'ext4_mba=
+   fs/ext4/mballoc.c:5376:1: sparse: sparse: context imbalance in 'ext4_mba=
 lloc_query_range' - different lock contexts for basic block
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
-t/?id=3Dbf53b03e9d2ac23fb4a3e639fe023f5f1af607b0
+t/?id=3De64e813cf070e355ec5ed4fc76ecf5bfcdf279ea
 git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
 ext/linux-next.git
 git remote update linux-next
-git checkout bf53b03e9d2ac23fb4a3e639fe023f5f1af607b0
-vim +/ext4_mb_good_group_nolock +2175 fs/ext4/mballoc.c
+git checkout e64e813cf070e355ec5ed4fc76ecf5bfcdf279ea
+vim +/ext4_mb_new_blocks +4142 fs/ext4/mballoc.c
 
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2169  =
+c9de560ded61fa Alex Tomas         2008-01-29  4130  =
 
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2170  /*
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2171   * This could return negati=
-ve error code if something goes wrong
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2172   * during ext4_mb_init_grou=
-p(). This should not be called with
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2173   * ext4_lock_group() held.
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2174   */
-9e467ce0e92226 Ritesh Harjani 2020-05-20 @2175  static int ext4_mb_good_gro=
-up_nolock(struct ext4_allocation_context *ac,
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2176  				     ext4_group_t group=
-, int cr)
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2177  {
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2178  	struct ext4_group_info *gr=
-p =3D ext4_get_group_info(ac->ac_sb, group);
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2179  	struct super_block *sb =3D=
- ac->ac_sb;
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2180  	bool should_lock =3D ac->a=
-c_flags & EXT4_MB_STRICT_CHECK;
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2181  	ext4_grpblk_t free;
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2182  	int ret =3D 0;
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2183  =
+6ba495e9259cd9 Theodore Ts'o      2009-09-18  4131  #ifdef CONFIG_EXT4_DEBUG
+286ecbd5a415d9 Ritesh Harjani     2020-05-10  4132  static inline void ext4=
+_mb_show_pa(struct super_block *sb)
+c9de560ded61fa Alex Tomas         2008-01-29  4133  {
+286ecbd5a415d9 Ritesh Harjani     2020-05-10  4134  	ext4_group_t i, ngroup=
+s;
+c9de560ded61fa Alex Tomas         2008-01-29  4135  =
 
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2184  	if (should_lock)
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2185  		ext4_lock_group(sb, group=
+a0b30c12297eb6 Theodore Ts'o      2013-02-09  4136  	if (!ext4_mballoc_debu=
+g ||
+4dd89fc6251a6b Theodore Ts'o      2011-02-27  4137  	    (EXT4_SB(sb)->s_mo=
+unt_flags & EXT4_MF_FS_ABORTED))
+e3570639c8b5f2 Eric Sandeen       2010-07-27  4138  		return;
+e3570639c8b5f2 Eric Sandeen       2010-07-27  4139  =
+
+8df9675f8b498d Theodore Ts'o      2009-05-01  4140  	ngroups =3D ext4_get_g=
+roups_count(sb);
+286ecbd5a415d9 Ritesh Harjani     2020-05-10  4141  	ext4_msg(sb, KERN_ERR,=
+ "groups: ");
+8df9675f8b498d Theodore Ts'o      2009-05-01 @4142  	for (i =3D 0; i < ngro=
+ups; i++) {
+c9de560ded61fa Alex Tomas         2008-01-29  4143  		struct ext4_group_inf=
+o *grp =3D ext4_get_group_info(sb, i);
+c9de560ded61fa Alex Tomas         2008-01-29  4144  		struct ext4_prealloc_=
+space *pa;
+c9de560ded61fa Alex Tomas         2008-01-29  4145  		ext4_grpblk_t start;
+c9de560ded61fa Alex Tomas         2008-01-29  4146  		struct list_head *cur;
+c9de560ded61fa Alex Tomas         2008-01-29  4147  		ext4_lock_group(sb, i=
 );
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2186  	free =3D grp->bb_free;
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2187  	if (free =3D=3D 0)
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2188  		goto out;
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2189  	if (cr <=3D 2 && free < ac=
-->ac_g_ex.fe_len)
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2190  		goto out;
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2191  	if (unlikely(EXT4_MB_GRP_B=
-BITMAP_CORRUPT(grp)))
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2192  		goto out;
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2193  	if (should_lock)
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2194  		ext4_unlock_group(sb, gro=
-up);
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2195  =
-
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2196  	/* We only do this if the =
-grp has never been initialized */
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2197  	if (unlikely(EXT4_MB_GRP_N=
-EED_INIT(grp))) {
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2198  		ret =3D ext4_mb_init_grou=
-p(ac->ac_sb, group, GFP_NOFS);
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2199  		if (ret)
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2200  			return ret;
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2201  	}
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2202  =
-
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2203  	if (should_lock)
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2204  		ext4_lock_group(sb, group=
+c9de560ded61fa Alex Tomas         2008-01-29  4148  		list_for_each(cur, &g=
+rp->bb_prealloc_list) {
+c9de560ded61fa Alex Tomas         2008-01-29  4149  			pa =3D list_entry(cu=
+r, struct ext4_prealloc_space,
+c9de560ded61fa Alex Tomas         2008-01-29  4150  					pa_group_list);
+c9de560ded61fa Alex Tomas         2008-01-29  4151  			spin_lock(&pa->pa_lo=
+ck);
+c9de560ded61fa Alex Tomas         2008-01-29  4152  			ext4_get_group_no_an=
+d_offset(sb, pa->pa_pstart,
+c9de560ded61fa Alex Tomas         2008-01-29  4153  						     NULL, &start=
 );
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2205  	ret =3D ext4_mb_good_group=
-(ac, group, cr);
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2206  out:
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2207  	if (should_lock)
-bf53b03e9d2ac2 Ritesh Harjani 2020-05-20  2208  		ext4_unlock_group(sb, gro=
-up);
-9e467ce0e92226 Ritesh Harjani 2020-05-20  2209  	return ret;
-c9de560ded61fa Alex Tomas     2008-01-29  2210  }
-c9de560ded61fa Alex Tomas     2008-01-29  2211  =
+c9de560ded61fa Alex Tomas         2008-01-29  4154  			spin_unlock(&pa->pa_=
+lock);
+1c718505171b06 Akira Fujita       2009-07-05  4155  			printk(KERN_ERR "PA:=
+%u:%d:%u \n", i,
+c9de560ded61fa Alex Tomas         2008-01-29  4156  			       start, pa->pa=
+_len);
+c9de560ded61fa Alex Tomas         2008-01-29  4157  		}
+60bd63d1928c65 Solofo Ramangalahy 2008-04-29  4158  		ext4_unlock_group(sb,=
+ i);
+c9de560ded61fa Alex Tomas         2008-01-29  4159  =
+
+1c718505171b06 Akira Fujita       2009-07-05  4160  		printk(KERN_ERR "%u: =
+%d/%d \n",
+c9de560ded61fa Alex Tomas         2008-01-29  4161  		       i, grp->bb_fre=
+e, grp->bb_fragments);
+c9de560ded61fa Alex Tomas         2008-01-29  4162  	}
+c9de560ded61fa Alex Tomas         2008-01-29  4163  	printk(KERN_ERR "\n");
+c9de560ded61fa Alex Tomas         2008-01-29  4164  }
+286ecbd5a415d9 Ritesh Harjani     2020-05-10  4165  =
 
 
-:::::: The code at line 2175 was first introduced by commit
-:::::: 9e467ce0e92226a8c859d7850e6a6065f6eff8fd ext4: mballoc: refactor ext=
-4_mb_good_group()
+:::::: The code at line 4142 was first introduced by commit
+:::::: 8df9675f8b498d0bfa1f0b5b06f56bf1ff366dd5 ext4: Avoid races caused by=
+ on-line resizing and SMP memory reordering
 
-:::::: TO: Ritesh Harjani <riteshh@linux.ibm.com>
+:::::: TO: Theodore Ts'o <tytso@mit.edu>
 :::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3126370177338891871==
+--===============6858437951007241946==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICBiw114AAy5jb25maWcAlDzbcuM2su/5CtXkZfdhsr7NJHNO+QEkQQkRScAAKFl+QWlszsS1
+H4sICBSe114AAy5jb25maWcAlDzbcuM2su/5CtXkZfdhsr7NJHNO+QEkQQkRScAAKFl+QWlszsS1
 tjQryUlmv/50gzeABJWc1NaOiW40gEajb2joxx9+nJG30/51e3p+3L68fJ99rXbVYXuqnmZfnl+q
 /50lfFZwPaMJ0z8Bcva8e/vzX9vD6+zDTz//dPH+8HgzW1aHXfUyi/e7L89f36Dz8373w48/wP9+
 hMbXb0Dn8D8z6PP+BXu//7p7q7afn99/fXyc/WMex/+cffrp+qcLwI95kbK5iWPDlAHI7fe2CT7M
@@ -692,5 +691,5 @@ R/QcFkB/zTv0/Wl59/Dl/fmue9X//PBhXNH2xJoXPfVq+4ZHBUoxHPP1LX+uzEe7eZMn5DVZt8Hi
 vUghx+AuhlSZ0URmt3NRAyvSdNQtgh1IxlDCWZKi8mOtIoBpFSx0eCuKjM1Fb6ZvF9iq8Mda7nXL
 neJZ/OcWEuqvrjTjVJ32t+PBjM6g1lIZFvvctkbWKgdoFgDWe1JrP50gPX0qwOaEL4t4qOC2FMy2
 C/tGUPzYyVOerbe+YfwfGMM/WKfRAQA=
---===============3126370177338891871==--
+--===============6858437951007241946==--
 
