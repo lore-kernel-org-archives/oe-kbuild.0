@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7437856968228349264=="
+Content-Type: multipart/mixed; boundary="===============0985402621818315236=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] iecm: fix semicolon.cocci warnings
-Date: Mon, 08 Jun 2020 03:56:00 +0800
-Message-ID: <20200607195600.GA15289@8b565efe4b6c>
+Date: Mon, 08 Jun 2020 03:55:59 +0800
+Message-ID: <20200607195559.GA15202@8b565efe4b6c>
 In-Reply-To: <202006080318.h1gFng20%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7437856968228349264==
+--===============0985402621818315236==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -28,7 +28,7 @@ CC: Sridhar Samudrala <sridhar.samudrala@intel.com>
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/net/ethernet/intel/iecm/iecm_virtchnl.c:1686:2-3: Unneeded semicolon
+drivers/net/ethernet/intel/iecm/iecm_controlq.c:662:2-3: Unneeded semicolon
 
 
  Remove unneeded semicolon.
@@ -48,21 +48,20 @@ the kernel build system
 :::::: branch date: 3 days ago
 :::::: commit date: 4 days ago
 
- iecm_virtchnl.c |    2 +-
+ iecm_controlq.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/net/ethernet/intel/iecm/iecm_virtchnl.c
-+++ b/drivers/net/ethernet/intel/iecm/iecm_virtchnl.c
-@@ -1683,7 +1683,7 @@ enum iecm_status iecm_send_get_rx_ptype_
- =
-
- 		rx_ptype_lkup[j] =3D iecm_rx_ptype_lkup[i];
- 		rx_ptype_lkup[j].ptype =3D ptype_list[i];
+--- a/drivers/net/ethernet/intel/iecm/iecm_controlq.c
++++ b/drivers/net/ethernet/intel/iecm/iecm_controlq.c
+@@ -659,7 +659,7 @@ enum iecm_status iecm_ctlq_recv(struct i
+ 		ntc++;
+ 		if (ntc =3D=3D cq->ring_size)
+ 			ntc =3D 0;
 -	};
 +	}
  =
 
- 	return err;
- }
---===============7437856968228349264==--
+ 	cq->next_to_clean =3D ntc;
+=20
+--===============0985402621818315236==--
 
