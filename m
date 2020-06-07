@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6282589453749219029=="
+Content-Type: multipart/mixed; boundary="===============0758884028927937132=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] iecm: fix returnvar.cocci warnings
-Date: Mon, 08 Jun 2020 03:55:58 +0800
-Message-ID: <20200607195558.GA15115@8b565efe4b6c>
+Date: Mon, 08 Jun 2020 03:55:57 +0800
+Message-ID: <20200607195557.GA15028@8b565efe4b6c>
 In-Reply-To: <202006080318.h1gFng20%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6282589453749219029==
+--===============0758884028927937132==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -28,8 +28,8 @@ CC: Sridhar Samudrala <sridhar.samudrala@intel.com>
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/net/ethernet/intel/iecm/iecm_virtchnl.c:1675:18-21: Unneeded variab=
-le: "err". Return "0" on line 1688
+drivers/net/ethernet/intel/iecm/iecm_controlq.c:272:18-26: Unneeded variabl=
+e: "ret_code". Return "0" on line 277
 
 
  Remove unneeded variable used to store return value.
@@ -51,30 +51,27 @@ the kernel build system
 
 Please take the patch only if it's a positive warning. Thanks!
 
- iecm_virtchnl.c |    3 +--
+ iecm_controlq.c |    3 +--
  1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/drivers/net/ethernet/intel/iecm/iecm_virtchnl.c
-+++ b/drivers/net/ethernet/intel/iecm/iecm_virtchnl.c
-@@ -1672,7 +1672,6 @@ enum iecm_status iecm_send_get_rx_ptype_
- 	int ptype_list[IECM_RX_SUPP_PTYPE] =3D { 0, 1, 11, 12, 22, 23, 24, 25, 26,
- 					      27, 28, 88, 89, 90, 91, 92, 93,
- 					      94 };
--	enum iecm_status err =3D 0;
- 	int i;
+--- a/drivers/net/ethernet/intel/iecm/iecm_controlq.c
++++ b/drivers/net/ethernet/intel/iecm/iecm_controlq.c
+@@ -269,12 +269,11 @@ init_destroy_qs:
+ enum iecm_status iecm_ctlq_deinit(struct iecm_hw *hw)
+ {
+ 	struct iecm_ctlq_info *cq =3D NULL, *tmp =3D NULL;
+-	enum iecm_status ret_code =3D 0;
  =
 
- 	for (i =3D 0; i < IECM_RX_MAX_PTYPE; i++)
-@@ -1685,7 +1684,7 @@ enum iecm_status iecm_send_get_rx_ptype_
- 		rx_ptype_lkup[j].ptype =3D ptype_list[i];
- 	};
+ 	list_for_each_entry_safe(cq, tmp, &hw->cq_list_head, cq_list)
+ 		iecm_ctlq_remove(hw, cq);
  =
 
--	return err;
+-	return ret_code;
 +	return 0;
  }
  =
 
  /**
---===============6282589453749219029==--
+--===============0758884028927937132==--
 
