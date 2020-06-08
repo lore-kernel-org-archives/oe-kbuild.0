@@ -1,29 +1,24 @@
-Content-Type: multipart/mixed; boundary="===============6999104193821719770=="
+Content-Type: multipart/mixed; boundary="===============4512755999725481713=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [mptcp:export 5/10] net/mptcp/subflow.c:512 subflow_syn_recv_sock() error: uninitialized symbol 'subflow_req'.
-Date: Mon, 08 Jun 2020 16:34:37 +0300
-Message-ID: <20200608133437.GR22511@kadam>
-In-Reply-To: <a77061c3f7ef8ef800e3646b6b2165774594564d.camel@redhat.com>
+Subject: Re: [PATCH v8 4/8] PM / EM: add support for other devices than CPUs in Energy Model
+Date: Mon, 08 Jun 2020 16:25:07 +0300
+Message-ID: <20200608132507.GP22511@kadam>
+In-Reply-To: <da0debe1-73da-33f1-c24e-154c2123c522@arm.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6999104193821719770==
+--===============4512755999725481713==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Jun 08, 2020 at 03:29:12PM +0200, Paolo Abeni wrote:
-> BTW I'll be curious to learn how this report has been created?!? Are
-> you using a kbuild bot instance to run smack on mptcp export branch ?!?
-> =
+It's not really a proper bug report so it doesn't deserve a reported-by.
 
-
-The kbuild bot run Smatch on whatever trees it can find.  Then I look it
-over and forward to ignore the warnings.
+Thanks, though!
 
 regards,
 dan carpenter
 
---===============6999104193821719770==--
+--===============4512755999725481713==--
 
