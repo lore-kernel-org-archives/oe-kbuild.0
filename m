@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6901475154322139804=="
+Content-Type: multipart/mixed; boundary="===============1967358277408197638=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/s390/crypto/zcrypt_cex4.c:251 ep11_card_op_modes_show() warn: should '(1 << be a 64 bit
-Date: Fri, 12 Jun 2020 00:53:53 +0800
-Message-ID: <202006120050.ZXaq4Djy%lkp@intel.com>
+Subject: drivers/s390/crypto/zcrypt_api.c:986 _zcrypt_send_ep11_cprb() error: uninitialized symbol 'pref_weight'.
+Date: Fri, 12 Jun 2020 00:01:03 +0800
+Message-ID: <202006120056.gEJxi4WT%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6901475154322139804==
+--===============1967358277408197638==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,10 +20,10 @@ CC: Vasily Gorbik <gor@linux.ibm.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b29482fde649c72441d5478a4ea2c52c56d97a5e
-commit: a17becc112535b912f2165f80a98c21b59655119 s390/zcrypt: extend EP11 c=
-ard and queue sysfs attributes
+commit: a7367997abb64b5e5a4f6fe6091629440b10da40 s390/zcrypt: ep11 structs =
+rework, export zcrypt_send_ep11_cprb
 date:   4 months ago
-:::::: branch date: 16 hours ago
+:::::: branch date: 15 hours ago
 :::::: commit date: 4 months ago
 config: s390-randconfig-m031-20200611 (attached as .config)
 compiler: s390-linux-gcc (GCC) 9.3.0
@@ -32,241 +32,249 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/s390/crypto/zcrypt_cex4.c:251 ep11_card_op_modes_show() warn: shoul=
-d '(1 << ep11_op_modes[i]->mode_bit)' be a 64 bit type?
-drivers/s390/crypto/zcrypt_cex4.c:346 ep11_queue_op_modes_show() warn: shou=
-ld '(1 << ep11_op_modes[i]->mode_bit)' be a 64 bit type?
+New smatch warnings:
+drivers/s390/crypto/zcrypt_api.c:986 _zcrypt_send_ep11_cprb() error: uninit=
+ialized symbol 'pref_weight'.
+drivers/s390/crypto/zcrypt_api.c:1008 _zcrypt_send_ep11_cprb() error: unini=
+tialized symbol 'weight'.
+
+Old smatch warnings:
+drivers/s390/crypto/zcrypt_api.c:676 zcrypt_rsa_modexpo() error: uninitiali=
+zed symbol 'pref_weight'.
+drivers/s390/crypto/zcrypt_api.c:694 zcrypt_rsa_modexpo() error: uninitiali=
+zed symbol 'weight'.
+drivers/s390/crypto/zcrypt_api.c:760 zcrypt_rsa_crt() error: uninitialized =
+symbol 'pref_weight'.
+drivers/s390/crypto/zcrypt_api.c:778 zcrypt_rsa_crt() error: uninitialized =
+symbol 'weight'.
+drivers/s390/crypto/zcrypt_api.c:824 _zcrypt_send_cprb() warn: always true =
+condition '(tdom >=3D 0) =3D> (0-u16max >=3D 0)'
+drivers/s390/crypto/zcrypt_api.c:846 _zcrypt_send_cprb() error: uninitializ=
+ed symbol 'pref_weight'.
+drivers/s390/crypto/zcrypt_api.c:867 _zcrypt_send_cprb() error: uninitializ=
+ed symbol 'weight'.
+drivers/s390/crypto/zcrypt_api.c:1065 zcrypt_rng() error: uninitialized sym=
+bol 'pref_weight'.
+drivers/s390/crypto/zcrypt_api.c:1079 zcrypt_rng() error: uninitialized sym=
+bol 'weight'.
+drivers/s390/crypto/zcrypt_api.c:1328 zcrypt_unlocked_ioctl() warn: ignorin=
+g unreachable code.
+drivers/s390/crypto/zcrypt_api.c:1348 zcrypt_unlocked_ioctl() warn: ignorin=
+g unreachable code.
+drivers/s390/crypto/zcrypt_api.c:1435 zcrypt_unlocked_ioctl() warn: ignorin=
+g unreachable code.
+drivers/s390/crypto/zcrypt_api.c:1437 zcrypt_unlocked_ioctl() warn: ignorin=
+g unreachable code.
+drivers/s390/crypto/zcrypt_api.c:1439 zcrypt_unlocked_ioctl() warn: ignorin=
+g unreachable code.
+drivers/s390/crypto/zcrypt_api.c:1442 zcrypt_unlocked_ioctl() warn: ignorin=
+g unreachable code.
+drivers/s390/crypto/zcrypt_api.c:1535 trans_modexpo32() warn: ignoring unre=
+achable code.
+drivers/s390/crypto/zcrypt_api.c:1580 trans_modexpo_crt32() warn: ignoring =
+unreachable code.
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Da17becc112535b912f2165f80a98c21b59655119
+/?id=3Da7367997abb64b5e5a4f6fe6091629440b10da40
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
 ds/linux.git
 git remote update linus
-git checkout a17becc112535b912f2165f80a98c21b59655119
-vim +251 drivers/s390/crypto/zcrypt_cex4.c
+git checkout a7367997abb64b5e5a4f6fe6091629440b10da40
+vim +/pref_weight +986 drivers/s390/crypto/zcrypt_api.c
 
-a17becc112535b Harald Freudenberger 2019-08-30  236  =
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   925  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  237  static ssize_t ep11_ca=
-rd_op_modes_show(struct device *dev,
-a17becc112535b Harald Freudenberger 2019-08-30  238  				       struct devi=
-ce_attribute *attr,
-a17becc112535b Harald Freudenberger 2019-08-30  239  				       char *buf)
-a17becc112535b Harald Freudenberger 2019-08-30  240  {
-a17becc112535b Harald Freudenberger 2019-08-30  241  	int i, n =3D 0;
-a17becc112535b Harald Freudenberger 2019-08-30  242  	struct ep11_card_info=
- ci;
-a17becc112535b Harald Freudenberger 2019-08-30  243  	struct ap_card *ac =
-=3D to_ap_card(dev);
-a17becc112535b Harald Freudenberger 2019-08-30  244  	struct zcrypt_card *z=
-c =3D ac->private;
-a17becc112535b Harald Freudenberger 2019-08-30  245  =
+a7367997abb64b Harald Freudenberger 2019-08-30   926  static long _zcrypt_s=
+end_ep11_cprb(struct ap_perms *perms,
+00fab2350e6b91 Harald Freudenberger 2018-09-17   927  				   struct ep11_ur=
+b *xcrb)
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   928  {
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   929  	struct zcrypt_card *=
+zc, *pref_zc;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   930  	struct zcrypt_queue =
+*zq, *pref_zq;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   931  	struct ep11_target_d=
+ev *targets;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   932  	unsigned short targe=
+t_num;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   933  	unsigned int weight,=
+ pref_weight;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   934  	unsigned int func_co=
+de;
+34a15167739412 Ingo Tuchscherer     2016-08-25   935  	struct ap_message ap=
+_msg;
+13b251bdc8b97c Harald Freudenberger 2016-11-25   936  	int qid =3D 0, rc =
+=3D -ENODEV;
+01396a374c3d31 Harald Freudenberger 2019-02-22   937  	struct module *mod;
+13b251bdc8b97c Harald Freudenberger 2016-11-25   938  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  246  	memset(&ci, 0, sizeof=
-(ci));
-a17becc112535b Harald Freudenberger 2019-08-30  247  =
+13b251bdc8b97c Harald Freudenberger 2016-11-25   939  	trace_s390_zcrypt_re=
+q(xcrb, TP_ZSENDEP11CPRB);
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   940  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  248  	ep11_get_card_info(ac=
-->id, &ci, zc->online);
-a17becc112535b Harald Freudenberger 2019-08-30  249  =
+89a0c0ec0d2e3c Harald Freudenberger 2018-05-28   941  	ap_init_message(&ap_=
+msg);
+89a0c0ec0d2e3c Harald Freudenberger 2018-05-28   942  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  250  	for (i =3D 0; ep11_op=
-_modes[i].mode_txt; i++) {
-a17becc112535b Harald Freudenberger 2019-08-30 @251  		if (ci.op_mode & (1 =
-<< ep11_op_modes[i].mode_bit)) {
-a17becc112535b Harald Freudenberger 2019-08-30  252  			if (n > 0)
-a17becc112535b Harald Freudenberger 2019-08-30  253  				buf[n++] =3D ' ';
-a17becc112535b Harald Freudenberger 2019-08-30  254  			n +=3D snprintf(buf=
- + n, PAGE_SIZE - n,
-a17becc112535b Harald Freudenberger 2019-08-30  255  				      "%s", ep11_o=
-p_modes[i].mode_txt);
-a17becc112535b Harald Freudenberger 2019-08-30  256  		}
-a17becc112535b Harald Freudenberger 2019-08-30  257  	}
-a17becc112535b Harald Freudenberger 2019-08-30  258  	n +=3D snprintf(buf +=
- n, PAGE_SIZE - n, "\n");
-a17becc112535b Harald Freudenberger 2019-08-30  259  =
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   943  	target_num =3D (unsi=
+gned short) xcrb->targets_num;
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   944  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  260  	return n;
-a17becc112535b Harald Freudenberger 2019-08-30  261  }
-a17becc112535b Harald Freudenberger 2019-08-30  262  =
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   945  	/* empty list indica=
+tes autoselect (all available targets) */
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   946  	targets =3D NULL;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   947  	if (target_num !=3D =
+0) {
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   948  		struct ep11_target_=
+dev __user *uptr;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   949  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  263  static struct device_a=
-ttribute dev_attr_ep11_card_op_modes =3D
-a17becc112535b Harald Freudenberger 2019-08-30  264  	__ATTR(op_modes, 0444=
-, ep11_card_op_modes_show, NULL);
-a17becc112535b Harald Freudenberger 2019-08-30  265  =
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   950  		targets =3D kcalloc=
+(target_num, sizeof(*targets), GFP_KERNEL);
+13b251bdc8b97c Harald Freudenberger 2016-11-25   951  		if (!targets) {
+913140e221567b Arnd Bergmann        2019-04-08   952  			func_code =3D 0;
+13b251bdc8b97c Harald Freudenberger 2016-11-25   953  			rc =3D -ENOMEM;
+13b251bdc8b97c Harald Freudenberger 2016-11-25   954  			goto out;
+13b251bdc8b97c Harald Freudenberger 2016-11-25   955  		}
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   956  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  266  static struct attribut=
-e *ep11_card_attrs[] =3D {
-a17becc112535b Harald Freudenberger 2019-08-30  267  	&dev_attr_ep11_api_or=
-dinalnr.attr,
-a17becc112535b Harald Freudenberger 2019-08-30  268  	&dev_attr_ep11_fw_ver=
-sion.attr,
-a17becc112535b Harald Freudenberger 2019-08-30  269  	&dev_attr_ep11_serial=
-nr.attr,
-a17becc112535b Harald Freudenberger 2019-08-30  270  	&dev_attr_ep11_card_o=
-p_modes.attr,
-a17becc112535b Harald Freudenberger 2019-08-30  271  	NULL,
-a17becc112535b Harald Freudenberger 2019-08-30  272  };
-a17becc112535b Harald Freudenberger 2019-08-30  273  =
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   957  		uptr =3D (struct ep=
+11_target_dev __force __user *) xcrb->targets;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   958  		if (copy_from_user(=
+targets, uptr,
+13b251bdc8b97c Harald Freudenberger 2016-11-25   959  				   target_num * s=
+izeof(*targets))) {
+913140e221567b Arnd Bergmann        2019-04-08   960  			func_code =3D 0;
+13b251bdc8b97c Harald Freudenberger 2016-11-25   961  			rc =3D -EFAULT;
+89a0c0ec0d2e3c Harald Freudenberger 2018-05-28   962  			goto out_free;
+13b251bdc8b97c Harald Freudenberger 2016-11-25   963  		}
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   964  	}
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   965  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  274  static const struct at=
-tribute_group ep11_card_attr_grp =3D {
-a17becc112535b Harald Freudenberger 2019-08-30  275  	.attrs =3D ep11_card_=
-attrs,
-a17becc112535b Harald Freudenberger 2019-08-30  276  };
-a17becc112535b Harald Freudenberger 2019-08-30  277  =
+34a15167739412 Ingo Tuchscherer     2016-08-25   966  	rc =3D get_ep11cprb_=
+fc(xcrb, &ap_msg, &func_code);
+34a15167739412 Ingo Tuchscherer     2016-08-25   967  	if (rc)
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   968  		goto out_free;
+34a15167739412 Ingo Tuchscherer     2016-08-25   969  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  278  /*
-a17becc112535b Harald Freudenberger 2019-08-30  279   * EP11 queue addition=
-al device attributes
-a17becc112535b Harald Freudenberger 2019-08-30  280   */
-a17becc112535b Harald Freudenberger 2019-08-30  281  =
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   970  	pref_zc =3D NULL;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   971  	pref_zq =3D NULL;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   972  	spin_lock(&zcrypt_li=
+st_lock);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   973  	for_each_zcrypt_card=
+(zc) {
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   974  		/* Check for online=
+ EP11 cards */
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   975  		if (!zc->online || =
+!(zc->card->functions & 0x04000000))
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   976  			continue;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   977  		/* Check for user s=
+elected EP11 card */
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   978  		if (targets &&
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   979  		    !is_desired_ep1=
+1_card(zc->card->id, target_num, targets))
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20   980  			continue;
+00fab2350e6b91 Harald Freudenberger 2018-09-17   981  		/* check if device =
+node has admission for this card */
+00fab2350e6b91 Harald Freudenberger 2018-09-17   982  		if (!zcrypt_check_c=
+ard(perms, zc->card->id))
+00fab2350e6b91 Harald Freudenberger 2018-09-17   983  			continue;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   984  		/* get weight index=
+ of the card device	*/
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   985  		weight =3D speed_id=
+x_ep11(func_code) * zc->speed_rating[SECKEY];
+e47de21dd35bad Ingo Tuchscherer     2016-10-14  @986  		if (zcrypt_card_com=
+pare(zc, pref_zc, weight, pref_weight))
+34a15167739412 Ingo Tuchscherer     2016-08-25   987  			continue;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   988  		for_each_zcrypt_que=
+ue(zq, zc) {
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   989  			/* check if device=
+ is online and eligible */
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   990  			if (!zq->online ||
+148784246ef2d8 Harald Freudenberger 2016-10-27   991  			    !zq->ops->send=
+_ep11_cprb ||
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   992  			    (targets &&
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   993  			     !is_desired_e=
+p11_queue(zq->queue->qid,
+e28d2af43614eb Ingo Tuchscherer     2016-08-25   994  						    target_num,=
+ targets)))
+34a15167739412 Ingo Tuchscherer     2016-08-25   995  				continue;
+00fab2350e6b91 Harald Freudenberger 2018-09-17   996  			/* check if device=
+ node has admission for this queue */
+00fab2350e6b91 Harald Freudenberger 2018-09-17   997  			if (!zcrypt_check_=
+queue(perms,
+00fab2350e6b91 Harald Freudenberger 2018-09-17   998  						AP_QID_QUEUE(zq=
+->queue->qid)))
+00fab2350e6b91 Harald Freudenberger 2018-09-17   999  				continue;
+e47de21dd35bad Ingo Tuchscherer     2016-10-14  1000  			if (zcrypt_queue_c=
+ompare(zq, pref_zq,
+e47de21dd35bad Ingo Tuchscherer     2016-10-14  1001  						 weight, pref_w=
+eight))
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1002  				continue;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1003  			pref_zc =3D zc;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1004  			pref_zq =3D zq;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1005  			pref_weight =3D we=
+ight;
+34a15167739412 Ingo Tuchscherer     2016-08-25  1006  		}
+34a15167739412 Ingo Tuchscherer     2016-08-25  1007  	}
+01396a374c3d31 Harald Freudenberger 2019-02-22 @1008  	pref_zq =3D zcrypt_p=
+ick_queue(pref_zc, pref_zq, &mod, weight);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1009  	spin_unlock(&zcrypt_=
+list_lock);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1010  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  282  static ssize_t ep11_mk=
-vps_show(struct device *dev,
-a17becc112535b Harald Freudenberger 2019-08-30  283  			       struct devic=
-e_attribute *attr,
-a17becc112535b Harald Freudenberger 2019-08-30  284  			       char *buf)
-a17becc112535b Harald Freudenberger 2019-08-30  285  {
-a17becc112535b Harald Freudenberger 2019-08-30  286  	int n =3D 0;
-a17becc112535b Harald Freudenberger 2019-08-30  287  	struct ep11_domain_in=
-fo di;
-a17becc112535b Harald Freudenberger 2019-08-30  288  	struct zcrypt_queue *=
-zq =3D to_ap_queue(dev)->private;
-a17becc112535b Harald Freudenberger 2019-08-30  289  	static const char * c=
-onst cwk_state[] =3D { "invalid", "valid" };
-a17becc112535b Harald Freudenberger 2019-08-30  290  	static const char * c=
-onst nwk_state[] =3D { "empty", "uncommitted",
-a17becc112535b Harald Freudenberger 2019-08-30  291  						  "committed" };
-a17becc112535b Harald Freudenberger 2019-08-30  292  =
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1011  	if (!pref_zq) {
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1012  		rc =3D -ENODEV;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1013  		goto out_free;
+34a15167739412 Ingo Tuchscherer     2016-08-25  1014  	}
+34a15167739412 Ingo Tuchscherer     2016-08-25  1015  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  293  	memset(&di, 0, sizeof=
-(di));
-a17becc112535b Harald Freudenberger 2019-08-30  294  =
+13b251bdc8b97c Harald Freudenberger 2016-11-25  1016  	qid =3D pref_zq->que=
+ue->qid;
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1017  	rc =3D pref_zq->ops-=
+>send_ep11_cprb(pref_zq, xcrb, &ap_msg);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1018  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  295  	if (zq->online)
-a17becc112535b Harald Freudenberger 2019-08-30  296  		ep11_get_domain_info=
-(AP_QID_CARD(zq->queue->qid),
-a17becc112535b Harald Freudenberger 2019-08-30  297  				     AP_QID_QUEUE(=
-zq->queue->qid),
-a17becc112535b Harald Freudenberger 2019-08-30  298  				     &di);
-a17becc112535b Harald Freudenberger 2019-08-30  299  =
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1019  	spin_lock(&zcrypt_li=
+st_lock);
+01396a374c3d31 Harald Freudenberger 2019-02-22  1020  	zcrypt_drop_queue(pr=
+ef_zc, pref_zq, mod, weight);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1021  	spin_unlock(&zcrypt_=
+list_lock);
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1022  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  300  	if (di.cur_wk_state =
-=3D=3D '0') {
-a17becc112535b Harald Freudenberger 2019-08-30  301  		n =3D snprintf(buf, =
-PAGE_SIZE, "WK CUR: %s -\n",
-a17becc112535b Harald Freudenberger 2019-08-30  302  			     cwk_state[di.c=
-ur_wk_state - '0']);
-a17becc112535b Harald Freudenberger 2019-08-30  303  	} else if (di.cur_wk_=
-state =3D=3D '1') {
-a17becc112535b Harald Freudenberger 2019-08-30  304  		n =3D snprintf(buf, =
-PAGE_SIZE, "WK CUR: %s 0x",
-a17becc112535b Harald Freudenberger 2019-08-30  305  			     cwk_state[di.c=
-ur_wk_state - '0']);
-a17becc112535b Harald Freudenberger 2019-08-30  306  		bin2hex(buf + n, di.=
-cur_wkvp, sizeof(di.cur_wkvp));
-a17becc112535b Harald Freudenberger 2019-08-30  307  		n +=3D 2 * sizeof(di=
-.cur_wkvp);
-a17becc112535b Harald Freudenberger 2019-08-30  308  		n +=3D snprintf(buf =
-+ n, PAGE_SIZE - n, "\n");
-a17becc112535b Harald Freudenberger 2019-08-30  309  	} else
-a17becc112535b Harald Freudenberger 2019-08-30  310  		n =3D snprintf(buf, =
-PAGE_SIZE, "WK CUR: - -\n");
-a17becc112535b Harald Freudenberger 2019-08-30  311  =
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1023  out_free:
+e28d2af43614eb Ingo Tuchscherer     2016-08-25  1024  	kfree(targets);
+13b251bdc8b97c Harald Freudenberger 2016-11-25  1025  out:
+89a0c0ec0d2e3c Harald Freudenberger 2018-05-28  1026  	ap_release_message(&=
+ap_msg);
+13b251bdc8b97c Harald Freudenberger 2016-11-25  1027  	trace_s390_zcrypt_re=
+p(xcrb, func_code, rc,
+13b251bdc8b97c Harald Freudenberger 2016-11-25  1028  			      AP_QID_CARD(=
+qid), AP_QID_QUEUE(qid));
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20  1029  	return rc;
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20  1030  }
+91f3e3eaba4413 Ingo Tuchscherer     2013-11-20  1031  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  312  	if (di.new_wk_state =
-=3D=3D '0') {
-a17becc112535b Harald Freudenberger 2019-08-30  313  		n +=3D snprintf(buf =
-+ n, PAGE_SIZE - n, "WK NEW: %s -\n",
-a17becc112535b Harald Freudenberger 2019-08-30  314  			      nwk_state[di.=
-new_wk_state - '0']);
-a17becc112535b Harald Freudenberger 2019-08-30  315  	} else if (di.new_wk_=
-state >=3D '1' && di.new_wk_state <=3D '2') {
-a17becc112535b Harald Freudenberger 2019-08-30  316  		n +=3D snprintf(buf =
-+ n, PAGE_SIZE - n, "WK NEW: %s 0x",
-a17becc112535b Harald Freudenberger 2019-08-30  317  			      nwk_state[di.=
-new_wk_state - '0']);
-a17becc112535b Harald Freudenberger 2019-08-30  318  		bin2hex(buf + n, di.=
-new_wkvp, sizeof(di.new_wkvp));
-a17becc112535b Harald Freudenberger 2019-08-30  319  		n +=3D 2 * sizeof(di=
-.new_wkvp);
-a17becc112535b Harald Freudenberger 2019-08-30  320  		n +=3D snprintf(buf =
-+ n, PAGE_SIZE - n, "\n");
-a17becc112535b Harald Freudenberger 2019-08-30  321  	} else
-a17becc112535b Harald Freudenberger 2019-08-30  322  		n +=3D snprintf(buf =
-+ n, PAGE_SIZE - n, "WK NEW: - -\n");
-a17becc112535b Harald Freudenberger 2019-08-30  323  =
 
-a17becc112535b Harald Freudenberger 2019-08-30  324  	return n;
-a17becc112535b Harald Freudenberger 2019-08-30  325  }
-a17becc112535b Harald Freudenberger 2019-08-30  326  =
+:::::: The code at line 986 was first introduced by commit
+:::::: e47de21dd35bad6d1e71482a66699cd04e83ea40 s390/zcrypt: Fixed attritio=
+n of AP adapters and domains
 
-a17becc112535b Harald Freudenberger 2019-08-30  327  static struct device_a=
-ttribute dev_attr_ep11_mkvps =3D
-a17becc112535b Harald Freudenberger 2019-08-30  328  	__ATTR(mkvps, 0444, e=
-p11_mkvps_show, NULL);
-a17becc112535b Harald Freudenberger 2019-08-30  329  =
-
-a17becc112535b Harald Freudenberger 2019-08-30  330  static ssize_t ep11_qu=
-eue_op_modes_show(struct device *dev,
-a17becc112535b Harald Freudenberger 2019-08-30  331  					struct device_att=
-ribute *attr,
-a17becc112535b Harald Freudenberger 2019-08-30  332  					char *buf)
-a17becc112535b Harald Freudenberger 2019-08-30  333  {
-a17becc112535b Harald Freudenberger 2019-08-30  334  	int i, n =3D 0;
-a17becc112535b Harald Freudenberger 2019-08-30  335  	struct ep11_domain_in=
-fo di;
-a17becc112535b Harald Freudenberger 2019-08-30  336  	struct zcrypt_queue *=
-zq =3D to_ap_queue(dev)->private;
-a17becc112535b Harald Freudenberger 2019-08-30  337  =
-
-a17becc112535b Harald Freudenberger 2019-08-30  338  	memset(&di, 0, sizeof=
-(di));
-a17becc112535b Harald Freudenberger 2019-08-30  339  =
-
-a17becc112535b Harald Freudenberger 2019-08-30  340  	if (zq->online)
-a17becc112535b Harald Freudenberger 2019-08-30  341  		ep11_get_domain_info=
-(AP_QID_CARD(zq->queue->qid),
-a17becc112535b Harald Freudenberger 2019-08-30  342  				     AP_QID_QUEUE(=
-zq->queue->qid),
-a17becc112535b Harald Freudenberger 2019-08-30  343  				     &di);
-a17becc112535b Harald Freudenberger 2019-08-30  344  =
-
-a17becc112535b Harald Freudenberger 2019-08-30  345  	for (i =3D 0; ep11_op=
-_modes[i].mode_txt; i++) {
-a17becc112535b Harald Freudenberger 2019-08-30 @346  		if (di.op_mode & (1 =
-<< ep11_op_modes[i].mode_bit)) {
-a17becc112535b Harald Freudenberger 2019-08-30  347  			if (n > 0)
-a17becc112535b Harald Freudenberger 2019-08-30  348  				buf[n++] =3D ' ';
-a17becc112535b Harald Freudenberger 2019-08-30  349  			n +=3D snprintf(buf=
- + n, PAGE_SIZE - n,
-a17becc112535b Harald Freudenberger 2019-08-30  350  				      "%s", ep11_o=
-p_modes[i].mode_txt);
-a17becc112535b Harald Freudenberger 2019-08-30  351  		}
-a17becc112535b Harald Freudenberger 2019-08-30  352  	}
-a17becc112535b Harald Freudenberger 2019-08-30  353  	n +=3D snprintf(buf +=
- n, PAGE_SIZE - n, "\n");
-a17becc112535b Harald Freudenberger 2019-08-30  354  =
-
-a17becc112535b Harald Freudenberger 2019-08-30  355  	return n;
-a17becc112535b Harald Freudenberger 2019-08-30  356  }
-a17becc112535b Harald Freudenberger 2019-08-30  357  =
-
+:::::: TO: Ingo Tuchscherer <ingo.tuchscherer@linux.vnet.ibm.com>
+:::::: CC: Martin Schwidefsky <schwidefsky@de.ibm.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6901475154322139804==
+--===============1967358277408197638==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICJVd4l4AAy5jb25maWcAjDxZc+Q2zu/5FV2Tl6S2kvgYO+Pd8gObolpMS6IsSt22X1iO3TNx
+H4sICFVS4l4AAy5jb25maWcAjDxZc+Q2zu/5FV2Tl6S2kvgYO+Pd8gObolpMS6IsSt22X1iO3TNx
 xceU3c7x/foPoC6SguTZ2spYAEiCIIiLZH//3fcL9rZ/frzZ39/ePDz8u/iye9q93Ox3d4vP9w+7
 /y0itchVtRCRrH4G4vT+6e2fX16Pzw4WJz+f/HywWO9ennYPC/789Pn+yxu0vH9++u777+D/3wPw
 8St08vLfBTb46QHb/vTl9nbxw4rzHxdnPx//fACEXOWxXBnOjdQGMOf/diD4MBtRaqny87OD44OD
@@ -667,5 +675,5 @@ FhmKDh8VXfTH83G6sd534eEn0qi4uTKvYemjnSVL3MYnpkOGDGRIxHNlqqero5Kv4SNzFYCiKfgN
 RQQyBM5xxUSGpjNKEDc/AjBVrPQ327b2OwQ6dklhLT8eb/FPgK34KSoMyDboEvLTeDOsCStivraZ
 3LHzE9u597L45oyy/ajwwLM5l+XEhmBGw6wgt9adUdsEkwNgknkxoTcxEVUGRp6uEdK+cKoAyK6R
 gDi1nej2mv+aHhIBT49A0eGMatUIms3C9STDl8LirT0aMLZxfJJbOxfFZKTsf7C2QWxaZwEA
---===============6901475154322139804==--
+--===============1967358277408197638==--
 
