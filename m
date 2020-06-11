@@ -1,22 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============2933497674885662837=="
+Content-Type: multipart/mixed; boundary="===============0246983532201482419=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: drivers/net/wireless/mediatek/mt76/mt7915/mac.c:1130 mt7915_mac_sta_stats_work() warn: test_bit() takes a bit number
-Date: Thu, 11 Jun 2020 13:46:40 +0300
-Message-ID: <20200611104640.GF4151@kadam>
+Date: Thu, 11 Jun 2020 18:42:27 +0800
+Message-ID: <202006111823.3aWkx1cC%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2933497674885662837==
+--===============0246983532201482419==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Ryder Lee <ryder.lee@mediatek.com>
+CC: Felix Fietkau <nbd@nbd.name>
+CC: Shayne Chen <shayne.chen@mediatek.com>
+CC: "Chih-Min Chen" <chih-min.chen@mediatek.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   b29482fde649c72441d5478a4ea2c52c56d97a5e
 commit: e57b7901469fc0b021930b83a8094baaf3d81b09 mt76: add mac80211 driver =
 for MT7915 PCIe-based chipsets
+date:   4 weeks ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 4 weeks ago
 config: x86_64-randconfig-m031-20200611 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
 
@@ -28,6 +38,12 @@ New smatch warnings:
 drivers/net/wireless/mediatek/mt76/mt7915/mac.c:1130 mt7915_mac_sta_stats_w=
 ork() warn: test_bit() takes a bit number
 
+Old smatch warnings:
+drivers/net/wireless/mediatek/mt76/mt7915/mac.c:722 mt7915_mac_tx_free() wa=
+rn: potential spectre issue 'dev->mt76.wcid' [w]
+drivers/net/wireless/mediatek/mt76/mt7915/mac.c:722 mt7915_mac_tx_free() wa=
+rn: possible spectre second half.  '__u.__val'
+
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
 /?id=3De57b7901469fc0b021930b83a8094baaf3d81b09
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
@@ -35,6 +51,8 @@ ds/linux.git
 git remote update linus
 git checkout e57b7901469fc0b021930b83a8094baaf3d81b09
 vim +1130 drivers/net/wireless/mediatek/mt76/mt7915/mac.c
+
+e57b7901469fc0 Ryder Lee 2020-04-25  1107  =
 
 e57b7901469fc0 Ryder Lee 2020-04-25  1108  void mt7915_mac_sta_stats_work(s=
 truct work_struct *work)
@@ -75,10 +93,6 @@ e57b7901469fc0 Ryder Lee 2020-04-25  1131  			       IEEE80211_RC_NSS_CHANG=
 ED |
 e57b7901469fc0 Ryder Lee 2020-04-25  1132  			       IEEE80211_RC_BW_CHANGE=
 D, &stats->changed))
-
-The test_and_clear_bit() takes a bit number like 1.  But this is
-passing "(1 << 1) | ...".  It won't work@all.
-
 e57b7901469fc0 Ryder Lee 2020-04-25  1133  		mt7915_mcu_add_rate_ctrl(dev, =
 vif, sta);
 e57b7901469fc0 Ryder Lee 2020-04-25  1134  =
@@ -98,12 +112,14 @@ e57b7901469fc0 Ryder Lee 2020-04-25  1140  		list_add_tail(&msta->poll_list=
 e57b7901469fc0 Ryder Lee 2020-04-25  1141  	spin_unlock_bh(&dev->sta_poll_l=
 ock);
 e57b7901469fc0 Ryder Lee 2020-04-25  1142  }
+e57b7901469fc0 Ryder Lee 2020-04-25  1143  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2933497674885662837==
+--===============0246983532201482419==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -762,5 +778,5 @@ gcL2Bev2rbpfYaBKW4cTL4mgZs6WV4szOOh5lpBPS3pwlALq6t39klThKvFs3dOEJl9jFDHZAlci
 HTM7tHtJ4Bcwb7yQDx1DtFesecNWb1/f8MxFUZFj7vabeyMhjIq3aSnRqkeEiYZDETgUNFJs1OZz
 jgVSu7HuL8ssqAIN1RexYirhEinHWVHrULu/KNuJmLiPdyxtJzytX4EaBeCOT5TW2xTS04cdcEa8
 SMaxQp6Iloe0hugKVXsn2PNr1Pes/wWUfyS5gUECAA==
---===============2933497674885662837==--
+--===============0246983532201482419==--
 
