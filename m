@@ -1,17 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1029681519922807985=="
+Content-Type: multipart/mixed; boundary="===============4536377676713074907=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH v3 1/3] net: phy: mscc: move shared probe code into a helper
-Date: Tue, 16 Jun 2020 15:27:20 +0300
-Message-ID: <20200616122720.GN4282@kadam>
-In-Reply-To: <20200615144501.1140870-1-heiko@sntech.de>
+Date: Tue, 16 Jun 2020 19:59:14 +0800
+Message-ID: <202006161920.kLOBUsW8%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1029681519922807985==
+--===============4536377676713074907==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200615144501.1140870-1-heiko@sntech.de>
+References: <20200615144501.1140870-1-heiko@sntech.de>
+TO: Heiko Stuebner <heiko@sntech.de>
+TO: davem(a)davemloft.net
+TO: kuba(a)kernel.org
+CC: robh+dt(a)kernel.org
+CC: andrew(a)lunn.ch
+CC: f.fainelli(a)gmail.com
+CC: hkallweit1(a)gmail.com
+CC: linux(a)armlinux.org.uk
+CC: netdev(a)vger.kernel.org
+CC: devicetree(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
 
 Hi Heiko,
 
@@ -32,6 +46,8 @@ url:    https://github.com/0day-ci/linux/commits/Heiko-Stuebner/net-phy-msc=
 c-move-shared-probe-code-into-a-helper/20200615-224727
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
 cb8e59cc87201af93dfbb6c3dccc8fcad72a09c2
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
 config: i386-randconfig-m021-20200616 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
 
@@ -50,15 +66,15 @@ git remote update linux-review
 git checkout 5be350208c014ad5e0afd06868ccaaefd6216345
 vim +/vsc8531 +2002 drivers/net/phy/mscc/mscc_main.c
 
+2684bda34786b6 drivers/net/phy/mscc/mscc_main.c Antoine Tenart 2020-05-29  =
+1983  =
+
 5be350208c014a drivers/net/phy/mscc/mscc_main.c Heiko Stuebner 2020-06-15  =
 1984  static int vsc8574_probe(struct phy_device *phydev)
 5be350208c014a drivers/net/phy/mscc/mscc_main.c Heiko Stuebner 2020-06-15  =
 1985  {
 5be350208c014a drivers/net/phy/mscc/mscc_main.c Heiko Stuebner 2020-06-15  =
 1986  	struct vsc8531_private *vsc8531;
-                                                                           =
-                                     ^^^^^^^
-
 5be350208c014a drivers/net/phy/mscc/mscc_main.c Heiko Stuebner 2020-06-15  =
 1987  	int rc;
 5be350208c014a drivers/net/phy/mscc/mscc_main.c Heiko Stuebner 2020-06-15  =
@@ -93,22 +109,17 @@ vim +/vsc8531 +2002 drivers/net/phy/mscc/mscc_main.c
 2001  	return devm_phy_package_join(&phydev->mdio.dev, phydev,
 5be350208c014a drivers/net/phy/mscc/mscc_main.c Heiko Stuebner 2020-06-15 @=
 2002  				     vsc8531->base_addr, 0);
-                                                                           =
-                                          ^^^^^^^^^^^^^^^^^^
-Not initialized.
-
 00d70d8e0e7811 drivers/net/phy/mscc.c           Quentin Schulz 2018-10-08  =
 2003  }
+00d70d8e0e7811 drivers/net/phy/mscc.c           Quentin Schulz 2018-10-08  =
+2004  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============1029681519922807985==
+--===============4536377676713074907==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -689,5 +700,5 @@ UU+eOFxlvs7Z18i1rhaEliuOZ4g+CAD4ED4PMvoNxRBUo4pI0K6O3wfCK0zC2jsA8qBGVKuarolC
 2yW6dl8OWYlHGLqqjYbnoowd5emOT89oeaDtnGAn6Zs767pmuqPK8mrQXgLP4HKTlePspVH9lTA9
 RlWT0o4BlapxrtdZTqCQwaTldIcsXQS3l/Qu85GiUuzeaUGAVNeGtmon3aAB1k16B1vYlPonC05d
 RO2/1a8QlClxQO4/4nKGfMEHAgA=
---===============1029681519922807985==--
+--===============4536377676713074907==--
 
