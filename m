@@ -1,27 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============7346960231896311228=="
+Content-Type: multipart/mixed; boundary="===============1873623899451578785=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jfern:rcu/for-paul-dev 9982/9999] kernel/rcu/refscale.c:549 main_func() error: we previously assumed 'buf' could be null (see line 500)
-Date: Fri, 19 Jun 2020 06:54:29 +0800
-Message-ID: <202006190627.MSi75mcN%lkp@intel.com>
+Subject: Re: [PATCH v3 2/3] printk: add lockless ringbuffer
+Date: Fri, 19 Jun 2020 03:41:40 +0800
+Message-ID: <202006190326.64fE4xgf%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7346960231896311228==
+--===============1873623899451578785==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: "Paul E. McKenney" <paulmck@kernel.org>
+In-Reply-To: <20200618144919.9806-3-john.ogness@linutronix.de>
+References: <20200618144919.9806-3-john.ogness@linutronix.de>
+TO: John Ogness <john.ogness@linutronix.de>
+TO: Petr Mladek <pmladek@suse.com>
+CC: Peter Zijlstra <peterz@infradead.org>
+CC: Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+CC: Steven Rostedt <rostedt@goodmis.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Andrea Parri <parri.andrea@gmail.com>
+CC: Thomas Gleixner <tglx@linutronix.de>
+CC: Paul McKenney <paulmck@kernel.org>
+CC: kexec(a)lists.infradead.org
+CC: linux-kernel(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git rcu=
-/for-paul-dev
-head:   c221f78b8c225df851b463d0ca3add612b67260d
-commit: d2baddfe183d39287048c58c897200751f257916 [9982/9999] refperf: Renam=
-e refperf.c to refscale.c and change internal names
-:::::: branch date: 25 hours ago
-:::::: commit date: 28 hours ago
+Hi John,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linux/master]
+[also build test WARNING on linus/master pmladek/for-next v5.8-rc1 next-202=
+00618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use  as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/John-Ogness/printk-replace=
+-ringbuffer/20200618-225239
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+1b5044021070efa3259f3e9548dc35d1eb6aa844
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
 config: x86_64-randconfig-m001-20200618 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
 
@@ -30,271 +52,223 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-kernel/rcu/refscale.c:549 main_func() error: we previously assumed 'buf' co=
-uld be null (see line 500)
+kernel/printk/printk_ringbuffer.c:1112 prb_reserve() warn: should '1 << (de=
+sc_ring->count_bits)' be a 64 bit type?
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/jfern/linux.git/commit/?i=
-d=3Dd2baddfe183d39287048c58c897200751f257916
-git remote add jfern https://git.kernel.org/pub/scm/linux/kernel/git/jfern/=
-linux.git
-git remote update jfern
-git checkout d2baddfe183d39287048c58c897200751f257916
-vim +/buf +549 kernel/rcu/refscale.c
+# https://github.com/0day-ci/linux/commit/2478707d5ead34b63f820636f51d38324=
+d427ecc
+git remote add linux-review https://github.com/0day-ci/linux
+git remote update linux-review
+git checkout 2478707d5ead34b63f820636f51d38324d427ecc
+vim +1112 kernel/printk/printk_ringbuffer.c
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  47=
-9) =
+2478707d5ead34 John Ogness 2020-06-18  1026  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-0) // The main_func is the main orchestrator, it performs a bunch of
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-1) // experiments.  For every experiment, it orders all the readers
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-2) // involved to start and waits for them to finish the experiment. It
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-3) // then reads their timestamps and starts the next experiment. Each
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-4) // experiment progresses from 1 concurrent reader to N of them at which
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-5) // point all the timestamps are printed.
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-6) static int main_func(void *arg)
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-7) {
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  48=
-8  	bool errexit =3D false;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  48=
-9) 	int exp, r;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  49=
-0) 	char buf1[64];
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  49=
-1  	char *buf;
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  49=
-2  	u64 *result_avg;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  49=
-3) =
+2478707d5ead34 John Ogness 2020-06-18  1027  /**
+2478707d5ead34 John Ogness 2020-06-18  1028   * prb_reserve() - Reserve spa=
+ce in the ringbuffer.
+2478707d5ead34 John Ogness 2020-06-18  1029   *
+2478707d5ead34 John Ogness 2020-06-18  1030   * @e:  The entry structure to=
+ setup.
+2478707d5ead34 John Ogness 2020-06-18  1031   * @rb: The ringbuffer to rese=
+rve data in.
+2478707d5ead34 John Ogness 2020-06-18  1032   * @r:  The record structure t=
+o allocate buffers for.
+2478707d5ead34 John Ogness 2020-06-18  1033   *
+2478707d5ead34 John Ogness 2020-06-18  1034   * This is the public function=
+ available to writers to reserve data.
+2478707d5ead34 John Ogness 2020-06-18  1035   *
+2478707d5ead34 John Ogness 2020-06-18  1036   * The writer specifies the te=
+xt and dict sizes to reserve by setting the
+2478707d5ead34 John Ogness 2020-06-18  1037   * @text_buf_size and @dict_bu=
+f_size fields of @r, respectively. Dictionaries
+2478707d5ead34 John Ogness 2020-06-18  1038   * are optional, so @dict_buf_=
+size is allowed to be 0. To ensure proper
+2478707d5ead34 John Ogness 2020-06-18  1039   * initialization of @r, prb_r=
+ec_init_wr() should be used.
+2478707d5ead34 John Ogness 2020-06-18  1040   *
+2478707d5ead34 John Ogness 2020-06-18  1041   * Context: Any context. Disab=
+les local interrupts on success.
+2478707d5ead34 John Ogness 2020-06-18  1042   * Return: true if at least te=
+xt data could be allocated, otherwise false.
+2478707d5ead34 John Ogness 2020-06-18  1043   *
+2478707d5ead34 John Ogness 2020-06-18  1044   * On success, the fields @inf=
+o, @text_buf, @dict_buf of @r will be set by
+2478707d5ead34 John Ogness 2020-06-18  1045   * this function and should be=
+ filled in by the writer before committing. Also
+2478707d5ead34 John Ogness 2020-06-18  1046   * on success, prb_record_text=
+_space() can be used on @e to query the actual
+2478707d5ead34 John Ogness 2020-06-18  1047   * space used for the text dat=
+a block.
+2478707d5ead34 John Ogness 2020-06-18  1048   *
+2478707d5ead34 John Ogness 2020-06-18  1049   * If the function fails to re=
+serve dictionary space (but all else succeeded),
+2478707d5ead34 John Ogness 2020-06-18  1050   * it will still report succes=
+s. In that case @dict_buf is set to NULL and
+2478707d5ead34 John Ogness 2020-06-18  1051   * @dict_buf_size is set to 0.=
+ Writers must check this before writing to
+2478707d5ead34 John Ogness 2020-06-18  1052   * dictionary space.
+2478707d5ead34 John Ogness 2020-06-18  1053   *
+2478707d5ead34 John Ogness 2020-06-18  1054   * @info->text_len and @info->=
+dict_len will already be set to @text_buf_size
+2478707d5ead34 John Ogness 2020-06-18  1055   * and @dict_buf_size, respect=
+ively. If dictionary space reservation fails,
+2478707d5ead34 John Ogness 2020-06-18  1056   * @info->dict_len is set to 0.
+2478707d5ead34 John Ogness 2020-06-18  1057   */
+2478707d5ead34 John Ogness 2020-06-18  1058  bool prb_reserve(struct prb_re=
+served_entry *e, struct printk_ringbuffer *rb,
+2478707d5ead34 John Ogness 2020-06-18  1059  		 struct printk_record *r)
+2478707d5ead34 John Ogness 2020-06-18  1060  {
+2478707d5ead34 John Ogness 2020-06-18  1061  	struct prb_desc_ring *desc_ri=
+ng =3D &rb->desc_ring;
+2478707d5ead34 John Ogness 2020-06-18  1062  	struct prb_desc *d;
+2478707d5ead34 John Ogness 2020-06-18  1063  	unsigned long id;
+2478707d5ead34 John Ogness 2020-06-18  1064  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  49=
-4) 	set_cpus_allowed_ptr(current, cpumask_of(nreaders % nr_cpu_ids));
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  49=
-5) 	set_user_nice(current, MAX_NICE);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  49=
-6) =
+2478707d5ead34 John Ogness 2020-06-18  1065  	if (!data_check_size(&rb->tex=
+t_data_ring, r->text_buf_size))
+2478707d5ead34 John Ogness 2020-06-18  1066  		goto fail;
+2478707d5ead34 John Ogness 2020-06-18  1067  =
 
-d2baddfe183d39 kernel/rcu/refscale.c Paul E. McKenney        2020-06-17  49=
-7  	VERBOSE_SCALEOUT("main_func task started");
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  49=
-8  	result_avg =3D kzalloc(nruns * sizeof(*result_avg), GFP_KERNEL);
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  49=
-9  	buf =3D kzalloc(64 + nruns * 32, GFP_KERNEL);
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25 @50=
-0  	if (!result_avg || !buf) {
-d2baddfe183d39 kernel/rcu/refscale.c Paul E. McKenney        2020-06-17  50=
-1  		VERBOSE_SCALEOUT_ERRSTRING("out of memory");
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  50=
-2  		errexit =3D true;
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  50=
-3  	}
-f8d25c275159b8 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  50=
-4  	if (holdoff)
-f8d25c275159b8 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  50=
-5  		schedule_timeout_interruptible(holdoff * HZ);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  50=
-6) =
+2478707d5ead34 John Ogness 2020-06-18  1068  	/* Records are allowed to not=
+ have dictionaries. */
+2478707d5ead34 John Ogness 2020-06-18  1069  	if (r->dict_buf_size) {
+2478707d5ead34 John Ogness 2020-06-18  1070  		if (!data_check_size(&rb->di=
+ct_data_ring, r->dict_buf_size))
+2478707d5ead34 John Ogness 2020-06-18  1071  			goto fail;
+2478707d5ead34 John Ogness 2020-06-18  1072  	}
+2478707d5ead34 John Ogness 2020-06-18  1073  =
 
-d488bff28e52ab kernel/rcu/refperf.c  Paul E. McKenney        2020-05-27  50=
-7  	// Wait for all threads to start.
-d488bff28e52ab kernel/rcu/refperf.c  Paul E. McKenney        2020-05-27  50=
-8  	atomic_inc(&n_init);
-d488bff28e52ab kernel/rcu/refperf.c  Paul E. McKenney        2020-05-27  50=
-9  	while (atomic_read(&n_init) < nreaders + 1)
-d488bff28e52ab kernel/rcu/refperf.c  Paul E. McKenney        2020-05-27  51=
-0  		schedule_timeout_uninterruptible(1);
-d488bff28e52ab kernel/rcu/refperf.c  Paul E. McKenney        2020-05-27  51=
-1  =
+2478707d5ead34 John Ogness 2020-06-18  1074  	/*
+2478707d5ead34 John Ogness 2020-06-18  1075  	 * Descriptors in the reserve=
+d state act as blockers to all further
+2478707d5ead34 John Ogness 2020-06-18  1076  	 * reservations once the desc=
+_ring has fully wrapped. Disable
+2478707d5ead34 John Ogness 2020-06-18  1077  	 * interrupts during the rese=
+rve/commit window in order to minimize
+2478707d5ead34 John Ogness 2020-06-18  1078  	 * the likelihood of this hap=
+pening.
+2478707d5ead34 John Ogness 2020-06-18  1079  	 */
+2478707d5ead34 John Ogness 2020-06-18  1080  	local_irq_save(e->irqflags);
+2478707d5ead34 John Ogness 2020-06-18  1081  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  51=
-2) 	// Start exp readers up per experiment
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  51=
-3  	for (exp =3D 0; exp < nruns && !torture_must_stop(); exp++) {
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  51=
-4  		if (errexit)
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  51=
-5  			break;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  51=
-6) 		if (torture_must_stop())
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  51=
-7) 			goto end;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  51=
-8) =
+2478707d5ead34 John Ogness 2020-06-18  1082  	if (!desc_reserve(rb, &id)) {
+2478707d5ead34 John Ogness 2020-06-18  1083  		/* Descriptor reservation fa=
+ilures are tracked. */
+2478707d5ead34 John Ogness 2020-06-18  1084  		atomic_long_inc(&rb->fail);
+2478707d5ead34 John Ogness 2020-06-18  1085  		local_irq_restore(e->irqflag=
+s);
+2478707d5ead34 John Ogness 2020-06-18  1086  		goto fail;
+2478707d5ead34 John Ogness 2020-06-18  1087  	}
+2478707d5ead34 John Ogness 2020-06-18  1088  =
 
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  51=
-9  		reset_readers();
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  52=
-0  		atomic_set(&nreaders_exp, nreaders);
-47326e42265130 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-26  52=
-1  		atomic_set(&n_started, nreaders);
-9ad3b8fa12b369 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-26  52=
-2  		atomic_set(&n_warmedup, nreaders);
-9ad3b8fa12b369 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-26  52=
-3  		atomic_set(&n_cooleddown, nreaders);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  52=
-4) =
+2478707d5ead34 John Ogness 2020-06-18  1089  	d =3D to_desc(desc_ring, id);
+2478707d5ead34 John Ogness 2020-06-18  1090  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  52=
-5) 		exp_idx =3D exp;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  52=
-6) =
+2478707d5ead34 John Ogness 2020-06-18  1091  	/*
+2478707d5ead34 John Ogness 2020-06-18  1092  	 * Set the @e fields here so =
+that prb_commit() can be used if
+2478707d5ead34 John Ogness 2020-06-18  1093  	 * text data allocation fails.
+2478707d5ead34 John Ogness 2020-06-18  1094  	 */
+2478707d5ead34 John Ogness 2020-06-18  1095  	e->rb =3D rb;
+2478707d5ead34 John Ogness 2020-06-18  1096  	e->id =3D id;
+2478707d5ead34 John Ogness 2020-06-18  1097  =
 
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  52=
-7  		for (r =3D 0; r < nreaders; r++) {
-8596dd813aaa16 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-26  52=
-8  			smp_store_release(&reader_tasks[r].start_reader, 1);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  52=
-9) 			wake_up(&reader_tasks[r].wq);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  53=
-0) 		}
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  53=
-1) =
+2478707d5ead34 John Ogness 2020-06-18  1098  	/*
+2478707d5ead34 John Ogness 2020-06-18  1099  	 * Initialize the sequence nu=
+mber if it has "never been set".
+2478707d5ead34 John Ogness 2020-06-18  1100  	 * Otherwise just increment i=
+t by a full wrap.
+2478707d5ead34 John Ogness 2020-06-18  1101  	 *
+2478707d5ead34 John Ogness 2020-06-18  1102  	 * @seq is considered "never =
+been set" if it has a value of 0,
+2478707d5ead34 John Ogness 2020-06-18  1103  	 * _except_ for @descs[0], wh=
+ich was specially setup by the ringbuffer
+2478707d5ead34 John Ogness 2020-06-18  1104  	 * initializer and therefore =
+is always considered as set.
+2478707d5ead34 John Ogness 2020-06-18  1105  	 *
+2478707d5ead34 John Ogness 2020-06-18  1106  	 * See the "Bootstrap" commen=
+t block in printk_ringbuffer.h for
+2478707d5ead34 John Ogness 2020-06-18  1107  	 * details about how the init=
+ializer bootstraps the descriptors.
+2478707d5ead34 John Ogness 2020-06-18  1108  	 */
+2478707d5ead34 John Ogness 2020-06-18  1109  	if (d->info.seq =3D=3D 0 && D=
+ESC_INDEX(desc_ring, id) !=3D 0)
+2478707d5ead34 John Ogness 2020-06-18  1110  		d->info.seq =3D DESC_INDEX(d=
+esc_ring, id);
+2478707d5ead34 John Ogness 2020-06-18  1111  	else
+2478707d5ead34 John Ogness 2020-06-18 @1112  		d->info.seq +=3D DESCS_COUNT=
+(desc_ring);
+2478707d5ead34 John Ogness 2020-06-18  1113  =
 
-d2baddfe183d39 kernel/rcu/refscale.c Paul E. McKenney        2020-06-17  53=
-2  		VERBOSE_SCALEOUT("main_func: experiment started, waiting for %d reader=
-s",
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  53=
-3  				nreaders);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  53=
-4) =
+2478707d5ead34 John Ogness 2020-06-18  1114  	r->text_buf =3D data_alloc(rb=
+, &rb->text_data_ring, r->text_buf_size,
+2478707d5ead34 John Ogness 2020-06-18  1115  				 &d->text_blk_lpos, id);
+2478707d5ead34 John Ogness 2020-06-18  1116  	/* If text data allocation fa=
+ils, a data-less record is committed. */
+2478707d5ead34 John Ogness 2020-06-18  1117  	if (r->text_buf_size && !r->t=
+ext_buf) {
+2478707d5ead34 John Ogness 2020-06-18  1118  		d->info.text_len =3D 0;
+2478707d5ead34 John Ogness 2020-06-18  1119  		d->info.dict_len =3D 0;
+2478707d5ead34 John Ogness 2020-06-18  1120  		prb_commit(e);
+2478707d5ead34 John Ogness 2020-06-18  1121  		/* prb_commit() re-enabled i=
+nterrupts. */
+2478707d5ead34 John Ogness 2020-06-18  1122  		goto fail;
+2478707d5ead34 John Ogness 2020-06-18  1123  	}
+2478707d5ead34 John Ogness 2020-06-18  1124  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  53=
-5) 		wait_event(main_wq,
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  53=
-6) 			   !atomic_read(&nreaders_exp) || torture_must_stop());
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  53=
-7) =
+2478707d5ead34 John Ogness 2020-06-18  1125  	r->dict_buf =3D data_alloc(rb=
+, &rb->dict_data_ring, r->dict_buf_size,
+2478707d5ead34 John Ogness 2020-06-18  1126  				 &d->dict_blk_lpos, id);
+2478707d5ead34 John Ogness 2020-06-18  1127  	/*
+2478707d5ead34 John Ogness 2020-06-18  1128  	 * If dict data allocation fa=
+ils, the caller can still commit
+2478707d5ead34 John Ogness 2020-06-18  1129  	 * text. But dictionary infor=
+mation will not be available.
+2478707d5ead34 John Ogness 2020-06-18  1130  	 */
+2478707d5ead34 John Ogness 2020-06-18  1131  	if (r->dict_buf_size && !r->d=
+ict_buf)
+2478707d5ead34 John Ogness 2020-06-18  1132  		r->dict_buf_size =3D 0;
+2478707d5ead34 John Ogness 2020-06-18  1133  =
 
-d2baddfe183d39 kernel/rcu/refscale.c Paul E. McKenney        2020-06-17  53=
-8  		VERBOSE_SCALEOUT("main_func: experiment ended");
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  53=
-9) =
+2478707d5ead34 John Ogness 2020-06-18  1134  	r->info =3D &d->info;
+2478707d5ead34 John Ogness 2020-06-18  1135  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  54=
-0) 		if (torture_must_stop())
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  54=
-1) 			goto end;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  54=
-2) =
+2478707d5ead34 John Ogness 2020-06-18  1136  	/* Set default values for the=
+ sizes. */
+2478707d5ead34 John Ogness 2020-06-18  1137  	d->info.text_len =3D r->text_=
+buf_size;
+2478707d5ead34 John Ogness 2020-06-18  1138  	d->info.dict_len =3D r->dict_=
+buf_size;
+2478707d5ead34 John Ogness 2020-06-18  1139  =
 
-7c9be3dcd5617d kernel/rcu/refperf.c  Arnd Bergmann           2020-05-29  54=
-3  		result_avg[exp] =3D div_u64(1000 * process_durations(nreaders), nreade=
-rs * loops);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  54=
-4) 	}
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  54=
-5) =
+2478707d5ead34 John Ogness 2020-06-18  1140  	/* Record full text space use=
+d by record. */
+2478707d5ead34 John Ogness 2020-06-18  1141  	e->text_space =3D space_used(=
+&rb->text_data_ring, &d->text_blk_lpos);
+2478707d5ead34 John Ogness 2020-06-18  1142  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  54=
-6) 	// Print the average of all experiments
-d2baddfe183d39 kernel/rcu/refscale.c Paul E. McKenney        2020-06-17  54=
-7  	SCALEOUT("END OF TEST. Calculating average duration per loop (nanosecon=
-ds)...\n");
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  54=
-8) =
+2478707d5ead34 John Ogness 2020-06-18  1143  	return true;
+2478707d5ead34 John Ogness 2020-06-18  1144  fail:
+2478707d5ead34 John Ogness 2020-06-18  1145  	/* Make it clear to the calle=
+r that the reserve failed. */
+2478707d5ead34 John Ogness 2020-06-18  1146  	memset(r, 0, sizeof(*r));
+2478707d5ead34 John Ogness 2020-06-18  1147  	return false;
+2478707d5ead34 John Ogness 2020-06-18  1148  }
+2478707d5ead34 John Ogness 2020-06-18  1149  =
 
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25 @54=
-9) 	buf[0] =3D 0;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  55=
-0) 	strcat(buf, "\n");
-f523ca201fe6f9 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-26  55=
-1  	strcat(buf, "Runs\tTime(ns)\n");
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  55=
-2) =
-
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  55=
-3  	for (exp =3D 0; exp < nruns; exp++) {
-7c9be3dcd5617d kernel/rcu/refperf.c  Arnd Bergmann           2020-05-29  55=
-4  		u64 avg;
-7c9be3dcd5617d kernel/rcu/refperf.c  Arnd Bergmann           2020-05-29  55=
-5  		u32 rem;
-7c9be3dcd5617d kernel/rcu/refperf.c  Arnd Bergmann           2020-05-29  55=
-6  =
-
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  55=
-7  		if (errexit)
-5ce25a4e6c6a2e kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  55=
-8  			break;
-7c9be3dcd5617d kernel/rcu/refperf.c  Arnd Bergmann           2020-05-29  55=
-9  		avg =3D div_u64_rem(result_avg[exp], 1000, &rem);
-7c9be3dcd5617d kernel/rcu/refperf.c  Arnd Bergmann           2020-05-29  56=
-0  		sprintf(buf1, "%d\t%llu.%03u\n", exp + 1, avg, rem);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  56=
-1) 		strcat(buf, buf1);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  56=
-2) 	}
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  56=
-3) =
-
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  56=
-4  	if (!errexit)
-d2baddfe183d39 kernel/rcu/refscale.c Paul E. McKenney        2020-06-17  56=
-5  		SCALEOUT("%s", buf);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  56=
-6) =
-
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  56=
-7) 	// This will shutdown everything including us.
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  56=
-8) 	if (shutdown) {
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  56=
-9) 		shutdown_start =3D 1;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-0) 		wake_up(&shutdown_wq);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-1) 	}
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-2) =
-
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-3) 	// Wait for torture to stop us
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-4) 	while (!torture_must_stop())
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-5) 		schedule_timeout_uninterruptible(1);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-6) =
-
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-7) end:
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  57=
-8) 	torture_kthread_stopping("main_func");
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  57=
-9  	kfree(result_avg);
-5f6f0e227bc331 kernel/rcu/refperf.c  Paul E. McKenney        2020-05-25  58=
-0  	kfree(buf);
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  58=
-1) 	return 0;
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  58=
-2) }
-bc2d5f1e0331fb kernel/rcu/refperf.c  Joel Fernandes (Google  2020-05-25  58=
-3) =
-
-
-:::::: The code@line 549 was first introduced by commit
-:::::: bc2d5f1e0331fb772af18596aca20d598f951bd3 refperf: Add a test to meas=
-ure performance of read-side synchronization
-
-:::::: TO: Joel Fernandes (Google) <joel@joelfernandes.org>
-:::::: CC: Paul E. McKenney <paulmck@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7346960231896311228==
+--===============1873623899451578785==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICL/p614AAy5jb25maWcAjDxJc9y20vf8iinnkhycp8VWOfWVDiAIziBDEjQAzqILSpHHjiq2
+H4sICJu0614AAy5jb25maWcAjDxJc9y20vf8iinnkhycp8VWOfWVDiAIziBDEjQAzqILSpHHjiq2
 5G8kvdj//nUDXAAQHCeHWEQ31t4bjfn5p58X5OX58cvt8/3d7efP3xefDg+H4+3z4cPi4/3nw/8t
 crGohV6wnOvfALm8f3j59p9v767M1ZvF29/e/Xb2+nh3vlgfjg+Hzwv6+PDx/tML9L9/fPjp55+o
 qAu+NJSaDZOKi9pottPXrz7d3b3+ffFLfvjz/vZh8ftvlzDM+eWv7q9XXjeuzJLS6+9903Ic6vr3
@@ -799,17 +773,17 @@ WZnKFzinq6d9l84LTJzBeJVLBKaUpSJSGGlH067XgaPg7QmqXOoq2uhK73ZDt4E4HS7Fk6/XEgNn
 UbbOha6ZaWtal4bPooRSCy3GRS55Ue7y5Rbh7YzKdpREUc5VhONMz3kq14hZZwP7q0JXOtNQs+8Z
 px34P6a+2xvklwjscpaIuW6fjyyXkHrX6Z4EI4RpIqMohJUutbgDR9RSyhTOo47cfT+lzHy7PWyP
 UFi+wZcX53aMrziOPNsCrepK/0ahUAKxkShNijENyaVBVhR13l31DCbhaaZZfgB39QhDnNObiXzI
-DmpWhJe7JqjtHYYSndlZYxn0GlEMew0svOmWgIbQP+Gu1QF6Ps9Qlkns5YU4lBPpYt0dbOORVUHB
-B1NAXHSh+2CqAKnGMDjy/UV7lS6YS7RBKcNdwN0HvcfZdGoCrkXBlRGDnt64++XsMjdMGkwow/MD
-ZmNWp1JPMIydw1V0wdMo9dNM7SQ/slnH1QJ1pvZ9miNrIz6gis4mb8lWJOqTD0IRWiToYE/zi5Rw
-n0srpxA0WLiygEFbmixaW6JUYWDyZ1JhTuvZTB8TCuJJ9MY7JvypcFJlSmRnJNsDDpXObIud8loA
-5509c9aucZTFYUR5tUcn5xNSu6P8y99yBAZX9V5xpCwcGEKyJo9TPL64dZuOQp3tohdUS6E3PM5M
-nMNPf5+dcqzG5O/u4kezoVbLSWKZHkg8EkXSPncbbnY6vAmncz7Go0FFSbnDKa97aWWdZEpqc9+Q
-Ymokzw7GTuC7Uog7XT8Y+8EjFXJzvDnjXZY1Co8utaOoHW20TWE6RbWsi9TZKPOaxp25GHDRl5/S
-XvSfaquYeUGVI0L6OTOTpkzPgMKJV2dep2uMD1M0WWHc0Tq4VOnSNrQ1RS3DNxej/khR7V4OKJyg
-oB1g/OLt3U5zY6xT06BAxg/z63L6+GLuV9GG9qhzDlpkxAm9yd6U0ICPBHBv6uI+cZpudSBYpNr7
-00DsKBEnZSI4JSmipFJNyabGV81KLCPl68n2gajiTJ3nvipmKFiapRvN7RS+Q7qGpenzJq/9wAYB
-3PIi/SHcpMZfSvWELxuiQFWj6deKJKj4L+oVWXWyelpJBeeFKCIh1UTHvyfHqCjqBRk4w/AhsZJX
-FrIPZEcPmK27gkxnRH5ROx6L8nnuf9cXvcVpyAEA
---===============7346960231896311228==--
+DmpWhJe7JqjtHYYSndlZYxn0GlEMew0svOmWgIbQP+Gu1UCCsiBdnrvDazyyCin4gAmIiy50P0sV
+BNXoqiPDX7TX5YK5KJtaF1r9cL9BD3E2ZZqAq09wZcSZp3fsfsm6DAwTAxPK8O6AEZ/VqdQFDGPn
+cN1c8DRKxTRTu8WPbNZxtUC9qH1n5sjaqA6ohrPJW7IVifPkZ1CEFgk60dP8IiXc2dLKKQSNEq4s
+YNCWJovWliFVGJg8mNSU03o208eEAnUSvfFWCX8qnFSZ9tgZyfYQQ8Uy22KnvBbAeWDPnLVrHFdx
+GFHu7NHJ+YRU6yjj8jcZgQFUvdcYKe8GhiCsydwUcy9uXaOjUGet6OnUUugNjzMT5/DM32enHDsx
+ebi7+NE0qNVkkuilBwuPRJG0T9qGK50Ob8LpnI/jaFBR4u1wyutXWnkmmZJq3DekmP7Is4OxE/h2
+FOJO1w+/fvBITdwcb854t2SNwqMv7ShqR+NsU5iOTy3rIpU1yrWmAWcuBtzw5ae0F/0n1ypmXknl
+iJAOzsyWKVMwoADi1YvX6RpjwBRNVhj3sA4u1ba0DW1tUMvwzcWoP0RUu5cDCiAoTAcYo3h7t9Nc
+FevUNBqQMcL8+po+hpj7VbShPeqcdRYZcUJvQjclGOBDANyNuthOnDZbHQgWqfbGNBAfSsRJmQhO
+EYooqThT8qfxVbMSy0j5c7J9IKo4U+e5r4oZCo9m6UZzO6XukD5hafq1yas9sEEAt7xIf+w2qfGX
+Ui/h64UoUJ1o+q4iCSr3i3pFlpusLlZSwXkhikhIVdDx78kxKoN6QQbOMHwsrOS1hGwA2dEDZuuu
+INPhkF/UjleifIL7H30ER0hNyAEA
+--===============1873623899451578785==--
 
