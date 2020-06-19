@@ -1,24 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============7026608380361738553=="
+Content-Type: multipart/mixed; boundary="===============8658823020019913844=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH 2/2] net: dsa: qca8k: introduce SGMII configuration options
-Date: Fri, 19 Jun 2020 11:12:04 +0300
-Message-ID: <20200619081204.GW4151@kadam>
-In-Reply-To: <8ddd76e484e1bedd12c87ea0810826b60e004a65.1591380105.git.noodles@earth.li>
+Date: Fri, 19 Jun 2020 08:05:29 +0800
+Message-ID: <202006190758.f3Ihz6gS%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7026608380361738553==
+--===============8658823020019913844==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <8ddd76e484e1bedd12c87ea0810826b60e004a65.1591380105.git.noodl=
+es@earth.li>
+References: <8ddd76e484e1bedd12c87ea0810826b60e004a65.1591380105.git.noodle=
+s@earth.li>
+TO: Jonathan McDowell <noodles@earth.li>
+TO: Andrew Lunn <andrew@lunn.ch>
+TO: Vivien Didelot <vivien.didelot@gmail.com>
+TO: Florian Fainelli <f.fainelli@gmail.com>
+TO: "David S. Miller" <davem@davemloft.net>
+CC: netdev(a)vger.kernel.org
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: linux-kernel(a)vger.kernel.org
+
 Hi Jonathan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on sparc-next/master net-next/master net/master li=
+nus/master v5.8-rc1 next-20200618]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use  as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Jonathan-McDowell/net-dsa-=
 qca8k-Add-SGMII-configuration-options/20200606-021254
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
 next
+:::::: branch date: 13 days ago
+:::::: commit date: 13 days ago
 config: i386-randconfig-m021-20200618 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
 
@@ -37,13 +61,13 @@ git remote update linux-review
 git checkout 27dd896d27e5048d2c402879fb04f6e23536ea72
 vim +/mode +438 drivers/net/dsa/qca8k.c
 
+6b93fb46480a9cf John Crispin      2016-09-15  420  =
+
 27dd896d27e5048 Jonathan McDowell 2020-06-05  421  static int
 27dd896d27e5048 Jonathan McDowell 2020-06-05  422  qca8k_setup_sgmii(struct=
  qca8k_priv *priv)
 27dd896d27e5048 Jonathan McDowell 2020-06-05  423  {
 27dd896d27e5048 Jonathan McDowell 2020-06-05  424  	const char *mode;
-                                                                    ^^^^
-
 27dd896d27e5048 Jonathan McDowell 2020-06-05  425  	u32 val;
 27dd896d27e5048 Jonathan McDowell 2020-06-05  426  =
 
@@ -65,10 +89,6 @@ LK125M_DELAY;
 
 27dd896d27e5048 Jonathan McDowell 2020-06-05  435  	if (of_property_read_st=
 ring(priv->dev->of_node, "sgmii-mode", &mode)) {
-                                                            ^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This if condition is reversed.
-
 27dd896d27e5048 Jonathan McDowell 2020-06-05  436  		val &=3D ~QCA8K_SGMII_=
 MODE_CTRL_MASK;
 27dd896d27e5048 Jonathan McDowell 2020-06-05  437  =
@@ -99,12 +119,14 @@ _REG_SGMII_CTRL, val);
 
 27dd896d27e5048 Jonathan McDowell 2020-06-05  452  	return 0;
 27dd896d27e5048 Jonathan McDowell 2020-06-05  453  }
+27dd896d27e5048 Jonathan McDowell 2020-06-05  454  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7026608380361738553==
+--===============8658823020019913844==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -729,5 +751,5 @@ i/gaXdATcyavRGUeJ3/+9nR16EkbJYIlUDQFJ6UIPYS16cDhftZsCsDAuSkvQoiibe1i3zr2msIx
 /HjOI2tSVBiy1OC1w8TU+mKMCZtEYoLblxNbYZWRK2di8GjceXN45QyW/HWkRGLo4qKgK5UVLw4w
 SA9WYVoXwbZmSZWtRRU7ayjrtE0Mwn8AKH6jPGM7z9okMtz9E5IjzkLQtyd3AcVHekRp34hN0Gvt
 cWb7rialt5MPLIML/gfpQ24R4CsCAA==
---===============7026608380361738553==--
+--===============8658823020019913844==--
 
