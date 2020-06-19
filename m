@@ -1,21 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============2089008701969559429=="
+Content-Type: multipart/mixed; boundary="===============5257311862480544120=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [fsgsbase:adl-po-presilicon 7691/9999] drivers/misc/dlb2/dlb2_main.c:200 dlb2_add_domain_device_file() warn: passing zero to 'PTR_ERR'
-Date: Fri, 19 Jun 2020 17:36:20 +0300
-Message-ID: <20200619143620.GY4151@kadam>
+Date: Fri, 19 Jun 2020 22:30:31 +0800
+Message-ID: <202006192225.2xudrxiX%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2089008701969559429==
+--===============5257311862480544120==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Gage Eads <gage.eads@intel.com>
 
 tree:   https://github.com/changbae/Linux-kernel adl-po-presilicon
 head:   6173b90dca1633db3ad2ddb01b0825969c0aa8e3
 commit: 1d6b51b4af4c2b7e3ae9837d3dc076e99bd8ad92 [7691/9999] dlb2: driver f=
 or Intel Dynamic Load Balancer 2.0
+:::::: branch date: 2 days ago
+:::::: commit date: 7 weeks ago
 config: x86_64-randconfig-m001-20200619 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-13) 9.3.0
 
@@ -28,8 +33,18 @@ drivers/misc/dlb2/dlb2_main.c:200 dlb2_add_domain_device_file() warn: passi=
 ng zero to 'PTR_ERR'
 drivers/misc/dlb2/dlb2_main.c:1643 dlb2_init_module() warn: passing zero to=
  'PTR_ERR'
+drivers/misc/dlb2/dlb2_ioctl.c:116 dlb2_domain_ioctl_enable_ldb_port() warn=
+: potential spectre issue 'dev->intr.ldb_cq_intr' [w]
+drivers/misc/dlb2/dlb2_ioctl.c:162 dlb2_domain_ioctl_enable_dir_port() warn=
+: potential spectre issue 'dev->intr.dir_cq_intr' [w]
+drivers/misc/dlb2/dlb2_ioctl.c:211 dlb2_domain_ioctl_disable_ldb_port() war=
+n: potential spectre issue 'dev->intr.ldb_cq_intr' [w]
+drivers/misc/dlb2/dlb2_ioctl.c:261 dlb2_domain_ioctl_disable_dir_port() war=
+n: potential spectre issue 'dev->intr.dir_cq_intr' [w]
 drivers/misc/dlb2/dlb2_pf_ops.c:1743 dlb2_pf_device_create() warn: passing =
 zero to 'PTR_ERR'
+drivers/misc/dlb2/dlb2_pf_ops.c:1955 dlb2_sysfs_aux_vf_ids_write() warn: po=
+tential spectre issue 'dlb2_dev->child_id_state' [r] (local cap)
 drivers/misc/dlb2/dlb2_vf_ops.c:1064 dlb2_vf_device_create() warn: passing =
 zero to 'PTR_ERR'
 drivers/misc/dlb2/base/dlb2_resource.c:9097 dlb2_hw_enable_wd_timer() error=
@@ -37,12 +52,36 @@ drivers/misc/dlb2/base/dlb2_resource.c:9097 dlb2_hw_enable_wd_timer() error=
 drivers/misc/dlb2/dlb2_dp.c:189 dlb2_open() error: we previously assumed 'd=
 ev' could be null (see line 160)
 
+Old smatch warnings:
+drivers/misc/dlb2/dlb2_main.c:201 dlb2_add_domain_device_file() warn: passi=
+ng zero to 'PTR_ERR'
+drivers/misc/dlb2/dlb2_main.c:206 dlb2_add_domain_device_file() warn: passi=
+ng zero to 'PTR_ERR'
+drivers/misc/dlb2/dlb2_main.c:1646 dlb2_init_module() warn: passing zero to=
+ 'PTR_ERR'
+drivers/misc/dlb2/dlb2_pf_ops.c:1744 dlb2_pf_device_create() warn: passing =
+zero to 'PTR_ERR'
+drivers/misc/dlb2/dlb2_pf_ops.c:1748 dlb2_pf_device_create() warn: passing =
+zero to 'PTR_ERR'
+drivers/misc/dlb2/dlb2_vf_ops.c:1065 dlb2_vf_device_create() warn: passing =
+zero to 'PTR_ERR'
+drivers/misc/dlb2/dlb2_vf_ops.c:1069 dlb2_vf_device_create() warn: passing =
+zero to 'PTR_ERR'
+drivers/misc/dlb2/base/dlb2_resource.c:9098 dlb2_hw_enable_wd_timer() error=
+: buffer overflow 'wd_config' 3 <=3D 3
+drivers/misc/dlb2/base/dlb2_resource.c:9103 dlb2_hw_enable_wd_timer() error=
+: buffer overflow 'wd_config' 3 <=3D 3
+drivers/misc/dlb2/base/dlb2_resource.c:9104 dlb2_hw_enable_wd_timer() error=
+: buffer overflow 'wd_config' 3 <=3D 3
+
 # https://github.com/changbae/Linux-kernel/commit/1d6b51b4af4c2b7e3ae9837d3=
 dc076e99bd8ad92
 git remote add fsgsbase https://github.com/changbae/Linux-kernel
 git remote update fsgsbase
 git checkout 1d6b51b4af4c2b7e3ae9837d3dc076e99bd8ad92
 vim +/PTR_ERR +200 drivers/misc/dlb2/dlb2_main.c
+
+1d6b51b4af4c2b7 Gage Eads 2020-04-27  169  =
 
 1d6b51b4af4c2b7 Gage Eads 2020-04-27  170  int dlb2_add_domain_device_file(=
 struct dlb2_dev *dlb2_dev, u32 domain_id)
@@ -91,12 +130,6 @@ b2_dev_number_base,
 
 1d6b51b4af4c2b7 Gage Eads 2020-04-27 @200  	if (IS_ERR_VALUE(PTR_ERR(dev)))=
  {
-
-Smatch doesn't like this formation at all.  :P  It works but I have
-never seen it before.  Just say:
-
-	if (IS_ERR(dev)) {
-
 1d6b51b4af4c2b7 Gage Eads 2020-04-27  201  		dev_err(dlb2_dev->dlb2_device,
 1d6b51b4af4c2b7 Gage Eads 2020-04-27  202  			"%s: device_create() returned=
  %ld\n",
@@ -116,12 +149,14 @@ id].status =3D status;
 
 1d6b51b4af4c2b7 Gage Eads 2020-04-27  211  	return 0;
 1d6b51b4af4c2b7 Gage Eads 2020-04-27  212  }
+1d6b51b4af4c2b7 Gage Eads 2020-04-27  213  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2089008701969559429==
+--===============5257311862480544120==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -762,5 +797,5 @@ ejzNVU1X3SARzeJa7lBNOzHN6kVQPYbza0bT1VHJM0Ol7AGKpuA2EaEHOy+7lHqiDNcKeOA8KW/B
 TxRtG3BuJ6wyjgjjMTzqEqSIMEWFNjwUAmFilkP20IRNYs6oU+2UjZUVgWC9Li1UhORuCpDgFlyU
 vPJfIdF0b12QOvqSZ4RonwbzPdrThWtbJlUGt1Tu0FWrRYfBdL4VHdfBQipSA0W/cMe2yYqJr2xp
 YCeYjswiAUtxapWT2WDgHNSVuAQ9GjDDU4bt8c8fvV5YAPW0/n+2JNdLGTMCAA==
---===============2089008701969559429==--
+--===============5257311862480544120==--
 
