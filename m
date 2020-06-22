@@ -1,22 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============1125039206802575848=="
+Content-Type: multipart/mixed; boundary="===============4540024677882018207=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: drivers/usb/gadget/udc/fsl_udc_core.c:1055 fsl_ep_fifo_status() error: we previously assumed '_ep->desc' could be null (see line 1055)
-Date: Mon, 22 Jun 2020 21:20:23 +0300
-Message-ID: <20200622182023.GX4282@kadam>
+Date: Mon, 22 Jun 2020 22:34:27 +0800
+Message-ID: <202006222220.5NXlp9Om%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1125039206802575848==
+--===============4540024677882018207==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Nikhil Badola <nikhil.badola@freescale.com>
+CC: Felipe Balbi <felipe.balbi@linux.intel.com>
+CC: Ran Wang <ran.wang_1@nxp.com>
+CC: Peter Chen <peter.chen@nxp.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   625d3449788f85569096780592549d0340e9c0c7
 commit: 75eaa498c99eebf9f9237656f69469e50197cc0b usb: gadget: Correct NULL =
 pointer checking in fsl gadget
+date:   8 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 8 months ago
 config: arm64-randconfig-m031-20200622 (attached as .config)
 compiler: aarch64-linux-gcc (GCC) 9.3.0
 
@@ -28,6 +38,10 @@ New smatch warnings:
 drivers/usb/gadget/udc/fsl_udc_core.c:1055 fsl_ep_fifo_status() error: we p=
 reviously assumed '_ep->desc' could be null (see line 1055)
 
+Old smatch warnings:
+drivers/usb/gadget/udc/fsl_udc_core.c:914 fsl_ep_queue() warn: variable der=
+eferenced before check 'req' (see line 877)
+
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
 /?id=3D75eaa498c99eebf9f9237656f69469e50197cc0b
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
@@ -35,6 +49,9 @@ ds/linux.git
 git remote update linus
 git checkout 75eaa498c99eebf9f9237656f69469e50197cc0b
 vim +1055 drivers/usb/gadget/udc/fsl_udc_core.c
+
+b504882da539c1 drivers/usb/gadget/fsl_usb2_udc.c     Li Yang            200=
+7-04-23  1046  =
 
 2ea6698d7b9266 drivers/usb/gadget/fsl_udc_core.c     Anatolij Gustschin 201=
 1-04-18  1047  static int fsl_ep_fifo_status(struct usb_ep *_ep)
@@ -55,20 +72,6 @@ vim +1055 drivers/usb/gadget/udc/fsl_udc_core.c
 
 75eaa498c99eeb drivers/usb/gadget/udc/fsl_udc_core.c Nikhil Badola      201=
 9-10-21 @1055  	if (!_ep || _ep->desc || !(_ep->desc->bEndpointAddress&0xF))
-                                                                           =
-                                 ^^^^^^^^^
-Reversed NULL test.  This will always return -ENODEV.  (Or possibly
-crash.  But I suspect it always returns -ENODEV instead of crashing).
-
-The container_of() macro doesn't dereference anything, btw.  It just
-does pointer math.  I think it would be cleaner to use ep_index() like
-the original code did.  In other words, perhaps it would look best
-written like this:
-
-	ep =3D container_of(_ep, struct fsl_ep, ep);
-	if (!_ep || !_ep->desc || ep_index(ep) =3D=3D 0)
-
-
 2ea6698d7b9266 drivers/usb/gadget/fsl_udc_core.c     Anatolij Gustschin 201=
 1-04-18  1056  		return -ENODEV;
 2ea6698d7b9266 drivers/usb/gadget/fsl_udc_core.c     Anatolij Gustschin 201=
@@ -119,16 +122,15 @@ OWN)
 1-04-18  1075  	return size;
 2ea6698d7b9266 drivers/usb/gadget/fsl_udc_core.c     Anatolij Gustschin 201=
 1-04-18  1076  }
+2ea6698d7b9266 drivers/usb/gadget/fsl_udc_core.c     Anatolij Gustschin 201=
+1-04-18  1077  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============1125039206802575848==
+--===============4540024677882018207==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -652,5 +654,5 @@ TvgZC8G7S+bvC/gS4dyrjizcnUQKvLInPR/IJJibIySQNQIDEQcVeVpXs0qsJyb8zW3uUafSRaSM
 Qf0lqrKFad9POOfnPlLUhIo8W5WFfiZ0JiXi1UGGfkzHWhxCPdjPEdrFc6BhSymAVdUtBViIK3vR
 WEiS5wNBEOosAeY5CmtZwskfujB9t8NxILEO3xKlp3HbWFluh/swDtCg2OUtzXT5Ej2IwkYw0MMG
 c7SwVxnnae1/9GLEKSbTAQA=
---===============1125039206802575848==--
+--===============4540024677882018207==--
 
