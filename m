@@ -1,22 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============7417278203714085718=="
+Content-Type: multipart/mixed; boundary="===============0390511979093048763=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [djwong-xfs:scrub-rtsummary 5/25] fs/xfs/xfs_log_recover.c:2629 xlog_recover_process_intents() error: uninitialized symbol 'error'.
-Date: Tue, 23 Jun 2020 13:19:55 +0300
-Message-ID: <20200623101955.GK4151@kadam>
+Date: Tue, 23 Jun 2020 18:13:13 +0800
+Message-ID: <202006231807.kHKOYnz4%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7417278203714085718==
+--===============0390511979093048763==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t scrub-rtsummary
 head:   6a3195f0b8086aa941c656f91b7a0498e15aad0d
 commit: 89406a23131bc5814e774e809cee961984444e48 [5/25] xfs: proper replay =
 of deferred ops queued during log recovery
+:::::: branch date: 16 hours ago
+:::::: commit date: 16 hours ago
 config: openrisc-randconfig-m031-20200623 (attached as .config)
 compiler: or1k-linux-gcc (GCC) 9.3.0
 
@@ -26,6 +32,10 @@ Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
 fs/xfs/xfs_log_recover.c:2629 xlog_recover_process_intents() error: uniniti=
+alized symbol 'error'.
+
+Old smatch warnings:
+fs/xfs/xfs_log_recover.c:2637 xlog_recover_process_intents() error: uniniti=
 alized symbol 'error'.
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
@@ -94,10 +104,6 @@ S_LI_RECOVERED, &lip->li_flags)) {
 lock);
 89406a23131bc5 Darrick J. Wong 2020-05-15  2622  			error =3D lip->li_ops->=
 iop_recover(lip, &freezer);
-                                                                        ^^^=
-^^^^^
-"error" is not initialized if the bit is set.
-
 96b60f82671376 Darrick J. Wong 2020-05-01  2623  			spin_lock(&ailp->ail_lo=
 ck);
 96b60f82671376 Darrick J. Wong 2020-05-01  2624  		}
@@ -107,8 +113,6 @@ ck);
 89406a23131bc5 Darrick J. Wong 2020-05-15  2627  			freezer =3D NULL;
 89406a23131bc5 Darrick J. Wong 2020-05-15  2628  		}
 27d8d5fe0ef9da David Chinner   2008-10-30 @2629  		if (error)
-                                                                    ^^^^^
-
 89406a23131bc5 Darrick J. Wong 2020-05-15  2630  			break;
 89406a23131bc5 Darrick J. Wong 2020-05-15  2631  =
 
@@ -130,12 +134,21 @@ fer_ops(log->l_mp, &dfops_freezers);
 ->l_mp, &dfops_freezers);
 3c1e2bbe5bcdcd David Chinner   2008-04-10  2641  	return error;
 ^1da177e4c3f41 Linus Torvalds  2005-04-16  2642  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  2643  =
+
+
+:::::: The code at line 2629 was first introduced by commit
+:::::: 27d8d5fe0ef9daeaafbdd32b14b32a2211930062 [XFS] Use a cursor for AIL =
+traversal.
+
+:::::: TO: David Chinner <david@fromorbit.com>
+:::::: CC: Lachlan McIlroy <lachlan@sgi.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7417278203714085718==
+--===============0390511979093048763==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -585,5 +598,5 @@ FQA1xU8RpdI2xCHMdTUuvmlLuQ375lExBcA/twIhqXB+AoSJhRkW0Sf+tMbnnbGF1iVVQIu0MDlL
 BKgWeF8O1lpLQOtIHxppmCtwtBFmM/EoGYVCgiki/al+23Xb981+bc23efdsuv0Btz+y8hTTUD4+
 d4ajbMtCenRNpUw0OiVsgKIxU40hfalN3NMQvWVkKJ6f+LHvtyveBaUCefGTbwxBZB1TH8KxlQXQ
 CVJ5x9tj5SQ2a0sUJjQkXAx8BAx+DHSZKIM5OcOeayGbAP4CnswJ8LyNAQA=
---===============7417278203714085718==--
+--===============0390511979093048763==--
 
