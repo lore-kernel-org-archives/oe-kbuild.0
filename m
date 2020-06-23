@@ -1,44 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============3339604773615349616=="
+Content-Type: multipart/mixed; boundary="===============6559853743978131715=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH 16/22] gpiolib: cdev: add V2 uAPI implementation to parity with V1
-Date: Tue, 23 Jun 2020 20:44:38 +0300
-Message-ID: <20200623174438.GL4151@kadam>
-In-Reply-To: <20200623040107.22270-17-warthog618@gmail.com>
+Date: Wed, 24 Jun 2020 00:56:05 +0800
+Message-ID: <202006240016.3IYGKfI7%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3339604773615349616==
+--===============6559853743978131715==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-[ The copy_to_user() overflow code is weird.  Why do we need to do a
-  atomic_read()?  That suggests that there is a potential time of check
-  time of use bug where we do:
-
-	if (atomic_read(&gcdev->watch_abi_version) =3D=3D 2) // <<-- time of check
-		event_size =3D sizeof(struct gpioline_info_changed_v2);
-
-	...
-
-	if (atomic_read(&gcdev->watch_abi_version) =3D=3D 2) { // <<-- time of use
-		copy_to_user(blah, blah, event_size);
-
-  If the value for "gcdev->watch_abi_version" changes between the time
-  of check and the time of use then it can read beyond the end of the
-  buffer.
-
-  -- dan ]
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200623040107.22270-17-warthog618@gmail.com>
+References: <20200623040107.22270-17-warthog618@gmail.com>
+TO: Kent Gibson <warthog618@gmail.com>
+TO: linux-kernel(a)vger.kernel.org
+TO: linux-gpio(a)vger.kernel.org
+TO: bgolaszewski(a)baylibre.com
+TO: linus.walleij(a)linaro.org
+CC: Kent Gibson <warthog618@gmail.com>
 
 Hi Kent,
 
 Thank you for the patch! Perhaps something to improve:
 
+[auto build test WARNING on gpio/for-next]
+[also build test WARNING on next-20200623]
+[cannot apply to linux/master linus/master v5.8-rc2]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use  as documented in
+https://git-scm.com/docs/git-format-patch]
+
 url:    https://github.com/0day-ci/linux/commits/Kent-Gibson/gpio-cdev-add-=
 uAPI-V2/20200623-120634
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-gpio.g=
 it for-next
+:::::: branch date: 13 hours ago
+:::::: commit date: 13 hours ago
 config: openrisc-randconfig-m031-20200623 (attached as .config)
 compiler: or1k-linux-gcc (GCC) 9.3.0
 
@@ -60,6 +60,8 @@ git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
 git checkout f3b3ae8752adc5ac33dcf83d49b0b02f2d7ef43b
 vim +/line +891 drivers/gpio/gpiolib-cdev.c
+
+f3b3ae8752adc5 Kent Gibson 2020-06-23   876  =
 
 f3b3ae8752adc5 Kent Gibson 2020-06-23   877  static void line_free(struct l=
 ine *line)
@@ -164,9 +166,6 @@ eq.num_lines, sizeof(*line->edets),
 f3b3ae8752adc5 Kent Gibson 2020-06-23   947  			      GFP_KERNEL);
 f3b3ae8752adc5 Kent Gibson 2020-06-23   948  	if (!line->edets)
 f3b3ae8752adc5 Kent Gibson 2020-06-23  @949  		return -ENOMEM;
-                                                        ^^^^^^^^^^^^^^^
-kfree(line) before returning.
-
 f3b3ae8752adc5 Kent Gibson 2020-06-23   950  =
 
 f3b3ae8752adc5 Kent Gibson 2020-06-23   951  	for (i =3D 0; i < linereq.num=
@@ -353,12 +352,14 @@ f3b3ae8752adc5 Kent Gibson 2020-06-23  1072  out_free_line:
 f3b3ae8752adc5 Kent Gibson 2020-06-23  1073  	line_free(line);
 f3b3ae8752adc5 Kent Gibson 2020-06-23  1074  	return ret;
 f3b3ae8752adc5 Kent Gibson 2020-06-23  1075  }
+f3b3ae8752adc5 Kent Gibson 2020-06-23  1076  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3339604773615349616==
+--===============6559853743978131715==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -808,5 +809,5 @@ A0SG6X48BaUZVAFQU/wUUSptQxzCXFfj4pu2lNuwbx4VUwD8dSsQkgrnJ0CYWJhhEX3iT2t83hlb
 aF1SBbRIC5OzRIBqgfflYK21BLSO9EcjDXMFjjbCbCYeJaNQSDBFpD/Vb/tu9749bKz5Nu+eTXc4
 4vZHVp5iGsrH585wlG1ZSI+uqZSJRqeEDVA0ZqoxpC+1iQcaoreMDMXzEz/2/XbFu6BUIC++840h
 iKxj6kM4trIAOkEql7w91k5is7ZEYUJDwsXAR8Dgx0CXiTKYszPsuRayCeAP6KjAp+WNAQA=
---===============3339604773615349616==--
+--===============6559853743978131715==--
 
