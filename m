@@ -1,26 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============6551109746545812980=="
+Content-Type: multipart/mixed; boundary="===============6979555408234687729=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] clk: vc5: Add memory check to prevent oops
-Date: Thu, 02 Jul 2020 17:42:50 +0300
-Message-ID: <20200702144250.GQ2549@kadam>
-In-Reply-To: <20200630210155.459250-1-aford173@gmail.com>
+Date: Thu, 02 Jul 2020 22:36:33 +0800
+Message-ID: <202007022200.FYecB50B%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6551109746545812980==
+--===============6979555408234687729==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200630210155.459250-1-aford173@gmail.com>
+References: <20200630210155.459250-1-aford173@gmail.com>
+TO: Adam Ford <aford173@gmail.com>
+TO: linux-clk(a)vger.kernel.org
+CC: dan.carpenter(a)oracle.com
+CC: aford(a)beaconembedded.com
+CC: Adam Ford <aford173@gmail.com>
+CC: Marek Vasut <marek.vasut@gmail.com>
+CC: Michael Turquette <mturquette@baylibre.com>
+CC: Stephen Boyd <sboyd@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
 
 Hi Adam,
 
 Thank you for the patch! Perhaps something to improve:
 
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on next-20200702]
+[cannot apply to v5.8-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use  as documented in
+https://git-scm.com/docs/git-format-patch]
+
 url:    https://github.com/0day-ci/linux/commits/Adam-Ford/clk-vc5-Add-memo=
 ry-check-to-prevent-oops/20200701-050451
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
 ext
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 config: i386-randconfig-m021-20200701 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-14) 9.3.0
 
@@ -31,6 +52,22 @@ Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 New smatch warnings:
 drivers/clk/clk-versaclock5.c:818 vc5_get_output_config() error: uninitiali=
 zed symbol 'np_output'.
+
+Old smatch warnings:
+drivers/clk/clk-versaclock5.c:890 vc5_probe() warn: passing freed memory 'i=
+nit.name'
+drivers/clk/clk-versaclock5.c:908 vc5_probe() warn: passing freed memory 'i=
+nit.name'
+drivers/clk/clk-versaclock5.c:929 vc5_probe() warn: passing freed memory 'i=
+nit.name'
+drivers/clk/clk-versaclock5.c:947 vc5_probe() warn: passing freed memory 'i=
+nit.name'
+drivers/clk/clk-versaclock5.c:968 vc5_probe() warn: passing freed memory 'i=
+nit.name'
+drivers/clk/clk-versaclock5.c:989 vc5_probe() warn: passing freed memory 'i=
+nit.name'
+drivers/clk/clk-versaclock5.c:1016 vc5_probe() warn: passing freed memory '=
+init.name'
 
 # https://github.com/0day-ci/linux/commit/d445df5e4f918f08f66e20c366dc6c81d=
 cdc8b57
@@ -46,9 +83,6 @@ struct i2c_client *client,
 260249f929e81d Adam Ford 2020-06-03  785  				 struct vc5_hw_data *clk_out)
 260249f929e81d Adam Ford 2020-06-03  786  {
 260249f929e81d Adam Ford 2020-06-03  787  	struct device_node *np_output;
-                                                                    ^^^^^^^=
-^^
-
 260249f929e81d Adam Ford 2020-06-03  788  	char *child_name;
 260249f929e81d Adam Ford 2020-06-03  789  	int ret =3D 0;
 260249f929e81d Adam Ford 2020-06-03  790  =
@@ -58,9 +92,6 @@ NEL, "OUT%d", clk_out->num + 1);
 d445df5e4f918f Adam Ford 2020-06-30  792  	if (!child_name) {
 d445df5e4f918f Adam Ford 2020-06-30  793  		ret =3D -ENOMEM;
 d445df5e4f918f Adam Ford 2020-06-30  794  		goto output_error;
-                                                        ^^^^^^^^^^^^^^^^^^
-Better to just return directly, because there is no clean up.
-
 d445df5e4f918f Adam Ford 2020-06-30  795  	}
 260249f929e81d Adam Ford 2020-06-03  796  	np_output =3D of_get_child_by_na=
 me(client->dev.of_node, child_name);
@@ -95,9 +126,6 @@ ation OUT%d\n",
 260249f929e81d Adam Ford 2020-06-03  817  =
 
 260249f929e81d Adam Ford 2020-06-03 @818  	of_node_put(np_output);
-                                                            ^^^^^^^^^
-Uninitialized.
-
 260249f929e81d Adam Ford 2020-06-03  819  =
 
 260249f929e81d Adam Ford 2020-06-03  820  	return ret;
@@ -109,7 +137,7 @@ Uninitialized.
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6551109746545812980==
+--===============6979555408234687729==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -850,5 +878,5 @@ hAldkSdNGN6resMYFbpyUWT2nvkMuXcTVMa8/786Cos95wRG7+QFtuFXWdj4pCYHpWo37avTRjnd
 A0QP0nlB1okrnqig+yP0k2fq7NqmssqWImDEVzuKUodyQhAB2JtAObiyAMOJ1OPq1PyEbnG9vykS
 3c0noPZ4VuzZdpYJYw+RS7IIJDBOf9h3AHWE0u84fBlkDgHmH3878pu/lb3wcOWT8j9+XK3xD5IC
 AA==
---===============6551109746545812980==--
+--===============6979555408234687729==--
 
