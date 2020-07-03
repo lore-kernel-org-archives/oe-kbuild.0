@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============3890760925013184507=="
+Content-Type: multipart/mixed; boundary="===============0972871701158751545=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Fri, 03 Jul 2020 19:35:56 +0800
-Message-ID: <20200703113556.GA18857@bf425ecdd42c>
+Date: Fri, 03 Jul 2020 19:35:55 +0800
+Message-ID: <20200703113555.GA18770@bf425ecdd42c>
 In-Reply-To: <202007031941.um9p1FRJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3890760925013184507==
+--===============0972871701158751545==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,20 +16,13 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Keith Busch <kbusch@kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Sagi Grimberg <sagi@grimberg.me>
-CC: linux-nvme(a)lists.infradead.org
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/nvme/host/core.c:2671:8-16: WARNING: use scnprintf or sprintf
-drivers/nvme/host/core.c:3388:8-16: WARNING: use scnprintf or sprintf
-drivers/nvme/host/core.c:3378:8-16: WARNING: use scnprintf or sprintf
-drivers/nvme/host/core.c:3368:8-16: WARNING: use scnprintf or sprintf
-drivers/nvme/host/core.c:3335:8-16: WARNING: use scnprintf or sprintf
+mm/backing-dev.c:209:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -55,64 +48,20 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- core.c |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ backing-dev.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/nvme/host/core.c
-+++ b/drivers/nvme/host/core.c
-@@ -2668,7 +2668,7 @@ static ssize_t nvme_subsys_show_nqn(stru
- 	struct nvme_subsystem *subsys =3D
- 		container_of(dev, struct nvme_subsystem, dev);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", subsys->subnqn);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", subsys->subnqn);
- }
- static SUBSYS_ATTR_RO(subsysnqn, S_IRUGO, nvme_subsys_show_nqn);
- =
-
-@@ -3332,7 +3332,7 @@ static ssize_t nvme_sysfs_show_transport
+--- a/mm/backing-dev.c
++++ b/mm/backing-dev.c
+@@ -206,7 +206,7 @@ static ssize_t stable_pages_required_sho
  {
- 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+ 	struct backing_dev_info *bdi =3D dev_get_drvdata(dev);
  =
 
--	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->ops->name);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", ctrl->ops->name);
+-	return snprintf(page, PAGE_SIZE-1, "%d\n",
++	return scnprintf(page, PAGE_SIZE-1, "%d\n",
+ 			bdi_cap_stable_pages_required(bdi) ? 1 : 0);
  }
- static DEVICE_ATTR(transport, S_IRUGO, nvme_sysfs_show_transport, NULL);
- =
-
-@@ -3365,7 +3365,7 @@ static ssize_t nvme_sysfs_show_subsysnqn
- {
- 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->subsys->subnqn);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", ctrl->subsys->subnqn);
- }
- static DEVICE_ATTR(subsysnqn, S_IRUGO, nvme_sysfs_show_subsysnqn, NULL);
- =
-
-@@ -3375,7 +3375,7 @@ static ssize_t nvme_sysfs_show_hostnqn(s
- {
- 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl->opts->host->nqn);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", ctrl->opts->host->nqn);
- }
- static DEVICE_ATTR(hostnqn, S_IRUGO, nvme_sysfs_show_hostnqn, NULL);
- =
-
-@@ -3385,7 +3385,7 @@ static ssize_t nvme_sysfs_show_hostid(st
- {
- 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%pU\n", &ctrl->opts->host->id);
-+	return scnprintf(buf, PAGE_SIZE, "%pU\n", &ctrl->opts->host->id);
- }
- static DEVICE_ATTR(hostid, S_IRUGO, nvme_sysfs_show_hostid, NULL);
-=20
---===============3890760925013184507==--
+ static DEVICE_ATTR_RO(stable_pages_required);
+--===============0972871701158751545==--
 
