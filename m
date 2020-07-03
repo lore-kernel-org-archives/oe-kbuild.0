@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0972871701158751545=="
+Content-Type: multipart/mixed; boundary="===============3354585187878317214=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Fri, 03 Jul 2020 19:35:55 +0800
-Message-ID: <20200703113555.GA18770@bf425ecdd42c>
+Date: Fri, 03 Jul 2020 19:35:54 +0800
+Message-ID: <20200703113554.GA18683@bf425ecdd42c>
 In-Reply-To: <202007031941.um9p1FRJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0972871701158751545==
+--===============3354585187878317214==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,13 +16,19 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-CC: linux-kernel(a)vger.kernel.org
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: David Airlie <airlied@linux.ie>
+CC: Daniel Vetter <daniel@ffwll.ch>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
+CC: Tao Zhou <tao.zhou1@amd.com>
+CC: Guchun Chen <guchun.chen@amd.com>
+CC: Dennis Li <Dennis.Li@amd.com>
 
 From: kernel test robot <lkp@intel.com>
 
-mm/backing-dev.c:209:8-16: WARNING: use scnprintf or sprintf
+drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c:419:9-17: WARNING: use scnprintf or=
+ sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -48,20 +54,29 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- backing-dev.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ amdgpu_ras.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/mm/backing-dev.c
-+++ b/mm/backing-dev.c
-@@ -206,7 +206,7 @@ static ssize_t stable_pages_required_sho
- {
- 	struct backing_dev_info *bdi =3D dev_get_drvdata(dev);
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c
+@@ -416,13 +416,13 @@ static ssize_t amdgpu_ras_sysfs_read(str
+ 	};
  =
 
--	return snprintf(page, PAGE_SIZE-1, "%d\n",
-+	return scnprintf(page, PAGE_SIZE-1, "%d\n",
- 			bdi_cap_stable_pages_required(bdi) ? 1 : 0);
+ 	if (!amdgpu_ras_get_error_query_ready(obj->adev))
+-		return snprintf(buf, PAGE_SIZE,
++		return scnprintf(buf, PAGE_SIZE,
+ 				"Query currently inaccessible\n");
+ =
+
+ 	if (amdgpu_ras_error_query(obj->adev, &info))
+ 		return -EINVAL;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%s: %lu\n%s: %lu\n",
++	return scnprintf(buf, PAGE_SIZE, "%s: %lu\n%s: %lu\n",
+ 			"ue", info.ue_count,
+ 			"ce", info.ce_count);
  }
- static DEVICE_ATTR_RO(stable_pages_required);
---===============0972871701158751545==--
+--===============3354585187878317214==--
 
