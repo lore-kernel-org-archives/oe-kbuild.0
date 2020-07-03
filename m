@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4021973097004101282=="
+Content-Type: multipart/mixed; boundary="===============3229609536770942909=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Fri, 03 Jul 2020 19:36:04 +0800
-Message-ID: <20200703113604.GA19379@bf425ecdd42c>
+Date: Fri, 03 Jul 2020 19:36:03 +0800
+Message-ID: <20200703113603.GA19292@bf425ecdd42c>
 In-Reply-To: <202007031941.um9p1FRJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4021973097004101282==
+--===============3229609536770942909==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,38 +16,26 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Jiri Slaby <jslaby@suse.com>
-CC: linux-serial(a)vger.kernel.org
+CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: linux-scsi(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/tty/serial/serial_core.c:2701:8-16: WARNING: use scnprintf or sprin=
+drivers/scsi/scsi_transport_fc.c:1557:9-17: WARNING: use scnprintf or sprin=
 tf
-drivers/tty/serial/serial_core.c:2711:8-16: WARNING: use scnprintf or sprin=
+drivers/scsi/scsi_transport_fc.c:1481:9-17: WARNING: use scnprintf or sprin=
 tf
-drivers/tty/serial/serial_core.c:2721:8-16: WARNING: use scnprintf or sprin=
+drivers/scsi/scsi_transport_fc.c:1505:9-17: WARNING: use scnprintf or sprin=
 tf
-drivers/tty/serial/serial_core.c:2681:8-16: WARNING: use scnprintf or sprin=
+drivers/scsi/scsi_transport_fc.c:1590:8-16: WARNING: use scnprintf or sprin=
 tf
-drivers/tty/serial/serial_core.c:2731:8-16: WARNING: use scnprintf or sprin=
+drivers/scsi/scsi_transport_fc.c:955:9-17: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_transport_fc.c:921:10-18: WARNING: use scnprintf or sprin=
 tf
-drivers/tty/serial/serial_core.c:2741:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/tty/serial/serial_core.c:2751:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/tty/serial/serial_core.c:2671:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/tty/serial/serial_core.c:2647:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/tty/serial/serial_core.c:2661:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/tty/serial/serial_core.c:2637:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/tty/serial/serial_core.c:2627:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/tty/serial/serial_core.c:2691:8-16: WARNING: use scnprintf or sprin=
+drivers/scsi/scsi_transport_fc.c:826:9-17: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_transport_fc.c:1255:9-17: WARNING: use scnprintf or sprin=
 tf
 
 
@@ -74,153 +62,114 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- serial_core.c |   26 +++++++++++++-------------
- 1 file changed, 13 insertions(+), 13 deletions(-)
+ scsi_transport_fc.c |   30 +++++++++++++++---------------
+ 1 file changed, 15 insertions(+), 15 deletions(-)
 
---- a/drivers/tty/serial/serial_core.c
-+++ b/drivers/tty/serial/serial_core.c
-@@ -2624,7 +2624,7 @@ static ssize_t uartclk_show(struct devic
- 	struct tty_port *port =3D dev_get_drvdata(dev);
+--- a/drivers/scsi/scsi_transport_fc.c
++++ b/drivers/scsi/scsi_transport_fc.c
+@@ -823,7 +823,7 @@ show_fc_rport_supported_classes (struct
+ {
+ 	struct fc_rport *rport =3D transport_class_to_rport(dev);
+ 	if (rport->supported_classes =3D=3D FC_COS_UNSPECIFIED)
+-		return snprintf(buf, 20, "unspecified\n");
++		return scnprintf(buf, 20, "unspecified\n");
+ 	return get_fc_cos_names(rport->supported_classes, buf);
+ }
+ static FC_DEVICE_ATTR(rport, supported_classes, S_IRUGO,
+@@ -918,21 +918,21 @@ show_fc_rport_roles (struct device *dev,
+ 					FC_WELLKNOWN_PORTID_MASK) {
+ 		switch (rport->port_id & FC_WELLKNOWN_ROLE_MASK) {
+ 		case FC_FPORT_PORTID:
+-			return snprintf(buf, 30, "Fabric Port\n");
++			return scnprintf(buf, 30, "Fabric Port\n");
+ 		case FC_FABCTLR_PORTID:
+-			return snprintf(buf, 30, "Fabric Controller\n");
++			return scnprintf(buf, 30, "Fabric Controller\n");
+ 		case FC_DIRSRVR_PORTID:
+-			return snprintf(buf, 30, "Directory Server\n");
++			return scnprintf(buf, 30, "Directory Server\n");
+ 		case FC_TIMESRVR_PORTID:
+-			return snprintf(buf, 30, "Time Server\n");
++			return scnprintf(buf, 30, "Time Server\n");
+ 		case FC_MGMTSRVR_PORTID:
+-			return snprintf(buf, 30, "Management Server\n");
++			return scnprintf(buf, 30, "Management Server\n");
+ 		default:
+-			return snprintf(buf, 30, "Unknown Fabric Entity\n");
++			return scnprintf(buf, 30, "Unknown Fabric Entity\n");
+ 		}
+ 	} else {
+ 		if (rport->roles =3D=3D FC_PORT_ROLE_UNKNOWN)
+-			return snprintf(buf, 20, "unknown\n");
++			return scnprintf(buf, 20, "unknown\n");
+ 		return get_fc_port_roles_names(rport->roles, buf);
+ 	}
+ }
+@@ -952,8 +952,8 @@ show_fc_rport_fast_io_fail_tmo (struct d
+ 	struct fc_rport *rport =3D transport_class_to_rport(dev);
  =
 
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.baud_base * 16);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.baud_base * 16);
+ 	if (rport->fast_io_fail_tmo =3D=3D -1)
+-		return snprintf(buf, 5, "off\n");
+-	return snprintf(buf, 20, "%d\n", rport->fast_io_fail_tmo);
++		return scnprintf(buf, 5, "off\n");
++	return scnprintf(buf, 20, "%d\n", rport->fast_io_fail_tmo);
  }
  =
 
- static ssize_t type_show(struct device *dev,
-@@ -2634,7 +2634,7 @@ static ssize_t type_show(struct device *
- 	struct tty_port *port =3D dev_get_drvdata(dev);
+ static ssize_t
+@@ -1252,7 +1252,7 @@ show_fc_vport_roles (struct device *dev,
+ 	struct fc_vport *vport =3D transport_class_to_vport(dev);
  =
 
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.type);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.type);
+ 	if (vport->roles =3D=3D FC_PORT_ROLE_UNKNOWN)
+-		return snprintf(buf, 20, "unknown\n");
++		return scnprintf(buf, 20, "unknown\n");
+ 	return get_fc_port_roles_names(vport->roles, buf);
+ }
+ static FC_DEVICE_ATTR(vport, roles, S_IRUGO, show_fc_vport_roles, NULL);
+@@ -1478,7 +1478,7 @@ show_fc_host_supported_classes (struct d
+ 	struct Scsi_Host *shost =3D transport_class_to_shost(dev);
+ =
+
+ 	if (fc_host_supported_classes(shost) =3D=3D FC_COS_UNSPECIFIED)
+-		return snprintf(buf, 20, "unspecified\n");
++		return scnprintf(buf, 20, "unspecified\n");
+ =
+
+ 	return get_fc_cos_names(fc_host_supported_classes(shost), buf);
+ }
+@@ -1502,7 +1502,7 @@ show_fc_host_supported_speeds (struct de
+ 	struct Scsi_Host *shost =3D transport_class_to_shost(dev);
+ =
+
+ 	if (fc_host_supported_speeds(shost) =3D=3D FC_PORTSPEED_UNKNOWN)
+-		return snprintf(buf, 20, "unknown\n");
++		return scnprintf(buf, 20, "unknown\n");
+ =
+
+ 	return get_fc_port_speed_names(fc_host_supported_speeds(shost), buf);
+ }
+@@ -1554,7 +1554,7 @@ show_fc_host_speed (struct device *dev,
+ 		i->f->get_host_speed(shost);
+ =
+
+ 	if (fc_host_speed(shost) =3D=3D FC_PORTSPEED_UNKNOWN)
+-		return snprintf(buf, 20, "unknown\n");
++		return scnprintf(buf, 20, "unknown\n");
+ =
+
+ 	return get_fc_port_speed_names(fc_host_speed(shost), buf);
+ }
+@@ -1587,7 +1587,7 @@ show_fc_private_host_tgtid_bind_type(str
+ 	name =3D get_fc_tgtid_bind_type_name(fc_host_tgtid_bind_type(shost));
+ 	if (!name)
+ 		return -EINVAL;
+-	return snprintf(buf, FC_BINDTYPE_MAX_NAMELEN, "%s\n", name);
++	return scnprintf(buf, FC_BINDTYPE_MAX_NAMELEN, "%s\n", name);
  }
  =
 
- static ssize_t line_show(struct device *dev,
-@@ -2644,7 +2644,7 @@ static ssize_t line_show(struct device *
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.line);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.line);
- }
- =
-
- static ssize_t port_show(struct device *dev,
-@@ -2658,7 +2658,7 @@ static ssize_t port_show(struct device *
- 	ioaddr =3D tmp.port;
- 	if (HIGH_BITS_OFFSET)
- 		ioaddr |=3D (unsigned long)tmp.port_high << HIGH_BITS_OFFSET;
--	return snprintf(buf, PAGE_SIZE, "0x%lX\n", ioaddr);
-+	return scnprintf(buf, PAGE_SIZE, "0x%lX\n", ioaddr);
- }
- =
-
- static ssize_t irq_show(struct device *dev,
-@@ -2668,7 +2668,7 @@ static ssize_t irq_show(struct device *d
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.irq);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.irq);
- }
- =
-
- static ssize_t flags_show(struct device *dev,
-@@ -2678,7 +2678,7 @@ static ssize_t flags_show(struct device
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "0x%X\n", tmp.flags);
-+	return scnprintf(buf, PAGE_SIZE, "0x%X\n", tmp.flags);
- }
- =
-
- static ssize_t xmit_fifo_size_show(struct device *dev,
-@@ -2688,7 +2688,7 @@ static ssize_t xmit_fifo_size_show(struc
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.xmit_fifo_size);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.xmit_fifo_size);
- }
- =
-
- static ssize_t close_delay_show(struct device *dev,
-@@ -2698,7 +2698,7 @@ static ssize_t close_delay_show(struct d
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.close_delay);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.close_delay);
- }
- =
-
- static ssize_t closing_wait_show(struct device *dev,
-@@ -2708,7 +2708,7 @@ static ssize_t closing_wait_show(struct
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.closing_wait);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.closing_wait);
- }
- =
-
- static ssize_t custom_divisor_show(struct device *dev,
-@@ -2718,7 +2718,7 @@ static ssize_t custom_divisor_show(struc
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.custom_divisor);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.custom_divisor);
- }
- =
-
- static ssize_t io_type_show(struct device *dev,
-@@ -2728,7 +2728,7 @@ static ssize_t io_type_show(struct devic
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.io_type);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.io_type);
- }
- =
-
- static ssize_t iomem_base_show(struct device *dev,
-@@ -2738,7 +2738,7 @@ static ssize_t iomem_base_show(struct de
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "0x%lX\n", (unsigned long)tmp.iomem_base);
-+	return scnprintf(buf, PAGE_SIZE, "0x%lX\n", (unsigned long)tmp.iomem_base=
-);
- }
- =
-
- static ssize_t iomem_reg_shift_show(struct device *dev,
-@@ -2748,7 +2748,7 @@ static ssize_t iomem_reg_shift_show(stru
- 	struct tty_port *port =3D dev_get_drvdata(dev);
- =
-
- 	uart_get_info(port, &tmp);
--	return snprintf(buf, PAGE_SIZE, "%d\n", tmp.iomem_reg_shift);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", tmp.iomem_reg_shift);
- }
- =
-
- static ssize_t console_show(struct device *dev,
---===============4021973097004101282==--
+ #define get_list_head_entry(pos, head, member) 		\
+--===============3229609536770942909==--
 
