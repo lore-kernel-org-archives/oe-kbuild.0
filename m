@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============3229609536770942909=="
+Content-Type: multipart/mixed; boundary="===============5866815047853511113=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Fri, 03 Jul 2020 19:36:03 +0800
-Message-ID: <20200703113603.GA19292@bf425ecdd42c>
+Date: Fri, 03 Jul 2020 19:36:02 +0800
+Message-ID: <20200703113602.GA19205@bf425ecdd42c>
 In-Reply-To: <202007031941.um9p1FRJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3229609536770942909==
+--===============5866815047853511113==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -23,20 +23,20 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/scsi/scsi_transport_fc.c:1557:9-17: WARNING: use scnprintf or sprin=
-tf
-drivers/scsi/scsi_transport_fc.c:1481:9-17: WARNING: use scnprintf or sprin=
-tf
-drivers/scsi/scsi_transport_fc.c:1505:9-17: WARNING: use scnprintf or sprin=
-tf
-drivers/scsi/scsi_transport_fc.c:1590:8-16: WARNING: use scnprintf or sprin=
-tf
-drivers/scsi/scsi_transport_fc.c:955:9-17: WARNING: use scnprintf or sprintf
-drivers/scsi/scsi_transport_fc.c:921:10-18: WARNING: use scnprintf or sprin=
-tf
-drivers/scsi/scsi_transport_fc.c:826:9-17: WARNING: use scnprintf or sprintf
-drivers/scsi/scsi_transport_fc.c:1255:9-17: WARNING: use scnprintf or sprin=
-tf
+drivers/scsi/scsi_sysfs.c:671:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:662:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:1068:9-17: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:704:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:935:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:1158:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:683:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:385:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:910:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:833:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:276:9-17: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:326:9-17: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:230:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/scsi_sysfs.c:818:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -62,114 +62,161 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- scsi_transport_fc.c |   30 +++++++++++++++---------------
+ scsi_sysfs.c |   30 +++++++++++++++---------------
  1 file changed, 15 insertions(+), 15 deletions(-)
 
---- a/drivers/scsi/scsi_transport_fc.c
-+++ b/drivers/scsi/scsi_transport_fc.c
-@@ -823,7 +823,7 @@ show_fc_rport_supported_classes (struct
- {
- 	struct fc_rport *rport =3D transport_class_to_rport(dev);
- 	if (rport->supported_classes =3D=3D FC_COS_UNSPECIFIED)
--		return snprintf(buf, 20, "unspecified\n");
-+		return scnprintf(buf, 20, "unspecified\n");
- 	return get_fc_cos_names(rport->supported_classes, buf);
- }
- static FC_DEVICE_ATTR(rport, supported_classes, S_IRUGO,
-@@ -918,21 +918,21 @@ show_fc_rport_roles (struct device *dev,
- 					FC_WELLKNOWN_PORTID_MASK) {
- 		switch (rport->port_id & FC_WELLKNOWN_ROLE_MASK) {
- 		case FC_FPORT_PORTID:
--			return snprintf(buf, 30, "Fabric Port\n");
-+			return scnprintf(buf, 30, "Fabric Port\n");
- 		case FC_FABCTLR_PORTID:
--			return snprintf(buf, 30, "Fabric Controller\n");
-+			return scnprintf(buf, 30, "Fabric Controller\n");
- 		case FC_DIRSRVR_PORTID:
--			return snprintf(buf, 30, "Directory Server\n");
-+			return scnprintf(buf, 30, "Directory Server\n");
- 		case FC_TIMESRVR_PORTID:
--			return snprintf(buf, 30, "Time Server\n");
-+			return scnprintf(buf, 30, "Time Server\n");
- 		case FC_MGMTSRVR_PORTID:
--			return snprintf(buf, 30, "Management Server\n");
-+			return scnprintf(buf, 30, "Management Server\n");
- 		default:
--			return snprintf(buf, 30, "Unknown Fabric Entity\n");
-+			return scnprintf(buf, 30, "Unknown Fabric Entity\n");
- 		}
- 	} else {
- 		if (rport->roles =3D=3D FC_PORT_ROLE_UNKNOWN)
--			return snprintf(buf, 20, "unknown\n");
-+			return scnprintf(buf, 20, "unknown\n");
- 		return get_fc_port_roles_names(rport->roles, buf);
- 	}
- }
-@@ -952,8 +952,8 @@ show_fc_rport_fast_io_fail_tmo (struct d
- 	struct fc_rport *rport =3D transport_class_to_rport(dev);
+--- a/drivers/scsi/scsi_sysfs.c
++++ b/drivers/scsi/scsi_sysfs.c
+@@ -227,7 +227,7 @@ show_shost_state(struct device *dev, str
+ 	if (!name)
+ 		return -EINVAL;
  =
 
- 	if (rport->fast_io_fail_tmo =3D=3D -1)
--		return snprintf(buf, 5, "off\n");
--	return snprintf(buf, 20, "%d\n", rport->fast_io_fail_tmo);
-+		return scnprintf(buf, 5, "off\n");
-+	return scnprintf(buf, 20, "%d\n", rport->fast_io_fail_tmo);
+-	return snprintf(buf, 20, "%s\n", name);
++	return scnprintf(buf, 20, "%s\n", name);
+ }
+ =
+
+ /* DEVICE_ATTR(state) clashes with dev_attr_state for sdev */
+@@ -273,7 +273,7 @@ show_shost_active_mode(struct device *de
+ 	struct Scsi_Host *shost =3D class_to_shost(dev);
+ =
+
+ 	if (shost->active_mode =3D=3D MODE_UNKNOWN)
+-		return snprintf(buf, 20, "unknown\n");
++		return scnprintf(buf, 20, "unknown\n");
+ 	else
+ 		return show_shost_mode(shost->active_mode, buf);
+ }
+@@ -323,7 +323,7 @@ show_shost_eh_deadline(struct device *de
+ 	struct Scsi_Host *shost =3D class_to_shost(dev);
+ =
+
+ 	if (shost->eh_deadline =3D=3D -1)
+-		return snprintf(buf, strlen("off") + 2, "off\n");
++		return scnprintf(buf, strlen("off") + 2, "off\n");
+ 	return sprintf(buf, "%u\n", shost->eh_deadline / HZ);
+ }
+ =
+
+@@ -382,7 +382,7 @@ static ssize_t
+ show_host_busy(struct device *dev, struct device_attribute *attr, char *bu=
+f)
+ {
+ 	struct Scsi_Host *shost =3D class_to_shost(dev);
+-	return snprintf(buf, 20, "%d\n", scsi_host_busy(shost));
++	return scnprintf(buf, 20, "%d\n", scsi_host_busy(shost));
+ }
+ static DEVICE_ATTR(host_busy, S_IRUGO, show_host_busy, NULL);
+ =
+
+@@ -659,7 +659,7 @@ sdev_show_device_busy(struct device *dev
+ 		char *buf)
+ {
+ 	struct scsi_device *sdev =3D to_scsi_device(dev);
+-	return snprintf(buf, 20, "%d\n", atomic_read(&sdev->device_busy));
++	return scnprintf(buf, 20, "%d\n", atomic_read(&sdev->device_busy));
+ }
+ static DEVICE_ATTR(device_busy, S_IRUGO, sdev_show_device_busy, NULL);
+ =
+
+@@ -668,7 +668,7 @@ sdev_show_device_blocked(struct device *
+ 		char *buf)
+ {
+ 	struct scsi_device *sdev =3D to_scsi_device(dev);
+-	return snprintf(buf, 20, "%d\n", atomic_read(&sdev->device_blocked));
++	return scnprintf(buf, 20, "%d\n", atomic_read(&sdev->device_blocked));
+ }
+ static DEVICE_ATTR(device_blocked, S_IRUGO, sdev_show_device_blocked, NULL=
+);
+ =
+
+@@ -680,7 +680,7 @@ sdev_show_timeout (struct device *dev, s
+ {
+ 	struct scsi_device *sdev;
+ 	sdev =3D to_scsi_device(dev);
+-	return snprintf(buf, 20, "%d\n", sdev->request_queue->rq_timeout / HZ);
++	return scnprintf(buf, 20, "%d\n", sdev->request_queue->rq_timeout / HZ);
  }
  =
 
  static ssize_t
-@@ -1252,7 +1252,7 @@ show_fc_vport_roles (struct device *dev,
- 	struct fc_vport *vport =3D transport_class_to_vport(dev);
- =
-
- 	if (vport->roles =3D=3D FC_PORT_ROLE_UNKNOWN)
--		return snprintf(buf, 20, "unknown\n");
-+		return scnprintf(buf, 20, "unknown\n");
- 	return get_fc_port_roles_names(vport->roles, buf);
+@@ -701,7 +701,7 @@ sdev_show_eh_timeout(struct device *dev,
+ {
+ 	struct scsi_device *sdev;
+ 	sdev =3D to_scsi_device(dev);
+-	return snprintf(buf, 20, "%u\n", sdev->eh_timeout / HZ);
++	return scnprintf(buf, 20, "%u\n", sdev->eh_timeout / HZ);
  }
- static FC_DEVICE_ATTR(vport, roles, S_IRUGO, show_fc_vport_roles, NULL);
-@@ -1478,7 +1478,7 @@ show_fc_host_supported_classes (struct d
- 	struct Scsi_Host *shost =3D transport_class_to_shost(dev);
  =
 
- 	if (fc_host_supported_classes(shost) =3D=3D FC_COS_UNSPECIFIED)
--		return snprintf(buf, 20, "unspecified\n");
-+		return scnprintf(buf, 20, "unspecified\n");
- =
-
- 	return get_fc_cos_names(fc_host_supported_classes(shost), buf);
- }
-@@ -1502,7 +1502,7 @@ show_fc_host_supported_speeds (struct de
- 	struct Scsi_Host *shost =3D transport_class_to_shost(dev);
- =
-
- 	if (fc_host_supported_speeds(shost) =3D=3D FC_PORTSPEED_UNKNOWN)
--		return snprintf(buf, 20, "unknown\n");
-+		return scnprintf(buf, 20, "unknown\n");
- =
-
- 	return get_fc_port_speed_names(fc_host_supported_speeds(shost), buf);
- }
-@@ -1554,7 +1554,7 @@ show_fc_host_speed (struct device *dev,
- 		i->f->get_host_speed(shost);
- =
-
- 	if (fc_host_speed(shost) =3D=3D FC_PORTSPEED_UNKNOWN)
--		return snprintf(buf, 20, "unknown\n");
-+		return scnprintf(buf, 20, "unknown\n");
- =
-
- 	return get_fc_port_speed_names(fc_host_speed(shost), buf);
- }
-@@ -1587,7 +1587,7 @@ show_fc_private_host_tgtid_bind_type(str
- 	name =3D get_fc_tgtid_bind_type_name(fc_host_tgtid_bind_type(shost));
+ static ssize_t
+@@ -815,7 +815,7 @@ show_state_field(struct device *dev, str
  	if (!name)
  		return -EINVAL;
--	return snprintf(buf, FC_BINDTYPE_MAX_NAMELEN, "%s\n", name);
-+	return scnprintf(buf, FC_BINDTYPE_MAX_NAMELEN, "%s\n", name);
+ =
+
+-	return snprintf(buf, 20, "%s\n", name);
++	return scnprintf(buf, 20, "%s\n", name);
  }
  =
 
- #define get_list_head_entry(pos, head, member) 		\
---===============3229609536770942909==--
+ static DEVICE_ATTR(state, S_IRUGO | S_IWUSR, show_state_field, store_state=
+_field);
+@@ -830,7 +830,7 @@ show_queue_type_field(struct device *dev
+ 	if (sdev->simple_tags)
+ 		name =3D "simple";
+ =
+
+-	return snprintf(buf, 20, "%s\n", name);
++	return scnprintf(buf, 20, "%s\n", name);
+ }
+ =
+
+ static ssize_t
+@@ -907,7 +907,7 @@ static ssize_t
+ show_iostat_counterbits(struct device *dev, struct device_attribute *attr,
+ 			char *buf)
+ {
+-	return snprintf(buf, 20, "%d\n", (int)sizeof(atomic_t) * 8);
++	return scnprintf(buf, 20, "%d\n", (int)sizeof(atomic_t) * 8);
+ }
+ =
+
+ static DEVICE_ATTR(iocounterbits, S_IRUGO, show_iostat_counterbits, NULL);
+@@ -932,7 +932,7 @@ sdev_show_modalias(struct device *dev, s
+ {
+ 	struct scsi_device *sdev;
+ 	sdev =3D to_scsi_device(dev);
+-	return snprintf (buf, 20, SCSI_DEVICE_MODALIAS_FMT "\n", sdev->type);
++	return scnprintf (buf, 20, SCSI_DEVICE_MODALIAS_FMT "\n", sdev->type);
+ }
+ static DEVICE_ATTR(modalias, S_IRUGO, sdev_show_modalias, NULL);
+ =
+
+@@ -1065,9 +1065,9 @@ sdev_show_dh_state(struct device *dev, s
+ 	struct scsi_device *sdev =3D to_scsi_device(dev);
+ =
+
+ 	if (!sdev->handler)
+-		return snprintf(buf, 20, "detached\n");
++		return scnprintf(buf, 20, "detached\n");
+ =
+
+-	return snprintf(buf, 20, "%s\n", sdev->handler->name);
++	return scnprintf(buf, 20, "%s\n", sdev->handler->name);
+ }
+ =
+
+ static ssize_t
+@@ -1155,7 +1155,7 @@ sdev_show_queue_ramp_up_period(struct de
+ {
+ 	struct scsi_device *sdev;
+ 	sdev =3D to_scsi_device(dev);
+-	return snprintf(buf, 20, "%u\n",
++	return scnprintf(buf, 20, "%u\n",
+ 			jiffies_to_msecs(sdev->queue_ramp_up_period));
+ }
+=20
+--===============5866815047853511113==--
 
