@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7919735855286150500=="
+Content-Type: multipart/mixed; boundary="===============1086307673952027279=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Fri, 03 Jul 2020 19:35:59 +0800
-Message-ID: <20200703113559.GA19031@bf425ecdd42c>
+Date: Fri, 03 Jul 2020 19:35:58 +0800
+Message-ID: <20200703113558.GA18944@bf425ecdd42c>
 In-Reply-To: <202007031941.um9p1FRJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7919735855286150500==
+--===============1086307673952027279==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,34 +16,13 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Corey Minyard <minyard@acm.org>
-CC: Arnd Bergmann <arnd@arndb.de>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: openipmi-developer(a)lists.sourceforge.net
+CC: Stefan Richter <stefanr@s5r6.in-berlin.de>
+CC: linux1394-devel(a)lists.sourceforge.net
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/char/ipmi/ipmi_msghandler.c:2694:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2743:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2612:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2659:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2765:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2676:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2711:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2727:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2628:8-16: WARNING: use scnprintf or sp=
-rintf
-drivers/char/ipmi/ipmi_msghandler.c:2643:8-16: WARNING: use scnprintf or sp=
-rintf
+drivers/firewire/core-device.c:375:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -69,116 +48,20 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ipmi_msghandler.c |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ core-device.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/char/ipmi/ipmi_msghandler.c
-+++ b/drivers/char/ipmi/ipmi_msghandler.c
-@@ -2609,7 +2609,7 @@ static ssize_t device_id_show(struct dev
- 	if (rv)
- 		return rv;
+--- a/drivers/firewire/core-device.c
++++ b/drivers/firewire/core-device.c
+@@ -372,7 +372,7 @@ static ssize_t rom_index_show(struct dev
+ 	struct fw_device *device =3D fw_device(dev->parent);
+ 	struct fw_unit *unit =3D fw_unit(dev);
  =
 
--	return snprintf(buf, 10, "%u\n", id.device_id);
-+	return scnprintf(buf, 10, "%u\n", id.device_id);
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
++	return scnprintf(buf, PAGE_SIZE, "%d\n",
+ 			(int)(unit->directory - device->config_rom));
  }
- static DEVICE_ATTR_RO(device_id);
- =
-
-@@ -2625,7 +2625,7 @@ static ssize_t provides_device_sdrs_show
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 10, "%u\n", (id.device_revision & 0x80) >> 7);
-+	return scnprintf(buf, 10, "%u\n", (id.device_revision & 0x80) >> 7);
- }
- static DEVICE_ATTR_RO(provides_device_sdrs);
- =
-
-@@ -2640,7 +2640,7 @@ static ssize_t revision_show(struct devi
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 20, "%u\n", id.device_revision & 0x0F);
-+	return scnprintf(buf, 20, "%u\n", id.device_revision & 0x0F);
- }
- static DEVICE_ATTR_RO(revision);
- =
-
-@@ -2656,7 +2656,7 @@ static ssize_t firmware_revision_show(st
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 20, "%u.%x\n", id.firmware_revision_1,
-+	return scnprintf(buf, 20, "%u.%x\n", id.firmware_revision_1,
- 			id.firmware_revision_2);
- }
- static DEVICE_ATTR_RO(firmware_revision);
-@@ -2673,7 +2673,7 @@ static ssize_t ipmi_version_show(struct
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 20, "%u.%u\n",
-+	return scnprintf(buf, 20, "%u.%u\n",
- 			ipmi_version_major(&id),
- 			ipmi_version_minor(&id));
- }
-@@ -2691,7 +2691,7 @@ static ssize_t add_dev_support_show(stru
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 10, "0x%02x\n", id.additional_device_support);
-+	return scnprintf(buf, 10, "0x%02x\n", id.additional_device_support);
- }
- static DEVICE_ATTR(additional_device_support, S_IRUGO, add_dev_support_sho=
-w,
- 		   NULL);
-@@ -2708,7 +2708,7 @@ static ssize_t manufacturer_id_show(stru
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 20, "0x%6.6x\n", id.manufacturer_id);
-+	return scnprintf(buf, 20, "0x%6.6x\n", id.manufacturer_id);
- }
- static DEVICE_ATTR_RO(manufacturer_id);
- =
-
-@@ -2724,7 +2724,7 @@ static ssize_t product_id_show(struct de
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 10, "0x%4.4x\n", id.product_id);
-+	return scnprintf(buf, 10, "0x%4.4x\n", id.product_id);
- }
- static DEVICE_ATTR_RO(product_id);
- =
-
-@@ -2740,7 +2740,7 @@ static ssize_t aux_firmware_rev_show(str
- 	if (rv)
- 		return rv;
- =
-
--	return snprintf(buf, 21, "0x%02x 0x%02x 0x%02x 0x%02x\n",
-+	return scnprintf(buf, 21, "0x%02x 0x%02x 0x%02x 0x%02x\n",
- 			id.aux_firmware_revision[3],
- 			id.aux_firmware_revision[2],
- 			id.aux_firmware_revision[1],
-@@ -2762,7 +2762,7 @@ static ssize_t guid_show(struct device *
- 	if (!guid_set)
- 		return -ENOENT;
- =
-
--	return snprintf(buf, UUID_STRING_LEN + 1 + 1, "%pUl\n", &guid);
-+	return scnprintf(buf, UUID_STRING_LEN + 1 + 1, "%pUl\n", &guid);
- }
- static DEVICE_ATTR_RO(guid);
 =20
---===============7919735855286150500==--
+--===============1086307673952027279==--
 
