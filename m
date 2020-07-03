@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1428739229660536576=="
+Content-Type: multipart/mixed; boundary="===============7322968902379014426=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Fri, 03 Jul 2020 19:35:50 +0800
-Message-ID: <20200703113550.GA18509@bf425ecdd42c>
+Date: Fri, 03 Jul 2020 19:35:49 +0800
+Message-ID: <20200703113549.GA18422@bf425ecdd42c>
 In-Reply-To: <202007031941.um9p1FRJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1428739229660536576==
+--===============7322968902379014426==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,25 +16,19 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: David Airlie <airlied@linux.ie>
-CC: Daniel Vetter <daniel@ffwll.ch>
-CC: Evan Quan <evan.quan@amd.com>
-CC: Hawking Zhang <Hawking.Zhang@amd.com>
-CC: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-CC: Monk Liu <Monk.Liu@amd.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Jiri Slaby <jslaby@suse.com>
+CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Lukas Wunner <lukas@wunner.de>
+CC: Vignesh Raghavendra <vigneshr@ti.com>
+CC: Aaron Sierra <asierra@xes-inc.com>
+CC: linux-serial(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:134:8-16: WARNING: use scnprintf=
- or sprintf
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:158:8-16: WARNING: use scnprintf=
- or sprintf
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:180:8-16: WARNING: use scnprintf=
- or sprintf
-drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:202:8-16: WARNING: use scnprintf=
- or sprintf
+drivers/tty/serial/8250/8250_port.c:2989:8-16: WARNING: use scnprintf or sp=
+rintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -60,54 +54,21 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- amdgpu_device.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ 8250_port.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -131,7 +131,7 @@ static ssize_t amdgpu_device_get_pcie_re
- 	struct amdgpu_device *adev =3D ddev->dev_private;
- 	uint64_t cnt =3D amdgpu_asic_get_pcie_replay_count(adev);
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -2986,7 +2986,7 @@ static ssize_t rx_trig_bytes_show(struct
+ 	if (rxtrig_bytes < 0)
+ 		return rxtrig_bytes;
  =
 
--	return snprintf(buf, PAGE_SIZE, "%llu\n", cnt);
-+	return scnprintf(buf, PAGE_SIZE, "%llu\n", cnt);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", rxtrig_bytes);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", rxtrig_bytes);
  }
  =
 
- static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
-@@ -155,7 +155,7 @@ static ssize_t amdgpu_device_get_product
- 	struct drm_device *ddev =3D dev_get_drvdata(dev);
- 	struct amdgpu_device *adev =3D ddev->dev_private;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_name);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", adev->product_name);
- }
- =
-
- static DEVICE_ATTR(product_name, S_IRUGO,
-@@ -177,7 +177,7 @@ static ssize_t amdgpu_device_get_product
- 	struct drm_device *ddev =3D dev_get_drvdata(dev);
- 	struct amdgpu_device *adev =3D ddev->dev_private;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_number);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", adev->product_number);
- }
- =
-
- static DEVICE_ATTR(product_number, S_IRUGO,
-@@ -199,7 +199,7 @@ static ssize_t amdgpu_device_get_serial_
- 	struct drm_device *ddev =3D dev_get_drvdata(dev);
- 	struct amdgpu_device *adev =3D ddev->dev_private;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->serial);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", adev->serial);
- }
- =
-
- static DEVICE_ATTR(serial_number, S_IRUGO,
---===============1428739229660536576==--
+ static int do_set_rxtrig(struct tty_port *port, unsigned char bytes)
+--===============7322968902379014426==--
 
