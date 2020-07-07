@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============3184336106155946113=="
+Content-Type: multipart/mixed; boundary="===============4651168509235982080=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Intel-gfx] [PATCH 20/23] drm/i915: Use ww pinning for intel_context_create_request()
-Date: Tue, 07 Jul 2020 17:35:56 +0300
-Message-ID: <20200707143556.GG2549@kadam>
-In-Reply-To: <20200703122221.591656-21-maarten.lankhorst@linux.intel.com>
+Subject: Re: [Intel-gfx] [PATCH 15/23] drm/i915: Convert i915_gem_object/client_blt.c to use ww locking as well, v2.
+Date: Tue, 07 Jul 2020 17:32:35 +0300
+Message-ID: <20200707143235.GF2549@kadam>
+In-Reply-To: <20200703122221.591656-16-maarten.lankhorst@linux.intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3184336106155946113==
+--===============4651168509235982080==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -26,95 +26,91 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/i915/gt/intel_context.c:472 intel_context_create_request() =
-error: uninitialized symbol 'rq'.
+drivers/gpu/drm/i915/gem/i915_gem_object_blt.c:367 i915_gem_object_copy_blt=
+() warn: passing a valid pointer to 'PTR_ERR'
 
 Old smatch warnings:
 drivers/gpu/drm/i915/gem/i915_gem_object.h:130 __i915_gem_object_lock() err=
 or: we previously assumed 'ww' could be null (see line 122)
+drivers/gpu/drm/i915/gem/i915_gem_object_blt.c:139 move_obj_to_gpu() warn: =
+maybe use && instead of &
+drivers/gpu/drm/i915/gem/i915_gem_context.h:205 i915_gem_context_get_engine=
+() warn: inconsistent indenting
+drivers/gpu/drm/i915/gem/i915_gem_context.h:207 i915_gem_context_get_engine=
+() warn: inconsistent indenting
 
-# https://github.com/0day-ci/linux/commit/bf4a02b288a7a2fb0b765163016a766e0=
-68b32da
+# https://github.com/0day-ci/linux/commit/db8aba4953b274f1a757ff6f92b15697f=
+d5af58a
 git remote add linux-review https://github.com/0day-ci/linux
 git remote update linux-review
-git checkout bf4a02b288a7a2fb0b765163016a766e068b32da
-vim +/rq +472 drivers/gpu/drm/i915/gt/intel_context.c
+git checkout db8aba4953b274f1a757ff6f92b15697fd5af58a
+vim +/PTR_ERR +367 drivers/gpu/drm/i915/gem/i915_gem_object_blt.c
 
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  450  struct i915_request *int=
-el_context_create_request(struct intel_context *ce)
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  451  {
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  452  	struct i915_gem_ww_ctx =
-ww;
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  453  	struct i915_request *rq;
+05f219d709ec57 Matthew Auld      2019-08-10  351  int i915_gem_object_copy_=
+blt(struct drm_i915_gem_object *src,
+05f219d709ec57 Matthew Auld      2019-08-10  352  			     struct drm_i915_g=
+em_object *dst,
+05f219d709ec57 Matthew Auld      2019-08-10  353  			     struct intel_cont=
+ext *ce)
+05f219d709ec57 Matthew Auld      2019-08-10  354  {
+05f219d709ec57 Matthew Auld      2019-08-10  355  	struct i915_address_spac=
+e *vm =3D ce->vm;
+05f219d709ec57 Matthew Auld      2019-08-10  356  	struct i915_vma *vma[2],=
+ *batch;
+db8aba4953b274 Maarten Lankhorst 2020-07-03  357  	struct i915_gem_ww_ctx w=
+w;
+05f219d709ec57 Matthew Auld      2019-08-10  358  	struct i915_request *rq;
+05f219d709ec57 Matthew Auld      2019-08-10  359  	int err, i;
+05f219d709ec57 Matthew Auld      2019-08-10  360  =
+
+05f219d709ec57 Matthew Auld      2019-08-10  361  	vma[0] =3D i915_vma_inst=
+ance(src, vm, NULL);
+05f219d709ec57 Matthew Auld      2019-08-10  362  	if (IS_ERR(vma[0]))
+05f219d709ec57 Matthew Auld      2019-08-10  363  		return PTR_ERR(vma[0]);
+05f219d709ec57 Matthew Auld      2019-08-10  364  =
+
+05f219d709ec57 Matthew Auld      2019-08-10  365  	vma[1] =3D i915_vma_inst=
+ance(dst, vm, NULL);
+05f219d709ec57 Matthew Auld      2019-08-10  366  	if (IS_ERR(vma[1]))
+db8aba4953b274 Maarten Lankhorst 2020-07-03 @367  		return PTR_ERR(vma);
                                                                            =
-  ^^
+    ^^^
+Should be "vma[1]".
 
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  454  	int err;
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  455  =
 
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  456  	i915_gem_ww_ctx_init(&w=
-w, true);
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  457  retry:
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  458  	err =3D intel_context_p=
+05f219d709ec57 Matthew Auld      2019-08-10  368  =
+
+db8aba4953b274 Maarten Lankhorst 2020-07-03  369  	i915_gem_ww_ctx_init(&ww=
+, true);
+db8aba4953b274 Maarten Lankhorst 2020-07-03  370  	intel_engine_pm_get(ce->=
+engine);
+db8aba4953b274 Maarten Lankhorst 2020-07-03  371  retry:
+db8aba4953b274 Maarten Lankhorst 2020-07-03  372  	err =3D i915_gem_object_=
+lock(src, &ww);
+db8aba4953b274 Maarten Lankhorst 2020-07-03  373  	if (!err)
+db8aba4953b274 Maarten Lankhorst 2020-07-03  374  		err =3D i915_gem_object=
+_lock(dst, &ww);
+db8aba4953b274 Maarten Lankhorst 2020-07-03  375  	if (!err)
+db8aba4953b274 Maarten Lankhorst 2020-07-03  376  		err =3D intel_context_p=
 in_ww(ce, &ww);
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  459  	if (!err) {
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  460  		rq =3D i915_request_cr=
-eate(ce);
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  461  		intel_context_unpin(ce=
-);
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  462  	} else if (err =3D=3D -=
-EDEADLK) {
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  463  		err =3D i915_gem_ww_ct=
-x_backoff(&ww);
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  464  		if (!err)
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  465  			goto retry;
+db8aba4953b274 Maarten Lankhorst 2020-07-03  377  	if (err)
+db8aba4953b274 Maarten Lankhorst 2020-07-03  378  		goto out;
+db8aba4953b274 Maarten Lankhorst 2020-07-03  379  =
 
-rq =3D ERR_PTR(err); on this path presumably?
-
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  466  	} else {
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  467  		rq =3D ERR_PTR(err);
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  468  	}
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  469  =
-
-bf4a02b288a7a2f Maarten Lankhorst 2020-07-03  470  	i915_gem_ww_ctx_fini(&w=
-w);
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  471  =
-
-2c5820855aff608 Maarten Lankhorst 2020-07-03 @472  	if (IS_ERR(rq))
-                                                                   ^^
-2c5820855aff608 Maarten Lankhorst 2020-07-03  473  		return rq;
-2c5820855aff608 Maarten Lankhorst 2020-07-03  474  =
-
-2c5820855aff608 Maarten Lankhorst 2020-07-03  475  	/*
-2c5820855aff608 Maarten Lankhorst 2020-07-03  476  	 * timeline->mutex shou=
-ld be the inner lock, but is used as outer lock.
-2c5820855aff608 Maarten Lankhorst 2020-07-03  477  	 * Hack around this to =
-shut up lockdep in selftests..
-2c5820855aff608 Maarten Lankhorst 2020-07-03  478  	 */
-2c5820855aff608 Maarten Lankhorst 2020-07-03  479  	lockdep_unpin_lock(&ce-=
->timeline->mutex, rq->cookie);
-2c5820855aff608 Maarten Lankhorst 2020-07-03  480  	mutex_release(&ce->time=
-line->mutex.dep_map, _RET_IP_);
-2c5820855aff608 Maarten Lankhorst 2020-07-03  481  	mutex_acquire(&ce->time=
-line->mutex.dep_map, SINGLE_DEPTH_NESTING, 0, _RET_IP_);
-2c5820855aff608 Maarten Lankhorst 2020-07-03  482  	rq->cookie =3D lockdep_=
-pin_lock(&ce->timeline->mutex);
-2c5820855aff608 Maarten Lankhorst 2020-07-03  483  =
-
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  484  	return rq;
-5e2a0419ef7cb25 Chris Wilson      2019-04-26  485  }
+db8aba4953b274 Maarten Lankhorst 2020-07-03  380  	err =3D i915_vma_pin_ww(=
+vma[0], &ww, 0, 0, PIN_USER);
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3184336106155946113==
+--===============4651168509235982080==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICD5kAl8AAy5jb25maWcAjDzLdtw2svv5ij7OZrJIRi9rnHOPFiAJdiNNEjQAttTa4Chy26MT
+H4sICKqzAV8AAy5jb25maWcAjDzLdtw2svv5ij7OZrJIRi9rnHOPFiAJdiNNEjQAttTa4Chy26MT
 W8rVY2Z8v/5WAXwAYLGTLBw1qlB41RsF/vC3H1bs7fXp293rw/3d16/fV18Oj4fnu9fDp9Xnh6+H
 /1kVctVIs+KFMD8DcvXw+Pbffzycf7hcvf/5w88nPz3fn6+2h+fHw9dV/vT4+eHLG/R+eHr82w9/
 y2VTirXNc7vjSgvZWMNvzNW7L/f3P/2y+ntx+O3h7nH1y8/nQOb04kf/17ugm9B2nedX34em9UTq
@@ -851,5 +847,5 @@ NPY7Fzp0TZ45fninOvZjlOgaRpHeR+bT5y5O0Djk4wnkUVgeOScweisZsQm/Tv3GLDk5KHrbuWat
 NorZESB6pC5ysnZc80QF3SmhnzxTZ9Y2i8t0JTxOAXJHUb5STggiAHsTSIdZFqA5pTpcnZwf3y2u
 9jdFttv5CeQeT/Mj284wiRwhclEagATGKRm7DqAiMXY7Dl96mUOAucffjCTnb2Un3Fz6uPwXPB5Q
 ZiuUAgA=
---===============3184336106155946113==--
+--===============4651168509235982080==--
 
