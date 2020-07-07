@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3089937697529380812=="
+Content-Type: multipart/mixed; boundary="===============0633189841532629686=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [gustavoars-linux:testing/fallthrough 232/560] drivers/input/touchscreen/edt-ft5x06.c:291 edt_ft5x06_register_write() warn: ignoring unreachable code.
-Date: Tue, 07 Jul 2020 17:08:55 +0300
-Message-ID: <20200707140855.GB2549@kadam>
+Subject: [gustavoars-linux:testing/fallthrough 144/560] drivers/gpu/drm/drm_dp_helper.c:492 drm_dp_downstream_max_bpc() warn: ignoring unreachable code.
+Date: Tue, 07 Jul 2020 17:07:17 +0300
+Message-ID: <20200707140717.GA2549@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3089937697529380812==
+--===============0633189841532629686==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.gi=
 t testing/fallthrough
 head:   d7f10c2411ed9283df8d763139de9468b88c89ce
-commit: fd4bfbc7288bb10bad29069582680658042795ac [232/560] Input: Use fallt=
-hrough pseudo-keyword
+commit: 62708a516a6b158e213c46ff731260cb988dbc11 [144/560] drm: Use fallthr=
+ough pseudo-keyword
 config: i386-randconfig-m021-20200703 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-14) 9.3.0
 
@@ -25,76 +25,77 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/input/touchscreen/edt-ft5x06.c:291 edt_ft5x06_register_write() warn=
-: ignoring unreachable code.
+drivers/gpu/drm/drm_dp_helper.c:492 drm_dp_downstream_max_bpc() warn: ignor=
+ing unreachable code.
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/gustavoars/linux.git/comm=
-it/?id=3Dfd4bfbc7288bb10bad29069582680658042795ac
+it/?id=3D62708a516a6b158e213c46ff731260cb988dbc11
 git remote add gustavoars-linux https://git.kernel.org/pub/scm/linux/kernel=
 /git/gustavoars/linux.git
 git remote update gustavoars-linux
-git checkout fd4bfbc7288bb10bad29069582680658042795ac
-vim +291 drivers/input/touchscreen/edt-ft5x06.c
+git checkout 62708a516a6b158e213c46ff731260cb988dbc11
+vim +492 drivers/gpu/drm/drm_dp_helper.c
 
-43c4d13e901a8f Simon Budig         2012-07-24  278  static int edt_ft5x06_r=
-egister_write(struct edt_ft5x06_ts_data *tsdata,
-43c4d13e901a8f Simon Budig         2012-07-24  279  				     u8 addr, u8 va=
-lue)
-43c4d13e901a8f Simon Budig         2012-07-24  280  {
-43c4d13e901a8f Simon Budig         2012-07-24  281  	u8 wrbuf[4];
-43c4d13e901a8f Simon Budig         2012-07-24  282  =
+7529d6af1cd16b Mika Kahola         2016-09-09  464  int drm_dp_downstream_m=
+ax_bpc(const u8 dpcd[DP_RECEIVER_CAP_SIZE],
+7529d6af1cd16b Mika Kahola         2016-09-09  465  			      const u8 port_=
+cap[4])
+7529d6af1cd16b Mika Kahola         2016-09-09  466  {
+7529d6af1cd16b Mika Kahola         2016-09-09  467  	int type =3D port_cap[=
+0] & DP_DS_PORT_TYPE_MASK;
+7529d6af1cd16b Mika Kahola         2016-09-09  468  	bool detailed_cap_info=
+ =3D dpcd[DP_DOWNSTREAMPORT_PRESENT] &
+7529d6af1cd16b Mika Kahola         2016-09-09  469  		DP_DETAILED_CAP_INFO_=
+AVAILABLE;
+7529d6af1cd16b Mika Kahola         2016-09-09  470  	int bpc;
+7529d6af1cd16b Mika Kahola         2016-09-09  471  =
 
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  283  	switch (tsdata->v=
-ersion) {
-169110c3645621 Simon Budig         2017-10-09  284  	case EDT_M06:
-43c4d13e901a8f Simon Budig         2012-07-24  285  		wrbuf[0] =3D tsdata->=
-factory_mode ? 0xf3 : 0xfc;
-43c4d13e901a8f Simon Budig         2012-07-24  286  		wrbuf[1] =3D tsdata->=
-factory_mode ? addr & 0x7f : addr & 0x3f;
-43c4d13e901a8f Simon Budig         2012-07-24  287  		wrbuf[2] =3D value;
-43c4d13e901a8f Simon Budig         2012-07-24  288  		wrbuf[3] =3D wrbuf[0]=
- ^ wrbuf[1] ^ wrbuf[2];
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  289  		return edt_ft5x0=
-6_ts_readwrite(tsdata->client, 4,
-                                                                ^^^^^^
+7529d6af1cd16b Mika Kahola         2016-09-09  472  	if (!detailed_cap_info)
+7529d6af1cd16b Mika Kahola         2016-09-09  473  		return 0;
+7529d6af1cd16b Mika Kahola         2016-09-09  474  =
 
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  290  					wrbuf, 0, NUL=
-L);
-fd4bfbc7288bb1 Gustavo A. R. Silva 2020-07-02 @291  		fallthrough;
+7529d6af1cd16b Mika Kahola         2016-09-09  475  	switch (type) {
+7529d6af1cd16b Mika Kahola         2016-09-09  476  	case DP_DS_PORT_TYPE_V=
+GA:
+7529d6af1cd16b Mika Kahola         2016-09-09  477  	case DP_DS_PORT_TYPE_D=
+VI:
+7529d6af1cd16b Mika Kahola         2016-09-09  478  	case DP_DS_PORT_TYPE_H=
+DMI:
+7529d6af1cd16b Mika Kahola         2016-09-09  479  	case DP_DS_PORT_TYPE_D=
+P_DUALMODE:
+7529d6af1cd16b Mika Kahola         2016-09-09  480  		bpc =3D port_cap[2] &=
+ DP_DS_MAX_BPC_MASK;
+7529d6af1cd16b Mika Kahola         2016-09-09  481  =
+
+7529d6af1cd16b Mika Kahola         2016-09-09  482  		switch (bpc) {
+7529d6af1cd16b Mika Kahola         2016-09-09  483  		case DP_DS_8BPC:
+7529d6af1cd16b Mika Kahola         2016-09-09  484  			return 8;
+7529d6af1cd16b Mika Kahola         2016-09-09  485  		case DP_DS_10BPC:
+7529d6af1cd16b Mika Kahola         2016-09-09  486  			return 10;
+7529d6af1cd16b Mika Kahola         2016-09-09  487  		case DP_DS_12BPC:
+7529d6af1cd16b Mika Kahola         2016-09-09  488  			return 12;
+7529d6af1cd16b Mika Kahola         2016-09-09  489  		case DP_DS_16BPC:
+7529d6af1cd16b Mika Kahola         2016-09-09  490  			return 16;
+7529d6af1cd16b Mika Kahola         2016-09-09  491  		}
+62708a516a6b15 Gustavo A. R. Silva 2020-07-02 @492  		fallthrough;
                                                                 ^^^^^^^^^^^
 
-169110c3645621 Simon Budig         2017-10-09  292  	case EDT_M09:
-aed5d0ee77c007 Simon Budig         2017-10-09  293  	case EDT_M12:
-a2f39dac0decd9 Marco Felsch        2019-01-13  294  	case EV_FT:
-169110c3645621 Simon Budig         2017-10-09  295  	case GENERIC_FT:
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  296  		wrbuf[0] =3D add=
-r;
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  297  		wrbuf[1] =3D val=
-ue;
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  298  =
-
-cc071acaa2cf7b Robert Woerle       2014-06-07  299  		return edt_ft5x06_ts_=
-readwrite(tsdata->client, 2,
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  300  					wrbuf, 0, NUL=
-L);
-43c4d13e901a8f Simon Budig         2012-07-24  301  =
-
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  302  	default:
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  303  		return -EINVAL;
-fd335ab04b3f1b Lothar Wa=C3=9Fmann      2014-03-28  304  	}
-43c4d13e901a8f Simon Budig         2012-07-24  305  }
+7529d6af1cd16b Mika Kahola         2016-09-09  493  	default:
+7529d6af1cd16b Mika Kahola         2016-09-09  494  		return 0;
+7529d6af1cd16b Mika Kahola         2016-09-09  495  	}
+7529d6af1cd16b Mika Kahola         2016-09-09  496  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3089937697529380812==
+--===============0633189841532629686==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEZi/14AAy5jb25maWcAlDxJd9w20vf8in7OJTkko8VWnPc9HUAQZGOaIGgAbHX7wqfIbUdv
+H4sICJhE/14AAy5jb25maWcAlDxJd9w20vf8in7OJTkko8VWnPc9HUAQZGOaIGgAbHX7wqfIbUdv
 tHha0kz8778qgAsAgnImB0eNKmyF2lHgjz/8uCIvz4/318+3N9d3d99WXw4Ph+P18+HT6vPt3eH/
 Vrlc1dKsWM7Nr4Bc3T68/PWP2/P3F6t3v77/9eSX483ZanM4PhzuVvTx4fPtlxfoffv48MOPP1BZ
 F7zsKO22TGku686wnbl88+Xm5pffVz/lhz9urx9Wv/96DsOcvv3Z/fXG68Z1V1J6+W1oKqehLn8/
@@ -705,5 +706,5 @@ umgC95ZWaqH90iuLYVMm/GudeFtoHH67BN2QXYIbLhWWbowSjWRIGevGcRpGEzQOeQNgsZGXI7sc
 Rp8XIyuxSq0XCm1qUNpCp28tADdVXMxGWkUTuwW+TMONyB9/NCyDzg0shqsLs7hM154aQVRsIRlY
 y1hL9xN2t/PIH90Z30bsvjQf2RCannyEeERpAAzz6Gkhez8HNZWVOBEA5jzpi2s4gCtJGlld6Ci5
 t/yihcXD/wCLr/75xSECAA==
---===============3089937697529380812==--
+--===============0633189841532629686==--
 
