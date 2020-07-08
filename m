@@ -1,27 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============0241797915537814051=="
+Content-Type: multipart/mixed; boundary="===============4137903498216865151=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chanwoo:devfreq-testing-timer 5/5] drivers/devfreq/devfreq.c:611 devfreq_update_interval() warn: inconsistent returns 'devfreq->lock'.
-Date: Wed, 08 Jul 2020 10:09:54 +0800
-Message-ID: <202007081046.XPFsjj65%lkp@intel.com>
+Subject: [djwong-xfs:repair-xattrs 136/137] fs/xfs/scrub/attr_repair.c:111 xrep_setup_xattr_buf() error: we previously assumed 'ab' could be null (see line 100)
+Date: Wed, 08 Jul 2020 08:09:57 +0800
+Message-ID: <202007080854.NJ6EnQw0%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0241797915537814051==
+--===============4137903498216865151==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Chanwoo Choi <cw00.choi@samsung.com>
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git d=
-evfreq-testing-timer
-head:   20dcdf2e2493025a08aec1d2b11f0148b4810adb
-commit: 20dcdf2e2493025a08aec1d2b11f0148b4810adb [5/5] PM / devfreq: Add go=
-vernor flags to clarify the features
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t repair-xattrs
+head:   ce9a25c14cf18d941c2202e9ab47da6e08fb6f05
+commit: e9fb2ba7dd34699cb8b33f966d0d5c89b4e7636c [136/137] xfs: repair exte=
+nded attributes
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 config: i386-randconfig-m021-20200707 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-14) 9.3.0
 
@@ -29,129 +30,100 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/devfreq/devfreq.c:611 devfreq_update_interval() warn: inconsistent =
-returns 'devfreq->lock'.
+smatch warnings:
+fs/xfs/scrub/attr_repair.c:111 xrep_setup_xattr_buf() error: we previously =
+assumed 'ab' could be null (see line 100)
 
-Old smatch warnings:
-drivers/devfreq/devfreq.c:911 devfreq_add_device() warn: passing zero to 'E=
-RR_PTR'
-drivers/devfreq/devfreq.c:1246 devfreq_remove_governor() warn: passing a va=
-lid pointer to 'PTR_ERR'
+# https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
+it/?id=3De9fb2ba7dd34699cb8b33f966d0d5c89b4e7636c
+git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/d=
+jwong/xfs-linux.git
+git remote update djwong-xfs
+git checkout e9fb2ba7dd34699cb8b33f966d0d5c89b4e7636c
+vim +/ab +111 fs/xfs/scrub/attr_repair.c
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git/commit/=
-?id=3D20dcdf2e2493025a08aec1d2b11f0148b4810adb
-git remote add chanwoo https://git.kernel.org/pub/scm/linux/kernel/git/chan=
-woo/linux.git
-git remote update chanwoo
-git checkout 20dcdf2e2493025a08aec1d2b11f0148b4810adb
-vim +611 drivers/devfreq/devfreq.c
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   70  =
 
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  564  =
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   71  /*
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   72   * Allocate enough memory t=
+o hold whatever we need to salvage an attr block.
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   73   * Buffer contents can be p=
+reserved, unlike in the scrub counterpart to this
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   74   * function.
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   75   */
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   76  STATIC int
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   77  xrep_setup_xattr_buf(
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   78  	struct xfs_scrub	*sc,
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   79  	size_t			value_size,
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   80  	bool			preserve)
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   81  {
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   82  	size_t			sz;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   83  	struct xchk_xattr_buf	*new=
+_ab;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   84  	struct xchk_xattr_buf	*ab =
+=3D sc->buf;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   85  =
 
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  565  /**
-3a1ec2e8d8a9f5 Chanwoo Choi     2020-01-29  566   * devfreq_update_interval=
-() - Update device devfreq monitoring interval
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  567   * @devfreq:    the devfre=
-q instance.
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  568   * @delay:      new pollin=
-g interval to be set.
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  569   *
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  570   * Helper function to set =
-new load monitoring polling interval. Function
-3a1ec2e8d8a9f5 Chanwoo Choi     2020-01-29  571   * to be called from gover=
-nor in response to DEVFREQ_GOV_UPDATE_INTERVAL event.
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  572   */
-3a1ec2e8d8a9f5 Chanwoo Choi     2020-01-29  573  void devfreq_update_interv=
-al(struct devfreq *devfreq, unsigned int *delay)
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  574  {
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  575  	unsigned int cur_delay =
-=3D devfreq->profile->polling_ms;
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  576  	unsigned int new_delay =
-=3D *delay;
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  577  =
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   86  	ASSERT(!preserve || ab !=
+=3D NULL);
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   87  =
 
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  578  	mutex_lock(&devfreq->lock=
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   88  	/*
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   89  	 * We need enough space to=
+ hold a bitmap for the used space within an
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   90  	 * attr block; the name of=
+ a salvaged attr; and the value of a salvaged
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   91  	 * attr.
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   92  	 */
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   93  	sz =3D sizeof(long) * BITS=
+_TO_LONGS(sc->mp->m_attr_geo->blksize) +
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   94  			value_size + XATTR_NAME_=
+MAX + 1;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   95  =
+
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   96  	/*
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   97  	 * If there's already a bu=
+ffer, figure out if we need to reallocate it
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   98  	 * to accommodate a larger=
+ size.
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25   99  	 */
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25 @100  	if (ab && ab->sz >=3D sz)
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  101  		return 0;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  102  =
+
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  103  	if (!preserve)
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  104  		kmem_free(ab);
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  105  =
+
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  106  	new_ab =3D kmem_alloc_larg=
+e(sizeof(*new_ab) + sz, KM_MAYFAIL);
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  107  	if (!new_ab)
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  108  		return -ENOMEM;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  109  =
+
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  110  	if (preserve) {
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25 @111  		memcpy(new_ab, ab, ab->sz=
 );
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  579  	devfreq->profile->polling=
-_ms =3D new_delay;
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  580  =
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  112  		kmem_free(ab);
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  113  	}
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  114  	new_ab->sz =3D sz;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  115  	sc->buf =3D new_ab;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  116  	return 0;
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  117  }
+e9fb2ba7dd3469 Darrick J. Wong 2020-06-25  118  =
 
-20dcdf2e249302 Chanwoo Choi     2020-07-03  581  	if (DEVFREQ_GOV_FLAG_IRQ_=
-DRIVEN & devfreq->governor->flag)
-20dcdf2e249302 Chanwoo Choi     2020-07-03  582  		return;
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  583  =
-
-20dcdf2e249302 Chanwoo Choi     2020-07-03  584  	if (devfreq->stop_polling)
-5c0f6c79595760 Dmitry Osipenko  2019-11-05  585  		goto out;
-5c0f6c79595760 Dmitry Osipenko  2019-11-05  586  =
-
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  587  	/* if new delay is zero, =
-stop polling */
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  588  	if (!new_delay) {
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  589  		mutex_unlock(&devfreq->l=
-ock);
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  590  		cancel_delayed_work_sync=
-(&devfreq->work);
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  591  		return;
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  592  	}
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  593  =
-
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  594  	/* if current delay is ze=
-ro, start polling with new delay */
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  595  	if (!cur_delay) {
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  596  		queue_delayed_work(devfr=
-eq_wq, &devfreq->work,
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  597  			msecs_to_jiffies(devfre=
-q->profile->polling_ms));
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  598  		goto out;
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  599  	}
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  600  =
-
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  601  	/* if current delay is gr=
-eater than new delay, restart polling */
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  602  	if (cur_delay > new_delay=
-) {
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  603  		mutex_unlock(&devfreq->l=
-ock);
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  604  		cancel_delayed_work_sync=
-(&devfreq->work);
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  605  		mutex_lock(&devfreq->loc=
-k);
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  606  		if (!devfreq->stop_polli=
-ng)
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  607  			queue_delayed_work(devf=
-req_wq, &devfreq->work,
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  608  				msecs_to_jiffies(devfr=
-eq->profile->polling_ms));
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  609  	}
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26  610  out:
-7e6fdd4bad033f Rajagopal Venkat 2012-10-26 @611  	mutex_unlock(&devfreq->lo=
-ck);
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  612  }
-3a1ec2e8d8a9f5 Chanwoo Choi     2020-01-29  613  EXPORT_SYMBOL(devfreq_upda=
-te_interval);
-a3c98b8b2ede1f MyungJoo Ham     2011-10-02  614  =
-
-
-:::::: The code at line 611 was first introduced by commit
-:::::: 7e6fdd4bad033fa2d73716377b184fa975b0d985 PM / devfreq: Core updates =
-to support devices which can idle
-
-:::::: TO: Rajagopal Venkat <rajagopal.venkat@linaro.org>
-:::::: CC: Rafael J. Wysocki <rafael.j.wysocki@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0241797915537814051==
+--===============4137903498216865151==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICGobBV8AAy5jb25maWcAlFxLc9y2st7nV0w5m2SRHL2s49QtLUAS5CBDEjQAzkMbliKPHVX0
+H4sICE76BF8AAy5jb25maWcAlFxLc9y2st7nV0w5m2SRHL2s49QtLUAS5CBDEjQAzkMbliKPHVX0
 8B2NTuLz6283QJAACE5ys3A06Ebj1Wh83Wjw++++X5C348vT3fHh/u7x8dviy/55f7g77j8tPj88
 7v9nkfFFzdWCZkz9DMzlw/PbX/96uPxwvXj/84efz3463F8uVvvD8/5xkb48f3748ga1H16ev/v+
 u5TXOSu6NO3WVEjG607Rrbp59+X+/qdfFj9k+98e7p4Xv/x8CWLOr340f71zqjHZFWl6880WFaOo
@@ -774,5 +746,5 @@ iq4OSt51TwQLoGgK7iCM0MRJZ8Z1wZGM1MgOzRbgYU2mvFNcuvna5AB2TUeefjznCTApKowgcPwg
 1ij7QggJm4Rc1Kxc0QstYl59MJru9jgtM7J8DgwDqlh4hZLvVdOSGX0MIIoLcijyd11QUA30qZuC
 UhdnouJOA6itWVJlYIREzhKUl+Qc6LlzJmSuO8rN6/MLrSWXFQem3vBBHeAYURYIWJ+Hlj7FOnm0
 HtWITdCjAWNvzPgattpSMUFWvByUJU6unDws/D9iIWaILyICAA==
---===============0241797915537814051==--
+--===============4137903498216865151==--
 
