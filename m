@@ -1,16 +1,19 @@
-Content-Type: multipart/mixed; boundary="===============5604768058020820996=="
+Content-Type: multipart/mixed; boundary="===============0798275053316001007=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [ti:ti-android-linux-4.14.y 8967/9999] drivers/gpu/drm/virtio/virtgpu_ioctl.c:636 virtio_gpu_resource_create_blob_ioctl() error: we previously assumed 'obj->pages' could be null (see line 627)
-Date: Wed, 08 Jul 2020 12:28:55 +0300
-Message-ID: <20200708092855.GB2571@kadam>
+Date: Wed, 08 Jul 2020 13:52:21 +0800
+Message-ID: <202007081316.9jxA8nSr%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5604768058020820996==
+--===============0798275053316001007==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Praneeth Bajjuri <praneeth@ti.com>
 
 tree:   git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git ti-android-lin=
 ux-4.14.y
@@ -18,6 +21,8 @@ head:   9325afe9ea703ee9446dec68ad3b687d307d7a2f
 commit: a14d324ee3d4b38164f0efa8f4d163e991370559 [8967/9999] Merge branch '=
 android-4.14-stable' of https://android.googlesource.com/kernel/common into=
  android-feature-ti-linux-4.14.y
+:::::: branch date: 14 hours ago
+:::::: commit date: 2 months ago
 config: i386-randconfig-m021-20200707 (attached as .config)
 compiler: gcc-7 (Ubuntu 7.5.0-6ubuntu2) 7.5.0
 
@@ -26,6 +31,9 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
+drivers/gpu/drm/virtio/virtgpu_ioctl.c:636 virtio_gpu_resource_create_blob_=
+ioctl() error: we previously assumed 'obj->pages' could be null (see line 6=
+27)
 drivers/gpu/drm/virtio/virtgpu_ioctl.c:647 virtio_gpu_resource_create_blob_=
 ioctl() error: potential null dereference 'ents'.  (kzalloc returns null)
 drivers/gpu/drm/virtio/virtgpu_ioctl.c:694 virtio_gpu_resource_create_blob_=
@@ -41,6 +49,8 @@ git remote add ti git://git.ti.com/ti-linux-kernel/ti-linux-kernel.git
 git remote update ti
 git checkout a14d324ee3d4b38164f0efa8f4d163e991370559
 vim +636 drivers/gpu/drm/virtio/virtgpu_ioctl.c
+
+62fb7a5e10962a Gerd Hoffmann 2014-10-28  583  =
 
 4d701a3899580b Lingfeng Yang 2020-04-16  584  static int virtio_gpu_resourc=
 e_create_blob_ioctl(struct drm_device *dev,
@@ -82,10 +92,6 @@ b->flags;
 
 4d701a3899580b Lingfeng Yang 2020-04-16  606  	if (rc_blob->cmd_size && vfp=
 riv) {
-                                                                         ^^=
-^^^^
-If "vfpriv" is ever NULL then we are toasted later.
-
 4d701a3899580b Lingfeng Yang 2020-04-16  607  		void *buf;
 4d701a3899580b Lingfeng Yang 2020-04-16  608  		void __user *cmd =3D u64_to=
 _user_ptr(rc_blob->cmd);
@@ -117,7 +123,7 @@ dc92d4ac179f5e Lingfeng Yang 2020-04-16  624  	if (IS_ERR(obj))
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  625  		return PTR_ERR(obj);
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  626  =
 
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  627  	if (!obj->pages) {
+dc92d4ac179f5e Lingfeng Yang 2020-04-16 @627  	if (!obj->pages) {
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  628                  ret =3D virti=
 o_gpu_object_get_sg_table(vgdev, obj);
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  629                  if (ret)
@@ -128,7 +134,7 @@ dc92d4ac179f5e Lingfeng Yang 2020-04-16  632  =
 4d701a3899580b Lingfeng Yang 2020-04-16  633  	if (!guest) {
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  634  		nents =3D 0;
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  635  	} else if (use_dma_api) {
-dc92d4ac179f5e Lingfeng Yang 2020-04-16  636                  obj->mapped =
+dc92d4ac179f5e Lingfeng Yang 2020-04-16 @636                  obj->mapped =
 =3D dma_map_sg(vgdev->vdev->dev.parent,
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  637                               =
             obj->pages->sgl, obj->pages->nents,
@@ -144,9 +150,6 @@ dc92d4ac179f5e Lingfeng Yang 2020-04-16  643  =
 
 4d701a3899580b Lingfeng Yang 2020-04-16  644  	ents =3D kzalloc(nents * siz=
 eof(struct virtio_gpu_mem_entry), GFP_KERNEL);
-                                                ^^^^^^^^^^^^^^
-No check for NULL.
-
 4d701a3899580b Lingfeng Yang 2020-04-16  645  	if (guest) {
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  646  		for_each_sg(obj->pages->sgl=
 , sg, nents, si) {
@@ -166,18 +169,11 @@ lloc(vgdev);
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  656  	if (!fence) {
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  657  		ret =3D -ENOMEM;
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  658  		goto err_free_buf;
-
-This error path needs to free "ents".
-
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  659  	}
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  660  =
 
 4d701a3899580b Lingfeng Yang 2020-04-16  661  	virtio_gpu_cmd_resource_crea=
 te_blob(vgdev, obj, vfpriv->ctx_id,
-                                                                           =
-                     ^^^^^^^^^^^^^^
-Potentially NULL dereference is "vfpriv".
-
 4d701a3899580b Lingfeng Yang 2020-04-16  662  					    rc_blob->flags, rc_b=
 lob->size,
 4d701a3899580b Lingfeng Yang 2020-04-16  663  					    rc_blob->memory_id, =
@@ -225,25 +221,26 @@ dc92d4ac179f5e Lingfeng Yang 2020-04-16  688  err_fence_put:
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  689  	dma_fence_put(&fence->f);
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  690  err_free_buf:
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  691  	kfree(buf);
-                                                      ^^^
-Potentially uninitialized.
-
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  692  err_free_obj:
 dc92d4ac179f5e Lingfeng Yang 2020-04-16  693  	drm_gem_object_release(&obj-=
 >gem_base);
 dc92d4ac179f5e Lingfeng Yang 2020-04-16 @694  	return ret;
 73738beaa7074c Lingfeng Yang 2020-04-16  695  }
+73738beaa7074c Lingfeng Yang 2020-04-16  696  =
 
+
+:::::: The code at line 636 was first introduced by commit
+:::::: dc92d4ac179f5e6a766616af82827e6c0a17d276 CHROMIUM: drm/virtgpu: impl=
+ement DRM_VIRTGPU_RESOURCE_CREATE_V2
+
+:::::: TO: Lingfeng Yang <lfy@google.com>
+:::::: CC: Alistair Delva <adelva@google.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============5604768058020820996==
+--===============0798275053316001007==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -795,5 +792,5 @@ dCg6k9yDyrmMMhqjh4hSLPl+QQo/CCThvelkvIEqaNgJKBglcxRMF3Z3SRAlXbbCpMW8GCrBD6qu
 xKJE/UhtAY3lg+PEQA7tzPCe3VS3RneCjIKKbmDa21kL/7uZ5zNVICIlbCRxqP0LHMeo9m4Pb3a1
 bpPAwIdxvcQgdF+kD6R70f6a2+BrG69CP75JXXXcYwj+HO8jmjt/25PrKNcPdV16Jllj4BkO15Fu
 GpPwl/ApsV5ITol8zqL9Ay+JBsno2AEA
---===============5604768058020820996==--
+--===============0798275053316001007==--
 
