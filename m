@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4717299047233471951=="
+Content-Type: multipart/mixed; boundary="===============0165759401368294134=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Wed, 08 Jul 2020 10:42:18 +0800
-Message-ID: <20200708024218.GA12397@23e96c66c5d9>
+Date: Wed, 08 Jul 2020 10:42:17 +0800
+Message-ID: <20200708024217.GA12310@23e96c66c5d9>
 In-Reply-To: <202007081052.zwZaMV5x%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4717299047233471951==
+--===============0165759401368294134==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,20 +16,18 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Alim Akhtar <alim.akhtar@samsung.com>
-CC: Avri Altman <avri.altman@wdc.com>
-CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Stanley Chu <stanley.chu@mediatek.com>
-CC: Bean Huo <beanhuo@micron.com>
-CC: Can Guo <cang@codeaurora.org>
-CC: Bart Van Assche <bvanassche@acm.org>
+CC: Matt Mackall <mpm@selenic.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Laurent Vivier <lvivier@redhat.com>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: Stephen Boyd <swboyd@chromium.org>
+CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/scsi/ufs/ufshcd.c:1749:8-16: WARNING: use scnprintf or sprintf
-drivers/scsi/ufs/ufshcd.c:1772:8-16: WARNING: use scnprintf or sprintf
-drivers/scsi/ufs/ufshcd.c:1460:8-16: WARNING: use scnprintf or sprintf
+drivers/char/hw_random/core.c:399:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -55,43 +53,20 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ufshcd.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ core.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/scsi/ufs/ufshcd.c
-+++ b/drivers/scsi/ufs/ufshcd.c
-@@ -1457,7 +1457,7 @@ static ssize_t ufshcd_clkscale_enable_sh
+--- a/drivers/char/hw_random/core.c
++++ b/drivers/char/hw_random/core.c
+@@ -396,7 +396,7 @@ static ssize_t hwrng_attr_selected_show(
+ 					struct device_attribute *attr,
+ 					char *buf)
  {
- 	struct ufs_hba *hba =3D dev_get_drvdata(dev);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n", hba->clk_scaling.is_allowed);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", hba->clk_scaling.is_allowed);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", cur_rng_set_by_user);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", cur_rng_set_by_user);
  }
  =
 
- static ssize_t ufshcd_clkscale_enable_store(struct device *dev,
-@@ -1746,7 +1746,7 @@ static ssize_t ufshcd_clkgate_delay_show
- {
- 	struct ufs_hba *hba =3D dev_get_drvdata(dev);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%lu\n", hba->clk_gating.delay_ms);
-+	return scnprintf(buf, PAGE_SIZE, "%lu\n", hba->clk_gating.delay_ms);
- }
- =
-
- static ssize_t ufshcd_clkgate_delay_store(struct device *dev,
-@@ -1769,7 +1769,7 @@ static ssize_t ufshcd_clkgate_enable_sho
- {
- 	struct ufs_hba *hba =3D dev_get_drvdata(dev);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n", hba->clk_gating.is_enabled);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", hba->clk_gating.is_enabled);
- }
- =
-
- static ssize_t ufshcd_clkgate_enable_store(struct device *dev,
---===============4717299047233471951==--
+ static DEVICE_ATTR(rng_current, S_IRUGO | S_IWUSR,
+--===============0165759401368294134==--
 
