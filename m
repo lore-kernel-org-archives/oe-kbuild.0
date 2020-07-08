@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============5010666664090238618=="
+Content-Type: multipart/mixed; boundary="===============4717299047233471951=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Wed, 08 Jul 2020 10:42:19 +0800
-Message-ID: <20200708024219.GA12484@23e96c66c5d9>
+Date: Wed, 08 Jul 2020 10:42:18 +0800
+Message-ID: <20200708024218.GA12397@23e96c66c5d9>
 In-Reply-To: <202007081052.zwZaMV5x%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5010666664090238618==
+--===============4717299047233471951==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,19 +16,20 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Jiri Slaby <jslaby@suse.com>
-CC: Nicolas Pitre <nico@fluxnic.net>
-CC: Sam Ravnborg <sam@ravnborg.org>
-CC: Eric Biggers <ebiggers@google.com>
-CC: Lukas Wunner <lukas@wunner.de>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: linux-kernel(a)vger.kernel.org
+CC: Alim Akhtar <alim.akhtar@samsung.com>
+CC: Avri Altman <avri.altman@wdc.com>
+CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Stanley Chu <stanley.chu@mediatek.com>
+CC: Bean Huo <beanhuo@micron.com>
+CC: Can Guo <cang@codeaurora.org>
+CC: Bart Van Assche <bvanassche@acm.org>
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/tty/vt/vt.c:3813:8-16: WARNING: use scnprintf or sprintf
-drivers/tty/vt/vt.c:3821:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/ufs/ufshcd.c:1749:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/ufs/ufshcd.c:1772:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/ufs/ufshcd.c:1460:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -54,31 +55,43 @@ commit: 988676da837516bbfafda5478472fd4265f0de4e [1/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- vt.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ufshcd.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---- a/drivers/tty/vt/vt.c
-+++ b/drivers/tty/vt/vt.c
-@@ -3810,7 +3810,7 @@ static ssize_t show_bind(struct device *
- 	bind =3D con_is_bound(con->con);
- 	console_unlock();
+--- a/drivers/scsi/ufs/ufshcd.c
++++ b/drivers/scsi/ufs/ufshcd.c
+@@ -1457,7 +1457,7 @@ static ssize_t ufshcd_clkscale_enable_sh
+ {
+ 	struct ufs_hba *hba =3D dev_get_drvdata(dev);
  =
 
--	return snprintf(buf, PAGE_SIZE, "%i\n", bind);
-+	return scnprintf(buf, PAGE_SIZE, "%i\n", bind);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", hba->clk_scaling.is_allowed);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", hba->clk_scaling.is_allowed);
  }
  =
 
- static ssize_t show_name(struct device *dev, struct device_attribute *attr,
-@@ -3818,7 +3818,7 @@ static ssize_t show_name(struct device *
+ static ssize_t ufshcd_clkscale_enable_store(struct device *dev,
+@@ -1746,7 +1746,7 @@ static ssize_t ufshcd_clkgate_delay_show
  {
- 	struct con_driver *con =3D dev_get_drvdata(dev);
+ 	struct ufs_hba *hba =3D dev_get_drvdata(dev);
  =
 
--	return snprintf(buf, PAGE_SIZE, "%s %s\n",
-+	return scnprintf(buf, PAGE_SIZE, "%s %s\n",
- 			(con->flag & CON_DRIVER_FLAG_MODULE) ? "(M)" : "(S)",
- 			 con->desc);
-=20
---===============5010666664090238618==--
+-	return snprintf(buf, PAGE_SIZE, "%lu\n", hba->clk_gating.delay_ms);
++	return scnprintf(buf, PAGE_SIZE, "%lu\n", hba->clk_gating.delay_ms);
+ }
+ =
+
+ static ssize_t ufshcd_clkgate_delay_store(struct device *dev,
+@@ -1769,7 +1769,7 @@ static ssize_t ufshcd_clkgate_enable_sho
+ {
+ 	struct ufs_hba *hba =3D dev_get_drvdata(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", hba->clk_gating.is_enabled);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", hba->clk_gating.is_enabled);
+ }
+ =
+
+ static ssize_t ufshcd_clkgate_enable_store(struct device *dev,
+--===============4717299047233471951==--
 
