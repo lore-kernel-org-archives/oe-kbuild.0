@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8711598661756224313=="
+Content-Type: multipart/mixed; boundary="===============2605257930066300437=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [joro:sev-es-client-v5.8-rc5 41/75] arch/x86/kernel/sev-es.c:239 handle_vc_boot_ghcb() error: we previously assumed 'boot_ghcb' could be null (see line 236)
-Date: Thu, 16 Jul 2020 14:20:48 +0800
-Message-ID: <202007161445.zmkchB6C%lkp@intel.com>
+Subject: [joro:sev-es-client-v5.8-rc5 39/75] arch/x86/kernel/sev-es-shared.c:267 vc_ioio_exitinfo() warn: should 'insn->immediate.value << 16' be a 64 bit
+Date: Thu, 16 Jul 2020 11:20:06 +0800
+Message-ID: <202007161102.96J76nKN%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8711598661756224313==
+--===============2605257930066300437==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,11 +15,15 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Joerg Roedel <jroedel@suse.de>
 
+Hi Joerg,
+
+First bad commit (maybe !=3D root cause):
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git sev-=
 es-client-v5.8-rc5
 head:   08fb0b185129ad6e4997db4daf9481b0fedc93c3
-commit: 5b943302c350a02ea41499a0b14c5632536930a5 [41/75] x86/sev-es: Setup =
-GHCB based boot #VC handler
+commit: 440b8b16bfd39d627edb2946e5a584784f1269e4 [39/75] x86/sev-es: Compil=
+e early handler code into kernel image
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
 config: x86_64-randconfig-m001-20200715 (attached as .config)
@@ -30,55 +34,157 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-arch/x86/kernel/sev-es.c:239 handle_vc_boot_ghcb() error: we previously ass=
-umed 'boot_ghcb' could be null (see line 236)
-
-Old smatch warnings:
 arch/x86/kernel/sev-es-shared.c:267 vc_ioio_exitinfo() warn: should 'insn->=
 immediate.value << 16' be a 64 bit type?
+
+Old smatch warnings:
 arch/x86/kernel/sev-es-shared.c:274 vc_ioio_exitinfo() warn: should 'insn->=
 immediate.value << 16' be a 64 bit type?
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/joro/linux.git/commit/?id=
-=3D5b943302c350a02ea41499a0b14c5632536930a5
+=3D440b8b16bfd39d627edb2946e5a584784f1269e4
 git remote add joro https://git.kernel.org/pub/scm/linux/kernel/git/joro/li=
 nux.git
 git remote update joro
-git checkout 5b943302c350a02ea41499a0b14c5632536930a5
-vim +/boot_ghcb +239 arch/x86/kernel/sev-es.c
+git checkout 440b8b16bfd39d627edb2946e5a584784f1269e4
+vim +267 arch/x86/kernel/sev-es-shared.c
 
-5b943302c350a0 Joerg Roedel 2019-12-10  228  =
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  240  =
 
-5b943302c350a0 Joerg Roedel 2019-12-10  229  bool __init handle_vc_boot_ghc=
-b(struct pt_regs *regs)
-5b943302c350a0 Joerg Roedel 2019-12-10  230  {
-5b943302c350a0 Joerg Roedel 2019-12-10  231  	unsigned long exit_code =3D r=
-egs->orig_ax;
-5b943302c350a0 Joerg Roedel 2019-12-10  232  	struct es_em_ctxt ctxt;
-5b943302c350a0 Joerg Roedel 2019-12-10  233  	enum es_result result;
-5b943302c350a0 Joerg Roedel 2019-12-10  234  =
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  241  static enum es_result vc_ioio=
+_exitinfo(struct es_em_ctxt *ctxt, u64 *exitinfo)
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  242  {
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  243  	struct insn *insn =3D &ctxt-=
+>insn;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  244  	*exitinfo =3D 0;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  245  =
 
-5b943302c350a0 Joerg Roedel 2019-12-10  235  	/* Do initial setup or termin=
-ate the guest */
-5b943302c350a0 Joerg Roedel 2019-12-10 @236  	if (unlikely(boot_ghcb =3D=3D=
- NULL && !sev_es_setup_ghcb()))
-5b943302c350a0 Joerg Roedel 2019-12-10  237  		sev_es_terminate(GHCB_SEV_ES=
-_REASON_GENERAL_REQUEST);
-5b943302c350a0 Joerg Roedel 2019-12-10  238  =
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  246  	switch (insn->opcode.bytes[0=
+]) {
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  247  	/* INS opcodes */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  248  	case 0x6c:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  249  	case 0x6d:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  250  		*exitinfo |=3D IOIO_TYPE_IN=
+S;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  251  		*exitinfo |=3D IOIO_SEG_ES;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  252  		*exitinfo |=3D (ctxt->regs-=
+>dx & 0xffff) << 16;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  253  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  254  =
 
-5b943302c350a0 Joerg Roedel 2019-12-10 @239  	vc_ghcb_invalidate(boot_ghcb);
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  255  	/* OUTS opcodes */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  256  	case 0x6e:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  257  	case 0x6f:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  258  		*exitinfo |=3D IOIO_TYPE_OU=
+TS;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  259  		*exitinfo |=3D IOIO_SEG_DS;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  260  		*exitinfo |=3D (ctxt->regs-=
+>dx & 0xffff) << 16;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  261  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  262  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  263  	/* IN immediate opcodes */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  264  	case 0xe4:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  265  	case 0xe5:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  266  		*exitinfo |=3D IOIO_TYPE_IN;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30 @267  		*exitinfo |=3D insn->immedi=
+ate.value << 16;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  268  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  269  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  270  	/* OUT immediate opcodes */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  271  	case 0xe6:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  272  	case 0xe7:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  273  		*exitinfo |=3D IOIO_TYPE_OU=
+T;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  274  		*exitinfo |=3D insn->immedi=
+ate.value << 16;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  275  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  276  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  277  	/* IN register opcodes */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  278  	case 0xec:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  279  	case 0xed:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  280  		*exitinfo |=3D IOIO_TYPE_IN;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  281  		*exitinfo |=3D (ctxt->regs-=
+>dx & 0xffff) << 16;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  282  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  283  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  284  	/* OUT register opcodes */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  285  	case 0xee:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  286  	case 0xef:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  287  		*exitinfo |=3D IOIO_TYPE_OU=
+T;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  288  		*exitinfo |=3D (ctxt->regs-=
+>dx & 0xffff) << 16;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  289  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  290  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  291  	default:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  292  		return ES_DECODE_FAILED;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  293  	}
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  294  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  295  	switch (insn->opcode.bytes[0=
+]) {
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  296  	case 0x6c:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  297  	case 0x6e:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  298  	case 0xe4:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  299  	case 0xe6:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  300  	case 0xec:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  301  	case 0xee:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  302  		/* Single byte opcodes */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  303  		*exitinfo |=3D IOIO_DATA_8;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  304  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  305  	default:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  306  		/* Length determined by ins=
+truction parsing */
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  307  		*exitinfo |=3D (insn->opnd_=
+bytes =3D=3D 2) ? IOIO_DATA_16
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  308  						     : IOIO_DATA_32;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  309  	}
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  310  	switch (insn->addr_bytes) {
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  311  	case 2:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  312  		*exitinfo |=3D IOIO_ADDR_16;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  313  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  314  	case 4:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  315  		*exitinfo |=3D IOIO_ADDR_32;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  316  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  317  	case 8:
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  318  		*exitinfo |=3D IOIO_ADDR_64;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  319  		break;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  320  	}
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  321  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  322  	if (insn_has_rep_prefix(insn=
+))
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  323  		*exitinfo |=3D IOIO_REP;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  324  =
+
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  325  	return ES_OK;
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  326  }
+8710b6ad66e8d05 Tom Lendacky 2019-09-30  327  =
+
+
+:::::: The code at line 267 was first introduced by commit
+:::::: 8710b6ad66e8d053da895fc196da53adb88a1c26 x86/sev-es: Add support for=
+ handling IOIO exceptions
+
+:::::: TO: Tom Lendacky <thomas.lendacky@amd.com>
+:::::: CC: Joerg Roedel <jroedel@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8711598661756224313==
+--===============2605257930066300437==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICPLsD18AAy5jb25maWcAjFxLd9w2st7nV/RxNsnCGT1sXefcowWaBLuRJgkaAPuhDY4itz06
+H4sICCnCD18AAy5jb25maWcAjFxLd9w2st7nV/RxNsnCGT1sXefcowWaBLuRJgkaAPuhDY4itz06
 I0u5ekzsf3+rAD4AsChnFhk3qgAChULVV4WCfv7p5wV7eX74ev18e3N9d/d98eV4f3y8fj5+Wny+
 vTv+7yKXi1qaBc+F+Q2Yy9v7l2//+vbhwl68W7z/7cNvJ28fb94vNsfH++PdInu4/3z75QX63z7c
 //TzT5msC7GyWWa3XGkha2v43ly++XJz8/b3xS/58c/b6/vF77+dwzCn7371/3oTdBParrLs8nvf
@@ -729,5 +835,5 @@ YeZlun6EydCRAMSOIF4aDs5OpzklDXyZbNxEp87MyAtfGXLNigSKqons4AKCrwDRlvzqJgLp1xhq
 dpa20qnAfgjAsDkznnkTRdcFElcQVrrShPGYSnceStVLFDU6oXnma2dqQ9EUhE1jzsFbruiVFZit
 h+zYWW28si+HmiTVFlMC+w1XvBu0RKI767Kk+6ErnkWhEyd0jpfo7NbmaZ2vRT0xZTKv7sRnDV+2
 q2VIiViC+WqIyLo9mGAaSR6BcjG5NcinNiC/6UaCBIDz96ad+4M/Nr0EIdK14v8AW5YPbKNHAgA=
---===============8711598661756224313==--
+--===============2605257930066300437==--
 
