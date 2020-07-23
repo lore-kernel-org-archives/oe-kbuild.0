@@ -1,21 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============5537414915874352235=="
+Content-Type: multipart/mixed; boundary="===============0093144155259634406=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [hch-misc:quota-compat 1/1] fs/quota/quota.c:417 compat_copy_fs_quota_stat() error: copy_to_user() '&from' too small (4 vs 8)
-Date: Thu, 23 Jul 2020 15:06:02 +0300
-Message-ID: <20200723120602.GT2571@kadam>
+Date: Thu, 23 Jul 2020 13:21:40 +0800
+Message-ID: <202007231336.fEwCxFey%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5537414915874352235==
+--===============0093144155259634406==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Christoph Hellwig <hch@lst.de>
 
 tree:   git://git.infradead.org/users/hch/misc.git quota-compat
 head:   50cfd16ee025f4dab73eccc8e159cef8a46b6e23
 commit: 50cfd16ee025f4dab73eccc8e159cef8a46b6e23 [1/1] quota: simplify the =
 quotactl compat handling
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
 config: i386-randconfig-m021-20200723 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-14) 9.3.0
 
@@ -32,6 +37,8 @@ git remote update hch-misc
 git checkout 50cfd16ee025f4dab73eccc8e159cef8a46b6e23
 vim +417 fs/quota/quota.c
 
+50cfd16ee025f4 Christoph Hellwig 2020-07-22  412  =
+
 50cfd16ee025f4 Christoph Hellwig 2020-07-22  413  static int compat_copy_fs=
 _quota_stat(struct compat_fs_quota_stat __user *to,
 50cfd16ee025f4 Christoph Hellwig 2020-07-22  414  		struct fs_quota_stat *f=
@@ -41,10 +48,6 @@ rom)
 s_flags, qs_pad */
 50cfd16ee025f4 Christoph Hellwig 2020-07-22 @417  	if (copy_to_user(to, &fr=
 om, offsetof(typeof(*to), qs_uquota)))
-                                                                           =
-  ^^^^^
-This shouldn't be the address, it should just be "from".
-
 50cfd16ee025f4 Christoph Hellwig 2020-07-22  418  		return -EFAULT;
 50cfd16ee025f4 Christoph Hellwig 2020-07-22  419  	/* Copying qs_uquota and=
  qs_gquota */
@@ -63,16 +66,14 @@ arnlimit, &to->qs_iwarnlimit))
 50cfd16ee025f4 Christoph Hellwig 2020-07-22  427  		return -EFAULT;
 50cfd16ee025f4 Christoph Hellwig 2020-07-22  428  	return 0;
 50cfd16ee025f4 Christoph Hellwig 2020-07-22  429  }
+50cfd16ee025f4 Christoph Hellwig 2020-07-22  430  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============5537414915874352235==
+--===============0093144155259634406==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -618,5 +619,5 @@ T9JQS1d5VPRblK8UXzhDHGzmKR9T4MhxHe09MZYJhec2v6donKcRm6JzhDM6pd5WUO807RsKceoh
 RX4qz80T+CyN2Ruw4XVZDo+8R7avz/WykjnJUV3wPmk22Q4jfJXMhX0naJkrhj6T1Ye3d9QGUF0N
 nv9zeL37SgKdX2Hlxj22bI3/VlDh7UlW0Ggv17x/BykyKaqgxsPSaDEc36bysmM/3sh48u6fpdGT
 rK5wKuC6+bbbQaZdQQlsVJ7vSneVVsrc022U2vrWyRF2PCLVa+X/AZPiTfHQ4AEA
---===============5537414915874352235==--
+--===============0093144155259634406==--
 
