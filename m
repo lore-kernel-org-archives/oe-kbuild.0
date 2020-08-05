@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5216114961206040786=="
+Content-Type: multipart/mixed; boundary="===============7270672026590950116=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [morimoto-linux:fw-cleanup-2020-07-28-v1 39/81] sound/soc/soc-dai.c:599:30: sparse: sparse: macro "soc_dai_mark_match" passed 4 arguments, but takes just 3
-Date: Wed, 05 Aug 2020 17:47:19 +0800
-Message-ID: <202008051715.2AexvSAn%lkp@intel.com>
+Subject: [morimoto-linux:fw-cleanup-2020-07-28-v1 31/81] sound/soc/soc-component.c:468:22: sparse: sparse: macro "soc_component_mark_match" passed 4 arguments, but takes just 3
+Date: Wed, 05 Aug 2020 16:27:33 +0800
+Message-ID: <202008051631.P8w7KYDt%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5216114961206040786==
+--===============7270672026590950116==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,8 +17,8 @@ TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 tree:   https://github.com/morimoto/linux fw-cleanup-2020-07-28-v1
 head:   92678e01a0ba154ff221e81a9b861aa8e8f98e0f
-commit: 07f5d42989decfcafb837844ee7abd89e738291d [39/81] ASoC: soc-pcm: car=
-e trigger rollback
+commit: 59c7951a8cce26b5c892c455ebb3821dc8327abb [31/81] ASoC: soc-componen=
+t: add mark for snd_soc_component_compr_open/free()
 :::::: branch date: 8 days ago
 :::::: commit date: 8 days ago
 config: x86_64-randconfig-s021-20200805 (attached as .config)
@@ -26,7 +26,7 @@ compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.2-117-g8c7aee71-dirty
-        git checkout 07f5d42989decfcafb837844ee7abd89e738291d
+        git checkout 59c7951a8cce26b5c892c455ebb3821dc8327abb
         # save the attached .config to linux build tree
         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=
 =3Dx86_64 =
@@ -38,88 +38,71 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 sparse warnings: (new ones prefixed by >>)
 
->> sound/soc/soc-dai.c:599:30: sparse: sparse: macro "soc_dai_mark_match" p=
-assed 4 arguments, but takes just 3
-   sound/soc/soc-dai.c:599:30: sparse: sparse: undefined identifier 'soc_da=
-i_mark_match'
+>> sound/soc/soc-component.c:468:22: sparse: sparse: macro "soc_component_m=
+ark_match" passed 4 arguments, but takes just 3
+   sound/soc/soc-component.c:468:22: sparse: sparse: undefined identifier '=
+soc_component_mark_match'
+--
+>> sound/soc/soc-link.c:177:14: sparse: sparse: macro "soc_link_mark_match"=
+ passed 4 arguments, but takes just 3
+   sound/soc/soc-link.c:177:14: sparse: sparse: undefined identifier 'soc_l=
+ink_mark_match'
 
-# https://github.com/morimoto/linux/commit/07f5d42989decfcafb837844ee7abd89=
-e738291d
+# https://github.com/morimoto/linux/commit/59c7951a8cce26b5c892c455ebb3821d=
+c8327abb
 git remote add morimoto-linux https://github.com/morimoto/linux
 git remote update morimoto-linux
-git checkout 07f5d42989decfcafb837844ee7abd89e738291d
-vim +/soc_dai_mark_match +599 sound/soc/soc-dai.c
+git checkout 59c7951a8cce26b5c892c455ebb3821dc8327abb
+vim +/soc_component_mark_match +468 sound/soc/soc-component.c
 
-07f5d42989decf Kuninori Morimoto 2020-07-10  576  =
+a3f5f45d334360 Kuninori Morimoto 2020-06-04  459  =
 
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  577  int snd_soc_pcm_dai_trigg=
-er(struct snd_pcm_substream *substream,
-07f5d42989decf Kuninori Morimoto 2020-07-10  578  			    int cmd, int rollb=
-ack)
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  579  {
-0ceef681e34a61 Kuninori Morimoto 2020-07-20  580  	struct snd_soc_pcm_runti=
-me *rtd =3D asoc_substream_to_rtd(substream);
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  581  	struct snd_soc_dai *dai;
-07f5d42989decf Kuninori Morimoto 2020-07-10  582  	int i, r, ret =3D 0;
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  583  =
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  460  void snd_soc_component_co=
+mpr_free(struct snd_compr_stream *cstream,
+59c7951a8cce26 Kuninori Morimoto 2020-05-11  461  				  int rollback)
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  462  {
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  463  	struct snd_soc_pcm_runti=
+me *rtd =3D cstream->private_data;
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  464  	struct snd_soc_component=
+ *component;
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  465  	int i;
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  466  =
 
-07f5d42989decf Kuninori Morimoto 2020-07-10  584  	switch (cmd) {
-07f5d42989decf Kuninori Morimoto 2020-07-10  585  	case SNDRV_PCM_TRIGGER_S=
-TART:
-07f5d42989decf Kuninori Morimoto 2020-07-10  586  	case SNDRV_PCM_TRIGGER_R=
-ESUME:
-07f5d42989decf Kuninori Morimoto 2020-07-10  587  	case SNDRV_PCM_TRIGGER_P=
-AUSE_RELEASE:
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  588  		for_each_rtd_dais(rtd, =
-i, dai) {
-07f5d42989decf Kuninori Morimoto 2020-07-10  589  			ret =3D soc_dai_trigge=
-r(dai, substream, cmd);
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  590  			if (ret < 0)
-07f5d42989decf Kuninori Morimoto 2020-07-10  591  				break;
-07f5d42989decf Kuninori Morimoto 2020-07-10  592  			soc_dai_mark_push(dai,=
- substream, trigger);
-07f5d42989decf Kuninori Morimoto 2020-07-10  593  		}
-07f5d42989decf Kuninori Morimoto 2020-07-10  594  		break;
-07f5d42989decf Kuninori Morimoto 2020-07-10  595  	case SNDRV_PCM_TRIGGER_S=
-TOP:
-07f5d42989decf Kuninori Morimoto 2020-07-10  596  	case SNDRV_PCM_TRIGGER_S=
-USPEND:
-07f5d42989decf Kuninori Morimoto 2020-07-10  597  	case SNDRV_PCM_TRIGGER_P=
-AUSE_PUSH:
-07f5d42989decf Kuninori Morimoto 2020-07-10  598  		for_each_rtd_dais(rtd, =
-i, dai) {
-07f5d42989decf Kuninori Morimoto 2020-07-10 @599  			if (!soc_dai_mark_matc=
-h(dai, substream, trigger, rollback))
-07f5d42989decf Kuninori Morimoto 2020-07-10  600  				continue;
-07f5d42989decf Kuninori Morimoto 2020-07-10  601  =
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  467  	for_each_rtd_components(=
+rtd, i, component) {
+59c7951a8cce26 Kuninori Morimoto 2020-05-11 @468  		if (!soc_component_mark=
+_match(component, cstream, compr_open, rollback))
+59c7951a8cce26 Kuninori Morimoto 2020-05-11  469  			continue;
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  470  =
 
-07f5d42989decf Kuninori Morimoto 2020-07-10  602  			r =3D soc_dai_trigger(=
-dai, substream, cmd);
-07f5d42989decf Kuninori Morimoto 2020-07-10  603  			if (r < 0)
-07f5d42989decf Kuninori Morimoto 2020-07-10  604  				ret =3D r; /* use las=
-t ret */
-07f5d42989decf Kuninori Morimoto 2020-07-10  605  			soc_dai_mark_pop(dai, =
-substream, trigger);
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  606  		}
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  607  	}
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  608  =
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  471  		if (component->driver->=
+compress_ops &&
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  472  		    component->driver->=
+compress_ops->free)
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  473  			component->driver->com=
+press_ops->free(component, cstream);
+59c7951a8cce26 Kuninori Morimoto 2020-05-11  474  =
 
-07f5d42989decf Kuninori Morimoto 2020-07-10  609  	return ret;
-42f2472d4689c0 Kuninori Morimoto 2020-04-24  610  }
-30819358ae7332 Kuninori Morimoto 2020-04-24  611  =
+59c7951a8cce26 Kuninori Morimoto 2020-05-11  475  		soc_component_mark_pop(=
+component, cstream, compr_open);
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  476  	}
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  477  }
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  478  EXPORT_SYMBOL_GPL(snd_soc=
+_component_compr_free);
+50afbe65fb5f06 Kuninori Morimoto 2020-06-04  479  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5216114961206040786==
+--===============7270672026590950116==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICN95Kl8AAy5jb25maWcAlFzJdxw3zr/nr+jnXJKDM5IsaZw3TwdWFaub6dpCsnrRhU+R2x69
+H4sICPBmKl8AAy5jb25maWcAlFzJdxw3zr/nr+jnXJKDM5IsaZw3TwdWFaub6dpCsnrRhU+R2x69
 aPGnZWL/9x9A1kKyUJ0ZHxIVAe4g8AMI9o8//Lhgb69PDzevd7c39/ffF18Oj4fnm9fDp8Xnu/vD
 vxZZvahqveCZ0L8Ac3H3+PbtH98+XprL88XFLx9/OXn/fHu6WB+eHw/3i/Tp8fPdlzeof/f0+MOP
 P6R1lYulSVOz4VKJujKa7/TVuy+3t+9/XfyUHf64u3lc/PrLB2jm9OJn99c7r5pQZpmmV9/7ouXY
@@ -763,5 +746,5 @@ kHlUC47WoPXhPGXuJNXQyFv4iuba7zDeFE89fl6Srlhi2qq6L1mHjAHtmkIGRdPmM2qLbDcvezzW
 4LE8wmTQ6/sNPTNcdvwNk9H10QxX1lreWVfbVc4T0Q8rZ1ISh1tkp0NVQn/7AXfj97s6ykF5wzig
 Dt3XXYJE9e7LYN2joFXrobKce5Cel6mwEUmFSp30vYptozxN8oAANGXZVAt0xg9OrxegrOzR/wcL
 h+4pWzgCAA==
---===============5216114961206040786==--
+--===============7270672026590950116==--
 
