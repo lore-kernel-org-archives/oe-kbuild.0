@@ -1,29 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============5307253472080551700=="
+Content-Type: multipart/mixed; boundary="===============2982051644965176775=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:scrub-fixes 81/182] fs/xfs/libxfs/xfs_dquot_buf.c:309 xfs_dquot_from_disk_timestamp() error: we previously assumed 'timer' could be null (see line 308)
-Date: Sat, 22 Aug 2020 01:36:34 +0800
-Message-ID: <202008220130.XlkCDOo8%lkp@intel.com>
+Subject: [mac80211-next:rtnl 1/1] net/wireless/nl80211.c:3105 nl80211_set_wiphy() error: we previously assumed 'rdev' could be null (see line 3085)
+Date: Fri, 21 Aug 2020 22:59:16 +0800
+Message-ID: <202008212207.k83Rt35N%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5307253472080551700==
+--===============2982051644965176775==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
-TO: "Darrick J. Wong" <darrick.wong@oracle.com>
-CC: Amir Goldstein <amir73il@gmail.com>
+CC: linux-wireless(a)vger.kernel.org
+TO: Johannes Berg <johannes.berg@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t scrub-fixes
-head:   98e0929884c70f44a3210450f02741409f54cb38
-commit: bb1aaa516cc181c9a8eee4f8da10ad77839f837b [81/182] xfs: enable bigti=
-me for quota timers
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211-next=
+.git rtnl
+head:   7f96dd365770550bef6f09757774788e87b5f92e
+commit: 7f96dd365770550bef6f09757774788e87b5f92e [1/1] cfg80211: avoid hold=
+ing the RTNL when calling the driver
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
 config: i386-randconfig-m021-20200820 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -31,66 +30,625 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-fs/xfs/libxfs/xfs_dquot_buf.c:309 xfs_dquot_from_disk_timestamp() error: we=
- previously assumed 'timer' could be null (see line 308)
+New smatch warnings:
+net/wireless/nl80211.c:3105 nl80211_set_wiphy() error: we previously assume=
+d 'rdev' could be null (see line 3085)
+net/wireless/nl80211.c:8999 nl80211_channel_switch() error: uninitialized s=
+ymbol 'csa_attrs'.
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.git/comm=
-it/?id=3Dbb1aaa516cc181c9a8eee4f8da10ad77839f837b
-git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kernel/git/d=
-jwong/xfs-linux.git
-git fetch --no-tags djwong-xfs scrub-fixes
-git checkout bb1aaa516cc181c9a8eee4f8da10ad77839f837b
-vim +/timer +309 fs/xfs/libxfs/xfs_dquot_buf.c
+Old smatch warnings:
+net/wireless/nl80211.c:264 validate_ie_attr() warn: potential spectre issue=
+ 'elem->data' [r]
+net/wireless/nl80211.c:1273 nl80211_parse_connkeys() warn: ignoring unreach=
+able code.
+net/wireless/nl80211.c:4557 nl80211_parse_tx_bitrate_mask() warn: potential=
+ spectre issue 'rdev->wiphy.bands' [r] (local cap)
+net/wireless/nl80211.c:4558 nl80211_parse_tx_bitrate_mask() warn: possible =
+spectre second half.  'sband'
+net/wireless/nl80211.c:4567 nl80211_parse_tx_bitrate_mask() warn: potential=
+ spectre issue 'mask->control' [w] (local cap)
+net/wireless/nl80211.c:8053 nl80211_trigger_scan() warn: potential spectre =
+issue 'wiphy->bands' [r] (local cap)
+net/wireless/nl80211.c:8056 nl80211_trigger_scan() warn: potential spectre =
+issue 'request->rates' [r] (local cap)
+net/wireless/nl80211.c:8257 nl80211_parse_sched_scan_per_band_rssi() warn: =
+potential spectre issue 'match_sets->per_band_rssi_thold' [w] (local cap)
 
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  298  =
+# https://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211-next.git/c=
+ommit/?id=3D7f96dd365770550bef6f09757774788e87b5f92e
+git remote add mac80211-next https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/jberg/mac80211-next.git
+git fetch --no-tags mac80211-next rtnl
+git checkout 7f96dd365770550bef6f09757774788e87b5f92e
+vim +/rdev +3105 net/wireless/nl80211.c
 
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  299  /* Convert an on-disk time=
-r value into an incore timer value. */
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  300  void
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  301  xfs_dquot_from_disk_timest=
-amp(
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  302  	struct xfs_disk_dquot	*dd=
-q,
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  303  	time64_t		*timer,
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  304  	__be32			dtimer)
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  305  {
-bb1aaa516cc181c Darrick J. Wong 2020-06-25  306  	uint64_t		t;
-bb1aaa516cc181c Darrick J. Wong 2020-06-25  307  =
+e8347ebad2f1b15 Bill Jordan            2010-10-01  3037  =
 
-bb1aaa516cc181c Darrick J. Wong 2020-06-25 @308  	if (!timer || !(ddq->d_ty=
-pe & XFS_DQTYPE_BIGTIME)) {
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17 @309  		*timer =3D be32_to_cpu(d=
-timer);
-bb1aaa516cc181c Darrick J. Wong 2020-06-25  310  		return;
-bb1aaa516cc181c Darrick J. Wong 2020-06-25  311  	}
-bb1aaa516cc181c Darrick J. Wong 2020-06-25  312  =
+556829657397b9b Johannes Berg          2007-09-20  3038  static int nl80211=
+_set_wiphy(struct sk_buff *skb, struct genl_info *info)
+556829657397b9b Johannes Berg          2007-09-20  3039  {
+7f96dd365770550 Johannes Berg          2019-08-01  3040  	struct cfg80211_r=
+egistered_device *rdev =3D NULL;
+f444de05d20e27c Johannes Berg          2010-05-05  3041  	struct net_device=
+ *netdev =3D NULL;
+f444de05d20e27c Johannes Berg          2010-05-05  3042  	struct wireless_d=
+ev *wdev;
+a1e567c83f54143 Bill Jordan            2010-09-10  3043  	int result =3D 0,=
+ rem_txq_params =3D 0;
+318884875bdddca Jouni Malinen          2008-10-30  3044  	struct nlattr *nl=
+_txq_params;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3045  	u32 changed;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3046  	u8 retry_short =
+=3D 0, retry_long =3D 0;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3047  	u32 frag_threshol=
+d =3D 0, rts_threshold =3D 0;
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3048  	u8 cove=
+rage_class =3D 0;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3049  	u32 txq=
+_limit =3D 0, txq_memory_limit =3D 0, txq_quantum =3D 0;
+556829657397b9b Johannes Berg          2007-09-20  3050  =
 
-bb1aaa516cc181c Darrick J. Wong 2020-06-25  313  	t =3D be32_to_cpu(dtimer);
-bb1aaa516cc181c Darrick J. Wong 2020-06-25  314  	*timer =3D t << XFS_DQ_BI=
-GTIME_SHIFT;
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  315  }
-d6096aaaacaf8a6 Darrick J. Wong 2020-08-17  316  =
+7f96dd365770550 Johannes Berg          2019-08-01  3051  	rtnl_lock();
+f444de05d20e27c Johannes Berg          2010-05-05  3052  	/*
+f444de05d20e27c Johannes Berg          2010-05-05  3053  	 * Try to find th=
+e wiphy and netdev. Normally this
+f444de05d20e27c Johannes Berg          2010-05-05  3054  	 * function shoul=
+dn't need the netdev, but this is
+f444de05d20e27c Johannes Berg          2010-05-05  3055  	 * done for backw=
+ard compatibility -- previously
+f444de05d20e27c Johannes Berg          2010-05-05  3056  	 * setting the ch=
+annel was done per wiphy, but now
+f444de05d20e27c Johannes Berg          2010-05-05  3057  	 * it is per netd=
+ev. Previous userland like hostapd
+f444de05d20e27c Johannes Berg          2010-05-05  3058  	 * also passed a =
+netdev to set_wiphy, so that it is
+f444de05d20e27c Johannes Berg          2010-05-05  3059  	 * possible to le=
+t that go to the right netdev!
+f444de05d20e27c Johannes Berg          2010-05-05  3060  	 */
+4bbf4d56583dd52 Johannes Berg          2009-03-24  3061  =
 
+f444de05d20e27c Johannes Berg          2010-05-05  3062  	if (info->attrs[N=
+L80211_ATTR_IFINDEX]) {
+f444de05d20e27c Johannes Berg          2010-05-05  3063  		int ifindex =3D =
+nla_get_u32(info->attrs[NL80211_ATTR_IFINDEX]);
+f444de05d20e27c Johannes Berg          2010-05-05  3064  =
 
-:::::: The code@line 309 was first introduced by commit
-:::::: d6096aaaacaf8a697a0db914f5ff57680e99fd43 xfs: refactor quota timesta=
-mp coding
+7f2b8562c2ee6e2 Ying Xue               2014-01-15  3065  		netdev =3D __dev=
+_get_by_index(genl_info_net(info), ifindex);
+5fe231e873729fa Johannes Berg          2013-05-08  3066  		if (netdev && ne=
+tdev->ieee80211_ptr)
+f26cbf401be935e Zhao, Gang             2014-04-21  3067  			rdev =3D wiphy_=
+to_rdev(netdev->ieee80211_ptr->wiphy);
+5fe231e873729fa Johannes Berg          2013-05-08  3068  		else
+f444de05d20e27c Johannes Berg          2010-05-05  3069  			netdev =3D NULL;
+f444de05d20e27c Johannes Berg          2010-05-05  3070  	}
+f444de05d20e27c Johannes Berg          2010-05-05  3071  =
 
-:::::: TO: Darrick J. Wong <darrick.wong@oracle.com>
-:::::: CC: Darrick J. Wong <darrick.wong@oracle.com>
+f444de05d20e27c Johannes Berg          2010-05-05  3072  	if (!netdev) {
+878d9ec7367816d Johannes Berg          2012-06-15  3073  		rdev =3D __cfg80=
+211_rdev_from_attrs(genl_info_net(info),
+878d9ec7367816d Johannes Berg          2012-06-15  3074  						  info->attr=
+s);
+7f96dd365770550 Johannes Berg          2019-08-01  3075  		if (IS_ERR(rdev)=
+) {
+7f96dd365770550 Johannes Berg          2019-08-01  3076  			rtnl_unlock();
+4c476991062a0a5 Johannes Berg          2010-10-04  3077  			return PTR_ERR(=
+rdev);
+7f96dd365770550 Johannes Berg          2019-08-01  3078  		}
+f444de05d20e27c Johannes Berg          2010-05-05  3079  		wdev =3D NULL;
+f444de05d20e27c Johannes Berg          2010-05-05  3080  		netdev =3D NULL;
+f444de05d20e27c Johannes Berg          2010-05-05  3081  		result =3D 0;
+71fe96bf9db8b11 Johannes Berg          2012-10-24  3082  	} else
+f444de05d20e27c Johannes Berg          2010-05-05  3083  		wdev =3D netdev-=
+>ieee80211_ptr;
+f444de05d20e27c Johannes Berg          2010-05-05  3084  =
+
+7f96dd365770550 Johannes Berg          2019-08-01 @3085  	if (rdev)
+7f96dd365770550 Johannes Berg          2019-08-01  3086  		mutex_lock(&rdev=
+->wiphy.mtx);
+7f96dd365770550 Johannes Berg          2019-08-01  3087  	rtnl_unlock();
+7f96dd365770550 Johannes Berg          2019-08-01  3088  =
+
+f444de05d20e27c Johannes Berg          2010-05-05  3089  	/*
+f444de05d20e27c Johannes Berg          2010-05-05  3090  	 * end workaround=
+ code, by now the rdev is available
+f444de05d20e27c Johannes Berg          2010-05-05  3091  	 * and locked, an=
+d wdev may or may not be NULL.
+f444de05d20e27c Johannes Berg          2010-05-05  3092  	 */
+4bbf4d56583dd52 Johannes Berg          2009-03-24  3093  =
+
+4bbf4d56583dd52 Johannes Berg          2009-03-24  3094  	if (info->attrs[N=
+L80211_ATTR_WIPHY_NAME])
+318884875bdddca Jouni Malinen          2008-10-30  3095  		result =3D cfg80=
+211_dev_rename(
+318884875bdddca Jouni Malinen          2008-10-30  3096  			rdev, nla_data(=
+info->attrs[NL80211_ATTR_WIPHY_NAME]));
+4bbf4d56583dd52 Johannes Berg          2009-03-24  3097  =
+
+318884875bdddca Jouni Malinen          2008-10-30  3098  	if (result)
+7f96dd365770550 Johannes Berg          2019-08-01  3099  		goto out;
+318884875bdddca Jouni Malinen          2008-10-30  3100  =
+
+318884875bdddca Jouni Malinen          2008-10-30  3101  	if (info->attrs[N=
+L80211_ATTR_WIPHY_TXQ_PARAMS]) {
+318884875bdddca Jouni Malinen          2008-10-30  3102  		struct ieee80211=
+_txq_params txq_params;
+318884875bdddca Jouni Malinen          2008-10-30  3103  		struct nlattr *t=
+b[NL80211_TXQ_ATTR_MAX + 1];
+318884875bdddca Jouni Malinen          2008-10-30  3104  =
+
+7f96dd365770550 Johannes Berg          2019-08-01 @3105  		if (!rdev->ops->=
+set_txq_params) {
+7f96dd365770550 Johannes Berg          2019-08-01  3106  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3107  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3108  		}
+318884875bdddca Jouni Malinen          2008-10-30  3109  =
+
+7f96dd365770550 Johannes Berg          2019-08-01  3110  		if (!netdev) {
+7f96dd365770550 Johannes Berg          2019-08-01  3111  			result =3D -EIN=
+VAL;
+7f96dd365770550 Johannes Berg          2019-08-01  3112  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3113  		}
+f70f01c2ebbe31f Eliad Peller           2011-09-25  3114  =
+
+133a3ff2c934223 Johannes Berg          2011-11-03  3115  		if (netdev->ieee=
+80211_ptr->iftype !=3D NL80211_IFTYPE_AP &&
+7f96dd365770550 Johannes Berg          2019-08-01  3116  		    netdev->ieee=
+80211_ptr->iftype !=3D NL80211_IFTYPE_P2P_GO) {
+7f96dd365770550 Johannes Berg          2019-08-01  3117  			result =3D -EIN=
+VAL;
+7f96dd365770550 Johannes Berg          2019-08-01  3118  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3119  		}
+133a3ff2c934223 Johannes Berg          2011-11-03  3120  =
+
+7f96dd365770550 Johannes Berg          2019-08-01  3121  		if (!netif_runni=
+ng(netdev)) {
+7f96dd365770550 Johannes Berg          2019-08-01  3122  			result =3D -ENE=
+TDOWN;
+7f96dd365770550 Johannes Berg          2019-08-01  3123  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3124  		}
+2b5f8b0b44e17e6 Johannes Berg          2012-04-02  3125  =
+
+318884875bdddca Jouni Malinen          2008-10-30  3126  		nla_for_each_nes=
+ted(nl_txq_params,
+318884875bdddca Jouni Malinen          2008-10-30  3127  				    info->attr=
+s[NL80211_ATTR_WIPHY_TXQ_PARAMS],
+318884875bdddca Jouni Malinen          2008-10-30  3128  				    rem_txq_pa=
+rams) {
+8cb081746c031fb Johannes Berg          2019-04-26  3129  			result =3D nla_=
+parse_nested_deprecated(tb,
+8cb081746c031fb Johannes Berg          2019-04-26  3130  							     NL8021=
+1_TXQ_ATTR_MAX,
+bfe2c7b1cce4a1e Johannes Berg          2016-10-26  3131  							     nl_txq=
+_params,
+fe52145f91fe81b Johannes Berg          2017-04-12  3132  							     txq_pa=
+rams_policy,
+fe52145f91fe81b Johannes Berg          2017-04-12  3133  							     info->=
+extack);
+ae811e21df28deb Johannes Berg          2014-01-24  3134  			if (result)
+7f96dd365770550 Johannes Berg          2019-08-01  3135  				goto out;
+318884875bdddca Jouni Malinen          2008-10-30  3136  			result =3D pars=
+e_txq_params(tb, &txq_params);
+318884875bdddca Jouni Malinen          2008-10-30  3137  			if (result)
+7f96dd365770550 Johannes Berg          2019-08-01  3138  				goto out;
+318884875bdddca Jouni Malinen          2008-10-30  3139  =
+
+e35e4d28b687d4e Hila Gonen             2012-06-27  3140  			result =3D rdev=
+_set_txq_params(rdev, netdev,
+318884875bdddca Jouni Malinen          2008-10-30  3141  						     &txq_pa=
+rams);
+318884875bdddca Jouni Malinen          2008-10-30  3142  			if (result)
+7f96dd365770550 Johannes Berg          2019-08-01  3143  				goto out;
+318884875bdddca Jouni Malinen          2008-10-30  3144  		}
+318884875bdddca Jouni Malinen          2008-10-30  3145  	}
+556829657397b9b Johannes Berg          2007-09-20  3146  =
+
+72bdcf343809172 Jouni Malinen          2008-11-26  3147  	if (info->attrs[N=
+L80211_ATTR_WIPHY_FREQ]) {
+e16821bcfb364b0 Jouni Malinen          2014-04-28  3148  		result =3D __nl8=
+0211_set_channel(
+e16821bcfb364b0 Jouni Malinen          2014-04-28  3149  			rdev,
+e16821bcfb364b0 Jouni Malinen          2014-04-28  3150  			nl80211_can_set=
+_dev_channel(wdev) ? netdev : NULL,
+71fe96bf9db8b11 Johannes Berg          2012-10-24  3151  			info);
+72bdcf343809172 Jouni Malinen          2008-11-26  3152  		if (result)
+7f96dd365770550 Johannes Berg          2019-08-01  3153  			goto out;
+72bdcf343809172 Jouni Malinen          2008-11-26  3154  	}
+72bdcf343809172 Jouni Malinen          2008-11-26  3155  =
+
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3156  	if (info->attrs[N=
+L80211_ATTR_WIPHY_TX_POWER_SETTING]) {
+c8442118ad9cd05 Johannes Berg          2012-10-24  3157  		struct wireless_=
+dev *txp_wdev =3D wdev;
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3158  		enum nl80211_tx_=
+power_setting type;
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3159  		int idx, mbm =3D=
+ 0;
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3160  =
+
+c8442118ad9cd05 Johannes Berg          2012-10-24  3161  		if (!(rdev->wiph=
+y.features & NL80211_FEATURE_VIF_TXPOWER))
+c8442118ad9cd05 Johannes Berg          2012-10-24  3162  			txp_wdev =3D NU=
+LL;
+c8442118ad9cd05 Johannes Berg          2012-10-24  3163  =
+
+7f96dd365770550 Johannes Berg          2019-08-01  3164  		if (!rdev->ops->=
+set_tx_power) {
+7f96dd365770550 Johannes Berg          2019-08-01  3165  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3166  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3167  		}
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3168  =
+
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3169  		idx =3D NL80211_=
+ATTR_WIPHY_TX_POWER_SETTING;
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3170  		type =3D nla_get=
+_u32(info->attrs[idx]);
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3171  =
+
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3172  		if (!info->attrs=
+[NL80211_ATTR_WIPHY_TX_POWER_LEVEL] &&
+7f96dd365770550 Johannes Berg          2019-08-01  3173  		    (type !=3D N=
+L80211_TX_POWER_AUTOMATIC)) {
+7f96dd365770550 Johannes Berg          2019-08-01  3174  			result =3D -EIN=
+VAL;
+7f96dd365770550 Johannes Berg          2019-08-01  3175  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3176  		}
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3177  =
+
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3178  		if (type !=3D NL=
+80211_TX_POWER_AUTOMATIC) {
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3179  			idx =3D NL80211=
+_ATTR_WIPHY_TX_POWER_LEVEL;
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3180  			mbm =3D nla_get=
+_u32(info->attrs[idx]);
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3181  		}
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3182  =
+
+c8442118ad9cd05 Johannes Berg          2012-10-24  3183  		result =3D rdev_=
+set_tx_power(rdev, txp_wdev, type, mbm);
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3184  		if (result)
+7f96dd365770550 Johannes Berg          2019-08-01  3185  			goto out;
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3186  	}
+98d2ff8bec82fc3 Juuso Oikarinen        2010-06-23  3187  =
+
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3188  	if (info->attrs[N=
+L80211_ATTR_WIPHY_ANTENNA_TX] &&
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3189  	    info->attrs[N=
+L80211_ATTR_WIPHY_ANTENNA_RX]) {
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3190  		u32 tx_ant, rx_a=
+nt;
+7a087e7484c9e40 Kirtika Ruchandani     2016-05-29  3191  =
+
+7f531e03abf0162 Bruno Randolf          2010-12-16  3192  		if ((!rdev->wiph=
+y.available_antennas_tx &&
+7f531e03abf0162 Bruno Randolf          2010-12-16  3193  		     !rdev->wiph=
+y.available_antennas_rx) ||
+7f96dd365770550 Johannes Berg          2019-08-01  3194  		    !rdev->ops->=
+set_antenna) {
+7f96dd365770550 Johannes Berg          2019-08-01  3195  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3196  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3197  		}
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3198  =
+
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3199  		tx_ant =3D nla_g=
+et_u32(info->attrs[NL80211_ATTR_WIPHY_ANTENNA_TX]);
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3200  		rx_ant =3D nla_g=
+et_u32(info->attrs[NL80211_ATTR_WIPHY_ANTENNA_RX]);
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3201  =
+
+a7ffac9591a2a0e Bruno Randolf          2010-12-08  3202  		/* reject antenn=
+a configurations which don't match the
+7f531e03abf0162 Bruno Randolf          2010-12-16  3203  		 * available ant=
+enna masks, except for the "all" mask */
+7f531e03abf0162 Bruno Randolf          2010-12-16  3204  		if ((~tx_ant && =
+(tx_ant & ~rdev->wiphy.available_antennas_tx)) ||
+7f96dd365770550 Johannes Berg          2019-08-01  3205  		    (~rx_ant && =
+(rx_ant & ~rdev->wiphy.available_antennas_rx))) {
+7f96dd365770550 Johannes Berg          2019-08-01  3206  			result =3D -EIN=
+VAL;
+7f96dd365770550 Johannes Berg          2019-08-01  3207  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3208  		}
+a7ffac9591a2a0e Bruno Randolf          2010-12-08  3209  =
+
+7f531e03abf0162 Bruno Randolf          2010-12-16  3210  		tx_ant =3D tx_an=
+t & rdev->wiphy.available_antennas_tx;
+7f531e03abf0162 Bruno Randolf          2010-12-16  3211  		rx_ant =3D rx_an=
+t & rdev->wiphy.available_antennas_rx;
+a7ffac9591a2a0e Bruno Randolf          2010-12-08  3212  =
+
+e35e4d28b687d4e Hila Gonen             2012-06-27  3213  		result =3D rdev_=
+set_antenna(rdev, tx_ant, rx_ant);
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3214  		if (result)
+7f96dd365770550 Johannes Berg          2019-08-01  3215  			goto out;
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3216  	}
+afe0cbf87500f05 Bruno Randolf          2010-11-10  3217  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3218  	changed =3D 0;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3219  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3220  	if (info->attrs[N=
+L80211_ATTR_WIPHY_RETRY_SHORT]) {
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3221  		retry_short =3D =
+nla_get_u8(
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3222  			info->attrs[NL8=
+0211_ATTR_WIPHY_RETRY_SHORT]);
+7f2b8562c2ee6e2 Ying Xue               2014-01-15  3223  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3224  		changed |=3D WIP=
+HY_PARAM_RETRY_SHORT;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3225  	}
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3226  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3227  	if (info->attrs[N=
+L80211_ATTR_WIPHY_RETRY_LONG]) {
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3228  		retry_long =3D n=
+la_get_u8(
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3229  			info->attrs[NL8=
+0211_ATTR_WIPHY_RETRY_LONG]);
+7f2b8562c2ee6e2 Ying Xue               2014-01-15  3230  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3231  		changed |=3D WIP=
+HY_PARAM_RETRY_LONG;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3232  	}
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3233  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3234  	if (info->attrs[N=
+L80211_ATTR_WIPHY_FRAG_THRESHOLD]) {
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3235  		frag_threshold =
+=3D nla_get_u32(
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3236  			info->attrs[NL8=
+0211_ATTR_WIPHY_FRAG_THRESHOLD]);
+7f96dd365770550 Johannes Berg          2019-08-01  3237  		if (frag_thresho=
+ld < 256) {
+7f96dd365770550 Johannes Berg          2019-08-01  3238  			result =3D -EIN=
+VAL;
+7f96dd365770550 Johannes Berg          2019-08-01  3239  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3240  		}
+7f2b8562c2ee6e2 Ying Xue               2014-01-15  3241  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3242  		if (frag_thresho=
+ld !=3D (u32) -1) {
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3243  			/*
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3244  			 * Fragments (a=
+part from the last one) are required to
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3245  			 * have even le=
+ngth. Make the fragmentation code
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3246  			 * simpler by s=
+tripping LSB should someone try to use
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3247  			 * odd threshol=
+d value.
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3248  			 */
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3249  			frag_threshold =
+&=3D ~0x1;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3250  		}
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3251  		changed |=3D WIP=
+HY_PARAM_FRAG_THRESHOLD;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3252  	}
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3253  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3254  	if (info->attrs[N=
+L80211_ATTR_WIPHY_RTS_THRESHOLD]) {
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3255  		rts_threshold =
+=3D nla_get_u32(
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3256  			info->attrs[NL8=
+0211_ATTR_WIPHY_RTS_THRESHOLD]);
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3257  		changed |=3D WIP=
+HY_PARAM_RTS_THRESHOLD;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3258  	}
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3259  =
+
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3260  	if (inf=
+o->attrs[NL80211_ATTR_WIPHY_COVERAGE_CLASS]) {
+7f96dd365770550 Johannes Berg          2019-08-01  3261  		if (info->attrs[=
+NL80211_ATTR_WIPHY_DYN_ACK]) {
+7f96dd365770550 Johannes Berg          2019-08-01  3262  			result =3D -EIN=
+VAL;
+7f96dd365770550 Johannes Berg          2019-08-01  3263  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3264  		}
+3057dbfdab1b86a Lorenzo Bianconi       2014-09-04  3265  =
+
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3266  		covera=
+ge_class =3D nla_get_u8(
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3267  			info-=
+>attrs[NL80211_ATTR_WIPHY_COVERAGE_CLASS]);
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3268  		change=
+d |=3D WIPHY_PARAM_COVERAGE_CLASS;
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3269  	}
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3270  =
+
+3057dbfdab1b86a Lorenzo Bianconi       2014-09-04  3271  	if (info->attrs[N=
+L80211_ATTR_WIPHY_DYN_ACK]) {
+7f96dd365770550 Johannes Berg          2019-08-01  3272  		if (!(rdev->wiph=
+y.features & NL80211_FEATURE_ACKTO_ESTIMATION)) {
+7f96dd365770550 Johannes Berg          2019-08-01  3273  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3274  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3275  		}
+3057dbfdab1b86a Lorenzo Bianconi       2014-09-04  3276  =
+
+3057dbfdab1b86a Lorenzo Bianconi       2014-09-04  3277  		changed |=3D WIP=
+HY_PARAM_DYN_ACK;
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3278  	}
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3279  =
+
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3280  	if (inf=
+o->attrs[NL80211_ATTR_TXQ_LIMIT]) {
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3281  		if (!w=
+iphy_ext_feature_isset(&rdev->wiphy,
+7f96dd365770550 Johannes Berg          2019-08-01  3282  					     NL80211_=
+EXT_FEATURE_TXQS)) {
+7f96dd365770550 Johannes Berg          2019-08-01  3283  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3284  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3285  		}
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3286  		txq_li=
+mit =3D nla_get_u32(
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3287  			info-=
+>attrs[NL80211_ATTR_TXQ_LIMIT]);
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3288  		change=
+d |=3D WIPHY_PARAM_TXQ_LIMIT;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3289  	}
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3290  =
+
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3291  	if (inf=
+o->attrs[NL80211_ATTR_TXQ_MEMORY_LIMIT]) {
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3292  		if (!w=
+iphy_ext_feature_isset(&rdev->wiphy,
+7f96dd365770550 Johannes Berg          2019-08-01  3293  					     NL80211_=
+EXT_FEATURE_TXQS)) {
+7f96dd365770550 Johannes Berg          2019-08-01  3294  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3295  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3296  		}
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3297  		txq_me=
+mory_limit =3D nla_get_u32(
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3298  			info-=
+>attrs[NL80211_ATTR_TXQ_MEMORY_LIMIT]);
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3299  		change=
+d |=3D WIPHY_PARAM_TXQ_MEMORY_LIMIT;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3300  	}
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3301  =
+
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3302  	if (inf=
+o->attrs[NL80211_ATTR_TXQ_QUANTUM]) {
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3303  		if (!w=
+iphy_ext_feature_isset(&rdev->wiphy,
+7f96dd365770550 Johannes Berg          2019-08-01  3304  					     NL80211_=
+EXT_FEATURE_TXQS)) {
+7f96dd365770550 Johannes Berg          2019-08-01  3305  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3306  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3307  		}
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3308  		txq_qu=
+antum =3D nla_get_u32(
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3309  			info-=
+>attrs[NL80211_ATTR_TXQ_QUANTUM]);
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3310  		change=
+d |=3D WIPHY_PARAM_TXQ_QUANTUM;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3311  	}
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3312  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3313  	if (changed) {
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3314  		u8 old_retry_sho=
+rt, old_retry_long;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3315  		u32 old_frag_thr=
+eshold, old_rts_threshold;
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3316  		u8 old=
+_coverage_class;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3317  		u32 ol=
+d_txq_limit, old_txq_memory_limit, old_txq_quantum;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3318  =
+
+7f96dd365770550 Johannes Berg          2019-08-01  3319  		if (!rdev->ops->=
+set_wiphy_params) {
+7f96dd365770550 Johannes Berg          2019-08-01  3320  			result =3D -EOP=
+NOTSUPP;
+7f96dd365770550 Johannes Berg          2019-08-01  3321  			goto out;
+7f96dd365770550 Johannes Berg          2019-08-01  3322  		}
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3323  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3324  		old_retry_short =
+=3D rdev->wiphy.retry_short;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3325  		old_retry_long =
+=3D rdev->wiphy.retry_long;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3326  		old_frag_thresho=
+ld =3D rdev->wiphy.frag_threshold;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3327  		old_rts_threshol=
+d =3D rdev->wiphy.rts_threshold;
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3328  		old_co=
+verage_class =3D rdev->wiphy.coverage_class;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3329  		old_tx=
+q_limit =3D rdev->wiphy.txq_limit;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3330  		old_tx=
+q_memory_limit =3D rdev->wiphy.txq_memory_limit;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3331  		old_tx=
+q_quantum =3D rdev->wiphy.txq_quantum;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3332  =
+
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3333  		if (changed & WI=
+PHY_PARAM_RETRY_SHORT)
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3334  			rdev->wiphy.ret=
+ry_short =3D retry_short;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3335  		if (changed & WI=
+PHY_PARAM_RETRY_LONG)
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3336  			rdev->wiphy.ret=
+ry_long =3D retry_long;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3337  		if (changed & WI=
+PHY_PARAM_FRAG_THRESHOLD)
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3338  			rdev->wiphy.fra=
+g_threshold =3D frag_threshold;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3339  		if (changed & WI=
+PHY_PARAM_RTS_THRESHOLD)
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3340  			rdev->wiphy.rts=
+_threshold =3D rts_threshold;
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3341  		if (ch=
+anged & WIPHY_PARAM_COVERAGE_CLASS)
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3342  			rdev-=
+>wiphy.coverage_class =3D coverage_class;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3343  		if (ch=
+anged & WIPHY_PARAM_TXQ_LIMIT)
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3344  			rdev-=
+>wiphy.txq_limit =3D txq_limit;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3345  		if (ch=
+anged & WIPHY_PARAM_TXQ_MEMORY_LIMIT)
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3346  			rdev-=
+>wiphy.txq_memory_limit =3D txq_memory_limit;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3347  		if (ch=
+anged & WIPHY_PARAM_TXQ_QUANTUM)
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3348  			rdev-=
+>wiphy.txq_quantum =3D txq_quantum;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3349  =
+
+e35e4d28b687d4e Hila Gonen             2012-06-27  3350  		result =3D rdev_=
+set_wiphy_params(rdev, changed);
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3351  		if (result) {
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3352  			rdev->wiphy.ret=
+ry_short =3D old_retry_short;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3353  			rdev->wiphy.ret=
+ry_long =3D old_retry_long;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3354  			rdev->wiphy.fra=
+g_threshold =3D old_frag_threshold;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3355  			rdev->wiphy.rts=
+_threshold =3D old_rts_threshold;
+81077e82c3f5915 Luk=C3=A1=C5=A1 Turek            2009-12-21  3356  			rdev-=
+>wiphy.coverage_class =3D old_coverage_class;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3357  			rdev-=
+>wiphy.txq_limit =3D old_txq_limit;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3358  			rdev-=
+>wiphy.txq_memory_limit =3D old_txq_memory_limit;
+52539ca89f365d3 Toke H=C3=B8iland-J=C3=B8rgensen 2018-05-08  3359  			rdev-=
+>wiphy.txq_quantum =3D old_txq_quantum;
+7f96dd365770550 Johannes Berg          2019-08-01  3360  			goto out;
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3361  		}
+b9a5f8cab751d36 Jouni Malinen          2009-04-20  3362  	}
+7f96dd365770550 Johannes Berg          2019-08-01  3363  =
+
+7f96dd365770550 Johannes Berg          2019-08-01  3364  	result =3D 0;
+7f96dd365770550 Johannes Berg          2019-08-01  3365  =
+
+7f96dd365770550 Johannes Berg          2019-08-01  3366  out:
+7f96dd365770550 Johannes Berg          2019-08-01  3367  	if (rdev)
+7f96dd365770550 Johannes Berg          2019-08-01  3368  		mutex_unlock(&rd=
+ev->wiphy.mtx);
+7f96dd365770550 Johannes Berg          2019-08-01  3369  	return result;
+556829657397b9b Johannes Berg          2007-09-20  3370  }
+556829657397b9b Johannes Berg          2007-09-20  3371  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5307253472080551700==
+--===============2982051644965176775==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICO3+P18AAy5jb25maWcAlBzLctw28p6vmHIuySFZPSzHqS0dQBDkIEMQNECOZnRhKfLYUUUP
+H4sICKHXP18AAy5jb25maWcAlBzLctw28p6vmHIuySFZPSzHqS0dQBDkIEMQNECOZnRhKfLYUUUP
 70jaxH+/3QA4BEBw4s3BEdGNV6PfaMz3332/IK8vTw83L3e3N/f3Xxefd4+7/c3L7uPi09397t+L
 XC5q2S5YztufAbm6e3z9+1935+/fLS5+/vXnk5/2t6eL1W7/uLtf0KfHT3efX6H33dPjd99/R2Vd
 8LKntF8zpbms+5Zt2ss3n29vf/p18UO++/3u5nHx68/nMMzpxY/2rzdeN677ktLLr0NTOQ51+evJ
@@ -775,5 +1333,5 @@ I/8brJY9CO3aGwB0lZ6SlhCIT2g5lQhqHjHvnEpQDCcq15+nWCvdu3F1JZRtGcLwQYETxmjQQIj0
 UjNTGwoEQtAs0QJH817fFNqQHX2MDd8WISU3zwcKjjHbKjsN17oSkoFoQriuSKO61SkLGspB53Rr
 P7u1ZdYUcBmbmTKOfqRpMAmgsgK2gZSAiaZIK8PQQYLOt57GlifN4+z2lieXaddPnLd9Uc1sP/S2
 jWDrzx06MoQMvK0OjbgI1lzXwkIecN03/1n+7PkfswnAf7ciwS4aWQIA
---===============5307253472080551700==--
+--===============2982051644965176775==--
 
