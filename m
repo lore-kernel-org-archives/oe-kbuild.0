@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2344303289235939740=="
+Content-Type: multipart/mixed; boundary="===============5506588084636596068=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Thu, 27 Aug 2020 07:27:15 +0800
-Message-ID: <20200826232715.GA28998@d10202f75172>
+Date: Thu, 27 Aug 2020 07:27:14 +0800
+Message-ID: <20200826232713.GA28911@d10202f75172>
 In-Reply-To: <202008270751.hp4RBpOO%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2344303289235939740==
+--===============5506588084636596068==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: linux-scsi(a)vger.kernel.org
+CC: Keith Busch <kbusch@kernel.org>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: linux-nvme(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/scsi/scsi_transport_spi.c:1460:61-62: WARNING opportunity for kobj_=
-to_dev()
+drivers/nvme/host/lightnvm.c:1244:60-61: WARNING opportunity for kobj_to_de=
+v()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -46,19 +48,19 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- scsi_transport_spi.c |    2 +-
+ lightnvm.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/scsi/scsi_transport_spi.c
-+++ b/drivers/scsi/scsi_transport_spi.c
-@@ -1457,7 +1457,7 @@ static int spi_host_configure(struct tra
- static umode_t target_attribute_is_visible(struct kobject *kobj,
- 					  struct attribute *attr, int i)
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -1241,7 +1241,7 @@ static struct attribute *nvm_dev_attrs[]
+ static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
+ 				     struct attribute *attr, int index)
  {
--	struct device *cdev =3D container_of(kobj, struct device, kobj);
-+	struct device *cdev =3D kobj_to_dev(kobj);
- 	struct scsi_target *starget =3D transport_class_to_starget(cdev);
- 	struct Scsi_Host *shost =3D transport_class_to_shost(cdev);
- 	struct spi_internal *si =3D to_spi_internal(shost->transportt);
---===============2344303289235939740==--
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
++	struct device *dev =3D kobj_to_dev(kobj);
+ 	struct gendisk *disk =3D dev_to_disk(dev);
+ 	struct nvme_ns *ns =3D disk->private_data;
+ 	struct nvm_dev *ndev =3D ns->ndev;
+--===============5506588084636596068==--
 
