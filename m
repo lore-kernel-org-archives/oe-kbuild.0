@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============3209908953398589131=="
+Content-Type: multipart/mixed; boundary="===============1669224802601283543=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Thu, 27 Aug 2020 07:27:12 +0800
-Message-ID: <20200826232712.GA28824@d10202f75172>
+Date: Thu, 27 Aug 2020 07:27:10 +0800
+Message-ID: <20200826232710.GA28737@d10202f75172>
 In-Reply-To: <202008270751.hp4RBpOO%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3209908953398589131==
+--===============1669224802601283543==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,16 +16,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Bradley Grove <linuxdrivers@attotech.com>
-CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: linux-scsi(a)vger.kernel.org
+CC: Keith Busch <kbusch@kernel.org>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: linux-nvme(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/scsi/esas2r/esas2r_main.c:62:60-61: WARNING opportunity for kobj_to=
-_dev()
+drivers/nvme/host/core.c:3646:60-61: WARNING opportunity for kobj_to_dev()
+drivers/nvme/host/core.c:3403:60-61: WARNING opportunity for kobj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -47,22 +48,30 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- esas2r_main.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ core.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/scsi/esas2r/esas2r_main.c
-+++ b/drivers/scsi/esas2r/esas2r_main.c
-@@ -59,7 +59,7 @@ struct esas2r_adapter *esas2r_adapters[M
- =
-
- static struct esas2r_adapter *esas2r_adapter_from_kobj(struct kobject *kob=
-j)
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3400,7 +3400,7 @@ static struct attribute *nvme_ns_id_attr
+ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct Scsi_Host *host =3D class_to_shost(dev);
+ 	struct nvme_ns_ids *ids =3D &dev_to_ns_head(dev)->ids;
  =
 
- 	return (struct esas2r_adapter *)host->hostdata;
---===============3209908953398589131==--
+ 	if (a =3D=3D &dev_attr_uuid.attr) {
+@@ -3643,7 +3643,7 @@ static struct attribute *nvme_dev_attrs[
+ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
+ {
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
++	struct device *dev =3D kobj_to_dev(kobj);
+ 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+ =
+
+ 	if (a =3D=3D &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
+--===============1669224802601283543==--
 
