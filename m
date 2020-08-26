@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2156753073448458331=="
+Content-Type: multipart/mixed; boundary="===============3842811338856914457=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Thu, 27 Aug 2020 07:27:08 +0800
-Message-ID: <20200826232708.GA28650@d10202f75172>
+Date: Thu, 27 Aug 2020 07:27:07 +0800
+Message-ID: <20200826232707.GA28563@d10202f75172>
 In-Reply-To: <202008270751.hp4RBpOO%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2156753073448458331==
+--===============3842811338856914457==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,21 +16,16 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
+CC: Adam Radford <aradford@gmail.com>
 CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
 CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
 CC: linux-scsi(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/scsi/arcmsr/arcmsr_attr.c:164:58-59: WARNING opportunity for kobj_t=
-o_dev()
-drivers/scsi/arcmsr/arcmsr_attr.c:69:58-59: WARNING opportunity for kobj_to=
-_dev()
-drivers/scsi/arcmsr/arcmsr_attr.c:116:58-59: WARNING opportunity for kobj_t=
-o_dev()
+drivers/scsi/3w-sas.c:102:60-61: WARNING opportunity for kobj_to_dev()
+drivers/scsi/3w-sas.c:133:60-61: WARNING opportunity for kobj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -52,40 +47,28 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- arcmsr_attr.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ 3w-sas.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/scsi/arcmsr/arcmsr_attr.c
-+++ b/drivers/scsi/arcmsr/arcmsr_attr.c
-@@ -66,7 +66,7 @@ static ssize_t arcmsr_sysfs_iop_message_
- 					     char *buf, loff_t off,
- 					     size_t count)
+--- a/drivers/scsi/3w-sas.c
++++ b/drivers/scsi/3w-sas.c
+@@ -99,7 +99,7 @@ static ssize_t twl_sysfs_aen_read(struct
+ 				  struct bin_attribute *bin_attr,
+ 				  char *outbuf, loff_t offset, size_t count)
  {
--	struct device *dev =3D container_of(kobj,struct device,kobj);
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct Scsi_Host *host =3D class_to_shost(dev);
- 	struct AdapterControlBlock *acb =3D (struct AdapterControlBlock *) host->=
-hostdata;
- 	uint8_t *ptmpQbuffer;
-@@ -113,7 +113,7 @@ static ssize_t arcmsr_sysfs_iop_message_
- 					      char *buf, loff_t off,
- 					      size_t count)
+ 	struct Scsi_Host *shost =3D class_to_shost(dev);
+ 	TW_Device_Extension *tw_dev =3D (TW_Device_Extension *)shost->hostdata;
+ 	unsigned long flags =3D 0;
+@@ -130,7 +130,7 @@ static ssize_t twl_sysfs_compat_info(str
+ 				     struct bin_attribute *bin_attr,
+ 				     char *outbuf, loff_t offset, size_t count)
  {
--	struct device *dev =3D container_of(kobj,struct device,kobj);
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct Scsi_Host *host =3D class_to_shost(dev);
- 	struct AdapterControlBlock *acb =3D (struct AdapterControlBlock *) host->=
-hostdata;
- 	int32_t user_len, cnt2end;
-@@ -161,7 +161,7 @@ static ssize_t arcmsr_sysfs_iop_message_
- 					      char *buf, loff_t off,
- 					      size_t count)
- {
--	struct device *dev =3D container_of(kobj,struct device,kobj);
-+	struct device *dev =3D kobj_to_dev(kobj);
- 	struct Scsi_Host *host =3D class_to_shost(dev);
- 	struct AdapterControlBlock *acb =3D (struct AdapterControlBlock *) host->=
-hostdata;
- 	uint8_t *pQbuffer;
---===============2156753073448458331==--
+ 	struct Scsi_Host *shost =3D class_to_shost(dev);
+ 	TW_Device_Extension *tw_dev =3D (TW_Device_Extension *)shost->hostdata;
+ 	unsigned long flags =3D 0;
+--===============3842811338856914457==--
 
