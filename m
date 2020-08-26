@@ -1,117 +1,214 @@
-Content-Type: multipart/mixed; boundary="===============2191799753836106253=="
+Content-Type: multipart/mixed; boundary="===============3460861003903918548=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 2/3] iommu/vt-d:Add support for probing ACPI device in RMRR
-Date: Wed, 26 Aug 2020 13:58:47 +0300
-Message-ID: <20200826105847.GA5493@kadam>
-In-Reply-To: <20200826102752.3776-3-FelixCui-oc@zhaoxin.com>
+Subject: Re: [PATCH 1/3] iommu/vt-d:Add support for detecting ACPI device in RMRR
+Date: Wed, 26 Aug 2020 13:54:05 +0300
+Message-ID: <20200826105404.GZ5493@kadam>
+In-Reply-To: <20200826102752.3776-2-FelixCui-oc@zhaoxin.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2191799753836106253==
+--===============3460861003903918548==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Aug 26, 2020 at 06:27:51AM -0400, FelixCuioc wrote:
-> After acpi device in RMRR is detected,it is necessary
-> to establish a mapping for these devices.
-> In acpi_device_create_direct_mappings(),create a mapping
-> for the acpi device in RMRR.
-> Add a helper to achieve the acpi namespace device can
-> access the RMRR region.
+On Wed, Aug 26, 2020 at 06:27:50AM -0400, FelixCuioc wrote:
+> Some ACPI devices need to issue dma requests to access
+> the reserved memory area.BIOS uses the device scope type
+> ACPI_NAMESPACE_DEVICE in RMRR to report these ACPI devices.
+> This patch add support for detecting ACPI devices in RMRR.
 > =
 
 > Signed-off-by: FelixCuioc <FelixCui-oc@zhaoxin.com>
 > ---
->  drivers/iommu/intel/iommu.c | 27 +++++++++++++++++++++++++++
->  drivers/iommu/iommu.c       |  6 ++++++
->  include/linux/iommu.h       |  3 +++
->  3 files changed, 36 insertions(+)
+>  drivers/iommu/intel/dmar.c  | 74 ++++++++++++++++++++-----------------
+>  drivers/iommu/intel/iommu.c | 22 ++++++++++-
+>  include/linux/dmar.h        | 12 +++++-
+>  3 files changed, 72 insertions(+), 36 deletions(-)
 > =
 
-> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
-> index f774ef63d473..b31f02f41c96 100644
-> --- a/drivers/iommu/intel/iommu.c
-> +++ b/drivers/iommu/intel/iommu.c
-> @@ -4797,6 +4797,20 @@ static int __init platform_optin_force_iommu(void)
+> diff --git a/drivers/iommu/intel/dmar.c b/drivers/iommu/intel/dmar.c
+> index 93e6345f3414..024ca38dba12 100644
+> --- a/drivers/iommu/intel/dmar.c
+> +++ b/drivers/iommu/intel/dmar.c
+> @@ -215,7 +215,7 @@ static bool dmar_match_pci_path(struct dmar_pci_notif=
+y_info *info, int bus,
+>  }
 >  =
 
->  	return 1;
+>  /* Return: > 0 if match found, 0 if no match found, < 0 if error happens=
+ */
+> -int dmar_insert_dev_scope(struct dmar_pci_notify_info *info,
+> +int dmar_pci_insert_dev_scope(struct dmar_pci_notify_info *info,
+>  			  void *start, void*end, u16 segment,
+>  			  struct dmar_dev_scope *devices,
+>  			  int devices_cnt)
+> @@ -304,7 +304,7 @@ static int dmar_pci_bus_add_dev(struct dmar_pci_notif=
+y_info *info)
+>  =
+
+>  		drhd =3D container_of(dmaru->hdr,
+>  				    struct acpi_dmar_hardware_unit, header);
+> -		ret =3D dmar_insert_dev_scope(info, (void *)(drhd + 1),
+> +		ret =3D dmar_pci_insert_dev_scope(info, (void *)(drhd + 1),
+>  				((void *)drhd) + drhd->header.length,
+>  				dmaru->segment,
+>  				dmaru->devices, dmaru->devices_cnt);
+> @@ -696,48 +696,56 @@ dmar_find_matched_drhd_unit(struct pci_dev *dev)
+>  =
+
+>  	return dmaru;
 >  }
-> +static int acpi_device_create_direct_mappings(struct device *pn_dev, str=
-uct device *acpi_device)
+> -
+> -static void __init dmar_acpi_insert_dev_scope(u8 device_number,
+> -					      struct acpi_device *adev)
+> +int dmar_acpi_insert_dev_scope(u8 device_number,
 
-Blank line.
+The patch deleted the blank line between functions.  Make this function
+bool, change the 1/0 to true/false.  Add a comment explaining what the
+return values mean.
 
-> +{
-> +	struct iommu_group *group;
-> +
-> +	acpi_device->bus->iommu_ops =3D &intel_iommu_ops;
-> +	group =3D iommu_group_get(pn_dev);
-> +	if (!group) {
-> +		pr_warn("ACPI name space devices create direct mappings wrong!\n");
-> +		return -1;
+> +				struct acpi_device *adev,
+> +				void *start, void *end,
+> +				struct dmar_dev_scope *devices,
+> +				int devices_cnt)
+>  {
+> -	struct dmar_drhd_unit *dmaru;
+> -	struct acpi_dmar_hardware_unit *drhd;
+>  	struct acpi_dmar_device_scope *scope;
+>  	struct device *tmp;
+>  	int i;
+>  	struct acpi_dmar_pci_path *path;
+>  =
 
-Use a proper error code.  -ENOMEM?  -EINVAL?
+> +	for (; start < end; start +=3D scope->length) {
+> +		scope =3D start;
 
+Are we sure that there is enough space for sizeof(*scope) in end - start?
+(I don't know this code so maybe we are).
+
+> +		if (scope->entry_type !=3D ACPI_DMAR_SCOPE_TYPE_NAMESPACE)
+> +			continue;
+> +		if (scope->enumeration_id !=3D device_number)
+> +			continue;
+> +		path =3D (void *)(scope + 1);
+> +		for_each_dev_scope(devices, devices_cnt, i, tmp)
+> +			if (tmp =3D=3D NULL) {
+> +				devices[i].bus =3D scope->bus;
+> +				devices[i].devfn =3D PCI_DEVFN(path->device, path->function);
+> +				rcu_assign_pointer(devices[i].dev,
+> +						   get_device(&adev->dev));
+> +				return 1;
+> +			}
+> +		WARN_ON(i >=3D devices_cnt);
 > +	}
-> +	__acpi_device_create_direct_mappings(group, acpi_device);
-> +
 > +	return 0;
 > +}
+> +static int dmar_acpi_bus_add_dev(u8 device_number, struct acpi_device *a=
+dev)
+> +{
+> +	struct dmar_drhd_unit *dmaru;
+> +	struct acpi_dmar_hardware_unit *drhd;
+> +	int ret =3D 0;
+
+This initialization is never used.
+
+> +
+>  	for_each_drhd_unit(dmaru) {
+>  		drhd =3D container_of(dmaru->hdr,
+>  				    struct acpi_dmar_hardware_unit,
+>  				    header);
+> +		ret =3D dmar_acpi_insert_dev_scope(device_number, adev, (void *)(drhd+=
+1),
+> +						((void *)drhd)+drhd->header.length,
+> +						dmaru->devices, dmaru->devices_cnt);
+> +		if (ret)
+> +			break;
+> +	}
+> +	ret =3D dmar_rmrr_add_acpi_dev(device_number, adev);
+
+What about if dmar_acpi_insert_dev_scope() always returns zero, do we
+still want to call dmar_rmrr_add_acpi_dev()?
+
 >  =
 
->  static int __init probe_acpi_namespace_devices(void)
->  {
-> @@ -4812,6 +4826,7 @@ static int __init probe_acpi_namespace_devices(void)
->  			struct acpi_device_physical_node *pn;
->  			struct iommu_group *group;
->  			struct acpi_device *adev;
-> +			struct device *pn_dev =3D NULL;
+> -		for (scope =3D (void *)(drhd + 1);
+> -		     (unsigned long)scope < ((unsigned long)drhd) + drhd->header.lengt=
+h;
+> -		     scope =3D ((void *)scope) + scope->length) {
+> -			if (scope->entry_type !=3D ACPI_DMAR_SCOPE_TYPE_NAMESPACE)
+> -				continue;
+> -			if (scope->enumeration_id !=3D device_number)
+> -				continue;
+> +	return ret;
 >  =
 
->  			if (dev->bus !=3D &acpi_bus_type)
+> -			path =3D (void *)(scope + 1);
+> -			pr_info("ACPI device \"%s\" under DMAR at %llx as %02x:%02x.%d\n",
+> -				dev_name(&adev->dev), dmaru->reg_base_addr,
+> -				scope->bus, path->device, path->function);
+> -			for_each_dev_scope(dmaru->devices, dmaru->devices_cnt, i, tmp)
+> -				if (tmp =3D=3D NULL) {
+> -					dmaru->devices[i].bus =3D scope->bus;
+> -					dmaru->devices[i].devfn =3D PCI_DEVFN(path->device,
+> -									    path->function);
+> -					rcu_assign_pointer(dmaru->devices[i].dev,
+> -							   get_device(&adev->dev));
+> -					return;
+> -				}
+> -			BUG_ON(i >=3D dmaru->devices_cnt);
+> -		}
+> -	}
+> -	pr_warn("No IOMMU scope found for ANDD enumeration ID %d (%s)\n",
+> -		device_number, dev_name(&adev->dev));
+>  }
+>  =
+
+>  static int __init dmar_acpi_dev_scope_init(void)
+> @@ -766,7 +774,7 @@ static int __init dmar_acpi_dev_scope_init(void)
+>  				       andd->device_name);
 >  				continue;
-> @@ -4822,6 +4837,7 @@ static int __init probe_acpi_namespace_devices(void)
->  					    &adev->physical_node_list, node) {
->  				group =3D iommu_group_get(pn->dev);
->  				if (group) {
-> +					pn_dev =3D pn->dev;
->  					iommu_group_put(group);
->  					continue;
->  				}
-> @@ -4830,7 +4846,18 @@ static int __init probe_acpi_namespace_devices(voi=
-d)
->  				ret =3D iommu_probe_device(pn->dev);
->  				if (ret)
->  					break;
-> +				pn_dev =3D pn->dev;
-> +			}
-> +			if (pn_dev =3D=3D NULL) {
-
-Run checkpatch.pl --strict on this patch.  Use "if (!pn_dev) {".
-
-> +				dev->bus->iommu_ops =3D &intel_iommu_ops;
-> +				ret =3D iommu_probe_device(dev);
-> +				if (ret) {
-> +					pr_err("acpi_device probe fail! ret:%d\n", ret);
-> +					return ret;
-                                        ^^^^^^^^^^
-This should be goto unlock;
-
-> +				}
-> +				return 0;
-                                ^^^^^^^^
 >  			}
-> +			ret =3D acpi_device_create_direct_mappings(pn_dev, dev);
+> -			dmar_acpi_insert_dev_scope(andd->device_number, adev);
+> +			dmar_acpi_bus_add_dev(andd->device_number, adev);
+>  		}
+>  	}
+>  	return 0;
+> diff --git a/drivers/iommu/intel/iommu.c b/drivers/iommu/intel/iommu.c
+> index ca557d351518..f774ef63d473 100644
+> --- a/drivers/iommu/intel/iommu.c
+> +++ b/drivers/iommu/intel/iommu.c
+> @@ -4507,6 +4507,24 @@ int dmar_find_matched_atsr_unit(struct pci_dev *de=
+v)
+>  =
 
-unlock:
+>  	return ret;
+>  }
+> +int dmar_rmrr_add_acpi_dev(u8 device_number, struct acpi_device *adev)
 
->  			mutex_unlock(&adev->physical_node_lock);
-                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Please add a blank line between functions.
+> +{
+> +	int ret;
+> +	struct dmar_rmrr_unit *rmrru;
+> +	struct acpi_dmar_reserved_memory *rmrr;
+> +
+> +	list_for_each_entry(rmrru, &dmar_rmrr_units, list) {
+> +		rmrr =3D container_of(rmrru->hdr,
+> +				struct acpi_dmar_reserved_memory,
+> +				header);
+> +		ret =3D dmar_acpi_insert_dev_scope(device_number, adev, (void *)(rmrr =
++ 1),
+> +						((void *)rmrr) + rmrr->header.length,
+> +						rmrru->devices, rmrru->devices_cnt);
+> +		if (ret)
+> +			break;
+> +	}
+> +	return 0;
+> +}
+
 regards,
 dan carpenter
 
---===============2191799753836106253==--
+--===============3460861003903918548==--
 
