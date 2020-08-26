@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============5506588084636596068=="
+Content-Type: multipart/mixed; boundary="===============3209908953398589131=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Thu, 27 Aug 2020 07:27:14 +0800
-Message-ID: <20200826232713.GA28911@d10202f75172>
+Date: Thu, 27 Aug 2020 07:27:12 +0800
+Message-ID: <20200826232712.GA28824@d10202f75172>
 In-Reply-To: <202008270751.hp4RBpOO%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5506588084636596068==
+--===============3209908953398589131==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,17 +16,16 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Keith Busch <kbusch@kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Sagi Grimberg <sagi@grimberg.me>
-CC: linux-nvme(a)lists.infradead.org
+CC: Bradley Grove <linuxdrivers@attotech.com>
+CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: linux-scsi(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/nvme/host/lightnvm.c:1244:60-61: WARNING opportunity for kobj_to_de=
-v()
+drivers/scsi/esas2r/esas2r_main.c:62:60-61: WARNING opportunity for kobj_to=
+_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -48,19 +47,22 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/3] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- lightnvm.c |    2 +-
+ esas2r_main.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -1241,7 +1241,7 @@ static struct attribute *nvm_dev_attrs[]
- static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
- 				     struct attribute *attr, int index)
+--- a/drivers/scsi/esas2r/esas2r_main.c
++++ b/drivers/scsi/esas2r/esas2r_main.c
+@@ -59,7 +59,7 @@ struct esas2r_adapter *esas2r_adapters[M
+ =
+
+ static struct esas2r_adapter *esas2r_adapter_from_kobj(struct kobject *kob=
+j)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct gendisk *disk =3D dev_to_disk(dev);
- 	struct nvme_ns *ns =3D disk->private_data;
- 	struct nvm_dev *ndev =3D ns->ndev;
---===============5506588084636596068==--
+ 	struct Scsi_Host *host =3D class_to_shost(dev);
+ =
+
+ 	return (struct esas2r_adapter *)host->hostdata;
+--===============3209908953398589131==--
 
