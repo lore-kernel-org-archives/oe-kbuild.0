@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3607091723627997765=="
+Content-Type: multipart/mixed; boundary="===============3435758851272200654=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/sja1105/sja1105_main.c:2180 sja1105_build_subvlans() warn: should '(((1))) << (v->port)' be a 64 bit
-Date: Sat, 29 Aug 2020 21:01:35 +0800
-Message-ID: <202008292131.sdP47mMU%lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:2342 sja1105_best_effort_vlan_filtering_set() error: uninitialized symbol 'rc'.
+Date: Sat, 29 Aug 2020 19:27:23 +0800
+Message-ID: <202008291920.dB3vmejj%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3607091723627997765==
+--===============3435758851272200654==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,10 +20,10 @@ CC: Florian Fainelli <f.fainelli@gmail.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4d41ead6ead97c3730bbd186a601a64828668f01
-commit: 3f01c91aab9276ca48acccd20f6c379cf48a51f9 net: dsa: sja1105: impleme=
-nt VLAN retagging for dsa_8021q sub-VLANs
+commit: 2cafa72e516f61b6d82c2416b4f5963fb48fd9ce net: dsa: sja1105: add a n=
+ew best_effort_vlan_filtering devlink parameter
 date:   4 months ago
-:::::: branch date: 13 hours ago
+:::::: branch date: 12 hours ago
 :::::: commit date: 4 months ago
 config: arm-randconfig-m031-20200829 (attached as .config)
 compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
@@ -33,14 +33,8 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/dsa/sja1105/sja1105_main.c:2180 sja1105_build_subvlans() warn: =
-should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2181 sja1105_build_subvlans() warn: =
-should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2347 sja1105_build_crosschip_subvlan=
-s() warn: should '(((1))) << (tmp->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2348 sja1105_build_crosschip_subvlan=
-s() warn: should '(((1))) << upstream' be a 64 bit type?
+drivers/net/dsa/sja1105/sja1105_main.c:2342 sja1105_best_effort_vlan_filter=
+ing_set() error: uninitialized symbol 'rc'.
 
 Old smatch warnings:
 drivers/net/dsa/sja1105/sja1105_main.c:46 sja1105_port_allow_traffic() warn=
@@ -57,511 +51,109 @@ drivers/net/dsa/sja1105/sja1105_main.c:197 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 1
 drivers/net/dsa/sja1105/sja1105_main.c:202 sja1105_init_mii_settings() warn=
 : is 'table->entries' large enough for 'struct sja1105_xmii_params_entry'? 1
-drivers/net/dsa/sja1105/sja1105_main.c:562 sja1105_init_avb_params() warn: =
+drivers/net/dsa/sja1105/sja1105_main.c:527 sja1105_init_avb_params() warn: =
 is 'table->entries' large enough for 'struct sja1105_avb_params_entry'? 1
-drivers/net/dsa/sja1105/sja1105_main.c:1154 sja1105_find_static_fdb_entry()=
+drivers/net/dsa/sja1105/sja1105_main.c:1119 sja1105_find_static_fdb_entry()=
  warn: should '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1272 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1237 sja1105et_fdb_add() warn: shoul=
 d '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1274 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1239 sja1105et_fdb_add() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1282 sja1105et_fdb_add() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:1247 sja1105et_fdb_add() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1368 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1333 sja1105pqrs_fdb_add() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1376 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1341 sja1105pqrs_fdb_add() warn: sho=
 uld '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1381 sja1105pqrs_fdb_add() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1346 sja1105pqrs_fdb_add() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1431 sja1105pqrs_fdb_del() warn: sho=
+drivers/net/dsa/sja1105/sja1105_main.c:1396 sja1105pqrs_fdb_del() warn: sho=
 uld '(((1))) << port' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1515 sja1105_fdb_dump() warn: should=
+drivers/net/dsa/sja1105/sja1105_main.c:1480 sja1105_fdb_dump() warn: should=
  '((((1))) << port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:1751 sja1105_static_config_reload() =
+drivers/net/dsa/sja1105/sja1105_main.c:1716 sja1105_static_config_reload() =
 warn: bitwise AND condition is false here
-drivers/net/dsa/sja1105/sja1105_main.c:2105 sja1105_build_bridge_vlans() wa=
+drivers/net/dsa/sja1105/sja1105_main.c:1958 sja1105_build_bridge_vlans() wa=
 rn: should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2106 sja1105_build_bridge_vlans() wa=
+drivers/net/dsa/sja1105/sja1105_main.c:1959 sja1105_build_bridge_vlans() wa=
 rn: should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2108 sja1105_build_bridge_vlans() wa=
+drivers/net/dsa/sja1105/sja1105_main.c:1961 sja1105_build_bridge_vlans() wa=
 rn: should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2127 sja1105_build_dsa_8021q_vlans()=
+drivers/net/dsa/sja1105/sja1105_main.c:1980 sja1105_build_dsa_8021q_vlans()=
  warn: should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2128 sja1105_build_dsa_8021q_vlans()=
+drivers/net/dsa/sja1105/sja1105_main.c:1981 sja1105_build_dsa_8021q_vlans()=
  warn: should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2130 sja1105_build_dsa_8021q_vlans()=
+drivers/net/dsa/sja1105/sja1105_main.c:1983 sja1105_build_dsa_8021q_vlans()=
  warn: should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2182 sja1105_build_subvlans() warn: =
-should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2183 sja1105_build_subvlans() warn: =
-should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2188 sja1105_build_subvlans() warn: =
-should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2190 sja1105_build_subvlans() warn: =
-should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2206 sja1105_build_subvlans() warn: =
-should '(((1))) << (v->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2207 sja1105_build_subvlans() warn: =
-should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2356 sja1105_build_crosschip_subvlan=
-s() warn: should '(((1))) << (tmp->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2357 sja1105_build_crosschip_subvlan=
-s() warn: should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2382 sja1105_build_crosschip_subvlan=
-s() warn: should '(((1))) << upstream' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2383 sja1105_build_crosschip_subvlan=
-s() warn: should '(((1))) << (tmp->port)' be a 64 bit type?
-drivers/net/dsa/sja1105/sja1105_main.c:2785 sja1105_best_effort_vlan_filter=
-ing_set() error: uninitialized symbol 'rc'.
-drivers/net/dsa/sja1105/sja1105_main.c:3000 sja1105_mgmt_xmit() warn: shoul=
+drivers/net/dsa/sja1105/sja1105_main.c:2557 sja1105_mgmt_xmit() warn: shoul=
 d '(((1))) << port' be a 64 bit type?
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D3f01c91aab9276ca48acccd20f6c379cf48a51f9
+/?id=3D2cafa72e516f61b6d82c2416b4f5963fb48fd9ce
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
 ds/linux.git
 git fetch --no-tags linus master
-git checkout 3f01c91aab9276ca48acccd20f6c379cf48a51f9
-vim +2180 drivers/net/dsa/sja1105/sja1105_main.c
+git checkout 2cafa72e516f61b6d82c2416b4f5963fb48fd9ce
+vim +/rc +2342 drivers/net/dsa/sja1105/sja1105_main.c
 
-ec5ae61076d07b Vladimir Oltean 2020-05-12  2135  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2315  =
 
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2136  static int sja1105_build_s=
-ubvlans(struct sja1105_private *priv,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2137  				  u16 subvlan_map[][DS=
-A_8021Q_N_SUBVLAN],
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2138  				  struct sja1105_vlan_=
-lookup_entry *new_vlan,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2139  				  struct sja1105_retag=
-ging_entry *new_retagging,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2140  				  int *num_retagging)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2141  {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2142  	struct sja1105_bridge_vla=
-n *v;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2143  	int k =3D *num_retagging;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2144  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2316  static int sja1105_best_ef=
+fort_vlan_filtering_set(struct sja1105_private *priv,
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2317  						  bool be_vlan)
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2318  {
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2319  	struct dsa_switch *ds =3D=
+ priv->ds;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2320  	bool vlan_filtering;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2321  	int port;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2322  	int rc;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2323  =
 
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2145  	if (priv->vlan_state !=3D=
- SJA1105_VLAN_BEST_EFFORT)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2146  		return 0;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2147  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2324  	priv->best_effort_vlan_fi=
+ltering =3D be_vlan;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2325  =
 
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2148  	list_for_each_entry(v, &p=
-riv->bridge_vlans, list) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2149  		int upstream =3D dsa_ups=
-tream_port(priv->ds, v->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2150  		int match, subvlan;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2151  		u16 rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2152  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2326  	rtnl_lock();
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2327  	for (port =3D 0; port < d=
+s->num_ports; port++) {
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2328  		struct dsa_port *dp;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2329  =
 
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2153  		/* Only sub-VLANs on use=
-r ports need to be applied.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2154  		 * Bridge VLANs also inc=
-lude VLANs added automatically
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2155  		 * by DSA on the CPU por=
-t.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2156  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2157  		if (!dsa_is_user_port(pr=
-iv->ds, v->port))
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2158  			continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2159  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2330  		if (!dsa_is_user_port(ds=
+, port))
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2331  			continue;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2332  =
 
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2160  		subvlan =3D sja1105_find=
-_subvlan(subvlan_map[v->port],
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2161  					       v->vid);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2162  		if (subvlan < 0) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2163  			subvlan =3D sja1105_fin=
-d_free_subvlan(subvlan_map[v->port],
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2164  							    v->pvid);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2165  			if (subvlan < 0) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2166  				dev_err(priv->ds->dev,=
- "No more free subvlans\n");
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2167  				return -ENOSPC;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2168  			}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2169  		}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2170  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2333  		dp =3D dsa_to_port(ds, p=
+ort);
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2334  		vlan_filtering =3D dsa_p=
+ort_is_vlan_filtering(dp);
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2335  =
 
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2171  		rx_vid =3D dsa_8021q_rx_=
-vid_subvlan(priv->ds, v->port, subvlan);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2172  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2336  		rc =3D sja1105_vlan_filt=
+ering(ds, port, vlan_filtering);
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2337  		if (rc)
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2338  			break;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2339  	}
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2340  	rtnl_unlock();
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2341  =
 
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2173  		/* @v->vid on @v->port n=
-eeds to be retagged to @rx_vid
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2174  		 * on @upstream. Assume =
-@v->vid on @v->port and on
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2175  		 * @upstream was already=
- configured by the previous
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2176  		 * iteration over bridge=
-_vlans.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2177  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2178  		match =3D rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2179  		new_vlan[match].vlanid =
-=3D rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12 @2180  		new_vlan[match].vmemb_po=
-rt |=3D BIT(v->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12 @2181  		new_vlan[match].vmemb_po=
-rt |=3D BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2182  		new_vlan[match].vlan_bc =
-|=3D BIT(v->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2183  		new_vlan[match].vlan_bc =
-|=3D BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2184  		/* The "untagged" flag i=
-s set the same as for the
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2185  		 * original VLAN
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2186  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2187  		if (!v->untagged)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2188  			new_vlan[match].tag_por=
-t |=3D BIT(v->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2189  		/* But it's always tagge=
-d towards the CPU */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2190  		new_vlan[match].tag_port=
- |=3D BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2191  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2192  		/* The Retagging Table g=
-enerates packet *clones* with
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2193  		 * the new VLAN. This is=
- a very odd hardware quirk
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2194  		 * which we need to supp=
-ress by dropping the original
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2195  		 * packet.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2196  		 * Deny egress of the or=
-iginal VLAN towards the CPU
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2197  		 * port. This will force=
- the switch to drop it, and
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2198  		 * we'll see only the re=
-tagged packets.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2199  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2200  		match =3D v->vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2201  		new_vlan[match].vlan_bc =
-&=3D ~BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2202  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2203  		/* And the retagging its=
-elf */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2204  		new_retagging[k].vlan_in=
-g =3D v->vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2205  		new_retagging[k].vlan_eg=
-r =3D rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2206  		new_retagging[k].ing_por=
-t =3D BIT(v->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2207  		new_retagging[k].egr_por=
-t =3D BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2208  		if (k++ =3D=3D SJA1105_M=
-AX_RETAGGING_COUNT) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2209  			dev_err(priv->ds->dev, =
-"No more retagging rules\n");
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2210  			return -ENOSPC;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2211  		}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2212  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2213  		subvlan_map[v->port][sub=
-vlan] =3D v->vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2214  	}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2215  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2216  	*num_retagging =3D k;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2217  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2218  	return 0;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2219  }
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2220  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2221  /* Sadly, in crosschip sce=
-narios where the CPU port is also the link to another
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2222   * switch, we should retag=
- backwards (the dsa_8021q vid to the original vid) on
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2223   * the CPU port of neighbo=
-ur switches.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2224   */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2225  static int
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2226  sja1105_build_crosschip_su=
-bvlans(struct sja1105_private *priv,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2227  				 struct sja1105_vlan_l=
-ookup_entry *new_vlan,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2228  				 struct sja1105_retagg=
-ing_entry *new_retagging,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2229  				 int *num_retagging)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2230  {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2231  	struct sja1105_crosschip_=
-vlan *tmp, *pos;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2232  	struct dsa_8021q_crosschi=
-p_link *c;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2233  	struct sja1105_bridge_vla=
-n *v, *w;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2234  	struct list_head crosschi=
-p_vlans;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2235  	int k =3D *num_retagging;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2236  	int rc =3D 0;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2237  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2238  	if (priv->vlan_state !=3D=
- SJA1105_VLAN_BEST_EFFORT)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2239  		return 0;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2240  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2241  	INIT_LIST_HEAD(&crosschip=
-_vlans);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2242  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2243  	list_for_each_entry(c, &p=
-riv->crosschip_links, list) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2244  		struct sja1105_private *=
-other_priv =3D c->other_ds->priv;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2245  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2246  		if (other_priv->vlan_sta=
-te =3D=3D SJA1105_VLAN_FILTERING_FULL)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2247  			continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2248  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2249  		/* Crosschip links are a=
-lso added to the CPU ports.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2250  		 * Ignore those.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2251  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2252  		if (!dsa_is_user_port(pr=
-iv->ds, c->port))
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2253  			continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2254  		if (!dsa_is_user_port(c-=
->other_ds, c->other_port))
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2255  			continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2256  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2257  		/* Search for VLANs on t=
-he remote port */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2258  		list_for_each_entry(v, &=
-other_priv->bridge_vlans, list) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2259  			bool already_added =3D =
-false;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2260  			bool we_have_it =3D fal=
-se;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2261  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2262  			if (v->port !=3D c->oth=
-er_port)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2263  				continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2264  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2265  			/* If @v is a pvid on @=
-other_ds, it does not need
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2266  			 * re-retagging, becaus=
-e its SVL field is 0 and we
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2267  			 * already allow that, =
-via the dsa_8021q crosschip
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2268  			 * links.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2269  			 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2270  			if (v->pvid)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2271  				continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2272  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2273  			/* Search for the VLAN =
-on our local port */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2274  			list_for_each_entry(w, =
-&priv->bridge_vlans, list) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2275  				if (w->port =3D=3D c->=
-port && w->vid =3D=3D v->vid) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2276  					we_have_it =3D true;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2277  					break;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2278  				}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2279  			}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2280  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2281  			if (!we_have_it)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2282  				continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2283  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2284  			list_for_each_entry(tmp=
-, &crosschip_vlans, list) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2285  				if (tmp->vid =3D=3D v-=
->vid &&
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2286  				    tmp->untagged =3D=
-=3D v->untagged &&
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2287  				    tmp->port =3D=3D c=
-->port &&
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2288  				    tmp->other_port =
-=3D=3D v->port &&
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2289  				    tmp->other_ds =3D=
-=3D c->other_ds) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2290  					already_added =3D tru=
-e;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2291  					break;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2292  				}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2293  			}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2294  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2295  			if (already_added)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2296  				continue;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2297  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2298  			tmp =3D kzalloc(sizeof(=
-*tmp), GFP_KERNEL);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2299  			if (!tmp) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2300  				dev_err(priv->ds->dev,=
- "Failed to allocate memory\n");
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2301  				rc =3D -ENOMEM;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2302  				goto out;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2303  			}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2304  			tmp->vid =3D v->vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2305  			tmp->port =3D c->port;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2306  			tmp->other_port =3D v->=
-port;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2307  			tmp->other_ds =3D c->ot=
-her_ds;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2308  			tmp->untagged =3D v->un=
-tagged;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2309  			list_add(&tmp->list, &c=
-rosschip_vlans);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2310  		}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2311  	}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2312  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2313  	list_for_each_entry(tmp, =
-&crosschip_vlans, list) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2314  		struct sja1105_private *=
-other_priv =3D tmp->other_ds->priv;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2315  		int upstream =3D dsa_ups=
-tream_port(priv->ds, tmp->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2316  		int match, subvlan;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2317  		u16 rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2318  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2319  		subvlan =3D sja1105_find=
-_committed_subvlan(other_priv,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2320  							 tmp->other_port,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2321  							 tmp->vid);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2322  		/* If this happens, it's=
- a bug. The neighbour switch does not
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2323  		 * have a subvlan for tm=
-p->vid on tmp->other_port, but it
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2324  		 * should, since we alre=
-ady checked for its vlan_state.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2325  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2326  		if (WARN_ON(subvlan < 0)=
-) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2327  			rc =3D -EINVAL;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2328  			goto out;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2329  		}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2330  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2331  		rx_vid =3D dsa_8021q_rx_=
-vid_subvlan(tmp->other_ds,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2332  						  tmp->other_port,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2333  						  subvlan);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2334  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2335  		/* The @rx_vid retagged =
-from @tmp->vid on
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2336  		 * {@tmp->other_ds, @tmp=
-->other_port} needs to be
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2337  		 * re-retagged to @tmp->=
-vid on the way back to us.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2338  		 *
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2339  		 * Assume the original @=
-tmp->vid is already configured
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2340  		 * on this local switch,=
- otherwise we wouldn't be
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2341  		 * retagging its subvlan=
- on the other switch in the
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2342  		 * first place. We just =
-need to add a reverse retagging
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2343  		 * rule for @rx_vid and =
-install @rx_vid on our ports.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2344  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2345  		match =3D rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2346  		new_vlan[match].vlanid =
-=3D rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12 @2347  		new_vlan[match].vmemb_po=
-rt |=3D BIT(tmp->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12 @2348  		new_vlan[match].vmemb_po=
-rt |=3D BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2349  		/* The "untagged" flag i=
-s set the same as for the
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2350  		 * original VLAN. And to=
-wards the CPU, it doesn't
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2351  		 * really matter, becaus=
-e @rx_vid will only receive
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2352  		 * traffic on that port.=
- For consistency with other dsa_8021q
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2353  		 * VLANs, we'll keep the=
- CPU port tagged.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2354  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2355  		if (!tmp->untagged)
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2356  			new_vlan[match].tag_por=
-t |=3D BIT(tmp->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2357  		new_vlan[match].tag_port=
- |=3D BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2358  		/* Deny egress of @rx_vi=
-d towards our front-panel port.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2359  		 * This will force the s=
-witch to drop it, and we'll see
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2360  		 * only the re-retagged =
-packets (having the original,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2361  		 * pre-initial-retagging=
-, VLAN @tmp->vid).
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2362  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2363  		new_vlan[match].vlan_bc =
-&=3D ~BIT(tmp->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2364  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2365  		/* On reverse retagging,=
- the same ingress VLAN goes to multiple
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2366  		 * ports. So we have an =
-opportunity to create composite rules
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2367  		 * to not waste the limi=
-ted space in the retagging table.
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2368  		 */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2369  		k =3D sja1105_find_retag=
-ging_entry(new_retagging, *num_retagging,
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2370  						 upstream, rx_vid, t=
-mp->vid);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2371  		if (k < 0) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2372  			if (*num_retagging =3D=
-=3D SJA1105_MAX_RETAGGING_COUNT) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2373  				dev_err(priv->ds->dev,=
- "No more retagging rules\n");
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2374  				rc =3D -ENOSPC;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2375  				goto out;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2376  			}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2377  			k =3D (*num_retagging)+=
-+;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2378  		}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2379  		/* And the retagging its=
-elf */
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2380  		new_retagging[k].vlan_in=
-g =3D rx_vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2381  		new_retagging[k].vlan_eg=
-r =3D tmp->vid;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2382  		new_retagging[k].ing_por=
-t =3D BIT(upstream);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2383  		new_retagging[k].egr_por=
-t |=3D BIT(tmp->port);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2384  	}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2385  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2386  out:
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2387  	list_for_each_entry_safe(=
-tmp, pos, &crosschip_vlans, list) {
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2388  		list_del(&tmp->list);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2389  		kfree(tmp);
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2390  	}
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2391  =
-
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2392  	return rc;
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2393  }
-3f01c91aab9276 Vladimir Oltean 2020-05-12  2394  =
+2cafa72e516f61 Vladimir Oltean 2020-05-12 @2342  	return rc;
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2343  }
+2cafa72e516f61 Vladimir Oltean 2020-05-12  2344  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3607091723627997765==
+--===============3435758851272200654==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLRJSl8AAy5jb25maWcAjFxZk9u2sn7Pr1A5LzkPSWbzOL635gEEQQkRScAAqFleWPJYtqcy
+H4sICKM3Sl8AAy5jb25maWcAjFxZk9u2sn7Pr1A5LzkPSWbzOL635gEEQQkRScAAqFleWPJYtqcy
 i680k8T//nYDXAAQnGNXUja7G3uj++sGoJ9/+nlBXp6fHrbPd7fb+/vviy+7x91++7z7tPh8d7/7
 30UuFrUwC5Zz8xsIl3ePL//+vt0/LN7+9u63o1/3t2eL9W7/uLtf0KfHz3dfXqDw3dPjTz//BP/9
 DMSHb1DP/n8WUObXeyz965fHl932492vX25vF78sKf3P4v1vp78dgTwVdcGXLaUt1y1wLr73JPho
@@ -993,5 +585,5 @@ F4UxU8AJtbq/H6D95uHrp/fnh86p5+PXfpRkCEWn+DRvC/YKNPW+9fbtgLIhXl0iTG+8edoacXUY
 SWJcFmVgiWy4GW9mxZtYML6W28bBaREMtaqFGDKEWbwuo8lCweDI6H5ZQPMPOzGZxeJZklYpo1+Z
 RqTS6IT1TpImY3Ouww/J7wMNcuXuMut8H44/OMoDtVst73V5x9jSHEMHBjlBaQPg0o/MVjHS0uIB
 SE+zU5Bl5IGtLnLhF3CACwaNEEeXnReYoWwS/weqF/yXfHoBAA==
---===============3607091723627997765==--
+--===============3435758851272200654==--
 
