@@ -1,21 +1,19 @@
-Content-Type: multipart/mixed; boundary="===============4852010689372339495=="
+Content-Type: multipart/mixed; boundary="===============1581577793569901623=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 4/4] drm/crtc: add drmm_crtc_alloc_with_planes()
-Date: Mon, 31 Aug 2020 12:39:53 +0300
-Message-ID: <20200831093953.GB8299@kadam>
-In-Reply-To: <20200826123506.19560-4-p.zabel@pengutronix.de>
+Subject: Re: [PATCH 3/4] drm/plane: add drmm_universal_plane_alloc()
+Date: Mon, 31 Aug 2020 12:37:38 +0300
+Message-ID: <20200831093738.GA8299@kadam>
+In-Reply-To: <20200826123506.19560-3-p.zabel@pengutronix.de>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4852010689372339495==
+--===============1581577793569901623==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 Hi Philipp,
-
-https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Philipp-Zabel/drm-add-drmm=
 _encoder_alloc/20200826-203629
@@ -27,128 +25,148 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/drm_crtc.c:343 drm_crtc_init_with_planes() error: uninitial=
+New smatch warnings:
+drivers/gpu/drm/drm_plane.c:302 drm_universal_plane_init() error: uninitial=
 ized symbol 'ap'.
-drivers/gpu/drm/drm_crtc.c:383 __drmm_crtc_alloc_with_planes() error: unini=
+drivers/gpu/drm/drm_plane.c:345 __drmm_universal_plane_alloc() error: unini=
 tialized symbol 'ap'.
 
-# https://github.com/0day-ci/linux/commit/236b7bc44ae0fdecc8e80c5aba0655ca1=
-4fdfb23
+Old smatch warnings:
+drivers/gpu/drm/drm_plane.c:117 create_in_format_blob() error: potential nu=
+ll dereference 'blob'.  (drm_property_create_blob returns null)
+
+# https://github.com/0day-ci/linux/commit/d809a51da3d2939a84ecf6b4ada8f5be6=
+c3ecb35
 git remote add linux-review https://github.com/0day-ci/linux
 git fetch --no-tags linux-review Philipp-Zabel/drm-add-drmm_encoder_alloc/2=
 0200826-203629
-git checkout 236b7bc44ae0fdecc8e80c5aba0655ca14fdfb23
-vim +/ap +343 drivers/gpu/drm/drm_crtc.c
+git checkout d809a51da3d2939a84ecf6b4ada8f5be6c3ecb35
+vim +/ap +302 drivers/gpu/drm/drm_plane.c
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  331  int drm_crtc_init_with_planes=
-(struct drm_device *dev, struct drm_crtc *crtc,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  332  			      struct drm_plane *pr=
-imary,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  333  			      struct drm_plane *cu=
-rsor,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  334  			      const struct drm_crt=
-c_funcs *funcs,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  335  			      const char *name, ..=
-.)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  336  {
-236b7bc44ae0fd Philipp Zabel 2020-08-26  337  	va_list ap;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  338  	int ret;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  339  =
+d809a51da3d293 Philipp Zabel 2020-08-26  287  int drm_universal_plane_init(=
+struct drm_device *dev, struct drm_plane *plane,
+d809a51da3d293 Philipp Zabel 2020-08-26  288  			     uint32_t possible_crt=
+cs,
+d809a51da3d293 Philipp Zabel 2020-08-26  289  			     const struct drm_plan=
+e_funcs *funcs,
+d809a51da3d293 Philipp Zabel 2020-08-26  290  			     const uint32_t *forma=
+ts, unsigned int format_count,
+d809a51da3d293 Philipp Zabel 2020-08-26  291  			     const uint64_t *forma=
+t_modifiers,
+d809a51da3d293 Philipp Zabel 2020-08-26  292  			     enum drm_plane_type t=
+ype,
+d809a51da3d293 Philipp Zabel 2020-08-26  293  			     const char *name, ...)
+d809a51da3d293 Philipp Zabel 2020-08-26  294  {
+d809a51da3d293 Philipp Zabel 2020-08-26  295  	va_list ap;
+                                                ^^^^^^^^^^
+d809a51da3d293 Philipp Zabel 2020-08-26  296  	int ret;
+d809a51da3d293 Philipp Zabel 2020-08-26  297  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  340  	if (name)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  341  		va_start(ap, name);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  342  	ret =3D drm_crtc_init_with_p=
-lanes(dev, crtc, primary, cursor, funcs,
-236b7bc44ae0fd Philipp Zabel 2020-08-26 @343  					name, ap);
+d809a51da3d293 Philipp Zabel 2020-08-26  298  	if (name)
+d809a51da3d293 Philipp Zabel 2020-08-26  299  		va_start(ap, name);
+                                                                 ^^
+
+d809a51da3d293 Philipp Zabel 2020-08-26  300  	ret =3D __drm_universal_plan=
+e_init(dev, plane, possible_crtcs, funcs,
+d809a51da3d293 Philipp Zabel 2020-08-26  301  					 formats, format_count, =
+format_modifiers,
+d809a51da3d293 Philipp Zabel 2020-08-26 @302  					 type, name, ap);
                                                                            =
-           ^^
+                  ^^
+This isn't always initialized.  Presumably it's not a problem but
+runtime tools like KASan (syzbot) will detect the load and complain as
+well so it's probably better to silence it.
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  344  	if (name)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  345  		va_end(ap);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  346  =
+d809a51da3d293 Philipp Zabel 2020-08-26  303  	if (name)
+d809a51da3d293 Philipp Zabel 2020-08-26  304  		va_end(ap);
+d809a51da3d293 Philipp Zabel 2020-08-26  305  	return ret;
+d809a51da3d293 Philipp Zabel 2020-08-26  306  }
+43968d7b806d7a Daniel Vetter 2016-09-21  307  EXPORT_SYMBOL(drm_universal_p=
+lane_init);
+43968d7b806d7a Daniel Vetter 2016-09-21  308  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  347  	return ret;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  348  }
-e13161af80c185 Matt Roper    2014-04-01  349  EXPORT_SYMBOL(drm_crtc_init_w=
-ith_planes);
-f453ba0460742a Dave Airlie   2008-11-07  350  =
+d809a51da3d293 Philipp Zabel 2020-08-26  309  static void drmm_universal_pl=
+ane_alloc_release(struct drm_device *dev, void *ptr)
+d809a51da3d293 Philipp Zabel 2020-08-26  310  {
+d809a51da3d293 Philipp Zabel 2020-08-26  311  	struct drm_plane *plane =3D =
+ptr;
+d809a51da3d293 Philipp Zabel 2020-08-26  312  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  351  static void drmm_crtc_alloc_w=
-ith_planes_cleanup(struct drm_device *dev,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  352  						void *ptr)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  353  {
-236b7bc44ae0fd Philipp Zabel 2020-08-26  354  	struct drm_crtc *crtc =3D pt=
-r;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  355  =
+d809a51da3d293 Philipp Zabel 2020-08-26  313  	if (WARN_ON(!plane->dev))
+d809a51da3d293 Philipp Zabel 2020-08-26  314  		return;
+d809a51da3d293 Philipp Zabel 2020-08-26  315  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  356  	drm_crtc_cleanup(crtc);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  357  }
-236b7bc44ae0fd Philipp Zabel 2020-08-26  358  =
+d809a51da3d293 Philipp Zabel 2020-08-26  316  	drm_plane_cleanup(plane);
+d809a51da3d293 Philipp Zabel 2020-08-26  317  }
+d809a51da3d293 Philipp Zabel 2020-08-26  318  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  359  void *__drmm_crtc_alloc_with_=
-planes(struct drm_device *dev,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  360  				    size_t size, size_t o=
-ffset,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  361  				    struct drm_plane *pri=
-mary,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  362  				    struct drm_plane *cur=
-sor,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  363  				    const struct drm_crtc=
+d809a51da3d293 Philipp Zabel 2020-08-26  319  void *__drmm_universal_plane_=
+alloc(struct drm_device *dev, size_t size,
+d809a51da3d293 Philipp Zabel 2020-08-26  320  				   size_t offset, uint32_=
+t possible_crtcs,
+d809a51da3d293 Philipp Zabel 2020-08-26  321  				   const struct drm_plane=
 _funcs *funcs,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  364  				    const char *name, ...)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  365  {
-236b7bc44ae0fd Philipp Zabel 2020-08-26  366  	void *container;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  367  	struct drm_crtc *crtc;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  368  	va_list ap;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  369  	int ret;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  370  =
+d809a51da3d293 Philipp Zabel 2020-08-26  322  				   const uint32_t *format=
+s, unsigned int format_count,
+d809a51da3d293 Philipp Zabel 2020-08-26  323  				   const uint64_t *format=
+_modifiers,
+d809a51da3d293 Philipp Zabel 2020-08-26  324  				   enum drm_plane_type ty=
+pe,
+d809a51da3d293 Philipp Zabel 2020-08-26  325  				   const char *name, ...)
+d809a51da3d293 Philipp Zabel 2020-08-26  326  {
+d809a51da3d293 Philipp Zabel 2020-08-26  327  	void *container;
+d809a51da3d293 Philipp Zabel 2020-08-26  328  	struct drm_plane *plane;
+d809a51da3d293 Philipp Zabel 2020-08-26  329  	va_list ap;
+d809a51da3d293 Philipp Zabel 2020-08-26  330  	int ret;
+d809a51da3d293 Philipp Zabel 2020-08-26  331  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  371  	if (!funcs || funcs->destroy)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  372  		return ERR_PTR(-EINVAL);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  373  =
+d809a51da3d293 Philipp Zabel 2020-08-26  332  	if (!funcs || funcs->destroy)
+d809a51da3d293 Philipp Zabel 2020-08-26  333  		return ERR_PTR(-EINVAL);
+d809a51da3d293 Philipp Zabel 2020-08-26  334  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  374  	container =3D drmm_kzalloc(d=
+d809a51da3d293 Philipp Zabel 2020-08-26  335  	container =3D drmm_kzalloc(d=
 ev, size, GFP_KERNEL);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  375  	if (!container)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  376  		return ERR_PTR(-ENOMEM);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  377  =
+d809a51da3d293 Philipp Zabel 2020-08-26  336  	if (!container)
+d809a51da3d293 Philipp Zabel 2020-08-26  337  		return ERR_PTR(-ENOMEM);
+d809a51da3d293 Philipp Zabel 2020-08-26  338  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  378  	crtc =3D container + offset;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  379  =
+d809a51da3d293 Philipp Zabel 2020-08-26  339  	plane =3D container + offset;
+d809a51da3d293 Philipp Zabel 2020-08-26  340  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  380  	if (name)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  381  		va_start(ap, name);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  382  	ret =3D __drm_crtc_init_with=
-_planes(dev, crtc, primary, cursor, funcs,
-236b7bc44ae0fd Philipp Zabel 2020-08-26 @383  					  name, ap);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  384  	if (name)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  385  		va_end(ap);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  386  	if (ret)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  387  		return ERR_PTR(ret);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  388  =
+d809a51da3d293 Philipp Zabel 2020-08-26  341  	if (name)
+d809a51da3d293 Philipp Zabel 2020-08-26  342  		va_start(ap, name);
+d809a51da3d293 Philipp Zabel 2020-08-26  343  	ret =3D __drm_universal_plan=
+e_init(dev, plane, possible_crtcs, funcs,
+d809a51da3d293 Philipp Zabel 2020-08-26  344  					 formats, format_count, =
+format_modifiers,
+d809a51da3d293 Philipp Zabel 2020-08-26 @345  					 type, name, ap);
+d809a51da3d293 Philipp Zabel 2020-08-26  346  	if (name)
+d809a51da3d293 Philipp Zabel 2020-08-26  347  		va_end(ap);
+d809a51da3d293 Philipp Zabel 2020-08-26  348  	if (ret)
+d809a51da3d293 Philipp Zabel 2020-08-26  349  		return ERR_PTR(ret);
+d809a51da3d293 Philipp Zabel 2020-08-26  350  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  389  	ret =3D drmm_add_action_or_r=
-eset(dev, drmm_crtc_alloc_with_planes_cleanup,
-236b7bc44ae0fd Philipp Zabel 2020-08-26  390  				       crtc);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  391  	if (ret)
-236b7bc44ae0fd Philipp Zabel 2020-08-26  392  		return ERR_PTR(ret);
-236b7bc44ae0fd Philipp Zabel 2020-08-26  393  =
+d809a51da3d293 Philipp Zabel 2020-08-26  351  	ret =3D drmm_add_action_or_r=
+eset(dev, drmm_universal_plane_alloc_release,
+d809a51da3d293 Philipp Zabel 2020-08-26  352  				       plane);
+d809a51da3d293 Philipp Zabel 2020-08-26  353  	if (ret)
+d809a51da3d293 Philipp Zabel 2020-08-26  354  		return ERR_PTR(ret);
+d809a51da3d293 Philipp Zabel 2020-08-26  355  =
 
-236b7bc44ae0fd Philipp Zabel 2020-08-26  394  	return container;
-236b7bc44ae0fd Philipp Zabel 2020-08-26  395  }
+d809a51da3d293 Philipp Zabel 2020-08-26  356  	return container;
+d809a51da3d293 Philipp Zabel 2020-08-26  357  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4852010689372339495==
+--===============1581577793569901623==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICITKRl8AAy5jb25maWcAlDzJctw4svf+igr3pftgjxZb4Y4XOoAkyEIXSdAAWIsuiGqp5FaM
+H4sICP6wRl8AAy5jb25maWcAlDzJctw4svf+igr3pftgjxZb4Y4XOoAkyEIXSdAAWIsuiGqp5FaM
 Fr+SNGP//WQCXAAQ1Hh86FYhE1sidyT46y+/Lsjry9PD/uXuen9//2Px9fB4OO5fDjeL27v7w/8t
 Mr6ouVrQjKkPgFzePb5+/8f3zxf64uPi04fPH04Wq8Px8XC/SJ8eb+++vkLfu6fHX379JeV1zgqd
 pnpNhWS81opu1eW7r9fX7/9Y/JYd/rrbPy7++HD+4eT96aff7V/vnG5M6iJNL3/0TcU41OUfJ+cn
@@ -861,5 +879,5 @@ BGwMejiPwAxoWmPLOIFQ/Ai8qa7phJK55mnpm4CPgyuiAM7VaHIsuhObD5sz7QEygnA4znqK2u2Q
 7GnMCjYms0H3piiEQ6z7uRhzamIbeELGhEoSjc2EmjB0wORamndeQ84e6AsjQ6jTNVSkKxrJXDn2
 1qFtN1nLtvU9TB3Z1e7lCOoAqLX+01+7w/ZuR4XRqnYdx06MghcXX9tqC1pybseOdxqkGpvQy2Jy
 vnBl3MkD7meX7fnLNVutkIwKLjFgEYAbQagiO3Z5zp160ujEWHmS6hrgf0TPu1OPgQIA
---===============4852010689372339495==--
+--===============1581577793569901623==--
 
