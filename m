@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============8645557356779570089=="
+Content-Type: multipart/mixed; boundary="===============2269260853779416276=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:05 +0800
-Message-ID: <20200901094605.GA29156@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:04 +0800
+Message-ID: <20200901094604.GA29069@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8645557356779570089==
+--===============2269260853779416276==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,14 @@ CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
 CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: Rajat Jain <rajatja@google.com>
-CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: Alexandru Ardelean <alexandru.ardelean@analog.com>
 CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/input/keyboard/atkbd.c:327:60-61: WARNING opportunity for kobj_to_d=
-ev()
+drivers/input/touchscreen/ads7846.c:484:60-61: WARNING opportunity for kobj=
+_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -47,19 +46,21 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- atkbd.c |    2 +-
+ ads7846.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/input/keyboard/atkbd.c
-+++ b/drivers/input/keyboard/atkbd.c
-@@ -324,7 +324,7 @@ static ssize_t atkbd_show_function_row_p
- static umode_t atkbd_attr_is_visible(struct kobject *kobj,
- 				struct attribute *attr, int i)
+--- a/drivers/input/touchscreen/ads7846.c
++++ b/drivers/input/touchscreen/ads7846.c
+@@ -481,7 +481,7 @@ SHOW(in1_input, vbatt, vbatt_adjust)
+ static umode_t ads7846_is_visible(struct kobject *kobj, struct attribute *=
+attr,
+ 				  int index)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct serio *serio =3D to_serio_port(dev);
- 	struct atkbd *atkbd =3D serio_get_drvdata(serio);
-=20
---===============8645557356779570089==--
+ 	struct ads7846 *ts =3D dev_get_drvdata(dev);
+ =
+
+ 	if (ts->model =3D=3D 7843 && index < 2)	/* in0, in1 */
+--===============2269260853779416276==--
 
