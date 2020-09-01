@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4734695943285567816=="
+Content-Type: multipart/mixed; boundary="===============0914858558815229471=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:14 +0800
-Message-ID: <20200901094614.GA29678@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:12 +0800
+Message-ID: <20200901094612.GA29591@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4734695943285567816==
+--===============0914858558815229471==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,20 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Pavel Machek <pavel@ucw.cz>
-CC: Dan Murphy <dmurphy@ti.com>
-CC: linux-leds(a)vger.kernel.org
+CC: Sebastian Reichel <sre@kernel.org>
+CC: linux-pm(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/leds/trigger/ledtrig-pattern.c:336:60-61: WARNING opportunity for k=
-obj_to_dev()
+drivers/power/supply/ds2780_battery.c:627:60-61: WARNING opportunity for ko=
+bj_to_dev()
+drivers/power/supply/ds2780_battery.c:672:60-61: WARNING opportunity for ko=
+bj_to_dev()
+drivers/power/supply/ds2780_battery.c:640:60-61: WARNING opportunity for ko=
+bj_to_dev()
+drivers/power/supply/ds2780_battery.c:685:60-61: WARNING opportunity for ko=
+bj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -46,21 +51,48 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ledtrig-pattern.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ds2780_battery.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---- a/drivers/leds/trigger/ledtrig-pattern.c
-+++ b/drivers/leds/trigger/ledtrig-pattern.c
-@@ -333,7 +333,7 @@ static DEVICE_ATTR_RW(hw_pattern);
- static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
- 				       struct attribute *attr, int index)
+--- a/drivers/power/supply/ds2780_battery.c
++++ b/drivers/power/supply/ds2780_battery.c
+@@ -624,7 +624,7 @@ static ssize_t ds2780_read_param_eeprom_
+ 				struct bin_attribute *bin_attr,
+ 				char *buf, loff_t off, size_t count)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
+ 	struct power_supply *psy =3D to_power_supply(dev);
+ 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
  =
 
- 	if (attr =3D=3D &dev_attr_repeat.attr || attr =3D=3D &dev_attr_pattern.at=
-tr)
---===============4734695943285567816==--
+@@ -637,7 +637,7 @@ static ssize_t ds2780_write_param_eeprom
+ 				struct bin_attribute *bin_attr,
+ 				char *buf, loff_t off, size_t count)
+ {
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
++	struct device *dev =3D kobj_to_dev(kobj);
+ 	struct power_supply *psy =3D to_power_supply(dev);
+ 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
+ 	int ret;
+@@ -669,7 +669,7 @@ static ssize_t ds2780_read_user_eeprom_b
+ 				struct bin_attribute *bin_attr,
+ 				char *buf, loff_t off, size_t count)
+ {
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
++	struct device *dev =3D kobj_to_dev(kobj);
+ 	struct power_supply *psy =3D to_power_supply(dev);
+ 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
+ =
+
+@@ -682,7 +682,7 @@ static ssize_t ds2780_write_user_eeprom_
+ 				struct bin_attribute *bin_attr,
+ 				char *buf, loff_t off, size_t count)
+ {
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
++	struct device *dev =3D kobj_to_dev(kobj);
+ 	struct power_supply *psy =3D to_power_supply(dev);
+ 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
+ 	int ret;
+--===============0914858558815229471==--
 
