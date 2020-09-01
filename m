@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============9078470040702534579=="
+Content-Type: multipart/mixed; boundary="===============5230428354878457464=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:18 +0800
-Message-ID: <20200901094618.GA29939@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:17 +0800
+Message-ID: <20200901094617.GA29852@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9078470040702534579==
+--===============5230428354878457464==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -21,7 +21,7 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/w1/slaves/w1_ds2781.c:90:60-61: WARNING opportunity for kobj_to_dev=
+drivers/w1/slaves/w1_ds2780.c:93:60-61: WARNING opportunity for kobj_to_dev=
 ()
 
 
@@ -44,19 +44,19 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- w1_ds2781.c |    2 +-
+ w1_ds2780.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/w1/slaves/w1_ds2781.c
-+++ b/drivers/w1/slaves/w1_ds2781.c
-@@ -87,7 +87,7 @@ static ssize_t w1_slave_read(struct file
+--- a/drivers/w1/slaves/w1_ds2780.c
++++ b/drivers/w1/slaves/w1_ds2780.c
+@@ -90,7 +90,7 @@ static ssize_t w1_slave_read(struct file
  			     struct bin_attribute *bin_attr, char *buf,
  			     loff_t off, size_t count)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	return w1_ds2781_io(dev, buf, off, count, 0);
+ 	return w1_ds2780_io(dev, buf, off, count, 0);
  }
 =20
---===============9078470040702534579==--
+--===============5230428354878457464==--
 
