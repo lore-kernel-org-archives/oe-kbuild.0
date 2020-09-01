@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============8267596687621170513=="
+Content-Type: multipart/mixed; boundary="===============8645557356779570089=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:06 +0800
-Message-ID: <20200901094606.GA29243@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:05 +0800
+Message-ID: <20200901094605.GA29156@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8267596687621170513==
+--===============8645557356779570089==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,16 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Dan Williams <dan.j.williams@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>
-CC: linux-nvdimm(a)lists.01.org
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: Rajat Jain <rajatja@google.com>
+CC: "Gustavo A. R. Silva" <gustavoars@kernel.org>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/dax/bus.c:334:60-61: WARNING opportunity for kobj_to_dev()
+drivers/input/keyboard/atkbd.c:327:60-61: WARNING opportunity for kobj_to_d=
+ev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -46,23 +47,19 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- bus.c |    2 +-
+ atkbd.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/dax/bus.c
-+++ b/drivers/dax/bus.c
-@@ -331,7 +331,7 @@ static DEVICE_ATTR_RO(numa_node);
- =
-
- static umode_t dev_dax_visible(struct kobject *kobj, struct attribute *a, =
-int n)
+--- a/drivers/input/keyboard/atkbd.c
++++ b/drivers/input/keyboard/atkbd.c
+@@ -324,7 +324,7 @@ static ssize_t atkbd_show_function_row_p
+ static umode_t atkbd_attr_is_visible(struct kobject *kobj,
+ 				struct attribute *attr, int i)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct dev_dax *dev_dax =3D to_dev_dax(dev);
- =
-
- 	if (a =3D=3D &dev_attr_target_node.attr && dev_dax_target_node(dev_dax) <=
- 0)
---===============8267596687621170513==--
+ 	struct serio *serio =3D to_serio_port(dev);
+ 	struct atkbd *atkbd =3D serio_get_drvdata(serio);
+=20
+--===============8645557356779570089==--
 
