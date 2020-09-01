@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6516425789492662458=="
+Content-Type: multipart/mixed; boundary="===============6845231663907867388=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:09 +0800
-Message-ID: <20200901094609.GA29417@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:08 +0800
+Message-ID: <20200901094608.GA29330@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6516425789492662458==
+--===============6845231663907867388==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,14 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Sven Van Asbroeck <TheSven73@gmail.com>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: devel(a)driverdev.osuosl.org
+CC: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/staging/fieldbus/dev_core.c:137:60-61: WARNING opportunity for kobj=
-_to_dev()
+drivers/nvmem/core.c:131:46-47: WARNING opportunity for kobj_to_dev()
+drivers/nvmem/core.c:171:46-47: WARNING opportunity for kobj_to_dev()
+drivers/nvmem/core.c:222:60-61: WARNING opportunity for kobj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -46,20 +45,40 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- dev_core.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ core.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---- a/drivers/staging/fieldbus/dev_core.c
-+++ b/drivers/staging/fieldbus/dev_core.c
-@@ -134,7 +134,7 @@ static struct attribute *fieldbus_attrs[
- static umode_t fieldbus_is_visible(struct kobject *kobj, struct attribute =
-*attr,
- 				   int n)
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -128,7 +128,7 @@ static ssize_t bin_attr_nvmem_read(struc
+ 	if (attr->private)
+ 		dev =3D attr->private;
+ 	else
+-		dev =3D container_of(kobj, struct device, kobj);
++		dev =3D kobj_to_dev(kobj);
+ 	nvmem =3D to_nvmem_device(dev);
+ =
+
+ 	/* Stop the user from reading */
+@@ -168,7 +168,7 @@ static ssize_t bin_attr_nvmem_write(stru
+ 	if (attr->private)
+ 		dev =3D attr->private;
+ 	else
+-		dev =3D container_of(kobj, struct device, kobj);
++		dev =3D kobj_to_dev(kobj);
+ 	nvmem =3D to_nvmem_device(dev);
+ =
+
+ 	/* Stop the user from writing */
+@@ -219,7 +219,7 @@ static umode_t nvmem_bin_attr_get_umode(
+ static umode_t nvmem_bin_attr_is_visible(struct kobject *kobj,
+ 					 struct bin_attribute *attr, int i)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct fieldbus_dev *fb =3D dev_get_drvdata(dev);
- 	umode_t mode =3D attr->mode;
-=20
---===============6516425789492662458==--
+ 	struct nvmem_device *nvmem =3D to_nvmem_device(dev);
+ =
+
+ 	return nvmem_bin_attr_get_umode(nvmem);
+--===============6845231663907867388==--
 
