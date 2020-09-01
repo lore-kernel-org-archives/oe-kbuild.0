@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4033904279479217636=="
+Content-Type: multipart/mixed; boundary="===============4734695943285567816=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:15 +0800
-Message-ID: <20200901094615.GA29765@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:14 +0800
+Message-ID: <20200901094614.GA29678@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4033904279479217636==
+--===============4734695943285567816==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,14 +16,15 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: linux-input(a)vger.kernel.org
+CC: Pavel Machek <pavel@ucw.cz>
+CC: Dan Murphy <dmurphy@ti.com>
+CC: linux-leds(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/input/touchscreen/tsc200x-core.c:341:60-61: WARNING opportunity for=
- kobj_to_dev()
+drivers/leds/trigger/ledtrig-pattern.c:336:60-61: WARNING opportunity for k=
+obj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -45,19 +46,21 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- tsc200x-core.c |    2 +-
+ ledtrig-pattern.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/input/touchscreen/tsc200x-core.c
-+++ b/drivers/input/touchscreen/tsc200x-core.c
-@@ -338,7 +338,7 @@ static struct attribute *tsc200x_attrs[]
- static umode_t tsc200x_attr_is_visible(struct kobject *kobj,
- 				      struct attribute *attr, int n)
+--- a/drivers/leds/trigger/ledtrig-pattern.c
++++ b/drivers/leds/trigger/ledtrig-pattern.c
+@@ -333,7 +333,7 @@ static DEVICE_ATTR_RW(hw_pattern);
+ static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
+ 				       struct attribute *attr, int index)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct tsc200x *ts =3D dev_get_drvdata(dev);
- 	umode_t mode =3D attr->mode;
-=20
---===============4033904279479217636==--
+ 	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
+ =
+
+ 	if (attr =3D=3D &dev_attr_repeat.attr || attr =3D=3D &dev_attr_pattern.at=
+tr)
+--===============4734695943285567816==--
 
