@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1707438229662753833=="
+Content-Type: multipart/mixed; boundary="===============6516425789492662458=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:11 +0800
-Message-ID: <20200901094611.GA29504@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:09 +0800
+Message-ID: <20200901094609.GA29417@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1707438229662753833==
+--===============6516425789492662458==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,14 +16,15 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Sebastian Reichel <sre@kernel.org>
-CC: linux-pm(a)vger.kernel.org
+CC: Sven Van Asbroeck <TheSven73@gmail.com>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: devel(a)driverdev.osuosl.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/power/supply/ds2760_battery.c:201:60-61: WARNING opportunity for ko=
-bj_to_dev()
+drivers/staging/fieldbus/dev_core.c:137:60-61: WARNING opportunity for kobj=
+_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -45,19 +46,20 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ds2760_battery.c |    2 +-
+ dev_core.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/power/supply/ds2760_battery.c
-+++ b/drivers/power/supply/ds2760_battery.c
-@@ -198,7 +198,7 @@ static ssize_t w1_slave_read(struct file
- 			     struct bin_attribute *bin_attr, char *buf,
- 			     loff_t off, size_t count)
+--- a/drivers/staging/fieldbus/dev_core.c
++++ b/drivers/staging/fieldbus/dev_core.c
+@@ -134,7 +134,7 @@ static struct attribute *fieldbus_attrs[
+ static umode_t fieldbus_is_visible(struct kobject *kobj, struct attribute =
+*attr,
+ 				   int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	return w1_ds2760_read(dev, buf, off, count);
- }
+ 	struct fieldbus_dev *fb =3D dev_get_drvdata(dev);
+ 	umode_t mode =3D attr->mode;
 =20
---===============1707438229662753833==--
+--===============6516425789492662458==--
 
