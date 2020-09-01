@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============5230428354878457464=="
+Content-Type: multipart/mixed; boundary="===============4033904279479217636=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:17 +0800
-Message-ID: <20200901094617.GA29852@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:15 +0800
+Message-ID: <20200901094615.GA29765@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5230428354878457464==
+--===============4033904279479217636==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,13 +16,14 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Evgeniy Polyakov <zbr@ioremap.net>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/w1/slaves/w1_ds2780.c:93:60-61: WARNING opportunity for kobj_to_dev=
-()
+drivers/input/touchscreen/tsc200x-core.c:341:60-61: WARNING opportunity for=
+ kobj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -44,19 +45,19 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- w1_ds2780.c |    2 +-
+ tsc200x-core.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/w1/slaves/w1_ds2780.c
-+++ b/drivers/w1/slaves/w1_ds2780.c
-@@ -90,7 +90,7 @@ static ssize_t w1_slave_read(struct file
- 			     struct bin_attribute *bin_attr, char *buf,
- 			     loff_t off, size_t count)
+--- a/drivers/input/touchscreen/tsc200x-core.c
++++ b/drivers/input/touchscreen/tsc200x-core.c
+@@ -338,7 +338,7 @@ static struct attribute *tsc200x_attrs[]
+ static umode_t tsc200x_attr_is_visible(struct kobject *kobj,
+ 				      struct attribute *attr, int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	return w1_ds2780_io(dev, buf, off, count, 0);
- }
+ 	struct tsc200x *ts =3D dev_get_drvdata(dev);
+ 	umode_t mode =3D attr->mode;
 =20
---===============5230428354878457464==--
+--===============4033904279479217636==--
 
