@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0914858558815229471=="
+Content-Type: multipart/mixed; boundary="===============1707438229662753833=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Tue, 01 Sep 2020 17:46:12 +0800
-Message-ID: <20200901094612.GA29591@e18970f1e570>
+Date: Tue, 01 Sep 2020 17:46:11 +0800
+Message-ID: <20200901094611.GA29504@e18970f1e570>
 In-Reply-To: <202009011711.D4mNHDQW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0914858558815229471==
+--===============1707438229662753833==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -22,13 +22,7 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/power/supply/ds2780_battery.c:627:60-61: WARNING opportunity for ko=
-bj_to_dev()
-drivers/power/supply/ds2780_battery.c:672:60-61: WARNING opportunity for ko=
-bj_to_dev()
-drivers/power/supply/ds2780_battery.c:640:60-61: WARNING opportunity for ko=
-bj_to_dev()
-drivers/power/supply/ds2780_battery.c:685:60-61: WARNING opportunity for ko=
+drivers/power/supply/ds2760_battery.c:201:60-61: WARNING opportunity for ko=
 bj_to_dev()
 
 
@@ -51,48 +45,19 @@ commit: a2fc3718bc22e85378085568ecc5765fb28cabce [3/4] coccinelle: api: add=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ds2780_battery.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ ds2760_battery.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/power/supply/ds2780_battery.c
-+++ b/drivers/power/supply/ds2780_battery.c
-@@ -624,7 +624,7 @@ static ssize_t ds2780_read_param_eeprom_
- 				struct bin_attribute *bin_attr,
- 				char *buf, loff_t off, size_t count)
+--- a/drivers/power/supply/ds2760_battery.c
++++ b/drivers/power/supply/ds2760_battery.c
+@@ -198,7 +198,7 @@ static ssize_t w1_slave_read(struct file
+ 			     struct bin_attribute *bin_attr, char *buf,
+ 			     loff_t off, size_t count)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct power_supply *psy =3D to_power_supply(dev);
- 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
- =
-
-@@ -637,7 +637,7 @@ static ssize_t ds2780_write_param_eeprom
- 				struct bin_attribute *bin_attr,
- 				char *buf, loff_t off, size_t count)
- {
--	struct device *dev =3D container_of(kobj, struct device, kobj);
-+	struct device *dev =3D kobj_to_dev(kobj);
- 	struct power_supply *psy =3D to_power_supply(dev);
- 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
- 	int ret;
-@@ -669,7 +669,7 @@ static ssize_t ds2780_read_user_eeprom_b
- 				struct bin_attribute *bin_attr,
- 				char *buf, loff_t off, size_t count)
- {
--	struct device *dev =3D container_of(kobj, struct device, kobj);
-+	struct device *dev =3D kobj_to_dev(kobj);
- 	struct power_supply *psy =3D to_power_supply(dev);
- 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
- =
-
-@@ -682,7 +682,7 @@ static ssize_t ds2780_write_user_eeprom_
- 				struct bin_attribute *bin_attr,
- 				char *buf, loff_t off, size_t count)
- {
--	struct device *dev =3D container_of(kobj, struct device, kobj);
-+	struct device *dev =3D kobj_to_dev(kobj);
- 	struct power_supply *psy =3D to_power_supply(dev);
- 	struct ds2780_device_info *dev_info =3D to_ds2780_device_info(psy);
- 	int ret;
---===============0914858558815229471==--
+ 	return w1_ds2760_read(dev, buf, off, count);
+ }
+=20
+--===============1707438229662753833==--
 
