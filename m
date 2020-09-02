@@ -1,1328 +1,527 @@
-Content-Type: multipart/mixed; boundary="===============8793788638515484456=="
+Content-Type: multipart/mixed; boundary="===============8617155542172284079=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/arcnet/arcnet.c:1068:8: warning: union member 'Anonymous0::buf' is never used.
-Date: Wed, 02 Sep 2020 23:24:17 +0800
-Message-ID: <202009022348.oqNovkQ1%lkp@intel.com>
+Subject: [linux-next:master 4229/4758] kernel/dma/coherent.c:35 dma_get_device_base() warn: should '(mem->pfn_base) << 12' be a 64 bit
+Date: Wed, 02 Sep 2020 22:45:30 +0800
+Message-ID: <202009022225.kJ2H2t81%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8793788638515484456==
+--===============8617155542172284079==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
+TO: Jim Quinlan <james.quinlan@broadcom.com>
+CC: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9c7d619be5a002ea29c172df5e3c1227c22cbb41
-commit: 02a07046834e64970f3bcd87a422ac2b0adb80de arcnet: provide a buffer b=
-ig enough to actually receive packets
-date:   11 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 11 months ago
-compiler: hppa-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   4442749a203151a319a5bb8d0b983b84253a6931
+commit: eef520b232c60e74eb8b33a5a7863ad8f2b4a5c7 [4229/4758] dma-mapping: i=
+ntroduce DMA range map, supplanting dma_pfn_offset
+:::::: branch date: 7 hours ago
+:::::: commit date: 30 hours ago
+config: nios2-randconfig-m031-20200901 (attached as .config)
+compiler: nios2-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+kernel/dma/coherent.c:35 dma_get_device_base() warn: should '(mem->pfn_base=
+) << 12' be a 64 bit type?
 
-cppcheck warnings: (new ones prefixed by >>)
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:71 current_thread_info() error: uninit=
+ialized symbol 'sp'.
 
->> net/mac80211/mesh_plink.c:309:6: warning: Variable 'pos' is reassigned a=
- value before the old one has been used. 'break;' missing? [redundantAssign=
-InSwitch]
-    pos =3D skb_put(skb, 2 + ie_len);
-        ^
-   net/mac80211/mesh_plink.c:268:7: note: Variable 'pos' is reassigned a va=
-lue before the old one has been used. 'break;' missing?
-     pos =3D skb_put_zero(skb, 2);
-         ^
-   net/mac80211/mesh_plink.c:309:6: note: Variable 'pos' is reassigned a va=
-lue before the old one has been used. 'break;' missing?
-    pos =3D skb_put(skb, 2 + ie_len);
-        ^
->> net/mac80211/mesh_plink.c:1049:10: warning: Variable 'event' is reassign=
-ed a value before the old one has been used. [redundantAssignment]
-      event =3D OPN_IGNR;
-            ^
-   net/mac80211/mesh_plink.c:1046:10: note: Variable 'event' is reassigned =
-a value before the old one has been used.
-      event =3D OPN_RJCT;
-            ^
-   net/mac80211/mesh_plink.c:1049:10: note: Variable 'event' is reassigned =
-a value before the old one has been used.
-      event =3D OPN_IGNR;
-            ^
-   net/mac80211/mesh_plink.c:1059:10: warning: Variable 'event' is reassign=
-ed a value before the old one has been used. [redundantAssignment]
-      event =3D CNF_IGNR;
-            ^
-   net/mac80211/mesh_plink.c:1055:10: note: Variable 'event' is reassigned =
-a value before the old one has been used.
-      event =3D CNF_RJCT;
-            ^
-   net/mac80211/mesh_plink.c:1059:10: note: Variable 'event' is reassigned =
-a value before the old one has been used.
-      event =3D CNF_IGNR;
-            ^
->> drivers/net/arcnet/arcnet.c:1068:8: warning: union member 'Anonymous0::b=
-uf' is never used. [unusedStructMember]
-     char buf[512];
-          ^
->> drivers/net/arcnet/arcnet.c:1068:8: warning: union member 'Anonymous2::b=
-uf' is never used. [unusedStructMember]
-     char buf[512];
-          ^
---
->> net/mac80211/mesh_hwmp.c:511:14: warning: Variable 'fresh_info' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-     fresh_info =3D false;
-                ^
-   net/mac80211/mesh_hwmp.c:437:14: note: Variable 'fresh_info' is reassign=
-ed a value before the old one has been used.
-     fresh_info =3D false;
-                ^
-   net/mac80211/mesh_hwmp.c:511:14: note: Variable 'fresh_info' is reassign=
-ed a value before the old one has been used.
-     fresh_info =3D false;
-                ^
->> net/phonet/pn_netlink.c:34:6: warning: Variable 'err' is reassigned a va=
-lue before the old one has been used. [redundantAssignment]
-    err =3D fill_addr(skb, dev, addr, 0, 0, event);
-        ^
-   net/phonet/pn_netlink.c:28:0: note: Variable 'err' is reassigned a value=
- before the old one has been used.
-    int err =3D -ENOBUFS;
-   ^
-   net/phonet/pn_netlink.c:34:6: note: Variable 'err' is reassigned a value=
- before the old one has been used.
-    err =3D fill_addr(skb, dev, addr, 0, 0, event);
-        ^
-   net/phonet/pn_netlink.c:200:6: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    err =3D fill_route(skb, dev, dst, 0, 0, event);
-        ^
-   net/phonet/pn_netlink.c:194:0: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    int err =3D -ENOBUFS;
-   ^
-   net/phonet/pn_netlink.c:200:6: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    err =3D fill_route(skb, dev, dst, 0, 0, event);
-        ^
---
->> drivers/net/ppp/pppox.c:82:6: warning: Variable 'rc' is reassigned a val=
-ue before the old one has been used. [redundantAssignment]
-     rc =3D -EINVAL;
-        ^
-   drivers/net/ppp/pppox.c:78:6: note: Variable 'rc' is reassigned a value =
-before the old one has been used.
-     rc =3D -ENOTCONN;
-        ^
-   drivers/net/ppp/pppox.c:82:6: note: Variable 'rc' is reassigned a value =
-before the old one has been used.
-     rc =3D -EINVAL;
-        ^
-   drivers/net/ppp/pppox.c:87:6: warning: Variable 'rc' is reassigned a val=
-ue before the old one has been used. [redundantAssignment]
-     rc =3D 0;
-        ^
-   drivers/net/ppp/pppox.c:82:6: note: Variable 'rc' is reassigned a value =
-before the old one has been used.
-     rc =3D -EINVAL;
-        ^
-   drivers/net/ppp/pppox.c:87:6: note: Variable 'rc' is reassigned a value =
-before the old one has been used.
-     rc =3D 0;
-        ^
-   drivers/net/ppp/pppox.c:122:5: warning: Variable 'rc' is reassigned a va=
-lue before the old one has been used. [redundantAssignment]
-    rc =3D -EPROTONOSUPPORT;
-       ^
-   drivers/net/ppp/pppox.c:117:0: note: Variable 'rc' is reassigned a value=
- before the old one has been used.
-    int rc =3D -EPROTOTYPE;
-   ^
-   drivers/net/ppp/pppox.c:122:5: note: Variable 'rc' is reassigned a value=
- before the old one has been used.
-    rc =3D -EPROTONOSUPPORT;
-       ^
-   drivers/net/ppp/pppox.c:129:5: warning: Variable 'rc' is reassigned a va=
-lue before the old one has been used. [redundantAssignment]
-    rc =3D pppox_protos[protocol]->create(net, sock, kern);
-       ^
-   drivers/net/ppp/pppox.c:122:5: note: Variable 'rc' is reassigned a value=
- before the old one has been used.
-    rc =3D -EPROTONOSUPPORT;
-       ^
-   drivers/net/ppp/pppox.c:129:5: note: Variable 'rc' is reassigned a value=
- before the old one has been used.
-    rc =3D pppox_protos[protocol]->create(net, sock, kern);
-       ^
---
->> drivers/net/ppp/pppoe.c:630:8: warning: Variable 'error' is reassigned a=
- value before the old one has been used. [redundantAssignment]
-    error =3D -EBUSY;
-          ^
-   drivers/net/ppp/pppoe.c:621:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D -EINVAL;
-          ^
-   drivers/net/ppp/pppoe.c:630:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D -EBUSY;
-          ^
-   drivers/net/ppp/pppoe.c:636:8: warning: Variable 'error' is reassigned a=
- value before the old one has been used. [redundantAssignment]
-    error =3D -EALREADY;
-          ^
-   drivers/net/ppp/pppoe.c:630:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D -EBUSY;
-          ^
-   drivers/net/ppp/pppoe.c:636:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D -EALREADY;
-          ^
-   drivers/net/ppp/pppoe.c:641:8: warning: Variable 'error' is reassigned a=
- value before the old one has been used. [redundantAssignment]
-    error =3D 0;
-          ^
-   drivers/net/ppp/pppoe.c:636:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D -EALREADY;
-          ^
-   drivers/net/ppp/pppoe.c:641:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D 0;
-          ^
-   drivers/net/ppp/pppoe.c:684:9: warning: Variable 'error' is reassigned a=
- value before the old one has been used. [redundantAssignment]
-     error =3D __set_item(pn, po);
-           ^
-   drivers/net/ppp/pppoe.c:666:9: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-     error =3D -ENODEV;
-           ^
-   drivers/net/ppp/pppoe.c:684:9: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-     error =3D __set_item(pn, po);
-           ^
->> drivers/net/ppp/pppoe.c:749:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:745:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -ENXIO;
-         ^
-   drivers/net/ppp/pppoe.c:749:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:755:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:749:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:755:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:763:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:759:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -ENXIO;
-         ^
-   drivers/net/ppp/pppoe.c:763:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:770:8: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-      err =3D 0;
-          ^
-   drivers/net/ppp/pppoe.c:763:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:770:8: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-      err =3D 0;
-          ^
-   drivers/net/ppp/pppoe.c:779:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:776:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:779:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:790:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D -ENOTCONN;
-         ^
-   drivers/net/ppp/pppoe.c:786:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EBUSY;
-         ^
-   drivers/net/ppp/pppoe.c:790:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -ENOTCONN;
-         ^
-   drivers/net/ppp/pppoe.c:796:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:790:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -ENOTCONN;
-         ^
-   drivers/net/ppp/pppoe.c:796:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:802:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D -EINVAL;
-         ^
-   drivers/net/ppp/pppoe.c:796:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EFAULT;
-         ^
-   drivers/net/ppp/pppoe.c:802:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EINVAL;
-         ^
-   drivers/net/ppp/pppoe.c:815:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:802:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EINVAL;
-         ^
-   drivers/net/ppp/pppoe.c:815:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:825:7: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:820:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D -EALREADY;
-         ^
-   drivers/net/ppp/pppoe.c:825:7: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-     err =3D 0;
-         ^
-   drivers/net/ppp/pppoe.c:885:8: warning: Variable 'error' is reassigned a=
- value before the old one has been used. [redundantAssignment]
-    error =3D memcpy_from_msg(start, m, total_len);
-          ^
-   drivers/net/ppp/pppoe.c:861:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D -EMSGSIZE;
-          ^
-   drivers/net/ppp/pppoe.c:885:8: note: Variable 'error' is reassigned a va=
-lue before the old one has been used.
-    error =3D memcpy_from_msg(start, m, total_len);
-          ^
->> drivers/net/slip/slip.c:191:6: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    err =3D 0;
-        ^
-   drivers/net/slip/slip.c:131:0: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    int err =3D -ENOBUFS;
-   ^
-   drivers/net/slip/slip.c:191:6: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    err =3D 0;
-        ^
-   drivers/net/slip/slip.c:290:6: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    err =3D 0;
-        ^
-   drivers/net/slip/slip.c:259:6: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    err =3D -ENODEV;
-        ^
-   drivers/net/slip/slip.c:290:6: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    err =3D 0;
-        ^
-   drivers/net/slip/slip.c:811:6: warning: Variable 'err' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    err =3D -ENFILE;
-        ^
-   drivers/net/slip/slip.c:805:6: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    err =3D -EEXIST;
-        ^
-   drivers/net/slip/slip.c:811:6: note: Variable 'err' is reassigned a valu=
-e before the old one has been used.
-    err =3D -ENFILE;
-        ^
->> drivers/net/wireless/broadcom/b43/sysfs.c:32:6: warning: Variable 'ret' =
-is reassigned a value before the old one has been used. [redundantAssignmen=
-t]
-    ret =3D simple_strtol(tmp, NULL, 10);
-        ^
-   drivers/net/wireless/broadcom/b43/sysfs.c:26:0: note: Variable 'ret' is =
-reassigned a value before the old one has been used.
-    int ret =3D -EINVAL;
-   ^
-   drivers/net/wireless/broadcom/b43/sysfs.c:32:6: note: Variable 'ret' is =
-reassigned a value before the old one has been used.
-    ret =3D simple_strtol(tmp, NULL, 10);
-        ^
---
->> net/llc/llc_if.c:50:5: warning: Variable 'rc' is reassigned a value befo=
-re the old one has been used. [redundantAssignment]
-    rc =3D -EBUSY;
-       ^
-   net/llc/llc_if.c:45:0: note: Variable 'rc' is reassigned a value before =
-the old one has been used.
-    int rc =3D -ECONNABORTED;
-   ^
-   net/llc/llc_if.c:50:5: note: Variable 'rc' is reassigned a value before =
-the old one has been used.
-    rc =3D -EBUSY;
-       ^
-   net/llc/llc_if.c:61:5: warning: Variable 'rc' is reassigned a value befo=
-re the old one has been used. [redundantAssignment]
-    rc =3D llc_conn_state_process(sk, skb);
-       ^
-   net/llc/llc_if.c:50:5: note: Variable 'rc' is reassigned a value before =
-the old one has been used.
-    rc =3D -EBUSY;
-       ^
-   net/llc/llc_if.c:61:5: note: Variable 'rc' is reassigned a value before =
-the old one has been used.
-    rc =3D llc_conn_state_process(sk, skb);
-       ^
-   net/llc/llc_if.c:100:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -ENOMEM;
-       ^
-   net/llc/llc_if.c:81:0: note: Variable 'rc' is reassigned a value before =
-the old one has been used.
-    int rc =3D -EISCONN;
-   ^
-   net/llc/llc_if.c:100:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -ENOMEM;
-       ^
---
->> drivers/net/veth.c:1127:18: warning: Boolean result is used in bitwise o=
-peration. Clarify expression with parentheses. [clarifyCondition]
-    if ((!!old_prog ^ !!prog) && peer)
-                    ^
->> drivers/net/veth.c:126:5: warning: %u in format string (no. 1) requires =
-'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType=
-_uint]
-       snprintf(p, ETH_GSTRING_LEN,
-       ^
->> drivers/net/wireless/broadcom/b43/xmit.c:439:26: warning: Local variable=
- uninitialized_var shadows outer variable [shadowVar]
-      struct ieee80211_cts *uninitialized_var(cts);
-                            ^
-   drivers/net/wireless/broadcom/b43/xmit.c:425:25: note: Shadowed declarat=
-ion
-     struct ieee80211_hdr *uninitialized_var(hdr);
-                           ^
-   drivers/net/wireless/broadcom/b43/xmit.c:439:26: note: Shadow variable
-      struct ieee80211_cts *uninitialized_var(cts);
-                            ^
-   drivers/net/wireless/broadcom/b43/xmit.c:461:26: warning: Local variable=
- uninitialized_var shadows outer variable [shadowVar]
-      struct ieee80211_rts *uninitialized_var(rts);
-                            ^
-   drivers/net/wireless/broadcom/b43/xmit.c:425:25: note: Shadowed declarat=
-ion
-     struct ieee80211_hdr *uninitialized_var(hdr);
-                           ^
-   drivers/net/wireless/broadcom/b43/xmit.c:461:26: note: Shadow variable
-      struct ieee80211_rts *uninitialized_var(rts);
-                            ^
---
->> net/llc/llc_c_ev.c:94:5: warning: Variable 'rc' is reassigned a value be=
-fore the old one has been used. [redundantAssignment]
-    rc =3D !llc_circular_between(nr1, nr, (nr2 + 1) % LLC_2_SEQ_NBR_MODULO);
-       ^
-   net/llc/llc_c_ev.c:85:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    rc =3D 1;
-       ^
-   net/llc/llc_c_ev.c:94:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    rc =3D !llc_circular_between(nr1, nr, (nr2 + 1) % LLC_2_SEQ_NBR_MODULO);
-       ^
---
->> drivers/net/wireless/broadcom/b43legacy/sysfs.c:34:6: warning: Variable =
-'ret' is reassigned a value before the old one has been used. [redundantAss=
-ignment]
-    ret =3D simple_strtol(tmp, NULL, 10);
-        ^
-   drivers/net/wireless/broadcom/b43legacy/sysfs.c:28:0: note: Variable 're=
-t' is reassigned a value before the old one has been used.
-    int ret =3D -EINVAL;
-   ^
-   drivers/net/wireless/broadcom/b43legacy/sysfs.c:34:6: note: Variable 're=
-t' is reassigned a value before the old one has been used.
-    ret =3D simple_strtol(tmp, NULL, 10);
-        ^
---
->> drivers/net/wireless/intersil/p54/eeprom.c:167:6: warning: Variable 'ret=
-' is reassigned a value before the old one has been used. [redundantAssignm=
-ent]
-    ret =3D p54_fill_band_bitrates(dev, tmp, band);
-        ^
-   drivers/net/wireless/intersil/p54/eeprom.c:152:0: note: Variable 'ret' i=
-s reassigned a value before the old one has been used.
-    int ret =3D -ENOMEM;
-   ^
-   drivers/net/wireless/intersil/p54/eeprom.c:167:6: note: Variable 'ret' i=
-s reassigned a value before the old one has been used.
-    ret =3D p54_fill_band_bitrates(dev, tmp, band);
-        ^
-   drivers/net/wireless/intersil/p54/eeprom.c:976:6: warning: Variable 'ret=
-' is reassigned a value before the old one has been used. [redundantAssignm=
-ent]
-    ret =3D p54_parse_eeprom(dev, eeprom, offset);
-        ^
-   drivers/net/wireless/intersil/p54/eeprom.c:952:0: note: Variable 'ret' i=
-s reassigned a value before the old one has been used.
-    int ret =3D -ENOMEM;
-   ^
-   drivers/net/wireless/intersil/p54/eeprom.c:976:6: note: Variable 'ret' i=
-s reassigned a value before the old one has been used.
-    ret =3D p54_parse_eeprom(dev, eeprom, offset);
-        ^
->> drivers/net/wireless/intersil/p54/eeprom.c:476:35: warning: Variable 'ds=
-t' is not assigned a value. [unassignedVariable]
-    struct p54_pa_curve_data_sample *dst;
-                                     ^
->> drivers/net/wireless/intersil/p54/eeprom.c:477:40: warning: Variable 'sr=
-c' is not assigned a value. [unassignedVariable]
-    struct pda_pa_curve_data_sample_rev1 *src;
-                                          ^
->> drivers/net/wireless/rsi/rsi_91x_main.c:356:24: warning: Variable 'adapt=
-er->device_model' is reassigned a value before the old one has been used. '=
-break;' missing? [redundantAssignInSwitch]
-    adapter->device_model =3D RSI_DEV_9113;
-                          ^
-   drivers/net/wireless/rsi/rsi_91x_main.c:329:24: note: Variable 'adapter-=
->device_model' is reassigned a value before the old one has been used. 'bre=
-ak;' missing?
-    adapter->device_model =3D RSI_DEV_9113;
-                          ^
-   drivers/net/wireless/rsi/rsi_91x_main.c:356:24: note: Variable 'adapter-=
->device_model' is reassigned a value before the old one has been used. 'bre=
-ak;' missing?
-    adapter->device_model =3D RSI_DEV_9113;
-                          ^
---
->> drivers/net/wireless/rsi/rsi_91x_core.c:185:18: warning: Variable 'recon=
-tend_queue' is reassigned a value before the old one has been used. [redund=
-antAssignment]
-    recontend_queue =3D rsi_recalculate_weights(common);
-                    ^
-   drivers/net/wireless/rsi/rsi_91x_core.c:164:18: note: Variable 'reconten=
-d_queue' is reassigned a value before the old one has been used.
-    recontend_queue =3D false;
-                    ^
-   drivers/net/wireless/rsi/rsi_91x_core.c:185:18: note: Variable 'reconten=
-d_queue' is reassigned a value before the old one has been used.
-    recontend_queue =3D rsi_recalculate_weights(common);
-                    ^
->> drivers/net/wireless/rsi/rsi_91x_mac80211.c:1139:20: warning: Array 'com=
-mon->vif_info[3]' accessed at index 3, which is out of bounds. [arrayIndexO=
-utOfBounds]
-      common->vif_info[ii].seq_start =3D seq_no;
-                      ^
-   drivers/net/wireless/rsi/rsi_91x_mac80211.c:1092:2: note: After for loop=
-, ii has value 3
-    for (ii =3D 0; ii < RSI_MAX_VIFS; ii++) {
-    ^
-   drivers/net/wireless/rsi/rsi_91x_mac80211.c:1139:20: note: Array index o=
-ut of bounds
-      common->vif_info[ii].seq_start =3D seq_no;
-                      ^
->> drivers/net/wireless/rsi/rsi_91x_mac80211.c:613:9: warning: Variable 'st=
-atus' is reassigned a value before the old one has been used. [redundantAss=
-ignment]
-    status =3D rsi_band_check(common, curchan);
-           ^
-   drivers/net/wireless/rsi/rsi_91x_mac80211.c:579:0: note: Variable 'statu=
-s' is reassigned a value before the old one has been used.
-    int status =3D -EOPNOTSUPP;
-   ^
-   drivers/net/wireless/rsi/rsi_91x_mac80211.c:613:9: note: Variable 'statu=
-s' is reassigned a value before the old one has been used.
-    status =3D rsi_band_check(common, curchan);
-           ^
->> drivers/net/wireless/rsi/rsi_91x_mac80211.c:1139:12: warning: Array 'com=
-mon.vif_info[3]' accessed at index 3, which is out of bounds. [arrayIndexOu=
-tOfBounds]
-      common->vif_info[ii].seq_start =3D seq_no;
-              ^
---
->> net/llc/af_llc.c:272:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -ENODEV;
-       ^
-   net/llc/af_llc.c:268:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -EINVAL;
-   ^
-   net/llc/af_llc.c:272:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -ENODEV;
-       ^
-   net/llc/af_llc.c:283:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EUSERS;
-       ^
-   net/llc/af_llc.c:272:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -ENODEV;
-       ^
-   net/llc/af_llc.c:283:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EUSERS;
-       ^
-   net/llc/af_llc.c:287:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EBUSY; /* some other network layer is using the sap */
-       ^
-   net/llc/af_llc.c:283:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EUSERS;
-       ^
-   net/llc/af_llc.c:287:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EBUSY; /* some other network layer is using the sap */
-       ^
-   net/llc/af_llc.c:296:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:287:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EBUSY; /* some other network layer is using the sap */
-       ^
-   net/llc/af_llc.c:296:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:326:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EAFNOSUPPORT;
-       ^
-   net/llc/af_llc.c:321:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -EINVAL;
-   ^
-   net/llc/af_llc.c:326:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EAFNOSUPPORT;
-       ^
-   net/llc/af_llc.c:330:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -ENODEV;
-       ^
-   net/llc/af_llc.c:326:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EAFNOSUPPORT;
-       ^
-   net/llc/af_llc.c:330:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -ENODEV;
-       ^
-   net/llc/af_llc.c:364:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D -EBUSY; /* some other network layer is using the sap */
-        ^
-   net/llc/af_llc.c:330:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -ENODEV;
-       ^
-   net/llc/af_llc.c:364:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EBUSY; /* some other network layer is using the sap */
-        ^
-   net/llc/af_llc.c:364:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D -EBUSY; /* some other network layer is using the sap */
-        ^
-   net/llc/af_llc.c:343:8: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-       rc =3D -EINVAL;
-          ^
-   net/llc/af_llc.c:364:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EBUSY; /* some other network layer is using the sap */
-        ^
-   net/llc/af_llc.c:364:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D -EBUSY; /* some other network layer is using the sap */
-        ^
-   net/llc/af_llc.c:356:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EUSERS;
-        ^
-   net/llc/af_llc.c:364:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EBUSY; /* some other network layer is using the sap */
-        ^
-   net/llc/af_llc.c:392:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:364:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EBUSY; /* some other network layer is using the sap */
-        ^
-   net/llc/af_llc.c:392:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:392:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:379:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EADDRINUSE; /* mac + sap clash. */
-        ^
-   net/llc/af_llc.c:392:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:419:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:414:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -ENOTCONN;
-   ^
-   net/llc/af_llc.c:419:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:422:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D llc_send_disc(sk);
-       ^
-   net/llc/af_llc.c:419:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:422:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D llc_send_disc(sk);
-       ^
-   net/llc/af_llc.c:457:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EAFNOSUPPORT;
-       ^
-   net/llc/af_llc.c:452:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -EINVAL;
-   ^
-   net/llc/af_llc.c:457:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EAFNOSUPPORT;
-       ^
-   net/llc/af_llc.c:462:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EALREADY;
-       ^
-   net/llc/af_llc.c:457:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EAFNOSUPPORT;
-       ^
-   net/llc/af_llc.c:462:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EALREADY;
-       ^
-   net/llc/af_llc.c:477:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D llc_establish_connection(sk, llc->dev->dev_addr,
-       ^
-   net/llc/af_llc.c:462:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EALREADY;
-       ^
-   net/llc/af_llc.c:477:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D llc_establish_connection(sk, llc->dev->dev_addr,
-       ^
->> net/llc/af_llc.c:500:14: warning: Variable 'sock->state' is reassigned a=
- value before the old one has been used. [redundantAssignment]
-    sock->state =3D SS_CONNECTED;
-                ^
-   net/llc/af_llc.c:474:14: note: Variable 'sock->state' is reassigned a va=
-lue before the old one has been used.
-    sock->state =3D SS_CONNECTING;
-                ^
-   net/llc/af_llc.c:500:14: note: Variable 'sock->state' is reassigned a va=
-lue before the old one has been used.
-    sock->state =3D SS_CONNECTED;
-                ^
-   net/llc/af_llc.c:501:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:492:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D sock_intr_errno(timeo);
-        ^
-   net/llc/af_llc.c:501:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:527:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EOPNOTSUPP;
-       ^
-   net/llc/af_llc.c:522:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -EINVAL;
-   ^
-   net/llc/af_llc.c:527:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EOPNOTSUPP;
-       ^
-   net/llc/af_llc.c:530:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EAGAIN;
-       ^
-   net/llc/af_llc.c:527:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EOPNOTSUPP;
-       ^
-   net/llc/af_llc.c:530:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EAGAIN;
-       ^
-   net/llc/af_llc.c:533:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:530:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EAGAIN;
-       ^
-   net/llc/af_llc.c:533:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:559:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D -EAGAIN;
-        ^
-   net/llc/af_llc.c:556:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -ERESTARTSYS;
-        ^
-   net/llc/af_llc.c:559:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EAGAIN;
-        ^
-   net/llc/af_llc.c:562:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D 0;
-        ^
-   net/llc/af_llc.c:559:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EAGAIN;
-        ^
-   net/llc/af_llc.c:562:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D 0;
-        ^
-   net/llc/af_llc.c:601:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D -EAGAIN;
-        ^
-   net/llc/af_llc.c:598:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -ERESTARTSYS;
-        ^
-   net/llc/af_llc.c:601:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EAGAIN;
-        ^
-   net/llc/af_llc.c:626:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D sock_intr_errno(timeo);
-        ^
-   net/llc/af_llc.c:623:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -EAGAIN;
-        ^
-   net/llc/af_llc.c:626:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D sock_intr_errno(timeo);
-        ^
-   net/llc/af_llc.c:629:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D 0;
-        ^
-   net/llc/af_llc.c:626:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D sock_intr_errno(timeo);
-        ^
-   net/llc/af_llc.c:629:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D 0;
-        ^
-   net/llc/af_llc.c:674:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:667:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -EOPNOTSUPP;
-   ^
-   net/llc/af_llc.c:674:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:687:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:674:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:687:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:690:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:687:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:690:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D 0;
-       ^
->> net/llc/af_llc.c:753:9: warning: Variable 'copied' is reassigned a value=
- before the old one has been used. [redundantAssignment]
-    copied =3D 0;
-           ^
-   net/llc/af_llc.c:740:9: note: Variable 'copied' is reassigned a value be=
-fore the old one has been used.
-    copied =3D -ENOTCONN;
-           ^
-   net/llc/af_llc.c:753:9: note: Variable 'copied' is reassigned a value be=
-fore the old one has been used.
-    copied =3D 0;
-           ^
-   net/llc/af_llc.c:929:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:904:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -EINVAL, copied =3D 0, hdrlen;
-   ^
-   net/llc/af_llc.c:929:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:961:5: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-    rc =3D llc_ui_send_data(sk, skb, noblock);
-       ^
-   net/llc/af_llc.c:958:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D -ENOPROTOOPT;
-       ^
-   net/llc/af_llc.c:961:5: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    rc =3D llc_ui_send_data(sk, skb, noblock);
-       ^
-   net/llc/af_llc.c:995:6: warning: Variable 'rc' is reassigned a value bef=
-ore the old one has been used. [redundantAssignment]
-     rc =3D -ENOTCONN;
-        ^
-   net/llc/af_llc.c:988:0: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-    int rc =3D -EBADF;
-   ^
-   net/llc/af_llc.c:995:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -ENOTCONN;
-        ^
-   net/llc/af_llc.c:1016:5: warning: Variable 'rc' is reassigned a value be=
-fore the old one has been used. [redundantAssignment]
-    rc =3D sizeof(sllc);
-       ^
-   net/llc/af_llc.c:995:6: note: Variable 'rc' is reassigned a value before=
- the old one has been used.
-     rc =3D -ENOTCONN;
-        ^
-   net/llc/af_llc.c:1016:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    rc =3D sizeof(sllc);
-       ^
-   net/llc/af_llc.c:1016:5: warning: Variable 'rc' is reassigned a value be=
-fore the old one has been used. [redundantAssignment]
-    rc =3D sizeof(sllc);
-       ^
-   net/llc/af_llc.c:1003:6: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-     rc =3D -EINVAL;
-        ^
-   net/llc/af_llc.c:1016:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    rc =3D sizeof(sllc);
-       ^
-   net/llc/af_llc.c:1057:5: warning: Variable 'rc' is reassigned a value be=
-fore the old one has been used. [redundantAssignment]
-    rc =3D get_user(opt, (int __user *)optval);
-       ^
-   net/llc/af_llc.c:1052:0: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    int rc =3D -EINVAL;
-   ^
-   net/llc/af_llc.c:1057:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    rc =3D get_user(opt, (int __user *)optval);
-       ^
->> net/llc/af_llc.c:1112:5: warning: Variable 'rc' is reassigned a value be=
-fore the old one has been used. 'break;' missing? [redundantAssignInSwitch]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:1060:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used. 'break;' missing?
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:1112:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used. 'break;' missing?
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:1138:5: warning: Variable 'rc' is reassigned a value be=
-fore the old one has been used. [redundantAssignment]
-    rc =3D get_user(len, optlen);
-       ^
-   net/llc/af_llc.c:1133:0: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    int val =3D 0, len =3D 0, rc =3D -EINVAL;
-   ^
-   net/llc/af_llc.c:1138:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used.
-    rc =3D get_user(len, optlen);
-       ^
-   net/llc/af_llc.c:1168:5: warning: Variable 'rc' is reassigned a value be=
-fore the old one has been used. 'break;' missing? [redundantAssignInSwitch]
-    rc =3D 0;
-       ^
-   net/llc/af_llc.c:1141:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used. 'break;' missing?
-    rc =3D -EINVAL;
-       ^
-   net/llc/af_llc.c:1168:5: note: Variable 'rc' is reassigned a value befor=
-e the old one has been used. 'break;' missing?
-    rc =3D 0;
-       ^
->> drivers/net/wireless/rsi/rsi_91x_hal.c:314:9: warning: Variable 'status'=
- is reassigned a value before the old one has been used. [redundantAssignme=
-nt]
-    status =3D rsi_send_pkt_to_bus(common, skb);
-           ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:296:0: note: Variable 'status' is=
- reassigned a value before the old one has been used.
-    int status =3D -EINVAL;
-   ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:314:9: note: Variable 'status' is=
- reassigned a value before the old one has been used.
-    status =3D rsi_send_pkt_to_bus(common, skb);
-           ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:376:9: warning: Variable 'status'=
- is reassigned a value before the old one has been used. [redundantAssignme=
-nt]
-    status =3D rsi_send_pkt_to_bus(common, skb);
-           ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:342:0: note: Variable 'status' is=
- reassigned a value before the old one has been used.
-    int status =3D -E2BIG;
-   ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:376:9: note: Variable 'status' is=
- reassigned a value before the old one has been used.
-    status =3D rsi_send_pkt_to_bus(common, skb);
-           ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:412:9: warning: Variable 'status'=
- is reassigned a value before the old one has been used. [redundantAssignme=
-nt]
-    status =3D rsi_send_pkt_to_bus(common, skb);
-           ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:386:0: note: Variable 'status' is=
- reassigned a value before the old one has been used.
-    int status =3D -EINVAL;
-   ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:412:9: note: Variable 'status' is=
- reassigned a value before the old one has been used.
-    status =3D rsi_send_pkt_to_bus(common, skb);
-           ^
->> drivers/net/wireless/rsi/rsi_91x_hal.c:589:31: warning: Shifting a negat=
-ive value is technically undefined behaviour [shiftNegativeLHS]
-           (cmd | REGOUT_INVALID << 8), 2);
-                                 ^
-   drivers/net/wireless/rsi/rsi_91x_hal.c:873:25: warning: Shifting a negat=
-ive value is technically undefined behaviour [shiftNegativeLHS]
-            REGOUT_INVALID << 8),
-                           ^
---
->> net/atm/pppoatm.c:352:20: warning: Same value in both branches of ternar=
-y operator. [duplicateValueTernary]
-        ? DROP_PACKET : 1;
-                      ^
---
->> net/bridge/br_mdb.c:428:6: warning: Variable 'err' is reassigned a value=
- before the old one has been used. [redundantAssignment]
-    err =3D nlmsg_populate_mdb_fill(skb, dev, entry, 0, 0, type, NTF_SELF);
-        ^
-   net/bridge/br_mdb.c:396:0: note: Variable 'err' is reassigned a value be=
-fore the old one has been used.
-    int err =3D -ENOBUFS;
-   ^
-   net/bridge/br_mdb.c:428:6: note: Variable 'err' is reassigned a value be=
-fore the old one has been used.
-    err =3D nlmsg_populate_mdb_fill(skb, dev, entry, 0, 0, type, NTF_SELF);
-        ^
-   net/bridge/br_mdb.c:514:6: warning: Variable 'err' is reassigned a value=
- before the old one has been used. [redundantAssignment]
-    err =3D nlmsg_populate_rtr_fill(skb, dev, ifindex, 0, 0, type, NTF_SELF=
-);
-        ^
-   net/bridge/br_mdb.c:506:0: note: Variable 'err' is reassigned a value be=
-fore the old one has been used.
-    int err =3D -ENOBUFS;
-   ^
-   net/bridge/br_mdb.c:514:6: note: Variable 'err' is reassigned a value be=
-fore the old one has been used.
-    err =3D nlmsg_populate_rtr_fill(skb, dev, ifindex, 0, 0, type, NTF_SELF=
-);
-        ^
->> net/dcb/dcbnl.c:1735:29: warning: Either the condition 'skb?NETLINK_CB(s=
-kb).portid:0' is redundant or there is possible null pointer dereference: s=
-kb. [nullPointerRedundantCheck]
-    struct net *net =3D sock_net(skb->sk);
-                               ^
-   net/dcb/dcbnl.c:1739:19: note: Assuming that condition 'skb?NETLINK_CB(s=
-kb).portid:0' is not redundant
-    u32 portid =3D skb ? NETLINK_CB(skb).portid : 0;
-                     ^
-   net/dcb/dcbnl.c:1735:29: note: Null pointer dereference
-    struct net *net =3D sock_net(skb->sk);
-                               ^
-   net/dcb/dcbnl.c:1023:6: warning: Variable 'err' is reassigned a value be=
-fore the old one has been used. [redundantAssignment]
-    err =3D 0;
-        ^
-   net/dcb/dcbnl.c:1006:7: note: Variable 'err' is reassigned a value befor=
-e the old one has been used.
-     err =3D -EMSGSIZE;
-         ^
-   net/dcb/dcbnl.c:1023:6: note: Variable 'err' is reassigned a value befor=
-e the old one has been used.
-    err =3D 0;
-        ^
-   net/dcb/dcbnl.c:1748:6: warning: Variable 'ret' is reassigned a value be=
-fore the old one has been used. [redundantAssignment]
-    ret =3D nlmsg_parse_deprecated(nlh, sizeof(*dcb), tb, DCB_ATTR_MAX,
-        ^
-   net/dcb/dcbnl.c:1740:0: note: Variable 'ret' is reassigned a value befor=
-e the old one has been used.
-    int ret =3D -EINVAL;
-   ^
-   net/dcb/dcbnl.c:1748:6: note: Variable 'ret' is reassigned a value befor=
-e the old one has been used.
-    ret =3D nlmsg_parse_deprecated(nlh, sizeof(*dcb), tb, DCB_ATTR_MAX,
-        ^
---
->> net/core/lwt_bpf.c:93:7: warning: Variable 'err' is reassigned a value b=
-efore the old one has been used. [redundantAssignment]
-     err =3D ip_route_input_noref(skb, iph->daddr, iph->saddr,
-         ^
-   net/core/lwt_bpf.c:88:0: note: Variable 'err' is reassigned a value befo=
-re the old one has been used.
-    int err =3D -EINVAL;
-   ^
-   net/core/lwt_bpf.c:93:7: note: Variable 'err' is reassigned a value befo=
-re the old one has been used.
-     err =3D ip_route_input_noref(skb, iph->daddr, iph->saddr,
-         ^
-   net/core/lwt_bpf.c:247:6: warning: Variable 'err' is reassigned a value =
-before the old one has been used. [redundantAssignment]
-    err =3D skb_cow_head(skb, LL_RESERVED_SPACE(dst->dev));
-        ^
-   net/core/lwt_bpf.c:175:0: note: Variable 'err' is reassigned a value bef=
-ore the old one has been used.
-    int err =3D -EAFNOSUPPORT;
-   ^
-   net/core/lwt_bpf.c:247:6: note: Variable 'err' is reassigned a value bef=
-ore the old one has been used.
-    err =3D skb_cow_head(skb, LL_RESERVED_SPACE(dst->dev));
-        ^
->> net/llc/llc_proc.c:236:5: warning: Variable 'rc' is reassigned a value b=
-efore the old one has been used. [redundantAssignment]
-    rc =3D 0;
-       ^
-   net/llc/llc_proc.c:221:0: note: Variable 'rc' is reassigned a value befo=
-re the old one has been used.
-    int rc =3D -ENOMEM;
-   ^
-   net/llc/llc_proc.c:236:5: note: Variable 'rc' is reassigned a value befo=
-re the old one has been used.
-    rc =3D 0;
-       ^
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3Deef520b232c60e74eb8b33a5a7863ad8f2b4a5c7
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git fetch --no-tags linux-next master
+git checkout eef520b232c60e74eb8b33a5a7863ad8f2b4a5c7
+vim +35 kernel/dma/coherent.c
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D02a07046834e64970f3bcd87a422ac2b0adb80de
-git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
-ds/linux.git
-git fetch --no-tags linus master
-git checkout 02a07046834e64970f3bcd87a422ac2b0adb80de
-vim +1068 drivers/net/arcnet/arcnet.c
+93228b44c33a57 drivers/base/dma-coherent.c Vladimir Murzin 2017-06-26  30  =
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1059  =
+c41f9ea998f3ba drivers/base/dma-coherent.c Vladimir Murzin 2017-06-26  31  =
+static inline dma_addr_t dma_get_device_base(struct device *dev,
+c41f9ea998f3ba drivers/base/dma-coherent.c Vladimir Murzin 2017-06-26  32  =
+					     struct dma_coherent_mem * mem)
+c41f9ea998f3ba drivers/base/dma-coherent.c Vladimir Murzin 2017-06-26  33  {
+eef520b232c60e kernel/dma/coherent.c       Jim Quinlan     2020-08-24  34  =
+	if (mem->use_dev_dma_pfn_offset) {
+eef520b232c60e kernel/dma/coherent.c       Jim Quinlan     2020-08-24 @35  =
+		u64 base_addr =3D PFN_PHYS(mem->pfn_base);
+eef520b232c60e kernel/dma/coherent.c       Jim Quinlan     2020-08-24  36  =
 
-f2f0a16bf89a1b Joe Perches       2015-05-05  1060  /* This is a generic pac=
-ket receiver that calls arcnet??_rx depending on the
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1061   * protocol ID found.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1062   */
-f03aa2d89ad600 Adrian Bunk       2006-01-14  1063  static void arcnet_rx(st=
-ruct net_device *dev, int bufnum)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1064  {
-454d7c9b14e20f Wang Chen         2008-11-12  1065  	struct arcnet_local *lp=
- =3D netdev_priv(dev);
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1066  	union {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1067  		struct archdr pkt;
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20 @1068  		char buf[512];
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1069  	} rxdata;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1070  	struct arc_rfc1201 *sof=
-t;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1071  	int length, ofs;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1072  =
-
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1073  	soft =3D &rxdata.p=
-kt.soft.rfc1201;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1074  =
-
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1075  	lp->hw.copy_from_c=
-ard(dev, bufnum, 0, &rxdata.pkt, ARC_HDR_SIZE);
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1076  	if (rxdata.pkt.har=
-d.offset[0]) {
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1077  		ofs =3D rxdata.pk=
-t.hard.offset[0];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1078  		length =3D 256 - ofs;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1079  	} else {
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1080  		ofs =3D rxdata.pk=
-t.hard.offset[1];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1081  		length =3D 512 - ofs;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1082  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1083  =
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1084  	/* get the full header,=
- if possible */
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1085  	if (sizeof(rxdata.=
-pkt.soft) <=3D length) {
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1086  		lp->hw.copy_from_=
-card(dev, bufnum, ofs, soft, sizeof(rxdata.pkt.soft));
-7f5e760c1b2690 Joe Perches       2015-05-05  1087  	} else {
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1088  		memset(&rxdata.pk=
-t.soft, 0, sizeof(rxdata.pkt.soft));
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1089  		lp->hw.copy_from_card(=
-dev, bufnum, ofs, soft, length);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1090  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1091  =
-
-a34c0932c3b2f2 Joe Perches       2015-05-05  1092  	arc_printk(D_DURING, de=
-v, "Buffer #%d: received packet from %02Xh to %02Xh (%d+4 bytes)\n",
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1093  		   bufnum, rxdata=
-.pkt.hard.source, rxdata.pkt.hard.dest, length);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1094  =
-
-5803c5122acb31 Stephen Hemminger 2009-01-09  1095  	dev->stats.rx_packets++;
-5803c5122acb31 Stephen Hemminger 2009-01-09  1096  	dev->stats.rx_bytes +=
-=3D length + ARC_HDR_SIZE;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1097  =
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1098  	/* call the right recei=
-ver for the protocol */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1099  	if (arc_proto_map[soft-=
->proto]->is_ip) {
-72aeea4841c037 Joe Perches       2015-05-05  1100  		if (BUGLVL(D_PROTO)) {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1101  			struct ArcProto
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1102  			*oldp =3D arc_pr=
-oto_map[lp->default_proto[rxdata.pkt.hard.source]],
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1103  			*newp =3D arc_proto_m=
-ap[soft->proto];
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1104  =
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1105  			if (oldp !=3D newp) {
-a34c0932c3b2f2 Joe Perches       2015-05-05  1106  				arc_printk(D_PROTO, =
-dev,
-3b4e55510f3151 Joe Perches       2015-05-05  1107  					   "got protocol %0=
-2Xh; encap for host %02Xh is now '%c' (was '%c')\n",
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1108  					   soft->proto=
-, rxdata.pkt.hard.source,
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1109  					   newp->suffix, ol=
-dp->suffix);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1110  			}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1111  		}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1112  =
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1113  		/* broadcasts will alw=
-ays be done with the last-used encap. */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1114  		lp->default_proto[0] =
-=3D soft->proto;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1115  =
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1116  		/* in striking contras=
-t, the following isn't a hack. */
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1117  		lp->default_proto=
-[rxdata.pkt.hard.source] =3D soft->proto;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1118  	}
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1119  	/* call the protocol-sp=
-ecific receiver. */
-02a07046834e64 Uwe Kleine-K=C3=B6nig  2019-09-20  1120  	arc_proto_map[soft=
-->proto]->rx(dev, bufnum, &rxdata.pkt, length);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1121  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  1122  =
+eef520b232c60e kernel/dma/coherent.c       Jim Quinlan     2020-08-24  37  =
+		return base_addr - dma_offset_from_phys_addr(dev, base_addr);
+eef520b232c60e kernel/dma/coherent.c       Jim Quinlan     2020-08-24  38  =
+	}
+c41f9ea998f3ba drivers/base/dma-coherent.c Vladimir Murzin 2017-06-26  39  =
+	return mem->device_base;
+c41f9ea998f3ba drivers/base/dma-coherent.c Vladimir Murzin 2017-06-26  40  }
+c41f9ea998f3ba drivers/base/dma-coherent.c Vladimir Murzin 2017-06-26  41  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8793788638515484456==--
+
+--===============8617155542172284079==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+H4sICF+pT18AAy5jb25maWcAnDxbb+M2s+/9FcIWOPi+h20d57IJDvJAUZTNWhK1JGU7eRG8ibdr
+NDfYTrv778+QupHSyFucBdpEM8PbcDg3DvPrL78G5P34+rw57h42T08/gj+3L9v95rh9DL7unrb/
+G0QiyIQOWMT1b0Cc7F7ev//+sns9TIPL325+m3zcP5wHi+3+ZfsU0NeXr7s/36H57vXll19/oSKL
++ayktFwyqbjISs3W+vaDbf7xyXT18c+Hh+A/M0r/G9z8dv7b5IPTiKsSELc/GtCs6+j2ZnI+mTSI
+JGrh0/OLif3X9pOQbNaiJ073c6JKotJyJrToBnEQPEt4xhyUyJSWBdVCqg7K5edyJeQCILDkX4OZ
+ZeBTcNge3986JoRSLFhWAg9UmjutM65Lli1LImEdPOX69nwKvbRDpjlPGPBN6WB3CF5ej6bjduGC
+kqRZ24cPGLgkhbu8sODALUUS7dBHLCZFou1kEPBcKJ2RlN1++M/L68v2vy0BkXReZqJUK+IsSd2p
+Jc/pAGB+Up0AvF1eLhRfl+nnghXMXV5LsCIahhjHUymUKlOWCnlXEq0JnaN0hWIJD1EUKUC0XYzd
+RdjV4PD+5fDjcNw+d7s4YxmTnNpNz6UIHelwUWouVjiGZ38wqs12oWg657kvWpFICc98mOKpw92c
+SMUMHO8yYmExi5Vl+/blMXj92ltcvxEF8VmwJcu0amRa7563+wPGEM3pAoSawYp1Nz7IxPzeCG9q
+F9ryGoA5jCEiThFprlrxKGFuGwtFd27OZ/NSMgWTSEHYfZp6qYOZN4PlkrE019B95g3XwJciKTJN
+5B06dE2FLKJpTwU0b/hH8+J3vTn8FRxhOsEGpnY4bo6HYPPw8Pr+cty9/NnjKDQoCbV98Gzmzi9U
+kZE8ykDugUKj09NELZQmWuGTVxzl1b+YpV2NpEWgMFHI7krAubOFz5KtYc8xVqmK2G2umvb1lPyh
+2jOwqH5xTsWiZb+g7gT4Ys5I1JOOVk0afRjDaeWxvp1Oui3kmV6AkoxZj+bsvOKAevi2fXx/2u6D
+r9vN8X2/PVhwPWkE25qQmRRF7liPnMxYJStMdlBQaHTW+ywX8MOThGRR94esrUKUis5Z1HUUEy5L
+FENjVYYki1Y80nNvB7XbYHyknEfOsmqgjFLidlaDYzgj90yOdxaxJads0B0IqBF5pEer5FBhN4YL
+VCScF2y4OaOLXMB2Gz0Cdt1TBXbF1n4OuNzR3CngXMTg2FOifQZ1PGQJuUOGNzsIS7V2VzqbYb9J
+Ch0rUUhgRGeTZVTO7l0bAYAQAFMPktxbvneA9X0PL3rfF973vdKRJ2pCGI1mfse4SEuRgw7m96yM
+hTQqHn6kJKMeO/tkCn7BtELjJTRj53H3UekS52SAf8LBuEtv32ZMp6ABbVckSU5sHELRHJU5nIbE
+kcHKV6lMjQO1usL1r5xzy5IYuOYLVUjAWMcFPmYB/rFzWs0nHCynw1wkDmsUn2UkiR3JsdNzAdaO
+uwA1r9RI4/1wRxK4KAvZszckWnKYcc0o7BBBfyGRkrsKbGFo71Ll9tTASpzhLdpyyBwZzZc+6/L4
+xIYZKbD+auyJLkyORdHIwczp2eRi4PvV0Uy+3X993T9vXh62Aft7+wKWkICCp8YWgk/havx/2aKZ
+6jKt9qVR/B6bVFKEQ33mIitzUAmw60iaYIFoiDQWfn8kHOnJJxO4f2zaw5AS7FQdEKC9AZFR6wlX
+oEvh6Ii0P4kOPycyAmcT3xM1L+IYQh5rGWGrIZYBxYwrCs3SMiKamPiOxxwoPc8anIGYJ41A13vl
+x2et78mFcnRo6wurIh1C5ysGrqdGyAlEGRLsALAKVL7nEHORCzCmqQ2VXDnzXIjOUT6bTHCv976c
+Xk4QfgACYuKeuw294LS3TvwM2pgymNm6vAdvWMDmyNuzs4F4d96MmWn+tDkaaQ9e30y4b6Zv4en2
++XX/wwxmPMZD5x9aFhvhtSf8dvJ9Uv+r2kXbv3dwbo777bbfJtIhBHdlPr8D5RFFjp7p8B1y8p02
+HXdeQEtXWVRj0ZLBwc92r4eAg3P8cjju3x+aZXl92JhXgn9iY+4zHzlfGYtUqiI3e+1FMQ5+3RBg
+MVBDF/HleD8xhAdIHz0qyk1kHv50tIYuE7f1XtANuLDIFtICnKQUxBw8o1IxbYITNdiNGg3mHfbi
+uhMzD21SKw3NtEfCvR7Oqp2sZXEgdpUw7l8ftofD6z44/nirYhfnWDWGKnXCjUwad1LdnvW5Bkd4
+lqVGO4MPlg9kJHyFr07kO+8mjeyS+oLV6z0nELfVtKMbYt0toIDIOo6BzfasXDYi3TDixJLtxMjj
+38YSPbaZKNemG+cssv6YyNRgkdH26+b96dhKQAAcDzZNfw9umq/hRbDZb4P3w/axf2AWTGYsMcyH
+YzMzGan6+F9P/EydR+6TPqCk4K74ZNvu3NdM6vHAS9Bt9g/fdsftg2HZx8ftGzQBk+3sbaMryZJV
+xx4EgrK5EI6/Z+EmYQiRjjkRZZFZ4Y16JOfTkGuznaXrvQJPZkTPmTQGAqzmzPE3UxEVCVPGr7GO
+pPGIHNM20yQEK5mAI5Go22nPB6iGM96g4x6A0oBhWAyGkhv5jmPn7Jqkj+uVtLmfGRXLj182sLPB
+X5UdeNu/ft09eUkLQ1RvnWdrT7XtG+Sf7EcbnoANNY4xcyZvXUaVgrfQaeSaf67yrEC1uUsEwcLZ
+mqbIDL6/G3XTFun2XOdb8ZRL3VxJ2qZlR+KShpLj4WyNNtsMEevJwYzvBPaGKwVauouDS54aa4A3
+LTIQtwhcqzQUCU6iJU8buoVx2NHAFqTJ2R6IcxVVHGT4cwFxto8xEXCoZigQ3Kl+yqMKmDWbSa7x
+5FxDZZwZbItt4qRW1zZ5Kv2xV6EeAMr083Ai4KOXMb5+WLDVryTpN6tuFUqWUXln1e9A++ab/XFn
+dasGze5oIpis5tpKT63BHS0DgWbWUYwiwIZDZE7G8YwpsfYiwB4Bp7hg9OlIhPKmT5aLFYT0jJ4a
+UnJF+RofFYLylhClECr+CQVJ+YzgNA2FJpJj3E0J9cDdIVSRUCf7TKIUb2oQ4wktNeM/WQ6EaHKM
+K00nBSorCyJTgiFYzPG5mrudq+uTYzlHzWnfeDE9WXdPUPq5XHJoIxpTxEWXW/WcL6AEj8Cm6yJG
+Bs4VRre4C9EMZIMP48/elYk3dCsWKjtz03aVU5vzzJoIMKjerUyNlzDDGn8Kh7ZdgdJjY41dZN3a
+Mol93z68Hzdfnrb2TjewOYqjo1dCnsWpNl6Gl7uqU1etZyEhrC3SvL0XNF5JnV139GXVl6KS517k
+UiPAHmF3P6Z307nL87F5u2FmunnZ/Ll9Rh23OCHaS3YZALhAEbNRaOpeWtZXiFyJpJdEUHkCrlSu
+LVdtyHDRaxQaS+s2qQGVM9a77cNgNtUhmTHLVbKi6Z/PJOk3z7QRPJMXcc6tclbZbE8KC4Qusioq
+vpjcXLXuMwMBz5mNgMqF05QmjFT+qwNzU8nwUakmL7HbAFF9b7AE5FrdfmpA9zkESV2n92ER3T53
+/d2fxyLBDPe9dfHchTeQ1h+GNeceD1sKcx/m3QxFTZLJuPULaIRlZCW4TeWSmTt/tzEwz/Bu/I5t
+VuRlCDZ+nhK5QG/bxgW426b2AjHbHv953f8FfjMWe4JALRgW3xcZd/LJ5gsOppeYs7CIE9zW6BEf
+cB3L1CZc8UgXwqAFwy48eLWkbg/yKoNPicITGUDQBqtSgNuPquy8zDP32tx+l9Gc5r3BDNgE1/hd
+Tk0gicTxZl0856eQM6MjWVqskWlWFKUusiZKam2oURViwRnO7arhUvNRbCyKU7huWHwAsy0lwSsn
+LA4ih3Ekz41OG9ntbrku0AhcD6Rp3oD97osoHxdQSyHJ6icUBgv7orQUeMhgRodfu9QIspyWhhYh
+p0N92+BvPzy8f9k9fPB7T6NLhd6ewc5e+WK6vKpl3RQTxCOiCkTVbZqC41NGBE+mm9Vfndraq5N7
+e4Vsrj+HlOdX49iezLooxfVg1QArryTGe4vOIvAdrP3WdzkbtK4k7cRUjabJTTGVsRQjJ8ESWu6P
+4xWbXZXJ6mfjWTLQ/3ScRObJ6Y7SHGRn7GibqjMYhQ5NTI8mn9/ZXBCYqzTvGTqXOOaJHtHpYX4C
+CeoloiPz5KZyYEThymgkxQBShwdqOkXhyXRkhFDyaIYlWm1Sz6oG5VUo1CC0s2VCsvJ6Mj37jKIj
+RjOGm7EkodORBZEE37v19BLviuT4PV0+F2PDXyVilRM8WOSMMbOmy4sxqRhWfnRLptjVYpQpU04h
+TAmi69eFsH3E5i7wOD1n2VKtuB6p4VsqU5c24m/BPG3CfNQOpPmI8TMrzBQ+5FyNezjVTCOGL8ZQ
+JOfgjiqjx8eoPks9PkBG+3VajUdd1bwYmlxCYPoTGpoQpTimVa3xXJdhoe5Kv7Ig/Jz0XM/guD3U
+hWreLPOFnrGeaNUe7qBlD+F6sw7PSSpJNLasESkOccEnMaxPjimTuFzQFGHLiksGBsJLHdN4Zk7J
+2SBZ1yJettvHQ3B8Db5sYZ0man201yZgACyBcw9VQ0z4YO4O5vbqtbrt6kZccYDiajNecLQEwuzH
+jeMIV99dEsXbuJtTVVOUcNzxoCyfl2OltFmMczpXYHcS3KJaDzLGcZhpbHSM0mUvUAWJh+klibdv
+MeGJWKJhA9NzDXFoozoaea/voaP97u9elimnlPjeSXeftHuoWwRiGJ8V1b3KnCU5OhNQDzrN3duY
+BlKmdRlpEypokkUkEW5ZOjiJtvuYy3QFkXZV490sJ97tn/8xd3NPr5vH7d7JjqzsFYib/GZrCIXb
+fkzVWcfHhtqGfchSEEr8kqLWAf15tYePwFJM9t7LCDVH1l5puNgRS2wy85Hky5E51gRsKUf8wIrA
+VN3X3YBBS0GOsLDAEBGI4WhDWhWGPw+KQ/KiLmx0NhpsmtG/HUCymZeYqr5LPqUDmEp4ato+9+Cr
+swEoTd06r6ZPN8Fo7y/nsO2RqXeNXbEwqJhBVFRdgA6KaYayX92Uvx+CR3uY3Dv4Oa/X2/bh0jmK
+RsDJp3jlzyxTDsfMF7jBkpOkB0xNFS+GUFzGDebZwxTheoBI/WJI+LSbPrw275LZb5v9odIeTiMi
+P9kkuOr35mbI0Qo7oBFx3dadFuxkZIsFTqAisGaGj3f1rdzHM39wr4uyyOqSKzQEHtKbhLXIkjs8
+p9+wwXKngF+D9NWk0Ku6OL3fvByeqiqCZPNjwK8wWcB5GXDLLgP38RosxM9YMs8tK80GX6Vc+ckH
+gCG9yDiyPbXMViqOqPOZ1gN50xIiH9vZvCo8fvYbtLclcCArL3IgbpKkv0uR/h4/bQ7fgodvu7fg
+sbVarnjF3BeNPxjEKr3nKwYOmqp91eILaMyN247VizhURqeEBJxwW0Renvmd97DTk9gLH2vG52cI
+bIrN1NwOJ2DLRqZpF5NGpsT5edgYLCw50bDQfLC3sA9jZ0Wk/qRJqMBU23GbFw7jm1jdc2ze3oyj
+XAOtS2mpNg+m/Ke308L4WesmC678wU2JnH/p0QHrwhEcBzyRuqvYwUgS5jyucxFmU6tHBdOegNcE
+Ih47FzXBLOeiKfvze0iI7vG+y67/hG3VM47t09ePD68vx83uBbx16LM2RPg5UgmM1ufQAAT/GZh7
+4OC71AJC/crJd69iaiyTtoLFYM+m174SBH02rUxQ5Z/uDn99FC8fqVnNwFl1WkaCzs67eYR0Xr1g
+LNPbs4shVN9edOz7OWeq2BC8UX9QA6lq3j2NA2rMYAZasQJX5bt31QXmmP2rSWtvaqynXm4foZiu
+jY6bDfbNIhmlENibGDT1b+JwAlD21CcyuWi70p5qcRuHfoKj0uWbf34Ha7l5eto+WbYGXyuFAHuw
+f316Guyu7TCCJSU95e4gykij80jXHLuDbfHmxKENzYkzTztONabg+5uXH8NJERBykgGiUmy7w4N3
+h9+Qmf8pfnKMiKuFyOxjSWyaHboyZ6ey+qcaRSZ68dVanzQMtZVa1/+xp8IuLcmhj+B/qp/TIKdp
+8Fxd+z0Ow0vTfdUAU2g/78qdZhFyXy4BUK6SUs+leaoJ4WFPCVmCkIX1G+TpxJ+XwcbghaQEj7ga
+mllSsBDL+bdD+JULBjy/g1DSi2Mi7ZwqEbtnHdzgIuN65D00YM0dv5aMuR2UjMjkDkctRPiHB4ju
+MpJybwKtKLgwL3qC7+pqs/uGBkwujffmliBUCJMa9WAmReE9GAD3r1/6XYNKsr6+/nRzhSy/oQAT
+4jhQdTmcV4tRV8hlRZKYD6QvGkn/Ccc97uY0XSXg4TrGxoHaGoTqOex1H29r4ETddjC9SIZ43rmd
+fzhW32ewnop3gPVkzq4w3MBCW0aYNCeNlu6DSRdch8yqW6CPXjWpKjfxbzfdZKGQJVQpOzMxbNt6
+bKlM8TJlgXp/e3vdH50SbID2zLEFVXdhxH/qaTHzVYpWcVlkTEKwvarXWUx7AHAXZ8wzPQ7YlsCD
+HirGBqnJ+kLh4kbyjC7J4N6sUc4un1pDNExUgJ+uhFSgD9V5spxMPd+FRJfTy3UZ5QLTQlGRpne9
+8i2qbs6n6mLipGbASiZCFdK8pJC9tBDJI3VzPZmSxP1LEyqZ3kwm516UamFT/KlQswYNRJfom6GG
+Ipyfffo0cYLYGm7ncTNxikjmKb06v3Sit0idXV1PnabesVub91frUkWxX+GZL3OSoV4InVrFV3sJ
+jIExToNDX7ArOByj6YUrJDU4YTNCsQKUGp+S9dX1p0tnLyr4zTldXzn50AoK0Ut5fTPPmVoPcIyd
+TSYXXtWaP+Pq7ydsv28OAbfPip7tu8DDt80eHOujSYEYuuAJHO3gEURx92Z+dR0DbaJSVJj/H/1i
+8u1nF4m55yUm6MvbSyD+cgS/FMwieCD77ZP9+zDdnnRXdKDtwZKjcz3VhbOBdC7wgM49pVX0Zu7H
+6qhkIB+23DwVjsKWhEfmT4T0XlsOLtmaCAjp3VPfmJMTDe1N6gc91XvyiGlG0fxEZB9GEfdvAUR2
+6s7hrCFnnu9bw7BDXuMuLq+8Pjob4EJtLYvjiISV6XKtc/U6a/zyqCaotZsafcxa01W5c/OSR+m2
+3HHoC+A3/7W2NyYOvxAbZNyzmtwbRGTRWF2E1eYoxtwTzorelVAnyZ8LCMHuT9TIadZPXjTbQKip
+NRirGxlDLddjGBM0L/E7tpBIVkS4Vz8bqaqA+Sk2YoKZht/AwcVH0wU+QYCXS7sz9g/6jLRe9pyl
+DlG5S2P1D1mSIs8soh2ozd2Xd6OI1D+748O3gDhPkLwQrVYK/7ZJayTM2y4vMDBrXLIsEhL0LKEm
+dKSeE1ZrX61G5LltnZJ7tzDYRYHkZZoTHCkpDi+kkF4pTAUBH/v6Gn1D7DQOpSAR9eOF8AKvKAlp
+asQR36nqTffYa9VuwCbJ8MMTSqwYxWu05O5zbhdlS6+95c8YxC283UJcN6Q3k5Fn2lGGVuQ6Y7L7
++q89dSrDQsosV/9H2bV0t40j67+S5cyip/kQX4teQCQlMeYrBGXR2eh4Es/EZ+I4J3HPdP/7iwJA
+Eo8C1XfRTqu+whsECoWqwhV8dFgN4F7X7Cw7p2PXHdVQFQp0OpNLWaFQlTIZdsIh0KCjSEPYmbbW
+VeD3jWGugSRjaUir+xU19UQv1sqtwofLjVyrfNBNae9omkY+S+syj1BSdnqwLROlbPxRtCWjGyvH
+oWu7Bh+MttKOW9V1Opb/v5FOw0zz8Gezs0NDaa1JeiboQTwGtEawR0GYLjXPDzlJ2Ky+sp0Nn/Uf
+chB8XYaNQ3OzFQNrKCUUrdEARl4DClHS0LMenYROx33pOEOrKcvyA55lV5PhUJMBHzDaUO3UQps8
+83GjHGDNfN9l+L2Ul8OV3oTvCHTkM08rcWzAxex2Cx/armerp5q2uOTXqT4aA2Wnva+0hY/9ZEjN
+ajpiRygl4aX6aBj0C8r1ErmiVywM4a09RZwc1czlWZJMlXv2SZ66ZtKViweWK2mJgZsrnR5cFk59
+7TD/73tHfCgjAZcmTq8/3375+fz56d2Z7ufTBed6evoszcYAmQ3oyOfH729PP+xTzoUtqnr3C8u1
+66XALmmBfdnvi2YsFU2shul6IfbTKcPryRp111AhRUBA0LyieYdDxk5kQgPVr2MhVCXBboDUhOse
+hoFlURFnzyD7hgoPRFqSYVgJop0LpBUOqM7SKn108H98KNSFVYW4VFi2XMoRuhVupfju8gyGhn+z
+jTL/DtaMP5+e3r19mbmQa4uL48whzl7GRY52/sFs8xTFVuFQQxoqy2tvKLClwuL7729O7UDV9mel
+Y/nP6+EAqvpa0/MLBGxjDQ26AETszbsGnXKCpSHgjHunhP0BO5ivEK7jGaJC/etRUzvKRB2412Ml
+zgjYVKJeRgYbZRJS2V6n33wv2G3zPPyWxKlZ3vvuwWW8LBjKewM3UPAVfFHHxHVlLRLclQ/7jqjB
+8GYKW7EUPbNC7aMo0IQiHUtTpHYGS4ZlPN7tCzTbD6PvodpUjUNVpypA4Md4ZQtpvz7EabSVd30H
+9bKz5pe2dq9x6wmYwCWWaMxJvPNjtEIMS3d+io79wiSm9zZP3aRhGG61iS0tSRhho9DkFGlU0w9+
+oOm/FqgtLyN6gbFwgJ8BnDooml4KmVsZHLu6OFT0dJVBctFsxu5CLmjUx5Xn3OJDyYS+vkSaXX2g
+cTAhQMeWlx1CHy/1zgs9BJlGvOic9EyIndAJsUet5ddBGe+uPdycviDrjKLPhJ9s+QoQ0pXUanDU
+lb5/KDBy3R0r9m/fYyATiUk/VrkRAsaCmehu6Kwt3vyh1+9/V4g7D/MQohha1rDn6hoeG/0LNQCz
+sbI27F7WSnTn/HRX4ce1le0AccGhQGdRi+mrkZr0fV3yUjaKYPMjyhJc6yM48gfSo4rzTkQ5YsIK
+XEW84HR5TWHkuaDbnXhPp2kixE4PC6S7P5ZJgpa9wiCuuzZBtoeCk6Yi+s2UKzv7szmMAaHyda7U
+okJ4824/EIR+PAR3SCbHQRVfNTJbWLEE54ptH02nnfQWlIvhBL3NWHhoVZSXqtWcDRZwbPjGjuTM
+oy1t5XuBuKMdlmlDjlzlhDSHR0Hqhj3aGg7uXcGZVjYI1OCQXNeGXarivcPheGH6eCrb0xn7KBaW
+Yp9h40WaktHQnhvPwx5M3A74zrzOJxp5uk+TyQHy37np0VKm3uF1vHD004DpHhb8QCsS701xm/vn
+apNNUOAju7LhyR3FqlxVz85at7hOpGWnF0fog5Xtbj8SXB2gMPXlkVB0/ZFMYmllU5Ydg7U7a9lo
+WFyFJL4hbTuipwxNtbvq4Vo4SfcaAQpbJA3KgRsUGBRe286gB4W8NTb5fd+iBCYl1KReScP3CgFG
+mhQs9CaPPz5zn6Hq1+4dnOg0ew2twvwn/JVWVBqZndo06UdQ62qvSSWCOhDNK0AQ5SUNY3fYXfBS
+aNAY0XLNbIb8Rh6k3xsMGiyEe6pYX5xFP6xOLWyVMA3JZtq1pezsg2S+MNSaZQPW/evtPnLeFmqC
+L48/Hj+B+sqysRnHB03x6AphkqXXftR1m8LCg5ORRDWPFAA37TJQnzT3/vH8+NW27ZZfJjcSzLXQ
+PwJIg8hDiUrc99k1Aufz4yjyyPWeMFKr+/+obAfYSzFjPJUpF9ereEENO8c3+V6f2jPYDlynrwQw
+UtEB3ppoyoUFrWE5jWXriqatMhLaQ5Che/MSAevEi4jyh0KurhrGIE0dmnjBBg5TiLmyMJZ7/fYL
+ZMMofEpw/attQyIygibUYOJrduoMrB3rGxz6kqwQlVE0602rQ+W4q5858rydMI3TgvtxRRP9FGdi
+sDe4s5AL3PuRgIHDiGRkcMwNupklz87sSQUDXQCPT2nNUpVpT84FxNn+zfejYPVIkZzyEqCnV1n5
+Ldj5QcFNuVVRtmKz0RYV9K1OOdD6WvfOizOVq2oPdTltfx45XBVxf9jqWOVsLRusCsEH/9EPI1Wg
+mIe6Ny1TFucObR00c8zHoTa0SRJqwVEEHJBV/Vx7PRW10lOLdgRWd9V+83qkDl0wWCGP6GUTdziV
+0XDWIgSVgqrd7A8eN/RsL8Pc2Bgaxsox90NGku844Fc7Az/iOK59XNpRaZLi/iyqvqmu4pEJRaDi
+VFi3eFx7kw4mk0LrhCJ0HDSvFQ6Jiy5xTDsQ9VUVDlPFfUQQ2AJk8PBXuIruaHDyyJ3d4aAJs32z
+t4pEWn+6IK8ELETxjkXVNSWmcVrZ9mQXKrLnCiwhDywkZ7OgPapVZrU1ylGhO7wOPOYUd/dW1D5k
+EnRwWg2ixYJ8zNl/vaulPZY9T1JRYwORVIvA1R/z7ds6rRWQrTZVWzrihaqM7fm+Gzf47ll9wT9m
+Qr9WmREdw/Bjzy1zHYhU86jXtvWDy3LUliDXURB9OJzpyAO7LRENxIUD2+Lsux/1TARN5tpL1kHa
+vTsAwiUS+3QB5I9Y3CufBCM252kuu/n969vz969Pf7BqQz24ux5WGban7IUgz7Ks6xKCgJuZzh5Z
+FhUKfNFrDUA95rvQw1xEZo4+J1m08+08BfCH3kUcqFpYQLHihhINbMZQHgtPSWokbOop7+tCPWRs
+9ptetAhCwcV8R/FcJajOBvL1368/nt++vPw0xqA+dvtq1FsNxD4/YESiVtnIeClsOS9BhIN16Nep
+yV81e/dPiH8g3VT/9vL68+3rn++eXv759BlMAX6VXL8wiRX8V/9u1htkIr2GOWvzvH9r/VWU8GAQ
+DxGy4cgHnGVT3gd6rvYM5HN2fjjy/RwiU2HoxC2LRmNdtxRu1m+4C9EbTRjIqoEQ0Vr5i4GIDHLL
+FohvTKxh0K9s3FmnPkqzCevAxysiHay0LEfSUba/NnOm3dsXMQ1ljspQqWahzsHW20fHM6okBqgm
+qkfYQpJuBvZIQngSp+ncygKz9QaL015fWTyVdCFuU0N7PFYVZYICtoWrYgf7oS3CQtdDK8P5dSV/
+fQZfB+WFBpYBrMdrln2vXcuxn7YFiwjZ0dM5P8yhARLmNX8t4Y7LJEhbFB6ud9BqMSPrdMPyNu8g
+lqrJ13hff1gLSD/2rOKvn/6DVnvsr36UpuItTytnafgh7ZzAFMEZKVCxAHn8/JlH9WDfGC/45z/U
+b8Cuz9ILcvVfZvccEEcCV+tNxKoVG6nND5vG4dzmhq4FcmL/hxehAWLOW1Waq0JomASKOm2mFyTz
+4kAbPYk0eR+E1MPUaDMLvL9Ql3amdPIj1bVqoY/NQTu7L2WRKUniADM9mFl6UjeE2mV1eVmrL7TO
+dDY/Ti05qg4na2mFtrfM9JzukjqNHECmvqLFprWm25EE7koMnifS2zjyl/dLuoNx9JyTVMMH3e5K
+jKTNLB5GM2hr1AA1ePjL4/fvbI/lX5+1SfB0yW6aRPAkZehFQAq+82LKUy7K2fbpnF5cXOEbxW46
+wj8e6sWjtkPdQjV4MPd9Tj7VF8xPlmNwhZ7f50ZGzT6NaTKZ1LL96AeJctbn/U0aEhUBmwbd/myO
+RdVNJvsDzbXnj4F4yYss3Jmstgmo6HpwUzJvovWo2tjILnIXpz798Z0tfPaIS5sho36SaryyLJC2
+t2p4vLARwpWkoiPB3gU1gF3hwG64pEMtXEm5+B5O1nSVdDMpwpQ4q8Vk4TRKzEEa+yoPUt8zJWKj
+l8V3dyjs3jcGV9hzuepAhupj1xKrffsi8dMAN1YSXx5bwSPMsEp8BX2aRHFkznexApplbSzDCq7e
+GYjuE0uzOajc2Mdd77GnLKsUD7K8cqQxrgxfOTIfv2gSHB+aabMMYUjkajGDY2+nTQFkqPWBPB7Z
+sZFohwbRe0xiOStmCDyaHZ8m/i//e5YCdvP48037di/+EmuVBrtU26pVzL+gET8XDjP0yYrQI+4o
+itRKrS39+vjfJ72iQrIHv6LGKEogFFc5LTi00IvQpBzCZBGNww/diTGlgcYRhOrYrEDqRTiwCz0X
+4LsARxkMuOaDZoijw/gCoPIwietGC5PUc3VPkvo3C0hLD7/W1pn8ZGs2yVmzSFigab0SPRYed8PJ
+e/RIwvkhAokq8q3EWc5FMVOEMDH+VLbrikNlrsc8yCLs9lrlasY4DEJXgX+1LCFV/EW2RXONKXZL
+Ht2w6Qr1Rkgk07H1/gL0xyrobDG8xFk/mN0uqMu7KjNWEIHbpxpS5BBMm61KD4qtHJnSLIhkGmUC
+8wClnIrUS2ZzTdO+SWNPExzgSH2Eece2ZC/GzITm1CQf02wXESUAjETyS+D5yr460+Fjij2b3/7+
+NAT//DQWfJebWery2F3Le8waeWahe+X8NPcBEBVFP7jszUSrjP2HIJkmbJlZKsqEEXVVnEthdHYk
+RHplpltlsVH3E7b1bhQmWQI7W44E/mQjcr8HCSi3q4lNljnlMEXYTJmT8lmqWhzNwGyqbBUGohk7
+c1gJgM7kdItfV1Su5fIhQ7IZwzjy1WFUqurvoiTZaI2I49BJ3jiK7fwVYRArgWEZNhm1/soS7LNs
++iAOso20bB7u/GiyO4MDGdLXAAQRWhpASYgJ0ApH5CouSjO0B2izD3dbPcxF18BPsKl2JOdjKXaZ
+3dbqNN9I26vQMEaeKmvMpQ4jW80im37Oqe95AdLEIsuySLnw4mGUjJ/X+6owSVKTKzQbwjbl8Y2d
+VzErJRmSp0h2vlKSRk8xeuN7ge8CDMsBFcLPAzoPNv80jtBRsp8kKJAxGRQDxmTyHcDO9/BGAIRN
+DI0jDhy5ovGQOBAhABOoMH6as5Mi1gUTBNRr+XtuQ1ej9ecmVFvVH6ceyTpnf0gFj7sNHZZvQfGz
+64r7aJXFCRrL8cDO3l6EPxig8qTBAbsoXFmiMIkoVkKT+2GShiD5bGUwspPaeSRjiWZyrCM/pdjR
+SuEIPNqgiZm4gj8Lo3DglpoSFtdlrd2xp+oU+yEye6p9Q0q0NgzpS0zCWBhA7SfXIDv1mGJr7gy/
+z3cBlozJkIMf3Ig1xsMXHV32a5JnVjpvc/GFHX8FR+dJTGM2nC/bmvVwZe5HyLQHIPDRec+hwGW/
+q/DssH1T44iR4RcAUiWQNmIvRuvEMT/brBPniTE1gcqhSx0KEvoJqgpSWOJYd8/ToPBm7eJ4t/Up
+cY4I6TEOZMjGImqdoftEk/ch2yA3yhvzOEJ23KZsD4G/b3Jzt18GsIlDjJqE6Gxqks1p0mA7JqOm
+eGbpje+0ScNbDDe+vWZzFambDJvTbINHqWhHZVEQIh3PgR06wQS01Y99niZhjM4EgHZBstnqdsyF
+6q6ixuMUNms+sq8Mk+5VjiRBv2MGsYPw1lcAHJmHdE/b5w1Y/1oAV+BnWr/1Dqe5JcmlwTctehrx
+RZEBAX5MVzjCP25x5FsfZNGUbA1CPoeSCQrsGIkCge8AYtBRoE1paL5Lmq2azCzYrBbYPsQWJJqf
+oniawMYMXTo4HqArMIdCTE+7cIwjTbC9jDZNHGPSa5H7QVqkPrqWkIImxt2KycE6McVkxqolgZfh
+dGyGMnoY4FvHmOuupSZ8anJsSxib3vdQcYYj22sgZ8F1ygrLztvcPBgD1jWMHvnoRnA/+sZLYxbL
+JQ2TJNwSpoEj9Qu7XAAyJxAUWI04tLWQcQZkYgk6rCC6vYWC10kajai8LsAYdcZXeNhncjqgRTOk
+VCG+bhPdSFaQ5kfAMKNWyQFvPfPHVlX7W4mVTTkcyxYckqRmmR3sa/Jwbaj6pNvMjj55MYMQTp4/
+ZT0OVY+UNT83e+zuWZ3K/nqpaIk1SWU8wIGQP++EW/YiSfg7X9wddqOyet52Zc1KIvCetEf+B2vD
+zYoU5f1hKD8oQ2sNzdl80X2G5KNYS6Hzve7MgBXH7YCW0lQte8Xf8nInVZX3a3oJLhb2f5oUK1bp
+ArTdhTx0Z/xuZOESHgbcOPpatjCxMJXCwg7BMbgFGMt4fflggWfbGq6pujy+ffry+fXf7/ofT2/P
+L0+vv7+9O77+9+nHt1czRJBM3g+lzBtG1rJLWzJ0xYih3WFE+kpoJhxAHKr+C0ud5EjOkOtm23Z9
+WKV+LFswkfHiDM13YZIOSJs8H6tqgMvCjQpKIyOs3Rek4rNO32aHY1M4TVhj509CSbSu0yOE+/C3
+2wEOSiRgTAXq6ASe0x2l1d7whUPDKezzhqDsAFiziVuS/+v3b5/4A2POh30OheFlARTlQmttCdBp
+mKAqxRnULlUb/rnP8YlUTjIGaeJhBYMXxxVcwyBamlk6B091jmrBgIOH4PCmyUy5L7Io8ZsL7qvE
+8576wHN5BQKDaQ640qzYGNClYAvo4wfIBUevExaUmxjaiVAtzoqa/c+v2iYzJ75iBButlcrOP02a
+qi1eaKFF8/ULH6AeyViCjS29HlEfft6fuc++w8noZEHUHVc4wC+AzKE+VTGTN3nj0d5nRyt4gqHK
+cdEXYFaSYb6m5L8EIdJKvSsbdxJ+X+h5ei8JotHFy82iMc3ETZyewbw2WbyG8dVKTWOMmoVmF3J6
+usM7SDKkmYdpPxY0iKyy+EXen0hOGXa24ugYh7HZFEbLEoM270lm9my/PTtb0eeHiE1eTK7naefL
+MT3HPBojh+qI43ep48TE0TYaY0dMMcBpmW9EBAaGapfEkyveO+doIs/Xu4eTLLsWjtw9pGxqYWoW
+sp8iz7PEL7IPfUl2VUBG7xIxB8bm+dOP16evT5/efrx+e/70850w+Kvm4H+IlAMMy6I6O+3+9Yy0
+yhjWtkAb4f3DMIym60hzuOA3OqXuw2znmhXy2t3MsG7OOm2xdpylj57GvhdpO5OwbUStnQWUGAvB
+bAxp1ljQnTvDcolsJqt4c1CvIwUXhqF2gYHv+m5nk0w0WYY/0rDCAdJoRrU3AIawZVX1gJ1lPFuw
+mBFyLlSLeWm5aU1zSHKp/SAJt6Z63YSRvUSMeRilmbNTuampvpQjXghcJpHGvhjR7g2+/wc7nXhp
+IlD/mC1jVOcoXBpsoeZU13gzcOdZOz6jhr4lUlkskXeLJcscQdVgRe1OjbB+nnALYJWJyTyuJqz5
+BMbXLcV8kyh8VNSKLjb8S9n8BEN7ZElXvT1dMvqcObyyUUtL4TXrmegMTbxyHKoJYpF09UiOaoik
+hQHcxc8i4AI9N6qZ0MoDagiuhVC5kOowEeZoWGNjPLpAZECxl2AYnEpS1Updh3QLPAUrojBLUUSc
+Q9AMjcPMiihnDBuTE+gFHSguim92jG1joGPoDbvBEmIVY0jgox3OER9DDqSNwki1AzKwNPXwOeCI
+KbgyVLTOQg8dSQbFQeITvBPYihvf6MN1MUXqDXt74mPlcgQdcG6Bhw433x3R/pn3TQeUotOxFjsH
+WgcGxUmMQfbpQMcidbfRoPn4gPTzfIzY7GkQ3uMdWl8OxeiXZR0PDCgKHNU1DQHN2qbYnZDJlKGf
+hzjxeOjwCyzA+16eTY3YcxqepKGjjxnIegLdtVSu3mcDcZOtj3b+jQ7o01QNMqwjMTrDm/5Dkjkn
+CTuKodognSXAu5whUYp2mnHCWxHbhUjBcsI2gO0J2x/OH+HBOkcO92xBi3GzAYMrvVEO8OjWFgqI
+uuCsOEgiWIfZ59EVo/URnpzYrtUsyCB5U3YM9GKC9wsD02CHS1cGV4JFnl55mMAe+WxCYFXADkg6
+GoQ3B0cchAL8eG6yJdv7iHLYwjHf3RBpsotj4mCEY+L0g1eZn3Vutcx2VEO47uE28gaPkOlxJltJ
+IZFc6i8UO3BGabuxOlRaqCB4ZYJj4PyhhajkWZySMNAurXmI0XNNyxQY0FoBy0Cqlp5I0V1MNq3g
+udAXlMzkZXBuNmtLz/tiuOfhVmhZl/n42/8xdiXNjePI+q/o9KY7YuY1F3HRYQ4USUlocTNBbXVh
+uG1VlaJtq8J2zWvPr39IgAuWpNyH7rLySyQWYkkAiczhNfXj5b5X3t8/fpzVsNaiqlHOg0qKHCYL
+Jvwht81eahdNEvhCa5iuPvJM3DsAcx1BrJfP+WhSf1q2/s31dNH4Sxs0s+F1stFSfR57kqQ8Ko3+
+UdgPsBDORrdG+8vj+TrPLi8//+pDdYyHR0LOfp5JY3OkqbtmiQ4fN2UftyI6HCX74WnSUF8BiX1V
+Tgoe+qRYp5glERe/OhTwaOp5bAqsElJvGl1/SFXU2hHhkfvjcKwmov11Hna+Xp7ezxAi9f6NlRJO
+0+Dv99k/VhyYPcuJ/6G163K3crRwyiMdaXNOz9O8rCiGJLn4vES6cWNSxp4mPIxR/ZMg3gUUoI0p
+cWpsdjfZGmXB6T65YXmuMeRo6BGBdY/2nzFqVzCqt0YPN9V6Atk3ir8waCXWrg48vOsa6daAkz0A
+CNL9y8Pl6en+9QO5ERQzUdNE3G8/TxT9fLxc2cB9uMJL5n/OfrxeH85vb+CXBdynPF/+UkSIojd7
+cdim1ahJomDuGsOTkReh/PahI6cQocOLUbpjsOe0cueWQY6p61qhSfXcuYdRM9eJzH7RZHvXsSIS
+Oy52PSuYdklku3Ojemw5DQIjL6C6C2OmqpyA5hXSM2lZnNpls2J6+RH94H/vQ/FvWid0YNQ/HY0i
+3wtDecJS2Md5WBahD6NkDw8jJltK4K5eeyDPQ2xYMsC3MCO4EQ9V030FmNQcBNeyCW3sOc+A8vjB
+ZiIffyck8C21bAe7KOu6axb6rFJ+oDcC+wCBrb7rkQFcGe96KRwiBOgFRj8uK8+eG1MUJ3vmANxX
+gWUhrdocnHDiqXfPsFhYN4oBsG9kx6hYvffV0Z16e9G1ZXRcOOoZgNRNofffK4PD7LC8bdFdQTcz
+HB1PTFHqMo6Oi/PL5NAKbNWyVQLQ2EfScAmM7yPIxswCZHeODi5XvfEdAW/C6rLnWLjhYnrii7Zh
+aJu9akNDx0LabGgfqc0uz2y++s8ZQrnPwNuf0Xi7KvHZ/saO9GwEELpmPqbMcUX7TbA8XBkPmyXh
+DB7NFqbDwHM2VBZ/W4K4/Uzq2fvPF6ZW9WLH+0wNEmvz5e3hzJbll/P159vs+/nph5RUb9bAtYzP
+m3uO9spD0KcuWLrqQWCFiiT6IZMUen6iVKKWFdHLOlZTx1Qto9kV/LG+GIs/396vz5f/nmfNXrSN
+oZVwfvCGWMkOxWSMqRE2d1g/hYbO4hYo+/cx5Qb2JLoIw2ACTCMv8KdScnAiZd44ykWDjvkTNeGY
+O4k5vrKSaag9ccggs0GAN/wCUWI6xo7lhHgpjrFnWROlP8bzSSw/Ziyh+kjSxIPpXWzHFs/nNLSm
+mig6Orb6vMzsClNWHBLjKrasiSnVYMPPdw021CzBLJuDVyydbthVzNa2qUYPw5r6LKlxYtJluosW
+ljXRwdmOx/Ym+jdpFrbqrEtGa7ZwfPohj5lr2fVqSsZdbic2azj0PZ3BuGR1nMtzPDolqZsrcyfF
+J7P16/2P72ClYvg8TmS3dewHn3vbRI6ACtSkaqPdcfCzrGL81TxNsxUcuajYNqedZ2B5fwzIih9x
+DAbhaIcDPnAi3bKmSdoVqXPwl4tZgosiMpVazX7NdqRgpjoUQSvaFAbp6Ab2sxi615qMxpt0iGsC
+i1unTcyurxPLJqQSfquZNuur0oSH3cz2pcdkPb04Vnx2X4RHvT0V2LPQtfNW2YQeUudmYBjeWCXr
+noqfZZlVaRzWdnrZ9qytJ75aHUc1WEhvkpzIw2bAsj0aPZmLFV7919VObcEqKrjzdXHUdHn78XT/
+MauYxvCkqNkDaxuBsLSmrCei0QEkTrqj7Rc297RN7lVeWzSu5y18veSCeVmm7YbAXSHTgzBzTJW1
+2bNl7LDL2yKbEKi3BcIitJGbeaUZSaJ2m7heY8v+NkaOVUqOpGi3rDwtyZ1lJHvZUNhO8F5kdbIC
+y5knxPEj10rwshMIzrKFf5huYuMKoMRdFGUGzsqtYPElxjx7jry/J6TNGlaEPLXUdXzk2ZJinRBa
+wTOgbWItgsSaY3xZGiVQzKzZMlkb1577h0/4WJabhC1zC4yvKPcQv1r0ExstWpmRPD22WZzAn8WO
+tXyJ8tWEpjxAZdmAvcoiQrloAv+xL9ewJTRoPbehGB/7f0RLiFOx3x9ta2W58wJvujqi1TKt6xNb
+F6S4aMiQY6ynhLAOXOd+YC9sXNrAMuzETKayWJZtvWTfNEEft0v9XUSIbamf2H4yIW9kSt1NhC2+
+KK/v/m4dLXSESFxhGFkt+zn3nHQlG7vi3FFkoSwp2Zbt3D3sV/YazZEtvVWb3bEvW9v0qL6RNdio
+5Qb7IDlYuMKH8M/dxs5S9PGkPLs07NuQI9ukBcFkERQmTEeUeOEIMYqPc2cebSus3k29y07dPBu0
+h7vjGu33e0KZFlEeoWMtnMUCa2M2sqqUfYZjVVmeFzuBI2tX2kIhJ1/WJJFt1aR5u0eUtWa0Al6+
+Xh6/nY1lJ04KcO2Ce2nnDBvWhA3LADQEF79B5kpPN6cxUsGdX020NqwcjClJY/2b5RC7bUMqeKic
+VEewH1mn7TL0rL3brg4T8opDNqEpgg5SNYU7VyNriyarowSC34b+hJ8OjQv1pMY1LgLdjIS+o01Z
+jLiwHEM5ArIzEeBQ4LBqdl9zkqvZkAJchca+y9oTYrhPs5Z0Q5ZRd/zpY8fECFugl1vDMXNRzsZm
+5lWleV7qAFr4HvtIE/5k+9RVYjvUsrHzPmARN8FsSEfF0VduKXQ0COUXMwqaVJjOihz1yf170AxN
+Ilf3kQFsjj45cdoU0Z7s9aJ05FuvTaEudVytd3ra/EhX2EkkH3g8NKLaIulRXOyDhQTbMVFsYmGr
+fVo0fGvU3u1IvdW4wAv7ELOJTy+r1/vn8+yPn1+/Mp0+0ZX41ZJtdiCqvTSNMRo3hjjJpLGp+/0W
+330pqWL234pkWQ12B88aEJfViaWKDIBAGOAlUwMVhJ4oLgsAVBYAuCzWoilZF21asK10oRR5WTab
+kT58PkDYPwJARwjjYNk0bHYwmbRaKBfLK4i8tWJ6U5q0so0/5BjF24ysN2rhwVdpt92kWhFhWwKV
+hTjHxo2C8t2/94FPjItUJgaeE4soMM+KeGon3HBwomr8CY+agizZHvnYzD3UyIsxDF7+5Bp2ht1q
+rVNQFtjuUv3ETIN1rUAe3Wj35g2wvH/48+ny7fv77H9mTIvW454OLQAadpxFlHYh0eQ6AXYjDM/w
+xXQBBj48wjCQ6pBj5O5JpOJRscc641S0X45c3PXwIZuwERj5EGfuOFcYTpi2aVzBZ1z9A8KbLdqb
+veON6btWhDcOB7ErUomlCj3ZB6aCBGGIC65gWkWjSYw8uCfMHp2wOJey37MPEWQVVrRl4tvWhGC2
+/hzjQpuougHyyTDoM+KXLNpc00F8pR1+sUVbeaEHv1u+QWVTVYHVT+LYryPbn0gdZ7vG0XWnrhLG
+QWUvm5a7IpEF0iIxpsINScxhv5EXL/ZjdC3c1Gw30GwUVESY7n7vNkQ5zYDUnecII2/64/wAgTyh
+DHJUKilpNIftO9JwHIxrNXzcQGxR19gcrio5VCon7dhyKU2xvMJptiWFyhdvYEuv8rFtAPulE8ud
+eAqmFCyP4ijLsLCDPA0/y9YyPFVs5aEqkTX3uixqzWfKSJ2uepqzBXelSgM7SC2GJVC/bNOpgq7T
+fEnqRK3xeiWfiXNKxtSxcqcVnonl5yH6R9ue0BibDDlEWVNWam57kh74QYxWiFPdO0pRhBMwF0On
+XY42U1n/Hi3rSM2iOZBiI3sTE5UqIEJSU2r9JYsNV+acnBblHg9qJrrJmsQ5a7npIjNlGzSAiWLn
+0WnFVtyN3gxMq+KdZCoZiesS/JOolchhT12nJ426yxrSf0mJXjREJTClPd3qLcBWC9gzsB6Cr7+c
+J22i7FRg6yCHIZxwrPXCjgga+QdGH5VIFAZ5KpBFBT+XianemFUNh9QThaMRnNuqsrrzLI0IZoqZ
+EgaYk5s0yg1SmkEo4JRqwK6oMn2Y1erFAB8ccAAZUYKt0VxOHtXN7+WpEzauGRJdm1oU+Q3ZY+sb
+h5iSn6Za2zYbiHkqQpPI+cn0W/lB+OxDW1HsrAzwIynyUs3yS1qXvHpDA/YUY1r8ckrYOmJOJcI3
+V7tB4yDytSSrqHzlgy1xY3xNbO3lgUGJElLU4O0BmTgswJTtWjYxUbdg0gLNcMQAHMi7rCJmOEWJ
+gf1ZTGlqgDNda9NuItpu4kQTbiz+QONh6zU7Z6BX3z/eLg+s2bL7DyX+5SCxKCue4zFOCe4TBlDu
+AWk/FSDyRk6amChZp7j1fXOqbr1mKNkHoAfSoCpMnsuhFg81Te/YGo0QDXOZPG6XEBgRIQlrdvrv
+cNAC4QGBGrQemPm9c2e3w37/RpPfgHO2ub69z+LRMN1w7gCJtUgfQKIJ63NqFpzUQqikOGZqTCnr
+zSNeZc0qxxKWK9afIhopHqBVeMrBuMrVyNcqCpQc4pxuYjyDzsj8pvgV/OtauICcZMs0mvBvBmz9
+jn8iix0TQ3zWhyy1+PGdaGpF1obicdEAyxvML+BY0CPTSAq0ifKowuhRLvwJSxYbOXgWxLIp0gNT
+eRJlUYHf4ljAmBZgT46Md54iY5vxweXojZSzr9fX2R9Pl5c/f7F/5cO8Xi9n3W7/J8Tywubl2S9i
+XWKqXP5rPxtBoub18u2bVh7RpckSrmhPaMPziOVkGRVYB62buFUCSwKBN4jyeIwRN3FT0hM+JQPO
+sIZN95O44VxAQQs9crwwLG+YvP5EWKk2pCFFsxJ+9CYqxhmquozV6nGyYgkjU9sdSblpiwrDg63O
+RGZYNqF4xlldz2w6YFIQS34k2wHRcul9SamLIWn5ZYHRjyGWxRB9Vf0EDEkoHM5Nf6WOJcCvRyQW
+P0A9CHQMm1Meer5rlkz3etPTwXPeQnHkMAL8kTcOaO+4R2jyFXfHUlMvdgO0iQjNbAeN/aZyKE4d
+VMTXRw9gR4ZglzQ9zp1KO8jX54Dlu5hQjrk+pn0qLP6U3BAVm8/tBn+a3DEs71xni6W8+W60z5i/
+vr4hHXndOiKap54eoa7nLqzIBFa5a6tL49AJ2OhBjU8lBi+0sWpCUufW10xz15KjLQ0J967lIAOg
+hpfe6LegCRuxoTE5gkH05AzEb+cK2NiRfsYCfni78OnMlVDXUR4kK/TORb9RftaZHNsJ0LaCKi9i
+x6hC9XT/zpbI58/KYzvK4+mR7tlIRwC6h0w9MGmF4EKZ6UMnrJyC4dOJL8QOriWGwFEdLsrQ/HP5
+bHr8nAe1Qh0ZnLlsIjXQe58wCB2bH2iztYMmwmbredgozkAkuuvh/B6yfuU09505Mo8u7+ahhc7O
+deXFqKVLzwCdDVlHvpyKu7zqdxrXl3/F1e52vxsfh+oTSsP+smwLqafudnIAdE8UfW0C1xrCsoIO
+SM8vb0xpvFkwKQzXeO4KHkThYsvUZBm03K3MB870VMRwfSuHZzxwqrRJF4m1nBilzct92l1B49YJ
+gq03LZ6wfRRMmzSq8K2xVva+WNHu2FnPyDcg87kW8ZDkawgcRQgcqWEHJY3tb+Ubvyqq+fU+v8eX
+ycLsjoOjM+eOXJe8Eb0xXwHEG3jJzbYklGpxfDo2sMjmx4HgyFxpYxnBr7YlDn7IiojXKtGlGAk7
++UXtDuIq886VFhCbWwESsKbGgKreqU+QWdshT63B1Ff/Da42FWuMjrxPKuxosEOXUZaV8h6xo5Oi
+2jWINPBMjkljmcgdZb8p4ekSK5ExerizyLfr1/fZ5uPH+fVf+9m3n+e3d+m8THredJu1z31dp6el
+fFRKm2hN5DPZGEy2pVMM8Vs/7hiowtc8H27kS9pul/92rHl4g40pyDKnpbHmhMbmd+zAZVkoF2sd
+GQY51scF2o8dvUaERpMZVXEWyP7EJLIzR0rAAUznl3BVDxyB0MYWVBn3pxJiG4UBz128rFFeZayJ
+SelYFjTCtAzBWcWO6wOj0RwD7rsozoZBaGG15sCNWidRrARo7KlMA8ptRB5DrPB2XXhiTKTiwk9i
+xkvOEH8+4ceqZ2mccMJ+VuJATddkfG6WCsgeVigA0ACcIy77fuvJee46kTkwVplnm60fwSEmKW2n
+DbFOBRMhqcvWxg0G+zEHHZM41hZza9PxxP4R3MOURgnyKvYds1mi5M52lkiZCoY14LcedailMpVT
+6fFJXOOw/cQoFsOyaFnF6MhgozPCZjJGT6Lb8wEPeIHI22EtBleUd65Bp55jjoXQ8czGZUQPJbZI
+rbbiXzjUm5wqXDPjvqVUlTtjYowVkbCv8fZ+/+3y8k2/M4keHs5P59fr8/m9P6fsnxypiOB+uX+6
+fpu9X2ePl2+X9/sncETDxBlpb/HJknr4j8u/Hi+vZ+ELVZHZ649JE7jyVNQRuFefZyPnz+SKk8n7
+H/cPjO0FPBJNVmnIL8BHBAOCuS+X4XO5nf06FIz9I2D68fL+/fx2URpykkfEyz2//9/19U9e6Y//
+nl//OSPPP86PPOMYbURv4Srv5P+mhK6r8Oi855fz67ePGe8W0KFILGeQBqE8HjqC8ZUmRYlT5PPb
+9QlO4z/taJ9xDvegyAjQdLm2N6Pp+ufj6/XyqPQA/kYRP7HXdf6hNwop0qV4l9myjCZMGPq9onBX
+jbPQdlWtIwhsg18gFoSeKK0mooxuaaAdoo2ShaLLY+bUJWac2XNoxlo9OcPjyQxoWYEpxdhBekTY
+u3zoZMVArCfuybLmPpENKeJJQdJWm5MJqtHRe2rfM/XyoJ4ae5QmmKjuqlS8Ab5/+/P8Lj3vHI3u
+VKQXciQZREYG8+yVJHtF0iwB4cr1xyanbVRAprRV9iVgstghqvc0KSHf/happMFgxxNDN6xIhZo5
+gX/rOJNsVdgPuI1h33i7q6QsO0aIgMR6ZKrsGiAOuBAyrumMdUMT7EJwTIBEtVDBxVw90pNQSjwX
+DZqu8Xg2KpxBtr5BkLA59vpEZQlU1blH4iROA0vftcjolHWyzEbZ/sRq4wpnZByd2/vPBKGBik02
+PdaBDB1ylL6Pp74M4svdZOo87+XyAcXmQCtScLuGbv6On64Pf87o9ecrFvkIInHVbSmZ7ggKGxrL
+VOnRtI61vLi1G7zhYiOj8edL2dwGzXVIGJFsWSqvpQZvd/lmh6kW4IsyanORShXT321Ka1Ce7zAX
+jN2S+nx9P4NLMOSUMs3LJu2uXUddcqCyvpfu0fUNkSpy+/H89g27jK+rnK6FDf0arNeAgB+dc0Zx
+JoRnrWQxrOVguHwg3EuhuEO5/nx5PDAtSnqkI4Aynv1CP97ez8+z8mUWf7/8+HX2Bnf7Xy8Pku2K
+0AaemVLJyPQaK7Xql3kEFumYwPPjZDITFU8sXq/3jw/X56l0KC4UwmP12+r1fH57uH86z+6ur+Ru
+SshnrJz38r/5cUqAgXHw7uf9EyvaZNlRXFKPII4gMXrv8fJ0eflLkzkunNxLYryTRyKWYrCs+1uf
+fjiUzftIi/3c0v1UAv51zH1MRh78UTxzLIskzSP1BE5mq9IapoAINxhSOEFHomw5HZcPGR6iNIxz
+hZI6opTsh4HRV8Kw0hrr26b7tJAsXtNjE/OLRC4g/eudadqT8QoFMw/5+LvQ+Ibad9CKRmyVxrZU
+HYMetagj907vpxNCyHNX3oGPdM0N/Ah0gU9Uere6mWWvmsLDt4MdQ92Ei8CNjJxo7nnyIV1H7k0O
+5eqC89Qas6UnsvJJ4Ix9t1rJWt5Ia2PliEcCNochmAeeRbsFTRTY1cyamqzXKTy067JVUPHniqJp
+1BL22VMYAgOLI7PQg/H4qyP37M+TxxjDDvSYuXNvIt4dRwNH3rBywv+z9mzLjes4/koqT7tV3dW2
+ZDv2w3mgJdlWW7dIsuPkRZVO3B3XJHY2lznT8/VLkKIEkqDPma196HYEQBQvIAiCINBuC1rgPGVD
+HCCJP2uBRuWz+U7AGUR4eyU01Nx6hMxzJK4PGR1rP0z5JlLXGCWIOu8WGBwUY72rwpnxaNZpvQu+
+Q2ASMvZU4Hu+5mDIrkZ41rUAvV8AOJnor01HOPEDB8zG46ERbLiFmgA9A5MIH0ZmVtwFE0/PrlLV
+66lPGg0BM2djLXDh/8Ea1nHU1WA2LMeYx6487FjKnyeDifncxAvIuAMX9PkeLtHQs5l2eYmBqXAH
+Nl3SQBxAeoAhYNHCIRI1cpkjob18y7ZRkhcRn3e1K8TBaqed8siE5nrx0mmsMQpP6sAbXdFGfoFz
++FEI3IzMOcjXAl8Ld8e3fhNcuzQo/JGnBUXLmrthVzkFFQkldVjGNldTLKzlcmB3WhWKdS7NQxlA
+n+QpSGxnvFeLIRsYAXowsuJzD3FOn75Oq6hKcJaa5cNWz29HmezZ7WIyHDj4plWsdqrQ/9S2u3g7
+HT8uouOjJo9BfpdRFbCETotlv9xq4K/PXD3TZtYqDUbeWKtbTyW/+bR/ET760klDXxjqhI9lsWpv
+ZlCLg6CI7vKWBIvxaKIvCPCsC7ogqKZD7dgtZtfOBI98u3M1GNChR6og9O20iz0aLpGVELqgWhYO
+P76qqByY7Z2Rr67fzJqdJ11eDo/K5QWMqgHX5U9HrOHTBHj5TqsuU73sMbkhqwr1nl2ojdT0gdoo
+kMa1C0prfJe8+wHhgQXH0bJ7PJho5uyxrzuscMhoRB/ecdR45pOMFY4nU03gjyeziV73sMjhujqG
+VKORfjSdTjzfJ6Mbst1Yvy4NkKnnCEgZFKMr0jWyFofK4zGOfSpFhqwZOqc4053dGdTj58uLipWI
+ri2Bv8omTW/5fmMZZcbwyU2UwLsxcqdS6fqlRtCpyNqRgFahNr7D/n8+98eH391Zy7/BwT8Mq29F
+kih7gLTzLOH84v7j9PYtPLx/vB1+fMIxE2bbs3TSofLp/n3/NeFk+8eL5HR6vfgv/p3/vvjZ1eMd
+1QOX/Z++2Yd2ONtCbXb8+v12en84ve45U1gCdJ4uhxMyIsWOVR7XOTA79zBTxUyLjT+wE0HqU3h5
+W+aND/Zxa3YLFHjPKnQvb+ul75l5bAyGtVsopdz+/vnjCS0bCvr2cVHef+wv0tPx8KFt/dkiGo0G
+I2PS+YOhI5NOi6TjLpNfQkhcOVm1z5fD4+HjNzVQLPV8OtjQqtZXqFUIuiJ5ObWuPA9JAflsjuWq
+3njURqWK+eKma98cYkbHUM0zmyLlB59DH3Dv5mV///75JoN6f/KuMXgy5jzp4KXFLq+mV3jjpiDW
+tifdTah2xNm2iYN05E1wKRhqlgQ4zuGTv+TwpEonYbWz2LuFmyeoZ7pD3j4SsSl6ZuhWmu9hU/lD
+bfex2Q2lA27PMRBZlzzsTnxIg6HRFmE18x1MLpAzV4CT1fDKjJ2KUKRpKEh9bzjVvZlS8HKnzzO4
+suxRe1eOmAywiwZ/nuDd5bLwWDHAyr+E8MYPBtgiAinh+d4q0SRPp41UiTcbOMJF60RkdlqBGuK7
+NN8rNtRiPJdFORjjmamKtRMUJ3U5drhYJVs+3qOA9vnlkmo0ojPMtagZ/kyWs6FP7sLzova1YNEF
+b4w30GFVPBzq9QbIiCqPb9R9H5s0+HzZbOMKd1gH0tWrOqj8kX6OJ0BXNCOpTq35gIzJuzsCM9Xq
+DaAr8tIVx4zGPmr0phoPpx5yh9oGWaJH7JYQX5Oi2ygVOzxasxdIR9igbTIZOqxNd3yY+KgMSeGs
+yxXpb3v/67j/kJYRQuKsp7MrrELDMzaGrAezGZZHrYksZcuMBFr6A1v6jozWaeCPPZxXqJWpohha
+m1BfsLUJxQJ81zmejnyHNFdUZeoP8ejpcFOak10oOxeyRL8+7/9lmDXFPmpDb9y0d9rF8+H5cLSG
+CK0mBF4QqBusF1/Bf+b4yHX7417X3VelPDztTbIIGUMMkHJT1AitNaKGqBrgF6IIaAcbGB24OEpT
+tc2gK9uuh0euUslUMMdfn8/879fT+0H4hREqkxDro6bI6UsOf6c0TZF+PX3wBfpA2qfHnkPohOBO
+S1pe+WZOS6MFOzi+zOgATcDURQLKJrVnM+pG1pt35wea1ElazIYDPbUL/Yrc5EB+FK6kENJhXgwm
+g3SJuWKeFh659ofJigs0JCTDotLE/6rA8YPjoIBMFfoV+yIZDl2HARzJJYme+6EaT0jTOyD8K0t8
+yKhLJNRYf8YjXNdV4Q0mCH1XMK7TTCyAKTisnu2VvyP4uhFz3Ua2Y3T61+EF1G7g6sfDu/RfpOYG
+KCVj8kYXxDovIXxI1Gy1u2DpfOiRlooCblFgD9YFuFOSXu5VucB35KrdTF/7d7xS2mDDC5RWBSup
+b2i822TsJ4OdnS2n6+iz3fP/67YoJe/+5RXMBuS8EfJpwLhUjVIcZyHZzQYT7AQvIb42GHXKNVvq
+2oVAIKauucjFqpl49kLMgFQtu7HFDkD8QUpwHWRckAHQokqaRW282jZYc57hYMj87LoBKr4IZneK
+7TiuvknM4jioMUI7yvWzvBaJG4iYO+U1+AIhDzxe+TjA7joh+PDARSxsfDILRNOrYMHajKWjZkdU
+RTXp2Ccx8zJIq3reGth1bx7AxyLK9fKG7C9JAkGMb6uAiJJRrG4vqs8f78Jxou+BNkSf8Ln8TQDb
+yNUaeh5AkouMwbm3p3trwhsqSWedl6XmgYCReokYU8Vc5WAOHEu22q0FQALHxeluml6b8YY0sjTe
+RUnfHCddsWONN83SZlXF9LGLRgV94KQKOIcX52vFimKVZ1GThulkQu7SgCwPoiQHW3gZRlouM31Y
+UdngbcI/Tp78zrGqMW+SAq1dpfAHNLyo1ezIwjLHISJbQDOPsxCyAhWBC4clh/FWe4/2j8sfBwjR
+8uXpz/aPfx4f5V+X7u/hXDq247bSNBjywBOhT4zHTrZJa9zNxcfb/YNYZE2JUWHRxh/A6bCGe5IV
+Fhs9AoId1zpCWsM1UJVvSkhrm/NtRqLFd0TYVcTKeh4x6tqfFA01isqnIM2ShFa1Fouxg6cV5crY
+oQsc56+D9lmWlRHQ7sHOaFcsGZa3wkeygLE0XAYslPC3RNY/XpDKKWC+tCij6C7qsV0721PRArgu
+yDdFQvrPiKLLaBnnWgyqfIEx5JQW+HBBp2hf6EkM1AyE+0q8Irs+TzbaAlJumHznyDcey6uZR939
+A2zrjIQgrRcstcu03DCLtMkLtChWMfZghaem88jvwUmczjf6npuDpLeoM2u92GAGMiGDw6d5AyS0
+ZSuv6GzlhlebPBo6PHMdR4hJnJORgdLLFV6+Ny1YWeFFmYNiEQgL+5V5DZZkLaDZsbrWohkqBN+C
+Qqz/gAqSr2iqKNiUcX1rvO83C9qgx3GjhgzCxAtL5wELVjiIQhRXIH5lvZG60II5sR6+yyYRXsRx
+tqCvs6APyH4gKvbd+v53V+doFKprHEVa2d3FO5AJAIKSUT20kxV5wc/Xm7xGImmHa4YLB0RJcymg
+8gwyBjRVUJJBIndUfQHIKt59dbNgNaM7YrmoPBcv5IGNVFpabY+6gp3ly45IsIaYokuTPzuacpNx
+rSzj6MYKO6HRWm2XYNn6c7UoowUkHJOpF3ozdZw4W77wVMMxAPjChqLJa4BJHlBIijF1Itl5Z+on
+ggPE2Xcu+YzYxeojXHIK24NzsalAs6HlAK59JzfgboEuviSkjSCZF7h34iSCayRrGSgBGWyzELyk
+bjUKV/241l7eFs6khZwChpac4IuqS7jR29TsACjdQiIwwo0aNYKZSTvUZO+KFIAmi2pxoUGsR+C5
+R+nhJce29DeszIyOkQgr7J6GrbleguqySOtmOzQBnlHboEaDyDZ1vqhGGiNLmM7bGwgIjgRdwAHo
+NEJG68AEOR8IyI6ES+lhEEQ6hrQjDf85T8CSGyYyfCRJfoM7CBGD+k5nQkdEacTbnhfaaLc3fx+e
+9PCEi0qserQjlKSW5OHXMk+/hdtQ6AOWOhBX+YzvwmTH9KtKnsSOMLB3/A1yjm/ChZK9qh70t6XB
+Nq++8QXgW7SD/7Oart3CEGBpxd/TINuW5AW/ogKRQEqrgnF9eORfUfg4h5A1VVT/cXl4P02n49nX
+4SVFuKkXU11ZkZ8luiGrjQVXAKy1QEDLG3L8zvaNNG287z8fTxc/qT4Tuou+CArQ2nTIw0gwodSJ
+9Q50HsRFj2knUXnZahUnYYlT/q2jMsNjZJjR6rSwHinpLRHGWsW3rouwCUq+KdRuZsJPv/grU4Hd
+TV05EIAG5DlEFY1SrbvyEsIqidIcjnJncAsLp3hGrAvGROuAbRAnY2FpqVYGS/FnGctbV3XsKiuM
+8X5kPH9fSM3ChrSMO7DgN3wNi5CTmoWHIEBSiXHoukBYbdKUkXdGuoKM8e/gBMN0OGp/IZFIwYDT
+ff5D9ZekvdPC1kqYODrsgZt5bCxDCgKZy+CKVCg/SRAkdzkB1T/ag6s6NMEM6kIGOFdvuTYnfSU3
+9SrK+M5BZZNQ86lkqc5cEiLVJut2pU6T1lQktOp6w6oV5jEFkWqV2sT1e2kNLZfaM+UK80ZaNJCf
+IqELaimE+YH2mqAo4bYPRPI782mDRzu4PpgdOLkbkfXjHHG+Wru7c7XQeaQDj9Zgb5yLq9x3dMdE
+6TwKQzK+eD8KJVumnFfkQMmyfHQetXMJnzSGbJ+a4pUak2ZVKIHU65bZbuQqkeMm1AsTJa+ok4j+
+o/0+XsAgvgNcDruVzE3v+A1KmsWt8nKcPkhiudyZt/e+TXiKh6+o6hzHHpDPoJAkYLxRckw7GZAk
+nIs6NLVmK6oRLsRCrgI3ejrqBalVQ+BCN9aJMBumVC9NJbGrrsjo0waqNX/nDdzAv0OvtZl6ge6E
+ro2Xj/ufz/cf+0ur5EDax899HC6eu7/FRbI9RHkWWYPKBQQFg38QyuPyksCt4c67kASTEYFO2Y5v
+kiCRdH9LkqtbW00YbKxpKSFSwyAbvjkzz6Myt0SDgp2JEN+RWEumTXIXU2dMfD99k5drQ6dUSEPg
+wTPe9YpnLTSzhDjsVQKp+QJKSEM7S5Z5XgMFiYQ3YessU5E2IakQKSLQ7KMEiPS6h3HF5nyV3oQF
+pZBwEkpeLktxYZAriTmSfELDMB6htdoHZXwNtNptshIfxcnnZomlFwdwxRBgzbqc697dklw1I86E
+BgkZZQJIe0L3nHrJyVRBVKzoFSyIdQ6FZ2Guq8igcELbA+NCX7Muc6xexk3EIJAJZKZZ0XUCqk0B
++dnceJfeKJDWVraHOpyaOzwcBBaQGY3uUEn4F/XLQ+beezm3ZbPCsVtPMCcnSCQjg0DPx0nV2RSa
+kU9d8NRIrvwrvfQeg11KNcx0PHC8Mx17TszYiXHVYDpxfmcydGI8V61xJgYDM3JinLWeTJzfmTkw
+M3/iKG021jynjLeoCaeTjGaaLNOq48hiAURxlQMDNZRHl1bI0BsPHI3iqKGOEsGm9YaqDw3NViqE
+q4kK75vtU4i/bhzl5Y7xE7qqVzR45moBeZ9fIxg5X6WdrYBkncfThpJzHXKj1zNlAajrOCuiAgcR
+3yoGFDyro02ZE5gy57tunK+sw9yWcZJQpS1ZRMPLKFrb4JjXSkZyMRHZBifH1toWU82rN+VaBlxD
+CNMqGiZ0bKRNFgNHU2cYeXOj+ZlpZ9bymu3+4fMN/Bit6PKwjmCj4y2Y5K83UVU3xokwJLKNuUrG
+d6+crIyzJbY/Qha+KDSKa49xFBzftYq4lrSCdNkyB6dDOWhNUBDZvBK+anUZO078zx6tKSS5fIlY
+dStWhlHGawonQXB8IHSFQEQcRFHtDCI8cHYJC14EbGTJKtnkIKyqgkx/Lg6nA0EKeYVlWmGkqFFo
+Xh7fOV9+e/9xOH77fN+/vZwe91+f9s+vyDNK2eb7nmZIAUyq9I9LuM36ePrz+OX3/cv9l+fT/ePr
+4fjl/f7nnlfw8PgFMj/9Aub68uP156Xkt/X+7bh/FqnS98LruOc76amyfzm9/b44HA9wne3w7/v2
+Dq3i6CyuoVHBuslgm/VbQ0CAIRibrvL6MaiiAWceREIeEjjqodDuZnRX1M2JpWq6y0tpo8AHbiKV
+g+GuJGBplAbFrQnd4egDElRcm5CSxeGET40g36JjO5h2YBmVx1dvv18/ThcPp7f9xentQrJA39uS
+mPfpkhVoVdTAng2PWEgCbdJqHcTFCjOsgbBfWTEsJxHQJi21iPwdjCTsNNMXs+LOmjBX5ddFYVOv
+sQOUKgFMFTYpXyXYkii3hXu64VigYIJTOwrtxW4DJhwrrOKXi6E3hbxpZhdkmySxqAFoV138hHYn
+CkN4YJG3uSN1YJQt46yLzFB8/ng+PHz9x/73xYPg1l+Qpfy3xaRlxaziwxXRVVEQOvZuCl+GdAz8
+tombcht54/FwpqrIPj+e4I7Lw/3H/vEiOop6wt2fPw8fTxfs/f30cBCo8P7j3qp4EKRWFywFzKxZ
+sOLrLvMGRZ7cOq5UdrNtGUPSJXteRdfxlig64gVz8agdPMjggyJkASwQ73bN5/aIBjhlsoLVNi8H
+dWUPfGC/m5Q3Fl2+mBPjWvDquHtkRzA8VzVuSmZPy2ylethmZEiBW2+o0YFjL7v/VvfvT67uS5nd
+fysKuKN6epuyLlhKePi1f/+wv1AGvkeMEYDtj+xI0TpP2DryqA6XGIetoftSPRyEMZVIXrG6+KrZ
+z90AWDIwHBEwgi7mHC3c8wOr8DINYW7YQwgIMoRFj/fGE3v5SEPfG9hzbcWGFJAqgoNlugizShxB
+Xlhvsalvta4Cn6B5vrQQ9bIczjwLfFPAl5VCcHh90kLedALFnj4c1tSEWpBt5rE9uVkZjEgmym/M
+zLUWF7E04hu2czKZwa7EMFoi3Jj4MsDJZDPt2hHZbViIX1uOrNgdsxe9iiUVI/hCiXH7BS23eQcs
+C+3SSzf0I3uEI0awUH2Tmz0sx/r08gr3BTUFu2u9OC+yxTE+VW9h05EtTOQZrAVb2ZOxPVaVN+bu
+j4+nl4vs8+XH/k3FyaGqx7IqboKizGwuD8v5UqWmIjCtfDX7SOLoNFyYhFrKAGEBv8d1HcFtpdLY
+DCKFreHq8xlTskGoVOK/RVw6PChNOlDL3U2Gugk/bWO/8Hz48XbPd0dvp8+Pw5FY2pJ4TooMAZeC
+wEa064m6LGaNLKIhcXJeda9Tn5AkNKpT685WQNP+bDQlNQCu1jOupsJ53vAcybkGOBWTvnW9fkgS
+ORag1Y3N19EWEvPYkUktfBSc0bx6Mvj0YMTsKcsp2hxz9Fcqtoh2QUSd1SGqIABnWKpwlib5Mg6a
+5S5xtaOncJ598l11mkZgZxJGKji50nbwClls5klLU23mTrK6SGma3Xgwa4KI98cCPIci6x5JsQ6q
+KXgPbwELZZgUqmzqzSuV0NCBhT0ZvIw8ieIlmKOKSPoKCbez3qdJCgYIP/RT7IDeRdL098Ovo7wG
+/PC0f/jH4fgLXXkT57fYMlhqyfNsfIUOyFtstKtLhrvJet+ikGfpo8Fsotn/8ixk5a1ZHcrWJsvl
+MihYJ3FVO2veUwgJCn9BA3rP3b/RW+3NfZeglcad4hovLQrWzPlemy90JZU0A+6UsLIRPpi6Fyuz
+HO9bzDzmKiVk+EN9rG70cm0zC8CiWeap4SuPSZIoc2CzCPx/Y3xQGORliMUv5/Q0arJNOteyDEr7
+MNNMEwGXAnzl1UDDib7+8qnn3pMETVxvGr0AfbPEH/s7opo0ERg+9aP5LR3iSSOhT39aElbesJpM
+OSrwfES0Kk1GRk2chVOHqnxZsHeKAQofYm4NOfOEeYr7oUPRzksAlU5/Ohw8+EDB0HXNO7mSGlDs
+eKVDqZI1BywMJT2vgJqsH+1tJcAU/e4OwOZzs8OJaVqYuE9d2LQxwye6LZCVKQWrV3xOWAhI9GSX
+Ow++42nQQh1JP/u2Ncs7HM4AIeYc4ZGY5C5lJGJ356DPHfARCdc9MZUgIU5luD4QNlWe5HrCcwSF
+g6ipA8W/eAY1REM6D5AFgz8Iv7JaxOpONSt/lQcxl1rbiI9eqeU+ZuJuKL5HDqAQd2QGNeAQuOIv
+DnZwZocUbgoFCRNObatIj5PA+WElyhPnAkC7yNU1+b+iCooNQQJYSOCEP9YfVHIkbC5cilS1TORo
+ofpfIzG+TPK5/oQFruqNRPcK7tigztM4wHMoSO6amqES4/IaFGn0xbSINV9i/rAIUQdCiAC4pM2X
+MnzRHqIi5KiY6n8rO5bdtmHYr/S4AVuxFgO2HXpQbGU14tipH826S5ClQRB0TYsmAfr540O29aDS
+7pZItB4URVIUSQFf5vjeQb9oUEPoxy/eNQVS3r0p67QnKn1+2e4OD5x15nG934T3thRVNlkYT3or
+4ISK0fNHvipgV0h8sS0HYZ/3FyLfohA3baabq941sVMrgxa+WkEU6CtnhpLqXEWeHr8rFCziCd8v
+ByLIhd1rY9NRiaq4rioAZ3QYnEfx2JtGtn/Xnw/bR6OS7Ql0xeUvIdZ5IOasHJRhMFubkHVnmMJQ
+23E2LT8BaEHWszyTb7ktoHSuqrGsAfxMRxhQnM3EwFpd0PXQtEVrGoabDnMZAyvTFKV49f3ix+Bv
+CuQ9A8aGCS/cKJ9Kq5Rag0r5mltjKhwM3QNelktnO55SzfGsGFI0VU1iqSF+DQ0Pw6bvQjwDK0vg
+/NIW/InKM8z5dykFVtsfsMOf7tjgoMG/l0CInMiStV11Wzpd/zlu6O3JbLc/vBwxWatFSlOFJ1E4
+SlCOoLCwv7rm5br68noxzNaGA307U3HE2h6zXYnxg1R5LqCQHVEJYIpZFE7QYd8S3tLHPCtImkyA
+JO2+8L/s5jKqlXxX/y70ujNlT9twjhi3FhhKjS9A364dKEp+ZHDSxKT7kZhkbhkBSejJzuZ0Hi+z
+uizkMxg3Uo4wursOx20qInJGBEUviHeAUTJHiVm4YOic7ZNTV1clLe32+LA5BkjKzSGCGz7VyZfe
+mlbn7Yj9fP2hsMtIi/LJ4h/A41JTpYu0Z3neIG9l/mUIhl5lItcSSagmpC1NFJCuYNfjWkQd6ghF
+SXkPst/4MEhqDha+Q8pAhN4ErzmlGF8HItBZ+fS8/3SGGeGPz8ydrpe7zd6l3gK4BQbrlTMxmsWu
+x9wmrR6CFbkS6aNsm6EYXVvaWf9gjIXuctyElY5qQBqzDUh9SCaJKHA/SmuhsLPFdQs4blQtO13N
+b0B6gAxJxQdrySbGvdi5sk7jmf3rQDjcH1Ei2OzDIUAv5x0XupoElXWEPbgYCW379InLM9F65nEV
+ti7h1f7ALT/sn7c7vO6H2TweD+vXNfxYH1bn5+cfbaLhhqsG9IRG/4p47xuqNM9wRne0aSLcdNW8
+1tM422EtHzY8TM3f6yaDBF+aGH5o2wAwMwXQXoN+/q7xYj7nAYk5wP4HW32DqJAA11+0BV7uwbqy
+6SSc74R5W7BGTGIPLNnul4flGYq0FdoKA+2T7IweMmam0F+YiFpNlZTiIpO5PrFhOACrRqHajal8
+u2QjzqaIjNjvKgHFGCNkVV4HUwexIW0ab+kGhROkDD6eGNg0HAj76ygQZoihJ4neaKvy8no4tfpG
+jIjqUn46k3PXDHgRa5/VoHc6AJxdBbQOPMNHnF4VvnYScZ4lX1n81nvAnNC+2z7tLyXEa1Xld+bw
+Zi+4/4F9em3W+wPuFuSKCb6PudysbV4yaYvIeaYjQjy8ldWQ10agyTDzTV+R5XVuH/2xhJWtzgDR
+d0hVUzXRnZuz2BPAUJZqFnr+52PkHm+PUFDAufdp0nUeaAmgGyTlLdPcYuY+zQtaE1rIkVj55fqi
+FXEKyx01QpxcsMDtlW0S/wAVt2qNNIMBAA==
+--===============8617155542172284079==--
 
