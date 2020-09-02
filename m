@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4405184402791456374=="
+Content-Type: multipart/mixed; boundary="===============1455847894741790473=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Wed, 02 Sep 2020 20:37:26 +0800
-Message-ID: <20200902123726.GA83184@b6768a2e92b6>
+Date: Wed, 02 Sep 2020 20:37:25 +0800
+Message-ID: <20200902123725.GA83097@b6768a2e92b6>
 In-Reply-To: <202009022030.kO26QkOc%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4405184402791456374==
+--===============1455847894741790473==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,20 +17,24 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Michal Januszewski <spock@gentoo.org>
-CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-CC: linux-fbdev(a)vger.kernel.org
-CC: dri-devel(a)lists.freedesktop.org
+CC: Hans de Goede <hdegoede@redhat.com>
+CC: Jean Delvare <jdelvare@suse.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: linux-hwmon(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/video/fbdev/uvesafb.c:1640:8-16: WARNING: use scnprintf or sprintf
-drivers/video/fbdev/uvesafb.c:1626:9-17: WARNING: use scnprintf or sprintf
-drivers/video/fbdev/uvesafb.c:1596:9-17: WARNING: use scnprintf or sprintf
-drivers/video/fbdev/uvesafb.c:1611:9-17: WARNING: use scnprintf or sprintf
-drivers/video/fbdev/uvesafb.c:1550:8-16: WARNING: use scnprintf or sprintf
-drivers/video/fbdev/uvesafb.c:1581:9-17: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:275:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:288:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:263:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:312:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:304:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:198:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:246:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:224:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:235:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5627.c:212:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -56,72 +60,122 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- uvesafb.c |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ sch5627.c |   20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
---- a/drivers/video/fbdev/uvesafb.c
-+++ b/drivers/video/fbdev/uvesafb.c
-@@ -1547,7 +1547,7 @@ static ssize_t uvesafb_show_vbe_ver(stru
- 	struct fb_info *info =3D dev_get_drvdata(dev);
- 	struct uvesafb_par *par =3D info->par;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%.4x\n", par->vbe_ib.vbe_version);
-+	return scnprintf(buf, PAGE_SIZE, "%.4x\n", par->vbe_ib.vbe_version);
+--- a/drivers/hwmon/sch5627.c
++++ b/drivers/hwmon/sch5627.c
+@@ -195,7 +195,7 @@ static int reg_to_rpm(u16 reg)
+ static ssize_t name_show(struct device *dev, struct device_attribute *deva=
+ttr,
+ 	char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%s\n", DEVNAME);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", DEVNAME);
  }
  =
 
- static DEVICE_ATTR(vbe_version, S_IRUGO, uvesafb_show_vbe_ver, NULL);
-@@ -1578,7 +1578,7 @@ static ssize_t uvesafb_show_vendor(struc
- 	struct uvesafb_par *par =3D info->par;
+ static ssize_t temp_show(struct device *dev, struct device_attribute *deva=
+ttr,
+@@ -209,7 +209,7 @@ static ssize_t temp_show(struct device *
+ 		return PTR_ERR(data);
  =
 
- 	if (par->vbe_ib.oem_vendor_name_ptr)
--		return snprintf(buf, PAGE_SIZE, "%s\n", (char *)
-+		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
- 			(&par->vbe_ib) + par->vbe_ib.oem_vendor_name_ptr);
- 	else
- 		return 0;
-@@ -1593,7 +1593,7 @@ static ssize_t uvesafb_show_product_name
- 	struct uvesafb_par *par =3D info->par;
- =
-
- 	if (par->vbe_ib.oem_product_name_ptr)
--		return snprintf(buf, PAGE_SIZE, "%s\n", (char *)
-+		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
- 			(&par->vbe_ib) + par->vbe_ib.oem_product_name_ptr);
- 	else
- 		return 0;
-@@ -1608,7 +1608,7 @@ static ssize_t uvesafb_show_product_rev(
- 	struct uvesafb_par *par =3D info->par;
- =
-
- 	if (par->vbe_ib.oem_product_rev_ptr)
--		return snprintf(buf, PAGE_SIZE, "%s\n", (char *)
-+		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
- 			(&par->vbe_ib) + par->vbe_ib.oem_product_rev_ptr);
- 	else
- 		return 0;
-@@ -1623,7 +1623,7 @@ static ssize_t uvesafb_show_oem_string(s
- 	struct uvesafb_par *par =3D info->par;
- =
-
- 	if (par->vbe_ib.oem_string_ptr)
--		return snprintf(buf, PAGE_SIZE, "%s\n",
-+		return scnprintf(buf, PAGE_SIZE, "%s\n",
- 			(char *)(&par->vbe_ib) + par->vbe_ib.oem_string_ptr);
- 	else
- 		return 0;
-@@ -1637,7 +1637,7 @@ static ssize_t uvesafb_show_nocrtc(struc
- 	struct fb_info *info =3D dev_get_drvdata(dev);
- 	struct uvesafb_par *par =3D info->par;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n", par->nocrtc);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", par->nocrtc);
+ 	val =3D reg_to_temp(data->temp[attr->index]);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
  }
  =
 
- static ssize_t uvesafb_store_nocrtc(struct device *dev,
---===============4405184402791456374==--
+ static ssize_t temp_fault_show(struct device *dev,
+@@ -221,7 +221,7 @@ static ssize_t temp_fault_show(struct de
+ 	if (IS_ERR(data))
+ 		return PTR_ERR(data);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", data->temp[attr->index] =3D=3D 0);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", data->temp[attr->index] =3D=3D 0=
+);
+ }
+ =
+
+ static ssize_t temp_max_show(struct device *dev,
+@@ -232,7 +232,7 @@ static ssize_t temp_max_show(struct devi
+ 	int val;
+ =
+
+ 	val =3D reg_to_temp_limit(data->temp_max[attr->index]);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t temp_crit_show(struct device *dev,
+@@ -243,7 +243,7 @@ static ssize_t temp_crit_show(struct dev
+ 	int val;
+ =
+
+ 	val =3D reg_to_temp_limit(data->temp_crit[attr->index]);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t fan_show(struct device *dev, struct device_attribute *devat=
+tr,
+@@ -260,7 +260,7 @@ static ssize_t fan_show(struct device *d
+ 	if (val < 0)
+ 		return val;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t fan_fault_show(struct device *dev,
+@@ -272,7 +272,7 @@ static ssize_t fan_fault_show(struct dev
+ 	if (IS_ERR(data))
+ 		return PTR_ERR(data);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
++	return scnprintf(buf, PAGE_SIZE, "%d\n",
+ 			data->fan[attr->index] =3D=3D 0xffff);
+ }
+ =
+
+@@ -285,7 +285,7 @@ static ssize_t fan_min_show(struct devic
+ 	if (val < 0)
+ 		return val;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t in_show(struct device *dev, struct device_attribute *devatt=
+r,
+@@ -301,7 +301,7 @@ static ssize_t in_show(struct device *de
+ 	val =3D DIV_ROUND_CLOSEST(
+ 		data->in[attr->index] * SCH5627_REG_IN_FACTOR[attr->index],
+ 		10000);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t in_label_show(struct device *dev,
+@@ -309,7 +309,7 @@ static ssize_t in_label_show(struct devi
+ {
+ 	struct sensor_device_attribute *attr =3D to_sensor_dev_attr(devattr);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
++	return scnprintf(buf, PAGE_SIZE, "%s\n",
+ 			SCH5627_IN_LABELS[attr->index]);
+ }
+=20
+--===============1455847894741790473==--
 
