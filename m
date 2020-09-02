@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1455847894741790473=="
+Content-Type: multipart/mixed; boundary="===============6153958579332091274=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Wed, 02 Sep 2020 20:37:25 +0800
-Message-ID: <20200902123725.GA83097@b6768a2e92b6>
+Date: Wed, 02 Sep 2020 20:37:24 +0800
+Message-ID: <20200902123723.GA83010@b6768a2e92b6>
 In-Reply-To: <202009022030.kO26QkOc%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1455847894741790473==
+--===============6153958579332091274==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,24 +17,19 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Hans de Goede <hdegoede@redhat.com>
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: linux-hwmon(a)vger.kernel.org
+CC: Borislav Petkov <bp@alien8.de>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Tony Luck <tony.luck@intel.com>
+CC: James Morse <james.morse@arm.com>
+CC: Robert Richter <rrichter@marvell.com>
+CC: linux-edac(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hwmon/sch5627.c:275:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:288:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:263:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:312:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:304:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:198:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:246:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:224:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:235:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/sch5627.c:212:8-16: WARNING: use scnprintf or sprintf
+drivers/edac/edac_mc_sysfs.c:210:8-16: WARNING: use scnprintf or sprintf
+drivers/edac/edac_mc_sysfs.c:490:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -60,122 +55,32 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- sch5627.c |   20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ edac_mc_sysfs.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/hwmon/sch5627.c
-+++ b/drivers/hwmon/sch5627.c
-@@ -195,7 +195,7 @@ static int reg_to_rpm(u16 reg)
- static ssize_t name_show(struct device *dev, struct device_attribute *deva=
-ttr,
- 	char *buf)
- {
--	return snprintf(buf, PAGE_SIZE, "%s\n", DEVNAME);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", DEVNAME);
+--- a/drivers/edac/edac_mc_sysfs.c
++++ b/drivers/edac/edac_mc_sysfs.c
+@@ -207,7 +207,7 @@ static ssize_t channel_dimm_label_show(s
+ 	if (!rank->dimm->label[0])
+ 		return 0;
+ =
+
+-	return snprintf(data, sizeof(rank->dimm->label) + 1, "%s\n",
++	return scnprintf(data, sizeof(rank->dimm->label) + 1, "%s\n",
+ 			rank->dimm->label);
  }
  =
 
- static ssize_t temp_show(struct device *dev, struct device_attribute *deva=
-ttr,
-@@ -209,7 +209,7 @@ static ssize_t temp_show(struct device *
- 		return PTR_ERR(data);
+@@ -487,7 +487,7 @@ static ssize_t dimmdev_label_show(struct
+ 	if (!dimm->label[0])
+ 		return 0;
  =
 
- 	val =3D reg_to_temp(data->temp[attr->index]);
--	return snprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+-	return snprintf(data, sizeof(dimm->label) + 1, "%s\n", dimm->label);
++	return scnprintf(data, sizeof(dimm->label) + 1, "%s\n", dimm->label);
  }
  =
 
- static ssize_t temp_fault_show(struct device *dev,
-@@ -221,7 +221,7 @@ static ssize_t temp_fault_show(struct de
- 	if (IS_ERR(data))
- 		return PTR_ERR(data);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n", data->temp[attr->index] =3D=3D 0);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", data->temp[attr->index] =3D=3D 0=
-);
- }
- =
-
- static ssize_t temp_max_show(struct device *dev,
-@@ -232,7 +232,7 @@ static ssize_t temp_max_show(struct devi
- 	int val;
- =
-
- 	val =3D reg_to_temp_limit(data->temp_max[attr->index]);
--	return snprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
- }
- =
-
- static ssize_t temp_crit_show(struct device *dev,
-@@ -243,7 +243,7 @@ static ssize_t temp_crit_show(struct dev
- 	int val;
- =
-
- 	val =3D reg_to_temp_limit(data->temp_crit[attr->index]);
--	return snprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
- }
- =
-
- static ssize_t fan_show(struct device *dev, struct device_attribute *devat=
-tr,
-@@ -260,7 +260,7 @@ static ssize_t fan_show(struct device *d
- 	if (val < 0)
- 		return val;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
- }
- =
-
- static ssize_t fan_fault_show(struct device *dev,
-@@ -272,7 +272,7 @@ static ssize_t fan_fault_show(struct dev
- 	if (IS_ERR(data))
- 		return PTR_ERR(data);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n",
-+	return scnprintf(buf, PAGE_SIZE, "%d\n",
- 			data->fan[attr->index] =3D=3D 0xffff);
- }
- =
-
-@@ -285,7 +285,7 @@ static ssize_t fan_min_show(struct devic
- 	if (val < 0)
- 		return val;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
- }
- =
-
- static ssize_t in_show(struct device *dev, struct device_attribute *devatt=
-r,
-@@ -301,7 +301,7 @@ static ssize_t in_show(struct device *de
- 	val =3D DIV_ROUND_CLOSEST(
- 		data->in[attr->index] * SCH5627_REG_IN_FACTOR[attr->index],
- 		10000);
--	return snprintf(buf, PAGE_SIZE, "%d\n", val);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
- }
- =
-
- static ssize_t in_label_show(struct device *dev,
-@@ -309,7 +309,7 @@ static ssize_t in_label_show(struct devi
- {
- 	struct sensor_device_attribute *attr =3D to_sensor_dev_attr(devattr);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n",
-+	return scnprintf(buf, PAGE_SIZE, "%s\n",
- 			SCH5627_IN_LABELS[attr->index]);
- }
-=20
---===============1455847894741790473==--
+ static ssize_t dimmdev_label_store(struct device *dev,
+--===============6153958579332091274==--
 
