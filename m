@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3633770545681875710=="
+Content-Type: multipart/mixed; boundary="===============0225162430717835253=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/irqchip/irq-ti-sci-inta.c:186 ti_sci_inta_alloc_parent_irq() warn: impossible condition '(p_hwirq < 0) => (0-u16max < 0)'
-Date: Thu, 03 Sep 2020 14:36:01 +0800
-Message-ID: <202009031459.S627C3CJ%lkp@intel.com>
+Subject: drivers/irqchip/irq-ti-sci-intr.c:148 ti_sci_intr_alloc_parent_irq() warn: impossible condition '(p_hwirq < 0) => (0-u16max < 0)'
+Date: Thu, 03 Sep 2020 12:38:53 +0800
+Message-ID: <202009031249.viAAKkTV%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3633770545681875710==
+--===============0225162430717835253==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,10 +20,10 @@ CC: Marc Zyngier <maz@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   fc3abb53250a90ba2150eebd182137c136f4d25a
-commit: 5c4b585d29102c7e6a6217112bbf1be774795cd7 irqchip/ti-sci-inta: Add s=
-upport for INTA directly connecting to GIC
+commit: a5b659bd4bc7518a8e45fda5256c5e5e8d3b7c49 irqchip/ti-sci-intr: Add s=
+upport for INTR being a parent to INTR
 date:   2 weeks ago
-:::::: branch date: 11 hours ago
+:::::: branch date: 9 hours ago
 :::::: commit date: 2 weeks ago
 config: arm64-randconfig-m031-20200902 (attached as .config)
 compiler: aarch64-linux-gcc (GCC) 9.3.0
@@ -33,146 +33,123 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/irqchip/irq-ti-sci-inta.c:186 ti_sci_inta_alloc_parent_irq() warn: =
+drivers/irqchip/irq-ti-sci-intr.c:148 ti_sci_intr_alloc_parent_irq() warn: =
 impossible condition '(p_hwirq < 0) =3D> (0-u16max < 0)'
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D5c4b585d29102c7e6a6217112bbf1be774795cd7
+/?id=3Da5b659bd4bc7518a8e45fda5256c5e5e8d3b7c49
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
 ds/linux.git
 git fetch --no-tags linus master
-git checkout 5c4b585d29102c7e6a6217112bbf1be774795cd7
-vim +186 drivers/irqchip/irq-ti-sci-inta.c
+git checkout a5b659bd4bc7518a8e45fda5256c5e5e8d3b7c49
+vim +148 drivers/irqchip/irq-ti-sci-intr.c
 
-5c4b585d29102c Lokesh Vutla   2020-08-06  164  =
+cd844b0715ceda Lokesh Vutla 2019-04-30  125  =
 
-9f1463b86c1327 Lokesh Vutla   2019-04-30  165  /**
-9f1463b86c1327 Lokesh Vutla   2019-04-30  166   * ti_sci_inta_alloc_parent_=
-irq() - Allocate parent irq to Interrupt aggregator
-9f1463b86c1327 Lokesh Vutla   2019-04-30  167   * @domain:	IRQ domain corre=
-sponding to Interrupt Aggregator
-9f1463b86c1327 Lokesh Vutla   2019-04-30  168   *
-9f1463b86c1327 Lokesh Vutla   2019-04-30  169   * Return 0 if all went well=
- else corresponding error value.
-9f1463b86c1327 Lokesh Vutla   2019-04-30  170   */
-9f1463b86c1327 Lokesh Vutla   2019-04-30  171  static struct ti_sci_inta_vi=
-nt_desc *ti_sci_inta_alloc_parent_irq(struct irq_domain *domain)
-9f1463b86c1327 Lokesh Vutla   2019-04-30  172  {
-9f1463b86c1327 Lokesh Vutla   2019-04-30  173  	struct ti_sci_inta_irq_doma=
-in *inta =3D domain->host_data;
-9f1463b86c1327 Lokesh Vutla   2019-04-30  174  	struct ti_sci_inta_vint_des=
-c *vint_desc;
-9f1463b86c1327 Lokesh Vutla   2019-04-30  175  	struct irq_fwspec parent_fw=
-spec;
-5c4b585d29102c Lokesh Vutla   2020-08-06  176  	struct device_node *parent_=
-node;
-9f1463b86c1327 Lokesh Vutla   2019-04-30  177  	unsigned int parent_virq;
-5c4b585d29102c Lokesh Vutla   2020-08-06  178  	u16 vint_id, p_hwirq;
-5c4b585d29102c Lokesh Vutla   2020-08-06  179  	int ret;
-9f1463b86c1327 Lokesh Vutla   2019-04-30  180  =
+cd844b0715ceda Lokesh Vutla 2019-04-30  126  /**
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  127   * ti_sci_intr_alloc_parent_ir=
+q() - Allocate parent IRQ
+cd844b0715ceda Lokesh Vutla 2019-04-30  128   * @domain:	Pointer to the int=
+errupt router IRQ domain
+cd844b0715ceda Lokesh Vutla 2019-04-30  129   * @virq:	Corresponding Linux =
+virtual IRQ number
+cd844b0715ceda Lokesh Vutla 2019-04-30  130   * @hwirq:	Corresponding hwirq=
+ for the IRQ within this IRQ domain
+cd844b0715ceda Lokesh Vutla 2019-04-30  131   *
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  132   * Returns parent irq if all w=
+ent well else appropriate error pointer.
+cd844b0715ceda Lokesh Vutla 2019-04-30  133   */
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  134  static int ti_sci_intr_alloc_p=
+arent_irq(struct irq_domain *domain,
+cd844b0715ceda Lokesh Vutla 2019-04-30  135  					unsigned int virq, u32 hw=
+irq)
+cd844b0715ceda Lokesh Vutla 2019-04-30  136  {
+cd844b0715ceda Lokesh Vutla 2019-04-30  137  	struct ti_sci_intr_irq_domain=
+ *intr =3D domain->host_data;
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  138  	struct device_node *parent_no=
+de;
+cd844b0715ceda Lokesh Vutla 2019-04-30  139  	struct irq_fwspec fwspec;
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  140  	u16 out_irq, p_hwirq;
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  141  	int err =3D 0;
+cd844b0715ceda Lokesh Vutla 2019-04-30  142  =
 
-9f1463b86c1327 Lokesh Vutla   2019-04-30  181  	vint_id =3D ti_sci_get_free=
-_resource(inta->vint);
-9f1463b86c1327 Lokesh Vutla   2019-04-30  182  	if (vint_id =3D=3D TI_SCI_R=
-ESOURCE_NULL)
-9f1463b86c1327 Lokesh Vutla   2019-04-30  183  		return ERR_PTR(-EINVAL);
-9f1463b86c1327 Lokesh Vutla   2019-04-30  184  =
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  143  	out_irq =3D ti_sci_get_free_r=
+esource(intr->out_irqs);
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  144  	if (out_irq =3D=3D TI_SCI_RES=
+OURCE_NULL)
+cd844b0715ceda Lokesh Vutla 2019-04-30  145  		return -EINVAL;
+cd844b0715ceda Lokesh Vutla 2019-04-30  146  =
 
-5c4b585d29102c Lokesh Vutla   2020-08-06  185  	p_hwirq =3D ti_sci_inta_xla=
-te_irq(inta, vint_id);
-5c4b585d29102c Lokesh Vutla   2020-08-06 @186  	if (p_hwirq < 0) {
-5c4b585d29102c Lokesh Vutla   2020-08-06  187  		ret =3D p_hwirq;
-5c4b585d29102c Lokesh Vutla   2020-08-06  188  		goto free_vint;
-5c4b585d29102c Lokesh Vutla   2020-08-06  189  	}
-5c4b585d29102c Lokesh Vutla   2020-08-06  190  =
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  147  	p_hwirq =3D ti_sci_intr_xlate=
+_irq(intr, out_irq);
+a5b659bd4bc751 Lokesh Vutla 2020-08-06 @148  	if (p_hwirq < 0)
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  149  		goto err_irqs;
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  150  =
 
-9f1463b86c1327 Lokesh Vutla   2019-04-30  191  	vint_desc =3D kzalloc(sizeo=
-f(*vint_desc), GFP_KERNEL);
-5c4b585d29102c Lokesh Vutla   2020-08-06  192  	if (!vint_desc) {
-5c4b585d29102c Lokesh Vutla   2020-08-06  193  		ret =3D -ENOMEM;
-5c4b585d29102c Lokesh Vutla   2020-08-06  194  		goto free_vint;
-5c4b585d29102c Lokesh Vutla   2020-08-06  195  	}
-9f1463b86c1327 Lokesh Vutla   2019-04-30  196  =
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  151  	parent_node =3D of_irq_find_p=
+arent(dev_of_node(intr->dev));
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  152  	fwspec.fwnode =3D of_node_to_=
+fwnode(parent_node);
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  153  =
 
-9f1463b86c1327 Lokesh Vutla   2019-04-30  197  	vint_desc->domain =3D domai=
-n;
-9f1463b86c1327 Lokesh Vutla   2019-04-30  198  	vint_desc->vint_id =3D vint=
-_id;
-9f1463b86c1327 Lokesh Vutla   2019-04-30  199  	INIT_LIST_HEAD(&vint_desc->=
-list);
-9f1463b86c1327 Lokesh Vutla   2019-04-30  200  =
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  154  	if (of_device_is_compatible(p=
+arent_node, "arm,gic-v3")) {
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  155  		/* Parent is GIC */
+cd844b0715ceda Lokesh Vutla 2019-04-30  156  		fwspec.param_count =3D 3;
+cd844b0715ceda Lokesh Vutla 2019-04-30  157  		fwspec.param[0] =3D 0;	/* SP=
+I */
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  158  		fwspec.param[1] =3D p_hwirq =
+- 32; /* SPI offset */
+cd844b0715ceda Lokesh Vutla 2019-04-30  159  		fwspec.param[2] =3D intr->ty=
+pe;
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  160  	} else {
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  161  		/* Parent is Interrupt Route=
+r */
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  162  		fwspec.param_count =3D 1;
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  163  		fwspec.param[0] =3D p_hwirq;
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  164  	}
+cd844b0715ceda Lokesh Vutla 2019-04-30  165  =
 
-5c4b585d29102c Lokesh Vutla   2020-08-06  201  	parent_node =3D of_irq_find=
-_parent(dev_of_node(&inta->pdev->dev));
-5c4b585d29102c Lokesh Vutla   2020-08-06  202  	parent_fwspec.fwnode =3D of=
-_node_to_fwnode(parent_node);
-5c4b585d29102c Lokesh Vutla   2020-08-06  203  =
+cd844b0715ceda Lokesh Vutla 2019-04-30  166  	err =3D irq_domain_alloc_irqs=
+_parent(domain, virq, 1, &fwspec);
+cd844b0715ceda Lokesh Vutla 2019-04-30  167  	if (err)
+cd844b0715ceda Lokesh Vutla 2019-04-30  168  		goto err_irqs;
+cd844b0715ceda Lokesh Vutla 2019-04-30  169  =
 
-5c4b585d29102c Lokesh Vutla   2020-08-06  204  	if (of_device_is_compatible=
-(parent_node, "arm,gic-v3")) {
-5c4b585d29102c Lokesh Vutla   2020-08-06  205  		/* Parent is GIC */
-5c4b585d29102c Lokesh Vutla   2020-08-06  206  		parent_fwspec.param_count =
-=3D 3;
-5c4b585d29102c Lokesh Vutla   2020-08-06  207  		parent_fwspec.param[0] =3D=
- 0;
-5c4b585d29102c Lokesh Vutla   2020-08-06  208  		parent_fwspec.param[1] =3D=
- p_hwirq - 32;
-5c4b585d29102c Lokesh Vutla   2020-08-06  209  		parent_fwspec.param[2] =3D=
- IRQ_TYPE_LEVEL_HIGH;
-5c4b585d29102c Lokesh Vutla   2020-08-06  210  	} else {
-5c4b585d29102c Lokesh Vutla   2020-08-06  211  		/* Parent is Interrupt Rou=
-ter */
-5c4b585d29102c Lokesh Vutla   2020-08-06  212  		parent_fwspec.param_count =
-=3D 1;
-5c4b585d29102c Lokesh Vutla   2020-08-06  213  		parent_fwspec.param[0] =3D=
- p_hwirq;
-5c4b585d29102c Lokesh Vutla   2020-08-06  214  	}
-9f1463b86c1327 Lokesh Vutla   2019-04-30  215  =
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  170  	err =3D intr->sci->ops.rm_irq=
+_ops.set_irq(intr->sci,
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  171  						intr->ti_sci_id, hwirq,
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  172  						intr->ti_sci_id, out_irq=
+);
+cd844b0715ceda Lokesh Vutla 2019-04-30  173  	if (err)
+cd844b0715ceda Lokesh Vutla 2019-04-30  174  		goto err_msg;
+cd844b0715ceda Lokesh Vutla 2019-04-30  175  =
 
-9f1463b86c1327 Lokesh Vutla   2019-04-30  216  	parent_virq =3D irq_create_=
-fwspec_mapping(&parent_fwspec);
-eb737b8f446044 Peter Ujfalusi 2019-06-04  217  	if (parent_virq =3D=3D 0) {
-5c4b585d29102c Lokesh Vutla   2020-08-06  218  		dev_err(&inta->pdev->dev, =
-"Parent IRQ allocation failed\n");
-5c4b585d29102c Lokesh Vutla   2020-08-06  219  		ret =3D -EINVAL;
-5c4b585d29102c Lokesh Vutla   2020-08-06  220  		goto free_vint_desc;
-5c4b585d29102c Lokesh Vutla   2020-08-06  221  =
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  176  	return p_hwirq;
+cd844b0715ceda Lokesh Vutla 2019-04-30  177  =
 
-9f1463b86c1327 Lokesh Vutla   2019-04-30  222  	}
-9f1463b86c1327 Lokesh Vutla   2019-04-30  223  	vint_desc->parent_virq =3D =
-parent_virq;
-9f1463b86c1327 Lokesh Vutla   2019-04-30  224  =
-
-9f1463b86c1327 Lokesh Vutla   2019-04-30  225  	list_add_tail(&vint_desc->l=
-ist, &inta->vint_list);
-9f1463b86c1327 Lokesh Vutla   2019-04-30  226  	irq_set_chained_handler_and=
-_data(vint_desc->parent_virq,
-9f1463b86c1327 Lokesh Vutla   2019-04-30  227  					 ti_sci_inta_irq_handle=
-r, vint_desc);
-9f1463b86c1327 Lokesh Vutla   2019-04-30  228  =
-
-9f1463b86c1327 Lokesh Vutla   2019-04-30  229  	return vint_desc;
-5c4b585d29102c Lokesh Vutla   2020-08-06  230  free_vint_desc:
-5c4b585d29102c Lokesh Vutla   2020-08-06  231  	kfree(vint_desc);
-5c4b585d29102c Lokesh Vutla   2020-08-06  232  free_vint:
-5c4b585d29102c Lokesh Vutla   2020-08-06  233  	ti_sci_release_resource(int=
-a->vint, vint_id);
-5c4b585d29102c Lokesh Vutla   2020-08-06  234  	return ERR_PTR(ret);
-9f1463b86c1327 Lokesh Vutla   2019-04-30  235  }
-9f1463b86c1327 Lokesh Vutla   2019-04-30  236  =
+cd844b0715ceda Lokesh Vutla 2019-04-30  178  err_msg:
+cd844b0715ceda Lokesh Vutla 2019-04-30  179  	irq_domain_free_irqs_parent(d=
+omain, virq, 1);
+cd844b0715ceda Lokesh Vutla 2019-04-30  180  err_irqs:
+a5b659bd4bc751 Lokesh Vutla 2020-08-06  181  	ti_sci_release_resource(intr-=
+>out_irqs, out_irq);
+cd844b0715ceda Lokesh Vutla 2019-04-30  182  	return err;
+cd844b0715ceda Lokesh Vutla 2019-04-30  183  }
+cd844b0715ceda Lokesh Vutla 2019-04-30  184  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3633770545681875710==
+--===============0225162430717835253==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICOiEUF8AAy5jb25maWcAnDzLctu4svv5ClVmc85icvSy4tQtLyASlHBEEjRASrI3LI2jZFzj
+H4sICANpUF8AAy5jb25maWcAnDzLctu4svv5ClVmc85icvSy4tQtLyASlHBEEjRASrI3LI2jZFzj
 2LmyPTP5+9sN8AGQTdl1s0hZ6AbQaDT6hQZ//eXXEXt9efp+eLm/Ozw8/Bx9Oz4eT4eX45fR1/uH
 4/+MQjlKZT7iocg/AnJ8//j6z38Op++L+eji4+eP499Od5PR5nh6PD6MgqfHr/ffXqH7/dPjL7/+
 Esg0EqsyCMotV1rItMz5Pr/6cDic7v5YzH97wMF++3Z3N/rXKgj+Pfr8cfZx/MHpJnQJgKufddOq
@@ -836,5 +813,5 @@ xds+Dck62qEx4ciYKdu9CnLiVn9HVQamD5zyuwFEle/8zSs/EF+z/UWC+RCAgc0T3kRMFHUdH8Gq
 C0c/HnOkLEGA+Skk3sTTQfvI0Pqc/ggbh/y9l+L2yyNLAb7eOkaa+E3qGMWswUHHQDvxi/WOgjd9
 KSS6A63xOgSEDi9e4gyzUVaDj46/tWUsU9CajwykShFy5HvoPuUYC1O8njdmX3Fqmh/hGIwjE8Ct
 fv4nFyPTNNI9GWeeiwrAeY8qR7cgJ45O3ZP9HyK+0HCyXgIA
---===============3633770545681875710==--
+--===============0225162430717835253==--
 
