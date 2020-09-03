@@ -1,27 +1,29 @@
-Content-Type: multipart/mixed; boundary="===============8569207228164442722=="
+Content-Type: multipart/mixed; boundary="===============5413841181773801048=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tobetter-linux:odroid-5.9.y 66/69] drivers/thermal/thermal_helpers.c:123 thermal_zone_get_temp() error: testing array offset 'tz->id' after use.
-Date: Fri, 04 Sep 2020 00:32:58 +0800
-Message-ID: <202009040050.QkhqDHSK%lkp@intel.com>
+Subject: [tobetter-linux:odroid-5.9.y 53/69] drivers/char/exynos-gpiomem.c:231 exynos_gpiomem_probe() error: we previously assumed 'inst' could be null (see line 156)
+Date: Thu, 03 Sep 2020 23:12:07 +0800
+Message-ID: <202009032302.vq6WblPi%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8569207228164442722==
+--===============5413841181773801048==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: "charles.park" <charles.park@hardkernel.com>
+TO: Brian Kim <brian.kim@hardkernel.com>
 CC: Dongjin Kim <tobetter@gmail.com>
+CC: memeka <mihailescu2m@gmail.com>
+CC: Yang Deokgyu <secugyu@gmail.com>
 
 tree:   https://github.com/tobetter/linux odroid-5.9.y
 head:   2f810ed6f99dfcdb64b0df67d13f1632038ddf70
-commit: 26ef3eed39da0a6d6d5d35c9e1d1da9d032a78bf [66/69] ODROID-XU4: Update=
- hack avoiding the invalid temperature by TMU broken
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
+commit: 1799117f3b467a68a80ffd687a7d4d450f7bf91a [53/69] ODROID-XU4: char: =
+exynos: add /dev/gpiomem device for rootless user GPIO access
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
 config: i386-randconfig-m021-20200902 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -30,130 +32,166 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/thermal/thermal_helpers.c:123 thermal_zone_get_temp() error: testin=
-g array offset 'tz->id' after use.
+drivers/char/exynos-gpiomem.c:231 exynos_gpiomem_probe() error: we previous=
+ly assumed 'inst' could be null (see line 156)
+drivers/char/exynos-gpiomem.c:231 exynos_gpiomem_probe() error: dereferenci=
+ng freed memory 'inst'
 
-# https://github.com/tobetter/linux/commit/26ef3eed39da0a6d6d5d35c9e1d1da9d=
-032a78bf
+# https://github.com/tobetter/linux/commit/1799117f3b467a68a80ffd687a7d4d45=
+0f7bf91a
 git remote add tobetter-linux https://github.com/tobetter/linux
 git fetch --no-tags tobetter-linux odroid-5.9.y
-git checkout 26ef3eed39da0a6d6d5d35c9e1d1da9d032a78bf
-vim +123 drivers/thermal/thermal_helpers.c
+git checkout 1799117f3b467a68a80ffd687a7d4d450f7bf91a
+vim +/inst +231 drivers/char/exynos-gpiomem.c
 
-26ef3eed39da0a charles.park     2018-06-01   81  =
+1799117f3b467a6 Brian Kim 2017-01-10  144  =
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07   82  int thermal_zone_get_temp(=
-struct thermal_zone_device *tz, int *temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   83  {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   84  	int ret =3D -EINVAL;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   85  	int count;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   86  	int crit_temp =3D INT_MAX;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   87  	enum thermal_trip_type ty=
-pe;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   88  =
+1799117f3b467a6 Brian Kim 2017-01-10  145  static int exynos_gpiomem_probe(=
+struct platform_device *pdev)
+1799117f3b467a6 Brian Kim 2017-01-10  146  {
+1799117f3b467a6 Brian Kim 2017-01-10  147  	int err =3D 0;
+1799117f3b467a6 Brian Kim 2017-01-10  148  	struct device *dev =3D &pdev->d=
+ev;
+1799117f3b467a6 Brian Kim 2017-01-10  149  	struct device_node *np =3D dev-=
+>of_node;
+1799117f3b467a6 Brian Kim 2017-01-10  150  	struct resource *res =3D NULL;
+1799117f3b467a6 Brian Kim 2017-01-10  151  	int i =3D 0;
+1799117f3b467a6 Brian Kim 2017-01-10  152  =
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07   89  	if (!tz || IS_ERR(tz) || =
-!tz->ops->get_temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07   90  		goto exit;
-cd221c7b638f83 Eduardo Valentin 2016-11-07   91  =
+1799117f3b467a6 Brian Kim 2017-01-10  153  	/* Allocate buffers and instanc=
+e data */
+1799117f3b467a6 Brian Kim 2017-01-10  154  	inst =3D kzalloc(sizeof(struct =
+exynos_gpiomem_instance), GFP_KERNEL);
+1799117f3b467a6 Brian Kim 2017-01-10  155  =
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07   92  	mutex_lock(&tz->lock);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   93  =
+1799117f3b467a6 Brian Kim 2017-01-10 @156  	if (!inst) {
+1799117f3b467a6 Brian Kim 2017-01-10  157  		err =3D -ENOMEM;
+1799117f3b467a6 Brian Kim 2017-01-10  158  		goto failed_inst_alloc;
+1799117f3b467a6 Brian Kim 2017-01-10  159  	}
+1799117f3b467a6 Brian Kim 2017-01-10  160  =
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07   94  	ret =3D tz->ops->get_temp=
-(tz, temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   95  =
+1799117f3b467a6 Brian Kim 2017-01-10  161  	inst->dev =3D dev;
+1799117f3b467a6 Brian Kim 2017-01-10  162  =
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07   96  	if (IS_ENABLED(CONFIG_THE=
-RMAL_EMULATION) && tz->emul_temperature) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   97  		for (count =3D 0; count =
-< tz->trips; count++) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07   98  			ret =3D tz->ops->get_tr=
-ip_type(tz, count, &type);
-cd221c7b638f83 Eduardo Valentin 2016-11-07   99  			if (!ret && type =3D=3D=
- THERMAL_TRIP_CRITICAL) {
-cd221c7b638f83 Eduardo Valentin 2016-11-07  100  				ret =3D tz->ops->get_t=
-rip_temp(tz, count,
-cd221c7b638f83 Eduardo Valentin 2016-11-07  101  						&crit_temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07  102  				break;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  103  			}
-cd221c7b638f83 Eduardo Valentin 2016-11-07  104  		}
-cd221c7b638f83 Eduardo Valentin 2016-11-07  105  =
+1799117f3b467a6 Brian Kim 2017-01-10  163  	inst->gpio_area_count =3D of_pr=
+operty_count_elems_of_size(np, "reg",
+1799117f3b467a6 Brian Kim 2017-01-10  164  				sizeof(u32)) / 2;
+1799117f3b467a6 Brian Kim 2017-01-10  165  =
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07  106  		/*
-cd221c7b638f83 Eduardo Valentin 2016-11-07  107  		 * Only allow emulating =
-a temperature when the real temperature
-cd221c7b638f83 Eduardo Valentin 2016-11-07  108  		 * is below the critical=
- temperature so that the emulation code
-cd221c7b638f83 Eduardo Valentin 2016-11-07  109  		 * cannot hide critical =
-conditions.
-cd221c7b638f83 Eduardo Valentin 2016-11-07  110  		 */
-cd221c7b638f83 Eduardo Valentin 2016-11-07  111  		if (!ret && *temp < crit=
-_temp)
-cd221c7b638f83 Eduardo Valentin 2016-11-07  112  			*temp =3D tz->emul_temp=
-erature;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  113  	}
-cd221c7b638f83 Eduardo Valentin 2016-11-07  114  =
+1799117f3b467a6 Brian Kim 2017-01-10  166  	if (inst->gpio_area_count > 32 =
+|| inst->gpio_area_count <=3D 0) {
+1799117f3b467a6 Brian Kim 2017-01-10  167  		dev_err(inst->dev, "failed to =
+get gpio register area.");
+1799117f3b467a6 Brian Kim 2017-01-10  168  		err =3D -EINVAL;
+1799117f3b467a6 Brian Kim 2017-01-10  169  		goto failed_inst_alloc;
+1799117f3b467a6 Brian Kim 2017-01-10  170  	}
+1799117f3b467a6 Brian Kim 2017-01-10  171  =
 
-26ef3eed39da0a charles.park     2018-06-01  115  	/* save thermal_zone data=
- */
-26ef3eed39da0a charles.park     2018-06-01  116  	if (!ret)
-26ef3eed39da0a charles.park     2018-06-01  117  		thermal_zone_data[tz->id=
-] =3D *temp;
-26ef3eed39da0a charles.park     2018-06-01  118  	/*
-26ef3eed39da0a charles.park     2018-06-01  119  	 * This case is that the =
-thermal sensor is broken.
-26ef3eed39da0a charles.park     2018-06-01  120  	 * That's not real temper=
-ature. Set the fake temperature value in order to
-26ef3eed39da0a charles.park     2018-06-01  121  	 * avoid reaching the cir=
-itical temperature.
-26ef3eed39da0a charles.park     2018-06-01  122  	 */
-26ef3eed39da0a charles.park     2018-06-01 @123  	if ((thermal_zone_data[tz=
-->id] > CRITICAL_TEMP) && (tz->id !=3D 4)) {
-26ef3eed39da0a charles.park     2018-06-01  124  		int i, broken_sensor =3D=
- 0, correct_temp =3D 0;
-26ef3eed39da0a charles.park     2018-06-01  125  		for (i =3D 0; i < 4; i++=
-) {
-26ef3eed39da0a charles.park     2018-06-01  126  			if ((thermal_zone_data[=
-i] <=3D CRITICAL_TEMP) &&
-26ef3eed39da0a charles.park     2018-06-01  127  			    (correct_temp <=3D =
-thermal_zone_data[i]))
-26ef3eed39da0a charles.park     2018-06-01  128  				correct_temp =3D therm=
-al_zone_data[i];
-26ef3eed39da0a charles.park     2018-06-01  129  			if (thermal_zone_data[i=
-] > CRITICAL_TEMP)
-26ef3eed39da0a charles.park     2018-06-01  130  				broken_sensor++;
-26ef3eed39da0a charles.park     2018-06-01  131  		}
-26ef3eed39da0a charles.park     2018-06-01  132  		/*
-26ef3eed39da0a charles.park     2018-06-01  133  		 * if all thermal sensor=
- broken then critical temperature data send
-26ef3eed39da0a charles.park     2018-06-01  134  		 * for system poweroff.
-26ef3eed39da0a charles.park     2018-06-01  135  		 */
-26ef3eed39da0a charles.park     2018-06-01  136  		*temp =3D (broken_sensor=
- =3D=3D 4) ? CRITICAL_TEMP : correct_temp;
-26ef3eed39da0a charles.park     2018-06-01  137  	}
-26ef3eed39da0a charles.park     2018-06-01  138  =
+1799117f3b467a6 Brian Kim 2017-01-10  172  	dev_info(inst->dev, "Initialise=
+d: GPIO register area is %d",
+1799117f3b467a6 Brian Kim 2017-01-10  173  			inst->gpio_area_count);
+1799117f3b467a6 Brian Kim 2017-01-10  174  =
 
-cd221c7b638f83 Eduardo Valentin 2016-11-07  139  	mutex_unlock(&tz->lock);
-cd221c7b638f83 Eduardo Valentin 2016-11-07  140  exit:
-cd221c7b638f83 Eduardo Valentin 2016-11-07  141  	return ret;
-cd221c7b638f83 Eduardo Valentin 2016-11-07  142  }
-cd221c7b638f83 Eduardo Valentin 2016-11-07  143  EXPORT_SYMBOL_GPL(thermal_=
-zone_get_temp);
-cd221c7b638f83 Eduardo Valentin 2016-11-07  144  =
+1799117f3b467a6 Brian Kim 2017-01-10  175  	for (i =3D 0; i < inst->gpio_ar=
+ea_count; ++i) {
+1799117f3b467a6 Brian Kim 2017-01-10  176  		res =3D platform_get_resource(=
+pdev, IORESOURCE_MEM, i);
+1799117f3b467a6 Brian Kim 2017-01-10  177  		if (res) {
+1799117f3b467a6 Brian Kim 2017-01-10  178  			inst->gpio_regs_phys[i] =3D r=
+es->start;
+1799117f3b467a6 Brian Kim 2017-01-10  179  		} else {
+1799117f3b467a6 Brian Kim 2017-01-10  180  			dev_err(inst->dev, "failed to=
+ get IO resource");
+1799117f3b467a6 Brian Kim 2017-01-10  181  			err =3D -ENOENT;
+1799117f3b467a6 Brian Kim 2017-01-10  182  			goto failed_get_resource;
+1799117f3b467a6 Brian Kim 2017-01-10  183  		}
+1799117f3b467a6 Brian Kim 2017-01-10  184  	}
+1799117f3b467a6 Brian Kim 2017-01-10  185  =
+
+1799117f3b467a6 Brian Kim 2017-01-10  186  	/* Create character device entr=
+ies */
+1799117f3b467a6 Brian Kim 2017-01-10  187  	err =3D alloc_chrdev_region(&ex=
+ynos_gpiomem_devid,
+1799117f3b467a6 Brian Kim 2017-01-10  188  				  DEVICE_MINOR, 1, DEVICE_NA=
+ME);
+1799117f3b467a6 Brian Kim 2017-01-10  189  	if (err !=3D 0) {
+1799117f3b467a6 Brian Kim 2017-01-10  190  		dev_err(inst->dev, "unable to =
+allocate device number");
+1799117f3b467a6 Brian Kim 2017-01-10  191  		goto failed_alloc_chrdev;
+1799117f3b467a6 Brian Kim 2017-01-10  192  	}
+1799117f3b467a6 Brian Kim 2017-01-10  193  	cdev_init(&exynos_gpiomem_cdev,=
+ &exynos_gpiomem_fops);
+1799117f3b467a6 Brian Kim 2017-01-10  194  	exynos_gpiomem_cdev.owner =3D T=
+HIS_MODULE;
+1799117f3b467a6 Brian Kim 2017-01-10  195  	err =3D cdev_add(&exynos_gpiome=
+m_cdev, exynos_gpiomem_devid, 1);
+1799117f3b467a6 Brian Kim 2017-01-10  196  	if (err !=3D 0) {
+1799117f3b467a6 Brian Kim 2017-01-10  197  		dev_err(inst->dev, "unable to =
+register device");
+1799117f3b467a6 Brian Kim 2017-01-10  198  		goto failed_cdev_add;
+1799117f3b467a6 Brian Kim 2017-01-10  199  	}
+1799117f3b467a6 Brian Kim 2017-01-10  200  =
+
+1799117f3b467a6 Brian Kim 2017-01-10  201  	/* Create sysfs entries */
+1799117f3b467a6 Brian Kim 2017-01-10  202  	exynos_gpiomem_class =3D class_=
+create(THIS_MODULE, DEVICE_NAME);
+1799117f3b467a6 Brian Kim 2017-01-10  203  	err =3D IS_ERR(exynos_gpiomem_c=
+lass);
+1799117f3b467a6 Brian Kim 2017-01-10  204  	if (err)
+1799117f3b467a6 Brian Kim 2017-01-10  205  		goto failed_class_create;
+1799117f3b467a6 Brian Kim 2017-01-10  206  =
+
+1799117f3b467a6 Brian Kim 2017-01-10  207  	exynos_gpiomem_dev =3D device_c=
+reate(exynos_gpiomem_class, NULL,
+1799117f3b467a6 Brian Kim 2017-01-10  208  					exynos_gpiomem_devid, NULL,
+1799117f3b467a6 Brian Kim 2017-01-10  209  					"gpiomem");
+1799117f3b467a6 Brian Kim 2017-01-10  210  	err =3D IS_ERR(exynos_gpiomem_d=
+ev);
+1799117f3b467a6 Brian Kim 2017-01-10  211  	if (err)
+1799117f3b467a6 Brian Kim 2017-01-10  212  		goto failed_device_create;
+1799117f3b467a6 Brian Kim 2017-01-10  213  =
+
+1799117f3b467a6 Brian Kim 2017-01-10  214  	for (i =3D 0; i < inst->gpio_ar=
+ea_count; ++i) {
+1799117f3b467a6 Brian Kim 2017-01-10  215  		dev_info(inst->dev, "Initialis=
+ed: Registers at 0x%08lx",
+1799117f3b467a6 Brian Kim 2017-01-10  216  				inst->gpio_regs_phys[i]);
+1799117f3b467a6 Brian Kim 2017-01-10  217  	}
+1799117f3b467a6 Brian Kim 2017-01-10  218  =
+
+1799117f3b467a6 Brian Kim 2017-01-10  219  	return 0;
+1799117f3b467a6 Brian Kim 2017-01-10  220  =
+
+1799117f3b467a6 Brian Kim 2017-01-10  221  failed_device_create:
+1799117f3b467a6 Brian Kim 2017-01-10  222  	class_destroy(exynos_gpiomem_cl=
+ass);
+1799117f3b467a6 Brian Kim 2017-01-10  223  failed_class_create:
+1799117f3b467a6 Brian Kim 2017-01-10  224  	cdev_del(&exynos_gpiomem_cdev);
+1799117f3b467a6 Brian Kim 2017-01-10  225  failed_cdev_add:
+1799117f3b467a6 Brian Kim 2017-01-10  226  	unregister_chrdev_region(exynos=
+_gpiomem_devid, 1);
+1799117f3b467a6 Brian Kim 2017-01-10  227  failed_alloc_chrdev:
+1799117f3b467a6 Brian Kim 2017-01-10  228  failed_get_resource:
+1799117f3b467a6 Brian Kim 2017-01-10  229  	kfree(inst);
+1799117f3b467a6 Brian Kim 2017-01-10  230  failed_inst_alloc:
+1799117f3b467a6 Brian Kim 2017-01-10 @231  	dev_err(inst->dev, "could not l=
+oad exynos_gpiomem");
+1799117f3b467a6 Brian Kim 2017-01-10  232  	return err;
+1799117f3b467a6 Brian Kim 2017-01-10  233  }
+1799117f3b467a6 Brian Kim 2017-01-10  234  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8569207228164442722==
+--===============5413841181773801048==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICMMPUV8AAy5jb25maWcAlDxJc9w2s/f8iinnkhyST4ulOPVKBwwIcpAhCAYAZ9GFpchjRxUt
+H4sICPD7UF8AAy5jb25maWcAlDxJc9w2s/f8iinnkhyST4ulOPVKBwwIcpAhCAYAZ9GFpchjRxUt
 fiPpS/zvXzfABQBBOS8HR0Q3tkbvaMz3332/IK8vTw83L3e3N/f3XxefD4+H483L4ePi09394X8W
 mVxU0ixYxs3PgFzePb7+85+78w+Xi4uff/355Kfj7flifTg+Hu4X9Onx093nV+h99/T43fffUVnl
 vGgpbTdMaS6r1rCduXr3+fb2p18XP2SHP+5uHhe//nwOw5xe/Oj+eud147otKL362jcV41BXv56c
@@ -692,5 +730,5 @@ iOEZSyKpmwjB62lJCPqUp61oMvU8IKtMRzReJ05StFH0yoZmibiYGirrWIdrcV4PzJXTy/AzZBnE
 bd8h6B0haqSgLuftQlfMZV5U99ZCCb7mUqYXie1qt0elDC0IISZbXz6vSFB1Jy1L4zYXvTlUDEFS
 eOZbIuOF2LcOs5FYITp6lFGt7+B9Xlkrdm1kLywTcUj4qUlEu6hX6qEaDyAtzrivHDmzMFEOKO4e
 VZrNGjhsgcfLbWP6x9Rwvgm5Dj5dHGlxwVWhBUZlqli66Jt8jE76wRl2opDlffL/AZmLISTO2AEA
---===============8569207228164442722==--
+--===============5413841181773801048==--
 
