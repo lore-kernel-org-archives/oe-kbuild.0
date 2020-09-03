@@ -1,28 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============7020275074528835996=="
+Content-Type: multipart/mixed; boundary="===============1429132288674809784=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tglx-devel:devicemsi 44/46] drivers/base/platform-msi.c:468:6: warning: Variable 'ret' is reassigned a value before the old one has been used.
-Date: Wed, 09 Sep 2020 13:50:12 +0800
-Message-ID: <202009091307.2jesHO2v%lkp@intel.com>
+Subject: Re: [PATCH v2 16/23] drm/virtio: implement blob resources: implement vram object
+Date: Thu, 03 Sep 2020 10:00:55 +0800
+Message-ID: <202009030939.nmH7l4Ij%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7020275074528835996==
+--===============1429132288674809784==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Thomas Gleixner <tglx@linutronix.de>
+In-Reply-To: <20200902210847.2689-17-gurchetansingh@chromium.org>
+References: <20200902210847.2689-17-gurchetansingh@chromium.org>
+TO: Gurchetan Singh <gurchetansingh@chromium.org>
+TO: dri-devel(a)lists.freedesktop.org
+TO: virtio-dev(a)lists.oasis-open.org
+CC: sebastien.boeuf(a)intel.com
+CC: kraxel(a)redhat.com
+CC: vgoyal(a)redhat.com
+CC: mst(a)redhat.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git devi=
-cemsi
-head:   71cbf478eb6fe6a5dd4c13870a7922a191ec5ef9
-commit: 3e23a5988eb9ffcf972c62125a2d6fe9ad233918 [44/46] platform-msi: Add =
-device MSI infrastructure
-:::::: branch date: 2 weeks ago
-:::::: commit date: 2 weeks ago
-compiler: riscv64-linux-gcc (GCC) 9.3.0
+Hi Gurchetan,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-tip/drm-tip]
+[also build test WARNING on next-20200902]
+[cannot apply to drm-intel/for-linux-next tegra-drm/drm/tegra/for-next linu=
+s/master drm/drm-next drm-exynos/exynos-drm-next v5.9-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Gurchetan-Singh/Blob-prere=
+quisites-blob-resources/20200903-051203
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
+compiler: nios2-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -30,73 +48,80 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/base/platform-msi.c:468:6: warning: Variable 'ret' is reassigned=
- a value before the old one has been used. [redundantAssignment]
-    ret =3D __msi_domain_alloc_irqs(domain, dev, nvec);
-        ^
-   drivers/base/platform-msi.c:458:0: note: Variable 'ret' is reassigned a =
-value before the old one has been used.
-    int i, ret =3D -ENOMEM;
-   ^
-   drivers/base/platform-msi.c:468:6: note: Variable 'ret' is reassigned a =
-value before the old one has been used.
-    ret =3D __msi_domain_alloc_irqs(domain, dev, nvec);
-        ^
+>> drivers/gpu/drm/virtio/virtgpu_vram.c:160:2: warning: Address of local a=
+uto-variable assigned to a function parameter. [autoVariables]
+    *bo_ptr =3D &vram->base;
+    ^
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/tglx/devel.git/commit/?id=
-=3D3e23a5988eb9ffcf972c62125a2d6fe9ad233918
-git remote add tglx-devel https://git.kernel.org/pub/scm/linux/kernel/git/t=
-glx/devel.git
-git fetch --no-tags tglx-devel devicemsi
-git checkout 3e23a5988eb9ffcf972c62125a2d6fe9ad233918
-vim +/ret +468 drivers/base/platform-msi.c
+# https://github.com/0day-ci/linux/commit/9897d1cd285de886f453bed042d53ff47=
+9eff90f
+git remote add linux-review https://github.com/0day-ci/linux
+git fetch --no-tags linux-review Gurchetan-Singh/Blob-prerequisites-blob-re=
+sources/20200903-051203
+git checkout 9897d1cd285de886f453bed042d53ff479eff90f
+vim +160 drivers/gpu/drm/virtio/virtgpu_vram.c
 
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  447  =
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  122  =
 
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  448  /**
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  449   * device_msi_alloc_irqs - =
-Allocate MSI interrupts for a device
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  450   * @dev:	Pointer to the dev=
-ice
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  451   * @nvec:	Number of vectors
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  452   *
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  453   * Allocates the required n=
-umber of MSI descriptors and the corresponding
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  454   * interrupt descriptors.
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  455   */
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  456  static int device_msi_alloc=
-_irqs(struct irq_domain *domain, struct device *dev, int nvec)
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  457  {
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  458  	int i, ret =3D -ENOMEM;
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  459  =
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  123  int virtio_gpu_vram_create(st=
+ruct virtio_gpu_device *vgdev,
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  124  			   struct virtio_gpu_objec=
+t_params *params,
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  125  			   struct virtio_gpu_objec=
+t **bo_ptr)
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  126  {
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  127  	struct drm_gem_object *obj;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  128  	struct virtio_gpu_object_vra=
+m *vram;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  129  	int ret;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  130  =
 
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  460  	for (i =3D 0; i < nvec; i+=
-+) {
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  461  		struct msi_desc *entry =
-=3D alloc_msi_entry(dev, 1, NULL);
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  462  =
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  131  	vram =3D kzalloc(sizeof(*vra=
+m), GFP_KERNEL);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  132  	if (!vram)
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  133  		return -ENOMEM;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  134  =
 
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  463  		if (!entry)
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  464  			goto fail;
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  465  		list_add_tail(&entry->lis=
-t, dev_to_msi_list(dev));
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  466  	}
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  467  =
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  135  	obj =3D &vram->base.base.bas=
+e;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  136  	obj->funcs =3D &virtio_gpu_v=
+ram_funcs;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  137  	drm_gem_private_object_init(=
+vgdev->ddev, obj, params->size);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  138  =
 
-3e23a5988eb9ff Thomas Gleixner 2020-08-21 @468  	ret =3D __msi_domain_alloc=
-_irqs(domain, dev, nvec);
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  469  	if (!ret)
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  470  		return 0;
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  471  fail:
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  472  	device_msi_free_msi_entrie=
-s(dev);
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  473  	return ret;
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  474  }
-3e23a5988eb9ff Thomas Gleixner 2020-08-21  475  =
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  139  	/* Create fake offset */
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  140  	ret =3D drm_gem_create_mmap_=
+offset(obj);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  141  	if (ret) {
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  142  		kfree(vram);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  143  		return ret;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  144  	}
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  145  =
 
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  146  	ret =3D virtio_gpu_resource_=
+id_get(vgdev, &vram->base.hw_res_handle);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  147  	if (ret) {
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  148  		kfree(vram);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  149  		return ret;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  150  	}
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  151  =
+
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  152  	if (params->blob_flags & VIR=
+TGPU_BLOB_FLAG_USE_MAPPABLE) {
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  153  		ret =3D virtio_gpu_vram_map=
+(&vram->base);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  154  		if (ret) {
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  155  			virtio_gpu_vram_free(obj);
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  156  			return ret;
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  157  		}
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  158  	}
+9897d1cd285de8 Gerd Hoffmann 2020-09-02  159  =
+
+9897d1cd285de8 Gerd Hoffmann 2020-09-02 @160  	*bo_ptr =3D &vram->base;
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7020275074528835996==--
+--===============1429132288674809784==--
 
