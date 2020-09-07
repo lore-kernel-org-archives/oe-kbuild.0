@@ -1,17 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============7310721754879284855=="
+Content-Type: multipart/mixed; boundary="===============7512348873641647032=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH V3] fuse: Fix VM_BUG_ON_PAGE issue while accessing zero ref count page
-Date: Mon, 07 Sep 2020 15:13:25 +0300
-Message-ID: <20200907121325.GK8299@kadam>
-In-Reply-To: <1599412344-495-1-git-send-email-ppvk@codeaurora.org>
+Date: Mon, 07 Sep 2020 13:37:29 +0800
+Message-ID: <202009071339.DEqLjUmt%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7310721754879284855==
+--===============7512348873641647032==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <1599412344-495-1-git-send-email-ppvk@codeaurora.org>
+References: <1599412344-495-1-git-send-email-ppvk@codeaurora.org>
+TO: Pradeep P V K <ppvk@codeaurora.org>
+TO: miklos(a)szeredi.hu
+TO: linux-fsdevel(a)vger.kernel.org
+TO: willy(a)infradead.org
+CC: stummala(a)codeaurora.org
+CC: sayalil(a)codeaurora.org
+CC: Pradeep P V K <ppvk@codeaurora.org>
 
 Hi Pradeep,
 
@@ -27,6 +37,8 @@ url:    https://github.com/0day-ci/linux/commits/Pradeep-P-V-K/fuse-Fix-VM_=
 BUG_ON_PAGE-issue-while-accessing-zero-ref-count-page/20200907-111835
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git f=
 or-next
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
 config: i386-randconfig-m021-20200907 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -49,6 +61,8 @@ e-while-accessing-zero-ref-count-page/20200907-111835
 git checkout f99df00de1b2265fba75dceb63724c2a9b0f1e52
 vim +904 fs/fuse/dev.c
 
+ce534fb052928c Miklos Szeredi     2010-05-25  876  =
+
 c3021629a0d820 Miklos Szeredi     2010-05-25  877  static int fuse_ref_page=
 (struct fuse_copy_state *cs, struct page *page,
 f99df00de1b226 Pradeep P V K      2020-09-06  878  			 unsigned offset, uns=
@@ -68,9 +82,6 @@ dc00809a53edd1 Miklos Szeredi     2015-07-01  887  	err =3D unlock_request(=
 cs->req);
 0d8e84b0432beb Miklos Szeredi     2015-07-01  888  	if (err)
 0d8e84b0432beb Miklos Szeredi     2015-07-01  889  		return err;
-                                                                ^^^^^^^^^^
-Unlock before returning?
-
 0d8e84b0432beb Miklos Szeredi     2015-07-01  890  =
 
 c3021629a0d820 Miklos Szeredi     2010-05-25  891  	fuse_copy_finish(cs);
@@ -91,12 +102,14 @@ c3021629a0d820 Miklos Szeredi     2010-05-25  903  =
 
 c3021629a0d820 Miklos Szeredi     2010-05-25 @904  	return 0;
 c3021629a0d820 Miklos Szeredi     2010-05-25  905  }
+c3021629a0d820 Miklos Szeredi     2010-05-25  906  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7310721754879284855==
+--===============7512348873641647032==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -741,5 +754,5 @@ dQ5dUfP3qyWTfcxpAz1H+VhBEj6zhB2+mh6yCZctv99aDMhDbSR4udrma0z2VXnW/EEgs1eqeS/X
 7F5eUZdAxTh6/M/uefvdKBOwai3LC/30jZIKbG9wBZPXtDVZHMkldqiXFtHxpouKI/yhbj0s1pDx
 ZOzk5bLBDKu/fEAzTDLPsa+diyRVBuOQMZoo5qjEGZKE3SBztUBPZVmkQ5/td9pPG6ItcHzeQtob
 o2o4RuFsUMSltaUrkPNIlFG6Pnlhs5MHLC+oiR5cPV4gqLr6/T+u8ylJeT0CAA==
---===============7310721754879284855==--
+--===============7512348873641647032==--
 
