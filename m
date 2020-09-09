@@ -1,24 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============7569928051922244540=="
+Content-Type: multipart/mixed; boundary="===============5778877903819325971=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] vhost: new vhost_vdpa SET/GET_BACKEND_FEATURES handlers
-Date: Wed, 09 Sep 2020 20:23:54 +0300
-Message-ID: <20200909172354.GA12635@kadam>
-In-Reply-To: <20200909022233.26559-1-lingshan.zhu@intel.com>
+Date: Thu, 10 Sep 2020 00:02:30 +0800
+Message-ID: <202009092359.hMC2RujW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7569928051922244540==
+--===============5778877903819325971==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200909022233.26559-1-lingshan.zhu@intel.com>
+References: <20200909022233.26559-1-lingshan.zhu@intel.com>
+TO: Zhu Lingshan <lingshan.zhu@intel.com>
+TO: jasowang(a)redhat.com
+TO: mst(a)redhat.com
+CC: virtualization(a)lists.linux-foundation.org
+CC: netdev(a)vger.kernel.org
+CC: kvm(a)vger.kernel.org
+CC: Zhu Lingshan <lingshan.zhu@intel.com>
+
 Hi Zhu,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on vhost/linux-next]
+[also build test WARNING on v5.9-rc4 next-20200908]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Zhu-Lingshan/vhost-new-vho=
 st_vdpa-SET-GET_BACKEND_FEATURES-handlers/20200909-115726
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mst/vhost.git linux=
 -next
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
 config: parisc-randconfig-m031-20200909 (attached as .config)
 compiler: hppa-linux-gcc (GCC) 9.3.0
 
@@ -30,6 +50,16 @@ New smatch warnings:
 drivers/vhost/vdpa.c:356 vhost_vdpa_get_backend_features() warn: maybe retu=
 rn -EFAULT instead of the bytes remaining?
 
+Old smatch warnings:
+drivers/vhost/vdpa.c:663 vhost_vdpa_process_iotlb_update() warn: should '(l=
+ast_pfn - map_pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:665 vhost_vdpa_process_iotlb_update() warn: should 'ma=
+p_pfn << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:680 vhost_vdpa_process_iotlb_update() warn: should '(l=
+ast_pfn - map_pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:681 vhost_vdpa_process_iotlb_update() warn: should 'ma=
+p_pfn << 12' be a 64 bit type?
+
 # https://github.com/0day-ci/linux/commit/f2da8fc35b4ef003de7d559a8c7730fed=
 f9926f8
 git remote add linux-review https://github.com/0day-ci/linux
@@ -37,6 +67,10 @@ git fetch --no-tags linux-review Zhu-Lingshan/vhost-new-vhost_vdpa-SET-GET_=
 BACKEND_FEATURES-handlers/20200909-115726
 git checkout f2da8fc35b4ef003de7d559a8c7730fedf9926f8
 vim +356 drivers/vhost/vdpa.c
+
+2cf1ba9a4d15cb Zhu Lingshan 2020-07-31  346  =
+
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  347  =
 
 f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  348  static long vhost_vdpa_get_bac=
 kend_features(void __user *argp)
@@ -52,23 +86,38 @@ f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  354  	r =3D copy_to_user(featurep, =
 f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  355  =
 
 f2da8fc35b4ef0 Zhu Lingshan 2020-09-09 @356  	return r;
-
-copy_to_user() returns the number of bytes remaining.  I haven't looked
-at how this is called but it should probably return negative error codes
-on error:
-
-	if (copy_to_user(featurep, &features, sizeof(features)))
-		return -EFAULT;
-
-	return 0;
-
 f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  357  }
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  358  static long vhost_vdpa_set_bac=
+kend_features(struct vhost_vdpa *v, void __user *argp)
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  359  {
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  360  	u64 __user *featurep =3D argp;
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  361  	u64 features;
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  362  =
+
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  363  	if (copy_from_user(&features,=
+ featurep, sizeof(features)))
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  364  		return -EFAULT;
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  365  =
+
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  366  	if (features & ~VHOST_VDPA_BA=
+CKEND_FEATURES)
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  367  		return -EOPNOTSUPP;
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  368  =
+
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  369  	vhost_set_backend_features(&v=
+->vdev, features);
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  370  =
+
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  371  	return 0;
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  372  }
+f2da8fc35b4ef0 Zhu Lingshan 2020-09-09  373  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7569928051922244540==
+--===============5778877903819325971==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -612,5 +661,5 @@ YJDNTVwt8KbAFb0tOlUaCBDg9bNDgpEQ1KQhpTpl0CgGAFS3Bb5D0sybzZ4pi7RIhjx+lC0tzgNo
 Fd5efd6+7P9vxclY0yzYI8Aq2s3H0T0YxUGwbjK6XuRBi5DU4hJQOQSqcpzzy1KLEtNRDnf3DvXD
 0VmF5V9Qnx18/rwXpFeHVTH0FAxsalDbMcAWirN/GNRXqCdJBgGjCjQpAMphoLAHzV5jtQwYgDhH
 cPB6G2P5KWRABwD6nZx/teIBAA==
---===============7569928051922244540==--
+--===============5778877903819325971==--
 
