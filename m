@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6815535136439729233=="
+Content-Type: multipart/mixed; boundary="===============3679309526804111222=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Thu, 10 Sep 2020 16:53:26 +0800
-Message-ID: <20200910085325.GA166674@27a6d1d494cf>
+Date: Thu, 10 Sep 2020 16:53:24 +0800
+Message-ID: <20200910085324.GA166587@27a6d1d494cf>
 In-Reply-To: <202009101641.j9NDzwl2%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6815535136439729233==
+--===============3679309526804111222==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,7 +17,7 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Harald Welte <laforge@gnumonks.org>
+CC: "Matan Ziv-Av" <matan@svgalib.org>
 CC: Darren Hart <dvhart@infradead.org>
 CC: Andy Shevchenko <andy@infradead.org>
 CC: platform-driver-x86(a)vger.kernel.org
@@ -25,14 +25,11 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/platform/x86/panasonic-laptop.c:371:8-16: WARNING: use scnprintf or=
- sprintf
-drivers/platform/x86/panasonic-laptop.c:383:8-16: WARNING: use scnprintf or=
- sprintf
-drivers/platform/x86/panasonic-laptop.c:359:8-16: WARNING: use scnprintf or=
- sprintf
-drivers/platform/x86/panasonic-laptop.c:395:8-16: WARNING: use scnprintf or=
- sprintf
+drivers/platform/x86/lg-laptop.c:496:8-16: WARNING: use scnprintf or sprintf
+drivers/platform/x86/lg-laptop.c:322:8-16: WARNING: use scnprintf or sprintf
+drivers/platform/x86/lg-laptop.c:447:8-16: WARNING: use scnprintf or sprintf
+drivers/platform/x86/lg-laptop.c:406:8-16: WARNING: use scnprintf or sprintf
+drivers/platform/x86/lg-laptop.c:364:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -58,57 +55,67 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- panasonic-laptop.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ lg-laptop.c |   10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
---- a/drivers/platform/x86/panasonic-laptop.c
-+++ b/drivers/platform/x86/panasonic-laptop.c
-@@ -356,7 +356,7 @@ static ssize_t show_numbatt(struct devic
- 	if (!acpi_pcc_retrieve_biosdata(pcc))
- 		return -EIO;
+--- a/drivers/platform/x86/lg-laptop.c
++++ b/drivers/platform/x86/lg-laptop.c
+@@ -319,7 +319,7 @@ static ssize_t fan_mode_show(struct devi
+ 	status =3D r->integer.value & 0x01;
+ 	kfree(r);
  =
 
--	return snprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_NUM_BATTERIES]);
-+	return scnprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_NUM_BATTERIES]);
+-	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
++	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
  }
  =
 
- static ssize_t show_lcdtype(struct device *dev, struct device_attribute *a=
-ttr,
-@@ -368,7 +368,7 @@ static ssize_t show_lcdtype(struct devic
- 	if (!acpi_pcc_retrieve_biosdata(pcc))
- 		return -EIO;
+ static ssize_t usb_charge_store(struct device *dev,
+@@ -361,7 +361,7 @@ static ssize_t usb_charge_show(struct de
  =
 
--	return snprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_LCD_TYPE]);
-+	return scnprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_LCD_TYPE]);
+ 	kfree(r);
+ =
+
+-	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
++	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
  }
  =
 
- static ssize_t show_mute(struct device *dev, struct device_attribute *attr,
-@@ -380,7 +380,7 @@ static ssize_t show_mute(struct device *
- 	if (!acpi_pcc_retrieve_biosdata(pcc))
- 		return -EIO;
+ static ssize_t reader_mode_store(struct device *dev,
+@@ -403,7 +403,7 @@ static ssize_t reader_mode_show(struct d
  =
 
--	return snprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_MUTE]);
-+	return scnprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_MUTE]);
+ 	kfree(r);
+ =
+
+-	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
++	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
  }
  =
 
- static ssize_t show_sticky(struct device *dev, struct device_attribute *at=
-tr,
-@@ -392,7 +392,7 @@ static ssize_t show_sticky(struct device
- 	if (!acpi_pcc_retrieve_biosdata(pcc))
- 		return -EIO;
+ static ssize_t fn_lock_store(struct device *dev,
+@@ -444,7 +444,7 @@ static ssize_t fn_lock_show(struct devic
+ 	status =3D !!r->buffer.pointer[0];
+ 	kfree(r);
  =
 
--	return snprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_STICKY_KEY]);
-+	return scnprintf(buf, PAGE_SIZE, "%u\n", pcc->sinf[SINF_STICKY_KEY]);
+-	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
++	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
  }
  =
 
- static ssize_t set_sticky(struct device *dev, struct device_attribute *att=
-r,
---===============6815535136439729233==--
+ static ssize_t battery_care_limit_store(struct device *dev,
+@@ -493,7 +493,7 @@ static ssize_t battery_care_limit_show(s
+ 	if (status !=3D 80 && status !=3D 100)
+ 		status =3D 0;
+ =
+
+-	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
++	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
+ }
+ =
+
+ static DEVICE_ATTR_RW(fan_mode);
+--===============3679309526804111222==--
 
