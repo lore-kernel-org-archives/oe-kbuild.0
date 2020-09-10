@@ -1,24 +1,22 @@
-Content-Type: multipart/mixed; boundary="===============6449793794355951475=="
+Content-Type: multipart/mixed; boundary="===============1096946559742555861=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 09/12] dma-direct: remove __dma_to_phys
-Date: Thu, 10 Sep 2020 12:45:39 +0300
-Message-ID: <20200910094539.GD12635@kadam>
-In-Reply-To: <20200908164758.3177341-10-hch@lst.de>
+Subject: [gfs2:for-next.bob7f 4/13] fs/gfs2/super.c:1477 gfs2_evict_inode() error: we previously assumed 'ip->i_gl' could be null (see line 1444)
+Date: Thu, 10 Sep 2020 12:41:56 +0300
+Message-ID: <20200910094156.GC12635@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6449793794355951475==
+--===============1096946559742555861==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Christoph,
-
-url:    https://github.com/0day-ci/linux/commits/Christoph-Hellwig/MIPS-mak=
-e-dma_sync_-_for_cpu-a-little-less-overzealous/20200909-120508
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git n=
-ext
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git=
+ for-next.bob7f
+head:   9b2e9f0e3902b232aa1f42465798b9afe2b18456
+commit: 63bfc8f5b775576dd4c2efe0213bb83c614b673a [4/13] gfs2: truncate gloc=
+k address space pages during evict
 config: x86_64-randconfig-m001-20200909 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -27,130 +25,181 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/xen/swiotlb-xen.c:315 xen_swiotlb_alloc_coherent() error: we previo=
-usly assumed 'hwdev' could be null (see line 308)
+fs/gfs2/super.c:1477 gfs2_evict_inode() error: we previously assumed 'ip->i=
+_gl' could be null (see line 1444)
 
-# https://github.com/0day-ci/linux/commit/3e9f075c8a9790e7d58348f52270e7e57=
-a721a31
-git remote add linux-review https://github.com/0day-ci/linux
-git fetch --no-tags linux-review Christoph-Hellwig/MIPS-make-dma_sync_-_for=
-_cpu-a-little-less-overzealous/20200909-120508
-git checkout 3e9f075c8a9790e7d58348f52270e7e57a721a31
-vim +/hwdev +315 drivers/xen/swiotlb-xen.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/linux-gfs2.git/commi=
+t/?id=3D63bfc8f5b775576dd4c2efe0213bb83c614b673a
+git remote add gfs2 https://git.kernel.org/pub/scm/linux/kernel/git/gfs2/li=
+nux-gfs2.git
+git fetch --no-tags gfs2 for-next.bob7f
+git checkout 63bfc8f5b775576dd4c2efe0213bb83c614b673a
+vim +1477 fs/gfs2/super.c
 
-dceb1a6819ab2c Christoph Hellwig     2017-05-21  276  static void *
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  277  xen_swiotlb_alloc_coh=
-erent(struct device *hwdev, size_t size,
-baa676fcf8d555 Andrzej Pietrasiewicz 2012-03-27  278  			   dma_addr_t *dma=
-_handle, gfp_t flags,
-00085f1efa387a Krzysztof Kozlowski   2016-08-03  279  			   unsigned long a=
-ttrs)
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  280  {
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  281  	void *ret;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  282  	int order =3D get_or=
-der(size);
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  283  	u64 dma_mask =3D DMA=
-_BIT_MASK(32);
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  284  	phys_addr_t phys;
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  285  	dma_addr_t dev_addr;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  286  =
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1430  static void gfs2_evic=
+t_inode(struct inode *inode)
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1431  {
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1432  	struct super_block *=
+sb =3D inode->i_sb;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1433  	struct gfs2_sbd *sdp=
+ =3D sb->s_fs_info;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1434  	struct gfs2_inode *i=
+p =3D GFS2_I(inode);
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1435  	struct gfs2_holder g=
+h;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1436  	struct address_space=
+ *metamapping;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1437  	int error;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1438  =
 
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  287  	/*
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  288  	* Ignore region spec=
-ifiers - the kernel's ideas of
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  289  	* pseudo-phys memory=
- layout has nothing to do with the
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  290  	* machine physical l=
-ayout.  We can't allocate highmem
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  291  	* because we can't r=
-eturn a pointer to it.
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  292  	*/
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  293  	flags &=3D ~(__GFP_D=
-MA | __GFP_HIGHMEM);
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  294  =
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1439  	if (test_bit(GIF_FRE=
+E_VFS_INODE, &ip->i_flags)) {
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1440  		clear_inode(inode);
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1441  		return;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1442  	}
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1443  =
 
-7250f422da0480 Joe Jin               2018-10-16  295  	/* Convert the size =
-to actually allocated. */
-7250f422da0480 Joe Jin               2018-10-16  296  	size =3D 1UL << (ord=
-er + XEN_PAGE_SHIFT);
-7250f422da0480 Joe Jin               2018-10-16  297  =
+63bfc8f5b775576 Bob Peterson        2020-09-01 @1444  	metamapping =3D ip->=
+i_gl ? gfs2_glock2aspace(ip->i_gl) : NULL;
+                                                                      ^^^^^=
+^^^
+NULL check
 
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  298  	/* On ARM this funct=
-ion returns an ioremap'ped virtual address for
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  299  	 * which virt_to_phy=
-s doesn't return the corresponding physical
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  300  	 * address. In fact =
-on ARM virt_to_phys only works for kernel direct
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  301  	 * mapped RAM memory=
-. Also see comment below.
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  302  	 */
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  303  	ret =3D xen_alloc_co=
-herent_pages(hwdev, size, dma_handle, flags, attrs);
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  304  =
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1445  	if (inode->i_nlink |=
+| sb_rdonly(sb))
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1446  		goto out;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1447  =
 
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  305  	if (!ret)
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  306  		return ret;
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  307  =
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1448  	gfs2_holder_mark_uni=
+nitialized(&gh);
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1449  	error =3D evict_unli=
+nked(inode, &gh);
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1450  	if (error =3D=3D -EE=
+XIST) /* this gets ignored */
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1451  		goto out;
+b76b6cdf7aa4710 Bob Peterson        2020-09-01  1452  	if (error)
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1453  		goto out_unlock;
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1454  =
 
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11 @308  	if (hwdev && hwdev->=
-coherent_dma_mask)
-                                                            ^^^^^
-Check for NULL
+805c090750a315c Bob Peterson        2018-01-08  1455  	gfs2_log_flush(sdp, =
+ip->i_gl, GFS2_LOG_HEAD_FLUSH_NORMAL |
+805c090750a315c Bob Peterson        2018-01-08  1456  		       GFS2_LFC_EVI=
+CT_INODE);
+2216db70c95a961 Benjamin Marzinski  2012-09-20  1457  	if (test_bit(GLF_DIR=
+TY, &ip->i_gl->gl_flags)) {
+2216db70c95a961 Benjamin Marzinski  2012-09-20  1458  		filemap_fdatawrite(=
+metamapping);
+2216db70c95a961 Benjamin Marzinski  2012-09-20  1459  		filemap_fdatawait(m=
+etamapping);
+2216db70c95a961 Benjamin Marzinski  2012-09-20  1460  	}
+40ac218f52aa5ca Steven Whitehouse   2011-08-02  1461  	write_inode_now(inod=
+e, 1);
+b5b24d7aeb96089 Steven Whitehouse   2011-09-07  1462  	gfs2_ail_flush(ip->i=
+_gl, 0);
+40ac218f52aa5ca Steven Whitehouse   2011-08-02  1463  =
 
-038d07a283d623 Christoph Hellwig     2018-03-19  309  		dma_mask =3D hwdev-=
->coherent_dma_mask;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  310  =
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1464  	error =3D gfs2_trans=
+_begin(sdp, 0, sdp->sd_jdesc->jd_blocks);
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1465  	if (error)
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1466  		goto out_unlock;
+380f7c65a7eb328 Steven Whitehouse   2011-07-14  1467  	/* Needs to be done =
+before glock release & also in a transaction */
+380f7c65a7eb328 Steven Whitehouse   2011-07-14  1468  	truncate_inode_pages=
+(&inode->i_data, 0);
+ee530beafeca982 Bob Peterson        2015-12-07  1469  	truncate_inode_pages=
+(metamapping, 0);
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1470  	gfs2_trans_end(sdp);
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1471  =
 
-91ffe4ad534ab2 Stefano Stabellini    2020-07-10  311  	/* At this point dma=
-_handle is the dma address, next we are
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  312  	 * going to set it t=
-o the machine address.
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  313  	 * Do not use virt_t=
-o_phys(ret) because on ARM it doesn't correspond
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  314  	 * to *dma_handle. */
-91ffe4ad534ab2 Stefano Stabellini    2020-07-10 @315  	phys =3D dma_to_phys=
-(hwdev, *dma_handle);
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1472  out_unlock:
+a097dc7e24cba79 Bob Peterson        2015-07-16  1473  	if (gfs2_rs_active(&=
+ip->i_res))
+a097dc7e24cba79 Bob Peterson        2015-07-16  1474  		gfs2_rs_deltree(&ip=
+->i_res);
+8e2e00473598dd5 Bob Peterson        2012-07-19  1475  =
+
+240c6235dfe4fe4 Bob Peterson        2017-07-18  1476  	if (gfs2_holder_init=
+ialized(&gh)) {
+240c6235dfe4fe4 Bob Peterson        2017-07-18 @1477  		glock_clear_object(=
+ip->i_gl, ip);
                                                                            =
-^^^^^
-Unchecked dereference
+         ^^^^^^^
+Unchecked dereference inside function.
 
-91ffe4ad534ab2 Stefano Stabellini    2020-07-10  316  	dev_addr =3D xen_phy=
-s_to_dma(hwdev, phys);
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  317  	if (((dev_addr + siz=
-e - 1 <=3D dma_mask)) &&
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  318  	    !range_straddles=
-_page_boundary(phys, size))
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  319  		*dma_handle =3D dev=
-_addr;
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  320  	else {
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  321  		if (xen_create_cont=
-iguous_region(phys, order,
-69908907b02efe Stefano Stabellini    2013-10-09  322  						 fls64(dma_mask=
-), dma_handle) !=3D 0) {
-1b65c4e5a9af1a Stefano Stabellini    2013-10-10  323  			xen_free_coherent_=
-pages(hwdev, size, ret, (dma_addr_t)phys, attrs);
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  324  			return NULL;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  325  		}
-91ffe4ad534ab2 Stefano Stabellini    2020-07-10  326  		*dma_handle =3D phy=
-s_to_dma(hwdev, *dma_handle);
-b877ac9815a8fe Juergen Gross         2019-06-14  327  		SetPageXenRemapped(=
-virt_to_page(ret));
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  328  	}
-6810df88dcfc22 Konrad Rzeszutek Wilk 2011-08-25  329  	memset(ret, 0, size);
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  330  	return ret;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  331  }
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1478  		gfs2_glock_dq_unini=
+t(&gh);
+240c6235dfe4fe4 Bob Peterson        2017-07-18  1479  	}
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1480  	if (error && error !=
+=3D GLR_TRYFAILED && error !=3D -EROFS)
+d5c1515cf374951 Al Viro             2010-06-07  1481  		fs_warn(sdp, "gfs2_=
+evict_inode: %d\n", error);
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1482  out:
+63bfc8f5b775576 Bob Peterson        2020-09-01  1483  	/* The following cal=
+ls to truncate_inode_pages_final are not within
+63bfc8f5b775576 Bob Peterson        2020-09-01  1484  	 * a transaction, so=
+ it's a bug if the inode still has dirty pages. */
+63bfc8f5b775576 Bob Peterson        2020-09-01  1485  	BUG_ON(!gfs2_withdra=
+wn(sdp) && inode->i_state & I_DIRTY);
+91b0abe36a7b2b3 Johannes Weiner     2014-04-03  1486  	truncate_inode_pages=
+_final(&inode->i_data);
+63bfc8f5b775576 Bob Peterson        2020-09-01  1487  	if (metamapping)
+63bfc8f5b775576 Bob Peterson        2020-09-01  1488  		truncate_inode_page=
+s_final(metamapping);
+2fba46a04c383f9 Bob Peterson        2020-02-27  1489  	if (ip->i_qadata)
+2fba46a04c383f9 Bob Peterson        2020-02-27  1490  		gfs2_assert_warn(sd=
+p, ip->i_qadata->qa_ref =3D=3D 0);
+1595548fe72ca83 Andreas Gruenbacher 2020-03-06  1491  	gfs2_rs_delete(ip, N=
+ULL);
+4513899092b3254 Steven Whitehouse   2013-01-28  1492  	gfs2_ordered_del_ino=
+de(ip);
+dbd5768f87ff6fb Jan Kara            2012-05-03  1493  	clear_inode(inode);
+17d539f0499fa2c Steven Whitehouse   2011-06-15  1494  	gfs2_dir_hash_inval(=
+ip);
+40e7e86ef16550c Andreas Gruenbacher 2020-01-24  1495  	if (ip->i_gl) {
+df3d87bde121213 Bob Peterson        2017-07-18  1496  		glock_clear_object(=
+ip->i_gl, ip);
+4fd1a5795214bc6 Andreas Gruenbacher 2017-06-30  1497  		wait_on_bit_io(&ip-=
+>i_flags, GIF_GLOP_PENDING, TASK_UNINTERRUPTIBLE);
+29687a2ac8dfcd5 Steven Whitehouse   2011-03-30  1498  		gfs2_glock_add_to_l=
+ru(ip->i_gl);
+71c1b2136835c88 Andreas Gruenbacher 2017-08-01  1499  		gfs2_glock_put_even=
+tually(ip->i_gl);
+d5c1515cf374951 Al Viro             2010-06-07  1500  		ip->i_gl =3D NULL;
+40e7e86ef16550c Andreas Gruenbacher 2020-01-24  1501  	}
+6df9f9a253c7dc9 Andreas Gruenbacher 2016-06-17  1502  	if (gfs2_holder_init=
+ialized(&ip->i_iopen_gh)) {
+71c1b2136835c88 Andreas Gruenbacher 2017-08-01  1503  		struct gfs2_glock *=
+gl =3D ip->i_iopen_gh.gh_gl;
+71c1b2136835c88 Andreas Gruenbacher 2017-08-01  1504  =
+
+71c1b2136835c88 Andreas Gruenbacher 2017-08-01  1505  		glock_clear_object(=
+gl, ip);
+40e7e86ef16550c Andreas Gruenbacher 2020-01-24  1506  		if (test_bit(HIF_HO=
+LDER, &ip->i_iopen_gh.gh_iflags)) {
+a6a4d98b0124b5d Bob Peterson        2013-05-29  1507  			ip->i_iopen_gh.gh_=
+flags |=3D GL_NOCACHE;
+40e7e86ef16550c Andreas Gruenbacher 2020-01-24  1508  			gfs2_glock_dq(&ip-=
+>i_iopen_gh);
+40e7e86ef16550c Andreas Gruenbacher 2020-01-24  1509  		}
+71c1b2136835c88 Andreas Gruenbacher 2017-08-01  1510  		gfs2_glock_hold(gl);
+40e7e86ef16550c Andreas Gruenbacher 2020-01-24  1511  		gfs2_holder_uninit(=
+&ip->i_iopen_gh);
+71c1b2136835c88 Andreas Gruenbacher 2017-08-01  1512  		gfs2_glock_put_even=
+tually(gl);
+d5c1515cf374951 Al Viro             2010-06-07  1513  	}
+9e6e0a128bca0a1 Steven Whitehouse   2009-05-22  1514  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6449793794355951475==
+--===============1096946559742555861==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICK9IWV8AAy5jb25maWcAjFzNd9y2rt/3r5iTbtpFem3H8UvPO15QFDXDjiQqJDUee6PjOpPU
+H4sICEIwWV8AAy5jb25maWcAjFzNd9y2rt/3r5iTbtpFem3H8UvPO15QFDXDjiQqJDUee6PjOpPU
 5yZ2n+3cm/z3DyD1QVLQNFm0FgF+g8APIDg///Tzin19efxy+3J/d/v58/fVp8PD4en25fBh9fH+
 8+F/V7la1cquRC7tb8Bc3j98/favb+8uuovz1dvffv/t5PXT3dlqe3h6OHxe8ceHj/efvkL9+8eH
 n37+iau6kOuO824ntJGq7qzY28tXn+7uXv+++iU//Hl/+7D6/bc30Mzp21/9X6+CatJ0a84vvw9F
@@ -1029,5 +1078,5 @@ UOI+i+P1cd0sHtZ/TktqRdF1YgarT73jeMwdm8FWHKeQGBsS+Ny8AY8FrSqsSKnnuvWi2TjX34Yu
 e54bF2/8TLEilWqq7n8HBddzE4FhaOtKeVu3tGjCMCto3BQtFi8tE7IA43JmyHTu0JlpjZ8yGtZU
 d8uj9/q1wOFFwoAJZ4tBcz2y/QyFzBNkZB49+Gy03Nzr2/R2GNzxHoL6HGO9EA1mAuzTKukwL53T
 +f8Doe0l5rJWAwA=
---===============6449793794355951475==--
+--===============1096946559742555861==--
 
