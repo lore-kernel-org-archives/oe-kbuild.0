@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6729877998074842368=="
+Content-Type: multipart/mixed; boundary="===============2928149499745521091=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Thu, 10 Sep 2020 16:53:23 +0800
-Message-ID: <20200910085322.GA166500@27a6d1d494cf>
+Date: Thu, 10 Sep 2020 16:53:21 +0800
+Message-ID: <20200910085320.GA166413@27a6d1d494cf>
 In-Reply-To: <202009101641.j9NDzwl2%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6729877998074842368==
+--===============2928149499745521091==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,12 +17,17 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: linux-ide(a)vger.kernel.org
+CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
+CC: Len Brown <lenb@kernel.org>
+CC: linux-acpi(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/ide/ide-park.c:112:8-16: WARNING: use scnprintf or sprintf
+drivers/acpi/dock.c:563:8-16: WARNING: use scnprintf or sprintf
+drivers/acpi/dock.c:544:8-16: WARNING: use scnprintf or sprintf
+drivers/acpi/dock.c:495:8-16: WARNING: use scnprintf or sprintf
+drivers/acpi/dock.c:506:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -48,21 +53,52 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ide-park.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ dock.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---- a/drivers/ide/ide-park.c
-+++ b/drivers/ide/ide-park.c
-@@ -109,7 +109,7 @@ ssize_t ide_park_show(struct device *dev
- 		msecs =3D 0;
- 	spin_unlock_irq(&hwif->lock);
+--- a/drivers/acpi/dock.c
++++ b/drivers/acpi/dock.c
+@@ -492,7 +492,7 @@ static ssize_t show_docked(struct device
+ 	struct acpi_device *adev =3D NULL;
  =
 
--	return snprintf(buf, 20, "%u\n", msecs);
-+	return scnprintf(buf, 20, "%u\n", msecs);
+ 	acpi_bus_get_device(dock_station->handle, &adev);
+-	return snprintf(buf, PAGE_SIZE, "%u\n", acpi_device_enumerated(adev));
++	return scnprintf(buf, PAGE_SIZE, "%u\n", acpi_device_enumerated(adev));
  }
+ static DEVICE_ATTR(docked, S_IRUGO, show_docked, NULL);
  =
 
- ssize_t ide_park_store(struct device *dev, struct device_attribute *attr,
---===============6729877998074842368==--
+@@ -503,7 +503,7 @@ static ssize_t show_flags(struct device
+ 			  struct device_attribute *attr, char *buf)
+ {
+ 	struct dock_station *dock_station =3D dev->platform_data;
+-	return snprintf(buf, PAGE_SIZE, "%d\n", dock_station->flags);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", dock_station->flags);
+ =
+
+ }
+ static DEVICE_ATTR(flags, S_IRUGO, show_flags, NULL);
+@@ -541,7 +541,7 @@ static ssize_t show_dock_uid(struct devi
+ 	if (ACPI_FAILURE(status))
+ 	    return 0;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%llx\n", lbuf);
++	return scnprintf(buf, PAGE_SIZE, "%llx\n", lbuf);
+ }
+ static DEVICE_ATTR(uid, S_IRUGO, show_dock_uid, NULL);
+ =
+
+@@ -560,7 +560,7 @@ static ssize_t show_dock_type(struct dev
+ 	else
+ 		type =3D "unknown";
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%s\n", type);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", type);
+ }
+ static DEVICE_ATTR(type, S_IRUGO, show_dock_type, NULL);
+=20
+--===============2928149499745521091==--
 
