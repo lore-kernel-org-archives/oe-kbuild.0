@@ -1,32 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============4295263192286086499=="
+Content-Type: multipart/mixed; boundary="===============1654310228283248572=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/powerpc/lib/code-patching.c:455:6: warning: Variable 'err' is reassigned a value before the old one has been used.
-Date: Fri, 11 Sep 2020 09:37:01 +0800
-Message-ID: <202009110948.oDqeizeY%lkp@intel.com>
+Subject: drivers/gpu/drm/drm_modes.c:1784:16: warning: Local variable len shadows outer variable
+Date: Fri, 11 Sep 2020 07:46:37 +0800
+Message-ID: <202009110725.LSFdJyn0%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4295263192286086499==
+--===============1654310228283248572==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jordan Niethe <jniethe5@gmail.com>
-CC: Michael Ellerman <mpe@ellerman.id.au>
-CC: Alistair Popple <alistair@popple.id.au>
+TO: Hans de Goede <hdegoede@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   7fe10096c1508c7f033d34d0741809f8eecc1ed4
-commit: 7c95d8893fb55869882c9f68f4c94840dc43f18f powerpc: Change calling co=
-nvention for create_branch() et. al.
-date:   4 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 4 months ago
-compiler: powerpc64-linux-gcc (GCC) 9.3.0
+commit: 7b1cce760afe38b40f0989cdf10b2190dccf9815 drm/modes: parse_cmdline: =
+Allow specifying stand-alone options
+date:   9 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 9 months ago
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -34,275 +32,216 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> arch/powerpc/lib/code-patching.c:455:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_branch(&instr, &instr, addr - 0x100, BRANCH_SET_LINK);
-        ^
-   arch/powerpc/lib/code-patching.c:451:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr, BRANCH_SET_LINK);
-        ^
-   arch/powerpc/lib/code-patching.c:455:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr - 0x100, BRANCH_SET_LINK);
-        ^
-   arch/powerpc/lib/code-patching.c:459:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_branch(&instr, &instr, addr + 0x100, 0);
-        ^
-   arch/powerpc/lib/code-patching.c:455:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr - 0x100, BRANCH_SET_LINK);
-        ^
-   arch/powerpc/lib/code-patching.c:459:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr + 0x100, 0);
-        ^
-   arch/powerpc/lib/code-patching.c:463:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_branch(&instr, &instr, addr - 0x2000000, BRANCH_SET_LINK=
-);
-        ^
-   arch/powerpc/lib/code-patching.c:459:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr + 0x100, 0);
-        ^
-   arch/powerpc/lib/code-patching.c:463:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr - 0x2000000, BRANCH_SET_LINK=
-);
-        ^
-   arch/powerpc/lib/code-patching.c:467:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_branch(&instr, &instr, addr - 0x2000004, BRANCH_SET_LINK=
-);
-        ^
-   arch/powerpc/lib/code-patching.c:463:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr - 0x2000000, BRANCH_SET_LINK=
-);
-        ^
-   arch/powerpc/lib/code-patching.c:467:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_branch(&instr, &instr, addr - 0x2000004, BRANCH_SET_LINK=
-);
-        ^
-   arch/powerpc/lib/code-patching.c:540:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_cond_branch(&instr, iptr, addr - 0x100, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:536:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:540:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr - 0x100, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:544:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_cond_branch(&instr, iptr, addr + 0x100, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:540:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr - 0x100, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:544:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr + 0x100, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:548:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_cond_branch(&instr, iptr, addr - 0x8000, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:544:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr + 0x100, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:548:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr - 0x8000, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:552:6: warning: Variable 'err' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    err =3D create_cond_branch(&instr, iptr, addr - 0x8004, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:548:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr - 0x8000, flags);
-        ^
-   arch/powerpc/lib/code-patching.c:552:6: note: Variable 'err' is reassign=
-ed a value before the old one has been used.
-    err =3D create_cond_branch(&instr, iptr, addr - 0x8004, flags);
-        ^
->> arch/powerpc/mm/nohash/tlb.c:304:8: warning: Possible null pointer deref=
-erence: mm [nullPointer]
-    pid =3D mm->context.id;
-          ^
-   arch/powerpc/mm/nohash/tlb.c:342:23: note: Calling function '__flush_tlb=
-_page', 1st argument 'vma?vma->vm_mm:NULL' value is 0
-    __flush_tlb_page(vma ? vma->vm_mm : NULL, vmaddr,
-                         ^
-   arch/powerpc/mm/nohash/tlb.c:304:8: note: Null pointer dereference
-    pid =3D mm->context.id;
-          ^
+>> drivers/gpu/drm/drm_modes.c:1784:16: warning: Local variable len shadows=
+ outer variable [shadowVar]
+     unsigned int len =3D strlen(mode_option);
+                  ^
+   drivers/gpu/drm/drm_modes.c:1716:9: note: Shadowed declaration
+    int i, len, ret;
+           ^
+   drivers/gpu/drm/drm_modes.c:1784:16: note: Shadow variable
+     unsigned int len =3D strlen(mode_option);
+                  ^
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D7c95d8893fb55869882c9f68f4c94840dc43f18f
+/?id=3D7b1cce760afe38b40f0989cdf10b2190dccf9815
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
 ds/linux.git
 git fetch --no-tags linus master
-git checkout 7c95d8893fb55869882c9f68f4c94840dc43f18f
-vim +/err +455 arch/powerpc/lib/code-patching.c
+git checkout 7b1cce760afe38b40f0989cdf10b2190dccf9815
+vim +1784 drivers/gpu/drm/drm_modes.c
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  404  =
+1794d257fa7bab Chris Wilson   2011-04-17  1722  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  405  #define check(x)	\
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  406  	if (!(x)) printk("code-pa=
-tching: test failed at line %d\n", __LINE__);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  407  =
+1794d257fa7bab Chris Wilson   2011-04-17  1723  	if (!mode_option) {
+1794d257fa7bab Chris Wilson   2011-04-17  1724  		mode->specified =3D false;
+1794d257fa7bab Chris Wilson   2011-04-17  1725  		return false;
+1794d257fa7bab Chris Wilson   2011-04-17  1726  	}
+1794d257fa7bab Chris Wilson   2011-04-17  1727  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  408  static void __init test_br=
-anch_iform(void)
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  409  {
-7c95d8893fb558 Jordan Niethe    2020-05-06  410  	int err;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  411  	unsigned int instr;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  412  	unsigned long addr;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  413  =
+1794d257fa7bab Chris Wilson   2011-04-17  1728  	name =3D mode_option;
+04fee895ef98ff Rolf Eike Beer 2011-06-15  1729  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  414  	addr =3D (unsigned long)&=
-instr;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  415  =
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1730  	/* Try to locate the bpp a=
+nd refresh specifiers, if any */
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1731  	bpp_ptr =3D strchr(name, '=
+-');
+6a2d163756545a Hans de Goede  2019-11-18  1732  	if (bpp_ptr)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1733  		bpp_off =3D bpp_ptr - nam=
+e;
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1734  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  416  	/* The simplest case, bra=
-nch to self, no flags */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  417  	check(instr_is_branch_ifo=
-rm(0x48000000));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  418  	/* All bits of target set=
-, and flags */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  419  	check(instr_is_branch_ifo=
-rm(0x4bffffff));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  420  	/* High bit of opcode set=
-, which is wrong */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  421  	check(!instr_is_branch_if=
-orm(0xcbffffff));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  422  	/* Middle bits of opcode =
-set, which is wrong */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  423  	check(!instr_is_branch_if=
-orm(0x7bffffff));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  424  =
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1735  	refresh_ptr =3D strchr(nam=
+e, '@');
+7b1cce760afe38 Hans de Goede  2019-11-18  1736  	if (refresh_ptr)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1737  		refresh_off =3D refresh_p=
+tr - name;
+04fee895ef98ff Rolf Eike Beer 2011-06-15  1738  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  425  	/* Simplest case, branch =
-to self with link */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  426  	check(instr_is_branch_ifo=
-rm(0x48000001));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  427  	/* All bits of targets se=
-t */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  428  	check(instr_is_branch_ifo=
-rm(0x4bfffffd));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  429  	/* Some bits of targets s=
-et */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  430  	check(instr_is_branch_ifo=
-rm(0x4bff00fd));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  431  	/* Must be a valid branch=
- to start with */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  432  	check(!instr_is_branch_if=
-orm(0x7bfffffd));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  433  =
+1bf4e09227c345 Maxime Ripard  2019-06-19  1739  	/* Locate the start of nam=
+ed options */
+1bf4e09227c345 Maxime Ripard  2019-06-19  1740  	options_ptr =3D strchr(nam=
+e, ',');
+1bf4e09227c345 Maxime Ripard  2019-06-19  1741  	if (options_ptr)
+1bf4e09227c345 Maxime Ripard  2019-06-19  1742  		options_off =3D options_p=
+tr - name;
+1bf4e09227c345 Maxime Ripard  2019-06-19  1743  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  434  	/* Absolute branch to 0x1=
-00 */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  435  	instr =3D 0x48000103;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  436  	check(instr_is_branch_to_=
-addr(&instr, 0x100));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  437  	/* Absolute branch to 0x4=
-20fc */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  438  	instr =3D 0x480420ff;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  439  	check(instr_is_branch_to_=
-addr(&instr, 0x420fc));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  440  	/* Maximum positive relat=
-ive branch, + 20MB - 4B */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  441  	instr =3D 0x49fffffc;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  442  	check(instr_is_branch_to_=
-addr(&instr, addr + 0x1FFFFFC));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  443  	/* Smallest negative rela=
-tive branch, - 4B */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  444  	instr =3D 0x4bfffffc;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  445  	check(instr_is_branch_to_=
-addr(&instr, addr - 4));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  446  	/* Largest negative relat=
-ive branch, - 32 MB */
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  447  	instr =3D 0x4a000000;
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  448  	check(instr_is_branch_to_=
-addr(&instr, addr - 0x2000000));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  449  =
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1744  	/* Locate the end of the n=
+ame / resolution, and parse it */
+1bf4e09227c345 Maxime Ripard  2019-06-19  1745  	if (bpp_ptr) {
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1746  		mode_end =3D bpp_off;
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1747  	} else if (refresh_ptr) {
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1748  		mode_end =3D refresh_off;
+1bf4e09227c345 Maxime Ripard  2019-06-19  1749  	} else if (options_ptr) {
+1bf4e09227c345 Maxime Ripard  2019-06-19  1750  		mode_end =3D options_off;
+cfb0881b8f621b Hans de Goede  2019-11-18  1751  		parse_extras =3D true;
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1752  	} else {
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1753  		mode_end =3D strlen(name);
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1754  		parse_extras =3D true;
+04fee895ef98ff Rolf Eike Beer 2011-06-15  1755  	}
+04fee895ef98ff Rolf Eike Beer 2011-06-15  1756  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  450  	/* Branch to self, with l=
-ink */
-7c95d8893fb558 Jordan Niethe    2020-05-06  451  	err =3D create_branch(&in=
-str, &instr, addr, BRANCH_SET_LINK);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  452  	check(instr_is_branch_to_=
-addr(&instr, addr));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  453  =
+7b1cce760afe38 Hans de Goede  2019-11-18  1757  	/* First check for a named=
+ mode */
+7b1cce760afe38 Hans de Goede  2019-11-18  1758  	for (i =3D 0; i < ARRAY_SI=
+ZE(drm_named_modes_whitelist); i++) {
+7b1cce760afe38 Hans de Goede  2019-11-18  1759  		ret =3D str_has_prefix(na=
+me, drm_named_modes_whitelist[i]);
+7b1cce760afe38 Hans de Goede  2019-11-18  1760  		if (ret =3D=3D mode_end) {
+7b1cce760afe38 Hans de Goede  2019-11-18  1761  			if (refresh_ptr)
+7b1cce760afe38 Hans de Goede  2019-11-18  1762  				return false; /* named =
++ refresh is invalid */
+3764137906a5ac Maxime Ripard  2019-08-27  1763  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  454  	/* Branch to self - 0x100=
-, with link */
-7c95d8893fb558 Jordan Niethe    2020-05-06 @455  	err =3D create_branch(&in=
-str, &instr, addr - 0x100, BRANCH_SET_LINK);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  456  	check(instr_is_branch_to_=
-addr(&instr, addr - 0x100));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  457  =
+7b1cce760afe38 Hans de Goede  2019-11-18  1764  			strcpy(mode->name, drm_n=
+amed_modes_whitelist[i]);
+7b1cce760afe38 Hans de Goede  2019-11-18  1765  			mode->specified =3D true;
+7b1cce760afe38 Hans de Goede  2019-11-18  1766  			break;
+7b1cce760afe38 Hans de Goede  2019-11-18  1767  		}
+7b1cce760afe38 Hans de Goede  2019-11-18  1768  	}
+3764137906a5ac Maxime Ripard  2019-08-27  1769  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  458  	/* Branch to self + 0x100=
-, no link */
-7c95d8893fb558 Jordan Niethe    2020-05-06  459  	err =3D create_branch(&in=
-str, &instr, addr + 0x100, 0);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  460  	check(instr_is_branch_to_=
-addr(&instr, addr + 0x100));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  461  =
+7b1cce760afe38 Hans de Goede  2019-11-18  1770  	/* No named mode? Check fo=
+r a normal mode argument, e.g. 1024x768 */
+7b1cce760afe38 Hans de Goede  2019-11-18  1771  	if (!mode->specified && is=
+digit(name[0])) {
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1772  		ret =3D drm_mode_parse_cm=
+dline_res_mode(name, mode_end,
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1773  						      parse_extras,
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1774  						      connector,
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1775  						      mode);
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1776  		if (ret)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1777  			return false;
+7b1cce760afe38 Hans de Goede  2019-11-18  1778  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  462  	/* Maximum relative negat=
-ive offset, - 32 MB */
-7c95d8893fb558 Jordan Niethe    2020-05-06  463  	err =3D create_branch(&in=
-str, &instr, addr - 0x2000000, BRANCH_SET_LINK);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  464  	check(instr_is_branch_to_=
-addr(&instr, addr - 0x2000000));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  465  =
+1794d257fa7bab Chris Wilson   2011-04-17  1779  		mode->specified =3D true;
+7b1cce760afe38 Hans de Goede  2019-11-18  1780  	}
+7b1cce760afe38 Hans de Goede  2019-11-18  1781  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  466  	/* Out of range relative =
-negative offset, - 32 MB + 4*/
-7c95d8893fb558 Jordan Niethe    2020-05-06  467  	err =3D create_branch(&in=
-str, &instr, addr - 0x2000004, BRANCH_SET_LINK);
-7c95d8893fb558 Jordan Niethe    2020-05-06  468  	check(err);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  469  =
+7b1cce760afe38 Hans de Goede  2019-11-18  1782  	/* No mode? Check for free=
+standing extras and/or options */
+7b1cce760afe38 Hans de Goede  2019-11-18  1783  	if (!mode->specified) {
+7b1cce760afe38 Hans de Goede  2019-11-18 @1784  		unsigned int len =3D strl=
+en(mode_option);
+7b1cce760afe38 Hans de Goede  2019-11-18  1785  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  470  	/* Out of range relative =
-positive offset, + 32 MB */
-7c95d8893fb558 Jordan Niethe    2020-05-06  471  	err =3D create_branch(&in=
-str, &instr, addr + 0x2000000, BRANCH_SET_LINK);
-7c95d8893fb558 Jordan Niethe    2020-05-06  472  	check(err);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  473  =
+7b1cce760afe38 Hans de Goede  2019-11-18  1786  		if (bpp_ptr || refresh_pt=
+r)
+7b1cce760afe38 Hans de Goede  2019-11-18  1787  			return false; /* syntax =
+error */
+7b1cce760afe38 Hans de Goede  2019-11-18  1788  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  474  	/* Unaligned target */
-7c95d8893fb558 Jordan Niethe    2020-05-06  475  	err =3D create_branch(&in=
-str, &instr, addr + 3, BRANCH_SET_LINK);
-7c95d8893fb558 Jordan Niethe    2020-05-06  476  	check(err);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  477  =
+7b1cce760afe38 Hans de Goede  2019-11-18  1789  		if (len =3D=3D 1 || (len =
+>=3D 2 && mode_option[1] =3D=3D ','))
+7b1cce760afe38 Hans de Goede  2019-11-18  1790  			extra_ptr =3D mode_optio=
+n;
+7b1cce760afe38 Hans de Goede  2019-11-18  1791  		else
+7b1cce760afe38 Hans de Goede  2019-11-18  1792  			options_ptr =3D mode_opt=
+ion - 1;
+7b1cce760afe38 Hans de Goede  2019-11-18  1793  =
 
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  478  	/* Check flags are masked=
- correctly */
-7c95d8893fb558 Jordan Niethe    2020-05-06  479  	err =3D create_branch(&in=
-str, &instr, addr, 0xFFFFFFFC);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  480  	check(instr_is_branch_to_=
-addr(&instr, addr));
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  481  	check(instr =3D=3D 0x4800=
-0000);
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  482  }
-ae0dc73625f9b0 Michael Ellerman 2008-06-24  483  =
+7b1cce760afe38 Hans de Goede  2019-11-18  1794  		freestanding =3D true;
+7b1cce760afe38 Hans de Goede  2019-11-18  1795  	}
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1796  =
+
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1797  	if (bpp_ptr) {
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1798  		ret =3D drm_mode_parse_cm=
+dline_bpp(bpp_ptr, &bpp_end_ptr, mode);
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1799  		if (ret)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1800  			return false;
+6a2d163756545a Hans de Goede  2019-11-18  1801  =
+
+6a2d163756545a Hans de Goede  2019-11-18  1802  		mode->bpp_specified =3D t=
+rue;
+1794d257fa7bab Chris Wilson   2011-04-17  1803  	}
+1794d257fa7bab Chris Wilson   2011-04-17  1804  =
+
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1805  	if (refresh_ptr) {
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1806  		ret =3D drm_mode_parse_cm=
+dline_refresh(refresh_ptr,
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1807  						     &refresh_end_ptr=
+, mode);
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1808  		if (ret)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1809  			return false;
+6a2d163756545a Hans de Goede  2019-11-18  1810  =
+
+6a2d163756545a Hans de Goede  2019-11-18  1811  		mode->refresh_specified =
+=3D true;
+1794d257fa7bab Chris Wilson   2011-04-17  1812  	}
+1794d257fa7bab Chris Wilson   2011-04-17  1813  =
+
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1814  	/*
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1815  	 * Locate the end of the b=
+pp / refresh, and parse the extras
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1816  	 * if relevant
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1817  	 */
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1818  	if (bpp_ptr && refresh_ptr)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1819  		extra_ptr =3D max(bpp_end=
+_ptr, refresh_end_ptr);
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1820  	else if (bpp_ptr)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1821  		extra_ptr =3D bpp_end_ptr;
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1822  	else if (refresh_ptr)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1823  		extra_ptr =3D refresh_end=
+_ptr;
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1824  =
+
+c2ed3e94190181 Hans de Goede  2019-11-18  1825  	if (extra_ptr) {
+c2ed3e94190181 Hans de Goede  2019-11-18  1826  		if (options_ptr)
+c2ed3e94190181 Hans de Goede  2019-11-18  1827  			len =3D options_ptr - ex=
+tra_ptr;
+c2ed3e94190181 Hans de Goede  2019-11-18  1828  		else
+c2ed3e94190181 Hans de Goede  2019-11-18  1829  			len =3D strlen(extra_ptr=
+);
+3aeeb13d899627 Maxime Ripard  2019-06-19  1830  =
+
+7b1cce760afe38 Hans de Goede  2019-11-18  1831  		ret =3D drm_mode_parse_cm=
+dline_extra(extra_ptr, len, freestanding,
+3aeeb13d899627 Maxime Ripard  2019-06-19  1832  						   connector, mode);
+3aeeb13d899627 Maxime Ripard  2019-06-19  1833  		if (ret)
+3aeeb13d899627 Maxime Ripard  2019-06-19  1834  			return false;
+1bf4e09227c345 Maxime Ripard  2019-06-19  1835  	}
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1836  =
+
+1bf4e09227c345 Maxime Ripard  2019-06-19  1837  	if (options_ptr) {
+739b200c2edcaa Hans de Goede  2019-11-18  1838  		ret =3D drm_mode_parse_cm=
+dline_options(options_ptr + 1,
+7b1cce760afe38 Hans de Goede  2019-11-18  1839  						     freestanding,
+1bf4e09227c345 Maxime Ripard  2019-06-19  1840  						     connector, mode);
+1bf4e09227c345 Maxime Ripard  2019-06-19  1841  		if (ret)
+e08ab74bd4c7a5 Maxime Ripard  2019-06-19  1842  			return false;
+1794d257fa7bab Chris Wilson   2011-04-17  1843  	}
+1794d257fa7bab Chris Wilson   2011-04-17  1844  =
+
+1794d257fa7bab Chris Wilson   2011-04-17  1845  	return true;
+1794d257fa7bab Chris Wilson   2011-04-17  1846  }
+1794d257fa7bab Chris Wilson   2011-04-17  1847  EXPORT_SYMBOL(drm_mode_pars=
+e_command_line_for_connector);
+1794d257fa7bab Chris Wilson   2011-04-17  1848  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4295263192286086499==--
+--===============1654310228283248572==--
 
