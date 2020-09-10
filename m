@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2928149499745521091=="
+Content-Type: multipart/mixed; boundary="===============1638979907507510473=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Thu, 10 Sep 2020 16:53:21 +0800
-Message-ID: <20200910085320.GA166413@27a6d1d494cf>
+Date: Thu, 10 Sep 2020 16:53:19 +0800
+Message-ID: <20200910085318.GA166326@27a6d1d494cf>
 In-Reply-To: <202009101641.j9NDzwl2%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2928149499745521091==
+--===============1638979907507510473==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,17 +17,14 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: Len Brown <lenb@kernel.org>
-CC: linux-acpi(a)vger.kernel.org
+CC: "James E.J. Bottomley" <James.Bottomley@HansenPartnership.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: linux-scsi(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/acpi/dock.c:563:8-16: WARNING: use scnprintf or sprintf
-drivers/acpi/dock.c:544:8-16: WARNING: use scnprintf or sprintf
-drivers/acpi/dock.c:495:8-16: WARNING: use scnprintf or sprintf
-drivers/acpi/dock.c:506:8-16: WARNING: use scnprintf or sprintf
+drivers/scsi/53c700.c:2063:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -53,52 +50,21 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- dock.c |    8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ 53c700.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/acpi/dock.c
-+++ b/drivers/acpi/dock.c
-@@ -492,7 +492,7 @@ static ssize_t show_docked(struct device
- 	struct acpi_device *adev =3D NULL;
- =
-
- 	acpi_bus_get_device(dock_station->handle, &adev);
--	return snprintf(buf, PAGE_SIZE, "%u\n", acpi_device_enumerated(adev));
-+	return scnprintf(buf, PAGE_SIZE, "%u\n", acpi_device_enumerated(adev));
- }
- static DEVICE_ATTR(docked, S_IRUGO, show_docked, NULL);
- =
-
-@@ -503,7 +503,7 @@ static ssize_t show_flags(struct device
- 			  struct device_attribute *attr, char *buf)
+--- a/drivers/scsi/53c700.c
++++ b/drivers/scsi/53c700.c
+@@ -2060,7 +2060,7 @@ NCR_700_show_active_tags(struct device *
  {
- 	struct dock_station *dock_station =3D dev->platform_data;
--	return snprintf(buf, PAGE_SIZE, "%d\n", dock_station->flags);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", dock_station->flags);
+ 	struct scsi_device *SDp =3D to_scsi_device(dev);
  =
 
+-	return snprintf(buf, 20, "%d\n", NCR_700_get_depth(SDp));
++	return scnprintf(buf, 20, "%d\n", NCR_700_get_depth(SDp));
  }
- static DEVICE_ATTR(flags, S_IRUGO, show_flags, NULL);
-@@ -541,7 +541,7 @@ static ssize_t show_dock_uid(struct devi
- 	if (ACPI_FAILURE(status))
- 	    return 0;
  =
 
--	return snprintf(buf, PAGE_SIZE, "%llx\n", lbuf);
-+	return scnprintf(buf, PAGE_SIZE, "%llx\n", lbuf);
- }
- static DEVICE_ATTR(uid, S_IRUGO, show_dock_uid, NULL);
- =
-
-@@ -560,7 +560,7 @@ static ssize_t show_dock_type(struct dev
- 	else
- 		type =3D "unknown";
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", type);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", type);
- }
- static DEVICE_ATTR(type, S_IRUGO, show_dock_type, NULL);
-=20
---===============2928149499745521091==--
+ static struct device_attribute NCR_700_active_tags_attr =3D {
+--===============1638979907507510473==--
 
