@@ -1,726 +1,562 @@
-Content-Type: multipart/mixed; boundary="===============5765029037946715940=="
+Content-Type: multipart/mixed; boundary="===============2348233275614027509=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [linux-next:master 2762/7920] drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3355 amdgpu_device_init() warn: 'adev->rmmio' not released on lines: 3355.
-Date: Wed, 16 Sep 2020 17:56:26 +0300
-Message-ID: <20200916145626.GJ18329@kadam>
-In-Reply-To: <56ddb435-47b0-c069-ef72-c3c4c6e86949@amd.com>
+From: kernel test robot <lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:816 amdgpu_ttm_io_mem_pfn() warn: should 'page_offset << (12)' be a 64 bit
+Date: Sat, 12 Sep 2020 01:53:15 +0800
+Message-ID: <202009120110.khS7Wo5A%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5765029037946715940==
+--===============2348233275614027509==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Sep 16, 2020 at 10:49:44AM -0400, Luben Tuikov wrote:
-> On 2020-09-16 10:11, Dan Carpenter wrote:
-> > [
-> >   This is a new check that I pushed yesterday.  I've pushed some more
-> >   improvements to hopefully cut down on the false positives.
-> > =
-
-> >   It finds a ton of bugs in ancient code.  The bug here is really five
-> >   years old.  I don't know why it's picking this particular
-> >   commit to blame.
-> > =
-
-> >   The other noteworthy for zero-day bot commit that I pushed yesterday
-> >   is that I hopefully silenced the "double unlock" warnings.  Those were
-> >   because CONFIG_SMP was disabled, so now the check is only enabled if
-> >   CONFIG_SMP is set.
-> > =
-
-> >   - dan ]
-> > =
-
-> > tree:   https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%=
-2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fnext%2Flinux-next.=
-git&data=3D02%7C01%7Cluben.tuikov%40amd.com%7Cccc2dc5dde5e41ddd08f08d85a4ab=
-dea%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637358626896078157&sdata=
-=3DdxPbGFOts1wZ8HXlTKWv5KbvjyT%2BQBtKJFCWg%2FfvO7I%3D&reserved=3D0  master
-> > head:   6b02addb1d1748d21dd1261e46029b264be4e5a0
-> > commit: 8aba21b75136c39c4bf63345d699d97dc477ce0e [2762/7920] drm/amdgpu=
-: Embed drm_device into amdgpu_device (v3)
-> > config: i386-randconfig-m021-20200916 (attached as .config)
-> > compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
-> > =
-
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> > =
-
-> > New smatch warnings:
-> > drivers/gpu/drm/amd/amdgpu/amdgpu_device.c:3355 amdgpu_device_init() wa=
-rn: 'adev->rmmio' not released on lines: 3355.
-> > =
-
-> > # https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fg=
-it.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2Fnext%2Flinux-next.git%2F=
-commit%2F%3Fid%3D8aba21b75136c39c4bf63345d699d97dc477ce0e&data=3D02%7C01%7C=
-luben.tuikov%40amd.com%7Cccc2dc5dde5e41ddd08f08d85a4abdea%7C3dd8961fe4884e6=
-08e11a82d994e183d%7C0%7C0%7C637358626896078157&sdata=3DPNQQYNHAmcYNmjcJKWDR=
-oc7tJmrc6ndkdCzzq5hkOq0%3D&reserved=3D0 =
-
-> > git remote add linux-next https://nam11.safelinks.protection.outlook.co=
-m/?url=3Dhttps%3A%2F%2Fgit.kernel.org%2Fpub%2Fscm%2Flinux%2Fkernel%2Fgit%2F=
-next%2Flinux-next.git&data=3D02%7C01%7Cluben.tuikov%40amd.com%7Cccc2dc5dde5=
-e41ddd08f08d85a4abdea%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C63735862=
-6896088158&sdata=3DSPlOEMYnyysjERVVb5%2Fx8NBlgA1lEcnM0dIRVUTB6Jo%3D&reserve=
-d=3D0 =
-
-> > git fetch --no-tags linux-next master
-> > git checkout 8aba21b75136c39c4bf63345d699d97dc477ce0e
-> > vim +3355 drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-> > =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  2988  int amdgpu_device_in=
-it(struct amdgpu_device *adev,
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  2989  		       uint32_t fl=
-ags)
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  2990  {
-> > 8aba21b75136c3 Luben Tuikov      2020-08-14  2991  	struct drm_device *=
-ddev =3D adev_to_drm(adev);
-> > 8aba21b75136c3 Luben Tuikov      2020-08-14  2992  	struct pci_dev *pde=
-v =3D adev->pdev;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  2993  	int r, i;
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  2994  	bool boco =3D false;
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  2995  	u32 max_M=
-Bps;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  2996  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  2997  	adev->shutdown =3D =
-false;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  2998  	adev->flags =3D fla=
-gs;
-> > 4e66d7d2156243 Yong Zhao         2019-08-30  2999  =
-
-> > 4e66d7d2156243 Yong Zhao         2019-08-30  3000  	if (amdgpu_force_as=
-ic_type >=3D 0 && amdgpu_force_asic_type < CHIP_LAST)
-> > 4e66d7d2156243 Yong Zhao         2019-08-30  3001  		adev->asic_type =
-=3D amdgpu_force_asic_type;
-> > 4e66d7d2156243 Yong Zhao         2019-08-30  3002  	else
-> > 2f7d10b393c83a Jammy Zhou        2015-07-22  3003  		adev->asic_type =
-=3D flags & AMD_ASIC_MASK;
-> > 4e66d7d2156243 Yong Zhao         2019-08-30  3004  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3005  	adev->usec_timeout =
-=3D AMDGPU_MAX_USEC_TIMEOUT;
-> > 593aa2d282259e Shaoyun Liu       2018-02-07  3006  	if (amdgpu_emu_mode=
- =3D=3D 1)
-> > 8bdab6bb1cf120 Yong Zhao         2020-02-25  3007  		adev->usec_timeout=
- *=3D 10;
-> > 770d13b19fdf36 Christian K=C3=B6nig   2018-01-12  3008  	adev->gmc.gart=
-_size =3D 512 * 1024 * 1024;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3009  	adev->accel_working=
- =3D false;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3010  	adev->num_rings =3D=
- 0;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3011  	adev->mman.buffer_f=
-uncs =3D NULL;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3012  	adev->mman.buffer_f=
-uncs_ring =3D NULL;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3013  	adev->vm_manager.vm=
-_pte_funcs =3D NULL;
-> > 0c88b43032131f Nirmoy Das        2019-12-06  3014  	adev->vm_manager.vm=
-_pte_num_scheds =3D 0;
-> > 132f34e4b55848 Christian K=C3=B6nig   2018-01-12  3015  	adev->gmc.gmc_=
-funcs =3D NULL;
-> > f54d1867005c33 Chris Wilson      2016-10-25  3016  	adev->fence_context=
- =3D dma_fence_context_alloc(AMDGPU_MAX_RINGS);
-> > b8866c26ec072f Andres Rodriguez  2017-04-28  3017  	bitmap_zero(adev->g=
-fx.pipe_reserve_bitmap, AMDGPU_MAX_COMPUTE_QUEUES);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3018  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3019  	adev->smc_rreg =3D =
-&amdgpu_invalid_rreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3020  	adev->smc_wreg =3D =
-&amdgpu_invalid_wreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3021  	adev->pcie_rreg =3D=
- &amdgpu_invalid_rreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3022  	adev->pcie_wreg =3D=
- &amdgpu_invalid_wreg;
-> > 36b9a952bbf688 Huang Rui         2016-08-31  3023  	adev->pciep_rreg =
-=3D &amdgpu_invalid_rreg;
-> > 36b9a952bbf688 Huang Rui         2016-08-31  3024  	adev->pciep_wreg =
-=3D &amdgpu_invalid_wreg;
-> > 4fa1c6a679bb0d Tao Zhou          2019-07-24  3025  	adev->pcie_rreg64 =
-=3D &amdgpu_invalid_rreg64;
-> > 4fa1c6a679bb0d Tao Zhou          2019-07-24  3026  	adev->pcie_wreg64 =
-=3D &amdgpu_invalid_wreg64;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3027  	adev->uvd_ctx_rreg =
-=3D &amdgpu_invalid_rreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3028  	adev->uvd_ctx_wreg =
-=3D &amdgpu_invalid_wreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3029  	adev->didt_rreg =3D=
- &amdgpu_invalid_rreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3030  	adev->didt_wreg =3D=
- &amdgpu_invalid_wreg;
-> > ccdbb20a75e3e3 Rex Zhu           2016-06-08  3031  	adev->gc_cac_rreg =
-=3D &amdgpu_invalid_rreg;
-> > ccdbb20a75e3e3 Rex Zhu           2016-06-08  3032  	adev->gc_cac_wreg =
-=3D &amdgpu_invalid_wreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3033  	adev->audio_endpt_r=
-reg =3D &amdgpu_block_invalid_rreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3034  	adev->audio_endpt_w=
-reg =3D &amdgpu_block_invalid_wreg;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3035  =
-
-> > 3e39ab90833b20 Alex Deucher      2015-06-05  3036  	DRM_INFO("initializ=
-ing kernel modesetting (%s 0x%04X:0x%04X 0x%04X:0x%04X 0x%02X).\n",
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3037  		 amdgpu_asic_name[=
-adev->asic_type], pdev->vendor, pdev->device,
-> > 3e39ab90833b20 Alex Deucher      2015-06-05  3038  		 pdev->subsystem_v=
-endor, pdev->subsystem_device, pdev->revision);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3039  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3040  	/* mutex initializa=
-tion are all done here so we
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3041  	 * can recall funct=
-ion without having locking issues */
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3042  	atomic_set(&adev->i=
-rq.ih.lock, 0);
-> > 0e5ca0d1ac07ef Huang Rui         2017-03-03  3043  	mutex_init(&adev->f=
-irmware.mutex);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3044  	mutex_init(&adev->p=
-m.mutex);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3045  	mutex_init(&adev->g=
-fx.gpu_clock_mutex);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3046  	mutex_init(&adev->s=
-rbm_mutex);
-> > b8866c26ec072f Andres Rodriguez  2017-04-28  3047  	mutex_init(&adev->g=
-fx.pipe_reserve_mutex);
-> > d23ee13fba23a3 Rex Zhu           2018-07-30  3048  	mutex_init(&adev->g=
-fx.gfx_off_mutex);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3049  	mutex_init(&adev->g=
-rbm_idx_mutex);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3050  	mutex_init(&adev->m=
-n_lock);
-> > e23b74aab5dc48 Alex Deucher      2017-09-28  3051  	mutex_init(&adev->v=
-irt.vf_errors.lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3052  	hash_init(adev->mn_=
-hash);
-> > 53b3f8f40e6cff Dennis Li         2020-08-19  3053  	atomic_set(&adev->i=
-n_gpu_reset, 0);
-> > 6049db43d6dd9c Dennis Li         2020-08-20  3054  	init_rwsem(&adev->r=
-eset_sem);
-> > 32eaeae0ef193b Alex Deucher      2019-07-08  3055  	mutex_init(&adev->p=
-sp.mutex);
-> > bd052211233266 Pan, Xinhui       2020-01-16  3056  	mutex_init(&adev->n=
-otifier_lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3057  =
-
-> > 912dfc846aad77 Evan Quan         2019-04-29  3058  	r =3D amdgpu_device=
-_check_arguments(adev);
-> > 912dfc846aad77 Evan Quan         2019-04-29  3059  	if (r)
-> > 912dfc846aad77 Evan Quan         2019-04-29  3060  		return r;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3061  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3062  	spin_lock_init(&ade=
-v->mmio_idx_lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3063  	spin_lock_init(&ade=
-v->smc_idx_lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3064  	spin_lock_init(&ade=
-v->pcie_idx_lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3065  	spin_lock_init(&ade=
-v->uvd_ctx_idx_lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3066  	spin_lock_init(&ade=
-v->didt_idx_lock);
-> > ccdbb20a75e3e3 Rex Zhu           2016-06-08  3067  	spin_lock_init(&ade=
-v->gc_cac_idx_lock);
-> > 16abb5d206499d Evan Quan         2017-07-04  3068  	spin_lock_init(&ade=
-v->se_cac_idx_lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3069  	spin_lock_init(&ade=
-v->audio_endpt_idx_lock);
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3070  	spin_lock=
-_init(&adev->mm_stats.lock);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3071  =
-
-> > 0c4e7fa56112b0 Chunming Zhou     2016-08-17  3072  	INIT_LIST_HEAD(&ade=
-v->shadow_list);
-> > 0c4e7fa56112b0 Chunming Zhou     2016-08-17  3073  	mutex_init(&adev->s=
-hadow_list_lock);
-> > 0c4e7fa56112b0 Chunming Zhou     2016-08-17  3074  =
-
-> > beff74bc6e0fa9 Alex Deucher      2019-05-28  3075  	INIT_DELAYED_WORK(&=
-adev->delayed_init_work,
-> > beff74bc6e0fa9 Alex Deucher      2019-05-28  3076  			  amdgpu_device_d=
-elayed_init_work_handler);
-> > 1e317b99f0c244 Rex Zhu           2018-07-27  3077  	INIT_DELAYED_WORK(&=
-adev->gfx.gfx_off_delay_work,
-> > 1e317b99f0c244 Rex Zhu           2018-07-27  3078  			  amdgpu_device_d=
-elay_enable_gfx_off);
-> > 2dc80b00652f2a Shirish S         2017-05-25  3079  =
-
-> > d4535e2c018bba Andrey Grodzovsky 2018-11-29  3080  	INIT_WORK(&adev->xg=
-mi_reset_work, amdgpu_device_xgmi_reset_func);
-> > d4535e2c018bba Andrey Grodzovsky 2018-11-29  3081  =
-
-> > d23ee13fba23a3 Rex Zhu           2018-07-30  3082  	adev->gfx.gfx_off_r=
-eq_count =3D 1;
-> > b6e79d9a314ebe Jason Yan         2020-04-27  3083  	adev->pm.ac_power =
-=3D power_supply_is_system_supplied() > 0;
-> > b1ddf548472729 Rex Zhu           2018-06-04  3084  =
-
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3085  	atomic_set(&adev->t=
-hrottling_logging_enabled, 1);
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3086  	/*
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3087  	 * If throttling co=
-ntinues, logging will be performed every minute
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3088  	 * to avoid log flo=
-oding. "-1" is subtracted since the thermal
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3089  	 * throttling inter=
-rupt comes every second. Thus, the total logging
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3090  	 * interval is 59 s=
-econds(retelimited printk interval) + 1(waiting
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3091  	 * for throttling i=
-nterrupt) =3D 60 seconds.
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3092  	 */
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3093  	ratelimit_state_ini=
-t(&adev->throttling_logging_rs, (60 - 1) * HZ, 1);
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3094  	ratelimit_set_flags=
-(&adev->throttling_logging_rs, RATELIMIT_MSG_ON_RELEASE);
-> > b265bdbd9f2811 Evan Quan         2020-05-22  3095  =
-
-> > 0fa4955838ea1e Alex Xie          2017-06-08  3096  	/* Registers mappin=
-g */
-> > 0fa4955838ea1e Alex Xie          2017-06-08  3097  	/* TODO: block user=
-space mapping of io register */
-> > da69c161448d6a Ken Wang          2016-01-21  3098  	if (adev->asic_type=
- >=3D CHIP_BONAIRE) {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3099  		adev->rmmio_base =
-=3D pci_resource_start(adev->pdev, 5);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3100  		adev->rmmio_size =
-=3D pci_resource_len(adev->pdev, 5);
-> > da69c161448d6a Ken Wang          2016-01-21  3101  	} else {
-> > da69c161448d6a Ken Wang          2016-01-21  3102  		adev->rmmio_base =
-=3D pci_resource_start(adev->pdev, 2);
-> > da69c161448d6a Ken Wang          2016-01-21  3103  		adev->rmmio_size =
-=3D pci_resource_len(adev->pdev, 2);
-> > da69c161448d6a Ken Wang          2016-01-21  3104  	}
-> > 5c1354bd30c118 Chunming Zhou     2016-08-30  3105  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3106  	adev->rmmio =3D ior=
-emap(adev->rmmio_base, adev->rmmio_size);
-> >                                                         ^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > This isn't released on error.
-> > =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3107  	if (adev->rmmio =3D=
-=3D NULL) {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3108  		return -ENOMEM;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3109  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3110  	DRM_INFO("register =
-mmio base: 0x%08X\n", (uint32_t)adev->rmmio_base);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3111  	DRM_INFO("register =
-mmio size: %u\n", (unsigned)adev->rmmio_size);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3112  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3113  	/* io port mapping =
-*/
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3114  	for (i =3D 0; i < D=
-EVICE_COUNT_RESOURCE; i++) {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3115  		if (pci_resource_f=
-lags(adev->pdev, i) & IORESOURCE_IO) {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3116  			adev->rio_mem_siz=
-e =3D pci_resource_len(adev->pdev, i);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3117  			adev->rio_mem =3D=
- pci_iomap(adev->pdev, i, adev->rio_mem_size);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3118  			break;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3119  		}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3120  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3121  	if (adev->rio_mem =
-=3D=3D NULL)
-> > b64a18c502feda Amber Lin         2017-01-04  3122  		DRM_INFO("PCI I/O =
-BAR is not found.\n");
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3123  =
-
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3124  	/* enable PCIE atom=
-ic ops */
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3125  	r =3D pci_enable_at=
-omic_ops_to_root(adev->pdev,
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3126  					  PCI_EXP_DEVCA=
-P2_ATOMIC_COMP32 |
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3127  					  PCI_EXP_DEVCA=
-P2_ATOMIC_COMP64);
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3128  	if (r) {
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3129  		adev->have_atomics=
-_support =3D false;
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3130  		DRM_INFO("PCIE ato=
-mic ops is not supported\n");
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3131  	} else {
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3132  		adev->have_atomics=
-_support =3D true;
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3133  	}
-> > b2109d8ed69765 Jack Xiao         2019-05-24  3134  =
-
-> > 5494d8640ffc1d Alex Deucher      2018-03-09  3135  	amdgpu_device_get_p=
-cie_info(adev);
-> > 5494d8640ffc1d Alex Deucher      2018-03-09  3136  =
-
-> > b239c01727459b Jack Xiao         2019-01-10  3137  	if (amdgpu_mcbp)
-> > b239c01727459b Jack Xiao         2019-01-10  3138  		DRM_INFO("MCBP is =
-enabled\n");
-> > b239c01727459b Jack Xiao         2019-01-10  3139  =
-
-> > 5f84cc635bce58 Jack Xiao         2019-01-25  3140  	if (amdgpu_mes && a=
-dev->asic_type >=3D CHIP_NAVI10)
-> > 5f84cc635bce58 Jack Xiao         2019-01-25  3141  		adev->enable_mes =
-=3D true;
-> > 5f84cc635bce58 Jack Xiao         2019-01-25  3142  =
-
-> > 3aa0115d238c71 Monk Liu          2020-03-04  3143  	/* detect hw virtua=
-lization here */
-> > 3aa0115d238c71 Monk Liu          2020-03-04  3144  	amdgpu_detect_virtu=
-alization(adev);
-> > 3aa0115d238c71 Monk Liu          2020-03-04  3145  =
-
-> > dffa11b4f74b15 Monk Liu          2020-03-04  3146  	r =3D amdgpu_device=
-_get_job_timeout_settings(adev);
-> > a190d1c75c73ce Xiaojie Yuan      2019-03-27  3147  	if (r) {
-> > dffa11b4f74b15 Monk Liu          2020-03-04  3148  		dev_err(adev->dev,=
- "invalid lockup_timeout parameter syntax\n");
-> > a190d1c75c73ce Xiaojie Yuan      2019-03-27  3149  		return r;
-> > a190d1c75c73ce Xiaojie Yuan      2019-03-27  3150  	}
-> > a190d1c75c73ce Xiaojie Yuan      2019-03-27  3151  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3152  	/* early init funct=
-ions */
-> > 06ec907054c5a4 Alex Deucher      2017-12-14  3153  	r =3D amdgpu_device=
-_ip_early_init(adev);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3154  	if (r)
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3155  		return r;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3156  =
-
-> > 6585661ddd6a0a Oak Zeng          2018-11-19  3157  	/* doorbell bar map=
-ping and doorbell index init*/
-> > 6585661ddd6a0a Oak Zeng          2018-11-19  3158  	amdgpu_device_doorb=
-ell_init(adev);
-> > 6585661ddd6a0a Oak Zeng          2018-11-19  3159  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3160  	/* if we have > 1 V=
-GA cards, then disable the amdgpu VGA resources */
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3161  	/* this will fail f=
-or cards that aren't VGA class devices, just
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3162  	 * ignore it */
-> > 06ec907054c5a4 Alex Deucher      2017-12-14  3163  	vga_client_register=
-(adev->pdev, adev, NULL, amdgpu_device_vga_set_decode);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3164  =
-
-> > 31af062acfbd5d Alex Deucher      2019-10-04  3165  	if (amdgpu_device_s=
-upports_boco(ddev))
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  3166  		boco =3D true;
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  3167  	if (amdgpu_has_atpx=
-() &&
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  3168  	    (amdgpu_is_atpx=
-_hybrid() ||
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  3169  	     amdgpu_has_atp=
-x_dgpu_power_cntl()) &&
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  3170  	    !pci_is_thunder=
-bolt_attached(adev->pdev))
-> > 84c8b22e9fe8d9 Lukas Wunner      2017-03-10  3171  		vga_switcheroo_reg=
-ister_client(adev->pdev,
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  3172  					       &amdgpu_=
-switcheroo_ops, boco);
-> > 3840c5bcc24563 Alex Deucher      2019-10-04  3173  	if (boco)
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3174  		vga_switcheroo_ini=
-t_domain_pm_ops(adev->dev, &adev->vga_pm_domain);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3175  =
-
-> > 9475a9434f594f Shaoyun Liu       2018-02-01  3176  	if (amdgpu_emu_mode=
- =3D=3D 1) {
-> > 9475a9434f594f Shaoyun Liu       2018-02-01  3177  		/* post the asic o=
-n emulation mode */
-> > 9475a9434f594f Shaoyun Liu       2018-02-01  3178  		emu_soc_asic_init(=
-adev);
-> > bfca02892773d2 Shaoyun Liu       2018-02-01  3179  		goto fence_driver_=
-init;
-> > 9475a9434f594f Shaoyun Liu       2018-02-01  3180  	}
-> > bfca02892773d2 Shaoyun Liu       2018-02-01  3181  =
-
-> > 4e99a44e37bfed Monk Liu          2016-03-31  3182  	/* detect if we are=
- with an SRIOV vbios */
-> > 4e99a44e37bfed Monk Liu          2016-03-31  3183  	amdgpu_device_detec=
-t_sriov_bios(adev);
-> > 048765ad5af7c8 Andres Rodriguez  2016-06-11  3184  =
-
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3185  	/* check if we need=
- to reset the asic
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3186  	 *  E.g., driver wa=
-s not cleanly unloaded previously, etc.
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3187  	 */
-> > f14899fd2a5607 wentalou          2019-01-17  3188  	if (!amdgpu_sriov_v=
-f(adev) && amdgpu_asic_need_reset_on_init(adev)) {
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3189  		r =3D amdgpu_asic_=
-reset(adev);
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3190  		if (r) {
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3191  			dev_err(adev->dev=
-, "asic reset on init failed\n");
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3192  			goto failed;
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3193  		}
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3194  	}
-> > 95e8e59ec49f7c Alex Deucher      2018-11-01  3195  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3196  	/* Post card if nec=
-essary */
-> > 39c640c086ad12 Alex Deucher      2017-12-15  3197  	if (amdgpu_device_n=
-eed_post(adev)) {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3198  		if (!adev->bios) {
-> > bec86378befae4 Monk Liu          2016-09-14  3199  			dev_err(adev->dev=
-, "no vBIOS found\n");
-> > 83ba126a9be318 Alex Deucher      2016-06-03  3200  			r =3D -EINVAL;
-> > 83ba126a9be318 Alex Deucher      2016-06-03  3201  			goto failed;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3202  		}
-> > bec86378befae4 Monk Liu          2016-09-14  3203  		DRM_INFO("GPU post=
-ing now...\n");
-> > 4e99a44e37bfed Monk Liu          2016-03-31  3204  		r =3D amdgpu_atom_=
-asic_init(adev->mode_info.atom_context);
-> > 4e99a44e37bfed Monk Liu          2016-03-31  3205  		if (r) {
-> > 4e99a44e37bfed Monk Liu          2016-03-31  3206  			dev_err(adev->dev=
-, "gpu post error!\n");
-> > 4e99a44e37bfed Monk Liu          2016-03-31  3207  			goto failed;
-> > 4e99a44e37bfed Monk Liu          2016-03-31  3208  		}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3209  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3210  =
-
-> > 88b64e9536746e Alex Deucher      2017-07-10  3211  	if (adev->is_atom_f=
-w) {
-> > 88b64e9536746e Alex Deucher      2017-07-10  3212  		/* Initialize cloc=
-ks */
-> > 88b64e9536746e Alex Deucher      2017-07-10  3213  		r =3D amdgpu_atomf=
-irmware_get_clock_info(adev);
-> > 88b64e9536746e Alex Deucher      2017-07-10  3214  		if (r) {
-> > 88b64e9536746e Alex Deucher      2017-07-10  3215  			dev_err(adev->dev=
-, "amdgpu_atomfirmware_get_clock_info failed\n");
-> > e23b74aab5dc48 Alex Deucher      2017-09-28  3216  			amdgpu_vf_error_p=
-ut(adev, AMDGIM_ERROR_VF_ATOMBIOS_GET_CLOCK_FAIL, 0, 0);
-> > 88b64e9536746e Alex Deucher      2017-07-10  3217  			goto failed;
-> > 88b64e9536746e Alex Deucher      2017-07-10  3218  		}
-> > 88b64e9536746e Alex Deucher      2017-07-10  3219  	} else {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3220  		/* Initialize cloc=
-ks */
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3221  		r =3D amdgpu_atomb=
-ios_get_clock_info(adev);
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3222  		if (r) {
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3223  			dev_err(adev->dev=
-, "amdgpu_atombios_get_clock_info failed\n");
-> > e23b74aab5dc48 Alex Deucher      2017-09-28  3224  			amdgpu_vf_error_p=
-ut(adev, AMDGIM_ERROR_VF_ATOMBIOS_GET_CLOCK_FAIL, 0, 0);
-> > 890419409a3aba Gavin Wan         2017-06-23  3225  			goto failed;
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3226  		}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3227  		/* init i2c buses =
-*/
-> > 4562236b3bc0a2 Harry Wentland    2017-09-12  3228  		if (!amdgpu_device=
-_has_dc_support(adev))
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3229  			amdgpu_atombios_i=
-2c_init(adev);
-> > a5bde2f964fa06 Alex Deucher      2016-09-23  3230  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3231  =
-
-> > bfca02892773d2 Shaoyun Liu       2018-02-01  3232  fence_driver_init:
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3233  	/* Fence driver */
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3234  	r =3D amdgpu_fence_=
-driver_init(adev);
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3235  	if (r) {
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3236  		dev_err(adev->dev,=
- "amdgpu_fence_driver_init failed\n");
-> > e23b74aab5dc48 Alex Deucher      2017-09-28  3237  		amdgpu_vf_error_pu=
-t(adev, AMDGIM_ERROR_VF_FENCE_INIT_FAIL, 0, 0);
-> > 83ba126a9be318 Alex Deucher      2016-06-03  3238  		goto failed;
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3239  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3240  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3241  	/* init the mode co=
-nfig */
-> > 4a580877bdcb83 Luben Tuikov      2020-08-24  3242  	drm_mode_config_ini=
-t(adev_to_drm(adev));
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3243  =
-
-> > 06ec907054c5a4 Alex Deucher      2017-12-14  3244  	r =3D amdgpu_device=
-_ip_init(adev);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3245  	if (r) {
-> > 8840a3878d40c9 pding             2017-10-23  3246  		/* failed in exclu=
-sive mode due to timeout */
-> > 8840a3878d40c9 pding             2017-10-23  3247  		if (amdgpu_sriov_v=
-f(adev) &&
-> > 8840a3878d40c9 pding             2017-10-23  3248  		    !amdgpu_sriov_=
-runtime(adev) &&
-> > 8840a3878d40c9 pding             2017-10-23  3249  		    amdgpu_virt_mm=
-io_blocked(adev) &&
-> > 8840a3878d40c9 pding             2017-10-23  3250  		    !amdgpu_virt_w=
-ait_reset(adev)) {
-> > 8840a3878d40c9 pding             2017-10-23  3251  			dev_err(adev->dev=
-, "VF exclusive mode timeout\n");
-> > 1daee8b472e896 Pixel Ding        2017-11-08  3252  			/* Don't send req=
-uest since VF is inactive. */
-> > 1daee8b472e896 Pixel Ding        2017-11-08  3253  			adev->virt.caps &=
-=3D ~AMDGPU_SRIOV_CAPS_RUNTIME;
-> > 1daee8b472e896 Pixel Ding        2017-11-08  3254  			adev->virt.ops =
-=3D NULL;
-> > 8840a3878d40c9 pding             2017-10-23  3255  			r =3D -EAGAIN;
-> > 8840a3878d40c9 pding             2017-10-23  3256  			goto failed;
-> > 8840a3878d40c9 pding             2017-10-23  3257  		}
-> > 06ec907054c5a4 Alex Deucher      2017-12-14  3258  		dev_err(adev->dev,=
- "amdgpu_device_ip_init failed\n");
-> > e23b74aab5dc48 Alex Deucher      2017-09-28  3259  		amdgpu_vf_error_pu=
-t(adev, AMDGIM_ERROR_VF_AMDGPU_INIT_FAIL, 0, 0);
-> > 83ba126a9be318 Alex Deucher      2016-06-03  3260  		goto failed;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3261  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3262  =
-
-> > d69b8971e540ae Yong Zhao         2020-04-17  3263  	dev_info(adev->dev,
-> > d69b8971e540ae Yong Zhao         2020-04-17  3264  		"SE %d, SH per SE =
-%d, CU per SH %d, active_cu_number %d\n",
-> > d7f72fe482bfb7 Yong Zhao         2019-12-11  3265  			adev->gfx.config.=
-max_shader_engines,
-> > d7f72fe482bfb7 Yong Zhao         2019-12-11  3266  			adev->gfx.config.=
-max_sh_per_se,
-> > d7f72fe482bfb7 Yong Zhao         2019-12-11  3267  			adev->gfx.config.=
-max_cu_per_sh,
-> > d7f72fe482bfb7 Yong Zhao         2019-12-11  3268  			adev->gfx.cu_info=
-.number);
-> > d7f72fe482bfb7 Yong Zhao         2019-12-11  3269  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3270  	adev->accel_working=
- =3D true;
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3271  =
-
-> > e59c020598666f Alex Xie          2017-06-01  3272  	amdgpu_vm_check_com=
-pute_bug(adev);
-> > e59c020598666f Alex Xie          2017-06-01  3273  =
-
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3274  	/* Initia=
-lize the buffer migration limit. */
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3275  	if (amdgp=
-u_moverate >=3D 0)
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3276  		max_MBps=
- =3D amdgpu_moverate;
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3277  	else
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3278  		max_MBps=
- =3D 8; /* Allow 8 MB/s. */
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3279  	/* Get a =
-log2 for easy divisions. */
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3280  	adev->mm_=
-stats.log2_max_MBps =3D ilog2(max(1u, max_MBps));
-> > 95844d20ae024b Marek Ol=C5=A1=C3=A1k       2016-08-17  3281  =
-
-> > 9bc92b9c8d0919 Monk Liu          2017-02-08  3282  	amdgpu_fbdev_init(a=
-dev);
-> > 9bc92b9c8d0919 Monk Liu          2017-02-08  3283  =
-
-> > d2f52ac800fec2 Rex Zhu           2017-09-22  3284  	r =3D amdgpu_pm_sys=
-fs_init(adev);
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3285  	if (r) {
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3286  		adev->pm_sysfs_en =
-=3D false;
-> > d2f52ac800fec2 Rex Zhu           2017-09-22  3287  		DRM_ERROR("registe=
-ring pm debugfs failed (%d).\n", r);
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3288  	} else
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3289  		adev->pm_sysfs_en =
-=3D true;
-> > d2f52ac800fec2 Rex Zhu           2017-09-22  3290  =
-
-> > 5bb23532732384 Ori Messinger     2019-04-22  3291  	r =3D amdgpu_ucode_=
-sysfs_init(adev);
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3292  	if (r) {
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3293  		adev->ucode_sysfs_=
-en =3D false;
-> > 5bb23532732384 Ori Messinger     2019-04-22  3294  		DRM_ERROR("Creatin=
-g firmware sysfs failed (%d).\n", r);
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3295  	} else
-> > 7c868b592d5c2c Yintian Tao       2019-11-29  3296  		adev->ucode_sysfs_=
-en =3D true;
-> > 5bb23532732384 Ori Messinger     2019-04-22  3297  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3298  	if ((amdgpu_testing=
- & 1)) {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3299  		if (adev->accel_wo=
-rking)
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3300  			amdgpu_test_moves=
-(adev);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3301  		else
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3302  			DRM_INFO("amdgpu:=
- acceleration disabled, skipping move tests\n");
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3303  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3304  	if (amdgpu_benchmar=
-king) {
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3305  		if (adev->accel_wo=
-rking)
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3306  			amdgpu_benchmark(=
-adev, amdgpu_benchmarking);
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3307  		else
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3308  			DRM_INFO("amdgpu:=
- acceleration disabled, skipping benchmarks\n");
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3309  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3310  =
-
-> > b0adca4d50169d Evan Quan         2019-11-05  3311  	/*
-> > b0adca4d50169d Evan Quan         2019-11-05  3312  	 * Register gpu ins=
-tance before amdgpu_device_enable_mgpu_fan_boost.
-> > b0adca4d50169d Evan Quan         2019-11-05  3313  	 * Otherwise the mg=
-pu fan boost feature will be skipped due to the
-> > b0adca4d50169d Evan Quan         2019-11-05  3314  	 * gpu instance is =
-counted less.
-> > b0adca4d50169d Evan Quan         2019-11-05  3315  	 */
-> > b0adca4d50169d Evan Quan         2019-11-05  3316  	amdgpu_register_gpu=
-_instance(adev);
-> > b0adca4d50169d Evan Quan         2019-11-05  3317  =
-
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3318  	/* enable clockgati=
-ng, etc. after ib tests, etc. since some blocks require
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3319  	 * explicit gating =
-rather than handling it automatically.
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3320  	 */
-> > 06ec907054c5a4 Alex Deucher      2017-12-14  3321  	r =3D amdgpu_device=
-_ip_late_init(adev);
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3322  	if (r) {
-> > 06ec907054c5a4 Alex Deucher      2017-12-14  3323  		dev_err(adev->dev,=
- "amdgpu_device_ip_late_init failed\n");
-> > e23b74aab5dc48 Alex Deucher      2017-09-28  3324  		amdgpu_vf_error_pu=
-t(adev, AMDGIM_ERROR_VF_AMDGPU_LATE_INIT_FAIL, 0, r);
-> > 83ba126a9be318 Alex Deucher      2016-06-03  3325  		goto failed;
-> > 2c1a2784039442 Alex Deucher      2015-12-07  3326  	}
-> > d38ceaf99ed015 Alex Deucher      2015-04-20  3327  =
-
-> > 108c6a6309c96a xinhui pan        2019-03-11  3328  	/* must succeed. */
-> > 511fdbc33aaa47 xinhui pan        2019-05-09  3329  	amdgpu_ras_resume(a=
-dev);
-> > 108c6a6309c96a xinhui pan        2019-03-11  3330  =
-
-> > beff74bc6e0fa9 Alex Deucher      2019-05-28  3331  	queue_delayed_work(=
-system_wq, &adev->delayed_init_work,
-> > beff74bc6e0fa9 Alex Deucher      2019-05-28  3332  			   msecs_to_jiffi=
-es(AMDGPU_RESUME_MS));
-> > beff74bc6e0fa9 Alex Deucher      2019-05-28  3333  =
-
-> > 2c738637bac1aa Monk Liu          2020-06-29  3334  	if (amdgpu_sriov_vf=
-(adev))
-> > 2c738637bac1aa Monk Liu          2020-06-29  3335  		flush_delayed_work=
-(&adev->delayed_init_work);
-> > 2c738637bac1aa Monk Liu          2020-06-29  3336  =
-
-> > 77f3a5cd7023d9 Nirmoy Das        2020-05-07  3337  	r =3D sysfs_create_=
-files(&adev->dev->kobj, amdgpu_dev_attributes);
-> > bd607166af7fe3 Kent Russell      2020-03-13  3338  	if (r) {
-> > 77f3a5cd7023d9 Nirmoy Das        2020-05-07  3339  		dev_err(adev->dev,=
- "Could not create amdgpu device attr\n");
-> > bd607166af7fe3 Kent Russell      2020-03-13  3340  		return r;
-> >                                                                 ^^^^^^^^
-> > This should probably be "goto failed;"?
-> =
-
-> I'm not sure if we want to fail here because we couldn't create sysfs fil=
-es.
-> If we can enable display anyway, all is good?
-
-
-In that case, then print an error and continue instead of returning
-an error code.
-
-regards,
-dan carpenter
-
---===============5765029037946715940==--
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Felix Kuehling <Felix.Kuehling@amd.com>
+CC: Huang Rui <ray.huang@amd.com>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   581cb3a26baf846ee9636214afaa5333919875b1
+commit: f0ee63cbc5264dbbdb994e87504b0b033149da55 drm/amdgpu: cleanup amdgpu=
+_ttm_copy_mem_to_mem and amdgpu_map_buffer v2
+date:   5 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 5 months ago
+config: riscv-randconfig-m031-20200911 (attached as .config)
+compiler: riscv32-linux-gcc (GCC) 9.3.0
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:816 amdgpu_ttm_io_mem_pfn() warn: s=
+hould 'page_offset << (12)' be a 64 bit type?
+
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c:511 amdgpu_move_blit() warn: should=
+ 'new_mem->num_pages << (12)' be a 64 bit type?
+arch/riscv/include/asm/current.h:30 get_current() error: uninitialized symb=
+ol 'tp'.
+
+# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3Df0ee63cbc5264dbbdb994e87504b0b033149da55
+git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
+ds/linux.git
+git fetch --no-tags linus master
+git checkout f0ee63cbc5264dbbdb994e87504b0b033149da55
+vim +816 drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
+
+d38ceaf99ed015 Alex Deucher           2015-04-20  812  =
+
+9bbdcc0fbc392e Christian K=C3=B6nig        2017-03-29  813  static unsigned=
+ long amdgpu_ttm_io_mem_pfn(struct ttm_buffer_object *bo,
+9bbdcc0fbc392e Christian K=C3=B6nig        2017-03-29  814  					   unsigne=
+d long page_offset)
+9bbdcc0fbc392e Christian K=C3=B6nig        2017-03-29  815  {
+f0ee63cbc5264d Christian K=C3=B6nig        2020-03-18 @816  	uint64_t offse=
+t =3D (page_offset << PAGE_SHIFT);
+e1d515052f9075 Harish Kasiviswanathan 2017-10-06  817  	struct drm_mm_node =
+*mm;
+9bbdcc0fbc392e Christian K=C3=B6nig        2017-03-29  818  =
+
+e1d515052f9075 Harish Kasiviswanathan 2017-10-06  819  	mm =3D amdgpu_find_=
+mm_node(&bo->mem, &offset);
+e1d515052f9075 Harish Kasiviswanathan 2017-10-06  820  	return (bo->mem.bus=
+.base >> PAGE_SHIFT) + mm->start +
+e1d515052f9075 Harish Kasiviswanathan 2017-10-06  821  		(offset >> PAGE_SH=
+IFT);
+9bbdcc0fbc392e Christian K=C3=B6nig        2017-03-29  822  }
+9bbdcc0fbc392e Christian K=C3=B6nig        2017-03-29  823  =
+
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+
+--===============2348233275614027509==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+B9eZ65zNpQEA
+--===============2348233275614027509==--
 
