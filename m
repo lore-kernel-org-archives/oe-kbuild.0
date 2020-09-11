@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3231538237329429851=="
+Content-Type: multipart/mixed; boundary="===============3178635079646413202=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/en/port.c:453 mlx5e_fec_in_caps() warn: signedness bug returning '(-95)'
-Date: Sat, 12 Sep 2020 00:07:24 +0800
-Message-ID: <202009120021.oQDSTRjw%lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/en/health.c:226 mlx5e_health_rsc_fmsg_binary() error: uninitialized symbol 'err'.
+Date: Fri, 11 Sep 2020 21:16:51 +0800
+Message-ID: <202009112148.8G8ejZDk%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3231538237329429851==
+--===============3178635079646413202==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,15 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Aya Levin <ayal@mellanox.com>
 CC: Saeed Mahameed <saeedm@mellanox.com>
-CC: Eran Ben Elisha <eranbe@mellanox.com>
+CC: Moshe Shemesh <moshe@mellanox.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   581cb3a26baf846ee9636214afaa5333919875b1
-commit: 2132b71f78d207b63974fc7d6eced9c5e886c405 net/mlx5e: Advertise globa=
-ly supported FEC modes
+commit: 5f29458b77d51c104554575b73184c243930aa87 net/mlx5e: Support dump ca=
+llback in TX reporter
 date:   7 months ago
-:::::: branch date: 20 hours ago
+:::::: branch date: 17 hours ago
 :::::: commit date: 7 months ago
 config: powerpc-randconfig-m031-20200911 (attached as .config)
 compiler: powerpc64-linux-gcc (GCC) 9.3.0
@@ -33,88 +33,63 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/en/port.c:453 mlx5e_fec_in_caps() w=
-arn: signedness bug returning '(-95)'
-
-Old smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/en/port.c:456 mlx5e_fec_in_caps() w=
-arn: signedness bug returning '(-95)'
+smatch warnings:
+drivers/net/ethernet/mellanox/mlx5/core/en/health.c:226 mlx5e_health_rsc_fm=
+sg_binary() error: uninitialized symbol 'err'.
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D2132b71f78d207b63974fc7d6eced9c5e886c405
+/?id=3D5f29458b77d51c104554575b73184c243930aa87
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
 ds/linux.git
 git fetch --no-tags linus master
-git checkout 2132b71f78d207b63974fc7d6eced9c5e886c405
-vim +453 drivers/net/ethernet/mellanox/mlx5/core/en/port.c
+git checkout 5f29458b77d51c104554575b73184c243930aa87
+vim +/err +226 drivers/net/ethernet/mellanox/mlx5/core/en/health.c
 
-2095b264147753 Shay Agroskin 2018-10-10  443  =
+5f29458b77d51c Aya Levin 2020-02-11  208  =
 
-2132b71f78d207 Aya Levin     2020-02-11  444  bool mlx5e_fec_in_caps(struct=
- mlx5_core_dev *dev, int fec_policy)
-2095b264147753 Shay Agroskin 2018-10-10  445  {
-2095b264147753 Shay Agroskin 2018-10-10  446  	u32 out[MLX5_ST_SZ_DW(pplm_r=
-eg)] =3D {};
-2095b264147753 Shay Agroskin 2018-10-10  447  	u32 in[MLX5_ST_SZ_DW(pplm_re=
-g)] =3D {};
-2095b264147753 Shay Agroskin 2018-10-10  448  	int sz =3D MLX5_ST_SZ_BYTES(=
-pplm_reg);
-2095b264147753 Shay Agroskin 2018-10-10  449  	int err;
-2132b71f78d207 Aya Levin     2020-02-11  450  	int i;
-2095b264147753 Shay Agroskin 2018-10-10  451  =
+5f29458b77d51c Aya Levin 2020-02-11  209  #define MLX5_HEALTH_DEVLINK_MAX_S=
+IZE 1024
+5f29458b77d51c Aya Levin 2020-02-11  210  static int mlx5e_health_rsc_fmsg_=
+binary(struct devlink_fmsg *fmsg,
+5f29458b77d51c Aya Levin 2020-02-11  211  					const void *value, u32 value=
+_len)
+5f29458b77d51c Aya Levin 2020-02-11  212  =
 
-2095b264147753 Shay Agroskin 2018-10-10  452  	if (!MLX5_CAP_GEN(dev, pcam_=
-reg))
-2095b264147753 Shay Agroskin 2018-10-10 @453  		return -EOPNOTSUPP;
-2095b264147753 Shay Agroskin 2018-10-10  454  =
+5f29458b77d51c Aya Levin 2020-02-11  213  {
+5f29458b77d51c Aya Levin 2020-02-11  214  	u32 data_size;
+5f29458b77d51c Aya Levin 2020-02-11  215  	u32 offset;
+5f29458b77d51c Aya Levin 2020-02-11  216  	int err;
+5f29458b77d51c Aya Levin 2020-02-11  217  =
 
-2095b264147753 Shay Agroskin 2018-10-10  455  	if (!MLX5_CAP_PCAM_REG(dev, =
-pplm))
-2095b264147753 Shay Agroskin 2018-10-10  456  		return -EOPNOTSUPP;
-2095b264147753 Shay Agroskin 2018-10-10  457  =
+5f29458b77d51c Aya Levin 2020-02-11  218  	for (offset =3D 0; offset < valu=
+e_len; offset +=3D data_size) {
+5f29458b77d51c Aya Levin 2020-02-11  219  		data_size =3D value_len - offse=
+t;
+5f29458b77d51c Aya Levin 2020-02-11  220  		if (data_size > MLX5_HEALTH_DEV=
+LINK_MAX_SIZE)
+5f29458b77d51c Aya Levin 2020-02-11  221  			data_size =3D MLX5_HEALTH_DEVL=
+INK_MAX_SIZE;
+5f29458b77d51c Aya Levin 2020-02-11  222  		err =3D devlink_fmsg_binary_put=
+(fmsg, value + offset, data_size);
+5f29458b77d51c Aya Levin 2020-02-11  223  		if (err)
+5f29458b77d51c Aya Levin 2020-02-11  224  			break;
+5f29458b77d51c Aya Levin 2020-02-11  225  	}
+5f29458b77d51c Aya Levin 2020-02-11 @226  	return err;
+5f29458b77d51c Aya Levin 2020-02-11  227  }
+5f29458b77d51c Aya Levin 2020-02-11  228  =
 
-2095b264147753 Shay Agroskin 2018-10-10  458  	MLX5_SET(pplm_reg, in, local=
-_port, 1);
-2095b264147753 Shay Agroskin 2018-10-10  459  	err =3D  mlx5_core_access_re=
-g(dev, in, sz, out, sz, MLX5_REG_PPLM, 0, 0);
-2095b264147753 Shay Agroskin 2018-10-10  460  	if (err)
-2132b71f78d207 Aya Levin     2020-02-11  461  		return false;
-2095b264147753 Shay Agroskin 2018-10-10  462  =
-
-2132b71f78d207 Aya Levin     2020-02-11  463  	for (i =3D 0; i < MLX5E_FEC_=
-SUPPORTED_SPEEDS; i++) {
-2132b71f78d207 Aya Levin     2020-02-11  464  		u8 fec_caps;
-2095b264147753 Shay Agroskin 2018-10-10  465  =
-
-2132b71f78d207 Aya Levin     2020-02-11  466  		mlx5e_get_fec_cap_field(out=
-, &fec_caps, fec_supported_speeds[i]);
-2132b71f78d207 Aya Levin     2020-02-11  467  		if (fec_caps & fec_policy)
-2132b71f78d207 Aya Levin     2020-02-11  468  			return true;
-2132b71f78d207 Aya Levin     2020-02-11  469  	}
-2132b71f78d207 Aya Levin     2020-02-11  470  	return false;
-2095b264147753 Shay Agroskin 2018-10-10  471  }
-2095b264147753 Shay Agroskin 2018-10-10  472  =
-
-
-:::::: The code@line 453 was first introduced by commit
-:::::: 2095b264147753eee0f122b8c0c9f035a32f0a25 net/mlx5e: Add port FEC get=
-/set functions
-
-:::::: TO: Shay Agroskin <shayag@mellanox.com>
-:::::: CC: Saeed Mahameed <saeedm@mellanox.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3231538237329429851==
+--===============3178635079646413202==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICL2YW18AAy5jb25maWcAlFxbc+S2jn7Pr+iavJxTp5L4Nt5kt/xAUZSaaUmUSanb7ReV4+mZ
+H4sICLZvW18AAy5jb25maWcAlFxbc+S2jn7Pr+iavJxTp5L4Nt5kt/xAUZSaaUmUSanb7ReV4+mZ
 uOKxZ305J/PvFyB1ASnKMzuVii0ApHgD8AGE/OMPP67Y68vj55uXu9ub+/uvq0+Hh8PTzcvhw+rj
 3f3hf1apWlWqWYlUNj+DcHH38Pr3L18e/3N4+nK7ev/z+c9HPz3dHq82h6eHw/2KPz58vPv0Ch3c
 PT788OMP8N+PQPz8Bfp6+u9V3+787Kd77OenT7e3q3/knP9z9dvPpz8fgTRXVSbzjvNOmg44F18H
@@ -725,5 +700,5 @@ x4DVSCcY8+sVAFozeqmJIO1A/HApoCbhwNoZb5tGGF1nh27WoRt6L/XD1cWUH6NGg4IWRfwElS3D
 bBOaRsJH12yVOzS9zOl8PjFiNNqzg7tZZKumaI7mPgm+T1kxi45yIi0iJD2/4+t1LdI6h1Oz5jQl
 +UVF2bJ6Truzn8nIGY6MpmyioBMW6ILcXYT6Fm8bzNtO9WXKi26A2O+Lk5uB43kmnxv/B1wtpVma
 GwIA
---===============3231538237329429851==--
+--===============3178635079646413202==--
 
