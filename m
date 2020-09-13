@@ -1,46 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============8765074059814673812=="
+Content-Type: multipart/mixed; boundary="===============3992640698032035994=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v11 4/5] security: keys: trusted: use ASN.1 TPM2 key format for the blobs
-Date: Sun, 13 Sep 2020 17:35:27 +0800
-Message-ID: <202009131715.alvmDNan%lkp@intel.com>
+Subject: [f2fs-stable:linux-4.19.y 303/666] fs/unicode/utf8-selftest.c:190:3: warning: Conversion of string literal "" to bool always evaluates to true.
+Date: Sun, 13 Sep 2020 12:05:01 +0800
+Message-ID: <202009131256.B6DtIBzb%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8765074059814673812==
+--===============3992640698032035994==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200912172643.9063-5-James.Bottomley@HansenPartnership.com>
-References: <20200912172643.9063-5-James.Bottomley@HansenPartnership.com>
-TO: James Bottomley <James.Bottomley@HansenPartnership.com>
-TO: linux-integrity(a)vger.kernel.org
-CC: Mimi Zohar <zohar@linux.ibm.com>
-CC: Jarkko Sakkinen <jarkko.sakkinen@linux.intel.com>
-CC: David Woodhouse <dwmw2@infradead.org>
-CC: keyrings(a)vger.kernel.org
-CC: David Howells <dhowells@redhat.com>
+TO: Jaegeuk Kim <jaegeuk@kernel.org>
 
-Hi James,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on integrity/next-integrity]
-[also build test WARNING on linus/master v5.9-rc4 next-20200911]
-[cannot apply to security/next-testing dhowells-fs/fscache-next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/James-Bottomley/TPM-2-0-tr=
-usted-key-rework/20200913-013201
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/zohar/linux-integri=
-ty.git next-integrity
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-compiler: microblaze-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-stable=
+.git linux-4.19.y
+head:   e1712134c01acfde2d20aea490ad3b3581ec8e0a
+commit: 56427c9cf549342906953cfd1d180d014b78c97b [303/666] unicode: introdu=
+ce test module for normalized utf8 implementation
+:::::: branch date: 3 days ago
+:::::: commit date: 12 months ago
+compiler: alpha-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -48,128 +30,270 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> security/keys/trusted-keys/trusted_tpm2.c:38:25: warning: Either the con=
-dition '!scratch' is redundant or there is pointer arithmetic with NULL poi=
-nter. [nullPointerArithmeticRedundantCheck]
-    u8 *end_work =3D scratch + SCRATCH_SIZE;
-                           ^
-   security/keys/trusted-keys/trusted_tpm2.c:50:6: note: Assuming that cond=
-ition '!scratch' is not redundant
-    if (!scratch)
-        ^
-   security/keys/trusted-keys/trusted_tpm2.c:38:25: note: Null pointer addi=
-tion
-    u8 *end_work =3D scratch + SCRATCH_SIZE;
-                           ^
+>> fs/unicode/utf8-selftest.c:190:3: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+     test((utf8len(data, nfdi_test_data[i].str) =3D=3D nlen));
+     ^
+   fs/unicode/utf8-selftest.c:191:3: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+     test((utf8nlen(data, nfdi_test_data[i].str, len) =3D=3D nlen));
+     ^
+   fs/unicode/utf8-selftest.c:197:4: warning: Conversion of string literal =
+"Unexpected byte 0x%x should be 0x%xn" to bool always evaluates to true. [i=
+ncorrectStringBooleanError]
+      test_f((c =3D=3D nfdi_test_data[i].dec[j]),
+      ^
+   fs/unicode/utf8-selftest.c:203:3: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+     test((j =3D=3D nlen));
+     ^
+   fs/unicode/utf8-selftest.c:226:3: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+     test((utf8len(data, nfdicf_test_data[i].str) =3D=3D nlen));
+     ^
+   fs/unicode/utf8-selftest.c:227:3: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+     test((utf8nlen(data, nfdicf_test_data[i].str, len) =3D=3D nlen));
+     ^
+   fs/unicode/utf8-selftest.c:233:4: warning: Conversion of string literal =
+"Unexpected byte 0x%x should be 0x%xn" to bool always evaluates to true. [i=
+ncorrectStringBooleanError]
+      test_f((c =3D=3D nfdicf_test_data[i].ncf[j]),
+      ^
+   fs/unicode/utf8-selftest.c:239:3: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+     test((j =3D=3D nlen));
+     ^
+   fs/unicode/utf8-selftest.c:260:3: warning: Conversion of string literal =
+"%s %s comparison mismatchn" to bool always evaluates to true. [incorrectSt=
+ringBooleanError]
+     test_f(!utf8_strncmp(table, &s1, &s2),
+     ^
+   fs/unicode/utf8-selftest.c:270:3: warning: Conversion of string literal =
+"%s %s comparison mismatchn" to bool always evaluates to true. [incorrectSt=
+ringBooleanError]
+     test_f(!utf8_strncasecmp(table, &s1, &s2),
+     ^
+   fs/unicode/utf8-selftest.c:280:2: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+    test(utf8version_is_supported(7, 0, 0));
+    ^
+   fs/unicode/utf8-selftest.c:283:2: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+    test(utf8version_is_supported(9, 0, 0));
+    ^
+   fs/unicode/utf8-selftest.c:286:2: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+    test(utf8version_is_supported(latest_maj, latest_min, latest_rev));
+    ^
+   fs/unicode/utf8-selftest.c:289:2: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+    test(!utf8version_is_supported(12, 0, 0));
+    ^
+   fs/unicode/utf8-selftest.c:290:2: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+    test(!utf8version_is_supported(0, 0, 0));
+    ^
+   fs/unicode/utf8-selftest.c:291:2: warning: Conversion of string literal =
+"" to bool always evaluates to true. [incorrectStringBooleanError]
+    test(!utf8version_is_supported(-1, -1, -1));
+    ^
 
-# https://github.com/0day-ci/linux/commit/ce13d03d29ab9ef7c6236ddfbd25ef4ea=
-78dccff
-git remote add linux-review https://github.com/0day-ci/linux
-git fetch --no-tags linux-review James-Bottomley/TPM-2-0-trusted-key-rework=
-/20200913-013201
-git checkout ce13d03d29ab9ef7c6236ddfbd25ef4ea78dccff
-vim +38 security/keys/trusted-keys/trusted_tpm2.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-stable.git/c=
+ommit/?id=3D56427c9cf549342906953cfd1d180d014b78c97b
+git remote add f2fs-stable https://git.kernel.org/pub/scm/linux/kernel/git/=
+jaegeuk/f2fs-stable.git
+git fetch --no-tags f2fs-stable linux-4.19.y
+git checkout 56427c9cf549342906953cfd1d180d014b78c97b
+vim +190 fs/unicode/utf8-selftest.c
 
-ce13d03d29ab9e James Bottomley 2020-09-12  30  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  170  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  31  static int tpm2_key_encode(s=
-truct trusted_key_payload *payload,
-ce13d03d29ab9e James Bottomley 2020-09-12  32  			   struct trusted_key_opt=
-ions *options,
-ce13d03d29ab9e James Bottomley 2020-09-12  33  			   u8 *src, u32 len)
-ce13d03d29ab9e James Bottomley 2020-09-12  34  {
-ce13d03d29ab9e James Bottomley 2020-09-12  35  	const int SCRATCH_SIZE =3D =
-PAGE_SIZE;
-ce13d03d29ab9e James Bottomley 2020-09-12  36  	u8 *scratch =3D kmalloc(SCR=
-ATCH_SIZE, GFP_KERNEL);
-ce13d03d29ab9e James Bottomley 2020-09-12  37  	u8 *work =3D scratch, *work=
-1;
-ce13d03d29ab9e James Bottomley 2020-09-12 @38  	u8 *end_work =3D scratch + =
-SCRATCH_SIZE;
-ce13d03d29ab9e James Bottomley 2020-09-12  39  	u8 *priv, *pub;
-ce13d03d29ab9e James Bottomley 2020-09-12  40  	u16 priv_len, pub_len;
-ce13d03d29ab9e James Bottomley 2020-09-12  41  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  171  static void check_u=
+tf8_nfdi(void)
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  172  {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  173  	int i;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  174  	struct utf8cursor =
+u8c;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  175  	const struct utf8d=
+ata *data;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  176  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  42  	priv_len =3D get_unaligned_=
-be16(src) + 2;
-ce13d03d29ab9e James Bottomley 2020-09-12  43  	priv =3D src;
-ce13d03d29ab9e James Bottomley 2020-09-12  44  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  177  	data =3D utf8nfdi(=
+UNICODE_AGE(latest_maj, latest_min, latest_rev));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  178  	if (!data) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  179  		pr_err("%s: Unabl=
+e to load utf8-%d.%d.%d. Skipping.\n",
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  180  		       __func__, =
+latest_maj, latest_min, latest_rev);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  181  		return;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  182  	}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  183  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  45  	src +=3D priv_len;
-ce13d03d29ab9e James Bottomley 2020-09-12  46  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  184  	for (i =3D 0; i < =
+ARRAY_SIZE(nfdi_test_data); i++) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  185  		int len =3D strle=
+n(nfdi_test_data[i].str);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  186  		int nlen =3D strl=
+en(nfdi_test_data[i].dec);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  187  		int j =3D 0;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  188  		unsigned char c;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  189  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  47  	pub_len =3D get_unaligned_b=
-e16(src) + 2;
-ce13d03d29ab9e James Bottomley 2020-09-12  48  	pub =3D src;
-ce13d03d29ab9e James Bottomley 2020-09-12  49  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25 @190  		test((utf8len(dat=
+a, nfdi_test_data[i].str) =3D=3D nlen));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  191  		test((utf8nlen(da=
+ta, nfdi_test_data[i].str, len) =3D=3D nlen));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  192  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  50  	if (!scratch)
-ce13d03d29ab9e James Bottomley 2020-09-12  51  		return -ENOMEM;
-ce13d03d29ab9e James Bottomley 2020-09-12  52  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  193  		if (utf8cursor(&u=
+8c, data, nfdi_test_data[i].str) < 0)
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  194  			pr_err("can't cr=
+eate cursor\n");
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  195  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  53  	work =3D asn1_encode_oid(wo=
-rk, end_work, tpm2key_oid,
-ce13d03d29ab9e James Bottomley 2020-09-12  54  			       asn1_oid_len(tpm2k=
-ey_oid));
-ce13d03d29ab9e James Bottomley 2020-09-12  55  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  196  		while ((c =3D utf=
+8byte(&u8c)) > 0) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25 @197  			test_f((c =3D=3D=
+ nfdi_test_data[i].dec[j]),
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  198  			       "Unexpect=
+ed byte 0x%x should be 0x%x\n",
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  199  			       c, nfdi_t=
+est_data[i].dec[j]);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  200  			j++;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  201  		}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  202  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  56  	if (options->blobauth_len =
-=3D=3D 0) {
-ce13d03d29ab9e James Bottomley 2020-09-12  57  		unsigned char bool[3], *w =
-=3D bool;
-ce13d03d29ab9e James Bottomley 2020-09-12  58  		/* tag 0 is emptyAuth */
-ce13d03d29ab9e James Bottomley 2020-09-12  59  		w =3D asn1_encode_boolean(=
-w, w + sizeof(bool), true);
-ce13d03d29ab9e James Bottomley 2020-09-12  60  		if (WARN(IS_ERR(w), "BUG: =
-Boolean failed to encode"))
-ce13d03d29ab9e James Bottomley 2020-09-12  61  			return PTR_ERR(w);
-ce13d03d29ab9e James Bottomley 2020-09-12  62  		work =3D asn1_encode_tag(w=
-ork, end_work, 0, bool, w - bool);
-ce13d03d29ab9e James Bottomley 2020-09-12  63  	}
-ce13d03d29ab9e James Bottomley 2020-09-12  64  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  203  		test((j =3D=3D nl=
+en));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  204  	}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  205  }
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  206  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  65  	/*
-ce13d03d29ab9e James Bottomley 2020-09-12  66  	 * Assume both octet string=
-s will encode to a 2 byte definite length
-ce13d03d29ab9e James Bottomley 2020-09-12  67  	 *
-ce13d03d29ab9e James Bottomley 2020-09-12  68  	 * Note: For a well behaved=
- TPM, this warning should never
-ce13d03d29ab9e James Bottomley 2020-09-12  69  	 * trigger, so if it does t=
-here's something nefarious going on
-ce13d03d29ab9e James Bottomley 2020-09-12  70  	 */
-ce13d03d29ab9e James Bottomley 2020-09-12  71  	if (WARN(work - scratch + p=
-ub_len + priv_len + 14 > SCRATCH_SIZE,
-ce13d03d29ab9e James Bottomley 2020-09-12  72  		 "BUG: scratch buffer is t=
-oo small"))
-ce13d03d29ab9e James Bottomley 2020-09-12  73  		return -EINVAL;
-ce13d03d29ab9e James Bottomley 2020-09-12  74  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  207  static void check_u=
+tf8_nfdicf(void)
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  208  {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  209  	int i;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  210  	struct utf8cursor =
+u8c;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  211  	const struct utf8d=
+ata *data;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  212  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  75  	work =3D asn1_encode_intege=
-r(work, end_work, options->keyhandle);
-ce13d03d29ab9e James Bottomley 2020-09-12  76  	work =3D asn1_encode_octet_=
-string(work, end_work, pub, pub_len);
-ce13d03d29ab9e James Bottomley 2020-09-12  77  	work =3D asn1_encode_octet_=
-string(work, end_work, priv, priv_len);
-ce13d03d29ab9e James Bottomley 2020-09-12  78  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  213  	data =3D utf8nfdic=
+f(UNICODE_AGE(latest_maj, latest_min, latest_rev));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  214  	if (!data) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  215  		pr_err("%s: Unabl=
+e to load utf8-%d.%d.%d. Skipping.\n",
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  216  		       __func__, =
+latest_maj, latest_min, latest_rev);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  217  		return;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  218  	}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  219  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  79  	work1 =3D payload->blob;
-ce13d03d29ab9e James Bottomley 2020-09-12  80  	work1 =3D asn1_encode_seque=
-nce(work1, work1 + sizeof(payload->blob),
-ce13d03d29ab9e James Bottomley 2020-09-12  81  				     scratch, work - scr=
-atch);
-ce13d03d29ab9e James Bottomley 2020-09-12  82  	if (WARN(IS_ERR(work1), "BU=
-G: ASN.1 encoder failed"))
-ce13d03d29ab9e James Bottomley 2020-09-12  83  		return PTR_ERR(work1);
-ce13d03d29ab9e James Bottomley 2020-09-12  84  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  220  	for (i =3D 0; i < =
+ARRAY_SIZE(nfdicf_test_data); i++) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  221  		int len =3D strle=
+n(nfdicf_test_data[i].str);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  222  		int nlen =3D strl=
+en(nfdicf_test_data[i].ncf);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  223  		int j =3D 0;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  224  		unsigned char c;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  225  =
 
-ce13d03d29ab9e James Bottomley 2020-09-12  85  	return work1 - payload->blo=
-b;
-ce13d03d29ab9e James Bottomley 2020-09-12  86  }
-ce13d03d29ab9e James Bottomley 2020-09-12  87  =
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  226  		test((utf8len(dat=
+a, nfdicf_test_data[i].str) =3D=3D nlen));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  227  		test((utf8nlen(da=
+ta, nfdicf_test_data[i].str, len) =3D=3D nlen));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  228  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  229  		if (utf8cursor(&u=
+8c, data, nfdicf_test_data[i].str) < 0)
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  230  			pr_err("can't cr=
+eate cursor\n");
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  231  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  232  		while ((c =3D utf=
+8byte(&u8c)) > 0) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  233  			test_f((c =3D=3D=
+ nfdicf_test_data[i].ncf[j]),
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  234  			       "Unexpect=
+ed byte 0x%x should be 0x%x\n",
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  235  			       c, nfdicf=
+_test_data[i].ncf[j]);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  236  			j++;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  237  		}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  238  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  239  		test((j =3D=3D nl=
+en));
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  240  	}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  241  }
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  242  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  243  static void check_u=
+tf8_comparisons(void)
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  244  {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  245  	int i;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  246  	struct unicode_map=
+ *table =3D utf8_load("11.0.0");
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  247  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  248  	if (IS_ERR(table))=
+ {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  249  		pr_err("%s: Unabl=
+e to load utf8 %d.%d.%d. Skipping.\n",
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  250  		       __func__, =
+latest_maj, latest_min, latest_rev);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  251  		return;
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  252  	}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  253  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  254  	for (i =3D 0; i < =
+ARRAY_SIZE(nfdi_test_data); i++) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  255  		const struct qstr=
+ s1 =3D {.name =3D nfdi_test_data[i].str,
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  256  					.len =3D sizeo=
+f(nfdi_test_data[i].str)};
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  257  		const struct qstr=
+ s2 =3D {.name =3D nfdi_test_data[i].dec,
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  258  					.len =3D sizeo=
+f(nfdi_test_data[i].dec)};
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  259  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25 @260  		test_f(!utf8_strn=
+cmp(table, &s1, &s2),
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  261  		       "%s %s com=
+parison mismatch\n", s1.name, s2.name);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  262  	}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  263  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  264  	for (i =3D 0; i < =
+ARRAY_SIZE(nfdicf_test_data); i++) {
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  265  		const struct qstr=
+ s1 =3D {.name =3D nfdicf_test_data[i].str,
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  266  					.len =3D sizeo=
+f(nfdicf_test_data[i].str)};
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  267  		const struct qstr=
+ s2 =3D {.name =3D nfdicf_test_data[i].ncf,
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  268  					.len =3D sizeo=
+f(nfdicf_test_data[i].ncf)};
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  269  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  270  		test_f(!utf8_strn=
+casecmp(table, &s1, &s2),
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  271  		       "%s %s com=
+parison mismatch\n", s1.name, s2.name);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  272  	}
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  273  =
+
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  274  	utf8_unload(table);
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  275  }
+56427c9cf54934 Gabriel Krisman Bertazi 2019-04-25  276  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8765074059814673812==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============3992640698032035994==--
 
