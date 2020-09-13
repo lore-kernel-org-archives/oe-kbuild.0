@@ -1,549 +1,617 @@
-Content-Type: multipart/mixed; boundary="===============3458557451728527169=="
+Content-Type: multipart/mixed; boundary="===============2468714548360537564=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH bpf-next v5 4/8] bpf: support attaching freplace programs to multiple attach points
-Date: Thu, 17 Sep 2020 07:46:08 +0800
-Message-ID: <202009170717.M75ewFSA%lkp@intel.com>
+Subject: [ragnatech:media-tree 319/322] drivers/media/test-drivers/vidtv/vidtv_pes.c:98:17: sparse: sparse: shift count is negative (-1)
+Date: Mon, 14 Sep 2020 03:17:10 +0800
+Message-ID: <202009140307.jiwPMVUG%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3458557451728527169==
+--===============2468714548360537564==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <160017006133.98230.8867570651560085505.stgit@toke.dk>
-References: <160017006133.98230.8867570651560085505.stgit@toke.dk>
-TO: "Toke H=C3=B8iland-J=C3=B8rgensen" <toke@redhat.com>
+TO: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
-Hi "Toke,
+tree:   git://git.ragnatech.se/linux media-tree
+head:   c4176e12a755d0c761736c14bd2656ffc733eb95
+commit: f90cf6079bf67988f8b1ad1ade70fc89d0080905 [319/322] media: vidtv: ad=
+d a bridge driver
+:::::: branch date: 35 hours ago
+:::::: commit date: 2 days ago
+config: c6x-randconfig-s031-20200913 (attached as .config)
+compiler: c6x-elf-gcc (GCC) 9.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.2-191-g10164920-dirty
+        git checkout f90cf6079bf67988f8b1ad1ade70fc89d0080905
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
+C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Dc6x =
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Toke-H-iland-J-rgensen/bpf=
--change-logging-calls-from-verbose-to-bpf_log-and-use-log-pointer/20200916-=
-085115
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-compiler: s390-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
+sparse warnings: (new ones prefixed by >>)
 
-   kernel/bpf/verifier.c:2624:9: warning: Identical condition 'err', second=
- condition is always false [identicalConditionAfterEarlyExit]
-    return err;
-           ^
-   kernel/bpf/verifier.c:2607:6: note: first condition
-    if (err)
-        ^
-   kernel/bpf/verifier.c:2624:9: note: second condition
-    return err;
-           ^
->> kernel/bpf/verifier.c:11206:36: warning: Either the condition 'if(tgt_pr=
-og&&conservative)' is redundant or there is possible null pointer dereferen=
-ce: tgt_prog. [nullPointerRedundantCheck]
-          prog->aux->tgt_prog_type !=3D tgt_prog->type) ||
-                                      ^
-   kernel/bpf/verifier.c:11211:6: note: Assuming that condition 'if(tgt_pro=
-g&&conservative)' is not redundant
-     if (tgt_prog && conservative)
-        ^
-   kernel/bpf/verifier.c:11206:36: note: Null pointer dereference
-          prog->aux->tgt_prog_type !=3D tgt_prog->type) ||
-                                      ^
-   kernel/bpf/verifier.c:11208:38: warning: Either the condition 'if(tgt_pr=
-og&&conservative)' is redundant or there is possible null pointer dereferen=
-ce: tgt_prog. [nullPointerRedundantCheck]
-          prog->aux->tgt_attach_type !=3D tgt_prog->expected_attach_type))
-                                        ^
-   kernel/bpf/verifier.c:11211:6: note: Assuming that condition 'if(tgt_pro=
-g&&conservative)' is not redundant
-     if (tgt_prog && conservative)
-        ^
-   kernel/bpf/verifier.c:11208:38: note: Null pointer dereference
-          prog->aux->tgt_attach_type !=3D tgt_prog->expected_attach_type))
-                                        ^
-   kernel/bpf/verifier.c:11377:6: warning: Variable 'ret' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    ret =3D -ENOMEM;
-        ^
-   kernel/bpf/verifier.c:11359:0: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-    int i, len, ret =3D -EINVAL;
-   ^
-   kernel/bpf/verifier.c:11377:6: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-    ret =3D -ENOMEM;
-        ^
-   kernel/bpf/verifier.c:11434:6: warning: Variable 'ret' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    ret =3D replace_map_fd_with_map_ptr(env);
-        ^
-   kernel/bpf/verifier.c:11377:6: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-    ret =3D -ENOMEM;
-        ^
-   kernel/bpf/verifier.c:11434:6: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-    ret =3D replace_map_fd_with_map_ptr(env);
-        ^
-   kernel/bpf/verifier.c:11434:6: warning: Variable 'ret' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    ret =3D replace_map_fd_with_map_ptr(env);
-        ^
-   kernel/bpf/verifier.c:11405:7: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-     ret =3D -EINVAL;
-         ^
-   kernel/bpf/verifier.c:11434:6: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-    ret =3D replace_map_fd_with_map_ptr(env);
-        ^
-   kernel/bpf/verifier.c:11451:6: warning: Variable 'ret' is reassigned a v=
-alue before the old one has been used. [redundantAssignment]
-    ret =3D check_subprogs(env);
-        ^
-   kernel/bpf/verifier.c:11447:6: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-    ret =3D -ENOMEM;
-        ^
-   kernel/bpf/verifier.c:11451:6: note: Variable 'ret' is reassigned a valu=
-e before the old one has been used.
-    ret =3D check_subprogs(env);
-        ^
-   kernel/bpf/verifier.c:1963:25: warning: Local variable func shadows oute=
-r function [shadowFunction]
-    struct bpf_func_state *func;
-                           ^
-   kernel/bpf/verifier.c:535:31: note: Shadowed declaration
-   static struct bpf_func_state *func(struct bpf_verifier_env *env,
-                                 ^
-   kernel/bpf/verifier.c:1963:25: note: Shadow variable
-    struct bpf_func_state *func;
-                           ^
-   kernel/bpf/verifier.c:1996:25: warning: Local variable func shadows oute=
-r function [shadowFunction]
-    struct bpf_func_state *func;
-                           ^
-   kernel/bpf/verifier.c:535:31: note: Shadowed declaration
-   static struct bpf_func_state *func(struct bpf_verifier_env *env,
-                                 ^
-   kernel/bpf/verifier.c:1996:25: note: Shadow variable
-    struct bpf_func_state *func;
-                           ^
-   kernel/bpf/verifier.c:7316:25: warning: Local variable src_reg shadows o=
-uter variable [shadowVar]
-     struct bpf_reg_state *src_reg =3D &regs[insn->src_reg];
-                           ^
-   kernel/bpf/verifier.c:7220:54: note: Shadowed declaration
-    struct bpf_reg_state *dst_reg, *other_branch_regs, *src_reg =3D NULL;
-                                                        ^
-   kernel/bpf/verifier.c:7316:25: note: Shadow variable
-     struct bpf_reg_state *src_reg =3D &regs[insn->src_reg];
+>> drivers/media/test-drivers/vidtv/vidtv_pes.c:98:17: sparse: sparse: shif=
+t count is negative (-1)
 
-# https://github.com/0day-ci/linux/commit/63e92b3278bbe1301a49b822500ebed16=
-6c130a3
-git remote add linux-review https://github.com/0day-ci/linux
-git fetch --no-tags linux-review Toke-H-iland-J-rgensen/bpf-change-logging-=
-calls-from-verbose-to-bpf_log-and-use-log-pointer/20200916-085115
-git checkout 63e92b3278bbe1301a49b822500ebed166c130a3
-vim +11206 kernel/bpf/verifier.c
+git remote add ragnatech git://git.ragnatech.se/linux
+git fetch --no-tags ragnatech media-tree
+git checkout f90cf6079bf67988f8b1ad1ade70fc89d0080905
+vim +98 drivers/media/test-drivers/vidtv/vidtv_pes.c
 
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11039  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   77  =
 
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11040  int bpf_=
-check_attach_target(struct bpf_verifier_log *log,
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11041  			    c=
-onst struct bpf_prog *prog,
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11042  			    c=
-onst struct bpf_prog *tgt_prog,
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11043  			    u=
-32 btf_id,
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11044  			    s=
-truct btf_func_model *fmodel,
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11045  			    l=
-ong *tgt_addr,
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11046  			    c=
-onst char **tgt_name,
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11047  			    c=
-onst struct btf_type **tgt_type)
-38207291604401 Martin KaFai Lau       2019-10-24  11048  {
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11049  	bool prog_extensi=
-on =3D prog->type =3D=3D BPF_PROG_TYPE_EXT;
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11050  	const char prefix=
-[] =3D "btf_trace_";
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11051  	int ret =3D 0, su=
-bprog =3D -1, i;
-38207291604401 Martin KaFai Lau       2019-10-24  11052  	const struct btf_=
-type *t;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11053  	bool conservative=
- =3D true;
-38207291604401 Martin KaFai Lau       2019-10-24  11054  	const char *tname;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11055  	struct btf *btf;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11056  	long ad=
-dr =3D 0;
-38207291604401 Martin KaFai Lau       2019-10-24  11057  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   78  static u32 vidtv_pes_=
+write_pts_dts(struct pes_header_write_args args)
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   79  {
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   80  	u32 nbytes =3D 0;  /=
+* the number of bytes written by this function */
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   81  =
 
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11058  	if (!btf_id) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11059  		bpf_lo=
-g(log, "Tracing programs must provide btf_id\n");
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11060  		return -EINVAL;
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11061  	}
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11062  	btf =3D=
- tgt_prog ? tgt_prog->aux->btf : btf_vmlinux;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11063  	if (!btf) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11064  		bpf_lo=
-g(log,
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11065  			"FENTRY/FEXIT p=
-rogram can only be attached to another program annotated with BTF\n");
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11066  		return -EINVAL;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11067  	}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11068  	t =3D btf_type_by=
-_id(btf, btf_id);
-38207291604401 Martin KaFai Lau       2019-10-24  11069  	if (!t) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11070  		bpf_lo=
-g(log, "attach_btf_id %u is invalid\n", btf_id);
-38207291604401 Martin KaFai Lau       2019-10-24  11071  		return -EINVAL;
-38207291604401 Martin KaFai Lau       2019-10-24  11072  	}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11073  	tname =3D btf_nam=
-e_by_offset(btf, t->name_off);
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11074  	if (!tname) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11075  		bpf_lo=
-g(log, "attach_btf_id %u doesn't have a name\n", btf_id);
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11076  		return -EINVAL;
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11077  	}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11078  	if (tgt_prog) {
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11079  		struct bpf_prog_=
-aux *aux =3D tgt_prog->aux;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11080  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   82  	struct vidtv_pes_opt=
+ional_pts pts =3D {};
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   83  	struct vidtv_pes_opt=
+ional_pts_dts pts_dts =3D {};
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   84  	void *op =3D NULL;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   85  	size_t op_sz =3D 0;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   86  	u64 mask1;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   87  	u64 mask2;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   88  	u64 mask3;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   89  =
 
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11081  		for (i =3D 0; i =
-< aux->func_info_cnt; i++)
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11082  			if (aux->func_i=
-nfo[i].type_id =3D=3D btf_id) {
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11083  				subprog =3D i;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11084  				break;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11085  			}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11086  		if (subprog =3D=
-=3D -1) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11087  			bpf_l=
-og(log, "Subprog %s doesn't exist\n", tname);
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11088  			return -EINVAL;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11089  		}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11090  		conservative =3D=
- aux->func_info_aux[subprog].unreliable;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11091  		if (prog_extensi=
-on) {
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11092  			if (conservativ=
-e) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11093  				bpf_=
-log(log,
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11094  					"Cannot repla=
-ce static functions\n");
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11095  				return -EINVAL;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11096  			}
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11097  			if (!prog->jit_=
-requested) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11098  				bpf_=
-log(log,
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11099  					"Extension pr=
-ograms should be JITed\n");
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11100  				return -EINVAL;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11101  			}
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11102  		}
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11103  		if (!tgt_prog->j=
-ited) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11104  			bpf_l=
-og(log, "Can attach to only JITed progs\n");
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11105  			return -EINVAL;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11106  		}
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11107  		if (tgt_prog->ty=
-pe =3D=3D prog->type) {
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11108  			/* Cannot fentr=
-y/fexit another fentry/fexit program.
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11109  			 * Cannot attac=
-h program extension to another extension.
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11110  			 * It's ok to a=
-ttach fentry/fexit to extension program.
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11111  			 */
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11112  			bpf_l=
-og(log, "Cannot recursively attach\n");
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11113  			return -EINVAL;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11114  		}
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11115  		if (tgt_prog->ty=
-pe =3D=3D BPF_PROG_TYPE_TRACING &&
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11116  		    prog_extensi=
-on &&
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11117  		    (tgt_prog->e=
-xpected_attach_type =3D=3D BPF_TRACE_FENTRY ||
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11118  		     tgt_prog->e=
-xpected_attach_type =3D=3D BPF_TRACE_FEXIT)) {
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11119  			/* Program exte=
-nsions can extend all program types
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11120  			 * except fentr=
-y/fexit. The reason is the following.
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11121  			 * The fentry/f=
-exit programs are used for performance
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11122  			 * analysis, st=
-ats and can be attached to any program
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11123  			 * type except =
-themselves. When extension program is
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11124  			 * replacing XD=
-P function it is necessary to allow
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11125  			 * performance =
-analysis of all functions. Both original
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11126  			 * XDP program =
-and its program extension. Hence
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11127  			 * attaching fe=
-ntry/fexit to BPF_PROG_TYPE_EXT is
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11128  			 * allowed. If =
-extending of fentry/fexit was allowed it
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11129  			 * would be pos=
-sible to create long call chain
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11130  			 * fentry->exte=
-nsion->fentry->extension beyond
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11131  			 * reasonable s=
-tack size. Hence extending fentry is not
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11132  			 * allowed.
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11133  			 */
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11134  			bpf_l=
-og(log, "Cannot extend fentry/fexit\n");
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11135  			return -EINVAL;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11136  		}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11137  	} else {
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11138  		if (prog_extensi=
-on) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11139  			bpf_l=
-og(log, "Cannot replace kernel functions\n");
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11140  			return -EINVAL;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11141  		}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11142  	}
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11143  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   90  	if (!args.send_pts &=
+& args.send_dts)
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   91  		return 0;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   92  =
 
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11144  	switch (prog->exp=
-ected_attach_type) {
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11145  	case BPF_TRACE_RA=
-W_TP:
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11146  		if (tgt_prog) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11147  			bpf_l=
-og(log,
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11148  				"Only FENTRY/F=
-EXIT progs are attachable to another BPF prog\n");
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11149  			return -EINVAL;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11150  		}
-38207291604401 Martin KaFai Lau       2019-10-24  11151  		if (!btf_type_is=
-_typedef(t)) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11152  			bpf_l=
-og(log, "attach_btf_id %u is not a typedef\n",
-38207291604401 Martin KaFai Lau       2019-10-24  11153  				btf_id);
-38207291604401 Martin KaFai Lau       2019-10-24  11154  			return -EINVAL;
-38207291604401 Martin KaFai Lau       2019-10-24  11155  		}
-f1b9509c2fb0ef Alexei Starovoitov     2019-10-30  11156  		if (strncmp(pref=
-ix, tname, sizeof(prefix) - 1)) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11157  			bpf_l=
-og(log, "attach_btf_id %u points to wrong type name %s\n",
-38207291604401 Martin KaFai Lau       2019-10-24  11158  				btf_id, tname);
-38207291604401 Martin KaFai Lau       2019-10-24  11159  			return -EINVAL;
-38207291604401 Martin KaFai Lau       2019-10-24  11160  		}
-38207291604401 Martin KaFai Lau       2019-10-24  11161  		tname +=3D sizeo=
-f(prefix) - 1;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11162  		t =3D btf_type_b=
-y_id(btf, t->type);
-38207291604401 Martin KaFai Lau       2019-10-24  11163  		if (!btf_type_is=
-_ptr(t))
-38207291604401 Martin KaFai Lau       2019-10-24  11164  			/* should never=
- happen in valid vmlinux build */
-38207291604401 Martin KaFai Lau       2019-10-24  11165  			return -EINVAL;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11166  		t =3D btf_type_b=
-y_id(btf, t->type);
-38207291604401 Martin KaFai Lau       2019-10-24  11167  		if (!btf_type_is=
-_func_proto(t))
-38207291604401 Martin KaFai Lau       2019-10-24  11168  			/* should never=
- happen in valid vmlinux build */
-38207291604401 Martin KaFai Lau       2019-10-24  11169  			return -EINVAL;
-38207291604401 Martin KaFai Lau       2019-10-24  11170  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   93  	#ifdef __BIG_ENDIAN
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   94  	mask1 =3D GENMASK(30=
+, 32);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   95  	mask2 =3D GENMASK(15=
+, 29);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   96  	mask3 =3D GENMASK(0,=
+ 14);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   97  	#else
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  @98  	mask1 =3D GENMASK(32=
+, 30);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21   99  	mask2 =3D GENMASK(29=
+, 15);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  100  	mask3 =3D GENMASK(14=
+, 0);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  101  	#endif
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  102  =
 
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11171  		break;
-15d83c4d7cef5c Yonghong Song          2020-05-09  11172  	case BPF_TRACE_IT=
-ER:
-15d83c4d7cef5c Yonghong Song          2020-05-09  11173  		if (!btf_type_is=
-_func(t)) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11174  			bpf_l=
-og(log, "attach_btf_id %u is not a function\n",
-15d83c4d7cef5c Yonghong Song          2020-05-09  11175  				btf_id);
-15d83c4d7cef5c Yonghong Song          2020-05-09  11176  			return -EINVAL;
-15d83c4d7cef5c Yonghong Song          2020-05-09  11177  		}
-15d83c4d7cef5c Yonghong Song          2020-05-09  11178  		t =3D btf_type_b=
-y_id(btf, t->type);
-15d83c4d7cef5c Yonghong Song          2020-05-09  11179  		if (!btf_type_is=
-_func_proto(t))
-15d83c4d7cef5c Yonghong Song          2020-05-09  11180  			return -EINVAL;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11181  		ret =
-=3D btf_distill_func_proto(log, btf, t, tname, fmodel);
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11182  		if (re=
-t)
-15d83c4d7cef5c Yonghong Song          2020-05-09  11183  			return ret;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11184  		break;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11185  	default:
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11186  		if (!prog_extens=
-ion)
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11187  			return -EINVAL;
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11188  		/* fallthrough */
-ae24082331d9bb KP Singh               2020-03-04  11189  	case BPF_MODIFY_R=
-ETURN:
-9e4e01dfd3254c KP Singh               2020-03-29  11190  	case BPF_LSM_MAC:
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11191  	case BPF_TRACE_FE=
-NTRY:
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11192  	case BPF_TRACE_FE=
-XIT:
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11193  		if (!btf_type_is=
-_func(t)) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11194  			bpf_l=
-og(log, "attach_btf_id %u is not a function\n",
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11195  				btf_id);
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11196  			return -EINVAL;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11197  		}
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11198  		if (prog_extensi=
-on &&
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11199  		    bt=
-f_check_type_match(log, prog, btf, t))
-be8704ff07d237 Alexei Starovoitov     2020-01-20  11200  			return -EINVAL;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11201  		t =3D btf_type_b=
-y_id(btf, t->type);
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11202  		if (!btf_type_is=
-_func_proto(t))
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11203  			return -EINVAL;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11204  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  103  	/* see ISO/IEC 13818=
+-1 : 2000 p. 32 */
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  104  	if (args.send_pts &&=
+ args.send_dts) {
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  105  		pts_dts.pts1 =3D (0=
+x3 << 4) | ((args.pts & mask1) >> 29) | 0x1;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  106  		pts_dts.pts2 =3D cp=
+u_to_be16(((args.pts & mask2) >> 14) | 0x1);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  107  		pts_dts.pts3 =3D cp=
+u_to_be16(((args.pts & mask3) << 1) | 0x1);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  108  =
 
-63e92b3278bbe1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11205  		if ((p=
-rog->aux->tgt_prog_type &&
-63e92b3278bbe1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15 @11206  		     p=
-rog->aux->tgt_prog_type !=3D tgt_prog->type) ||
-63e92b3278bbe1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11207  		    (p=
-rog->aux->tgt_attach_type &&
-63e92b3278bbe1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11208  		     p=
-rog->aux->tgt_attach_type !=3D tgt_prog->expected_attach_type))
-63e92b3278bbe1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11209  			retur=
-n -EINVAL;
-63e92b3278bbe1 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11210  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  109  		pts_dts.dts1 =3D (0=
+x1 << 4) | ((args.dts & mask1) >> 29) | 0x1;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  110  		pts_dts.dts2 =3D cp=
+u_to_be16(((args.dts & mask2) >> 14) | 0x1);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  111  		pts_dts.dts3 =3D cp=
+u_to_be16(((args.dts & mask3) << 1) | 0x1);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  112  =
 
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11211  		if (tg=
-t_prog && conservative)
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11212  			t =3D NULL;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11213  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  113  		op =3D &pts_dts;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  114  		op_sz =3D sizeof(pt=
+s_dts);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  115  =
 
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11214  		ret =
-=3D btf_distill_func_proto(log, btf, t, tname, fmodel);
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11215  		if (ret < 0)
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11216  			retur=
-n ret;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11217  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  116  	} else if (args.send=
+_pts) {
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  117  		pts.pts1 =3D (0x1 <=
+< 5) | ((args.pts & mask1) >> 29) | 0x1;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  118  		pts.pts2 =3D cpu_to=
+_be16(((args.pts & mask2) >> 14) | 0x1);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  119  		pts.pts3 =3D cpu_to=
+_be16(((args.pts & mask3) << 1) | 0x1);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  120  =
 
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11218  		if (tgt_prog) {
-e9eeec58c992c4 Yonghong Song          2019-12-04  11219  			if (subprog =3D=
-=3D 0)
-e9eeec58c992c4 Yonghong Song          2019-12-04  11220  				addr =3D (long=
-) tgt_prog->bpf_func;
-e9eeec58c992c4 Yonghong Song          2019-12-04  11221  			else
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11222  				addr =3D (long=
-) tgt_prog->aux->func[subprog]->bpf_func;
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11223  		} else {
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11224  			addr =3D kallsy=
-ms_lookup_name(tname);
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11225  			if (!addr) {
-2bc773a4b52761 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11226  				bpf_=
-log(log,
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11227  					"The address =
-of function %s cannot be found\n",
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11228  					tname);
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11229  				retu=
-rn -ENOENT;
-fec56f5890d93f Alexei Starovoitov     2019-11-14  11230  			}
-5b92a28aae4dd0 Alexei Starovoitov     2019-11-14  11231  		}
-18644cec714aab Alexei Starovoitov     2020-05-28  11232  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  121  		op =3D &pts;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  122  		op_sz =3D sizeof(pt=
+s);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  123  	}
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  124  =
 
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11233  		if (prog->aux->s=
-leepable) {
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11234  			ret =3D -EINVAL;
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11235  			switch (prog->t=
-ype) {
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11236  			case BPF_PROG_T=
-YPE_TRACING:
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11237  				/* fentry/fexi=
-t/fmod_ret progs can be sleepable only if they are
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11238  				 * attached to=
- ALLOW_ERROR_INJECTION and are not in denylist.
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11239  				 */
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11240  				if (!check_non=
-_sleepable_error_inject(btf_id) &&
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11241  				    within_err=
-or_injection_list(addr))
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11242  					ret =3D 0;
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11243  				break;
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11244  			case BPF_PROG_T=
-YPE_LSM:
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11245  				/* LSM progs c=
-heck that they are attached to bpf_lsm_*() funcs.
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11246  				 * Only some o=
-f them are sleepable.
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11247  				 */
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11248  				if (check_slee=
-pable_lsm_hook(btf_id))
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11249  					ret =3D 0;
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11250  				break;
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11251  			default:
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11252  				break;
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11253  			}
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11254  			if (r=
-et) {
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11255  				bpf_=
-log(log, "%s is not sleepable\n", tname);
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11256  				retu=
-rn ret;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11257  			}
-1e6c62a8821557 Alexei Starovoitov     2020-08-27  11258  		} else if (prog-=
->expected_attach_type =3D=3D BPF_MODIFY_RETURN) {
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11259  			ret =
-=3D check_attach_modify_return(prog, addr, tname);
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11260  			if (r=
-et) {
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11261  				bpf_=
-log(log, "%s() is not modifiable\n", tname);
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11262  				retu=
-rn ret;
-18644cec714aab Alexei Starovoitov     2020-05-28  11263  			}
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11264  		}
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11265  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  125  	/* copy PTS/DTS opti=
+onal */
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  126  	nbytes +=3D vidtv_me=
+mcpy(args.dest_buf,
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  127  			       args.dest_o=
+ffset + nbytes,
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  128  			       args.dest_b=
+uf_sz,
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  129  			       op,
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  130  			       op_sz);
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  131  =
 
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11266  		break;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11267  	}
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11268  	*tgt_ad=
-dr =3D addr;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11269  	if (tgt=
-_name)
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11270  		*tgt_n=
-ame =3D tname;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11271  	if (tgt=
-_type)
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11272  		*tgt_t=
-ype =3D t;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11273  	return =
-0;
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11274  }
-23c5f908e2d812 Toke H=C3=B8iland-J=C3=B8rgensen 2020-09-15  11275  =
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  132  	return nbytes;
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  133  }
+f90cf6079bf6798 Daniel W. S. Almeida 2020-08-21  134  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3458557451728527169==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+
+--===============2468714548360537564==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+AA==
+--===============2468714548360537564==--
 
