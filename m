@@ -1,31 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============2946402822955525192=="
+Content-Type: multipart/mixed; boundary="===============6463893447922227147=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/firmware/qcom_scm.c:181:12: warning: Redundant condition: cpus. '!cpus || (cpus && cpumask_empty(cpus))' is equivalent to '!cpus || cpumask_empty(cpus)'
-Date: Wed, 16 Sep 2020 06:58:37 +0800
-Message-ID: <202009160633.L0lkkCbC%lkp@intel.com>
+Subject: [linux-next:master 7814/7920] mm/madvise.c:875:15: warning: Unused variable: zone
+Date: Wed, 16 Sep 2020 03:27:44 +0800
+Message-ID: <202009160339.rP0U03dB%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2946402822955525192==
+--===============6463893447922227147==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Elliot Berman <eberman@codeaurora.org>
-CC: Bjorn Andersson <bjorn.andersson@linaro.org>
+TO: Oscar Salvador <osalvador@suse.de>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   fc4f28bb3daf3265d6bc5f73b497306985bb23ab
-commit: 57d3b816718c1cf832e2929a754da3564c6127cc firmware: qcom_scm: Remove=
- thin wrappers
-date:   8 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 8 months ago
-compiler: aarch64-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   6b02addb1d1748d21dd1261e46029b264be4e5a0
+commit: 62e508d41fa6cafc0607cebe9c268e3a08b8d25f [7814/7920] mm,hwpoison: d=
+rop unneeded pcplist draining
+:::::: branch date: 12 hours ago
+:::::: commit date: 13 hours ago
+compiler: microblaze-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -33,89 +32,140 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/firmware/qcom_scm.c:181:12: warning: Redundant condition: cpus. =
-'!cpus || (cpus && cpumask_empty(cpus))' is equivalent to '!cpus || cpumask=
-_empty(cpus)' [redundantCondition]
-    if (!cpus || (cpus && cpumask_empty(cpus)))
-              ^
+   mm/madvise.c:1071:8: warning: Variable 'error' is reassigned a value bef=
+ore the old one has been used. [redundantAssignment]
+    error =3D 0;
+          ^
+   mm/madvise.c:1049:0: note: Variable 'error' is reassigned a value before=
+ the old one has been used.
+    int error =3D -EINVAL;
+   ^
+   mm/madvise.c:1071:8: note: Variable 'error' is reassigned a value before=
+ the old one has been used.
+    error =3D 0;
+          ^
+   mm/madvise.c:1135:9: warning: Variable 'error' is reassigned a value bef=
+ore the old one has been used. [redundantAssignment]
+     error =3D madvise_vma(vma, &prev, start, tmp, behavior);
+           ^
+   mm/madvise.c:1117:9: note: Variable 'error' is reassigned a value before=
+ the old one has been used.
+     error =3D -ENOMEM;
+           ^
+   mm/madvise.c:1135:9: note: Variable 'error' is reassigned a value before=
+ the old one has been used.
+     error =3D madvise_vma(vma, &prev, start, tmp, behavior);
+           ^
+>> mm/madvise.c:875:15: warning: Unused variable: zone [unusedVariable]
+    struct zone *zone;
+                 ^
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D57d3b816718c1cf832e2929a754da3564c6127cc
-git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
-ds/linux.git
-git fetch --no-tags linus master
-git checkout 57d3b816718c1cf832e2929a754da3564c6127cc
-vim +181 drivers/firmware/qcom_scm.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3D62e508d41fa6cafc0607cebe9c268e3a08b8d25f
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git fetch --no-tags linux-next master
+git checkout 62e508d41fa6cafc0607cebe9c268e3a08b8d25f
+vim +875 mm/madvise.c
 
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  155  =
+f6b3ec238d12c8c Badari Pulavarty  2006-01-06  867  =
 
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  156  /**
-65f0c90b7d4685 Elliot Berman 2020-01-07  157   * qcom_scm_set_cold_boot_add=
-r() - Set the cold boot address for cpus
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  158   * @entry: Entry point functi=
-on for the cpus
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  159   * @cpus: The cpumask of cpus=
- that will use the entry point
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  160   *
-65f0c90b7d4685 Elliot Berman 2020-01-07  161   * Set the cold boot address =
-of the cpus. Any cpu outside the supported
-65f0c90b7d4685 Elliot Berman 2020-01-07  162   * range would be removed fro=
-m the cpu present mask.
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  163   */
-65f0c90b7d4685 Elliot Berman 2020-01-07  164  int qcom_scm_set_cold_boot_ad=
-dr(void *entry, const cpumask_t *cpus)
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  165  {
-57d3b816718c1c Elliot Berman 2020-01-07  166  	int flags =3D 0;
-57d3b816718c1c Elliot Berman 2020-01-07  167  	int cpu;
-57d3b816718c1c Elliot Berman 2020-01-07  168  	int scm_cb_flags[] =3D {
-57d3b816718c1c Elliot Berman 2020-01-07  169  		QCOM_SCM_FLAG_COLDBOOT_CPU0,
-57d3b816718c1c Elliot Berman 2020-01-07  170  		QCOM_SCM_FLAG_COLDBOOT_CPU1,
-57d3b816718c1c Elliot Berman 2020-01-07  171  		QCOM_SCM_FLAG_COLDBOOT_CPU2,
-57d3b816718c1c Elliot Berman 2020-01-07  172  		QCOM_SCM_FLAG_COLDBOOT_CPU3,
-57d3b816718c1c Elliot Berman 2020-01-07  173  	};
-57d3b816718c1c Elliot Berman 2020-01-07  174  	struct qcom_scm_desc desc =
-=3D {
-57d3b816718c1c Elliot Berman 2020-01-07  175  		.svc =3D QCOM_SCM_SVC_BOOT,
-57d3b816718c1c Elliot Berman 2020-01-07  176  		.cmd =3D QCOM_SCM_BOOT_SET_=
-ADDR,
-57d3b816718c1c Elliot Berman 2020-01-07  177  		.arginfo =3D QCOM_SCM_ARGS(=
-2),
-57d3b816718c1c Elliot Berman 2020-01-07  178  		.owner =3D ARM_SMCCC_OWNER_=
-SIP,
-57d3b816718c1c Elliot Berman 2020-01-07  179  	};
-57d3b816718c1c Elliot Berman 2020-01-07  180  =
+9893e49d64a4874 Andi Kleen        2009-09-16  868  #ifdef CONFIG_MEMORY_FAI=
+LURE
+9893e49d64a4874 Andi Kleen        2009-09-16  869  /*
+9893e49d64a4874 Andi Kleen        2009-09-16  870   * Error injection suppo=
+rt for memory error handling.
+9893e49d64a4874 Andi Kleen        2009-09-16  871   */
+97167a7681e9a58 Anshuman Khandual 2017-05-03  872  static int madvise_injec=
+t_error(int behavior,
+97167a7681e9a58 Anshuman Khandual 2017-05-03  873  		unsigned long start, u=
+nsigned long end)
+9893e49d64a4874 Andi Kleen        2009-09-16  874  {
+c461ad6a63b37ba Mel Gorman        2017-08-31 @875  	struct zone *zone;
+d3cd257ce15bad1 Yunfeng Ye        2019-11-30  876  	unsigned long size;
+97167a7681e9a58 Anshuman Khandual 2017-05-03  877  =
 
-57d3b816718c1c Elliot Berman 2020-01-07 @181  	if (!cpus || (cpus && cpumas=
-k_empty(cpus)))
-57d3b816718c1c Elliot Berman 2020-01-07  182  		return -EINVAL;
-57d3b816718c1c Elliot Berman 2020-01-07  183  =
+9893e49d64a4874 Andi Kleen        2009-09-16  878  	if (!capable(CAP_SYS_AD=
+MIN))
+9893e49d64a4874 Andi Kleen        2009-09-16  879  		return -EPERM;
+97167a7681e9a58 Anshuman Khandual 2017-05-03  880  =
 
-57d3b816718c1c Elliot Berman 2020-01-07  184  	for_each_cpu(cpu, cpus) {
-57d3b816718c1c Elliot Berman 2020-01-07  185  		if (cpu < ARRAY_SIZE(scm_cb=
-_flags))
-57d3b816718c1c Elliot Berman 2020-01-07  186  			flags |=3D scm_cb_flags[cp=
-u];
-57d3b816718c1c Elliot Berman 2020-01-07  187  		else
-57d3b816718c1c Elliot Berman 2020-01-07  188  			set_cpu_present(cpu, false=
-);
-57d3b816718c1c Elliot Berman 2020-01-07  189  	}
-57d3b816718c1c Elliot Berman 2020-01-07  190  =
+19bfbe22f59a207 Alexandru Moise   2017-10-03  881  =
 
-57d3b816718c1c Elliot Berman 2020-01-07  191  	desc.args[0] =3D flags;
-57d3b816718c1c Elliot Berman 2020-01-07  192  	desc.args[1] =3D virt_to_phy=
-s(entry);
-57d3b816718c1c Elliot Berman 2020-01-07  193  =
+d3cd257ce15bad1 Yunfeng Ye        2019-11-30  882  	for (; start < end; sta=
+rt +=3D size) {
+23e7b5c2e271594 Dan Williams      2018-07-13  883  		unsigned long pfn;
+6a7e4461476a789 Oscar Salvador    2020-09-14  884  		struct page *page;
+325c4ef5c4b1737 Andrew Morton     2013-09-11  885  		int ret;
+325c4ef5c4b1737 Andrew Morton     2013-09-11  886  =
 
-57d3b816718c1c Elliot Berman 2020-01-07  194  	return qcom_scm_call_atomic(=
-__scm ? __scm->dev : NULL, &desc, NULL);
-2ce76a6ad32fa0 Lina Iyer     2015-03-02  195  }
-65f0c90b7d4685 Elliot Berman 2020-01-07  196  EXPORT_SYMBOL(qcom_scm_set_co=
-ld_boot_addr);
-767b0235dd4765 Lina Iyer     2015-03-02  197  =
+97167a7681e9a58 Anshuman Khandual 2017-05-03  887  		ret =3D get_user_pages=
+_fast(start, 1, 0, &page);
+9893e49d64a4874 Andi Kleen        2009-09-16  888  		if (ret !=3D 1)
+9893e49d64a4874 Andi Kleen        2009-09-16  889  			return ret;
+23e7b5c2e271594 Dan Williams      2018-07-13  890  		pfn =3D page_to_pfn(pa=
+ge);
+325c4ef5c4b1737 Andrew Morton     2013-09-11  891  =
 
+19bfbe22f59a207 Alexandru Moise   2017-10-03  892  		/*
+19bfbe22f59a207 Alexandru Moise   2017-10-03  893  		 * When soft offlining=
+ hugepages, after migrating the page
+19bfbe22f59a207 Alexandru Moise   2017-10-03  894  		 * we dissolve it, the=
+refore in the second loop "page" will
+d3cd257ce15bad1 Yunfeng Ye        2019-11-30  895  		 * no longer be a comp=
+ound page.
+19bfbe22f59a207 Alexandru Moise   2017-10-03  896  		 */
+d3cd257ce15bad1 Yunfeng Ye        2019-11-30  897  		size =3D page_size(com=
+pound_head(page));
+19bfbe22f59a207 Alexandru Moise   2017-10-03  898  =
+
+97167a7681e9a58 Anshuman Khandual 2017-05-03  899  		if (behavior =3D=3D MA=
+DV_SOFT_OFFLINE) {
+97167a7681e9a58 Anshuman Khandual 2017-05-03  900  			pr_info("Soft offlini=
+ng pfn %#lx at process virtual address %#lx\n",
+23e7b5c2e271594 Dan Williams      2018-07-13  901  				 pfn, start);
+feec24a6139d464 Naoya Horiguchi   2019-11-30  902  			ret =3D soft_offline_=
+page(pfn, MF_COUNT_INCREASED);
+6a7e4461476a789 Oscar Salvador    2020-09-14  903  		} else {
+97167a7681e9a58 Anshuman Khandual 2017-05-03  904  			pr_info("Injecting me=
+mory failure for pfn %#lx at process virtual address %#lx\n",
+23e7b5c2e271594 Dan Williams      2018-07-13  905  				 pfn, start);
+23e7b5c2e271594 Dan Williams      2018-07-13  906  			/*
+23e7b5c2e271594 Dan Williams      2018-07-13  907  			 * Drop the page refe=
+rence taken by get_user_pages_fast(). In
+23e7b5c2e271594 Dan Williams      2018-07-13  908  			 * the absence of MF_=
+COUNT_INCREASED the memory_failure()
+23e7b5c2e271594 Dan Williams      2018-07-13  909  			 * routine is respons=
+ible for pinning the page to prevent it
+23e7b5c2e271594 Dan Williams      2018-07-13  910  			 * from being release=
+d back to the page allocator.
+23e7b5c2e271594 Dan Williams      2018-07-13  911  			 */
+23e7b5c2e271594 Dan Williams      2018-07-13  912  			put_page(page);
+23e7b5c2e271594 Dan Williams      2018-07-13  913  			ret =3D memory_failur=
+e(pfn, 0);
+6a7e4461476a789 Oscar Salvador    2020-09-14  914  		}
+6a7e4461476a789 Oscar Salvador    2020-09-14  915  =
+
+23a003bfd23ea9e Naoya Horiguchi   2016-03-15  916  		if (ret)
+23a003bfd23ea9e Naoya Horiguchi   2016-03-15  917  			return ret;
+9893e49d64a4874 Andi Kleen        2009-09-16  918  	}
+c461ad6a63b37ba Mel Gorman        2017-08-31  919  =
+
+325c4ef5c4b1737 Andrew Morton     2013-09-11  920  	return 0;
+9893e49d64a4874 Andi Kleen        2009-09-16  921  }
+9893e49d64a4874 Andi Kleen        2009-09-16  922  #endif
+9893e49d64a4874 Andi Kleen        2009-09-16  923  =
+
+
+:::::: The code@line 875 was first introduced by commit
+:::::: c461ad6a63b37ba74632e90c063d14823c884247 mm, madvise: ensure poisone=
+d pages are removed from per-cpu lists
+
+:::::: TO: Mel Gorman <mgorman@techsingularity.net>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2946402822955525192==--
+--===============6463893447922227147==--
 
