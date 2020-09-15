@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6949256654409797976=="
+Content-Type: multipart/mixed; boundary="===============6014368328770253990=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Tue, 15 Sep 2020 15:28:29 +0800
-Message-ID: <20200915072829.GA61631@18a20b5b1e11>
+Date: Tue, 15 Sep 2020 15:28:27 +0800
+Message-ID: <20200915072827.GA61544@18a20b5b1e11>
 In-Reply-To: <202009151518.5Lnrqizo%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6949256654409797976==
+--===============6014368328770253990==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -25,7 +25,7 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/usb/usbip/vudc_sysfs.c:203:8-16: WARNING: use scnprintf or sprintf
+drivers/usb/usbip/stub_dev.c:33:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -51,20 +51,20 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- vudc_sysfs.c |    2 +-
+ stub_dev.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/usb/usbip/vudc_sysfs.c
-+++ b/drivers/usb/usbip/vudc_sysfs.c
-@@ -200,7 +200,7 @@ static ssize_t usbip_status_show(struct
- 	status =3D udc->ud.status;
- 	spin_unlock_irq(&udc->ud.lock);
+--- a/drivers/usb/usbip/stub_dev.c
++++ b/drivers/usb/usbip/stub_dev.c
+@@ -30,7 +30,7 @@ static ssize_t usbip_status_show(struct
+ 	status =3D sdev->ud.status;
+ 	spin_unlock_irq(&sdev->ud.lock);
  =
 
--	return snprintf(out, PAGE_SIZE, "%d\n", status);
-+	return scnprintf(out, PAGE_SIZE, "%d\n", status);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", status);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", status);
  }
  static DEVICE_ATTR_RO(usbip_status);
 =20
---===============6949256654409797976==--
+--===============6014368328770253990==--
 
