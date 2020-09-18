@@ -1,31 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============6078425559330335522=="
+Content-Type: multipart/mixed; boundary="===============5975631843903201750=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1091:4: warning: Variable 'r' is reassigned a value before the old one has been used. 'break; '
-Date: Sat, 19 Sep 2020 10:11:47 +0800
-Message-ID: <202009191039.b5qeOrS5%lkp@intel.com>
+Subject: arch/x86/mm/pat/set_memory.c:2238:9: warning: Variable 'retval' is reassigned a value before the old one has been used.
+Date: Sat, 19 Sep 2020 01:28:25 +0800
+Message-ID: <202009190114.aJDcKdLW%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6078425559330335522==
+--===============5975631843903201750==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Alex Deucher <alexander.deucher@amd.com>
-CC: Xiaojie Yuan <xiaojie.yuan@amd.com>
+TO: Ingo Molnar <mingo@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   92ab97adeefccf375de7ebaad9d5b75d4125fe8b
-commit: 631cdbd27e922a845a728ea2f933c41d220b3cd1 drm/amdgpu/atomfirmware: s=
-implify the interface to get vram info
-date:   12 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 12 months ago
-compiler: s390-linux-gcc (GCC) 9.3.0
+head:   10b82d5176488acee2820e5a2cf0f2ec5c3488b6
+commit: f9b57cf80c8b585614ba223732be0d8f19d558d8 x86/mm/pat: Move the memty=
+pe related files to arch/x86/mm/pat/
+date:   9 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 9 months ago
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -33,289 +32,203 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1091:4: warning: Variable 'r' is r=
-eassigned a value before the old one has been used. 'break;' missing? [redu=
-ndantAssignInSwitch]
-    r =3D amdgpu_irq_add_id(adev, SOC15_IH_CLIENTID_VMC, VMC_1_0__SRCID__VM=
-_FAULT,
-      ^
-   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1025:4: note: Variable 'r' is reas=
-signed a value before the old one has been used. 'break;' missing?
-    r =3D amdgpu_atomfirmware_get_vram_info(adev, &vram_width, &vram_type);
-      ^
-   drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c:1091:4: note: Variable 'r' is reas=
-signed a value before the old one has been used. 'break;' missing?
-    r =3D amdgpu_irq_add_id(adev, SOC15_IH_CLIENTID_VMC, VMC_1_0__SRCID__VM=
-_FAULT,
-      ^
+>> arch/x86/mm/pat/set_memory.c:2238:9: warning: Variable 'retval' is reass=
+igned a value before the old one has been used. [redundantAssignment]
+    retval =3D __change_page_attr_set_clr(&cpa, 0);
+           ^
+   arch/x86/mm/pat/set_memory.c:2210:0: note: Variable 'retval' is reassign=
+ed a value before the old one has been used.
+    int retval =3D -EINVAL;
+   ^
+   arch/x86/mm/pat/set_memory.c:2238:9: note: Variable 'retval' is reassign=
+ed a value before the old one has been used.
+    retval =3D __change_page_attr_set_clr(&cpa, 0);
+           ^
+>> arch/x86/mm/pat/set_memory.c:382:52: warning: Same expression on both si=
+des of '||' because 'r1_start<=3Dr2_end&&r1_end>=3Dr2_start' and 'r2_start<=
+=3Dr1_end&&r2_end>=3Dr1_start' represent the same value. [knownConditionTru=
+eFalse]
+    return (r1_start <=3D r2_end && r1_end >=3D r2_start) ||
+                                                      ^
+>> arch/x86/mm/pat/set_memory.c:1005:17: warning: Local variable pfn shadow=
+s outer variable [shadowVar]
+     unsigned long pfn =3D PFN_DOWN(__pa(address));
+                   ^
+   arch/x86/mm/pat/set_memory.c:943:40: note: Shadowed declaration
+    unsigned long lpaddr, lpinc, ref_pfn, pfn, pfninc =3D 1;
+                                          ^
+   arch/x86/mm/pat/set_memory.c:1005:17: note: Shadow variable
+     unsigned long pfn =3D PFN_DOWN(__pa(address));
+                   ^
+>> arch/x86/mm/pat/set_memory.c:365:17: warning: Local variable addr shadow=
+s outer variable [shadowVar]
+     unsigned long addr =3D __cpa_addr(cpa, i);
+                   ^
+   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
+   static unsigned long addr[NTEST];
+                        ^
+   arch/x86/mm/pat/set_memory.c:365:17: note: Shadow variable
+     unsigned long addr =3D __cpa_addr(cpa, i);
+                   ^
+   arch/x86/mm/pat/set_memory.c:1996:16: warning: Local variable addr shado=
+ws outer variable [shadowVar]
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
+   static unsigned long addr[NTEST];
+                        ^
+   arch/x86/mm/pat/set_memory.c:1996:16: note: Shadow variable
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+   arch/x86/mm/pat/set_memory.c:2068:16: warning: Local variable addr shado=
+ws outer variable [shadowVar]
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
+   static unsigned long addr[NTEST];
+                        ^
+   arch/x86/mm/pat/set_memory.c:2068:16: note: Shadow variable
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+   arch/x86/mm/pat/set_memory.c:2101:16: warning: Local variable addr shado=
+ws outer variable [shadowVar]
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
+   static unsigned long addr[NTEST];
+                        ^
+   arch/x86/mm/pat/set_memory.c:2101:16: note: Shadow variable
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+   arch/x86/mm/pat/set_memory.c:2108:16: warning: Local variable addr shado=
+ws outer variable [shadowVar]
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
+   static unsigned long addr[NTEST];
+                        ^
+   arch/x86/mm/pat/set_memory.c:2108:16: note: Shadow variable
+    unsigned long addr =3D (unsigned long)page_address(page);
+                  ^
+>> arch/x86/mm/pat/cpa-test.c:59:17: warning: Local variable addr shadows o=
+uter variable [shadowVar]
+     unsigned long addr =3D (unsigned long)__va(i << PAGE_SHIFT);
+                   ^
+   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
+   static unsigned long addr[NTEST];
+                        ^
+   arch/x86/mm/pat/cpa-test.c:59:17: note: Shadow variable
+     unsigned long addr =3D (unsigned long)__va(i << PAGE_SHIFT);
+                   ^
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D631cdbd27e922a845a728ea2f933c41d220b3cd1
+/?id=3Df9b57cf80c8b585614ba223732be0d8f19d558d8
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
 ds/linux.git
 git fetch --no-tags linus master
-git checkout 631cdbd27e922a845a728ea2f933c41d220b3cd1
-vim +1091 drivers/gpu/drm/amd/amdgpu/gmc_v9_0.c
+git checkout f9b57cf80c8b585614ba223732be0d8f19d558d8
+vim +/retval +2238 arch/x86/mm/pat/set_memory.c
 
-ebdef28ebbcf767 Alex Deucher      2018-04-06  1011  =
+8a235efad548abd arch/x86/mm/pageattr.c Rafael J. Wysocki    2008-02-20  220=
+6  =
 
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1012  static int gmc_v9_0_sw_=
-init(void *handle)
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1013  {
-631cdbd27e922a8 Alex Deucher      2019-09-23  1014  	int r, vram_width =3D =
-0, vram_type =3D 0;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1015  	struct amdgpu_device *=
-adev =3D (struct amdgpu_device *)handle;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1016  =
+7e0dabd3010d604 arch/x86/mm/pageattr.c Sai Praneeth Prakhya 2018-11-29  220=
+7  int __init kernel_map_pages_in_pgd(pgd_t *pgd, u64 pfn, unsigned long ad=
+dress,
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  220=
+8  				   unsigned numpages, unsigned long page_flags)
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  220=
+9  {
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+0  	int retval =3D -EINVAL;
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+1  =
 
-0c8c0847cc68e33 Huang Rui         2017-05-31  1017  	gfxhub_v1_0_init(adev);
-51cce480fda9701 Le Ma             2018-09-04  1018  	if (adev->asic_type =
-=3D=3D CHIP_ARCTURUS)
-51cce480fda9701 Le Ma             2018-09-04  1019  		mmhub_v9_4_init(adev);
-51cce480fda9701 Le Ma             2018-09-04  1020  	else
-77f6c7637063257 Huang Rui         2017-05-31  1021  		mmhub_v1_0_init(adev);
-0c8c0847cc68e33 Huang Rui         2017-05-31  1022  =
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+2  	struct cpa_data cpa =3D {
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+3  		.vaddr =3D &address,
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+4  		.pfn =3D pfn,
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+5  		.pgd =3D pgd,
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+6  		.numpages =3D numpages,
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+7  		.mask_set =3D __pgprot(0),
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+8  		.mask_clr =3D __pgprot(0),
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
+9  		.flags =3D 0,
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+0  	};
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+1  =
 
-770d13b19fdf365 Christian K=C3=B6nig   2018-01-12  1023  	spin_lock_init(&a=
-dev->gmc.invalidate_lock);
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1024  =
+7e0dabd3010d604 arch/x86/mm/pageattr.c Sai Praneeth Prakhya 2018-11-29  222=
+2  	WARN_ONCE(num_online_cpus() > 1, "Don't call after initializing SMP");
+7e0dabd3010d604 arch/x86/mm/pageattr.c Sai Praneeth Prakhya 2018-11-29  222=
+3  =
 
-631cdbd27e922a8 Alex Deucher      2019-09-23  1025  	r =3D amdgpu_atomfirmw=
-are_get_vram_info(adev, &vram_width, &vram_type);
-631cdbd27e922a8 Alex Deucher      2019-09-23  1026  	if (amdgpu_sriov_vf(ad=
-ev))
-631cdbd27e922a8 Alex Deucher      2019-09-23  1027  		/* For Vega10 SR-IOV,=
- vram_width can't be read from ATOM as RAVEN,
-631cdbd27e922a8 Alex Deucher      2019-09-23  1028  		 * and DF related reg=
-isters is not readable, seems hardcord is the
-631cdbd27e922a8 Alex Deucher      2019-09-23  1029  		 * only way to set th=
-e correct vram_width
-631cdbd27e922a8 Alex Deucher      2019-09-23  1030  		 */
-631cdbd27e922a8 Alex Deucher      2019-09-23  1031  		adev->gmc.vram_width =
-=3D 2048;
-631cdbd27e922a8 Alex Deucher      2019-09-23  1032  	else if (amdgpu_emu_mo=
-de !=3D 1)
-631cdbd27e922a8 Alex Deucher      2019-09-23  1033  		adev->gmc.vram_width =
-=3D vram_width;
-631cdbd27e922a8 Alex Deucher      2019-09-23  1034  =
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+4  	if (!(__supported_pte_mask & _PAGE_NX))
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+5  		goto out;
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+6  =
 
-631cdbd27e922a8 Alex Deucher      2019-09-23  1035  	if (!adev->gmc.vram_wi=
-dth) {
-631cdbd27e922a8 Alex Deucher      2019-09-23  1036  		int chansize, numchan;
-631cdbd27e922a8 Alex Deucher      2019-09-23  1037  =
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+7  	if (!(page_flags & _PAGE_NX))
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+8  		cpa.mask_clr =3D __pgprot(_PAGE_NX);
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
+9  =
 
-631cdbd27e922a8 Alex Deucher      2019-09-23  1038  		/* hbm memory channel=
- size */
-631cdbd27e922a8 Alex Deucher      2019-09-23  1039  		if (adev->flags & AMD=
-_IS_APU)
-631cdbd27e922a8 Alex Deucher      2019-09-23  1040  			chansize =3D 64;
-631cdbd27e922a8 Alex Deucher      2019-09-23  1041  		else
-631cdbd27e922a8 Alex Deucher      2019-09-23  1042  			chansize =3D 128;
-631cdbd27e922a8 Alex Deucher      2019-09-23  1043  =
+15f003d20782a40 arch/x86/mm/pageattr.c Sai Praneeth         2016-02-17  223=
+0  	if (!(page_flags & _PAGE_RW))
+15f003d20782a40 arch/x86/mm/pageattr.c Sai Praneeth         2016-02-17  223=
+1  		cpa.mask_clr =3D __pgprot(_PAGE_RW);
+15f003d20782a40 arch/x86/mm/pageattr.c Sai Praneeth         2016-02-17  223=
+2  =
 
-631cdbd27e922a8 Alex Deucher      2019-09-23  1044  		numchan =3D adev->df_=
-funcs->get_hbm_channel_number(adev);
-631cdbd27e922a8 Alex Deucher      2019-09-23  1045  		adev->gmc.vram_width =
-=3D numchan * chansize;
-631cdbd27e922a8 Alex Deucher      2019-09-23  1046  	}
-631cdbd27e922a8 Alex Deucher      2019-09-23  1047  =
+21729f81ce8ae76 arch/x86/mm/pageattr.c Tom Lendacky         2017-07-17  223=
+3  	if (!(page_flags & _PAGE_ENC))
+21729f81ce8ae76 arch/x86/mm/pageattr.c Tom Lendacky         2017-07-17  223=
+4  		cpa.mask_clr =3D pgprot_encrypted(cpa.mask_clr);
+21729f81ce8ae76 arch/x86/mm/pageattr.c Tom Lendacky         2017-07-17  223=
+5  =
 
-631cdbd27e922a8 Alex Deucher      2019-09-23  1048  	adev->gmc.vram_type =
-=3D vram_type;
-fd66560b803e32c Hawking Zhang     2017-06-22  1049  	switch (adev->asic_typ=
-e) {
-fd66560b803e32c Hawking Zhang     2017-06-22  1050  	case CHIP_RAVEN:
-1daa2bfa17aa5ac Le Ma             2018-08-31  1051  		adev->num_vmhubs =3D =
-2;
-1daa2bfa17aa5ac Le Ma             2018-08-31  1052  =
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  223=
+6  	cpa.mask_set =3D __pgprot(_PAGE_PRESENT | page_flags);
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  223=
+7  =
 
-6a42fd6fbf53409 Christian K=C3=B6nig   2017-12-05  1053  		if (adev->rev_id=
- =3D=3D 0x0 || adev->rev_id =3D=3D 0x1) {
-f3368128bacece3 Christian K=C3=B6nig   2017-11-23  1054  			amdgpu_vm_adjus=
-t_size(adev, 256 * 1024, 9, 3, 48);
-6a42fd6fbf53409 Christian K=C3=B6nig   2017-12-05  1055  		} else {
-6a42fd6fbf53409 Christian K=C3=B6nig   2017-12-05  1056  			/* vm_size is 1=
-28TB + 512GB for legacy 3-level page support */
-6a42fd6fbf53409 Christian K=C3=B6nig   2017-12-05  1057  			amdgpu_vm_adjus=
-t_size(adev, 128 * 1024 + 512, 9, 2, 48);
-770d13b19fdf365 Christian K=C3=B6nig   2018-01-12  1058  			adev->gmc.trans=
-late_further =3D
-6a42fd6fbf53409 Christian K=C3=B6nig   2017-12-05  1059  				adev->vm_manag=
-er.num_level > 1;
-6a42fd6fbf53409 Christian K=C3=B6nig   2017-12-05  1060  		}
-fd66560b803e32c Hawking Zhang     2017-06-22  1061  		break;
-fd66560b803e32c Hawking Zhang     2017-06-22  1062  	case CHIP_VEGA10:
-273a14cd1514345 Alex Deucher      2018-03-13  1063  	case CHIP_VEGA12:
-d96b428c3cea9ed Feifei Xu         2018-04-20  1064  	case CHIP_VEGA20:
-8787ee01458f129 Huang Rui         2019-07-24  1065  	case CHIP_RENOIR:
-1daa2bfa17aa5ac Le Ma             2018-08-31  1066  		adev->num_vmhubs =3D =
-2;
-1daa2bfa17aa5ac Le Ma             2018-08-31  1067  =
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31 @223=
+8  	retval =3D __change_page_attr_set_clr(&cpa, 0);
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  223=
+9  	__flush_tlb_all();
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
+0  =
 
-8787ee01458f129 Huang Rui         2019-07-24  1068  =
-
-36b32a682bc3269 Zhang, Jerry      2017-03-29  1069  		/*
-36b32a682bc3269 Zhang, Jerry      2017-03-29  1070  		 * To fulfill 4-level=
- page support,
-36b32a682bc3269 Zhang, Jerry      2017-03-29  1071  		 * vm size is 256TB (=
-48bit), maximum size of Vega10,
-36b32a682bc3269 Zhang, Jerry      2017-03-29  1072  		 * block size 512 (9b=
-it)
-36b32a682bc3269 Zhang, Jerry      2017-03-29  1073  		 */
-cdba61daf550904 wentalou          2019-01-24  1074  		/* sriov restrict max=
-_pfn below AMDGPU_GMC_HOLE */
-cdba61daf550904 wentalou          2019-01-24  1075  		if (amdgpu_sriov_vf(a=
-dev))
-cdba61daf550904 wentalou          2019-01-24  1076  			amdgpu_vm_adjust_siz=
-e(adev, 256 * 1024, 9, 3, 47);
-cdba61daf550904 wentalou          2019-01-24  1077  		else
-f3368128bacece3 Christian K=C3=B6nig   2017-11-23  1078  			amdgpu_vm_adjus=
-t_size(adev, 256 * 1024, 9, 3, 48);
-fd66560b803e32c Hawking Zhang     2017-06-22  1079  		break;
-3de2ff5d60d0695 Le Ma             2018-09-04  1080  	case CHIP_ARCTURUS:
-c8a6e2a3170064c Le Ma             2018-08-31  1081  		adev->num_vmhubs =3D =
-3;
-c8a6e2a3170064c Le Ma             2018-08-31  1082  =
-
-3de2ff5d60d0695 Le Ma             2018-09-04  1083  		/* Keep the vm size s=
-ame with Vega20 */
-3de2ff5d60d0695 Le Ma             2018-09-04  1084  		amdgpu_vm_adjust_size=
-(adev, 256 * 1024, 9, 3, 48);
-3de2ff5d60d0695 Le Ma             2018-09-04  1085  		break;
-fd66560b803e32c Hawking Zhang     2017-06-22  1086  	default:
-fd66560b803e32c Hawking Zhang     2017-06-22  1087  		break;
-fd66560b803e32c Hawking Zhang     2017-06-22  1088  	}
-fd66560b803e32c Hawking Zhang     2017-06-22  1089  =
-
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1090  	/* This interrupt is V=
-MC page fault.*/
-44a99b65fc27474 Andrey Grodzovsky 2018-05-25 @1091  	r =3D amdgpu_irq_add_i=
-d(adev, SOC15_IH_CLIENTID_VMC, VMC_1_0__SRCID__VM_FAULT,
-770d13b19fdf365 Christian K=C3=B6nig   2018-01-12  1092  				&adev->gmc.vm_=
-fault);
-30da7bb18471327 Christian K=C3=B6nig   2018-09-26  1093  	if (r)
-30da7bb18471327 Christian K=C3=B6nig   2018-09-26  1094  		return r;
-30da7bb18471327 Christian K=C3=B6nig   2018-09-26  1095  =
-
-7d19b15f7013c9a Le Ma             2018-09-06  1096  	if (adev->asic_type =
-=3D=3D CHIP_ARCTURUS) {
-7d19b15f7013c9a Le Ma             2018-09-06  1097  		r =3D amdgpu_irq_add_=
-id(adev, SOC15_IH_CLIENTID_VMC1, VMC_1_0__SRCID__VM_FAULT,
-7d19b15f7013c9a Le Ma             2018-09-06  1098  					&adev->gmc.vm_faul=
-t);
-7d19b15f7013c9a Le Ma             2018-09-06  1099  		if (r)
-7d19b15f7013c9a Le Ma             2018-09-06  1100  			return r;
-7d19b15f7013c9a Le Ma             2018-09-06  1101  	}
-7d19b15f7013c9a Le Ma             2018-09-06  1102  =
-
-44a99b65fc27474 Andrey Grodzovsky 2018-05-25  1103  	r =3D amdgpu_irq_add_i=
-d(adev, SOC15_IH_CLIENTID_UTCL2, UTCL2_1_0__SRCID__FAULT,
-770d13b19fdf365 Christian K=C3=B6nig   2018-01-12  1104  				&adev->gmc.vm_=
-fault);
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1105  =
-
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1106  	if (r)
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1107  		return r;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1108  =
-
-791c47694f01663 xinhui pan        2019-01-23  1109  	/* interrupt sent to D=
-F. */
-791c47694f01663 xinhui pan        2019-01-23  1110  	r =3D amdgpu_irq_add_i=
-d(adev, SOC15_IH_CLIENTID_DF, 0,
-791c47694f01663 xinhui pan        2019-01-23  1111  			&adev->gmc.ecc_irq);
-791c47694f01663 xinhui pan        2019-01-23  1112  	if (r)
-791c47694f01663 xinhui pan        2019-01-23  1113  		return r;
-791c47694f01663 xinhui pan        2019-01-23  1114  =
-
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1115  	/* Set the internal MC=
- address mask
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1116  	 * This is the max add=
-ress of the GPU's
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1117  	 * internal address sp=
-ace.
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1118  	 */
-770d13b19fdf365 Christian K=C3=B6nig   2018-01-12  1119  	adev->gmc.mc_mask=
- =3D 0xffffffffffffULL; /* 48 bit MC */
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1120  =
-
-244511f386ccb90 Christoph Hellwig 2019-08-15  1121  	r =3D dma_set_mask_and=
-_coherent(adev->dev, DMA_BIT_MASK(44));
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1122  	if (r) {
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1123  		printk(KERN_WARNING "=
-amdgpu: No suitable DMA available.\n");
-244511f386ccb90 Christoph Hellwig 2019-08-15  1124  		return r;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1125  	}
-244511f386ccb90 Christoph Hellwig 2019-08-15  1126  	adev->need_swiotlb =3D=
- drm_need_swiotlb(44);
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1127  =
-
-47622ba033d6da5 Alex Deucher      2018-11-30  1128  	if (adev->gmc.xgmi.sup=
-ported) {
-bf0a60b78b61a7b Alex Deucher      2018-06-19  1129  		r =3D gfxhub_v1_1_get=
-_xgmi_info(adev);
-bf0a60b78b61a7b Alex Deucher      2018-06-19  1130  		if (r)
-bf0a60b78b61a7b Alex Deucher      2018-06-19  1131  			return r;
-bf0a60b78b61a7b Alex Deucher      2018-06-19  1132  	}
-bf0a60b78b61a7b Alex Deucher      2018-06-19  1133  =
-
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1134  	r =3D gmc_v9_0_mc_init=
-(adev);
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1135  	if (r)
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1136  		return r;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1137  =
-
-ebdef28ebbcf767 Alex Deucher      2018-04-06  1138  	adev->gmc.stolen_size =
-=3D gmc_v9_0_get_vbios_fb_size(adev);
-ebdef28ebbcf767 Alex Deucher      2018-04-06  1139  =
-
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1140  	/* Memory manager */
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1141  	r =3D amdgpu_bo_init(a=
-dev);
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1142  	if (r)
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1143  		return r;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1144  =
-
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1145  	r =3D gmc_v9_0_gart_in=
-it(adev);
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1146  	if (r)
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1147  		return r;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1148  =
-
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1149  	/*
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1150  	 * number of VMs
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1151  	 * VMID 0 is rese=
-rved for System
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1152  	 * amdgpu graphic=
-s/compute will use VMIDs 1-7
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1153  	 * amdkfd will us=
-e VMIDs 8-15
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1154  	 */
-a2d15ed733365ba Le Ma             2019-07-16  1155  	adev->vm_manager.id_mg=
-r[AMDGPU_GFXHUB_0].num_ids =3D AMDGPU_NUM_OF_VMIDS;
-a2d15ed733365ba Le Ma             2019-07-16  1156  	adev->vm_manager.id_mg=
-r[AMDGPU_MMHUB_0].num_ids =3D AMDGPU_NUM_OF_VMIDS;
-c8a6e2a3170064c Le Ma             2018-08-31  1157  	adev->vm_manager.id_mg=
-r[AMDGPU_MMHUB_1].num_ids =3D AMDGPU_NUM_OF_VMIDS;
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1158  =
-
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1159  	amdgpu_vm_manager=
-_init(adev);
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1160  =
-
-05ec3eda8b213cc Christian K=C3=B6nig   2017-05-11  1161  	return 0;
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1162  }
-e60f8db5e4c85d7 Alex Xie          2017-03-09  1163  =
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
+1  out:
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
+2  	return retval;
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
+3  }
+82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
+4  =
 
 
-:::::: The code at line 1091 was first introduced by commit
-:::::: 44a99b65fc27474b66f7173b971bfbd67ca6ba74 drm/amd: Use newly added in=
-terrupt source defs for SOC15.
+:::::: The code at line 2238 was first introduced by commit
+:::::: 82f0712ca0f947170e785300b5c39d9c25e2f6ff x86/mm/cpa: Map in an arbit=
+rary pgd
 
-:::::: TO: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
-:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+:::::: TO: Borislav Petkov <bp@suse.de>
+:::::: CC: Matt Fleming <matt.fleming@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6078425559330335522==--
+--===============5975631843903201750==--
 
