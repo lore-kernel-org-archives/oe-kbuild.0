@@ -1,29 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============5975631843903201750=="
+Content-Type: multipart/mixed; boundary="===============5386963290866130038=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/mm/pat/set_memory.c:2238:9: warning: Variable 'retval' is reassigned a value before the old one has been used.
-Date: Sat, 19 Sep 2020 01:28:25 +0800
-Message-ID: <202009190114.aJDcKdLW%lkp@intel.com>
+Subject: drivers/dma/sf-pdma/sf-pdma.c:488:23: warning: Variable 'chan' is not assigned a value.
+Date: Sat, 19 Sep 2020 01:14:49 +0800
+Message-ID: <202009190146.ogHF8PZb%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5975631843903201750==
+--===============5386963290866130038==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ingo Molnar <mingo@kernel.org>
+TO: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Green Wan <green.wan@sifive.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   10b82d5176488acee2820e5a2cf0f2ec5c3488b6
-commit: f9b57cf80c8b585614ba223732be0d8f19d558d8 x86/mm/pat: Move the memty=
-pe related files to arch/x86/mm/pat/
-date:   9 months ago
+commit: f2b5d503c04a28828af8e41fcd4a5d9fd978a78e dmaengine: sf-pdma: Simpli=
+fy the error handling path in 'sf_pdma_probe()'
+date:   4 months ago
 :::::: branch date: 16 hours ago
-:::::: commit date: 9 months ago
+:::::: commit date: 4 months ago
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -32,203 +34,181 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> arch/x86/mm/pat/set_memory.c:2238:9: warning: Variable 'retval' is reass=
-igned a value before the old one has been used. [redundantAssignment]
-    retval =3D __change_page_attr_set_clr(&cpa, 0);
-           ^
-   arch/x86/mm/pat/set_memory.c:2210:0: note: Variable 'retval' is reassign=
-ed a value before the old one has been used.
-    int retval =3D -EINVAL;
-   ^
-   arch/x86/mm/pat/set_memory.c:2238:9: note: Variable 'retval' is reassign=
-ed a value before the old one has been used.
-    retval =3D __change_page_attr_set_clr(&cpa, 0);
-           ^
->> arch/x86/mm/pat/set_memory.c:382:52: warning: Same expression on both si=
-des of '||' because 'r1_start<=3Dr2_end&&r1_end>=3Dr2_start' and 'r2_start<=
-=3Dr1_end&&r2_end>=3Dr1_start' represent the same value. [knownConditionTru=
-eFalse]
-    return (r1_start <=3D r2_end && r1_end >=3D r2_start) ||
-                                                      ^
->> arch/x86/mm/pat/set_memory.c:1005:17: warning: Local variable pfn shadow=
-s outer variable [shadowVar]
-     unsigned long pfn =3D PFN_DOWN(__pa(address));
-                   ^
-   arch/x86/mm/pat/set_memory.c:943:40: note: Shadowed declaration
-    unsigned long lpaddr, lpinc, ref_pfn, pfn, pfninc =3D 1;
-                                          ^
-   arch/x86/mm/pat/set_memory.c:1005:17: note: Shadow variable
-     unsigned long pfn =3D PFN_DOWN(__pa(address));
-                   ^
->> arch/x86/mm/pat/set_memory.c:365:17: warning: Local variable addr shadow=
-s outer variable [shadowVar]
-     unsigned long addr =3D __cpa_addr(cpa, i);
-                   ^
-   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:365:17: note: Shadow variable
-     unsigned long addr =3D __cpa_addr(cpa, i);
-                   ^
-   arch/x86/mm/pat/set_memory.c:1996:16: warning: Local variable addr shado=
-ws outer variable [shadowVar]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:1996:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/set_memory.c:2068:16: warning: Local variable addr shado=
-ws outer variable [shadowVar]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:2068:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/set_memory.c:2101:16: warning: Local variable addr shado=
-ws outer variable [shadowVar]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:2101:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/set_memory.c:2108:16: warning: Local variable addr shado=
-ws outer variable [shadowVar]
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
-   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/set_memory.c:2108:16: note: Shadow variable
-    unsigned long addr =3D (unsigned long)page_address(page);
-                  ^
->> arch/x86/mm/pat/cpa-test.c:59:17: warning: Local variable addr shadows o=
-uter variable [shadowVar]
-     unsigned long addr =3D (unsigned long)__va(i << PAGE_SHIFT);
-                   ^
-   arch/x86/mm/pat/cpa-test.c:111:22: note: Shadowed declaration
-   static unsigned long addr[NTEST];
-                        ^
-   arch/x86/mm/pat/cpa-test.c:59:17: note: Shadow variable
-     unsigned long addr =3D (unsigned long)__va(i << PAGE_SHIFT);
-                   ^
+   drivers/dma/sf-pdma/sf-pdma.c:58:6: warning: Either the condition 'chan'=
+ is redundant or there is possible null pointer dereference: chan. [nullPoi=
+nterRedundantCheck]
+    if (chan->desc && !chan->desc->in_use) {
+        ^
+   drivers/dma/sf-pdma/sf-pdma.c:97:6: note: Assuming that condition 'chan'=
+ is not redundant
+    if (chan && (!len || !dest || !src)) {
+        ^
+   drivers/dma/sf-pdma/sf-pdma.c:103:28: note: Calling function 'sf_pdma_al=
+loc_desc', 1st argument 'chan' value is 0
+    desc =3D sf_pdma_alloc_desc(chan);
+                              ^
+   drivers/dma/sf-pdma/sf-pdma.c:58:6: note: Null pointer dereference
+    if (chan->desc && !chan->desc->in_use) {
+        ^
+   drivers/dma/sf-pdma/sf-pdma.c:112:2: warning: Either the condition 'chan=
+' is redundant or there is possible null pointer dereference: chan. [nullPo=
+interRedundantCheck]
+    chan->desc =3D desc;
+    ^
+   drivers/dma/sf-pdma/sf-pdma.c:97:6: note: Assuming that condition 'chan'=
+ is not redundant
+    if (chan && (!len || !dest || !src)) {
+        ^
+   drivers/dma/sf-pdma/sf-pdma.c:112:2: note: Null pointer dereference
+    chan->desc =3D desc;
+    ^
+>> drivers/dma/sf-pdma/sf-pdma.c:488:23: warning: Variable 'chan' is not as=
+signed a value. [unassignedVariable]
+    struct sf_pdma_chan *chan;
+                         ^
 
 # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3Df9b57cf80c8b585614ba223732be0d8f19d558d8
+/?id=3Df2b5d503c04a28828af8e41fcd4a5d9fd978a78e
 git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
 ds/linux.git
 git fetch --no-tags linus master
-git checkout f9b57cf80c8b585614ba223732be0d8f19d558d8
-vim +/retval +2238 arch/x86/mm/pat/set_memory.c
+git checkout f2b5d503c04a28828af8e41fcd4a5d9fd978a78e
+vim +/chan +488 drivers/dma/sf-pdma/sf-pdma.c
 
-8a235efad548abd arch/x86/mm/pageattr.c Rafael J. Wysocki    2008-02-20  220=
-6  =
+6973886ad58e6b4 Green Wan          2019-11-07  484  =
 
-7e0dabd3010d604 arch/x86/mm/pageattr.c Sai Praneeth Prakhya 2018-11-29  220=
-7  int __init kernel_map_pages_in_pgd(pgd_t *pgd, u64 pfn, unsigned long ad=
-dress,
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  220=
-8  				   unsigned numpages, unsigned long page_flags)
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  220=
-9  {
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-0  	int retval =3D -EINVAL;
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-1  =
+6973886ad58e6b4 Green Wan          2019-11-07  485  static int sf_pdma_prob=
+e(struct platform_device *pdev)
+6973886ad58e6b4 Green Wan          2019-11-07  486  {
+6973886ad58e6b4 Green Wan          2019-11-07  487  	struct sf_pdma *pdma;
+6973886ad58e6b4 Green Wan          2019-11-07 @488  	struct sf_pdma_chan *c=
+han;
+6973886ad58e6b4 Green Wan          2019-11-07  489  	struct resource *res;
+6973886ad58e6b4 Green Wan          2019-11-07  490  	int len, chans;
+6973886ad58e6b4 Green Wan          2019-11-07  491  	int ret;
+6973886ad58e6b4 Green Wan          2019-11-07  492  	const enum dma_slave_b=
+uswidth widths =3D
+6973886ad58e6b4 Green Wan          2019-11-07  493  		DMA_SLAVE_BUSWIDTH_1_=
+BYTE | DMA_SLAVE_BUSWIDTH_2_BYTES |
+6973886ad58e6b4 Green Wan          2019-11-07  494  		DMA_SLAVE_BUSWIDTH_4_=
+BYTES | DMA_SLAVE_BUSWIDTH_8_BYTES |
+6973886ad58e6b4 Green Wan          2019-11-07  495  		DMA_SLAVE_BUSWIDTH_16=
+_BYTES | DMA_SLAVE_BUSWIDTH_32_BYTES |
+6973886ad58e6b4 Green Wan          2019-11-07  496  		DMA_SLAVE_BUSWIDTH_64=
+_BYTES;
+6973886ad58e6b4 Green Wan          2019-11-07  497  =
 
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-2  	struct cpa_data cpa =3D {
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-3  		.vaddr =3D &address,
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-4  		.pfn =3D pfn,
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-5  		.pgd =3D pgd,
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-6  		.numpages =3D numpages,
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-7  		.mask_set =3D __pgprot(0),
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-8  		.mask_clr =3D __pgprot(0),
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  221=
-9  		.flags =3D 0,
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-0  	};
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-1  =
+6973886ad58e6b4 Green Wan          2019-11-07  498  	chans =3D PDMA_NR_CH;
+6973886ad58e6b4 Green Wan          2019-11-07  499  	len =3D sizeof(*pdma) =
++ sizeof(*chan) * chans;
+6973886ad58e6b4 Green Wan          2019-11-07  500  	pdma =3D devm_kzalloc(=
+&pdev->dev, len, GFP_KERNEL);
+6973886ad58e6b4 Green Wan          2019-11-07  501  	if (!pdma)
+6973886ad58e6b4 Green Wan          2019-11-07  502  		return -ENOMEM;
+6973886ad58e6b4 Green Wan          2019-11-07  503  =
 
-7e0dabd3010d604 arch/x86/mm/pageattr.c Sai Praneeth Prakhya 2018-11-29  222=
-2  	WARN_ONCE(num_online_cpus() > 1, "Don't call after initializing SMP");
-7e0dabd3010d604 arch/x86/mm/pageattr.c Sai Praneeth Prakhya 2018-11-29  222=
-3  =
+6973886ad58e6b4 Green Wan          2019-11-07  504  	pdma->n_chans =3D chan=
+s;
+6973886ad58e6b4 Green Wan          2019-11-07  505  =
 
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-4  	if (!(__supported_pte_mask & _PAGE_NX))
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-5  		goto out;
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-6  =
+6973886ad58e6b4 Green Wan          2019-11-07  506  	res =3D platform_get_r=
+esource(pdev, IORESOURCE_MEM, 0);
+6973886ad58e6b4 Green Wan          2019-11-07  507  	pdma->membase =3D devm=
+_ioremap_resource(&pdev->dev, res);
+6973886ad58e6b4 Green Wan          2019-11-07  508  	if (IS_ERR(pdma->memba=
+se))
+f2b5d503c04a288 Christophe JAILLET 2020-05-01  509  		return PTR_ERR(pdma->=
+membase);
+6973886ad58e6b4 Green Wan          2019-11-07  510  =
 
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-7  	if (!(page_flags & _PAGE_NX))
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-8  		cpa.mask_clr =3D __pgprot(_PAGE_NX);
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  222=
-9  =
+6973886ad58e6b4 Green Wan          2019-11-07  511  	ret =3D sf_pdma_irq_in=
+it(pdev, pdma);
+6973886ad58e6b4 Green Wan          2019-11-07  512  	if (ret)
+f2b5d503c04a288 Christophe JAILLET 2020-05-01  513  		return ret;
+6973886ad58e6b4 Green Wan          2019-11-07  514  =
 
-15f003d20782a40 arch/x86/mm/pageattr.c Sai Praneeth         2016-02-17  223=
-0  	if (!(page_flags & _PAGE_RW))
-15f003d20782a40 arch/x86/mm/pageattr.c Sai Praneeth         2016-02-17  223=
-1  		cpa.mask_clr =3D __pgprot(_PAGE_RW);
-15f003d20782a40 arch/x86/mm/pageattr.c Sai Praneeth         2016-02-17  223=
-2  =
+6973886ad58e6b4 Green Wan          2019-11-07  515  	sf_pdma_setup_chans(pd=
+ma);
+6973886ad58e6b4 Green Wan          2019-11-07  516  =
 
-21729f81ce8ae76 arch/x86/mm/pageattr.c Tom Lendacky         2017-07-17  223=
-3  	if (!(page_flags & _PAGE_ENC))
-21729f81ce8ae76 arch/x86/mm/pageattr.c Tom Lendacky         2017-07-17  223=
-4  		cpa.mask_clr =3D pgprot_encrypted(cpa.mask_clr);
-21729f81ce8ae76 arch/x86/mm/pageattr.c Tom Lendacky         2017-07-17  223=
-5  =
+6973886ad58e6b4 Green Wan          2019-11-07  517  	pdma->dma_dev.dev =3D =
+&pdev->dev;
+6973886ad58e6b4 Green Wan          2019-11-07  518  =
 
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  223=
-6  	cpa.mask_set =3D __pgprot(_PAGE_PRESENT | page_flags);
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  223=
-7  =
+6973886ad58e6b4 Green Wan          2019-11-07  519  	/* Setup capability */
+6973886ad58e6b4 Green Wan          2019-11-07  520  	dma_cap_set(DMA_MEMCPY=
+, pdma->dma_dev.cap_mask);
+6973886ad58e6b4 Green Wan          2019-11-07  521  	pdma->dma_dev.copy_ali=
+gn =3D 2;
+6973886ad58e6b4 Green Wan          2019-11-07  522  	pdma->dma_dev.src_addr=
+_widths =3D widths;
+6973886ad58e6b4 Green Wan          2019-11-07  523  	pdma->dma_dev.dst_addr=
+_widths =3D widths;
+6973886ad58e6b4 Green Wan          2019-11-07  524  	pdma->dma_dev.directio=
+ns =3D BIT(DMA_MEM_TO_MEM);
+6973886ad58e6b4 Green Wan          2019-11-07  525  	pdma->dma_dev.residue_=
+granularity =3D DMA_RESIDUE_GRANULARITY_DESCRIPTOR;
+6973886ad58e6b4 Green Wan          2019-11-07  526  	pdma->dma_dev.descript=
+or_reuse =3D true;
+6973886ad58e6b4 Green Wan          2019-11-07  527  =
 
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31 @223=
-8  	retval =3D __change_page_attr_set_clr(&cpa, 0);
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  223=
-9  	__flush_tlb_all();
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
-0  =
+6973886ad58e6b4 Green Wan          2019-11-07  528  	/* Setup DMA APIs */
+6973886ad58e6b4 Green Wan          2019-11-07  529  	pdma->dma_dev.device_a=
+lloc_chan_resources =3D
+6973886ad58e6b4 Green Wan          2019-11-07  530  		sf_pdma_alloc_chan_re=
+sources;
+6973886ad58e6b4 Green Wan          2019-11-07  531  	pdma->dma_dev.device_f=
+ree_chan_resources =3D
+6973886ad58e6b4 Green Wan          2019-11-07  532  		sf_pdma_free_chan_res=
+ources;
+6973886ad58e6b4 Green Wan          2019-11-07  533  	pdma->dma_dev.device_t=
+x_status =3D sf_pdma_tx_status;
+6973886ad58e6b4 Green Wan          2019-11-07  534  	pdma->dma_dev.device_p=
+rep_dma_memcpy =3D sf_pdma_prep_dma_memcpy;
+6973886ad58e6b4 Green Wan          2019-11-07  535  	pdma->dma_dev.device_c=
+onfig =3D sf_pdma_slave_config;
+6973886ad58e6b4 Green Wan          2019-11-07  536  	pdma->dma_dev.device_t=
+erminate_all =3D sf_pdma_terminate_all;
+6973886ad58e6b4 Green Wan          2019-11-07  537  	pdma->dma_dev.device_i=
+ssue_pending =3D sf_pdma_issue_pending;
+6973886ad58e6b4 Green Wan          2019-11-07  538  =
 
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
-1  out:
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
-2  	return retval;
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
-3  }
-82f0712ca0f9471 arch/x86/mm/pageattr.c Borislav Petkov      2013-10-31  224=
-4  =
+6973886ad58e6b4 Green Wan          2019-11-07  539  	platform_set_drvdata(p=
+dev, pdma);
+6973886ad58e6b4 Green Wan          2019-11-07  540  =
+
+6973886ad58e6b4 Green Wan          2019-11-07  541  	ret =3D dma_set_mask_a=
+nd_coherent(&pdev->dev, DMA_BIT_MASK(64));
+6973886ad58e6b4 Green Wan          2019-11-07  542  	if (ret)
+6973886ad58e6b4 Green Wan          2019-11-07  543  		dev_warn(&pdev->dev,
+6973886ad58e6b4 Green Wan          2019-11-07  544  			 "Failed to set DMA =
+mask. Fall back to default.\n");
+6973886ad58e6b4 Green Wan          2019-11-07  545  =
+
+6973886ad58e6b4 Green Wan          2019-11-07  546  	ret =3D dma_async_devi=
+ce_register(&pdma->dma_dev);
+f2b5d503c04a288 Christophe JAILLET 2020-05-01  547  	if (ret) {
+6973886ad58e6b4 Green Wan          2019-11-07  548  		dev_err(&pdev->dev,
+6973886ad58e6b4 Green Wan          2019-11-07  549  			"Can't register SiFi=
+ve Platform DMA. (%d)\n", ret);
+6973886ad58e6b4 Green Wan          2019-11-07  550  		return ret;
+6973886ad58e6b4 Green Wan          2019-11-07  551  	}
+6973886ad58e6b4 Green Wan          2019-11-07  552  =
+
+f2b5d503c04a288 Christophe JAILLET 2020-05-01  553  	return 0;
+f2b5d503c04a288 Christophe JAILLET 2020-05-01  554  }
+f2b5d503c04a288 Christophe JAILLET 2020-05-01  555  =
 
 
-:::::: The code at line 2238 was first introduced by commit
-:::::: 82f0712ca0f947170e785300b5c39d9c25e2f6ff x86/mm/cpa: Map in an arbit=
-rary pgd
+:::::: The code at line 488 was first introduced by commit
+:::::: 6973886ad58e6b4988813331abb76ae0b364a9c2 dmaengine: sf-pdma: add pla=
+tform DMA support for HiFive Unleashed A00
 
-:::::: TO: Borislav Petkov <bp@suse.de>
-:::::: CC: Matt Fleming <matt.fleming@intel.com>
+:::::: TO: Green Wan <green.wan@sifive.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5975631843903201750==--
+--===============5386963290866130038==--
 
