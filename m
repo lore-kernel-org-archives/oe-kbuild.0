@@ -1,31 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============0719438503425076354=="
+Content-Type: multipart/mixed; boundary="===============7479602491533892211=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/dma/sf-pdma/sf-pdma.c:58:6: warning: Either the condition 'chan' is redundant or there is possible null pointer dereference: chan.
-Date: Fri, 18 Sep 2020 15:43:05 +0800
-Message-ID: <202009181501.pNbVPdGa%lkp@intel.com>
+Subject: [jpirko-mlxsw:jiri_devel_xmrouter 35/41] drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c:278:55: warning: Either the condition '!fib_entry' is redundant or there is possible null pointer dereference: fib_entry.
+Date: Fri, 18 Sep 2020 11:58:01 +0800
+Message-ID: <202009181155.rytImhh9%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0719438503425076354==
+--===============7479602491533892211==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Green Wan <green.wan@sifive.com>
-CC: Vinod Koul <vkoul@kernel.org>
+TO: Jiri Pirko <jiri@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   10b82d5176488acee2820e5a2cf0f2ec5c3488b6
-commit: 6973886ad58e6b4988813331abb76ae0b364a9c2 dmaengine: sf-pdma: add pl=
-atform DMA support for HiFive Unleashed A00
-date:   10 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 10 months ago
-compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
+tree:   https://github.com/jpirko/linux_mlxsw jiri_devel_xmrouter
+head:   a95f3d521b1e9bbc77c40307be176fd19ea723dd
+commit: e474e0427362f198d903b58664e4fabb533cd5e6 [35/41] mlxsw: spectrum_ro=
+uter_xm: Implement L-value tracking for M-index
+:::::: branch date: 21 hours ago
+:::::: commit date: 2 days ago
+compiler: sparc64-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -33,84 +29,93 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/dma/sf-pdma/sf-pdma.c:58:6: warning: Either the condition 'chan'=
- is redundant or there is possible null pointer dereference: chan. [nullPoi=
-nterRedundantCheck]
-    if (chan->desc && !chan->desc->in_use) {
+>> drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c:278:55: warning=
+: Either the condition '!fib_entry' is redundant or there is possible null =
+pointer dereference: fib_entry. [nullPointerRedundantCheck]
+    struct mlxsw_sp_router_xm_ltable_node *ltable_node =3D fib_entry->ltabl=
+e_node;
+                                                         ^
+   drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c:282:6: note: As=
+suming that condition '!fib_entry' is not redundant
+    if (!fib_entry || !fib_entry->ltable_node)
         ^
-   drivers/dma/sf-pdma/sf-pdma.c:97:6: note: Assuming that condition 'chan'=
- is not redundant
-    if (chan && (!len || !dest || !src)) {
+   drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c:278:55: note: N=
+ull pointer dereference
+    struct mlxsw_sp_router_xm_ltable_node *ltable_node =3D fib_entry->ltabl=
+e_node;
+                                                         ^
+   drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c:280:14: warning=
+: Either the condition '!fib_entry' is redundant or there is possible null =
+pointer dereference: fib_entry. [nullPointerRedundantCheck]
+    u8 lvalue =3D fib_entry->lvalue;
+                ^
+   drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c:282:6: note: As=
+suming that condition '!fib_entry' is not redundant
+    if (!fib_entry || !fib_entry->ltable_node)
         ^
-   drivers/dma/sf-pdma/sf-pdma.c:103:28: note: Calling function 'sf_pdma_al=
-loc_desc', 1st argument 'chan' value is 0
-    desc =3D sf_pdma_alloc_desc(chan);
-                              ^
-   drivers/dma/sf-pdma/sf-pdma.c:58:6: note: Null pointer dereference
-    if (chan->desc && !chan->desc->in_use) {
-        ^
-   drivers/dma/sf-pdma/sf-pdma.c:112:2: warning: Either the condition 'chan=
-' is redundant or there is possible null pointer dereference: chan. [nullPo=
-interRedundantCheck]
-    chan->desc =3D desc;
-    ^
-   drivers/dma/sf-pdma/sf-pdma.c:97:6: note: Assuming that condition 'chan'=
- is not redundant
-    if (chan && (!len || !dest || !src)) {
-        ^
-   drivers/dma/sf-pdma/sf-pdma.c:112:2: note: Null pointer dereference
-    chan->desc =3D desc;
-    ^
+   drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c:280:14: note: N=
+ull pointer dereference
+    u8 lvalue =3D fib_entry->lvalue;
+                ^
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
-/?id=3D6973886ad58e6b4988813331abb76ae0b364a9c2
-git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
-ds/linux.git
-git fetch --no-tags linus master
-git checkout 6973886ad58e6b4988813331abb76ae0b364a9c2
-vim +/chan +58 drivers/dma/sf-pdma/sf-pdma.c
+# https://github.com/jpirko/linux_mlxsw/commit/e474e0427362f198d903b58664e4=
+fabb533cd5e6
+git remote add jpirko-mlxsw https://github.com/jpirko/linux_mlxsw
+git fetch --no-tags jpirko-mlxsw jiri_devel_xmrouter
+git checkout e474e0427362f198d903b58664e4fabb533cd5e6
+vim +278 drivers/net/ethernet/mellanox/mlxsw/spectrum_router_xm.c
 
-6973886ad58e6b4 Green Wan 2019-11-07  50  =
+e474e0427362f19 Jiri Pirko 2020-07-17  274  =
 
-6973886ad58e6b4 Green Wan 2019-11-07  51  static struct sf_pdma_desc *sf_pd=
-ma_alloc_desc(struct sf_pdma_chan *chan)
-6973886ad58e6b4 Green Wan 2019-11-07  52  {
-6973886ad58e6b4 Green Wan 2019-11-07  53  	struct sf_pdma_desc *desc;
-6973886ad58e6b4 Green Wan 2019-11-07  54  	unsigned long flags;
-6973886ad58e6b4 Green Wan 2019-11-07  55  =
+e474e0427362f19 Jiri Pirko 2020-07-17  275  static void mlxsw_sp_router_xm_=
+ml_entry_del(struct mlxsw_sp *mlxsw_sp,
+e474e0427362f19 Jiri Pirko 2020-07-17  276  					    struct mlxsw_sp_router=
+_xm_fib_entry *fib_entry)
+e474e0427362f19 Jiri Pirko 2020-07-17  277  {
+e474e0427362f19 Jiri Pirko 2020-07-17 @278  	struct mlxsw_sp_router_xm_ltab=
+le_node *ltable_node =3D fib_entry->ltable_node;
+e474e0427362f19 Jiri Pirko 2020-07-17  279  	struct mlxsw_sp_router_xm *rou=
+ter_xm =3D mlxsw_sp->router->xm;
+e474e0427362f19 Jiri Pirko 2020-07-17  280  	u8 lvalue =3D fib_entry->lvalu=
+e;
+e474e0427362f19 Jiri Pirko 2020-07-17  281  =
 
-6973886ad58e6b4 Green Wan 2019-11-07  56  	spin_lock_irqsave(&chan->lock, f=
-lags);
-6973886ad58e6b4 Green Wan 2019-11-07  57  =
+e474e0427362f19 Jiri Pirko 2020-07-17  282  	if (!fib_entry || !fib_entry->=
+ltable_node)
+e474e0427362f19 Jiri Pirko 2020-07-17  283  		return;
+e474e0427362f19 Jiri Pirko 2020-07-17  284  =
 
-6973886ad58e6b4 Green Wan 2019-11-07 @58  	if (chan->desc && !chan->desc->i=
-n_use) {
-6973886ad58e6b4 Green Wan 2019-11-07  59  		spin_unlock_irqrestore(&chan->l=
-ock, flags);
-6973886ad58e6b4 Green Wan 2019-11-07  60  		return chan->desc;
-6973886ad58e6b4 Green Wan 2019-11-07  61  	}
-6973886ad58e6b4 Green Wan 2019-11-07  62  =
+e474e0427362f19 Jiri Pirko 2020-07-17  285  	ltable_node->lvalue_ref[lvalue=
+]--;
+e474e0427362f19 Jiri Pirko 2020-07-17  286  	if (lvalue =3D=3D ltable_node-=
+>current_lvalue && lvalue &&
+e474e0427362f19 Jiri Pirko 2020-07-17  287  	    !ltable_node->lvalue_ref[l=
+value]) {
+e474e0427362f19 Jiri Pirko 2020-07-17  288  		u8 new_lvalue =3D lvalue - 1;
+e474e0427362f19 Jiri Pirko 2020-07-17  289  =
 
-6973886ad58e6b4 Green Wan 2019-11-07  63  	spin_unlock_irqrestore(&chan->lo=
-ck, flags);
-6973886ad58e6b4 Green Wan 2019-11-07  64  =
+e474e0427362f19 Jiri Pirko 2020-07-17  290  		/* Find the biggest L-value l=
+eft out there. */
+e474e0427362f19 Jiri Pirko 2020-07-17  291  		while (new_lvalue > 0 && !lta=
+ble_node->lvalue_ref[lvalue])
+e474e0427362f19 Jiri Pirko 2020-07-17  292  			new_lvalue--;
+e474e0427362f19 Jiri Pirko 2020-07-17  293  =
 
-6973886ad58e6b4 Green Wan 2019-11-07  65  	desc =3D kzalloc(sizeof(*desc), =
-GFP_NOWAIT);
-6973886ad58e6b4 Green Wan 2019-11-07  66  	if (!desc)
-6973886ad58e6b4 Green Wan 2019-11-07  67  		return NULL;
-6973886ad58e6b4 Green Wan 2019-11-07  68  =
+e474e0427362f19 Jiri Pirko 2020-07-17  294  		ltable_node->current_lvalue =
+=3D new_lvalue;
+e474e0427362f19 Jiri Pirko 2020-07-17  295  		mlxsw_sp_router_xm_ltable_lva=
+lue_set(mlxsw_sp, ltable_node);
+e474e0427362f19 Jiri Pirko 2020-07-17  296  	}
+e474e0427362f19 Jiri Pirko 2020-07-17  297  =
 
-6973886ad58e6b4 Green Wan 2019-11-07  69  	desc->chan =3D chan;
-6973886ad58e6b4 Green Wan 2019-11-07  70  =
-
-6973886ad58e6b4 Green Wan 2019-11-07  71  	return desc;
-6973886ad58e6b4 Green Wan 2019-11-07  72  }
-6973886ad58e6b4 Green Wan 2019-11-07  73  =
+e474e0427362f19 Jiri Pirko 2020-07-17  298  	mlxsw_sp_router_xm_ltable_node=
+_put(router_xm, ltable_node);
+e474e0427362f19 Jiri Pirko 2020-07-17  299  }
+e474e0427362f19 Jiri Pirko 2020-07-17  300  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0719438503425076354==--
+--===============7479602491533892211==--
 
