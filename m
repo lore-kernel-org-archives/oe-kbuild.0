@@ -1,64 +1,133 @@
-Content-Type: multipart/mixed; boundary="===============0733248422623349459=="
+Content-Type: multipart/mixed; boundary="===============2535260300280409960=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [CRM114spam]: drivers/hwmon/w83627ehf.c:2417 w83627ehf_probe() warn: 'res->start' not released on lines: 2412.
-Date: Mon, 21 Sep 2020 12:20:29 +0300
-Message-ID: <20200921092029.GU18329@kadam>
-In-Reply-To: <20200920174954.GA25438@gallifrey>
+From: kernel test robot <lkp@intel.com>
+Subject: [fuse:submounts 12/24] fs/fuse/dax.c:399:6: warning: Variable 'ret' is reassigned a value before the old one has been used.
+Date: Fri, 18 Sep 2020 23:07:48 +0800
+Message-ID: <202009182344.X3QA9BMJ%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0733248422623349459==
+--===============2535260300280409960==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Sun, Sep 20, 2020 at 06:49:54PM +0100, Dr. David Alan Gilbert wrote:
-> * Dan Carpenter (dan.carpenter(a)oracle.com) wrote:
-> > b84bb5186297d1 drivers/hwmon/w83627ehf.c     Guenter Roeck          201=
-1-02-13  2405  =
+CC: kbuild-all(a)lists.01.org
+CC: fuse-devel(a)lists.sourceforge.net
+TO: Vivek Goyal <vgoyal@redhat.com>
+CC: Miklos Szeredi <mszeredi@redhat.com>
+CC: Stefan Hajnoczi <stefanha@redhat.com>
+CC: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+CC: Liu Bo <bo.liu@linux.alibaba.com>
+CC: Peng Tao <tao.peng@linux.alibaba.com>
 
-> > 266cd5835947d0 drivers/hwmon/w83627ehf.c     Dr. David Alan Gilbert 201=
-9-11-24  2406  	hwmon_dev =3D devm_hwmon_device_register_with_info(&pdev->d=
-ev,
-> > 266cd5835947d0 drivers/hwmon/w83627ehf.c     Dr. David Alan Gilbert 201=
-9-11-24  2407  							 data->name,
-> > 266cd5835947d0 drivers/hwmon/w83627ehf.c     Dr. David Alan Gilbert 201=
-9-11-24  2408  							 data,
-> > 266cd5835947d0 drivers/hwmon/w83627ehf.c     Dr. David Alan Gilbert 201=
-9-11-24  2409  							 &w83627ehf_chip_info,
-> > 266cd5835947d0 drivers/hwmon/w83627ehf.c     Dr. David Alan Gilbert 201=
-9-11-24  2410  							 w83627ehf_groups);
-> > 08c79950a047db drivers/hwmon/w83627ehf.c     Rudolf Marek           200=
-6-07-05  2411  =
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git s=
+ubmounts
+head:   b67fbd48cdf38c6bcc83b2a0e94b32ebeff3c918
+commit: c2d0ad00d948de73c78f05d2b3e5bdfa605035cc [12/24] virtiofs: implemen=
+t dax read/write operations
+:::::: branch date: 2 hours ago
+:::::: commit date: 8 days ago
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
-> > 266cd5835947d0 drivers/hwmon/w83627ehf.c     Dr. David Alan Gilbert 201=
-9-11-24  2412  	return PTR_ERR_OR_ZERO(hwmon_dev);
-> >                                                                        =
-                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> > This should be:
-> > =
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> > 	if (IS_ERR(hwmon_dev)) {
-> > 		err =3D PTR_ERR(hwmon_dev);
-> > 		goto exit_release;
-> > 	}
-> > =
 
-> > 	return 0;
-> =
+cppcheck warnings: (new ones prefixed by >>)
 
-> That looks about right to me; why don't you just submit that as a patch ?
+>> fs/fuse/dax.c:399:6: warning: Variable 'ret' is reassigned a value befor=
+e the old one has been used. [redundantAssignment]
+    ret =3D fuse_setup_one_mapping(inode, pos >> FUSE_DAX_SHIFT, dmap, true,
+        ^
+   fs/fuse/dax.c:385:6: note: Variable 'ret' is reassigned a value before t=
+he old one has been used.
+    ret =3D -EIO;
+        ^
+   fs/fuse/dax.c:399:6: note: Variable 'ret' is reassigned a value before t=
+he old one has been used.
+    ret =3D fuse_setup_one_mapping(inode, pos >> FUSE_DAX_SHIFT, dmap, true,
+        ^
 
-These are automated emails sent from a bot.  I just look them over and
-hit send.  A lot of the time they are for patches which aren't applied
-to a git tree yet.
+# https://git.kernel.org/pub/scm/linux/kernel/git/mszeredi/fuse.git/commit/=
+?id=3Dc2d0ad00d948de73c78f05d2b3e5bdfa605035cc
+git remote add fuse https://git.kernel.org/pub/scm/linux/kernel/git/mszered=
+i/fuse.git
+git fetch --no-tags fuse submounts
+git checkout c2d0ad00d948de73c78f05d2b3e5bdfa605035cc
+vim +/ret +399 fs/fuse/dax.c
 
-But in this case, sure I can send an email.  I looked at this one a bit
-closely because it's a new warning that was only introduced last week.
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  362  =
 
-regards,
-dan carpenter
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  363  static int fuse_upgrade_dax_ma=
+pping(struct inode *inode, loff_t pos,
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  364  				    loff_t length, unsigne=
+d int flags,
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  365  				    struct iomap *iomap)
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  366  {
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  367  	struct fuse_inode *fi =3D get=
+_fuse_inode(inode);
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  368  	struct fuse_dax_mapping *dmap;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  369  	int ret;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  370  	unsigned long idx =3D pos >> =
+FUSE_DAX_SHIFT;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  371  	struct interval_tree_node *no=
+de;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  372  =
 
---===============0733248422623349459==--
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  373  	/*
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  374  	 * Take exclusive lock so tha=
+t only one caller can try to setup
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  375  	 * mapping and others wait.
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  376  	 */
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  377  	down_write(&fi->dax->sem);
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  378  	node =3D interval_tree_iter_f=
+irst(&fi->dax->tree, idx, idx);
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  379  =
+
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  380  	/* We are holding either inod=
+e lock or i_mmap_sem, and that should
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  381  	 * ensure that dmap can't rec=
+laimed or truncated and it should still
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  382  	 * be there in tree despite t=
+he fact we dropped and re-acquired the
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  383  	 * lock.
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  384  	 */
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  385  	ret =3D -EIO;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  386  	if (WARN_ON(!node))
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  387  		goto out_err;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  388  =
+
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  389  	dmap =3D node_to_dmap(node);
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  390  =
+
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  391  	/* Maybe another thread alrea=
+dy upgraded mapping while we were not
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  392  	 * holding lock.
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  393  	 */
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  394  	if (dmap->writable) {
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  395  		ret =3D 0;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  396  		goto out_fill_iomap;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  397  	}
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  398  =
+
+c2d0ad00d948de7 Vivek Goyal 2020-08-19 @399  	ret =3D fuse_setup_one_mappin=
+g(inode, pos >> FUSE_DAX_SHIFT, dmap, true,
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  400  				     true);
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  401  	if (ret < 0)
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  402  		goto out_err;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  403  out_fill_iomap:
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  404  	fuse_fill_iomap(inode, pos, l=
+ength, iomap, dmap, flags);
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  405  out_err:
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  406  	up_write(&fi->dax->sem);
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  407  	return ret;
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  408  }
+c2d0ad00d948de7 Vivek Goyal 2020-08-19  409  =
+
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2535260300280409960==--
 
