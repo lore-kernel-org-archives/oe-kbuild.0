@@ -1,27 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============0333162235786630434=="
+Content-Type: multipart/mixed; boundary="===============3885414295633466167=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [dhowells-fs:rxrpc-rxgk 12/18] net/rxrpc/server_key.c:128 rxrpc_server_keyring() warn: passing a valid pointer to 'PTR_ERR'
-Date: Sun, 20 Sep 2020 07:03:20 +0800
-Message-ID: <202009200715.7aDNk5zf%lkp@intel.com>
+Subject: [linux-next:master 7295/9028] drivers/net/dsa/mt7530.c:2298 mt7531_cpu_port_config() error: uninitialized symbol 'interface'.
+Date: Sun, 20 Sep 2020 05:42:12 +0800
+Message-ID: <202009200507.Kcia6ovv%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0333162235786630434==
+--===============3885414295633466167==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: David Howells <dhowells@redhat.com>
+TO: Landen Chao <landen.chao@mediatek.com>
+CC: Sean Wang <sean.wang@mediatek.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
-it rxrpc-rxgk
-head:   7f002a9b47c3c704b8ccdd1e900b04cd10a44285
-commit: 981940e71f6a6acb71e960b76613ea987ddeb1f5 [12/18] rxrpc: Split the s=
-erver key type (rxrpc_s) into its own file
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   b652d2a5f2a4e93d803cc33eb57fdc41ee528500
+commit: c288575f7810a51fb0517b9ba8fef2f6e5d551c4 [7295/9028] net: dsa: mt75=
+30: Add the support of MT7531 switch
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+:::::: commit date: 5 days ago
 config: i386-randconfig-m021-20200920 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -29,55 +30,98 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/rxrpc/server_key.c:128 rxrpc_server_keyring() warn: passing a valid poi=
-nter to 'PTR_ERR'
+New smatch warnings:
+drivers/net/dsa/mt7530.c:2298 mt7531_cpu_port_config() error: uninitialized=
+ symbol 'interface'.
 
-# https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.git/com=
-mit/?id=3D981940e71f6a6acb71e960b76613ea987ddeb1f5
-git remote add dhowells-fs https://git.kernel.org/pub/scm/linux/kernel/git/=
-dhowells/linux-fs.git
-git fetch --no-tags dhowells-fs rxrpc-rxgk
-git checkout 981940e71f6a6acb71e960b76613ea987ddeb1f5
-vim +/PTR_ERR +128 net/rxrpc/server_key.c
+Old smatch warnings:
+drivers/net/dsa/mt7530.c:469 mt7530_pad_clk_setup() error: uninitialized sy=
+mbol 'ncpo1'.
 
-981940e71f6a6a David Howells 2020-09-16  112  =
+# https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git/commi=
+t/?id=3Dc288575f7810a51fb0517b9ba8fef2f6e5d551c4
+git remote add linux-next https://git.kernel.org/pub/scm/linux/kernel/git/n=
+ext/linux-next.git
+git fetch --no-tags linux-next master
+git checkout c288575f7810a51fb0517b9ba8fef2f6e5d551c4
+vim +/interface +2298 drivers/net/dsa/mt7530.c
 
-981940e71f6a6a David Howells 2020-09-16  113  /*
-981940e71f6a6a David Howells 2020-09-16  114   * grab the security keyring =
-for a server socket
-981940e71f6a6a David Howells 2020-09-16  115   */
-981940e71f6a6a David Howells 2020-09-16  116  int rxrpc_server_keyring(stru=
-ct rxrpc_sock *rx, sockptr_t optval, int optlen)
-981940e71f6a6a David Howells 2020-09-16  117  {
-981940e71f6a6a David Howells 2020-09-16  118  	struct key *key;
-981940e71f6a6a David Howells 2020-09-16  119  	char *description;
-981940e71f6a6a David Howells 2020-09-16  120  =
+ca366d6c889b5d Ren=C3=A9 van Dorst 2019-09-02  2272  =
 
-981940e71f6a6a David Howells 2020-09-16  121  	_enter("");
-981940e71f6a6a David Howells 2020-09-16  122  =
+c288575f7810a5 Landen Chao    2020-09-11  2273  static int
+c288575f7810a5 Landen Chao    2020-09-11  2274  mt7531_cpu_port_config(stru=
+ct dsa_switch *ds, int port)
+c288575f7810a5 Landen Chao    2020-09-11  2275  {
+c288575f7810a5 Landen Chao    2020-09-11  2276  	struct mt7530_priv *priv =
+=3D ds->priv;
+c288575f7810a5 Landen Chao    2020-09-11  2277  	phy_interface_t interface;
+c288575f7810a5 Landen Chao    2020-09-11  2278  	int speed;
+c288575f7810a5 Landen Chao    2020-09-11  2279  =
 
-981940e71f6a6a David Howells 2020-09-16  123  	if (optlen <=3D 0 || optlen =
-> PAGE_SIZE - 1)
-981940e71f6a6a David Howells 2020-09-16  124  		return -EINVAL;
-981940e71f6a6a David Howells 2020-09-16  125  =
+c288575f7810a5 Landen Chao    2020-09-11  2280  	switch (port) {
+c288575f7810a5 Landen Chao    2020-09-11  2281  	case 5:
+c288575f7810a5 Landen Chao    2020-09-11  2282  		if (mt7531_is_rgmii_port(=
+priv, port))
+c288575f7810a5 Landen Chao    2020-09-11  2283  			interface =3D PHY_INTERF=
+ACE_MODE_RGMII;
+c288575f7810a5 Landen Chao    2020-09-11  2284  		else
+c288575f7810a5 Landen Chao    2020-09-11  2285  			interface =3D PHY_INTERF=
+ACE_MODE_2500BASEX;
+c288575f7810a5 Landen Chao    2020-09-11  2286  =
 
-981940e71f6a6a David Howells 2020-09-16  126  	description =3D memdup_sockp=
-tr_nul(optval, optlen);
-981940e71f6a6a David Howells 2020-09-16  127  	if (IS_ERR(description))
-981940e71f6a6a David Howells 2020-09-16 @128  		return PTR_ERR(description);
+c288575f7810a5 Landen Chao    2020-09-11  2287  		priv->p5_interface =3D in=
+terface;
+c288575f7810a5 Landen Chao    2020-09-11  2288  		break;
+c288575f7810a5 Landen Chao    2020-09-11  2289  	case 6:
+c288575f7810a5 Landen Chao    2020-09-11  2290  		interface =3D PHY_INTERFA=
+CE_MODE_2500BASEX;
+c288575f7810a5 Landen Chao    2020-09-11  2291  =
+
+c288575f7810a5 Landen Chao    2020-09-11  2292  		mt7531_pad_setup(ds, inte=
+rface);
+c288575f7810a5 Landen Chao    2020-09-11  2293  =
+
+c288575f7810a5 Landen Chao    2020-09-11  2294  		priv->p6_interface =3D in=
+terface;
+c288575f7810a5 Landen Chao    2020-09-11  2295  		break;
+c288575f7810a5 Landen Chao    2020-09-11  2296  	}
+c288575f7810a5 Landen Chao    2020-09-11  2297  =
+
+c288575f7810a5 Landen Chao    2020-09-11 @2298  	if (interface =3D=3D PHY_I=
+NTERFACE_MODE_2500BASEX)
+c288575f7810a5 Landen Chao    2020-09-11  2299  		speed =3D SPEED_2500;
+c288575f7810a5 Landen Chao    2020-09-11  2300  	else
+c288575f7810a5 Landen Chao    2020-09-11  2301  		speed =3D SPEED_1000;
+c288575f7810a5 Landen Chao    2020-09-11  2302  =
+
+c288575f7810a5 Landen Chao    2020-09-11  2303  	mt7531_mac_config(ds, port=
+, MLO_AN_FIXED, interface);
+c288575f7810a5 Landen Chao    2020-09-11  2304  	mt7530_write(priv, MT7530_=
+PMCR_P(port),
+c288575f7810a5 Landen Chao    2020-09-11  2305  		     PMCR_CPU_PORT_SETTIN=
+G(priv->id));
+c288575f7810a5 Landen Chao    2020-09-11  2306  	mt753x_phylink_mac_link_up=
+(ds, port, MLO_AN_FIXED, interface, NULL,
+c288575f7810a5 Landen Chao    2020-09-11  2307  				   speed, DUPLEX_FULL, =
+true, true);
+c288575f7810a5 Landen Chao    2020-09-11  2308  =
+
+c288575f7810a5 Landen Chao    2020-09-11  2309  	return 0;
+c288575f7810a5 Landen Chao    2020-09-11  2310  }
+c288575f7810a5 Landen Chao    2020-09-11  2311  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0333162235786630434==
+--===============3885414295633466167==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICAx/Zl8AAy5jb25maWcAlDzLcty2svt8xZSzSRbJ0cuKU7e0AEGQgwxB0AA4mtGGpchjR3Us
+H4sICNFsZl8AAy5jb25maWcAlDzLcty2svt8xZSzSRbJ0cuKU7e0AEGQgwxB0AA4mtGGpchjR3Us
 yVeSz4n//nYDfAAgOPHNwtF0NxqvRr/Q4I8//LgiX1+fHm5f7+9uP3/+tvp0eDw8374ePqw+3n8+
 /M8ql6tamhXLufkViKv7x69//+v+/N3l6u2vv/968svz3flqc3h+PHxe0afHj/efvkLr+6fHH378
 gcq64GVHabdlSnNZd4btzNWbT3d3v/y++ik//Hl/+7j6/ddzYHP69mf31xuvGdddSenVtwFUTqyu
@@ -840,5 +884,5 @@ djdG8vqqKfivPGWF86XnAxniaBvOA/dQRS/wpGHt1uRiwfBQ9jbqi8AG4xMGhq478gQW5+oGrj3d
 hQnvVWSTbVSQQPc6qTuA6aI1r3br/ds7SgUo5gbP/9q/7u73hmdUozSh4dZDtuaYKjvEcWJaqpDR
 Vu5Q601N4eQBJX0LTH+9jkXjfapMf9BFuOFu0PXxbJGSk4bGyfEraqCABflVt3cL+sALByTe9mNb
 8UBDOzimIDhB7Jv2owPvuOyoi/f/A+fAaJ1SpQIA
---===============0333162235786630434==--
+--===============3885414295633466167==--
 
