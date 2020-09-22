@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7293420840993840567=="
+Content-Type: multipart/mixed; boundary="===============0679181149866787467=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH 10/15] btrfs: Push inode locking and unlocking into buffered/direct write
-Date: Tue, 22 Sep 2020 12:26:20 +0300
-Message-ID: <20200922092620.GF4282@kadam>
-In-Reply-To: <20200921144353.31319-11-rgoldwyn@suse.de>
+Subject: Re: [PATCH 03/15] iomap: Allow filesystem to call iomap_dio_complete without i_rwsem
+Date: Tue, 22 Sep 2020 12:24:37 +0300
+Message-ID: <20200922092437.GE4282@kadam>
+In-Reply-To: <20200921144353.31319-4-rgoldwyn@suse.de>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7293420840993840567==
+--===============0679181149866787467==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -26,179 +26,311 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/btrfs/file.c:2147 btrfs_file_write_iter() error: uninitialized symbol 'e=
-rr'.
+smatch warnings:
+fs/iomap/direct-io.c:582 __iomap_dio_rw() warn: passing zero to 'ERR_PTR'
 
-Old smatch warnings:
-fs/btrfs/file.c:2902 btrfs_replace_file_extents() error: uninitialized symb=
-ol 'drop_end'.
-
-# https://github.com/0day-ci/linux/commit/2e4ab0a0ed53f87e6fe8f369c2bf5d809=
-f455ac4
+# https://github.com/0day-ci/linux/commit/072d65c9ae6669b5dd8ae4d8cccc49f20=
+46afeb4
 git remote add linux-review https://github.com/0day-ci/linux
 git fetch --no-tags linux-review Goldwyn-Rodrigues/BTRFS-DIO-inode-locking-=
 D_SYNC-fix/20200921-224649
-git checkout 2e4ab0a0ed53f87e6fe8f369c2bf5d809f455ac4
-vim +/err +2147 fs/btrfs/file.c
+git checkout 072d65c9ae6669b5dd8ae4d8cccc49f2046afeb4
+vim +/ERR_PTR +582 fs/iomap/direct-io.c
 
-b30ac0fc4109701 Al Viro           2014-04-03  2066  static ssize_t btrfs_fi=
-le_write_iter(struct kiocb *iocb,
-b30ac0fc4109701 Al Viro           2014-04-03  2067  				    struct iov_iter=
- *from)
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2068  {
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2069  	struct file *file =3D =
-iocb->ki_filp;
-496ad9aa8ef4480 Al Viro           2013-01-23  2070  	struct inode *inode =
-=3D file_inode(file);
-0b246afa62b0cf5 Jeff Mahoney      2016-06-22  2071  	struct btrfs_fs_info *=
-fs_info =3D btrfs_sb(inode->i_sb);
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2072  	struct btrfs_root *roo=
-t =3D BTRFS_I(inode)->root;
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2073  	ssize_t num_written =
-=3D 0;
-f50cb7aff964599 Omar Sandoval     2019-08-15  2074  	const bool sync =3D io=
-cb->ki_flags & IOCB_DSYNC;
-3309dd04cbcd2cd Al Viro           2015-04-09  2075  	ssize_t err;
-                                                        ^^^^^^^^^^^
-This is never initialized.
+072d65c9ae6669 Christoph Hellwig  2020-09-21  410  struct iomap_dio *
+072d65c9ae6669 Christoph Hellwig  2020-09-21  411  __iomap_dio_rw(struct ki=
+ocb *iocb, struct iov_iter *iter,
+13ef954445df4f Jan Kara           2019-10-15  412  		const struct iomap_ops=
+ *ops, const struct iomap_dio_ops *dops,
+13ef954445df4f Jan Kara           2019-10-15  413  		bool wait_for_completi=
+on)
+db074436f42196 Darrick J. Wong    2019-07-15  414  {
+db074436f42196 Darrick J. Wong    2019-07-15  415  	struct address_space *m=
+apping =3D iocb->ki_filp->f_mapping;
+db074436f42196 Darrick J. Wong    2019-07-15  416  	struct inode *inode =3D=
+ file_inode(iocb->ki_filp);
+db074436f42196 Darrick J. Wong    2019-07-15  417  	size_t count =3D iov_it=
+er_count(iter);
+88cfd30e188fcf Johannes Thumshirn 2019-11-26  418  	loff_t pos =3D iocb->ki=
+_pos;
+db074436f42196 Darrick J. Wong    2019-07-15  419  	loff_t end =3D iocb->ki=
+_pos + count - 1, ret =3D 0;
+db074436f42196 Darrick J. Wong    2019-07-15  420  	unsigned int flags =3D =
+IOMAP_DIRECT;
+db074436f42196 Darrick J. Wong    2019-07-15  421  	struct blk_plug plug;
+db074436f42196 Darrick J. Wong    2019-07-15  422  	struct iomap_dio *dio;
+db074436f42196 Darrick J. Wong    2019-07-15  423  =
 
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2076  =
+db074436f42196 Darrick J. Wong    2019-07-15  424  	if (!count)
+072d65c9ae6669 Christoph Hellwig  2020-09-21  425  		return NULL;
+db074436f42196 Darrick J. Wong    2019-07-15  426  =
 
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2077  	/*
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2078  	 * If BTRFS flips read=
-only due to some impossible error
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2079  	 * (fs_info->fs_state =
-now has BTRFS_SUPER_FLAG_ERROR),
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2080  	 * although we have op=
-ened a file as writable, we have
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2081  	 * to stop this write =
-operation to ensure FS consistency.
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2082  	 */
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2083  	if (test_bit(BTRFS_FS_=
-STATE_ERROR, &fs_info->fs_state))
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2084  		return -EROFS;
-1b4761d18914c44 Goldwyn Rodrigues 2020-09-21  2085  =
+13ef954445df4f Jan Kara           2019-10-15  427  	if (WARN_ON(is_sync_kio=
+cb(iocb) && !wait_for_completion))
+072d65c9ae6669 Christoph Hellwig  2020-09-21  428  		return ERR_PTR(-EIO);
+13ef954445df4f Jan Kara           2019-10-15  429  =
 
-91f9943e1c7b663 Christoph Hellwig 2017-08-29  2086  	if (!(iocb->ki_flags &=
- IOCB_DIRECT) &&
-91f9943e1c7b663 Christoph Hellwig 2017-08-29  2087  	    (iocb->ki_flags & =
-IOCB_NOWAIT))
-91f9943e1c7b663 Christoph Hellwig 2017-08-29  2088  		return -EOPNOTSUPP;
-91f9943e1c7b663 Christoph Hellwig 2017-08-29  2089  =
+db074436f42196 Darrick J. Wong    2019-07-15  430  	dio =3D kmalloc(sizeof(=
+*dio), GFP_KERNEL);
+db074436f42196 Darrick J. Wong    2019-07-15  431  	if (!dio)
+072d65c9ae6669 Christoph Hellwig  2020-09-21  432  		return ERR_PTR(-ENOMEM=
+);
+db074436f42196 Darrick J. Wong    2019-07-15  433  =
 
-b812ce28796f746 Josef Bacik       2012-11-16  2090  	if (sync)
-b812ce28796f746 Josef Bacik       2012-11-16  2091  		atomic_inc(&BTRFS_I(i=
-node)->sync_writers);
-b812ce28796f746 Josef Bacik       2012-11-16  2092  =
+db074436f42196 Darrick J. Wong    2019-07-15  434  	dio->iocb =3D iocb;
+db074436f42196 Darrick J. Wong    2019-07-15  435  	atomic_set(&dio->ref, 1=
+);
+db074436f42196 Darrick J. Wong    2019-07-15  436  	dio->size =3D 0;
+db074436f42196 Darrick J. Wong    2019-07-15  437  	dio->i_size =3D i_size_=
+read(inode);
+838c4f3d7515ef Christoph Hellwig  2019-09-19  438  	dio->dops =3D dops;
+db074436f42196 Darrick J. Wong    2019-07-15  439  	dio->error =3D 0;
+db074436f42196 Darrick J. Wong    2019-07-15  440  	dio->flags =3D 0;
+db074436f42196 Darrick J. Wong    2019-07-15  441  =
 
-2ba48ce513c4e54 Al Viro           2015-04-09  2093  	if (iocb->ki_flags & I=
-OCB_DIRECT) {
-09745ff88d93537 Josef Bacik       2020-09-03  2094  		/*
-09745ff88d93537 Josef Bacik       2020-09-03  2095  		 * 1. We must always =
-clear IOCB_DSYNC in order to not deadlock
-09745ff88d93537 Josef Bacik       2020-09-03  2096  		 *    in iomap, as it=
- calls generic_write_sync() in this case.
-09745ff88d93537 Josef Bacik       2020-09-03  2097  		 * 2. If we are async=
-, we can call iomap_dio_complete() either
-09745ff88d93537 Josef Bacik       2020-09-03  2098  		 *    in
-09745ff88d93537 Josef Bacik       2020-09-03  2099  		 *
-09745ff88d93537 Josef Bacik       2020-09-03  2100  		 *    2.1. A worker t=
-hread from the last bio completed.  In this
-09745ff88d93537 Josef Bacik       2020-09-03  2101  		 *	   case we need to=
- mark the btrfs_dio_data that it is
-09745ff88d93537 Josef Bacik       2020-09-03  2102  		 *	   async in order =
-to call generic_write_sync() properly.
-09745ff88d93537 Josef Bacik       2020-09-03  2103  		 *	   This is handled=
- by setting BTRFS_DIO_SYNC_STUB in the
-09745ff88d93537 Josef Bacik       2020-09-03  2104  		 *	   current->journa=
-l_info.
-09745ff88d93537 Josef Bacik       2020-09-03  2105  		 *    2.2  The submit=
-ter context, because all IO completed
-09745ff88d93537 Josef Bacik       2020-09-03  2106  		 *         before we =
-exited iomap_dio_rw().  In this case we can
-09745ff88d93537 Josef Bacik       2020-09-03  2107  		 *         just re-se=
-t the IOCB_DSYNC on the iocb and we'll do
-09745ff88d93537 Josef Bacik       2020-09-03  2108  		 *         the sync b=
-elow.  If our ->end_io() gets called and
-09745ff88d93537 Josef Bacik       2020-09-03  2109  		 *         current->j=
-ournal_info is set, then we know we're in
-09745ff88d93537 Josef Bacik       2020-09-03  2110  		 *         our curren=
-t context and we will clear
-09745ff88d93537 Josef Bacik       2020-09-03  2111  		 *         current->j=
-ournal_info to indicate that we need to
-09745ff88d93537 Josef Bacik       2020-09-03  2112  		 *         sync below.
-09745ff88d93537 Josef Bacik       2020-09-03  2113  		 */
-09745ff88d93537 Josef Bacik       2020-09-03  2114  		if (sync) {
-09745ff88d93537 Josef Bacik       2020-09-03  2115  			ASSERT(current->jour=
-nal_info =3D=3D NULL);
-09745ff88d93537 Josef Bacik       2020-09-03  2116  			iocb->ki_flags &=3D =
-~IOCB_DSYNC;
-09745ff88d93537 Josef Bacik       2020-09-03  2117  			current->journal_inf=
-o =3D BTRFS_DIO_SYNC_STUB;
-09745ff88d93537 Josef Bacik       2020-09-03  2118  		}
-d8a13486adc39bc Goldwyn Rodrigues 2020-09-21  2119  		num_written =3D btrfs=
-_direct_write(iocb, from);
-09745ff88d93537 Josef Bacik       2020-09-03  2120  =
+db074436f42196 Darrick J. Wong    2019-07-15  442  	dio->submit.iter =3D it=
+er;
+db074436f42196 Darrick J. Wong    2019-07-15  443  	dio->submit.waiter =3D =
+current;
+db074436f42196 Darrick J. Wong    2019-07-15  444  	dio->submit.cookie =3D =
+BLK_QC_T_NONE;
+db074436f42196 Darrick J. Wong    2019-07-15  445  	dio->submit.last_queue =
+=3D NULL;
+db074436f42196 Darrick J. Wong    2019-07-15  446  =
 
-09745ff88d93537 Josef Bacik       2020-09-03  2121  		/*
-09745ff88d93537 Josef Bacik       2020-09-03  2122  		 * As stated above, w=
-e cleared journal_info, so we need to do
-09745ff88d93537 Josef Bacik       2020-09-03  2123  		 * the sync ourselves.
-09745ff88d93537 Josef Bacik       2020-09-03  2124  		 */
-09745ff88d93537 Josef Bacik       2020-09-03  2125  		if (sync && current->=
-journal_info =3D=3D NULL)
-09745ff88d93537 Josef Bacik       2020-09-03  2126  			iocb->ki_flags |=3D =
-IOCB_DSYNC;
-09745ff88d93537 Josef Bacik       2020-09-03  2127  		current->journal_info=
- =3D NULL;
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2128  	} else {
-e4af400a9c5081e Goldwyn Rodrigues 2018-06-17  2129  		num_written =3D btrfs=
-_buffered_write(iocb, from);
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2130  	}
-d0215f3e5ebb580 Josef Bacik       2011-01-25  2131  =
+db074436f42196 Darrick J. Wong    2019-07-15  447  	if (iov_iter_rw(iter) =
+=3D=3D READ) {
+db074436f42196 Darrick J. Wong    2019-07-15  448  		if (pos >=3D dio->i_si=
+ze)
+db074436f42196 Darrick J. Wong    2019-07-15  449  			goto out_free_dio;
 
-5a3f23d515a2ebf Chris Mason       2009-03-31  2132  	/*
-6c760c072403f44 Josef Bacik       2012-11-09  2133  	 * We also have to set=
- last_sub_trans to the current log transid,
-6c760c072403f44 Josef Bacik       2012-11-09  2134  	 * otherwise subsequen=
-t syncs to a file that's been synced in this
-bb7ab3b92e46da0 Adam Buchbinder   2016-03-04  2135  	 * transaction will ap=
-pear to have already occurred.
-5a3f23d515a2ebf Chris Mason       2009-03-31  2136  	 */
-2f2ff0ee5e4303e Filipe Manana     2015-03-20  2137  	spin_lock(&BTRFS_I(ino=
-de)->lock);
-6c760c072403f44 Josef Bacik       2012-11-09  2138  	BTRFS_I(inode)->last_s=
-ub_trans =3D root->log_transid;
-2f2ff0ee5e4303e Filipe Manana     2015-03-20  2139  	spin_unlock(&BTRFS_I(i=
-node)->lock);
-e259221763a4040 Christoph Hellwig 2016-04-07  2140  	if (num_written > 0)
-e259221763a4040 Christoph Hellwig 2016-04-07  2141  		num_written =3D gener=
-ic_write_sync(iocb, num_written);
-0a3404dcff29a75 Miao Xie          2013-01-28  2142  =
+ret needs to be set on this patch to prevent an Oops in the caller.
 
-b812ce28796f746 Josef Bacik       2012-11-16  2143  	if (sync)
-b812ce28796f746 Josef Bacik       2012-11-16  2144  		atomic_dec(&BTRFS_I(i=
-node)->sync_writers);
-81be057069d906f Goldwyn Rodrigues 2020-09-21  2145  =
+db074436f42196 Darrick J. Wong    2019-07-15  450  =
 
-39279cc3d2704cf Chris Mason       2007-06-12  2146  	current->backing_dev_i=
-nfo =3D NULL;
-39279cc3d2704cf Chris Mason       2007-06-12 @2147  	return num_written ? n=
-um_written : err;
-39279cc3d2704cf Chris Mason       2007-06-12  2148  }
+a901004214994f Joseph Qi          2019-10-29  451  		if (iter_is_iovec(iter=
+))
+db074436f42196 Darrick J. Wong    2019-07-15  452  			dio->flags |=3D IOMAP=
+_DIO_DIRTY;
+db074436f42196 Darrick J. Wong    2019-07-15  453  	} else {
+db074436f42196 Darrick J. Wong    2019-07-15  454  		flags |=3D IOMAP_WRITE;
+db074436f42196 Darrick J. Wong    2019-07-15  455  		dio->flags |=3D IOMAP_=
+DIO_WRITE;
+db074436f42196 Darrick J. Wong    2019-07-15  456  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  457  		/* for data sync or sy=
+nc, we need sync completion processing */
+db074436f42196 Darrick J. Wong    2019-07-15  458  		if (iocb->ki_flags & I=
+OCB_DSYNC)
+db074436f42196 Darrick J. Wong    2019-07-15  459  			dio->flags |=3D IOMAP=
+_DIO_NEED_SYNC;
+db074436f42196 Darrick J. Wong    2019-07-15  460  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  461  		/*
+db074436f42196 Darrick J. Wong    2019-07-15  462  		 * For datasync only w=
+rites, we optimistically try using FUA for
+db074436f42196 Darrick J. Wong    2019-07-15  463  		 * this IO.  Any non-F=
+UA write that occurs will clear this flag,
+db074436f42196 Darrick J. Wong    2019-07-15  464  		 * hence we know befor=
+e completion whether a cache flush is
+db074436f42196 Darrick J. Wong    2019-07-15  465  		 * necessary.
+db074436f42196 Darrick J. Wong    2019-07-15  466  		 */
+db074436f42196 Darrick J. Wong    2019-07-15  467  		if ((iocb->ki_flags & =
+(IOCB_DSYNC | IOCB_SYNC)) =3D=3D IOCB_DSYNC)
+db074436f42196 Darrick J. Wong    2019-07-15  468  			dio->flags |=3D IOMAP=
+_DIO_WRITE_FUA;
+db074436f42196 Darrick J. Wong    2019-07-15  469  	}
+db074436f42196 Darrick J. Wong    2019-07-15  470  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  471  	if (iocb->ki_flags & IO=
+CB_NOWAIT) {
+88cfd30e188fcf Johannes Thumshirn 2019-11-26  472  		if (filemap_range_has_=
+page(mapping, pos, end)) {
+db074436f42196 Darrick J. Wong    2019-07-15  473  			ret =3D -EAGAIN;
+db074436f42196 Darrick J. Wong    2019-07-15  474  			goto out_free_dio;
+db074436f42196 Darrick J. Wong    2019-07-15  475  		}
+db074436f42196 Darrick J. Wong    2019-07-15  476  		flags |=3D IOMAP_NOWAI=
+T;
+db074436f42196 Darrick J. Wong    2019-07-15  477  	}
+db074436f42196 Darrick J. Wong    2019-07-15  478  =
+
+88cfd30e188fcf Johannes Thumshirn 2019-11-26  479  	ret =3D filemap_write_a=
+nd_wait_range(mapping, pos, end);
+db074436f42196 Darrick J. Wong    2019-07-15  480  	if (ret)
+db074436f42196 Darrick J. Wong    2019-07-15  481  		goto out_free_dio;
+db074436f42196 Darrick J. Wong    2019-07-15  482  =
+
+54752de928c400 Dave Chinner       2020-07-23  483  	if (iov_iter_rw(iter) =
+=3D=3D WRITE) {
+db074436f42196 Darrick J. Wong    2019-07-15  484  		/*
+54752de928c400 Dave Chinner       2020-07-23  485  		 * Try to invalidate c=
+ache pages for the range we are writing.
+60263d5889e6dc Christoph Hellwig  2020-07-23  486  		 * If this invalidatio=
+n fails, let the caller fall back to
+60263d5889e6dc Christoph Hellwig  2020-07-23  487  		 * buffered I/O.
+db074436f42196 Darrick J. Wong    2019-07-15  488  		 */
+54752de928c400 Dave Chinner       2020-07-23  489  		if (invalidate_inode_p=
+ages2_range(mapping, pos >> PAGE_SHIFT,
+60263d5889e6dc Christoph Hellwig  2020-07-23  490  				end >> PAGE_SHIFT)) {
+60263d5889e6dc Christoph Hellwig  2020-07-23  491  			trace_iomap_dio_inval=
+idate_fail(inode, pos, count);
+60263d5889e6dc Christoph Hellwig  2020-07-23  492  			ret =3D -ENOTBLK;
+60263d5889e6dc Christoph Hellwig  2020-07-23  493  			goto out_free_dio;
+60263d5889e6dc Christoph Hellwig  2020-07-23  494  		}
+db074436f42196 Darrick J. Wong    2019-07-15  495  =
+
+54752de928c400 Dave Chinner       2020-07-23  496  		if (!wait_for_completi=
+on && !inode->i_sb->s_dio_done_wq) {
+db074436f42196 Darrick J. Wong    2019-07-15  497  			ret =3D sb_init_dio_d=
+one_wq(inode->i_sb);
+db074436f42196 Darrick J. Wong    2019-07-15  498  			if (ret < 0)
+db074436f42196 Darrick J. Wong    2019-07-15  499  				goto out_free_dio;
+db074436f42196 Darrick J. Wong    2019-07-15  500  		}
+54752de928c400 Dave Chinner       2020-07-23  501  	}
+db074436f42196 Darrick J. Wong    2019-07-15  502  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  503  	inode_dio_begin(inode);
+db074436f42196 Darrick J. Wong    2019-07-15  504  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  505  	blk_start_plug(&plug);
+db074436f42196 Darrick J. Wong    2019-07-15  506  	do {
+db074436f42196 Darrick J. Wong    2019-07-15  507  		ret =3D iomap_apply(in=
+ode, pos, count, flags, ops, dio,
+db074436f42196 Darrick J. Wong    2019-07-15  508  				iomap_dio_actor);
+db074436f42196 Darrick J. Wong    2019-07-15  509  		if (ret <=3D 0) {
+db074436f42196 Darrick J. Wong    2019-07-15  510  			/* magic error code t=
+o fall back to buffered I/O */
+db074436f42196 Darrick J. Wong    2019-07-15  511  			if (ret =3D=3D -ENOTB=
+LK) {
+db074436f42196 Darrick J. Wong    2019-07-15  512  				wait_for_completion =
+=3D true;
+db074436f42196 Darrick J. Wong    2019-07-15  513  				ret =3D 0;
+db074436f42196 Darrick J. Wong    2019-07-15  514  			}
+db074436f42196 Darrick J. Wong    2019-07-15  515  			break;
+db074436f42196 Darrick J. Wong    2019-07-15  516  		}
+db074436f42196 Darrick J. Wong    2019-07-15  517  		pos +=3D ret;
+db074436f42196 Darrick J. Wong    2019-07-15  518  =
+
+419e9c38aa075e Jan Kara           2019-11-21  519  		if (iov_iter_rw(iter) =
+=3D=3D READ && pos >=3D dio->i_size) {
+419e9c38aa075e Jan Kara           2019-11-21  520  			/*
+419e9c38aa075e Jan Kara           2019-11-21  521  			 * We only report tha=
+t we've read data up to i_size.
+419e9c38aa075e Jan Kara           2019-11-21  522  			 * Revert iter to a s=
+tate corresponding to that as
+419e9c38aa075e Jan Kara           2019-11-21  523  			 * some callers (such=
+ as splice code) rely on it.
+419e9c38aa075e Jan Kara           2019-11-21  524  			 */
+419e9c38aa075e Jan Kara           2019-11-21  525  			iov_iter_revert(iter,=
+ pos - dio->i_size);
+db074436f42196 Darrick J. Wong    2019-07-15  526  			break;
+419e9c38aa075e Jan Kara           2019-11-21  527  		}
+db074436f42196 Darrick J. Wong    2019-07-15  528  	} while ((count =3D iov=
+_iter_count(iter)) > 0);
+db074436f42196 Darrick J. Wong    2019-07-15  529  	blk_finish_plug(&plug);
+db074436f42196 Darrick J. Wong    2019-07-15  530  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  531  	if (ret < 0)
+db074436f42196 Darrick J. Wong    2019-07-15  532  		iomap_dio_set_error(di=
+o, ret);
+db074436f42196 Darrick J. Wong    2019-07-15  533  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  534  	/*
+db074436f42196 Darrick J. Wong    2019-07-15  535  	 * If all the writes we=
+ issued were FUA, we don't need to flush the
+db074436f42196 Darrick J. Wong    2019-07-15  536  	 * cache on IO completi=
+on. Clear the sync flag for this case.
+db074436f42196 Darrick J. Wong    2019-07-15  537  	 */
+db074436f42196 Darrick J. Wong    2019-07-15  538  	if (dio->flags & IOMAP_=
+DIO_WRITE_FUA)
+db074436f42196 Darrick J. Wong    2019-07-15  539  		dio->flags &=3D ~IOMAP=
+_DIO_NEED_SYNC;
+db074436f42196 Darrick J. Wong    2019-07-15  540  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  541  	WRITE_ONCE(iocb->ki_coo=
+kie, dio->submit.cookie);
+db074436f42196 Darrick J. Wong    2019-07-15  542  	WRITE_ONCE(iocb->privat=
+e, dio->submit.last_queue);
+db074436f42196 Darrick J. Wong    2019-07-15  543  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  544  	/*
+db074436f42196 Darrick J. Wong    2019-07-15  545  	 * We are about to drop=
+ our additional submission reference, which
+d9973ce2fe5bcd yangerkun          2020-03-18  546  	 * might be the last re=
+ference to the dio.  There are three different
+d9973ce2fe5bcd yangerkun          2020-03-18  547  	 * ways we can progress=
+ here:
+db074436f42196 Darrick J. Wong    2019-07-15  548  	 *
+db074436f42196 Darrick J. Wong    2019-07-15  549  	 *  (a) If this is the =
+last reference we will always complete and free
+db074436f42196 Darrick J. Wong    2019-07-15  550  	 *	the dio ourselves.
+db074436f42196 Darrick J. Wong    2019-07-15  551  	 *  (b) If this is not =
+the last reference, and we serve an asynchronous
+db074436f42196 Darrick J. Wong    2019-07-15  552  	 *	iocb, we must never =
+touch the dio after the decrement, the
+db074436f42196 Darrick J. Wong    2019-07-15  553  	 *	I/O completion handl=
+er will complete and free it.
+db074436f42196 Darrick J. Wong    2019-07-15  554  	 *  (c) If this is not =
+the last reference, but we serve a synchronous
+db074436f42196 Darrick J. Wong    2019-07-15  555  	 *	iocb, the I/O comple=
+tion handler will wake us up on the drop
+db074436f42196 Darrick J. Wong    2019-07-15  556  	 *	of the final referen=
+ce, and we will complete and free it here
+db074436f42196 Darrick J. Wong    2019-07-15  557  	 *	after we got woken b=
+y the I/O completion handler.
+db074436f42196 Darrick J. Wong    2019-07-15  558  	 */
+db074436f42196 Darrick J. Wong    2019-07-15  559  	dio->wait_for_completio=
+n =3D wait_for_completion;
+db074436f42196 Darrick J. Wong    2019-07-15  560  	if (!atomic_dec_and_tes=
+t(&dio->ref)) {
+db074436f42196 Darrick J. Wong    2019-07-15  561  		if (!wait_for_completi=
+on)
+072d65c9ae6669 Christoph Hellwig  2020-09-21  562  			return ERR_PTR(-EIOCB=
+QUEUED);
+db074436f42196 Darrick J. Wong    2019-07-15  563  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  564  		for (;;) {
+db074436f42196 Darrick J. Wong    2019-07-15  565  			set_current_state(TAS=
+K_UNINTERRUPTIBLE);
+db074436f42196 Darrick J. Wong    2019-07-15  566  			if (!READ_ONCE(dio->s=
+ubmit.waiter))
+db074436f42196 Darrick J. Wong    2019-07-15  567  				break;
+db074436f42196 Darrick J. Wong    2019-07-15  568  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  569  			if (!(iocb->ki_flags =
+& IOCB_HIPRI) ||
+db074436f42196 Darrick J. Wong    2019-07-15  570  			    !dio->submit.last=
+_queue ||
+db074436f42196 Darrick J. Wong    2019-07-15  571  			    !blk_poll(dio->su=
+bmit.last_queue,
+db074436f42196 Darrick J. Wong    2019-07-15  572  					 dio->submit.cookie=
+, true))
+e6249cdd46e43a Ming Lei           2020-05-03  573  				blk_io_schedule();
+db074436f42196 Darrick J. Wong    2019-07-15  574  		}
+db074436f42196 Darrick J. Wong    2019-07-15  575  		__set_current_state(TA=
+SK_RUNNING);
+db074436f42196 Darrick J. Wong    2019-07-15  576  	}
+db074436f42196 Darrick J. Wong    2019-07-15  577  =
+
+072d65c9ae6669 Christoph Hellwig  2020-09-21  578  	return dio;
+db074436f42196 Darrick J. Wong    2019-07-15  579  =
+
+db074436f42196 Darrick J. Wong    2019-07-15  580  out_free_dio:
+db074436f42196 Darrick J. Wong    2019-07-15  581  	kfree(dio);
+072d65c9ae6669 Christoph Hellwig  2020-09-21 @582  	return ERR_PTR(ret);
+072d65c9ae6669 Christoph Hellwig  2020-09-21  583  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7293420840993840567==
+--===============0679181149866787467==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICGlpaV8AAy5jb25maWcAlFzLc9w20r/nr5hyLsnBWUm2VU59pQNIgjPIkAQNgPPQhaXIY69q
+H4sICF4haV8AAy5jb25maWcAlFzLc9w20r/nr5hyLsnBWUm2VU59pQNIgjPIkAQNgPPQhaXIY69q
 9fCOpF37v/+6AT4AsDnJ5rBroRsPAv34daMxP//084K9vjw93Lzc3d7c3/9YfD08Ho43L4fPiy93
 94f/W2RyUUmz4JkwvwFzcff4+v0f3z9etpfvFx9++/23s7fH2w+L9eH4eLhfpE+PX+6+vkL/u6fH
 n37+KZVVLpZtmrYbrrSQVWv4zly9+Xp7+/b3xS/Z4c+7m8fF77+9g2HOP/zq/vXG6yZ0u0zTqx99
@@ -887,5 +1019,5 @@ MpD50emDT/kROO+DY34UsmRsbCzb8KnhzMUQy2avGNttJzn4iVNYNsChXSzkfKxnik7Z215fCjX7
 pwNkMSgL8bd/9483t3sV9I/ZaUYqiZYDJiMHY3ZFBJxe8fGf48SCxCTYTuk8CDm4heHSYiYDrPL7
 ycNIVi7hJVPq+R6DM9+mjaR/f+0DR7LUuhTtIi501KTYHYj4UbOhPXbtB+AHx6yI8+DOtBE9h73U
 AwMTaXRtdutrEq4uhweDu+jolvFC3uWy8T9b+u06fWUCAA==
---===============7293420840993840567==--
+--===============0679181149866787467==--
 
