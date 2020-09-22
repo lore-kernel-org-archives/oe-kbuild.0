@@ -1,45 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1821823637565154303=="
+Content-Type: multipart/mixed; boundary="===============3132871694257895660=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 02/32] auxdisplay: Introduce hd44780_common.[ch]
-Date: Tue, 22 Sep 2020 10:33:42 +0800
-Message-ID: <202009221036.rnzPtpyC%lkp@intel.com>
+Subject: drivers/net/dsa/sja1105/sja1105_main.c:2192:15: warning: Variable 'want_tagging' is reassigned a value before the old one has been used.
+Date: Tue, 22 Sep 2020 09:24:03 +0800
+Message-ID: <202009220949.yfZIYSgA%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1821823637565154303==
+--===============3132871694257895660==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20200921144645.2061313-3-poeschel@lemonage.de>
-References: <20200921144645.2061313-3-poeschel@lemonage.de>
-TO: poeschel(a)lemonage.de
-TO: Miguel Ojeda Sandonis <miguel.ojeda.sandonis@gmail.com>
-TO: Willy Tarreau <willy@haproxy.com>
-TO: Ksenija Stanojevic <ksenija.stanojevic@gmail.com>
-TO: open list <linux-kernel@vger.kernel.org>
-CC: Lars Poeschel <poeschel@lemonage.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: Florian Fainelli <f.fainelli@gmail.com>
 
-Hi,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linux/master linus/master v5.9-rc6 next-2020092=
-1]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/poeschel-lemonage-de/auxdi=
-splay-Use-an-enum-for-charlcd-backlight-on-off-ops/20200921-234637
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
-next
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-compiler: arc-elf-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   98477740630f270aecf648f1d6a9dbc6027d4ff1
+commit: 2cafa72e516f61b6d82c2416b4f5963fb48fd9ce net: dsa: sja1105: add a n=
+ew best_effort_vlan_filtering devlink parameter
+date:   4 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 months ago
+compiler: alpha-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -47,201 +33,365 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck warnings: (new ones prefixed by >>)
 
->> drivers/auxdisplay/hd44780.c:254:6: warning: Variable 'ret' is reassigne=
-d a value before the old one has been used. 'break;' missing? [redundantAss=
-ignInSwitch]
-    ret =3D device_property_read_u32(dev, "display-height-chars",
-        ^
-   drivers/auxdisplay/hd44780.c:185:0: note: Variable 'ret' is reassigned a=
- value before the old one has been used. 'break;' missing?
-    int ifwidth, ret =3D -ENOMEM;
-   ^
-   drivers/auxdisplay/hd44780.c:254:6: note: Variable 'ret' is reassigned a=
- value before the old one has been used. 'break;' missing?
-    ret =3D device_property_read_u32(dev, "display-height-chars",
-        ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1762:32: warning: Variable 'other=
+_priv->expect_dsa_8021q' is reassigned a value before the old one has been =
+used. [redundantAssignment]
+     other_priv->expect_dsa_8021q =3D false;
+                                  ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1758:32: note: Variable 'other_pr=
+iv->expect_dsa_8021q' is reassigned a value before the old one has been use=
+d.
+     other_priv->expect_dsa_8021q =3D true;
+                                  ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1762:32: note: Variable 'other_pr=
+iv->expect_dsa_8021q' is reassigned a value before the old one has been use=
+d.
+     other_priv->expect_dsa_8021q =3D false;
+                                  ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1770:26: warning: Variable 'priv-=
+>expect_dsa_8021q' is reassigned a value before the old one has been used. =
+[redundantAssignment]
+     priv->expect_dsa_8021q =3D false;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1766:26: note: Variable 'priv->ex=
+pect_dsa_8021q' is reassigned a value before the old one has been used.
+     priv->expect_dsa_8021q =3D true;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1770:26: note: Variable 'priv->ex=
+pect_dsa_8021q' is reassigned a value before the old one has been used.
+     priv->expect_dsa_8021q =3D false;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1800:32: warning: Variable 'other=
+_priv->expect_dsa_8021q' is reassigned a value before the old one has been =
+used. [redundantAssignment]
+     other_priv->expect_dsa_8021q =3D false;
+                                  ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1797:32: note: Variable 'other_pr=
+iv->expect_dsa_8021q' is reassigned a value before the old one has been use=
+d.
+     other_priv->expect_dsa_8021q =3D true;
+                                  ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1800:32: note: Variable 'other_pr=
+iv->expect_dsa_8021q' is reassigned a value before the old one has been use=
+d.
+     other_priv->expect_dsa_8021q =3D false;
+                                  ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1805:26: warning: Variable 'priv-=
+>expect_dsa_8021q' is reassigned a value before the old one has been used. =
+[redundantAssignment]
+     priv->expect_dsa_8021q =3D false;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1802:26: note: Variable 'priv->ex=
+pect_dsa_8021q' is reassigned a value before the old one has been used.
+     priv->expect_dsa_8021q =3D true;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1805:26: note: Variable 'priv->ex=
+pect_dsa_8021q' is reassigned a value before the old one has been used.
+     priv->expect_dsa_8021q =3D false;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1817:26: warning: Variable 'priv-=
+>expect_dsa_8021q' is reassigned a value before the old one has been used. =
+[redundantAssignment]
+     priv->expect_dsa_8021q =3D false;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1815:26: note: Variable 'priv->ex=
+pect_dsa_8021q' is reassigned a value before the old one has been used.
+     priv->expect_dsa_8021q =3D true;
+                            ^
+   drivers/net/dsa/sja1105/sja1105_main.c:1817:26: note: Variable 'priv->ex=
+pect_dsa_8021q' is reassigned a value before the old one has been used.
+     priv->expect_dsa_8021q =3D false;
+                            ^
+>> drivers/net/dsa/sja1105/sja1105_main.c:2192:15: warning: Variable 'want_=
+tagging' is reassigned a value before the old one has been used. [redundant=
+Assignment]
+    want_tagging =3D priv->best_effort_vlan_filtering || !enabled;
+                 ^
+   drivers/net/dsa/sja1105/sja1105_main.c:2177:15: note: Variable 'want_tag=
+ging' is reassigned a value before the old one has been used.
+    want_tagging =3D (state =3D=3D SJA1105_VLAN_UNAWARE ||
+                 ^
+   drivers/net/dsa/sja1105/sja1105_main.c:2192:15: note: Variable 'want_tag=
+ging' is reassigned a value before the old one has been used.
+    want_tagging =3D priv->best_effort_vlan_filtering || !enabled;
+                 ^
+>> drivers/net/ethernet/broadcom/cnic.c:1763:39: warning: Variable 'ictx->x=
+storm_st_context.common.flags' is reassigned a value before the old one has=
+ been used. [redundantAssignment]
+    ictx->xstorm_st_context.common.flags =3D
+                                         ^
+   drivers/net/ethernet/broadcom/cnic.c:1761:39: note: Variable 'ictx->xsto=
+rm_st_context.common.flags' is reassigned a value before the old one has be=
+en used.
+    ictx->xstorm_st_context.common.flags =3D
+                                         ^
+   drivers/net/ethernet/broadcom/cnic.c:1763:39: note: Variable 'ictx->xsto=
+rm_st_context.common.flags' is reassigned a value before the old one has be=
+en used.
+    ictx->xstorm_st_context.common.flags =3D
+                                         ^
+>> drivers/net/ethernet/broadcom/cnic.c:1930:25: warning: Variable 'kcqe.co=
+mpletion_status' is reassigned a value before the old one has been used. [r=
+edundantAssignment]
+    kcqe.completion_status =3D ISCSI_KCQE_COMPLETION_STATUS_SUCCESS;
+                           ^
+   drivers/net/ethernet/broadcom/cnic.c:1905:25: note: Variable 'kcqe.compl=
+etion_status' is reassigned a value before the old one has been used.
+    kcqe.completion_status =3D ISCSI_KCQE_COMPLETION_STATUS_CTX_ALLOC_FAILU=
+RE;
+                           ^
+   drivers/net/ethernet/broadcom/cnic.c:1930:25: note: Variable 'kcqe.compl=
+etion_status' is reassigned a value before the old one has been used.
+    kcqe.completion_status =3D ISCSI_KCQE_COMPLETION_STATUS_SUCCESS;
+                           ^
+>> drivers/net/ethernet/broadcom/cnic.c:2902:37: warning: Shifting signed 3=
+2-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigned]
+     if (likely(!(kcqe->kcqe_op_flag & KCQE_FLAGS_NEXT))) {
+                                       ^
+--
+>> drivers/net/ethernet/cavium/liquidio/lio_main.c:4280:7: warning: Variabl=
+e 'ret' is reassigned a value before the old one has been used. [redundantA=
+ssignment]
+     ret =3D octeon_init_consoles(octeon_dev);
+         ^
+   drivers/net/ethernet/cavium/liquidio/lio_main.c:4277:7: note: Variable '=
+ret' is reassigned a value before the old one has been used.
+     ret =3D octeon_console_send_cmd(octeon_dev, bootcmd, 50);
+         ^
+   drivers/net/ethernet/cavium/liquidio/lio_main.c:4280:7: note: Variable '=
+ret' is reassigned a value before the old one has been used.
+     ret =3D octeon_init_consoles(octeon_dev);
+         ^
+>> drivers/net/ethernet/dec/tulip/tulip.h:132:18: warning: Shifting signed =
+32-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigned]
+    CFDD_Sleep =3D (1 << 31),
+                    ^
+   drivers/net/ethernet/dec/tulip/tulip.h:244:14: warning: Shifting signed =
+32-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigned]
+    csr6_sc =3D (1<<31),
+                ^
+>> drivers/net/ethernet/dec/tulip/tulip_core.c:1246:11: warning: Variable '=
+tp->csr0' is reassigned a value before the old one has been used. 'break;' =
+missing? [redundantAssignInSwitch]
+    tp->csr0 =3D csr0;
+             ^
+   drivers/net/ethernet/dec/tulip/tulip_core.c:1188:11: note: Variable 'tp-=
+>csr0' is reassigned a value before the old one has been used. 'break;' mis=
+sing?
+    tp->csr0 =3D csr0 =3D 0;
+             ^
+   drivers/net/ethernet/dec/tulip/tulip_core.c:1246:11: note: Variable 'tp-=
+>csr0' is reassigned a value before the old one has been used. 'break;' mis=
+sing?
+    tp->csr0 =3D csr0;
+             ^
+>> drivers/net/ethernet/dec/tulip/tulip.h:132:18: warning: Shifting signed =
+32-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigned]
+    CFDD_Sleep =3D (1 << 31),
+                    ^
+   drivers/net/ethernet/dec/tulip/tulip.h:244:14: warning: Shifting signed =
+32-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigned]
+    csr6_sc =3D (1<<31),
+                ^
+>> drivers/net/ethernet/dec/tulip/winbond-840.c:601:31: warning: Shifting s=
+igned 32-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigne=
+d]
+     int dataval =3D (mii_cmd & (1 << i)) ? MDIO_WRITE1 : MDIO_WRITE0;
+                                 ^
 
-# https://github.com/0day-ci/linux/commit/48ef34da2bee5cd52d20f34ae7a52cc50=
-e6a8951
-git remote add linux-review https://github.com/0day-ci/linux
-git fetch --no-tags linux-review poeschel-lemonage-de/auxdisplay-Use-an-enu=
-m-for-charlcd-backlight-on-off-ops/20200921-234637
-git checkout 48ef34da2bee5cd52d20f34ae7a52cc50e6a8951
-vim +254 drivers/auxdisplay/hd44780.c
+# https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit=
+/?id=3D2cafa72e516f61b6d82c2416b4f5963fb48fd9ce
+git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torval=
+ds/linux.git
+git fetch --no-tags linus master
+git checkout 2cafa72e516f61b6d82c2416b4f5963fb48fd9ce
+vim +/want_tagging +2192 drivers/net/dsa/sja1105/sja1105_main.c
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  177  =
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2122  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  178  static int hd44780_prob=
-e(struct platform_device *pdev)
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  179  {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  180  	struct device *dev =3D=
- &pdev->dev;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  181  	unsigned int i, base;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  182  	struct charlcd *lcd;
-48ef34da2bee5cd Lars Poeschel      2020-09-21  183  	struct hd44780_common =
-*hdc;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  184  	struct hd44780 *hd;
-48ef34da2bee5cd Lars Poeschel      2020-09-21  185  	int ifwidth, ret =3D -=
-ENOMEM;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  186  =
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2123  /* The TPID setting belon=
+gs to the General Parameters table,
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2124   * which can only be part=
+ially reconfigured@runtime (and not the TPID).
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2125   * So a switch reset is r=
+equired.
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2126   */
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2127  static int sja1105_vlan_f=
+iltering(struct dsa_switch *ds, int port, bool enabled)
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2128  {
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2129  	struct sja1105_l2_lookup=
+_params_entry *l2_lookup_params;
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2130  	struct sja1105_general_p=
+arams_entry *general_params;
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2131  	struct sja1105_private *=
+priv =3D ds->priv;
+7f14937facdca1e Vladimir Oltean 2020-05-12  2132  	enum sja1105_vlan_state =
+state;
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2133  	struct sja1105_table *ta=
+ble;
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2134  	struct sja1105_rule *rul=
+e;
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2135  	bool want_tagging;
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2136  	u16 tpid, tpid2;
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2137  	int rc;
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2138  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  187  	/* Required pins */
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  188  	ifwidth =3D gpiod_coun=
-t(dev, "data");
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  189  	if (ifwidth < 0)
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  190  		return ifwidth;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  191  =
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2139  	list_for_each_entry(rule=
+, &priv->flow_block.rules, list) {
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2140  		if (rule->type =3D=3D S=
+JA1105_RULE_VL) {
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2141  			dev_err(ds->dev,
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2142  				"Cannot change VLAN f=
+iltering state while VL rules are active\n");
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2143  			return -EBUSY;
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2144  		}
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2145  	}
+dfacc5a23e227ca Vladimir Oltean 2020-05-05  2146  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  192  	switch (ifwidth) {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  193  	case 4:
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  194  		base =3D PIN_DATA4;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  195  		break;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  196  	case 8:
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  197  		base =3D PIN_DATA0;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  198  		break;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  199  	default:
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  200  		return -EINVAL;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  201  	}
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  202  =
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2147  	if (enabled) {
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2148  		/* Enable VLAN filterin=
+g. */
+54fa49ee8813875 Vladimir Oltean 2019-12-27  2149  		tpid  =3D ETH_P_8021Q;
+54fa49ee8813875 Vladimir Oltean 2019-12-27  2150  		tpid2 =3D ETH_P_8021AD;
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2151  	} else {
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2152  		/* Disable VLAN filteri=
+ng. */
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2153  		tpid  =3D ETH_P_SJA1105;
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2154  		tpid2 =3D ETH_P_SJA1105;
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2155  	}
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2156  =
 
-48ef34da2bee5cd Lars Poeschel      2020-09-21  203  	hdc =3D hd44780_common=
-_alloc();
-48ef34da2bee5cd Lars Poeschel      2020-09-21  204  	if (!hdc)
-48ef34da2bee5cd Lars Poeschel      2020-09-21  205  		return -ENOMEM;
-48ef34da2bee5cd Lars Poeschel      2020-09-21  206  =
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2157  	for (port =3D 0; port < =
+ds->num_ports; port++) {
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2158  		struct sja1105_port *sp=
+ =3D &priv->ports[port];
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2159  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  207  	lcd =3D charlcd_alloc(=
-sizeof(struct hd44780));
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  208  	if (!lcd)
-48ef34da2bee5cd Lars Poeschel      2020-09-21  209  		goto fail1;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  210  =
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2160  		if (enabled)
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2161  			sp->xmit_tpid =3D priv=
+->info->qinq_tpid;
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2162  		else
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2163  			sp->xmit_tpid =3D ETH_=
+P_SJA1105;
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2164  	}
+38b5beeae7a4cde Vladimir Oltean 2020-05-12  2165  =
 
-48ef34da2bee5cd Lars Poeschel      2020-09-21  211  	hd =3D kzalloc(sizeof(=
-struct hd44780), GFP_KERNEL);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  212  	if (!hd)
-48ef34da2bee5cd Lars Poeschel      2020-09-21  213  		goto fail2;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  214  =
+7f14937facdca1e Vladimir Oltean 2020-05-12  2166  	if (!enabled)
+7f14937facdca1e Vladimir Oltean 2020-05-12  2167  		state =3D SJA1105_VLAN_=
+UNAWARE;
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2168  	else if (priv->best_effo=
+rt_vlan_filtering)
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2169  		state =3D SJA1105_VLAN_=
+BEST_EFFORT;
+7f14937facdca1e Vladimir Oltean 2020-05-12  2170  	else
+7f14937facdca1e Vladimir Oltean 2020-05-12  2171  		state =3D SJA1105_VLAN_=
+FILTERING_FULL;
+7f14937facdca1e Vladimir Oltean 2020-05-12  2172  =
 
-48ef34da2bee5cd Lars Poeschel      2020-09-21  215  	hdc->hd44780 =3D hd;
-48ef34da2bee5cd Lars Poeschel      2020-09-21  216  	lcd->drvdata =3D hdc;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  217  	for (i =3D 0; i < ifwi=
-dth; i++) {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  218  		hd->pins[base + i] =
-=3D devm_gpiod_get_index(dev, "data", i,
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  219  							  GPIOD_OUT_LOW);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  220  		if (IS_ERR(hd->pins[b=
-ase + i])) {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  221  			ret =3D PTR_ERR(hd->=
-pins[base + i]);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  222  			goto fail3;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  223  		}
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  224  	}
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  225  =
+cfa36b1fff42266 Vladimir Oltean 2020-05-12  2173  	if (priv->vlan_state =3D=
+=3D state)
+cfa36b1fff42266 Vladimir Oltean 2020-05-12  2174  		return 0;
+cfa36b1fff42266 Vladimir Oltean 2020-05-12  2175  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  226  	hd->pins[PIN_CTRL_E] =
-=3D devm_gpiod_get(dev, "enable", GPIOD_OUT_LOW);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  227  	if (IS_ERR(hd->pins[PI=
-N_CTRL_E])) {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  228  		ret =3D PTR_ERR(hd->p=
-ins[PIN_CTRL_E]);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  229  		goto fail3;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  230  	}
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  231  =
+7f14937facdca1e Vladimir Oltean 2020-05-12  2176  	priv->vlan_state =3D sta=
+te;
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2177  	want_tagging =3D (state =
+=3D=3D SJA1105_VLAN_UNAWARE ||
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2178  			state =3D=3D SJA1105_V=
+LAN_BEST_EFFORT);
+7f14937facdca1e Vladimir Oltean 2020-05-12  2179  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  232  	hd->pins[PIN_CTRL_RS] =
-=3D devm_gpiod_get(dev, "rs", GPIOD_OUT_HIGH);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  233  	if (IS_ERR(hd->pins[PI=
-N_CTRL_RS])) {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  234  		ret =3D PTR_ERR(hd->p=
-ins[PIN_CTRL_RS]);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  235  		goto fail3;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  236  	}
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  237  =
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2180  	table =3D &priv->static_=
+config.tables[BLK_IDX_GENERAL_PARAMS];
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2181  	general_params =3D table=
+->entries;
+f9a1a7646c0d835 Vladimir Oltean 2019-06-08  2182  	/* EtherType used to ide=
+ntify inner tagged (C-tag) VLAN traffic */
+54fa49ee8813875 Vladimir Oltean 2019-12-27  2183  	general_params->tpid =3D=
+ tpid;
+54fa49ee8813875 Vladimir Oltean 2019-12-27  2184  	/* EtherType used to ide=
+ntify outer tagged (S-tag) VLAN traffic */
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2185  	general_params->tpid2 =
+=3D tpid2;
+42824463d38d273 Vladimir Oltean 2019-06-08  2186  	/* When VLAN filtering i=
+s on, we need to at least be able to
+42824463d38d273 Vladimir Oltean 2019-06-08  2187  	 * decode management tra=
+ffic through the "backup plan".
+42824463d38d273 Vladimir Oltean 2019-06-08  2188  	 */
+42824463d38d273 Vladimir Oltean 2019-06-08  2189  	general_params->incl_src=
+pt1 =3D enabled;
+42824463d38d273 Vladimir Oltean 2019-06-08  2190  	general_params->incl_src=
+pt0 =3D enabled;
+070ca3bb95e2cd3 Vladimir Oltean 2019-06-08  2191  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  238  	/* Optional pins */
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  239  	hd->pins[PIN_CTRL_RW] =
-=3D devm_gpiod_get_optional(dev, "rw",
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  240  							GPIOD_OUT_LOW);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  241  	if (IS_ERR(hd->pins[PI=
-N_CTRL_RW])) {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  242  		ret =3D PTR_ERR(hd->p=
-ins[PIN_CTRL_RW]);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  243  		goto fail3;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  244  	}
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  245  =
+2cafa72e516f61b Vladimir Oltean 2020-05-12 @2192  	want_tagging =3D priv->b=
+est_effort_vlan_filtering || !enabled;
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2193  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  246  	hd->pins[PIN_CTRL_BL] =
-=3D devm_gpiod_get_optional(dev, "backlight",
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  247  							GPIOD_OUT_LOW);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  248  	if (IS_ERR(hd->pins[PI=
-N_CTRL_BL])) {
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  249  		ret =3D PTR_ERR(hd->p=
-ins[PIN_CTRL_BL]);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  250  		goto fail3;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  251  	}
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  252  =
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2194  	/* VLAN filtering =3D> i=
+ndependent VLAN learning.
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2195  	 * No VLAN filtering (or=
+ best effort) =3D> shared VLAN learning.
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2196  	 *
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2197  	 * In shared VLAN learni=
+ng mode, untagged traffic still gets
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2198  	 * pvid-tagged, and the =
+FDB table gets populated with entries
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2199  	 * containing the "real"=
+ (pvid or from VLAN tag) VLAN ID.
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2200  	 * However the switch pe=
+rforms a masked L2 lookup in the FDB,
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2201  	 * effectively only look=
+ing up a frame's DMAC (and not VID) for the
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2202  	 * forwarding decision.
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2203  	 *
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2204  	 * This is extremely con=
+venient for us, because in modes with
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2205  	 * vlan_filtering=3D0, d=
+sa_8021q actually installs unique pvid's into
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2206  	 * each front panel port=
+. This is good for identification but breaks
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2207  	 * learning badly - the =
+VID of the learnt FDB entry is unique, aka
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2208  	 * no frames coming from=
+ any other port are going to have it. So
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2209  	 * for forwarding purpos=
+es, this is as though learning was broken
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2210  	 * (all frames get flood=
+ed).
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2211  	 */
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2212  	table =3D &priv->static_=
+config.tables[BLK_IDX_L2_LOOKUP_PARAMS];
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2213  	l2_lookup_params =3D tab=
+le->entries;
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2214  	l2_lookup_params->shared=
+_learn =3D want_tagging;
+6d7c7d948a2e9f8 Vladimir Oltean 2019-08-05  2215  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  253  	/* Required properties=
- */
-c7c3f096eb5e721 Geert Uytterhoeven 2017-03-23 @254  	ret =3D device_propert=
-y_read_u32(dev, "display-height-chars",
-c7c3f096eb5e721 Geert Uytterhoeven 2017-03-23  255  				       &lcd->height=
-);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  256  	if (ret)
-48ef34da2bee5cd Lars Poeschel      2020-09-21  257  		goto fail3;
-c7c3f096eb5e721 Geert Uytterhoeven 2017-03-23  258  	ret =3D device_propert=
-y_read_u32(dev, "display-width-chars", &lcd->width);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  259  	if (ret)
-48ef34da2bee5cd Lars Poeschel      2020-09-21  260  		goto fail3;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  261  =
+2eea1fa82f681b4 Vladimir Oltean 2019-11-12  2216  	rc =3D sja1105_static_co=
+nfig_reload(priv, SJA1105_VLAN_FILTERING);
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2217  	if (rc)
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2218  		dev_err(ds->dev, "Faile=
+d to change VLAN Ethertype\n");
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2219  =
 
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  262  	/*
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  263  	 * On displays with mo=
-re than two rows, the internal buffer width is
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  264  	 * usually equal to th=
-e display width
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  265  	 */
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  266  	if (lcd->height > 2)
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  267  		lcd->bwidth =3D lcd->=
-width;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  268  =
-
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  269  	/* Optional properties=
- */
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  270  	device_property_read_u=
-32(dev, "internal-buffer-width", &lcd->bwidth);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  271  =
-
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  272  	lcd->ifwidth =3D ifwid=
-th;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  273  	lcd->ops =3D ifwidth =
-=3D=3D 8 ? &hd44780_ops_gpio8 : &hd44780_ops_gpio4;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  274  =
-
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  275  	ret =3D charlcd_regist=
-er(lcd);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  276  	if (ret)
-48ef34da2bee5cd Lars Poeschel      2020-09-21  277  		goto fail3;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  278  =
-
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  279  	platform_set_drvdata(p=
-dev, lcd);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  280  	return 0;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  281  =
-
-48ef34da2bee5cd Lars Poeschel      2020-09-21  282  fail3:
-48ef34da2bee5cd Lars Poeschel      2020-09-21  283  	kfree(hd);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  284  fail2:
-48ef34da2bee5cd Lars Poeschel      2020-09-21  285  	kfree(lcd);
-48ef34da2bee5cd Lars Poeschel      2020-09-21  286  fail1:
-48ef34da2bee5cd Lars Poeschel      2020-09-21  287  	kfree(hdc);
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  288  	return ret;
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  289  }
-d47d88361feea2c Geert Uytterhoeven 2017-03-10  290  =
+227d07a07ef1262 Vladimir Oltean 2019-05-05  2220  	/* Switch port identific=
+ation based on 802.1Q is only passable
+227d07a07ef1262 Vladimir Oltean 2019-05-05  2221  	 * if we are not under a=
+ vlan_filtering bridge. So make sure
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2222  	 * the two configuration=
+s are mutually exclusive (of course, the
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2223  	 * user may know better,=
+ i.e. best_effort_vlan_filtering).
+227d07a07ef1262 Vladimir Oltean 2019-05-05  2224  	 */
+2cafa72e516f61b Vladimir Oltean 2020-05-12  2225  	return sja1105_setup_802=
+1q_tagging(ds, want_tagging);
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2226  }
+6666cebc5e306f4 Vladimir Oltean 2019-05-02  2227  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1821823637565154303==--
+--===============3132871694257895660==--
 
