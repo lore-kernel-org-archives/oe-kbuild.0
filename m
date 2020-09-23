@@ -1,23 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============0888431690907122585=="
+Content-Type: multipart/mixed; boundary="===============7600210635361727234=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH 08/10] rpmsg: core: Add RPMSG byte conversion operations
-Date: Wed, 23 Sep 2020 14:56:03 +0300
-Message-ID: <20200923115602.GI4282@kadam>
-In-Reply-To: <20200922001000.899956-9-mathieu.poirier@linaro.org>
+Date: Wed, 23 Sep 2020 18:53:17 +0800
+Message-ID: <202009231821.6lqyQIZT%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0888431690907122585==
+--===============7600210635361727234==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200922001000.899956-9-mathieu.poirier@linaro.org>
+References: <20200922001000.899956-9-mathieu.poirier@linaro.org>
+TO: Mathieu Poirier <mathieu.poirier@linaro.org>
+TO: ohad(a)wizery.com
+TO: bjorn.andersson(a)linaro.org
+TO: guennadi.liakhovetski(a)linux.intel.com
+CC: loic.pallardy(a)st.com
+CC: linux-remoteproc(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+
 Hi Mathieu,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20200921]
+[cannot apply to linux/master linus/master rpmsg/for-next v5.9-rc6 v5.9-rc5=
+ v5.9-rc4 v5.9-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Mathieu-Poirier/rpmsg-Make=
 -RPMSG-name-service-modular/20200922-081745
 base:    b10b8ad862118bf42c28a98b0f067619aadcfb23
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
 config: i386-randconfig-m021-20200923 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -39,22 +60,27 @@ ice-modular/20200922-081745
 git checkout 547ad00c50065bf914ac4090882d0ac692f5452d
 vim +33 drivers/rpmsg/rpmsg_core.c
 
+8b881c07cb805e1 Bjorn Andersson 2016-09-01  22  =
+
+547ad00c50065bf Mathieu Poirier 2020-09-21  23  /**
+547ad00c50065bf Mathieu Poirier 2020-09-21  24   * rpmsg{16|32}_to_cpu()
+547ad00c50065bf Mathieu Poirier 2020-09-21  25   * cpu_to_rpmsg[16|32}() - =
+rpmsg device specific byte conversion functions to
+547ad00c50065bf Mathieu Poirier 2020-09-21  26   *			   perform byte conver=
+sion between rpmsg device and the
+547ad00c50065bf Mathieu Poirier 2020-09-21  27   *			   transport layer it =
+is operating on.
+547ad00c50065bf Mathieu Poirier 2020-09-21  28   */
+547ad00c50065bf Mathieu Poirier 2020-09-21  29  =
+
 547ad00c50065bf Mathieu Poirier 2020-09-21  30  u16 rpmsg16_to_cpu(struct r=
 pmsg_device *rpdev, u16 val)
-                                                ^^^
-
 547ad00c50065bf Mathieu Poirier 2020-09-21  31  {
 547ad00c50065bf Mathieu Poirier 2020-09-21  32  	if (WARN_ON(!rpdev))
 547ad00c50065bf Mathieu Poirier 2020-09-21 @33  		return -EINVAL;
-                                                                ^^^^^^^^^^^=
-^^^
-All the negative returns get truncated to a high u16 value.
-
 547ad00c50065bf Mathieu Poirier 2020-09-21  34  	if (!rpdev->ops || !rpdev-=
 >ops->transport16_to_cpu)
 547ad00c50065bf Mathieu Poirier 2020-09-21  35  		return -EPERM;
-                                                                ^^^^^^^^^^^=
-^^^
 547ad00c50065bf Mathieu Poirier 2020-09-21  36  =
 
 547ad00c50065bf Mathieu Poirier 2020-09-21  37  	return rpdev->ops->transpo=
@@ -69,24 +95,24 @@ pmsg_device *rpdev, u16 val)
 547ad00c50065bf Mathieu Poirier 2020-09-21  42  {
 547ad00c50065bf Mathieu Poirier 2020-09-21  43  	if (WARN_ON(!rpdev))
 547ad00c50065bf Mathieu Poirier 2020-09-21 @44  		return -EINVAL;
-                                                                ^^^^^^^^^^^=
-^^^
 547ad00c50065bf Mathieu Poirier 2020-09-21  45  	if (!rpdev->ops || !rpdev-=
 >ops->cpu_to_transport16)
 547ad00c50065bf Mathieu Poirier 2020-09-21  46  		return -EPERM;
-                                                                ^^^^^^^^^^^=
-^^
 547ad00c50065bf Mathieu Poirier 2020-09-21  47  =
 
 547ad00c50065bf Mathieu Poirier 2020-09-21  48  	return rpdev->ops->cpu_to_=
 transport16(rpdev, val);
 547ad00c50065bf Mathieu Poirier 2020-09-21  49  }
+547ad00c50065bf Mathieu Poirier 2020-09-21  50  EXPORT_SYMBOL(cpu_to_rpmsg1=
+6);
+547ad00c50065bf Mathieu Poirier 2020-09-21  51  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0888431690907122585==
+--===============7600210635361727234==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -814,5 +840,5 @@ rUp/t3+9AUAXeNuWEFT4ahiuIjsW4XASc56rE0bfZwvQPYVPheHjRUMYo8H4QqoIsbDKoQQegmYJ
 V+xbkf3GelVl/OSq5qUMwbeFdylprQe6CZC1mGFm2G2dui0Yrbyu6B5raxXixzhbmMaifktdpFlT
 7IR9fagIhop9LuxaSA5rcqMyGW59EEVyheu/sZiELGKw61h7SveM7lg7enj8ZeBWS31pbb06AdhB
 V+uiJPQKV6gwpP8BAvk21qaFAgA=
---===============0888431690907122585==--
+--===============7600210635361727234==--
 
