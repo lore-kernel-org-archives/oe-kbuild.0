@@ -1,25 +1,42 @@
-Content-Type: multipart/mixed; boundary="===============8763778698630218873=="
+Content-Type: multipart/mixed; boundary="===============3264900646428990075=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH net-next v4 1/2] net: phy: dp83869: support Wake on LAN
-Date: Fri, 25 Sep 2020 15:38:58 +0300
-Message-ID: <20200925123858.GX18329@kadam>
-In-Reply-To: <20200924162707.14093-2-dmurphy@ti.com>
+Date: Fri, 25 Sep 2020 20:17:03 +0800
+Message-ID: <202009252059.eWSaRjhd%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8763778698630218873==
+--===============3264900646428990075==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20200924162707.14093-2-dmurphy@ti.com>
+References: <20200924162707.14093-2-dmurphy@ti.com>
+TO: Dan Murphy <dmurphy@ti.com>
+TO: davem(a)davemloft.net
+TO: andrew(a)lunn.ch
+TO: f.fainelli(a)gmail.com
+TO: hkallweit1(a)gmail.com
+CC: mkubecek(a)suse.cz
+CC: netdev(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+CC: Dan Murphy <dmurphy@ti.com>
+
 Hi Dan,
 
-url:    https://github.com/0day-ci/linux/commits/Dan-Murphy/DP83869-WoL-and=
--Speed-optimization/20200925-002844 =
+I love your patch! Perhaps something to improve:
 
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/Dan-Murphy/DP83869-WoL-and=
+-Speed-optimization/20200925-002844
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
- 3fc826f121d89c5aa4afd7b3408b07e0ff59466b
+3fc826f121d89c5aa4afd7b3408b07e0ff59466b
+:::::: branch date: 20 hours ago
+:::::: commit date: 20 hours ago
 config: x86_64-randconfig-m001-20200925 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -45,6 +62,8 @@ drivers/net/phy/dp83869.c:338 dp83869_get_wol() warn: impossible condition =
 
 vim +205 drivers/net/phy/dp83869.c
 
+01db923e83779bf Dan Murphy 2019-11-13  195  =
+
 cfd39675171ca5b Dan Murphy 2020-09-24  196  static int dp83869_set_wol(stru=
 ct phy_device *phydev,
 cfd39675171ca5b Dan Murphy 2020-09-24  197  			   struct ethtool_wolinfo *w=
@@ -60,9 +79,6 @@ cfd39675171ca5b Dan Murphy 2020-09-24  203  =
 cfd39675171ca5b Dan Murphy 2020-09-24  204  	val_rxcfg =3D phy_read_mmd(phy=
 dev, DP83869_DEVADDR, DP83869_RXFCFG);
 cfd39675171ca5b Dan Murphy 2020-09-24 @205  	if (val_rxcfg < 0)
-                                                    ^^^^^^^^^^^^^
-This needs to be int instead of u16.
-
 cfd39675171ca5b Dan Murphy 2020-09-24  206  		return val_rxcfg;
 cfd39675171ca5b Dan Murphy 2020-09-24  207  =
 
@@ -75,17 +91,229 @@ cfd39675171ca5b Dan Murphy 2020-09-24  211  =
 cfd39675171ca5b Dan Murphy 2020-09-24  212  	if (wol->wolopts & (WAKE_MAGIC=
  | WAKE_MAGICSECURE | WAKE_UCAST |
 cfd39675171ca5b Dan Murphy 2020-09-24  213  			    WAKE_BCAST)) {
+cfd39675171ca5b Dan Murphy 2020-09-24  214  		val_rxcfg |=3D DP83869_WOL_EN=
+H_MAC;
+cfd39675171ca5b Dan Murphy 2020-09-24  215  		val_micr |=3D MII_DP83869_MIC=
+R_WOL_INT_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  216  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  217  		if (wol->wolopts & WAKE_MAGIC=
+ ||
+cfd39675171ca5b Dan Murphy 2020-09-24  218  		    wol->wolopts & WAKE_MAGIC=
+SECURE) {
+cfd39675171ca5b Dan Murphy 2020-09-24  219  			mac =3D (u8 *)ndev->dev_addr;
+cfd39675171ca5b Dan Murphy 2020-09-24  220  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  221  			if (!is_valid_ether_addr(mac=
+))
+cfd39675171ca5b Dan Murphy 2020-09-24  222  				return -EINVAL;
+cfd39675171ca5b Dan Murphy 2020-09-24  223  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  224  			ret =3D phy_write_mmd(phydev=
+, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  225  					    DP83869_RXFPMD1,
+cfd39675171ca5b Dan Murphy 2020-09-24  226  					    mac[1] << 8 | mac[0]);
+cfd39675171ca5b Dan Murphy 2020-09-24  227  			if (ret)
+cfd39675171ca5b Dan Murphy 2020-09-24  228  				return ret;
+cfd39675171ca5b Dan Murphy 2020-09-24  229  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  230  			ret =3D phy_write_mmd(phydev=
+, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  231  					    DP83869_RXFPMD2,
+cfd39675171ca5b Dan Murphy 2020-09-24  232  					    mac[3] << 8 | mac[2]);
+cfd39675171ca5b Dan Murphy 2020-09-24  233  			if (ret)
+cfd39675171ca5b Dan Murphy 2020-09-24  234  				return ret;
+cfd39675171ca5b Dan Murphy 2020-09-24  235  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  236  			ret =3D phy_write_mmd(phydev=
+, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  237  					    DP83869_RXFPMD3,
+cfd39675171ca5b Dan Murphy 2020-09-24  238  					    mac[5] << 8 | mac[4]);
+cfd39675171ca5b Dan Murphy 2020-09-24  239  			if (ret)
+cfd39675171ca5b Dan Murphy 2020-09-24  240  				return ret;
+cfd39675171ca5b Dan Murphy 2020-09-24  241  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  242  			val_rxcfg |=3D DP83869_WOL_M=
+AGIC_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  243  		} else {
+cfd39675171ca5b Dan Murphy 2020-09-24  244  			val_rxcfg &=3D ~DP83869_WOL_=
+MAGIC_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  245  		}
+cfd39675171ca5b Dan Murphy 2020-09-24  246  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  247  		if (wol->wolopts & WAKE_MAGIC=
+SECURE) {
+cfd39675171ca5b Dan Murphy 2020-09-24  248  			ret =3D phy_write_mmd(phydev=
+, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  249  					    DP83869_RXFSOP1,
+cfd39675171ca5b Dan Murphy 2020-09-24  250  					    (wol->sopass[1] << 8) =
+| wol->sopass[0]);
+cfd39675171ca5b Dan Murphy 2020-09-24  251  			if (ret)
+cfd39675171ca5b Dan Murphy 2020-09-24  252  				return ret;
+cfd39675171ca5b Dan Murphy 2020-09-24  253  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  254  			ret =3D phy_write_mmd(phydev=
+, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  255  					    DP83869_RXFSOP2,
+cfd39675171ca5b Dan Murphy 2020-09-24  256  					    (wol->sopass[3] << 8) =
+| wol->sopass[2]);
+cfd39675171ca5b Dan Murphy 2020-09-24  257  			if (ret)
+cfd39675171ca5b Dan Murphy 2020-09-24  258  				return ret;
+cfd39675171ca5b Dan Murphy 2020-09-24  259  			ret =3D phy_write_mmd(phydev=
+, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  260  					    DP83869_RXFSOP3,
+cfd39675171ca5b Dan Murphy 2020-09-24  261  					    (wol->sopass[5] << 8) =
+| wol->sopass[4]);
+cfd39675171ca5b Dan Murphy 2020-09-24  262  			if (ret)
+cfd39675171ca5b Dan Murphy 2020-09-24  263  				return ret;
+cfd39675171ca5b Dan Murphy 2020-09-24  264  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  265  			val_rxcfg |=3D DP83869_WOL_S=
+EC_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  266  		} else {
+cfd39675171ca5b Dan Murphy 2020-09-24  267  			val_rxcfg &=3D ~DP83869_WOL_=
+SEC_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  268  		}
+cfd39675171ca5b Dan Murphy 2020-09-24  269  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  270  		if (wol->wolopts & WAKE_UCAST)
+cfd39675171ca5b Dan Murphy 2020-09-24  271  			val_rxcfg |=3D DP83869_WOL_U=
+CAST_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  272  		else
+cfd39675171ca5b Dan Murphy 2020-09-24  273  			val_rxcfg &=3D ~DP83869_WOL_=
+UCAST_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  274  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  275  		if (wol->wolopts & WAKE_BCAST)
+cfd39675171ca5b Dan Murphy 2020-09-24  276  			val_rxcfg |=3D DP83869_WOL_B=
+CAST_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  277  		else
+cfd39675171ca5b Dan Murphy 2020-09-24  278  			val_rxcfg &=3D ~DP83869_WOL_=
+BCAST_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  279  	} else {
+cfd39675171ca5b Dan Murphy 2020-09-24  280  		val_rxcfg &=3D ~DP83869_WOL_E=
+NH_MAC;
+cfd39675171ca5b Dan Murphy 2020-09-24  281  		val_micr &=3D ~MII_DP83869_MI=
+CR_WOL_INT_EN;
+cfd39675171ca5b Dan Murphy 2020-09-24  282  	}
+cfd39675171ca5b Dan Murphy 2020-09-24  283  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  284  	ret =3D phy_write_mmd(phydev, =
+DP83869_DEVADDR, DP83869_RXFCFG, val_rxcfg);
+cfd39675171ca5b Dan Murphy 2020-09-24  285  	if (ret)
+cfd39675171ca5b Dan Murphy 2020-09-24  286  		return ret;
+cfd39675171ca5b Dan Murphy 2020-09-24  287  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  288  	return phy_write(phydev, MII_D=
+P83869_MICR, val_micr);
+cfd39675171ca5b Dan Murphy 2020-09-24  289  }
+cfd39675171ca5b Dan Murphy 2020-09-24  290  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  291  static void dp83869_get_wol(str=
+uct phy_device *phydev,
+cfd39675171ca5b Dan Murphy 2020-09-24  292  			    struct ethtool_wolinfo *=
+wol)
+cfd39675171ca5b Dan Murphy 2020-09-24  293  {
+cfd39675171ca5b Dan Murphy 2020-09-24  294  	u16 value, sopass_val;
+cfd39675171ca5b Dan Murphy 2020-09-24  295  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  296  	wol->supported =3D (WAKE_UCAST=
+ | WAKE_BCAST | WAKE_MAGIC |
+cfd39675171ca5b Dan Murphy 2020-09-24  297  			WAKE_MAGICSECURE);
+cfd39675171ca5b Dan Murphy 2020-09-24  298  	wol->wolopts =3D 0;
+cfd39675171ca5b Dan Murphy 2020-09-24  299  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  300  	value =3D phy_read_mmd(phydev,=
+ DP83869_DEVADDR, DP83869_RXFCFG);
+cfd39675171ca5b Dan Murphy 2020-09-24 @301  	if (value < 0) {
+cfd39675171ca5b Dan Murphy 2020-09-24  302  		phydev_err(phydev, "Failed to=
+ read RX CFG\n");
+cfd39675171ca5b Dan Murphy 2020-09-24  303  		return;
+cfd39675171ca5b Dan Murphy 2020-09-24  304  	}
+cfd39675171ca5b Dan Murphy 2020-09-24  305  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  306  	if (value & DP83869_WOL_UCAST_=
+EN)
+cfd39675171ca5b Dan Murphy 2020-09-24  307  		wol->wolopts |=3D WAKE_UCAST;
+cfd39675171ca5b Dan Murphy 2020-09-24  308  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  309  	if (value & DP83869_WOL_BCAST_=
+EN)
+cfd39675171ca5b Dan Murphy 2020-09-24  310  		wol->wolopts |=3D WAKE_BCAST;
+cfd39675171ca5b Dan Murphy 2020-09-24  311  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  312  	if (value & DP83869_WOL_MAGIC_=
+EN)
+cfd39675171ca5b Dan Murphy 2020-09-24  313  		wol->wolopts |=3D WAKE_MAGIC;
+cfd39675171ca5b Dan Murphy 2020-09-24  314  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  315  	if (value & DP83869_WOL_SEC_EN=
+) {
+cfd39675171ca5b Dan Murphy 2020-09-24  316  		sopass_val =3D phy_read_mmd(p=
+hydev, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  317  					  DP83869_RXFSOP1);
+cfd39675171ca5b Dan Murphy 2020-09-24 @318  		if (sopass_val < 0) {
+cfd39675171ca5b Dan Murphy 2020-09-24  319  			phydev_err(phydev, "Failed t=
+o read RX SOP 1\n");
+cfd39675171ca5b Dan Murphy 2020-09-24  320  			return;
+cfd39675171ca5b Dan Murphy 2020-09-24  321  		}
+cfd39675171ca5b Dan Murphy 2020-09-24  322  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  323  		wol->sopass[0] =3D (sopass_va=
+l & 0xff);
+cfd39675171ca5b Dan Murphy 2020-09-24  324  		wol->sopass[1] =3D (sopass_va=
+l >> 8);
+cfd39675171ca5b Dan Murphy 2020-09-24  325  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  326  		sopass_val =3D phy_read_mmd(p=
+hydev, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  327  					  DP83869_RXFSOP2);
+cfd39675171ca5b Dan Murphy 2020-09-24  328  		if (sopass_val < 0) {
+cfd39675171ca5b Dan Murphy 2020-09-24  329  			phydev_err(phydev, "Failed t=
+o read RX SOP 2\n");
+cfd39675171ca5b Dan Murphy 2020-09-24  330  			return;
+cfd39675171ca5b Dan Murphy 2020-09-24  331  		}
+cfd39675171ca5b Dan Murphy 2020-09-24  332  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  333  		wol->sopass[2] =3D (sopass_va=
+l & 0xff);
+cfd39675171ca5b Dan Murphy 2020-09-24  334  		wol->sopass[3] =3D (sopass_va=
+l >> 8);
+cfd39675171ca5b Dan Murphy 2020-09-24  335  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  336  		sopass_val =3D phy_read_mmd(p=
+hydev, DP83869_DEVADDR,
+cfd39675171ca5b Dan Murphy 2020-09-24  337  					  DP83869_RXFSOP3);
+cfd39675171ca5b Dan Murphy 2020-09-24  338  		if (sopass_val < 0) {
+cfd39675171ca5b Dan Murphy 2020-09-24  339  			phydev_err(phydev, "Failed t=
+o read RX SOP 3\n");
+cfd39675171ca5b Dan Murphy 2020-09-24  340  			return;
+cfd39675171ca5b Dan Murphy 2020-09-24  341  		}
+cfd39675171ca5b Dan Murphy 2020-09-24  342  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  343  		wol->sopass[4] =3D (sopass_va=
+l & 0xff);
+cfd39675171ca5b Dan Murphy 2020-09-24  344  		wol->sopass[5] =3D (sopass_va=
+l >> 8);
+cfd39675171ca5b Dan Murphy 2020-09-24  345  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  346  		wol->wolopts |=3D WAKE_MAGICS=
+ECURE;
+cfd39675171ca5b Dan Murphy 2020-09-24  347  	}
+cfd39675171ca5b Dan Murphy 2020-09-24  348  =
+
+cfd39675171ca5b Dan Murphy 2020-09-24  349  	if (!(value & DP83869_WOL_ENH_=
+MAC))
+cfd39675171ca5b Dan Murphy 2020-09-24  350  		wol->wolopts =3D 0;
+cfd39675171ca5b Dan Murphy 2020-09-24  351  }
+cfd39675171ca5b Dan Murphy 2020-09-24  352  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============8763778698630218873==
+--===============3264900646428990075==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -633,5 +861,5 @@ vbiMX0LsvjjTpWL1axd8gzaskemQt04yXos2LnV4pZ/TfEkgLAGjcqRSEgiCQ4duuBdVydjCARw2
 ZUxfb0gzam3mllOh8irfDcecNCGcnm6MAr1YhM3HjWO6kOrQKKDzBknyXo7QPnx9lo+sT2vOGZkc
 lCDNRDvGO/Kx5UG/t0UmLHx0rJhwCINxNh7IsYuEOYyQorcwKhJQt0YmUqbfGfke9znZEqwIfzaD
 w3UkzSI3wlV44jOgYGILdu9CHTey9x886RTs5ETkVD1yeMxUckdPNSsgWd4E/x8ck+Yw6+kBAA==
---===============8763778698630218873==--
+--===============3264900646428990075==--
 
