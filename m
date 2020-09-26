@@ -1,22 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============2965351442276265112=="
+Content-Type: multipart/mixed; boundary="===============0387508872387628453=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [linux-next:master 10377/11173] drivers/leds/leds-tca6507.c:730 tca6507_led_dt_init() warn: passing zero to 'ERR_PTR'
-Date: Sat, 26 Sep 2020 15:36:44 +0300
-Message-ID: <20200926123644.GZ18329@kadam>
+Date: Sat, 26 Sep 2020 20:22:30 +0800
+Message-ID: <202009262024.VuQsvH5y%lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2965351442276265112==
+--===============0387508872387628453==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+TO: "Marek Beh=C3=BAn" <marek.behun@nic.cz>
+CC: Pavel Machek <pavel@ucw.cz>
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
-  master
+ master
 head:   20dc779fdefc40bf7dd9736cea01704f29228fae
 commit: d78b10f5713d92d494d2b1c10ef74fdc5ce8946e [10377/11173] leds: tca650=
 7: use fwnode API instead of OF
+:::::: branch date: 26 hours ago
+:::::: commit date: 2 days ago
 config: i386-randconfig-m021-20200925 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -29,6 +35,8 @@ drivers/leds/leds-tca6507.c:730 tca6507_led_dt_init() warn: passing zero to=
  'ERR_PTR'
 
 vim +/ERR_PTR +730 drivers/leds/leds-tca6507.c
+
+a6d511e5155406c NeilBrown     2012-01-10  693  =
 
 0c596a7ebb51b51 Marek Belisko 2012-11-30  694  static struct tca6507_platfo=
 rm_data *
@@ -88,16 +96,9 @@ d78b10f5713d92d Marek Beh=C3=BAn   2020-09-20  727  		ret =3D fwnode_proper=
 ty_read_u32(child, "reg", &reg);
 d78b10f5713d92d Marek Beh=C3=BAn   2020-09-20  728  		if (ret || reg >=3D N=
 UM_LEDS) {
-                                                                   ^^^^^^^^=
-^^^^^^^
-"ret" is zero and reg is too large.
-
 d78b10f5713d92d Marek Beh=C3=BAn   2020-09-20  729  			fwnode_handle_put(ch=
 ild);
 d78b10f5713d92d Marek Beh=C3=BAn   2020-09-20 @730  			return ERR_PTR(ret);
-
-Returns NULL instead of ERR_PTR(-EINVAL).
-
 d78b10f5713d92d Marek Beh=C3=BAn   2020-09-20  731  		}
 0c596a7ebb51b51 Marek Belisko 2012-11-30  732  =
 
@@ -123,17 +124,14 @@ d78b10f5713d92d Marek Beh=C3=BAn   2020-09-20  746  =
 
 0c596a7ebb51b51 Marek Belisko 2012-11-30  747  	return pdata;
 0c596a7ebb51b51 Marek Belisko 2012-11-30  748  }
+0c596a7ebb51b51 Marek Belisko 2012-11-30  749  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============2965351442276265112==
+--===============0387508872387628453==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -633,5 +631,5 @@ vFPeRiP68IXKSBNgG+oShC5n9FXp5LJQi+C1onzQObeVDFtktmJgjQiZf2s+Bl/WNkH1JfjevlzK
 bMGudX6y8WqKee9lolJyn71szUu3br3dodaCanX885/1693D2gj77i3jEv3UVkkXbAuoEpauaK+x
 OJKQXGVMqwN4jVU1iu8FEmKSIXGksJiVyHJp4PXsyCbFDFU6+zmrydF2HzaDtXC8VNdqf9uZpBs4
 DEhOkcq5V89xOoXTIhijv3eWvOhSeX/6PzYP+gQZvgEA
---===============2965351442276265112==--
+--===============0387508872387628453==--
 
