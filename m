@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7993046245627120381=="
+Content-Type: multipart/mixed; boundary="===============8205491668450554991=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Fri, 02 Oct 2020 23:06:14 +0800
-Message-ID: <20201002150614.GA25313@8cbb73b479b5>
+Date: Fri, 02 Oct 2020 23:06:13 +0800
+Message-ID: <20201002150613.GA25226@8cbb73b479b5>
 In-Reply-To: <202010022336.F4IlTzZV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7993046245627120381==
+--===============8205491668450554991==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,17 +16,15 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Keith Busch <kbusch@kernel.org>
-CC: Jens Axboe <axboe@kernel.dk>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Sagi Grimberg <sagi@grimberg.me>
-CC: linux-nvme(a)lists.infradead.org
+CC: Pavel Machek <pavel@ucw.cz>
+CC: Dan Murphy <dmurphy@ti.com>
+CC: linux-leds(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/nvme/host/lightnvm.c:1244:60-61: WARNING opportunity for kobj_to_de=
-v()
+drivers/leds/trigger/ledtrig-pattern.c:336:60-61: WARNING opportunity for k=
+obj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -48,19 +46,21 @@ d kobj_to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- lightnvm.c |    2 +-
+ ledtrig-pattern.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/nvme/host/lightnvm.c
-+++ b/drivers/nvme/host/lightnvm.c
-@@ -1241,7 +1241,7 @@ static struct attribute *nvm_dev_attrs[]
- static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
- 				     struct attribute *attr, int index)
+--- a/drivers/leds/trigger/ledtrig-pattern.c
++++ b/drivers/leds/trigger/ledtrig-pattern.c
+@@ -333,7 +333,7 @@ static DEVICE_ATTR_RW(hw_pattern);
+ static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
+ 				       struct attribute *attr, int index)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct gendisk *disk =3D dev_to_disk(dev);
- 	struct nvme_ns *ns =3D disk->private_data;
- 	struct nvm_dev *ndev =3D ns->ndev;
---===============7993046245627120381==--
+ 	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
+ =
+
+ 	if (attr =3D=3D &dev_attr_repeat.attr || attr =3D=3D &dev_attr_pattern.at=
+tr)
+--===============8205491668450554991==--
 
