@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============8205491668450554991=="
+Content-Type: multipart/mixed; boundary="===============2068813772325723582=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Fri, 02 Oct 2020 23:06:13 +0800
-Message-ID: <20201002150613.GA25226@8cbb73b479b5>
+Date: Fri, 02 Oct 2020 23:06:11 +0800
+Message-ID: <20201002150611.GA25139@8cbb73b479b5>
 In-Reply-To: <202010022336.F4IlTzZV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8205491668450554991==
+--===============2068813772325723582==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Pavel Machek <pavel@ucw.cz>
-CC: Dan Murphy <dmurphy@ti.com>
-CC: linux-leds(a)vger.kernel.org
+CC: Keith Busch <kbusch@kernel.org>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: linux-nvme(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/leds/trigger/ledtrig-pattern.c:336:60-61: WARNING opportunity for k=
-obj_to_dev()
+drivers/nvme/host/core.c:3646:60-61: WARNING opportunity for kobj_to_dev()
+drivers/nvme/host/core.c:3403:60-61: WARNING opportunity for kobj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -46,21 +48,30 @@ d kobj_to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ledtrig-pattern.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ core.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/leds/trigger/ledtrig-pattern.c
-+++ b/drivers/leds/trigger/ledtrig-pattern.c
-@@ -333,7 +333,7 @@ static DEVICE_ATTR_RW(hw_pattern);
- static umode_t pattern_trig_attrs_mode(struct kobject *kobj,
- 				       struct attribute *attr, int index)
+--- a/drivers/nvme/host/core.c
++++ b/drivers/nvme/host/core.c
+@@ -3400,7 +3400,7 @@ static struct attribute *nvme_ns_id_attr
+ static umode_t nvme_ns_id_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct led_classdev *led_cdev =3D dev_get_drvdata(dev);
+ 	struct nvme_ns_ids *ids =3D &dev_to_ns_head(dev)->ids;
  =
 
- 	if (attr =3D=3D &dev_attr_repeat.attr || attr =3D=3D &dev_attr_pattern.at=
-tr)
---===============8205491668450554991==--
+ 	if (a =3D=3D &dev_attr_uuid.attr) {
+@@ -3643,7 +3643,7 @@ static struct attribute *nvme_dev_attrs[
+ static umode_t nvme_dev_attrs_are_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
+ {
+-	struct device *dev =3D container_of(kobj, struct device, kobj);
++	struct device *dev =3D kobj_to_dev(kobj);
+ 	struct nvme_ctrl *ctrl =3D dev_get_drvdata(dev);
+ =
+
+ 	if (a =3D=3D &dev_attr_delete_controller.attr && !ctrl->ops->delete_ctrl)
+--===============2068813772325723582==--
 
