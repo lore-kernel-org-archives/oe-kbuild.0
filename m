@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7703522653971697129=="
+Content-Type: multipart/mixed; boundary="===============7096470887397160978=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Fri, 02 Oct 2020 23:06:24 +0800
-Message-ID: <20201002150624.GA25922@8cbb73b479b5>
+Date: Fri, 02 Oct 2020 23:06:23 +0800
+Message-ID: <20201002150623.GA25835@8cbb73b479b5>
 In-Reply-To: <202010022336.F4IlTzZV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7703522653971697129==
+--===============7096470887397160978==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,14 +16,14 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: linux-hwmon(a)vger.kernel.org
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hwmon/w83627ehf.c:1113:60-61: WARNING opportunity for kobj_to_dev()
+drivers/input/touchscreen/tsc200x-core.c:341:60-61: WARNING opportunity for=
+ kobj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -45,19 +45,19 @@ d kobj_to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- w83627ehf.c |    2 +-
+ tsc200x-core.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/hwmon/w83627ehf.c
-+++ b/drivers/hwmon/w83627ehf.c
-@@ -1110,7 +1110,7 @@ clear_caseopen(struct device *dev, struc
- static umode_t w83627ehf_attrs_visible(struct kobject *kobj,
- 				       struct attribute *a, int n)
+--- a/drivers/input/touchscreen/tsc200x-core.c
++++ b/drivers/input/touchscreen/tsc200x-core.c
+@@ -338,7 +338,7 @@ static struct attribute *tsc200x_attrs[]
+ static umode_t tsc200x_attr_is_visible(struct kobject *kobj,
+ 				      struct attribute *attr, int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct w83627ehf_data *data =3D dev_get_drvdata(dev);
- 	struct device_attribute *devattr;
- 	struct sensor_device_attribute *sda;
---===============7703522653971697129==--
+ 	struct tsc200x *ts =3D dev_get_drvdata(dev);
+ 	umode_t mode =3D attr->mode;
+=20
+--===============7096470887397160978==--
 
