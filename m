@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2953849215446908920=="
+Content-Type: multipart/mixed; boundary="===============0189478428688996494=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: ifnullfree: fix ifnullfree.cocci warnings
-Date: Sat, 03 Oct 2020 03:44:04 +0800
-Message-ID: <20201002194404.GA528@8cbb73b479b5>
+Date: Sat, 03 Oct 2020 03:44:03 +0800
+Message-ID: <20201002194403.GA441@8cbb73b479b5>
 In-Reply-To: <202010030349.ukMxko0g-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2953849215446908920==
+--===============0189478428688996494==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,19 +16,15 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Dave Young <dyoung@redhat.com>
-CC: Baoquan He <bhe@redhat.com>
-CC: Vivek Goyal <vgoyal@redhat.com>
-CC: Alexey Dobriyan <adobriyan@gmail.com>
-CC: kexec(a)lists.infradead.org
+CC: Chris Mason <chris.mason@fusionio.com>
+CC: Josef Bacik <josef@toxicpanda.com>
+CC: David Sterba <dsterba@suse.com>
+CC: linux-btrfs(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-CC: linux-fsdevel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-fs/proc/vmcore.c:1507:2-7: WARNING: NULL check before some freeing function=
-s is not needed.
-fs/proc/vmcore.c:1510:2-7: WARNING: NULL check before some freeing function=
+fs/btrfs/raid56.c:237:2-8: WARNING: NULL check before some freeing function=
 s is not needed.
 
  NULL check before some freeing functions is not needed.
@@ -55,27 +51,21 @@ ree: add vfree(), kvfree*() functions
 
 Please take the patch only if it's a positive warning. Thanks!
 
- vmcore.c |    6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ raid56.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/fs/proc/vmcore.c
-+++ b/fs/proc/vmcore.c
-@@ -1503,11 +1503,9 @@ int vmcore_add_device_dump(struct vmcore
+--- a/fs/btrfs/raid56.c
++++ b/fs/btrfs/raid56.c
+@@ -233,8 +233,7 @@ int btrfs_alloc_stripe_hash_table(struct
+ 	}
+ =
+
+ 	x =3D cmpxchg(&info->stripe_hash_table, NULL, table);
+-	if (x)
+-		kvfree(x);
++	kvfree(x);
  	return 0;
- =
-
- out_err:
--	if (buf)
--		vfree(buf);
-+	vfree(buf);
- =
-
--	if (dump)
--		vfree(dump);
-+	vfree(dump);
- =
-
- 	return ret;
  }
---===============2953849215446908920==--
+=20
+--===============0189478428688996494==--
 
