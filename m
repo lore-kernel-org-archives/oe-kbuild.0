@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============9032771720804272888=="
+Content-Type: multipart/mixed; boundary="===============8827541252220680399=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Fri, 02 Oct 2020 23:06:21 +0800
-Message-ID: <20201002150621.GA25748@8cbb73b479b5>
+Date: Fri, 02 Oct 2020 23:06:20 +0800
+Message-ID: <20201002150620.GA25661@8cbb73b479b5>
 In-Reply-To: <202010022336.F4IlTzZV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9032771720804272888==
+--===============8827541252220680399==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,28 +16,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Lee Duncan <lduncan@suse.com>
-CC: Chris Leech <cleech@redhat.com>
-CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
-CC: open-iscsi(a)googlegroups.com
-CC: linux-scsi(a)vger.kernel.org
+CC: Dan Williams <dan.j.williams@intel.com>
+CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: Dave Jiang <dave.jiang@intel.com>
+CC: Ira Weiny <ira.weiny@intel.com>
+CC: linux-nvdimm(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/scsi/scsi_transport_iscsi.c:4041:61-62: WARNING opportunity for kob=
-j_to_dev()
-drivers/scsi/scsi_transport_iscsi.c:1128:60-61: WARNING opportunity for kob=
-j_to_dev()
-drivers/scsi/scsi_transport_iscsi.c:926:60-61: WARNING opportunity for kobj=
-_to_dev()
-drivers/scsi/scsi_transport_iscsi.c:4454:61-62: WARNING opportunity for kob=
-j_to_dev()
-drivers/scsi/scsi_transport_iscsi.c:436:60-61: WARNING opportunity for kobj=
-_to_dev()
-drivers/scsi/scsi_transport_iscsi.c:4310:61-62: WARNING opportunity for kob=
-j_to_dev()
+drivers/nvdimm/region_devs.c:762:60-61: WARNING opportunity for kobj_to_dev=
+()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -59,64 +48,22 @@ d kobj_to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- scsi_transport_iscsi.c |   12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ region_devs.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/scsi/scsi_transport_iscsi.c
-+++ b/drivers/scsi/scsi_transport_iscsi.c
-@@ -433,7 +433,7 @@ iscsi_iface_attr(iface, initiator_name,
- static umode_t iscsi_iface_attr_is_visible(struct kobject *kobj,
- 					  struct attribute *attr, int i)
+--- a/drivers/nvdimm/region_devs.c
++++ b/drivers/nvdimm/region_devs.c
+@@ -759,7 +759,7 @@ REGION_MAPPING(31);
+ =
+
+ static umode_t mapping_visible(struct kobject *kobj, struct attribute *a, =
+int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct iscsi_iface *iface =3D iscsi_dev_to_iface(dev);
- 	struct iscsi_transport *t =3D iface->transport;
- 	int param;
-@@ -923,7 +923,7 @@ static umode_t iscsi_flashnode_sess_attr
- 						    struct attribute *attr,
- 						    int i)
- {
--	struct device *dev =3D container_of(kobj, struct device, kobj);
-+	struct device *dev =3D kobj_to_dev(kobj);
- 	struct iscsi_bus_flash_session *fnode_sess =3D
- 						iscsi_dev_to_flash_session(dev);
- 	struct iscsi_transport *t =3D fnode_sess->transport;
-@@ -1125,7 +1125,7 @@ static umode_t iscsi_flashnode_conn_attr
- 						    struct attribute *attr,
- 						    int i)
- {
--	struct device *dev =3D container_of(kobj, struct device, kobj);
-+	struct device *dev =3D kobj_to_dev(kobj);
- 	struct iscsi_bus_flash_conn *fnode_conn =3D iscsi_dev_to_flash_conn(dev);
- 	struct iscsi_transport *t =3D fnode_conn->transport;
- 	int param;
-@@ -4038,7 +4038,7 @@ static struct attribute *iscsi_conn_attr
- static umode_t iscsi_conn_attr_is_visible(struct kobject *kobj,
- 					 struct attribute *attr, int i)
- {
--	struct device *cdev =3D container_of(kobj, struct device, kobj);
-+	struct device *cdev =3D kobj_to_dev(kobj);
- 	struct iscsi_cls_conn *conn =3D transport_class_to_conn(cdev);
- 	struct iscsi_transport *t =3D conn->transport;
- 	int param;
-@@ -4307,7 +4307,7 @@ static struct attribute *iscsi_session_a
- static umode_t iscsi_session_attr_is_visible(struct kobject *kobj,
- 					    struct attribute *attr, int i)
- {
--	struct device *cdev =3D container_of(kobj, struct device, kobj);
-+	struct device *cdev =3D kobj_to_dev(kobj);
- 	struct iscsi_cls_session *session =3D transport_class_to_session(cdev);
- 	struct iscsi_transport *t =3D session->transport;
- 	int param;
-@@ -4451,7 +4451,7 @@ static struct attribute *iscsi_host_attr
- static umode_t iscsi_host_attr_is_visible(struct kobject *kobj,
- 					 struct attribute *attr, int i)
- {
--	struct device *cdev =3D container_of(kobj, struct device, kobj);
-+	struct device *cdev =3D kobj_to_dev(kobj);
- 	struct Scsi_Host *shost =3D transport_class_to_shost(cdev);
- 	struct iscsi_internal *priv =3D to_iscsi_internal(shost->transportt);
- 	int param;
---===============9032771720804272888==--
+ 	struct nd_region *nd_region =3D to_nd_region(dev);
+ =
+
+ 	if (n < nd_region->ndr_mappings)
+--===============8827541252220680399==--
 
