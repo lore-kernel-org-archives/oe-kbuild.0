@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============8827541252220680399=="
+Content-Type: multipart/mixed; boundary="===============9062274456077665475=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Fri, 02 Oct 2020 23:06:20 +0800
-Message-ID: <20201002150620.GA25661@8cbb73b479b5>
+Date: Fri, 02 Oct 2020 23:06:19 +0800
+Message-ID: <20201002150619.GA25574@8cbb73b479b5>
 In-Reply-To: <202010022336.F4IlTzZV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8827541252220680399==
+--===============9062274456077665475==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -25,8 +25,8 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/nvdimm/region_devs.c:762:60-61: WARNING opportunity for kobj_to_dev=
-()
+drivers/nvdimm/namespace_devs.c:1626:60-61: WARNING opportunity for kobj_to=
+_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -48,22 +48,20 @@ d kobj_to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- region_devs.c |    2 +-
+ namespace_devs.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/nvdimm/region_devs.c
-+++ b/drivers/nvdimm/region_devs.c
-@@ -759,7 +759,7 @@ REGION_MAPPING(31);
- =
-
- static umode_t mapping_visible(struct kobject *kobj, struct attribute *a, =
-int n)
+--- a/drivers/nvdimm/namespace_devs.c
++++ b/drivers/nvdimm/namespace_devs.c
+@@ -1623,7 +1623,7 @@ static struct attribute *nd_namespace_at
+ static umode_t namespace_visible(struct kobject *kobj,
+ 		struct attribute *a, int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct nd_region *nd_region =3D to_nd_region(dev);
  =
 
- 	if (n < nd_region->ndr_mappings)
---===============8827541252220680399==--
+ 	if (a =3D=3D &dev_attr_resource.attr && is_namespace_blk(dev))
+ 		return 0;
+--===============9062274456077665475==--
 
