@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============9062274456077665475=="
+Content-Type: multipart/mixed; boundary="===============5948594435919590386=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Fri, 02 Oct 2020 23:06:19 +0800
-Message-ID: <20201002150619.GA25574@8cbb73b479b5>
+Date: Fri, 02 Oct 2020 23:06:17 +0800
+Message-ID: <20201002150617.GA25487@8cbb73b479b5>
 In-Reply-To: <202010022336.F4IlTzZV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9062274456077665475==
+--===============5948594435919590386==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,17 +16,14 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Dan Williams <dan.j.williams@intel.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
-CC: Dave Jiang <dave.jiang@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: linux-nvdimm(a)lists.01.org
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Jean Delvare <jdelvare@suse.com>
+CC: linux-hwmon(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/nvdimm/namespace_devs.c:1626:60-61: WARNING opportunity for kobj_to=
-_dev()
+drivers/hwmon/max6697.c:463:60-61: WARNING opportunity for kobj_to_dev()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -48,20 +45,20 @@ d kobj_to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- namespace_devs.c |    2 +-
+ max6697.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/nvdimm/namespace_devs.c
-+++ b/drivers/nvdimm/namespace_devs.c
-@@ -1623,7 +1623,7 @@ static struct attribute *nd_namespace_at
- static umode_t namespace_visible(struct kobject *kobj,
- 		struct attribute *a, int n)
+--- a/drivers/hwmon/max6697.c
++++ b/drivers/hwmon/max6697.c
+@@ -460,7 +460,7 @@ static DEVICE_ATTR(dummy, 0, NULL, NULL)
+ static umode_t max6697_is_visible(struct kobject *kobj, struct attribute *=
+attr,
+ 				  int index)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- =
-
- 	if (a =3D=3D &dev_attr_resource.attr && is_namespace_blk(dev))
- 		return 0;
---===============9062274456077665475==--
+ 	struct max6697_data *data =3D dev_get_drvdata(dev);
+ 	const struct max6697_chip_data *chip =3D data->chip;
+ 	int channel =3D index / 7;	/* channel number */
+--===============5948594435919590386==--
 
