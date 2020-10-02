@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2414154611210711563=="
+Content-Type: multipart/mixed; boundary="===============7993046245627120381=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Fri, 02 Oct 2020 23:06:16 +0800
-Message-ID: <20201002150616.GA25400@8cbb73b479b5>
+Date: Fri, 02 Oct 2020 23:06:14 +0800
+Message-ID: <20201002150614.GA25313@8cbb73b479b5>
 In-Reply-To: <202010022336.F4IlTzZV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2414154611210711563==
+--===============7993046245627120381==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,14 +16,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: linux-hwmon(a)vger.kernel.org
+CC: Keith Busch <kbusch@kernel.org>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Sagi Grimberg <sagi@grimberg.me>
+CC: linux-nvme(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hwmon/max6650.c:324:60-61: WARNING opportunity for kobj_to_dev()
+drivers/nvme/host/lightnvm.c:1244:60-61: WARNING opportunity for kobj_to_de=
+v()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -45,20 +48,19 @@ d kobj_to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- max6650.c |    2 +-
+ lightnvm.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/hwmon/max6650.c
-+++ b/drivers/hwmon/max6650.c
-@@ -321,7 +321,7 @@ static SENSOR_DEVICE_ATTR_RO(gpio2_alarm
- static umode_t max6650_attrs_visible(struct kobject *kobj, struct attribut=
-e *a,
- 				     int n)
+--- a/drivers/nvme/host/lightnvm.c
++++ b/drivers/nvme/host/lightnvm.c
+@@ -1241,7 +1241,7 @@ static struct attribute *nvm_dev_attrs[]
+ static umode_t nvm_dev_attrs_visible(struct kobject *kobj,
+ 				     struct attribute *attr, int index)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct max6650_data *data =3D dev_get_drvdata(dev);
- 	struct device_attribute *devattr;
-=20
---===============2414154611210711563==--
+ 	struct gendisk *disk =3D dev_to_disk(dev);
+ 	struct nvme_ns *ns =3D disk->private_data;
+ 	struct nvm_dev *ndev =3D ns->ndev;
+--===============7993046245627120381==--
 
