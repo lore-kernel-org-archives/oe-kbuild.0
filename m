@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6459094092958064970=="
+Content-Type: multipart/mixed; boundary="===============6014231310544463447=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: misc: fix excluded_middle.cocci warnings
-Date: Sat, 03 Oct 2020 20:19:53 +0800
-Message-ID: <20201003121952.GA8685@8cbb73b479b5>
+Date: Sat, 03 Oct 2020 20:19:51 +0800
+Message-ID: <20201003121951.GA8598@8cbb73b479b5>
 In-Reply-To: <202010032024.uSyENKw0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6459094092958064970==
+--===============6014231310544463447==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,16 +16,19 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Chris Mason <chris.mason@fusionio.com>
-CC: Josef Bacik <josef@toxicpanda.com>
-CC: David Sterba <dsterba@suse.com>
-CC: linux-btrfs(a)vger.kernel.org
-CC: linux-kernel(a)vger.kernel.org
+CC: Doug Ledford <dledford@redhat.com>
+CC: Jason Gunthorpe <jgg@ziepe.ca>
+CC: Leon Romanovsky <leon@kernel.org>
+CC: Parav Pandit <parav@mellanox.com>
+CC: Kamal Heib <kamalheib1@gmail.com>
+CC: "Gustavo A. R. Silva" <gustavo@embeddedor.com>
+CC: Selvin Xavier <selvin.xavier@broadcom.com>
+CC: Jack Morgenstein <jackm@dev.mellanox.co.il>
 
 From: kernel test robot <lkp@intel.com>
 
-fs/btrfs/delayed-inode.c:1167:39-41: WARNING !A || A && B is equivalent to =
-!A || B
+drivers/infiniband/core/cache.c:1315:12-14: WARNING !A || A && B is equival=
+ent to !A || B
 
 
  Condition !A || A && B is equivalent to !A || B.
@@ -47,20 +50,19 @@ dd excluded_middle.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- delayed-inode.c |    2 +-
+ cache.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/fs/btrfs/delayed-inode.c
-+++ b/fs/btrfs/delayed-inode.c
-@@ -1164,7 +1164,7 @@ static int __btrfs_run_delayed_items(str
- 	delayed_root =3D fs_info->delayed_root;
- =
-
- 	curr_node =3D btrfs_first_delayed_node(delayed_root);
--	while (curr_node && (!count || (count && nr--))) {
-+	while (curr_node && (!count || nr--)) {
- 		ret =3D __btrfs_commit_inode_delayed_items(trans, path,
- 							 curr_node);
- 		if (ret) {
---===============6459094092958064970==--
+--- a/drivers/infiniband/core/cache.c
++++ b/drivers/infiniband/core/cache.c
+@@ -1312,7 +1312,7 @@ struct net_device *rdma_read_gid_attr_nd
+ 	if (valid) {
+ 		ndev =3D rcu_dereference(attr->ndev);
+ 		if (!ndev ||
+-		    (ndev && ((READ_ONCE(ndev->flags) & IFF_UP) =3D=3D 0)))
++		    ((READ_ONCE(ndev->flags) & IFF_UP) =3D=3D 0))
+ 			ndev =3D ERR_PTR(-ENODEV);
+ 	}
+ 	read_unlock_irqrestore(&table->rwlock, flags);
+--===============6014231310544463447==--
 
