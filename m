@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6291651603240070819=="
+Content-Type: multipart/mixed; boundary="===============2597794817191641205=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [dhowells-fs:rxrpc-rxgk 39/39] net/rxrpc/rxgk_app.c:110 rxgk_openafs_decode_ticket() warn: argument 3 to %lx specifier is cast from pointer
-Date: Sat, 03 Oct 2020 19:17:58 +0800
-Message-ID: <202010031955.fL4WURkY-lkp@intel.com>
+Subject: [dhowells-fs:rxrpc-rxgk 38/39] net/rxrpc/rxgk_rfc6803.c:71 rfc6803_calc_KDF_FEEDBACK_CMAC() warn: is 'buffer' large enough for 'struct 0
+Date: Sat, 03 Oct 2020 18:33:09 +0800
+Message-ID: <202010031805.38AvDkKs-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6291651603240070819==
+--===============2597794817191641205==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,10 +18,10 @@ TO: David Howells <dhowells@redhat.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/linux-fs.g=
 it rxrpc-rxgk
 head:   8059c4a3daa29a955b7c045c846d037360c33e78
-commit: 8059c4a3daa29a955b7c045c846d037360c33e78 [39/39] rxgk: Support Open=
-AFS's rxgk implementation
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
+commit: 5bebb7642f7d462c7ac59d74b58c1a0f3e1ff917 [38/39] rxrpc: rxgk: Imple=
+ment the Camellia enctypes from rfc6803
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
 config: ia64-randconfig-m031-20201003 (attached as .config)
 compiler: ia64-linux-gcc (GCC) 9.3.0
 
@@ -29,235 +29,269 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/rxrpc/rxgk_app.c:110 rxgk_openafs_decode_ticket() warn: argument 3 to %=
-lx specifier is cast from pointer
+smatch warnings:
+net/rxrpc/rxgk_rfc6803.c:71 rfc6803_calc_KDF_FEEDBACK_CMAC() warn: is 'buff=
+er' large enough for 'struct shash_desc'? 0
+net/rxrpc/rxgk_rfc6803.c:179 rfc6803_calc_PRF() warn: is 'buffer' large eno=
+ugh for 'struct shash_desc'? 0
 
-Old smatch warnings:
-net/rxrpc/rxgk_app.c:110 rxgk_openafs_decode_ticket() warn: argument 4 to %=
-lx specifier is cast from pointer
+vim +71 net/rxrpc/rxgk_rfc6803.c
 
-vim +110 net/rxrpc/rxgk_app.c
+5bebb7642f7d462 David Howells 2020-09-25   22  =
 
-1857c3d1945f628 David Howells 2020-09-08   23  =
+5bebb7642f7d462 David Howells 2020-09-25   23  /*
+5bebb7642f7d462 David Howells 2020-09-25   24   * Calculate the key derivat=
+ion function KDF-FEEDBACK_CMAC(key, constant)
+5bebb7642f7d462 David Howells 2020-09-25   25   *
+5bebb7642f7d462 David Howells 2020-09-25   26   *	n =3D ceiling(k / 128)
+5bebb7642f7d462 David Howells 2020-09-25   27   *	K(0) =3D zeros
+5bebb7642f7d462 David Howells 2020-09-25   28   *	K(i) =3D CMAC(key, K(i-1)=
+ | i | constant | 0x00 | k)
+5bebb7642f7d462 David Howells 2020-09-25   29   *	DR(key, constant) =3D k-t=
+runcate(K(1) | K(2) | ... | K(n))
+5bebb7642f7d462 David Howells 2020-09-25   30   *	KDF-FEEDBACK-CMAC(key, co=
+nstant) =3D random-to-key(DR(key, constant))
+5bebb7642f7d462 David Howells 2020-09-25   31   *
+5bebb7642f7d462 David Howells 2020-09-25   32   *	[rfc6803 sec 3]
+5bebb7642f7d462 David Howells 2020-09-25   33   */
+5bebb7642f7d462 David Howells 2020-09-25   34  static int rfc6803_calc_KDF_=
+FEEDBACK_CMAC(const struct rxgk_krb5_enctype *gk5e,
+5bebb7642f7d462 David Howells 2020-09-25   35  					  const struct rxgk_buf=
+fer *key,
+5bebb7642f7d462 David Howells 2020-09-25   36  					  const struct rxgk_buf=
+fer *constant,
+5bebb7642f7d462 David Howells 2020-09-25   37  					  struct rxgk_buffer *r=
+esult,
+5bebb7642f7d462 David Howells 2020-09-25   38  					  gfp_t gfp)
+5bebb7642f7d462 David Howells 2020-09-25   39  {
+5bebb7642f7d462 David Howells 2020-09-25   40  	struct crypto_shash *shash;
+5bebb7642f7d462 David Howells 2020-09-25   41  	struct rxgk_buffer K, data;
+5bebb7642f7d462 David Howells 2020-09-25   42  	struct shash_desc *desc;
+5bebb7642f7d462 David Howells 2020-09-25   43  	__be32 tmp;
+5bebb7642f7d462 David Howells 2020-09-25   44  	size_t bsize, offset, seg;
+5bebb7642f7d462 David Howells 2020-09-25   45  	void *buffer;
+5bebb7642f7d462 David Howells 2020-09-25   46  	u32 i =3D 0, k =3D result->=
+len * 8;
+5bebb7642f7d462 David Howells 2020-09-25   47  	u8 *p;
+5bebb7642f7d462 David Howells 2020-09-25   48  	int ret =3D -ENOMEM;
+5bebb7642f7d462 David Howells 2020-09-25   49  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   24  /*
-8059c4a3daa29a9 David Howells 2020-10-02   25   * Decode a default-style Op=
-enAFS ticket in a response and turn it into an
-8059c4a3daa29a9 David Howells 2020-10-02   26   * rxrpc-type key.
-8059c4a3daa29a9 David Howells 2020-10-02   27   *
-8059c4a3daa29a9 David Howells 2020-10-02   28   * struct RXGK_Token {
-8059c4a3daa29a9 David Howells 2020-10-02   29   *	afs_int32		enctype;
-8059c4a3daa29a9 David Howells 2020-10-02   30   *	opaque			K0<>;
-8059c4a3daa29a9 David Howells 2020-10-02   31   *	RXGK_Level		level;
-8059c4a3daa29a9 David Howells 2020-10-02   32   *	afs_int32		lifetime;
-8059c4a3daa29a9 David Howells 2020-10-02   33   *	afs_int32		bytelife;
-8059c4a3daa29a9 David Howells 2020-10-02   34   *	rxgkTime		expirationtime;
-8059c4a3daa29a9 David Howells 2020-10-02   35   *	struct RXGK_PrAuthName	id=
-entities<>;
-8059c4a3daa29a9 David Howells 2020-10-02   36   * };
-8059c4a3daa29a9 David Howells 2020-10-02   37   */
-8059c4a3daa29a9 David Howells 2020-10-02   38  int rxgk_openafs_decode_tick=
-et(struct sk_buff *skb,
-8059c4a3daa29a9 David Howells 2020-10-02   39  			       unsigned int ticke=
-t_offset, unsigned int ticket_len,
-8059c4a3daa29a9 David Howells 2020-10-02   40  			       u32 *_abort_code,
-8059c4a3daa29a9 David Howells 2020-10-02   41  			       struct key **_key)
-8059c4a3daa29a9 David Howells 2020-10-02   42  {
-8059c4a3daa29a9 David Howells 2020-10-02   43  	struct rxrpc_key_token *tok=
-en;
-8059c4a3daa29a9 David Howells 2020-10-02   44  	const struct cred *cred =3D=
- current_cred(); // TODO - use socket creds
-8059c4a3daa29a9 David Howells 2020-10-02   45  	struct key *key;
-8059c4a3daa29a9 David Howells 2020-10-02   46  	size_t pre_ticket_len, payl=
-oad_len;
-8059c4a3daa29a9 David Howells 2020-10-02   47  	unsigned int klen, enctype;
-8059c4a3daa29a9 David Howells 2020-10-02   48  	void *payload, *ticket;
-8059c4a3daa29a9 David Howells 2020-10-02   49  	__be32 *t, *p, *q, tmp[2];
-8059c4a3daa29a9 David Howells 2020-10-02   50  	int ret;
-8059c4a3daa29a9 David Howells 2020-10-02   51  =
+5bebb7642f7d462 David Howells 2020-09-25   50  	_enter("%u,%u,%u", key->len=
+, constant->len, result->len);
+5bebb7642f7d462 David Howells 2020-09-25   51  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   52  	_enter("");
-8059c4a3daa29a9 David Howells 2020-10-02   53  =
+5bebb7642f7d462 David Howells 2020-09-25   52  	shash =3D crypto_alloc_shas=
+h(gk5e->cksum_name, 0, 0);
+5bebb7642f7d462 David Howells 2020-09-25   53  	if (IS_ERR(shash))
+5bebb7642f7d462 David Howells 2020-09-25   54  		return (PTR_ERR(shash) =3D=
+=3D -ENOENT) ? -ENOPKG : PTR_ERR(shash);
+5bebb7642f7d462 David Howells 2020-09-25   55  	ret =3D crypto_shash_setkey=
+(shash, key->data, key->len);
+5bebb7642f7d462 David Howells 2020-09-25   56  	if (ret < 0)
+5bebb7642f7d462 David Howells 2020-09-25   57  		goto error_shash;
+5bebb7642f7d462 David Howells 2020-09-25   58  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   54  	/* Get the session key leng=
-th */
-8059c4a3daa29a9 David Howells 2020-10-02   55  	ret =3D skb_copy_bits(skb, =
-ticket_offset, tmp, sizeof(tmp));
-8059c4a3daa29a9 David Howells 2020-10-02   56  	if (ret < 0)
-8059c4a3daa29a9 David Howells 2020-10-02   57  		goto error_out;
-8059c4a3daa29a9 David Howells 2020-10-02   58  	enctype =3D ntohl(tmp[0]);
-8059c4a3daa29a9 David Howells 2020-10-02   59  	klen =3D ntohl(tmp[1]);
-8059c4a3daa29a9 David Howells 2020-10-02   60  =
+5bebb7642f7d462 David Howells 2020-09-25   59  	ret =3D -ENOMEM;
+5bebb7642f7d462 David Howells 2020-09-25   60  	K.len =3D crypto_shash_dige=
+stsize(shash);
+5bebb7642f7d462 David Howells 2020-09-25   61  	data.len =3D K.len + 4 + co=
+nstant->len + 1 + 4;
+5bebb7642f7d462 David Howells 2020-09-25   62  	bsize =3D rxgk_shash_size(s=
+hash) +
+5bebb7642f7d462 David Howells 2020-09-25   63  		rxgk_digest_size(shash) +
+5bebb7642f7d462 David Howells 2020-09-25   64  		crypto_roundup(K.len) +
+5bebb7642f7d462 David Howells 2020-09-25   65  		crypto_roundup(data.len);
+5bebb7642f7d462 David Howells 2020-09-25   66  	buffer =3D kzalloc(bsize, G=
+FP_NOFS);
+5bebb7642f7d462 David Howells 2020-09-25   67  	if (!buffer)
+5bebb7642f7d462 David Howells 2020-09-25   68  		goto error_shash;
+5bebb7642f7d462 David Howells 2020-09-25   69  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   61  	if (klen > ticket_len - 8 *=
- sizeof(__be32)) {
-8059c4a3daa29a9 David Howells 2020-10-02   62  		*_abort_code =3D RXGK_INCO=
-NSISTENCY;
-8059c4a3daa29a9 David Howells 2020-10-02   63  		return -EPROTO;
-8059c4a3daa29a9 David Howells 2020-10-02   64  	}
-8059c4a3daa29a9 David Howells 2020-10-02   65  =
+5bebb7642f7d462 David Howells 2020-09-25   70  	desc =3D buffer;
+5bebb7642f7d462 David Howells 2020-09-25  @71  	desc->tfm =3D shash;
+5bebb7642f7d462 David Howells 2020-09-25   72  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   66  	pre_ticket_len =3D ((5 + 10=
-) * sizeof(__be32));
-8059c4a3daa29a9 David Howells 2020-10-02   67  	payload_len =3D pre_ticket_=
-len + xdr_round_up(ticket_len) +
-8059c4a3daa29a9 David Howells 2020-10-02   68  		sizeof(__be32) + xdr_round=
-_up(klen);
-8059c4a3daa29a9 David Howells 2020-10-02   69  =
+5bebb7642f7d462 David Howells 2020-09-25   73  	K.data =3D buffer +
+5bebb7642f7d462 David Howells 2020-09-25   74  		rxgk_shash_size(shash) +
+5bebb7642f7d462 David Howells 2020-09-25   75  		rxgk_digest_size(shash);
+5bebb7642f7d462 David Howells 2020-09-25   76  	data.data =3D buffer +
+5bebb7642f7d462 David Howells 2020-09-25   77  		rxgk_shash_size(shash) +
+5bebb7642f7d462 David Howells 2020-09-25   78  		rxgk_digest_size(shash) +
+5bebb7642f7d462 David Howells 2020-09-25   79  		crypto_roundup(K.len);
+5bebb7642f7d462 David Howells 2020-09-25   80  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   70  	payload =3D kzalloc(payload=
-_len, GFP_NOFS);
-8059c4a3daa29a9 David Howells 2020-10-02   71  	if (!payload)
-8059c4a3daa29a9 David Howells 2020-10-02   72  		return -ENOMEM;
-8059c4a3daa29a9 David Howells 2020-10-02   73  =
+5bebb7642f7d462 David Howells 2020-09-25   81  	p =3D data.data + K.len + 4;
+5bebb7642f7d462 David Howells 2020-09-25   82  	memcpy(p, constant->data, c=
+onstant->len);
+5bebb7642f7d462 David Howells 2020-09-25   83  	p +=3D constant->len;
+5bebb7642f7d462 David Howells 2020-09-25   84  	*p++ =3D 0x00;
+5bebb7642f7d462 David Howells 2020-09-25   85  	tmp =3D htonl(k);
+5bebb7642f7d462 David Howells 2020-09-25   86  	memcpy(p, &tmp, 4);
+5bebb7642f7d462 David Howells 2020-09-25   87  	p +=3D 4;
+5bebb7642f7d462 David Howells 2020-09-25   88  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   74  	/* We need to fill out the =
-XDR form for a key payload that we can pass
-8059c4a3daa29a9 David Howells 2020-10-02   75  	 * to add_key().  Start by =
-copying in the ticket so that we can parse
-8059c4a3daa29a9 David Howells 2020-10-02   76  	 * it.
-8059c4a3daa29a9 David Howells 2020-10-02   77  	 */
-8059c4a3daa29a9 David Howells 2020-10-02   78  	ticket =3D payload + pre_ti=
-cket_len;
-8059c4a3daa29a9 David Howells 2020-10-02   79  	ret =3D skb_copy_bits(skb, =
-ticket_offset, ticket, ticket_len);
-8059c4a3daa29a9 David Howells 2020-10-02   80  	if (ret < 0)
-8059c4a3daa29a9 David Howells 2020-10-02   81  		goto error;
-8059c4a3daa29a9 David Howells 2020-10-02   82  =
+5bebb7642f7d462 David Howells 2020-09-25   89  	ret =3D -EINVAL;
+5bebb7642f7d462 David Howells 2020-09-25   90  	if (WARN_ON(p - (u8 *)data.=
+data !=3D data.len))
+5bebb7642f7d462 David Howells 2020-09-25   91  		goto error;
+5bebb7642f7d462 David Howells 2020-09-25   92  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   83  	/* Fill out the form header=
-. */
-8059c4a3daa29a9 David Howells 2020-10-02   84  	p =3D payload;
-8059c4a3daa29a9 David Howells 2020-10-02   85  	p[0] =3D htonl(0); /* Flags=
- */
-8059c4a3daa29a9 David Howells 2020-10-02   86  	p[1] =3D htonl(1); /* len(c=
-ellname) */
-8059c4a3daa29a9 David Howells 2020-10-02   87  	p[2] =3D htonl(0x20000000);=
- /* Cellname " " */
-8059c4a3daa29a9 David Howells 2020-10-02   88  	p[3] =3D htonl(1); /* #toke=
-ns */
-8059c4a3daa29a9 David Howells 2020-10-02   89  	p[4] =3D htonl(11 * sizeof(=
-__be32) +
-8059c4a3daa29a9 David Howells 2020-10-02   90  		     xdr_round_up(klen) + =
-xdr_round_up(ticket_len)); /* Token len */
-8059c4a3daa29a9 David Howells 2020-10-02   91  =
+5bebb7642f7d462 David Howells 2020-09-25   93  	offset =3D 0;
+5bebb7642f7d462 David Howells 2020-09-25   94  	do {
+5bebb7642f7d462 David Howells 2020-09-25   95  		i++;
+5bebb7642f7d462 David Howells 2020-09-25   96  		p =3D data.data;
+5bebb7642f7d462 David Howells 2020-09-25   97  		memcpy(p, K.data, K.len);
+5bebb7642f7d462 David Howells 2020-09-25   98  		p +=3D K.len;
+5bebb7642f7d462 David Howells 2020-09-25   99  		*(__be32 *)p =3D htonl(i);
+5bebb7642f7d462 David Howells 2020-09-25  100  =
 
-8059c4a3daa29a9 David Howells 2020-10-02   92  	/* Now fill in the body.  M=
-ost of this we can just scrape directly from
-8059c4a3daa29a9 David Howells 2020-10-02   93  	 * the ticket.
-8059c4a3daa29a9 David Howells 2020-10-02   94  	 */
-8059c4a3daa29a9 David Howells 2020-10-02   95  	t =3D ticket + sizeof(__be3=
-2) * 2 + xdr_round_up(klen);
-8059c4a3daa29a9 David Howells 2020-10-02   96  	q =3D payload + 5 * sizeof(=
-__be32);
-8059c4a3daa29a9 David Howells 2020-10-02   97  	q[ 0] =3D htonl(RXRPC_SECUR=
-ITY_RXGK);
-8059c4a3daa29a9 David Howells 2020-10-02   98  	q[ 1] =3D 0;		/* gk_viceid =
-- msw */
-8059c4a3daa29a9 David Howells 2020-10-02   99  	q[ 2] =3D 0;		/* - lsw */
-8059c4a3daa29a9 David Howells 2020-10-02  100  	q[ 3] =3D htonl(enctype);	/=
-* gkenctype - msw */
-8059c4a3daa29a9 David Howells 2020-10-02  101  	q[ 4] =3D t[0];		/* gk_leve=
-l */
-8059c4a3daa29a9 David Howells 2020-10-02  102  	q[ 5] =3D t[1];		/* gk_life=
-time */
-8059c4a3daa29a9 David Howells 2020-10-02  103  	q[ 6] =3D t[2];		/* gk_byte=
-life */
-8059c4a3daa29a9 David Howells 2020-10-02  104  	q[ 7] =3D t[3];		/* gk_expi=
-ration - msw */
-8059c4a3daa29a9 David Howells 2020-10-02  105  	q[ 8] =3D t[4];		/* - lsw */
-8059c4a3daa29a9 David Howells 2020-10-02  106  	q[ 9] =3D htonl(ticket_len)=
-; /* gk_token.length */
-8059c4a3daa29a9 David Howells 2020-10-02  107  =
+5bebb7642f7d462 David Howells 2020-09-25  101  		ret =3D crypto_shash_init(=
+desc);
+5bebb7642f7d462 David Howells 2020-09-25  102  		if (ret < 0)
+5bebb7642f7d462 David Howells 2020-09-25  103  			goto error;
+5bebb7642f7d462 David Howells 2020-09-25  104  		ret =3D crypto_shash_finup=
+(desc, data.data, data.len, K.data);
+5bebb7642f7d462 David Howells 2020-09-25  105  		if (ret < 0)
+5bebb7642f7d462 David Howells 2020-09-25  106  			goto error;
+5bebb7642f7d462 David Howells 2020-09-25  107  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  108  	q +=3D 10;
-8059c4a3daa29a9 David Howells 2020-10-02  109  	if (WARN_ON((unsigned long)=
-q !=3D (unsigned long)ticket)) {
-8059c4a3daa29a9 David Howells 2020-10-02 @110  		kdebug("%lx %lx", (long)q,=
- (long)ticket);
-8059c4a3daa29a9 David Howells 2020-10-02  111  		ret =3D -EIO;
-8059c4a3daa29a9 David Howells 2020-10-02  112  		goto error;
-8059c4a3daa29a9 David Howells 2020-10-02  113  	}
-8059c4a3daa29a9 David Howells 2020-10-02  114  =
+5bebb7642f7d462 David Howells 2020-09-25  108  		seg =3D min_t(size_t, resu=
+lt->len - offset, K.len);
+5bebb7642f7d462 David Howells 2020-09-25  109  		memcpy(result->data + offs=
+et, K.data, seg);
+5bebb7642f7d462 David Howells 2020-09-25  110  		offset +=3D seg;
+5bebb7642f7d462 David Howells 2020-09-25  111  	} while (offset < result->l=
+en);
+5bebb7642f7d462 David Howells 2020-09-25  112  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  115  	/* Ticket read in with skb_=
-copy_bits above */
-8059c4a3daa29a9 David Howells 2020-10-02  116  	q +=3D xdr_round_up(ticket_=
-len) / 4;
-8059c4a3daa29a9 David Howells 2020-10-02  117  	q[0] =3D ntohl(klen);
-8059c4a3daa29a9 David Howells 2020-10-02  118  	q++;
-8059c4a3daa29a9 David Howells 2020-10-02  119  =
+5bebb7642f7d462 David Howells 2020-09-25  113  error:
+5bebb7642f7d462 David Howells 2020-09-25  114  	kfree_sensitive(buffer);
+5bebb7642f7d462 David Howells 2020-09-25  115  error_shash:
+5bebb7642f7d462 David Howells 2020-09-25  116  	crypto_free_shash(shash);
+5bebb7642f7d462 David Howells 2020-09-25  117  	_leave(" =3D %d", ret);
+5bebb7642f7d462 David Howells 2020-09-25  118  	return ret;
+5bebb7642f7d462 David Howells 2020-09-25  119  }
+5bebb7642f7d462 David Howells 2020-09-25  120  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  120  	memcpy(q, ticket + sizeof(_=
-_be32) * 2, klen);
-8059c4a3daa29a9 David Howells 2020-10-02  121  =
+5bebb7642f7d462 David Howells 2020-09-25  121  /*
+5bebb7642f7d462 David Howells 2020-09-25  122   * Calculate the pseudo-rand=
+om function, PRF().
+5bebb7642f7d462 David Howells 2020-09-25  123   *
+5bebb7642f7d462 David Howells 2020-09-25  124   *	Kp =3D KDF-FEEDBACK-CMAC(=
+protocol-key, "prf")
+5bebb7642f7d462 David Howells 2020-09-25  125   *	PRF =3D CMAC(Kp, octet-st=
+ring)
+5bebb7642f7d462 David Howells 2020-09-25  126   *      [rfc6803 sec 6]
+5bebb7642f7d462 David Howells 2020-09-25  127   */
+5bebb7642f7d462 David Howells 2020-09-25  128  static int rfc6803_calc_PRF(=
+const struct rxgk_krb5_enctype *gk5e,
+5bebb7642f7d462 David Howells 2020-09-25  129  			    const struct rxgk_buf=
+fer *protocol_key,
+5bebb7642f7d462 David Howells 2020-09-25  130  			    const struct rxgk_buf=
+fer *octet_string,
+5bebb7642f7d462 David Howells 2020-09-25  131  			    struct rxgk_buffer *r=
+esult,
+5bebb7642f7d462 David Howells 2020-09-25  132  			    gfp_t gfp)
+5bebb7642f7d462 David Howells 2020-09-25  133  {
+5bebb7642f7d462 David Howells 2020-09-25  134  	static const struct rxgk_bu=
+ffer prfconstant =3D { 3, "prf" };
+5bebb7642f7d462 David Howells 2020-09-25  135  	struct crypto_shash *shash;
+5bebb7642f7d462 David Howells 2020-09-25  136  	struct rxgk_buffer Kp;
+5bebb7642f7d462 David Howells 2020-09-25  137  	struct shash_desc *desc;
+5bebb7642f7d462 David Howells 2020-09-25  138  	size_t bsize;
+5bebb7642f7d462 David Howells 2020-09-25  139  	void *buffer;
+5bebb7642f7d462 David Howells 2020-09-25  140  	int ret;
+5bebb7642f7d462 David Howells 2020-09-25  141  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  122  	q +=3D xdr_round_up(klen) /=
- 4;
-8059c4a3daa29a9 David Howells 2020-10-02  123  	if (WARN_ON((unsigned long)=
-q - (unsigned long)payload !=3D payload_len)) {
-8059c4a3daa29a9 David Howells 2020-10-02  124  		ret =3D -EIO;
-8059c4a3daa29a9 David Howells 2020-10-02  125  		goto error;
-8059c4a3daa29a9 David Howells 2020-10-02  126  	}
-8059c4a3daa29a9 David Howells 2020-10-02  127  =
+5bebb7642f7d462 David Howells 2020-09-25  142  	_enter("%u,%u,%u", protocol=
+_key->len, octet_string->len, result->len);
+5bebb7642f7d462 David Howells 2020-09-25  143  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  128  	/* Now turn that into a key=
-. */
-8059c4a3daa29a9 David Howells 2020-10-02  129  	key =3D key_alloc(&key_type=
-_rxrpc, "x",
-8059c4a3daa29a9 David Howells 2020-10-02  130  			GLOBAL_ROOT_UID, GLOBAL_R=
-OOT_GID, cred, 0, // TODO: Use socket owner
-8059c4a3daa29a9 David Howells 2020-10-02  131  			KEY_ALLOC_NOT_IN_QUOTA, N=
-ULL);
-8059c4a3daa29a9 David Howells 2020-10-02  132  	if (IS_ERR(key)) {
-8059c4a3daa29a9 David Howells 2020-10-02  133  		_leave(" =3D -ENOMEM [allo=
-c %ld]", PTR_ERR(key));
-8059c4a3daa29a9 David Howells 2020-10-02  134  		goto error;
-8059c4a3daa29a9 David Howells 2020-10-02  135  	}
-8059c4a3daa29a9 David Howells 2020-10-02  136  =
+5bebb7642f7d462 David Howells 2020-09-25  144  	Kp.len =3D gk5e->prf_len;
+5bebb7642f7d462 David Howells 2020-09-25  145  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  137  	_debug("key %d", key_serial=
-(key));
-8059c4a3daa29a9 David Howells 2020-10-02  138  =
+5bebb7642f7d462 David Howells 2020-09-25  146  	shash =3D crypto_alloc_shas=
+h(gk5e->cksum_name, 0, 0);
+5bebb7642f7d462 David Howells 2020-09-25  147  	if (IS_ERR(shash))
+5bebb7642f7d462 David Howells 2020-09-25  148  		return (PTR_ERR(shash) =3D=
+=3D -ENOENT) ? -ENOPKG : PTR_ERR(shash);
+5bebb7642f7d462 David Howells 2020-09-25  149  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  139  	ret =3D key_instantiate_and=
-_link(key, payload, payload_len, NULL, NULL);
-8059c4a3daa29a9 David Howells 2020-10-02  140  	if (ret < 0)
-8059c4a3daa29a9 David Howells 2020-10-02  141  		goto error_key;
-8059c4a3daa29a9 David Howells 2020-10-02  142  =
+5bebb7642f7d462 David Howells 2020-09-25  150  	ret =3D -EINVAL;
+5bebb7642f7d462 David Howells 2020-09-25  151  	if (result->len !=3D crypto=
+_shash_digestsize(shash)) {
+5bebb7642f7d462 David Howells 2020-09-25  152  		pr_warn("size mismatch %u =
+%u\n", result->len,
+5bebb7642f7d462 David Howells 2020-09-25  153  			crypto_shash_digestsize(s=
+hash));
+5bebb7642f7d462 David Howells 2020-09-25  154  		goto out_shash;
+5bebb7642f7d462 David Howells 2020-09-25  155  	}
+5bebb7642f7d462 David Howells 2020-09-25  156  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  143  	token =3D key->payload.data=
-[0];
-8059c4a3daa29a9 David Howells 2020-10-02  144  	token->no_leak_key =3D true;
-8059c4a3daa29a9 David Howells 2020-10-02  145  	*_key =3D key;
-8059c4a3daa29a9 David Howells 2020-10-02  146  	key =3D NULL;
-8059c4a3daa29a9 David Howells 2020-10-02  147  	ret =3D 0;
-8059c4a3daa29a9 David Howells 2020-10-02  148  	goto error;
-8059c4a3daa29a9 David Howells 2020-10-02  149  =
+5bebb7642f7d462 David Howells 2020-09-25  157  	ret =3D -ENOMEM;
+5bebb7642f7d462 David Howells 2020-09-25  158  	bsize =3D rxgk_shash_size(s=
+hash) +
+5bebb7642f7d462 David Howells 2020-09-25  159  		rxgk_digest_size(shash) +
+5bebb7642f7d462 David Howells 2020-09-25  160  		crypto_roundup(Kp.len);
+5bebb7642f7d462 David Howells 2020-09-25  161  	buffer =3D kzalloc(bsize, G=
+FP_NOFS);
+5bebb7642f7d462 David Howells 2020-09-25  162  	if (!buffer)
+5bebb7642f7d462 David Howells 2020-09-25  163  		goto out_shash;
+5bebb7642f7d462 David Howells 2020-09-25  164  =
 
-8059c4a3daa29a9 David Howells 2020-10-02  150  error_key:
-8059c4a3daa29a9 David Howells 2020-10-02  151  	key_put(key);
-8059c4a3daa29a9 David Howells 2020-10-02  152  error:
-8059c4a3daa29a9 David Howells 2020-10-02  153  	kfree_sensitive(payload);
-8059c4a3daa29a9 David Howells 2020-10-02  154  error_out:
-8059c4a3daa29a9 David Howells 2020-10-02  155  	_leave(" =3D %d", ret);
-8059c4a3daa29a9 David Howells 2020-10-02  156  	return ret;
-8059c4a3daa29a9 David Howells 2020-10-02  157  }
-8059c4a3daa29a9 David Howells 2020-10-02  158  =
+5bebb7642f7d462 David Howells 2020-09-25  165  	Kp.data =3D buffer +
+5bebb7642f7d462 David Howells 2020-09-25  166  		rxgk_shash_size(shash) +
+5bebb7642f7d462 David Howells 2020-09-25  167  		rxgk_digest_size(shash);
+5bebb7642f7d462 David Howells 2020-09-25  168  =
+
+5bebb7642f7d462 David Howells 2020-09-25  169  	ret =3D rfc6803_calc_KDF_FE=
+EDBACK_CMAC(gk5e, protocol_key, &prfconstant,
+5bebb7642f7d462 David Howells 2020-09-25  170  					     &Kp, gfp);
+5bebb7642f7d462 David Howells 2020-09-25  171  	if (ret < 0)
+5bebb7642f7d462 David Howells 2020-09-25  172  		goto out;
+5bebb7642f7d462 David Howells 2020-09-25  173  =
+
+5bebb7642f7d462 David Howells 2020-09-25  174  	ret =3D crypto_shash_setkey=
+(shash, Kp.data, Kp.len);
+5bebb7642f7d462 David Howells 2020-09-25  175  	if (ret < 0)
+5bebb7642f7d462 David Howells 2020-09-25  176  		goto out;
+5bebb7642f7d462 David Howells 2020-09-25  177  =
+
+5bebb7642f7d462 David Howells 2020-09-25  178  	desc =3D buffer;
+5bebb7642f7d462 David Howells 2020-09-25 @179  	desc->tfm =3D shash;
+5bebb7642f7d462 David Howells 2020-09-25  180  	ret =3D crypto_shash_init(d=
+esc);
+5bebb7642f7d462 David Howells 2020-09-25  181  	if (ret < 0)
+5bebb7642f7d462 David Howells 2020-09-25  182  		goto out;
+5bebb7642f7d462 David Howells 2020-09-25  183  =
+
+5bebb7642f7d462 David Howells 2020-09-25  184  	ret =3D crypto_shash_finup(=
+desc, octet_string->data, octet_string->len, result->data);
+5bebb7642f7d462 David Howells 2020-09-25  185  	if (ret < 0)
+5bebb7642f7d462 David Howells 2020-09-25  186  		goto out;
+5bebb7642f7d462 David Howells 2020-09-25  187  =
+
+5bebb7642f7d462 David Howells 2020-09-25  188  out:
+5bebb7642f7d462 David Howells 2020-09-25  189  	kfree_sensitive(buffer);
+5bebb7642f7d462 David Howells 2020-09-25  190  out_shash:
+5bebb7642f7d462 David Howells 2020-09-25  191  	crypto_free_shash(shash);
+5bebb7642f7d462 David Howells 2020-09-25  192  	_leave(" =3D %d", ret);
+5bebb7642f7d462 David Howells 2020-09-25  193  	return ret;
+5bebb7642f7d462 David Howells 2020-09-25  194  }
+5bebb7642f7d462 David Howells 2020-09-25  195  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============6291651603240070819==
+--===============2597794817191641205==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICNZWeF8AAy5jb25maWcAlDxLd9s2s/v+Cp100y6az4/Ebe49XkAgSKHiKwAoy97wuI6S+jS2
+H4sICD9MeF8AAy5jb25maWcAlDxLd9s2s/v+Cp100y6az4/Ebe49XkAgSKHiKwAoy97wuI6S+jS2
 89ly2/z7OwOQIgAOad9sYs0MBq95A+CPP/y4YM/7h7vr/e3N9dev3xdfdve7x+v97tPi8+3X3f8u
 kmpRVmYhEmneAnF+e//8739ur8/eLd6//fD26JfHm7PFevd4v/u64A/3n2+/PEPr24f7H378gVdl
 KrOW83YjlJZV2RqxNedvsPUvX5HRL19ubhY/ZZz/vPjw9vTt0RuvjdQtIM6/96Bs4HP+4ej06KhH
@@ -745,5 +779,5 @@ qcEDpmKbHMAuybXsx+N99RmIMj9FhWciDYoYP433ph9hk4i7bq/YfW450NUHo04/HYfbzDEtJ8OA
 gRqiODQtYTk7gMSzyrggs4uvYz1Lckx9A6SwVcVZwJqD1NYsqTLQr6TzFerePefDJgQrAdX5KYsw
 Dj0nJyvQzdqRlmqcHP+nzdp0AYLOj6edB8tRBMC9hxYGHbd6vIa6ES8B4LyphA5uM87dAuW7/h+U
 Cd5IB6kBAA==
---===============6291651603240070819==--
+--===============2597794817191641205==--
 
