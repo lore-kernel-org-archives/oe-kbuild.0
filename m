@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0257336111488280113=="
+Content-Type: multipart/mixed; boundary="===============1118946828777834343=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: misc: fix excluded_middle.cocci warnings
-Date: Sat, 03 Oct 2020 20:19:55 +0800
-Message-ID: <20201003121955.GA8859@8cbb73b479b5>
+Date: Sat, 03 Oct 2020 20:19:54 +0800
+Message-ID: <20201003121954.GA8772@8cbb73b479b5>
 In-Reply-To: <202010032024.uSyENKw0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0257336111488280113==
+--===============1118946828777834343==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,17 +16,13 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Steffen Klassert <steffen.klassert@secunet.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Alexey Kuznetsov <kuznet@ms2.inr.ac.ru>
-CC: Hideaki YOSHIFUJI <yoshfuji@linux-ipv6.org>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: netdev(a)vger.kernel.org
+CC: Takashi Iwai <tiwai@suse.de>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-net/ipv4/esp4.c:762:16-18: WARNING !A || A && B is equivalent to !A || B
+drivers/firmware/edd.c:698:18-20: WARNING !A || A && B is equivalent to !A =
+|| B
 
 
  Condition !A || A && B is equivalent to !A || B.
@@ -48,21 +44,20 @@ dd excluded_middle.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- esp4.c |    2 +-
+ edd.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/net/ipv4/esp4.c
-+++ b/net/ipv4/esp4.c
-@@ -759,7 +759,7 @@ int esp_input_done2(struct sk_buff *skb,
- 	int hlen =3D sizeof(struct ip_esp_hdr) + crypto_aead_ivsize(aead);
- 	int ihl;
+--- a/drivers/firmware/edd.c
++++ b/drivers/firmware/edd.c
+@@ -695,7 +695,7 @@ static void edd_populate_dir(struct edd_
  =
 
--	if (!xo || (xo && !(xo->flags & CRYPTO_DONE)))
-+	if (!xo || !(xo->flags & CRYPTO_DONE))
- 		kfree(ESP_SKB_CB(skb)->tmp);
- =
-
- 	if (unlikely(err))
---===============0257336111488280113==--
+ 	for (i =3D 0; (attr =3D edd_attrs[i]) && !error; i++) {
+ 		if (!attr->test ||
+-		    (attr->test && attr->test(edev)))
++		    attr->test(edev))
+ 			error =3D sysfs_create_file(&edev->kobj,&attr->attr);
+ 	}
+=20
+--===============1118946828777834343==--
 
