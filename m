@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1118946828777834343=="
+Content-Type: multipart/mixed; boundary="===============6459094092958064970=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: misc: fix excluded_middle.cocci warnings
-Date: Sat, 03 Oct 2020 20:19:54 +0800
-Message-ID: <20201003121954.GA8772@8cbb73b479b5>
+Date: Sat, 03 Oct 2020 20:19:53 +0800
+Message-ID: <20201003121952.GA8685@8cbb73b479b5>
 In-Reply-To: <202010032024.uSyENKw0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1118946828777834343==
+--===============6459094092958064970==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,13 +16,16 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Takashi Iwai <tiwai@suse.de>
+CC: Chris Mason <chris.mason@fusionio.com>
+CC: Josef Bacik <josef@toxicpanda.com>
+CC: David Sterba <dsterba@suse.com>
+CC: linux-btrfs(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/firmware/edd.c:698:18-20: WARNING !A || A && B is equivalent to !A =
-|| B
+fs/btrfs/delayed-inode.c:1167:39-41: WARNING !A || A && B is equivalent to =
+!A || B
 
 
  Condition !A || A && B is equivalent to !A || B.
@@ -44,20 +47,20 @@ dd excluded_middle.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- edd.c |    2 +-
+ delayed-inode.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/firmware/edd.c
-+++ b/drivers/firmware/edd.c
-@@ -695,7 +695,7 @@ static void edd_populate_dir(struct edd_
+--- a/fs/btrfs/delayed-inode.c
++++ b/fs/btrfs/delayed-inode.c
+@@ -1164,7 +1164,7 @@ static int __btrfs_run_delayed_items(str
+ 	delayed_root =3D fs_info->delayed_root;
  =
 
- 	for (i =3D 0; (attr =3D edd_attrs[i]) && !error; i++) {
- 		if (!attr->test ||
--		    (attr->test && attr->test(edev)))
-+		    attr->test(edev))
- 			error =3D sysfs_create_file(&edev->kobj,&attr->attr);
- 	}
-=20
---===============1118946828777834343==--
+ 	curr_node =3D btrfs_first_delayed_node(delayed_root);
+-	while (curr_node && (!count || (count && nr--))) {
++	while (curr_node && (!count || nr--)) {
+ 		ret =3D __btrfs_commit_inode_delayed_items(trans, path,
+ 							 curr_node);
+ 		if (ret) {
+--===============6459094092958064970==--
 
