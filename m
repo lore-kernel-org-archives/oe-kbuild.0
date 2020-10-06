@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4826937329689361316=="
+Content-Type: multipart/mixed; boundary="===============6950341592307473908=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
 Date: Tue, 06 Oct 2020 15:21:40 +0800
-Message-ID: <20201006072140.GA62092@04569d13596d>
+Message-ID: <20201006072140.GA62179@04569d13596d>
 In-Reply-To: <202010061518.7kTqq0ri-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4826937329689361316==
+--===============6950341592307473908==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,19 +17,18 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: "Matan Ziv-Av" <matan@svgalib.org>
-CC: Darren Hart <dvhart@infradead.org>
-CC: Andy Shevchenko <andy@infradead.org>
-CC: platform-driver-x86(a)vger.kernel.org
+CC: Bernie Thompson <bernie@plugable.com>
+CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+CC: linux-fbdev(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/platform/x86/lg-laptop.c:496:8-16: WARNING: use scnprintf or sprintf
-drivers/platform/x86/lg-laptop.c:322:8-16: WARNING: use scnprintf or sprintf
-drivers/platform/x86/lg-laptop.c:447:8-16: WARNING: use scnprintf or sprintf
-drivers/platform/x86/lg-laptop.c:406:8-16: WARNING: use scnprintf or sprintf
-drivers/platform/x86/lg-laptop.c:364:8-16: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/udlfb.c:1436:8-16: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/udlfb.c:1428:8-16: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/udlfb.c:1444:8-16: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/udlfb.c:1452:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -55,67 +54,49 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- lg-laptop.c |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ udlfb.c |    8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
---- a/drivers/platform/x86/lg-laptop.c
-+++ b/drivers/platform/x86/lg-laptop.c
-@@ -319,7 +319,7 @@ static ssize_t fan_mode_show(struct devi
- 	status =3D r->integer.value & 0x01;
- 	kfree(r);
- =
-
--	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
-+	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
+--- a/drivers/video/fbdev/udlfb.c
++++ b/drivers/video/fbdev/udlfb.c
+@@ -1425,7 +1425,7 @@ static ssize_t metrics_bytes_rendered_sh
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info =3D dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb =3D fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return scnprintf(buf, PAGE_SIZE, "%u\n",
+ 			atomic_read(&dlfb->bytes_rendered));
  }
  =
 
- static ssize_t usb_charge_store(struct device *dev,
-@@ -361,7 +361,7 @@ static ssize_t usb_charge_show(struct de
- =
-
- 	kfree(r);
- =
-
--	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
-+	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
+@@ -1433,7 +1433,7 @@ static ssize_t metrics_bytes_identical_s
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info =3D dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb =3D fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return scnprintf(buf, PAGE_SIZE, "%u\n",
+ 			atomic_read(&dlfb->bytes_identical));
  }
  =
 
- static ssize_t reader_mode_store(struct device *dev,
-@@ -403,7 +403,7 @@ static ssize_t reader_mode_show(struct d
- =
-
- 	kfree(r);
- =
-
--	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
-+	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
+@@ -1441,7 +1441,7 @@ static ssize_t metrics_bytes_sent_show(s
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info =3D dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb =3D fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return scnprintf(buf, PAGE_SIZE, "%u\n",
+ 			atomic_read(&dlfb->bytes_sent));
  }
  =
 
- static ssize_t fn_lock_store(struct device *dev,
-@@ -444,7 +444,7 @@ static ssize_t fn_lock_show(struct devic
- 	status =3D !!r->buffer.pointer[0];
- 	kfree(r);
- =
-
--	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
-+	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
+@@ -1449,7 +1449,7 @@ static ssize_t metrics_cpu_kcycles_used_
+ 				   struct device_attribute *a, char *buf) {
+ 	struct fb_info *fb_info =3D dev_get_drvdata(fbdev);
+ 	struct dlfb_data *dlfb =3D fb_info->par;
+-	return snprintf(buf, PAGE_SIZE, "%u\n",
++	return scnprintf(buf, PAGE_SIZE, "%u\n",
+ 			atomic_read(&dlfb->cpu_kcycles_used));
  }
- =
-
- static ssize_t battery_care_limit_store(struct device *dev,
-@@ -493,7 +493,7 @@ static ssize_t battery_care_limit_show(s
- 	if (status !=3D 80 && status !=3D 100)
- 		status =3D 0;
- =
-
--	return snprintf(buffer, PAGE_SIZE, "%d\n", status);
-+	return scnprintf(buffer, PAGE_SIZE, "%d\n", status);
- }
- =
-
- static DEVICE_ATTR_RW(fan_mode);
---===============4826937329689361316==--
+=20
+--===============6950341592307473908==--
 
