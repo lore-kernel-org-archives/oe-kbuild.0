@@ -1,24 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============3700667868541675061=="
+Content-Type: multipart/mixed; boundary="===============5361483575152225818=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] PCI: pciehp: Add check for DL_ACTIVE bit in pciehp_check_link_status()
-Date: Wed, 07 Oct 2020 12:30:11 +0300
-Message-ID: <20201007093011.GM18329@kadam>
-In-Reply-To: <1602008668-43646-1-git-send-email-Sanju.Mehta@amd.com>
+Date: Wed, 07 Oct 2020 17:18:42 +0800
+Message-ID: <202010071755.wfnHykvI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3700667868541675061==
+--===============5361483575152225818==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <1602008668-43646-1-git-send-email-Sanju.Mehta@amd.com>
+References: <1602008668-43646-1-git-send-email-Sanju.Mehta@amd.com>
+TO: Sanjay R Mehta <Sanju.Mehta@amd.com>
+TO: bhelgaas(a)google.com
+TO: lukas(a)wunner.de
+TO: andriy.shevchenko(a)linux.intel.com
+TO: stuart.w.hayes(a)gmail.com
+TO: mr.nuke.me(a)gmail.com
+CC: linux-kernel(a)vger.kernel.org
+CC: Sanjay R Mehta <sanju.mehta@amd.com>
+
 Hi Sanjay,
 
-url:    https://github.com/0day-ci/linux/commits/Sanjay-R-Mehta/PCI-pciehp-=
-Add-check-for-DL_ACTIVE-bit-in-pciehp_check_link_status/20201007-022638 =
+I love your patch! Perhaps something to improve:
 
+[auto build test WARNING on v5.9-rc8]
+[also build test WARNING on next-20201006]
+[cannot apply to pci/next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Sanjay-R-Mehta/PCI-pciehp-=
+Add-check-for-DL_ACTIVE-bit-in-pciehp_check_link_status/20201007-022638
 base:    549738f15da0e5a00275977623be199fbbf7df50
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
 config: x86_64-randconfig-m001-20201005 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -31,6 +52,8 @@ drivers/pci/hotplug/pciehp_hpc.c:313 pciehp_check_link_status() warn: maybe=
  use && instead of &
 
 vim +313 drivers/pci/hotplug/pciehp_hpc.c
+
+f496648b99f8f7f Alexandru Gagniuc 2019-10-25  289  =
 
 82a9e79ef132cbf Kenji Kaneshige   2009-09-15  290  int pciehp_check_link_st=
 atus(struct controller *ctrl)
@@ -72,11 +95,6 @@ rd(pdev, PCI_EXP_LNKSTA, &lnk_status);
 _status =3D %x\n", __func__, lnk_status);
 818dc520d6f8472 Sanjay R Mehta    2020-10-06  312  	if (((lnk_status & PCI_=
 EXP_LNKSTA_LT) &
-                                                                           =
-                   ^
-This won't ever be true.  PCI_EXP_LNKSTA_LT is 0x0800.  It needs to be
-&&.
-
 818dc520d6f8472 Sanjay R Mehta    2020-10-06 @313  	     !(lnk_status & PCI=
 _EXP_DPC_CAP_DL_ACTIVE)) ||
 322162a71bd9fc4 Kenji Kaneshige   2008-12-19  314  	    !(lnk_status & PCI_=
@@ -98,17 +116,14 @@ fdbd3ce9efb3a04 Yinghai Lu        2011-11-07  321  =
 
 1a84b99ccbb954c Bjorn Helgaas     2013-12-14  325  	return 0;
 ^1da177e4c3f415 Linus Torvalds    2005-04-16  326  }
+^1da177e4c3f415 Linus Torvalds    2005-04-16  327  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============3700667868541675061==
+--===============5361483575152225818==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -770,5 +785,5 @@ S7Xeh9tQtokRgzSnH+Cd95QzgFytrzN++R6EoiV9WKOKhZ+DRA3OxaqYyDwlNHhyaoRSujLstasO
 9FWZstg90bKUb8UBDB9niSb4loB8pHlxfFQra0UNU2GTMBKFnEYjqisTwfCEq7aiivBWRqd9X93D
 1ex2dbwrhY7RBIz0lqWZVGCHlewCJ0GRMAC2ah8eP6bI30VUrj01WwP3Y7lWpMy2pUF8+h4A9lFw
 SLCOeCWgPwKJCNTW3w52qAJ6W3rxDOST9P8DNKi+prxIAgA=
---===============3700667868541675061==--
+--===============5361483575152225818==--
 
