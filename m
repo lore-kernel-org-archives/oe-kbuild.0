@@ -1,38 +1,60 @@
-Content-Type: multipart/mixed; boundary="===============3435561173420922522=="
+Content-Type: multipart/mixed; boundary="===============4493978674592366517=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH V5 3/3] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-Date: Thu, 08 Oct 2020 17:54:11 +0300
-Message-ID: <20201008145411.GP18329@kadam>
-In-Reply-To: <20201001084425.23117-4-rojay@codeaurora.org>
+Date: Thu, 08 Oct 2020 21:41:22 +0800
+Message-ID: <202010082138.Ht0bV0Ro-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3435561173420922522==
+--===============4493978674592366517==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20201001084425.23117-4-rojay@codeaurora.org>
+References: <20201001084425.23117-4-rojay@codeaurora.org>
+TO: Roja Rani Yarubandi <rojay@codeaurora.org>
+TO: wsa(a)kernel.org
+CC: swboyd(a)chromium.org
+CC: dianders(a)chromium.org
+CC: saiprakash.ranjan(a)codeaurora.org
+CC: gregkh(a)linuxfoundation.org
+CC: mka(a)chromium.org
+CC: akashast(a)codeaurora.org
+CC: msavaliy(a)qti.qualcomm.com
+CC: skakit(a)codeaurora.org
+CC: vkaur(a)codeaurora.org
+
 Hi Roja,
 
-url:    https://github.com/0day-ci/linux/commits/Roja-Rani-Yarubandi/Implem=
-ent-Shutdown-callback-for-geni-i2c/20201001-164636 =
+Thank you for the patch! Perhaps something to improve:
 
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git  i2c/=
-for-next
+[auto build test WARNING on wsa/i2c/for-next]
+[also build test WARNING on driver-core/driver-core-testing linus/master v5=
+.9-rc8 next-20201008]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Roja-Rani-Yarubandi/Implem=
+ent-Shutdown-callback-for-geni-i2c/20201001-164636
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/f=
+or-next
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
 config: parisc-randconfig-s032-20201008 (attached as .config)
 compiler: hppa-linux-gcc (GCC) 9.3.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross  -O ~/bin/make.cross
+make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.2-218-gc0e96d6d-dirty
         # https://github.com/0day-ci/linux/commit/d8cd18adc21493e099c0d562d=
-fb53a817ca21926 =
-
-        git remote add linux-review https://github.com/0day-ci/linux =
-
+fb53a817ca21926
+        git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Roja-Rani-Yarubandi/Implement-Shut=
 down-callback-for-geni-i2c/20201001-164636
         git checkout d8cd18adc21493e099c0d562dfb53a817ca21926
@@ -51,6 +73,8 @@ echo
 ance in 'geni_i2c_stop_xfer' - different lock contexts for basic block
 
 vim +/geni_i2c_stop_xfer +383 drivers/i2c/busses/i2c-qcom-geni.c
+
+34b404a7f63f37e Roja Rani Yarubandi 2020-10-01  382  =
 
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01 @383  static void geni_i2c_s=
 top_xfer(struct geni_i2c_dev *gi2c)
@@ -79,10 +103,6 @@ _relaxed(gi2c->se.base + SE_GENI_STATUS);
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  399  	if (!(geni_status & M=
 _GENI_CMD_ACTIVE))
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  400  		goto out;
-
-
-goto unlock;
-
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  401  =
 
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  402  	cur =3D gi2c->cur;
@@ -97,24 +117,18 @@ d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  407  		geni_i2c_tx_msg_clea=
 nup(gi2c, cur);
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  408  	spin_unlock_irqrestor=
 e(&gi2c->lock, flags);
-                                                       ^^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^
-
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  409  out:
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  410  	pm_runtime_put_sync_s=
 uspend(gi2c->se.dev);
 d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  411  }
+d8cd18adc21493e Roja Rani Yarubandi 2020-10-01  412  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============3435561173420922522==
+--===============4493978674592366517==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -712,5 +726,5 @@ VrSHSZ5JAkVDvjIh0MJNpZ30CGDv9jOLAjBwbkZvWgRF26YD2IVwQ/vxlAFvUnA8emlwgzMwtL6g
 BoFNIzqgRQ6GcG8OrIbZwFKB0bHseRN/m/u32XLwMDACg/YH6qgmA0g8dU1KsfmjQzYnaYF3izWD
 R6OirEnKczDGYocHZB71QCf8Dk/FryK9wJ8KIng2LwfYCAPcGUyWr+22U7qrF43gtHF6BMWlBXmA
 CBjb0B0U/06of3eG3dUnzNs8rWtc2lEZtiCNzW3N/wDcfeFvESECAA==
---===============3435561173420922522==--
+--===============4493978674592366517==--
 
