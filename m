@@ -1,69 +1,91 @@
-Content-Type: multipart/mixed; boundary="===============1070142071452928349=="
+Content-Type: multipart/mixed; boundary="===============8384463138735127457=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/3] arm: introduce IRQ stacks
-Date: Thu, 08 Oct 2020 21:04:43 +0800
-Message-ID: <202010082013.AkGAec5X-lkp@intel.com>
+Subject: [cryptodev:master 163/205] lib/mpi/ec.c:357:0: warning: failed to evaluate #if condition, division/modulo by zero
+Date: Thu, 08 Oct 2020 20:11:42 +0800
+Message-ID: <202010082040.0c76CMuj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1070142071452928349==
+--===============8384463138735127457==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1602141333-17822-3-git-send-email-maninder1.s@samsung.com>
-References: <1602141333-17822-3-git-send-email-maninder1.s@samsung.com>
-TO: Maninder Singh <maninder1.s@samsung.com>
-TO: linux(a)armlinux.org.uk
-TO: ndesaulniers(a)google.com
-TO: caij2003(a)gmail.com
-TO: tglx(a)linutronix.de
-TO: bigeasy(a)linutronix.de
-TO: maz(a)kernel.org
-TO: valentin.schneider(a)arm.com
-TO: vincent.whitchurch(a)axis.com
-TO: nhuck(a)google.com
-TO: akpm(a)linux-foundation.org
+CC: linux-crypto(a)vger.kernel.org
+TO: Tianjia Zhang <tianjia.zhang@linux.alibaba.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
-Hi Maninder,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on arm/for-next]
-[also build test WARNING on linus/master v5.9-rc8 next-20201008]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Maninder-Singh/IRQ-stack-s=
-upport-for-ARM/20201008-151928
-base:   git://git.armlinux.org.uk/~rmk/linux-arm.git for-next
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
-compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
+.6.git master
+head:   3093e7c16e12d729c325adb3c53dde7308cefbd8
+commit: d58bb7e55a8a65894cc02f27c3e2bf9403e7c40f [163/205] lib/mpi: Introdu=
+ce ec implementation to MPI library
+:::::: branch date: 7 hours ago
+:::::: commit date: 13 days ago
+compiler: alpha-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-vim +53 arch/arm/kernel/irq.c
+vim +357 lib/mpi/ec.c
 
-b503b88302e9143 Maninder Singh 2020-10-08  49  =
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  345  =
 
-b503b88302e9143 Maninder Singh 2020-10-08  50  /*
-b503b88302e9143 Maninder Singh 2020-10-08  51   * irq_stack must be IRQ_STA=
-CK_SIZE(THREAD_SIZE) aligned,
-b503b88302e9143 Maninder Singh 2020-10-08  52   */
-b503b88302e9143 Maninder Singh 2020-10-08 @53  DEFINE_PER_CPU(unsigned long=
- [IRQ_STACK_SIZE/sizeof(long)], irq_stack) __aligned(IRQ_STACK_SIZE);
-b503b88302e9143 Maninder Singh 2020-10-08  54  #endif
-b503b88302e9143 Maninder Singh 2020-10-08  55  =
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  346  static void ec_mulm_448(MPI w=
+, MPI u, MPI v, struct mpi_ec_ctx *ctx)
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  347  {
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  348  	mpi_ptr_t wp, up, vp;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  349  	mpi_size_t wsize =3D LIMB_SI=
+ZE_448;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  350  	mpi_limb_t n[LIMB_SIZE_448*2=
+];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  351  	mpi_limb_t a2[LIMB_SIZE_HALF=
+_448];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  352  	mpi_limb_t a3[LIMB_SIZE_HALF=
+_448];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  353  	mpi_limb_t b0[LIMB_SIZE_HALF=
+_448];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  354  	mpi_limb_t b1[LIMB_SIZE_HALF=
+_448];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  355  	mpi_limb_t cy;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  356  	int i;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21 @357  #if (LIMB_SIZE_HALF_448 > LIM=
+B_SIZE_448/2)
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  358  	mpi_limb_t b1_rest, a3_rest;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  359  #endif
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  360  =
+
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  361  	if (w->nlimbs !=3D wsize || =
+u->nlimbs !=3D wsize || v->nlimbs !=3D wsize)
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  362  		log_bug("mulm_448: differen=
+t sizes\n");
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  363  =
+
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  364  	up =3D u->d;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  365  	vp =3D v->d;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  366  	wp =3D w->d;
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  367  =
+
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  368  	mpihelp_mul_n(n, up, vp, wsi=
+ze);
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  369  =
+
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  370  	for (i =3D 0; i < (wsize + 1=
+) / 2; i++) {
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  371  		b0[i] =3D n[i];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  372  		b1[i] =3D n[i+wsize/2];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  373  		a2[i] =3D n[i+wsize];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  374  		a3[i] =3D n[i+wsize+wsize/2=
+];
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  375  	}
+d58bb7e55a8a65 Tianjia Zhang 2020-09-21  376  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1070142071452928349==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============8384463138735127457==--
 
