@@ -1,21 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============2263304540844211929=="
+Content-Type: multipart/mixed; boundary="===============8382061864686807660=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [mlankhorst:locking-rework 61/63] drivers/gpu/drm/i915/gem/i915_gem_userptr.c:315 i915_gem_object_userptr_submit_init() error: double locked 'i915->mm.notifier_lock' (orig line 270)
-Date: Tue, 13 Oct 2020 15:27:41 +0300
-Message-ID: <20201013122741.GT1042@kadam>
+Date: Tue, 13 Oct 2020 19:25:06 +0800
+Message-ID: <202010131902.EikgeDbk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2263304540844211929==
+--===============8382061864686807660==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
 tree:   git://people.freedesktop.org/~mlankhorst/linux locking-rework
 head:   a7bb9c136fffddfb2e1c5132deb1682c0d1f9fc9
 commit: d2902d100d21d7af1cea25975007e7ac4e03ab4c [61/63] drm/i915: Keep use=
 rpointer bindings if seqcount is unchanged
+:::::: branch date: 21 hours ago
+:::::: commit date: 21 hours ago
 config: i386-randconfig-m021-20201013 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -27,7 +32,13 @@ New smatch warnings:
 drivers/gpu/drm/i915/gem/i915_gem_userptr.c:315 i915_gem_object_userptr_sub=
 mit_init() error: double locked 'i915->mm.notifier_lock' (orig line 270)
 
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:146 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 138)
+
 vim +315 drivers/gpu/drm/i915/gem/i915_gem_userptr.c
+
+f53270c47078c8 Maarten Lankhorst 2020-07-10  249  =
 
 f53270c47078c8 Maarten Lankhorst 2020-07-10  250  int i915_gem_object_userp=
 tr_submit_init(struct drm_i915_gem_object *obj)
@@ -65,11 +76,6 @@ d2902d100d21d7 Maarten Lankhorst 2020-10-01  269  				      obj->userptr.no=
 tifier_seq)) {
 d2902d100d21d7 Maarten Lankhorst 2020-10-01 @270  		ret =3D mutex_lock_inte=
 rruptible(&i915->mm.notifier_lock);
-                                                                ^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This code looks intentional, but I don't 100% understand it so I'm just
-going to forward the zero day bot warning.
-
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  271  		if (!ret) {
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  272  			if (obj->userptr.pvec =
 &&
@@ -81,9 +87,6 @@ d2902d100d21d7 Maarten Lankhorst 2020-10-01  275  				obj->userptr.page_ref=
 ++;
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  276  				mutex_unlock(&i915->m=
 m.notifier_lock);
-
-Unlocked.
-
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  277  =
 
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  278  				/* We can keep using =
@@ -92,16 +95,9 @@ d2902d100d21d7 Maarten Lankhorst 2020-10-01  279  				ret =3D 1;
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  280  			}
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  281  		}
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  282  	}
-
-On the else patch, "ret =3D=3D 0" and we didn't take the lock.  On the
-if condtion true path if ret is zero then we are still holding the lock.
-
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  283  =
 
 d2902d100d21d7 Maarten Lankhorst 2020-10-01  284  	if (!ret) {
-                                                            ^^^^
-Check here.
-
 f53270c47078c8 Maarten Lankhorst 2020-07-10  285  		/* Make sure userptr is=
  unbound for next attempt, so we don't use stale pages. */
 f53270c47078c8 Maarten Lankhorst 2020-07-10  286  		ret =3D i915_gem_object=
@@ -151,10 +147,6 @@ f53270c47078c8 Maarten Lankhorst 2020-07-10  314  =
 
 f53270c47078c8 Maarten Lankhorst 2020-07-10 @315  	ret =3D mutex_lock_inter=
 ruptible(&i915->mm.notifier_lock);
-                                                        ^^^^^^^^^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Potentially a double lock?
-
 f53270c47078c8 Maarten Lankhorst 2020-07-10  316  	if (ret)
 f53270c47078c8 Maarten Lankhorst 2020-07-10  317  		goto out;
 f53270c47078c8 Maarten Lankhorst 2020-07-10  318  =
@@ -197,12 +189,21 @@ f53270c47078c8 Maarten Lankhorst 2020-07-10  341  =
 
 f53270c47078c8 Maarten Lankhorst 2020-07-10  342  	return ret;
 f53270c47078c8 Maarten Lankhorst 2020-07-10  343  }
+f53270c47078c8 Maarten Lankhorst 2020-07-10  344  =
+
+
+:::::: The code at line 315 was first introduced by commit
+:::::: f53270c47078c87a476012e95049492ef7cf2038 drm/i915: Fix userptr so we=
+ do not have to worry about obj->mm.lock, v2.
+
+:::::: TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+:::::: CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2263304540844211929==
+--===============8382061864686807660==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -927,5 +928,5 @@ WvQndz9aq1fzwpU0dHVx+h7Dgc/Eyr5JrZlRL4LK1Y5a3g6r5LnxRqHM5SSgyqgnaQT3Jl1mLfUu
 OCp1a3KA8bX9xq1v5JMTQLDtm2Wos12QaGipJvtJm9uZrU2iIpEi7ImJVLHKKOsEBJBXvDJOJAGa
 kZ9z98s+l/5zpWbP/xDcHgV0ofeGK1DnIslO7E9DnXriWhMJZ/IQ+Q8lWi6aateuppdhVYtCxqaS
 1WzVx0lK7biyK9uA/wE/kOrN+nsCAA==
---===============2263304540844211929==--
+--===============8382061864686807660==--
 
