@@ -1,21 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============2380376715452471055=="
+Content-Type: multipart/mixed; boundary="===============6175148054854084356=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [dlech-linux:bone-counter 3/12] drivers/counter/counter-chrdev.c:189 counter_set_watch() warn: potential spectre issue 'counter->signals' (local cap)
-Date: Wed, 14 Oct 2020 17:22:34 +0300
-Message-ID: <20201014142234.GV1042@kadam>
+Date: Wed, 14 Oct 2020 21:30:13 +0800
+Message-ID: <202010142109.oPXTl9ze-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2380376715452471055==
+--===============6175148054854084356==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: William Breathitt Gray <vilhelm.gray@gmail.com>
+CC: David Lechner <david@lechnology.com>
 
 tree:   https://github.com/dlech/linux bone-counter
 head:   f8f0ad10f30b5c1bea1a22f5de5dc9f2c6b7db1a
 commit: c4408f814b1a257c3854ec272e8348ef8fe55f48 [3/12] counter: Add charac=
 ter device interface
+:::::: branch date: 12 hours ago
+:::::: commit date: 2 days ago
 config: x86_64-randconfig-m001-20201014 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -34,6 +40,8 @@ drivers/counter/counter-chrdev.c:247 counter_set_watch() warn: possible spe=
 ctre second half.  'comp_node.comp'
 
 vim +189 drivers/counter/counter-chrdev.c
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  159  =
 
 c4408f814b1a257 William Breathitt Gray 2020-09-26  160  static int counter_=
 set_watch(struct counter_device *const counter,
@@ -80,32 +88,6 @@ c4408f814b1a257 William Breathitt Gray 2020-09-26  183  	case COUNTER_SCOPE=
 _SIGNAL:
 c4408f814b1a257 William Breathitt Gray 2020-09-26  184  		if (counter->num_=
 signals < parent + 1)
-
-Smatch looks at these and complains about Spectre issues.  I'm not an
-expert@Spectre but that's probably a valid complaint and this code
-should be using array_index_nospec().
-
-This code has some other bugs as well.
-
-1) "watch.component.parent" is a u64 but "parent" is a size_t so that's
-a potential problem on 32 bit systems.
-
-2) If "parent is ULONG_MAX then "parent + 1" will have an integer
-   overflow to zero leading to an out of bounds read.
-
-The normal way to write these conditions is with the varable on the
-left and the limit on the right.  Use >=3D to avoid the integer overflow.
-So to solve all three bugs do:
-
-	u64 parent, id;
-
-	...
-
-	if (parent >=3D counter->num_signals)
-		return -EINVAL;
-
-	parent =3D array_index_nospec(parent, counter->num_signals);
-
 c4408f814b1a257 William Breathitt Gray 2020-09-26  185  			return -EINVAL;
 c4408f814b1a257 William Breathitt Gray 2020-09-26  186  =
 
@@ -219,12 +201,14 @@ c4408f814b1a257 William Breathitt Gray 2020-09-26  250  =
 c4408f814b1a257 William Breathitt Gray 2020-09-26  251  	return counter_set=
 _event_node(counter, &watch, &comp_node);
 c4408f814b1a257 William Breathitt Gray 2020-09-26  252  }
+c4408f814b1a257 William Breathitt Gray 2020-09-26  253  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============2380376715452471055==
+--===============6175148054854084356==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -739,5 +723,5 @@ lPNPpUTR99kMdkMOKmE85p1cwOkapmjQfYpM7TNLG/IWJmyW8BGXkvHPZnYFzL6qA1WYEK8s0zOL
 gzdfjJKf6aPmn4YkEl08V+ghAJoGL77QVRHGyeuEdmuLrCnWgk1hL1nLScko/2aFtHQ7ZRGGl6eD
 g2GOIGedwo4LiukpWUAwFZHcAUU1w4kYyw4XoNn9R46ogSd/3UiQAHC+ALAj9vkj0wvrl94p/wPZ
 G/ApqMcBAA==
---===============2380376715452471055==--
+--===============6175148054854084356==--
 
