@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============1350853196875667815=="
+Content-Type: multipart/mixed; boundary="===============2380376715452471055=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [dlech-linux:bone-counter 1/12] drivers/counter/microchip-tcb-capture.c:173 mchp_tc_count_action_read() warn: bitwise AND condition is false here
-Date: Wed, 14 Oct 2020 17:40:09 +0300
-Message-ID: <20201014144009.GW18329@kadam>
+Subject: [dlech-linux:bone-counter 3/12] drivers/counter/counter-chrdev.c:189 counter_set_watch() warn: potential spectre issue 'counter->signals' (local cap)
+Date: Wed, 14 Oct 2020 17:22:34 +0300
+Message-ID: <20201014142234.GV1042@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1350853196875667815==
+--===============2380376715452471055==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/dlech/linux  bone-counter
+tree:   https://github.com/dlech/linux bone-counter
 head:   f8f0ad10f30b5c1bea1a22f5de5dc9f2c6b7db1a
-commit: 5251e7147d627fbe13308dc390347dc16efeb85b [1/12] counter: Internaliz=
-e sysfs interface code
+commit: c4408f814b1a257c3854ec272e8348ef8fe55f48 [3/12] counter: Add charac=
+ter device interface
 config: x86_64-randconfig-m001-20201014 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -23,99 +23,214 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/counter/microchip-tcb-capture.c:173 mchp_tc_count_action_read() war=
-n: bitwise AND condition is false here
-drivers/counter/counter-sysfs.c:109 counter_comp_u8_show() error: uninitial=
-ized symbol 'err'.
-drivers/counter/counter-sysfs.c:114 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
-drivers/counter/counter-sysfs.c:233 counter_comp_u64_show() error: uninitia=
-lized symbol 'err'.
-drivers/counter/counter-sysfs.c:236 counter_comp_u64_show() error: uninitia=
-lized symbol 'data'.
+smatch warnings:
+drivers/counter/counter-chrdev.c:189 counter_set_watch() warn: potential sp=
+ectre issue 'counter->signals' [r] (local cap)
+drivers/counter/counter-chrdev.c:198 counter_set_watch() warn: potential sp=
+ectre issue 'counter->counts' [r] (local cap)
+drivers/counter/counter-chrdev.c:242 counter_set_watch() warn: potential sp=
+ectre issue 'ext' [r] (local cap)
+drivers/counter/counter-chrdev.c:247 counter_set_watch() warn: possible spe=
+ctre second half.  'comp_node.comp'
 
-Old smatch warnings:
-drivers/counter/counter-sysfs.c:116 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
-drivers/counter/counter-sysfs.c:118 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
-drivers/counter/counter-sysfs.c:120 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
-drivers/counter/counter-sysfs.c:122 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
-drivers/counter/counter-sysfs.c:124 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
-drivers/counter/counter-sysfs.c:126 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
-drivers/counter/counter-sysfs.c:131 counter_comp_u8_show() error: uninitial=
-ized symbol 'data'.
+vim +189 drivers/counter/counter-chrdev.c
 
-vim +173 drivers/counter/microchip-tcb-capture.c
+c4408f814b1a257 William Breathitt Gray 2020-09-26  160  static int counter_=
+set_watch(struct counter_device *const counter,
+c4408f814b1a257 William Breathitt Gray 2020-09-26  161  			     const unsig=
+ned long arg)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  162  {
+c4408f814b1a257 William Breathitt Gray 2020-09-26  163  	void __user *const=
+ uwatch =3D (void __user *)arg;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  164  	struct counter_wat=
+ch watch;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  165  	struct counter_com=
+p_node comp_node;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  166  	size_t parent, id;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  167  	struct counter_com=
+p *ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  168  	size_t num_ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  169  =
 
-5251e7147d627fb William Breathitt Gray 2020-09-26  161  static int mchp_tc_=
-count_action_read(struct counter_device *counter,
-106b104137fd5f0 Kamel Bouhara          2020-07-06  162  				     struct cou=
-nter_count *count,
-106b104137fd5f0 Kamel Bouhara          2020-07-06  163  				     struct cou=
-nter_synapse *synapse,
-5251e7147d627fb William Breathitt Gray 2020-09-26  164  				     u8 *action)
-106b104137fd5f0 Kamel Bouhara          2020-07-06  165  {
-106b104137fd5f0 Kamel Bouhara          2020-07-06  166  	struct mchp_tc_dat=
-a *const priv =3D counter->priv;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  167  	u32 cmr;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  168  =
+c4408f814b1a257 William Breathitt Gray 2020-09-26  170  	if (copy_from_user=
+(&watch, uwatch, sizeof(watch)))
+c4408f814b1a257 William Breathitt Gray 2020-09-26  171  		return -EFAULT;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  172  	parent =3D watch.c=
+omponent.parent;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  173  	id =3D watch.compo=
+nent.id;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  174  =
 
-106b104137fd5f0 Kamel Bouhara          2020-07-06  169  	regmap_read(priv->=
-regmap, ATMEL_TC_REG(priv->channel[0], CMR), &cmr);
-106b104137fd5f0 Kamel Bouhara          2020-07-06  170  =
+c4408f814b1a257 William Breathitt Gray 2020-09-26  175  	/* Configure paren=
+t component info for comp node */
+c4408f814b1a257 William Breathitt Gray 2020-09-26  176  	switch (watch.comp=
+onent.scope) {
+c4408f814b1a257 William Breathitt Gray 2020-09-26  177  	case COUNTER_SCOPE=
+_DEVICE:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  178  		comp_node.parent =
+=3D NULL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  179  =
 
-5251e7147d627fb William Breathitt Gray 2020-09-26  171  	*action =3D COUNTE=
-R_SYNAPSE_ACTION_NONE;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  172  =
+c4408f814b1a257 William Breathitt Gray 2020-09-26  180  		ext =3D counter->=
+ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  181  		num_ext =3D count=
+er->num_ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  182  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  183  	case COUNTER_SCOPE=
+_SIGNAL:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  184  		if (counter->num_=
+signals < parent + 1)
 
-106b104137fd5f0 Kamel Bouhara          2020-07-06 @173  	if (cmr & ATMEL_TC=
-_ETRGEDG_NONE)
-                                                                    ^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^
-I'm guessing ATMEL_TC_ETRGEDG_NONE is zero and that's why Smatch thinks
-this can't possibly be true.
+Smatch looks at these and complains about Spectre issues.  I'm not an
+expert@Spectre but that's probably a valid complaint and this code
+should be using array_index_nospec().
 
-5251e7147d627fb William Breathitt Gray 2020-09-26  174  		*action =3D COUNT=
-ER_SYNAPSE_ACTION_NONE;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  175  	else if (cmr & ATM=
-EL_TC_ETRGEDG_RISING)
-5251e7147d627fb William Breathitt Gray 2020-09-26  176  		*action =3D COUNT=
-ER_SYNAPSE_ACTION_RISING_EDGE;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  177  	else if (cmr & ATM=
-EL_TC_ETRGEDG_FALLING)
-5251e7147d627fb William Breathitt Gray 2020-09-26  178  		*action =3D COUNT=
-ER_SYNAPSE_ACTION_FALLING_EDGE;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  179  	else if (cmr & ATM=
-EL_TC_ETRGEDG_BOTH)
-5251e7147d627fb William Breathitt Gray 2020-09-26  180  		*action =3D COUNT=
-ER_SYNAPSE_ACTION_BOTH_EDGES;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  181  =
+This code has some other bugs as well.
 
-106b104137fd5f0 Kamel Bouhara          2020-07-06  182  	return 0;
-106b104137fd5f0 Kamel Bouhara          2020-07-06  183  }
+1) "watch.component.parent" is a u64 but "parent" is a size_t so that's
+a potential problem on 32 bit systems.
+
+2) If "parent is ULONG_MAX then "parent + 1" will have an integer
+   overflow to zero leading to an out of bounds read.
+
+The normal way to write these conditions is with the varable on the
+left and the limit on the right.  Use >=3D to avoid the integer overflow.
+So to solve all three bugs do:
+
+	u64 parent, id;
+
+	...
+
+	if (parent >=3D counter->num_signals)
+		return -EINVAL;
+
+	parent =3D array_index_nospec(parent, counter->num_signals);
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  185  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  186  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  187  		comp_node.parent =
+=3D counter->signals + parent;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  188  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26 @189  		ext =3D counter->=
+signals[parent].ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  190  		num_ext =3D count=
+er->signals[parent].num_ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  191  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  192  	case COUNTER_SCOPE=
+_COUNT:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  193  		if (counter->num_=
+counts < parent + 1)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  194  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  195  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  196  		comp_node.parent =
+=3D counter->counts + parent;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  197  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26 @198  		ext =3D counter->=
+counts[parent].ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  199  		num_ext =3D count=
+er->counts[parent].num_ext;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  200  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  201  	default:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  202  		return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  203  	}
+c4408f814b1a257 William Breathitt Gray 2020-09-26  204  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  205  	/* Configure compo=
+nent info for comp node */
+c4408f814b1a257 William Breathitt Gray 2020-09-26  206  	switch (watch.comp=
+onent.type) {
+c4408f814b1a257 William Breathitt Gray 2020-09-26  207  	case COUNTER_COMPO=
+NENT_SIGNAL:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  208  		if (watch.compone=
+nt.scope !=3D COUNTER_SCOPE_SIGNAL)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  209  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  210  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  211  		comp_node.comp.ty=
+pe =3D COUNTER_COMP_SIGNAL_LEVEL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  212  		comp_node.comp.si=
+gnal_u8_read =3D counter->ops->signal_read;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  213  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  214  	case COUNTER_COMPO=
+NENT_COUNT:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  215  		if (watch.compone=
+nt.scope !=3D COUNTER_SCOPE_COUNT)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  216  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  217  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  218  		comp_node.comp.ty=
+pe =3D COUNTER_COMP_U64;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  219  		comp_node.comp.co=
+unt_u64_read =3D counter->ops->count_read;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  220  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  221  	case COUNTER_COMPO=
+NENT_FUNCTION:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  222  		if (watch.compone=
+nt.scope !=3D COUNTER_SCOPE_COUNT)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  223  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  224  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  225  		comp_node.comp.ty=
+pe =3D COUNTER_COMP_FUNCTION;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  226  		comp_node.comp.co=
+unt_u8_read =3D counter->ops->function_read;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  227  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  228  	case COUNTER_COMPO=
+NENT_SYNAPSE_ACTION:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  229  		if (watch.compone=
+nt.scope !=3D COUNTER_SCOPE_COUNT)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  230  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  231  		if (counter->coun=
+ts[parent].num_synapses < id + 1)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  232  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  233  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  234  		comp_node.comp.ty=
+pe =3D COUNTER_COMP_SYNAPSE_ACTION;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  235  		comp_node.comp.ac=
+tion_read =3D counter->ops->action_read;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  236  		comp_node.comp.pr=
+iv =3D counter->counts[parent].synapses + id;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  237  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  238  	case COUNTER_COMPO=
+NENT_EXTENSION:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  239  		if (num_ext < id =
++ 1)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  240  			return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  241  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26 @242  		comp_node.comp =
+=3D ext[id];
+c4408f814b1a257 William Breathitt Gray 2020-09-26  243  		break;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  244  	default:
+c4408f814b1a257 William Breathitt Gray 2020-09-26  245  		return -EINVAL;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  246  	}
+c4408f814b1a257 William Breathitt Gray 2020-09-26 @247  	if (!comp_node.com=
+p.count_u8_read)
+c4408f814b1a257 William Breathitt Gray 2020-09-26  248  		return -EFAULT;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  249  	comp_node.componen=
+t =3D watch.component;
+c4408f814b1a257 William Breathitt Gray 2020-09-26  250  =
+
+c4408f814b1a257 William Breathitt Gray 2020-09-26  251  	return counter_set=
+_event_node(counter, &watch, &comp_node);
+c4408f814b1a257 William Breathitt Gray 2020-09-26  252  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============1350853196875667815==
+--===============2380376715452471055==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICOnRhl8AAy5jb25maWcAjFzbc9u20n/vX6FJX9qH5Ni5aNL5xg8QCEqoSIIBQEn2C8d1lBzP
+H4sICK/thl8AAy5jb25maWcAjFzbc9u20n/vX6FJX9qH5Ni5aNL5xg8QCEqoSIIBQEn2C8d1lBzP
 cex+vpw2//3ZBXgBwKXSPLQmdgmAwGL3txfo559+XrCX54dv18+3N9d3d98XX4/3x8fr5+PnxZfb
 u+P/LTK1qJRdiEzaN8Bc3N6//P2vvz8u2+X7xYc3v705W2yPj/fHuwV/uP9y+/UF3r19uP/p55+4
 qnK5bjlvd0IbqarWioO9ePX15ub1b4tfsuMft9f3i9/evHtz9vr8w6/+r1fBa9K0a84vvvdN67Gr
@@ -624,5 +739,5 @@ lPNPpUTR99kMdkMOKmE85p1cwOkapmjQfYpM7TNLG/IWJmyW8BGXkvHPZnYFzL6qA1WYEK8s0zOL
 gzdfjJKf6aPmn4YkEl08V+ghAJoGL77QVRHGyeuEdmuLrCnWgk1hL1nLScko/2aFtHQ7ZRGGl6eD
 g2GOIGedwo4LiukpWUAwFZHcAUU1w4kYyw4XoNn9R46ogSd/3UiQAHC+ALAj9vkj0wvrl94p/wPZ
 G/ApqMcBAA==
---===============1350853196875667815==--
+--===============2380376715452471055==--
 
