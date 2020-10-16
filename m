@@ -1,20 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============8832052662735960053=="
+Content-Type: multipart/mixed; boundary="===============6659260115961567332=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/3] vt: keyboard, extend func_buf_lock to readers
-Date: Fri, 16 Oct 2020 22:43:40 +0800
-Message-ID: <202010162223.Di0PkuIR-lkp@intel.com>
+Subject: Re: [PATCH 1/3] vt: keyboard, reorder user buffer handling in vt_do_kdgkb_ioctl
+Date: Fri, 16 Oct 2020 22:13:37 +0800
+Message-ID: <202010162208.pzegggfF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8832052662735960053==
+--===============6659260115961567332==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20201016122412.31767-3-jslaby@suse.cz>
-References: <20201016122412.31767-3-jslaby@suse.cz>
+In-Reply-To: <20201016122412.31767-1-jslaby@suse.cz>
+References: <20201016122412.31767-1-jslaby@suse.cz>
 TO: Jiri Slaby <jslaby@suse.cz>
 
 Hi Jiri,
@@ -41,242 +41,233 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/tty/vt/keyboard.c:2033 vt_do_kdgkb_ioctl() warn: possible info leak=
- 'func_copy'
-
-Old smatch warnings:
-drivers/tty/vt/keyboard.c:1914 vt_do_kdsk_ioctl() warn: potential spectre i=
-ssue 'key_map' [r]
-drivers/tty/vt/keyboard.c:2061 vt_do_kdgkb_ioctl() warn: potential spectre =
-issue 'func_table' [r] (local cap)
-drivers/tty/vt/keyboard.c:2070 vt_do_kdgkb_ioctl() warn: possible spectre s=
-econd half.  'fj'
-drivers/tty/vt/keyboard.c:2076 vt_do_kdgkb_ioctl() warn: possible spectre s=
-econd half.  'fj'
-drivers/tty/vt/keyboard.c:2095 vt_do_kdgkb_ioctl() warn: possible spectre s=
-econd half.  'fj'
-drivers/tty/vt/keyboard.c:2097 vt_do_kdgkb_ioctl() warn: possible spectre s=
-econd half.  'fj'
-drivers/tty/vt/keyboard.c:2123 vt_do_kdgkb_ioctl() error: uninitialized sym=
+drivers/tty/vt/keyboard.c:2114 vt_do_kdgkb_ioctl() error: uninitialized sym=
 bol 'kbs'.
 
-vim +/func_copy +2033 drivers/tty/vt/keyboard.c
+Old smatch warnings:
+drivers/tty/vt/keyboard.c:1909 vt_do_kdsk_ioctl() warn: potential spectre i=
+ssue 'key_map' [r]
+drivers/tty/vt/keyboard.c:2052 vt_do_kdgkb_ioctl() warn: potential spectre =
+issue 'func_table' [r] (local cap)
+drivers/tty/vt/keyboard.c:2061 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
+drivers/tty/vt/keyboard.c:2067 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
+drivers/tty/vt/keyboard.c:2086 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
+drivers/tty/vt/keyboard.c:2088 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
 
-079c9534a96da9a Alan Cox           2012-02-28  1998  =
+vim +/kbs +2114 drivers/tty/vt/keyboard.c
 
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  1999  /* FIXME: This one nee=
-ds untangling */
-079c9534a96da9a Alan Cox           2012-02-28  2000  int vt_do_kdgkb_ioctl(=
+079c9534a96da9a Alan Cox           2012-02-28  1993  =
+
+079c9534a96da9a Alan Cox           2012-02-28  1994  /* FIXME: This one nee=
+ds untangling and locking */
+079c9534a96da9a Alan Cox           2012-02-28  1995  int vt_do_kdgkb_ioctl(=
 int cmd, struct kbsentry __user *user_kdgkb, int perm)
-079c9534a96da9a Alan Cox           2012-02-28  2001  {
-987bbe4f15e721c Jiri Slaby         2020-10-16  2002  	char *kbs;
-079c9534a96da9a Alan Cox           2012-02-28  2003  	u_char *q;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2004  	int sz, fnw_sz;
-079c9534a96da9a Alan Cox           2012-02-28  2005  	int delta;
-079c9534a96da9a Alan Cox           2012-02-28  2006  	char *first_free, *fj=
+079c9534a96da9a Alan Cox           2012-02-28  1996  {
+987bbe4f15e721c Jiri Slaby         2020-10-16  1997  	char *kbs;
+079c9534a96da9a Alan Cox           2012-02-28  1998  	char *p;
+079c9534a96da9a Alan Cox           2012-02-28  1999  	u_char *q;
+079c9534a96da9a Alan Cox           2012-02-28  2000  	u_char __user *up;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2001  	int sz, fnw_sz;
+079c9534a96da9a Alan Cox           2012-02-28  2002  	int delta;
+079c9534a96da9a Alan Cox           2012-02-28  2003  	char *first_free, *fj=
 , *fnw;
-079c9534a96da9a Alan Cox           2012-02-28  2007  	int i, j, k;
-079c9534a96da9a Alan Cox           2012-02-28  2008  	int ret;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2009  	unsigned long flags;
+079c9534a96da9a Alan Cox           2012-02-28  2004  	int i, j, k;
+079c9534a96da9a Alan Cox           2012-02-28  2005  	int ret;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2006  	unsigned long flags;
+079c9534a96da9a Alan Cox           2012-02-28  2007  =
+
+079c9534a96da9a Alan Cox           2012-02-28  2008  	if (!capable(CAP_SYS_=
+TTY_CONFIG))
+079c9534a96da9a Alan Cox           2012-02-28  2009  		perm =3D 0;
 079c9534a96da9a Alan Cox           2012-02-28  2010  =
 
-079c9534a96da9a Alan Cox           2012-02-28  2011  	if (!capable(CAP_SYS_=
-TTY_CONFIG))
-079c9534a96da9a Alan Cox           2012-02-28  2012  		perm =3D 0;
+987bbe4f15e721c Jiri Slaby         2020-10-16  2011  	if (get_user(i, &user=
+_kdgkb->kb_func))
+987bbe4f15e721c Jiri Slaby         2020-10-16  2012  		return -EFAULT;
 079c9534a96da9a Alan Cox           2012-02-28  2013  =
 
-987bbe4f15e721c Jiri Slaby         2020-10-16  2014  	if (get_user(i, &user=
-_kdgkb->kb_func))
-987bbe4f15e721c Jiri Slaby         2020-10-16  2015  		return -EFAULT;
-079c9534a96da9a Alan Cox           2012-02-28  2016  =
-
-987bbe4f15e721c Jiri Slaby         2020-10-16  2017  	i =3D array_index_nos=
+987bbe4f15e721c Jiri Slaby         2020-10-16  2014  	i =3D array_index_nos=
 pec(i, MAX_NR_FUNC);
-079c9534a96da9a Alan Cox           2012-02-28  2018  =
+079c9534a96da9a Alan Cox           2012-02-28  2015  =
 
-079c9534a96da9a Alan Cox           2012-02-28  2019  	switch (cmd) {
-ab8a5f48e9d7cc2 Jiri Slaby         2020-10-16  2020  	case KDGKBSENT: {
-ab8a5f48e9d7cc2 Jiri Slaby         2020-10-16  2021  		/* size should have =
-been a struct member */
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2022  		char *func_copy;
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2023  		ssize_t len =3D size=
-of(user_kdgkb->kb_string);
-987bbe4f15e721c Jiri Slaby         2020-10-16  2024  =
+079c9534a96da9a Alan Cox           2012-02-28  2016  	switch (cmd) {
+079c9534a96da9a Alan Cox           2012-02-28  2017  	case KDGKBSENT:
+987bbe4f15e721c Jiri Slaby         2020-10-16  2018  		/* sz should have be=
+en a struct member */
+987bbe4f15e721c Jiri Slaby         2020-10-16  2019  		sz =3D sizeof_field(=
+struct kbsentry, kb_string) - 1;
+079c9534a96da9a Alan Cox           2012-02-28  2020  		up =3D user_kdgkb->k=
+b_string;
+079c9534a96da9a Alan Cox           2012-02-28  2021  		p =3D func_table[i];
+079c9534a96da9a Alan Cox           2012-02-28  2022  		if(p)
+079c9534a96da9a Alan Cox           2012-02-28  2023  			for ( ; *p && sz; p=
+++, sz--)
+987bbe4f15e721c Jiri Slaby         2020-10-16  2024  				if (put_user(*p, u=
+p++))
+987bbe4f15e721c Jiri Slaby         2020-10-16  2025  					return -EFAULT;
+987bbe4f15e721c Jiri Slaby         2020-10-16  2026  =
 
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2025  		func_copy =3D kmallo=
-c(len, GFP_KERNEL);
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2026  		if (!func_copy)
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2027  			return -ENOMEM;
-987bbe4f15e721c Jiri Slaby         2020-10-16  2028  =
+987bbe4f15e721c Jiri Slaby         2020-10-16  2027  		if (put_user('\0', u=
+p))
+987bbe4f15e721c Jiri Slaby         2020-10-16  2028  			return -EFAULT;
+987bbe4f15e721c Jiri Slaby         2020-10-16  2029  =
 
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2029  		spin_lock_irqsave(&f=
-unc_buf_lock, flags);
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2030  		len =3D strlcpy(func=
-_copy, func_table[i] ? : "", len);
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2031  		spin_unlock_irqresto=
-re(&func_buf_lock, flags);
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2032  =
+079c9534a96da9a Alan Cox           2012-02-28  2030  		return ((p && *p) ? =
+-EOVERFLOW : 0);
+079c9534a96da9a Alan Cox           2012-02-28  2031  	case KDSKBSENT:
+987bbe4f15e721c Jiri Slaby         2020-10-16  2032  		if (!perm)
+987bbe4f15e721c Jiri Slaby         2020-10-16  2033  			return -EPERM;
+987bbe4f15e721c Jiri Slaby         2020-10-16  2034  =
 
-4d5d6cd424ed623 Jiri Slaby         2020-10-16 @2033  		ret =3D copy_to_user=
-(user_kdgkb->kb_string, func_copy, len + 1) ?
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2034  			-EFAULT : 0;
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2035  =
-
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2036  		kfree(func_copy);
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2037  =
-
-4d5d6cd424ed623 Jiri Slaby         2020-10-16  2038  		return ret;
-ab8a5f48e9d7cc2 Jiri Slaby         2020-10-16  2039  	}
-079c9534a96da9a Alan Cox           2012-02-28  2040  	case KDSKBSENT:
-987bbe4f15e721c Jiri Slaby         2020-10-16  2041  		if (!perm)
-987bbe4f15e721c Jiri Slaby         2020-10-16  2042  			return -EPERM;
-987bbe4f15e721c Jiri Slaby         2020-10-16  2043  =
-
-987bbe4f15e721c Jiri Slaby         2020-10-16  2044  		kbs =3D strndup_user=
+987bbe4f15e721c Jiri Slaby         2020-10-16  2035  		kbs =3D strndup_user=
 (user_kdgkb->kb_string,
-987bbe4f15e721c Jiri Slaby         2020-10-16  2045  				sizeof(user_kdgkb-=
+987bbe4f15e721c Jiri Slaby         2020-10-16  2036  				sizeof(user_kdgkb-=
 >kb_string));
-987bbe4f15e721c Jiri Slaby         2020-10-16  2046  		if (IS_ERR(kbs))
-987bbe4f15e721c Jiri Slaby         2020-10-16  2047  			return PTR_ERR(kbs);
-079c9534a96da9a Alan Cox           2012-02-28  2048  =
+987bbe4f15e721c Jiri Slaby         2020-10-16  2037  		if (IS_ERR(kbs))
+987bbe4f15e721c Jiri Slaby         2020-10-16  2038  			return PTR_ERR(kbs);
+079c9534a96da9a Alan Cox           2012-02-28  2039  =
 
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2049  		fnw =3D NULL;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2050  		fnw_sz =3D 0;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2051  		/* race aginst other=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2040  		fnw =3D NULL;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2041  		fnw_sz =3D 0;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2042  		/* race aginst other=
  writers */
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2052  		again:
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2053  		spin_lock_irqsave(&f=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2043  		again:
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2044  		spin_lock_irqsave(&f=
 unc_buf_lock, flags);
-079c9534a96da9a Alan Cox           2012-02-28  2054  		q =3D func_table[i];
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2055  =
+079c9534a96da9a Alan Cox           2012-02-28  2045  		q =3D func_table[i];
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2046  =
 
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2056  		/* fj pointer to nex=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2047  		/* fj pointer to nex=
 t entry after 'q' */
-079c9534a96da9a Alan Cox           2012-02-28  2057  		first_free =3D funcb=
+079c9534a96da9a Alan Cox           2012-02-28  2048  		first_free =3D funcb=
 ufptr + (funcbufsize - funcbufleft);
-079c9534a96da9a Alan Cox           2012-02-28  2058  		for (j =3D i+1; j < =
+079c9534a96da9a Alan Cox           2012-02-28  2049  		for (j =3D i+1; j < =
 MAX_NR_FUNC && !func_table[j]; j++)
-079c9534a96da9a Alan Cox           2012-02-28  2059  			;
-079c9534a96da9a Alan Cox           2012-02-28  2060  		if (j < MAX_NR_FUNC)
-079c9534a96da9a Alan Cox           2012-02-28  2061  			fj =3D func_table[j=
+079c9534a96da9a Alan Cox           2012-02-28  2050  			;
+079c9534a96da9a Alan Cox           2012-02-28  2051  		if (j < MAX_NR_FUNC)
+079c9534a96da9a Alan Cox           2012-02-28  2052  			fj =3D func_table[j=
 ];
-079c9534a96da9a Alan Cox           2012-02-28  2062  		else
-079c9534a96da9a Alan Cox           2012-02-28  2063  			fj =3D first_free;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2064  		/* buffer usage incr=
+079c9534a96da9a Alan Cox           2012-02-28  2053  		else
+079c9534a96da9a Alan Cox           2012-02-28  2054  			fj =3D first_free;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2055  		/* buffer usage incr=
 ease by new entry */
-987bbe4f15e721c Jiri Slaby         2020-10-16  2065  		delta =3D (q ? -strl=
+987bbe4f15e721c Jiri Slaby         2020-10-16  2056  		delta =3D (q ? -strl=
 en(q) : 1) + strlen(kbs);
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2066  =
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2057  =
 
-079c9534a96da9a Alan Cox           2012-02-28  2067  		if (delta <=3D funcb=
+079c9534a96da9a Alan Cox           2012-02-28  2058  		if (delta <=3D funcb=
 ufleft) { 	/* it fits in current buf */
-079c9534a96da9a Alan Cox           2012-02-28  2068  		    if (j < MAX_NR_F=
+079c9534a96da9a Alan Cox           2012-02-28  2059  		    if (j < MAX_NR_F=
 UNC) {
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2069  			/* make enough spac=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2060  			/* make enough spac=
 e for new entry@'fj' */
-079c9534a96da9a Alan Cox           2012-02-28  2070  			memmove(fj + delta,=
+079c9534a96da9a Alan Cox           2012-02-28  2061  			memmove(fj + delta,=
  fj, first_free - fj);
-079c9534a96da9a Alan Cox           2012-02-28  2071  			for (k =3D j; k < M=
+079c9534a96da9a Alan Cox           2012-02-28  2062  			for (k =3D j; k < M=
 AX_NR_FUNC; k++)
-079c9534a96da9a Alan Cox           2012-02-28  2072  			    if (func_table[=
+079c9534a96da9a Alan Cox           2012-02-28  2063  			    if (func_table[=
 k])
-079c9534a96da9a Alan Cox           2012-02-28  2073  				func_table[k] +=3D=
+079c9534a96da9a Alan Cox           2012-02-28  2064  				func_table[k] +=3D=
  delta;
-079c9534a96da9a Alan Cox           2012-02-28  2074  		    }
-079c9534a96da9a Alan Cox           2012-02-28  2075  		    if (!q)
-079c9534a96da9a Alan Cox           2012-02-28  2076  		      func_table[i] =
+079c9534a96da9a Alan Cox           2012-02-28  2065  		    }
+079c9534a96da9a Alan Cox           2012-02-28  2066  		    if (!q)
+079c9534a96da9a Alan Cox           2012-02-28  2067  		      func_table[i] =
 =3D fj;
-079c9534a96da9a Alan Cox           2012-02-28  2077  		    funcbufleft -=3D=
+079c9534a96da9a Alan Cox           2012-02-28  2068  		    funcbufleft -=3D=
  delta;
-079c9534a96da9a Alan Cox           2012-02-28  2078  		} else {			/* alloca=
+079c9534a96da9a Alan Cox           2012-02-28  2069  		} else {			/* alloca=
 te a larger buffer */
-079c9534a96da9a Alan Cox           2012-02-28  2079  		    sz =3D 256;
-079c9534a96da9a Alan Cox           2012-02-28  2080  		    while (sz < func=
+079c9534a96da9a Alan Cox           2012-02-28  2070  		    sz =3D 256;
+079c9534a96da9a Alan Cox           2012-02-28  2071  		    while (sz < func=
 bufsize - funcbufleft + delta)
-079c9534a96da9a Alan Cox           2012-02-28  2081  		      sz <<=3D 1;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2082  		    if (fnw_sz !=3D =
+079c9534a96da9a Alan Cox           2012-02-28  2072  		      sz <<=3D 1;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2073  		    if (fnw_sz !=3D =
 sz) {
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2083  		      spin_unlock_ir=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2074  		      spin_unlock_ir=
 qrestore(&func_buf_lock, flags);
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2084  		      kfree(fnw);
-079c9534a96da9a Alan Cox           2012-02-28  2085  		      fnw =3D kmallo=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2075  		      kfree(fnw);
+079c9534a96da9a Alan Cox           2012-02-28  2076  		      fnw =3D kmallo=
 c(sz, GFP_KERNEL);
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2086  		      fnw_sz =3D sz;
-079c9534a96da9a Alan Cox           2012-02-28  2087  		      if (!fnw) {
-079c9534a96da9a Alan Cox           2012-02-28  2088  			ret =3D -ENOMEM;
-079c9534a96da9a Alan Cox           2012-02-28  2089  			goto reterr;
-079c9534a96da9a Alan Cox           2012-02-28  2090  		      }
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2091  		      goto again;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2092  		    }
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2077  		      fnw_sz =3D sz;
+079c9534a96da9a Alan Cox           2012-02-28  2078  		      if (!fnw) {
+079c9534a96da9a Alan Cox           2012-02-28  2079  			ret =3D -ENOMEM;
+079c9534a96da9a Alan Cox           2012-02-28  2080  			goto reterr;
+079c9534a96da9a Alan Cox           2012-02-28  2081  		      }
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2082  		      goto again;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2083  		    }
+079c9534a96da9a Alan Cox           2012-02-28  2084  =
+
+079c9534a96da9a Alan Cox           2012-02-28  2085  		    if (!q)
+079c9534a96da9a Alan Cox           2012-02-28  2086  		      func_table[i] =
+=3D fj;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2087  		    /* copy data bef=
+ore insertion point to new location */
+079c9534a96da9a Alan Cox           2012-02-28  2088  		    if (fj > funcbuf=
+ptr)
+079c9534a96da9a Alan Cox           2012-02-28  2089  			memmove(fnw, funcbu=
+fptr, fj - funcbufptr);
+079c9534a96da9a Alan Cox           2012-02-28  2090  		    for (k =3D 0; k =
+< j; k++)
+079c9534a96da9a Alan Cox           2012-02-28  2091  		      if (func_table=
+[k])
+079c9534a96da9a Alan Cox           2012-02-28  2092  			func_table[k] =3D f=
+nw + (func_table[k] - funcbufptr);
 079c9534a96da9a Alan Cox           2012-02-28  2093  =
 
-079c9534a96da9a Alan Cox           2012-02-28  2094  		    if (!q)
-079c9534a96da9a Alan Cox           2012-02-28  2095  		      func_table[i] =
-=3D fj;
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2096  		    /* copy data bef=
-ore insertion point to new location */
-079c9534a96da9a Alan Cox           2012-02-28  2097  		    if (fj > funcbuf=
-ptr)
-079c9534a96da9a Alan Cox           2012-02-28  2098  			memmove(fnw, funcbu=
-fptr, fj - funcbufptr);
-079c9534a96da9a Alan Cox           2012-02-28  2099  		    for (k =3D 0; k =
-< j; k++)
-079c9534a96da9a Alan Cox           2012-02-28  2100  		      if (func_table=
-[k])
-079c9534a96da9a Alan Cox           2012-02-28  2101  			func_table[k] =3D f=
-nw + (func_table[k] - funcbufptr);
-079c9534a96da9a Alan Cox           2012-02-28  2102  =
-
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2103  		    /* copy data aft=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2094  		    /* copy data aft=
 er insertion point to new location */
-079c9534a96da9a Alan Cox           2012-02-28  2104  		    if (first_free >=
+079c9534a96da9a Alan Cox           2012-02-28  2095  		    if (first_free >=
  fj) {
-079c9534a96da9a Alan Cox           2012-02-28  2105  			memmove(fnw + (fj -=
+079c9534a96da9a Alan Cox           2012-02-28  2096  			memmove(fnw + (fj -=
  funcbufptr) + delta, fj, first_free - fj);
-079c9534a96da9a Alan Cox           2012-02-28  2106  			for (k =3D j; k < M=
+079c9534a96da9a Alan Cox           2012-02-28  2097  			for (k =3D j; k < M=
 AX_NR_FUNC; k++)
-079c9534a96da9a Alan Cox           2012-02-28  2107  			  if (func_table[k])
-079c9534a96da9a Alan Cox           2012-02-28  2108  			    func_table[k] =
+079c9534a96da9a Alan Cox           2012-02-28  2098  			  if (func_table[k])
+079c9534a96da9a Alan Cox           2012-02-28  2099  			    func_table[k] =
 =3D fnw + (func_table[k] - funcbufptr) + delta;
-079c9534a96da9a Alan Cox           2012-02-28  2109  		    }
-079c9534a96da9a Alan Cox           2012-02-28  2110  		    if (funcbufptr !=
+079c9534a96da9a Alan Cox           2012-02-28  2100  		    }
+079c9534a96da9a Alan Cox           2012-02-28  2101  		    if (funcbufptr !=
 =3D func_buf)
-079c9534a96da9a Alan Cox           2012-02-28  2111  		      kfree(funcbufp=
+079c9534a96da9a Alan Cox           2012-02-28  2102  		      kfree(funcbufp=
 tr);
-079c9534a96da9a Alan Cox           2012-02-28  2112  		    funcbufptr =3D f=
+079c9534a96da9a Alan Cox           2012-02-28  2103  		    funcbufptr =3D f=
 nw;
-079c9534a96da9a Alan Cox           2012-02-28  2113  		    funcbufleft =3D =
+079c9534a96da9a Alan Cox           2012-02-28  2104  		    funcbufleft =3D =
 funcbufleft - delta + sz - funcbufsize;
-079c9534a96da9a Alan Cox           2012-02-28  2114  		    funcbufsize =3D =
+079c9534a96da9a Alan Cox           2012-02-28  2105  		    funcbufsize =3D =
 sz;
-079c9534a96da9a Alan Cox           2012-02-28  2115  		}
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2116  		/* finally insert it=
+079c9534a96da9a Alan Cox           2012-02-28  2106  		}
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2107  		/* finally insert it=
 em itself */
-987bbe4f15e721c Jiri Slaby         2020-10-16  2117  		strcpy(func_table[i]=
+987bbe4f15e721c Jiri Slaby         2020-10-16  2108  		strcpy(func_table[i]=
 , kbs);
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2118  		spin_unlock_irqresto=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2109  		spin_unlock_irqresto=
 re(&func_buf_lock, flags);
-079c9534a96da9a Alan Cox           2012-02-28  2119  		break;
-079c9534a96da9a Alan Cox           2012-02-28  2120  	}
-079c9534a96da9a Alan Cox           2012-02-28  2121  	ret =3D 0;
-079c9534a96da9a Alan Cox           2012-02-28  2122  reterr:
-079c9534a96da9a Alan Cox           2012-02-28  2123  	kfree(kbs);
-079c9534a96da9a Alan Cox           2012-02-28  2124  	return ret;
-079c9534a96da9a Alan Cox           2012-02-28  2125  }
-079c9534a96da9a Alan Cox           2012-02-28  2126  =
+079c9534a96da9a Alan Cox           2012-02-28  2110  		break;
+079c9534a96da9a Alan Cox           2012-02-28  2111  	}
+079c9534a96da9a Alan Cox           2012-02-28  2112  	ret =3D 0;
+079c9534a96da9a Alan Cox           2012-02-28  2113  reterr:
+079c9534a96da9a Alan Cox           2012-02-28 @2114  	kfree(kbs);
+079c9534a96da9a Alan Cox           2012-02-28  2115  	return ret;
+079c9534a96da9a Alan Cox           2012-02-28  2116  }
+079c9534a96da9a Alan Cox           2012-02-28  2117  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============8832052662735960053==
+--===============6659260115961567332==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLqtiV8AAy5jb25maWcAjFzLd9u20t/3r9BJN+2ivX7Evun5jhcgCVKoSIIBQFnyhsd1lFyf
+H4sICDuiiV8AAy5jb25maWcAjFzLd9u20t/3r9BJN+2ivX7Evun5jhcgCVKoSIIBQFnyhsd1lFyf
 +pEr27fNf//NAHwA0FBpF6mFGbwHM78ZDPjjDz8u2Nvr8+Pt6/3d7cPDt8WX3dNuf/u6+7T4fP+w
 +79FJhe1NAueCfMrMJf3T29//+v+/MPl4uLX3349+WV/d7lY7fZPu4dF+vz0+f7LG9S+f3764ccf
 UlnnoujStFtzpYWsO8M35urdl7u7X35b/JTt/ri/fVr89us5NHN68bP7651XTeiuSNOrb0NRMTV1
@@ -837,5 +828,5 @@ xk4qrUVgYp2VSxH0mG9a9DkZOLWrS7jXprD+rAs90R2rDpc8BT5Gj7AWSstMbK0W0EnQppCD15jw
 t5K/Y1k7rnTDjX7YaUYR7wf0L0r7DAduDnIsGQMRxlPjisjIcJlHIFjFzGmNudGmsLSRjGbAxXOk
 a1AC+JxwZR0UfvQOEoZ7IT/Lff96+ptxuHA2Jv0+yxI9pbSqxTj4BOy6BCUiqTIz50A/VxSe1IzR
 rpmRoUbn7fbBa8hisOO1+hmksvyK0kz57vJ/BnSPFxj4AQA=
---===============8832052662735960053==--
+--===============6659260115961567332==--
 
