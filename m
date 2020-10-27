@@ -1,30 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============1822892906482205638=="
+Content-Type: multipart/mixed; boundary="===============8818675842692251259=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/aspeed/aspeed_gfx_drv.c:80:9: warning: Identical condition 'ret', second condition is always false
-Date: Tue, 27 Oct 2020 21:03:33 +0800
-Message-ID: <202010272130.Q2fDHcDZ-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c:1069:6: warning: Shifting signed 32-bit value by 31 bits is undefined behaviour
+Date: Tue, 27 Oct 2020 20:03:32 +0800
+Message-ID: <202010272016.PIgGVTro-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1822892906482205638==
+--===============8818675842692251259==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Daniel Vetter <daniel.vetter@ffwll.ch>
+TO: Likun Gao <Likun.Gao@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4525c8781ec0701ce824e8bd379ae1b129e26568
-commit: c2c25c1cf96927a0b6ddb6aaa063f1fdcc90d749 drm/aspeed: Use managed dr=
-mm_mode_config_cleanup
-date:   7 weeks ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 7 weeks ago
-compiler: nds32le-linux-gcc (GCC) 9.3.0
+commit: 157e72e831cb8f323108b5df6d0b148aef9507fb drm/amdgpu: add sdma ip bl=
+ock for sienna_cichlid (v5)
+date:   5 months ago
+:::::: branch date: 13 hours ago
+:::::: commit date: 5 months ago
+compiler: ia64-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -32,53 +34,62 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/gpu/drm/aspeed/aspeed_gfx_drv.c:80:9: warning: Identical conditi=
-on 'ret', second condition is always false [identicalConditionAfterEarlyExi=
-t]
-    return ret;
-           ^
-   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c:71:6: note: first condition
-    if (ret)
+>> drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c:1069:6: warning: Shifting signed =
+32-bit value by 31 bits is undefined behaviour [shiftTooManyBitsSigned]
+        SDMA_PKT_POLL_REGMEM_HEADER_MEM_POLL(1));
         ^
-   drivers/gpu/drm/aspeed/aspeed_gfx_drv.c:80:9: note: second condition
-    return ret;
-           ^
 
-vim +/ret +80 drivers/gpu/drm/aspeed/aspeed_gfx_drv.c
+vim +1069 drivers/gpu/drm/amd/amdgpu/sdma_v5_2.c
 
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  65  =
+157e72e831cb8f3 Likun Gao 2019-06-17  1051  =
 
-c2c25c1cf96927a Daniel Vetter 2020-09-04  66  static int aspeed_gfx_setup_m=
-ode_config(struct drm_device *drm)
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  67  {
-c2c25c1cf96927a Daniel Vetter 2020-09-04  68  	int ret;
-c2c25c1cf96927a Daniel Vetter 2020-09-04  69  =
+157e72e831cb8f3 Likun Gao 2019-06-17  1052  =
 
-c2c25c1cf96927a Daniel Vetter 2020-09-04  70  	ret =3D drmm_mode_config_ini=
-t(drm);
-c2c25c1cf96927a Daniel Vetter 2020-09-04  71  	if (ret)
-c2c25c1cf96927a Daniel Vetter 2020-09-04  72  		return ret;
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  73  =
+157e72e831cb8f3 Likun Gao 2019-06-17  1053  /**
+157e72e831cb8f3 Likun Gao 2019-06-17  1054   * sdma_v5_2_ring_emit_pipeline=
+_sync - sync the pipeline
+157e72e831cb8f3 Likun Gao 2019-06-17  1055   *
+157e72e831cb8f3 Likun Gao 2019-06-17  1056   * @ring: amdgpu_ring pointer
+157e72e831cb8f3 Likun Gao 2019-06-17  1057   *
+157e72e831cb8f3 Likun Gao 2019-06-17  1058   * Make sure all previous opera=
+tions are completed (CIK).
+157e72e831cb8f3 Likun Gao 2019-06-17  1059   */
+157e72e831cb8f3 Likun Gao 2019-06-17  1060  static void sdma_v5_2_ring_emit=
+_pipeline_sync(struct amdgpu_ring *ring)
+157e72e831cb8f3 Likun Gao 2019-06-17  1061  {
+157e72e831cb8f3 Likun Gao 2019-06-17  1062  	uint32_t seq =3D ring->fence_d=
+rv.sync_seq;
+157e72e831cb8f3 Likun Gao 2019-06-17  1063  	uint64_t addr =3D ring->fence_=
+drv.gpu_addr;
+157e72e831cb8f3 Likun Gao 2019-06-17  1064  =
 
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  74  	drm->mode_config.min_width =
-=3D 0;
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  75  	drm->mode_config.min_height =
-=3D 0;
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  76  	drm->mode_config.max_width =
-=3D 800;
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  77  	drm->mode_config.max_height =
-=3D 600;
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  78  	drm->mode_config.funcs =3D &=
-aspeed_gfx_mode_config_funcs;
-c2c25c1cf96927a Daniel Vetter 2020-09-04  79  =
-
-c2c25c1cf96927a Daniel Vetter 2020-09-04 @80  	return ret;
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  81  }
-4f2a8f5898ecd80 Joel Stanley  2019-04-03  82  =
+157e72e831cb8f3 Likun Gao 2019-06-17  1065  	/* wait for idle */
+157e72e831cb8f3 Likun Gao 2019-06-17  1066  	amdgpu_ring_write(ring, SDMA_P=
+KT_HEADER_OP(SDMA_OP_POLL_REGMEM) |
+157e72e831cb8f3 Likun Gao 2019-06-17  1067  			  SDMA_PKT_POLL_REGMEM_HEADE=
+R_HDP_FLUSH(0) |
+157e72e831cb8f3 Likun Gao 2019-06-17  1068  			  SDMA_PKT_POLL_REGMEM_HEADE=
+R_FUNC(3) | /* equal */
+157e72e831cb8f3 Likun Gao 2019-06-17 @1069  			  SDMA_PKT_POLL_REGMEM_HEADE=
+R_MEM_POLL(1));
+157e72e831cb8f3 Likun Gao 2019-06-17  1070  	amdgpu_ring_write(ring, addr &=
+ 0xfffffffc);
+157e72e831cb8f3 Likun Gao 2019-06-17  1071  	amdgpu_ring_write(ring, upper_=
+32_bits(addr) & 0xffffffff);
+157e72e831cb8f3 Likun Gao 2019-06-17  1072  	amdgpu_ring_write(ring, seq); =
+/* reference */
+157e72e831cb8f3 Likun Gao 2019-06-17  1073  	amdgpu_ring_write(ring, 0xffff=
+ffff); /* mask */
+157e72e831cb8f3 Likun Gao 2019-06-17  1074  	amdgpu_ring_write(ring, SDMA_P=
+KT_POLL_REGMEM_DW5_RETRY_COUNT(0xfff) |
+157e72e831cb8f3 Likun Gao 2019-06-17  1075  			  SDMA_PKT_POLL_REGMEM_DW5_I=
+NTERVAL(4)); /* retry count, poll interval */
+157e72e831cb8f3 Likun Gao 2019-06-17  1076  }
+157e72e831cb8f3 Likun Gao 2019-06-17  1077  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1822892906482205638==--
+--===============8818675842692251259==--
 
