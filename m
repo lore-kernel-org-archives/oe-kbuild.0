@@ -1,17 +1,33 @@
-Content-Type: multipart/mixed; boundary="===============0344699399145192731=="
+Content-Type: multipart/mixed; boundary="===============5929347728216523659=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH v11 09/10] fs/ntfs3: Add NTFS3 in fs/Kconfig and fs/Makefile
-Date: Mon, 02 Nov 2020 11:36:04 +0300
-Message-ID: <20201102083604.GT18329@kadam>
-In-Reply-To: <20201030150239.3957156-10-almaz.alexandrovich@paragon-software.com>
+Date: Mon, 02 Nov 2020 16:00:29 +0800
+Message-ID: <202011021524.X8QuSQ9y-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0344699399145192731==
+--===============5929347728216523659==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20201030150239.3957156-10-almaz.alexandrovich@paragon-softw=
+are.com>
+References: <20201030150239.3957156-10-almaz.alexandrovich@paragon-softwa=
+re.com>
+TO: Konstantin Komarov <almaz.alexandrovich@paragon-software.com>
+TO: linux-fsdevel(a)vger.kernel.org
+CC: viro(a)zeniv.linux.org.uk
+CC: linux-kernel(a)vger.kernel.org
+CC: pali(a)kernel.org
+CC: dsterba(a)suse.cz
+CC: aaptel(a)suse.com
+CC: willy(a)infradead.org
+CC: rdunlap(a)infradead.org
+CC: joe(a)perches.com
+CC: mark(a)harmstone.com
 
 Hi Konstantin,
 
@@ -21,13 +37,14 @@ Thank you for the patch! Perhaps something to improve:
 [also build test WARNING on v5.10-rc2 next-20201030]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch ]
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Konstantin-Komarov/NTFS-re=
-ad-write-driver-GPL-implementation-by-Paragon-Software/20201031-220904 =
-
+ad-write-driver-GPL-implementation-by-Paragon-Software/20201031-220904
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
- 5fc6b075e165f641fbc366b58b578055762d5f8c
+5fc6b075e165f641fbc366b58b578055762d5f8c
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 config: i386-randconfig-m021-20201101 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -80,9 +97,19 @@ fs/ntfs3/fslog.c:3158 do_action() warn: variable dereferenced before check =
 'mi' (see line 3118)
 fs/ntfs3/fslog.c:3913 log_replay() error: dereferencing freed memory 'rst_i=
 nfo.r_page'
+fs/ntfs3/fslog.c:4560 log_replay() warn: Function too hairy.  No more merge=
+s.
 
 vim +/attr_s +331 fs/ntfs3/attrib.c
 
+e3a1cdcc648083 Konstantin Komarov 2020-10-30  235  =
+
+e3a1cdcc648083 Konstantin Komarov 2020-10-30  236  /*
+e3a1cdcc648083 Konstantin Komarov 2020-10-30  237   * attr_set_size_res
+e3a1cdcc648083 Konstantin Komarov 2020-10-30  238   *
+e3a1cdcc648083 Konstantin Komarov 2020-10-30  239   * helper for attr_set_s=
+ize
+e3a1cdcc648083 Konstantin Komarov 2020-10-30  240   */
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  241  static int attr_set_size=
 _res(struct ntfs_inode *ni, struct ATTRIB *attr,
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  242  			     struct ATTR_LIST=
@@ -215,9 +242,6 @@ e3a1cdcc648083 Konstantin Komarov 2020-10-30  323  		goto out;
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  324  =
 
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  325  	ntfs_free(attr_s);
-                                                        ^^^^^^^^^^^^^^^^^
-Freed.
-
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  326  	attr->nres.data_size =
 =3D cpu_to_le64(rsize);
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  327  	attr->nres.valid_size =
@@ -229,10 +253,6 @@ e3a1cdcc648083 Konstantin Komarov 2020-10-30  330  =
 
 e3a1cdcc648083 Konstantin Komarov 2020-10-30 @331  	if (attr_s->type =3D=3D=
  ATTR_DATA && !attr_s->name_len &&
-                                                            ^^^^^^^^^^^^   =
-               ^^^^^^^^^^^^^^^^
-Dereferenced after a free.
-
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  332  	    run =3D=3D &ni->fil=
 e.run) {
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  333  		ni->ni_flags &=3D ~NI_=
@@ -268,17 +288,14 @@ e3a1cdcc648083 Konstantin Komarov 2020-10-30  352  =
 
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  353  	return err;
 e3a1cdcc648083 Konstantin Komarov 2020-10-30  354  }
+e3a1cdcc648083 Konstantin Komarov 2020-10-30  355  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============0344699399145192731==
+--===============5929347728216523659==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -861,5 +878,5 @@ QugRPRL/ycg2XH9Ml4OlP5OVeBBd2h70rZOqujR6DEeWyswjI/YO2OQtJnyqLNvKSO3006iaPHm/
 PyALRZkvwpK8602v8q1lY2CHbB9YD9r7KLX+H8L2oy49ZxxdR5ygLovWQMZODClsMGOXX2MCTSgq
 vkp8KjVXsarJeZqxjrOap/miy1jeBNt9sHs+BPv+cBYVeZIuuoxlnNX85t+zD0G/ewqevwXL/nXX
 /wh4vz9sd5tgvXsKoud/+tf1pj/7EPS7p+D5W7DsX3f9j+Dv9eP37W5z9h+kmgu7av8BAA==
---===============0344699399145192731==--
+--===============5929347728216523659==--
 
