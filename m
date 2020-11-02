@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7151688455592050283=="
+Content-Type: multipart/mixed; boundary="===============8263520878608288005=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jirislaby:devel 13/48] drivers/tty/vt/keyboard.c:2088 vt_do_kdgkb_ioctl() error: uninitialized symbol 'ret'.
-Date: Mon, 02 Nov 2020 22:55:34 +0800
-Message-ID: <202011022229.ypf2EyXr-lkp@intel.com>
+Subject: [jirislaby:devel 12/48] drivers/tty/vt/keyboard.c:2055 vt_do_kdgkb_ioctl() warn: possible info leak 'kbs'
+Date: Mon, 02 Nov 2020 21:57:13 +0800
+Message-ID: <202011022105.RqLPGHio-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7151688455592050283==
+--===============8263520878608288005==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,10 +18,10 @@ TO: Jiri Slaby <jslaby@suse.cz>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jirislaby/linux.git=
  devel
 head:   3e1b1373e00a69094c88c52c94632bf76b44b6c7
-commit: d88dffe7ae60de5791a5c0ea7b7d537d5c2c0d45 [13/48] vt: keyboard, extr=
-act and simplify vt_kdskbsent
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
+commit: caf4aeff5e949526e96ea8511ac636d9f6630f72 [12/48] vt: keyboard, reor=
+der user buffer handling in vt_do_kdgkb_ioctl
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
 config: x86_64-randconfig-m001-20201102 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -30,122 +30,238 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/tty/vt/keyboard.c:2088 vt_do_kdgkb_ioctl() error: uninitialized sym=
-bol 'ret'.
+drivers/tty/vt/keyboard.c:2055 vt_do_kdgkb_ioctl() warn: possible info leak=
+ 'kbs'
 
 Old smatch warnings:
-drivers/tty/vt/keyboard.c:2064 vt_do_kdgkb_ioctl() warn: possible info leak=
- 'kbs'
-drivers/tty/vt/keyboard.c:2086 vt_do_kdgkb_ioctl() error: uninitialized sym=
+drivers/tty/vt/keyboard.c:2081 vt_do_kdgkb_ioctl() warn: potential spectre =
+issue 'func_table' [r] (local cap)
+drivers/tty/vt/keyboard.c:2090 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
+drivers/tty/vt/keyboard.c:2096 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
+drivers/tty/vt/keyboard.c:2115 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
+drivers/tty/vt/keyboard.c:2117 vt_do_kdgkb_ioctl() warn: possible spectre s=
+econd half.  'fj'
+drivers/tty/vt/keyboard.c:2143 vt_do_kdgkb_ioctl() error: uninitialized sym=
 bol 'kbs'.
 
-vim +/ret +2088 drivers/tty/vt/keyboard.c
+vim +/kbs +2055 drivers/tty/vt/keyboard.c
 
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2035  =
+079c9534a96da9a Alan Cox           2012-02-28  2020  =
 
-079c9534a96da9a Alan Cox           2012-02-28  2036  int vt_do_kdgkb_ioctl(=
+82e61c3909db51d Jiri Slaby         2020-10-19  2021  /* FIXME: This one nee=
+ds untangling */
+079c9534a96da9a Alan Cox           2012-02-28  2022  int vt_do_kdgkb_ioctl(=
 int cmd, struct kbsentry __user *user_kdgkb, int perm)
-079c9534a96da9a Alan Cox           2012-02-28  2037  {
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2038  	unsigned char kb_func;
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2039  	unsigned long flags;
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2040  	char *kbs;
-079c9534a96da9a Alan Cox           2012-02-28  2041  	int ret;
-079c9534a96da9a Alan Cox           2012-02-28  2042  =
+079c9534a96da9a Alan Cox           2012-02-28  2023  {
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2024  	char *kbs;
+079c9534a96da9a Alan Cox           2012-02-28  2025  	u_char *q;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2026  	int sz, fnw_sz;
+079c9534a96da9a Alan Cox           2012-02-28  2027  	int delta;
+079c9534a96da9a Alan Cox           2012-02-28  2028  	char *first_free, *fj=
+, *fnw;
+056f2f27df67dfa Jiri Slaby         2020-08-18  2029  	int j, k;
+079c9534a96da9a Alan Cox           2012-02-28  2030  	int ret;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2031  	unsigned long flags;
+056f2f27df67dfa Jiri Slaby         2020-08-18  2032  	unsigned char kb_func;
+079c9534a96da9a Alan Cox           2012-02-28  2033  =
 
-079c9534a96da9a Alan Cox           2012-02-28  2043  	if (!capable(CAP_SYS_=
+079c9534a96da9a Alan Cox           2012-02-28  2034  	if (!capable(CAP_SYS_=
 TTY_CONFIG))
-079c9534a96da9a Alan Cox           2012-02-28  2044  		perm =3D 0;
-079c9534a96da9a Alan Cox           2012-02-28  2045  =
+079c9534a96da9a Alan Cox           2012-02-28  2035  		perm =3D 0;
+079c9534a96da9a Alan Cox           2012-02-28  2036  =
 
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2046  	if (get_user(kb_func,=
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2037  	if (get_user(kb_func,=
  &user_kdgkb->kb_func))
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2047  		return -EFAULT;
-079c9534a96da9a Alan Cox           2012-02-28  2048  =
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2038  		return -EFAULT;
+079c9534a96da9a Alan Cox           2012-02-28  2039  =
 
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2049  	kb_func =3D array_ind=
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2040  	kb_func =3D array_ind=
 ex_nospec(kb_func, MAX_NR_FUNC);
-079c9534a96da9a Alan Cox           2012-02-28  2050  =
+079c9534a96da9a Alan Cox           2012-02-28  2041  =
 
-079c9534a96da9a Alan Cox           2012-02-28  2051  	switch (cmd) {
-6ca03f90527e499 Jiri Slaby         2020-10-19  2052  	case KDGKBSENT: {
-6ca03f90527e499 Jiri Slaby         2020-10-19  2053  		/* size should have =
+079c9534a96da9a Alan Cox           2012-02-28  2042  	switch (cmd) {
+6ca03f90527e499 Jiri Slaby         2020-10-19  2043  	case KDGKBSENT: {
+6ca03f90527e499 Jiri Slaby         2020-10-19  2044  		/* size should have =
 been a struct member */
-82e61c3909db51d Jiri Slaby         2020-10-19  2054  		ssize_t len =3D size=
+82e61c3909db51d Jiri Slaby         2020-10-19  2045  		ssize_t len =3D size=
 of(user_kdgkb->kb_string);
-82e61c3909db51d Jiri Slaby         2020-10-19  2055  =
+82e61c3909db51d Jiri Slaby         2020-10-19  2046  =
 
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2056  		kbs =3D kmalloc(len,=
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2047  		kbs =3D kmalloc(len,=
  GFP_KERNEL);
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2057  		if (!kbs)
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2058  			return -ENOMEM;
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2059  =
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2048  		if (!kbs)
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2049  			return -ENOMEM;
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2050  =
 
-82e61c3909db51d Jiri Slaby         2020-10-19  2060  		spin_lock_irqsave(&f=
+82e61c3909db51d Jiri Slaby         2020-10-19  2051  		spin_lock_irqsave(&f=
 unc_buf_lock, flags);
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2061  		len =3D strlcpy(kbs,=
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2052  		len =3D strlcpy(kbs,=
  func_table[kb_func] ? : "", len);
-82e61c3909db51d Jiri Slaby         2020-10-19  2062  		spin_unlock_irqresto=
+82e61c3909db51d Jiri Slaby         2020-10-19  2053  		spin_unlock_irqresto=
 re(&func_buf_lock, flags);
-6ca03f90527e499 Jiri Slaby         2020-10-19  2063  =
+6ca03f90527e499 Jiri Slaby         2020-10-19  2054  =
 
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2064  		ret =3D copy_to_user=
+caf4aeff5e94952 Jiri Slaby         2020-08-14 @2055  		ret =3D copy_to_user=
 (user_kdgkb->kb_string, kbs, len + 1) ?
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2065  			-EFAULT : 0;
-6ca03f90527e499 Jiri Slaby         2020-10-19  2066  =
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2056  			-EFAULT : 0;
+6ca03f90527e499 Jiri Slaby         2020-10-19  2057  =
 
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2067  		break;
-079c9534a96da9a Alan Cox           2012-02-28  2068  	}
-079c9534a96da9a Alan Cox           2012-02-28  2069  	case KDSKBSENT:
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2070  		if (!perm)
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2071  			return -EPERM;
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2072  =
+079c9534a96da9a Alan Cox           2012-02-28  2058  		goto reterr;
+079c9534a96da9a Alan Cox           2012-02-28  2059  	}
+079c9534a96da9a Alan Cox           2012-02-28  2060  	case KDSKBSENT:
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2061  		if (!perm)
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2062  			return -EPERM;
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2063  =
 
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2073  		kbs =3D strndup_user=
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2064  		kbs =3D strndup_user=
 (user_kdgkb->kb_string,
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2074  				sizeof(user_kdgkb-=
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2065  				sizeof(user_kdgkb-=
 >kb_string));
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2075  		if (IS_ERR(kbs))
-caf4aeff5e94952 Jiri Slaby         2020-08-14  2076  			return PTR_ERR(kbs);
-079c9534a96da9a Alan Cox           2012-02-28  2077  =
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2066  		if (IS_ERR(kbs))
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2067  			return PTR_ERR(kbs);
+079c9534a96da9a Alan Cox           2012-02-28  2068  =
 
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2078  		spin_lock_irqsave(&f=
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2069  		fnw =3D NULL;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2070  		fnw_sz =3D 0;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2071  		/* race aginst other=
+ writers */
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2072  		again:
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2073  		spin_lock_irqsave(&f=
 unc_buf_lock, flags);
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2079  		kbs =3D vt_kdskbsent=
-(kbs, kb_func);
-46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2080  		spin_unlock_irqresto=
+056f2f27df67dfa Jiri Slaby         2020-08-18  2074  		q =3D func_table[kb_=
+func];
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2075  =
+
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2076  		/* fj pointer to nex=
+t entry after 'q' */
+079c9534a96da9a Alan Cox           2012-02-28  2077  		first_free =3D funcb=
+ufptr + (funcbufsize - funcbufleft);
+056f2f27df67dfa Jiri Slaby         2020-08-18  2078  		for (j =3D kb_func +=
+ 1; j < MAX_NR_FUNC && !func_table[j]; j++)
+079c9534a96da9a Alan Cox           2012-02-28  2079  			;
+079c9534a96da9a Alan Cox           2012-02-28  2080  		if (j < MAX_NR_FUNC)
+079c9534a96da9a Alan Cox           2012-02-28  2081  			fj =3D func_table[j=
+];
+079c9534a96da9a Alan Cox           2012-02-28  2082  		else
+079c9534a96da9a Alan Cox           2012-02-28  2083  			fj =3D first_free;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2084  		/* buffer usage incr=
+ease by new entry */
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2085  		delta =3D (q ? -strl=
+en(q) : 1) + strlen(kbs);
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2086  =
+
+079c9534a96da9a Alan Cox           2012-02-28  2087  		if (delta <=3D funcb=
+ufleft) { 	/* it fits in current buf */
+079c9534a96da9a Alan Cox           2012-02-28  2088  		    if (j < MAX_NR_F=
+UNC) {
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2089  			/* make enough spac=
+e for new entry@'fj' */
+079c9534a96da9a Alan Cox           2012-02-28  2090  			memmove(fj + delta,=
+ fj, first_free - fj);
+079c9534a96da9a Alan Cox           2012-02-28  2091  			for (k =3D j; k < M=
+AX_NR_FUNC; k++)
+079c9534a96da9a Alan Cox           2012-02-28  2092  			    if (func_table[=
+k])
+079c9534a96da9a Alan Cox           2012-02-28  2093  				func_table[k] +=3D=
+ delta;
+079c9534a96da9a Alan Cox           2012-02-28  2094  		    }
+079c9534a96da9a Alan Cox           2012-02-28  2095  		    if (!q)
+056f2f27df67dfa Jiri Slaby         2020-08-18  2096  		      func_table[kb_=
+func] =3D fj;
+079c9534a96da9a Alan Cox           2012-02-28  2097  		    funcbufleft -=3D=
+ delta;
+079c9534a96da9a Alan Cox           2012-02-28  2098  		} else {			/* alloca=
+te a larger buffer */
+079c9534a96da9a Alan Cox           2012-02-28  2099  		    sz =3D 256;
+079c9534a96da9a Alan Cox           2012-02-28  2100  		    while (sz < func=
+bufsize - funcbufleft + delta)
+079c9534a96da9a Alan Cox           2012-02-28  2101  		      sz <<=3D 1;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2102  		    if (fnw_sz !=3D =
+sz) {
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2103  		      spin_unlock_ir=
+qrestore(&func_buf_lock, flags);
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2104  		      kfree(fnw);
+079c9534a96da9a Alan Cox           2012-02-28  2105  		      fnw =3D kmallo=
+c(sz, GFP_KERNEL);
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2106  		      fnw_sz =3D sz;
+079c9534a96da9a Alan Cox           2012-02-28  2107  		      if (!fnw) {
+079c9534a96da9a Alan Cox           2012-02-28  2108  			ret =3D -ENOMEM;
+079c9534a96da9a Alan Cox           2012-02-28  2109  			goto reterr;
+079c9534a96da9a Alan Cox           2012-02-28  2110  		      }
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2111  		      goto again;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2112  		    }
+079c9534a96da9a Alan Cox           2012-02-28  2113  =
+
+079c9534a96da9a Alan Cox           2012-02-28  2114  		    if (!q)
+056f2f27df67dfa Jiri Slaby         2020-08-18  2115  		      func_table[kb_=
+func] =3D fj;
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2116  		    /* copy data bef=
+ore insertion point to new location */
+079c9534a96da9a Alan Cox           2012-02-28  2117  		    if (fj > funcbuf=
+ptr)
+079c9534a96da9a Alan Cox           2012-02-28  2118  			memmove(fnw, funcbu=
+fptr, fj - funcbufptr);
+079c9534a96da9a Alan Cox           2012-02-28  2119  		    for (k =3D 0; k =
+< j; k++)
+079c9534a96da9a Alan Cox           2012-02-28  2120  		      if (func_table=
+[k])
+079c9534a96da9a Alan Cox           2012-02-28  2121  			func_table[k] =3D f=
+nw + (func_table[k] - funcbufptr);
+079c9534a96da9a Alan Cox           2012-02-28  2122  =
+
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2123  		    /* copy data aft=
+er insertion point to new location */
+079c9534a96da9a Alan Cox           2012-02-28  2124  		    if (first_free >=
+ fj) {
+079c9534a96da9a Alan Cox           2012-02-28  2125  			memmove(fnw + (fj -=
+ funcbufptr) + delta, fj, first_free - fj);
+079c9534a96da9a Alan Cox           2012-02-28  2126  			for (k =3D j; k < M=
+AX_NR_FUNC; k++)
+079c9534a96da9a Alan Cox           2012-02-28  2127  			  if (func_table[k])
+079c9534a96da9a Alan Cox           2012-02-28  2128  			    func_table[k] =
+=3D fnw + (func_table[k] - funcbufptr) + delta;
+079c9534a96da9a Alan Cox           2012-02-28  2129  		    }
+079c9534a96da9a Alan Cox           2012-02-28  2130  		    if (funcbufptr !=
+=3D func_buf)
+079c9534a96da9a Alan Cox           2012-02-28  2131  		      kfree(funcbufp=
+tr);
+079c9534a96da9a Alan Cox           2012-02-28  2132  		    funcbufptr =3D f=
+nw;
+079c9534a96da9a Alan Cox           2012-02-28  2133  		    funcbufleft =3D =
+funcbufleft - delta + sz - funcbufsize;
+079c9534a96da9a Alan Cox           2012-02-28  2134  		    funcbufsize =3D =
+sz;
+079c9534a96da9a Alan Cox           2012-02-28  2135  		}
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2136  		/* finally insert it=
+em itself */
+caf4aeff5e94952 Jiri Slaby         2020-08-14  2137  		strcpy(func_table[kb=
+_func], kbs);
+46ca3f735f345c9 Sergei Trofimovich 2019-03-10  2138  		spin_unlock_irqresto=
 re(&func_buf_lock, flags);
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2081  =
+079c9534a96da9a Alan Cox           2012-02-28  2139  		break;
+079c9534a96da9a Alan Cox           2012-02-28  2140  	}
+079c9534a96da9a Alan Cox           2012-02-28  2141  	ret =3D 0;
+079c9534a96da9a Alan Cox           2012-02-28  2142  reterr:
+079c9534a96da9a Alan Cox           2012-02-28  2143  	kfree(kbs);
+079c9534a96da9a Alan Cox           2012-02-28  2144  	return ret;
+079c9534a96da9a Alan Cox           2012-02-28  2145  }
+079c9534a96da9a Alan Cox           2012-02-28  2146  =
 
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2082  		ret =3D 0;
-079c9534a96da9a Alan Cox           2012-02-28  2083  		break;
-079c9534a96da9a Alan Cox           2012-02-28  2084  	}
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2085  =
-
-079c9534a96da9a Alan Cox           2012-02-28  2086  	kfree(kbs);
-d88dffe7ae60de5 Jiri Slaby         2020-08-18  2087  =
-
-079c9534a96da9a Alan Cox           2012-02-28 @2088  	return ret;
-079c9534a96da9a Alan Cox           2012-02-28  2089  }
-079c9534a96da9a Alan Cox           2012-02-28  2090  =
-
-
-:::::: The code at line 2088 was first introduced by commit
-:::::: 079c9534a96da9a85a2a2f9715851050fbfbf749 vt:tackle kbd_table
-
-:::::: TO: Alan Cox <alan@linux.intel.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============7151688455592050283==
+--===============8263520878608288005==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICOAVoF8AAy5jb25maWcAjFxLc9y2st7nV0w5m2RhH0m2dZ26pQVIgjPIkAQNgPPQhqXIY0cV
+H4sICPEFoF8AAy5jb25maWcAjFxLc9y2st7nV0w5m2RhH0m2dZ26pQVIgjPIkAQNgPPQhqXIY0cV
 WfIdSSf2v7/dAB8A2JwkC0dENwEQ6MfXjcb8/NPPC/by/Pj15vnu9ub+/sfiy+HhcLx5PnxafL67
 P/zvIpOLSpoFz4R5A8zF3cPL9/98/3DZXr5bvH9zfvbm7PXx9nyxPhwfDveL9PHh892XF+jg7vHh
 p59/SmWVi2Wbpu2GKy1k1Rq+M1evvtzevv5t8Ut2+OPu5mHx25u30M35+1/dX6+814Rul2l69aNv
@@ -685,5 +801,5 @@ VaCsNF4EPqDI4es0tqxO1P0xj+ktLaRyGxmN3xFsLr5B0yPZ9KA5scJKLZzj9Tmff8mgCDyDjBS9
 ajafFrvNbo+3L9RbJJgf4+7bxnCYx9ZZ2bqoudTSQOCdKRbwAbRY0+Z9jYwktOBtVt+H8GkPtuIY
 7ZQ76Lx4qCMiy9s8sh4pECYV52H9vFPgQZd2LK6ILoWONGDXTseaupG4jZjjNfwQg7tET2dXIdrC
 WVpda/nD2slIz/N7OPJIYpNKFy+d8iROiCIYZP7gkvL8yOWT9v8DxaZyS53eAQA=
---===============7151688455592050283==--
+--===============8263520878608288005==--
 
