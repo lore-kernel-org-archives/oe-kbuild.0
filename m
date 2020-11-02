@@ -1,30 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============4732694676276517434=="
+Content-Type: multipart/mixed; boundary="===============5031436888387857047=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/ath/ath10k/mac.c:9125 ath10k_mac_op_set_tid_config() error: uninitialized symbol 'ret'.
-Date: Mon, 02 Nov 2020 09:44:22 +0800
-Message-ID: <202011020919.892MmJK5-lkp@intel.com>
+Subject: drivers/net/wireless/ath/ath10k/sdio.c:2223 ath10k_sdio_read_mem() error: uninitialized symbol 'ret'.
+Date: Mon, 02 Nov 2020 08:13:21 +0800
+Message-ID: <202011020817.HXDNBrlJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4732694676276517434==
+--===============5031436888387857047==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Tamizh Chelvam <tamizhr@codeaurora.org>
+TO: Wen Gong <wgong@codeaurora.org>
 CC: Kalle Valo <kvalo@codeaurora.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   3cea11cd5e3b00d91caf0b4730194039b45c5891
-commit: 7b2531d93bac6bea67e9c7f49901e9e8796d6d57 ath10k: Add new api to sup=
-port TID specific configuration
-date:   10 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 10 weeks ago
+head:   7b56fbd83e261484da43f04090bce07570bd117f
+commit: 3c45f21af84eb05a355919abc80cf70a3a681cee ath10k: sdio: add firmware=
+ coredump support
+date:   2 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 2 months ago
 config: x86_64-randconfig-m031-20201102 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -33,88 +33,50 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/net/wireless/ath/ath10k/mac.c:9125 ath10k_mac_op_set_tid_config() e=
-rror: uninitialized symbol 'ret'.
+drivers/net/wireless/ath/ath10k/sdio.c:2223 ath10k_sdio_read_mem() error: u=
+ninitialized symbol 'ret'.
 
-vim +/ret +9125 drivers/net/wireless/ath/ath10k/mac.c
+vim +/ret +2223 drivers/net/wireless/ath/ath10k/sdio.c
 
-6a7f891178c2d2f Anilkumar Kolli 2017-12-05  9088  =
+3c45f21af84eb05 Wen Gong 2020-08-18  2207  =
 
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9089  static int ath10k_mac_op_=
-set_tid_config(struct ieee80211_hw *hw,
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9090  					struct ieee80211_vif=
- *vif,
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9091  					struct ieee80211_sta=
- *sta,
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9092  					struct cfg80211_tid_=
-config *tid_config)
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9093  {
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9094  	struct ath10k *ar =3D hw=
-->priv;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9095  	struct ath10k_vif *arvif=
- =3D (void *)vif->drv_priv;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9096  	struct ath10k_mac_iter_t=
-id_conf_data data =3D {};
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9097  	struct wmi_per_peer_per_=
-tid_cfg_arg arg =3D {};
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9098  	int ret, i;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9099  =
+3c45f21af84eb05 Wen Gong 2020-08-18  2208  static int ath10k_sdio_read_mem(=
+struct ath10k *ar, u32 address, void *buf,
+3c45f21af84eb05 Wen Gong 2020-08-18  2209  				u32 buf_len)
+3c45f21af84eb05 Wen Gong 2020-08-18  2210  {
+3c45f21af84eb05 Wen Gong 2020-08-18  2211  	u32 val;
+3c45f21af84eb05 Wen Gong 2020-08-18  2212  	int i, ret;
+3c45f21af84eb05 Wen Gong 2020-08-18  2213  =
 
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9100  	mutex_lock(&ar->conf_mut=
-ex);
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9101  	arg.vdev_id =3D arvif->v=
-dev_id;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9102  =
+3c45f21af84eb05 Wen Gong 2020-08-18  2214  	for (i =3D 0; i < buf_len; i +=
+=3D 4) {
+3c45f21af84eb05 Wen Gong 2020-08-18  2215  		ret =3D ath10k_sdio_diag_read3=
+2(ar, address + i, &val);
+3c45f21af84eb05 Wen Gong 2020-08-18  2216  		if (ret) {
+3c45f21af84eb05 Wen Gong 2020-08-18  2217  			ath10k_warn(ar, "unable to re=
+ad mem %d value\n", address + i);
+3c45f21af84eb05 Wen Gong 2020-08-18  2218  			break;
+3c45f21af84eb05 Wen Gong 2020-08-18  2219  		}
+3c45f21af84eb05 Wen Gong 2020-08-18  2220  		memcpy(buf + i, &val, 4);
+3c45f21af84eb05 Wen Gong 2020-08-18  2221  	}
+3c45f21af84eb05 Wen Gong 2020-08-18  2222  =
 
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9103  	memset(arvif->tid_conf_c=
-hanged, 0, sizeof(arvif->tid_conf_changed));
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9104  =
-
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9105  	for (i =3D 0; i < tid_co=
-nfig->n_tid_conf; i++) {
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9106  		ret =3D ath10k_mac_pars=
-e_tid_config(ar, sta, vif,
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9107  						  &tid_config->tid_=
-conf[i],
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9108  						  &arg);
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9109  		if (ret)
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9110  			goto exit;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9111  	}
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9112  =
-
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9113  	if (sta)
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9114  		goto exit;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9115  =
-
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9116  	ret =3D 0;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9117  	data.curr_vif =3D vif;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9118  	data.ar =3D ar;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9119  =
-
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9120  	ieee80211_iterate_statio=
-ns_atomic(hw, ath10k_mac_vif_stations_tid_conf,
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9121  					  &data);
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9122  =
-
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9123  exit:
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9124  	mutex_unlock(&ar->conf_m=
-utex);
-7b2531d93bac6be Tamizh Chelvam  2020-08-19 @9125  	return ret;
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9126  }
-7b2531d93bac6be Tamizh Chelvam  2020-08-19  9127  =
+3c45f21af84eb05 Wen Gong 2020-08-18 @2223  	return ret;
+3c45f21af84eb05 Wen Gong 2020-08-18  2224  }
+3c45f21af84eb05 Wen Gong 2020-08-18  2225  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============4732694676276517434==
+--===============5031436888387857047==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICAZdn18AAy5jb25maWcAjFxJd9y2st7nV/RxNsnCuZqs55x3tECTYBNpkqABsAdteBS57atz
+H4sICA1Hn18AAy5jb25maWcAjFxJd9y2st7nV/RxNsnCuZqs55x3tECTYBNpkqABsAdteBS57atz
 NeRpuLH//asCOABgseMsHAlVGAgUqr4aoJ9/+nnB3l6fHm5e725v7u+/L74eHg/PN6+Hz4svd/eH
 /12kclFJs+CpML8Bc3H3+PbtX98+XraXF4sPv/3+28n759vTxfrw/Hi4XyRPj1/uvr5B/7unx59+
 /imRVSZWbZK0G660kFVr+M5cvft6e/v+98Uv6eHPu5vHxe+/ncMwpx9+dT+987oJ3a6S5Op737Qa
@@ -665,5 +627,5 @@ PQzxMOUIP9JP9AUZFHvhkSzhAB8Mx0wYvivmwnpEg3ZLVhXTR7brkK4TRQwyMow7uEOVz0zhuO1b
 XPwyGIkoiToHjsNCo6wNWdkP5R4uX9/Q37A6S3R/PX9cvOJbzM4/c0IDznMVpsJwWobkKXWiHZ5X
 SYxGYiu+wMxiiI5a6yfVus01b25Xk5DL0/NzWbgs/BrWqCXSSU1SkiJaI2jOz30ud36RE/uIRuyZ
 YStbuiBHC3xZBRsRjlwGFhPCG8dHpVyL2oxsG9aFyryRFI9yLuAXJmfw98XnAQA=
---===============4732694676276517434==--
+--===============5031436888387857047==--
 
