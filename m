@@ -1,25 +1,41 @@
-Content-Type: multipart/mixed; boundary="===============1897757891804401211=="
+Content-Type: multipart/mixed; boundary="===============2182205050881010071=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH v8 1/3] Drivers: hv: vmbus: Add vmbus_requestor data structure for VMBus hardening
-Date: Thu, 05 Nov 2020 15:24:20 +0300
-Message-ID: <20201105122420.GB29398@kadam>
-In-Reply-To: <20201104154027.319432-2-parri.andrea@gmail.com>
+Date: Thu, 05 Nov 2020 15:03:46 +0800
+Message-ID: <202011051413.OMmpjuNy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1897757891804401211==
+--===============2182205050881010071==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-Hi Andrea,
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20201104154027.319432-2-parri.andrea@gmail.com>
+References: <20201104154027.319432-2-parri.andrea@gmail.com>
+TO: "Andrea Parri (Microsoft)" <parri.andrea@gmail.com>
+
+Hi "Andrea,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on mkp-scsi/for-next]
+[also build test WARNING on scsi/for-next linus/master v5.10-rc2 next-20201=
+104]
+[cannot apply to linux/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Andrea-Parri-Microsoft/Dri=
 vers-hv-vmbus-vmbus_requestor-data-structure-for-VMBus-hardening/20201104-2=
 34406
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/mkp/scsi.git for-ne=
 xt
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
 config: i386-randconfig-m031-20201104 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -35,6 +51,11 @@ ns 'flags'.
 
 vim +349 drivers/hv/ring_buffer.c
 
+3e7ee4902fe6996 drivers/staging/hv/RingBuffer.c  Hank Janssen       2009-07=
+-13  248  =
+
+822f18d4d3e9d4e drivers/hv/ring_buffer.c         Vitaly Kuznetsov   2015-12=
+-14  249  /* Write to the ring buffer. */
 1f6ee4e7d83586c drivers/hv/ring_buffer.c         K. Y. Srinivasan   2016-11=
 -06  250  int hv_ringbuffer_write(struct vmbus_channel *channel,
 4d6a4de24f39114 drivers/hv/ring_buffer.c         Andres Beltran     2020-11=
@@ -186,10 +207,6 @@ d);
 -04  315  			pr_err("No request id available\n");
 4d6a4de24f39114 drivers/hv/ring_buffer.c         Andres Beltran     2020-11=
 -04  316  			return -EAGAIN;
-
-Need to call spin_unlock_irqrestore(&outring_info->ring_lock, flags);
-before returning.
-
 4d6a4de24f39114 drivers/hv/ring_buffer.c         Andres Beltran     2020-11=
 -04  317  		}
 4d6a4de24f39114 drivers/hv/ring_buffer.c         Andres Beltran     2020-11=
@@ -268,12 +285,15 @@ e7e97dd8b77ee73 drivers/hv/ring_buffer.c         K. Y. Srinivasan   2016-12=
 -13 @349  	return 0;
 3e7ee4902fe6996 drivers/staging/hv/RingBuffer.c  Hank Janssen       2009-07=
 -13  350  }
+3e7ee4902fe6996 drivers/staging/hv/RingBuffer.c  Hank Janssen       2009-07=
+-13  351  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1897757891804401211==
+--===============2182205050881010071==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -939,5 +959,5 @@ qi9c1VC/3mV0TOQYgl1oiw2GOxNhZdRAsWi9uBf6vLZXu6lNbvavb8gDIH8bPf1r/7L7tjd8VrF/
 5k2jwnkS0riF1/eTBeNbuVu9u0th5XHlBgkdaPo7G/W2IH+QgQ77w8UOhWgoKFmaKd2Gw+g5JeTd
 oSPHjUcWFs7Zivcuu2TLQJOWw81qt5wgv2ZXaTfb67nCYjCIt1G51keQ/VQs4BTHlw+cQjx10S6R
 nEk4DAPswfIWxLp1X4N52R9dKZ5Tl3qc+D8Pa30T0U8CAA==
---===============1897757891804401211==--
+--===============2182205050881010071==--
 
