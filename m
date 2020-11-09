@@ -1,26 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============5865317787959434184=="
+Content-Type: multipart/mixed; boundary="===============5969040578353607758=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c:1300 create_engine_group() error: we previously assumed 'mirrored_eng_grp' could be null (see line 1256)
-Date: Mon, 09 Nov 2020 15:29:19 +0300
-Message-ID: <20201109122919.GN18329@kadam>
+Date: Mon, 09 Nov 2020 20:19:29 +0800
+Message-ID: <202011092059.D8elGWX3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5865317787959434184==
+--===============5969040578353607758==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: SrujanaChalla <schalla@marvell.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
 
 Hi SrujanaChalla,
 
 First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
- master
+master
 head:   f8394f232b1eab649ce2df5c5f15b0e528c92091
 commit: 6482023b9d3350bf1b756ef36e1ea1a1c871879c crypto: marvell - enable O=
 cteonTX cpt options for build
+date:   8 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 8 months ago
 config: x86_64-randconfig-m001-20201109 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -32,9 +40,19 @@ New smatch warnings:
 drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c:1300 create_engine_group(=
 ) error: we previously assumed 'mirrored_eng_grp' could be null (see line 1=
 256)
+drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c:1353 ucode_load_store() w=
+arn: variable dereferenced before check 'val' (see line 1346)
+
+Old smatch warnings:
+drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c:1368 ucode_load_store() w=
+arn: variable dereferenced before check 'val' (see line 1346)
+drivers/crypto/marvell/octeontx/otx_cptpf_ucode.c:1380 ucode_load_store() w=
+arn: variable dereferenced before check 'val' (see line 1346)
 
 vim +/mirrored_eng_grp +1300 drivers/crypto/marvell/octeontx/otx_cptpf_ucod=
 e.c
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1205  =
 
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1206  static int create_engine_gr=
 oup(struct device *dev,
@@ -122,8 +140,6 @@ rors another existing engine group */
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1255  	mirrored_eng_grp =3D find_=
 mirrored_eng_grp(eng_grp);
 d9110b0b01ff1cd SrujanaChalla 2020-03-13 @1256  	if (mirrored_eng_grp) {
-                                                            ^^^^^^^^^^^^^^^^
-
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1257  		/* Setup mirroring */
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1258  		setup_eng_grp_mirroring(e=
 ng_grp, mirrored_eng_grp);
@@ -196,16 +212,7 @@ d9110b0b01ff1cd SrujanaChalla 2020-03-13  1301  			 "Engine_group%d: reuse =
 microcode %s from group %d",
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1302  			 eng_grp->idx, mirrored_=
 eng_grp->ucode[0].ver_str,
-                                                                           =
-            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1303  			 mirrored_eng_grp->idx);
-                                                                         ^^=
-^^^^^^^^^^^^^^^^^^^
-Unchecked dereferences.
-
-Possibly the "eng_grp->mirror.is_ena" means this is a false positive.
-Too hard to tell without more context.
-
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1304  	else
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1305  		dev_info(dev, "Engine_gro=
 up%d: microcode loaded %s",
@@ -224,13 +231,230 @@ d9110b0b01ff1cd SrujanaChalla 2020-03-13  1313  	ucode_unload(dev, &eng_grp=
 ->ucode[0]);
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1314  	return ret;
 d9110b0b01ff1cd SrujanaChalla 2020-03-13  1315  }
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1316  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1317  static ssize_t ucode_load_s=
+tore(struct device *dev,
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1318  				struct device_attribute=
+ *attr,
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1319  				const char *buf, size_t=
+ count)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1320  {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1321  	struct otx_cpt_engines eng=
+s[OTX_CPT_MAX_ETYPES_PER_GRP] =3D { {0} };
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1322  	char *ucode_filename[OTX_C=
+PT_MAX_ETYPES_PER_GRP];
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1323  	char tmp_buf[OTX_CPT_UCODE=
+_NAME_LENGTH] =3D { 0 };
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1324  	char *start, *val, *err_ms=
+g, *tmp;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1325  	struct otx_cpt_eng_grps *e=
+ng_grps;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1326  	int grp_idx =3D 0, ret =3D=
+ -EINVAL;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1327  	bool has_se, has_ie, has_a=
+e;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1328  	int del_grp_idx =3D -1;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1329  	int ucode_idx =3D 0;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1330  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1331  	if (strlen(buf) > OTX_CPT_=
+UCODE_NAME_LENGTH)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1332  		return -EINVAL;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1333  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1334  	eng_grps =3D container_of(=
+attr, struct otx_cpt_eng_grps, ucode_load_attr);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1335  	err_msg =3D "Invalid engin=
+e group format";
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1336  	strlcpy(tmp_buf, buf, OTX_=
+CPT_UCODE_NAME_LENGTH);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1337  	start =3D tmp_buf;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1338  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1339  	has_se =3D has_ie =3D has_=
+ae =3D false;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1340  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1341  	for (;;) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1342  		val =3D strsep(&start, ";=
+");
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1343  		if (!val)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1344  			break;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1345  		val =3D strim(val);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13 @1346  		if (!*val)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1347  			continue;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1348  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1349  		if (!strncasecmp(val, "en=
+gine_group", 12)) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1350  			if (del_grp_idx !=3D -1)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1351  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1352  			tmp =3D strim(strsep(&va=
+l, ":"));
+d9110b0b01ff1cd SrujanaChalla 2020-03-13 @1353  			if (!val)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1354  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1355  			if (strlen(tmp) !=3D 13)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1356  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1357  			if (kstrtoint((tmp + 12)=
+, 10, &del_grp_idx))
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1358  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1359  			val =3D strim(val);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1360  			if (strncasecmp(val, "nu=
+ll", 4))
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1361  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1362  			if (strlen(val) !=3D 4)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1363  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1364  		} else if (!strncasecmp(v=
+al, "se", 2) && strchr(val, ':')) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1365  			if (has_se || ucode_idx)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1366  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1367  			tmp =3D strim(strsep(&va=
+l, ":"));
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1368  			if (!val)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1369  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1370  			if (strlen(tmp) !=3D 2)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1371  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1372  			if (kstrtoint(strim(val)=
+, 10, &engs[grp_idx].count))
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1373  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1374  			engs[grp_idx++].type =3D=
+ OTX_CPT_SE_TYPES;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1375  			has_se =3D true;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1376  		} else if (!strncasecmp(v=
+al, "ae", 2) && strchr(val, ':')) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1377  			if (has_ae || ucode_idx)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1378  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1379  			tmp =3D strim(strsep(&va=
+l, ":"));
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1380  			if (!val)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1381  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1382  			if (strlen(tmp) !=3D 2)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1383  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1384  			if (kstrtoint(strim(val)=
+, 10, &engs[grp_idx].count))
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1385  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1386  			engs[grp_idx++].type =3D=
+ OTX_CPT_AE_TYPES;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1387  			has_ae =3D true;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1388  		} else {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1389  			if (ucode_idx > 1)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1390  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1391  			if (!strlen(val))
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1392  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1393  			if (strnstr(val, " ", st=
+rlen(val)))
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1394  				goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1395  			ucode_filename[ucode_idx=
+++] =3D val;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1396  		}
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1397  	}
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1398  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1399  	/* Validate input paramete=
+rs */
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1400  	if (del_grp_idx =3D=3D -1)=
+ {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1401  		if (!(grp_idx && ucode_id=
+x))
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1402  			goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1403  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1404  		if (ucode_idx > 1 && grp_=
+idx < 2)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1405  			goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1406  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1407  		if (grp_idx > OTX_CPT_MAX=
+_ETYPES_PER_GRP) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1408  			err_msg =3D "Error max 2=
+ engine types can be attached";
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1409  			goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1410  		}
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1411  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1412  	} else {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1413  		if (del_grp_idx < 0 ||
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1414  		    del_grp_idx >=3D OTX_=
+CPT_MAX_ENGINE_GROUPS) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1415  			dev_err(dev, "Invalid en=
+gine group index %d",
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1416  				del_grp_idx);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1417  			ret =3D -EINVAL;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1418  			return ret;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1419  		}
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1420  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1421  		if (!eng_grps->grp[del_gr=
+p_idx].is_enabled) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1422  			dev_err(dev, "Error engi=
+ne_group%d is not configured",
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1423  				del_grp_idx);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1424  			ret =3D -EINVAL;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1425  			return ret;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1426  		}
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1427  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1428  		if (grp_idx || ucode_idx)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1429  			goto err_print;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1430  	}
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1431  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1432  	mutex_lock(&eng_grps->lock=
+);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1433  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1434  	if (eng_grps->is_rdonly) {
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1435  		dev_err(dev, "Disable VFs=
+ before modifying engine groups\n");
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1436  		ret =3D -EACCES;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1437  		goto err_unlock;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1438  	}
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1439  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1440  	if (del_grp_idx =3D=3D -1)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1441  		/* create engine group */
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1442  		ret =3D create_engine_gro=
+up(dev, eng_grps, engs, grp_idx,
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1443  					  (void **) ucode_file=
+name,
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1444  					  ucode_idx, false);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1445  	else
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1446  		/* delete engine group */
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1447  		ret =3D delete_engine_gro=
+up(dev, &eng_grps->grp[del_grp_idx]);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1448  	if (ret)
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1449  		goto err_unlock;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1450  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1451  	print_dbg_info(dev, eng_gr=
+ps);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1452  err_unlock:
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1453  	mutex_unlock(&eng_grps->lo=
+ck);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1454  	return ret ? ret : count;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1455  err_print:
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1456  	dev_err(dev, "%s\n", err_m=
+sg);
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1457  =
+
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1458  	return ret;
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1459  }
+d9110b0b01ff1cd SrujanaChalla 2020-03-13  1460  =
 
 
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
+:::::: The code at line 1300 was first introduced by commit
+:::::: d9110b0b01ff1cd02751cd5c2c94e938a8906083 crypto: marvell - add suppo=
+rt for OCTEON TX CPT engine
 
---===============5865317787959434184==
+:::::: TO: SrujanaChalla <schalla@marvell.com>
+:::::: CC: Herbert Xu <herbert@gondor.apana.org.au>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+
+--===============5969040578353607758==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -1024,5 +1248,5 @@ ljpmCDDpwpKd3J4Ozgjd+BQk03wyIfiqnCdj+lkupVQTLtqqOWml+eJxKj8y4IBIsyYTRIOHMKVn
 DqvFJU0urhMTOIPphaRJy0HX41axxJteoHTS3OGR4xhPvIbjwtPlNXDIwimi9mdla/MINf4y+lwZ
 Iq9GXTwNEoIk+N5Vd7n0tMl4k7oapFB8eMb1gQcOOmzwJ0yS+wcGjb/AL1kvSIO2hhtKlvfbPG0a
 rD8uI9lgMnb/Dy/FUvT60wIA
---===============5865317787959434184==--
+--===============5969040578353607758==--
 
