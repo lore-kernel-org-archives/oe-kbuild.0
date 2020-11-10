@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5299238881288475747=="
+Content-Type: multipart/mixed; boundary="===============1201968817191887484=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH v2] tcp: fix race condition when creating child sockets from syncookies
-Date: Tue, 10 Nov 2020 14:58:00 +0800
-Message-ID: <202011101425.uCobeCPg-lkp@intel.com>
+Date: Tue, 10 Nov 2020 14:23:43 +0800
+Message-ID: <202011101443.ltxr04YE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5299238881288475747==
+--===============1201968817191887484==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -29,8 +29,7 @@ Hi Ricardo,
 Thank you for the patch! Perhaps something to improve:
 
 [auto build test WARNING on net-next/master]
-[also build test WARNING on net/master linus/master sparc-next/master v5.10=
--rc3 next-20201109]
+[also build test WARNING on net/master linus/master v5.10-rc3 next-20201109]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
@@ -39,8 +38,8 @@ url:    https://github.com/0day-ci/linux/commits/Ricardo-Dias/tcp-fix-race-=
 condition-when-creating-child-sockets-from-syncookies/20201110-001214
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
 bff6f1db91e330d7fba56f815cdbc412c75fe163
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
 config: powerpc-randconfig-s032-20201109 (attached as .config)
 compiler: powerpc64-linux-gcc (GCC) 9.3.0
 reproduce:
@@ -119,35 +118,35 @@ e/asm/mmiowb.h, include/linux/spinlock.h, include/linux/mmzone.h, ...):
 
 vim +/tcp_v4_syn_recv_sock +58 include/asm-generic/mmiowb.h
 
-d1be6a28b13ce6d Will Deacon 2019-02-22  48  =
+d1be6a28b13ce6 Will Deacon 2019-02-22  48  =
 
-d1be6a28b13ce6d Will Deacon 2019-02-22  49  static inline void mmiowb_spin_=
-unlock(void)
-d1be6a28b13ce6d Will Deacon 2019-02-22  50  {
-d1be6a28b13ce6d Will Deacon 2019-02-22  51  	struct mmiowb_state *ms =3D __=
-mmiowb_state();
-d1be6a28b13ce6d Will Deacon 2019-02-22  52  =
+d1be6a28b13ce6 Will Deacon 2019-02-22  49  static inline void mmiowb_spin_u=
+nlock(void)
+d1be6a28b13ce6 Will Deacon 2019-02-22  50  {
+d1be6a28b13ce6 Will Deacon 2019-02-22  51  	struct mmiowb_state *ms =3D __m=
+miowb_state();
+d1be6a28b13ce6 Will Deacon 2019-02-22  52  =
 
-d1be6a28b13ce6d Will Deacon 2019-02-22  53  	if (unlikely(ms->mmiowb_pendin=
-g)) {
-d1be6a28b13ce6d Will Deacon 2019-02-22  54  		ms->mmiowb_pending =3D 0;
-d1be6a28b13ce6d Will Deacon 2019-02-22  55  		mmiowb();
-d1be6a28b13ce6d Will Deacon 2019-02-22  56  	}
-d1be6a28b13ce6d Will Deacon 2019-02-22  57  =
+d1be6a28b13ce6 Will Deacon 2019-02-22  53  	if (unlikely(ms->mmiowb_pending=
+)) {
+d1be6a28b13ce6 Will Deacon 2019-02-22  54  		ms->mmiowb_pending =3D 0;
+d1be6a28b13ce6 Will Deacon 2019-02-22  55  		mmiowb();
+d1be6a28b13ce6 Will Deacon 2019-02-22  56  	}
+d1be6a28b13ce6 Will Deacon 2019-02-22  57  =
 
-d1be6a28b13ce6d Will Deacon 2019-02-22 @58  	ms->nesting_count--;
+d1be6a28b13ce6 Will Deacon 2019-02-22 @58  	ms->nesting_count--;
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5299238881288475747==
+--===============1201968817191887484==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICOEiql8AAy5jb25maWcAjFxbc+M4rn6fX+Hqedl9mFnHuXRSp/JASZTNsSQqJGUneVGlE/dM
+H4sICC0gql8AAy5jb25maWcAjFxbc+M4rn6fX+Hqedl9mFnHuXRSp/JASZTNsSQqJGUneVGlE/dM
 anPptZOZ6X9/AFIXUoIyvVW72wYg3gF8AMj8/NPPM/b+9vp89/Z4f/f09H32++5lt7972z3Mvj4+
 7f5vlshZIc2MJ8L8CsLZ48v73//59vrXbv/tfnb669H81/kv+/vFbL3bv+yeZvHry9fH39+hhcfX
 l59+/imWRSqWdRzXG660kEVt+LW5/NS0cHbyyxO2+Mvv9/ezfy3j+N+zi1+Pf51/8j4UugbG5feW
@@ -577,5 +576,5 @@ lNg0plxsFSevc69D0E8nMaKNv8rDOns1IugRGYwSVHVUtDpeIdEXLUG7auhtuGVaxNjOSTlLlrVM
 Rb5hZhiX4guVRG3MG5o2sB1msbs/KzpjNzaccKQ7nYkYtw/TRy20iUOVtfelGj8pW4VZWkZJyhBU
 j61z9xJv7Ulw7MGlg7pc65JRuWbr7PWXCA8XLSP40NBC8w187y93O3KPPja98D5l+f9/ZLkEOqZ4
 AQA=
---===============5299238881288475747==--
+--===============1201968817191887484==--
 
