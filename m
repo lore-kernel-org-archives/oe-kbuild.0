@@ -1,32 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============0656273128286643293=="
+Content-Type: multipart/mixed; boundary="===============6895867004029336766=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/dma/sf-pdma/sf-pdma.c:488:23: warning: Variable 'chan' is not assigned a value.
-Date: Thu, 12 Nov 2020 07:48:49 +0800
-Message-ID: <202011120743.vOMvPwCQ-lkp@intel.com>
+Subject: Re: [PATCH v2 2/6] bus: mhi: core: Improvements to the channel handling state machine
+Date: Thu, 12 Nov 2020 07:26:43 +0800
+Message-ID: <202011120757.TwkVILfW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0656273128286643293==
+--===============6895867004029336766==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <1605122473-12179-3-git-send-email-bbhatt@codeaurora.org>
+References: <1605122473-12179-3-git-send-email-bbhatt@codeaurora.org>
+TO: Bhaumik Bhatt <bbhatt@codeaurora.org>
+TO: manivannan.sadhasivam(a)linaro.org
+CC: linux-arm-msm(a)vger.kernel.org
+CC: hemantk(a)codeaurora.org
+CC: jhugo(a)codeaurora.org
+CC: loic.poulain(a)linaro.org
+CC: kvalo(a)codeaurora.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Green Wan <green.wan@sifive.com>
+CC: Bhaumik Bhatt <bbhatt@codeaurora.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   eccc876724927ff3b9ff91f36f7b6b159e948f0c
-commit: f2b5d503c04a28828af8e41fcd4a5d9fd978a78e dmaengine: sf-pdma: Simpli=
-fy the error handling path in 'sf_pdma_probe()'
-date:   6 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 6 months ago
-compiler: h8300-linux-gcc (GCC) 9.3.0
+Hi Bhaumik,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20201111]
+[cannot apply to linus/master v5.10-rc3 v5.10-rc2 v5.10-rc1 v5.10-rc3]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Bhaumik-Bhatt/Updates-to-M=
+HI-channel-handling/20201112-032330
+base:    3e14f70c05cda4794901ed8f976de3a88deebcc0
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
+compiler: alpha-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -34,175 +48,190 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   drivers/dma/sf-pdma/sf-pdma.c:58:6: warning: Either the condition 'chan'=
- is redundant or there is possible null pointer dereference: chan. [nullPoi=
-nterRedundantCheck]
-    if (chan->desc && !chan->desc->in_use) {
+>> drivers/bus/mhi/core/main.c:1277:6: warning: Variable 'ret' is reassigne=
+d a value before the old one has been used. 'break;' missing? [redundantAss=
+ignInSwitch]
+    ret =3D mhi_device_get_sync(mhi_cntrl->mhi_dev);
         ^
-   drivers/dma/sf-pdma/sf-pdma.c:97:6: note: Assuming that condition 'chan'=
- is not redundant
-    if (chan && (!len || !dest || !src)) {
+   drivers/bus/mhi/core/main.c:1240:0: note: Variable 'ret' is reassigned a=
+ value before the old one has been used. 'break;' missing?
+    int ret =3D -EIO;
+   ^
+   drivers/bus/mhi/core/main.c:1277:6: note: Variable 'ret' is reassigned a=
+ value before the old one has been used. 'break;' missing?
+    ret =3D mhi_device_get_sync(mhi_cntrl->mhi_dev);
         ^
-   drivers/dma/sf-pdma/sf-pdma.c:103:28: note: Calling function 'sf_pdma_al=
-loc_desc', 1st argument 'chan' value is 0
-    desc =3D sf_pdma_alloc_desc(chan);
-                              ^
-   drivers/dma/sf-pdma/sf-pdma.c:58:6: note: Null pointer dereference
-    if (chan->desc && !chan->desc->in_use) {
-        ^
-   drivers/dma/sf-pdma/sf-pdma.c:112:2: warning: Either the condition 'chan=
-' is redundant or there is possible null pointer dereference: chan. [nullPo=
-interRedundantCheck]
-    chan->desc =3D desc;
-    ^
-   drivers/dma/sf-pdma/sf-pdma.c:97:6: note: Assuming that condition 'chan'=
- is not redundant
-    if (chan && (!len || !dest || !src)) {
-        ^
-   drivers/dma/sf-pdma/sf-pdma.c:112:2: note: Null pointer dereference
-    chan->desc =3D desc;
-    ^
->> drivers/dma/sf-pdma/sf-pdma.c:488:23: warning: Variable 'chan' is not as=
-signed a value. [unassignedVariable]
-    struct sf_pdma_chan *chan;
-                         ^
 
-vim +/chan +488 drivers/dma/sf-pdma/sf-pdma.c
+vim +1277 drivers/bus/mhi/core/main.c
 
-6973886ad58e6b4 Green Wan          2019-11-07  484  =
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1233  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  485  static int sf_pdma_prob=
-e(struct platform_device *pdev)
-6973886ad58e6b4 Green Wan          2019-11-07  486  {
-6973886ad58e6b4 Green Wan          2019-11-07  487  	struct sf_pdma *pdma;
-6973886ad58e6b4 Green Wan          2019-11-07 @488  	struct sf_pdma_chan *c=
-han;
-6973886ad58e6b4 Green Wan          2019-11-07  489  	struct resource *res;
-6973886ad58e6b4 Green Wan          2019-11-07  490  	int len, chans;
-6973886ad58e6b4 Green Wan          2019-11-07  491  	int ret;
-6973886ad58e6b4 Green Wan          2019-11-07  492  	const enum dma_slave_b=
-uswidth widths =3D
-6973886ad58e6b4 Green Wan          2019-11-07  493  		DMA_SLAVE_BUSWIDTH_1_=
-BYTE | DMA_SLAVE_BUSWIDTH_2_BYTES |
-6973886ad58e6b4 Green Wan          2019-11-07  494  		DMA_SLAVE_BUSWIDTH_4_=
-BYTES | DMA_SLAVE_BUSWIDTH_8_BYTES |
-6973886ad58e6b4 Green Wan          2019-11-07  495  		DMA_SLAVE_BUSWIDTH_16=
-_BYTES | DMA_SLAVE_BUSWIDTH_32_BYTES |
-6973886ad58e6b4 Green Wan          2019-11-07  496  		DMA_SLAVE_BUSWIDTH_64=
-_BYTES;
-6973886ad58e6b4 Green Wan          2019-11-07  497  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1234  static int mhi_upda=
+te_channel_state(struct mhi_controller *mhi_cntrl,
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1235  				    struct mhi_=
+chan *mhi_chan,
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1236  				    enum mhi_ch=
+_state_type to_state)
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1237  {
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1238  	struct device *dev=
+ =3D &mhi_cntrl->mhi_dev->dev;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1239  	enum mhi_cmd_type =
+cmd =3D MHI_CMD_NOP;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1240  	int ret =3D -EIO;
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1241  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  498  	chans =3D PDMA_NR_CH;
-6973886ad58e6b4 Green Wan          2019-11-07  499  	len =3D sizeof(*pdma) =
-+ sizeof(*chan) * chans;
-6973886ad58e6b4 Green Wan          2019-11-07  500  	pdma =3D devm_kzalloc(=
-&pdev->dev, len, GFP_KERNEL);
-6973886ad58e6b4 Green Wan          2019-11-07  501  	if (!pdma)
-6973886ad58e6b4 Green Wan          2019-11-07  502  		return -ENOMEM;
-6973886ad58e6b4 Green Wan          2019-11-07  503  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1242  	dev_dbg(dev, "Upda=
+ting channel %s(%d) state to: %s\n", mhi_chan->name,
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1243  		mhi_chan->chan, T=
+O_CH_STATE_TYPE_STR(to_state));
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1244  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  504  	pdma->n_chans =3D chan=
-s;
-6973886ad58e6b4 Green Wan          2019-11-07  505  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1245  	switch (to_state) {
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1246  	case MHI_CH_STATE_=
+TYPE_RESET:
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1247  		write_lock_irq(&m=
+hi_chan->lock);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1248  		if (mhi_chan->ch_=
+state !=3D MHI_CH_STATE_STOP &&
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1249  		    mhi_chan->ch_=
+state !=3D MHI_CH_STATE_ENABLED &&
+25c142c938991c9 Loic Poulain          2020-10-09  1250  		    mhi_chan->ch_=
+state !=3D MHI_CH_STATE_SUSPENDED) {
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1251  			write_unlock_irq=
+(&mhi_chan->lock);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1252  			goto exit_invali=
+d_state;
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1253  		}
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1254  		mhi_chan->ch_stat=
+e =3D MHI_CH_STATE_DISABLED;
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1255  		write_unlock_irq(=
+&mhi_chan->lock);
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1256  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  506  	res =3D platform_get_r=
-esource(pdev, IORESOURCE_MEM, 0);
-6973886ad58e6b4 Green Wan          2019-11-07  507  	pdma->membase =3D devm=
-_ioremap_resource(&pdev->dev, res);
-6973886ad58e6b4 Green Wan          2019-11-07  508  	if (IS_ERR(pdma->memba=
-se))
-f2b5d503c04a288 Christophe JAILLET 2020-05-01  509  		return PTR_ERR(pdma->=
-membase);
-6973886ad58e6b4 Green Wan          2019-11-07  510  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1257  		cmd =3D MHI_CMD_R=
+ESET_CHAN;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1258  		break;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1259  	case MHI_CH_STATE_=
+TYPE_STOP:
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1260  		if (mhi_chan->ch_=
+state !=3D MHI_CH_STATE_ENABLED)
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1261  			goto exit_invali=
+d_state;
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1262  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  511  	ret =3D sf_pdma_irq_in=
-it(pdev, pdma);
-6973886ad58e6b4 Green Wan          2019-11-07  512  	if (ret)
-f2b5d503c04a288 Christophe JAILLET 2020-05-01  513  		return ret;
-6973886ad58e6b4 Green Wan          2019-11-07  514  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1263  		cmd =3D MHI_CMD_S=
+TOP_CHAN;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1264  		break;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1265  	case MHI_CH_STATE_=
+TYPE_START:
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1266  		if (mhi_chan->ch_=
+state !=3D MHI_CH_STATE_STOP &&
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1267  		    mhi_chan->ch_=
+state !=3D MHI_CH_STATE_DISABLED)
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1268  			goto exit_invali=
+d_state;
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1269  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  515  	sf_pdma_setup_chans(pd=
-ma);
-6973886ad58e6b4 Green Wan          2019-11-07  516  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1270  		cmd =3D MHI_CMD_S=
+TART_CHAN;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1271  		break;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1272  	default:
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1273  		goto exit_invalid=
+_state;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1274  	}
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1275  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  517  	pdma->dma_dev.dev =3D =
-&pdev->dev;
-6973886ad58e6b4 Green Wan          2019-11-07  518  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1276  	/* bring host and =
+device out of suspended states */
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11 @1277  	ret =3D mhi_device=
+_get_sync(mhi_cntrl->mhi_dev);
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1278  	if (ret)
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1279  		return ret;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1280  	mhi_cntrl->runtime=
+_get(mhi_cntrl);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1281  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  519  	/* Setup capability */
-6973886ad58e6b4 Green Wan          2019-11-07  520  	dma_cap_set(DMA_MEMCPY=
-, pdma->dma_dev.cap_mask);
-6973886ad58e6b4 Green Wan          2019-11-07  521  	pdma->dma_dev.copy_ali=
-gn =3D 2;
-6973886ad58e6b4 Green Wan          2019-11-07  522  	pdma->dma_dev.src_addr=
-_widths =3D widths;
-6973886ad58e6b4 Green Wan          2019-11-07  523  	pdma->dma_dev.dst_addr=
-_widths =3D widths;
-6973886ad58e6b4 Green Wan          2019-11-07  524  	pdma->dma_dev.directio=
-ns =3D BIT(DMA_MEM_TO_MEM);
-6973886ad58e6b4 Green Wan          2019-11-07  525  	pdma->dma_dev.residue_=
-granularity =3D DMA_RESIDUE_GRANULARITY_DESCRIPTOR;
-6973886ad58e6b4 Green Wan          2019-11-07  526  	pdma->dma_dev.descript=
-or_reuse =3D true;
-6973886ad58e6b4 Green Wan          2019-11-07  527  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1282  	reinit_completion(=
+&mhi_chan->completion);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1283  	ret =3D mhi_send_c=
+md(mhi_cntrl, mhi_chan, cmd);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1284  	if (ret) {
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1285  		dev_err(dev, "Fai=
+led to send %s(%d) %s command\n",
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1286  			mhi_chan->name, =
+mhi_chan->chan,
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1287  			TO_CH_STATE_TYPE=
+_STR(to_state));
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1288  		goto exit_command=
+_failure;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1289  	}
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1290  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  528  	/* Setup DMA APIs */
-6973886ad58e6b4 Green Wan          2019-11-07  529  	pdma->dma_dev.device_a=
-lloc_chan_resources =3D
-6973886ad58e6b4 Green Wan          2019-11-07  530  		sf_pdma_alloc_chan_re=
-sources;
-6973886ad58e6b4 Green Wan          2019-11-07  531  	pdma->dma_dev.device_f=
-ree_chan_resources =3D
-6973886ad58e6b4 Green Wan          2019-11-07  532  		sf_pdma_free_chan_res=
-ources;
-6973886ad58e6b4 Green Wan          2019-11-07  533  	pdma->dma_dev.device_t=
-x_status =3D sf_pdma_tx_status;
-6973886ad58e6b4 Green Wan          2019-11-07  534  	pdma->dma_dev.device_p=
-rep_dma_memcpy =3D sf_pdma_prep_dma_memcpy;
-6973886ad58e6b4 Green Wan          2019-11-07  535  	pdma->dma_dev.device_c=
-onfig =3D sf_pdma_slave_config;
-6973886ad58e6b4 Green Wan          2019-11-07  536  	pdma->dma_dev.device_t=
-erminate_all =3D sf_pdma_terminate_all;
-6973886ad58e6b4 Green Wan          2019-11-07  537  	pdma->dma_dev.device_i=
-ssue_pending =3D sf_pdma_issue_pending;
-6973886ad58e6b4 Green Wan          2019-11-07  538  =
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1291  	ret =3D wait_for_c=
+ompletion_timeout(&mhi_chan->completion,
+189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1292  				       msecs_to=
+_jiffies(mhi_cntrl->timeout_ms));
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1293  	if (!ret || mhi_ch=
+an->ccs !=3D MHI_EV_CC_SUCCESS) {
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1294  		dev_err(dev, "Fai=
+led to receive %s(%d) %s command completion\n",
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1295  			mhi_chan->name, =
+mhi_chan->chan,
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1296  			TO_CH_STATE_TYPE=
+_STR(to_state));
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1297  		ret =3D -EIO;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1298  		goto exit_command=
+_failure;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1299  	}
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1300  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  539  	platform_set_drvdata(p=
-dev, pdma);
-6973886ad58e6b4 Green Wan          2019-11-07  540  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1301  	ret =3D 0;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1302  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  541  	ret =3D dma_set_mask_a=
-nd_coherent(&pdev->dev, DMA_BIT_MASK(64));
-6973886ad58e6b4 Green Wan          2019-11-07  542  	if (ret)
-6973886ad58e6b4 Green Wan          2019-11-07  543  		dev_warn(&pdev->dev,
-6973886ad58e6b4 Green Wan          2019-11-07  544  			 "Failed to set DMA =
-mask. Fall back to default.\n");
-6973886ad58e6b4 Green Wan          2019-11-07  545  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1303  	if (to_state !=3D =
+MHI_CH_STATE_TYPE_RESET) {
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1304  		write_lock_irq(&m=
+hi_chan->lock);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1305  		mhi_chan->ch_stat=
+e =3D (to_state =3D=3D MHI_CH_STATE_TYPE_START) ?
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1306  				      MHI_CH_ST=
+ATE_ENABLED : MHI_CH_STATE_STOP;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1307  		write_unlock_irq(=
+&mhi_chan->lock);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1308  	}
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1309  =
 
-6973886ad58e6b4 Green Wan          2019-11-07  546  	ret =3D dma_async_devi=
-ce_register(&pdma->dma_dev);
-f2b5d503c04a288 Christophe JAILLET 2020-05-01  547  	if (ret) {
-6973886ad58e6b4 Green Wan          2019-11-07  548  		dev_err(&pdev->dev,
-6973886ad58e6b4 Green Wan          2019-11-07  549  			"Can't register SiFi=
-ve Platform DMA. (%d)\n", ret);
-6973886ad58e6b4 Green Wan          2019-11-07  550  		return ret;
-6973886ad58e6b4 Green Wan          2019-11-07  551  	}
-6973886ad58e6b4 Green Wan          2019-11-07  552  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1310  	dev_dbg(dev, "Chan=
+nel %s(%d) state change to %s successful\n",
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1311  		mhi_chan->name, m=
+hi_chan->chan, TO_CH_STATE_TYPE_STR(to_state));
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1312  =
 
-f2b5d503c04a288 Christophe JAILLET 2020-05-01  553  	return 0;
-f2b5d503c04a288 Christophe JAILLET 2020-05-01  554  }
-f2b5d503c04a288 Christophe JAILLET 2020-05-01  555  =
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1313  exit_command_failur=
+e:
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1314  	mhi_cntrl->runtime=
+_put(mhi_cntrl);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1315  	mhi_device_put(mhi=
+_cntrl->mhi_dev);
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1316  =
 
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1317  	return ret;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1318  =
 
-:::::: The code at line 488 was first introduced by commit
-:::::: 6973886ad58e6b4988813331abb76ae0b364a9c2 dmaengine: sf-pdma: add pla=
-tform DMA support for HiFive Unleashed A00
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1319  exit_invalid_state:
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1320  	dev_err(dev, "Chan=
+nel %s(%d) update to %s not allowed\n",
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1321  		mhi_chan->name, m=
+hi_chan->chan, TO_CH_STATE_TYPE_STR(to_state));
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1322  =
 
-:::::: TO: Green Wan <green.wan@sifive.com>
-:::::: CC: Vinod Koul <vkoul@kernel.org>
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1323  	return -EINVAL;
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1324  }
+8f761dc8a4ccb30 Bhaumik Bhatt         2020-11-11  1325  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0656273128286643293==--
+--===============6895867004029336766==--
 
