@@ -1,31 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============0420536346986626621=="
+Content-Type: multipart/mixed; boundary="===============3448258975901645024=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/phy/mscc/mscc_ptp.c:138:12: warning: Redundant condition: cond. '!cond || (cond && upper)' is equivalent to '!cond || upper'
-Date: Tue, 17 Nov 2020 23:48:07 +0800
-Message-ID: <202011172304.Cppp31xf-lkp@intel.com>
+Subject: drivers/mtd/spi-nor/sfdp.c:699:24: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses.
+Date: Tue, 17 Nov 2020 23:44:11 +0800
+Message-ID: <202011172306.qNPXTfj9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0420536346986626621==
+--===============3448258975901645024==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Quentin Schulz <quentin.schulz@bootlin.com>
-CC: Antoine Tenart <antoine.tenart@bootlin.com>
+TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+CC: Boris Brezillon <bbrezillon@kernel.org>
+CC: Vignesh Raghavendra <vigneshr@ti.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9c87c9f41245baa3fc4716cf39141439cf405b01
-commit: ab2bf933935710ac545f94e49d16b5eab01f846f net: phy: mscc: 1588 block=
- initialization
-date:   5 months ago
+commit: cb481b92d10fdb0027c7f96576b640c28a5e4179 mtd: spi-nor: Move SFDP lo=
+gic out of the core
+date:   8 months ago
 :::::: branch date: 17 hours ago
-:::::: commit date: 5 months ago
-compiler: h8300-linux-gcc (GCC) 9.3.0
+:::::: commit date: 8 months ago
+compiler: xtensa-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -33,115 +34,153 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> kernel/taskstats.c:220:0: warning: syntax error [syntaxError]
-   =
+>> drivers/mtd/spi-nor/sfdp.c:699:24: warning: Boolean result is used in bi=
+twise operation. Clarify expression with parentheses. [clarifyCondition]
+     map_id =3D map_id << 1 | !!(*buf & read_data_mask);
+                          ^
 
-   ^
---
->> drivers/net/phy/mscc/mscc_ptp.c:138:12: warning: Redundant condition: co=
-nd. '!cond || (cond && upper)' is equivalent to '!cond || upper' [redundant=
-Condition]
-    if (!cond || (cond && upper))
-              ^
+vim +699 drivers/mtd/spi-nor/sfdp.c
 
-vim +138 drivers/net/phy/mscc/mscc_ptp.c
+cb481b92d10fdb Tudor Ambarus 2020-03-13  648  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  104  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  649  /**
+cb481b92d10fdb Tudor Ambarus 2020-03-13  650   * spi_nor_get_map_in_use() -=
+ get the configuration map in use
+cb481b92d10fdb Tudor Ambarus 2020-03-13  651   * @nor:	pointer to a 'struct=
+ spi_nor'
+cb481b92d10fdb Tudor Ambarus 2020-03-13  652   * @smpt:	pointer to the sect=
+or map parameter table
+cb481b92d10fdb Tudor Ambarus 2020-03-13  653   * @smpt_len:	sector map para=
+meter table length
+cb481b92d10fdb Tudor Ambarus 2020-03-13  654   *
+cb481b92d10fdb Tudor Ambarus 2020-03-13  655   * Return: pointer to the map=
+ in use, ERR_PTR(-errno) otherwise.
+cb481b92d10fdb Tudor Ambarus 2020-03-13  656   */
+cb481b92d10fdb Tudor Ambarus 2020-03-13  657  static const u32 *spi_nor_get=
+_map_in_use(struct spi_nor *nor, const u32 *smpt,
+cb481b92d10fdb Tudor Ambarus 2020-03-13  658  					 u8 smpt_len)
+cb481b92d10fdb Tudor Ambarus 2020-03-13  659  {
+cb481b92d10fdb Tudor Ambarus 2020-03-13  660  	const u32 *ret;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  661  	u8 *buf;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  662  	u32 addr;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  663  	int err;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  664  	u8 i;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  665  	u8 addr_width, read_opcode, =
+read_dummy;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  666  	u8 read_data_mask, map_id;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  667  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  105  static void vsc85xx_ts_writ=
-e_csr(struct phy_device *phydev, enum ts_blk blk,
-ab2bf933935710a Quentin Schulz 2020-06-23  106  				 u16 addr, u32 val)
-ab2bf933935710a Quentin Schulz 2020-06-23  107  {
-ab2bf933935710a Quentin Schulz 2020-06-23  108  	struct vsc8531_private *pr=
-iv =3D phydev->priv;
-ab2bf933935710a Quentin Schulz 2020-06-23  109  	bool base_port =3D phydev-=
->mdio.addr =3D=3D priv->ts_base_addr;
-ab2bf933935710a Quentin Schulz 2020-06-23  110  	u32 reg, bypass, cnt =3D 0=
-, lower =3D val & 0xffff, upper =3D val >> 16;
-ab2bf933935710a Quentin Schulz 2020-06-23  111  	bool cond =3D (addr =3D=3D=
- MSCC_PHY_PTP_LTC_CTRL ||
-ab2bf933935710a Quentin Schulz 2020-06-23  112  		     addr =3D=3D MSCC_PHY=
-_1588_INGR_VSC85XX_INT_MASK ||
-ab2bf933935710a Quentin Schulz 2020-06-23  113  		     addr =3D=3D MSCC_PHY=
-_1588_VSC85XX_INT_MASK ||
-ab2bf933935710a Quentin Schulz 2020-06-23  114  		     addr =3D=3D MSCC_PHY=
-_1588_INGR_VSC85XX_INT_STATUS ||
-ab2bf933935710a Quentin Schulz 2020-06-23  115  		     addr =3D=3D MSCC_PHY=
-_1588_VSC85XX_INT_STATUS) &&
-ab2bf933935710a Quentin Schulz 2020-06-23  116  		    blk =3D=3D PROCESSOR;
-ab2bf933935710a Quentin Schulz 2020-06-23  117  	enum ts_blk_hw blk_hw;
-ab2bf933935710a Quentin Schulz 2020-06-23  118  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  668  	/* Use a kmalloc'ed bounce b=
+uffer to guarantee it is DMA-able. */
+cb481b92d10fdb Tudor Ambarus 2020-03-13  669  	buf =3D kmalloc(sizeof(*buf)=
+, GFP_KERNEL);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  670  	if (!buf)
+cb481b92d10fdb Tudor Ambarus 2020-03-13  671  		return ERR_PTR(-ENOMEM);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  672  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  119  	switch (blk) {
-ab2bf933935710a Quentin Schulz 2020-06-23  120  	case INGRESS:
-ab2bf933935710a Quentin Schulz 2020-06-23  121  		blk_hw =3D base_port ? IN=
-GRESS_ENGINE_0 : INGRESS_ENGINE_1;
-ab2bf933935710a Quentin Schulz 2020-06-23  122  		break;
-ab2bf933935710a Quentin Schulz 2020-06-23  123  	case EGRESS:
-ab2bf933935710a Quentin Schulz 2020-06-23  124  		blk_hw =3D base_port ? EG=
-RESS_ENGINE_0 : EGRESS_ENGINE_1;
-ab2bf933935710a Quentin Schulz 2020-06-23  125  		break;
-ab2bf933935710a Quentin Schulz 2020-06-23  126  	case PROCESSOR:
-ab2bf933935710a Quentin Schulz 2020-06-23  127  	default:
-ab2bf933935710a Quentin Schulz 2020-06-23  128  		blk_hw =3D base_port ? PR=
-OCESSOR_0 : PROCESSOR_1;
-ab2bf933935710a Quentin Schulz 2020-06-23  129  		break;
-ab2bf933935710a Quentin Schulz 2020-06-23  130  	}
-ab2bf933935710a Quentin Schulz 2020-06-23  131  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  673  	addr_width =3D nor->addr_wid=
+th;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  674  	read_dummy =3D nor->read_dum=
+my;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  675  	read_opcode =3D nor->read_op=
+code;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  676  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  132  	mutex_lock(&phydev->mdio.b=
-us->mdio_lock);
-ab2bf933935710a Quentin Schulz 2020-06-23  133  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  677  	map_id =3D 0;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  678  	/* Determine if there are an=
+y optional Detection Command Descriptors */
+cb481b92d10fdb Tudor Ambarus 2020-03-13  679  	for (i =3D 0; i < smpt_len; =
+i +=3D 2) {
+cb481b92d10fdb Tudor Ambarus 2020-03-13  680  		if (smpt[i] & SMPT_DESC_TYP=
+E_MAP)
+cb481b92d10fdb Tudor Ambarus 2020-03-13  681  			break;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  682  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  134  	bypass =3D phy_ts_base_rea=
-d(phydev, MSCC_PHY_BYPASS_CONTROL);
-ab2bf933935710a Quentin Schulz 2020-06-23  135  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  683  		read_data_mask =3D SMPT_CMD=
+_READ_DATA(smpt[i]);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  684  		nor->addr_width =3D spi_nor=
+_smpt_addr_width(nor, smpt[i]);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  685  		nor->read_dummy =3D spi_nor=
+_smpt_read_dummy(nor, smpt[i]);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  686  		nor->read_opcode =3D SMPT_C=
+MD_OPCODE(smpt[i]);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  687  		addr =3D smpt[i + 1];
+cb481b92d10fdb Tudor Ambarus 2020-03-13  688  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  136  	phy_ts_base_write(phydev, =
-MSCC_EXT_PAGE_ACCESS, MSCC_PHY_PAGE_1588);
-ab2bf933935710a Quentin Schulz 2020-06-23  137  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  689  		err =3D spi_nor_read_raw(no=
+r, addr, 1, buf);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  690  		if (err) {
+cb481b92d10fdb Tudor Ambarus 2020-03-13  691  			ret =3D ERR_PTR(err);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  692  			goto out;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  693  		}
+cb481b92d10fdb Tudor Ambarus 2020-03-13  694  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23 @138  	if (!cond || (cond && uppe=
-r))
-ab2bf933935710a Quentin Schulz 2020-06-23  139  		phy_ts_base_write(phydev,=
- MSCC_PHY_TS_CSR_DATA_MSB, upper);
-ab2bf933935710a Quentin Schulz 2020-06-23  140  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  695  		/*
+cb481b92d10fdb Tudor Ambarus 2020-03-13  696  		 * Build an index value tha=
+t is used to select the Sector Map
+cb481b92d10fdb Tudor Ambarus 2020-03-13  697  		 * Configuration that is cu=
+rrently in use.
+cb481b92d10fdb Tudor Ambarus 2020-03-13  698  		 */
+cb481b92d10fdb Tudor Ambarus 2020-03-13 @699  		map_id =3D map_id << 1 | !!=
+(*buf & read_data_mask);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  700  	}
+cb481b92d10fdb Tudor Ambarus 2020-03-13  701  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  141  	phy_ts_base_write(phydev, =
-MSCC_PHY_TS_CSR_DATA_LSB, lower);
-ab2bf933935710a Quentin Schulz 2020-06-23  142  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  702  	/*
+cb481b92d10fdb Tudor Ambarus 2020-03-13  703  	 * If command descriptors ar=
+e provided, they always precede map
+cb481b92d10fdb Tudor Ambarus 2020-03-13  704  	 * descriptors in the table.=
+ There is no need to start the iteration
+cb481b92d10fdb Tudor Ambarus 2020-03-13  705  	 * over smpt array all over =
+again.
+cb481b92d10fdb Tudor Ambarus 2020-03-13  706  	 *
+cb481b92d10fdb Tudor Ambarus 2020-03-13  707  	 * Find the matching configu=
+ration map.
+cb481b92d10fdb Tudor Ambarus 2020-03-13  708  	 */
+cb481b92d10fdb Tudor Ambarus 2020-03-13  709  	ret =3D ERR_PTR(-EINVAL);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  710  	while (i < smpt_len) {
+cb481b92d10fdb Tudor Ambarus 2020-03-13  711  		if (SMPT_MAP_ID(smpt[i]) =
+=3D=3D map_id) {
+cb481b92d10fdb Tudor Ambarus 2020-03-13  712  			ret =3D smpt + i;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  713  			break;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  714  		}
+cb481b92d10fdb Tudor Ambarus 2020-03-13  715  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  143  	phy_ts_base_write(phydev, =
-MSCC_PHY_TS_BIU_ADDR_CNTL, BIU_ADDR_EXE |
-ab2bf933935710a Quentin Schulz 2020-06-23  144  			  BIU_ADDR_WRITE | BIU_B=
-LK_ID(blk_hw) |
-ab2bf933935710a Quentin Schulz 2020-06-23  145  			  BIU_CSR_ADDR(addr));
-ab2bf933935710a Quentin Schulz 2020-06-23  146  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  716  		/*
+cb481b92d10fdb Tudor Ambarus 2020-03-13  717  		 * If there are no more con=
+figuration map descriptors and no
+cb481b92d10fdb Tudor Ambarus 2020-03-13  718  		 * configuration ID matched=
+ the configuration identifier, the
+cb481b92d10fdb Tudor Ambarus 2020-03-13  719  		 * sector address map is un=
+known.
+cb481b92d10fdb Tudor Ambarus 2020-03-13  720  		 */
+cb481b92d10fdb Tudor Ambarus 2020-03-13  721  		if (smpt[i] & SMPT_DESC_END)
+cb481b92d10fdb Tudor Ambarus 2020-03-13  722  			break;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  723  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  147  	do {
-ab2bf933935710a Quentin Schulz 2020-06-23  148  		reg =3D phy_ts_base_read(=
-phydev, MSCC_PHY_TS_BIU_ADDR_CNTL);
-ab2bf933935710a Quentin Schulz 2020-06-23  149  	} while (!(reg & BIU_ADDR_=
-EXE) && cnt++ < BIU_ADDR_CNT_MAX);
-ab2bf933935710a Quentin Schulz 2020-06-23  150  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  724  		/* increment the table inde=
+x to the next map */
+cb481b92d10fdb Tudor Ambarus 2020-03-13  725  		i +=3D SMPT_MAP_REGION_COUN=
+T(smpt[i]) + 1;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  726  	}
+cb481b92d10fdb Tudor Ambarus 2020-03-13  727  =
 
-ab2bf933935710a Quentin Schulz 2020-06-23  151  	phy_ts_base_write(phydev, =
-MSCC_EXT_PAGE_ACCESS, MSCC_PHY_PAGE_STANDARD);
-ab2bf933935710a Quentin Schulz 2020-06-23  152  =
-
-ab2bf933935710a Quentin Schulz 2020-06-23  153  	if (cond && upper)
-ab2bf933935710a Quentin Schulz 2020-06-23  154  		phy_ts_base_write(phydev,=
- MSCC_PHY_BYPASS_CONTROL, bypass);
-ab2bf933935710a Quentin Schulz 2020-06-23  155  =
-
-ab2bf933935710a Quentin Schulz 2020-06-23  156  	mutex_unlock(&phydev->mdio=
-.bus->mdio_lock);
-ab2bf933935710a Quentin Schulz 2020-06-23  157  }
-ab2bf933935710a Quentin Schulz 2020-06-23  158  =
+cb481b92d10fdb Tudor Ambarus 2020-03-13  728  	/* fall through */
+cb481b92d10fdb Tudor Ambarus 2020-03-13  729  out:
+cb481b92d10fdb Tudor Ambarus 2020-03-13  730  	kfree(buf);
+cb481b92d10fdb Tudor Ambarus 2020-03-13  731  	nor->addr_width =3D addr_wid=
+th;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  732  	nor->read_dummy =3D read_dum=
+my;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  733  	nor->read_opcode =3D read_op=
+code;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  734  	return ret;
+cb481b92d10fdb Tudor Ambarus 2020-03-13  735  }
+cb481b92d10fdb Tudor Ambarus 2020-03-13  736  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0420536346986626621==--
+--===============3448258975901645024==--
 
