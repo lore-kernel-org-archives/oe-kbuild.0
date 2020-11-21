@@ -1,39 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============7060083510546544062=="
+Content-Type: multipart/mixed; boundary="===============3824160311301244440=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH bpf-next v2] bpf: Refactor check_cfg to use a structured loop.
-Date: Sat, 21 Nov 2020 11:33:22 +0800
-Message-ID: <202011211140.R5n0URpL-lkp@intel.com>
+Subject: [tip:perf/kprobes 19/25] kernel/kprobes.c:1896:39: warning: Either the condition 'node' is redundant or there is possible null pointer dereference: node.
+Date: Sat, 21 Nov 2020 10:42:40 +0800
+Message-ID: <202011211031.iLcMrJ9S-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7060083510546544062==
+--===============3824160311301244440==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20201121015509.3594191-1-wedsonaf@google.com>
-References: <20201121015509.3594191-1-wedsonaf@google.com>
-TO: Wedson Almeida Filho <wedsonaf@google.com>
-TO: bpf(a)vger.kernel.org
-TO: daniel(a)iogearbox.net
-CC: ast(a)kernel.org
-CC: Wedson Almeida Filho <wedsonaf@google.com>
+CC: linux-kernel(a)vger.kernel.org
+CC: x86(a)kernel.org
+TO: Peter Zijlstra <peterz@infradead.org>
+CC: Ingo Molnar <mingo@kernel.org>
+CC: Masami Hiramatsu <mhiramat@kernel.org>
 
-Hi Wedson,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Wedson-Almeida-Filho/bpf-R=
-efactor-check_cfg-to-use-a-structured-loop/20201121-100148
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-compiler: arceb-elf-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git perf/kp=
+robes
+head:   a70a04b3844f59c29573a8581d5c263225060dd6
+commit: d741bf41d7c7db4898bacfcb020353cddc032fd8 [19/25] kprobes: Remove kr=
+etprobe hash
+:::::: branch date: 2 weeks ago
+:::::: commit date: 6 weeks ago
+compiler: sh4-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -41,164 +34,134 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   kernel/bpf/verifier.c:2670:9: warning: Identical condition 'err', second=
- condition is always false [identicalConditionAfterEarlyExit]
-    return err;
+>> kernel/kprobes.c:1896:39: warning: Either the condition 'node' is redund=
+ant or there is possible null pointer dereference: node. [nullPointerRedund=
+antCheck]
+    current->kretprobe_instances.first =3D node->next;
+                                         ^
+   kernel/kprobes.c:1874:9: note: Assuming that condition 'node' is not red=
+undant
+    while (node) {
            ^
-   kernel/bpf/verifier.c:2653:6: note: first condition
-    if (err)
-        ^
-   kernel/bpf/verifier.c:2670:9: note: second condition
-    return err;
+   kernel/kprobes.c:1896:39: note: Null pointer dereference
+    current->kretprobe_instances.first =3D node->next;
+                                         ^
+   kernel/kprobes.c:1897:2: warning: Either the condition 'node' is redunda=
+nt or there is possible null pointer dereference: node. [nullPointerRedunda=
+ntCheck]
+    node->next =3D NULL;
+    ^
+   kernel/kprobes.c:1874:9: note: Assuming that condition 'node' is not red=
+undant
+    while (node) {
            ^
->> kernel/bpf/verifier.c:8161:10: warning: Identical condition 'ret', secon=
-d condition is always false [identicalConditionAfterEarlyExit]
-     return ret;
-            ^
-   kernel/bpf/verifier.c:8147:7: note: first condition
-     if (ret)
-         ^
-   kernel/bpf/verifier.c:8161:10: note: second condition
-     return ret;
-            ^
-   kernel/bpf/verifier.c:1994:25: warning: Local variable func shadows oute=
-r function [shadowFunction]
-    struct bpf_func_state *func;
-                           ^
-   kernel/bpf/verifier.c:551:31: note: Shadowed declaration
-   static struct bpf_func_state *func(struct bpf_verifier_env *env,
-                                 ^
-   kernel/bpf/verifier.c:1994:25: note: Shadow variable
-    struct bpf_func_state *func;
-                           ^
-   kernel/bpf/verifier.c:2027:25: warning: Local variable func shadows oute=
-r function [shadowFunction]
-    struct bpf_func_state *func;
-                           ^
-   kernel/bpf/verifier.c:551:31: note: Shadowed declaration
-   static struct bpf_func_state *func(struct bpf_verifier_env *env,
-                                 ^
-   kernel/bpf/verifier.c:2027:25: note: Shadow variable
-    struct bpf_func_state *func;
+   kernel/kprobes.c:1897:2: note: Null pointer dereference
+    node->next =3D NULL;
+    ^
 
-vim +/ret +8161 kernel/bpf/verifier.c
+vim +/node +1896 kernel/kprobes.c
 
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8106  =
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1862  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8107  /* Visits the instru=
-ction at index t and returns one of the following:
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8108   *  < 0 - an error o=
-ccurred
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8109   *  DONE_EXPLORING -=
- the instruction was fully explored
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8110   *  KEEP_EXPLORING -=
- there is still work to be done before it is fully explored
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8111   */
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8112  static int visit_ins=
-n(int t, int insn_cnt, struct bpf_verifier_env *env)
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8113  {
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8114  	struct bpf_insn *in=
-sns =3D env->prog->insnsi;
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8115  	int ret;
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8116  =
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1863  unsigned long __kretprob=
+e_trampoline_handler(struct pt_regs *regs,
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1864  					     void *trampoli=
+ne_address,
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1865  					     void *frame_po=
+inter)
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1866  {
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1867  	kprobe_opcode_t *correc=
+t_ret_addr =3D NULL;
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1868  	struct kretprobe_instan=
+ce *ri =3D NULL;
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1869  	struct llist_node *firs=
+t, *node;
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1870  	struct kretprobe *rp;
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1871  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8117  	/* All non-branch i=
-nstructions have a single fall-through edge. */
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8118  	if (BPF_CLASS(insns=
-[t].code) !=3D BPF_JMP &&
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8119  	    BPF_CLASS(insns=
-[t].code) !=3D BPF_JMP32)
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8120  		return push_insn(t=
-, t + 1, FALLTHROUGH, env, false);
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8121  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1872  	/* Find all nodes for t=
+his frame. */
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1873  	first =3D node =3D curr=
+ent->kretprobe_instances.first;
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1874  	while (node) {
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1875  		ri =3D container_of(no=
+de, struct kretprobe_instance, llist);
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1876  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8122  	switch (BPF_OP(insn=
-s[t].code)) {
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8123  	case BPF_EXIT:
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8124  		return DONE_EXPLOR=
-ING;
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8125  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1877  		BUG_ON(ri->fp !=3D fra=
+me_pointer);
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1878  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8126  	case BPF_CALL:
-2589726d12a1b12 Alexei Starovoitov   2019-06-15  8127  		ret =3D push_insn(=
-t, t + 1, FALLTHROUGH, env, false);
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8128  		if (ret)
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8129  			return ret;
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8130  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1879  		if (ri->ret_addr !=3D =
+trampoline_address) {
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1880  			correct_ret_addr =3D =
+ri->ret_addr;
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1881  			/*
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1882  			 * This is the real r=
+eturn address. Any other
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1883  			 * instances associat=
+ed with this task are for
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1884  			 * other calls deeper=
+ on the call stack
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1885  			 */
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1886  			goto found;
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1887  		}
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1888  =
 
-07016151a446d25 Daniel Borkmann      2016-04-05  8131  		if (t + 1 < insn_c=
-nt)
-5d839021675a2e1 Alexei Starovoitov   2019-05-21  8132  			init_explored_sta=
-te(env, t + 1);
-cc8b0b92a1699bc Alexei Starovoitov   2017-12-14  8133  		if (insns[t].src_r=
-eg =3D=3D BPF_PSEUDO_CALL) {
-5d839021675a2e1 Alexei Starovoitov   2019-05-21  8134  			init_explored_sta=
-te(env, t);
-2589726d12a1b12 Alexei Starovoitov   2019-06-15  8135  			ret =3D push_insn=
-(t, t + insns[t].imm + 1, BRANCH,
-2589726d12a1b12 Alexei Starovoitov   2019-06-15  8136  					env, false);
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8137  		}
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8138  		return ret;
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8139  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1889  		node =3D node->next;
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1890  	}
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1891  	pr_err("Oops! Kretprobe=
+ fails to find correct return address.\n");
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1892  	BUG_ON(1);
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1893  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8140  	case BPF_JA:
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8141  		if (BPF_SRC(insns[=
-t].code) !=3D BPF_K)
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8142  			return -EINVAL;
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8143  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1894  found:
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1895  	/* Unlink all nodes for=
+ this frame. */
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29 @1896  	current->kretprobe_inst=
+ances.first =3D node->next;
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1897  	node->next =3D NULL;
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1898  =
 
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8144  		/* unconditional j=
-ump with single edge */
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8145  		ret =3D push_insn(=
-t, t + insns[t].off + 1, FALLTHROUGH, env,
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8146  				true);
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8147  		if (ret)
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8148  			return ret;
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8149  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1899  	/* Run them..  */
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1900  	while (first) {
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1901  		ri =3D container_of(fi=
+rst, struct kretprobe_instance, llist);
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1902  		first =3D first->next;
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1903  =
 
-b5dc0163d8fd78e Alexei Starovoitov   2019-06-15  8150  		/* unconditional j=
-mp is not a good pruning point,
-b5dc0163d8fd78e Alexei Starovoitov   2019-06-15  8151  		 * but it's marked=
-, since backtracking needs
-b5dc0163d8fd78e Alexei Starovoitov   2019-06-15  8152  		 * to record jmp h=
-istory in is_state_visited().
-b5dc0163d8fd78e Alexei Starovoitov   2019-06-15  8153  		 */
-b5dc0163d8fd78e Alexei Starovoitov   2019-06-15  8154  		init_explored_stat=
-e(env, t + insns[t].off + 1);
-f1bca824dabba4f Alexei Starovoitov   2014-09-29  8155  		/* tell verifier t=
-o check for equivalent states
-f1bca824dabba4f Alexei Starovoitov   2014-09-29  8156  		 * after every cal=
-l and jump
-f1bca824dabba4f Alexei Starovoitov   2014-09-29  8157  		 */
-c3de6317d748e23 Alexei Starovoitov   2015-04-14  8158  		if (t + 1 < insn_c=
-nt)
-5d839021675a2e1 Alexei Starovoitov   2019-05-21  8159  			init_explored_sta=
-te(env, t + 1);
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8160  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1904  		rp =3D get_kretprobe(r=
+i);
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1905  		if (rp && rp->handler)=
+ {
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1906  			struct kprobe *prev =
+=3D kprobe_running();
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1907  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21 @8161  		return ret;
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8162  =
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1908  			__this_cpu_write(curr=
+ent_kprobe, &rp->kp);
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1909  			ri->ret_addr =3D corr=
+ect_ret_addr;
+d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1910  			rp->handler(ri, regs);
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1911  			__this_cpu_write(curr=
+ent_kprobe, prev);
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1912  		}
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1913  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8163  	default:
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8164  		/* conditional jum=
-p with two edges */
-5d839021675a2e1 Alexei Starovoitov   2019-05-21  8165  		init_explored_stat=
-e(env, t);
-2589726d12a1b12 Alexei Starovoitov   2019-06-15  8166  		ret =3D push_insn(=
-t, t + 1, FALLTHROUGH, env, true);
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8167  		if (ret)
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8168  			return ret;
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8169  =
+b338817807538c8 Masami Hiramatsu 2020-08-29  1914  		recycle_rp_inst(ri);
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1915  	}
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1916  =
 
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8170  		return push_insn(t=
-, t + insns[t].off + 1, BRANCH, env, true);
-475fb78fbf48592 Alexei Starovoitov   2014-09-26  8171  	}
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8172  }
-13a826a70281cfb Wedson Almeida Filho 2020-11-21  8173  =
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1917  	return (unsigned long)c=
+orrect_ret_addr;
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1918  }
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1919  NOKPROBE_SYMBOL(__kretpr=
+obe_trampoline_handler)
+66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1920  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7060083510546544062==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3824160311301244440==--
 
