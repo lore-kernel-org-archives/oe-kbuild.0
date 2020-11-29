@@ -1,20 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============8085905385856910397=="
+Content-Type: multipart/mixed; boundary="===============1114365052944659981=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v9 3/7] i3c: master: add i3c_secondary_master_register
-Date: Mon, 30 Nov 2020 01:38:15 +0800
-Message-ID: <202011300113.dIKBEvb9-lkp@intel.com>
+Subject: Re: [PATCH v9 2/7] i3c: master: use i3c_master_register only for main master
+Date: Mon, 30 Nov 2020 01:12:02 +0800
+Message-ID: <202011300142.cruo9IDr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8085905385856910397==
+--===============1114365052944659981==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1606659765-19490-1-git-send-email-pthombar@cadence.com>
-References: <1606659765-19490-1-git-send-email-pthombar@cadence.com>
+In-Reply-To: <1606659745-19420-1-git-send-email-pthombar@cadence.com>
+References: <1606659745-19420-1-git-send-email-pthombar@cadence.com>
 TO: Parshuram Thombare <pthombar@cadence.com>
 TO: alexandre.belloni(a)bootlin.com
 TO: slongerbeam(a)gmail.com
@@ -48,163 +48,293 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/i3c/master.c:1842 i3c_secondary_master_bus_init() warn: passing a v=
-alid pointer to 'PTR_ERR'
+drivers/i3c/master.c:1697 i3c_primary_master_bus_init() warn: passing a val=
+id pointer to 'PTR_ERR'
 
 Old smatch warnings:
 drivers/i3c/master.c:462 mode_show() warn: unsigned 'i3cbus->mode' is never=
  less than zero.
 drivers/i3c/master.c:1594 i3c_master_set_info() warn: passing a valid point=
 er to 'PTR_ERR'
-drivers/i3c/master.c:1697 i3c_primary_master_bus_init() warn: passing a val=
-id pointer to 'PTR_ERR'
-drivers/i3c/master.c:1952 i3c_master_add_i3c_dev_locked() warn: passing a v=
+drivers/i3c/master.c:1868 i3c_master_add_i3c_dev_locked() warn: passing a v=
 alid pointer to 'PTR_ERR'
 
-vim +/PTR_ERR +1842 drivers/i3c/master.c
+vim +/PTR_ERR +1697 drivers/i3c/master.c
 
-3a379bbcea0af6 Boris Brezillon    2017-07-19  1799  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1638  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1800  /**
-5386a14513be24 Parshuram Thombare 2020-11-29  1801   * i3c_secondary_master=
-_bus_init() - initialize an I3C bus for secondary
-5386a14513be24 Parshuram Thombare 2020-11-29  1802   * master
-5386a14513be24 Parshuram Thombare 2020-11-29  1803   * @master: secondary m=
-aster initializing the bus
-5386a14513be24 Parshuram Thombare 2020-11-29  1804   *
-5386a14513be24 Parshuram Thombare 2020-11-29  1805   * This function does
-5386a14513be24 Parshuram Thombare 2020-11-29  1806   *
-5386a14513be24 Parshuram Thombare 2020-11-29  1807   * 1. Attach I2C devs t=
-o the master
-5386a14513be24 Parshuram Thombare 2020-11-29  1808   *
-5386a14513be24 Parshuram Thombare 2020-11-29  1809   * 2. Call &i3c_master_=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1639  /**
+963007469aa0a7 Parshuram Thombare 2020-11-29  1640   * i3c_primary_master_b=
+us_init() - initialize an I3C bus
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1641   * @master: main master=
+ initializing the bus
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1642   *
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1643   * This function is fol=
+lowing all initialisation steps described in the I3C
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1644   * specification:
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1645   *
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1646   * 1. Attach I2C devs t=
+o the master so that the master can fill its internal
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1647   *    device table appr=
+opriately
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1648   *
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1649   * 2. Call &i3c_master_=
 controller_ops->bus_init() method to initialize
-5386a14513be24 Parshuram Thombare 2020-11-29  1810   *    the master contro=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1650   *    the master contro=
 ller. That's usually where the bus mode is selected
-5386a14513be24 Parshuram Thombare 2020-11-29  1811   *    (pure bus or mixe=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1651   *    (pure bus or mixe=
 d fast/slow bus)
-5386a14513be24 Parshuram Thombare 2020-11-29  1812   *
-5386a14513be24 Parshuram Thombare 2020-11-29  1813   * Once this is done, I=
-2C devices should be usable.
-5386a14513be24 Parshuram Thombare 2020-11-29  1814   *
-5386a14513be24 Parshuram Thombare 2020-11-29  1815   * Return: a 0 in case =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1652   *
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1653   * 3. Instruct all devi=
+ces on the bus to drop their dynamic address. This is
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1654   *    particularly impo=
+rtant when the bus was previously configured by someone
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1655   *    else (for example=
+ the bootloader)
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1656   *
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1657   * 4. Disable all slave=
+ events.
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1658   *
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1659   * 5. Reserve address s=
+lots for I3C devices with init_dyn_addr. And if devices
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1660   *    also have static_=
+addr, try to pre-assign dynamic addresses requested by
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1661   *    the FW with SETDA=
+SA and attach corresponding statically defined I3C
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1662   *    devices to the ma=
+ster.
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1663   *
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1664   * 6. Do a DAA (Dynamic=
+ Address Assignment) to assign dynamic addresses to all
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1665   *    remaining I3C dev=
+ices
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1666   *
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1667   * Once this is done, a=
+ll I3C and I2C devices should be usable.
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1668   *
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1669   * Return: a 0 in case =
 of success, an negative error code otherwise.
-5386a14513be24 Parshuram Thombare 2020-11-29  1816   */
-5386a14513be24 Parshuram Thombare 2020-11-29  1817  static int i3c_secondar=
-y_master_bus_init(struct i3c_master_controller *master)
-5386a14513be24 Parshuram Thombare 2020-11-29  1818  {
-5386a14513be24 Parshuram Thombare 2020-11-29  1819  	enum i3c_addr_slot_sta=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1670   */
+963007469aa0a7 Parshuram Thombare 2020-11-29  1671  static int i3c_primary_=
+master_bus_init(struct i3c_master_controller *master)
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1672  {
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1673  	enum i3c_addr_slot_sta=
 tus status;
-5386a14513be24 Parshuram Thombare 2020-11-29  1820  	struct i2c_dev_boardin=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1674  	struct i2c_dev_boardin=
 fo *i2cboardinfo;
-5386a14513be24 Parshuram Thombare 2020-11-29  1821  	struct i2c_dev_desc *i=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1675  	struct i3c_dev_boardin=
+fo *i3cboardinfo;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1676  	struct i2c_dev_desc *i=
 2cdev;
-5386a14513be24 Parshuram Thombare 2020-11-29  1822  	int ret;
-5386a14513be24 Parshuram Thombare 2020-11-29  1823  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1677  	int ret;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1678  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1824  	/*
-5386a14513be24 Parshuram Thombare 2020-11-29  1825  	 * First attach all de=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1679  	/*
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1680  	 * First attach all de=
 vices with static definitions provided by the
-5386a14513be24 Parshuram Thombare 2020-11-29  1826  	 * FW.
-5386a14513be24 Parshuram Thombare 2020-11-29  1827  	 */
-5386a14513be24 Parshuram Thombare 2020-11-29  1828  	list_for_each_entry(i2=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1681  	 * FW.
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1682  	 */
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1683  	list_for_each_entry(i2=
 cboardinfo, &master->boardinfo.i2c, node) {
-5386a14513be24 Parshuram Thombare 2020-11-29  1829  		status =3D i3c_bus_ge=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1684  		status =3D i3c_bus_ge=
 t_addr_slot_status(&master->bus,
-5386a14513be24 Parshuram Thombare 2020-11-29  1830  						      i2cboardinf=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1685  						      i2cboardinf=
 o->base.addr);
-5386a14513be24 Parshuram Thombare 2020-11-29  1831  		if (status !=3D I3C_A=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1686  		if (status !=3D I3C_A=
 DDR_SLOT_FREE) {
-5386a14513be24 Parshuram Thombare 2020-11-29  1832  			ret =3D -EBUSY;
-5386a14513be24 Parshuram Thombare 2020-11-29  1833  			goto err_detach_devs;
-5386a14513be24 Parshuram Thombare 2020-11-29  1834  		}
-5386a14513be24 Parshuram Thombare 2020-11-29  1835  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1687  			ret =3D -EBUSY;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1688  			goto err_detach_devs;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1689  		}
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1690  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1836  		i3c_bus_set_addr_slot=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1691  		i3c_bus_set_addr_slot=
 _status(&master->bus,
-5386a14513be24 Parshuram Thombare 2020-11-29  1837  					     i2cboardinfo-=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1692  					     i2cboardinfo-=
 >base.addr,
-5386a14513be24 Parshuram Thombare 2020-11-29  1838  					     I3C_ADDR_SLOT=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1693  					     I3C_ADDR_SLOT=
 _I2C_DEV);
-5386a14513be24 Parshuram Thombare 2020-11-29  1839  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1694  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1840  		i2cdev =3D i3c_master=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1695  		i2cdev =3D i3c_master=
 _alloc_i2c_dev(master, i2cboardinfo);
-5386a14513be24 Parshuram Thombare 2020-11-29  1841  		if (IS_ERR(i2cdev)) {
-5386a14513be24 Parshuram Thombare 2020-11-29 @1842  			ret =3D PTR_ERR(i2cd=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1696  		if (IS_ERR(i2cdev)) {
+3a379bbcea0af6 Boris Brezillon    2017-07-19 @1697  			ret =3D PTR_ERR(i2cd=
 ev);
-5386a14513be24 Parshuram Thombare 2020-11-29  1843  			goto err_detach_devs;
-5386a14513be24 Parshuram Thombare 2020-11-29  1844  		}
-5386a14513be24 Parshuram Thombare 2020-11-29  1845  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1698  			goto err_detach_devs;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1699  		}
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1700  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1846  		ret =3D i3c_master_at=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1701  		ret =3D i3c_master_at=
 tach_i2c_dev(master, i2cdev);
-5386a14513be24 Parshuram Thombare 2020-11-29  1847  		if (ret) {
-5386a14513be24 Parshuram Thombare 2020-11-29  1848  			i3c_master_free_i2c_=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1702  		if (ret) {
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1703  			i3c_master_free_i2c_=
 dev(i2cdev);
-5386a14513be24 Parshuram Thombare 2020-11-29  1849  			goto err_detach_devs;
-5386a14513be24 Parshuram Thombare 2020-11-29  1850  		}
-5386a14513be24 Parshuram Thombare 2020-11-29  1851  	}
-5386a14513be24 Parshuram Thombare 2020-11-29  1852  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1704  			goto err_detach_devs;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1705  		}
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1706  	}
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1707  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1853  	/*
-5386a14513be24 Parshuram Thombare 2020-11-29  1854  	 * Now execute the con=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1708  	/*
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1709  	 * Now execute the con=
 troller specific ->bus_init() routine, which
-5386a14513be24 Parshuram Thombare 2020-11-29  1855  	 * might configure its=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1710  	 * might configure its=
  internal logic to match the bus limitations.
-5386a14513be24 Parshuram Thombare 2020-11-29  1856  	 */
-5386a14513be24 Parshuram Thombare 2020-11-29  1857  	ret =3D master->ops->b=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1711  	 */
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1712  	ret =3D master->ops->b=
 us_init(master);
-5386a14513be24 Parshuram Thombare 2020-11-29  1858  	if (ret)
-5386a14513be24 Parshuram Thombare 2020-11-29  1859  		goto err_detach_devs;
-5386a14513be24 Parshuram Thombare 2020-11-29  1860  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1713  	if (ret)
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1714  		goto err_detach_devs;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1715  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1861  	/*
-5386a14513be24 Parshuram Thombare 2020-11-29  1862  	 * The master device s=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1716  	/*
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1717  	 * The master device s=
 hould have been instantiated in ->bus_init(),
-5386a14513be24 Parshuram Thombare 2020-11-29  1863  	 * complain if this wa=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1718  	 * complain if this wa=
 s not the case.
-5386a14513be24 Parshuram Thombare 2020-11-29  1864  	 */
-5386a14513be24 Parshuram Thombare 2020-11-29  1865  	if (!master->this) {
-5386a14513be24 Parshuram Thombare 2020-11-29  1866  		dev_err(&master->dev,
-5386a14513be24 Parshuram Thombare 2020-11-29  1867  			"master_set_info() w=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1719  	 */
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1720  	if (!master->this) {
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1721  		dev_err(&master->dev,
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1722  			"master_set_info() w=
 as not called in ->bus_init()\n");
-5386a14513be24 Parshuram Thombare 2020-11-29  1868  		ret =3D -EINVAL;
-5386a14513be24 Parshuram Thombare 2020-11-29  1869  		goto err_bus_cleanup;
-5386a14513be24 Parshuram Thombare 2020-11-29  1870  	}
-5386a14513be24 Parshuram Thombare 2020-11-29  1871  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1723  		ret =3D -EINVAL;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1724  		goto err_bus_cleanup;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1725  	}
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1726  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1872  	return 0;
-5386a14513be24 Parshuram Thombare 2020-11-29  1873  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1727  	/*
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1728  	 * Reset all dynamic a=
+ddress that may have been assigned before
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1729  	 * (assigned by the bo=
+otloader for example).
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1730  	 */
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1731  	ret =3D i3c_master_rst=
+daa_locked(master, I3C_BROADCAST_ADDR);
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1732  	if (ret && ret !=3D I3=
+C_ERROR_M2)
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1733  		goto err_bus_cleanup;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1734  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1874  err_bus_cleanup:
-5386a14513be24 Parshuram Thombare 2020-11-29  1875  	if (master->ops->bus_c=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1735  	/* Disable all slave e=
+vents before starting DAA. */
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1736  	ret =3D i3c_master_dis=
+ec_locked(master, I3C_BROADCAST_ADDR,
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1737  				      I3C_CCC_EVENT=
+_SIR | I3C_CCC_EVENT_MR |
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1738  				      I3C_CCC_EVENT=
+_HJ);
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1739  	if (ret && ret !=3D I3=
+C_ERROR_M2)
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1740  		goto err_bus_cleanup;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1741  =
+
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1742  	/*
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1743  	 * Reserve init_dyn_ad=
+dr first, and then try to pre-assign dynamic
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1744  	 * address and retriev=
+e device information if needed.
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1745  	 * In case pre-assign =
+dynamic address fails, setting dynamic address to
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1746  	 * the requested init_=
+dyn_addr is retried after DAA is done in
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1747  	 * i3c_master_add_i3c_=
+dev_locked().
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1748  	 */
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1749  	list_for_each_entry(i3=
+cboardinfo, &master->boardinfo.i3c, node) {
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1750  =
+
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1751  		/*
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1752  		 * We don't reserve a=
+ dynamic address for devices that
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1753  		 * don't explicitly r=
+equest one.
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1754  		 */
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1755  		if (!i3cboardinfo->in=
+it_dyn_addr)
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1756  			continue;
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1757  =
+
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1758  		ret =3D i3c_bus_get_a=
+ddr_slot_status(&master->bus,
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1759  						   i3cboardinfo->=
+init_dyn_addr);
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1760  		if (ret !=3D I3C_ADDR=
+_SLOT_FREE) {
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1761  			ret =3D -EBUSY;
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1762  			goto err_rstdaa;
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1763  		}
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1764  =
+
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1765  		i3c_bus_set_addr_slot=
+_status(&master->bus,
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1766  					     i3cboardinfo-=
+>init_dyn_addr,
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1767  					     I3C_ADDR_SLOT=
+_I3C_DEV);
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1768  =
+
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1769  		/*
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1770  		 * Only try to create=
+/attach devices that have a static
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1771  		 * address. Other dev=
+ices will be created/attached when
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1772  		 * DAA happens, and t=
+he requested dynamic address will
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1773  		 * be set using SETNE=
+WDA once those devices become
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1774  		 * addressable.
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1775  		 */
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1776  =
+
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1777  		if (i3cboardinfo->sta=
+tic_addr)
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1778  			i3c_master_early_i3c=
+_dev_add(master, i3cboardinfo);
+cc3a392d69b62e Parshuram Thombare 2020-08-25  1779  	}
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1780  =
+
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1781  	ret =3D i3c_master_do_=
+daa(master);
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1782  	if (ret)
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1783  		goto err_rstdaa;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1784  =
+
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1785  	return 0;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1786  =
+
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1787  err_rstdaa:
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1788  	i3c_master_rstdaa_lock=
+ed(master, I3C_BROADCAST_ADDR);
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1789  =
+
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1790  err_bus_cleanup:
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1791  	if (master->ops->bus_c=
 leanup)
-5386a14513be24 Parshuram Thombare 2020-11-29  1876  		master->ops->bus_clea=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1792  		master->ops->bus_clea=
 nup(master);
-5386a14513be24 Parshuram Thombare 2020-11-29  1877  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1793  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1878  err_detach_devs:
-5386a14513be24 Parshuram Thombare 2020-11-29  1879  	i3c_master_detach_free=
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1794  err_detach_devs:
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1795  	i3c_master_detach_free=
 _devs(master);
-5386a14513be24 Parshuram Thombare 2020-11-29  1880  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1796  =
 
-5386a14513be24 Parshuram Thombare 2020-11-29  1881  	return ret;
-5386a14513be24 Parshuram Thombare 2020-11-29  1882  }
-5386a14513be24 Parshuram Thombare 2020-11-29  1883  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1797  	return ret;
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1798  }
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1799  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8085905385856910397==
+--===============1114365052944659981==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICKbXw18AAy5jb25maWcAlFxLc9y2st7nV0w5m2SRHD1sHaduaYEBQQ4yBEED4Dy0YSny2EcV
+H4sICLrCw18AAy5jb25maWcAlFxLc9y2st7nV0w5m2SRHD1sHaduaYEBQQ4yBEED4Dy0YSny2EcV
 WfIdSSfxv7/dAB8ACI5zs3BEdOPd6P660Zgff/hxQV5fnr7cvtzf3T48fFt8Pjwejrcvh4+LT/cP
 h/9ZZHJRSbNgGTe/AnN5//j697/uL99fLd79en7269kvx7t3i/Xh+Hh4WNCnx0/3n1+h+v3T4w8/
 /kBllfOipbTdMKW5rFrDdub6zee7u19+W/yUHf64v31c/PbrJTRz/u5n99cbrxrXbUHp9be+qBib
@@ -812,5 +942,5 @@ QyUtNUG+2068sWNhSC6XxgDv6MfuxQCaTH+lBR66eRG1mNBz4krM3bdQHegJO3Fjo0TkPJ27m1UT
 RvbeygmorihRMCpQkzlkumKjUvOHtnotGbo0b1+htfuXI+o7qLjHT//ZP+/u91ZwcFfYXlgqabE2
 OPrFruFTlckt7eyAjSgoCUe+rjfgGJ0C76dgP7Ipakem+dM0ttre1MDBB3xYEa77jEINMhgJGtAl
 OoNkwUvJwEwm1cjZaQ2iUdX15f8AqFCDEP0gAgA=
---===============8085905385856910397==--
+--===============1114365052944659981==--
 
