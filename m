@@ -1,20 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============1583527328044200113=="
+Content-Type: multipart/mixed; boundary="===============8085905385856910397=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v9 5/7] i3c: master: add defslvs processing
-Date: Mon, 30 Nov 2020 02:13:12 +0800
-Message-ID: <202011300256.cnuTZlmj-lkp@intel.com>
+Subject: Re: [PATCH v9 3/7] i3c: master: add i3c_secondary_master_register
+Date: Mon, 30 Nov 2020 01:38:15 +0800
+Message-ID: <202011300113.dIKBEvb9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1583527328044200113==
+--===============8085905385856910397==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1606659809-19710-1-git-send-email-pthombar@cadence.com>
-References: <1606659809-19710-1-git-send-email-pthombar@cadence.com>
+In-Reply-To: <1606659765-19490-1-git-send-email-pthombar@cadence.com>
+References: <1606659765-19490-1-git-send-email-pthombar@cadence.com>
 TO: Parshuram Thombare <pthombar@cadence.com>
 TO: alexandre.belloni(a)bootlin.com
 TO: slongerbeam(a)gmail.com
@@ -38,8 +38,8 @@ https://git-scm.com/docs/git-format-patch]
 url:    https://github.com/0day-ci/linux/commits/Parshuram-Thombare/I3C-mas=
 tership-handover-support/20201129-222847
 base:    6174f05255e65622ff3340257879a4c0f858b0df
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 config: i386-randconfig-m021-20201129 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -48,77 +48,163 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/i3c/master.c:2937 i3c_master_populate_bus() error: uninitialized sy=
-mbol 'ret'.
+drivers/i3c/master.c:1842 i3c_secondary_master_bus_init() warn: passing a v=
+alid pointer to 'PTR_ERR'
 
 Old smatch warnings:
-drivers/i3c/master.c:525 mode_show() warn: unsigned 'i3cbus->mode' is never=
+drivers/i3c/master.c:462 mode_show() warn: unsigned 'i3cbus->mode' is never=
  less than zero.
-drivers/i3c/master.c:1681 i3c_master_set_info() warn: passing a valid point=
+drivers/i3c/master.c:1594 i3c_master_set_info() warn: passing a valid point=
 er to 'PTR_ERR'
-drivers/i3c/master.c:1854 i3c_primary_master_bus_init() warn: passing a val=
+drivers/i3c/master.c:1697 i3c_primary_master_bus_init() warn: passing a val=
 id pointer to 'PTR_ERR'
-drivers/i3c/master.c:1999 i3c_secondary_master_bus_init() warn: passing a v=
-alid pointer to 'PTR_ERR'
-drivers/i3c/master.c:2109 i3c_master_add_i3c_dev_locked() warn: passing a v=
+drivers/i3c/master.c:1952 i3c_master_add_i3c_dev_locked() warn: passing a v=
 alid pointer to 'PTR_ERR'
 
-vim +/ret +2937 drivers/i3c/master.c
+vim +/PTR_ERR +1842 drivers/i3c/master.c
 
-5386a14513be24 Parshuram Thombare 2020-11-29  2915  =
+3a379bbcea0af6 Boris Brezillon    2017-07-19  1799  =
 
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2916  static int
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2917  i3c_master_populate_bus=
-(struct i3c_master_controller *master, u8 dyn_addr)
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2918  {
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2919  	struct i3c_dev_desc *o=
-lddev;
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2920  	struct i3c_ccc_dev_des=
-c *desc;
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2921  	int ret, slot;
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2922  =
+5386a14513be24 Parshuram Thombare 2020-11-29  1800  /**
+5386a14513be24 Parshuram Thombare 2020-11-29  1801   * i3c_secondary_master=
+_bus_init() - initialize an I3C bus for secondary
+5386a14513be24 Parshuram Thombare 2020-11-29  1802   * master
+5386a14513be24 Parshuram Thombare 2020-11-29  1803   * @master: secondary m=
+aster initializing the bus
+5386a14513be24 Parshuram Thombare 2020-11-29  1804   *
+5386a14513be24 Parshuram Thombare 2020-11-29  1805   * This function does
+5386a14513be24 Parshuram Thombare 2020-11-29  1806   *
+5386a14513be24 Parshuram Thombare 2020-11-29  1807   * 1. Attach I2C devs t=
+o the master
+5386a14513be24 Parshuram Thombare 2020-11-29  1808   *
+5386a14513be24 Parshuram Thombare 2020-11-29  1809   * 2. Call &i3c_master_=
+controller_ops->bus_init() method to initialize
+5386a14513be24 Parshuram Thombare 2020-11-29  1810   *    the master contro=
+ller. That's usually where the bus mode is selected
+5386a14513be24 Parshuram Thombare 2020-11-29  1811   *    (pure bus or mixe=
+d fast/slow bus)
+5386a14513be24 Parshuram Thombare 2020-11-29  1812   *
+5386a14513be24 Parshuram Thombare 2020-11-29  1813   * Once this is done, I=
+2C devices should be usable.
+5386a14513be24 Parshuram Thombare 2020-11-29  1814   *
+5386a14513be24 Parshuram Thombare 2020-11-29  1815   * Return: a 0 in case =
+of success, an negative error code otherwise.
+5386a14513be24 Parshuram Thombare 2020-11-29  1816   */
+5386a14513be24 Parshuram Thombare 2020-11-29  1817  static int i3c_secondar=
+y_master_bus_init(struct i3c_master_controller *master)
+5386a14513be24 Parshuram Thombare 2020-11-29  1818  {
+5386a14513be24 Parshuram Thombare 2020-11-29  1819  	enum i3c_addr_slot_sta=
+tus status;
+5386a14513be24 Parshuram Thombare 2020-11-29  1820  	struct i2c_dev_boardin=
+fo *i2cboardinfo;
+5386a14513be24 Parshuram Thombare 2020-11-29  1821  	struct i2c_dev_desc *i=
+2cdev;
+5386a14513be24 Parshuram Thombare 2020-11-29  1822  	int ret;
+5386a14513be24 Parshuram Thombare 2020-11-29  1823  =
 
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2923  	i3c_bus_for_each_i3cde=
-v(&master->bus, olddev)
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2924  		i3c_master_put_i3c_ad=
-drs(olddev);
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2925  =
+5386a14513be24 Parshuram Thombare 2020-11-29  1824  	/*
+5386a14513be24 Parshuram Thombare 2020-11-29  1825  	 * First attach all de=
+vices with static definitions provided by the
+5386a14513be24 Parshuram Thombare 2020-11-29  1826  	 * FW.
+5386a14513be24 Parshuram Thombare 2020-11-29  1827  	 */
+5386a14513be24 Parshuram Thombare 2020-11-29  1828  	list_for_each_entry(i2=
+cboardinfo, &master->boardinfo.i2c, node) {
+5386a14513be24 Parshuram Thombare 2020-11-29  1829  		status =3D i3c_bus_ge=
+t_addr_slot_status(&master->bus,
+5386a14513be24 Parshuram Thombare 2020-11-29  1830  						      i2cboardinf=
+o->base.addr);
+5386a14513be24 Parshuram Thombare 2020-11-29  1831  		if (status !=3D I3C_A=
+DDR_SLOT_FREE) {
+5386a14513be24 Parshuram Thombare 2020-11-29  1832  			ret =3D -EBUSY;
+5386a14513be24 Parshuram Thombare 2020-11-29  1833  			goto err_detach_devs;
+5386a14513be24 Parshuram Thombare 2020-11-29  1834  		}
+5386a14513be24 Parshuram Thombare 2020-11-29  1835  =
 
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2926  	master->this->info.dyn=
-_addr =3D dyn_addr;
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2927  	i3c_master_get_i3c_add=
-rs(master->this);
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2928  =
+5386a14513be24 Parshuram Thombare 2020-11-29  1836  		i3c_bus_set_addr_slot=
+_status(&master->bus,
+5386a14513be24 Parshuram Thombare 2020-11-29  1837  					     i2cboardinfo-=
+>base.addr,
+5386a14513be24 Parshuram Thombare 2020-11-29  1838  					     I3C_ADDR_SLOT=
+_I2C_DEV);
+5386a14513be24 Parshuram Thombare 2020-11-29  1839  =
 
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2929  	desc =3D master->defsl=
-vs_data.devs;
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2930  	for (slot =3D 1; slot =
-< master->defslvs_data.ndevs; slot++) {
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2931  		ret =3D i3c_master_ad=
-d_i3c_dev_locked(master,
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2932  						    desc[slot].dy=
-n_addr);
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2933  		if (ret)
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2934  			break;
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2935  	}
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2936  =
+5386a14513be24 Parshuram Thombare 2020-11-29  1840  		i2cdev =3D i3c_master=
+_alloc_i2c_dev(master, i2cboardinfo);
+5386a14513be24 Parshuram Thombare 2020-11-29  1841  		if (IS_ERR(i2cdev)) {
+5386a14513be24 Parshuram Thombare 2020-11-29 @1842  			ret =3D PTR_ERR(i2cd=
+ev);
+5386a14513be24 Parshuram Thombare 2020-11-29  1843  			goto err_detach_devs;
+5386a14513be24 Parshuram Thombare 2020-11-29  1844  		}
+5386a14513be24 Parshuram Thombare 2020-11-29  1845  =
 
-7bec1dc96d88ea Parshuram Thombare 2020-11-29 @2937  	return ret;
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2938  }
-7bec1dc96d88ea Parshuram Thombare 2020-11-29  2939  =
+5386a14513be24 Parshuram Thombare 2020-11-29  1846  		ret =3D i3c_master_at=
+tach_i2c_dev(master, i2cdev);
+5386a14513be24 Parshuram Thombare 2020-11-29  1847  		if (ret) {
+5386a14513be24 Parshuram Thombare 2020-11-29  1848  			i3c_master_free_i2c_=
+dev(i2cdev);
+5386a14513be24 Parshuram Thombare 2020-11-29  1849  			goto err_detach_devs;
+5386a14513be24 Parshuram Thombare 2020-11-29  1850  		}
+5386a14513be24 Parshuram Thombare 2020-11-29  1851  	}
+5386a14513be24 Parshuram Thombare 2020-11-29  1852  =
+
+5386a14513be24 Parshuram Thombare 2020-11-29  1853  	/*
+5386a14513be24 Parshuram Thombare 2020-11-29  1854  	 * Now execute the con=
+troller specific ->bus_init() routine, which
+5386a14513be24 Parshuram Thombare 2020-11-29  1855  	 * might configure its=
+ internal logic to match the bus limitations.
+5386a14513be24 Parshuram Thombare 2020-11-29  1856  	 */
+5386a14513be24 Parshuram Thombare 2020-11-29  1857  	ret =3D master->ops->b=
+us_init(master);
+5386a14513be24 Parshuram Thombare 2020-11-29  1858  	if (ret)
+5386a14513be24 Parshuram Thombare 2020-11-29  1859  		goto err_detach_devs;
+5386a14513be24 Parshuram Thombare 2020-11-29  1860  =
+
+5386a14513be24 Parshuram Thombare 2020-11-29  1861  	/*
+5386a14513be24 Parshuram Thombare 2020-11-29  1862  	 * The master device s=
+hould have been instantiated in ->bus_init(),
+5386a14513be24 Parshuram Thombare 2020-11-29  1863  	 * complain if this wa=
+s not the case.
+5386a14513be24 Parshuram Thombare 2020-11-29  1864  	 */
+5386a14513be24 Parshuram Thombare 2020-11-29  1865  	if (!master->this) {
+5386a14513be24 Parshuram Thombare 2020-11-29  1866  		dev_err(&master->dev,
+5386a14513be24 Parshuram Thombare 2020-11-29  1867  			"master_set_info() w=
+as not called in ->bus_init()\n");
+5386a14513be24 Parshuram Thombare 2020-11-29  1868  		ret =3D -EINVAL;
+5386a14513be24 Parshuram Thombare 2020-11-29  1869  		goto err_bus_cleanup;
+5386a14513be24 Parshuram Thombare 2020-11-29  1870  	}
+5386a14513be24 Parshuram Thombare 2020-11-29  1871  =
+
+5386a14513be24 Parshuram Thombare 2020-11-29  1872  	return 0;
+5386a14513be24 Parshuram Thombare 2020-11-29  1873  =
+
+5386a14513be24 Parshuram Thombare 2020-11-29  1874  err_bus_cleanup:
+5386a14513be24 Parshuram Thombare 2020-11-29  1875  	if (master->ops->bus_c=
+leanup)
+5386a14513be24 Parshuram Thombare 2020-11-29  1876  		master->ops->bus_clea=
+nup(master);
+5386a14513be24 Parshuram Thombare 2020-11-29  1877  =
+
+5386a14513be24 Parshuram Thombare 2020-11-29  1878  err_detach_devs:
+5386a14513be24 Parshuram Thombare 2020-11-29  1879  	i3c_master_detach_free=
+_devs(master);
+5386a14513be24 Parshuram Thombare 2020-11-29  1880  =
+
+5386a14513be24 Parshuram Thombare 2020-11-29  1881  	return ret;
+5386a14513be24 Parshuram Thombare 2020-11-29  1882  }
+5386a14513be24 Parshuram Thombare 2020-11-29  1883  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1583527328044200113==
+--===============8085905385856910397==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLXdw18AAy5jb25maWcAlFxLc9y2st7nV0w5m2SRHD1sHaduaYEBQQ4yBEED4Dy0YSny2EcV
+H4sICKbXw18AAy5jb25maWcAlFxLc9y2st7nV0w5m2SRHD1sHaduaYEBQQ4yBEED4Dy0YSny2EcV
 WfIdSSfxv7/dAB8ACI5zs3BEdOPd6P660Zgff/hxQV5fnr7cvtzf3T48fFt8Pjwejrcvh4+LT/cP
 h/9ZZHJRSbNgGTe/AnN5//j697/uL99fLd79en7269kvx7t3i/Xh+Hh4WNCnx0/3n1+h+v3T4w8/
 /kBllfOipbTdMKW5rFrDdub6zee7u19+W/yUHf64v31c/PbrJTRz/u5n99cbrxrXbUHp9be+qBib
@@ -726,5 +812,5 @@ QyUtNUG+2068sWNhSC6XxgDv6MfuxQCaTH+lBR66eRG1mNBz4krM3bdQHegJO3Fjo0TkPJ27m1UT
 RvbeygmorihRMCpQkzlkumKjUvOHtnotGbo0b1+htfuXI+o7qLjHT//ZP+/u91ZwcFfYXlgqabE2
 OPrFruFTlckt7eyAjSgoCUe+rjfgGJ0C76dgP7Ipakem+dM0ttre1MDBB3xYEa77jEINMhgJGtAl
 OoNkwUvJwEwm1cjZaQ2iUdX15f8AqFCDEP0gAgA=
---===============1583527328044200113==--
+--===============8085905385856910397==--
 
