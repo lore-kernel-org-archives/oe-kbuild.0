@@ -1,25 +1,38 @@
-Content-Type: multipart/mixed; boundary="===============1108167888009848516=="
+Content-Type: multipart/mixed; boundary="===============6448637697661893373=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] clk: trace: Trace range functions
-Date: Thu, 03 Dec 2020 16:49:52 +0300
-Message-ID: <20201203134952.GO2789@kadam>
-In-Reply-To: <20201203075913.723046-1-maxime@cerno.tech>
+Date: Thu, 03 Dec 2020 21:05:41 +0800
+Message-ID: <202012032128.ZOcoSVj3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1108167888009848516==
+--===============6448637697661893373==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20201203075913.723046-1-maxime@cerno.tech>
+References: <20201203075913.723046-1-maxime@cerno.tech>
+TO: Maxime Ripard <maxime@cerno.tech>
+
 Hi Maxime,
 
-url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/clk-trace-Tr=
-ace-range-functions/20201203-160811 =
+I love your patch! Perhaps something to improve:
 
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git  clk-=
-next
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on tip/perf/core v5.10-rc6 next-20201203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/clk-trace-Tr=
+ace-range-functions/20201203-160811
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
+ext
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
 config: x86_64-randconfig-m001-20201203 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -38,21 +51,26 @@ drivers/clk/clk.c:3657 clk_hw_create_clk() warn: passing zero to 'ERR_CAST'
 
 vim +/clk +2385 drivers/clk/clk.c
 
+035a61c314eb3da Tomeu Vizoso  2015-01-23  2373  =
+
+035a61c314eb3da Tomeu Vizoso  2015-01-23  2374  /**
+4dff95dc9477a34 Stephen Boyd  2015-04-30  2375   * clk_set_min_rate - set a=
+ minimum clock rate for a clock source
+4dff95dc9477a34 Stephen Boyd  2015-04-30  2376   * @clk: clock source
+4dff95dc9477a34 Stephen Boyd  2015-04-30  2377   * @rate: desired minimum c=
+lock rate in Hz, inclusive
+035a61c314eb3da Tomeu Vizoso  2015-01-23  2378   *
+4dff95dc9477a34 Stephen Boyd  2015-04-30  2379   * Returns success (0) or n=
+egative errno.
+035a61c314eb3da Tomeu Vizoso  2015-01-23  2380   */
 4dff95dc9477a34 Stephen Boyd  2015-04-30  2381  int clk_set_min_rate(struct=
  clk *clk, unsigned long rate)
 035a61c314eb3da Tomeu Vizoso  2015-01-23  2382  {
 1e0141250281741 Maxime Ripard 2020-12-03 @2383  	trace_clk_set_min_rate(clk=
 ->core, rate);
-                                                                           =
-    ^^^^^^^^^
-Dereference
-
 1e0141250281741 Maxime Ripard 2020-12-03  2384  =
 
 035a61c314eb3da Tomeu Vizoso  2015-01-23 @2385  	if (!clk)
-                                                            ^^^^
-Checked too late
-
 035a61c314eb3da Tomeu Vizoso  2015-01-23  2386  		return 0;
 035a61c314eb3da Tomeu Vizoso  2015-01-23  2387  =
 
@@ -78,31 +96,25 @@ egative errno.
 4935b22c46ea5e2 James Hogan   2013-07-29  2400  {
 1e0141250281741 Maxime Ripard 2020-12-03 @2401  	trace_clk_set_max_rate(clk=
 ->core, rate);
-                                                                           =
-    ^^^^^^^^^
-
 1e0141250281741 Maxime Ripard 2020-12-03  2402  =
 
 4dff95dc9477a34 Stephen Boyd  2015-04-30 @2403  	if (!clk)
-                                                            ^^^^
-
 4dff95dc9477a34 Stephen Boyd  2015-04-30  2404  		return 0;
 4935b22c46ea5e2 James Hogan   2013-07-29  2405  =
 
 4dff95dc9477a34 Stephen Boyd  2015-04-30  2406  	return clk_set_rate_range(=
 clk, clk->min_rate, rate);
 f1c8b2edf916b5b Tomasz Figa   2013-09-29  2407  }
+4dff95dc9477a34 Stephen Boyd  2015-04-30  2408  EXPORT_SYMBOL_GPL(clk_set_m=
+ax_rate);
+4935b22c46ea5e2 James Hogan   2013-07-29  2409  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============1108167888009848516==
+--===============6448637697661893373==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -736,7 +748,7 @@ yybvyFKKRQrl4b2nRYKhl3AbEyUoNlntFILuY7aBNOxKU0XbbCQ0zwQy/QXNYqGPibxGD0ikNy7G
 xZrIuks3c/xlS+GPWqhK6LecfWal8dRttBolMgoVjSENNvgaFSUfb71NtsYggWUL3New9/RwZd+k
 /SZLlrObS1k33te7twNKKCijh8//u3vdPuz0I/6y8W2t/pRG23VejoFDWWIruOjUfrwMc/0NmtKA
 QZUEcLe3CmMYkJ4/8ID94V1PrSRs8vllKobNP3hQmM96+bFx3v6q24//AxJkkwqTOgIA
---===============1108167888009848516==
+--===============6448637697661893373==
 Content-Type: text/plain
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -920,5 +932,5 @@ ai9zbWF0Y2gveDg2XzY0LXJhbmRjb25maWctbTAwMS0yMDIwMTIwMycKbWFrZTogTGVhdmluZyBk
 aXJlY3RvcnkgJy9rYnVpbGQvc3JjL3NtYXRjaCcKNCByZWFsICAxIHVzZXIgIDAgc3lzICAzOC40
 NiUgY3B1IAltYWtlIFNIRUxMPS9iaW4vYmFzaCBNPWRyaXZlcnMvY2xrCg==
 
---===============1108167888009848516==--
+--===============6448637697661893373==--
 
