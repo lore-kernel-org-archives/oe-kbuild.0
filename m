@@ -1,479 +1,305 @@
-Content-Type: multipart/mixed; boundary="===============6375328760072116768=="
+Content-Type: multipart/mixed; boundary="===============2342179328401559101=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/staging/rtl8723bs/core/rtw_wlan_util.c:1380:30: warning: Either the condition 'p' is redundant or there is pointer arithmetic with NULL pointer.
-Date: Tue, 08 Dec 2020 19:24:43 +0800
-Message-ID: <202012081938.W1jWKoKu-lkp@intel.com>
+Subject: [block:for-5.11/drivers 60/60] drivers/block/null_blk/main.c:1885:2: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'.
+Date: Tue, 08 Dec 2020 16:14:51 +0800
+Message-ID: <202012081643.ajUaOGe0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6375328760072116768==
+--===============2342179328401559101==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Denis Straghkov <d.straghkov@ispras.ru>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Dan Carpenter <error27@gmail.com>
+TO: Damien Le Moal <damien.lemoal@wdc.com>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   cd796ed3345030aa1bb332fe5c793b3dddaf56e7
-commit: 370730894bece52b2bbd4eb727fbb39840cc0e14 Staging: rtl8723bs: rtw_wl=
-an_util: Add size check of SSID IE
-date:   8 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 8 months ago
-compiler: or1k-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-5.11/drivers
+head:   eebf34a85c8c724676eba502d15202854f199b05
+commit: eebf34a85c8c724676eba502d15202854f199b05 [60/60] null_blk: Move dri=
+ver into its own directory
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +1885 drivers/block/null_blk/main.c
 
->> drivers/staging/rtl8723bs/core/rtw_wlan_util.c:1380:30: warning: Either =
-the condition 'p' is redundant or there is pointer arithmetic with NULL poi=
-nter. [nullPointerArithmeticRedundantCheck]
-    memcpy(bssid->Ssid.Ssid, (p + 2), ssid_len);
-                                ^
-   drivers/staging/rtl8723bs/core/rtw_wlan_util.c:1375:6: note: Assuming th=
-at condition 'p' is not redundant
-    if (p) {
-        ^
-   drivers/staging/rtl8723bs/core/rtw_wlan_util.c:1380:30: note: Null point=
-er addition
-    memcpy(bssid->Ssid.Ssid, (p + 2), ssid_len);
-                                ^
->> drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:201:3: warning: Assignment =
-of function parameter has no effect outside the function. Did you forget de=
-referencing it? [uselessAssignmentPtrArg]
-     pframe =3D rtw_set_ie(pframe, _EXT_SUPPORTEDRATES_IE_, (rate_len - 8),=
- (cur_network->SupportedRates + 8), &pktlen);
-     ^
-   drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:816:4: warning: Assignment =
-of function parameter has no effect outside the function. Did you forget de=
-referencing it? [uselessAssignmentPtrArg]
-      pframe +=3D ssid_ielen_diff;
-      ^
-   drivers/staging/rtl8723bs/hal/rtl8723b_cmd.c:706:3: warning: Assignment =
-of function parameter has no effect outside the function. Did you forget de=
-referencing it? [uselessAssignmentPtrArg]
-     pframe =3D rtw_set_ie(pframe, _SUPPORTEDRATES_IE_, bssrate_len, bssrat=
-e, &pktlen);
-     ^
->> drivers/staging/rtl8723bs/os_dep/ioctl_linux.c:2930:23: warning: Express=
-ion '(X & 0x3) > 0x3' is always false. [comparisonError]
-          if ((extra_arg & 0x03) > 0x03)
-                         ^
+93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10 =
+ 1794  =
 
-vim +/p +1380 drivers/staging/rtl8723bs/core/rtw_wlan_util.c
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1795  static int null_add_dev(struct nullb_device *dev)
+9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-0=
+9-16  1796  {
+9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-0=
+9-16  1797  	struct nullb *nullb;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1798  	int rv;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1799  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1259  =
+5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03 =
+ 1800  	rv =3D null_validate_conf(dev);
+5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03 =
+ 1801  	if (rv)
+5c4bd1f40c23d08 drivers/block/null_blk_main.c Damien Le Moal    2019-12-03 =
+ 1802  		return rv;
+cedcafad8277b3a drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1803  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1260  int rtw_check_bcn_info=
-(struct adapter *Adapter, u8 *pframe, u32 packet_len)
-554c0a3abf216c Hans de Goede       2017-03-29  1261  {
-554c0a3abf216c Hans de Goede       2017-03-29  1262  	unsigned int		len;
-554c0a3abf216c Hans de Goede       2017-03-29  1263  	unsigned char 	*p;
-554c0a3abf216c Hans de Goede       2017-03-29  1264  	unsigned short	val16,=
- subtype;
-554c0a3abf216c Hans de Goede       2017-03-29  1265  	struct wlan_network *=
-cur_network =3D &(Adapter->mlmepriv.cur_network);
-554c0a3abf216c Hans de Goede       2017-03-29  1266  	/* u8 wpa_ie[255], rs=
-n_ie[255]; */
-554c0a3abf216c Hans de Goede       2017-03-29  1267  	u16 wpa_len =3D 0, rs=
-n_len =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1268  	u8 encryp_protocol =
-=3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1269  	struct wlan_bssid_ex =
-*bssid;
-554c0a3abf216c Hans de Goede       2017-03-29  1270  	int group_cipher =3D =
-0, pairwise_cipher =3D 0, is_8021x =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1271  	unsigned char *pbuf;
-554c0a3abf216c Hans de Goede       2017-03-29  1272  	u32 wpa_ielen =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1273  	u8 *pbssid =3D GetAdd=
-r3Ptr(pframe);
-554c0a3abf216c Hans de Goede       2017-03-29  1274  	struct HT_info_elemen=
-t *pht_info =3D NULL;
-554c0a3abf216c Hans de Goede       2017-03-29  1275  	struct rtw_ieee80211_=
-ht_cap *pht_cap =3D NULL;
-554c0a3abf216c Hans de Goede       2017-03-29  1276  	u32 bcn_channel;
-554c0a3abf216c Hans de Goede       2017-03-29  1277  	unsigned short	ht_cap=
-_info;
-554c0a3abf216c Hans de Goede       2017-03-29  1278  	unsigned char ht_info=
-_infos_0;
-554c0a3abf216c Hans de Goede       2017-03-29  1279  	struct mlme_priv *pml=
-mepriv =3D &Adapter->mlmepriv;
-370730894bece5 Denis Straghkov     2020-04-22  1280  	int ssid_len;
-554c0a3abf216c Hans de Goede       2017-03-29  1281  =
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1804  	nullb =3D kzalloc_node(sizeof(*nullb), GFP_KERNEL, dev->home_node);
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1805  	if (!nullb) {
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1806  		rv =3D -ENOMEM;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1807  		goto out;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1808  	}
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1809  	nullb->dev =3D dev;
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1810  	dev->nullb =3D nullb;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1811  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1282  	if (is_client_associa=
-ted_to_ap(Adapter) =3D=3D false)
-554c0a3abf216c Hans de Goede       2017-03-29  1283  		return true;
-554c0a3abf216c Hans de Goede       2017-03-29  1284  =
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1812  	spin_lock_init(&nullb->lock);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1813  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1285  	len =3D packet_len - =
-sizeof(struct ieee80211_hdr_3addr);
-554c0a3abf216c Hans de Goede       2017-03-29  1286  =
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1814  	rv =3D setup_queues(nullb);
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1815  	if (rv)
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1816  		goto out_free_nullb;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1817  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1287  	if (len > MAX_IE_SZ) {
-554c0a3abf216c Hans de Goede       2017-03-29  1288  		DBG_871X("%s IE too =
-long for survey event\n", __func__);
-554c0a3abf216c Hans de Goede       2017-03-29  1289  		return _FAIL;
-554c0a3abf216c Hans de Goede       2017-03-29  1290  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1291  =
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1818  	if (dev->queue_mode =3D=3D NULL_Q_MQ) {
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20 =
+ 1819  		if (shared_tags) {
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20 =
+ 1820  			nullb->tag_set =3D &tag_set;
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20 =
+ 1821  			rv =3D 0;
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20 =
+ 1822  		} else {
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20 =
+ 1823  			nullb->tag_set =3D &nullb->__tag_set;
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1824  			rv =3D null_init_tag_set(nullb, nullb->tag_set);
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20 =
+ 1825  		}
+db5bcf87bb9e856 drivers/block/null_blk.c      Jens Axboe        2017-03-30 =
+ 1826  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1292  	if (memcmp(cur_networ=
-k->network.MacAddress, pbssid, 6)) {
-554c0a3abf216c Hans de Goede       2017-03-29  1293  		DBG_871X("Oops: rtw_=
-check_network_encrypt linked but recv other bssid bcn\n" MAC_FMT MAC_FMT,
-554c0a3abf216c Hans de Goede       2017-03-29  1294  				MAC_ARG(pbssid), M=
-AC_ARG(cur_network->network.MacAddress));
-554c0a3abf216c Hans de Goede       2017-03-29  1295  		return true;
-554c0a3abf216c Hans de Goede       2017-03-29  1296  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1297  =
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1827  		if (rv)
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1828  			goto out_cleanup_queues;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1829  =
 
-2ef2b7c21fc877 Joe Perches         2017-09-09  1298  	bssid =3D rtw_zmalloc=
-(sizeof(struct wlan_bssid_ex));
-c9d19e68a7963f Michael Straube     2018-07-11  1299  	if (!bssid) {
-554c0a3abf216c Hans de Goede       2017-03-29  1300  		DBG_871X("%s rtw_zma=
-lloc fail !!!\n", __func__);
-554c0a3abf216c Hans de Goede       2017-03-29  1301  		return true;
-554c0a3abf216c Hans de Goede       2017-03-29  1302  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1303  =
+93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10 =
+ 1830  		if (!null_setup_fault())
+93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10 =
+ 1831  			goto out_cleanup_queues;
+93b570464cce007 drivers/block/null_blk.c      Jens Axboe        2018-01-10 =
+ 1832  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1304  	if ((pmlmepriv->timeB=
-cnInfoChkStart !=3D 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInf=
-oChkStart) > DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)) {
-554c0a3abf216c Hans de Goede       2017-03-29  1305  		pmlmepriv->timeBcnIn=
-foChkStart =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1306  		pmlmepriv->NumOfBcnI=
-nfoChkFail =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1307  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1308  =
+5448aca41cd58e1 drivers/block/null_blk.c      Jens Axboe        2018-01-09 =
+ 1833  		nullb->tag_set->timeout =3D 5 * HZ;
+8d96a1117c21faa drivers/block/null_blk_main.c Christoph Hellwig 2020-03-27 =
+ 1834  		nullb->q =3D blk_mq_init_queue_data(nullb->tag_set, nullb);
+35b489d32fcc37e drivers/block/null_blk.c      Ming Lei          2015-01-02 =
+ 1835  		if (IS_ERR(nullb->q)) {
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1836  			rv =3D -ENOMEM;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1837  			goto out_cleanup_tags;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1838  		}
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1839  	} else if (dev->queue_mode =3D=3D NULL_Q_BIO) {
+c62b37d96b6eb3e drivers/block/null_blk_main.c Christoph Hellwig 2020-07-01 =
+ 1840  		nullb->q =3D blk_alloc_queue(dev->home_node);
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1841  		if (!nullb->q) {
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1842  			rv =3D -ENOMEM;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1843  			goto out_cleanup_queues;
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1844  		}
+31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22 =
+ 1845  		rv =3D init_driver_queues(nullb);
+31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22 =
+ 1846  		if (rv)
+31f9690e6eaf549 drivers/block/null_blk.c      Jan Kara          2014-10-22 =
+ 1847  			goto out_cleanup_blk_queue;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1848  	}
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1849  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1309  	subtype =3D GetFrameS=
-ubType(pframe) >> 4;
-554c0a3abf216c Hans de Goede       2017-03-29  1310  =
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1850  	if (dev->mbps) {
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1851  		set_bit(NULLB_DEV_FL_THROTTLED, &dev->flags);
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1852  		nullb_setup_bwtimer(nullb);
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1853  	}
+eff2c4f108735dd drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1854  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1311  	if (subtype =3D=3D WI=
-FI_BEACON)
-554c0a3abf216c Hans de Goede       2017-03-29  1312  		bssid->Reserved[0] =
-=3D 1;
-554c0a3abf216c Hans de Goede       2017-03-29  1313  =
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1855  	if (dev->cache_size > 0) {
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1856  		set_bit(NULLB_DEV_FL_CACHE, &nullb->dev->flags);
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1857  		blk_queue_write_cache(nullb->q, true, true);
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1858  	}
+deb78b419dfda33 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1859  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1314  	bssid->Length =3D siz=
-eof(struct wlan_bssid_ex) - MAX_IE_SZ + len;
-554c0a3abf216c Hans de Goede       2017-03-29  1315  =
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-0=
+7-06  1860  	if (dev->zoned) {
+d205bde78fa53e1 drivers/block/null_blk_main.c Damien Le Moal    2020-04-23 =
+ 1861  		rv =3D null_init_zoned_dev(dev, nullb->q);
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-0=
+7-06  1862  		if (rv)
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-0=
+7-06  1863  			goto out_cleanup_blk_queue;
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-0=
+7-06  1864  	}
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-0=
+7-06  1865  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1316  	/* below is to copy t=
-he information element */
-554c0a3abf216c Hans de Goede       2017-03-29  1317  	bssid->IELength =3D l=
-en;
-554c0a3abf216c Hans de Goede       2017-03-29  1318  	memcpy(bssid->IEs, (p=
-frame + sizeof(struct ieee80211_hdr_3addr)), bssid->IELength);
-554c0a3abf216c Hans de Goede       2017-03-29  1319  =
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1866  	nullb->q->queuedata =3D nullb;
+8b904b5b6b58b9a drivers/block/null_blk.c      Bart Van Assche   2018-03-07 =
+ 1867  	blk_queue_flag_set(QUEUE_FLAG_NONROT, nullb->q);
+8b904b5b6b58b9a drivers/block/null_blk.c      Bart Van Assche   2018-03-07 =
+ 1868  	blk_queue_flag_clear(QUEUE_FLAG_ADD_RANDOM, nullb->q);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1869  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1320  	/* check bw and chann=
-el offset */
-554c0a3abf216c Hans de Goede       2017-03-29  1321  	/* parsing HT_CAP_IE =
-*/
-554c0a3abf216c Hans de Goede       2017-03-29  1322  	p =3D rtw_get_ie(bssi=
-d->IEs + _FIXED_IE_LENGTH_, _HT_CAPABILITY_IE_, &len, bssid->IELength - _FI=
-XED_IE_LENGTH_);
-554c0a3abf216c Hans de Goede       2017-03-29  1323  	if (p && len > 0) {
-554c0a3abf216c Hans de Goede       2017-03-29  1324  			pht_cap =3D (struct=
- rtw_ieee80211_ht_cap *)(p + 2);
-554c0a3abf216c Hans de Goede       2017-03-29  1325  			ht_cap_info =3D le1=
-6_to_cpu(pht_cap->cap_info);
-554c0a3abf216c Hans de Goede       2017-03-29  1326  	} else {
-554c0a3abf216c Hans de Goede       2017-03-29  1327  			ht_cap_info =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1328  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1329  	/* parsing HT_INFO_IE=
- */
-554c0a3abf216c Hans de Goede       2017-03-29  1330  	p =3D rtw_get_ie(bssi=
-d->IEs + _FIXED_IE_LENGTH_, _HT_ADD_INFO_IE_, &len, bssid->IELength - _FIXE=
-D_IE_LENGTH_);
-554c0a3abf216c Hans de Goede       2017-03-29  1331  	if (p && len > 0) {
-554c0a3abf216c Hans de Goede       2017-03-29  1332  			pht_info =3D (struc=
-t HT_info_element *)(p + 2);
-554c0a3abf216c Hans de Goede       2017-03-29  1333  			ht_info_infos_0 =3D=
- pht_info->infos[0];
-554c0a3abf216c Hans de Goede       2017-03-29  1334  	} else {
-554c0a3abf216c Hans de Goede       2017-03-29  1335  			ht_info_infos_0 =3D=
- 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1336  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1337  	if (ht_cap_info !=3D =
-cur_network->BcnInfo.ht_cap_info ||
-554c0a3abf216c Hans de Goede       2017-03-29  1338  		((ht_info_infos_0&0x=
-03) !=3D (cur_network->BcnInfo.ht_info_infos_0&0x03))) {
-554c0a3abf216c Hans de Goede       2017-03-29  1339  			DBG_871X("%s bcn no=
-w: ht_cap_info:%x ht_info_infos_0:%x\n", __func__,
-554c0a3abf216c Hans de Goede       2017-03-29  1340  							ht_cap_info, ht=
-_info_infos_0);
-554c0a3abf216c Hans de Goede       2017-03-29  1341  			DBG_871X("%s bcn li=
-nk: ht_cap_info:%x ht_info_infos_0:%x\n", __func__,
-554c0a3abf216c Hans de Goede       2017-03-29  1342  							cur_network->Bc=
-nInfo.ht_cap_info, cur_network->BcnInfo.ht_info_infos_0);
-554c0a3abf216c Hans de Goede       2017-03-29  1343  			DBG_871X("%s bw mod=
-e change\n", __func__);
-554c0a3abf216c Hans de Goede       2017-03-29  1344  			{
-554c0a3abf216c Hans de Goede       2017-03-29  1345  				/* bcn_info_update=
- */
-554c0a3abf216c Hans de Goede       2017-03-29  1346  				cur_network->BcnIn=
-fo.ht_cap_info =3D ht_cap_info;
-554c0a3abf216c Hans de Goede       2017-03-29  1347  				cur_network->BcnIn=
-fo.ht_info_infos_0 =3D ht_info_infos_0;
-554c0a3abf216c Hans de Goede       2017-03-29  1348  				/* to do : need to=
- check that whether modify related register of BB or not */
-554c0a3abf216c Hans de Goede       2017-03-29  1349  			}
-554c0a3abf216c Hans de Goede       2017-03-29  1350  			/* goto _mismatch; =
-*/
-554c0a3abf216c Hans de Goede       2017-03-29  1351  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1352  =
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1870  	mutex_lock(&lock);
+94bc02e30fb8d04 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1871  	nullb->index =3D ida_simple_get(&nullb_indexes, 0, 0, GFP_KERNEL);
+cedcafad8277b3a drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1872  	dev->index =3D nullb->index;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1873  	mutex_unlock(&lock);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1874  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1353  	/* Checking for chann=
-el */
-554c0a3abf216c Hans de Goede       2017-03-29  1354  	p =3D rtw_get_ie(bssi=
-d->IEs + _FIXED_IE_LENGTH_, _DSSET_IE_, &len, bssid->IELength - _FIXED_IE_L=
-ENGTH_);
-554c0a3abf216c Hans de Goede       2017-03-29  1355  	if (p) {
-554c0a3abf216c Hans de Goede       2017-03-29  1356  			bcn_channel =3D *(p=
- + 2);
-554c0a3abf216c Hans de Goede       2017-03-29  1357  	} else {/* In 5G, som=
-e ap do not have DSSET IE checking HT info for channel */
-554c0a3abf216c Hans de Goede       2017-03-29  1358  			rtw_get_ie(bssid->I=
-Es + _FIXED_IE_LENGTH_, _HT_ADD_INFO_IE_, &len, bssid->IELength - _FIXED_IE=
-_LENGTH_);
-554c0a3abf216c Hans de Goede       2017-03-29  1359  			if (pht_info) {
-554c0a3abf216c Hans de Goede       2017-03-29  1360  					bcn_channel =3D p=
-ht_info->primary_channel;
-554c0a3abf216c Hans de Goede       2017-03-29  1361  			} else { /* we don'=
-t find channel IE, so don't check it */
-554c0a3abf216c Hans de Goede       2017-03-29  1362  					/* DBG_871X("Oops=
-: %s we don't find channel IE, so don't check it\n", __func__); */
-554c0a3abf216c Hans de Goede       2017-03-29  1363  					bcn_channel =3D A=
-dapter->mlmeextpriv.cur_channel;
-554c0a3abf216c Hans de Goede       2017-03-29  1364  			}
-554c0a3abf216c Hans de Goede       2017-03-29  1365  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1366  	if (bcn_channel !=3D =
-Adapter->mlmeextpriv.cur_channel) {
-554c0a3abf216c Hans de Goede       2017-03-29  1367  			DBG_871X("%s beacon=
- channel:%d cur channel:%d disconnect\n", __func__,
-554c0a3abf216c Hans de Goede       2017-03-29  1368  						   bcn_channel, =
-Adapter->mlmeextpriv.cur_channel);
-554c0a3abf216c Hans de Goede       2017-03-29  1369  			goto _mismatch;
-554c0a3abf216c Hans de Goede       2017-03-29  1370  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1371  =
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1875  	blk_queue_logical_block_size(nullb->q, dev->blocksize);
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1876  	blk_queue_physical_block_size(nullb->q, dev->blocksize);
+ea17fd354ca8afd drivers/block/null_blk_main.c Damien Le Moal    2020-11-20 =
+ 1877  	if (!dev->max_sectors)
+ea17fd354ca8afd drivers/block/null_blk_main.c Damien Le Moal    2020-11-20 =
+ 1878  		dev->max_sectors =3D queue_max_hw_sectors(nullb->q);
+ea17fd354ca8afd drivers/block/null_blk_main.c Damien Le Moal    2020-11-20 =
+ 1879  	dev->max_sectors =3D min_t(unsigned int, dev->max_sectors,
+ea17fd354ca8afd drivers/block/null_blk_main.c Damien Le Moal    2020-11-20 =
+ 1880  				 BLK_DEF_MAX_SECTORS);
+ea17fd354ca8afd drivers/block/null_blk_main.c Damien Le Moal    2020-11-20 =
+ 1881  	blk_queue_max_hw_sectors(nullb->q, dev->max_sectors);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1882  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1372  	/* checking SSID */
-370730894bece5 Denis Straghkov     2020-04-22  1373  	ssid_len =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1374  	p =3D rtw_get_ie(bssi=
-d->IEs + _FIXED_IE_LENGTH_, _SSID_IE_, &len, bssid->IELength - _FIXED_IE_LE=
-NGTH_);
-370730894bece5 Denis Straghkov     2020-04-22  1375  	if (p) {
-370730894bece5 Denis Straghkov     2020-04-22  1376  		ssid_len =3D *(p + 1=
-);
-370730894bece5 Denis Straghkov     2020-04-22  1377  		if (ssid_len > NDIS_=
-802_11_LENGTH_SSID)
-370730894bece5 Denis Straghkov     2020-04-22  1378  			ssid_len =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1379  	}
-370730894bece5 Denis Straghkov     2020-04-22 @1380  	memcpy(bssid->Ssid.Ss=
-id, (p + 2), ssid_len);
-370730894bece5 Denis Straghkov     2020-04-22  1381  	bssid->Ssid.SsidLengt=
-h =3D ssid_len;
-554c0a3abf216c Hans de Goede       2017-03-29  1382  =
+306eb6b4ad4f2d5 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1883  	null_config_discard(nullb);
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1884  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1383  	RT_TRACE(_module_rtl8=
-71x_mlme_c_, _drv_info_, ("%s bssid.Ssid.Ssid:%s bssid.Ssid.SsidLength:%d "
-554c0a3abf216c Hans de Goede       2017-03-29  1384  				"cur_network->netw=
-ork.Ssid.Ssid:%s len:%d\n", __func__, bssid->Ssid.Ssid,
-554c0a3abf216c Hans de Goede       2017-03-29  1385  				bssid->Ssid.SsidLe=
-ngth, cur_network->network.Ssid.Ssid,
-554c0a3abf216c Hans de Goede       2017-03-29  1386  				cur_network->netwo=
-rk.Ssid.SsidLength));
-554c0a3abf216c Hans de Goede       2017-03-29  1387  =
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-1=
+1-12 @1885  	sprintf(nullb->disk_name, "nullb%d", nullb->index);
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-1=
+1-12  1886  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1388  	if (memcmp(bssid->Ssi=
-d.Ssid, cur_network->network.Ssid.Ssid, 32) ||
-554c0a3abf216c Hans de Goede       2017-03-29  1389  			bssid->Ssid.SsidLen=
-gth !=3D cur_network->network.Ssid.SsidLength) {
-554c0a3abf216c Hans de Goede       2017-03-29  1390  		if (bssid->Ssid.Ssid=
-[0] !=3D '\0' && bssid->Ssid.SsidLength !=3D 0) { /* not hidden ssid */
-554c0a3abf216c Hans de Goede       2017-03-29  1391  			DBG_871X("%s(), SSI=
-D is not match\n", __func__);
-554c0a3abf216c Hans de Goede       2017-03-29  1392  			goto _mismatch;
-554c0a3abf216c Hans de Goede       2017-03-29  1393  		}
-554c0a3abf216c Hans de Goede       2017-03-29  1394  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1395  =
+9ae2d0aa5046c67 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-0=
+9-16  1887  	rv =3D null_gendisk_register(nullb);
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-1=
+1-12  1888  	if (rv)
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-0=
+7-06  1889  		goto out_cleanup_zone;
+b2b7e00148a203e drivers/block/null_blk.c      Matias Bj=C3=B8rling   2015-1=
+1-12  1890  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1396  	/* check encryption i=
-nfo */
-554c0a3abf216c Hans de Goede       2017-03-29  1397  	val16 =3D rtw_get_cap=
-ability((struct wlan_bssid_ex *)bssid);
-554c0a3abf216c Hans de Goede       2017-03-29  1398  =
+a514379b0c77085 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-0=
+2-11  1891  	mutex_lock(&lock);
+a514379b0c77085 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-0=
+2-11  1892  	list_add_tail(&nullb->list, &nullb_list);
+a514379b0c77085 drivers/block/null_blk.c      Matias Bj=C3=B8rling   2016-0=
+2-11  1893  	mutex_unlock(&lock);
+3681c85dffda70e drivers/block/null_blk.c      Wenwei Tao        2016-03-05 =
+ 1894  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1399  	if (val16 & BIT(4))
-554c0a3abf216c Hans de Goede       2017-03-29  1400  		bssid->Privacy =3D 1;
-554c0a3abf216c Hans de Goede       2017-03-29  1401  	else
-554c0a3abf216c Hans de Goede       2017-03-29  1402  		bssid->Privacy =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1403  =
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1895  	return 0;
+ca4b2a011948fae drivers/block/null_blk.c      Matias Bj=C3=B8rling   2018-0=
+7-06  1896  out_cleanup_zone:
+d205bde78fa53e1 drivers/block/null_blk_main.c Damien Le Moal    2020-04-23 =
+ 1897  	null_free_zoned_dev(dev);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1898  out_cleanup_blk_queue:
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1899  	blk_cleanup_queue(nullb->q);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1900  out_cleanup_tags:
+2984c8684f962c2 drivers/block/null_blk.c      Shaohua Li        2017-08-14 =
+ 1901  	if (dev->queue_mode =3D=3D NULL_Q_MQ && nullb->tag_set =3D=3D &null=
+b->__tag_set)
+82f402fefa50f16 drivers/block/null_blk.c      Jens Axboe        2017-06-20 =
+ 1902  		blk_mq_free_tag_set(nullb->tag_set);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1903  out_cleanup_queues:
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1904  	cleanup_queues(nullb);
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1905  out_free_nullb:
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1906  	kfree(nullb);
+2004bfdef945fe5 drivers/block/null_blk_main.c Bart Van Assche   2020-03-09 =
+ 1907  	dev->nullb =3D NULL;
+24d2f90309b23f2 drivers/block/null_blk.c      Christoph Hellwig 2014-04-15 =
+ 1908  out:
+dc501dc0d9dc9cb drivers/block/null_blk.c      Robert Elliott    2014-09-02 =
+ 1909  	return rv;
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1910  }
+f2298c0403b0dfc drivers/block/null_blk.c      Jens Axboe        2013-10-25 =
+ 1911  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1404  	RT_TRACE(_module_rtl8=
-71x_mlme_c_, _drv_info_,
-554c0a3abf216c Hans de Goede       2017-03-29  1405  			("%s(): cur_network=
-->network.Privacy is %d, bssid.Privacy is %d\n",
-554c0a3abf216c Hans de Goede       2017-03-29  1406  			 __func__, cur_netw=
-ork->network.Privacy, bssid->Privacy));
-554c0a3abf216c Hans de Goede       2017-03-29  1407  	if (cur_network->netw=
-ork.Privacy !=3D bssid->Privacy) {
-554c0a3abf216c Hans de Goede       2017-03-29  1408  		DBG_871X("%s(), priv=
-acy is not match\n", __func__);
-554c0a3abf216c Hans de Goede       2017-03-29  1409  		goto _mismatch;
-554c0a3abf216c Hans de Goede       2017-03-29  1410  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1411  =
 
-554c0a3abf216c Hans de Goede       2017-03-29  1412  	rtw_get_sec_ie(bssid-=
->IEs, bssid->IELength, NULL, &rsn_len, NULL, &wpa_len);
-554c0a3abf216c Hans de Goede       2017-03-29  1413  =
+:::::: The code at line 1885 was first introduced by commit
+:::::: b2b7e00148a203e9934bbd17aebffae3f447ade7 null_blk: register as a Lig=
+htNVM device
 
-554c0a3abf216c Hans de Goede       2017-03-29  1414  	if (rsn_len > 0) {
-554c0a3abf216c Hans de Goede       2017-03-29  1415  		encryp_protocol =3D =
-ENCRYP_PROTOCOL_WPA2;
-554c0a3abf216c Hans de Goede       2017-03-29  1416  	} else if (wpa_len > =
-0) {
-554c0a3abf216c Hans de Goede       2017-03-29  1417  		encryp_protocol =3D =
-ENCRYP_PROTOCOL_WPA;
-554c0a3abf216c Hans de Goede       2017-03-29  1418  	} else {
-554c0a3abf216c Hans de Goede       2017-03-29  1419  		if (bssid->Privacy)
-554c0a3abf216c Hans de Goede       2017-03-29  1420  			encryp_protocol =3D=
- ENCRYP_PROTOCOL_WEP;
-554c0a3abf216c Hans de Goede       2017-03-29  1421  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1422  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1423  	if (cur_network->BcnI=
-nfo.encryp_protocol !=3D encryp_protocol) {
-554c0a3abf216c Hans de Goede       2017-03-29  1424  		DBG_871X("%s(): enct=
-yp is not match\n", __func__);
-554c0a3abf216c Hans de Goede       2017-03-29  1425  		goto _mismatch;
-554c0a3abf216c Hans de Goede       2017-03-29  1426  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1427  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1428  	if (encryp_protocol =
-=3D=3D ENCRYP_PROTOCOL_WPA || encryp_protocol =3D=3D ENCRYP_PROTOCOL_WPA2) {
-554c0a3abf216c Hans de Goede       2017-03-29  1429  		pbuf =3D rtw_get_wpa=
-_ie(&bssid->IEs[12], &wpa_ielen, bssid->IELength-12);
-554c0a3abf216c Hans de Goede       2017-03-29  1430  		if (pbuf && (wpa_iel=
-en > 0)) {
-554c0a3abf216c Hans de Goede       2017-03-29  1431  			if (_SUCCESS =3D=3D=
- rtw_parse_wpa_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &is_8=
-021x)) {
-554c0a3abf216c Hans de Goede       2017-03-29  1432  				RT_TRACE(_module_r=
-tl871x_mlme_c_, _drv_info_,
-554c0a3abf216c Hans de Goede       2017-03-29  1433  						("%s pnetwork->p=
-airwise_cipher: %d, group_cipher is %d, is_8021x is %d\n", __func__,
-554c0a3abf216c Hans de Goede       2017-03-29  1434  						 pairwise_cipher=
-, group_cipher, is_8021x));
-554c0a3abf216c Hans de Goede       2017-03-29  1435  			}
-554c0a3abf216c Hans de Goede       2017-03-29  1436  		} else {
-554c0a3abf216c Hans de Goede       2017-03-29  1437  			pbuf =3D rtw_get_wp=
-a2_ie(&bssid->IEs[12], &wpa_ielen, bssid->IELength-12);
-554c0a3abf216c Hans de Goede       2017-03-29  1438  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1439  			if (pbuf && (wpa_ie=
-len > 0)) {
-554c0a3abf216c Hans de Goede       2017-03-29  1440  				if (_SUCCESS =3D=
-=3D rtw_parse_wpa2_ie(pbuf, wpa_ielen+2, &group_cipher, &pairwise_cipher, &=
-is_8021x)) {
-554c0a3abf216c Hans de Goede       2017-03-29  1441  					RT_TRACE(_module_=
-rtl871x_mlme_c_, _drv_info_,
-554c0a3abf216c Hans de Goede       2017-03-29  1442  							("%s pnetwork->=
-pairwise_cipher: %d, pnetwork->group_cipher is %d, is_802x is %d\n",
-554c0a3abf216c Hans de Goede       2017-03-29  1443  							 __func__, pair=
-wise_cipher, group_cipher, is_8021x));
-554c0a3abf216c Hans de Goede       2017-03-29  1444  				}
-554c0a3abf216c Hans de Goede       2017-03-29  1445  			}
-554c0a3abf216c Hans de Goede       2017-03-29  1446  		}
-554c0a3abf216c Hans de Goede       2017-03-29  1447  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1448  		RT_TRACE(_module_rtl=
-871x_mlme_c_, _drv_err_,
-554c0a3abf216c Hans de Goede       2017-03-29  1449  				("%s cur_network->=
-group_cipher is %d: %d\n", __func__, cur_network->BcnInfo.group_cipher, gro=
-up_cipher));
-554c0a3abf216c Hans de Goede       2017-03-29  1450  		if (pairwise_cipher =
-!=3D cur_network->BcnInfo.pairwise_cipher || group_cipher !=3D cur_network-=
->BcnInfo.group_cipher) {
-554c0a3abf216c Hans de Goede       2017-03-29  1451  			DBG_871X("%s pairwi=
-se_cipher(%x:%x) or group_cipher(%x:%x) is not match\n", __func__,
-554c0a3abf216c Hans de Goede       2017-03-29  1452  					pairwise_cipher, =
-cur_network->BcnInfo.pairwise_cipher,
-554c0a3abf216c Hans de Goede       2017-03-29  1453  					group_cipher, cur=
-_network->BcnInfo.group_cipher);
-554c0a3abf216c Hans de Goede       2017-03-29  1454  			goto _mismatch;
-554c0a3abf216c Hans de Goede       2017-03-29  1455  		}
-554c0a3abf216c Hans de Goede       2017-03-29  1456  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1457  		if (is_8021x !=3D cu=
-r_network->BcnInfo.is_8021x) {
-554c0a3abf216c Hans de Goede       2017-03-29  1458  			DBG_871X("%s authen=
-tication is not match\n", __func__);
-554c0a3abf216c Hans de Goede       2017-03-29  1459  			goto _mismatch;
-554c0a3abf216c Hans de Goede       2017-03-29  1460  		}
-554c0a3abf216c Hans de Goede       2017-03-29  1461  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1462  =
-
-2dac96b334aad2 Nachammai Karuppiah 2019-10-08  1463  	kfree(bssid);
-554c0a3abf216c Hans de Goede       2017-03-29  1464  	return _SUCCESS;
-554c0a3abf216c Hans de Goede       2017-03-29  1465  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1466  _mismatch:
-2dac96b334aad2 Nachammai Karuppiah 2019-10-08  1467  	kfree(bssid);
-554c0a3abf216c Hans de Goede       2017-03-29  1468  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1469  	if (pmlmepriv->NumOfB=
-cnInfoChkFail =3D=3D 0)
-554c0a3abf216c Hans de Goede       2017-03-29  1470  		pmlmepriv->timeBcnIn=
-foChkStart =3D jiffies;
-554c0a3abf216c Hans de Goede       2017-03-29  1471  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1472  	pmlmepriv->NumOfBcnIn=
-foChkFail++;
-554c0a3abf216c Hans de Goede       2017-03-29  1473  	DBG_871X("%s by "ADPT=
-_FMT" - NumOfChkFail =3D %d (SeqNum of this Beacon frame =3D %d).\n", __fun=
-c__, ADPT_ARG(Adapter), pmlmepriv->NumOfBcnInfoChkFail, GetSequence(pframe)=
-);
-554c0a3abf216c Hans de Goede       2017-03-29  1474  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1475  	if ((pmlmepriv->timeB=
-cnInfoChkStart !=3D 0) && (jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInf=
-oChkStart) <=3D DISCONNECT_BY_CHK_BCN_FAIL_OBSERV_PERIOD_IN_MS)
-554c0a3abf216c Hans de Goede       2017-03-29  1476  		&& (pmlmepriv->NumOf=
-BcnInfoChkFail >=3D DISCONNECT_BY_CHK_BCN_FAIL_THRESHOLD)) {
-554c0a3abf216c Hans de Goede       2017-03-29  1477  		DBG_871X("%s by "ADP=
-T_FMT" - NumOfChkFail =3D %d >=3D threshold : %d (in %d ms), return FAIL.\n=
-", __func__, ADPT_ARG(Adapter), pmlmepriv->NumOfBcnInfoChkFail,
-554c0a3abf216c Hans de Goede       2017-03-29  1478  			DISCONNECT_BY_CHK_B=
-CN_FAIL_THRESHOLD, jiffies_to_msecs(jiffies - pmlmepriv->timeBcnInfoChkStar=
-t));
-554c0a3abf216c Hans de Goede       2017-03-29  1479  		pmlmepriv->timeBcnIn=
-foChkStart =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1480  		pmlmepriv->NumOfBcnI=
-nfoChkFail =3D 0;
-554c0a3abf216c Hans de Goede       2017-03-29  1481  		return _FAIL;
-554c0a3abf216c Hans de Goede       2017-03-29  1482  	}
-554c0a3abf216c Hans de Goede       2017-03-29  1483  =
-
-554c0a3abf216c Hans de Goede       2017-03-29  1484  	return _SUCCESS;
-554c0a3abf216c Hans de Goede       2017-03-29  1485  }
-554c0a3abf216c Hans de Goede       2017-03-29  1486  =
-
+:::::: TO: Matias Bj=C3=B8rling <m@bjorling.me>
+:::::: CC: Jens Axboe <axboe@fb.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6375328760072116768==--
+--===============2342179328401559101==--
 
