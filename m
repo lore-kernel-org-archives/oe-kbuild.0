@@ -1,23 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============8924484262497687024=="
+Content-Type: multipart/mixed; boundary="===============3518558413188445815=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH v4 07/16] drm/dp_helper: Add helpers to configure PCONs RGB-YCbCr Conversion
-Date: Wed, 09 Dec 2020 20:50:34 +0300
-Message-ID: <20201209175034.GJ2767@kadam>
-In-Reply-To: <20201208075145.17389-8-ankit.k.nautiyal@intel.com>
+Date: Wed, 09 Dec 2020 21:43:06 +0800
+Message-ID: <202012092142.SLoimJJ2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8924484262497687024==
+--===============3518558413188445815==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20201208075145.17389-8-ankit.k.nautiyal@intel.com>
+References: <20201208075145.17389-8-ankit.k.nautiyal@intel.com>
+TO: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
+TO: intel-gfx(a)lists.freedesktop.org
+CC: swati2.sharma(a)intel.com
+CC: airlied(a)linux.ie
+CC: vandita.kulkarni(a)intel.com
+CC: uma.shankar(a)intel.com
+CC: dri-devel(a)lists.freedesktop.org
+
 Hi Ankit,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-tip/drm-tip drm-exynos/exynos-drm-next next=
+-20201208]
+[cannot apply to tegra-drm/drm/tegra/for-next linus/master drm/drm-next v5.=
+10-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Ankit-Nautiyal/Add-support=
 -for-DP-HDMI2-1-PCON/20201208-160027
 base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+:::::: branch date: 30 hours ago
+:::::: commit date: 30 hours ago
 config: i386-randconfig-m021-20201209 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -31,38 +54,34 @@ n: was && intended here instead of ||?
 
 vim +3185 drivers/gpu/drm/drm_dp_helper.c
 
-+int drm_dp_pcon_convert_rgb_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc)
-+{
-+	int ret;
-+	u8 buf;
-+
-+	if (color_spc !=3D DP_CONVERSION_BT601_RGB_YCBCR_ENABLE ||
-+	    color_spc !=3D DP_CONVERSION_BT709_RGB_YCBCR_ENABLE ||
-+	    color_spc !=3D DP_CONVERSION_BT2020_RGB_YCBCR_ENABLE)
-+		return -EINVAL;
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3172  =
 
-"color_spc" cannot possibly be equal to three different values so this
-function will always return -EINVAL.
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3173  /*
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3174   * drm_dp_pcon_convert_rgb_=
+to_ycbcr() - Configure the PCon to convert RGB to Ycbcr
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3175   * @aux: displayPort AUX ch=
+annel
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3176   * @color_spc: Color space =
+conversion type
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3177   *
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3178   * Returns 0 on success, el=
+se returns negative error code.
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3179   */
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3180  int drm_dp_pcon_convert_rgb=
+_to_ycbcr(struct drm_dp_aux *aux, u8 color_spc)
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3181  {
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3182  	int ret;
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3183  	u8 buf;
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08  3184  =
 
-+
-+	ret =3D drm_dp_dpcd_readb(aux, DP_PROTOCOL_CONVERTER_CONTROL_2, &buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	buf |=3D color_spc;
-+	ret =3D drm_dp_dpcd_writeb(aux, DP_PROTOCOL_CONVERTER_CONTROL_2, buf);
-+	if (ret < 0)
-+		return ret;
-+
-+	return 0;
-+}
-
+3fcdd0679eaea9 Ankit Nautiyal 2020-12-08 @3185  	if (color_spc !=3D DP_CONV=
+ERSION_BT601_RGB_YCBCR_ENABLE ||
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8924484262497687024==
+--===============3518558413188445815==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -705,5 +724,5 @@ S75B4+LMcKhLORXlRM2ppmpiO6BYuckBoq3odSMJJN9PQ82ON4T2Q10XCDSV2I10EAjjKTuVTSHQ
 EUdGdodpgh7EEpsldMCsWqarmTUMn+zkALPx10WYKajBQUE3yArUO+p0BolufMtKWliv6Q2PHmvQ
 z8nbLtxamokCtM+ZgVR5gWa+J3ygDktPRpO7uQOcdVhUMyvGMqzO8A5exAyWbHgTSJ/CzN9l8KQr
 5zrDhJu8dsO1LYracHOH9twb8tkD1AvyVRfm/wcbAR5XlkICAA==
---===============8924484262497687024==--
+--===============3518558413188445815==--
 
