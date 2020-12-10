@@ -1,35 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============3298344143962290405=="
+Content-Type: multipart/mixed; boundary="===============2484688625363501989=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] mac80211: enable QoS support for nl80211 ctrl port
-Date: Thu, 10 Dec 2020 14:04:33 +0300
-Message-ID: <20201210110432.GM2789@kadam>
-In-Reply-To: <20201209225214.127548-1-markus.theil@tu-ilmenau.de>
+Date: Thu, 10 Dec 2020 18:28:40 +0800
+Message-ID: <202012101857.FzBHa2sO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3298344143962290405==
+--===============2484688625363501989==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20201209225214.127548-1-markus.theil@tu-ilmenau.de>
+References: <20201209225214.127548-1-markus.theil@tu-ilmenau.de>
+TO: Markus Theil <markus.theil@tu-ilmenau.de>
+TO: johannes(a)sipsolutions.net
+CC: linux-wireless(a)vger.kernel.org
+CC: Markus Theil <markus.theil@tu-ilmenau.de>
+
 Hi Markus,
 
-url:    https://github.com/0day-ci/linux/commits/Markus-Theil/mac80211-enab=
-le-QoS-support-for-nl80211-ctrl-port/20201210-065717 =
+Thank you for the patch! Perhaps something to improve:
 
+[auto build test WARNING on mac80211-next/master]
+[also build test WARNING on mac80211/master v5.10-rc7 next-20201209]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Markus-Theil/mac80211-enab=
+le-QoS-support-for-nl80211-ctrl-port/20201210-065717
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jberg/mac80211-next=
-.git  master
+.git master
+:::::: branch date: 12 hours ago
+:::::: commit date: 12 hours ago
 config: x86_64-randconfig-s021-20201210 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.3-179-ga00755aa-dirty
         # https://github.com/0day-ci/linux/commit/514b314825e19f7075eb375b3=
-effa93ff0f6a16e =
-
-        git remote add linux-review https://github.com/0day-ci/linux =
-
+effa93ff0f6a16e
+        git remote add linux-review https://github.com/0day-ci/linux
         git fetch --no-tags linux-review Markus-Theil/mac80211-enable-QoS-s=
 upport-for-nl80211-ctrl-port/20201210-065717
         git checkout 514b314825e19f7075eb375b3effa93ff0f6a16e
@@ -41,11 +55,21 @@ upport-for-nl80211-ctrl-port/20201210-065717
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
+
 "sparse warnings: (new ones prefixed by >>)"
 >> net/mac80211/tx.c:1206:26: sparse: sparse: dubious: !x & y
 
 vim +1206 net/mac80211/tx.c
 
+a622ab72b4dcfd Johannes Berg    2010-06-10  1156  =
+
+58d4185e36913d Johannes Berg    2007-09-26  1157  /*
+58d4185e36913d Johannes Berg    2007-09-26  1158   * initialises @tx
+7c10770f995820 Johannes Berg    2015-03-20  1159   * pass %NULL for the sta=
+tion if unknown, a valid pointer if known
+7c10770f995820 Johannes Berg    2015-03-20  1160   * or an ERR_PTR() if the=
+ station is known not to exist
+58d4185e36913d Johannes Berg    2007-09-26  1161   */
 9ae54c8463691b Johannes Berg    2008-01-31  1162  static ieee80211_tx_result
 3b8d81e020f77c Johannes Berg    2009-06-17  1163  ieee80211_tx_prepare(stru=
 ct ieee80211_sub_if_data *sdata,
@@ -120,12 +144,6 @@ local->hw, AMPDU_AGGREGATION) &&
 &local->hw, TX_AMPDU_SETUP_IN_HW) &&
 514b314825e19f Markus Theil     2020-12-09 @1206  	    !info->flags & IEEE8=
 0211_TX_CTRL_PORT_CTRL_PROTO) {
-
-! has higher precedence than & so this is equivalent of
-"if (!info->flags) {"  Presumably, it should be:
-
-		!(info->flags & IEEE80211_TX_CTRL_PORT_CTRL_PROTO)) {
-
 cd8ffc800ce18e Johannes Berg    2009-03-23  1207  		struct tid_ampdu_tx *ti=
 d_tx;
 cd8ffc800ce18e Johannes Berg    2009-03-23  1208  =
@@ -193,17 +211,14 @@ e2ebc74d7e3d71 Johannes Berg    2007-07-27  1244  =
 
 9ae54c8463691b Johannes Berg    2008-01-31  1245  	return TX_CONTINUE;
 e2ebc74d7e3d71 Johannes Berg    2007-07-27  1246  }
+e2ebc74d7e3d71 Johannes Berg    2007-07-27  1247  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============3298344143962290405==
+--===============2484688625363501989==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -875,5 +890,5 @@ D7VtSt9MceyaOwf48ZiPbAqHpZ+Cob8KtyX6abzu4BybxvT9vVixi5HlDJ9smZtMvLSp+Qm4KIxX
 xyPvqKYjSPSam+M9KwgONAtChzDoJ+3gZrY2TVkOKixlThQryMpOBc3yyn09b9YuWJHSYzpUrIK7
 A5L82nC48z0Pb6+dJ8Wo+g9nuRN4qgY7VYbFh5I8CmDNjzaDVg7PnapqxCNAiwFHzoF3IGbetiT3
 JlAfPSqdJArCGeD/ADQSZUMXYgIA
---===============3298344143962290405==--
+--===============2484688625363501989==--
 
