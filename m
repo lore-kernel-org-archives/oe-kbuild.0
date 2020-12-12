@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3842914176054336006=="
+Content-Type: multipart/mixed; boundary="===============9184458458191182415=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-linux-intel-lts:5.4/yocto 40/1142] drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:972 dw_chan_prep_dma_cyclic() error: uninitialized symbol 'mem'.
-Date: Sat, 12 Dec 2020 18:18:47 +0800
-Message-ID: <202012121843.Rx8NereJ-lkp@intel.com>
+Subject: [intel-linux-intel-lts:5.4/yocto 39/1142] drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:941 axi_chan_handle_err() warn: inconsistent returns 'chan->vc.lock'.
+Date: Sat, 12 Dec 2020 17:37:38 +0800
+Message-ID: <202012121734.5dxOUGWD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3842914176054336006==
+--===============9184458458191182415==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,8 +18,8 @@ CC: "Li, Yifan" <yifan2.li@intel.com>
 
 tree:   https://github.com/intel/linux-intel-lts.git 5.4/yocto
 head:   eeb611e5394c56d45c5cc8f7dc484c9f19e93143
-commit: 94e13c2880167751eb5cbbcb0e7be68ca83f0653 [40/1142] dmaengine: dw-ax=
-i-dma: support cyclic mode
+commit: 2baf6e1cd6f179dd497cfc10294920e99bc3a66e [39/1142] dmaengine: dw-ax=
+i-dma: support slave dma mode
 :::::: branch date: 4 months ago
 :::::: commit date: 4 months ago
 config: i386-randconfig-m021-20201209 (attached as .config)
@@ -29,372 +29,87 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:972 dw_chan_prep_dma_cyclic(=
-) error: uninitialized symbol 'mem'.
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:972 dw_chan_prep_dma_cyclic(=
-) error: uninitialized symbol 'len'.
+smatch warnings:
+drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:941 axi_chan_handle_err() wa=
+rn: inconsistent returns 'chan->vc.lock'.
+drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:941 axi_chan_handle_err() wa=
+rn: inconsistent returns 'flags'.
 
-Old smatch warnings:
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1050 dw_chan_prep_dma_cyclic=
-() error: uninitialized symbol 'len'.
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1058 dw_chan_prep_dma_cyclic=
-() error: uninitialized symbol 'mem'.
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1139 axi_chan_handle_err() w=
-arn: inconsistent returns 'chan->vc.lock'.
-drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c:1139 axi_chan_handle_err() w=
-arn: inconsistent returns 'flags'.
+vim +941 drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
 
-vim +/mem +972 drivers/dma/dw-axi-dmac/dw-axi-dmac-platform.c
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  912  =
 
-1fe20f1b84548b Eugeniy Paltsev 2018-03-06   912  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  913  static noinline void axi_ch=
+an_handle_err(struct axi_dma_chan *chan, u32 status)
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  914  {
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  915  	struct virt_dma_desc *vd;
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  916  	unsigned long flags;
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  917  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   913  static struct dma_async_tx=
-_descriptor *
-94e13c28801677 Sia Jee Heng    2020-06-26   914  dw_chan_prep_dma_cyclic(st=
-ruct dma_chan *dchan, dma_addr_t buf_addr,
-94e13c28801677 Sia Jee Heng    2020-06-26   915  			size_t buf_len, size_t =
-period_len,
-94e13c28801677 Sia Jee Heng    2020-06-26   916  			enum dma_transfer_direc=
-tion direction,
-94e13c28801677 Sia Jee Heng    2020-06-26   917  			unsigned long flags)
-94e13c28801677 Sia Jee Heng    2020-06-26   918  {
-94e13c28801677 Sia Jee Heng    2020-06-26   919  	struct axi_dma_chan *chan=
- =3D dchan_to_axi_dma_chan(dchan);
-94e13c28801677 Sia Jee Heng    2020-06-26   920  	struct axi_dma_desc *firs=
-t =3D NULL, *prev =3D NULL;
-94e13c28801677 Sia Jee Heng    2020-06-26   921  	unsigned int reg_width;
-94e13c28801677 Sia Jee Heng    2020-06-26   922  	unsigned int mem_width;
-94e13c28801677 Sia Jee Heng    2020-06-26   923  	unsigned int data_width =
-=3D BIT(chan->chip->dw->hdata->m_data_width);
-94e13c28801677 Sia Jee Heng    2020-06-26   924  	dma_addr_t reg;
-94e13c28801677 Sia Jee Heng    2020-06-26   925  	u32 reg_value =3D 0;
-94e13c28801677 Sia Jee Heng    2020-06-26   926  	unsigned int i =3D 0;
-94e13c28801677 Sia Jee Heng    2020-06-26   927  	u32 ctllo, ctlhi;
-94e13c28801677 Sia Jee Heng    2020-06-26   928  	size_t total_len =3D 0;
-94e13c28801677 Sia Jee Heng    2020-06-26   929  	size_t block_ts, max_bloc=
-k_ts;
-94e13c28801677 Sia Jee Heng    2020-06-26   930  	u8 lms =3D 0; // Select A=
-XI0 master for LLI fetching
-94e13c28801677 Sia Jee Heng    2020-06-26   931  	u32 offset;
-94e13c28801677 Sia Jee Heng    2020-06-26   932  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  918  	spin_lock_irqsave(&chan->v=
+c.lock, flags);
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  919  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   933  	if (unlikely(!is_slave_di=
-rection(direction)))
-94e13c28801677 Sia Jee Heng    2020-06-26   934  		return NULL;
-94e13c28801677 Sia Jee Heng    2020-06-26   935  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  920  	axi_chan_disable(chan);
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  921  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   936  	chan->direction =3D direc=
-tion;
-94e13c28801677 Sia Jee Heng    2020-06-26   937  	chan->cyclic =3D 0x1;
-94e13c28801677 Sia Jee Heng    2020-06-26   938  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  922  	/* The bad descriptor curr=
+ently is in the head of vc list */
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  923  	vd =3D vchan_next_desc(&ch=
+an->vc);
+2baf6e1cd6f179 Sia Jee Heng    2020-06-26  924  	if (!vd)
+2baf6e1cd6f179 Sia Jee Heng    2020-06-26  925  		return;
+2baf6e1cd6f179 Sia Jee Heng    2020-06-26  926  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   939  	max_block_ts =3D chan->ch=
-ip->dw->hdata->block_size[chan->id];
-94e13c28801677 Sia Jee Heng    2020-06-26   940  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  927  	/* Remove the completed de=
+scriptor from issued list */
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  928  	list_del(&vd->node);
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  929  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   941  	axi_set_hw_channel(chan->=
-chip, chan->hw_hs_num);
-94e13c28801677 Sia Jee Heng    2020-06-26   942  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  930  	/* WARN about bad descript=
+or */
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  931  	dev_err(chan2dev(chan),
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  932  		"Bad descriptor submitted=
+ for %s, cookie: %d, irq: 0x%08x\n",
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  933  		axi_chan_name(chan), vd->=
+tx.cookie, status);
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  934  	axi_chan_list_dump_lli(cha=
+n, vd_to_axi_desc(vd));
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  935  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   943  	switch (direction) {
-94e13c28801677 Sia Jee Heng    2020-06-26   944  	case DMA_MEM_TO_DEV:
-94e13c28801677 Sia Jee Heng    2020-06-26   945  		reg_width =3D __ffs(chan=
-->slave_config.dst_addr_width);
-94e13c28801677 Sia Jee Heng    2020-06-26   946  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  936  	vchan_cookie_complete(vd);
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  937  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   947  		chan->reg_width =3D reg_=
-width;
-94e13c28801677 Sia Jee Heng    2020-06-26   948  		if (reg_width =3D=3D DWA=
-XIDMAC_TRANS_WIDTH_16) {
-94e13c28801677 Sia Jee Heng    2020-06-26   949  			offset =3D DMAC_APB_HAL=
-FWORD_WR_CH_EN;
-94e13c28801677 Sia Jee Heng    2020-06-26   950  			reg_value =3D axi_dma_a=
-pb_ioread32(chan->chip, offset);
-94e13c28801677 Sia Jee Heng    2020-06-26   951  			reg_value |=3D 0x1 << c=
-han->id;
-94e13c28801677 Sia Jee Heng    2020-06-26   952  			axi_dma_apb_iowrite32(c=
-han->chip,
-94e13c28801677 Sia Jee Heng    2020-06-26   953  				DMAC_APB_HALFWORD_WR_C=
-H_EN, reg_value);
-94e13c28801677 Sia Jee Heng    2020-06-26   954  		} else if (reg_width =3D=
-=3D DWAXIDMAC_TRANS_WIDTH_8) {
-94e13c28801677 Sia Jee Heng    2020-06-26   955  			offset =3D DMAC_APB_BYT=
-E_WR_CH_EN;
-94e13c28801677 Sia Jee Heng    2020-06-26   956  			reg_value =3D axi_dma_a=
-pb_ioread32(chan->chip, offset);
-94e13c28801677 Sia Jee Heng    2020-06-26   957  			reg_value |=3D 0x1 << c=
-han->id;
-94e13c28801677 Sia Jee Heng    2020-06-26   958  			axi_dma_apb_iowrite32(c=
-han->chip, offset, reg_value);
-94e13c28801677 Sia Jee Heng    2020-06-26   959  		}
-94e13c28801677 Sia Jee Heng    2020-06-26   960  		reg =3D chan->slave_conf=
-ig.dst_addr;
-94e13c28801677 Sia Jee Heng    2020-06-26   961  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  938  	/* Try to restart the cont=
+roller */
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  939  	axi_chan_start_first_queue=
+d(chan);
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  940  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   962  		ctllo =3D axi_dma_prepar=
-e_ctllo(chan) |
-94e13c28801677 Sia Jee Heng    2020-06-26   963  			reg_width << CH_CTL_L_D=
-ST_WIDTH_POS |
-94e13c28801677 Sia Jee Heng    2020-06-26   964  			DWAXIDMAC_CH_CTL_L_NOIN=
-C << CH_CTL_L_DST_INC_POS |
-94e13c28801677 Sia Jee Heng    2020-06-26   965  			DWAXIDMAC_CH_CTL_L_INC =
-<< CH_CTL_L_SRC_INC_POS;
-94e13c28801677 Sia Jee Heng    2020-06-26   966  =
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06 @941  	spin_unlock_irqrestore(&ch=
+an->vc.lock, flags);
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  942  }
+1fe20f1b84548b Eugeniy Paltsev 2018-03-06  943  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26   967  		for (i =3D 0; i < buf_le=
-n / period_len; i++) {
-94e13c28801677 Sia Jee Heng    2020-06-26   968  			struct axi_dma_desc *de=
-sc;
-94e13c28801677 Sia Jee Heng    2020-06-26   969  			size_t xfer_len;
-94e13c28801677 Sia Jee Heng    2020-06-26   970  			u32 mem, len;
-94e13c28801677 Sia Jee Heng    2020-06-26   971  =
 
-94e13c28801677 Sia Jee Heng    2020-06-26  @972  			mem_width =3D __ffs(dat=
-a_width | mem | len);
-94e13c28801677 Sia Jee Heng    2020-06-26   973  			if (mem_width > DWAXIDM=
-AC_TRANS_WIDTH_32)
-94e13c28801677 Sia Jee Heng    2020-06-26   974  				mem_width =3D DWAXIDMA=
-C_TRANS_WIDTH_32;
-94e13c28801677 Sia Jee Heng    2020-06-26   975  =
+:::::: The code at line 941 was first introduced by commit
+:::::: 1fe20f1b84548bbcf48b6659ea171cd46618ea3a dmaengine: Introduce DW AXI=
+ DMAC driver
 
-94e13c28801677 Sia Jee Heng    2020-06-26   976  			xfer_len =3D period_len;
-94e13c28801677 Sia Jee Heng    2020-06-26   977  			block_ts =3D period_len;
-94e13c28801677 Sia Jee Heng    2020-06-26   978  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26   979  			desc =3D axi_desc_get(c=
-han);
-94e13c28801677 Sia Jee Heng    2020-06-26   980  			if (unlikely(!desc))
-94e13c28801677 Sia Jee Heng    2020-06-26   981  				goto err_desc_get;
-94e13c28801677 Sia Jee Heng    2020-06-26   982  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26   983  			if (block_ts > max_bloc=
-k_ts) {
-94e13c28801677 Sia Jee Heng    2020-06-26   984  				block_ts =3D max_block=
-_ts;
-94e13c28801677 Sia Jee Heng    2020-06-26   985  				xfer_len =3D max_block=
-_ts << mem_width;
-94e13c28801677 Sia Jee Heng    2020-06-26   986  			}
-94e13c28801677 Sia Jee Heng    2020-06-26   987  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26   988  			ctlhi =3D axi_dma_prepa=
-re_ctlhi(chan);
-94e13c28801677 Sia Jee Heng    2020-06-26   989  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26   990  			ctllo |=3D mem_width <<=
- CH_CTL_L_SRC_WIDTH_POS;
-94e13c28801677 Sia Jee Heng    2020-06-26   991  			write_desc_sar(desc, bu=
-f_addr + i * period_len);
-94e13c28801677 Sia Jee Heng    2020-06-26   992  			write_desc_dar(desc, re=
-g);
-94e13c28801677 Sia Jee Heng    2020-06-26   993  			desc->lli.block_ts_lo =
-=3D period_len / 4;
-94e13c28801677 Sia Jee Heng    2020-06-26   994  			desc->lli.ctl_hi =3D cp=
-u_to_le32(ctlhi);
-94e13c28801677 Sia Jee Heng    2020-06-26   995  			desc->lli.ctl_lo =3D cp=
-u_to_le32(ctllo);
-94e13c28801677 Sia Jee Heng    2020-06-26   996  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26   997  			set_desc_src_master(des=
-c);
-94e13c28801677 Sia Jee Heng    2020-06-26   998  			set_desc_src_master(des=
-c);
-94e13c28801677 Sia Jee Heng    2020-06-26   999  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1000  			// Manage transfer list=
- (xfer_list)
-94e13c28801677 Sia Jee Heng    2020-06-26  1001  			if (!first) {
-94e13c28801677 Sia Jee Heng    2020-06-26  1002  				first =3D desc;
-94e13c28801677 Sia Jee Heng    2020-06-26  1003  			} else {
-94e13c28801677 Sia Jee Heng    2020-06-26  1004  				write_desc_llp(prev, d=
-esc->vd.tx.phys | lms);
-94e13c28801677 Sia Jee Heng    2020-06-26  1005  				list_add_tail(&desc->x=
-fer_list,
-94e13c28801677 Sia Jee Heng    2020-06-26  1006  					      &first->xfer_li=
-st);
-94e13c28801677 Sia Jee Heng    2020-06-26  1007  			}
-94e13c28801677 Sia Jee Heng    2020-06-26  1008  			prev =3D desc;
-94e13c28801677 Sia Jee Heng    2020-06-26  1009  			if (i =3D=3D ((buf_len =
-/ period_len) - 1))
-94e13c28801677 Sia Jee Heng    2020-06-26  1010  				write_desc_llp(prev, f=
-irst->vd.tx.phys | lms);
-94e13c28801677 Sia Jee Heng    2020-06-26  1011  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1012  			total_len +=3D xfer_len;
-94e13c28801677 Sia Jee Heng    2020-06-26  1013  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1014  			set_desc_last(desc);
-94e13c28801677 Sia Jee Heng    2020-06-26  1015  		}
-94e13c28801677 Sia Jee Heng    2020-06-26  1016  		break;
-94e13c28801677 Sia Jee Heng    2020-06-26  1017  	case DMA_DEV_TO_MEM:
-94e13c28801677 Sia Jee Heng    2020-06-26  1018  		reg_width =3D __ffs(chan=
-->slave_config.src_addr_width);
-94e13c28801677 Sia Jee Heng    2020-06-26  1019  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1020  		chan->reg_width =3D reg_=
-width;
-94e13c28801677 Sia Jee Heng    2020-06-26  1021  		if (reg_width =3D=3D DWA=
-XIDMAC_TRANS_WIDTH_16) {
-94e13c28801677 Sia Jee Heng    2020-06-26  1022  			offset =3D DMAC_APB_HAL=
-FWORD_WR_CH_EN;
-94e13c28801677 Sia Jee Heng    2020-06-26  1023  			reg_value =3D axi_dma_a=
-pb_ioread32(chan->chip, offset);
-94e13c28801677 Sia Jee Heng    2020-06-26  1024  			reg_value |=3D 0x1 << c=
-han->id;
-94e13c28801677 Sia Jee Heng    2020-06-26  1025  			axi_dma_apb_iowrite32(c=
-han->chip, offset, reg_value);
-94e13c28801677 Sia Jee Heng    2020-06-26  1026  		} else if (reg_width =3D=
-=3D DWAXIDMAC_TRANS_WIDTH_8) {
-94e13c28801677 Sia Jee Heng    2020-06-26  1027  			offset =3D DMAC_APB_BYT=
-E_WR_CH_EN;
-94e13c28801677 Sia Jee Heng    2020-06-26  1028  			reg_value =3D axi_dma_a=
-pb_ioread32(chan->chip, offset);
-94e13c28801677 Sia Jee Heng    2020-06-26  1029  			reg_value |=3D 0x1 << c=
-han->id;
-94e13c28801677 Sia Jee Heng    2020-06-26  1030  			axi_dma_apb_iowrite32(c=
-han->chip, offset, reg_value);
-94e13c28801677 Sia Jee Heng    2020-06-26  1031  		}
-94e13c28801677 Sia Jee Heng    2020-06-26  1032  		reg =3D chan->slave_conf=
-ig.src_addr;
-94e13c28801677 Sia Jee Heng    2020-06-26  1033  		if (reg_width > DWAXIDMA=
-C_TRANS_WIDTH_32)
-94e13c28801677 Sia Jee Heng    2020-06-26  1034  			reg_width =3D DWAXIDMAC=
-_TRANS_WIDTH_32;
-94e13c28801677 Sia Jee Heng    2020-06-26  1035  		ctllo =3D axi_dma_prepar=
-e_ctllo(chan) |
-94e13c28801677 Sia Jee Heng    2020-06-26  1036  			reg_width << CH_CTL_L_S=
-RC_WIDTH_POS |
-94e13c28801677 Sia Jee Heng    2020-06-26  1037  			DWAXIDMAC_CH_CTL_L_INC =
-<< CH_CTL_L_DST_INC_POS |
-94e13c28801677 Sia Jee Heng    2020-06-26  1038  			// Workaround
-94e13c28801677 Sia Jee Heng    2020-06-26  1039  			DWAXIDMAC_CH_CTL_L_NOIN=
-C << CH_CTL_L_SRC_INC_POS;
-94e13c28801677 Sia Jee Heng    2020-06-26  1040  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1041  		for (i =3D 0; i < buf_le=
-n / period_len; i++) {
-94e13c28801677 Sia Jee Heng    2020-06-26  1042  			struct axi_dma_desc *de=
-sc;
-94e13c28801677 Sia Jee Heng    2020-06-26  1043  			size_t xfer_len;
-94e13c28801677 Sia Jee Heng    2020-06-26  1044  			u32 mem, len;
-94e13c28801677 Sia Jee Heng    2020-06-26  1045  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1046  			desc =3D axi_desc_get(c=
-han);
-94e13c28801677 Sia Jee Heng    2020-06-26  1047  			if (unlikely(!desc))
-94e13c28801677 Sia Jee Heng    2020-06-26  1048  				goto err_desc_get;
-94e13c28801677 Sia Jee Heng    2020-06-26  1049  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1050  			xfer_len =3D len;
-94e13c28801677 Sia Jee Heng    2020-06-26  1051  			block_ts =3D xfer_len >=
-> reg_width;
-94e13c28801677 Sia Jee Heng    2020-06-26  1052  			if (block_ts > max_bloc=
-k_ts) {
-94e13c28801677 Sia Jee Heng    2020-06-26  1053  				block_ts =3D max_block=
-_ts;
-94e13c28801677 Sia Jee Heng    2020-06-26  1054  				xfer_len =3D max_block=
-_ts << reg_width;
-94e13c28801677 Sia Jee Heng    2020-06-26  1055  			}
-94e13c28801677 Sia Jee Heng    2020-06-26  1056  			xfer_len =3D period_len;
-94e13c28801677 Sia Jee Heng    2020-06-26  1057  			block_ts =3D period_len;
-94e13c28801677 Sia Jee Heng    2020-06-26  1058  			mem_width =3D __ffs(dat=
-a_width | mem | xfer_len);
-94e13c28801677 Sia Jee Heng    2020-06-26  1059  			if (mem_width > DWAXIDM=
-AC_TRANS_WIDTH_32)
-94e13c28801677 Sia Jee Heng    2020-06-26  1060  				mem_width =3D DWAXIDMA=
-C_TRANS_WIDTH_32;
-94e13c28801677 Sia Jee Heng    2020-06-26  1061  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1062  			ctlhi =3D axi_dma_prepa=
-re_ctlhi(chan);
-94e13c28801677 Sia Jee Heng    2020-06-26  1063  			ctllo |=3D mem_width <<=
- CH_CTL_L_DST_WIDTH_POS;
-94e13c28801677 Sia Jee Heng    2020-06-26  1064  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1065  			write_desc_sar(desc, re=
-g);
-94e13c28801677 Sia Jee Heng    2020-06-26  1066  			write_desc_dar(desc, bu=
-f_addr + i * period_len);
-94e13c28801677 Sia Jee Heng    2020-06-26  1067  			if (reg_width =3D=3D DW=
-AXIDMAC_TRANS_WIDTH_16)
-94e13c28801677 Sia Jee Heng    2020-06-26  1068  				desc->lli.block_ts_lo =
-=3D period_len / 2;
-94e13c28801677 Sia Jee Heng    2020-06-26  1069  			else if (reg_width >=3D=
- DWAXIDMAC_TRANS_WIDTH_32)
-94e13c28801677 Sia Jee Heng    2020-06-26  1070  				desc->lli.block_ts_lo =
-=3D period_len / 4;
-94e13c28801677 Sia Jee Heng    2020-06-26  1071  			desc->lli.ctl_hi =3D cp=
-u_to_le32(ctlhi);
-94e13c28801677 Sia Jee Heng    2020-06-26  1072  			desc->lli.ctl_lo =3D cp=
-u_to_le32(ctllo);
-94e13c28801677 Sia Jee Heng    2020-06-26  1073  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1074  			set_desc_src_master(des=
-c);
-94e13c28801677 Sia Jee Heng    2020-06-26  1075  			set_desc_src_master(des=
-c);
-94e13c28801677 Sia Jee Heng    2020-06-26  1076  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1077  			// Manage transfer list=
- (xfer_list)
-94e13c28801677 Sia Jee Heng    2020-06-26  1078  			if (!first) {
-94e13c28801677 Sia Jee Heng    2020-06-26  1079  				first =3D desc;
-94e13c28801677 Sia Jee Heng    2020-06-26  1080  			} else {
-94e13c28801677 Sia Jee Heng    2020-06-26  1081  				write_desc_llp(prev, d=
-esc->vd.tx.phys | lms);
-94e13c28801677 Sia Jee Heng    2020-06-26  1082  				list_add_tail(&desc->x=
-fer_list,
-94e13c28801677 Sia Jee Heng    2020-06-26  1083  					      &first->xfer_li=
-st);
-94e13c28801677 Sia Jee Heng    2020-06-26  1084  			}
-94e13c28801677 Sia Jee Heng    2020-06-26  1085  			prev =3D desc;
-94e13c28801677 Sia Jee Heng    2020-06-26  1086  			if (i =3D=3D ((buf_len =
-/ period_len) - 1))
-94e13c28801677 Sia Jee Heng    2020-06-26  1087  				write_desc_llp(prev, f=
-irst->vd.tx.phys | lms);
-94e13c28801677 Sia Jee Heng    2020-06-26  1088  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1089  			total_len +=3D xfer_len;
-94e13c28801677 Sia Jee Heng    2020-06-26  1090  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1091  			// TODO: check if needed
-94e13c28801677 Sia Jee Heng    2020-06-26  1092  			set_desc_last(desc);
-94e13c28801677 Sia Jee Heng    2020-06-26  1093  		}
-94e13c28801677 Sia Jee Heng    2020-06-26  1094  		break;
-94e13c28801677 Sia Jee Heng    2020-06-26  1095  	default:
-94e13c28801677 Sia Jee Heng    2020-06-26  1096  		return NULL;
-94e13c28801677 Sia Jee Heng    2020-06-26  1097  	}
-94e13c28801677 Sia Jee Heng    2020-06-26  1098  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1099  	if (unlikely(!first))
-94e13c28801677 Sia Jee Heng    2020-06-26  1100  		return NULL;
-94e13c28801677 Sia Jee Heng    2020-06-26  1101  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1102  	return vchan_tx_prep(&cha=
-n->vc, &first->vd, flags);
-94e13c28801677 Sia Jee Heng    2020-06-26  1103  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1104  err_desc_get:
-94e13c28801677 Sia Jee Heng    2020-06-26  1105  	if (first)
-94e13c28801677 Sia Jee Heng    2020-06-26  1106  		axi_desc_put(first);
-94e13c28801677 Sia Jee Heng    2020-06-26  1107  =
-
-94e13c28801677 Sia Jee Heng    2020-06-26  1108  	return NULL;
-94e13c28801677 Sia Jee Heng    2020-06-26  1109  }
-94e13c28801677 Sia Jee Heng    2020-06-26  1110  =
-
+:::::: TO: Eugeniy Paltsev <Eugeniy.Paltsev@synopsys.com>
+:::::: CC: Vinod Koul <vinod.koul@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3842914176054336006==
+--===============9184458458191182415==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICCKS1F8AAy5jb25maWcAlDxdd9wm0/f9FXvSm/aiqb/ipu97fIEkpKUrhALSetc3HNfZpD5N
+H4sICFmJ1F8AAy5jb25maWcAlDxdd9wm0/f9FXvSm/aiqb/ipu97fIEkpKUrhALSetc3HNfZpD5N
 7Dy287T59+8MCAkQ2vbt6WktZhhgGOaLYb//7vsV+fry+Pn25f7u9tOnb6uPh4fD0+3L4f3qw/2n
 w/+uCrFqRLeiBeteA3J9//D175/vz99ert68vnh98etqc3h6OHxa5Y8PH+4/foWu948P333/Hfz7
 PTR+/gJUnv5n9fHu7qdfVz8Uh9/vbx9Wv74+f33y0+mbH+1fgJuLpmSVznPNlK7y/Oqba4IPvaVS
@@ -998,5 +713,5 @@ v5dMQ11EthK8zAVNvNrwOz1NWOZx/dTspvIDGmBr4lVuqiFJaicT92hW9XmaiXXjiyhS1NnV6CWw
 Lh3EK6IG1YLMDV3FPxVoK4nWgQfwNf1lYkeE49uqNnj8DHI358NLyg5Y75hi4qr8WZRmHRt2SNOI
 13m5wpvVJ3RNJyjmLRlasWoUsqX+4JKtpGPgbQ/HhFhgaxMNZk4tqRrk7kGbEL+94oq5EMZpA0P4
 +F4M2mCu2JGwBoxk6MqSxKoOE7dQAgl6VLtih/es1J6Lws/Y0i66/wEMht9cSiECAA==
---===============3842914176054336006==--
+--===============9184458458191182415==--
 
