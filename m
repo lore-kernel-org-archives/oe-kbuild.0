@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1627924200875629893=="
+Content-Type: multipart/mixed; boundary="===============3550670692869629943=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 14 Dec 2020 23:10:22 +0800
-Message-ID: <20201214151022.GA16084@cd96aaed27ba>
+Date: Mon, 14 Dec 2020 23:10:20 +0800
+Message-ID: <20201214151020.GA15997@cd96aaed27ba>
 In-Reply-To: <202012142314.KjiFvIDI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1627924200875629893==
+--===============3550670692869629943==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,17 +17,28 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Matt Mackall <mpm@selenic.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
-CC: Arnd Bergmann <arnd@arndb.de>
 CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Colin Ian King <colin.king@canonical.com>
-CC: linux-crypto(a)vger.kernel.org
+CC: Christian Gromm <christian.gromm@microchip.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Takashi Iwai <tiwai@suse.de>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/char/hw_random/core.c:399:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:254:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:398:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:409:9-17: WARNING: use scnprintf or sprintf
+drivers/most/core.c:211:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:222:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:272:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:297:10-18: WARNING: use scnprintf or sprintf
+drivers/most/core.c:326:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:282:9-17: WARNING: use scnprintf or sprintf
+drivers/most/core.c:263:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:318:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:309:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:233:8-16: WARNING: use scnprintf or sprintf
+drivers/most/core.c:244:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -54,20 +65,200 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- core.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ core.c |   52 ++++++++++++++++++++++++++--------------------------
+ 1 file changed, 26 insertions(+), 26 deletions(-)
 
---- a/drivers/char/hw_random/core.c
-+++ b/drivers/char/hw_random/core.c
-@@ -396,7 +396,7 @@ static ssize_t hwrng_attr_selected_show(
- 					struct device_attribute *attr,
- 					char *buf)
- {
--	return snprintf(buf, PAGE_SIZE, "%d\n", cur_rng_set_by_user);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", cur_rng_set_by_user);
+--- a/drivers/most/core.c
++++ b/drivers/most/core.c
+@@ -208,7 +208,7 @@ static ssize_t number_of_packet_buffers_
+ 	struct most_channel *c =3D to_channel(dev);
+ 	unsigned int i =3D c->channel_id;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
++	return scnprintf(buf, PAGE_SIZE, "%d\n",
+ 			c->iface->channel_vector[i].num_buffers_packet);
  }
  =
 
- static DEVICE_ATTR(rng_current, S_IRUGO | S_IWUSR,
---===============1627924200875629893==--
+@@ -219,7 +219,7 @@ static ssize_t number_of_stream_buffers_
+ 	struct most_channel *c =3D to_channel(dev);
+ 	unsigned int i =3D c->channel_id;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
++	return scnprintf(buf, PAGE_SIZE, "%d\n",
+ 			c->iface->channel_vector[i].num_buffers_streaming);
+ }
+ =
+
+@@ -230,7 +230,7 @@ static ssize_t size_of_packet_buffer_sho
+ 	struct most_channel *c =3D to_channel(dev);
+ 	unsigned int i =3D c->channel_id;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
++	return scnprintf(buf, PAGE_SIZE, "%d\n",
+ 			c->iface->channel_vector[i].buffer_size_packet);
+ }
+ =
+
+@@ -241,7 +241,7 @@ static ssize_t size_of_stream_buffer_sho
+ 	struct most_channel *c =3D to_channel(dev);
+ 	unsigned int i =3D c->channel_id;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n",
++	return scnprintf(buf, PAGE_SIZE, "%d\n",
+ 			c->iface->channel_vector[i].buffer_size_streaming);
+ }
+ =
+
+@@ -251,7 +251,7 @@ static ssize_t channel_starving_show(str
+ {
+ 	struct most_channel *c =3D to_channel(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", c->is_starving);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", c->is_starving);
+ }
+ =
+
+ static ssize_t set_number_of_buffers_show(struct device *dev,
+@@ -260,7 +260,7 @@ static ssize_t set_number_of_buffers_sho
+ {
+ 	struct most_channel *c =3D to_channel(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", c->cfg.num_buffers);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", c->cfg.num_buffers);
+ }
+ =
+
+ static ssize_t set_buffer_size_show(struct device *dev,
+@@ -269,7 +269,7 @@ static ssize_t set_buffer_size_show(stru
+ {
+ 	struct most_channel *c =3D to_channel(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", c->cfg.buffer_size);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", c->cfg.buffer_size);
+ }
+ =
+
+ static ssize_t set_direction_show(struct device *dev,
+@@ -279,10 +279,10 @@ static ssize_t set_direction_show(struct
+ 	struct most_channel *c =3D to_channel(dev);
+ =
+
+ 	if (c->cfg.direction & MOST_CH_TX)
+-		return snprintf(buf, PAGE_SIZE, "tx\n");
++		return scnprintf(buf, PAGE_SIZE, "tx\n");
+ 	else if (c->cfg.direction & MOST_CH_RX)
+-		return snprintf(buf, PAGE_SIZE, "rx\n");
+-	return snprintf(buf, PAGE_SIZE, "unconfigured\n");
++		return scnprintf(buf, PAGE_SIZE, "rx\n");
++	return scnprintf(buf, PAGE_SIZE, "unconfigured\n");
+ }
+ =
+
+ static ssize_t set_datatype_show(struct device *dev,
+@@ -294,10 +294,10 @@ static ssize_t set_datatype_show(struct
+ =
+
+ 	for (i =3D 0; i < ARRAY_SIZE(ch_data_type); i++) {
+ 		if (c->cfg.data_type & ch_data_type[i].most_ch_data_type)
+-			return snprintf(buf, PAGE_SIZE, "%s",
++			return scnprintf(buf, PAGE_SIZE, "%s",
+ 					ch_data_type[i].name);
+ 	}
+-	return snprintf(buf, PAGE_SIZE, "unconfigured\n");
++	return scnprintf(buf, PAGE_SIZE, "unconfigured\n");
+ }
+ =
+
+ static ssize_t set_subbuffer_size_show(struct device *dev,
+@@ -306,7 +306,7 @@ static ssize_t set_subbuffer_size_show(s
+ {
+ 	struct most_channel *c =3D to_channel(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", c->cfg.subbuffer_size);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", c->cfg.subbuffer_size);
+ }
+ =
+
+ static ssize_t set_packets_per_xact_show(struct device *dev,
+@@ -315,7 +315,7 @@ static ssize_t set_packets_per_xact_show
+ {
+ 	struct most_channel *c =3D to_channel(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", c->cfg.packets_per_xact);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", c->cfg.packets_per_xact);
+ }
+ =
+
+ static ssize_t set_dbr_size_show(struct device *dev,
+@@ -323,7 +323,7 @@ static ssize_t set_dbr_size_show(struct
+ {
+ 	struct most_channel *c =3D to_channel(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", c->cfg.dbr_size);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", c->cfg.dbr_size);
+ }
+ =
+
+ #define to_dev_attr(a) container_of(a, struct device_attribute, attr)
+@@ -395,7 +395,7 @@ static ssize_t description_show(struct d
+ {
+ 	struct most_interface *iface =3D dev_get_drvdata(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%s\n", iface->description);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", iface->description);
+ }
+ =
+
+ static ssize_t interface_show(struct device *dev,
+@@ -406,25 +406,25 @@ static ssize_t interface_show(struct dev
+ =
+
+ 	switch (iface->interface) {
+ 	case ITYPE_LOOPBACK:
+-		return snprintf(buf, PAGE_SIZE, "loopback\n");
++		return scnprintf(buf, PAGE_SIZE, "loopback\n");
+ 	case ITYPE_I2C:
+-		return snprintf(buf, PAGE_SIZE, "i2c\n");
++		return scnprintf(buf, PAGE_SIZE, "i2c\n");
+ 	case ITYPE_I2S:
+-		return snprintf(buf, PAGE_SIZE, "i2s\n");
++		return scnprintf(buf, PAGE_SIZE, "i2s\n");
+ 	case ITYPE_TSI:
+-		return snprintf(buf, PAGE_SIZE, "tsi\n");
++		return scnprintf(buf, PAGE_SIZE, "tsi\n");
+ 	case ITYPE_HBI:
+-		return snprintf(buf, PAGE_SIZE, "hbi\n");
++		return scnprintf(buf, PAGE_SIZE, "hbi\n");
+ 	case ITYPE_MEDIALB_DIM:
+-		return snprintf(buf, PAGE_SIZE, "mlb_dim\n");
++		return scnprintf(buf, PAGE_SIZE, "mlb_dim\n");
+ 	case ITYPE_MEDIALB_DIM2:
+-		return snprintf(buf, PAGE_SIZE, "mlb_dim2\n");
++		return scnprintf(buf, PAGE_SIZE, "mlb_dim2\n");
+ 	case ITYPE_USB:
+-		return snprintf(buf, PAGE_SIZE, "usb\n");
++		return scnprintf(buf, PAGE_SIZE, "usb\n");
+ 	case ITYPE_PCIE:
+-		return snprintf(buf, PAGE_SIZE, "pcie\n");
++		return scnprintf(buf, PAGE_SIZE, "pcie\n");
+ 	}
+-	return snprintf(buf, PAGE_SIZE, "unknown\n");
++	return scnprintf(buf, PAGE_SIZE, "unknown\n");
+ }
+ =
+
+ static DEVICE_ATTR_RO(description);
+--===============3550670692869629943==--
 
