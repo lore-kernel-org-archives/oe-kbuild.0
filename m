@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1548317837648662479=="
+Content-Type: multipart/mixed; boundary="===============4918721773536966551=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 14 Dec 2020 23:10:25 +0800
-Message-ID: <20201214151025.GA16258@cd96aaed27ba>
+Date: Mon, 14 Dec 2020 23:10:24 +0800
+Message-ID: <20201214151023.GA16171@cd96aaed27ba>
 In-Reply-To: <202012142314.KjiFvIDI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1548317837648662479==
+--===============4918721773536966551==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,27 +17,19 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Maxime Ripard <mripard@kernel.org>
+CC: Thomas Zimmermann <tzimmermann@suse.de>
+CC: David Airlie <airlied@linux.ie>
+CC: Daniel Vetter <daniel@ffwll.ch>
 CC: dri-devel(a)lists.freedesktop.org
-CC: linux-fbdev(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/video/fbdev/core/fbsysfs.c:233:8-16: WARNING: use scnprintf or spri=
-ntf
-drivers/video/fbdev/core/fbsysfs.c:421:8-16: WARNING: use scnprintf or spri=
-ntf
-drivers/video/fbdev/core/fbsysfs.c:393:8-16: WARNING: use scnprintf or spri=
-ntf
-drivers/video/fbdev/core/fbsysfs.c:384:8-16: WARNING: use scnprintf or spri=
-ntf
-drivers/video/fbdev/core/fbsysfs.c:260:8-16: WARNING: use scnprintf or spri=
-ntf
-drivers/video/fbdev/core/fbsysfs.c:296:8-16: WARNING: use scnprintf or spri=
-ntf
-drivers/video/fbdev/core/fbsysfs.c:288:8-16: WARNING: use scnprintf or spri=
-ntf
+drivers/gpu/drm/drm_sysfs.c:172:8-16: WARNING: use scnprintf or sprintf
+drivers/gpu/drm/drm_sysfs.c:185:8-16: WARNING: use scnprintf or sprintf
+drivers/gpu/drm/drm_sysfs.c:159:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -64,82 +56,46 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- fbsysfs.c |   14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ drm_sysfs.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---- a/drivers/video/fbdev/core/fbsysfs.c
-+++ b/drivers/video/fbdev/core/fbsysfs.c
-@@ -230,7 +230,7 @@ static ssize_t show_bpp(struct device *d
- 			char *buf)
- {
- 	struct fb_info *fb_info =3D dev_get_drvdata(device);
--	return snprintf(buf, PAGE_SIZE, "%d\n", fb_info->var.bits_per_pixel);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", fb_info->var.bits_per_pixel);
+--- a/drivers/gpu/drm/drm_sysfs.c
++++ b/drivers/gpu/drm/drm_sysfs.c
+@@ -156,7 +156,7 @@ static ssize_t status_show(struct device
+ =
+
+ 	status =3D READ_ONCE(connector->status);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
++	return scnprintf(buf, PAGE_SIZE, "%s\n",
+ 			drm_get_connector_status_name(status));
  }
  =
 
- static ssize_t store_rotate(struct device *device,
-@@ -257,7 +257,7 @@ static ssize_t show_rotate(struct device
- {
- 	struct fb_info *fb_info =3D dev_get_drvdata(device);
+@@ -169,7 +169,7 @@ static ssize_t dpms_show(struct device *
  =
 
--	return snprintf(buf, PAGE_SIZE, "%d\n", fb_info->var.rotate);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", fb_info->var.rotate);
+ 	dpms =3D READ_ONCE(connector->dpms);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
++	return scnprintf(buf, PAGE_SIZE, "%s\n",
+ 			drm_get_dpms_name(dpms));
  }
  =
 
- static ssize_t store_virtual(struct device *device,
-@@ -285,7 +285,7 @@ static ssize_t show_virtual(struct devic
- 			    struct device_attribute *attr, char *buf)
- {
- 	struct fb_info *fb_info =3D dev_get_drvdata(device);
--	return snprintf(buf, PAGE_SIZE, "%d,%d\n", fb_info->var.xres_virtual,
-+	return scnprintf(buf, PAGE_SIZE, "%d,%d\n", fb_info->var.xres_virtual,
- 			fb_info->var.yres_virtual);
+@@ -182,7 +182,7 @@ static ssize_t enabled_show(struct devic
+ =
+
+ 	enabled =3D READ_ONCE(connector->encoder);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, enabled ? "enabled\n" : "disabled\n");
++	return scnprintf(buf, PAGE_SIZE, enabled ? "enabled\n" : "disabled\n");
  }
  =
 
-@@ -293,7 +293,7 @@ static ssize_t show_stride(struct device
- 			   struct device_attribute *attr, char *buf)
- {
- 	struct fb_info *fb_info =3D dev_get_drvdata(device);
--	return snprintf(buf, PAGE_SIZE, "%d\n", fb_info->fix.line_length);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", fb_info->fix.line_length);
- }
- =
-
- static ssize_t store_blank(struct device *device,
-@@ -381,7 +381,7 @@ static ssize_t show_pan(struct device *d
- 			struct device_attribute *attr, char *buf)
- {
- 	struct fb_info *fb_info =3D dev_get_drvdata(device);
--	return snprintf(buf, PAGE_SIZE, "%d,%d\n", fb_info->var.xoffset,
-+	return scnprintf(buf, PAGE_SIZE, "%d,%d\n", fb_info->var.xoffset,
- 			fb_info->var.yoffset);
- }
- =
-
-@@ -390,7 +390,7 @@ static ssize_t show_name(struct device *
- {
- 	struct fb_info *fb_info =3D dev_get_drvdata(device);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", fb_info->fix.id);
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", fb_info->fix.id);
- }
- =
-
- static ssize_t store_fbstate(struct device *device,
-@@ -418,7 +418,7 @@ static ssize_t show_fbstate(struct devic
- 			    struct device_attribute *attr, char *buf)
- {
- 	struct fb_info *fb_info =3D dev_get_drvdata(device);
--	return snprintf(buf, PAGE_SIZE, "%d\n", fb_info->state);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", fb_info->state);
- }
- =
-
- #if IS_ENABLED(CONFIG_FB_BACKLIGHT)
---===============1548317837648662479==--
+ static ssize_t edid_show(struct file *filp, struct kobject *kobj,
+--===============4918721773536966551==--
 
