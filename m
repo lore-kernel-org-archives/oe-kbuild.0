@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============4918721773536966551=="
+Content-Type: multipart/mixed; boundary="===============1627924200875629893=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 14 Dec 2020 23:10:24 +0800
-Message-ID: <20201214151023.GA16171@cd96aaed27ba>
+Date: Mon, 14 Dec 2020 23:10:22 +0800
+Message-ID: <20201214151022.GA16084@cd96aaed27ba>
 In-Reply-To: <202012142314.KjiFvIDI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4918721773536966551==
+--===============1627924200875629893==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,19 +17,17 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: Maxime Ripard <mripard@kernel.org>
-CC: Thomas Zimmermann <tzimmermann@suse.de>
-CC: David Airlie <airlied@linux.ie>
-CC: Daniel Vetter <daniel@ffwll.ch>
-CC: dri-devel(a)lists.freedesktop.org
+CC: Matt Mackall <mpm@selenic.com>
+CC: Herbert Xu <herbert@gondor.apana.org.au>
+CC: Arnd Bergmann <arnd@arndb.de>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+CC: Colin Ian King <colin.king@canonical.com>
+CC: linux-crypto(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/gpu/drm/drm_sysfs.c:172:8-16: WARNING: use scnprintf or sprintf
-drivers/gpu/drm/drm_sysfs.c:185:8-16: WARNING: use scnprintf or sprintf
-drivers/gpu/drm/drm_sysfs.c:159:8-16: WARNING: use scnprintf or sprintf
+drivers/char/hw_random/core.c:399:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -56,46 +54,20 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- drm_sysfs.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ core.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/gpu/drm/drm_sysfs.c
-+++ b/drivers/gpu/drm/drm_sysfs.c
-@@ -156,7 +156,7 @@ static ssize_t status_show(struct device
- =
-
- 	status =3D READ_ONCE(connector->status);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n",
-+	return scnprintf(buf, PAGE_SIZE, "%s\n",
- 			drm_get_connector_status_name(status));
+--- a/drivers/char/hw_random/core.c
++++ b/drivers/char/hw_random/core.c
+@@ -396,7 +396,7 @@ static ssize_t hwrng_attr_selected_show(
+ 					struct device_attribute *attr,
+ 					char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%d\n", cur_rng_set_by_user);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", cur_rng_set_by_user);
  }
  =
 
-@@ -169,7 +169,7 @@ static ssize_t dpms_show(struct device *
- =
-
- 	dpms =3D READ_ONCE(connector->dpms);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n",
-+	return scnprintf(buf, PAGE_SIZE, "%s\n",
- 			drm_get_dpms_name(dpms));
- }
- =
-
-@@ -182,7 +182,7 @@ static ssize_t enabled_show(struct devic
- =
-
- 	enabled =3D READ_ONCE(connector->encoder);
- =
-
--	return snprintf(buf, PAGE_SIZE, enabled ? "enabled\n" : "disabled\n");
-+	return scnprintf(buf, PAGE_SIZE, enabled ? "enabled\n" : "disabled\n");
- }
- =
-
- static ssize_t edid_show(struct file *filp, struct kobject *kobj,
---===============4918721773536966551==--
+ static DEVICE_ATTR(rng_current, S_IRUGO | S_IWUSR,
+--===============1627924200875629893==--
 
