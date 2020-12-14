@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1405710616495119317=="
+Content-Type: multipart/mixed; boundary="===============3993533687511362075=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 14 Dec 2020 23:10:28 +0800
-Message-ID: <20201214151028.GA16432@cd96aaed27ba>
+Date: Mon, 14 Dec 2020 23:10:27 +0800
+Message-ID: <20201214151027.GA16345@cd96aaed27ba>
 In-Reply-To: <202012142314.KjiFvIDI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1405710616495119317==
+--===============3993533687511362075==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,14 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
-CC: Richard Weinberger <richard@nod.at>
-CC: Vignesh Raghavendra <vigneshr@ti.com>
-CC: linux-mtd(a)lists.infradead.org
+CC: Jens Axboe <axboe@kernel.dk>
+CC: linux-ide(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/mtd/mtdpart.c:220:8-16: WARNING: use scnprintf or sprintf
+drivers/ata/libata-sata.c:954:8-16: WARNING: use scnprintf or sprintf
+drivers/ata/libata-sata.c:830:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -52,21 +51,30 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- mtdpart.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ libata-sata.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/mtd/mtdpart.c
-+++ b/drivers/mtd/mtdpart.c
-@@ -217,7 +217,7 @@ static ssize_t mtd_partition_offset_show
- {
- 	struct mtd_info *mtd =3D dev_get_drvdata(dev);
+--- a/drivers/ata/libata-sata.c
++++ b/drivers/ata/libata-sata.c
+@@ -827,7 +827,7 @@ static ssize_t ata_scsi_lpm_show(struct
+ 	if (ap->target_lpm_policy >=3D ARRAY_SIZE(ata_lpm_policy_names))
+ 		return -EINVAL;
  =
 
--	return snprintf(buf, PAGE_SIZE, "%lld\n", mtd->part.offset);
-+	return scnprintf(buf, PAGE_SIZE, "%lld\n", mtd->part.offset);
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
++	return scnprintf(buf, PAGE_SIZE, "%s\n",
+ 			ata_lpm_policy_names[ap->target_lpm_policy]);
  }
+ DEVICE_ATTR(link_power_management_policy, S_IRUGO | S_IWUSR,
+@@ -951,7 +951,7 @@ ata_scsi_em_message_type_show(struct dev
+ 	struct Scsi_Host *shost =3D class_to_shost(dev);
+ 	struct ata_port *ap =3D ata_shost_to_port(shost);
  =
 
- static DEVICE_ATTR(offset, S_IRUGO, mtd_partition_offset_show, NULL);
---===============1405710616495119317==--
+-	return snprintf(buf, 23, "%d\n", ap->em_message_type);
++	return scnprintf(buf, 23, "%d\n", ap->em_message_type);
+ }
+ DEVICE_ATTR(em_message_type, S_IRUGO,
+ 		  ata_scsi_em_message_type_show, NULL);
+--===============3993533687511362075==--
 
