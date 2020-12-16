@@ -1,25 +1,41 @@
-Content-Type: multipart/mixed; boundary="===============6046070024327866497=="
+Content-Type: multipart/mixed; boundary="===============6302569413593998014=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] drm/[amdgpu|radeon]: fix memset on io mem
-Date: Wed, 16 Dec 2020 15:52:24 +0300
-Message-ID: <20201216125223.GG2831@kadam>
-In-Reply-To: <877dpiz4sf.wl-chenli@uniontech.com>
+Date: Wed, 16 Dec 2020 20:12:06 +0800
+Message-ID: <202012162024.g24v8AMo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6046070024327866497==
+--===============6302569413593998014==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <877dpiz4sf.wl-chenli@uniontech.com>
+References: <877dpiz4sf.wl-chenli@uniontech.com>
+TO: Chen Li <chenli@uniontech.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+TO: dri-devel(a)lists.freedesktop.org
+
 Hi Chen,
 
-url:    https://github.com/0day-ci/linux/commits/Chen-Li/drm-amdgpu-radeon-=
-fix-memset-on-io-mem/20201216-165835 =
+Thank you for the patch! Perhaps something to improve:
 
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.10 next-20201215]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Chen-Li/drm-amdgpu-radeon-=
+fix-memset-on-io-mem/20201216-165835
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
- d01e7f10dae29eba0f9ada82b65d24e035d5b2f9
+d01e7f10dae29eba0f9ada82b65d24e035d5b2f9
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 config: x86_64-randconfig-m001-20201216 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -39,6 +55,15 @@ unreachable code.
 
 vim +/i +805 drivers/gpu/drm/radeon/radeon_uvd.c
 
+f2ba57b5eab8817 Christian K=C3=B6nig 2013-04-08  771  =
+
+3cf8bb1ad1b8266 J=C3=A9rome Glisse   2016-03-16  772  /*
+3cf8bb1ad1b8266 J=C3=A9rome Glisse   2016-03-16  773   * multiple fence com=
+mands without any stream commands in between can
+3cf8bb1ad1b8266 J=C3=A9rome Glisse   2016-03-16  774   * crash the vcpu so =
+just try to emmit a dummy create/destroy msg to
+3cf8bb1ad1b8266 J=C3=A9rome Glisse   2016-03-16  775   * avoid this
+3cf8bb1ad1b8266 J=C3=A9rome Glisse   2016-03-16  776   */
 f2ba57b5eab8817 Christian K=C3=B6nig 2013-04-08  777  int radeon_uvd_get_cr=
 eate_msg(struct radeon_device *rdev, int ring,
 f2ba57b5eab8817 Christian K=C3=B6nig 2013-04-08  778  			      uint32_t han=
@@ -93,9 +118,6 @@ ndle);
 x01b37000);
 201257d71c519be Chen Li         2020-12-16 @805  	memset_io(&msg[i], 0x0, 1=
 013 * sizeof(uint32_t));
-                                                                  ^^^^^^^
-The "i" variable is never initialized anywhere.
-
 f2ba57b5eab8817 Christian K=C3=B6nig 2013-04-08  806  =
 
 feba9b0bcf492ba Christian K=C3=B6nig 2014-08-22  807  	r =3D radeon_uvd_sen=
@@ -146,9 +168,6 @@ ndle);
 00000000);
 201257d71c519be Chen Li         2020-12-16 @833  	memset_io(&msg[i], 0x0, 1=
 020 * sizeof(uint32_t));
-                                                                  ^^^^^^^
-Same
-
 f2ba57b5eab8817 Christian K=C3=B6nig 2013-04-08  834  =
 
 feba9b0bcf492ba Christian K=C3=B6nig 2014-08-22  835  	r =3D radeon_uvd_sen=
@@ -162,14 +181,9 @@ f2ba57b5eab8817 Christian K=C3=B6nig 2013-04-08  838  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============6046070024327866497==
+--===============6302569413593998014==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -755,5 +769,5 @@ Hd9Y9rq6Z8c4cExGz8MnBk4wTtM57SZNn2d5h5FPfaBUvDQda55vAYykOQZMpaY4T5on+S0TUZtK
 RKW99c3XTHAkHCo+ixL7igv3JII0HmbGt+RDOZxc7x+Uq67y89sz2qKZMlRenggghRuKSg3ZOk5i
 L7UmI+qAjkswfDVvs2sZ/clNrA3gl01qenkNURlR7aRU4wCXgluG6jaZEZfFNFHZIE6Q+xccCQJH
 HvkBAA==
---===============6046070024327866497==--
+--===============6302569413593998014==--
 
