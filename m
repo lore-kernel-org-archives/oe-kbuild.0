@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8876204182536593561=="
+Content-Type: multipart/mixed; boundary="===============1537390923429545518=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: drivers/misc/habanalabs/common/firmware_if.c:371:18: warning: Shifting signed 32-bit value by 31 bits is undefined behaviour
-Date: Tue, 22 Dec 2020 15:13:48 +0800
-Message-ID: <202012221543.hvOMGwkj-lkp@intel.com>
+Date: Tue, 22 Dec 2020 13:34:27 +0800
+Message-ID: <202012221320.QWscZD8t-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8876204182536593561==
+--===============1537390923429545518==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -22,7 +22,7 @@ head:   8653b778e454a7708847aeafe689bce07aeeb94e
 commit: 7b16a15524d5db449cf5e529602610cdf04eddab habanalabs: fix up absolut=
 e include instructions
 date:   5 months ago
-:::::: branch date: 13 hours ago
+:::::: branch date: 11 hours ago
 :::::: commit date: 5 months ago
 compiler: s390-linux-gcc (GCC) 9.3.0
 
@@ -153,5 +153,5 @@ ve device cpu init
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8876204182536593561==--
+--===============1537390923429545518==--
 
