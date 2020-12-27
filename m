@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============3770277748383836698=="
+Content-Type: multipart/mixed; boundary="===============7374212764045120419=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 28 Dec 2020 04:04:58 +0800
-Message-ID: <20201227200458.GA42743@8887daa46785>
+Date: Mon, 28 Dec 2020 04:04:57 +0800
+Message-ID: <20201227200457.GA42656@8887daa46785>
 In-Reply-To: <202012280427.S5ZgodfV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3770277748383836698==
+--===============7374212764045120419==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,14 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Guenter Roeck <linux@roeck-us.net>
 CC: Jean Delvare <jdelvare@suse.com>
+CC: Guenter Roeck <linux@roeck-us.net>
 CC: linux-hwmon(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hwmon/ltc4261.c:150:8-16: WARNING: use scnprintf or sprintf
-drivers/hwmon/ltc4261.c:133:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/ltc4151.c:131:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -52,32 +51,21 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ltc4261.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ltc4151.c |    2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/hwmon/ltc4261.c
-+++ b/drivers/hwmon/ltc4261.c
-@@ -130,7 +130,7 @@ static ssize_t ltc4261_value_show(struct
+--- a/drivers/hwmon/ltc4151.c
++++ b/drivers/hwmon/ltc4151.c
+@@ -128,7 +128,7 @@ static ssize_t ltc4151_value_show(struct
  		return PTR_ERR(data);
  =
 
- 	value =3D ltc4261_get_value(data, attr->index);
+ 	value =3D ltc4151_get_value(data, attr->index);
 -	return snprintf(buf, PAGE_SIZE, "%d\n", value);
 +	return scnprintf(buf, PAGE_SIZE, "%d\n", value);
  }
  =
 
- static ssize_t ltc4261_bool_show(struct device *dev,
-@@ -147,7 +147,7 @@ static ssize_t ltc4261_bool_show(struct
- 	if (fault)		/* Clear reported faults in chip register */
- 		i2c_smbus_write_byte_data(data->client, LTC4261_FAULT, ~fault);
- =
-
--	return snprintf(buf, PAGE_SIZE, "%d\n", fault ? 1 : 0);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", fault ? 1 : 0);
- }
- =
-
  /*
---===============3770277748383836698==--
+--===============7374212764045120419==--
 
