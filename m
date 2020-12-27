@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1638747105535140587=="
+Content-Type: multipart/mixed; boundary="===============0694476567134077393=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 28 Dec 2020 04:04:55 +0800
-Message-ID: <20201227200455.GA42569@8887daa46785>
+Date: Mon, 28 Dec 2020 04:04:53 +0800
+Message-ID: <20201227200453.GA42482@8887daa46785>
 In-Reply-To: <202012280427.S5ZgodfV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1638747105535140587==
+--===============0694476567134077393==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,16 +17,19 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: "Bruno Pr=C3=A9mont" <bonbons@linux-vserver.org>
-CC: Jiri Kosina <jikos@kernel.org>
-CC: Benjamin Tissoires <benjamin.tissoires@redhat.com>
-CC: linux-input(a)vger.kernel.org
+CC: Borislav Petkov <bp@alien8.de>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Tony Luck <tony.luck@intel.com>
+CC: James Morse <james.morse@arm.com>
+CC: Robert Richter <rrichter@marvell.com>
+CC: linux-edac(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hid/hid-picolcd_core.c:304:8-16: WARNING: use scnprintf or sprintf
-drivers/hid/hid-picolcd_core.c:259:9-17: WARNING: use scnprintf or sprintf
+drivers/edac/edac_mc_sysfs.c:210:8-16: WARNING: use scnprintf or sprintf
+drivers/edac/edac_mc_sysfs.c:494:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -53,35 +56,32 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- hid-picolcd_core.c |    6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ edac_mc_sysfs.c |    4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/hid/hid-picolcd_core.c
-+++ b/drivers/hid/hid-picolcd_core.c
-@@ -256,9 +256,9 @@ static ssize_t picolcd_operation_mode_sh
- 	struct picolcd_data *data =3D dev_get_drvdata(dev);
+--- a/drivers/edac/edac_mc_sysfs.c
++++ b/drivers/edac/edac_mc_sysfs.c
+@@ -207,7 +207,7 @@ static ssize_t channel_dimm_label_show(s
+ 	if (!rank->dimm->label[0])
+ 		return 0;
  =
 
- 	if (data->status & PICOLCD_BOOTLOADER)
--		return snprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
-+		return scnprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
- 	else
--		return snprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
-+		return scnprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
+-	return snprintf(data, sizeof(rank->dimm->label) + 1, "%s\n",
++	return scnprintf(data, sizeof(rank->dimm->label) + 1, "%s\n",
+ 			rank->dimm->label);
  }
  =
 
- static ssize_t picolcd_operation_mode_store(struct device *dev,
-@@ -301,7 +301,7 @@ static ssize_t picolcd_operation_mode_de
- {
- 	struct picolcd_data *data =3D dev_get_drvdata(dev);
+@@ -491,7 +491,7 @@ static ssize_t dimmdev_label_show(struct
+ 	if (!dimm->label[0])
+ 		return 0;
  =
 
--	return snprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
-+	return scnprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
+-	return snprintf(data, sizeof(dimm->label) + 1, "%s\n", dimm->label);
++	return scnprintf(data, sizeof(dimm->label) + 1, "%s\n", dimm->label);
  }
  =
 
- static ssize_t picolcd_operation_mode_delay_store(struct device *dev,
---===============1638747105535140587==--
+ static ssize_t dimmdev_label_store(struct device *dev,
+--===============0694476567134077393==--
 
