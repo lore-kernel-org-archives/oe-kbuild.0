@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7374212764045120419=="
+Content-Type: multipart/mixed; boundary="===============1638747105535140587=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 28 Dec 2020 04:04:57 +0800
-Message-ID: <20201227200457.GA42656@8887daa46785>
+Date: Mon, 28 Dec 2020 04:04:55 +0800
+Message-ID: <20201227200455.GA42569@8887daa46785>
 In-Reply-To: <202012280427.S5ZgodfV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7374212764045120419==
+--===============1638747105535140587==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,14 +17,16 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: linux-hwmon(a)vger.kernel.org
+CC: "Bruno Pr=C3=A9mont" <bonbons@linux-vserver.org>
+CC: Jiri Kosina <jikos@kernel.org>
+CC: Benjamin Tissoires <benjamin.tissoires@redhat.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hwmon/ltc4151.c:131:8-16: WARNING: use scnprintf or sprintf
+drivers/hid/hid-picolcd_core.c:304:8-16: WARNING: use scnprintf or sprintf
+drivers/hid/hid-picolcd_core.c:259:9-17: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -51,21 +53,35 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ltc4151.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hid-picolcd_core.c |    6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
---- a/drivers/hwmon/ltc4151.c
-+++ b/drivers/hwmon/ltc4151.c
-@@ -128,7 +128,7 @@ static ssize_t ltc4151_value_show(struct
- 		return PTR_ERR(data);
+--- a/drivers/hid/hid-picolcd_core.c
++++ b/drivers/hid/hid-picolcd_core.c
+@@ -256,9 +256,9 @@ static ssize_t picolcd_operation_mode_sh
+ 	struct picolcd_data *data =3D dev_get_drvdata(dev);
  =
 
- 	value =3D ltc4151_get_value(data, attr->index);
--	return snprintf(buf, PAGE_SIZE, "%d\n", value);
-+	return scnprintf(buf, PAGE_SIZE, "%d\n", value);
+ 	if (data->status & PICOLCD_BOOTLOADER)
+-		return snprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
++		return scnprintf(buf, PAGE_SIZE, "[bootloader] lcd\n");
+ 	else
+-		return snprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
++		return scnprintf(buf, PAGE_SIZE, "bootloader [lcd]\n");
  }
  =
 
- /*
---===============7374212764045120419==--
+ static ssize_t picolcd_operation_mode_store(struct device *dev,
+@@ -301,7 +301,7 @@ static ssize_t picolcd_operation_mode_de
+ {
+ 	struct picolcd_data *data =3D dev_get_drvdata(dev);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
++	return scnprintf(buf, PAGE_SIZE, "%hu\n", data->opmode_delay);
+ }
+ =
+
+ static ssize_t picolcd_operation_mode_delay_store(struct device *dev,
+--===============1638747105535140587==--
 
