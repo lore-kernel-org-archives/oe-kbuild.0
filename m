@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============0571200453288350505=="
+Content-Type: multipart/mixed; boundary="===============0511526593012251005=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 28 Dec 2020 04:05:03 +0800
-Message-ID: <20201227200503.GA43004@8887daa46785>
+Date: Mon, 28 Dec 2020 04:05:02 +0800
+Message-ID: <20201227200502.GA42917@8887daa46785>
 In-Reply-To: <202012280427.S5ZgodfV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0571200453288350505==
+--===============0511526593012251005==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,14 +17,22 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
-CC: dri-devel(a)lists.freedesktop.org
-CC: linux-fbdev(a)vger.kernel.org
+CC: Jean Delvare <jdelvare@suse.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: linux-hwmon(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/video/fbdev/sm501fb.c:1169:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:275:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:261:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:247:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:187:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:179:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:163:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:230:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:216:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/sch5636.c:202:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -51,21 +59,108 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- sm501fb.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ sch5636.c |   18 +++++++++---------
+ 1 file changed, 9 insertions(+), 9 deletions(-)
 
---- a/drivers/video/fbdev/sm501fb.c
-+++ b/drivers/video/fbdev/sm501fb.c
-@@ -1166,7 +1166,7 @@ static ssize_t sm501fb_crtsrc_show(struc
- 	ctrl =3D smc501_readl(info->regs + SM501_DC_CRT_CONTROL);
- 	ctrl &=3D SM501_DC_CRT_CONTROL_SEL;
- =
-
--	return snprintf(buf, PAGE_SIZE, "%s\n", ctrl ? "crt" : "panel");
-+	return scnprintf(buf, PAGE_SIZE, "%s\n", ctrl ? "crt" : "panel");
+--- a/drivers/hwmon/sch5636.c
++++ b/drivers/hwmon/sch5636.c
+@@ -160,7 +160,7 @@ static int reg_to_rpm(u16 reg)
+ static ssize_t name_show(struct device *dev, struct device_attribute *deva=
+ttr,
+ 			 char *buf)
+ {
+-	return snprintf(buf, PAGE_SIZE, "%s\n", DEVNAME);
++	return scnprintf(buf, PAGE_SIZE, "%s\n", DEVNAME);
  }
  =
 
- /* sm501fb_crtsrc_show
---===============0571200453288350505==--
+ static ssize_t in_value_show(struct device *dev,
+@@ -176,7 +176,7 @@ static ssize_t in_value_show(struct devi
+ 	val =3D DIV_ROUND_CLOSEST(
+ 		data->in[attr->index] * SCH5636_REG_IN_FACTORS[attr->index],
+ 		255);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t in_label_show(struct device *dev,
+@@ -184,7 +184,7 @@ static ssize_t in_label_show(struct devi
+ {
+ 	struct sensor_device_attribute *attr =3D to_sensor_dev_attr(devattr);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%s\n",
++	return scnprintf(buf, PAGE_SIZE, "%s\n",
+ 			SCH5636_IN_LABELS[attr->index]);
+ }
+ =
+
+@@ -199,7 +199,7 @@ static ssize_t temp_value_show(struct de
+ 		return PTR_ERR(data);
+ =
+
+ 	val =3D (data->temp_val[attr->index] - 64) * 1000;
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t temp_fault_show(struct device *dev,
+@@ -213,7 +213,7 @@ static ssize_t temp_fault_show(struct de
+ 		return PTR_ERR(data);
+ =
+
+ 	val =3D (data->temp_ctrl[attr->index] & SCH5636_TEMP_WORKING) ? 0 : 1;
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t temp_alarm_show(struct device *dev,
+@@ -227,7 +227,7 @@ static ssize_t temp_alarm_show(struct de
+ 		return PTR_ERR(data);
+ =
+
+ 	val =3D (data->temp_ctrl[attr->index] & SCH5636_TEMP_ALARM) ? 1 : 0;
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t fan_value_show(struct device *dev,
+@@ -244,7 +244,7 @@ static ssize_t fan_value_show(struct dev
+ 	if (val < 0)
+ 		return val;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t fan_fault_show(struct device *dev,
+@@ -258,7 +258,7 @@ static ssize_t fan_fault_show(struct dev
+ 		return PTR_ERR(data);
+ =
+
+ 	val =3D (data->fan_ctrl[attr->index] & SCH5636_FAN_NOT_PRESENT) ? 1 : 0;
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static ssize_t fan_alarm_show(struct device *dev,
+@@ -272,7 +272,7 @@ static ssize_t fan_alarm_show(struct dev
+ 		return PTR_ERR(data);
+ =
+
+ 	val =3D (data->fan_ctrl[attr->index] & SCH5636_FAN_ALARM) ? 1 : 0;
+-	return snprintf(buf, PAGE_SIZE, "%d\n", val);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", val);
+ }
+ =
+
+ static struct sensor_device_attribute sch5636_attr[] =3D {
+--===============0511526593012251005==--
 
