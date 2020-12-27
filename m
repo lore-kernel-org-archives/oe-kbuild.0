@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============5175353623037086967=="
+Content-Type: multipart/mixed; boundary="===============3770277748383836698=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 28 Dec 2020 04:05:00 +0800
-Message-ID: <20201227200500.GA42830@8887daa46785>
+Date: Mon, 28 Dec 2020 04:04:58 +0800
+Message-ID: <20201227200458.GA42743@8887daa46785>
 In-Reply-To: <202012280427.S5ZgodfV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5175353623037086967==
+--===============3770277748383836698==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,14 +17,15 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Richard Cochran <richardcochran@gmail.com>
-CC: netdev(a)vger.kernel.org
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Jean Delvare <jdelvare@suse.com>
+CC: linux-hwmon(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/ptp/ptp_sysfs.c:16:8-16: WARNING: use scnprintf or sprintf
-drivers/ptp/ptp_sysfs.c:230:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/ltc4261.c:150:8-16: WARNING: use scnprintf or sprintf
+drivers/hwmon/ltc4261.c:133:8-16: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -51,33 +52,32 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ptp_sysfs.c |    4 ++--
+ ltc4261.c |    4 ++--
  1 file changed, 2 insertions(+), 2 deletions(-)
 
---- a/drivers/ptp/ptp_sysfs.c
-+++ b/drivers/ptp/ptp_sysfs.c
-@@ -13,7 +13,7 @@ static ssize_t clock_name_show(struct de
- 			       struct device_attribute *attr, char *page)
- {
- 	struct ptp_clock *ptp =3D dev_get_drvdata(dev);
--	return snprintf(page, PAGE_SIZE-1, "%s\n", ptp->info->name);
-+	return scnprintf(page, PAGE_SIZE-1, "%s\n", ptp->info->name);
- }
- static DEVICE_ATTR_RO(clock_name);
+--- a/drivers/hwmon/ltc4261.c
++++ b/drivers/hwmon/ltc4261.c
+@@ -130,7 +130,7 @@ static ssize_t ltc4261_value_show(struct
+ 		return PTR_ERR(data);
  =
 
-@@ -227,7 +227,7 @@ static ssize_t ptp_pin_show(struct devic
- =
-
- 	mutex_unlock(&ptp->pincfg_mux);
- =
-
--	return snprintf(page, PAGE_SIZE, "%u %u\n", func, chan);
-+	return scnprintf(page, PAGE_SIZE, "%u %u\n", func, chan);
+ 	value =3D ltc4261_get_value(data, attr->index);
+-	return snprintf(buf, PAGE_SIZE, "%d\n", value);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", value);
  }
  =
 
- static ssize_t ptp_pin_store(struct device *dev, struct device_attribute *=
-attr,
---===============5175353623037086967==--
+ static ssize_t ltc4261_bool_show(struct device *dev,
+@@ -147,7 +147,7 @@ static ssize_t ltc4261_bool_show(struct
+ 	if (fault)		/* Clear reported faults in chip register */
+ 		i2c_smbus_write_byte_data(data->client, LTC4261_FAULT, ~fault);
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", fault ? 1 : 0);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", fault ? 1 : 0);
+ }
+ =
+
+ /*
+--===============3770277748383836698==--
 
