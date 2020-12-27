@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============5221981997189981786=="
+Content-Type: multipart/mixed; boundary="===============4387511344704718916=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix device_attr_show.cocci warnings
-Date: Mon, 28 Dec 2020 04:05:06 +0800
-Message-ID: <20201227200505.GA43178@8887daa46785>
+Date: Mon, 28 Dec 2020 04:05:04 +0800
+Message-ID: <20201227200504.GA43091@8887daa46785>
 In-Reply-To: <202012280427.S5ZgodfV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5221981997189981786==
+--===============4387511344704718916==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,18 +17,20 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Pablo Neira Ayuso <pablo@netfilter.org>
-CC: Jozsef Kadlecsik <kadlec@netfilter.org>
-CC: Florian Westphal <fw@strlen.de>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: netfilter-devel(a)vger.kernel.org
-CC: coreteam(a)netfilter.org
-CC: netdev(a)vger.kernel.org
+CC: Michal Januszewski <spock@gentoo.org>
+CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
+CC: linux-fbdev(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-net/netfilter/xt_IDLETIMER.c:88:9-17: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/uvesafb.c:1640:8-16: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/uvesafb.c:1626:9-17: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/uvesafb.c:1596:9-17: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/uvesafb.c:1611:9-17: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/uvesafb.c:1550:8-16: WARNING: use scnprintf or sprintf
+drivers/video/fbdev/uvesafb.c:1581:9-17: WARNING: use scnprintf or sprintf
 
 
  From Documentation/filesystems/sysfs.txt:
@@ -55,25 +57,72 @@ e_attr_show script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- xt_IDLETIMER.c |    4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ uvesafb.c |   12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
---- a/net/netfilter/xt_IDLETIMER.c
-+++ b/net/netfilter/xt_IDLETIMER.c
-@@ -85,9 +85,9 @@ static ssize_t idletimer_tg_show(struct
- 	mutex_unlock(&list_mutex);
+--- a/drivers/video/fbdev/uvesafb.c
++++ b/drivers/video/fbdev/uvesafb.c
+@@ -1547,7 +1547,7 @@ static ssize_t uvesafb_show_vbe_ver(stru
+ 	struct fb_info *info =3D dev_get_drvdata(dev);
+ 	struct uvesafb_par *par =3D info->par;
  =
 
- 	if (time_after(expires, jiffies) || ktimespec.tv_sec > 0)
--		return snprintf(buf, PAGE_SIZE, "%ld\n", time_diff);
-+		return scnprintf(buf, PAGE_SIZE, "%ld\n", time_diff);
- =
-
--	return snprintf(buf, PAGE_SIZE, "0\n");
-+	return scnprintf(buf, PAGE_SIZE, "0\n");
+-	return snprintf(buf, PAGE_SIZE, "%.4x\n", par->vbe_ib.vbe_version);
++	return scnprintf(buf, PAGE_SIZE, "%.4x\n", par->vbe_ib.vbe_version);
  }
  =
 
- static void idletimer_tg_work(struct work_struct *work)
---===============5221981997189981786==--
+ static DEVICE_ATTR(vbe_version, S_IRUGO, uvesafb_show_vbe_ver, NULL);
+@@ -1578,7 +1578,7 @@ static ssize_t uvesafb_show_vendor(struc
+ 	struct uvesafb_par *par =3D info->par;
+ =
+
+ 	if (par->vbe_ib.oem_vendor_name_ptr)
+-		return snprintf(buf, PAGE_SIZE, "%s\n", (char *)
++		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
+ 			(&par->vbe_ib) + par->vbe_ib.oem_vendor_name_ptr);
+ 	else
+ 		return 0;
+@@ -1593,7 +1593,7 @@ static ssize_t uvesafb_show_product_name
+ 	struct uvesafb_par *par =3D info->par;
+ =
+
+ 	if (par->vbe_ib.oem_product_name_ptr)
+-		return snprintf(buf, PAGE_SIZE, "%s\n", (char *)
++		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
+ 			(&par->vbe_ib) + par->vbe_ib.oem_product_name_ptr);
+ 	else
+ 		return 0;
+@@ -1608,7 +1608,7 @@ static ssize_t uvesafb_show_product_rev(
+ 	struct uvesafb_par *par =3D info->par;
+ =
+
+ 	if (par->vbe_ib.oem_product_rev_ptr)
+-		return snprintf(buf, PAGE_SIZE, "%s\n", (char *)
++		return scnprintf(buf, PAGE_SIZE, "%s\n", (char *)
+ 			(&par->vbe_ib) + par->vbe_ib.oem_product_rev_ptr);
+ 	else
+ 		return 0;
+@@ -1623,7 +1623,7 @@ static ssize_t uvesafb_show_oem_string(s
+ 	struct uvesafb_par *par =3D info->par;
+ =
+
+ 	if (par->vbe_ib.oem_string_ptr)
+-		return snprintf(buf, PAGE_SIZE, "%s\n",
++		return scnprintf(buf, PAGE_SIZE, "%s\n",
+ 			(char *)(&par->vbe_ib) + par->vbe_ib.oem_string_ptr);
+ 	else
+ 		return 0;
+@@ -1637,7 +1637,7 @@ static ssize_t uvesafb_show_nocrtc(struc
+ 	struct fb_info *info =3D dev_get_drvdata(dev);
+ 	struct uvesafb_par *par =3D info->par;
+ =
+
+-	return snprintf(buf, PAGE_SIZE, "%d\n", par->nocrtc);
++	return scnprintf(buf, PAGE_SIZE, "%d\n", par->nocrtc);
+ }
+ =
+
+ static ssize_t uvesafb_store_nocrtc(struct device *dev,
+--===============4387511344704718916==--
 
