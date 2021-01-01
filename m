@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3951293417577494239=="
+Content-Type: multipart/mixed; boundary="===============8556339432071714603=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:reserve-rt-metadata-space 108/179] fs/xfs/scrub/attr_repair.c:111 xrep_setup_xattr_buf() error: we previously assumed 'ab' could be null (see line 100)
-Date: Fri, 01 Jan 2021 15:26:53 +0800
-Message-ID: <202101011551.JBoaga6b-lkp@intel.com>
+Subject: [djwong-xfs:reserve-rt-metadata-space 34/179] fs/xfs/scrub/inode_repair.c:652 xrep_inode() error: we previously assumed 'sc->ip' could be null (see line 633)
+Date: Fri, 01 Jan 2021 13:18:29 +0800
+Message-ID: <202101011323.ba3jqkG4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3951293417577494239==
+--===============8556339432071714603==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ TO: "Darrick J. Wong" <darrick.wong@oracle.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t reserve-rt-metadata-space
 head:   5fe30cceb35fa37ddc5cb6d4bb466fc28291d4bd
-commit: 9c0fcacf465a44557218f07177a8c9692d0a3230 [108/179] xfs: repair exte=
-nded attributes
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
+commit: 0a4c8b905a3b247cfbef3ab32fc95b51d23cde59 [34/179] xfs: repair inode=
+ records
+:::::: branch date: 8 hours ago
+:::::: commit date: 9 hours ago
 config: i386-randconfig-m021-20201231 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -31,93 +31,72 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/xfs/scrub/attr_repair.c:111 xrep_setup_xattr_buf() error: we previously =
-assumed 'ab' could be null (see line 100)
+fs/xfs/scrub/inode_repair.c:652 xrep_inode() error: we previously assumed '=
+sc->ip' could be null (see line 633)
 
-vim +/ab +111 fs/xfs/scrub/attr_repair.c
+vim +652 fs/xfs/scrub/inode_repair.c
 
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   70  =
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  621  =
 
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   71  /*
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   72   * Allocate enough memory =
-to hold whatever we need to salvage an attr block.
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   73   * Buffer contents can be =
-preserved, unlike in the scrub counterpart to this
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   74   * function.
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   75   */
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   76  STATIC int
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   77  xrep_setup_xattr_buf(
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   78  	struct xfs_scrub	*sc,
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   79  	size_t			value_size,
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   80  	bool			preserve)
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   81  {
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   82  	size_t			sz;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   83  	struct xchk_xattr_buf	*ne=
-w_ab;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   84  	struct xchk_xattr_buf	*ab=
- =3D sc->buf;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   85  =
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  622  /* Repair an inode's field=
+s. */
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  623  int
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  624  xrep_inode(
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  625  	struct xfs_scrub	*sc)
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  626  {
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  627  	int			error =3D 0;
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  628  =
 
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   86  	ASSERT(!preserve || ab !=
-=3D NULL);
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   87  =
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  629  	/*
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  630  	 * No inode?  That means =
+we failed the _iget verifiers.  Repair all
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  631  	 * the things that the in=
+ode verifiers care about, then retry _iget.
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  632  	 */
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25 @633  	if (!sc->ip) {
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  634  		error =3D xrep_dinode_pr=
+oblems(sc);
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  635  		if (error)
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  636  			goto out;
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  637  	}
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  638  =
 
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   88  	/*
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   89  	 * We need enough space t=
-o hold a bitmap for the used space within an
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   90  	 * attr block; the name o=
-f a salvaged attr; and the value of a salvaged
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   91  	 * attr.
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   92  	 */
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   93  	sz =3D sizeof(long) * BIT=
-S_TO_LONGS(sc->mp->m_attr_geo->blksize) +
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   94  			value_size + XATTR_NAME=
-_MAX + 1;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   95  =
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  639  	/* By this point we had b=
+etter have a working incore inode. */
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  640  	ASSERT(sc->ip);
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  641  	xfs_trans_ijoin(sc->tp, s=
+c->ip, 0);
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  642  =
 
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   96  	/*
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   97  	 * If there's already a b=
-uffer, figure out if we need to reallocate it
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   98  	 * to accommodate a large=
-r size.
-9c0fcacf465a445 Darrick J. Wong 2020-10-25   99  	 */
-9c0fcacf465a445 Darrick J. Wong 2020-10-25 @100  	if (ab && ab->sz >=3D sz)
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  101  		return 0;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  102  =
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  643  	/* If we found corruption=
+ of any kind, try to fix it. */
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  644  	if ((sc->sm->sm_flags & X=
+FS_SCRUB_OFLAG_CORRUPT) ||
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  645  	    (sc->sm->sm_flags & X=
+FS_SCRUB_OFLAG_XCORRUPT)) {
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  646  		error =3D xrep_inode_pro=
+blems(sc);
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  647  		if (error)
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  648  			goto out;
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  649  	}
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  650  =
 
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  103  	if (!preserve)
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  104  		kmem_free(ab);
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  105  =
-
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  106  	new_ab =3D kmem_alloc_lar=
-ge(sizeof(*new_ab) + sz, KM_MAYFAIL);
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  107  	if (!new_ab)
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  108  		return -ENOMEM;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  109  =
-
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  110  	if (preserve) {
-9c0fcacf465a445 Darrick J. Wong 2020-10-25 @111  		memcpy(new_ab, ab, ab->s=
-z);
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  112  		kmem_free(ab);
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  113  	}
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  114  	new_ab->sz =3D sz;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  115  	sc->buf =3D new_ab;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  116  	return 0;
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  117  }
-9c0fcacf465a445 Darrick J. Wong 2020-10-25  118  =
-
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25  651  	/* See if we can clear th=
+e reflink flag. */
+0a4c8b905a3b247 Darrick J. Wong 2020-10-25 @652  	if (xfs_is_reflink_inode(=
+sc->ip))
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3951293417577494239==
+--===============8556339432071714603==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICCCz7l8AAy5jb25maWcAjFxLc9w2Er7nV0w5l+SQrB621qktHUAQ5CBDEDQAzkMXliKPvarI
+H4sICA+F7l8AAy5jb25maWcAjFxLc9w2Er7nV0w5l+SQrB621qktHUAQ5CBDEDQAzkMXliKPvarI
 knckbeJ/v90AHwAGHO8eNh50s/FqdH/daOjHH35ckNeXpy+3L/d3tw8P3xaf94/7w+3L/uPi0/3D
 /l+LXC5qaRYs5+ZXYK7uH1///sf95furxbtfz89/PfvlcHe+WO0Pj/uHBX16/HT/+RU+v396/OHH
 H6isC152lHZrpjSXdWfY1ly/+Xx398tvi5/y/R/3t4+L3369BDHn7352/3rjfcZ1V1J6/W1oKidR
@@ -725,5 +704,5 @@ ga+k6OlgOG0q11e0uy383mMfUc0d4ynTetcOiunv6JicLW4sQ2ADENAfdRgN/TmO477Yu5wsafTw
 EYW/F6IiHFdP1qA5tO4TOW5SG9hxgfrjTE6VKPwG625mc4xNV3oKn46Bt/edqXGt128HFFDxFSbC
 3PGrx7XhLt0475/SxfPYE/YvnEAlOFkoEnEcjfjdgCCvpUTUgVKqFx3EsjecyngkQ5+f1HjUQ1j9
 XWHHyQy/p1bANeR3mizaxjtwnROPKV90yFaaMxJIMrX3XSdJfqU8T0qpQP8f0IupqTkeAgA=
---===============3951293417577494239==--
+--===============8556339432071714603==--
 
