@@ -1,24 +1,51 @@
-Content-Type: multipart/mixed; boundary="===============4858350360289105902=="
+Content-Type: multipart/mixed; boundary="===============5760732526191116806=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH netdev 5/5] virtio-net, xsk: virtio-net support xsk zero copy tx
-Date: Tue, 05 Jan 2021 16:25:58 +0300
-Message-ID: <20210105132558.GX2831@kadam>
-In-Reply-To: <65b5d0af6c4ed878cbcfa53c925d9dcbb09ecc55.1609837120.git.xuanzhuo@linux.alibaba.com>
+Date: Tue, 05 Jan 2021 20:54:46 +0800
+Message-ID: <202101052027.AvQS4Ehb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4858350360289105902==
+--===============5760732526191116806==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <65b5d0af6c4ed878cbcfa53c925d9dcbb09ecc55.1609837120.git.xuanz=
+huo@linux.alibaba.com>
+References: <65b5d0af6c4ed878cbcfa53c925d9dcbb09ecc55.1609837120.git.xuanzh=
+uo@linux.alibaba.com>
+TO: Xuan Zhuo <xuanzhuo@linux.alibaba.com>
+TO: netdev(a)vger.kernel.org
+CC: dust.li(a)linux.alibaba.com
+CC: tonylu(a)linux.alibaba.com
+CC: "Michael S. Tsirkin" <mst@redhat.com>
+CC: Jason Wang <jasowang@redhat.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: "Bj=C3=B6rn T=C3=B6pel" <bjorn.topel@intel.com>
+CC: Magnus Karlsson <magnus.karlsson@intel.com>
+CC: Jonathan Lemon <jonathan.lemon@gmail.com>
+CC: Alexei Starovoitov <ast@kernel.org>
+
 Hi Xuan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on ipvs/master]
+[also build test WARNING on linus/master v5.11-rc2 next-20210104]
+[cannot apply to sparc-next/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Xuan-Zhuo/virtio-net-suppo=
 rt-xdp-socket-zero-copy-xmit/20210105-171505
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git  mas=
-ter
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/horms/ipvs.git mast=
+er
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
 config: i386-randconfig-m021-20210105 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -35,6 +62,8 @@ drivers/net/virtio_net.c:2982 virtnet_xsk_wakeup() warn: test_bit() takes a=
  bit number
 
 Old smatch warnings:
+drivers/net/virtio_net.c:2053 virtnet_set_rx_mode() warn: is 'buf' large en=
+ough for 'struct virtio_net_ctrl_mac'? 0
 drivers/net/virtio_net.c:2908 virtnet_xsk_run() warn: test_bit() takes a bi=
 t number
 drivers/net/virtio_net.c:2918 virtnet_xsk_run() warn: test_bit() takes a bi=
@@ -45,6 +74,8 @@ drivers/net/virtio_net.c:3073 virtnet_config_changed_work() error: uninitia=
 lized symbol 'v'.
 
 vim +2669 drivers/net/virtio_net.c
+
+f600b690501550 John Fastabend 2016-12-15  2662  =
 
 265d3cdead3bd6 Xuan Zhuo      2021-01-05  2663  static enum hrtimer_restart=
  virtnet_xsk_timeout(struct hrtimer *timer)
@@ -58,9 +89,6 @@ vim +2669 drivers/net/virtio_net.c
 
 265d3cdead3bd6 Xuan Zhuo      2021-01-05 @2669  	clear_bit(VIRTNET_STATE_XS=
 K_TIMER, &sq->xsk.state);
-
-This is a double shift bug like BIT(BIT(foo)).
-
 265d3cdead3bd6 Xuan Zhuo      2021-01-05  2670  =
 
 265d3cdead3bd6 Xuan Zhuo      2021-01-05  2671  	virtqueue_napi_schedule(&s=
@@ -69,17 +97,14 @@ q->napi, sq->vq);
 
 265d3cdead3bd6 Xuan Zhuo      2021-01-05  2673  	return HRTIMER_NORESTART;
 265d3cdead3bd6 Xuan Zhuo      2021-01-05  2674  }
+265d3cdead3bd6 Xuan Zhuo      2021-01-05  2675  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============4858350360289105902==
+--===============5760732526191116806==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -657,5 +682,5 @@ A6ZRaVeGopn4+jtVmnz74+MTcn+UZtO//zk+XN+ILMaUSmx5EGcWWxWr1hKOcZu55IMYyicMJToW
 kXwmnoz2VNsCefnEtjVP/qx0NHV5bU50MT64HixlsLL8f3eYaCbZu9TJ5klRdmWi2vcAxCaRQPoM
 hpPhOLJrjnJgvJcwlcleVZVOQVP+PP3egtPmRdnr9nzWVUFDTe2Fo2+NXwEXWBHeieDnRn6Drm7K
 QEBl/W3kCvG6bnJLn9y/q3gXvtf4F3gsvVgk/QEA
---===============4858350360289105902==--
+--===============5760732526191116806==--
 
