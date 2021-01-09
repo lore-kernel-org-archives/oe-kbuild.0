@@ -1,46 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1669974039701532923=="
+Content-Type: multipart/mixed; boundary="===============6619843539442852630=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5 3/9] bus: mhi: core: Improvements to the channel handling state machine
-Date: Sat, 09 Jan 2021 15:38:47 +0800
-Message-ID: <202101091533.74PLqrQH-lkp@intel.com>
+Subject: drivers/net/ethernet/cadence/macb_main.c:4661:14: warning: Either the condition 'macb_config' is redundant or there is possible null pointer dereference: macb_config.
+Date: Sat, 09 Jan 2021 14:34:36 +0800
+Message-ID: <202101091428.LDIhbcWF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1669974039701532923==
+--===============6619843539442852630==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1610139297-36435-4-git-send-email-bbhatt@codeaurora.org>
-References: <1610139297-36435-4-git-send-email-bbhatt@codeaurora.org>
-TO: Bhaumik Bhatt <bbhatt@codeaurora.org>
-TO: manivannan.sadhasivam(a)linaro.org
-CC: linux-arm-msm(a)vger.kernel.org
-CC: hemantk(a)codeaurora.org
-CC: jhugo(a)codeaurora.org
 CC: linux-kernel(a)vger.kernel.org
-CC: loic.poulain(a)linaro.org
-CC: Bhaumik Bhatt <bbhatt@codeaurora.org>
+TO: Claudiu Beznea <claudiu.beznea@microchip.com>
+CC: Andrew Lunn <andrew@lunn.ch>
 
-Hi Bhaumik,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.11-rc2 next-20210108]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Bhaumik-Bhatt/Updates-to-M=
-HI-channel-handling/20210109-050206
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-f5e6c330254ae691f6d7befe61c786eb5056007e
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-compiler: hppa-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   996e435fd401de35df62ac943ab9402cfe85c430
+commit: edac63861db72a462ccdfad0b5dfa66985d58bd5 net: macb: add userio bits=
+ as platform configuration
+date:   4 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 4 weeks ago
+compiler: nios2-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -48,190 +33,251 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/bus/mhi/core/main.c:1276:6: warning: Variable 'ret' is reassigne=
-d a value before the old one has been used. 'break;' missing? [redundantAss=
-ignInSwitch]
-    ret =3D mhi_device_get_sync(mhi_cntrl->mhi_dev);
+   drivers/net/ethernet/cadence/macb_main.c:2908:5: warning: %d in format s=
+tring (no. 1) requires 'int' but the argument type is 'unsigned int'. [inva=
+lidPrintfArgType_sint]
+       snprintf(stat_string, ETH_GSTRING_LEN, "q%d_%s",
+       ^
+>> drivers/net/ethernet/cadence/macb_main.c:4661:14: warning: Either the co=
+ndition 'macb_config' is redundant or there is possible null pointer derefe=
+rence: macb_config. [nullPointerRedundantCheck]
+    bp->usrio =3D macb_config->usrio;
+                ^
+   drivers/net/ethernet/cadence/macb_main.c:4646:6: note: Assuming that con=
+dition 'macb_config' is not redundant
+    if (macb_config)
         ^
-   drivers/bus/mhi/core/main.c:1239:0: note: Variable 'ret' is reassigned a=
- value before the old one has been used. 'break;' missing?
-    int ret =3D -EIO;
-   ^
-   drivers/bus/mhi/core/main.c:1276:6: note: Variable 'ret' is reassigned a=
- value before the old one has been used. 'break;' missing?
-    ret =3D mhi_device_get_sync(mhi_cntrl->mhi_dev);
-        ^
+   drivers/net/ethernet/cadence/macb_main.c:4661:14: note: Null pointer der=
+eference
+    bp->usrio =3D macb_config->usrio;
+                ^
 
-vim +1276 drivers/bus/mhi/core/main.c
+vim +/macb_config +4661 drivers/net/ethernet/cadence/macb_main.c
 
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1232  =
+83a77e9ec4150ee drivers/net/ethernet/cadence/macb.c      Bartosz Folta     =
+            2016-12-14  4573  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1233  static int mhi_upda=
-te_channel_state(struct mhi_controller *mhi_cntrl,
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1234  				    struct mhi_=
-chan *mhi_chan,
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1235  				    enum mhi_ch=
-_state_type to_state)
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1236  {
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1237  	struct device *dev=
- =3D &mhi_cntrl->mhi_dev->dev;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1238  	enum mhi_cmd_type =
-cmd =3D MHI_CMD_NOP;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1239  	int ret =3D -EIO;
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1240  =
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4574  static int macb_probe(struct platform_device =
+*pdev)
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4575  {
+83a77e9ec4150ee drivers/net/ethernet/cadence/macb.c      Bartosz Folta     =
+            2016-12-14  4576  	const struct macb_config *macb_config =3D &d=
+efault_gem_config;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4577  	int (*clk_init)(struct platform_device *, st=
+ruct clk **,
+f5473d1d44e4b42 drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4578  			struct clk **, struct clk **,  struct clk =
+**,
+f5473d1d44e4b42 drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4579  			struct clk **) =3D macb_config->clk_init;
+83a77e9ec4150ee drivers/net/ethernet/cadence/macb.c      Bartosz Folta     =
+            2016-12-14  4580  	int (*init)(struct platform_device *) =3D ma=
+cb_config->init;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4581  	struct device_node *np =3D pdev->dev.of_node;
+aead88bd0e99054 drivers/net/ethernet/cadence/macb.c      shubhrajyoti.datta=
+(a)xilinx.com 2016-08-16  4582  	struct clk *pclk, *hclk =3D NULL, *tx_clk =
+=3D NULL, *rx_clk =3D NULL;
+f5473d1d44e4b42 drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4583  	struct clk *tsu_clk =3D NULL;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4584  	unsigned int queue_mask, num_queues;
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4585  	bool native_io;
+0c65b2b90d13c1d drivers/net/ethernet/cadence/macb_main.c Andrew Lunn       =
+            2019-11-04  4586  	phy_interface_t interface;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4587  	struct net_device *dev;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4588  	struct resource *regs;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4589  	void __iomem *mem;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4590  	const char *mac;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4591  	struct macb *bp;
+404cd086f29e867 drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2018-07-06  4592  	int err, val;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4593  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1241  	dev_dbg(dev, "Upda=
-ting channel %s(%d) state to: %s\n", mhi_chan->name,
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1242  		mhi_chan->chan, T=
-O_CH_STATE_TYPE_STR(to_state));
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1243  =
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4594  	regs =3D platform_get_resource(pdev, IORESOU=
+RCE_MEM, 0);
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4595  	mem =3D devm_ioremap_resource(&pdev->dev, re=
+gs);
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4596  	if (IS_ERR(mem))
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4597  		return PTR_ERR(mem);
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4598  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1244  	switch (to_state) {
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1245  	case MHI_CH_STATE_=
-TYPE_RESET:
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1246  		write_lock_irq(&m=
-hi_chan->lock);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1247  		if (mhi_chan->ch_=
-state !=3D MHI_CH_STATE_STOP &&
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1248  		    mhi_chan->ch_=
-state !=3D MHI_CH_STATE_ENABLED &&
-a7f422f2f89e7d4 Loic Poulain          2020-10-09  1249  		    mhi_chan->ch_=
-state !=3D MHI_CH_STATE_SUSPENDED) {
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1250  			write_unlock_irq=
-(&mhi_chan->lock);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1251  			goto exit_invali=
-d_state;
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1252  		}
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1253  		mhi_chan->ch_stat=
-e =3D MHI_CH_STATE_DISABLED;
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1254  		write_unlock_irq(=
-&mhi_chan->lock);
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1255  =
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4599  	if (np) {
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4600  		const struct of_device_id *match;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4601  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1256  		cmd =3D MHI_CMD_R=
-ESET_CHAN;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1257  		break;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1258  	case MHI_CH_STATE_=
-TYPE_STOP:
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1259  		if (mhi_chan->ch_=
-state !=3D MHI_CH_STATE_ENABLED)
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1260  			goto exit_invali=
-d_state;
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1261  =
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4602  		match =3D of_match_node(macb_dt_ids, np);
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4603  		if (match && match->data) {
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4604  			macb_config =3D match->data;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4605  			clk_init =3D macb_config->clk_init;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4606  			init =3D macb_config->init;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4607  		}
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4608  	}
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4609  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1262  		cmd =3D MHI_CMD_S=
-TOP_CHAN;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1263  		break;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1264  	case MHI_CH_STATE_=
-TYPE_START:
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1265  		if (mhi_chan->ch_=
-state !=3D MHI_CH_STATE_STOP &&
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1266  		    mhi_chan->ch_=
-state !=3D MHI_CH_STATE_DISABLED)
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1267  			goto exit_invali=
-d_state;
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1268  =
+f5473d1d44e4b42 drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4610  	err =3D clk_init(pdev, &pclk, &hclk, &tx_clk=
+, &rx_clk, &tsu_clk);
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4611  	if (err)
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4612  		return err;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4613  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1269  		cmd =3D MHI_CMD_S=
-TART_CHAN;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1270  		break;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1271  	default:
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1272  		goto exit_invalid=
-_state;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1273  	}
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1274  =
+d54f89af6cc4d6d drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4614  	pm_runtime_set_autosuspend_delay(&pdev->dev,=
+ MACB_PM_TIMEOUT);
+d54f89af6cc4d6d drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4615  	pm_runtime_use_autosuspend(&pdev->dev);
+d54f89af6cc4d6d drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4616  	pm_runtime_get_noresume(&pdev->dev);
+d54f89af6cc4d6d drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4617  	pm_runtime_set_active(&pdev->dev);
+d54f89af6cc4d6d drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4618  	pm_runtime_enable(&pdev->dev);
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4619  	native_io =3D hw_is_native_io(mem);
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4620  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1275  	/* bring host and =
-device out of suspended states */
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08 @1276  	ret =3D mhi_device=
-_get_sync(mhi_cntrl->mhi_dev);
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1277  	if (ret)
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1278  		return ret;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1279  	mhi_cntrl->runtime=
-_get(mhi_cntrl);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1280  =
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4621  	macb_probe_queues(mem, native_io, &queue_mas=
+k, &num_queues);
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4622  	dev =3D alloc_etherdev_mq(sizeof(*bp), num_q=
+ueues);
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4623  	if (!dev) {
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4624  		err =3D -ENOMEM;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4625  		goto err_disable_clocks;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4626  	}
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4627  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1281  	reinit_completion(=
-&mhi_chan->completion);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1282  	ret =3D mhi_send_c=
-md(mhi_cntrl, mhi_chan, cmd);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1283  	if (ret) {
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1284  		dev_err(dev, "Fai=
-led to send %s(%d) %s command\n",
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1285  			mhi_chan->name, =
-mhi_chan->chan,
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1286  			TO_CH_STATE_TYPE=
-_STR(to_state));
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1287  		goto exit_command=
-_failure;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1288  	}
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1289  =
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4628  	dev->base_addr =3D regs->start;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4629  =
 
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1290  	ret =3D wait_for_c=
-ompletion_timeout(&mhi_chan->completion,
-189ff97cca53e3f Manivannan Sadhasivam 2020-02-20  1291  				       msecs_to=
-_jiffies(mhi_cntrl->timeout_ms));
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1292  	if (!ret || mhi_ch=
-an->ccs !=3D MHI_EV_CC_SUCCESS) {
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1293  		dev_err(dev, "Fai=
-led to receive %s(%d) %s command completion\n",
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1294  			mhi_chan->name, =
-mhi_chan->chan,
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1295  			TO_CH_STATE_TYPE=
-_STR(to_state));
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1296  		ret =3D -EIO;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1297  		goto exit_command=
-_failure;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1298  	}
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1299  =
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4630  	SET_NETDEV_DEV(dev, &pdev->dev);
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4631  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1300  	ret =3D 0;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1301  =
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4632  	bp =3D netdev_priv(dev);
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4633  	bp->pdev =3D pdev;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4634  	bp->dev =3D dev;
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4635  	bp->regs =3D mem;
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4636  	bp->native_io =3D native_io;
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4637  	if (native_io) {
+7a6e0706c09b121 drivers/net/ethernet/cadence/macb.c      David S. Miller   =
+            2015-07-27  4638  		bp->macb_reg_readl =3D hw_readl_native;
+7a6e0706c09b121 drivers/net/ethernet/cadence/macb.c      David S. Miller   =
+            2015-07-27  4639  		bp->macb_reg_writel =3D hw_writel_native;
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4640  	} else {
+7a6e0706c09b121 drivers/net/ethernet/cadence/macb.c      David S. Miller   =
+            2015-07-27  4641  		bp->macb_reg_readl =3D hw_readl;
+7a6e0706c09b121 drivers/net/ethernet/cadence/macb.c      David S. Miller   =
+            2015-07-27  4642  		bp->macb_reg_writel =3D hw_writel;
+f2ce8a9e48385f4 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4643  	}
+421d9df0628be16 drivers/net/ethernet/cadence/macb.c      Cyrille Pitchen   =
+            2015-03-07  4644  	bp->num_queues =3D num_queues;
+bfa0914afa95d44 drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4645  	bp->queue_mask =3D queue_mask;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4646  	if (macb_config)
+f6970505defd0e7 drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4647  		bp->dma_burst_length =3D macb_config->dma_b=
+urst_length;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4648  	bp->pclk =3D pclk;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4649  	bp->hclk =3D hclk;
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4650  	bp->tx_clk =3D tx_clk;
+aead88bd0e99054 drivers/net/ethernet/cadence/macb.c      shubhrajyoti.datta=
+(a)xilinx.com 2016-08-16  4651  	bp->rx_clk =3D rx_clk;
+f5473d1d44e4b42 drivers/net/ethernet/cadence/macb_main.c Harini Katakam    =
+            2019-03-01  4652  	bp->tsu_clk =3D tsu_clk;
+f36dbe6a285e062 drivers/net/ethernet/cadence/macb.c      Andy Shevchenko   =
+            2015-07-24  4653  	if (macb_config)
+98b5a0f4a2282fb drivers/net/ethernet/cadence/macb.c      Harini Katakam    =
+            2015-05-06  4654  		bp->jumbo_max_len =3D macb_config->jumbo_ma=
+x_len;
+98b5a0f4a2282fb drivers/net/ethernet/cadence/macb.c      Harini Katakam    =
+            2015-05-06  4655  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1302  	if (to_state !=3D =
-MHI_CH_STATE_TYPE_RESET) {
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1303  		write_lock_irq(&m=
-hi_chan->lock);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1304  		mhi_chan->ch_stat=
-e =3D (to_state =3D=3D MHI_CH_STATE_TYPE_START) ?
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1305  				      MHI_CH_ST=
-ATE_ENABLED : MHI_CH_STATE_STOP;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1306  		write_unlock_irq(=
-&mhi_chan->lock);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1307  	}
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1308  =
+3e2a5e153906432 drivers/net/ethernet/cadence/macb.c      Sergio Prado      =
+            2016-02-09  4656  	bp->wol =3D 0;
+7c4a1d0cfdc169b drivers/net/ethernet/cadence/macb.c      Sergio Prado      =
+            2016-02-16  4657  	if (of_get_property(np, "magic-packet", NULL=
+))
+3e2a5e153906432 drivers/net/ethernet/cadence/macb.c      Sergio Prado      =
+            2016-02-09  4658  		bp->wol |=3D MACB_WOL_HAS_MAGIC_PACKET;
+ced4799d0637592 drivers/net/ethernet/cadence/macb_main.c Nicolas Ferre     =
+            2020-07-10  4659  	device_set_wakeup_capable(&pdev->dev, bp->wo=
+l & MACB_WOL_HAS_MAGIC_PACKET);
+3e2a5e153906432 drivers/net/ethernet/cadence/macb.c      Sergio Prado      =
+            2016-02-09  4660  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1309  	dev_dbg(dev, "Chan=
-nel %s(%d) state change to %s successful\n",
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1310  		mhi_chan->name, m=
-hi_chan->chan, TO_CH_STATE_TYPE_STR(to_state));
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1311  =
+edac63861db72a4 drivers/net/ethernet/cadence/macb_main.c Claudiu Beznea    =
+            2020-12-09 @4661  	bp->usrio =3D macb_config->usrio;
+edac63861db72a4 drivers/net/ethernet/cadence/macb_main.c Claudiu Beznea    =
+            2020-12-09  4662  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1312  exit_command_failur=
-e:
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1313  	mhi_cntrl->runtime=
-_put(mhi_cntrl);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1314  	mhi_device_put(mhi=
-_cntrl->mhi_dev);
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1315  =
+c69618b3e4f220f drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4663  	spin_lock_init(&bp->lock);
+f6970505defd0e7 drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4664  =
 
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1316  	return ret;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1317  =
-
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1318  exit_invalid_state:
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1319  	dev_err(dev, "Chan=
-nel %s(%d) update to %s not allowed\n",
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1320  		mhi_chan->name, m=
-hi_chan->chan, TO_CH_STATE_TYPE_STR(to_state));
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1321  =
-
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1322  	return -EINVAL;
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1323  }
-5ba47e684d77e4c Bhaumik Bhatt         2021-01-08  1324  =
+ad78347f06581e4 drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4665  	/* setup capabilities */
+f6970505defd0e7 drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4666  	macb_configure_caps(bp, macb_config);
+f6970505defd0e7 drivers/net/ethernet/cadence/macb.c      Nicolas Ferre     =
+            2015-03-31  4667  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1669974039701532923==--
+--===============6619843539442852630==--
 
