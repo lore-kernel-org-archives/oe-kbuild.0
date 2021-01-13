@@ -1,24 +1,38 @@
-Content-Type: multipart/mixed; boundary="===============0794969970923954814=="
+Content-Type: multipart/mixed; boundary="===============2701053541609659024=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [RFC PATCH v2] net: bridge: igmp: Extend IGMP query to be per vlan
-Date: Wed, 13 Jan 2021 12:21:44 +0300
-Message-ID: <20210113092144.GG5105@kadam>
-In-Reply-To: <20210112135903.3730765-1-horatiu.vultur@microchip.com>
+Date: Wed, 13 Jan 2021 16:43:14 +0800
+Message-ID: <202101131619.AbgBzOje-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0794969970923954814==
+--===============2701053541609659024==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210112135903.3730765-1-horatiu.vultur@microchip.com>
+References: <20210112135903.3730765-1-horatiu.vultur@microchip.com>
+TO: Horatiu Vultur <horatiu.vultur@microchip.com>
+
 Hi Horatiu,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on net-next/master]
+[also build test WARNING on net/master linus/master v5.11-rc3 next-20210113]
+[cannot apply to sparc-next/master]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Horatiu-Vultur/net-bridge-=
 igmp-Extend-IGMP-query-to-be-per-vlan/20210112-220655
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
- c73a45965dd54a10c368191804b9de661eee1007
+c73a45965dd54a10c368191804b9de661eee1007
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
 config: i386-randconfig-m021-20210113 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -33,6 +47,8 @@ net/bridge/br_multicast.c:3866 br_multicast_set_querier() warn: maybe use &=
 & instead of &
 
 vim +/query +3866 net/bridge/br_multicast.c
+
+0912bda436388a02 Yotam Gigi     2017-10-09  3832  =
 
 8d72e3d611eb9514 Horatiu Vultur 2021-01-12  3833  int br_multicast_set_quer=
 ier(struct net_bridge *br, unsigned long val, u16 vid)
@@ -80,9 +96,6 @@ b00589af3b047363 Linus L=C3=BCssing  2013-08-01  3859  		goto unlock;
 b00589af3b047363 Linus L=C3=BCssing  2013-08-01  3860  =
 
 8d72e3d611eb9514 Horatiu Vultur 2021-01-12  3861  	if (!val && query) {
-                                                                    ^^^^^
-"query" can be NULL.
-
 8d72e3d611eb9514 Horatiu Vultur 2021-01-12  3862  		br_multicast_stop_queri=
 er(br, query, vid);
 8d72e3d611eb9514 Horatiu Vultur 2021-01-12  3863  		goto unlock;
@@ -90,12 +103,6 @@ er(br, query, vid);
 b00589af3b047363 Linus L=C3=BCssing  2013-08-01  3865  =
 
 8d72e3d611eb9514 Horatiu Vultur 2021-01-12 @3866  	if (val & query->enabled)
-                                                            ^^^^^^^^^^^^^^^=
-^^^^^
-Smatch suggests that this should be && because I guess "query->enabled"
-is a boolean.  One of the difference between & and && is there are no
-ordering requirements.
-
 8d72e3d611eb9514 Horatiu Vultur 2021-01-12  3867  		goto unlock;
 cc0fdd802859eaeb Linus L=C3=BCssing  2013-08-30  3868  =
 
@@ -112,17 +119,14 @@ r_query->timer))
 
 8d72e3d611eb9514 Horatiu Vultur 2021-01-12  3875  	br_multicast_start_queri=
 er(br, query, vid);
+cc0fdd802859eaeb Linus L=C3=BCssing  2013-08-30  3876  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============0794969970923954814==
+--===============2701053541609659024==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -724,5 +728,5 @@ peZx9NNSc+iBxJE4XDKuuBgdeqoGhipv4WJRMwQFCTI2p3JbOR79Zp5eYl8XvqtihmO9Hqj6QUbB
 ih9Qt23ht6DP+qYhU+POSbCMbtowjB/dDrCTQnXVPonkV9bkQClG4/AxcARyiYlSoJCfv79SIEml
 cPE+S7DkAx/xjLGdRORmPT/cccihw9fHjlHoMbIFN0fYNzvL+fipefaIDPJOaJew/wFQw1CiVgsC
 AA==
---===============0794969970923954814==--
+--===============2701053541609659024==--
 
