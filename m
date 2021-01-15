@@ -1,45 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============0150994353814222225=="
+Content-Type: multipart/mixed; boundary="===============2716942664031650808=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [Intel-gfx] [PATCH v7 3/3] drm/i915/tgl: Add Clear Color support for TGL Render Decompression
-Date: Fri, 15 Jan 2021 23:08:29 +0800
-Message-ID: <202101152338.MWgCddqP-lkp@intel.com>
+Subject: [drm-intel:drm-intel-next 18/19] drivers/gpu/drm/i915/display/intel_hdcp.c:1951 _intel_hdcp2_disable() error: uninitialized symbol 'ret'.
+Date: Fri, 15 Jan 2021 20:37:23 +0800
+Message-ID: <202101152015.CnShhVs8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0150994353814222225==
+--===============2716942664031650808==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210114201314.783648-4-imre.deak@intel.com>
-References: <20210114201314.783648-4-imre.deak@intel.com>
-TO: Imre Deak <imre.deak@intel.com>
-TO: intel-gfx(a)lists.freedesktop.org
-CC: Nanley G Chery <nanley.g.chery@intel.com>
-CC: Rafael Antognolli <rafael.antognolli@intel.com>
-CC: Chris Wilson <chris@chris-wilson.co.uk>
-CC: Dhinakaran Pandiyan <dhinakaran.pandiyan@intel.com>
-CC: Ville Syrjala <ville.syrjala@intel.com>
-CC: Shashank Sharma <shashank.sharma@intel.com>
+CC: intel-gfx(a)lists.freedesktop.org
+CC: dri-devel(a)lists.freedesktop.org
+TO: Anshuman Gupta <anshuman.gupta@intel.com>
+CC: Uma Shankar <uma.shankar@intel.com>
+CC: Ramalingam C <ramalingam.c@intel.com>
 
-Hi Imre,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-intel/for-linux-next]
-[also build test WARNING on drm-tip/drm-tip next-20210115]
-[cannot apply to linus/master v5.11-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Imre-Deak/drm-i915-gen12-A=
-dd-display-render-clear-color-decompression-support/20210115-113136
-base:   git://anongit.freedesktop.org/drm-intel for-linux-next
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
+tree:   git://anongit.freedesktop.org/drm-intel drm-intel-next
+head:   d5a0d4b9380a499cc140c7ee04ec80e15a8d49e5
+commit: 899c8762f981553c5d572bf81f4c9c28c25793ef [18/19] drm/i915/hdcp: Con=
+figure HDCP2.2 MST steram encryption status
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 config: x86_64-randconfig-m001-20210115 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -48,117 +33,119 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/i915/display/intel_display.c:15299 intel_atomic_prepare_pla=
-ne_clear_colors() warn: taking sizeof binop
+drivers/gpu/drm/i915/display/intel_hdcp.c:1951 _intel_hdcp2_disable() error=
+: uninitialized symbol 'ret'.
 
 Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 119)
-drivers/gpu/drm/i915/display/intel_display.c:5740 skl_update_scaler_plane()=
- error: we previously assumed 'fb' could be null (see line 5724)
+drivers/gpu/drm/i915/display/intel_hdcp.c:886 _intel_hdcp_disable() error: =
+uninitialized symbol 'ret'.
 
-vim +15299 drivers/gpu/drm/i915/display/intel_display.c
+vim +/ret +1951 drivers/gpu/drm/i915/display/intel_hdcp.c
 
-8d52e447807b35 drivers/gpu/drm/i915/intel_display.c         Chris Wilson   =
-      2018-06-23  15272  =
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1927  =
 
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15273  static void intel_atomic_prepare_plane_clear_color=
-s(struct intel_atomic_state *state)
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15274  {
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15275  	struct drm_device *dev =3D state->base.dev;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15276  	struct drm_i915_private *i915 =3D to_i915(dev);
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15277  	struct intel_plane *plane;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15278  	struct intel_plane_state *plane_state;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15279  	int i;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15280  =
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1928  static int _intel_hdcp2_disable(struct intel_connector *conn=
+ector)
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1929  {
+e03187e12cae57 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1930  	struct intel_digital_port *dig_port =3D intel_attached_dig_=
+port(connector);
+51279100de83eb drivers/gpu/drm/i915/display/intel_hdcp.c Ramalingam C   202=
+0-02-12  1931  	struct drm_i915_private *i915 =3D to_i915(connector->base.d=
+ev);
+e03187e12cae57 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1932  	struct hdcp_port_data *data =3D &dig_port->hdcp_port_data;
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1933  	struct intel_hdcp *hdcp =3D &connector->hdcp;
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1934  	int ret;
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1935  =
 
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15281  	for_each_new_intel_plane_in_state(state, plane, p=
-lane_state, i) {
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15282  		struct drm_framebuffer *fb =3D plane_state->hw.f=
-b;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15283  		struct drm_i915_gem_object *obj;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15284  		int ret;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15285  =
+51279100de83eb drivers/gpu/drm/i915/display/intel_hdcp.c Ramalingam C   202=
+0-02-12  1936  	drm_dbg_kms(&i915->drm, "[%s:%d] HDCP2.2 is being Disabled\=
+n",
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1937  		    connector->base.name, connector->base.base.id);
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1938  =
 
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15286  		if (!fb ||
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15287  		    fb->modifier !=3D I915_FORMAT_MOD_Y_TILED_GE=
-N12_RC_CCS_CC)
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15288  			continue;
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15289  =
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1939  	if (hdcp->shim->stream_2_2_encryption) {
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1940  		ret =3D hdcp->shim->stream_2_2_encryption(connector, false=
+);
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1941  		if (ret) {
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1942  			drm_err(&i915->drm, "[%s:%d] Failed to disable HDCP 2.2 s=
+tream enc\n",
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1943  				connector->base.name, connector->base.base.id);
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1944  			return ret;
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1945  		}
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1946  		drm_dbg_kms(&i915->drm, "HDCP 2.2 transcoder: %s stream en=
+cryption disabled\n",
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1947  			    transcoder_name(hdcp->stream_transcoder));
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1948  	}
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1949  =
 
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15290  		obj =3D intel_fb_obj(fb);
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15291  		/*
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15292  		 * The layout of the fast clear color value expe=
-cted by HW:
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15293  		 * - 4 x 4 bytes per-channel value (in surface t=
-ype specific float/int format)
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15294  		 * - 8 bytes native color value used by the disp=
-lay (converted/written by GPU during
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15295  		 *   a fast clear operation using the above per-=
-channel values)
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15296  		 */
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15297  		ret =3D i915_gem_object_read_from_page(obj,
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15298  						     fb->offsets[2] + 16,
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14 @15299  						     sizeof(&plane_state->ccval),
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15300  						     &plane_state->ccval);
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15301  		/*
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15302  		 * The obj is pinned and synced against GPU writ=
-es already, so
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15303  		 * the above can't normally fail.
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15304  		 */
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15305  		drm_WARN_ON(&i915->drm, ret);
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15306  	}
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15307  }
-d5de4516a9de74 drivers/gpu/drm/i915/display/intel_display.c Radhakrishna Sr=
-ipada 2021-01-14  15308  =
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1950  	if (dig_port->num_hdcp_streams > 0)
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11 @1951  		return ret;
+899c8762f98155 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1952  =
+
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1953  	ret =3D hdcp2_disable_encryption(connector);
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1954  =
+
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1955  	if (hdcp2_deauthenticate_port(connector) < 0)
+51279100de83eb drivers/gpu/drm/i915/display/intel_hdcp.c Ramalingam C   202=
+0-02-12  1956  		drm_dbg_kms(&i915->drm, "Port deauth failed.\n");
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1957  =
+
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1958  	connector->hdcp.hdcp2_encrypted =3D false;
+e03187e12cae57 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1959  	dig_port->hdcp_auth_status =3D false;
+e03187e12cae57 drivers/gpu/drm/i915/display/intel_hdcp.c Anshuman Gupta 202=
+1-01-11  1960  	data->k =3D 0;
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1961  =
+
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1962  	return ret;
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1963  }
+49a630b00bacb6 drivers/gpu/drm/i915/intel_hdcp.c         Ramalingam C   201=
+9-02-16  1964  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0150994353814222225==
+--===============2716942664031650808==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICKKMAWAAAy5jb25maWcAlDzJktw2snd/RYV8sQ/y9CLpyfGiDyAJVsFFEhQA1tIXRrtV0nRM
+H4sICPd3AWAAAy5jb25maWcAlDzJktw2snd/RYV8sQ/y9CLpyfGiDyAJVsFFEhQA1tIXRrtV0nRM
 L5rq7hnp718mFhIAwbKfD1YTmdhzz0T9/NPPC/L68vRw83J3e3N//2Px9fB4ON68HD4vvtzdH/53
 UfBFw9WCFkz9BsjV3ePr9398//ih//Bu8f638/Pfzt4eby8W68Px8XC/yJ8ev9x9fYUB7p4ef/r5
 p5w3JVv2ed5vqJCMN72iO3X15uvt7dvfF78Uhz/vbh4Xv/92CcOcv//V/PXG68Zkv8zzqx+uaTkO
@@ -756,5 +743,5 @@ gbVr24PVqO9C3UEPg5ubm0OVm0YYjgkXs1BmR8Jo0c+IjH5hnKA3P0HzRE4PjZv0vPRnWTedN0tt
 awv1QwIvZYt0H1w1WXhk5JW4qcl+eynTP3rkwZhkPwW7tyxvSyz+GRqkTgDIRggdA2MtEsWGAwSi
 M3a/wu9V5wEswzHIQ3PCmFfecpF0YHGZUC5Z6zk+gy48KPVtvCtqm1QohYabk0RRSVkvbG0QJuMI
 aGWhZ7SC5D6dw5MBK7P6jshk8FzqnL0JUgRnwNCNP3M7V4V81HsJLZRzwv8Am4+pA/4MAgA=
---===============0150994353814222225==--
+--===============2716942664031650808==--
 
