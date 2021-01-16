@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0257889485241812720=="
+Content-Type: multipart/mixed; boundary="===============2668555784901510530=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:reserve-rt-metadata-space 129/196] fs/xfs/scrub/repair.c:1788 xrep_setup_orphanage() error: uninitialized symbol 'error'.
-Date: Sat, 16 Jan 2021 16:07:00 +0800
-Message-ID: <202101161654.SS7nPbm4-lkp@intel.com>
+Subject: [djwong-xfs:scrub-rtsummary 13/56] fs/xfs/xfs_icache.c:1683 xfs_blockgc_free_dquots() error: we previously assumed 'mp' could be null (see line 1674)
+Date: Sat, 16 Jan 2021 14:33:15 +0800
+Message-ID: <202101161409.daSJpkeP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0257889485241812720==
+--===============2668555784901510530==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,12 +17,12 @@ CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 TO: "Darrick J. Wong" <djwong@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t reserve-rt-metadata-space
-head:   51f17deded84ae5863d2220a0a7c152ef4a8bbb2
-commit: 02ccf9a104716ff589dad55fcaf22d97d165e1e7 [129/196] xfs: move orphan=
- files to the orphanage
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 hours ago
+t scrub-rtsummary
+head:   30ed2e375306b1c5c8c622635a87595eec25a2d0
+commit: 9e90c7eeb433809da02f5fbaf09bc5fdf92791b0 [13/56] xfs: flush eof/cow=
+blocks if we can't reserve quota for inode creation
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 hours ago
 config: i386-randconfig-m021-20210115 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -31,147 +31,75 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/xfs/scrub/repair.c:1788 xrep_setup_orphanage() error: uninitialized symb=
-ol 'error'.
+fs/xfs/xfs_icache.c:1683 xfs_blockgc_free_dquots() error: we previously ass=
+umed 'mp' could be null (see line 1674)
 
-vim +/error +1788 fs/xfs/scrub/repair.c
+vim +/mp +1683 fs/xfs/xfs_icache.c
 
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1713  =
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1647  =
 
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1714  /* Create the orphanage =
-directory, and set sc->orphanage to it. */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1715  int
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1716  xrep_setup_orphanage(
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1717  	struct xfs_scrub	*sc)
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1718  {
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1719  	struct xfs_mount	*mp =
-=3D sc->mp;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1720  	struct dentry		*root_de=
-ntry, *orphanage_dentry;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1721  	struct inode		*root_ino=
-de =3D VFS_I(sc->mp->m_rootip);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1722  	struct inode		*orphanag=
-e_inode;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1723  	int			error;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1724  =
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1648  /*
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1649   * Run cow/eofblocks sca=
+ns on the supplied dquots.  We don't know exactly which
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1650   * quota caused an alloc=
+ation failure, so we make a best effort by including
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1651   * each quota under low =
+free space conditions (less than 1% free space) in the
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1652   * scan.
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1653   */
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1654  int
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1655  xfs_blockgc_free_dquots(
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1656  	struct xfs_dquot	*udqp,
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1657  	struct xfs_dquot	*gdqp,
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1658  	struct xfs_dquot	*pdqp,
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1659  	unsigned int		eof_flags,
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1660  	bool			*found_work)
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1661  {
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1662  	struct xfs_eofblocks	eo=
+fb =3D {0};
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1663  	struct xfs_mount	*mp =
+=3D NULL;
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1664  	int			error;
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1665  =
 
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1725  	if (XFS_FORCED_SHUTDOWN=
-(mp))
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1726  		return -EIO;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1727  =
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1666  	*found_work =3D false;
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1667  =
 
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1728  	ASSERT(sc->tp =3D=3D NU=
-LL);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1729  	ASSERT(sc->orphanage =
-=3D=3D NULL);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1730  =
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1668  	if (!udqp && !gdqp && !=
+pdqp)
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1669  		return 0;
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1670  	if (udqp)
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1671  		mp =3D udqp->q_mount;
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1672  	if (!mp && gdqp)
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1673  		mp =3D gdqp->q_mount;
+9e90c7eeb433809d Darrick J. Wong 2021-01-15 @1674  	if (!mp && pdqp)
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1675  		mp =3D pdqp->q_mount;
+9e90c7eeb433809d Darrick J. Wong 2021-01-15  1676  =
 
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1731  	/* Find the dentry for =
-the root directory... */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1732  	root_dentry =3D d_find_=
-alias(root_inode);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1733  	if (!root_dentry) {
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1734  		error =3D -EFSCORRUPTE=
-D;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1735  		goto out;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1736  	}
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1737  =
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1677  	/*
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1678  	 * Run a scan to increa=
+se effectiveness and use the union filter to
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1679  	 * cover all applicable=
+ quotas in a single scan.
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1680  	 */
+6a1725833ef0d776 Darrick J. Wong 2021-01-15  1681  	eofb.eof_flags =3D XFS_=
+EOF_FLAGS_UNION | eof_flags;
+7bd9977471d51f89 Darrick J. Wong 2021-01-15  1682  =
 
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1738  	/* ...which is a direct=
-ory, right? */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1739  	if (!d_is_dir(root_dent=
-ry)) {
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1740  		error =3D -EFSCORRUPTE=
-D;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1741  		goto out_dput_root;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1742  	}
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1743  =
-
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1744  	/* Try to find the orph=
-anage directory. */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1745  	inode_lock_nested(root_=
-inode, I_MUTEX_PARENT);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1746  	orphanage_dentry =3D lo=
-okup_one_len(ORPHANAGE, root_dentry,
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1747  			strlen(ORPHANAGE));
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1748  	if (IS_ERR(orphanage_de=
-ntry)) {
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1749  		error =3D PTR_ERR(orph=
-anage_dentry);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1750  		goto out_unlock_root;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1751  	}
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1752  =
-
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1753  	/* Nothing found?  Call=
- mkdir to create the orphanage. */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1754  	if (d_really_is_negativ=
-e(orphanage_dentry)) {
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1755  		error =3D vfs_mkdir(ro=
-ot_inode, orphanage_dentry, 0755);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1756  		if (error)
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1757  			goto out_dput_orphana=
-ge;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1758  	}
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1759  =
-
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1760  	/* Not a directory? Bai=
-l out. */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1761  	if (!d_is_dir(orphanage=
-_dentry)) {
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1762  		error =3D -ENOTDIR;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1763  		goto out_dput_orphanag=
-e;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1764  	}
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1765  =
-
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1766  	/*
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1767  	 * Grab a reference to =
-the orphanage.  This /should/ succeed since
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1768  	 * we hold the root dir=
-ectory locked and therefore nobody can delete
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1769  	 * the orphanage.
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1770  	 */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1771  	orphanage_inode =3D igr=
-ab(d_inode(orphanage_dentry));
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1772  	if (!orphanage_inode) {
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1773  		error =3D -ENOENT;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1774  		goto out_dput_orphanag=
-e;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1775  	}
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1776  =
-
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1777  	/* Stash the reference =
-for later and bail out. */
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1778  	sc->orphanage =3D XFS_I=
-(orphanage_inode);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1779  	sc->orphanage_ilock_fla=
-gs =3D 0;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1780  =
-
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1781  out_dput_orphanage:
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1782  	dput(orphanage_dentry);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1783  out_unlock_root:
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1784  	inode_unlock(VFS_I(sc->=
-mp->m_rootip));
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1785  out_dput_root:
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1786  	dput(root_dentry);
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1787  out:
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05 @1788  	return error;
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1789  }
-02ccf9a104716ff5 Darrick J. Wong 2021-01-05  1790  =
-
+9e90c7eeb433809d Darrick J. Wong 2021-01-15 @1683  	if (XFS_IS_UQUOTA_ENFOR=
+CED(mp) && udqp && xfs_dquot_lowsp(udqp)) {
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0257889485241812720==
+--===============2668555784901510530==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLKVAmAAAy5jb25maWcAjDxLd9u20vv+Ch130y7a60fim57vaAGBoISKJBgAlCVveBxHSX3q
+H4sICJB+AmAAAy5jb25maWcAjDxLd9u20vv+Ch130y7a60fim57vaAGBoISKJBgAlCVveBxHSX3q
 2Ll+3Db3138zAB8ANFTaRWpiBoMBMJgXBvrxhx9n7PXl8cvNy93tzf39t9nn/cP+6eZl/3H26e5+
 /3+zTM0qZWcik/ZXQC7uHl7//tfdxbvL2dtfz85+Pf3l6fZitt4/PezvZ/zx4dPd51fofvf48MOP
 P3BV5XLZct5uhDZSVa0VWzs/+Xx7+8tvs5+y/Ye7m4fZb79eAJmztz/7v06CbtK0S87n3/qm5Uhq
@@ -746,5 +674,5 @@ GO/tKd6sF4eNMa59a7yXHUJJIEwEp9BtdshVUQsWtYF42yfVNHW3+5cDGD5E1RgFWG/v9mYii3Un
 k4CRfcLOyym7hQwvVSGjid9ZpkzOwoPLsWmq1cnYftBhpH8n0tFEWd7kkfzACaC27njmIAPHGnuK
 phKnkeFNaq3GWLb5RjIoKye1yAakkPbMNvsnDZNhcFoGQ00zJM4Lq52kTsbl5UCvKrvKNnEcvN3g
 YIPXwINRXBUil0GZ8+QR9MKf9JPMf6viJrYdAwIA
---===============0257889485241812720==--
+--===============2668555784901510530==--
 
