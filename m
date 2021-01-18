@@ -1,28 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============5218918066069442893=="
+Content-Type: multipart/mixed; boundary="===============7791556923254341808=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 3610/3956] drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:661 vmw_setup_pci_resources() warn: 'pdev' not released on lines: 674.
-Date: Mon, 18 Jan 2021 10:23:56 +0800
-Message-ID: <202101181044.4fL58iiD-lkp@intel.com>
+Subject: [linux-next:master 2447/3956] drivers/scsi/fnic/fnic_res.c:96 fnic_get_vnic_config() warn: '__UNIQUE_ID___x351' 255000 can't fit into 65535 'c->ed_tov'
+Date: Mon, 18 Jan 2021 09:28:46 +0800
+Message-ID: <202101180940.OQIy2Nuk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5218918066069442893==
+--===============7791556923254341808==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Zack Rusin <zackr@vmware.com>
-CC: Martin Krastev <krastevm@vmware.com>
-CC: Roland Scheidegger <sroland@vmware.com>
+TO: Nirmoy Das <nirmoy.das@amd.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: Darren Salt <devspam@moreofthesa.me.uk>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   b3a3cbdec55b090d22a09f75efb7c7d34cb97f25
-commit: 8772c0bb58bbf98a6fdd94ddb67e23468a4338bd [3610/3956] drm/vmwgfx: Cl=
-eanup pci resource allocation
+commit: 192f1bf7559e895d51f81c3976c5892c8b1e0601 [2447/3956] PCI: Add pci_r=
+ebar_bytes_to_size()
 :::::: branch date: 3 days ago
 :::::: commit date: 3 days ago
 config: i386-randconfig-m021-20210118 (attached as .config)
@@ -32,103 +32,300 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/vmwgfx/vmwgfx_drv.c:661 vmw_setup_pci_resources() warn: 'pd=
-ev' not released on lines: 674.
+smatch warnings:
+drivers/scsi/fnic/fnic_res.c:96 fnic_get_vnic_config() warn: '__UNIQUE_ID__=
+_x351' 255000 can't fit into 65535 'c->ed_tov'
+drivers/scsi/fnic/fnic_res.c:101 fnic_get_vnic_config() warn: '__UNIQUE_ID_=
+__x355' 255000 can't fit into 65535 'c->ra_tov'
 
-Old smatch warnings:
-include/drm/ttm/ttm_bo_driver.h:466 ttm_bo_reserve() warn: inconsistent ret=
-urns '*bo->base.resv'.
+vim +96 drivers/scsi/fnic/fnic_res.c
 
-vim +/pdev +661 drivers/gpu/drm/vmwgfx/vmwgfx_drv.c
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   33  =
 
-e0830704de7c06c7 Dave Airlie       2020-08-04  644  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   34  int fnic_get_vnic_confi=
+g(struct fnic *fnic)
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   35  {
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   36  	struct vnic_fc_config =
+*c =3D &fnic->config;
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   37  	int err;
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   38  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  645  static int vmw_setup_pc=
-i_resources(struct vmw_private *dev,
-8772c0bb58bbf98a Zack Rusin        2020-11-04  646  				   unsigned long pc=
-i_id)
-fb1d9738ca053ea8 Jakob Bornecrantz 2009-12-10  647  {
-8772c0bb58bbf98a Zack Rusin        2020-11-04  648  	resource_size_t fifo_s=
-tart;
-8772c0bb58bbf98a Zack Rusin        2020-11-04  649  	resource_size_t fifo_s=
-ize;
-fb1d9738ca053ea8 Jakob Bornecrantz 2009-12-10  650  	int ret;
-8772c0bb58bbf98a Zack Rusin        2020-11-04  651  	struct pci_dev *pdev =
-=3D to_pci_dev(dev->drm.dev);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  652  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   39  #define GET_CONFIG(m) \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   40  	do { \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   41  		err =3D vnic_dev_spec=
+(fnic->vdev, \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   42  				    offsetof(struct=
+ vnic_fc_config, m), \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   43  				    sizeof(c->m), &=
+c->m); \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   44  		if (err) { \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   45  			shost_printk(KERN_ER=
+R, fnic->lport->host, \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   46  				     "Error getting=
+ %s, %d\n", #m, \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   47  				     err); \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   48  			return err; \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   49  		} \
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   50  	} while (0);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   51  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  653  	pci_set_master(pdev);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  654  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   52  	GET_CONFIG(node_wwn);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   53  	GET_CONFIG(port_wwn);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   54  	GET_CONFIG(wq_enet_des=
+c_count);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   55  	GET_CONFIG(wq_copy_des=
+c_count);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   56  	GET_CONFIG(rq_desc_cou=
+nt);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   57  	GET_CONFIG(maxdatafiel=
+dsize);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   58  	GET_CONFIG(ed_tov);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   59  	GET_CONFIG(ra_tov);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   60  	GET_CONFIG(intr_timer);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   61  	GET_CONFIG(intr_timer_=
+type);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   62  	GET_CONFIG(flags);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   63  	GET_CONFIG(flogi_retri=
+es);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   64  	GET_CONFIG(flogi_timeo=
+ut);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   65  	GET_CONFIG(plogi_retri=
+es);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   66  	GET_CONFIG(plogi_timeo=
+ut);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   67  	GET_CONFIG(io_throttle=
+_count);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   68  	GET_CONFIG(link_down_t=
+imeout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   69  	GET_CONFIG(port_down_t=
+imeout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   70  	GET_CONFIG(port_down_i=
+o_retries);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   71  	GET_CONFIG(luns_per_tg=
+t);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   72  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  655  	ret =3D pci_request_re=
-gions(pdev, "vmwgfx probe");
-8772c0bb58bbf98a Zack Rusin        2020-11-04  656  	if (ret)
-8772c0bb58bbf98a Zack Rusin        2020-11-04  657  		return ret;
-8772c0bb58bbf98a Zack Rusin        2020-11-04  658  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   73  	c->wq_enet_desc_count =
+=3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   74  		min_t(u32, VNIC_FNIC_=
+WQ_DESCS_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   75  		      max_t(u32, VNIC=
+_FNIC_WQ_DESCS_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   76  			    c->wq_enet_desc_=
+count));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   77  	c->wq_enet_desc_count =
+=3D ALIGN(c->wq_enet_desc_count, 16);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   78  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  659  	dev->io_start =3D pci_=
-resource_start(pdev, 0);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  660  	dev->vram_start =3D pc=
-i_resource_start(pdev, 1);
-8772c0bb58bbf98a Zack Rusin        2020-11-04 @661  	dev->vram_size =3D pci=
-_resource_len(pdev, 1);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  662  	fifo_start =3D pci_res=
-ource_start(pdev, 2);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  663  	fifo_size =3D pci_reso=
-urce_len(pdev, 2);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  664  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   79  	c->wq_copy_desc_count =
+=3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   80  		min_t(u32, VNIC_FNIC_=
+WQ_COPY_DESCS_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   81  		      max_t(u32, VNIC=
+_FNIC_WQ_COPY_DESCS_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   82  			    c->wq_copy_desc_=
+count));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   83  	c->wq_copy_desc_count =
+=3D ALIGN(c->wq_copy_desc_count, 16);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   84  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  665  	DRM_INFO("FIFO at %pa =
-size is %llu kiB\n",
-8772c0bb58bbf98a Zack Rusin        2020-11-04  666  		 &fifo_start, (uint64=
-_t)fifo_size / 1024);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  667  	dev->fifo_mem =3D devm=
-_memremap(dev->drm.dev,
-8772c0bb58bbf98a Zack Rusin        2020-11-04  668  				      fifo_start,
-8772c0bb58bbf98a Zack Rusin        2020-11-04  669  				      fifo_size,
-8772c0bb58bbf98a Zack Rusin        2020-11-04  670  				      MEMREMAP_WB);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  671  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   85  	c->rq_desc_count =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   86  		min_t(u32, VNIC_FNIC_=
+RQ_DESCS_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   87  		      max_t(u32, VNIC=
+_FNIC_RQ_DESCS_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   88  			    c->rq_desc_count=
+));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   89  	c->rq_desc_count =3D A=
+LIGN(c->rq_desc_count, 16);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   90  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  672  	if (unlikely(dev->fifo=
-_mem =3D=3D NULL)) {
-8772c0bb58bbf98a Zack Rusin        2020-11-04  673  		DRM_ERROR("Failed map=
-ping FIFO memory.\n");
-8772c0bb58bbf98a Zack Rusin        2020-11-04  674  		return -ENOMEM;
-8772c0bb58bbf98a Zack Rusin        2020-11-04  675  	}
-8772c0bb58bbf98a Zack Rusin        2020-11-04  676  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   91  	c->maxdatafieldsize =
+=3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   92  		min_t(u16, VNIC_FNIC_=
+MAXDATAFIELDSIZE_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   93  		      max_t(u16, VNIC=
+_FNIC_MAXDATAFIELDSIZE_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   94  			    c->maxdatafields=
+ize));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   95  	c->ed_tov =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  @96  		min_t(u32, VNIC_FNIC_=
+EDTOV_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   97  		      max_t(u32, VNIC=
+_FNIC_EDTOV_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   98  			    c->ed_tov));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17   99  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  677  	/*
-8772c0bb58bbf98a Zack Rusin        2020-11-04  678  	 * This is approximate=
- size of the vram, the exact size will only
-8772c0bb58bbf98a Zack Rusin        2020-11-04  679  	 * be known after we r=
-ead SVGA_REG_VRAM_SIZE. The PCI resource
-8772c0bb58bbf98a Zack Rusin        2020-11-04  680  	 * size will be equal =
-to or bigger than the size reported by
-8772c0bb58bbf98a Zack Rusin        2020-11-04  681  	 * SVGA_REG_VRAM_SIZE.
-8772c0bb58bbf98a Zack Rusin        2020-11-04  682  	 */
-8772c0bb58bbf98a Zack Rusin        2020-11-04  683  	DRM_INFO("VRAM at %pa =
-size is %llu kiB\n",
-8772c0bb58bbf98a Zack Rusin        2020-11-04  684  		 &dev->vram_start, (u=
-int64_t)dev->vram_size / 1024);
-8772c0bb58bbf98a Zack Rusin        2020-11-04  685  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  100  	c->ra_tov =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17 @101  		min_t(u32, VNIC_FNIC_=
+RATOV_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  102  		      max_t(u32, VNIC=
+_FNIC_RATOV_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  103  			    c->ra_tov));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  104  =
 
-8772c0bb58bbf98a Zack Rusin        2020-11-04  686  	return 0;
-8772c0bb58bbf98a Zack Rusin        2020-11-04  687  }
-8772c0bb58bbf98a Zack Rusin        2020-11-04  688  =
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  105  	c->flogi_retries =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  106  		min_t(u32, VNIC_FNIC_=
+FLOGI_RETRIES_MAX, c->flogi_retries);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  107  =
 
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  108  	c->flogi_timeout =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  109  		min_t(u32, VNIC_FNIC_=
+FLOGI_TIMEOUT_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  110  		      max_t(u32, VNIC=
+_FNIC_FLOGI_TIMEOUT_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  111  			    c->flogi_timeout=
+));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  112  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  113  	c->plogi_retries =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  114  		min_t(u32, VNIC_FNIC_=
+PLOGI_RETRIES_MAX, c->plogi_retries);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  115  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  116  	c->plogi_timeout =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  117  		min_t(u32, VNIC_FNIC_=
+PLOGI_TIMEOUT_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  118  		      max_t(u32, VNIC=
+_FNIC_PLOGI_TIMEOUT_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  119  			    c->plogi_timeout=
+));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  120  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  121  	c->io_throttle_count =
+=3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  122  		min_t(u32, VNIC_FNIC_=
+IO_THROTTLE_COUNT_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  123  		      max_t(u32, VNIC=
+_FNIC_IO_THROTTLE_COUNT_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  124  			    c->io_throttle_c=
+ount));
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  125  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  126  	c->link_down_timeout =
+=3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  127  		min_t(u32, VNIC_FNIC_=
+LINK_DOWN_TIMEOUT_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  128  		      c->link_down_ti=
+meout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  129  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  130  	c->port_down_timeout =
+=3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  131  		min_t(u32, VNIC_FNIC_=
+PORT_DOWN_TIMEOUT_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  132  		      c->port_down_ti=
+meout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  133  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  134  	c->port_down_io_retrie=
+s =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  135  		min_t(u32, VNIC_FNIC_=
+PORT_DOWN_IO_RETRIES_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  136  		      c->port_down_io=
+_retries);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  137  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  138  	c->luns_per_tgt =3D
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  139  		min_t(u32, VNIC_FNIC_=
+LUNS_PER_TARGET_MAX,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  140  		      max_t(u32, VNIC=
+_FNIC_LUNS_PER_TARGET_MIN,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  141  			    c->luns_per_tgt)=
+);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  142  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  143  	c->intr_timer =3D min_=
+t(u16, VNIC_INTR_TIMER_MAX, c->intr_timer);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  144  	c->intr_timer_type =3D=
+ c->intr_timer_type;
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  145  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  146  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+78112e5558064cb4 Joe Eykholt       2009-11-03  147  		     "vNIC MAC addr %=
+pM "
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  148  		     "wq/wq_copy/rq %=
+d/%d/%d\n",
+78112e5558064cb4 Joe Eykholt       2009-11-03  149  		     fnic->ctlr.ctl_s=
+rc_addr,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  150  		     c->wq_enet_desc_=
+count, c->wq_copy_desc_count,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  151  		     c->rq_desc_count=
+);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  152  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  153  		     "vNIC node wwn %=
+llx port wwn %llx\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  154  		     c->node_wwn, c->=
+port_wwn);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  155  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  156  		     "vNIC ed_tov %d =
+ra_tov %d\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  157  		     c->ed_tov, c->ra=
+_tov);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  158  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  159  		     "vNIC mtu %d int=
+r timer %d\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  160  		     c->maxdatafields=
+ize, c->intr_timer);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  161  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  162  		     "vNIC flags 0x%x=
+ luns per tgt %d\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  163  		     c->flags, c->lun=
+s_per_tgt);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  164  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  165  		     "vNIC flogi_retr=
+ies %d flogi timeout %d\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  166  		     c->flogi_retries=
+, c->flogi_timeout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  167  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  168  		     "vNIC plogi retr=
+ies %d plogi timeout %d\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  169  		     c->plogi_retries=
+, c->plogi_timeout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  170  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  171  		     "vNIC io throttl=
+e count %d link dn timeout %d\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  172  		     c->io_throttle_c=
+ount, c->link_down_timeout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  173  	shost_printk(KERN_INFO=
+, fnic->lport->host,
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  174  		     "vNIC port dn io=
+ retries %d port dn timeout %d\n",
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  175  		     c->port_down_io_=
+retries, c->port_down_timeout);
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  176  =
+
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  177  	return 0;
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  178  }
+5df6d737dd4b0fe9 Abhijeet Joglekar 2009-04-17  179  =
+
+
+:::::: The code at line 96 was first introduced by commit
+:::::: 5df6d737dd4b0fe9eccf943abb3677cfea05a6c4 [SCSI] fnic: Add new Cisco =
+PCI-Express FCoE HBA
+
+:::::: TO: Abhijeet Joglekar <abjoglek@cisco.com>
+:::::: CC: James Bottomley <James.Bottomley@HansenPartnership.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5218918066069442893==
+--===============7791556923254341808==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICIjnBGAAAy5jb25maWcAjFxJl9y2Eb77V/STL/bBziySIr+8OYAgyIabICgA7GUufONRS54X
+H4sICNvaBGAAAy5jb25maWcAjFxJl9y2Eb77V/STL/bBziySIr+8OYAgyIabICgA7GUufONRS54X
 aUaZJbH+faoALgAItpyDo0EVFgK1fFUo9I8//LgiL88PX26e725vPn/+tvp0vD8+3jwfP6w+3n0+
 /muVy1UtzYrl3PwKzNXd/ctf/7i7fPd29ebX8/Nfz355vL1YbY6P98fPK/pw//Hu0wt0v3u4/+HH
 H6isC152lHZbpjSXdWfY3ly9+nR7+8tvq5/y4x93N/er3369hGHO3/zs/vXK68Z1V1J69W1oKqeh
@@ -835,5 +1032,5 @@ cmi0b8jCa4Kvfoovli0WFkqgXBhzsJMChWImDQajEk0AIWHp+9mpJCx58mxAdkN5N8RRSVce7R3X
 g6J2GHUZGOuDTkMe3jEZMdfdqfxeeLh5ekYNDs0U2de/bx6vb52nlPZj7KhZRQXvR5tOTvdpSZmb
 EJSxhqQo+5L7EWCJvjCwivVCEN1axABjhlwgqd4rG9ItdgtwimbWJv7rfb5BZTlSu9uVlXS1xsLY
 A8sFuq8PTOuMqwO2SFKXtoCQd7zYKpCeqEK+upxBMLD2BfgfaPtFSw6AAgA=
---===============5218918066069442893==--
+--===============7791556923254341808==--
 
