@@ -1,33 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============6625002431206810914=="
+Content-Type: multipart/mixed; boundary="===============4573892490780150879=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/usb/rndis_host.c:301:23: warning: union member 'Anonymous1::set_c' is never used.
-Date: Tue, 19 Jan 2021 16:20:57 +0800
-Message-ID: <202101191638.3YLwaoBk-lkp@intel.com>
+Subject: net/ceph/messenger_v1.c:1099:23: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses.
+Date: Tue, 19 Jan 2021 16:18:37 +0800
+Message-ID: <202101191631.7YFuNRXU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6625002431206810914==
+--===============4573892490780150879==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Guo Ren <guoren@linux.alibaba.com>
-
-Hi Guo,
-
-First bad commit (maybe !=3D root cause):
+TO: Ilya Dryomov <idryomov@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1e2a199f6ccdc15cf111d68d212e2fd4ce65682e
-commit: 18c07d23da5a48525b2955aa269b8bb108c19300 csky: Fixup calltrace panic
-date:   8 months ago
+commit: 2f713615ddd9d805b6c5e79c52e0e11af99d2bf1 libceph: move msgr1 protoc=
+ol implementation to its own file
+date:   5 weeks ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 8 months ago
-compiler: csky-linux-gcc (GCC) 9.3.0
+:::::: commit date: 5 weeks ago
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -35,401 +32,261 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/net/usb/rndis_host.c:301:23: warning: union member 'Anonymous1::=
-set_c' is never used. [unusedStructMember]
-     struct rndis_set_c *set_c;
+>> net/ceph/messenger_v1.c:1099:23: warning: Boolean result is used in bitw=
+ise operation. Clarify expression with parentheses. [clarifyCondition]
+     BUG_ON(!con->in_msg ^ skip);
                          ^
 
-vim +301 drivers/net/usb/rndis_host.c
+vim +1099 net/ceph/messenger_v1.c
 
-0f2166dff6440bb6 drivers/net/usb/rndis_host.c Stephen Hemminger      2009-0=
-3-20  286  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1029  =
 
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  287  int
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  288  generic_rndis_bind(struct usbnet *dev, struct usb_interface *int=
-f, int flags)
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  289  {
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  290  	int			retval;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  291  	struct net_device	*net =3D dev->net;
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  292  	struct cdc_state	*info =3D (void *) &dev->data;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  293  	union {
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  294  		void			*buf;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  295  		struct rndis_msg_hdr	*header;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  296  		struct rndis_init	*init;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  297  		struct rndis_init_c	*init_c;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  298  		struct rndis_query	*get;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  299  		struct rndis_query_c	*get_c;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  300  		struct rndis_set	*set;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31 @301  		struct rndis_set_c	*set_c;
-9ff55874fea71f48 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  302  		struct rndis_halt	*halt;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  303  	} u;
-d63ddcec20f59e78 drivers/net/usb/rndis_host.c Al Viro                2008-0=
-5-21  304  	u32			tmp;
-d63ddcec20f59e78 drivers/net/usb/rndis_host.c Al Viro                2008-0=
-5-21  305  	__le32			phym_unspec, *phym;
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  306  	int			reply_len;
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  307  	unsigned char		*bp;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  308  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1030  /*
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1031   * read (part of) a message.
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1032   */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1033  static int read_partial_mes=
+sage(struct ceph_connection *con)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1034  {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1035  	struct ceph_msg *m =3D con=
+->in_msg;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1036  	int size;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1037  	int end;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1038  	int ret;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1039  	unsigned int front_len, mi=
+ddle_len, data_len;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1040  	bool do_datacrc =3D !ceph_=
+test_opt(from_msgr(con->msgr), NOCRC);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1041  	bool need_sign =3D (con->p=
+eer_features & CEPH_FEATURE_MSG_AUTH);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1042  	u64 seq;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1043  	u32 crc;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1044  =
 
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  309  	/* we can't rely on i/o from stack working, or stack allocation=
- */
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  310  	u.buf =3D kmalloc(CONTROL_BUFFER_SIZE, GFP_KERNEL);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  311  	if (!u.buf)
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  312  		return -ENOMEM;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  313  	retval =3D usbnet_generic_cdc_bind(dev, intf);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  314  	if (retval < 0)
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  315  		goto fail;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  316  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1045  	dout("read_partial_message=
+ con %p msg %p\n", con, m);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1046  =
 
-7390e8b0dee778b0 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  317  	u.init->msg_type =3D cpu_to_le32(RNDIS_MSG_INIT);
-35c26c2cf6a6a2d1 drivers/net/usb/rndis_host.c Harvey Harrison        2009-0=
-2-14  318  	u.init->msg_len =3D cpu_to_le32(sizeof *u.init);
-35c26c2cf6a6a2d1 drivers/net/usb/rndis_host.c Harvey Harrison        2009-0=
-2-14  319  	u.init->major_version =3D cpu_to_le32(1);
-35c26c2cf6a6a2d1 drivers/net/usb/rndis_host.c Harvey Harrison        2009-0=
-2-14  320  	u.init->minor_version =3D cpu_to_le32(0);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  321  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1047  	/* header */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1048  	size =3D sizeof (con->in_h=
+dr);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1049  	end =3D size;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1050  	ret =3D read_partial(con, =
+end, size, &con->in_hdr);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1051  	if (ret <=3D 0)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1052  		return ret;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1053  =
 
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  322  	/* max transfer (in spec) is 0x4000 at full speed, but for
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  323  	 * TX we'll stick to one Ethernet packet plus RNDIS framing.
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  324  	 * For RX we handle drivers that zero-pad to end-of-packet.
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  325  	 * Don't let userspace change these settings.
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  326  	 *
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  327  	 * NOTE: there still seems to be wierdness here, as if we need
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  328  	 * to do some more things to make sure WinCE targets accept thi=
-s.
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  329  	 * They default to jumbograms of 8KB or 16KB, which is absurd
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  330  	 * for such low data rates and which is also more than Linux
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  331  	 * can usually expect to allocate for SKB data...
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  332  	 */
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  333  	net->hard_header_len +=3D sizeof (struct rndis_data_hdr);
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  334  	dev->hard_mtu =3D net->mtu + net->hard_header_len;
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  335  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1054  	crc =3D crc32c(0, &con->in=
+_hdr, offsetof(struct ceph_msg_header, crc));
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1055  	if (cpu_to_le32(crc) !=3D =
+con->in_hdr.crc) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1056  		pr_err("read_partial_mess=
+age bad hdr crc %u !=3D expected %u\n",
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1057  		       crc, con->in_hdr.c=
+rc);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1058  		return -EBADMSG;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1059  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1060  =
 
-10d0f27c1baa4a09 drivers/net/usb/rndis_host.c Jean-Christophe Dubois 2008-0=
-3-13  336  	dev->maxpacket =3D usb_maxpacket(dev->udev, dev->out, 1);
-10d0f27c1baa4a09 drivers/net/usb/rndis_host.c Jean-Christophe Dubois 2008-0=
-3-13  337  	if (dev->maxpacket =3D=3D 0) {
-a475f603d23392f3 drivers/net/usb/rndis_host.c Joe Perches            2010-0=
-2-17  338  		netif_dbg(dev, probe, dev->net,
-a475f603d23392f3 drivers/net/usb/rndis_host.c Joe Perches            2010-0=
-2-17  339  			  "dev->maxpacket can't be 0\n");
-10d0f27c1baa4a09 drivers/net/usb/rndis_host.c Jean-Christophe Dubois 2008-0=
-3-13  340  		retval =3D -EINVAL;
-10d0f27c1baa4a09 drivers/net/usb/rndis_host.c Jean-Christophe Dubois 2008-0=
-3-13  341  		goto fail_and_release;
-10d0f27c1baa4a09 drivers/net/usb/rndis_host.c Jean-Christophe Dubois 2008-0=
-3-13  342  	}
-10d0f27c1baa4a09 drivers/net/usb/rndis_host.c Jean-Christophe Dubois 2008-0=
-3-13  343  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1061  	front_len =3D le32_to_cpu(=
+con->in_hdr.front_len);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1062  	if (front_len > CEPH_MSG_M=
+AX_FRONT_LEN)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1063  		return -EIO;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1064  	middle_len =3D le32_to_cpu=
+(con->in_hdr.middle_len);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1065  	if (middle_len > CEPH_MSG_=
+MAX_MIDDLE_LEN)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1066  		return -EIO;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1067  	data_len =3D le32_to_cpu(c=
+on->in_hdr.data_len);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1068  	if (data_len > CEPH_MSG_MA=
+X_DATA_LEN)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1069  		return -EIO;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1070  =
 
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  344  	dev->rx_urb_size =3D dev->hard_mtu + (dev->maxpacket + 1);
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  345  	dev->rx_urb_size &=3D ~(dev->maxpacket - 1);
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  346  	u.init->max_transfer_size =3D cpu_to_le32(dev->rx_urb_size);
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  347  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1071  	/* verify seq# */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1072  	seq =3D le64_to_cpu(con->i=
+n_hdr.seq);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1073  	if ((s64)seq - (s64)con->i=
+n_seq < 1) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1074  		pr_info("skipping %s%lld =
+%s seq %lld expected %lld\n",
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1075  			ENTITY_NAME(con->peer_na=
+me),
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1076  			ceph_pr_addr(&con->peer_=
+addr),
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1077  			seq, con->in_seq + 1);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1078  		con->in_base_pos =3D -fro=
+nt_len - middle_len - data_len -
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1079  			sizeof_footer(con);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1080  		con->in_tag =3D CEPH_MSGR=
+_TAG_READY;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1081  		return 1;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1082  	} else if ((s64)seq - (s64=
+)con->in_seq > 1) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1083  		pr_err("read_partial_mess=
+age bad seq %lld expected %lld\n",
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1084  		       seq, con->in_seq +=
+ 1);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1085  		con->error_msg =3D "bad m=
+essage sequence # for incoming message";
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1086  		return -EBADE;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1087  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1088  =
 
-0f2166dff6440bb6 drivers/net/usb/rndis_host.c Stephen Hemminger      2009-0=
-3-20  348  	net->netdev_ops =3D &rndis_netdev_ops;
-0f2166dff6440bb6 drivers/net/usb/rndis_host.c Stephen Hemminger      2009-0=
-3-20  349  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1089  	/* allocate message? */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1090  	if (!con->in_msg) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1091  		int skip =3D 0;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1092  =
 
-818727badc14ce57 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-6-18  350  	retval =3D rndis_command(dev, u.header, CONTROL_BUFFER_SIZE);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  351  	if (unlikely(retval < 0)) {
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  352  		/* it might not even be an RNDIS device!! */
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  353  		dev_err(&intf->dev, "RNDIS init failed, %d\n", retval);
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  354  		goto fail_and_release;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  355  	}
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  356  	tmp =3D le32_to_cpu(u.init_c->max_transfer_size);
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  357  	if (tmp < dev->hard_mtu) {
-500d2c2f7b8c1cf6 drivers/net/usb/rndis_host.c Thomas Sailer          2007-1=
-0-24  358  		if (tmp <=3D net->hard_header_len) {
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  359  			dev_err(&intf->dev,
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  360  				"dev can't take %u byte packets (max %u)\n",
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  361  				dev->hard_mtu, tmp);
-4149b72eaa74583c drivers/net/usb/rndis_host.c David Brownell         2007-0=
-4-29  362  			retval =3D -EINVAL;
-9ff55874fea71f48 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  363  			goto halt_fail_and_release;
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  364  		}
-500d2c2f7b8c1cf6 drivers/net/usb/rndis_host.c Thomas Sailer          2007-1=
-0-24  365  		dev_warn(&intf->dev,
-500d2c2f7b8c1cf6 drivers/net/usb/rndis_host.c Thomas Sailer          2007-1=
-0-24  366  			 "dev can't take %u byte packets (max %u), "
-500d2c2f7b8c1cf6 drivers/net/usb/rndis_host.c Thomas Sailer          2007-1=
-0-24  367  			 "adjusting MTU to %u\n",
-40ac7b62d8c132c7 drivers/net/usb/rndis_host.c George Nassar          2009-1=
-0-14  368  			 dev->hard_mtu, tmp, tmp - net->hard_header_len);
-40ac7b62d8c132c7 drivers/net/usb/rndis_host.c George Nassar          2009-1=
-0-14  369  		dev->hard_mtu =3D tmp;
-40ac7b62d8c132c7 drivers/net/usb/rndis_host.c George Nassar          2009-1=
-0-14  370  		net->mtu =3D dev->hard_mtu - net->hard_header_len;
-500d2c2f7b8c1cf6 drivers/net/usb/rndis_host.c Thomas Sailer          2007-1=
-0-24  371  	}
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  372  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1093  		dout("got hdr type %d fro=
+nt %d data %d\n", con->in_hdr.type,
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1094  		     front_len, data_len);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1095  		ret =3D ceph_con_in_msg_a=
+lloc(con, &con->in_hdr, &skip);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1096  		if (ret < 0)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1097  			return ret;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1098  =
 
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  373  	/* REVISIT:  peripheral "alignment" request is ignored ... */
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  374  	dev_dbg(&intf->dev,
-5b5e0928f742cfa8 drivers/net/usb/rndis_host.c Alexey Dobriyan        2017-0=
-2-27  375  		"hard mtu %u (%u from dev), rx buflen %zu, align %d\n",
-ad55d71a3d4401f4 drivers/usb/net/rndis_host.c Ole Andre Vadla Ravnas 2006-1=
-2-14  376  		dev->hard_mtu, tmp, dev->rx_urb_size,
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  377  		1 << le32_to_cpu(u.init_c->packet_alignment));
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  378  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12 @1099  		BUG_ON(!con->in_msg ^ ski=
+p);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1100  		if (skip) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1101  			/* skip this message */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1102  			dout("alloc_msg said ski=
+p message\n");
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1103  			con->in_base_pos =3D -fr=
+ont_len - middle_len - data_len -
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1104  				sizeof_footer(con);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1105  			con->in_tag =3D CEPH_MSG=
+R_TAG_READY;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1106  			con->in_seq++;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1107  			return 1;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1108  		}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1109  =
 
-7c39e038fc738012 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  379  	/* module has some device initialization code needs to be done =
-right
-7c39e038fc738012 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  380  	 * after RNDIS_INIT */
-7c39e038fc738012 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  381  	if (dev->driver_info->early_init &&
-7c39e038fc738012 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  382  			dev->driver_info->early_init(dev) !=3D 0)
-7c39e038fc738012 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  383  		goto halt_fail_and_release;
-7c39e038fc738012 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  384  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1110  		BUG_ON(!con->in_msg);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1111  		BUG_ON(con->in_msg->con !=
+=3D con);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1112  		m =3D con->in_msg;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1113  		m->front.iov_len =3D 0;  =
+  /* haven't read it yet */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1114  		if (m->middle)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1115  			m->middle->vec.iov_len =
+=3D 0;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1116  =
 
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  385  	/* Check physical medium */
-9f5e60dd5ffca938 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-3-23  386  	phym =3D NULL;
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  387  	reply_len =3D sizeof *phym;
-7390e8b0dee778b0 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  388  	retval =3D rndis_query(dev, intf, u.buf,
-5432bdc053727b92 drivers/net/usb/rndis_host.c Jussi Kivilinna        2012-0=
-5-11  389  			     RNDIS_OID_GEN_PHYSICAL_MEDIUM,
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  390  			     0, (void **) &phym, &reply_len);
-9f5e60dd5ffca938 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-3-23  391  	if (retval !=3D 0 || !phym) {
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  392  		/* OID is optional so don't fail here. */
-7390e8b0dee778b0 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  393  		phym_unspec =3D cpu_to_le32(RNDIS_PHYSICAL_MEDIUM_UNSPECIFIED);
-9f5e60dd5ffca938 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-3-23  394  		phym =3D &phym_unspec;
-9f5e60dd5ffca938 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-3-23  395  	}
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  396  	if ((flags & FLAG_RNDIS_PHYM_WIRELESS) &&
-3eef36689888390c drivers/net/usb/rndis_host.c Jussi Kivilinna        2012-0=
-5-11  397  	    le32_to_cpup(phym) !=3D RNDIS_PHYSICAL_MEDIUM_WIRELESS_LAN)=
- {
-a475f603d23392f3 drivers/net/usb/rndis_host.c Joe Perches            2010-0=
-2-17  398  		netif_dbg(dev, probe, dev->net,
-a475f603d23392f3 drivers/net/usb/rndis_host.c Joe Perches            2010-0=
-2-17  399  			  "driver requires wireless physical medium, but device is no=
-t\n");
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  400  		retval =3D -ENODEV;
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  401  		goto halt_fail_and_release;
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  402  	}
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  403  	if ((flags & FLAG_RNDIS_PHYM_NOT_WIRELESS) &&
-3eef36689888390c drivers/net/usb/rndis_host.c Jussi Kivilinna        2012-0=
-5-11  404  	    le32_to_cpup(phym) =3D=3D RNDIS_PHYSICAL_MEDIUM_WIRELESS_LA=
-N) {
-a475f603d23392f3 drivers/net/usb/rndis_host.c Joe Perches            2010-0=
-2-17  405  		netif_dbg(dev, probe, dev->net,
-a475f603d23392f3 drivers/net/usb/rndis_host.c Joe Perches            2010-0=
-2-17  406  			  "driver requires non-wireless physical medium, but device i=
-s wireless.\n");
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  407  		retval =3D -ENODEV;
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  408  		goto halt_fail_and_release;
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  409  	}
-039ee17d1baabaa2 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-27  410  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1117  		/* prepare for data paylo=
+ad, if any */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1118  =
 
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  411  	/* Get designated host ethernet address */
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  412  	reply_len =3D ETH_ALEN;
-7390e8b0dee778b0 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  413  	retval =3D rndis_query(dev, intf, u.buf,
-5432bdc053727b92 drivers/net/usb/rndis_host.c Jussi Kivilinna        2012-0=
-5-11  414  			     RNDIS_OID_802_3_PERMANENT_ADDRESS,
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  415  			     48, (void **) &bp, &reply_len);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  416  	if (unlikely(retval< 0)) {
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  417  		dev_err(&intf->dev, "rndis get ethaddr, %d\n", retval);
-9ff55874fea71f48 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  418  		goto halt_fail_and_release;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  419  	}
-a5a18bdf7453d505 drivers/net/usb/rndis_host.c Kristian Evensen       2016-0=
-7-14  420  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1119  		if (data_len)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1120  			prepare_message_data(con=
+->in_msg, data_len);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1121  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1122  =
 
-a5a18bdf7453d505 drivers/net/usb/rndis_host.c Kristian Evensen       2016-0=
-7-14  421  	if (bp[0] & 0x02)
-a5a18bdf7453d505 drivers/net/usb/rndis_host.c Kristian Evensen       2016-0=
-7-14  422  		eth_hw_addr_random(net);
-a5a18bdf7453d505 drivers/net/usb/rndis_host.c Kristian Evensen       2016-0=
-7-14  423  	else
-a5a18bdf7453d505 drivers/net/usb/rndis_host.c Kristian Evensen       2016-0=
-7-14  424  		ether_addr_copy(net->dev_addr, bp);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  425  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1123  	/* front */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1124  	ret =3D read_partial_messa=
+ge_section(con, &m->front, front_len,
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1125  					   &con->in_front_crc);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1126  	if (ret <=3D 0)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1127  		return ret;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1128  =
 
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  426  	/* set a nonzero filter to enable data transfers */
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  427  	memset(u.set, 0, sizeof *u.set);
-7390e8b0dee778b0 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  428  	u.set->msg_type =3D cpu_to_le32(RNDIS_MSG_SET);
-35c26c2cf6a6a2d1 drivers/net/usb/rndis_host.c Harvey Harrison        2009-0=
-2-14  429  	u.set->msg_len =3D cpu_to_le32(4 + sizeof *u.set);
-8cdddc3f9d6692f5 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  430  	u.set->oid =3D cpu_to_le32(RNDIS_OID_GEN_CURRENT_PACKET_FILTER);
-35c26c2cf6a6a2d1 drivers/net/usb/rndis_host.c Harvey Harrison        2009-0=
-2-14  431  	u.set->len =3D cpu_to_le32(4);
-35c26c2cf6a6a2d1 drivers/net/usb/rndis_host.c Harvey Harrison        2009-0=
-2-14  432  	u.set->offset =3D cpu_to_le32((sizeof *u.set) - 8);
-7390e8b0dee778b0 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  433  	*(__le32 *)(u.buf + sizeof *u.set) =3D cpu_to_le32(RNDIS_DEFAUL=
-T_FILTER);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  434  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1129  	/* middle */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1130  	if (m->middle) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1131  		ret =3D read_partial_mess=
+age_section(con, &m->middle->vec,
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1132  						   middle_len,
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1133  						   &con->in_middle_cr=
+c);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1134  		if (ret <=3D 0)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1135  			return ret;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1136  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1137  =
 
-818727badc14ce57 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-6-18  435  	retval =3D rndis_command(dev, u.header, CONTROL_BUFFER_SIZE);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  436  	if (unlikely(retval < 0)) {
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  437  		dev_err(&intf->dev, "rndis set packet filter, %d\n", retval);
-9ff55874fea71f48 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  438  		goto halt_fail_and_release;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  439  	}
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  440  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1138  	/* (page) data */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1139  	if (data_len) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1140  		ret =3D read_partial_msg_=
+data(con);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1141  		if (ret <=3D 0)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1142  			return ret;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1143  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1144  =
 
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  441  	retval =3D 0;
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  442  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1145  	/* footer */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1146  	size =3D sizeof_footer(con=
+);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1147  	end +=3D size;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1148  	ret =3D read_partial(con, =
+end, size, &m->footer);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1149  	if (ret <=3D 0)
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1150  		return ret;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1151  =
 
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  443  	kfree(u.buf);
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  444  	return retval;
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  445  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1152  	if (!need_sign) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1153  		m->footer.flags =3D m->ol=
+d_footer.flags;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1154  		m->footer.sig =3D 0;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1155  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1156  =
 
-9ff55874fea71f48 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  446  halt_fail_and_release:
-9ff55874fea71f48 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  447  	memset(u.halt, 0, sizeof *u.halt);
-7390e8b0dee778b0 drivers/net/usb/rndis_host.c Linus Walleij          2012-0=
-5-11  448  	u.halt->msg_type =3D cpu_to_le32(RNDIS_MSG_HALT);
-35c26c2cf6a6a2d1 drivers/net/usb/rndis_host.c Harvey Harrison        2009-0=
-2-14  449  	u.halt->msg_len =3D cpu_to_le32(sizeof *u.halt);
-818727badc14ce57 drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-6-18  450  	(void) rndis_command(dev, (void *)u.halt, CONTROL_BUFFER_SIZE);
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  451  fail_and_release:
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  452  	usb_set_intfdata(info->data, NULL);
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  453  	usb_driver_release_interface(driver_of(intf), info->data);
-ddda08624013e843 drivers/usb/net/rndis_host.c David Brownell         2007-0=
-4-17  454  	info->data =3D NULL;
-deb31f1764e0a11b drivers/usb/net/rndis_host.c Daniel Gollub          2007-0=
-1-16  455  fail:
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  456  	kfree(u.buf);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  457  	return retval;
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  458  }
-5665998cd75bbaaa drivers/net/usb/rndis_host.c Jussi Kivilinna        2008-0=
-1-26  459  EXPORT_SYMBOL_GPL(generic_rndis_bind);
-64e049102d3de3e6 drivers/usb/net/rndis_host.c David Brownell         2005-0=
-8-31  460  =
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1157  	dout("read_partial_message=
+ got msg %p %d (%u) + %d (%u) + %d (%u)\n",
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1158  	     m, front_len, m->foot=
+er.front_crc, middle_len,
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1159  	     m->footer.middle_crc,=
+ data_len, m->footer.data_crc);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1160  =
 
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1161  	/* crc ok? */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1162  	if (con->in_front_crc !=3D=
+ le32_to_cpu(m->footer.front_crc)) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1163  		pr_err("read_partial_mess=
+age %p front crc %u !=3D exp. %u\n",
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1164  		       m, con->in_front_c=
+rc, m->footer.front_crc);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1165  		return -EBADMSG;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1166  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1167  	if (con->in_middle_crc !=
+=3D le32_to_cpu(m->footer.middle_crc)) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1168  		pr_err("read_partial_mess=
+age %p middle crc %u !=3D exp %u\n",
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1169  		       m, con->in_middle_=
+crc, m->footer.middle_crc);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1170  		return -EBADMSG;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1171  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1172  	if (do_datacrc &&
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1173  	    (m->footer.flags & CEP=
+H_MSG_FOOTER_NOCRC) =3D=3D 0 &&
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1174  	    con->in_data_crc !=3D =
+le32_to_cpu(m->footer.data_crc)) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1175  		pr_err("read_partial_mess=
+age %p data crc %u !=3D exp. %u\n", m,
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1176  		       con->in_data_crc, =
+le32_to_cpu(m->footer.data_crc));
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1177  		return -EBADMSG;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1178  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1179  =
 
-:::::: The code at line 301 was first introduced by commit
-:::::: 64e049102d3de3e61409cb6019403a9e689dfda6 [PATCH] USB: usbnet (8/9) m=
-odule for RNDIS devices
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1180  	if (need_sign && con->ops-=
+>check_message_signature &&
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1181  	    con->ops->check_messag=
+e_signature(m)) {
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1182  		pr_err("read_partial_mess=
+age %p signature check failed\n", m);
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1183  		return -EBADMSG;
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1184  	}
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1185  =
 
-:::::: TO: David Brownell <david-b@pacbell.net>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1186  	return 1; /* done! */
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1187  }
+2f713615ddd9d805 Ilya Dryomov 2020-11-12  1188  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6625002431206810914==--
+--===============4573892490780150879==--
 
