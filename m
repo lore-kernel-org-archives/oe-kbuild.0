@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3430452511378215540=="
+Content-Type: multipart/mixed; boundary="===============6953340812971655129=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [kdave-btrfs-devel:dev/raid-policy 83/85] fs/btrfs/volumes.c:5772 find_live_mirror_roundrobin() error: uninitialized symbol 'now'.
-Date: Fri, 29 Jan 2021 06:35:47 +0800
-Message-ID: <202101290640.5xldTmxh-lkp@intel.com>
+Subject: [kdave-btrfs-devel:dev/raid-policy 82/85] fs/btrfs/volumes.c:5606 find_live_mirror_load() error: uninitialized symbol 'now'.
+Date: Fri, 29 Jan 2021 04:00:25 +0800
+Message-ID: <202101290419.heph18Fj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3430452511378215540==
+--===============6953340812971655129==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,10 +18,10 @@ CC: David Sterba <dsterba@suse.com>
 
 tree:   https://github.com/kdave/btrfs-devel.git dev/raid-policy
 head:   cdf61a56c20bf9881f8cac47eabe3adea5fc23a9
-commit: 4535566286913fb8ad62c3efef00e6d2593b25e4 [83/85] btrfs: Add roundro=
-bin read policy
-:::::: branch date: 7 hours ago
-:::::: commit date: 8 hours ago
+commit: e3953975b6a7b35788f3141689f2745e8200438d [82/85] btrfs: Add load re=
+ad policy
+:::::: branch date: 4 hours ago
+:::::: commit date: 6 hours ago
 config: i386-randconfig-m021-20210128 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -30,140 +30,93 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-fs/btrfs/volumes.c:5772 find_live_mirror_roundrobin() error: uninitialized =
-symbol 'now'.
+fs/btrfs/volumes.c:5606 find_live_mirror_load() error: uninitialized symbol=
+ 'now'.
 
 Old smatch warnings:
-fs/btrfs/volumes.c:1238 open_fs_devices() error: we previously assumed 'lat=
-est_dev' could be null (see line 1226)
+fs/btrfs/volumes.c:1235 open_fs_devices() error: we previously assumed 'lat=
+est_dev' could be null (see line 1223)
 fs/btrfs/volumes.h:215 btrfs_device_set_total_bytes() warn: statement has n=
 o effect 31
 fs/btrfs/volumes.h:216 btrfs_device_set_disk_total_bytes() warn: statement =
 has no effect 31
 fs/btrfs/volumes.h:217 btrfs_device_set_bytes_used() warn: statement has no=
  effect 31
-fs/btrfs/volumes.c:5609 find_live_mirror_load() error: uninitialized symbol=
- 'now'.
 
-vim +/now +5772 fs/btrfs/volumes.c
+vim +/now +5606 fs/btrfs/volumes.c
 
-4535566286913f Michal Rostecki 2021-01-12  5712  =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5572  =
 
-4535566286913f Michal Rostecki 2021-01-12  5713  /*
-4535566286913f Michal Rostecki 2021-01-12  5714   * find_live_mirror_roundr=
-obin() searches for a raid1 mirror which can process
-4535566286913f Michal Rostecki 2021-01-12  5715   * more requests.
-4535566286913f Michal Rostecki 2021-01-12  5716   *
-4535566286913f Michal Rostecki 2021-01-12  5717   * @fs_info:     the files=
-ystem
-4535566286913f Michal Rostecki 2021-01-12  5718   * @map:         extent ma=
-pping which contains stripes
-4535566286913f Michal Rostecki 2021-01-12  5719   * @first:       number of=
- the first mirror
-4535566286913f Michal Rostecki 2021-01-12  5720   * @num_stripes: number of=
- stripes in the array
-4535566286913f Michal Rostecki 2021-01-12  5721   *
-4535566286913f Michal Rostecki 2021-01-12  5722   * It calls __find_live_mi=
-rror_roundrobin() function to try to find a suitable
-4535566286913f Michal Rostecki 2021-01-12  5723   * mirror, firstly non-rot=
-ational, then rotational.
-4535566286913f Michal Rostecki 2021-01-12  5724   *
-4535566286913f Michal Rostecki 2021-01-12  5725   * If no suitable mirror f=
-ound, it selects the next (last used + 1) mirror.
-4535566286913f Michal Rostecki 2021-01-12  5726   */
-4535566286913f Michal Rostecki 2021-01-12  5727  static int find_live_mirro=
-r_roundrobin(struct btrfs_fs_info *fs_info,
-4535566286913f Michal Rostecki 2021-01-12  5728  				       struct map_look=
-up *map, int first,
-4535566286913f Michal Rostecki 2021-01-12  5729  				       int num_stripes)
-4535566286913f Michal Rostecki 2021-01-12  5730  {
-4535566286913f Michal Rostecki 2021-01-12  5731  	int preferred_mirror;
-4535566286913f Michal Rostecki 2021-01-12  5732  	int rotational_first;
-4535566286913f Michal Rostecki 2021-01-12  5733  	u64 last_sched_time;
-4535566286913f Michal Rostecki 2021-01-12  5734  	u64 duration;
-4535566286913f Michal Rostecki 2021-01-12  5735  	int limit;
-4535566286913f Michal Rostecki 2021-01-12  5736  	u64 now;
-4535566286913f Michal Rostecki 2021-01-12  5737  =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5573  static int find_live_mirro=
+r_load(struct btrfs_fs_info *fs_info,
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5574  				 struct map_lookup *ma=
+p, int first,
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5575  				 int num_stripes)
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5576  {
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5577  	int preferred_mirror;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5578  	u64 last_sched_time;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5579  	int min_load;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5580  	int cur_load;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5581  	u64 duration;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5582  	u64 now;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5583  	int i;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5584  =
 
-4535566286913f Michal Rostecki 2021-01-12  5738  	last_sched_time =3D this_=
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5585  	last_sched_time =3D this_=
 cpu_read(*fs_info->last_sched_time);
-4535566286913f Michal Rostecki 2021-01-12  5739  	if (last_sched_time !=3D =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5586  	if (last_sched_time !=3D =
 0) {
-4535566286913f Michal Rostecki 2021-01-12  5740  		now =3D ktime_get_ns();
-4535566286913f Michal Rostecki 2021-01-12  5741  		duration =3D now - last_=
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5587  		now =3D ktime_get_ns();
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5588  		duration =3D now - last_=
 sched_time;
-4535566286913f Michal Rostecki 2021-01-12  5742  =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5589  =
 
-4535566286913f Michal Rostecki 2021-01-12  5743  		if (duration < (NSEC_PER=
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5590  		if (duration < (NSEC_PER=
 _MSEC *
-4535566286913f Michal Rostecki 2021-01-12  5744  				fs_info->fs_devices->r=
-ead_policy_roundrobin_duration)) {
-4535566286913f Michal Rostecki 2021-01-12  5745  			preferred_mirror =3D th=
-is_cpu_read(*fs_info->last_mirror);
-4535566286913f Michal Rostecki 2021-01-12  5746  			goto out;
-4535566286913f Michal Rostecki 2021-01-12  5747  		}
-4535566286913f Michal Rostecki 2021-01-12  5748  	}
-4535566286913f Michal Rostecki 2021-01-12  5749  =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5591  				fs_info->fs_devices->r=
+ead_policy_load_duration))
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5592  			return this_cpu_read(*f=
+s_info->last_mirror);
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5593  	}
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5594  =
 
-4535566286913f Michal Rostecki 2021-01-12  5750  	limit =3D first + num_str=
-ipes;
-4535566286913f Michal Rostecki 2021-01-12  5751  =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5595  	preferred_mirror =3D firs=
+t;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5596  	min_load =3D INT_MAX;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5597  =
 
-4535566286913f Michal Rostecki 2021-01-12  5752  	/* Try to find non-rotati=
-onal mirror */
-4535566286913f Michal Rostecki 2021-01-12  5753  	__find_live_mirror_roundr=
-obin_nonrot(fs_info, map, first, limit,
-4535566286913f Michal Rostecki 2021-01-12  5754  					     &preferred_mirro=
-r,
-4535566286913f Michal Rostecki 2021-01-12  5755  					     &rotational_firs=
-t);
-4535566286913f Michal Rostecki 2021-01-12  5756  	if (preferred_mirror >=3D=
- 0)
-4535566286913f Michal Rostecki 2021-01-12  5757  		goto out;
-4535566286913f Michal Rostecki 2021-01-12  5758  =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5598  	for (i =3D first; i < fir=
+st + num_stripes; i++) {
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5599  		cur_load =3D mirror_load=
+(fs_info, &map->stripes[i]);
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5600  		if (cur_load < min_load)=
+ {
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5601  			preferred_mirror =3D i;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5602  			min_load =3D cur_load;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5603  		}
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5604  	}
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5605  =
 
-4535566286913f Michal Rostecki 2021-01-12  5759  	/* Try to find rotational=
- mirror if any available */
-4535566286913f Michal Rostecki 2021-01-12  5760  	if (rotational_first >=3D=
- 0) {
-4535566286913f Michal Rostecki 2021-01-12  5761  		preferred_mirror =3D __f=
-ind_live_mirror_roundrobin_rot(
-4535566286913f Michal Rostecki 2021-01-12  5762  			fs_info, map, first, nu=
-m_stripes);
-4535566286913f Michal Rostecki 2021-01-12  5763  		if (preferred_mirror >=
-=3D 0)
-4535566286913f Michal Rostecki 2021-01-12  5764  			goto out;
-4535566286913f Michal Rostecki 2021-01-12  5765  	}
-4535566286913f Michal Rostecki 2021-01-12  5766  =
-
-4535566286913f Michal Rostecki 2021-01-12  5767  	/* If no suitable mirror =
-found, return the next mirror */
-4535566286913f Michal Rostecki 2021-01-12  5768  	preferred_mirror =3D (
-4535566286913f Michal Rostecki 2021-01-12  5769  		this_cpu_read(*fs_info->=
-last_mirror) + 1) % num_stripes;
-4535566286913f Michal Rostecki 2021-01-12  5770  =
-
-4535566286913f Michal Rostecki 2021-01-12  5771  out:
-4535566286913f Michal Rostecki 2021-01-12 @5772  	this_cpu_write(*fs_info->=
+e3953975b6a7b3 Michal Rostecki 2021-01-22 @5606  	this_cpu_write(*fs_info->=
 last_sched_time, now);
-4535566286913f Michal Rostecki 2021-01-12  5773  	this_cpu_write(*fs_info->=
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5607  	this_cpu_write(*fs_info->=
 last_mirror, preferred_mirror);
-4535566286913f Michal Rostecki 2021-01-12  5774  	return preferred_mirror;
-4535566286913f Michal Rostecki 2021-01-12  5775  }
-4535566286913f Michal Rostecki 2021-01-12  5776  =
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5608  	return preferred_mirror;
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5609  }
+e3953975b6a7b3 Michal Rostecki 2021-01-22  5610  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3430452511378215540==
+--===============6953340812971655129==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICHElE2AAAy5jb25maWcAlFzNd9u2st/3r9BJN+2ivZYd+6bnHS9AEKRwRRIMAMqSNzyuo6Q+
+H4sICH78EmAAAy5jb25maWcAlFzNd9u2st/3r9BJN+2ivZYd+6bnHS9AEKRwRRIMAMqSNzyuo6Q+
 Tew82b5t/vs3A/ADoIZKXxephRl8D2Z+Mxjwxx9+XLDXl6cvdy8P93efP39bfNo/7g93L/sPi48P
 n/f/s0jVolJ2IVJpfwXm4uHx9e9/PVy8u1pc/rpc/nr2y+H+crHeHx73nxf86fHjw6dXqP7w9PjD
 jz9wVWUybzlvN0IbqarWiq29fvPp/v6X3xY/pfvfH+4eF7/9egHNLC9/9n+9CapJ0+acX3/ri/Kx
@@ -767,5 +720,5 @@ DgMvy2M8sH6vC6w6SKftzdqsYKwBPPciA0bnv1kacDx2aSlI0i0VBm2ayd+qwH8lRQ+id6vh2yp1
 ljw9NWYxNWQ2r0y1gdKgosLrfW9XrNIC59S915DStblp9avFdns4oiaKtpno8T/b/eZWK+pCOVjH
 FRYpWUfLrdFsqi2iLVlL8mKpLgJKIqNXN1dKHl7ilfWY8pFnGWZaSL+VsAFuDlxI0kVj29cgmZLw
 Jews5C7NvgzIgmcVF1cgdVyqHvQVODndTnymuO79P9ihuXV/GgIA
---===============3430452511378215540==--
+--===============6953340812971655129==--
 
