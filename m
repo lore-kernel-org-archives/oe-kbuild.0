@@ -1,21 +1,21 @@
-Content-Type: multipart/mixed; boundary="===============0368118090177986136=="
+Content-Type: multipart/mixed; boundary="===============0167955591421535839=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [kdave-btrfs-devel:dev/raid-policy 82/85] fs/btrfs/volumes.c:5606 find_live_mirror_load() error: uninitialized symbol 'now'.
-Date: Fri, 29 Jan 2021 10:29:23 +0300
-Message-ID: <20210129072923.GK2696@kadam>
+Subject: [pinchartl-media:am65x/devel/v4 33/50] drivers/media/mc/mc-entity.c:443 __media_pipeline_start() error: uninitialized symbol 'ret'.
+Date: Fri, 29 Jan 2021 10:17:46 +0300
+Message-ID: <20210129071746.GJ2696@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0368118090177986136==
+--===============0167955591421535839==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/kdave/btrfs-devel.git dev/raid-policy
-head:   cdf61a56c20bf9881f8cac47eabe3adea5fc23a9
-commit: e3953975b6a7b35788f3141689f2745e8200438d [82/85] btrfs: Add load re=
-ad policy
+tree:   git://linuxtv.org/pinchartl/media.git am65x/devel/v4
+head:   bd5d5f421c359cb5291d07410087503dd21bb0fe
+commit: 9e10bd721ab5707b8787fef07d50ba418056e9e1 [33/50] media: entity: Mov=
+e the pipeline from entity to pads
 config: i386-randconfig-m021-20210128 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -23,87 +23,119 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/btrfs/volumes.c:5606 find_live_mirror_load() error: uninitialized symbol=
- 'now'.
+smatch warnings:
+drivers/media/mc/mc-entity.c:443 __media_pipeline_start() error: uninitiali=
+zed symbol 'ret'.
 
-Old smatch warnings:
-fs/btrfs/volumes.c:1235 open_fs_devices() error: we previously assumed 'lat=
-est_dev' could be null (see line 1223)
+vim +/ret +443 drivers/media/mc/mc-entity.c
 
-vim +/now +5606 fs/btrfs/volumes.c
+20b852273642f4 drivers/media/media-entity.c Sakari Ailus              2016-=
+11-21  406  __must_check int __media_pipeline_start(struct media_entity *en=
+tity,
+e02188c90f6ef6 drivers/media/media-entity.c Laurent Pinchart          2010-=
+08-25  407  					struct media_pipeline *pipe)
+e02188c90f6ef6 drivers/media/media-entity.c Laurent Pinchart          2010-=
+08-25  408  {
+d10c98949d1a1f drivers/media/media-entity.c Javier Martinez Canillas  2015-=
+08-19  409  	struct media_device *mdev =3D entity->graph_obj.mdev;
+20b852273642f4 drivers/media/media-entity.c Sakari Ailus              2016-=
+11-21  410  	struct media_graph *graph =3D &pipe->graph;
+06e04736922bbe drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  411  	struct media_pad *pad =3D entity->pads;
+06e04736922bbe drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  412  	struct media_pad *pad_err =3D pad;
+57208e5e25f263 drivers/media/media-entity.c Mauro Carvalho Chehab     2015-=
+08-07  413  	struct media_link *link;
+af88be3887c1a0 drivers/media/media-entity.c Sakari Ailus              2012-=
+01-11  414  	int ret;
+e02188c90f6ef6 drivers/media/media-entity.c Laurent Pinchart          2010-=
+08-25  415  =
 
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5573  static int find_live_mirro=
-r_load(struct btrfs_fs_info *fs_info,
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5574  				 struct map_lookup *ma=
-p, int first,
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5575  				 int num_stripes)
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5576  {
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5577  	int preferred_mirror;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5578  	u64 last_sched_time;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5579  	int min_load;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5580  	int cur_load;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5581  	u64 duration;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5582  	u64 now;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5583  	int i;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5584  =
+74a4133079f739 drivers/media/media-entity.c Sakari Ailus              2015-=
+12-16  416  	if (!pipe->streaming_count++) {
+20b852273642f4 drivers/media/media-entity.c Sakari Ailus              2016-=
+11-21  417  		ret =3D media_graph_walk_init(&pipe->graph, mdev);
+74a4133079f739 drivers/media/media-entity.c Sakari Ailus              2015-=
+12-16  418  		if (ret)
+74a4133079f739 drivers/media/media-entity.c Sakari Ailus              2015-=
+12-16  419  			goto error_graph_walk_start;
+106b9907c368e3 drivers/media/media-entity.c Sakari Ailus              2015-=
+12-16  420  	}
+106b9907c368e3 drivers/media/media-entity.c Sakari Ailus              2015-=
+12-16  421  =
 
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5585  	last_sched_time =3D this_=
-cpu_read(*fs_info->last_sched_time);
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5586  	if (last_sched_time !=3D =
-0) {
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5587  		now =3D ktime_get_ns();
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5588  		duration =3D now - last_=
-sched_time;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5589  =
+06e04736922bbe drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  422  	media_graph_walk_start(&pipe->graph, pad);
+06e04736922bbe drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  423  =
 
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5590  		if (duration < (NSEC_PER=
-_MSEC *
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5591  				fs_info->fs_devices->r=
-ead_policy_load_duration))
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5592  			return this_cpu_read(*f=
-s_info->last_mirror);
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5593  	}
+06e04736922bbe drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  424  	while ((pad =3D media_graph_walk_next(graph))) {
+06e04736922bbe drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  425  		struct media_entity *entity =3D pad->entity;
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  426  		bool skip_validation =3D pad->pipe;
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  427  		struct media_pad *iter;
+e02188c90f6ef6 drivers/media/media-entity.c Laurent Pinchart          2010-=
+08-25  428  =
 
-now not initialized on else path.
+ef69ee1bc2c10f drivers/media/media-entity.c Mauro Carvalho Chehab     2015-=
+10-01  429  		DECLARE_BITMAP(active, MEDIA_ENTITY_MAX_PADS);
+ef69ee1bc2c10f drivers/media/media-entity.c Mauro Carvalho Chehab     2015-=
+10-01  430  		DECLARE_BITMAP(has_no_links, MEDIA_ENTITY_MAX_PADS);
+af88be3887c1a0 drivers/media/media-entity.c Sakari Ailus              2012-=
+01-11  431  =
 
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5594  =
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  432  		media_entity_for_each_pad(entity, iter) {
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  433  			if (iter->pipe && iter->pipe !=3D pipe) {
+3eb87773dee633 drivers/media/media-entity.c Shuah Khan                2019-=
+02-22  434  				pr_err("Pipe active for %s. Can't start for %s\n",
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  435  				       entity->name, iter->entity->name);
+8aaf62b5b9bef7 drivers/media/media-entity.c Sakari Ailus              2015-=
+11-29  436  				ret =3D -EBUSY;
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  437  			} else {
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  438  				iter->pipe =3D pipe;
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  439  			}
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  440  			iter->stream_count++;
+8aaf62b5b9bef7 drivers/media/media-entity.c Sakari Ailus              2015-=
+11-29  441  		}
+8aaf62b5b9bef7 drivers/media/media-entity.c Sakari Ailus              2015-=
+11-29  442  =
 
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5595  	preferred_mirror =3D firs=
-t;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5596  	min_load =3D INT_MAX;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5597  =
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28 @443  		if (ret)
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  444  			goto error;
 
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5598  	for (i =3D first; i < fir=
-st + num_stripes; i++) {
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5599  		cur_load =3D mirror_load=
-(fs_info, &map->stripes[i]);
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5600  		if (cur_load < min_load)=
- {
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5601  			preferred_mirror =3D i;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5602  			min_load =3D cur_load;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5603  		}
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5604  	}
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5605  =
+"ret" is not necessarily set on the success path.
 
-e3953975b6a7b3 Michal Rostecki 2021-01-22 @5606  	this_cpu_write(*fs_info->=
-last_sched_time, now);
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5607  	this_cpu_write(*fs_info->=
-last_mirror, preferred_mirror);
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5608  	return preferred_mirror;
-e3953975b6a7b3 Michal Rostecki 2021-01-22  5609  }
+af88be3887c1a0 drivers/media/media-entity.c Sakari Ailus              2012-=
+01-11  445  =
+
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  446  		/* Already part of the pipeline, skip validation. */
+9e10bd721ab570 drivers/media/mc/mc-entity.c Sakari Ailus              2019-=
+03-28  447  		if (skip_validation)
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0368118090177986136==
+--===============0167955591421535839==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICH78EmAAAy5jb25maWcAlFzNd9u2st/3r9BJN+2ivZYd+6bnHS9AEKRwRRIMAMqSNzyuo6Q+
+H4sICPloEmAAAy5jb25maWcAlFzNd9u2st/3r9BJN+2ivZYd+6bnHS9AEKRwRRIMAMqSNzyuo6Q+
 Tew82b5t/vs3A/ADoIZKXxephRl8D2Z+Mxjwxx9+XLDXl6cvdy8P93efP39bfNo/7g93L/sPi48P
 n/f/s0jVolJ2IVJpfwXm4uHx9e9/PVy8u1pc/rpc/nr2y+H+crHeHx73nxf86fHjw6dXqP7w9PjD
 jz9wVWUybzlvN0IbqarWiq29fvPp/v6X3xY/pfvfH+4eF7/9egHNLC9/9n+9CapJ0+acX3/ri/Kx
@@ -707,5 +739,5 @@ DgMvy2M8sH6vC6w6SKftzdqsYKwBPPciA0bnv1kacDx2aSlI0i0VBm2ayd+qwH8lRQ+id6vh2yp1
 ljw9NWYxNWQ2r0y1gdKgosLrfW9XrNIC59S915DStblp9avFdns4oiaKtpno8T/b/eZWK+pCOVjH
 FRYpWUfLrdFsqi2iLVlL8mKpLgJKIqNXN1dKHl7ilfWY8pFnGWZaSL+VsAFuDlxI0kVj29cgmZLw
 Jews5C7NvgzIgmcVF1cgdVyqHvQVODndTnymuO79P9ihuXV/GgIA
---===============0368118090177986136==--
+--===============0167955591421535839==--
 
