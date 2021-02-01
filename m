@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2486636025720134361=="
+Content-Type: multipart/mixed; boundary="===============3507094562400003486=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [morimoto-linux:fw-cleanup-2021-02-01-v1 47/105] include/sound/soc.h:1270 snd_soc_fixup_dai_links_platform_name() error: potentially dereferencing uninitialized 'dai_link'.
-Date: Mon, 01 Feb 2021 13:54:03 +0800
-Message-ID: <202102011359.46cTV3Lh-lkp@intel.com>
+Subject: [morimoto-linux:fw-cleanup-2021-02-01-v1 32/105] sound/soc/generic/audio-graph-card.c:514 __graph_for_each_link() error: uninitialized symbol 'ret'.
+Date: Mon, 01 Feb 2021 13:44:03 +0800
+Message-ID: <202102011300.hnDXIHub-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2486636025720134361==
+--===============3507094562400003486==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,9 +17,9 @@ TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
 
 tree:   https://github.com/morimoto/linux fw-cleanup-2021-02-01-v1
 head:   5b4245224e7512af00a891f6bb91474bea0a361e
-commit: c7ccad9772573920328d9c930197cef3b9e492f4 [47/105] ASoC: soc.h: retu=
-rn error if multi platform at snd_soc_fixup_dai_links_platform_name()
-:::::: branch date: 87 minutes ago
+commit: c8a125300801eaf71415c1283f742d19a5c641fb [32/105] ASoC: audio-graph=
+: cleanup graph_for_each_link()
+:::::: branch date: 77 minutes ago
 :::::: commit date: 10 days ago
 config: x86_64-randconfig-m001-20210201 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
@@ -29,78 +29,152 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-include/sound/soc.h:1270 snd_soc_fixup_dai_links_platform_name() error: pot=
-entially dereferencing uninitialized 'dai_link'.
+sound/soc/generic/audio-graph-card.c:514 __graph_for_each_link() error: uni=
+nitialized symbol 'ret'.
 
-vim +/dai_link +1270 include/sound/soc.h
+vim +/ret +514 sound/soc/generic/audio-graph-card.c
 
-a47cbe72632366 Mark Brown           2008-07-23  1257  =
+d09c774f2f9ff2 Sameer Pujar      2020-11-02  451  =
 
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1258  static inline
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1259  int snd_soc_fixup_dai=
-_links_platform_name(struct snd_soc_card *card,
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1260  					  const char *pl=
-atform_name)
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1261  {
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1262  	struct snd_soc_dai_l=
-ink *dai_link;
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1263  	const char *name;
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1264  	int i;
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1265  =
+c8a125300801ea Kuninori Morimoto 2020-11-16  452  static int __graph_for_ea=
+ch_link(struct asoc_simple_priv *priv,
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  453  			struct link_info *li,
+e59289cda8dec0 Kuninori Morimoto 2019-03-20  454  			int (*func_noml)(struc=
+t asoc_simple_priv *priv,
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  455  					 struct device_node =
+*cpu_ep,
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  456  					 struct device_node =
+*codec_ep,
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  457  					 struct link_info *l=
+i),
+e59289cda8dec0 Kuninori Morimoto 2019-03-20  458  			int (*func_dpcm)(struc=
+t asoc_simple_priv *priv,
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  459  					 struct device_node =
+*cpu_ep,
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  460  					 struct device_node =
+*codec_ep,
+c8a125300801ea Kuninori Morimoto 2020-11-16  461  					 struct link_info *l=
+i))
+2692c1c63c29ca Kuninori Morimoto 2017-04-20  462  {
+2692c1c63c29ca Kuninori Morimoto 2017-04-20  463  	struct of_phandle_iterat=
+or it;
+e59289cda8dec0 Kuninori Morimoto 2019-03-20  464  	struct device *dev =3D s=
+imple_priv_to_dev(priv);
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  465  	struct device_node *node=
+ =3D dev->of_node;
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  466  	struct device_node *cpu_=
+port;
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  467  	struct device_node *cpu_=
+ep;
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  468  	struct device_node *code=
+c_ep;
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  469  	struct device_node *code=
+c_port;
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  470  	struct device_node *code=
+c_port_old =3D NULL;
+ad11e59f52d6fc Kuninori Morimoto 2019-03-20  471  	struct asoc_simple_data =
+adata;
+0e3460bceedc98 Kuninori Morimoto 2018-11-30  472  	int rc, ret;
+2692c1c63c29ca Kuninori Morimoto 2017-04-20  473  =
 
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1266  	if (!platform_name) =
-/* nothing to do */
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1267  		return 0;
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1268  =
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  474  	/* loop for all listed C=
+PU port */
+2692c1c63c29ca Kuninori Morimoto 2017-04-20  475  	of_for_each_phandle(&it,=
+ rc, node, "dais", NULL, 0) {
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  476  		cpu_port =3D it.node;
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  477  		cpu_ep	 =3D NULL;
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  478  =
 
-c7ccad97725739 Kuninori Morimoto    2020-12-15  1269  	/* only single platf=
-orm is supported for now */
-c7ccad97725739 Kuninori Morimoto    2020-12-15 @1270  	if (dai_link->num_pl=
-atforms !=3D 1) {
-c7ccad97725739 Kuninori Morimoto    2020-12-15  1271  		dev_err(card->dev, =
-"only single platform is supported for now\n");
-c7ccad97725739 Kuninori Morimoto    2020-12-15  1272  		return -EINVAL;
-c7ccad97725739 Kuninori Morimoto    2020-12-15  1273  	}
-c7ccad97725739 Kuninori Morimoto    2020-12-15  1274  =
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  479  		/* loop for all CPU end=
+point */
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  480  		while (1) {
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  481  			cpu_ep =3D of_get_next=
+_child(cpu_port, cpu_ep);
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  482  			if (!cpu_ep)
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  483  				break;
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  484  =
 
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1275  	/* set platform name=
- for each dailink */
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1276  	for_each_card_prelin=
-ks(card, i, dai_link) {
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1277  		name =3D devm_kstrd=
-up(card->dev, platform_name, GFP_KERNEL);
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1278  		if (!name)
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1279  			return -ENOMEM;
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1280  =
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  485  			/* get codec */
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  486  			codec_ep =3D of_graph_=
+get_remote_endpoint(cpu_ep);
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14  487  			codec_port =3D of_get_=
+parent(codec_ep);
+c0a480d1acf7dc Tony Lindgren     2017-07-28  488  =
 
-adb76b5b9c4740 Kuninori Morimoto    2019-06-06  1281  		if (!dai_link->plat=
-forms)
-adb76b5b9c4740 Kuninori Morimoto    2019-06-06  1282  			return -EINVAL;
-adb76b5b9c4740 Kuninori Morimoto    2019-06-06  1283  =
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  489  			/* get convert-xxx pro=
+perty */
+de2949fe262197 Kuninori Morimoto 2018-12-20  490  			memset(&adata, 0, size=
+of(adata));
+d2bf008ad11abc Kuninori Morimoto 2019-03-18  491  			graph_parse_convert(de=
+v, codec_ep, &adata);
+d2bf008ad11abc Kuninori Morimoto 2019-03-18  492  			graph_parse_convert(de=
+v, cpu_ep,   &adata);
+de2949fe262197 Kuninori Morimoto 2018-12-20  493  =
 
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1284  		/* only single plat=
-form is supported for now */
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1285  		dai_link->platforms=
-->name =3D name;
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1286  	}
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1287  =
+d09c774f2f9ff2 Sameer Pujar      2020-11-02  494  			/* check if link requi=
+res DPCM parsing */
+c8a125300801ea Kuninori Morimoto 2020-11-16  495  			if (parse_as_dpcm_link=
+(priv, codec_port, &adata)) {
+c8a125300801ea Kuninori Morimoto 2020-11-16  496  				/*
+c8a125300801ea Kuninori Morimoto 2020-11-16  497  				 * Codec endpoint can=
+ be NULL for pluggable audio HW.
+c8a125300801ea Kuninori Morimoto 2020-11-16  498  				 * Platform DT can po=
+pulate the Codec endpoint depending on the
+c8a125300801ea Kuninori Morimoto 2020-11-16  499  				 * plugged HW.
+c8a125300801ea Kuninori Morimoto 2020-11-16  500  				 */
+c8a125300801ea Kuninori Morimoto 2020-11-16  501  				/* Do it all CPU endp=
+oint, and 1st Codec endpoint */
+c8a125300801ea Kuninori Morimoto 2020-11-16  502  				if (li->cpu ||
+c8a125300801ea Kuninori Morimoto 2020-11-16  503  				    ((codec_port_old =
+!=3D codec_port) && codec_ep))
+c8a125300801ea Kuninori Morimoto 2020-11-16  504  					ret =3D func_dpcm(pr=
+iv, cpu_ep, codec_ep, li);
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  505  			/* else normal sound */
+c8a125300801ea Kuninori Morimoto 2020-11-16  506  			} else {
+c8a125300801ea Kuninori Morimoto 2020-11-16  507  				if (li->cpu)
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  508  					ret =3D func_noml(pr=
+iv, cpu_ep, codec_ep, li);
+c8a125300801ea Kuninori Morimoto 2020-11-16  509  			}
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  510  =
 
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1288  	return 0;
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1289  }
-cb50358b83846e Pierre-Louis Bossart 2019-01-25  1290  =
+1bcc1fd64e4dd9 Wen Yang          2019-07-04  511  			of_node_put(codec_ep);
+1bcc1fd64e4dd9 Wen Yang          2019-07-04  512  			of_node_put(codec_port=
+);
+1bcc1fd64e4dd9 Wen Yang          2019-07-04  513  =
 
+ae3cb5790906b5 Kuninori Morimoto 2018-12-14 @514  			if (ret < 0)
+2692c1c63c29ca Kuninori Morimoto 2017-04-20  515  				return ret;
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  516  =
+
+dd98fbc558a035 Kuninori Morimoto 2018-12-20  517  			codec_port_old =3D cod=
+ec_port;
+2692c1c63c29ca Kuninori Morimoto 2017-04-20  518  		}
+c0a480d1acf7dc Tony Lindgren     2017-07-28  519  	}
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  520  =
+
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  521  	return 0;
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  522  }
+fce9b90c1ab7e9 Kuninori Morimoto 2018-12-20  523  =
+
+
+:::::: The code@line 514 was first introduced by commit
+:::::: ae3cb5790906b5caf519f6f21792c30fb5ddf8db ASoC: audio-graph-card: mer=
+ge audio-graph-scu-card
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2486636025720134361==
+--===============3507094562400003486==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICOqVF2AAAy5jb25maWcAlFxLd9w2st7nV/RxNsnCGUm2dZ1zjxZoEiSRJkgaALtb2vAoctuj
+H4sICPGQF2AAAy5jb25maWcAlFxLd9w2st7nV/RxNsnCGUm2dZ1zjxZoEiSRJkgaALtb2vAoctuj
 M7bkaUkT+9/fKoAPACz25HqRiKgiAAL1+KpQ6J9/+nnFXp4fv94+39/dfvnyY/X58HA43j4fPq4+
 3X85/O8qrVdVbVY8FeY3YC7vH16+/+P7+8vu8u3q3W/n57+dvT7evVltDseHw5dV8vjw6f7zC3Rw
 //jw088/JXWVibxLkm7LlRZ11Rm+N1evPt/dvf599Ut6+PP+9mH1+29voJvzd7+6v155rwnd5Uly
@@ -773,5 +847,5 @@ HP9MGwoCyIEduz6wnWHIzpuaDT/0gqgmB5WCwXBhqo0qOQBER5NVSSYAG560ob8F9JMXTu3akrTO
 tyJgg6c2DsUTZ7YFtAB0OYvde6qWQ4YU7mZStbEg5V7DAgz/FjfWUR4jmP0OOjiiO2sQ5mWGw0IR
 2cJx8hDJesU/QNxkHgk4P6GDRUqt4bXf+9KVRZ3FQyqEd9iBXgKbwwKh8gCLtLoGSrLR5N5kZA5y
 LV5QNWX8+n8YeLt7cF4CAA==
---===============2486636025720134361==--
+--===============3507094562400003486==--
 
