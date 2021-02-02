@@ -1,23 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============1809842612949549762=="
+Content-Type: multipart/mixed; boundary="===============4743213647598621966=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH v3 06/11] iio: core: merge buffer/ & scan_elements/ attributes
-Date: Tue, 02 Feb 2021 09:07:05 +0300
-Message-ID: <20210202060705.GN2696@kadam>
-In-Reply-To: <20210201145105.20459-7-alexandru.ardelean@analog.com>
+Date: Tue, 02 Feb 2021 10:28:38 +0800
+Message-ID: <202102021013.qrzePXap-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1809842612949549762==
+--===============4743213647598621966==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210201145105.20459-7-alexandru.ardelean@analog.com>
+References: <20210201145105.20459-7-alexandru.ardelean@analog.com>
+TO: Alexandru Ardelean <alexandru.ardelean@analog.com>
+TO: linux-kernel(a)vger.kernel.org
+TO: linux-iio(a)vger.kernel.org
+CC: lars(a)metafoo.de
+CC: Michael.Hennerich(a)analog.com
+CC: jic23(a)kernel.org
+CC: nuno.sa(a)analog.com
+CC: dragos.bogdan(a)analog.com
+CC: rafael(a)kernel.org
+CC: gregkh(a)linuxfoundation.org
+CC: Alexandru Ardelean <alexandru.ardelean@analog.com>
+
 Hi Alexandru,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on iio/togreg]
+[also build test WARNING on linux/master next-20210125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Alexandru-Ardelean/iio-cor=
 e-buffer-add-support-for-multiple-IIO-buffers-per-IIO-device/20210201-233550
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jic23/iio.git togreg
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
 config: arc-randconfig-m031-20210201 (attached as .config)
 compiler: arc-elf-gcc (GCC) 9.3.0
 
@@ -29,7 +53,13 @@ New smatch warnings:
 drivers/iio/industrialio-buffer.c:1413 __iio_buffer_alloc_sysfs_and_mask() =
 error: uninitialized symbol 'ret'.
 
+Old smatch warnings:
+arch/arc/include/asm/thread_info.h:65 current_thread_info() error: uninitia=
+lized symbol 'sp'.
+
 vim +/ret +1413 drivers/iio/industrialio-buffer.c
+
+418ff389a5a48a Alexandru Ardelean 2021-02-01  1313  =
 
 e16e0a778fec8a Alexandru Ardelean 2020-09-17  1314  static int __iio_buffer=
 _alloc_sysfs_and_mask(struct iio_buffer *buffer,
@@ -151,9 +181,6 @@ ame =3D kasprintf(GFP_KERNEL, "buffer%d", index);
 oup.name)
 e5d01923ab9239 Alexandru Ardelean 2021-02-01  1384  		goto error_free_buffe=
 r_attrs;
-
-This needs to be "ret =3D -ENOMEM;"
-
 e5d01923ab9239 Alexandru Ardelean 2021-02-01  1385  =
 
 418ff389a5a48a Alexandru Ardelean 2021-02-01  1386  	buffer->buffer_group.a=
@@ -204,12 +231,14 @@ d967cb6bd4e79c Lars-Peter Clausen 2014-11-26  1412  =
 
 d967cb6bd4e79c Lars-Peter Clausen 2014-11-26 @1413  	return ret;
 d967cb6bd4e79c Lars-Peter Clausen 2014-11-26  1414  }
+d967cb6bd4e79c Lars-Peter Clausen 2014-11-26  1415  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1809842612949549762==
+--===============4743213647598621966==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -660,5 +689,5 @@ c+MnSmeZ+wwhMGbUG9x8pOwfdxm+PtZIxLzC/4O7k6jaycJuyJ3cw7173vZlk4x4NIeLC7Z1iics
 n2v/Bi6lA9Z2+nkULp3vsHVhbIXnwr4vtkmHnrO2zaz3Bhiq1HJd3OIiMzEfyMAzb7t7MpTomL3h
 cZFNnV4o8VqPdkVbkmzt4rFNJvZg97gyJy6c7J6O7+GLeM0IfSwNO82+4ux0b0dzujIl46GzuE3t
 Eo9yufH4Fz2LdLgCggEA
---===============1809842612949549762==--
+--===============4743213647598621966==--
 
