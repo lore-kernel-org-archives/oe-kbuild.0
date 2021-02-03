@@ -1,24 +1,38 @@
-Content-Type: multipart/mixed; boundary="===============4798952685670156440=="
+Content-Type: multipart/mixed; boundary="===============8899310760749130928=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [RFC PATCH 1/2] sched/topology: Get rid of NUMA overlapping groups
-Date: Wed, 03 Feb 2021 21:38:40 +0300
-Message-ID: <20210203183840.GY2696@kadam>
-In-Reply-To: <20210203155432.10293-2-valentin.schneider@arm.com>
+Date: Thu, 04 Feb 2021 02:31:40 +0800
+Message-ID: <202102040223.68ywEq4k-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4798952685670156440==
+--===============8899310760749130928==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210203155432.10293-2-valentin.schneider@arm.com>
+References: <20210203155432.10293-2-valentin.schneider@arm.com>
+TO: Valentin Schneider <valentin.schneider@arm.com>
+
 Hi Valentin,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on tip/sched/core]
+[also build test WARNING on tip/master linux/master linus/master v5.11-rc6 =
+next-20210125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Valentin-Schneider/sched-t=
 opology-Get-rid-of-overlapping-groups/20210204-000142
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git 075a284=
 39d0c8eb6d3c799e1eed24bb9bc7750cd
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 config: s390-randconfig-m031-20210204 (attached as .config)
 compiler: s390-linux-gcc (GCC) 9.3.0
 
@@ -31,6 +45,8 @@ kernel/sched/topology.c:1012 find_node_domain() error: uninitialized symbol=
  'parent'.
 
 vim +/parent +1012 kernel/sched/topology.c
+
+8c0334697dc37e Lauro Ramos Venancio 2017-04-13   984  =
 
 02d81c8f49452e Valentin Schneider   2021-02-03   985  static struct sched_d=
 omain *find_node_domain(struct sched_domain *sd)
@@ -47,10 +63,6 @@ omain *find_node_domain(struct sched_domain *sd)
 above NODE */
 02d81c8f49452e Valentin Schneider   2021-02-03   992  	while (sd && sd->chi=
 ld) {
-
-Presumably this is always true when the function is called so this
-warning is a false positive?
-
 02d81c8f49452e Valentin Schneider   2021-02-03   993  		parent =3D sd;
 02d81c8f49452e Valentin Schneider   2021-02-03   994  		sd =3D sd->child;
 02d81c8f49452e Valentin Schneider   2021-02-03   995  =
@@ -91,12 +103,14 @@ nt;
 
 02d81c8f49452e Valentin Schneider   2021-02-03  1017  	return parent;
 02d81c8f49452e Valentin Schneider   2021-02-03  1018  }
+02d81c8f49452e Valentin Schneider   2021-02-03  1019  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4798952685670156440==
+--===============8899310760749130928==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -499,5 +513,5 @@ t4NNCGwS201X+VhBcWt7t1Gp9u9xK4iztgimvOsyx1uWCq/penzKToIJDWZAQr2aJDqAKBuhN1Yn
 +IKKgHV4JfnS3zvQ3ar2J8EY4rxBIMGkGGyvijqYA/SoWlRkQLezsKIjEjTI8XD6bkheam/ArKW8
 nIoAcjxVqAhtlqaiwNfmLEh5fNmA0axgO2RN72mTF3ushEWDEYSVOBNLTNsetN6KFF3uB/s7J1wU
 CQi+Nfct2lAmfJPMtz6CsxZ4BilA3kolI4qBPrhRsDxPDEJl1fXw/wEKAVSpw1YBAA==
---===============4798952685670156440==--
+--===============8899310760749130928==--
 
