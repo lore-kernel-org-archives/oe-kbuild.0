@@ -1,24 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============8617152612070031026=="
+Content-Type: multipart/mixed; boundary="===============1592435230383870832=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH 2/9] libiscsi: drop taskqueuelock
-Date: Wed, 03 Feb 2021 13:19:42 +0300
-Message-ID: <20210203101942.GU2696@kadam>
-In-Reply-To: <20210203013356.11177-3-michael.christie@oracle.com>
+Date: Wed, 03 Feb 2021 15:39:32 +0800
+Message-ID: <202102031503.J1YYGChI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8617152612070031026==
+--===============1592435230383870832==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210203013356.11177-3-michael.christie@oracle.com>
+References: <20210203013356.11177-3-michael.christie@oracle.com>
+TO: Mike Christie <michael.christie@oracle.com>
+TO: lduncan(a)suse.com
+TO: cleech(a)redhat.com
+TO: martin.petersen(a)oracle.com
+TO: linux-scsi(a)vger.kernel.org
+TO: james.bottomley(a)hansenpartnership.com
+CC: lutianxiong(a)huawei.com
+CC: linfeilong(a)huawei.com
+CC: liuzhiqiang26(a)huawei.com
+CC: haowenchao(a)huawei.com
+CC: Mike Christie <michael.christie@oracle.com>
+
 Hi Mike,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on scsi/for-next]
+[also build test WARNING on mkp-scsi/for-next v5.11-rc6 next-20210125]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Mike-Christie/iscsi-fixes-=
 and-cleanups/20210203-122757
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/jejb/scsi.git for-n=
 ext
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 config: i386-randconfig-m021-20210202 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -32,6 +56,14 @@ nced before check 'task->sc' (see line 547)
 
 vim +586 drivers/scsi/libiscsi_tcp.c
 
+a081c13e39b5c1 Mike Christie     2008-12-02  523  =
+
+a081c13e39b5c1 Mike Christie     2008-12-02  524  /**
+a081c13e39b5c1 Mike Christie     2008-12-02  525   * iscsi_tcp_r2t_rsp - iS=
+CSI R2T Response processing
+a081c13e39b5c1 Mike Christie     2008-12-02  526   * @conn: iscsi connection
+f7dbf0662a0167 Mike Christie     2021-02-02  527   * @hdr: PDU header
+a081c13e39b5c1 Mike Christie     2008-12-02  528   */
 f7dbf0662a0167 Mike Christie     2021-02-02  529  static int iscsi_tcp_r2t_=
 rsp(struct iscsi_conn *conn, struct iscsi_hdr *hdr)
 a081c13e39b5c1 Mike Christie     2008-12-02  530  {
@@ -63,9 +95,6 @@ f7dbf0662a0167 Mike Christie     2021-02-02  546  		return ISCSI_ERR_BAD_IT=
 T;
 f7dbf0662a0167 Mike Christie     2021-02-02 @547  	} else if (task->sc->sc_=
 data_direction !=3D DMA_TO_DEVICE) {
-                                                                   ^^^^^^^^
-New unchecked dereference.
-
 f7dbf0662a0167 Mike Christie     2021-02-02  548  		spin_unlock(&session->b=
 ack_lock);
 f7dbf0662a0167 Mike Christie     2021-02-02  549  		return ISCSI_ERR_PROTO;
@@ -132,9 +161,6 @@ a081c13e39b5c1 Mike Christie     2008-12-02  585  =
 
 a081c13e39b5c1 Mike Christie     2008-12-02 @586  	if (!task->sc || session=
 ->state !=3D ISCSI_STATE_LOGGED_IN) {
-                                                             ^^^^^^^^
-Checked too late.
-
 a081c13e39b5c1 Mike Christie     2008-12-02  587  		iscsi_conn_printk(KERN_=
 INFO, conn,
 a081c13e39b5c1 Mike Christie     2008-12-02  588  				  "dropping R2T itt %=
@@ -236,12 +262,14 @@ f7dbf0662a0167 Mike Christie     2021-02-02  644  put_task:
 f7dbf0662a0167 Mike Christie     2021-02-02  645  	iscsi_put_task(task);
 f7dbf0662a0167 Mike Christie     2021-02-02  646  	return rc;
 a081c13e39b5c1 Mike Christie     2008-12-02  647  }
+a081c13e39b5c1 Mike Christie     2008-12-02  648  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8617152612070031026==
+--===============1592435230383870832==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -924,5 +952,5 @@ M2A23J2/cfRtlwwx3h4K/1VaYWNFzffQbvRL73puTOpHcI3ycsnTPnVpj68nNOnQs4m//3/8cf9o
 3WxADf/mhbj/nxd9mtsCyrH0YISByF1gKInygGU7Gk14pEF3PMyNy8b92OtIln5MW2DY97D8zmgT
 IMubPHICrTjGAcJQ8FFMN5XHufMO+2iXjqWKApSVk7EjV16jPa8X2olltf52bgSjiYq4/DLKczfZ
 AnQnnhe27KRRoqkyEYhC2QJ3kaq84jM+8PsJGz4RrY1iAgA=
---===============8617152612070031026==--
+--===============1592435230383870832==--
 
