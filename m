@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8259260663175717197=="
+Content-Type: multipart/mixed; boundary="===============3259561943468846625=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [rcu:willy-maple 164/202] fs/proc/task_mmu.c:941 show_smaps_rollup() error: uninitialized symbol 'vma_start'.
-Date: Thu, 04 Feb 2021 10:04:55 +0300
-Message-ID: <20210204070455.GA2696@kadam>
+Subject: [rcu:willy-maple 137/202] mm/mmap.c:1895 mmap_region() error: uninitialized symbol 'next'.
+Date: Thu, 04 Feb 2021 10:01:32 +0300
+Message-ID: <20210204070132.GZ2696@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8259260663175717197==
+--===============3259561943468846625==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,8 +15,8 @@ Content-Transfer-Encoding: quoted-printable
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/paulmck/linux-rcu.g=
 it willy-maple
 head:   7e346d2845b4bd77663394f39fa70456e0084c86
-commit: c4e6b1dfcb6f997eb870e859ab84ca9f39572eab [164/202] fs/proc/task_mmu=
-: Stop using linked list and highest_vm_end
+commit: 059c8a0bb9679195f39e18eaa5b3f548f13e7226 [137/202] mm/mmap: Change =
+mmap_region to use maple tree state
 config: x86_64-randconfig-m001-20210202 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -25,221 +25,312 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/proc/task_mmu.c:941 show_smaps_rollup() error: uninitialized symbol 'vma=
-_start'.
+mm/mmap.c:1895 mmap_region() error: uninitialized symbol 'next'.
 
-vim +/vma_start +941 fs/proc/task_mmu.c
+vim +/next +1895 mm/mmap.c
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  839  static int show_smaps=
-_rollup(struct seq_file *m, void *v)
-258f669e7e88c1 Vlastimil Babka       2018-08-21  840  {
-258f669e7e88c1 Vlastimil Babka       2018-08-21  841  	struct proc_maps_pri=
-vate *priv =3D m->private;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  842  	struct mem_size_stat=
-s mss;
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  843  	struct mm_struct *mm=
- =3D priv->mm;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  844  	struct vm_area_struc=
-t *vma;
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  845  	unsigned long vma_st=
-art, last_vma_end =3D 0;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  846  	int ret =3D 0;
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  847  	MA_STATE(mas, &mm->m=
-m_mt, 0, 0);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  848  =
+0165ab443556bd Miklos Szeredi        2007-07-15  1753  unsigned long mmap_r=
+egion(struct file *file, unsigned long addr,
+897ab3e0c49e24 Mike Rapoport         2017-02-24  1754  		unsigned long len,=
+ vm_flags_t vm_flags, unsigned long pgoff,
+897ab3e0c49e24 Mike Rapoport         2017-02-24  1755  		struct list_head *=
+uf)
+0165ab443556bd Miklos Szeredi        2007-07-15  1756  {
+0165ab443556bd Miklos Szeredi        2007-07-15  1757  	struct mm_struct *m=
+m =3D current->mm;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1758  	struct vm_area_stru=
+ct *vma =3D NULL;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1759  	struct vm_area_stru=
+ct *prev, *next;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1760  	pgoff_t pglen =3D l=
+en >> PAGE_SHIFT;
+0165ab443556bd Miklos Szeredi        2007-07-15  1761  	unsigned long charg=
+ed =3D 0;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1762  	unsigned long end =
+=3D addr + len;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1763  	unsigned long merge=
+_start =3D addr, merge_end =3D end;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1764  	pgoff_t vm_pgoff;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1765  	int error;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1766  	MA_STATE(mas, &mm->=
+mm_mt, addr, end - 1);
+0165ab443556bd Miklos Szeredi        2007-07-15  1767  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  849  	priv->task =3D get_p=
-roc_task(priv->inode);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  850  	if (!priv->task)
-258f669e7e88c1 Vlastimil Babka       2018-08-21  851  		return -ESRCH;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  852  =
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1768  	/* Check against ad=
+dress space limit. */
+84638335900f19 Konstantin Khlebnikov 2016-01-14  1769  	if (!may_expand_vm(=
+mm, vm_flags, len >> PAGE_SHIFT)) {
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1770  		unsigned long nr_p=
+ages;
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1771  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  853  	if (!mm || !mmget_no=
-t_zero(mm)) {
-258f669e7e88c1 Vlastimil Babka       2018-08-21  854  		ret =3D -ESRCH;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  855  		goto out_put_task;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  856  	}
-258f669e7e88c1 Vlastimil Babka       2018-08-21  857  =
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1772  		/*
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1773  		 * MAP_FIXED may r=
+emove pages of mappings that intersects with
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1774  		 * requested mappi=
+ng. Account for the pages it would unmap.
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1775  		 */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1776  		nr_pages =3D count=
+_vma_pages_range(mm, addr, end);
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1777  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  858  	memset(&mss, 0, size=
-of(mss));
-258f669e7e88c1 Vlastimil Babka       2018-08-21  859  =
+84638335900f19 Konstantin Khlebnikov 2016-01-14  1778  		if (!may_expand_vm=
+(mm, vm_flags,
+84638335900f19 Konstantin Khlebnikov 2016-01-14  1779  					(len >> PAGE_SH=
+IFT) - nr_pages))
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1780  			return -ENOMEM;
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1781  	}
+e8420a8ece80b3 Cyril Hrubis          2013-04-29  1782  =
 
-d8ed45c5dcd455 Michel Lespinasse     2020-06-08  860  	ret =3D mmap_read_lo=
-ck_killable(mm);
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  861  	if (ret)
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  862  		goto out_put_mm;
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  863  =
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1783  	/* Unmap any existi=
+ng mapping in the area */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1784  	if (do_munmap(mm, a=
+ddr, len, uf))
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1785  		return -ENOMEM;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1786  =
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  864  	hold_task_mempolicy(=
-priv);
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  865  	vma =3D mas_find(&ma=
-s, 0);
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  866  =
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1787  	/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1788  	 * Private writable=
+ mapping: check memory availability
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1789  	 */
+5a6fe125950676 Mel Gorman            2009-02-10  1790  	if (accountable_map=
+ping(file, vm_flags)) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1791  		charged =3D len >>=
+ PAGE_SHIFT;
+191c542442fdf5 Al Viro               2012-02-13  1792  		if (security_vm_en=
+ough_memory_mm(mm, charged))
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1793  			return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1794  		vm_flags |=3D VM_A=
+CCOUNT;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1795  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1796  =
 
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  867  	if (vma)
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  868  		vma_start =3D vma->=
-vm_start;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1797  =
 
-"vma_start" not initialized on else path.
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1798  	if (vm_flags & VM_S=
+PECIAL) {
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1799  		prev =3D mas_prev(=
+&mas, 0);
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1800  		goto cannot_expand;
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  869  =
+"next" not initialized on this path.
 
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  870  	mas_set(&mas, 0);
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  871  	mas_for_each(&mas, v=
-ma, -1) {
-03b4b1149308b0 Chinwen Chang         2020-10-13  872  		smap_gather_stats(v=
-ma, &mss, 0);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  873  		last_vma_end =3D vm=
-a->vm_end;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  874  =
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1801  	}
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1802  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  875  		/*
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  876  		 * Release mmap_loc=
-k temporarily if someone wants to
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  877  		 * access it for wr=
-ite request.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  878  		 */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  879  		if (mmap_lock_is_co=
-ntended(mm)) {
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  880  			mas_pause(&mas);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  881  			mmap_read_unlock(m=
-m);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  882  			ret =3D mmap_read_=
-lock_killable(mm);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  883  			if (ret) {
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  884  				release_task_memp=
-olicy(priv);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  885  				goto out_put_mm;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  886  			}
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  887  =
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1803  	/* Attempt to expan=
+d an old mapping */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1804  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  888  			/*
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  889  			 * After dropping =
-the lock, there are four cases to
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  890  			 * consider. See t=
-he following example for explanation.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  891  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  892  			 *   +------+-----=
--+-----------+
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  893  			 *   | VMA1 | VMA2=
- | VMA3      |
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  894  			 *   +------+-----=
--+-----------+
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  895  			 *   |      |     =
- |           |
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  896  			 *  4k     8k     =
-16k         400k
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  897  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  898  			 * Suppose we drop=
- the lock after reading VMA2 due to
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  899  			 * contention, the=
-n we get:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  900  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  901  			 *	last_vma_end =
-=3D 16k
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  902  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  903  			 * 1) VMA2 is free=
-d, but VMA3 exists:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  904  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  905  			 *    find_vma(mm,=
- 16k - 1) will return VMA3.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  906  			 *    In this case=
-, just continue from VMA3.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  907  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  908  			 * 2) VMA2 still e=
-xists:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  909  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  910  			 *    find_vma(mm,=
- 16k - 1) will return VMA2.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  911  			 *    Iterate the =
-loop like the original one.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  912  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  913  			 * 3) No more VMAs=
- can be found:
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  914  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  915  			 *    find_vma(mm,=
- 16k - 1) will return NULL.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  916  			 *    No more thin=
-gs to do, just break.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  917  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  918  			 * 4) (last_vma_en=
-d - 1) is the middle of a vma (VMA'):
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  919  			 *
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  920  			 *    find_vma(mm,=
- 16k - 1) will return VMA' whose range
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  921  			 *    contains las=
-t_vma_end.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  922  			 *    Iterate VMA'=
- from last_vma_end.
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  923  			 */
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  924  			mas.index =3D mas.=
-last =3D last_vma_end - 1;
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04  925  			vma =3D mas_find(&=
-mas, -1);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  926  			/* Case 3 above */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  927  			if (!vma)
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  928  				break;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  929  =
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1805  	/* Check next */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1806  	next =3D mas_next(&=
+mas, ULONG_MAX);
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1807  	if (next && next->v=
+m_start =3D=3D end && vma_policy(next) &&
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1808  	    can_vma_merge_b=
+efore(next, vm_flags, NULL, file, pgoff+pglen,
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1809  				 NULL_VM_UFFD_CT=
+X)) {
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1810  		merge_end =3D next=
+->vm_end;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1811  		vma =3D next;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1812  		vm_pgoff =3D next-=
+>vm_pgoff - pglen;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1813  	}
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1814  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  930  			/* Case 1 above */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  931  			if (vma->vm_start =
->=3D last_vma_end)
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  932  				continue;
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  933  =
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1815  	/* Check prev */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1816  	prev =3D mas_prev(&=
+mas, 0);
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1817  	if (prev && prev->v=
+m_end =3D=3D addr && !vma_policy(prev) &&
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1818  	    can_vma_merge_a=
+fter(prev, vm_flags, NULL, file, pgoff,
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1819  				NULL_VM_UFFD_CTX=
+)) {
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1820  		merge_start =3D pr=
+ev->vm_start;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1821  		vma =3D prev;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1822  		vm_pgoff =3D prev-=
+>vm_pgoff;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1823  	}
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1824  =
 
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  934  			/* Case 4 above */
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  935  			if (vma->vm_end > =
-last_vma_end)
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  936  				smap_gather_stats=
-(vma, &mss, last_vma_end);
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  937  		}
-ff9f47f6f00cfe Chinwen Chang         2020-10-13  938  		/* Case 2 above */
-258f669e7e88c1 Vlastimil Babka       2018-08-21  939  	}
-258f669e7e88c1 Vlastimil Babka       2018-08-21  940  =
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1825  =
 
-c4e6b1dfcb6f99 Liam R. Howlett       2021-01-04 @941  	show_vma_header_pref=
-ix(m, vma_start, last_vma_end, 0, 0, 0, 0);
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1826  	/* Actually expand,=
+ if possible */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1827  	if (vma &&
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1828  	    !vma_expand(&ma=
+s, vma, merge_start, merge_end, vm_pgoff, next)) {
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1829  		khugepaged_enter_v=
+ma_merge(prev, vm_flags);
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1830  		goto expanded;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1831  	}
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1832  =
+
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1833  	mas_set_range(&mas,=
+ addr, end - 1);
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1834  cannot_expand:
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1835  	/*
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1836  	 * Determine the ob=
+ject being mapped and call the appropriate
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1837  	 * specific mapper.=
+ the address has already been validated, but
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1838  	 * not unmapped, bu=
+t the maps are removed from the list.
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1839  	 */
+490fc053865c9c Linus Torvalds        2018-07-21  1840  	vma =3D vm_area_all=
+oc(mm);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1841  	if (!vma) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1842  		error =3D -ENOMEM;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1843  		goto unacct_error;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1844  	}
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1845  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1846  	vma->vm_start =3D a=
+ddr;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1847  	vma->vm_end =3D end;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1848  	vma->vm_flags =3D v=
+m_flags;
+3ed75eb8f1cd89 Coly Li               2007-10-18  1849  	vma->vm_page_prot =
+=3D vm_get_page_prot(vm_flags);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1850  	vma->vm_pgoff =3D p=
+goff;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1851  =
+
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1852  	if (file) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1853  		if (vm_flags & VM_=
+DENYWRITE) {
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1854  			error =3D deny_wr=
+ite_access(file);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1855  			if (error)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1856  				goto free_vma;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1857  		}
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1858  		if (vm_flags & VM_=
+SHARED) {
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1859  			error =3D mapping=
+_map_writable(file->f_mapping);
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1860  			if (error)
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1861  				goto allow_write=
+_and_free_vma;
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1862  		}
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1863  =
+
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1864  		/* ->mmap() can ch=
+ange vma->vm_file, but must guarantee that
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1865  		 * vma_link() belo=
+w can deny write-access if VM_DENYWRITE is set
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1866  		 * and map writabl=
+y if VM_SHARED is set. This usually means the
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1867  		 * new file must n=
+ot have been exposed to user-space, yet.
+4bb5f5d9395bc1 David Herrmann        2014-08-08  1868  		 */
+cb0942b8124979 Al Viro               2012-08-27  1869  		vma->vm_file =3D g=
+et_file(file);
+f74ac01520c9f6 Miklos Szeredi        2017-02-20  1870  		error =3D call_mma=
+p(file, vma);
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1871  		if (error)
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1872  			goto unmap_and_fr=
+ee_vma;
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1873  =
+
+309d08d9b3a365 Liu Zixian            2020-12-05  1874  		/* Can addr have c=
+hanged??
+309d08d9b3a365 Liu Zixian            2020-12-05  1875  		 *
+309d08d9b3a365 Liu Zixian            2020-12-05  1876  		 * Answer: Yes, se=
+veral device drivers can do it in their
+309d08d9b3a365 Liu Zixian            2020-12-05  1877  		 *         f_op->m=
+map method. -DaveM
+309d08d9b3a365 Liu Zixian            2020-12-05  1878  		 * Bug: If addr is=
+ changed, prev, rb_link, rb_parent should
+309d08d9b3a365 Liu Zixian            2020-12-05  1879  		 *      be updated=
+ for vma_link()
+309d08d9b3a365 Liu Zixian            2020-12-05  1880  		 */
+309d08d9b3a365 Liu Zixian            2020-12-05  1881  		WARN_ON_ONCE(addr =
+!=3D vma->vm_start);
+309d08d9b3a365 Liu Zixian            2020-12-05  1882  =
+
+309d08d9b3a365 Liu Zixian            2020-12-05  1883  		addr =3D vma->vm_s=
+tart;
+309d08d9b3a365 Liu Zixian            2020-12-05  1884  =
+
+d70cec8983241a Miaohe Lin            2020-08-06  1885  		/* If vm_flags cha=
+nged after call_mmap(), we should try merge vma again
+d70cec8983241a Miaohe Lin            2020-08-06  1886  		 * as we may succe=
+ed this time.
+d70cec8983241a Miaohe Lin            2020-08-06  1887  		 */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1888  		if (unlikely(vm_fl=
+ags !=3D vma->vm_flags && prev &&
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1889  			     prev->vm_end=
+ =3D=3D addr && !vma_policy(prev) &&
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1890  			     can_vma_merg=
+e_after(prev, vm_flags, NULL, file,
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1891  						 pgoff, NULL_V=
+M_UFFD_CTX))) {
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1892  			merge_start =3D p=
+rev->vm_start;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1893  			vm_pgoff =3D prev=
+->vm_pgoff;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1894  			if (!vma_expand(&=
+mas, prev, merge_start, merge_end,
+059c8a0bb96791 Liam R. Howlett       2020-11-10 @1895  					vm_pgoff, next)=
+) {
                                                                            =
-       ^^^^^^^^^
-Uninitialized.
+                       ^^^^
+Warning here.  The code is too complicated to know if it's a false
+positive.  Smatch is not very good about tracking bit masks and
+particularly tests like "if (vm_flags & VM_SPECIAL)" are not tracked
+accross function boundaries...
 
-258f669e7e88c1 Vlastimil Babka       2018-08-21  942  	seq_pad(m, ' ');
-258f669e7e88c1 Vlastimil Babka       2018-08-21  943  	seq_puts(m, "[rollup=
-]\n");
-258f669e7e88c1 Vlastimil Babka       2018-08-21  944  =
+bc4fe4cdd602b3 Miaohe Lin            2020-10-10  1896  				/* ->mmap() can =
+change vma->vm_file and fput the original file. So
+bc4fe4cdd602b3 Miaohe Lin            2020-10-10  1897  				 * fput the vma-=
+>vm_file here or we would add an extra fput for file
+bc4fe4cdd602b3 Miaohe Lin            2020-10-10  1898  				 * and cause gen=
+eral protection fault ultimately.
+bc4fe4cdd602b3 Miaohe Lin            2020-10-10  1899  				 */
+bc4fe4cdd602b3 Miaohe Lin            2020-10-10  1900  				fput(vma->vm_fil=
+e);
+d70cec8983241a Miaohe Lin            2020-08-06  1901  				vm_area_free(vma=
+);
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1902  				vma =3D prev;
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1903  				/* Update vm_fla=
+gs and possible addr to pick up the change. We don't
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1904  				 * warn here if =
+addr changed as the vma is not linked by vma_link().
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1905  				 */
+059c8a0bb96791 Liam R. Howlett       2020-11-10  1906  				addr =3D vma->vm=
+_start;
+d70cec8983241a Miaohe Lin            2020-08-06  1907  				vm_flags =3D vma=
+->vm_flags;
+d70cec8983241a Miaohe Lin            2020-08-06  1908  				goto unmap_writa=
+ble;
+d70cec8983241a Miaohe Lin            2020-08-06  1909  			}
+d70cec8983241a Miaohe Lin            2020-08-06  1910  		}
+d70cec8983241a Miaohe Lin            2020-08-06  1911  =
 
-ee2ad71b0756e9 Luigi Semenzato       2019-07-11  945  	__show_smap(m, &mss,=
- true);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  946  =
-
-258f669e7e88c1 Vlastimil Babka       2018-08-21  947  	release_task_mempoli=
-cy(priv);
-d8ed45c5dcd455 Michel Lespinasse     2020-06-08  948  	mmap_read_unlock(mm);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  949  =
-
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  950  out_put_mm:
-a26a9781554857 Konstantin Khlebnikov 2019-07-11  951  	mmput(mm);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  952  out_put_task:
-258f669e7e88c1 Vlastimil Babka       2018-08-21  953  	put_task_struct(priv=
-->task);
-258f669e7e88c1 Vlastimil Babka       2018-08-21  954  	priv->task =3D NULL;
-258f669e7e88c1 Vlastimil Babka       2018-08-21  955  =
-
-493b0e9d945fa9 Daniel Colascione     2017-09-06  956  	return ret;
-e070ad49f31155 Mauricio Lin          2005-09-03  957  }
+^1da177e4c3f41 Linus Torvalds        2005-04-16  1912  		vm_flags =3D vma->=
+vm_flags;
+f8dbf0a7a4c5d9 Huang Shijie          2009-09-21  1913  	} else if (vm_flags=
+ & VM_SHARED) {
+f8dbf0a7a4c5d9 Huang Shijie          2009-09-21  1914  		error =3D shmem_ze=
+ro_setup(vma);
+f8dbf0a7a4c5d9 Huang Shijie          2009-09-21  1915  		if (error)
+f8dbf0a7a4c5d9 Huang Shijie          2009-09-21  1916  			goto free_vma;
+bfd40eaff5abb9 Kirill A. Shutemov    2018-07-26  1917  	} else {
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8259260663175717197==
+--===============3259561943468846625==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICJwoG2AAAy5jb25maWcAlDzLcty2svt8xZSzSRbOkWRZ16lbWoAkOIMMSdAAOJrRhqXIY0d1
+H4sICKocG2AAAy5jb25maWcAlDzLcty2svt8xZSzSRbOkWRZ16lbWoAkOIMMSdAAOJrRhqXIY0d1
 9PAZSSf2399ugA8AbE58s3BEdOPd727Mzz/9vGCvL08PNy93tzf3998XX/aP+8PNy/7T4vPd/f5/
 F5lcVNIseCbMb4Bc3D2+fvvXtw8X7cX54v1vp6e/nbw93J6+fXg4Xaz3h8f9/SJ9evx89+UVBrl7
 evzp559SWeVi2aZpu+FKC1m1hm/N5Zsvt7dvf1/8ku3/vLt5XPz+2zsY6vT9r+6vN143odtlml5+
@@ -811,30 +902,31 @@ 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
-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
---===============8259260663175717197==--
+24v91G7JkTacyot9PE7ARv+B0D85xOmyxCZUWCMFdYCVj6TRgMK5Tc3u8oDDbyq7YVSJg2AAKwPg
+0r/kQbg4gjMU01HNCYVHI4/2AsMQbk9nCXtJ4QjCoHrp7R4AcDl8hSDPaSYYGtuzGYp+1ShA1s1M
+sUDNCcIAqY91qrUBbcUTYCKyErDZXUnsg91PEOlV8/Xb4z9eYWGY52/MrXaf7m+97KktDDJHj84m
+ndfEgyMfHYH9+EDSMMbhowiX7JvNgEavEQ/9AEc66eSMDtwGi3PBYE9wzPaeQC6wUn2JXYbAaTfC
+5A+qTx3QwzlIGCBnFI131UTWbH5FkvWvTyaHI4BE8MszigEJqs/0I4jC40ZffKQ2S+RmN9hE3+Hh
+wpk703oxea1hCEAi9u0QMSz8KMEG//b47e4ePdjge788Px2/H+E/x6eb169f/10kbCU/a+x3SwqT
+0xiFBtNcrKe8oT7wg1cGjXaJcdCXeo1x9PDl2Nka/flhJ4cDIwGzaQ4Y1rA2qkMfBCgGCPRpS7yc
+UdTQoK7TV7BwMUU188bXqEYbTZ1QehEcCsztwzz9i9vv7oMSJtw+33iPpU2xfcEvOKhySOltViP+
+EzvIE80pmaMcFqkAMG/TWPdaF3BG2Ba7MtVnLDZE25rP7WeW8n759PTpFYp3N3hp4tFAM9/lwhyY
+s/MD+EIAMgM5FRLoSGnlGSWfeiKhDEQnTMEfpbPySNHCJ4VvzUEH5YCHOKNQl48pUpXeR4CMZa2r
+VHvwhBsCwjAt2fxcSp8EJFC4JtIbHSN599Z7QbhDsFGfJ3MJ2WTU3scFYuy5EQo60vXic8dZvkBI
+xxQMqUGj0b7Or4ZGCBXkUDBv6Nh+VlPVBAB1gcDhdNp16LZT7S6NY20mGztTy8DpUA47tC9GUnQC
+jdN6kAHqJeiqi3o14D1l1YTX4h1cgILpdGjtEZO096gT9E65Chpz0xt3PQN5gijUPpgNHkoe5IlA
+AuvKJZlGqkRI+J5OBf8MuCt6+No8XgrRlVGE+4MUO6P+rA4VdmQQEybY6CSg1Y3st+aZJHUJNlha
+wyHdZgUBREuQ6TZrKEa4SKB4Ek+0hQ9wnubW2ayxL5ulTL9mX5m900fL39eq7XdNvC8swFp6Emuk
+pwwYDiwwSC8brK7sJ2SUML1k67Bgc2+LEWL0nJ8WzfS1MqU2tzTWXlmYihHelem5eqYlZeaAhu1p
+bLvlPD2pv6rhVIeomJvNlnYJJ96cHE7c6AnY7nCv3sHII5TwPLDvALUOFTycYfmSbd5cuJmPk0TP
+58FsnkEB42qXRR85mj+F7HL30tEsdAXayNqJKcnAh5n/FrikWAmkGlMoyXlrsmJcR3m8LPTU7PLy
+7b9/OqGLsVAfn2mCwtKrKYlT2AQo23hpTH9eFiIKWzYYcrBUskTAIsnk++l7TzIJ2LMqC8ou3F9d
+Z8moS15emFQydsRkNIDXmCk9xKG4VXufMfYya+3p+8lcLhD5Hdv0Uwt9Fdl24QGqIHBZ+MFBelOi
+SWYpIZ3R/aqMbsgCFukIaEo1w8/AG2dMf5+66poXi3fmm0u/WJkALFxhOIxx+T7I4YR0NBTJ6HZJ
+dWpB48pbtZg7inuwMkQol+/LhZs+b57Ivr2QZqylBNSoyq2cvLE+cKmBJum34MDhJYaTaP1DIa8b
+h+PjE6pcaJDIv/5+fPh0K4p+UXrseWNwtmxjhw2bfXswt+lLogIRyWEoCW6hWupwrNKD13RwYJP5
+fC1N9jP+CplHlVVfKc/oiW1s247Ua4HjdehSBCTfXSJDOdM2SUT0rrKxqsnCuwBng3r2i4Zir0vW
+COsZ8LLIstiDuAAsjs+072+D+Gm+BNIxCYjwXcThdT0mXgx02K2wH56d3l5RDDdfef8fGeQeuX4k
+AgA=
+--===============3259561943468846625==--
 
