@@ -1,27 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============8918559964997792055=="
+Content-Type: multipart/mixed; boundary="===============5423423839410033704=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [drm-drm-intel:drm-intel-gt-next 24/41] drivers/gpu/drm/i915/i915_scheduler.c:574 __i915_sched_rewind_requests() error: uninitialized symbol 'pl'.
-Date: Sun, 07 Feb 2021 12:04:11 +0800
-Message-ID: <202102071209.cdIQWOO9-lkp@intel.com>
+Subject: [drm-drm-intel:drm-intel-gt-next 17/41] drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c:142 igt_gpu_fill_dw() warn: maybe use && instead of &
+Date: Sun, 07 Feb 2021 10:05:08 +0800
+Message-ID: <202102071003.SwkMFgvj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8918559964997792055==
+--===============5423423839410033704==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 TO: Chris Wilson <chris@chris-wilson.co.uk>
-CC: Tvrtko Ursulin <tvrtko.ursulin@intel.com>
+CC: Matthew Auld <matthew.auld@intel.com>
 
 tree:   git://anongit.freedesktop.org/drm/drm-intel drm-intel-gt-next
 head:   38a40d2110751bc9f5c408de992551e1ea7d11c6
-commit: 3d473f1476d815ecac447677cc1d4d990f31e327 [24/41] drm/i915: Extract =
-request rewinding from execlists
-:::::: branch date: 14 hours ago
-:::::: commit date: 3 days ago
+commit: 3db2eaa19d4238759ded4793ca6e89f0d47a3415 [17/41] drm/i915/gem: Mana=
+ge all set-domain waits explicitly
+:::::: branch date: 12 hours ago
+:::::: commit date: 4 days ago
 config: x86_64-randconfig-m001-20210207 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -29,91 +29,79 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/i915/i915_scheduler.c:574 __i915_sched_rewind_requests() er=
-ror: uninitialized symbol 'pl'.
+New smatch warnings:
+drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c:142 igt_gpu_fill_dw() wa=
+rn: maybe use && instead of &
 
-vim +/pl +574 drivers/gpu/drm/i915/i915_scheduler.c
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_context.h:204 i915_gem_context_get_engine=
+() warn: inconsistent indenting
+drivers/gpu/drm/i915/gem/i915_gem_context.h:206 i915_gem_context_get_engine=
+() warn: inconsistent indenting
 
-d353a704a6db57 Chris Wilson 2021-02-03  547  =
+vim +142 drivers/gpu/drm/i915/gem/selftests/igt_gem_utils.c
 
-3d473f1476d815 Chris Wilson 2021-02-03  548  struct i915_request *
-3d473f1476d815 Chris Wilson 2021-02-03  549  __i915_sched_rewind_requests(s=
-truct intel_engine_cs *engine)
-3d473f1476d815 Chris Wilson 2021-02-03  550  {
-3d473f1476d815 Chris Wilson 2021-02-03  551  	struct i915_request *rq, *rn,=
- *active =3D NULL;
-3d473f1476d815 Chris Wilson 2021-02-03  552  	struct list_head *pl;
-3d473f1476d815 Chris Wilson 2021-02-03  553  	int prio =3D I915_PRIORITY_IN=
-VALID;
-3d473f1476d815 Chris Wilson 2021-02-03  554  =
+18851edfa7dbe1 Matthew Auld 2019-08-10  110  =
 
-3d473f1476d815 Chris Wilson 2021-02-03  555  	lockdep_assert_held(&engine->=
-active.lock);
-3d473f1476d815 Chris Wilson 2021-02-03  556  =
+75b974a859e5d9 Chris Wilson 2019-08-24  111  int igt_gpu_fill_dw(struct int=
+el_context *ce,
+75b974a859e5d9 Chris Wilson 2019-08-24  112  		    struct i915_vma *vma, u6=
+4 offset,
+75b974a859e5d9 Chris Wilson 2019-08-24  113  		    unsigned long count, u32=
+ val)
+18851edfa7dbe1 Matthew Auld 2019-08-10  114  {
+18851edfa7dbe1 Matthew Auld 2019-08-10  115  	struct i915_request *rq;
+18851edfa7dbe1 Matthew Auld 2019-08-10  116  	struct i915_vma *batch;
+18851edfa7dbe1 Matthew Auld 2019-08-10  117  	unsigned int flags;
+18851edfa7dbe1 Matthew Auld 2019-08-10  118  	int err;
+18851edfa7dbe1 Matthew Auld 2019-08-10  119  =
 
-3d473f1476d815 Chris Wilson 2021-02-03  557  	list_for_each_entry_safe_reve=
-rse(rq, rn,
-3d473f1476d815 Chris Wilson 2021-02-03  558  					 &engine->active.requests,
-3d473f1476d815 Chris Wilson 2021-02-03  559  					 sched.link) {
-3d473f1476d815 Chris Wilson 2021-02-03  560  		if (__i915_request_is_comple=
-te(rq)) {
-3d473f1476d815 Chris Wilson 2021-02-03  561  			list_del_init(&rq->sched.li=
-nk);
-3d473f1476d815 Chris Wilson 2021-02-03  562  			continue;
-3d473f1476d815 Chris Wilson 2021-02-03  563  		}
-3d473f1476d815 Chris Wilson 2021-02-03  564  =
+75b974a859e5d9 Chris Wilson 2019-08-24  120  	GEM_BUG_ON(!intel_engine_can_=
+store_dword(ce->engine));
+18851edfa7dbe1 Matthew Auld 2019-08-10  121  	GEM_BUG_ON(!i915_vma_is_pinne=
+d(vma));
+18851edfa7dbe1 Matthew Auld 2019-08-10  122  =
 
-3d473f1476d815 Chris Wilson 2021-02-03  565  		__i915_request_unsubmit(rq);
-3d473f1476d815 Chris Wilson 2021-02-03  566  =
+18851edfa7dbe1 Matthew Auld 2019-08-10  123  	batch =3D igt_emit_store_dw(v=
+ma, offset, count, val);
+18851edfa7dbe1 Matthew Auld 2019-08-10  124  	if (IS_ERR(batch))
+18851edfa7dbe1 Matthew Auld 2019-08-10  125  		return PTR_ERR(batch);
+18851edfa7dbe1 Matthew Auld 2019-08-10  126  =
 
-3d473f1476d815 Chris Wilson 2021-02-03  567  		GEM_BUG_ON(rq_prio(rq) =3D=
-=3D I915_PRIORITY_INVALID);
-3d473f1476d815 Chris Wilson 2021-02-03  568  		if (rq_prio(rq) !=3D prio) {
-3d473f1476d815 Chris Wilson 2021-02-03  569  			prio =3D rq_prio(rq);
-3d473f1476d815 Chris Wilson 2021-02-03  570  			pl =3D i915_sched_lookup_pr=
-iolist(engine, prio);
-3d473f1476d815 Chris Wilson 2021-02-03  571  		}
-3d473f1476d815 Chris Wilson 2021-02-03  572  		GEM_BUG_ON(RB_EMPTY_ROOT(&en=
-gine->execlists.queue.rb_root));
-3d473f1476d815 Chris Wilson 2021-02-03  573  =
+75b974a859e5d9 Chris Wilson 2019-08-24  127  	rq =3D intel_context_create_r=
+equest(ce);
+18851edfa7dbe1 Matthew Auld 2019-08-10  128  	if (IS_ERR(rq)) {
+18851edfa7dbe1 Matthew Auld 2019-08-10  129  		err =3D PTR_ERR(rq);
+18851edfa7dbe1 Matthew Auld 2019-08-10  130  		goto err_batch;
+18851edfa7dbe1 Matthew Auld 2019-08-10  131  	}
+18851edfa7dbe1 Matthew Auld 2019-08-10  132  =
 
-3d473f1476d815 Chris Wilson 2021-02-03 @574  		list_move(&rq->sched.link, p=
-l);
-3d473f1476d815 Chris Wilson 2021-02-03  575  		set_bit(I915_FENCE_FLAG_PQUE=
-UE, &rq->fence.flags);
-3d473f1476d815 Chris Wilson 2021-02-03  576  =
+18851edfa7dbe1 Matthew Auld 2019-08-10  133  	i915_vma_lock(batch);
+70d6894d1456de Chris Wilson 2019-08-19  134  	err =3D i915_request_await_ob=
+ject(rq, batch->obj, false);
+70d6894d1456de Chris Wilson 2019-08-19  135  	if (err =3D=3D 0)
+18851edfa7dbe1 Matthew Auld 2019-08-10  136  		err =3D i915_vma_move_to_act=
+ive(batch, rq, 0);
+18851edfa7dbe1 Matthew Auld 2019-08-10  137  	i915_vma_unlock(batch);
+18851edfa7dbe1 Matthew Auld 2019-08-10  138  	if (err)
+18851edfa7dbe1 Matthew Auld 2019-08-10  139  		goto skip_request;
+18851edfa7dbe1 Matthew Auld 2019-08-10  140  =
 
-3d473f1476d815 Chris Wilson 2021-02-03  577  		/* Check in case we rollback=
- so far we wrap [size/2] */
-3d473f1476d815 Chris Wilson 2021-02-03  578  		if (intel_ring_direction(rq-=
->ring,
-3d473f1476d815 Chris Wilson 2021-02-03  579  					 rq->tail,
-3d473f1476d815 Chris Wilson 2021-02-03  580  					 rq->ring->tail + 8) > 0)
-3d473f1476d815 Chris Wilson 2021-02-03  581  			rq->context->lrc.desc |=3D =
-CTX_DESC_FORCE_RESTORE;
-3d473f1476d815 Chris Wilson 2021-02-03  582  =
-
-3d473f1476d815 Chris Wilson 2021-02-03  583  		active =3D rq;
-3d473f1476d815 Chris Wilson 2021-02-03  584  	}
-3d473f1476d815 Chris Wilson 2021-02-03  585  =
-
-3d473f1476d815 Chris Wilson 2021-02-03  586  	return active;
-3d473f1476d815 Chris Wilson 2021-02-03  587  }
-3d473f1476d815 Chris Wilson 2021-02-03  588  =
-
+18851edfa7dbe1 Matthew Auld 2019-08-10  141  	i915_vma_lock(vma);
+3db2eaa19d4238 Chris Wilson 2021-02-03 @142  	if (vma->obj->cache_dirty & ~=
+vma->obj->cache_coherent)
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8918559964997792055==
+--===============5423423839410033704==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICKZdH2AAAy5jb25maWcAjDzLcty2svt8xZSzSRbOkWRb16lbWoAkOIMMSdAAOBppg1LksY/q
+H4sICBg/H2AAAy5jb25maWcAjDzLcty2svt8xZSzSRbOkWRb16lbWoAkOIMMSdAAOBppg1LksY/q
 2JKvHifx399ugA8AbI7jRSJ2N979RmN+/unnFXt5fvh683x3e/Ply/fV58P94fHm+fBx9enuy+F/
 V4VcNdKseCHMb0Bc3d2//P2vv9+f2/O3q3e/nZ7+dvL68fZstT083h++rPKH+093n1+gg7uH+59+
 /imXTSnWNs/tjistZGMN35uLV59vb1//vvqlOPx5d3O/+v23N9DN6btf/V+vgmZC23WeX3wfQOup
@@ -768,5 +756,5 @@ gwEnB/YP5ndWURhMwV/RjiyA/HgMV78AUcVPUaF9nKOctgbO57tA2CSSA1io5b+e2BvQZStRgonv
 VaO+YaTrAoUisQdtXsovMwqJFrkrfL4HpitzG7QvhcbJRrJmaYukyuC6Lt3O1FpRUcx5YOqkAS6f
 RuokkjhO3Ce4YofbmHuLyhPPPWWHLCKYPa9VXphFlB1C+g5aWjvnpxp6v2TU7xAKzeKNUKd2SVZM
 LG2MSBHAXpmsBJVLHnleFzJNQDE6KPrMBI3nigyFew1ZJkUcJ7qHsmv5P7Y7d9gBRwIA
---===============8918559964997792055==--
+--===============5423423839410033704==--
 
