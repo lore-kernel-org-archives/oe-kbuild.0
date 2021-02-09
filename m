@@ -1,21 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============2128272398648695624=="
+Content-Type: multipart/mixed; boundary="===============1296121002692087900=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [freescale-fslc:5.4-2.3.x-imx 12732/16931] drivers/usb/typec/tcpm/tcpm.c:4734 tcpm_psy_set_prop() error: uninitialized symbol 'ret'.
-Date: Tue, 09 Feb 2021 12:09:50 +0300
-Message-ID: <20210209090950.GN2696@kadam>
+Date: Tue, 09 Feb 2021 17:04:15 +0800
+Message-ID: <202102091708.Qss4KNfc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2128272398648695624==
+--===============1296121002692087900==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Otavio Salvador <otavio@ossystems.com.br>
 
 tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
 head:   31272db029d013be75160f3fe4aa31d77c911c95
 commit: 7801f9a5347345b16fc4039c7b5b612403af0234 [12732/16931] MLK-24507-3 =
 usb: typec: tcpm: add BC charger types if power type is usb
+:::::: branch date: 21 hours ago
+:::::: commit date: 6 months ago
 config: x86_64-randconfig-m001-20210209 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -32,6 +37,8 @@ drivers/usb/typec/tcpm/tcpm.c:463 _tcpm_log() error: testing array offset '=
 port->logbuffer_head' after use.
 
 vim +/ret +4734 drivers/usb/typec/tcpm/tcpm.c
+
+f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  4701  =
 
 f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  4702 =
  static int tcpm_psy_set_prop(struct power_supply *psy,
@@ -87,9 +94,6 @@ f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  4725 =
  		port->usb_type =3D val->intval;
 7801f9a5347345 drivers/usb/typec/tcpm/tcpm.c Li Jun       2020-08-17  4728 =
  		break;
-
-"ret" not set on this path.
-
 f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  4729 =
  	default:
 f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  4730 =
@@ -104,12 +108,21 @@ f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23 @4734 =
  	return ret;
 f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  4735 =
  }
+f2a8aa053c1761 drivers/usb/typec/tcpm.c      Adam Thomson 2018-04-23  4736  =
+
+
+:::::: The code at line 4734 was first introduced by commit
+:::::: f2a8aa053c1761232ce561e4fa725f02b8bd13fd typec: tcpm: Represent sour=
+ce supply through power_supply
+
+:::::: TO: Adam Thomson <Adam.Thomson.Opensource@diasemi.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2128272398648695624==
+--===============1296121002692087900==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -583,5 +596,5 @@ BpKZJ7a6nVXJWPZkNU9dvB0neZHugTKzrHwq0la2KyIPcG2nTMYPUJ7inqLaMdeHHJUVFRVsTyJ5
 UGYG2NVzfJAjhmJWDbRVxCa1rkvjSiyqI5y43W4Zg0rDGvnx5c2F8o0UiDzM3BYKf/P4NBjXtiFx
 s4UAr+6RHAFtErWPcQuz+OKK+3UZMcOocSJZ0lUmzyfdgBF2eKJFuzA0J876ZaxOlT7DWVFPYkwk
 pZNj+PkP20Rh5KabAQA=
---===============2128272398648695624==--
+--===============1296121002692087900==--
 
