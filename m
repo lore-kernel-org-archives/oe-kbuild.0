@@ -1,20 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============0454104557250623632=="
+Content-Type: multipart/mixed; boundary="===============7404930904748562549=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/3] drm/ttm: switch to per device LRU lock
-Date: Thu, 11 Feb 2021 07:28:29 +0800
-Message-ID: <202102110704.2t6rt7Tj-lkp@intel.com>
+Subject: Re: [PATCH 2/3] drm/ttm: remove swap LRU
+Date: Thu, 11 Feb 2021 06:09:29 +0800
+Message-ID: <202102110625.PDIH2DaQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0454104557250623632==
+--===============7404930904748562549==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210210152114.1134-3-christian.koenig@amd.com>
-References: <20210210152114.1134-3-christian.koenig@amd.com>
+In-Reply-To: <20210210152114.1134-2-christian.koenig@amd.com>
+References: <20210210152114.1134-2-christian.koenig@amd.com>
 TO: "Christian K=C3=B6nig" <ckoenig.leichtzumerken@gmail.com>
 TO: dri-devel(a)lists.freedesktop.org
 TO: ray.huang(a)amd.com
@@ -33,8 +33,8 @@ https://git-scm.com/docs/git-format-patch]
 url:    https://github.com/0day-ci/linux/commits/Christian-K-nig/drm-ttm-mo=
 ve-swapout-logic-around/20210210-232812
 base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
 config: ia64-randconfig-m031-20210209 (attached as .config)
 compiler: ia64-linux-gcc (GCC) 9.3.0
 
@@ -43,90 +43,90 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/ttm/ttm_device.c:157 ttm_device_swapout() warn: inconsisten=
-t returns 'bdev->lru_lock'.
-drivers/gpu/drm/ttm/ttm_bo.c:661 ttm_mem_evict_first() error: we previously=
- assumed 'bo' could be null (see line 658)
+drivers/gpu/drm/ttm/ttm_device.c:144 ttm_device_swapout() warn: variable de=
+referenced before check 'bo->ttm' (see line 142)
 
 Old smatch warnings:
-drivers/gpu/drm/ttm/ttm_device.c:142 ttm_device_swapout() warn: variable de=
-referenced before check 'bo->ttm' (see line 140)
+drivers/gpu/drm/ttm/ttm_device.c:159 ttm_device_swapout() warn: inconsisten=
+t returns 'glob->lru_lock'.
 
-vim +157 drivers/gpu/drm/ttm/ttm_device.c
+vim +144 drivers/gpu/drm/ttm/ttm_device.c
 
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  123  =
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  124  =
 
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  124  long ttm_device_swapou=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  125  long ttm_device_swapou=
 t(struct ttm_device *bdev, struct ttm_operation_ctx *ctx,
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  125  			gfp_t gfp_flags)
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  126  {
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  127  	struct ttm_resource_m=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  126  			gfp_t gfp_flags)
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  127  {
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  128  	struct ttm_global *gl=
+ob =3D &ttm_glob;
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  129  	struct ttm_resource_m=
 anager *man;
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  128  	struct ttm_buffer_obj=
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  130  	struct ttm_buffer_obj=
 ect *bo;
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  129  	unsigned i, j;
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  130  	int ret;
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  131  =
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  131  	unsigned i, j;
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  132  	int ret;
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  133  =
 
-12b3da401dc93d Christian K=C3=B6nig 2021-02-10  132  	spin_lock(&bdev->lru_=
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  134  	spin_lock(&glob->lru_=
 lock);
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  133  	for (i =3D TTM_PL_SYS=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  135  	for (i =3D TTM_PL_SYS=
 TEM; i < TTM_NUM_MEM_TYPES; ++i) {
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  134  		man =3D ttm_manager_=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  136  		man =3D ttm_manager_=
 type(bdev, i);
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  135  		if (!man || !man->us=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  137  		if (!man || !man->us=
 e_tt)
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  136  			continue;
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  137  =
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  138  			continue;
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  139  =
 
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  138  		for (j =3D 0; j < TT=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  140  		for (j =3D 0; j < TT=
 M_MAX_BO_PRIORITY; ++j) {
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  139  			list_for_each_entry=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  141  			list_for_each_entry=
 (bo, &man->lru[j], lru) {
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  140  				long num_pages =3D=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10 @142  				long num_pages =3D=
  bo->ttm->num_pages;
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  141  =
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  143  =
 
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  142  				if (!bo->ttm ||
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  143  				    bo->ttm->page_=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10 @144  				if (!bo->ttm ||
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  145  				    bo->ttm->page_=
 flags & TTM_PAGE_FLAG_SG ||
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  144  				    bo->ttm->page_=
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  146  				    bo->ttm->page_=
 flags & TTM_PAGE_FLAG_SWAPPED)
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  145  					continue;
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  146  =
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  147  					continue;
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  148  =
 
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  147  				ret =3D ttm_bo_swa=
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  149  				ret =3D ttm_bo_swa=
 pout(bo, ctx, gfp_flags);
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  148  				/* ttm_bo_swapout =
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  150  				/* ttm_bo_swapout =
 has dropped the lru_lock */
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  149  				if (!ret)
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  150  					return num_pages;
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  151  				if (ret !=3D -EBUS=
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  151  				if (!ret)
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  152  					return num_pages;
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  153  				if (ret !=3D -EBUS=
 Y)
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  152  					return ret;
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  153  			}
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  154  		}
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  155  	}
-12b3da401dc93d Christian K=C3=B6nig 2021-02-10  156  	spin_unlock(&bdev->lr=
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  154  					return ret;
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  155  			}
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  156  		}
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  157  	}
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  158  	spin_unlock(&glob->lr=
 u_lock);
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10 @157  	return 0;
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  158  }
-d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  159  EXPORT_SYMBOL(ttm_devi=
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  159  	return 0;
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  160  }
+d37e3072dc32c7 Christian K=C3=B6nig 2021-02-10  161  EXPORT_SYMBOL(ttm_devi=
 ce_swapout);
-22b09b650f7486 Christian K=C3=B6nig 2021-02-10  160  =
+22b09b650f7486 Christian K=C3=B6nig 2021-02-10  162  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0454104557250623632==
+--===============7404930904748562549==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICGBiJGAAAy5jb25maWcAlDzLdts2sPt+hU66aRdN/UjU5t7jBQiCFCq+DICy7A2P6yipT20r
+H4sICAdSJGAAAy5jb25maWcAlDzLdts2sPt+hU66aRdN/UjU5t7jBQiCFCq+DICy7A2P6yipT20r
 x5bb5u/vDMAHQA6V3C4ac2YwAAaDeQHQjz/8uGCvh/3j7eH+7vbh4evi8+5p93x72H1cfLp/2P3v
 Ii4XRWkWIpbmLRBn90+v//16f7t8t3j/9vT07ckvz3e/Lda756fdw4Lvnz7df36F5vf7px9+/IGX
 RSLThvNmI5SWZdEYsTUXb7D5Lw/I6ZfPd3eLn1LOf158eHv+9uSN10bqBhAXXztQOvC5+HByfnLS
@@ -688,5 +688,5 @@ Uzi2CjH5WB0GVk0yYa1Y1NM6rUIzjGqx85ldqydt2M2UWQU/utd3uV1utocjCiBUVfGPf7evD09b
 AfhswdSRTnoihBKpOHzXQ8U0dUcDG+TREiDElwT0WhmBu1G6++kL77+Chx/RWBhKyNFZRFnOVi5Z
 ycHh9x6ngF+sq/AG2y/c7zqmLUewF2O9tpPU9TMamM3oj8eX54RSbmrY0WUyiCUXVRn+fCfQS3aJ
 /AfcA9mTB+kBAA==
---===============0454104557250623632==--
+--===============7404930904748562549==--
 
