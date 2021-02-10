@@ -1,22 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============7122560246569982090=="
+Content-Type: multipart/mixed; boundary="===============2941053742865081755=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [pci:pci/error 2/8] drivers/pci/hotplug/../pci.h:348 pci_dev_set_io_state() warn: statement has no effect 22
-Date: Wed, 10 Feb 2021 18:24:21 +0300
-Message-ID: <20210210152421.GC20820@kadam>
+Date: Wed, 10 Feb 2021 22:49:23 +0800
+Message-ID: <202102102215.bRVS3BJM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7122560246569982090==
+--===============2941053742865081755==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git  pc=
-i/error
+CC: kbuild-all(a)lists.01.org
+CC: linux-pci(a)vger.kernel.org
+TO: Bjorn Helgaas <helgaas@kernel.org>
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/helgaas/pci.git pci=
+/error
 head:   5692817fc88f347328e35cd7b19bd04f4400652e
 commit: 8fae7d8809b8151488969d6cfad2f6dd2c69d311 [2/8] PCI/ERR: Simplify pc=
 i_dev_set_io_state()
+:::::: branch date: 16 hours ago
+:::::: commit date: 2 weeks ago
 config: i386-randconfig-m021-20210209 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -28,8 +34,29 @@ New smatch warnings:
 drivers/pci/hotplug/../pci.h:348 pci_dev_set_io_state() warn: statement has=
  no effect 22
 
+Old smatch warnings:
+drivers/pci/hotplug/acpiphp_glue.c:141 acpiphp_grab_context() warn: returni=
+ng freed memory 'context'
+
 vim +348 drivers/pci/hotplug/../pci.h
 
+d1b054da8f59990 Yu Zhao       2009-03-20  330  =
+
+a6bd101b8f84f9b Keith Busch   2018-09-20  331  /**
+a6bd101b8f84f9b Keith Busch   2018-09-20  332   * pci_dev_set_io_state - Se=
+t the new error state if possible.
+a6bd101b8f84f9b Keith Busch   2018-09-20  333   *
+a6bd101b8f84f9b Keith Busch   2018-09-20  334   * @dev - pci device to set =
+new error_state
+a6bd101b8f84f9b Keith Busch   2018-09-20  335   * @new - the state we want =
+dev to be in
+a6bd101b8f84f9b Keith Busch   2018-09-20  336   *
+a6bd101b8f84f9b Keith Busch   2018-09-20  337   * Must be called with devic=
+e_lock held.
+a6bd101b8f84f9b Keith Busch   2018-09-20  338   *
+a6bd101b8f84f9b Keith Busch   2018-09-20  339   * Returns true if state has=
+ been changed to the requested state.
+a6bd101b8f84f9b Keith Busch   2018-09-20  340   */
 a6bd101b8f84f9b Keith Busch   2018-09-20  341  static inline bool pci_dev_s=
 et_io_state(struct pci_dev *dev,
 a6bd101b8f84f9b Keith Busch   2018-09-20  342  					pci_channel_state_t new)
@@ -44,9 +71,6 @@ in perm_failure state */
 io_perm_failure) {
 8fae7d8809b8151 Bjorn Helgaas 2020-05-19 @348  		dev->error_state =3D=3D pc=
 i_channel_io_perm_failure;
-
-This should be =3D instead of =3D=3D.
-
 8fae7d8809b8151 Bjorn Helgaas 2020-05-19  349  		return true;
 a6bd101b8f84f9b Keith Busch   2018-09-20  350  	}
 8fae7d8809b8151 Bjorn Helgaas 2020-05-19  351  =
@@ -63,17 +87,14 @@ re, can't set to normal or frozen */
 a6bd101b8f84f9b Keith Busch   2018-09-20  357  	dev->error_state =3D new;
 8fae7d8809b8151 Bjorn Helgaas 2020-05-19  358  	return true;
 a6bd101b8f84f9b Keith Busch   2018-09-20  359  }
+89ee9f7680031d7 Keith Busch   2017-03-29  360  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============7122560246569982090==
+--===============2941053742865081755==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -731,5 +752,5 @@ TaX5lTRw8JfadXZMdh279R+1hOc08CZFjUZt9NThp7H9N0wsiFAzHLueYWfoe+l55yD8Ze5/tpOD
 g5oKDJ8wU0eVzCDRgHaFxhdwDvNLHm1CoZ2/EqaxtCSt803gMZmQPESRADktW9rCLpTF9l5YiyF0
 PLf7ydJYlDQKZhMDGFa4Xq/tPKb4rnwR0Fr3S2tm/OflsJooIoUdIcRaUXk5w/sgN0VwcebeqVQV
 qGRO3T0BvrQlZWsmcUvCt92ZxiUeNR0U7tU4zx6HTlAJaaD0/wBdTaH0RwIA
---===============7122560246569982090==--
+--===============2941053742865081755==--
 
