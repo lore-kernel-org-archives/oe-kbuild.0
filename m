@@ -1,452 +1,1230 @@
-Content-Type: multipart/mixed; boundary="===============5511288846913306636=="
+Content-Type: multipart/mixed; boundary="===============0262906491264406597=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/ext4/inode.c:5477:3: warning: Identical inner 'if' condition is always true.
-Date: Wed, 10 Feb 2021 19:40:28 +0800
-Message-ID: <202102101903.eVHdPkiZ-lkp@intel.com>
+Subject: [xlnx:master 9663/10510] drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2948 axienet_probe() warn: missing error code 'ret'
+Date: Wed, 10 Feb 2021 18:13:39 +0800
+Message-ID: <202102101833.FrM8Jdkv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5511288846913306636==
+--===============0262906491264406597==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Harshad Shirwadkar <harshadshirwadkar@gmail.com>
-CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Saurabh Sengar <saurabh.singh@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Appana Durga Kedareswara Rao <appana.durga.rao@xilinx.com>
+CC: Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e0756cfc7d7cd08c98a53b6009c091a3f6a50be6
-commit: aa75f4d3daaeb1389b9cce9d6b84401eaf228d4e ext4: main fast-commit com=
-mit path
-date:   4 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   d3774573d5a9700273bd0c3ff82af157107f7fa6
+commit: 0f447249ba48721e24292b1ddacf1b4b4e21d9a7 [9663/10510] net: axienet:=
+ added multichannel DMA support
+:::::: branch date: 5 days ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-m021-20210209 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2948 axienet_probe() warn=
+: missing error code 'ret'
+
+Old smatch warnings:
+drivers/net/ethernet/xilinx/xilinx_axienet_main.c:204 axienet_dma_bd_init()=
+ error: uninitialized symbol 'ret'.
+drivers/net/ethernet/xilinx/xilinx_axienet_main.c:1373 axienet_mii_init() w=
+arn: inconsistent returns 'lp->mii_bus->mdio_lock'.
+
+vim +/ret +2948 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2705  =
+
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2706  /**
+2be586205ca2b8 Srikanth Thokala             2015-05-05  2707   * axienet_pr=
+obe - Axi Ethernet probe function.
+95219aa538e11d Srikanth Thokala             2015-05-05  2708   * @pdev:	Poi=
+nter to platform device structure.
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2709   *
+b0d081c524b46c Michal Simek                 2015-05-05  2710   * Return: 0,=
+ on success
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2711   *	    Non-ze=
+ro error value on failure.
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2712   *
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2713   * This is th=
+e probe routine for Axi Ethernet driver. This is called before
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2714   * any other =
+driver routines are invoked. It allocates and sets up the Ethernet
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2715   * device. Pa=
+rses through device tree and populates fields of
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2716   * axienet_lo=
+cal. It registers the Ethernet device.
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2717   */
+2be586205ca2b8 Srikanth Thokala             2015-05-05  2718  static int ax=
+ienet_probe(struct platform_device *pdev)
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2719  {
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2720  	int (*axiene=
+t_clk_init)(struct platform_device *pdev,
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2721  				struct cl=
+k **axi_aclk, struct clk **axis_clk,
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2722  				struct cl=
+k **ref_clk, struct clk **tmpclk) =3D
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2723  					axienet_=
+clk_init;
+f74b2e947664be Appana Durga Kedareswara Rao 2020-01-24  2724  	int ret =3D =
+0;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2725  #ifdef CONFIG=
+_XILINX_AXI_EMAC_HWTSTAMP
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2726  	struct devic=
+e_node *np;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2727  #endif
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2728  	struct axien=
+et_local *lp;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2729  	struct net_d=
+evice *ndev;
+da90e38003e2f0 Tobias Klauser               2016-12-07  2730  	const void *=
+mac_addr;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2731  	struct resou=
+rce *ethres;
+8495659bf93c8e Srikanth Thokala             2015-05-05  2732  	u32 value;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2733  	u16 num_queu=
+es =3D XAE_MAX_QUEUES;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2734  	bool slave =
+=3D false;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2735  =
+
+0f447249ba4872 Saurabh Sengar               2020-01-24  2736  	ret =3D of_p=
+roperty_read_u16(pdev->dev.of_node, "xlnx,num-queues",
+0f447249ba4872 Saurabh Sengar               2020-01-24  2737  				   &num_q=
+ueues);
+0f447249ba4872 Saurabh Sengar               2020-01-24  2738  	if (ret) {
+0f447249ba4872 Saurabh Sengar               2020-01-24  2739  #ifndef CONFI=
+G_AXIENET_HAS_MCDMA
+0f447249ba4872 Saurabh Sengar               2020-01-24  2740  		num_queues =
+=3D 1;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2741  #endif
+0f447249ba4872 Saurabh Sengar               2020-01-24  2742  	}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2743  =
+
+0f447249ba4872 Saurabh Sengar               2020-01-24  2744  	ndev =3D all=
+oc_etherdev_mq(sizeof(*lp), num_queues);
+41de8d4cff21a2 Joe Perches                  2012-01-29  2745  	if (!ndev)
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2746  		return -ENO=
+MEM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2747  =
+
+95219aa538e11d Srikanth Thokala             2015-05-05  2748  	platform_set=
+_drvdata(pdev, ndev);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2749  =
+
+95219aa538e11d Srikanth Thokala             2015-05-05  2750  	SET_NETDEV_D=
+EV(ndev, &pdev->dev);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2751  	ndev->flags =
+&=3D ~IFF_MULTICAST;  /* clear multicast */
+28e24c62ab3062 Eric Dumazet                 2013-12-02  2752  	ndev->featur=
+es =3D NETIF_F_SG;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2753  	ndev->netdev=
+_ops =3D &axienet_netdev_ops;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2754  	ndev->ethtoo=
+l_ops =3D &axienet_ethtool_ops;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2755  =
+
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2756  	/* MTU range=
+: 64 - 9000 */
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2757  	ndev->min_mt=
+u =3D 64;
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2758  	ndev->max_mt=
+u =3D XAE_JUMBO_MTU;
+d894be57ca92c8 Jarod Wilson                 2016-10-20  2759  =
+
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2760  	lp =3D netde=
+v_priv(ndev);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2761  	lp->ndev =3D=
+ ndev;
+95219aa538e11d Srikanth Thokala             2015-05-05  2762  	lp->dev =3D =
+&pdev->dev;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2763  	lp->options =
+=3D XAE_OPTION_DEFAULTS;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2764  	lp->num_tx_q=
+ueues =3D num_queues;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2765  	lp->num_rx_q=
+ueues =3D num_queues;
+8b09ca823ffb4e Robert Hancock               2019-06-06  2766  	lp->rx_bd_nu=
+m =3D RX_BD_NUM_DEFAULT;
+8b09ca823ffb4e Robert Hancock               2019-06-06  2767  	lp->tx_bd_nu=
+m =3D TX_BD_NUM_DEFAULT;
+0f447249ba4872 Saurabh Sengar               2020-01-24  2768  =
+
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2769  	/* Map devic=
+e registers */
+46aa27df885321 Srikanth Thokala             2015-05-05  2770  	ethres =3D p=
+latform_get_resource(pdev, IORESOURCE_MEM, 0);
+46aa27df885321 Srikanth Thokala             2015-05-05  2771  	lp->regs =3D=
+ devm_ioremap_resource(&pdev->dev, ethres);
+fcc028c106e575 Krzysztof Kozlowski          2015-07-09  2772  	if (IS_ERR(l=
+p->regs)) {
+fcc028c106e575 Krzysztof Kozlowski          2015-07-09  2773  		ret =3D PTR=
+_ERR(lp->regs);
+46aa27df885321 Srikanth Thokala             2015-05-05  2774  		goto free_n=
+etdev;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2775  	}
+7fa0043d5c74c6 Robert Hancock               2019-06-11  2776  	lp->regs_sta=
+rt =3D ethres->start;
+46aa27df885321 Srikanth Thokala             2015-05-05  2777  =
+
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2778  	/* Setup che=
+cksum offload, but default to off if not specified */
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2779  	lp->features=
+ =3D 0;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2780  =
+
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2781  	if (pdev->de=
+v.of_node) {
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2782  		const struc=
+t of_device_id *match;
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2783  =
+
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2784  		match =3D o=
+f_match_node(axienet_of_match, pdev->dev.of_node);
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2785  		if (match &=
+& match->data) {
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2786  			lp->axiene=
+t_config =3D match->data;
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2787  			axienet_cl=
+k_init =3D lp->axienet_config->clk_init;
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2788  		}
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2789  	}
+27a4863f9f2dcd Appana Durga Kedareswara Rao 2020-01-24  2790  =
+
+8495659bf93c8e Srikanth Thokala             2015-05-05  2791  	ret =3D of_p=
+roperty_read_u32(pdev->dev.of_node, "xlnx,txcsum", &value);
+8495659bf93c8e Srikanth Thokala             2015-05-05  2792  	if (!ret) {
+f74b2e947664be Appana Durga Kedareswara Rao 2020-01-24  2793  		dev_info(&p=
+dev->dev, "TX_CSUM %d\n", value);
+f74b2e947664be Appana Durga Kedareswara Rao 2020-01-24  2794  =
+
+8495659bf93c8e Srikanth Thokala             2015-05-05  2795  		switch (val=
+ue) {
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2796  		case 1:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2797  			lp->csum_o=
+ffload_on_tx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2798  				XAE_FEATU=
+RE_PARTIAL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2799  			lp->featur=
+es |=3D XAE_FEATURE_PARTIAL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2800  			/* Can che=
+cksum TCP/UDP over IPv4. */
+f74b2e947664be Appana Durga Kedareswara Rao 2020-01-24  2801  			ndev->feat=
+ures |=3D NETIF_F_IP_CSUM | NETIF_F_SG;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2802  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2803  		case 2:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2804  			lp->csum_o=
+ffload_on_tx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2805  				XAE_FEATU=
+RE_FULL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2806  			lp->featur=
+es |=3D XAE_FEATURE_FULL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2807  			/* Can che=
+cksum TCP/UDP over IPv4. */
+f74b2e947664be Appana Durga Kedareswara Rao 2020-01-24  2808  			ndev->feat=
+ures |=3D NETIF_F_IP_CSUM | NETIF_F_SG;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2809  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2810  		default:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2811  			lp->csum_o=
+ffload_on_tx_path =3D XAE_NO_CSUM_OFFLOAD;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2812  		}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2813  	}
+8495659bf93c8e Srikanth Thokala             2015-05-05  2814  	ret =3D of_p=
+roperty_read_u32(pdev->dev.of_node, "xlnx,rxcsum", &value);
+8495659bf93c8e Srikanth Thokala             2015-05-05  2815  	if (!ret) {
+f74b2e947664be Appana Durga Kedareswara Rao 2020-01-24  2816  		dev_info(&p=
+dev->dev, "RX_CSUM %d\n", value);
+f74b2e947664be Appana Durga Kedareswara Rao 2020-01-24  2817  =
+
+8495659bf93c8e Srikanth Thokala             2015-05-05  2818  		switch (val=
+ue) {
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2819  		case 1:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2820  			lp->csum_o=
+ffload_on_rx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2821  				XAE_FEATU=
+RE_PARTIAL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2822  			lp->featur=
+es |=3D XAE_FEATURE_PARTIAL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2823  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2824  		case 2:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2825  			lp->csum_o=
+ffload_on_rx_path =3D
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2826  				XAE_FEATU=
+RE_FULL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2827  			lp->featur=
+es |=3D XAE_FEATURE_FULL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2828  			break;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2829  		default:
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2830  			lp->csum_o=
+ffload_on_rx_path =3D XAE_NO_CSUM_OFFLOAD;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2831  		}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2832  	}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2833  	/* For suppo=
+rting jumbo frames, the Axi Ethernet hardware must have
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2834  	 * a larger =
+Rx/Tx Memory. Typically, the size must be large so that
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2835  	 * we can en=
+able jumbo option and start supporting jumbo frames.
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2836  	 * Here we c=
+heck for memory allocated for Rx/Tx in the hardware from
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2837  	 * the devic=
+e-tree and accordingly set flags.
+f080a8c35d8932 Srikanth Thokala             2015-05-05  2838  	 */
+8495659bf93c8e Srikanth Thokala             2015-05-05  2839  	of_property_=
+read_u32(pdev->dev.of_node, "xlnx,rxmem", &lp->rxmem);
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2840  =
+
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2841  	/* Start wit=
+h the proprietary, and broken phy_type */
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2842  	ret =3D of_p=
+roperty_read_u32(pdev->dev.of_node, "xlnx,phy-type", &value);
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2843  	if (!ret) {
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2844  		switch (val=
+ue) {
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2845  		case XAE_PH=
+Y_TYPE_MII:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2846  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_MII;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2847  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2848  		case XAE_PH=
+Y_TYPE_GMII:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2849  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_GMII;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2850  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2851  		case XAE_PH=
+Y_TYPE_RGMII_2_0:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2852  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_RGMII_ID;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2853  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2854  		case XAE_PH=
+Y_TYPE_SGMII:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2855  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_SGMII;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2856  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2857  		case XAE_PH=
+Y_TYPE_1000BASE_X:
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2858  			lp->phy_mo=
+de =3D PHY_INTERFACE_MODE_1000BASEX;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2859  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2860  		default:
+9e8ce9d565663f Appana Durga Kedareswara Rao 2020-01-24  2861  			/* Don't e=
+rror out as phy-type is an optional property */
+9e8ce9d565663f Appana Durga Kedareswara Rao 2020-01-24  2862  			break;
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2863  		}
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2864  	} else {
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2865  		lp->phy_mod=
+e =3D of_get_phy_mode(pdev->dev.of_node);
+73e211e11be867 Dan Carpenter                2019-09-25  2866  		if ((int)lp=
+->phy_mode < 0) {
+9e8ce9d565663f Appana Durga Kedareswara Rao 2020-01-24  2867  			dev_warn(&=
+pdev->dev, "couldn't find phy i/f\n");
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2868  		}
+ee06b1728b9564 Alvaro G. M                  2017-07-17  2869  	}
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2870  =
+
+d8d52edc0088c9 Appana Durga Kedareswara Rao 2020-01-24  2871  	lp->eth_hasn=
+obuf =3D of_property_read_bool(pdev->dev.of_node,
+d8d52edc0088c9 Appana Durga Kedareswara Rao 2020-01-24  2872  						 "xlnx,=
+eth-hasnobuf");
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2873  	lp->eth_hasp=
+tp =3D of_property_read_bool(pdev->dev.of_node,
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2874  					       "=
+xlnx,eth-hasptp");
+d8d52edc0088c9 Appana Durga Kedareswara Rao 2020-01-24  2875  =
+
+9e8ce9d565663f Appana Durga Kedareswara Rao 2020-01-24  2876  	if ((lp->axi=
+enet_config->mactype =3D=3D XAXIENET_1G) && !lp->eth_hasnobuf)
+9e8ce9d565663f Appana Durga Kedareswara Rao 2020-01-24  2877  		lp->eth_irq=
+ =3D platform_get_irq(pdev, 0);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2878  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2879  #ifdef CONFIG=
+_XILINX_AXI_EMAC_HWTSTAMP
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2880  	struct resou=
+rce txtsres, rxtsres;
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2881  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2882  	/* Find AXI =
+Stream FIFO */
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2883  	np =3D of_pa=
+rse_phandle(pdev->dev.of_node, "axififo-connected", 0);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2884  	if (IS_ERR(n=
+p)) {
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2885  		dev_err(&pd=
+ev->dev, "could not find TX Timestamp FIFO\n");
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2886  		ret =3D PTR=
+_ERR(np);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2887  		goto free_n=
+etdev;
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2888  	}
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2889  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2890  	ret =3D of_a=
+ddress_to_resource(np, 0, &txtsres);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2891  	if (ret) {
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2892  		dev_err(&pd=
+ev->dev, "unable to get Tx Timestamp resource\n");
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2893  		goto free_n=
+etdev;
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2894  	}
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2895  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2896  	lp->tx_ts_re=
+gs =3D devm_ioremap_resource(&pdev->dev, &txtsres);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2897  	if (IS_ERR(l=
+p->tx_ts_regs)) {
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2898  		dev_err(&pd=
+ev->dev, "could not map Tx Timestamp regs\n");
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2899  		ret =3D PTR=
+_ERR(lp->tx_ts_regs);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2900  		goto free_n=
+etdev;
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2901  	}
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2902  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2903  	if (lp->axie=
+net_config->mactype =3D=3D XAXIENET_10G_25G) {
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2904  		np =3D of_p=
+arse_phandle(pdev->dev.of_node, "xlnx,rxtsfifo",
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2905  				      0);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2906  		if (IS_ERR(=
+np)) {
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2907  			dev_err(&p=
+dev->dev,
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2908  				"couldn't=
+ find rx-timestamp FIFO\n");
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2909  			ret =3D PT=
+R_ERR(np);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2910  			goto free_=
+netdev;
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2911  		}
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2912  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2913  		ret =3D of_=
+address_to_resource(np, 0, &rxtsres);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2914  		if (ret) {
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2915  			dev_err(&p=
+dev->dev,
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2916  				"unable t=
+o get rx-timestamp resource\n");
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2917  			goto free_=
+netdev;
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2918  		}
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2919  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2920  		lp->rx_ts_r=
+egs =3D devm_ioremap_resource(&pdev->dev, &rxtsres);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2921  		if (IS_ERR(=
+lp->rx_ts_regs)) {
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2922  			dev_err(&p=
+dev->dev, "couldn't map rx-timestamp regs\n");
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2923  			ret =3D PT=
+R_ERR(lp->rx_ts_regs);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2924  			goto free_=
+netdev;
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2925  		}
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2926  		lp->tx_ptph=
+eader =3D devm_kzalloc(&pdev->dev,
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2927  						XXVENET=
+_TS_HEADER_LEN,
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2928  						GFP_KER=
+NEL);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2929  	}
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2930  =
+
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2931  	of_node_put(=
+np);
+6a8544f2f4d900 Appana Durga Kedareswara Rao 2020-01-24  2932  #endif
+0f447249ba4872 Saurabh Sengar               2020-01-24  2933  	if (!slave) {
+0f447249ba4872 Saurabh Sengar               2020-01-24  2934  #ifdef CONFIG=
+_AXIENET_HAS_MCDMA
+0f447249ba4872 Saurabh Sengar               2020-01-24  2935  		ret =3D axi=
+enet_mcdma_probe(pdev, lp, ndev);
+0f447249ba4872 Saurabh Sengar               2020-01-24  2936  #else
+0f447249ba4872 Saurabh Sengar               2020-01-24  2937  		ret =3D axi=
+enet_dma_probe(pdev, ndev);
+0f447249ba4872 Saurabh Sengar               2020-01-24  2938  #endif
+b482f0a0aa9973 Radhey Shyam Pandey          2020-01-24  2939  		if (ret) {
+0f447249ba4872 Saurabh Sengar               2020-01-24  2940  			pr_err("Ge=
+tting DMA resource failed\n");
+46aa27df885321 Srikanth Thokala             2015-05-05  2941  			goto free_=
+netdev;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2942  		}
+9e8ce9d565663f Appana Durga Kedareswara Rao 2020-01-24  2943  =
+
+0f447249ba4872 Saurabh Sengar               2020-01-24  2944  		if (dma_set=
+_mask_and_coherent(lp->dev, DMA_BIT_MASK(lp->dma_mask)) !=3D 0) {
+0f447249ba4872 Saurabh Sengar               2020-01-24  2945  			dev_warn(&=
+pdev->dev, "default to %d-bit dma mask\n", XAE_DMA_MASK_MIN);
+0f447249ba4872 Saurabh Sengar               2020-01-24  2946  			if (dma_se=
+t_mask_and_coherent(lp->dev, DMA_BIT_MASK(XAE_DMA_MASK_MIN)) !=3D 0) {
+0f447249ba4872 Saurabh Sengar               2020-01-24  2947  				dev_err(&=
+pdev->dev, "dma_set_mask_and_coherent failed, aborting\n");
+46aa27df885321 Srikanth Thokala             2015-05-05 @2948  				goto free=
+_netdev;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2949  			}
+0f447249ba4872 Saurabh Sengar               2020-01-24  2950  		}
+57b6ef54c85dd8 Appana Durga Kedareswara Rao 2020-01-24  2951  =
+
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2952  		ret =3D axi=
+enet_dma_clk_init(pdev);
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2953  		if (ret) {
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2954  			if (ret !=
+=3D -EPROBE_DEFER)
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2955  				dev_err(&=
+pdev->dev, "DMA clock init failed %d\n", ret);
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2956  			goto free_=
+netdev;
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2957  		}
+0f447249ba4872 Saurabh Sengar               2020-01-24  2958  	}
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2959  =
+
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2960  	ret =3D axie=
+net_clk_init(pdev, &lp->aclk, &lp->eth_sclk,
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2961  			       &lp=
+->eth_refclk, &lp->eth_dclk);
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2962  	if (ret) {
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2963  		if (ret !=
+=3D -EPROBE_DEFER)
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2964  			dev_err(&p=
+dev->dev, "Ethernet clock init failed %d\n", ret);
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2965  		goto err_di=
+sable_clk;
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2966  	}
+b5d3f74c95f046 Appana Durga Kedareswara Rao 2020-01-24  2967  =
+
+0f447249ba4872 Saurabh Sengar               2020-01-24  2968  	lp->eth_irq =
+=3D platform_get_irq(pdev, 0);
+0f447249ba4872 Saurabh Sengar               2020-01-24  2969  	/* Check for=
+ Ethernet core IRQ (optional) */
+0f447249ba4872 Saurabh Sengar               2020-01-24  2970  	if (lp->eth_=
+irq <=3D 0)
+0f447249ba4872 Saurabh Sengar               2020-01-24  2971  		dev_info(&p=
+dev->dev, "Ethernet core IRQ not defined\n");
+0f447249ba4872 Saurabh Sengar               2020-01-24  2972  =
+
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2973  	/* Retrieve =
+the MAC address */
+da90e38003e2f0 Tobias Klauser               2016-12-07  2974  	mac_addr =3D=
+ of_get_mac_address(pdev->dev.of_node);
+a51645f70f6384 Petr =C5=A0tetiar                 2019-05-06  2975  	if (IS_=
+ERR(mac_addr)) {
+d05a9ed5c3a773 Robert Hancock               2019-06-06  2976  		dev_warn(&p=
+dev->dev, "could not find MAC address property: %ld\n",
+d05a9ed5c3a773 Robert Hancock               2019-06-06  2977  			 PTR_ERR(m=
+ac_addr));
+d05a9ed5c3a773 Robert Hancock               2019-06-06  2978  		mac_addr =
+=3D NULL;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2979  	}
+da90e38003e2f0 Tobias Klauser               2016-12-07  2980  	axienet_set_=
+mac_address(ndev, mac_addr);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2981  =
+
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2982  	lp->coalesce=
+_count_rx =3D XAXIDMA_DFT_RX_THRESHOLD;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2983  	lp->coalesce=
+_count_tx =3D XAXIDMA_DFT_TX_THRESHOLD;
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  2984  =
+
+95219aa538e11d Srikanth Thokala             2015-05-05  2985  	lp->phy_node=
+ =3D of_parse_phandle(pdev->dev.of_node, "phy-handle", 0);
+46aa27df885321 Srikanth Thokala             2015-05-05  2986  	if (lp->phy_=
+node) {
+09a0354cadec26 Robert Hancock               2019-06-06  2987  		lp->clk =3D=
+ devm_clk_get(&pdev->dev, NULL);
+09a0354cadec26 Robert Hancock               2019-06-06  2988  		if (IS_ERR(=
+lp->clk)) {
+09a0354cadec26 Robert Hancock               2019-06-06  2989  			dev_warn(&=
+pdev->dev, "Failed to get clock: %ld\n",
+09a0354cadec26 Robert Hancock               2019-06-06  2990  				 PTR_ERR(=
+lp->clk));
+09a0354cadec26 Robert Hancock               2019-06-06  2991  			lp->clk =
+=3D NULL;
+09a0354cadec26 Robert Hancock               2019-06-06  2992  		} else {
+09a0354cadec26 Robert Hancock               2019-06-06  2993  			ret =3D cl=
+k_prepare_enable(lp->clk);
+09a0354cadec26 Robert Hancock               2019-06-06  2994  			if (ret) {
+09a0354cadec26 Robert Hancock               2019-06-06  2995  				dev_err(&=
+pdev->dev, "Unable to enable clock: %d\n",
+09a0354cadec26 Robert Hancock               2019-06-06  2996  					ret);
+09a0354cadec26 Robert Hancock               2019-06-06  2997  				goto free=
+_netdev;
+09a0354cadec26 Robert Hancock               2019-06-06  2998  			}
+09a0354cadec26 Robert Hancock               2019-06-06  2999  		}
+09a0354cadec26 Robert Hancock               2019-06-06  3000  =
+
+09a0354cadec26 Robert Hancock               2019-06-06  3001  		ret =3D axi=
+enet_mdio_setup(lp);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  3002  		if (ret)
+09a0354cadec26 Robert Hancock               2019-06-06  3003  			dev_warn(&=
+pdev->dev,
+09a0354cadec26 Robert Hancock               2019-06-06  3004  				 "error r=
+egistering MDIO bus: %d\n", ret);
+8a3b7a252dca9f Daniel Borkmann              2012-01-19  3005  =
+
+f5203a3d9b25fa Robert Hancock               2019-06-06  3006  		lp->phylink=
+_config.dev =3D &ndev->dev;
+f5203a3d9b25fa Robert Hancock               2019-06-06  3007  		lp->phylink=
+_config.type =3D PHYLINK_NETDEV;
+f5203a3d9b25fa Robert Hancock               2019-06-06  3008  =
+
+f5203a3d9b25fa Robert Hancock               2019-06-06  3009  		lp->phylink=
+ =3D phylink_create(&lp->phylink_config, pdev->dev.fwnode,
+f5203a3d9b25fa Robert Hancock               2019-06-06  3010  					     lp-=
+>phy_mode,
+f5203a3d9b25fa Robert Hancock               2019-06-06  3011  					     &ax=
+ienet_phylink_ops);
+f5203a3d9b25fa Robert Hancock               2019-06-06  3012  		if (IS_ERR(=
+lp->phylink)) {
+f5203a3d9b25fa Robert Hancock               2019-06-06  3013  			ret =3D PT=
+R_ERR(lp->phylink);
+f5203a3d9b25fa Robert Hancock               2019-06-06  3014  			dev_err(&p=
+dev->dev, "phylink_create error (%i)\n", ret);
+f5203a3d9b25fa Robert Hancock               2019-06-06  3015  			goto free_=
+netdev;
+f5203a3d9b25fa Robert Hancock               2019-06-06  3016  		}
+73308b8fbe6790 Appana Durga Kedareswara Rao 2020-01-24  3017  	}
+f5203a3d9b25fa Robert Hancock               2019-06-06  3018  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 2948 was first introduced by commit
+:::::: 46aa27df88532146974628602b6f5cc587422388 net: axienet: Use devm_* ca=
+lls
 
-   fs/ext4/ext4.h:586:2: warning: Shifting signed 32-bit value by 31 bits i=
-s undefined behaviour [shiftTooManyBitsSigned]
-    CHECK_FLAG_VALUE(RESERVED);
-    ^
->> fs/ext4/inode.c:5477:3: warning: Identical inner 'if' condition is alway=
-s true. [identicalInnerCondition]
-     ext4_std_error(inode->i_sb, error);
-     ^
-   fs/ext4/inode.c:5476:7: note: outer condition: error
-    if  (error)
-         ^
-   fs/ext4/inode.c:5477:3: note: identical inner condition: error
-     ext4_std_error(inode->i_sb, error);
-     ^
-
-vim +/if +5477 fs/ext4/inode.c
-
-53e872681fed6a Jan Kara           2012-12-25  5243  =
-
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5244  /*
-617ba13b31fbf5 Mingming Cao       2006-10-11  5245   * ext4_setattr()
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5246   *
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5247   * Called from notify_c=
-hange.
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5248   *
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5249   * We want to trap VFS =
-attempts to truncate the file as soon as
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5250   * possible.  In partic=
-ular, we want to make sure that when the VFS
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5251   * shrinks i_size, we p=
-ut the inode on the orphan list and modify
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5252   * i_disksize immediate=
-ly, so that during the subsequent flushing of
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5253   * dirty pages and free=
-ing of disk blocks, we can guarantee that any
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5254   * commit will leave th=
-e blocks being flushed in an unused state on
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5255   * disk.  (On recovery,=
- the inode will get truncated and the blocks will
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5256   * be freed, so we have=
- a strong guarantee that no future commit will
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5257   * leave these blocks v=
-isible to the user.)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5258   *
-678aaf481496b0 Jan Kara           2008-07-11  5259   * Another thing we hav=
-e to assure is that if we are in ordered mode
-678aaf481496b0 Jan Kara           2008-07-11  5260   * and inode is still a=
-ttached to the committing transaction, we must
-678aaf481496b0 Jan Kara           2008-07-11  5261   * we start writeout of=
- all the dirty pages which are being truncated.
-678aaf481496b0 Jan Kara           2008-07-11  5262   * This way we are sure=
- that all the data written in the previous
-678aaf481496b0 Jan Kara           2008-07-11  5263   * transaction are alre=
-ady on disk (truncate waits for pages under
-678aaf481496b0 Jan Kara           2008-07-11  5264   * writeback).
-678aaf481496b0 Jan Kara           2008-07-11  5265   *
-678aaf481496b0 Jan Kara           2008-07-11  5266   * Called with inode->i=
-_mutex down.
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5267   */
-617ba13b31fbf5 Mingming Cao       2006-10-11  5268  int ext4_setattr(struct=
- dentry *dentry, struct iattr *attr)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5269  {
-2b0143b5c986be David Howells      2015-03-17  5270  	struct inode *inode =
-=3D d_inode(dentry);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5271  	int error, rc =3D 0;
-3d287de3b82822 Dmitry Monakhov    2010-10-27  5272  	int orphan =3D 0;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5273  	const unsigned int ia_=
-valid =3D attr->ia_valid;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5274  =
-
-0db1ff222d40f1 Theodore Ts'o      2017-02-05  5275  	if (unlikely(ext4_forc=
-ed_shutdown(EXT4_SB(inode->i_sb))))
-0db1ff222d40f1 Theodore Ts'o      2017-02-05  5276  		return -EIO;
-0db1ff222d40f1 Theodore Ts'o      2017-02-05  5277  =
-
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5278  	if (unlikely(IS_IMMUTA=
-BLE(inode)))
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5279  		return -EPERM;
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5280  =
-
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5281  	if (unlikely(IS_APPEND=
-(inode) &&
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5282  		     (ia_valid & (ATT=
-R_MODE | ATTR_UID |
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5283  				  ATTR_GID | ATTR_T=
-IMES_SET))))
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5284  		return -EPERM;
-02b016ca7f9922 Theodore Ts'o      2019-06-09  5285  =
-
-31051c85b5e2aa Jan Kara           2016-05-26  5286  	error =3D setattr_prep=
-are(dentry, attr);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5287  	if (error)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5288  		return error;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5289  =
-
-3ce2b8ddd84d50 Eric Biggers       2017-10-18  5290  	error =3D fscrypt_prep=
-are_setattr(dentry, attr);
-3ce2b8ddd84d50 Eric Biggers       2017-10-18  5291  	if (error)
-3ce2b8ddd84d50 Eric Biggers       2017-10-18  5292  		return error;
-3ce2b8ddd84d50 Eric Biggers       2017-10-18  5293  =
-
-c93d8f88580921 Eric Biggers       2019-07-22  5294  	error =3D fsverity_pre=
-pare_setattr(dentry, attr);
-c93d8f88580921 Eric Biggers       2019-07-22  5295  	if (error)
-c93d8f88580921 Eric Biggers       2019-07-22  5296  		return error;
-c93d8f88580921 Eric Biggers       2019-07-22  5297  =
-
-a7cdadee0e8948 Jan Kara           2015-06-29  5298  	if (is_quota_modificat=
-ion(inode, attr)) {
-a7cdadee0e8948 Jan Kara           2015-06-29  5299  		error =3D dquot_initi=
-alize(inode);
-a7cdadee0e8948 Jan Kara           2015-06-29  5300  		if (error)
-a7cdadee0e8948 Jan Kara           2015-06-29  5301  			return error;
-a7cdadee0e8948 Jan Kara           2015-06-29  5302  	}
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5303  	ext4_fc_start_update(i=
-node);
-08cefc7ab839cf Eric W. Biederman  2012-02-07  5304  	if ((ia_valid & ATTR_U=
-ID && !uid_eq(attr->ia_uid, inode->i_uid)) ||
-08cefc7ab839cf Eric W. Biederman  2012-02-07  5305  	    (ia_valid & ATTR_G=
-ID && !gid_eq(attr->ia_gid, inode->i_gid))) {
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5306  		handle_t *handle;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5307  =
-
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5308  		/* (user+group)*(old+=
-new) structure, inode write (sb,
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5309  		 * inode block, ? - b=
-ut truncate inode update has it) */
-9924a92a8c2175 Theodore Ts'o      2013-02-08  5310  		handle =3D ext4_journ=
-al_start(inode, EXT4_HT_QUOTA,
-9924a92a8c2175 Theodore Ts'o      2013-02-08  5311  			(EXT4_MAXQUOTAS_INIT=
-_BLOCKS(inode->i_sb) +
-194074acacebc1 Dmitry Monakhov    2009-12-08  5312  			 EXT4_MAXQUOTAS_DEL_=
-BLOCKS(inode->i_sb)) + 3);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5313  		if (IS_ERR(handle)) {
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5314  			error =3D PTR_ERR(ha=
-ndle);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5315  			goto err_out;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5316  		}
-7a9ca53aea10ad Tahsin Erdogan     2017-06-22  5317  =
-
-7a9ca53aea10ad Tahsin Erdogan     2017-06-22  5318  		/* dquot_transfer() c=
-alls back ext4_get_inode_usage() which
-7a9ca53aea10ad Tahsin Erdogan     2017-06-22  5319  		 * counts xattr inode=
- references.
-7a9ca53aea10ad Tahsin Erdogan     2017-06-22  5320  		 */
-7a9ca53aea10ad Tahsin Erdogan     2017-06-22  5321  		down_read(&EXT4_I(ino=
-de)->xattr_sem);
-b43fa8284d7790 Christoph Hellwig  2010-03-03  5322  		error =3D dquot_trans=
-fer(inode, attr);
-7a9ca53aea10ad Tahsin Erdogan     2017-06-22  5323  		up_read(&EXT4_I(inode=
-)->xattr_sem);
-7a9ca53aea10ad Tahsin Erdogan     2017-06-22  5324  =
-
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5325  		if (error) {
-617ba13b31fbf5 Mingming Cao       2006-10-11  5326  			ext4_journal_stop(ha=
-ndle);
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5327  			ext4_fc_stop_update(=
-inode);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5328  			return error;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5329  		}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5330  		/* Update correspondi=
-ng info in inode so that everything is in
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5331  		 * one transaction */
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5332  		if (attr->ia_valid & =
-ATTR_UID)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5333  			inode->i_uid =3D att=
-r->ia_uid;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5334  		if (attr->ia_valid & =
-ATTR_GID)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5335  			inode->i_gid =3D att=
-r->ia_gid;
-617ba13b31fbf5 Mingming Cao       2006-10-11  5336  		error =3D ext4_mark_i=
-node_dirty(handle, inode);
-617ba13b31fbf5 Mingming Cao       2006-10-11  5337  		ext4_journal_stop(han=
-dle);
-4209ae12b12265 Harshad Shirwadkar 2020-04-26  5338  		if (unlikely(error))
-4209ae12b12265 Harshad Shirwadkar 2020-04-26  5339  			return error;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5340  	}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5341  =
-
-3da40c7b089810 Josef Bacik        2015-06-22  5342  	if (attr->ia_valid & A=
-TTR_SIZE) {
-5208386c501276 Jan Kara           2013-08-17  5343  		handle_t *handle;
-3da40c7b089810 Josef Bacik        2015-06-22  5344  		loff_t oldsize =3D in=
-ode->i_size;
-b9c1c26739ec2d Jan Kara           2019-05-30  5345  		int shrink =3D (attr-=
->ia_size < inode->i_size);
-562c72aa57c36b Christoph Hellwig  2011-06-24  5346  =
-
-12e9b892002d9a Dmitry Monakhov    2010-05-16  5347  		if (!(ext4_test_inode=
-_flag(inode, EXT4_INODE_EXTENTS))) {
-e2b4657453c0d5 Eric Sandeen       2008-01-28  5348  			struct ext4_sb_info =
-*sbi =3D EXT4_SB(inode->i_sb);
-e2b4657453c0d5 Eric Sandeen       2008-01-28  5349  =
-
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5350  			if (attr->ia_size > =
-sbi->s_bitmap_maxbytes) {
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5351  				ext4_fc_stop_update=
-(inode);
-0c095c7f113e9f Theodore Ts'o      2010-07-27  5352  				return -EFBIG;
-e2b4657453c0d5 Eric Sandeen       2008-01-28  5353  			}
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5354  		}
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5355  		if (!S_ISREG(inode->i=
-_mode)) {
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5356  			ext4_fc_stop_update(=
-inode);
-3da40c7b089810 Josef Bacik        2015-06-22  5357  			return -EINVAL;
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5358  		}
-dff6efc326a4d5 Christoph Hellwig  2013-11-19  5359  =
-
-dff6efc326a4d5 Christoph Hellwig  2013-11-19  5360  		if (IS_I_VERSION(inod=
-e) && attr->ia_size !=3D inode->i_size)
-dff6efc326a4d5 Christoph Hellwig  2013-11-19  5361  			inode_inc_iversion(i=
-node);
-dff6efc326a4d5 Christoph Hellwig  2013-11-19  5362  =
-
-b9c1c26739ec2d Jan Kara           2019-05-30  5363  		if (shrink) {
-b9c1c26739ec2d Jan Kara           2019-05-30  5364  			if (ext4_should_orde=
-r_data(inode)) {
-5208386c501276 Jan Kara           2013-08-17  5365  				error =3D ext4_begi=
-n_ordered_truncate(inode,
-5208386c501276 Jan Kara           2013-08-17  5366  							    attr->ia_siz=
-e);
-5208386c501276 Jan Kara           2013-08-17  5367  				if (error)
-5208386c501276 Jan Kara           2013-08-17  5368  					goto err_out;
-5208386c501276 Jan Kara           2013-08-17  5369  			}
-b9c1c26739ec2d Jan Kara           2019-05-30  5370  			/*
-b9c1c26739ec2d Jan Kara           2019-05-30  5371  			 * Blocks are going =
-to be removed from the inode. Wait
-b9c1c26739ec2d Jan Kara           2019-05-30  5372  			 * for dio in flight.
-b9c1c26739ec2d Jan Kara           2019-05-30  5373  			 */
-b9c1c26739ec2d Jan Kara           2019-05-30  5374  			inode_dio_wait(inode=
-);
-b9c1c26739ec2d Jan Kara           2019-05-30  5375  		}
-b9c1c26739ec2d Jan Kara           2019-05-30  5376  =
-
-b9c1c26739ec2d Jan Kara           2019-05-30  5377  		down_write(&EXT4_I(in=
-ode)->i_mmap_sem);
-b9c1c26739ec2d Jan Kara           2019-05-30  5378  =
-
-b9c1c26739ec2d Jan Kara           2019-05-30  5379  		rc =3D ext4_break_lay=
-outs(inode);
-b9c1c26739ec2d Jan Kara           2019-05-30  5380  		if (rc) {
-b9c1c26739ec2d Jan Kara           2019-05-30  5381  			up_write(&EXT4_I(ino=
-de)->i_mmap_sem);
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5382  			goto err_out;
-b9c1c26739ec2d Jan Kara           2019-05-30  5383  		}
-b9c1c26739ec2d Jan Kara           2019-05-30  5384  =
-
-3da40c7b089810 Josef Bacik        2015-06-22  5385  		if (attr->ia_size !=
-=3D inode->i_size) {
-9924a92a8c2175 Theodore Ts'o      2013-02-08  5386  			handle =3D ext4_jour=
-nal_start(inode, EXT4_HT_INODE, 3);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5387  			if (IS_ERR(handle)) {
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5388  				error =3D PTR_ERR(h=
-andle);
-b9c1c26739ec2d Jan Kara           2019-05-30  5389  				goto out_mmap_sem;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5390  			}
-3da40c7b089810 Josef Bacik        2015-06-22  5391  			if (ext4_handle_vali=
-d(handle) && shrink) {
-617ba13b31fbf5 Mingming Cao       2006-10-11  5392  				error =3D ext4_orph=
-an_add(handle, inode);
-3d287de3b82822 Dmitry Monakhov    2010-10-27  5393  				orphan =3D 1;
-3d287de3b82822 Dmitry Monakhov    2010-10-27  5394  			}
-911af577de4e44 Eryu Guan          2015-07-28  5395  			/*
-911af577de4e44 Eryu Guan          2015-07-28  5396  			 * Update c/mtime on=
- truncate up, ext4_truncate() will
-911af577de4e44 Eryu Guan          2015-07-28  5397  			 * update c/mtime in=
- shrink case below
-911af577de4e44 Eryu Guan          2015-07-28  5398  			 */
-911af577de4e44 Eryu Guan          2015-07-28  5399  			if (!shrink) {
-eeca7ea1baa939 Deepa Dinamani     2016-11-14  5400  				inode->i_mtime =3D =
-current_time(inode);
-911af577de4e44 Eryu Guan          2015-07-28  5401  				inode->i_ctime =3D =
-inode->i_mtime;
-911af577de4e44 Eryu Guan          2015-07-28  5402  			}
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5403  =
-
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5404  			if (shrink)
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5405  				ext4_fc_track_range=
-(inode,
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5406  					(attr->ia_size > 0=
- ? attr->ia_size - 1 : 0) >>
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5407  					inode->i_sb->s_blo=
-cksize_bits,
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5408  					(oldsize > 0 ? old=
-size - 1 : 0) >>
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5409  					inode->i_sb->s_blo=
-cksize_bits);
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5410  			else
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5411  				ext4_fc_track_range(
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5412  					inode,
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5413  					(oldsize > 0 ? old=
-size - 1 : oldsize) >>
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5414  					inode->i_sb->s_blo=
-cksize_bits,
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5415  					(attr->ia_size > 0=
- ? attr->ia_size - 1 : 0) >>
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5416  					inode->i_sb->s_blo=
-cksize_bits);
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5417  =
-
-90e775b71ac4e6 Jan Kara           2013-08-17  5418  			down_write(&EXT4_I(i=
-node)->i_data_sem);
-617ba13b31fbf5 Mingming Cao       2006-10-11  5419  			EXT4_I(inode)->i_dis=
-ksize =3D attr->ia_size;
-617ba13b31fbf5 Mingming Cao       2006-10-11  5420  			rc =3D ext4_mark_ino=
-de_dirty(handle, inode);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5421  			if (!error)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5422  				error =3D rc;
-90e775b71ac4e6 Jan Kara           2013-08-17  5423  			/*
-90e775b71ac4e6 Jan Kara           2013-08-17  5424  			 * We have to update=
- i_size under i_data_sem together
-90e775b71ac4e6 Jan Kara           2013-08-17  5425  			 * with i_disksize t=
-o avoid races with writeback code
-90e775b71ac4e6 Jan Kara           2013-08-17  5426  			 * running ext4_wb_u=
-pdate_i_disksize().
-90e775b71ac4e6 Jan Kara           2013-08-17  5427  			 */
-90e775b71ac4e6 Jan Kara           2013-08-17  5428  			if (!error)
-90e775b71ac4e6 Jan Kara           2013-08-17  5429  				i_size_write(inode,=
- attr->ia_size);
-90e775b71ac4e6 Jan Kara           2013-08-17  5430  			up_write(&EXT4_I(ino=
-de)->i_data_sem);
-617ba13b31fbf5 Mingming Cao       2006-10-11  5431  			ext4_journal_stop(ha=
-ndle);
-b9c1c26739ec2d Jan Kara           2019-05-30  5432  			if (error)
-b9c1c26739ec2d Jan Kara           2019-05-30  5433  				goto out_mmap_sem;
-82a25b027ca48d Jan Kara           2019-05-23  5434  			if (!shrink) {
-b9c1c26739ec2d Jan Kara           2019-05-30  5435  				pagecache_isize_ext=
-ended(inode, oldsize,
-b9c1c26739ec2d Jan Kara           2019-05-30  5436  							 inode->i_size);
-b9c1c26739ec2d Jan Kara           2019-05-30  5437  			} else if (ext4_shou=
-ld_journal_data(inode)) {
-82a25b027ca48d Jan Kara           2019-05-23  5438  				ext4_wait_for_tail_=
-page_commit(inode);
-b9c1c26739ec2d Jan Kara           2019-05-30  5439  			}
-430657b6be896d Ross Zwisler       2018-07-29  5440  		}
-430657b6be896d Ross Zwisler       2018-07-29  5441  =
-
-53e872681fed6a Jan Kara           2012-12-25  5442  		/*
-53e872681fed6a Jan Kara           2012-12-25  5443  		 * Truncate pagecache=
- after we've waited for commit
-53e872681fed6a Jan Kara           2012-12-25  5444  		 * in data=3Djournal =
-mode to make pages freeable.
-53e872681fed6a Jan Kara           2012-12-25  5445  		 */
-7caef26767c172 Kirill A. Shutemov 2013-09-12  5446  		truncate_pagecache(in=
-ode, inode->i_size);
-b9c1c26739ec2d Jan Kara           2019-05-30  5447  		/*
-b9c1c26739ec2d Jan Kara           2019-05-30  5448  		 * Call ext4_truncate=
-() even if i_size didn't change to
-b9c1c26739ec2d Jan Kara           2019-05-30  5449  		 * truncate possible =
-preallocated blocks.
-b9c1c26739ec2d Jan Kara           2019-05-30  5450  		 */
-b9c1c26739ec2d Jan Kara           2019-05-30  5451  		if (attr->ia_size <=
-=3D oldsize) {
-2c98eb5ea24976 Theodore Ts'o      2016-11-13  5452  			rc =3D ext4_truncate=
-(inode);
-2c98eb5ea24976 Theodore Ts'o      2016-11-13  5453  			if (rc)
-2c98eb5ea24976 Theodore Ts'o      2016-11-13  5454  				error =3D rc;
-2c98eb5ea24976 Theodore Ts'o      2016-11-13  5455  		}
-b9c1c26739ec2d Jan Kara           2019-05-30  5456  out_mmap_sem:
-ea3d7209ca01da Jan Kara           2015-12-07  5457  		up_write(&EXT4_I(inod=
-e)->i_mmap_sem);
-3da40c7b089810 Josef Bacik        2015-06-22  5458  	}
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5459  =
-
-2c98eb5ea24976 Theodore Ts'o      2016-11-13  5460  	if (!error) {
-1025774ce411f2 Christoph Hellwig  2010-06-04  5461  		setattr_copy(inode, a=
-ttr);
-1025774ce411f2 Christoph Hellwig  2010-06-04  5462  		mark_inode_dirty(inod=
-e);
-1025774ce411f2 Christoph Hellwig  2010-06-04  5463  	}
-1025774ce411f2 Christoph Hellwig  2010-06-04  5464  =
-
-1025774ce411f2 Christoph Hellwig  2010-06-04  5465  	/*
-1025774ce411f2 Christoph Hellwig  2010-06-04  5466  	 * If the call to ext4=
-_truncate failed to get a transaction handle at
-1025774ce411f2 Christoph Hellwig  2010-06-04  5467  	 * all, we need to cle=
-an up the in-core orphan list manually.
-1025774ce411f2 Christoph Hellwig  2010-06-04  5468  	 */
-3d287de3b82822 Dmitry Monakhov    2010-10-27  5469  	if (orphan && inode->i=
-_nlink)
-617ba13b31fbf5 Mingming Cao       2006-10-11  5470  		ext4_orphan_del(NULL,=
- inode);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5471  =
-
-2c98eb5ea24976 Theodore Ts'o      2016-11-13  5472  	if (!error && (ia_vali=
-d & ATTR_MODE))
-64e178a7118b1c Christoph Hellwig  2013-12-20  5473  		rc =3D posix_acl_chmo=
-d(inode, inode->i_mode);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5474  =
-
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5475  err_out:
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5476  	if  (error)
-617ba13b31fbf5 Mingming Cao       2006-10-11 @5477  		ext4_std_error(inode-=
->i_sb, error);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5478  	if (!error)
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5479  		error =3D rc;
-aa75f4d3daaeb1 Harshad Shirwadkar 2020-10-15  5480  	ext4_fc_stop_update(in=
-ode);
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5481  	return error;
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5482  }
-ac27a0ec112a08 Dave Kleikamp      2006-10-11  5483  =
-
-
-:::::: The code at line 5477 was first introduced by commit
-:::::: 617ba13b31fbf505cc21799826639ef24ed94af0 [PATCH] ext4: rename ext4 s=
-ymbols to avoid duplication of ext3 symbols
-
-:::::: TO: Mingming Cao <cmm@us.ibm.com>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+:::::: TO: Srikanth Thokala <srikanth.thokala@xilinx.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5511288846913306636==--
+
+--===============0262906491264406597==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+yo5OlAbg/wH9Xmb8rB8CAA==
+--===============0262906491264406597==--
 
