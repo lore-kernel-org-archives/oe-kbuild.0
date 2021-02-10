@@ -1,22 +1,29 @@
-Content-Type: multipart/mixed; boundary="===============7419567155597084610=="
+Content-Type: multipart/mixed; boundary="===============1522313596997246621=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [bcache:for-next 8/19] drivers/md/bcache/nvm-pages.c:159:4: warning: Either the condition '!extents' is redundant or there is possible null pointer dereference: extents.
-Date: Wed, 10 Feb 2021 16:16:29 +0300
-Message-ID: <20210210131629.GX20820@kadam>
+Date: Wed, 10 Feb 2021 21:11:04 +0800
+Message-ID: <202102102148.nBEmXyFu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7419567155597084610==
+--===============1522313596997246621==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+TO: Qiaowei Ren <qiaowei.ren@intel.com>
+CC: Coly Li <colyli@suse.de>
+CC: Jianpeng Ma <jianpeng.ma@intel.com>
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/colyli/linux-bcache=
-.git  for-next
+.git for-next
 head:   78729af1b480ca5a3edb9547b97b59ed3dd72440
 commit: 384227b99f413137d2b0548c364153690be8cbd1 [8/19] bcache: initialize =
 the nvm pages allocator
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -40,6 +47,8 @@ tents' is not redundant
       ^
 
 vim +159 drivers/md/bcache/nvm-pages.c
+
+384227b99f4131 Qiaowei Ren 2021-02-08  114  =
 
 384227b99f4131 Qiaowei Ren 2021-02-08  115  static int init_owner_info(stru=
 ct bch_nvm_namespace *ns)
@@ -135,10 +144,6 @@ oc_recs->used; k++) {
 384227b99f4131 Qiaowei Ren 2021-02-08  168  					extent =3D kzalloc(sizeof(=
 *extent), GFP_KERNEL);
 384227b99f4131 Qiaowei Ren 2021-02-08  169  					if (!extents) {
-                                                                           =
-          ^^^^^^^
-This should be "extent" singular.
-
 384227b99f4131 Qiaowei Ren 2021-02-08  170  						mutex_unlock(&only_set->l=
 ock);
 384227b99f4131 Qiaowei Ren 2021-02-08  171  						return -ENOMEM;
@@ -183,13 +188,11 @@ set;
 
 384227b99f4131 Qiaowei Ren 2021-02-08  197  	return 0;
 384227b99f4131 Qiaowei Ren 2021-02-08  198  }
+384227b99f4131 Qiaowei Ren 2021-02-08  199  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
---===============7419567155597084610==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============1522313596997246621==--
 
