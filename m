@@ -1,32 +1,23 @@
-Content-Type: multipart/mixed; boundary="===============7942407174967206234=="
+Content-Type: multipart/mixed; boundary="===============7419567155597084610=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: kernel/kprobes.c:1896:39: warning: Either the condition 'node' is redundant or there is possible null pointer dereference: node.
-Date: Wed, 10 Feb 2021 22:20:15 +0800
-Message-ID: <202102102204.zsaQ2al5-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [bcache:for-next 8/19] drivers/md/bcache/nvm-pages.c:159:4: warning: Either the condition '!extents' is redundant or there is possible null pointer dereference: extents.
+Date: Wed, 10 Feb 2021 16:16:29 +0300
+Message-ID: <20210210131629.GX20820@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7942407174967206234==
+--===============7419567155597084610==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: Ingo Molnar <mingo@kernel.org>
-CC: Masami Hiramatsu <mhiramat@kernel.org>
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e0756cfc7d7cd08c98a53b6009c091a3f6a50be6
-commit: d741bf41d7c7db4898bacfcb020353cddc032fd8 kprobes: Remove kretprobe =
-hash
-date:   4 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 4 months ago
-compiler: mips64-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/colyli/linux-bcache=
+.git  for-next
+head:   78729af1b480ca5a3edb9547b97b59ed3dd72440
+commit: 384227b99f413137d2b0548c364153690be8cbd1 [8/19] bcache: initialize =
+the nvm pages allocator
+compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -34,134 +25,171 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> kernel/kprobes.c:1896:39: warning: Either the condition 'node' is redund=
-ant or there is possible null pointer dereference: node. [nullPointerRedund=
-antCheck]
-    current->kretprobe_instances.first =3D node->next;
-                                         ^
-   kernel/kprobes.c:1874:9: note: Assuming that condition 'node' is not red=
-undant
-    while (node) {
-           ^
-   kernel/kprobes.c:1896:39: note: Null pointer dereference
-    current->kretprobe_instances.first =3D node->next;
-                                         ^
-   kernel/kprobes.c:1897:2: warning: Either the condition 'node' is redunda=
-nt or there is possible null pointer dereference: node. [nullPointerRedunda=
-ntCheck]
-    node->next =3D NULL;
-    ^
-   kernel/kprobes.c:1874:9: note: Assuming that condition 'node' is not red=
-undant
-    while (node) {
-           ^
-   kernel/kprobes.c:1897:2: note: Null pointer dereference
-    node->next =3D NULL;
-    ^
+   In file included from drivers/md/bcache/nvm-pages.c:
+>> drivers/md/bcache/nvm-pages.c:159:4: warning: Either the condition '!ext=
+ents' is redundant or there is possible null pointer dereference: extents. =
+[nullPointerRedundantCheck]
+      extents->ns =3D only_set->nss[j];
+      ^
+   drivers/md/bcache/nvm-pages.c:169:10: note: Assuming that condition '!ex=
+tents' is not redundant
+        if (!extents) {
+            ^
+   drivers/md/bcache/nvm-pages.c:159:4: note: Null pointer dereference
+      extents->ns =3D only_set->nss[j];
+      ^
 
-vim +/node +1896 kernel/kprobes.c
+vim +159 drivers/md/bcache/nvm-pages.c
 
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1862  =
+384227b99f4131 Qiaowei Ren 2021-02-08  115  static int init_owner_info(stru=
+ct bch_nvm_namespace *ns)
+384227b99f4131 Qiaowei Ren 2021-02-08  116  {
+384227b99f4131 Qiaowei Ren 2021-02-08  117  	struct bch_owner_list_head *ow=
+ner_list_head;
+384227b99f4131 Qiaowei Ren 2021-02-08  118  	struct bch_nvm_pages_owner_hea=
+d *owner_head;
+384227b99f4131 Qiaowei Ren 2021-02-08  119  	struct bch_nvm_pgalloc_recs *n=
+vm_pgalloc_recs;
+384227b99f4131 Qiaowei Ren 2021-02-08  120  	struct bch_owner_list *owner_l=
+ist;
+384227b99f4131 Qiaowei Ren 2021-02-08  121  	struct bch_nvm_alloced_recs *e=
+xtents;
+384227b99f4131 Qiaowei Ren 2021-02-08  122  	struct bch_extent *extent;
+384227b99f4131 Qiaowei Ren 2021-02-08  123  	u32 i, j, k;
+384227b99f4131 Qiaowei Ren 2021-02-08  124  =
 
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1863  unsigned long __kretprob=
-e_trampoline_handler(struct pt_regs *regs,
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1864  					     void *trampoli=
-ne_address,
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1865  					     void *frame_po=
-inter)
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1866  {
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1867  	kprobe_opcode_t *correc=
-t_ret_addr =3D NULL;
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1868  	struct kretprobe_instan=
-ce *ri =3D NULL;
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1869  	struct llist_node *firs=
-t, *node;
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1870  	struct kretprobe *rp;
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1871  =
+384227b99f4131 Qiaowei Ren 2021-02-08  125  	owner_list_head =3D (struct bc=
+h_owner_list_head *)
+384227b99f4131 Qiaowei Ren 2021-02-08  126  			(ns->kaddr + BCH_NVM_PAGES_O=
+WNER_LIST_HEAD_OFFSET);
+384227b99f4131 Qiaowei Ren 2021-02-08  127  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1872  	/* Find all nodes for t=
-his frame. */
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1873  	first =3D node =3D curr=
-ent->kretprobe_instances.first;
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1874  	while (node) {
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1875  		ri =3D container_of(no=
-de, struct kretprobe_instance, llist);
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1876  =
+384227b99f4131 Qiaowei Ren 2021-02-08  128  	mutex_lock(&only_set->lock);
+384227b99f4131 Qiaowei Ren 2021-02-08  129  	only_set->owner_list_size =3D =
+owner_list_head->size;
+384227b99f4131 Qiaowei Ren 2021-02-08  130  	only_set->owner_list_used =3D =
+owner_list_head->used;
+384227b99f4131 Qiaowei Ren 2021-02-08  131  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1877  		BUG_ON(ri->fp !=3D fra=
-me_pointer);
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1878  =
+384227b99f4131 Qiaowei Ren 2021-02-08  132  	for (i =3D 0; i < owner_list_h=
+ead->used; i++) {
+384227b99f4131 Qiaowei Ren 2021-02-08  133  		owner_head =3D &owner_list_he=
+ad->heads[i];
+384227b99f4131 Qiaowei Ren 2021-02-08  134  		owner_list =3D alloc_owner_li=
+st(owner_head->uuid, owner_head->label,
+384227b99f4131 Qiaowei Ren 2021-02-08  135  				only_set->total_namespaces_=
+nr);
+384227b99f4131 Qiaowei Ren 2021-02-08  136  		if (!owner_list) {
+384227b99f4131 Qiaowei Ren 2021-02-08  137  			mutex_unlock(&only_set->lock=
+);
+384227b99f4131 Qiaowei Ren 2021-02-08  138  			return -ENOMEM;
+384227b99f4131 Qiaowei Ren 2021-02-08  139  		}
+384227b99f4131 Qiaowei Ren 2021-02-08  140  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1879  		if (ri->ret_addr !=3D =
-trampoline_address) {
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1880  			correct_ret_addr =3D =
-ri->ret_addr;
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1881  			/*
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1882  			 * This is the real r=
-eturn address. Any other
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1883  			 * instances associat=
-ed with this task are for
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1884  			 * other calls deeper=
- on the call stack
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1885  			 */
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1886  			goto found;
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1887  		}
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1888  =
+384227b99f4131 Qiaowei Ren 2021-02-08  141  		for (j =3D 0; j < only_set->t=
+otal_namespaces_nr; j++) {
+384227b99f4131 Qiaowei Ren 2021-02-08  142  			if (!only_set->nss[j] || !ow=
+ner_head->recs[j])
+384227b99f4131 Qiaowei Ren 2021-02-08  143  				continue;
+384227b99f4131 Qiaowei Ren 2021-02-08  144  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1889  		node =3D node->next;
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1890  	}
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1891  	pr_err("Oops! Kretprobe=
- fails to find correct return address.\n");
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1892  	BUG_ON(1);
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1893  =
+384227b99f4131 Qiaowei Ren 2021-02-08  145  			nvm_pgalloc_recs =3D (struct=
+ bch_nvm_pgalloc_recs *)
+384227b99f4131 Qiaowei Ren 2021-02-08  146  					((long)owner_head->recs[j]=
+ + ns->kaddr);
+384227b99f4131 Qiaowei Ren 2021-02-08  147  			if (memcmp(nvm_pgalloc_recs-=
+>magic, bch_nvm_pages_pgalloc_magic, 16)) {
+384227b99f4131 Qiaowei Ren 2021-02-08  148  				pr_info("invalid bch_nvmpag=
+es_pgalloc_magic\n");
+384227b99f4131 Qiaowei Ren 2021-02-08  149  				mutex_unlock(&only_set->loc=
+k);
+384227b99f4131 Qiaowei Ren 2021-02-08  150  				return -EINVAL;
+384227b99f4131 Qiaowei Ren 2021-02-08  151  			}
+384227b99f4131 Qiaowei Ren 2021-02-08  152  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1894  found:
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1895  	/* Unlink all nodes for=
- this frame. */
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29 @1896  	current->kretprobe_inst=
-ances.first =3D node->next;
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1897  	node->next =3D NULL;
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1898  =
+384227b99f4131 Qiaowei Ren 2021-02-08  153  			extents =3D kzalloc(sizeof(*=
+extents), GFP_KERNEL);
+384227b99f4131 Qiaowei Ren 2021-02-08  154  			if (!extents) {
+384227b99f4131 Qiaowei Ren 2021-02-08  155  				mutex_unlock(&only_set->loc=
+k);
+384227b99f4131 Qiaowei Ren 2021-02-08  156  				return -ENOMEM;
+384227b99f4131 Qiaowei Ren 2021-02-08  157  			}
+384227b99f4131 Qiaowei Ren 2021-02-08  158  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1899  	/* Run them..  */
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1900  	while (first) {
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1901  		ri =3D container_of(fi=
-rst, struct kretprobe_instance, llist);
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1902  		first =3D first->next;
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1903  =
+384227b99f4131 Qiaowei Ren 2021-02-08 @159  			extents->ns =3D only_set->ns=
+s[j];
+384227b99f4131 Qiaowei Ren 2021-02-08  160  			INIT_LIST_HEAD(&extents->ext=
+ent_head);
+384227b99f4131 Qiaowei Ren 2021-02-08  161  			owner_list->alloced_recs[j] =
+=3D extents;
+384227b99f4131 Qiaowei Ren 2021-02-08  162  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1904  		rp =3D get_kretprobe(r=
-i);
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1905  		if (rp && rp->handler)=
+384227b99f4131 Qiaowei Ren 2021-02-08  163  			do {
+384227b99f4131 Qiaowei Ren 2021-02-08  164  				struct bch_pgalloc_rec *rec;
+384227b99f4131 Qiaowei Ren 2021-02-08  165  =
+
+384227b99f4131 Qiaowei Ren 2021-02-08  166  				for (k =3D 0; k < nvm_pgall=
+oc_recs->used; k++) {
+384227b99f4131 Qiaowei Ren 2021-02-08  167  					rec =3D &nvm_pgalloc_recs-=
+>recs[k];
+384227b99f4131 Qiaowei Ren 2021-02-08  168  					extent =3D kzalloc(sizeof(=
+*extent), GFP_KERNEL);
+384227b99f4131 Qiaowei Ren 2021-02-08  169  					if (!extents) {
+                                                                           =
+          ^^^^^^^
+This should be "extent" singular.
+
+384227b99f4131 Qiaowei Ren 2021-02-08  170  						mutex_unlock(&only_set->l=
+ock);
+384227b99f4131 Qiaowei Ren 2021-02-08  171  						return -ENOMEM;
+384227b99f4131 Qiaowei Ren 2021-02-08  172  					}
+384227b99f4131 Qiaowei Ren 2021-02-08  173  					extent->kaddr =3D nvm_pgof=
+f_to_vaddr(extents->ns, rec->pgoff);
+384227b99f4131 Qiaowei Ren 2021-02-08  174  					extent->nr =3D rec->nr;
+384227b99f4131 Qiaowei Ren 2021-02-08  175  					list_add_tail(&extent->lis=
+t, &extents->extent_head);
+384227b99f4131 Qiaowei Ren 2021-02-08  176  				}
+384227b99f4131 Qiaowei Ren 2021-02-08  177  				extents->nr +=3D nvm_pgallo=
+c_recs->used;
+384227b99f4131 Qiaowei Ren 2021-02-08  178  =
+
+384227b99f4131 Qiaowei Ren 2021-02-08  179  				if (nvm_pgalloc_recs->next)=
  {
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1906  			struct kprobe *prev =
-=3D kprobe_running();
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1907  =
+384227b99f4131 Qiaowei Ren 2021-02-08  180  					nvm_pgalloc_recs =3D (stru=
+ct bch_nvm_pgalloc_recs *)
+384227b99f4131 Qiaowei Ren 2021-02-08  181  						((long)nvm_pgalloc_recs->=
+next + ns->kaddr);
+384227b99f4131 Qiaowei Ren 2021-02-08  182  					if (memcmp(nvm_pgalloc_rec=
+s->magic,
+384227b99f4131 Qiaowei Ren 2021-02-08  183  						bch_nvm_pages_pgalloc_mag=
+ic, 16)) {
+384227b99f4131 Qiaowei Ren 2021-02-08  184  						pr_info("invalid bch_nvmp=
+ages_pgalloc_magic\n");
+384227b99f4131 Qiaowei Ren 2021-02-08  185  						mutex_unlock(&only_set->l=
+ock);
+384227b99f4131 Qiaowei Ren 2021-02-08  186  						return -EINVAL;
+384227b99f4131 Qiaowei Ren 2021-02-08  187  					}
+384227b99f4131 Qiaowei Ren 2021-02-08  188  				} else
+384227b99f4131 Qiaowei Ren 2021-02-08  189  					nvm_pgalloc_recs =3D NULL;
+384227b99f4131 Qiaowei Ren 2021-02-08  190  			} while (nvm_pgalloc_recs);
+384227b99f4131 Qiaowei Ren 2021-02-08  191  		}
+384227b99f4131 Qiaowei Ren 2021-02-08  192  		only_set->owner_lists[i] =3D =
+owner_list;
+384227b99f4131 Qiaowei Ren 2021-02-08  193  		owner_list->nvm_set =3D only_=
+set;
+384227b99f4131 Qiaowei Ren 2021-02-08  194  	}
+384227b99f4131 Qiaowei Ren 2021-02-08  195  	mutex_unlock(&only_set->lock);
+384227b99f4131 Qiaowei Ren 2021-02-08  196  =
 
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1908  			__this_cpu_write(curr=
-ent_kprobe, &rp->kp);
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1909  			ri->ret_addr =3D corr=
-ect_ret_addr;
-d741bf41d7c7db4 Peter Zijlstra   2020-08-29  1910  			rp->handler(ri, regs);
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1911  			__this_cpu_write(curr=
-ent_kprobe, prev);
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1912  		}
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1913  =
-
-b338817807538c8 Masami Hiramatsu 2020-08-29  1914  		recycle_rp_inst(ri);
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1915  	}
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1916  =
-
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1917  	return (unsigned long)c=
-orrect_ret_addr;
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1918  }
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1919  NOKPROBE_SYMBOL(__kretpr=
-obe_trampoline_handler)
-66ada2ccae4ed4d Masami Hiramatsu 2020-08-29  1920  =
-
+384227b99f4131 Qiaowei Ren 2021-02-08  197  	return 0;
+384227b99f4131 Qiaowei Ren 2021-02-08  198  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7942407174967206234==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+
+_______________________________________________
+kbuild mailing list -- kbuild(a)lists.01.org
+To unsubscribe send an email to kbuild-leave(a)lists.01.org
+--===============7419567155597084610==--
 
