@@ -1,444 +1,633 @@
-Content-Type: multipart/mixed; boundary="===============7466670070893852779=="
+Content-Type: multipart/mixed; boundary="===============0801550295217610329=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/xfs/libxfs/xfs_sb.c:367:21: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses.
-Date: Fri, 12 Feb 2021 13:49:30 +0800
-Message-ID: <202102121309.sn29VMwC-lkp@intel.com>
+Subject: Re: [PATCH v5 13/19] remoteproc: Properly deal with the resource table
+Date: Fri, 12 Feb 2021 10:45:50 +0800
+Message-ID: <202102121043.9cyePUuf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7466670070893852779==
+--===============0801550295217610329==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210211234627.2669674-14-mathieu.poirier@linaro.org>
+References: <20210211234627.2669674-14-mathieu.poirier@linaro.org>
+TO: Mathieu Poirier <mathieu.poirier@linaro.org>
+TO: ohad(a)wizery.com
+TO: bjorn.andersson(a)linaro.org
+TO: arnaud.pouliquen(a)st.com
+CC: robh+dt(a)kernel.org
+CC: mcoquelin.stm32(a)gmail.com
+CC: alexandre.torgue(a)st.com
+CC: linux-remoteproc(a)vger.kernel.org
+CC: devicetree(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Gao Xiang <hsiangkao@redhat.com>
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
-CC: Brian Foster <bfoster@redhat.com>
+CC: linux-arm-kernel(a)lists.infradead.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   291009f656e8eaebbdfd3a8d99f6b190a9ce9deb
-commit: 7bc1fea9d36c78e783ce7d4ad28ad129ebcce435 xfs: introduce xfs_validat=
-e_stripe_geometry()
-date:   9 weeks ago
-:::::: branch date: 34 hours ago
-:::::: commit date: 9 weeks ago
-compiler: mips64-linux-gcc (GCC) 9.3.0
+Hi Mathieu,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v5.11-rc7 next-20210211]
+[cannot apply to remoteproc/for-next rpmsg/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Mathieu-Poirier/remoteproc=
+-Add-support-for-detaching-a-remote-processor/20210212-075607
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
+next
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+config: openrisc-randconfig-c003-20210209 (attached as .config)
+compiler: or1k-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+"coccinelle warnings: (new ones prefixed by >>)"
+>> drivers/remoteproc/remoteproc_core.c:2080:7-26: ERROR: reference precede=
+d by free on line 2078
 
-   In file included from fs/xfs/libxfs/xfs_sb.c:
-   fs/xfs/libxfs/xfs_format.h:327:2: warning: Non-boolean value returned fr=
-om function returning bool [returnNonBoolInBooleanFunction]
-    return (sbp->sb_versionnum & XFS_SB_VERSION_ATTRBIT);
-    ^
-   fs/xfs/libxfs/xfs_format.h:337:2: warning: Non-boolean value returned fr=
-om function returning bool [returnNonBoolInBooleanFunction]
-    return (sbp->sb_versionnum & XFS_SB_VERSION_QUOTABIT);
-    ^
-   fs/xfs/libxfs/xfs_format.h:353:2: warning: Non-boolean value returned fr=
-om function returning bool [returnNonBoolInBooleanFunction]
-    return (sbp->sb_versionnum & XFS_SB_VERSION_DALIGNBIT);
-    ^
-   fs/xfs/libxfs/xfs_format.h:364:2: warning: Non-boolean value returned fr=
-om function returning bool [returnNonBoolInBooleanFunction]
-    return (sbp->sb_versionnum & XFS_SB_VERSION_SECTORBIT);
-    ^
-   fs/xfs/libxfs/xfs_format.h:369:2: warning: Non-boolean value returned fr=
-om function returning bool [returnNonBoolInBooleanFunction]
-    return (sbp->sb_versionnum & XFS_SB_VERSION_BORGBIT);
-    ^
->> fs/xfs/libxfs/xfs_sb.c:367:21: warning: Boolean result is used in bitwis=
-e operation. Clarify expression with parentheses. [clarifyCondition]
-    if (!!sbp->sb_unit ^ xfs_sb_version_hasdalign(sbp)) {
-                       ^
---
->> fs/xfs/xfs_attr_inactive.c:197:4: warning: Label '__here' is not used. S=
-hould this be a 'case' of the enclosing switch()? [unusedLabelSwitch]
-      xfs_buf_mark_corrupt(child_bp);
-      ^
-   fs/xfs/xfs_attr_inactive.c:292:3: warning: Label '__here' is not used. S=
-hould this be a 'case' of the enclosing switch()? [unusedLabelSwitch]
-     xfs_buf_mark_corrupt(bp);
-     ^
->> fs/xfs/scrub/bmap.c:489:42: warning: Boolean result is used in bitwise o=
-peration. Clarify expression with parentheses. [clarifyCondition]
-    if ((sbcri->whichfork =3D=3D XFS_ATTR_FORK) ^
-                                            ^
->> fs/xfs/scrub/scrub.c:424:8: warning: Variable 'error' is reassigned a va=
-lue before the old one has been used. 'break;' missing? [redundantAssignInS=
-witch]
-    error =3D 0;
-          ^
-   fs/xfs/scrub/scrub.c:387:8: note: Variable 'error' is reassigned a value=
- before the old one has been used. 'break;' missing?
-    error =3D -EINVAL;
-          ^
-   fs/xfs/scrub/scrub.c:424:8: note: Variable 'error' is reassigned a value=
- before the old one has been used. 'break;' missing?
-    error =3D 0;
-          ^
+vim +2080 drivers/remoteproc/remoteproc_core.c
 
-vim +367 fs/xfs/libxfs/xfs_sb.c
+400e64df6b237e Ohad Ben-Cohen  2011-10-20  2012  =
 
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  215  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2013  /**
+eab58da78fe46f Mathieu Poirier 2021-02-11  2014   * rproc_detach() - Detach=
+ the remote processor from the
+eab58da78fe46f Mathieu Poirier 2021-02-11  2015   * remoteproc core
+eab58da78fe46f Mathieu Poirier 2021-02-11  2016   *
+eab58da78fe46f Mathieu Poirier 2021-02-11  2017   * @rproc: the remote proc=
+essor
+eab58da78fe46f Mathieu Poirier 2021-02-11  2018   *
+eab58da78fe46f Mathieu Poirier 2021-02-11  2019   * Detach a remote process=
+or (previously attached to with rproc_attach()).
+eab58da78fe46f Mathieu Poirier 2021-02-11  2020   *
+eab58da78fe46f Mathieu Poirier 2021-02-11  2021   * In case @rproc is still=
+ being used by an additional user(s), then
+eab58da78fe46f Mathieu Poirier 2021-02-11  2022   * this function will just=
+ decrement the power refcount and exit,
+eab58da78fe46f Mathieu Poirier 2021-02-11  2023   * without disconnecting t=
+he device.
+eab58da78fe46f Mathieu Poirier 2021-02-11  2024   *
+eab58da78fe46f Mathieu Poirier 2021-02-11  2025   * Function rproc_detach()=
+ calls __rproc_detach() in order to let a remote
+eab58da78fe46f Mathieu Poirier 2021-02-11  2026   * processor know that ser=
+vices provided by the application processor are
+eab58da78fe46f Mathieu Poirier 2021-02-11  2027   * no longer available.  F=
+rom there it should be possible to remove the
+eab58da78fe46f Mathieu Poirier 2021-02-11  2028   * platform driver and eve=
+n power cycle the application processor (if the HW
+eab58da78fe46f Mathieu Poirier 2021-02-11  2029   * supports it) without ne=
+eding to switch off the remote processor.
+eab58da78fe46f Mathieu Poirier 2021-02-11  2030   */
+eab58da78fe46f Mathieu Poirier 2021-02-11  2031  int rproc_detach(struct rp=
+roc *rproc)
+eab58da78fe46f Mathieu Poirier 2021-02-11  2032  {
+eab58da78fe46f Mathieu Poirier 2021-02-11  2033  	struct device *dev =3D &r=
+proc->dev;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2034  	int ret;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2035  =
 
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  216  /*=
- Check the validity of the SB. */
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  217  ST=
-ATIC int
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  218  xf=
-s_validate_sb_common(
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  219  	s=
-truct xfs_mount	*mp,
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  220  	s=
-truct xfs_buf		*bp,
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  221  	s=
-truct xfs_sb		*sbp)
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  222  {
-3e6e8afd3abb74 fs/xfs/libxfs/xfs_sb.c Christoph Hellwig 2020-03-10  223  	s=
-truct xfs_dsb		*dsb =3D bp->b_addr;
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  224  	u=
-int32_t		agcount =3D 0;
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  225  	u=
-int32_t		rem;
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  226  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2036  	ret =3D mutex_lock_interr=
+uptible(&rproc->lock);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2037  	if (ret) {
+eab58da78fe46f Mathieu Poirier 2021-02-11  2038  		dev_err(dev, "can't lock=
+ rproc %s: %d\n", rproc->name, ret);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2039  		return ret;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2040  	}
+eab58da78fe46f Mathieu Poirier 2021-02-11  2041  =
 
-39708c20ab5133 fs/xfs/libxfs/xfs_sb.c Brian Foster      2019-02-07  227  	i=
-f (!xfs_verify_magic(bp, dsb->sb_magicnum)) {
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  228  		=
-xfs_warn(mp, "bad magic number");
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  229  		=
-return -EWRONGFS;
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  230  	}
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  231  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2042  	if (rproc->state !=3D RPR=
+OC_RUNNING && rproc->state !=3D RPROC_ATTACHED) {
+eab58da78fe46f Mathieu Poirier 2021-02-11  2043  		ret =3D -EPERM;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2044  		goto out;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2045  	}
+eab58da78fe46f Mathieu Poirier 2021-02-11  2046  =
 
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  232  	i=
-f (!xfs_sb_good_version(sbp)) {
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  233  		=
-xfs_warn(mp, "bad version");
-eca383fcd63b45 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-07-29  234  		=
-return -EWRONGFS;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  235  	}
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  236  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2047  	/* if the remote proc is =
+still needed, bail out */
+eab58da78fe46f Mathieu Poirier 2021-02-11  2048  	if (!atomic_dec_and_test(=
+&rproc->power)) {
+eab58da78fe46f Mathieu Poirier 2021-02-11  2049  		ret =3D -EBUSY;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2050  		goto out;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2051  	}
+eab58da78fe46f Mathieu Poirier 2021-02-11  2052  =
 
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  237  	i=
-f (xfs_sb_version_has_pquotino(sbp)) {
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  238  		=
-if (sbp->sb_qflags & (XFS_OQUOTA_ENFD | XFS_OQUOTA_CHKD)) {
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  239  		=
-	xfs_notice(mp,
-08e96e1a3c5fd8 fs/xfs/xfs_sb.c        Eric Sandeen      2013-10-11  240  		=
-	   "Version 5 of Super block has XFS_OQUOTA bits.");
-2451337dd04390 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2014-06-25  241  		=
-	return -EFSCORRUPTED;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  242  		}
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  243  	}=
- else if (sbp->sb_qflags & (XFS_PQUOTA_ENFD | XFS_GQUOTA_ENFD |
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  244  		=
-		XFS_PQUOTA_CHKD | XFS_GQUOTA_CHKD)) {
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  245  		=
-	xfs_notice(mp,
-14506f7a91d8f4 fs/xfs/libxfs/xfs_sb.c Kaixu Xia         2020-05-11  246  "S=
-uperblock earlier than Version 5 has XFS_{P|G}QUOTA_{ENFD|CHKD} bits.");
-2451337dd04390 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2014-06-25  247  		=
-	return -EFSCORRUPTED;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  248  	}
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  249  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2053  	ret =3D __rproc_detach(rp=
+roc);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2054  	if (ret) {
+eab58da78fe46f Mathieu Poirier 2021-02-11  2055  		atomic_inc(&rproc->power=
+);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2056  		goto out;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2057  	}
+eab58da78fe46f Mathieu Poirier 2021-02-11  2058  =
 
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  250  	/*
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  251  	 =
-* Full inode chunks must be aligned to inode chunk size when
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  252  	 =
-* sparse inodes are enabled to support the sparse chunk
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  253  	 =
-* allocation algorithm and prevent overlapping inode records.
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  254  	 =
-*/
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  255  	i=
-f (xfs_sb_version_hassparseinodes(sbp)) {
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  256  		=
-uint32_t	align;
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  257  =
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2059  	/*
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2060  	 * Install a clean resour=
+ce table for re-attach while
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2061  	 * rproc->table_ptr is st=
+ill valid.
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2062  	 */
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2063  	ret =3D rproc_reset_loade=
+d_rsc_table(rproc);
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2064  	if (ret) {
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2065  		atomic_inc(&rproc->power=
+);
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2066  		goto out;
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2067  	}
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2068  =
 
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  258  		=
-align =3D XFS_INODES_PER_CHUNK * sbp->sb_inodesize
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  259  		=
-		>> sbp->sb_blocklog;
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  260  		=
-if (sbp->sb_inoalignmt !=3D align) {
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  261  		=
-	xfs_warn(mp,
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  262  "I=
-node block alignment (%u) must match chunk size (%u) for sparse inodes.",
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  263  		=
-		 sbp->sb_inoalignmt, align);
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  264  		=
-	return -EINVAL;
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  265  		}
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  266  	}
-e5376fc15acdd6 fs/xfs/libxfs/xfs_sb.c Brian Foster      2015-05-29  267  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2069  	/* clean up all acquired =
+resources */
+eab58da78fe46f Mathieu Poirier 2021-02-11  2070  	rproc_resource_cleanup(rp=
+roc);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2071  =
 
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  268  	i=
-f (unlikely(
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  269  	 =
-   sbp->sb_logstart =3D=3D 0 && mp->m_logdev_targp =3D=3D mp->m_ddev_targp)=
-) {
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  270  		=
-xfs_warn(mp,
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  271  		=
-"filesystem is marked as having an external log; "
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  272  		=
-"specify logdev on the mount command line.");
-2451337dd04390 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2014-06-25  273  		=
-return -EINVAL;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  274  	}
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  275  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2072  	/* release HW resources i=
+f needed */
+eab58da78fe46f Mathieu Poirier 2021-02-11  2073  	rproc_unprepare_device(rp=
+roc);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2074  =
 
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  276  	i=
-f (unlikely(
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  277  	 =
-   sbp->sb_logstart !=3D 0 && mp->m_logdev_targp !=3D mp->m_ddev_targp)) {
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  278  		=
-xfs_warn(mp,
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  279  		=
-"filesystem is marked as having an internal log; "
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  280  		=
-"do not specify logdev on the mount command line.");
-2451337dd04390 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2014-06-25  281  		=
-return -EINVAL;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  282  	}
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  283  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2075  	rproc_disable_iommu(rproc=
+);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2076  =
 
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  284  	/=
-* Compute agcount for this number of dblocks and agblocks */
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  285  	i=
-f (sbp->sb_agblocks) {
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  286  		=
-agcount =3D div_u64_rem(sbp->sb_dblocks, sbp->sb_agblocks, &rem);
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  287  		=
-if (rem)
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  288  		=
-	agcount++;
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  289  	}
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  290  =
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2077  	/* Free the copy of the r=
+esource table */
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11 @2078  	kfree(rproc->cached_table=
+);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2079  	/* Follow the same sequen=
+ce as in rproc_shutdown() */
+eab58da78fe46f Mathieu Poirier 2021-02-11 @2080  	kfree(rproc->cached_table=
+);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2081  	rproc->cached_table =3D N=
+ULL;
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2082  	rproc->clean_table =3D NU=
+LL;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2083  	rproc->table_ptr =3D NULL;
+66e2fed7a4bb20 Mathieu Poirier 2021-02-11  2084  =
 
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  291  	/*
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  292  	 =
-* More sanity checking.  Most of these were stolen directly from
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  293  	 =
-* xfs_repair.
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  294  	 =
-*/
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  295  	i=
-f (unlikely(
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  296  	 =
-   sbp->sb_agcount <=3D 0					||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  297  	 =
-   sbp->sb_sectsize < XFS_MIN_SECTORSIZE			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  298  	 =
-   sbp->sb_sectsize > XFS_MAX_SECTORSIZE			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  299  	 =
-   sbp->sb_sectlog < XFS_MIN_SECTORSIZE_LOG			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  300  	 =
-   sbp->sb_sectlog > XFS_MAX_SECTORSIZE_LOG			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  301  	 =
-   sbp->sb_sectsize !=3D (1 << sbp->sb_sectlog)			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  302  	 =
-   sbp->sb_blocksize < XFS_MIN_BLOCKSIZE			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  303  	 =
-   sbp->sb_blocksize > XFS_MAX_BLOCKSIZE			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  304  	 =
-   sbp->sb_blocklog < XFS_MIN_BLOCKSIZE_LOG			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  305  	 =
-   sbp->sb_blocklog > XFS_MAX_BLOCKSIZE_LOG			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  306  	 =
-   sbp->sb_blocksize !=3D (1 << sbp->sb_blocklog)		||
-83d230eb5c6389 fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2017-01-23  307  	 =
-   sbp->sb_dirblklog + sbp->sb_blocklog > XFS_MAX_BLOCKSIZE_LOG ||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  308  	 =
-   sbp->sb_inodesize < XFS_DINODE_MIN_SIZE			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  309  	 =
-   sbp->sb_inodesize > XFS_DINODE_MAX_SIZE			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  310  	 =
-   sbp->sb_inodelog < XFS_DINODE_MIN_LOG			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  311  	 =
-   sbp->sb_inodelog > XFS_DINODE_MAX_LOG			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  312  	 =
-   sbp->sb_inodesize !=3D (1 << sbp->sb_inodelog)		||
-e1b05723ed8340 fs/xfs/libxfs/xfs_sb.c Eric Sandeen      2014-09-09  313  	 =
-   sbp->sb_logsunit > XLOG_MAX_RECORD_BSIZE			||
-392c6de98af1fd fs/xfs/xfs_sb.c        Eric Sandeen      2014-02-07  314  	 =
-   sbp->sb_inopblock !=3D howmany(sbp->sb_blocksize,sbp->sb_inodesize) ||
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  315  	 =
-   XFS_FSB_TO_B(mp, sbp->sb_agblocks) < XFS_MIN_AG_BYTES	||
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  316  	 =
-   XFS_FSB_TO_B(mp, sbp->sb_agblocks) > XFS_MAX_AG_BYTES	||
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  317  	 =
-   sbp->sb_agblklog !=3D xfs_highbit32(sbp->sb_agblocks - 1) + 1	||
-4bb73d014785cc fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2018-01-16  318  	 =
-   agcount =3D=3D 0 || agcount !=3D sbp->sb_agcount			||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  319  	 =
-   (sbp->sb_blocklog - sbp->sb_inodelog !=3D sbp->sb_inopblog)	||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  320  	 =
-   (sbp->sb_rextsize * sbp->sb_blocksize > XFS_MAX_RTEXTSIZE)	||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  321  	 =
-   (sbp->sb_rextsize * sbp->sb_blocksize < XFS_MIN_RTEXTSIZE)	||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  322  	 =
-   (sbp->sb_imax_pct > 100 /* zero sb_imax_pct is valid */)	||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  323  	 =
-   sbp->sb_dblocks =3D=3D 0					||
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  324  	 =
-   sbp->sb_dblocks > XFS_MAX_DBLOCKS(sbp)			||
-ab3e57b53f549a fs/xfs/xfs_sb.c        Dave Chinner      2014-05-20  325  	 =
-   sbp->sb_dblocks < XFS_MIN_DBLOCKS(sbp)			||
-ab3e57b53f549a fs/xfs/xfs_sb.c        Dave Chinner      2014-05-20  326  	 =
-   sbp->sb_shared_vn !=3D 0)) {
-5ef11eb0700f80 fs/xfs/xfs_sb.c        Eric Sandeen      2014-02-19  327  		=
-xfs_notice(mp, "SB sanity check failed");
-2451337dd04390 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2014-06-25  328  		=
-return -EFSCORRUPTED;
-bec9d48d7a303a fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2016-11-09  329  	}
-bec9d48d7a303a fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2016-11-09  330  =
-
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  331  	/=
-* Validate the realtime geometry; stolen from xfs_repair */
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  332  	i=
-f (sbp->sb_rextsize * sbp->sb_blocksize > XFS_MAX_RTEXTSIZE ||
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  333  	 =
-   sbp->sb_rextsize * sbp->sb_blocksize < XFS_MIN_RTEXTSIZE) {
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  334  		=
-xfs_notice(mp,
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  335  		=
-	"realtime extent sanity check failed");
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  336  		=
-return -EFSCORRUPTED;
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  337  	}
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  338  =
-
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  339  	i=
-f (sbp->sb_rblocks =3D=3D 0) {
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  340  		=
-if (sbp->sb_rextents !=3D 0 || sbp->sb_rbmblocks !=3D 0 ||
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  341  		=
-    sbp->sb_rextslog !=3D 0 || sbp->sb_frextents !=3D 0) {
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  342  		=
-	xfs_notice(mp,
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  343  		=
-		"realtime zeroed geometry check failed");
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  344  		=
-	return -EFSCORRUPTED;
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  345  		}
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  346  	}=
- else {
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  347  		=
-uint64_t	rexts;
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  348  		=
-uint64_t	rbmblocks;
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  349  =
-
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  350  		=
-rexts =3D div_u64(sbp->sb_rblocks, sbp->sb_rextsize);
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  351  		=
-rbmblocks =3D howmany_64(sbp->sb_rextents,
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  352  		=
-		       NBBY * sbp->sb_blocksize);
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  353  =
-
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  354  		=
-if (sbp->sb_rextents !=3D rexts ||
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  355  		=
-    sbp->sb_rextslog !=3D xfs_highbit32(sbp->sb_rextents) ||
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  356  		=
-    sbp->sb_rbmblocks !=3D rbmblocks) {
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  357  		=
-	xfs_notice(mp,
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  358  		=
-		"realtime geometry sanity check failed");
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  359  		=
-	return -EFSCORRUPTED;
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  360  		}
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  361  	}
-f8e566c0f5e1fd fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2020-03-24  362  =
-
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03  363  	/*
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03  364  	 =
-* Either (sb_unit and !hasdalign) or (!sb_unit and hasdalign)
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03  365  	 =
-* would imply the image is corrupted.
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03  366  	 =
-*/
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03 @367  	i=
-f (!!sbp->sb_unit ^ xfs_sb_version_hasdalign(sbp)) {
-fa4ca9c5574605 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2018-06-05  368  		=
-xfs_notice(mp, "SB stripe alignment sanity check failed");
-fa4ca9c5574605 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2018-06-05  369  		=
-return -EFSCORRUPTED;
-fa4ca9c5574605 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2018-06-05  370  	}
-fa4ca9c5574605 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2018-06-05  371  =
-
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03  372  	i=
-f (!xfs_validate_stripe_geometry(mp, XFS_FSB_TO_B(mp, sbp->sb_unit),
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03  373  		=
-	XFS_FSB_TO_B(mp, sbp->sb_width), 0, false))
-7bc1fea9d36c78 fs/xfs/libxfs/xfs_sb.c Gao Xiang         2020-12-03  374  		=
-return -EFSCORRUPTED;
-fa4ca9c5574605 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2018-06-05  375  =
-
-bec9d48d7a303a fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2016-11-09  376  	i=
-f (xfs_sb_version_hascrc(&mp->m_sb) &&
-bec9d48d7a303a fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2016-11-09  377  	 =
-   sbp->sb_blocksize < XFS_MIN_CRC_BLOCKSIZE) {
-bec9d48d7a303a fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2016-11-09  378  		=
-xfs_notice(mp, "v5 SB sanity check failed");
-bec9d48d7a303a fs/xfs/libxfs/xfs_sb.c Darrick J. Wong   2016-11-09  379  		=
-return -EFSCORRUPTED;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  380  	}
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  381  =
-
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  382  	/*
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  383  	 =
-* Currently only very few inode sizes are supported.
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  384  	 =
-*/
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  385  	s=
-witch (sbp->sb_inodesize) {
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  386  	c=
-ase 256:
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  387  	c=
-ase 512:
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  388  	c=
-ase 1024:
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  389  	c=
-ase 2048:
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  390  		=
-break;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  391  	d=
-efault:
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  392  		=
-xfs_warn(mp, "inode size of %d bytes not supported",
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  393  		=
-		sbp->sb_inodesize);
-2451337dd04390 fs/xfs/libxfs/xfs_sb.c Dave Chinner      2014-06-25  394  		=
-return -ENOSYS;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  395  	}
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  396  =
-
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  397  	r=
-eturn 0;
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  398  }
-ff55068c2010f3 fs/xfs/xfs_sb.c        Dave Chinner      2013-08-12  399  =
+eab58da78fe46f Mathieu Poirier 2021-02-11  2085  out:
+eab58da78fe46f Mathieu Poirier 2021-02-11  2086  	mutex_unlock(&rproc->lock=
+);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2087  	return ret;
+eab58da78fe46f Mathieu Poirier 2021-02-11  2088  }
+eab58da78fe46f Mathieu Poirier 2021-02-11  2089  EXPORT_SYMBOL(rproc_detach=
+);
+eab58da78fe46f Mathieu Poirier 2021-02-11  2090  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7466670070893852779==--
+
+--===============0801550295217610329==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+rs5l4tbHxv8f3fLAWkV5AQA=
+--===============0801550295217610329==--
 
