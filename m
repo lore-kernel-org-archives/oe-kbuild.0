@@ -1,22 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============3837601552920170629=="
+Content-Type: multipart/mixed; boundary="===============5680365812941912683=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [linux-next:master 6931/12022] drivers/vfio/vfio_iommu_type1.c:1093 vfio_dma_do_unmap() warn: impossible condition '(size > (~0)) => (0-u32max > u32max)'
-Date: Mon, 22 Feb 2021 17:10:43 +0300
-Message-ID: <20210222141043.GW2222@kadam>
+Date: Mon, 22 Feb 2021 21:57:46 +0800
+Message-ID: <202102222142.v2EtHA1O-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3837601552920170629==
+--===============5680365812941912683==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Steve Sistare <steven.sistare@oracle.com>
+CC: Alex Williamson <alex.williamson@redhat.com>
+CC: Cornelia Huck <cohuck@redhat.com>
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
-  master
+ master
 head:   37dfbfbdca66834bc0f64ec9b35e09ac6c8898da
 commit: 0f53afa12baec8c00f5d1d6afb49325ada105253 [6931/12022] vfio/type1: u=
 nmap cleanup
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 weeks ago
 config: i386-randconfig-m021-20210222 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-15) 9.3.0
 
@@ -28,7 +36,17 @@ New smatch warnings:
 drivers/vfio/vfio_iommu_type1.c:1093 vfio_dma_do_unmap() warn: impossible c=
 ondition '(size > (~0)) =3D> (0-u32max > u32max)'
 
+Old smatch warnings:
+drivers/vfio/vfio_iommu_type1.c:514 vfio_pin_pages_remote() warn: should 'l=
+imit << 12' be a 64 bit type?
+drivers/vfio/vfio_iommu_type1.c:541 vfio_pin_pages_remote() warn: should 'l=
+imit << 12' be a 64 bit type?
+drivers/vfio/vfio_iommu_type1.c:2592 vfio_iommu_migration_build_caps() warn=
+: should '1 << __ffs(iommu->pgsize_bitmap)' be a 64 bit type?
+
 vim +1093 drivers/vfio/vfio_iommu_type1.c
+
+d6a4c185660cb9 Kirti Wankhede  2020-05-29  1070  =
 
 73fa0d10d077d9 Alex Williamson 2012-07-31  1071  static int vfio_dma_do_unm=
 ap(struct vfio_iommu *iommu,
@@ -48,8 +66,6 @@ ies =3D 0;
 ->iova;
 0f53afa12baec8 Steve Sistare   2021-01-29  1080  	unsigned long size =3D un=
 map->size;
-                                                        ^^^^^^^^^^^^^^^^^^
-
 73fa0d10d077d9 Alex Williamson 2012-07-31  1081  =
 
 cade075f265b25 Kirti Wankhede  2020-05-29  1082  	mutex_lock(&iommu->lock);
@@ -72,14 +88,6 @@ cade075f265b25 Kirti Wankhede  2020-05-29  1091  		goto unlock;
 
 0f53afa12baec8 Steve Sistare   2021-01-29 @1093  	if (iova + size - 1 < iov=
 a || size > SIZE_MAX)
-
-size is unsigned long and SIZE_MAX is ULONG_MAX so "size > SIZE_MAX"
-does not make sense.
-
-Is the " - 1" intentional on the other overflow check?  As in it's okay
-to wrap around to zero but not further than that?  Sometimes this is
-intentional but it requires more subsystem expertise than I possess.
-
 cade075f265b25 Kirti Wankhede  2020-05-29  1094  		goto unlock;
 73fa0d10d077d9 Alex Williamson 2012-07-31  1095  =
 
@@ -97,17 +105,174 @@ racking || (bitmap->pgsize !=3D pgsize))) {
 GE_MASK);
 331e33d2960c82 Kirti Wankhede  2020-05-29  1103  again:
 1ef3e2bc04223f Alex Williamson 2014-02-26  1104  	/*
+1ef3e2bc04223f Alex Williamson 2014-02-26  1105  	 * vfio-iommu-type1 (v1) =
+- User mappings were coalesced together to
+1ef3e2bc04223f Alex Williamson 2014-02-26  1106  	 * avoid tracking individ=
+ual mappings.  This means that the granularity
+1ef3e2bc04223f Alex Williamson 2014-02-26  1107  	 * of the original mappin=
+g was lost and the user was allowed to attempt
+1ef3e2bc04223f Alex Williamson 2014-02-26  1108  	 * to unmap any range.  D=
+epending on the contiguousness of physical
+1ef3e2bc04223f Alex Williamson 2014-02-26  1109  	 * memory and page sizes =
+supported by the IOMMU, arbitrary unmaps may
+1ef3e2bc04223f Alex Williamson 2014-02-26  1110  	 * or may not have worked=
+.  We only guaranteed unmap granularity
+1ef3e2bc04223f Alex Williamson 2014-02-26  1111  	 * matching the original =
+mapping; even though it was untracked here,
+1ef3e2bc04223f Alex Williamson 2014-02-26  1112  	 * the original mappings =
+are reflected in IOMMU mappings.  This
+1ef3e2bc04223f Alex Williamson 2014-02-26  1113  	 * resulted in a couple u=
+nusual behaviors.  First, if a range is not
+1ef3e2bc04223f Alex Williamson 2014-02-26  1114  	 * able to be unmapped, e=
+x. a set of 4k pages that was mapped as a
+1ef3e2bc04223f Alex Williamson 2014-02-26  1115  	 * 2M hugepage into the I=
+OMMU, the unmap ioctl returns success but with
+1ef3e2bc04223f Alex Williamson 2014-02-26  1116  	 * a zero sized unmap.  A=
+lso, if an unmap request overlaps the first
+1ef3e2bc04223f Alex Williamson 2014-02-26  1117  	 * address of a hugepage,=
+ the IOMMU will unmap the entire hugepage.
+1ef3e2bc04223f Alex Williamson 2014-02-26  1118  	 * This also returns succ=
+ess and the returned unmap size reflects the
+1ef3e2bc04223f Alex Williamson 2014-02-26  1119  	 * actual size unmapped.
+1ef3e2bc04223f Alex Williamson 2014-02-26  1120  	 *
+1ef3e2bc04223f Alex Williamson 2014-02-26  1121  	 * We attempt to maintain=
+ compatibility with this "v1" interface, but
+1ef3e2bc04223f Alex Williamson 2014-02-26  1122  	 * we take control out of=
+ the hands of the IOMMU.  Therefore, an unmap
+1ef3e2bc04223f Alex Williamson 2014-02-26  1123  	 * request offset from th=
+e beginning of the original mapping will
+1ef3e2bc04223f Alex Williamson 2014-02-26  1124  	 * return success with ze=
+ro sized unmap.  And an unmap request covering
+1ef3e2bc04223f Alex Williamson 2014-02-26  1125  	 * the first iova of mapp=
+ing will unmap the entire range.
+1ef3e2bc04223f Alex Williamson 2014-02-26  1126  	 *
+1ef3e2bc04223f Alex Williamson 2014-02-26  1127  	 * The v2 version of this=
+ interface intends to be more deterministic.
+1ef3e2bc04223f Alex Williamson 2014-02-26  1128  	 * Unmap requests must fu=
+lly cover previous mappings.  Multiple
+1ef3e2bc04223f Alex Williamson 2014-02-26  1129  	 * mappings may still be =
+unmaped by specifying large ranges, but there
+1ef3e2bc04223f Alex Williamson 2014-02-26  1130  	 * must not be any previo=
+us mappings bisected by the range.  An error
+1ef3e2bc04223f Alex Williamson 2014-02-26  1131  	 * will be returned if th=
+ese conditions are not met.  The v2 interface
+1ef3e2bc04223f Alex Williamson 2014-02-26  1132  	 * will only return succe=
+ss and a size of zero if there were no
+1ef3e2bc04223f Alex Williamson 2014-02-26  1133  	 * mappings within the ra=
+nge.
+1ef3e2bc04223f Alex Williamson 2014-02-26  1134  	 */
+1ef3e2bc04223f Alex Williamson 2014-02-26  1135  	if (iommu->v2) {
+0f53afa12baec8 Steve Sistare   2021-01-29  1136  		dma =3D vfio_find_dma(io=
+mmu, iova, 1);
+0f53afa12baec8 Steve Sistare   2021-01-29  1137  		if (dma && dma->iova !=
+=3D iova)
+1ef3e2bc04223f Alex Williamson 2014-02-26  1138  			goto unlock;
+0f53afa12baec8 Steve Sistare   2021-01-29  1139  =
+
+0f53afa12baec8 Steve Sistare   2021-01-29  1140  		dma =3D vfio_find_dma(io=
+mmu, iova + size - 1, 0);
+0f53afa12baec8 Steve Sistare   2021-01-29  1141  		if (dma && dma->iova + d=
+ma->size !=3D iova + size)
+1ef3e2bc04223f Alex Williamson 2014-02-26  1142  			goto unlock;
+1ef3e2bc04223f Alex Williamson 2014-02-26  1143  	}
+1ef3e2bc04223f Alex Williamson 2014-02-26  1144  =
+
+0f53afa12baec8 Steve Sistare   2021-01-29  1145  	ret =3D 0;
+0f53afa12baec8 Steve Sistare   2021-01-29  1146  	while ((dma =3D vfio_find=
+_dma(iommu, iova, size))) {
+0f53afa12baec8 Steve Sistare   2021-01-29  1147  		if (!iommu->v2 && iova >=
+ dma->iova)
+166fd7d94afdac Alex Williamson 2013-06-21  1148  			break;
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1149  		/*
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1150  		 * Task with same addres=
+s space who mapped this iova range is
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1151  		 * allowed to unmap the =
+iova range.
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1152  		 */
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1153  		if (dma->task->mm !=3D c=
+urrent->mm)
+8f0d5bb95f763c Kirti Wankhede  2016-11-17  1154  			break;
+c086de818dd81c Kirti Wankhede  2016-11-17  1155  =
+
+c086de818dd81c Kirti Wankhede  2016-11-17  1156  		if (!RB_EMPTY_ROOT(&dma-=
+>pfn_list)) {
+c086de818dd81c Kirti Wankhede  2016-11-17  1157  			struct vfio_iommu_type1=
+_dma_unmap nb_unmap;
+c086de818dd81c Kirti Wankhede  2016-11-17  1158  =
+
+c086de818dd81c Kirti Wankhede  2016-11-17  1159  			if (dma_last =3D=3D dma=
+) {
+c086de818dd81c Kirti Wankhede  2016-11-17  1160  				BUG_ON(++retries > 10);
+c086de818dd81c Kirti Wankhede  2016-11-17  1161  			} else {
+c086de818dd81c Kirti Wankhede  2016-11-17  1162  				dma_last =3D dma;
+c086de818dd81c Kirti Wankhede  2016-11-17  1163  				retries =3D 0;
+c086de818dd81c Kirti Wankhede  2016-11-17  1164  			}
+c086de818dd81c Kirti Wankhede  2016-11-17  1165  =
+
+c086de818dd81c Kirti Wankhede  2016-11-17  1166  			nb_unmap.iova =3D dma->=
+iova;
+c086de818dd81c Kirti Wankhede  2016-11-17  1167  			nb_unmap.size =3D dma->=
+size;
+c086de818dd81c Kirti Wankhede  2016-11-17  1168  =
+
+c086de818dd81c Kirti Wankhede  2016-11-17  1169  			/*
+c086de818dd81c Kirti Wankhede  2016-11-17  1170  			 * Notify anyone (mdev =
+vendor drivers) to invalidate and
+c086de818dd81c Kirti Wankhede  2016-11-17  1171  			 * unmap iovas within t=
+he range we're about to unmap.
+c086de818dd81c Kirti Wankhede  2016-11-17  1172  			 * Vendor drivers MUST =
+unpin pages in response to an
+c086de818dd81c Kirti Wankhede  2016-11-17  1173  			 * invalidation.
+c086de818dd81c Kirti Wankhede  2016-11-17  1174  			 */
+c086de818dd81c Kirti Wankhede  2016-11-17  1175  			mutex_unlock(&iommu->lo=
+ck);
+c086de818dd81c Kirti Wankhede  2016-11-17  1176  			blocking_notifier_call_=
+chain(&iommu->notifier,
+c086de818dd81c Kirti Wankhede  2016-11-17  1177  						    VFIO_IOMMU_NOTIF=
+Y_DMA_UNMAP,
+c086de818dd81c Kirti Wankhede  2016-11-17  1178  						    &nb_unmap);
+cade075f265b25 Kirti Wankhede  2020-05-29  1179  			mutex_lock(&iommu->lock=
+);
+c086de818dd81c Kirti Wankhede  2016-11-17  1180  			goto again;
+c086de818dd81c Kirti Wankhede  2016-11-17  1181  		}
+331e33d2960c82 Kirti Wankhede  2020-05-29  1182  =
+
+331e33d2960c82 Kirti Wankhede  2020-05-29  1183  		if (unmap->flags & VFIO_=
+DMA_UNMAP_FLAG_GET_DIRTY_BITMAP) {
+95fc87b44104d9 Kirti Wankhede  2020-05-29  1184  			ret =3D update_user_bit=
+map(bitmap->data, iommu, dma,
+0f53afa12baec8 Steve Sistare   2021-01-29  1185  						 iova, pgsize);
+331e33d2960c82 Kirti Wankhede  2020-05-29  1186  			if (ret)
+331e33d2960c82 Kirti Wankhede  2020-05-29  1187  				break;
+331e33d2960c82 Kirti Wankhede  2020-05-29  1188  		}
+331e33d2960c82 Kirti Wankhede  2020-05-29  1189  =
+
+1ef3e2bc04223f Alex Williamson 2014-02-26  1190  		unmapped +=3D dma->size;
+1ef3e2bc04223f Alex Williamson 2014-02-26  1191  		vfio_remove_dma(iommu, d=
+ma);
+166fd7d94afdac Alex Williamson 2013-06-21  1192  	}
+cd9b22685e4ccd Alex Williamson 2013-06-21  1193  =
+
+1ef3e2bc04223f Alex Williamson 2014-02-26  1194  unlock:
+73fa0d10d077d9 Alex Williamson 2012-07-31  1195  	mutex_unlock(&iommu->lock=
+);
+166fd7d94afdac Alex Williamson 2013-06-21  1196  =
+
+1ef3e2bc04223f Alex Williamson 2014-02-26  1197  	/* Report how much was un=
+mapped */
+166fd7d94afdac Alex Williamson 2013-06-21  1198  	unmap->size =3D unmapped;
+166fd7d94afdac Alex Williamson 2013-06-21  1199  =
+
+166fd7d94afdac Alex Williamson 2013-06-21  1200  	return ret;
+166fd7d94afdac Alex Williamson 2013-06-21  1201  }
+166fd7d94afdac Alex Williamson 2013-06-21  1202  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============3837601552920170629==
+--===============5680365812941912683==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -845,5 +1010,5 @@ vHndHGY25oVwmKy3WwXMbFop+XQ2XWX9cGZlztdo4zswbfouTMd+kUG0PVUdVxuv+gUgmpJeX4pA
 OpZ5yJysJwFFXdzmXsGoOjS36NE2L5Udc0mzAPTvgj7RV8x2bamQOSiDB+ZJ51c68C3VARheYipK
 2Y3VVjjL2HiASfA8ZrDmDjSBarpovAagpKCPHD123KPIms38TQpRtVYWPp4HVfKDR58Xb6wvmv8H
 wwjb3UWPAgA=
---===============3837601552920170629==--
+--===============5680365812941912683==--
 
