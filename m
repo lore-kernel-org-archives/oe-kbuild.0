@@ -1,2513 +1,1283 @@
-Content-Type: multipart/mixed; boundary="===============4839022181426389666=="
+Content-Type: multipart/mixed; boundary="===============2805251297337971546=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [lee-linaro:tb-fix-w1-warnings 15/194] drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:2057 bw_calcs_init() warn: possible memory leak of 'dceip'
-Date: Fri, 26 Feb 2021 07:44:29 +0800
-Message-ID: <202102260726.iVobpJBn-lkp@intel.com>
+Subject: [xlnx:master 42/273] dtbs_check: warning: no schema found in file: Documentation/devicetree/bindings/ptp/ptp-xilinx.yaml
+Date: Fri, 26 Feb 2021 07:35:01 +0800
+Message-ID: <202102260720.J2iyGvLU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4839022181426389666==
+--===============2805251297337971546==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Lee Jones <lee.jones@linaro.org>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Harini Katakam <harini.katakam@xilinx.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Radhey Shyam Pandey <radhey.shyam.pandey@xilinx.com>
+CC: linux-doc(a)vger.kernel.org
 
-tree:   https://git.linaro.org/people/lee.jones/linux.git tb-fix-w1-warnings
-head:   88ee6a99115ba595216378f4f3f1eaf160547d1f
-commit: 12f826c4dc0ee5a163fec3ac5aa6b8c7b9be552e [15/194] drm/amd/display/d=
-c/calcs/dce_calcs: Remove some large variables from the stack
-:::::: branch date: 4 hours ago
-:::::: commit date: 2 days ago
-config: parisc-randconfig-m031-20210225 (attached as .config)
-compiler: hppa64-linux-gcc (GCC) 9.3.0
+tree:   https://github.com/Xilinx/linux-xlnx master
+head:   f45363ddde384526dafc2b2490763f24c5030e8d
+commit: 017cdc316ba5457387af4e3e82bdec7e8e4cbb37 [42/273] dt-bindings: Add =
+devicetree documentation for Xilinx PTP timer
+:::::: branch date: 10 days ago
+:::::: commit date: 5 months ago
+config: arm-defconfig (attached as .config)
+compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
+reproduce: make ARCH=3Darm dtbs_check
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:2057 bw_calcs_in=
-it() warn: possible memory leak of 'dceip'
+All warnings (new ones prefixed by >>):
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:1740 calculate_b=
-andwidth() warn: Function too hairy.  No more merges.
-drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c:3408 bw_calcs() =
-warn: inconsistent indenting
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+light/tsl2772.yaml
+   Documentation/devicetree/bindings/iio/chemical/sensirion,sps30.yaml: ign=
+oring, error in schema: =
 
-vim +/dceip +2057 drivers/gpu/drm/amd/amdgpu/../display/dc/calcs/dce_calcs.c
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+chemical/sensirion,sps30.yaml
+   Documentation/devicetree/bindings/iio/chemical/plantower,pms7003.yaml: i=
+gnoring, error in schema: =
 
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2038  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+chemical/plantower,pms7003.yaml
+   Documentation/devicetree/bindings/iio/accel/adi,adxl372.yaml: ignoring, =
+error in schema: =
 
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2039  /*****************************************=
-**************************************
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2040   * Public functions
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2041   *****************************************=
-*************************************/
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2042  void bw_calcs_init(struct bw_calcs_dceip *=
-bw_dceip,
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2043  	struct bw_calcs_vbios *bw_vbios,
-00c91d0d480a0c drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Joshu=
-a Aberback     2017-01-09  2044  	struct hw_asic_id asic_id)
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2045  {
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2046  	struct bw_calcs_dceip *dceip;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2047  	struct bw_calcs_vbios *vbios;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2048  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+accel/adi,adxl372.yaml
+   Documentation/devicetree/bindings/iio/accel/adi,adxl345.yaml: ignoring, =
+error in schema: =
 
-00c91d0d480a0c drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Joshu=
-a Aberback     2017-01-09  2049  	enum bw_calcs_version version =3D bw_calc=
-s_version_from_asic_id(asic_id);
-00c91d0d480a0c drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Joshu=
-a Aberback     2017-01-09  2050  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+accel/adi,adxl345.yaml
+   Documentation/devicetree/bindings/iio/pressure/bmp085.yaml: ignoring, er=
+ror in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2051  	dceip =3D kzalloc(sizeof(dceip), GFP_KERN=
-EL);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2052  	if (!dceip)
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2053  		return;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2054  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+pressure/bmp085.yaml
+   Documentation/devicetree/bindings/iio/frequency/adf4371.yaml: ignoring, =
+error in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2055  	vbios =3D kzalloc(sizeof(vbios), GFP_KERN=
-EL);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2056  	if (!vbios)
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08 @2057  		return;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2058  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+frequency/adf4371.yaml
+   Documentation/devicetree/bindings/iio/adc/avia-hx711.yaml: ignoring, err=
+or in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2059  	dceip->version =3D version;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2060  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+adc/avia-hx711.yaml
+   Documentation/devicetree/bindings/iio/adc/adi,ad7192.yaml: ignoring, err=
+or in schema: =
 
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2061  	switch (version) {
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2062  	case BW_CALCS_VERSION_CARRIZO:
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2063  		vbios->memory_type =3D bw_def_gddr5;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2064  		vbios->dram_channel_width_in_bits =3D 64;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2065  		vbios->number_of_dram_channels =3D asic_=
-id.vram_width / vbios->dram_channel_width_in_bits;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2066  		vbios->number_of_dram_banks =3D 8;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2067  		vbios->high_yclk =3D bw_int_to_fixed(160=
-0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2068  		vbios->mid_yclk =3D bw_int_to_fixed(1600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2069  		vbios->low_yclk =3D bw_frc_to_fixed(6666=
-6, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2070  		vbios->low_sclk =3D bw_int_to_fixed(200);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2071  		vbios->mid1_sclk =3D bw_int_to_fixed(300=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2072  		vbios->mid2_sclk =3D bw_int_to_fixed(300=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2073  		vbios->mid3_sclk =3D bw_int_to_fixed(300=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2074  		vbios->mid4_sclk =3D bw_int_to_fixed(300=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2075  		vbios->mid5_sclk =3D bw_int_to_fixed(300=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2076  		vbios->mid6_sclk =3D bw_int_to_fixed(300=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2077  		vbios->high_sclk =3D bw_frc_to_fixed(626=
-09, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2078  		vbios->low_voltage_max_dispclk =3D bw_in=
-t_to_fixed(352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2079  		vbios->mid_voltage_max_dispclk =3D bw_in=
-t_to_fixed(467);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2080  		vbios->high_voltage_max_dispclk =3D bw_i=
-nt_to_fixed(643);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2081  		vbios->low_voltage_max_phyclk =3D bw_int=
-_to_fixed(540);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2082  		vbios->mid_voltage_max_phyclk =3D bw_int=
-_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2083  		vbios->high_voltage_max_phyclk =3D bw_in=
-t_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2084  		vbios->data_return_bus_width =3D bw_int_=
-to_fixed(32);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2085  		vbios->trc =3D bw_int_to_fixed(50);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2086  		vbios->dmifmc_urgent_latency =3D bw_int_=
-to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2087  		vbios->stutter_self_refresh_exit_latency=
- =3D bw_frc_to_fixed(153, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2088  		vbios->stutter_self_refresh_entry_latenc=
-y =3D bw_int_to_fixed(0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2089  		vbios->nbp_state_change_latency =3D bw_f=
-rc_to_fixed(19649, 1000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2090  		vbios->mcifwrmc_urgent_latency =3D bw_in=
-t_to_fixed(10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2091  		vbios->scatter_gather_enable =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2092  		vbios->down_spread_percentage =3D bw_frc=
-_to_fixed(5, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2093  		vbios->cursor_width =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2094  		vbios->average_compression_rate =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2095  		vbios->number_of_request_slots_gmc_reser=
-ves_for_dmif_per_channel =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2096  		vbios->blackout_duration =3D bw_int_to_f=
-ixed(0); /* us */
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2097  		vbios->maximum_blackout_recovery_time =
-=3D bw_int_to_fixed(0);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2098  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+adc/adi,ad7192.yaml
+   Documentation/devicetree/bindings/iio/adc/adi,ad7780.yaml: ignoring, err=
+or in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2099  		dceip->max_average_percent_of_ideal_port=
-_bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2100  		dceip->max_average_percent_of_ideal_dram=
-bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2101  		dceip->percent_of_ideal_port_bw_received=
-_after_urgent_latency =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2102  		dceip->large_cursor =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2103  		dceip->dmif_request_buffer_size =3D bw_i=
-nt_to_fixed(768);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2104  		dceip->dmif_pipe_en_fbc_chunk_tracker =
-=3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2105  		dceip->cursor_max_outstanding_group_num =
-=3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2106  		dceip->lines_interleaved_into_lb =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2107  		dceip->chunk_width =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2108  		dceip->number_of_graphics_pipes =3D 3;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2109  		dceip->number_of_underlay_pipes =3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2110  		dceip->low_power_tiling_mode =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2111  		dceip->display_write_back_supported =3D =
-false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2112  		dceip->argb_compression_support =3D fals=
-e;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2113  		dceip->underlay_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2114  			bw_frc_to_fixed(35556, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2115  		dceip->underlay_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2116  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2117  		dceip->underlay_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2118  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2119  		dceip->underlay_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2120  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2121  		dceip->graphics_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2122  			bw_frc_to_fixed(35, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2123  		dceip->graphics_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2124  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2125  		dceip->graphics_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2126  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2127  		dceip->graphics_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2128  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2129  		dceip->alpha_vscaler_efficiency =3D bw_i=
-nt_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2130  		dceip->max_dmif_buffer_allocated =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2131  		dceip->graphics_dmif_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2132  		dceip->underlay_luma_dmif_size =3D 19456;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2133  		dceip->underlay_chroma_dmif_size =3D 235=
-52;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2134  		dceip->pre_downscaler_enabled =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2135  		dceip->underlay_downscale_prefetch_enabl=
-ed =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2136  		dceip->lb_write_pixels_per_dispclk =3D b=
-w_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2137  		dceip->lb_size_per_component444 =3D bw_i=
-nt_to_fixed(82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2138  		dceip->graphics_lb_nodownscaling_multi_l=
-ine_prefetching =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2139  		dceip->stutter_and_dram_clock_state_chan=
-ge_gated_before_cursor =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2140  			bw_int_to_fixed(0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2141  		dceip->underlay420_luma_lb_size_per_comp=
-onent =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2142  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2143  		dceip->underlay420_chroma_lb_size_per_co=
-mponent =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2144  			bw_int_to_fixed(164352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2145  		dceip->underlay422_lb_size_per_component=
- =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2146  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2147  		dceip->cursor_chunk_width =3D bw_int_to_=
-fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2148  		dceip->cursor_dcp_buffer_lines =3D bw_in=
-t_to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2149  		dceip->underlay_maximum_width_efficient_=
-for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2150  			bw_int_to_fixed(1920);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2151  		dceip->underlay_maximum_height_efficient=
-_for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2152  			bw_int_to_fixed(1080);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2153  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_multiple_displays_or_single_rotated_display =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2154  			bw_frc_to_fixed(3, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2155  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_single_display_no_rotation =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2156  			bw_int_to_fixed(25);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2157  		dceip->minimum_outstanding_pte_request_l=
-imit =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2158  			2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2159  		dceip->maximum_total_outstanding_pte_req=
-uests_allowed_by_saw =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2160  			bw_int_to_fixed(128);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2161  		dceip->limit_excessive_outstanding_dmif_=
-requests =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2162  		dceip->linear_mode_line_request_alternat=
-ion_slice =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2163  			bw_int_to_fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2164  		dceip->scatter_gather_lines_of_pte_prefe=
-tching_in_linear_mode =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2165  			32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2166  		dceip->display_write_back420_luma_mcifwr=
-_buffer_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2167  		dceip->display_write_back420_chroma_mcif=
-wr_buffer_size =3D 8192;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2168  		dceip->request_efficiency =3D bw_frc_to_=
-fixed(8, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2169  		dceip->dispclk_per_request =3D bw_int_to=
-_fixed(2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2170  		dceip->dispclk_ramping_factor =3D bw_frc=
-_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2171  		dceip->display_pipe_throughput_factor =
-=3D bw_frc_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2172  		dceip->scatter_gather_pte_request_rows_i=
-n_tiling_mode =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2173  		dceip->mcifwr_all_surfaces_burst_time =
-=3D bw_int_to_fixed(0); /* todo: this is a bug*/
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2174  		break;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2175  	case BW_CALCS_VERSION_POLARIS10:
-0c75d5acc80dc5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Jerry=
- (Fangzhi  Zuo 2018-04-11  2176) 		/* TODO: Treat VEGAM the same as P10 for=
- now
-0c75d5acc80dc5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Jerry=
- (Fangzhi  Zuo 2018-04-11  2177) 		 * Need to tune the para for VEGAM if ne=
-eded */
-0c75d5acc80dc5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Jerry=
- (Fangzhi  Zuo 2018-04-11  2178) 	case BW_CALCS_VERSION_VEGAM:
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2179  		vbios->memory_type =3D bw_def_gddr5;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2180  		vbios->dram_channel_width_in_bits =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2181  		vbios->number_of_dram_channels =3D asic_=
-id.vram_width / vbios->dram_channel_width_in_bits;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2182  		vbios->number_of_dram_banks =3D 8;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2183  		vbios->high_yclk =3D bw_int_to_fixed(600=
-0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2184  		vbios->mid_yclk =3D bw_int_to_fixed(3200=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2185  		vbios->low_yclk =3D bw_int_to_fixed(1000=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2186  		vbios->low_sclk =3D bw_int_to_fixed(300);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2187  		vbios->mid1_sclk =3D bw_int_to_fixed(400=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2188  		vbios->mid2_sclk =3D bw_int_to_fixed(500=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2189  		vbios->mid3_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2190  		vbios->mid4_sclk =3D bw_int_to_fixed(700=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2191  		vbios->mid5_sclk =3D bw_int_to_fixed(800=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2192  		vbios->mid6_sclk =3D bw_int_to_fixed(974=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2193  		vbios->high_sclk =3D bw_int_to_fixed(115=
-4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2194  		vbios->low_voltage_max_dispclk =3D bw_in=
-t_to_fixed(459);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2195  		vbios->mid_voltage_max_dispclk =3D bw_in=
-t_to_fixed(654);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2196  		vbios->high_voltage_max_dispclk =3D bw_i=
-nt_to_fixed(1108);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2197  		vbios->low_voltage_max_phyclk =3D bw_int=
-_to_fixed(540);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2198  		vbios->mid_voltage_max_phyclk =3D bw_int=
-_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2199  		vbios->high_voltage_max_phyclk =3D bw_in=
-t_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2200  		vbios->data_return_bus_width =3D bw_int_=
-to_fixed(32);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2201  		vbios->trc =3D bw_int_to_fixed(48);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2202  		vbios->dmifmc_urgent_latency =3D bw_int_=
-to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2203  		vbios->stutter_self_refresh_exit_latency=
- =3D bw_int_to_fixed(5);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2204  		vbios->stutter_self_refresh_entry_latenc=
-y =3D bw_int_to_fixed(0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2205  		vbios->nbp_state_change_latency =3D bw_i=
-nt_to_fixed(45);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2206  		vbios->mcifwrmc_urgent_latency =3D bw_in=
-t_to_fixed(10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2207  		vbios->scatter_gather_enable =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2208  		vbios->down_spread_percentage =3D bw_frc=
-_to_fixed(5, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2209  		vbios->cursor_width =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2210  		vbios->average_compression_rate =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2211  		vbios->number_of_request_slots_gmc_reser=
-ves_for_dmif_per_channel =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2212  		vbios->blackout_duration =3D bw_int_to_f=
-ixed(0); /* us */
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2213  		vbios->maximum_blackout_recovery_time =
-=3D bw_int_to_fixed(0);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2214  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+adc/adi,ad7780.yaml
+   Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml: ignoring, err=
+or in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2215  		dceip->max_average_percent_of_ideal_port=
-_bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2216  		dceip->max_average_percent_of_ideal_dram=
-bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2217  		dceip->percent_of_ideal_port_bw_received=
-_after_urgent_latency =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2218  		dceip->large_cursor =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2219  		dceip->dmif_request_buffer_size =3D bw_i=
-nt_to_fixed(768);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2220  		dceip->dmif_pipe_en_fbc_chunk_tracker =
-=3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2221  		dceip->cursor_max_outstanding_group_num =
-=3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2222  		dceip->lines_interleaved_into_lb =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2223  		dceip->chunk_width =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2224  		dceip->number_of_graphics_pipes =3D 6;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2225  		dceip->number_of_underlay_pipes =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2226  		dceip->low_power_tiling_mode =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2227  		dceip->display_write_back_supported =3D =
-false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2228  		dceip->argb_compression_support =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2229  		dceip->underlay_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2230  			bw_frc_to_fixed(35556, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2231  		dceip->underlay_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2232  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2233  		dceip->underlay_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2234  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2235  		dceip->underlay_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2236  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2237  		dceip->graphics_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2238  			bw_frc_to_fixed(35, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2239  		dceip->graphics_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2240  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2241  		dceip->graphics_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2242  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2243  		dceip->graphics_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2244  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2245  		dceip->alpha_vscaler_efficiency =3D bw_i=
-nt_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2246  		dceip->max_dmif_buffer_allocated =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2247  		dceip->graphics_dmif_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2248  		dceip->underlay_luma_dmif_size =3D 19456;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2249  		dceip->underlay_chroma_dmif_size =3D 235=
-52;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2250  		dceip->pre_downscaler_enabled =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2251  		dceip->underlay_downscale_prefetch_enabl=
-ed =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2252  		dceip->lb_write_pixels_per_dispclk =3D b=
-w_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2253  		dceip->lb_size_per_component444 =3D bw_i=
-nt_to_fixed(245952);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2254  		dceip->graphics_lb_nodownscaling_multi_l=
-ine_prefetching =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2255  		dceip->stutter_and_dram_clock_state_chan=
-ge_gated_before_cursor =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2256  			bw_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2257  		dceip->underlay420_luma_lb_size_per_comp=
-onent =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2258  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2259  		dceip->underlay420_chroma_lb_size_per_co=
-mponent =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2260  			bw_int_to_fixed(164352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2261  		dceip->underlay422_lb_size_per_component=
- =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2262  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2263  		dceip->cursor_chunk_width =3D bw_int_to_=
-fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2264  		dceip->cursor_dcp_buffer_lines =3D bw_in=
-t_to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2265  		dceip->underlay_maximum_width_efficient_=
-for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2266  			bw_int_to_fixed(1920);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2267  		dceip->underlay_maximum_height_efficient=
-_for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2268  			bw_int_to_fixed(1080);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2269  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_multiple_displays_or_single_rotated_display =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2270  			bw_frc_to_fixed(3, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2271  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_single_display_no_rotation =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2272  			bw_int_to_fixed(25);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2273  		dceip->minimum_outstanding_pte_request_l=
-imit =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2274  			2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2275  		dceip->maximum_total_outstanding_pte_req=
-uests_allowed_by_saw =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2276  			bw_int_to_fixed(128);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2277  		dceip->limit_excessive_outstanding_dmif_=
-requests =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2278  		dceip->linear_mode_line_request_alternat=
-ion_slice =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2279  			bw_int_to_fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2280  		dceip->scatter_gather_lines_of_pte_prefe=
-tching_in_linear_mode =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2281  			32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2282  		dceip->display_write_back420_luma_mcifwr=
-_buffer_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2283  		dceip->display_write_back420_chroma_mcif=
-wr_buffer_size =3D 8192;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2284  		dceip->request_efficiency =3D bw_frc_to_=
-fixed(8, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2285  		dceip->dispclk_per_request =3D bw_int_to=
-_fixed(2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2286  		dceip->dispclk_ramping_factor =3D bw_frc=
-_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2287  		dceip->display_pipe_throughput_factor =
-=3D bw_frc_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2288  		dceip->scatter_gather_pte_request_rows_i=
-n_tiling_mode =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2289  		dceip->mcifwr_all_surfaces_burst_time =
-=3D bw_int_to_fixed(0);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2290  		break;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2291  	case BW_CALCS_VERSION_POLARIS11:
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2292  		vbios->memory_type =3D bw_def_gddr5;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2293  		vbios->dram_channel_width_in_bits =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2294  		vbios->number_of_dram_channels =3D asic_=
-id.vram_width / vbios->dram_channel_width_in_bits;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2295  		vbios->number_of_dram_banks =3D 8;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2296  		vbios->high_yclk =3D bw_int_to_fixed(600=
-0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2297  		vbios->mid_yclk =3D bw_int_to_fixed(3200=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2298  		vbios->low_yclk =3D bw_int_to_fixed(1000=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2299  		vbios->low_sclk =3D bw_int_to_fixed(300);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2300  		vbios->mid1_sclk =3D bw_int_to_fixed(400=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2301  		vbios->mid2_sclk =3D bw_int_to_fixed(500=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2302  		vbios->mid3_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2303  		vbios->mid4_sclk =3D bw_int_to_fixed(700=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2304  		vbios->mid5_sclk =3D bw_int_to_fixed(800=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2305  		vbios->mid6_sclk =3D bw_int_to_fixed(974=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2306  		vbios->high_sclk =3D bw_int_to_fixed(115=
-4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2307  		vbios->low_voltage_max_dispclk =3D bw_in=
-t_to_fixed(459);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2308  		vbios->mid_voltage_max_dispclk =3D bw_in=
-t_to_fixed(654);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2309  		vbios->high_voltage_max_dispclk =3D bw_i=
-nt_to_fixed(1108);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2310  		vbios->low_voltage_max_phyclk =3D bw_int=
-_to_fixed(540);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2311  		vbios->mid_voltage_max_phyclk =3D bw_int=
-_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2312  		vbios->high_voltage_max_phyclk =3D bw_in=
-t_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2313  		vbios->data_return_bus_width =3D bw_int_=
-to_fixed(32);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2314  		vbios->trc =3D bw_int_to_fixed(48);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2315  		if (vbios->number_of_dram_channels =3D=
-=3D 2) // 64-bit
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2316  			vbios->dmifmc_urgent_latency =3D bw_int=
-_to_fixed(4);
-00c91d0d480a0c drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Joshu=
-a Aberback     2017-01-09  2317  		else
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2318  			vbios->dmifmc_urgent_latency =3D bw_int=
-_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2319  		vbios->stutter_self_refresh_exit_latency=
- =3D bw_int_to_fixed(5);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2320  		vbios->stutter_self_refresh_entry_latenc=
-y =3D bw_int_to_fixed(0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2321  		vbios->nbp_state_change_latency =3D bw_i=
-nt_to_fixed(45);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2322  		vbios->mcifwrmc_urgent_latency =3D bw_in=
-t_to_fixed(10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2323  		vbios->scatter_gather_enable =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2324  		vbios->down_spread_percentage =3D bw_frc=
-_to_fixed(5, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2325  		vbios->cursor_width =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2326  		vbios->average_compression_rate =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2327  		vbios->number_of_request_slots_gmc_reser=
-ves_for_dmif_per_channel =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2328  		vbios->blackout_duration =3D bw_int_to_f=
-ixed(0); /* us */
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2329  		vbios->maximum_blackout_recovery_time =
-=3D bw_int_to_fixed(0);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2330  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+adc/adi,ad7606.yaml
+   Documentation/devicetree/bindings/iio/adc/adi,ad7124.yaml: ignoring, err=
+or in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2331  		dceip->max_average_percent_of_ideal_port=
-_bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2332  		dceip->max_average_percent_of_ideal_dram=
-bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2333  		dceip->percent_of_ideal_port_bw_received=
-_after_urgent_latency =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2334  		dceip->large_cursor =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2335  		dceip->dmif_request_buffer_size =3D bw_i=
-nt_to_fixed(768);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2336  		dceip->dmif_pipe_en_fbc_chunk_tracker =
-=3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2337  		dceip->cursor_max_outstanding_group_num =
-=3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2338  		dceip->lines_interleaved_into_lb =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2339  		dceip->chunk_width =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2340  		dceip->number_of_graphics_pipes =3D 5;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2341  		dceip->number_of_underlay_pipes =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2342  		dceip->low_power_tiling_mode =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2343  		dceip->display_write_back_supported =3D =
-false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2344  		dceip->argb_compression_support =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2345  		dceip->underlay_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2346  			bw_frc_to_fixed(35556, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2347  		dceip->underlay_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2348  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2349  		dceip->underlay_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2350  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2351  		dceip->underlay_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2352  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2353  		dceip->graphics_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2354  			bw_frc_to_fixed(35, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2355  		dceip->graphics_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2356  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2357  		dceip->graphics_vscaler_efficiency10_bit=
-_per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2358  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2359  		dceip->graphics_vscaler_efficiency12_bit=
-_per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2360  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2361  		dceip->alpha_vscaler_efficiency =3D bw_i=
-nt_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2362  		dceip->max_dmif_buffer_allocated =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2363  		dceip->graphics_dmif_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2364  		dceip->underlay_luma_dmif_size =3D 19456;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2365  		dceip->underlay_chroma_dmif_size =3D 235=
-52;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2366  		dceip->pre_downscaler_enabled =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2367  		dceip->underlay_downscale_prefetch_enabl=
-ed =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2368  		dceip->lb_write_pixels_per_dispclk =3D b=
-w_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2369  		dceip->lb_size_per_component444 =3D bw_i=
-nt_to_fixed(245952);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2370  		dceip->graphics_lb_nodownscaling_multi_l=
-ine_prefetching =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2371  		dceip->stutter_and_dram_clock_state_chan=
-ge_gated_before_cursor =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2372  			bw_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2373  		dceip->underlay420_luma_lb_size_per_comp=
-onent =3D bw_int_to_fixed(
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2374  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2375  		dceip->underlay420_chroma_lb_size_per_co=
-mponent =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2376  			bw_int_to_fixed(164352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2377  		dceip->underlay422_lb_size_per_component=
- =3D bw_int_to_fixed(
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2378  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2379  		dceip->cursor_chunk_width =3D bw_int_to_=
-fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2380  		dceip->cursor_dcp_buffer_lines =3D bw_in=
-t_to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2381  		dceip->underlay_maximum_width_efficient_=
-for_tiling =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2382  			bw_int_to_fixed(1920);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2383  		dceip->underlay_maximum_height_efficient=
-_for_tiling =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2384  			bw_int_to_fixed(1080);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2385  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_multiple_displays_or_single_rotated_display =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2386  			bw_frc_to_fixed(3, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2387  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_single_display_no_rotation =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2388  			bw_int_to_fixed(25);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2389  		dceip->minimum_outstanding_pte_request_l=
-imit =3D bw_int_to_fixed(
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2390  			2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2391  		dceip->maximum_total_outstanding_pte_req=
-uests_allowed_by_saw =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2392  			bw_int_to_fixed(128);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2393  		dceip->limit_excessive_outstanding_dmif_=
-requests =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2394  		dceip->linear_mode_line_request_alternat=
-ion_slice =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2395  			bw_int_to_fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2396  		dceip->scatter_gather_lines_of_pte_prefe=
-tching_in_linear_mode =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2397  			32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2398  		dceip->display_write_back420_luma_mcifwr=
-_buffer_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2399  		dceip->display_write_back420_chroma_mcif=
-wr_buffer_size =3D 8192;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2400  		dceip->request_efficiency =3D bw_frc_to_=
-fixed(8, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2401  		dceip->dispclk_per_request =3D bw_int_to=
-_fixed(2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2402  		dceip->dispclk_ramping_factor =3D bw_frc=
-_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2403  		dceip->display_pipe_throughput_factor =
-=3D bw_frc_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2404  		dceip->scatter_gather_pte_request_rows_i=
-n_tiling_mode =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2405  		dceip->mcifwr_all_surfaces_burst_time =
-=3D bw_int_to_fixed(0);
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2406  		break;
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2407  	case BW_CALCS_VERSION_POLARIS12:
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2408  		vbios->memory_type =3D bw_def_gddr5;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2409  		vbios->dram_channel_width_in_bits =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2410  		vbios->number_of_dram_channels =3D asic_=
-id.vram_width / vbios->dram_channel_width_in_bits;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2411  		vbios->number_of_dram_banks =3D 8;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2412  		vbios->high_yclk =3D bw_int_to_fixed(600=
-0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2413  		vbios->mid_yclk =3D bw_int_to_fixed(3200=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2414  		vbios->low_yclk =3D bw_int_to_fixed(1000=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2415  		vbios->low_sclk =3D bw_int_to_fixed(678);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2416  		vbios->mid1_sclk =3D bw_int_to_fixed(864=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2417  		vbios->mid2_sclk =3D bw_int_to_fixed(900=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2418  		vbios->mid3_sclk =3D bw_int_to_fixed(920=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2419  		vbios->mid4_sclk =3D bw_int_to_fixed(940=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2420  		vbios->mid5_sclk =3D bw_int_to_fixed(960=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2421  		vbios->mid6_sclk =3D bw_int_to_fixed(980=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2422  		vbios->high_sclk =3D bw_int_to_fixed(104=
-9);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2423  		vbios->low_voltage_max_dispclk =3D bw_in=
-t_to_fixed(459);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2424  		vbios->mid_voltage_max_dispclk =3D bw_in=
-t_to_fixed(654);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2425  		vbios->high_voltage_max_dispclk =3D bw_i=
-nt_to_fixed(1108);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2426  		vbios->low_voltage_max_phyclk =3D bw_int=
-_to_fixed(540);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2427  		vbios->mid_voltage_max_phyclk =3D bw_int=
-_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2428  		vbios->high_voltage_max_phyclk =3D bw_in=
-t_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2429  		vbios->data_return_bus_width =3D bw_int_=
-to_fixed(32);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2430  		vbios->trc =3D bw_int_to_fixed(48);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2431  		if (vbios->number_of_dram_channels =3D=
-=3D 2) // 64-bit
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2432  			vbios->dmifmc_urgent_latency =3D bw_int=
-_to_fixed(4);
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2433  		else
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2434  			vbios->dmifmc_urgent_latency =3D bw_int=
-_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2435  		vbios->stutter_self_refresh_exit_latency=
- =3D bw_int_to_fixed(5);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2436  		vbios->stutter_self_refresh_entry_latenc=
-y =3D bw_int_to_fixed(0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2437  		vbios->nbp_state_change_latency =3D bw_i=
-nt_to_fixed(250);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2438  		vbios->mcifwrmc_urgent_latency =3D bw_in=
-t_to_fixed(10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2439  		vbios->scatter_gather_enable =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2440  		vbios->down_spread_percentage =3D bw_frc=
-_to_fixed(5, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2441  		vbios->cursor_width =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2442  		vbios->average_compression_rate =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2443  		vbios->number_of_request_slots_gmc_reser=
-ves_for_dmif_per_channel =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2444  		vbios->blackout_duration =3D bw_int_to_f=
-ixed(0); /* us */
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2445  		vbios->maximum_blackout_recovery_time =
-=3D bw_int_to_fixed(0);
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2446  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+adc/adi,ad7124.yaml
+   Documentation/devicetree/bindings/iio/proximity/devantech-srf04.yaml: ig=
+noring, error in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2447  		dceip->max_average_percent_of_ideal_port=
-_bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2448  		dceip->max_average_percent_of_ideal_dram=
-bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2449  		dceip->percent_of_ideal_port_bw_received=
-_after_urgent_latency =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2450  		dceip->large_cursor =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2451  		dceip->dmif_request_buffer_size =3D bw_i=
-nt_to_fixed(768);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2452  		dceip->dmif_pipe_en_fbc_chunk_tracker =
-=3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2453  		dceip->cursor_max_outstanding_group_num =
-=3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2454  		dceip->lines_interleaved_into_lb =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2455  		dceip->chunk_width =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2456  		dceip->number_of_graphics_pipes =3D 5;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2457  		dceip->number_of_underlay_pipes =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2458  		dceip->low_power_tiling_mode =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2459  		dceip->display_write_back_supported =3D =
-true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2460  		dceip->argb_compression_support =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2461  		dceip->underlay_vscaler_efficiency6_bit_=
-per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2462  			bw_frc_to_fixed(35556, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2463  		dceip->underlay_vscaler_efficiency8_bit_=
-per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2464  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2465  		dceip->underlay_vscaler_efficiency10_bit=
-_per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2466  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2467  		dceip->underlay_vscaler_efficiency12_bit=
-_per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2468  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2469  		dceip->graphics_vscaler_efficiency6_bit_=
-per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2470  			bw_frc_to_fixed(35, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2471  		dceip->graphics_vscaler_efficiency8_bit_=
-per_component =3D
-e4b3f6f299436b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Dmytr=
-o Laktyushkin  2018-03-08  2472  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2473  		dceip->graphics_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2474  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2475  		dceip->graphics_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2476  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2477  		dceip->alpha_vscaler_efficiency =3D bw_i=
-nt_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2478  		dceip->max_dmif_buffer_allocated =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2479  		dceip->graphics_dmif_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2480  		dceip->underlay_luma_dmif_size =3D 19456;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2481  		dceip->underlay_chroma_dmif_size =3D 235=
-52;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2482  		dceip->pre_downscaler_enabled =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2483  		dceip->underlay_downscale_prefetch_enabl=
-ed =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2484  		dceip->lb_write_pixels_per_dispclk =3D b=
-w_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2485  		dceip->lb_size_per_component444 =3D bw_i=
-nt_to_fixed(245952);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2486  		dceip->graphics_lb_nodownscaling_multi_l=
-ine_prefetching =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2487  		dceip->stutter_and_dram_clock_state_chan=
-ge_gated_before_cursor =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2488  			bw_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2489  		dceip->underlay420_luma_lb_size_per_comp=
-onent =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2490  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2491  		dceip->underlay420_chroma_lb_size_per_co=
-mponent =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2492  			bw_int_to_fixed(164352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2493  		dceip->underlay422_lb_size_per_component=
- =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2494  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2495  		dceip->cursor_chunk_width =3D bw_int_to_=
-fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2496  		dceip->cursor_dcp_buffer_lines =3D bw_in=
-t_to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2497  		dceip->underlay_maximum_width_efficient_=
-for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2498  			bw_int_to_fixed(1920);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2499  		dceip->underlay_maximum_height_efficient=
-_for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2500  			bw_int_to_fixed(1080);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2501  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_multiple_displays_or_single_rotated_display =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2502  			bw_frc_to_fixed(3, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2503  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_single_display_no_rotation =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2504  			bw_int_to_fixed(25);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2505  		dceip->minimum_outstanding_pte_request_l=
-imit =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2506  			2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2507  		dceip->maximum_total_outstanding_pte_req=
-uests_allowed_by_saw =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2508  			bw_int_to_fixed(128);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2509  		dceip->limit_excessive_outstanding_dmif_=
-requests =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2510  		dceip->linear_mode_line_request_alternat=
-ion_slice =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2511  			bw_int_to_fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2512  		dceip->scatter_gather_lines_of_pte_prefe=
-tching_in_linear_mode =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2513  			32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2514  		dceip->display_write_back420_luma_mcifwr=
-_buffer_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2515  		dceip->display_write_back420_chroma_mcif=
-wr_buffer_size =3D 8192;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2516  		dceip->request_efficiency =3D bw_frc_to_=
-fixed(8, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2517  		dceip->dispclk_per_request =3D bw_int_to=
-_fixed(2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2518  		dceip->dispclk_ramping_factor =3D bw_frc=
-_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2519  		dceip->display_pipe_throughput_factor =
-=3D bw_frc_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2520  		dceip->scatter_gather_pte_request_rows_i=
-n_tiling_mode =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2521  		dceip->mcifwr_all_surfaces_burst_time =
-=3D bw_int_to_fixed(0);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2522  		break;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2523  	case BW_CALCS_VERSION_STONEY:
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2524  		vbios->memory_type =3D bw_def_gddr5;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2525  		vbios->dram_channel_width_in_bits =3D 64;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2526  		vbios->number_of_dram_channels =3D asic_=
-id.vram_width / vbios->dram_channel_width_in_bits;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2527  		vbios->number_of_dram_banks =3D 8;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2528  		vbios->high_yclk =3D bw_int_to_fixed(186=
-6);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2529  		vbios->mid_yclk =3D bw_int_to_fixed(1866=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2530  		vbios->low_yclk =3D bw_int_to_fixed(1333=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2531  		vbios->low_sclk =3D bw_int_to_fixed(200);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2532  		vbios->mid1_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2533  		vbios->mid2_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2534  		vbios->mid3_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2535  		vbios->mid4_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2536  		vbios->mid5_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2537  		vbios->mid6_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2538  		vbios->high_sclk =3D bw_int_to_fixed(800=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2539  		vbios->low_voltage_max_dispclk =3D bw_in=
-t_to_fixed(352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2540  		vbios->mid_voltage_max_dispclk =3D bw_in=
-t_to_fixed(467);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2541  		vbios->high_voltage_max_dispclk =3D bw_i=
-nt_to_fixed(643);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2542  		vbios->low_voltage_max_phyclk =3D bw_int=
-_to_fixed(540);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2543  		vbios->mid_voltage_max_phyclk =3D bw_int=
-_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2544  		vbios->high_voltage_max_phyclk =3D bw_in=
-t_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2545  		vbios->data_return_bus_width =3D bw_int_=
-to_fixed(32);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2546  		vbios->trc =3D bw_int_to_fixed(50);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2547  		vbios->dmifmc_urgent_latency =3D bw_int_=
-to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2548  		vbios->stutter_self_refresh_exit_latency=
- =3D bw_frc_to_fixed(158, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2549  		vbios->stutter_self_refresh_entry_latenc=
-y =3D bw_int_to_fixed(0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2550  		vbios->nbp_state_change_latency =3D bw_f=
-rc_to_fixed(2008, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2551  		vbios->mcifwrmc_urgent_latency =3D bw_in=
-t_to_fixed(10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2552  		vbios->scatter_gather_enable =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2553  		vbios->down_spread_percentage =3D bw_frc=
-_to_fixed(5, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2554  		vbios->cursor_width =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2555  		vbios->average_compression_rate =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2556  		vbios->number_of_request_slots_gmc_reser=
-ves_for_dmif_per_channel =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2557  		vbios->blackout_duration =3D bw_int_to_f=
-ixed(0); /* us */
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2558  		vbios->maximum_blackout_recovery_time =
-=3D bw_int_to_fixed(0);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2559  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+proximity/devantech-srf04.yaml
+   Documentation/devicetree/bindings/iio/imu/adi,adis16460.yaml: ignoring, =
+error in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2560  		dceip->max_average_percent_of_ideal_port=
-_bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2561  		dceip->max_average_percent_of_ideal_dram=
-bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2562  		dceip->percent_of_ideal_port_bw_received=
-_after_urgent_latency =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2563  		dceip->large_cursor =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2564  		dceip->dmif_request_buffer_size =3D bw_i=
-nt_to_fixed(768);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2565  		dceip->dmif_pipe_en_fbc_chunk_tracker =
-=3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2566  		dceip->cursor_max_outstanding_group_num =
-=3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2567  		dceip->lines_interleaved_into_lb =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2568  		dceip->chunk_width =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2569  		dceip->number_of_graphics_pipes =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2570  		dceip->number_of_underlay_pipes =3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2571  		dceip->low_power_tiling_mode =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2572  		dceip->display_write_back_supported =3D =
-false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2573  		dceip->argb_compression_support =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2574  		dceip->underlay_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2575  			bw_frc_to_fixed(35556, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2576  		dceip->underlay_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2577  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2578  		dceip->underlay_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2579  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2580  		dceip->underlay_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2581  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2582  		dceip->graphics_vscaler_efficiency6_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2583  			bw_frc_to_fixed(35, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2584  		dceip->graphics_vscaler_efficiency8_bit_=
-per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2585  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2586  		dceip->graphics_vscaler_efficiency10_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2587  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2588  		dceip->graphics_vscaler_efficiency12_bit=
-_per_component =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2589  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2590  		dceip->alpha_vscaler_efficiency =3D bw_i=
-nt_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2591  		dceip->max_dmif_buffer_allocated =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2592  		dceip->graphics_dmif_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2593  		dceip->underlay_luma_dmif_size =3D 19456;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2594  		dceip->underlay_chroma_dmif_size =3D 235=
-52;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2595  		dceip->pre_downscaler_enabled =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2596  		dceip->underlay_downscale_prefetch_enabl=
-ed =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2597  		dceip->lb_write_pixels_per_dispclk =3D b=
-w_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2598  		dceip->lb_size_per_component444 =3D bw_i=
-nt_to_fixed(82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2599  		dceip->graphics_lb_nodownscaling_multi_l=
-ine_prefetching =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2600  		dceip->stutter_and_dram_clock_state_chan=
-ge_gated_before_cursor =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2601  			bw_int_to_fixed(0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2602  		dceip->underlay420_luma_lb_size_per_comp=
-onent =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2603  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2604  		dceip->underlay420_chroma_lb_size_per_co=
-mponent =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2605  			bw_int_to_fixed(164352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2606  		dceip->underlay422_lb_size_per_component=
- =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2607  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2608  		dceip->cursor_chunk_width =3D bw_int_to_=
-fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2609  		dceip->cursor_dcp_buffer_lines =3D bw_in=
-t_to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2610  		dceip->underlay_maximum_width_efficient_=
-for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2611  			bw_int_to_fixed(1920);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2612  		dceip->underlay_maximum_height_efficient=
-_for_tiling =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2613  			bw_int_to_fixed(1080);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2614  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_multiple_displays_or_single_rotated_display =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2615  			bw_frc_to_fixed(3, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2616  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_single_display_no_rotation =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2617  			bw_int_to_fixed(25);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2618  		dceip->minimum_outstanding_pte_request_l=
-imit =3D bw_int_to_fixed(
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2619  			2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2620  		dceip->maximum_total_outstanding_pte_req=
-uests_allowed_by_saw =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2621  			bw_int_to_fixed(128);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2622  		dceip->limit_excessive_outstanding_dmif_=
-requests =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2623  		dceip->linear_mode_line_request_alternat=
-ion_slice =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2624  			bw_int_to_fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2625  		dceip->scatter_gather_lines_of_pte_prefe=
-tching_in_linear_mode =3D
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2626  			32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2627  		dceip->display_write_back420_luma_mcifwr=
-_buffer_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2628  		dceip->display_write_back420_chroma_mcif=
-wr_buffer_size =3D 8192;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2629  		dceip->request_efficiency =3D bw_frc_to_=
-fixed(8, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2630  		dceip->dispclk_per_request =3D bw_int_to=
-_fixed(2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2631  		dceip->dispclk_ramping_factor =3D bw_frc=
-_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2632  		dceip->display_pipe_throughput_factor =
-=3D bw_frc_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2633  		dceip->scatter_gather_pte_request_rows_i=
-n_tiling_mode =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2634  		dceip->mcifwr_all_surfaces_burst_time =
-=3D bw_int_to_fixed(0);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2635  		break;
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2636  	case BW_CALCS_VERSION_VEGA10:
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2637  		vbios->memory_type =3D bw_def_hbm;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2638  		vbios->dram_channel_width_in_bits =3D 12=
-8;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2639  		vbios->number_of_dram_channels =3D asic_=
-id.vram_width / vbios->dram_channel_width_in_bits;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2640  		vbios->number_of_dram_banks =3D 16;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2641  		vbios->high_yclk =3D bw_int_to_fixed(240=
-0);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2642  		vbios->mid_yclk =3D bw_int_to_fixed(1700=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2643  		vbios->low_yclk =3D bw_int_to_fixed(1000=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2644  		vbios->low_sclk =3D bw_int_to_fixed(300);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2645  		vbios->mid1_sclk =3D bw_int_to_fixed(350=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2646  		vbios->mid2_sclk =3D bw_int_to_fixed(400=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2647  		vbios->mid3_sclk =3D bw_int_to_fixed(500=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2648  		vbios->mid4_sclk =3D bw_int_to_fixed(600=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2649  		vbios->mid5_sclk =3D bw_int_to_fixed(700=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2650  		vbios->mid6_sclk =3D bw_int_to_fixed(760=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2651  		vbios->high_sclk =3D bw_int_to_fixed(776=
-);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2652  		vbios->low_voltage_max_dispclk =3D bw_in=
-t_to_fixed(460);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2653  		vbios->mid_voltage_max_dispclk =3D bw_in=
-t_to_fixed(670);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2654  		vbios->high_voltage_max_dispclk =3D bw_i=
-nt_to_fixed(1133);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2655  		vbios->low_voltage_max_phyclk =3D bw_int=
-_to_fixed(540);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2656  		vbios->mid_voltage_max_phyclk =3D bw_int=
-_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2657  		vbios->high_voltage_max_phyclk =3D bw_in=
-t_to_fixed(810);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2658  		vbios->data_return_bus_width =3D bw_int_=
-to_fixed(32);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2659  		vbios->trc =3D bw_int_to_fixed(48);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2660  		vbios->dmifmc_urgent_latency =3D bw_int_=
-to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2661  		vbios->stutter_self_refresh_exit_latency=
- =3D bw_frc_to_fixed(75, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2662  		vbios->stutter_self_refresh_entry_latenc=
-y =3D bw_frc_to_fixed(19, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2663  		vbios->nbp_state_change_latency =3D bw_i=
-nt_to_fixed(39);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2664  		vbios->mcifwrmc_urgent_latency =3D bw_in=
-t_to_fixed(10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2665  		vbios->scatter_gather_enable =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2666  		vbios->down_spread_percentage =3D bw_frc=
-_to_fixed(5, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2667  		vbios->cursor_width =3D 32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2668  		vbios->average_compression_rate =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2669  		vbios->number_of_request_slots_gmc_reser=
-ves_for_dmif_per_channel =3D 8;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2670  		vbios->blackout_duration =3D bw_int_to_f=
-ixed(0); /* us */
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2671  		vbios->maximum_blackout_recovery_time =
-=3D bw_int_to_fixed(0);
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2672  =
+   warning: no schema found in file: Documentation/devicetree/bindings/iio/=
+imu/adi,adis16460.yaml
+   Documentation/devicetree/bindings/input/gpio-vibrator.yaml: ignoring, er=
+ror in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2673  		dceip->max_average_percent_of_ideal_port=
-_bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2674  		dceip->max_average_percent_of_ideal_dram=
-bw_display_can_use_in_normal_system_operation =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2675  		dceip->percent_of_ideal_port_bw_received=
-_after_urgent_latency =3D 100;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2676  		dceip->large_cursor =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2677  		dceip->dmif_request_buffer_size =3D bw_i=
-nt_to_fixed(2304);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2678  		dceip->dmif_pipe_en_fbc_chunk_tracker =
-=3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2679  		dceip->cursor_max_outstanding_group_num =
-=3D 1;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2680  		dceip->lines_interleaved_into_lb =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2681  		dceip->chunk_width =3D 256;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2682  		dceip->number_of_graphics_pipes =3D 6;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2683  		dceip->number_of_underlay_pipes =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2684  		dceip->low_power_tiling_mode =3D 0;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2685  		dceip->display_write_back_supported =3D =
-true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2686  		dceip->argb_compression_support =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2687  		dceip->underlay_vscaler_efficiency6_bit_=
-per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2688  			bw_frc_to_fixed(35556, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2689  		dceip->underlay_vscaler_efficiency8_bit_=
-per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2690  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2691  		dceip->underlay_vscaler_efficiency10_bit=
-_per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2692  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2693  		dceip->underlay_vscaler_efficiency12_bit=
-_per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2694  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2695  		dceip->graphics_vscaler_efficiency6_bit_=
-per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2696  			bw_frc_to_fixed(35, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2697  		dceip->graphics_vscaler_efficiency8_bit_=
-per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2698  			bw_frc_to_fixed(34286, 10000);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2699  		dceip->graphics_vscaler_efficiency10_bit=
-_per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2700  			bw_frc_to_fixed(32, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2701  		dceip->graphics_vscaler_efficiency12_bit=
-_per_component =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2702  			bw_int_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2703  		dceip->alpha_vscaler_efficiency =3D bw_i=
-nt_to_fixed(3);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2704  		dceip->max_dmif_buffer_allocated =3D 4;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2705  		dceip->graphics_dmif_size =3D 24576;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2706  		dceip->underlay_luma_dmif_size =3D 19456;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2707  		dceip->underlay_chroma_dmif_size =3D 235=
-52;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2708  		dceip->pre_downscaler_enabled =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2709  		dceip->underlay_downscale_prefetch_enabl=
-ed =3D false;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2710  		dceip->lb_write_pixels_per_dispclk =3D b=
-w_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2711  		dceip->lb_size_per_component444 =3D bw_i=
-nt_to_fixed(245952);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2712  		dceip->graphics_lb_nodownscaling_multi_l=
-ine_prefetching =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2713  		dceip->stutter_and_dram_clock_state_chan=
-ge_gated_before_cursor =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2714  			bw_int_to_fixed(1);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2715  		dceip->underlay420_luma_lb_size_per_comp=
-onent =3D bw_int_to_fixed(
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2716  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2717  		dceip->underlay420_chroma_lb_size_per_co=
-mponent =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2718  			bw_int_to_fixed(164352);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2719  		dceip->underlay422_lb_size_per_component=
- =3D bw_int_to_fixed(
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2720  			82176);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2721  		dceip->cursor_chunk_width =3D bw_int_to_=
-fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2722  		dceip->cursor_dcp_buffer_lines =3D bw_in=
-t_to_fixed(4);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2723  		dceip->underlay_maximum_width_efficient_=
-for_tiling =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2724  			bw_int_to_fixed(1920);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2725  		dceip->underlay_maximum_height_efficient=
-_for_tiling =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2726  			bw_int_to_fixed(1080);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2727  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_multiple_displays_or_single_rotated_display =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2728  			bw_frc_to_fixed(3, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2729  		dceip->peak_pte_request_to_eviction_rati=
-o_limiting_single_display_no_rotation =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2730  			bw_int_to_fixed(25);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2731  		dceip->minimum_outstanding_pte_request_l=
-imit =3D bw_int_to_fixed(
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2732  			2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2733  		dceip->maximum_total_outstanding_pte_req=
-uests_allowed_by_saw =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2734  			bw_int_to_fixed(128);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2735  		dceip->limit_excessive_outstanding_dmif_=
-requests =3D true;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2736  		dceip->linear_mode_line_request_alternat=
-ion_slice =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2737  			bw_int_to_fixed(64);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2738  		dceip->scatter_gather_lines_of_pte_prefe=
-tching_in_linear_mode =3D
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2739  			32;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2740  		dceip->display_write_back420_luma_mcifwr=
-_buffer_size =3D 12288;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2741  		dceip->display_write_back420_chroma_mcif=
-wr_buffer_size =3D 8192;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2742  		dceip->request_efficiency =3D bw_frc_to_=
-fixed(8, 10);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2743  		dceip->dispclk_per_request =3D bw_int_to=
-_fixed(2);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2744  		dceip->dispclk_ramping_factor =3D bw_frc=
-_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2745  		dceip->display_pipe_throughput_factor =
-=3D bw_frc_to_fixed(105, 100);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2746  		dceip->scatter_gather_pte_request_rows_i=
-n_tiling_mode =3D 2;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2747  		dceip->mcifwr_all_surfaces_burst_time =
-=3D bw_int_to_fixed(0);
-2c8ad2d5a20c8b drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Alex =
-Deucher        2017-06-15  2748  		break;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2749  	default:
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2750  		break;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2751  	}
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2752  	*bw_dceip =3D *dceip;
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2753  	*bw_vbios =3D *vbios;
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2754  =
+   warning: no schema found in file: Documentation/devicetree/bindings/inpu=
+t/gpio-vibrator.yaml
+   Documentation/devicetree/bindings/interrupt-controller/allwinner,sun7i-a=
+20-sc-nmi.yaml: ignoring, error in schema: =
 
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2755  	kfree(dceip);
-12f826c4dc0ee5 drivers/gpu/drm/amd/display/dc/calcs/dce_calcs.c       Lee J=
-ones           2021-01-08  2756  	kfree(vbios);
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2757  }
-4562236b3bc0a2 drivers/gpu/drm/amd/display/dc/calcs/bandwidth_calcs.c Harry=
- Wentland      2017-09-12  2758  =
+   warning: no schema found in file: Documentation/devicetree/bindings/inte=
+rrupt-controller/allwinner,sun7i-a20-sc-nmi.yaml
+   Documentation/devicetree/bindings/interrupt-controller/intel,ixp4xx-inte=
+rrupt.yaml: ignoring, error in schema: =
 
+   warning: no schema found in file: Documentation/devicetree/bindings/inte=
+rrupt-controller/intel,ixp4xx-interrupt.yaml
+   Documentation/devicetree/bindings/mailbox/amlogic,meson-gxbb-mhu.yaml: i=
+gnoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/mail=
+box/amlogic,meson-gxbb-mhu.yaml
+   Documentation/devicetree/bindings/media/rc.yaml: ignoring, error in sche=
+ma: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/medi=
+a/rc.yaml
+   Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml: ign=
+oring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/medi=
+a/allwinner,sun4i-a10-ir.yaml
+   Documentation/devicetree/bindings/media/xilinx/xlnx,v-dprxss.yaml: ignor=
+ing, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/medi=
+a/xilinx/xlnx,v-dprxss.yaml
+   Documentation/devicetree/bindings/misc/intel,ixp4xx-ahb-queue-manager.ya=
+ml: ignoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/misc=
+/intel,ixp4xx-ahb-queue-manager.yaml
+   Documentation/devicetree/bindings/mmc/allwinner,sun4i-a10-mmc.yaml: igno=
+ring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/mmc/=
+allwinner,sun4i-a10-mmc.yaml
+   Documentation/devicetree/bindings/mmc/mmc-controller.yaml: ignoring, err=
+or in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/mmc/=
+mmc-controller.yaml
+   Documentation/devicetree/bindings/mtd/nand-controller.yaml: ignoring, er=
+ror in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/mtd/=
+nand-controller.yaml
+   Documentation/devicetree/bindings/net/mdio.yaml: ignoring, error in sche=
+ma: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+mdio.yaml
+   Documentation/devicetree/bindings/net/aspeed,ast2600-mdio.yaml: ignoring=
+, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+aspeed,ast2600-mdio.yaml
+   Documentation/devicetree/bindings/net/allwinner,sun8i-a83t-emac.yaml: ig=
+noring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+allwinner,sun8i-a83t-emac.yaml
+   Documentation/devicetree/bindings/net/allwinner,sun4i-a10-mdio.yaml: ign=
+oring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+allwinner,sun4i-a10-mdio.yaml
+   Documentation/devicetree/bindings/net/allwinner,sun4i-a10-emac.yaml: ign=
+oring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+allwinner,sun4i-a10-emac.yaml
+   Documentation/devicetree/bindings/net/snps,dwmac.yaml: ignoring, error i=
+n schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+snps,dwmac.yaml
+   Documentation/devicetree/bindings/net/allwinner,sun7i-a20-gmac.yaml: ign=
+oring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+allwinner,sun7i-a20-gmac.yaml
+   Documentation/devicetree/bindings/net/ethernet-controller.yaml: ignoring=
+, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+ethernet-controller.yaml
+   Documentation/devicetree/bindings/net/adi,adin.yaml: ignoring, error in =
+schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+adi,adin.yaml
+   Documentation/devicetree/bindings/net/amlogic,meson-dwmac.yaml: ignoring=
+, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+amlogic,meson-dwmac.yaml
+   Documentation/devicetree/bindings/net/ethernet-phy.yaml: ignoring, error=
+ in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/net/=
+ethernet-phy.yaml
+   Documentation/devicetree/bindings/nvmem/allwinner,sun4i-a10-sid.yaml: ig=
+noring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/nvme=
+m/allwinner,sun4i-a10-sid.yaml
+   Documentation/devicetree/bindings/nvmem/nvmem-consumer.yaml: ignoring, e=
+rror in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/nvme=
+m/nvmem-consumer.yaml
+   Documentation/devicetree/bindings/nvmem/nvmem.yaml: ignoring, error in s=
+chema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/nvme=
+m/nvmem.yaml
+   Documentation/devicetree/bindings/perf/xlnx-flexnoc-pm.yaml: ignoring, e=
+rror in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/perf=
+/xlnx-flexnoc-pm.yaml
+   Documentation/devicetree/bindings/perf/xilinx-apm.yaml: ignoring, error =
+in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/perf=
+/xilinx-apm.yaml
+   Documentation/devicetree/bindings/phy/amlogic,meson-g12a-usb2-phy.yaml: =
+ignoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/phy/=
+amlogic,meson-g12a-usb2-phy.yaml
+   Documentation/devicetree/bindings/phy/amlogic,meson-g12a-usb3-pcie-phy.y=
+aml: ignoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/phy/=
+amlogic,meson-g12a-usb3-pcie-phy.yaml
+   Documentation/devicetree/bindings/pinctrl/st,stm32-pinctrl.yaml: ignorin=
+g, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/pinc=
+trl/st,stm32-pinctrl.yaml
+   Documentation/devicetree/bindings/pinctrl/aspeed,ast2400-pinctrl.yaml: i=
+gnoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/pinc=
+trl/aspeed,ast2400-pinctrl.yaml
+   Documentation/devicetree/bindings/pinctrl/aspeed,ast2600-pinctrl.yaml: i=
+gnoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/pinc=
+trl/aspeed,ast2600-pinctrl.yaml
+   Documentation/devicetree/bindings/pinctrl/pinmux-node.yaml: ignoring, er=
+ror in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/pinc=
+trl/pinmux-node.yaml
+   Documentation/devicetree/bindings/pinctrl/pincfg-node.yaml: ignoring, er=
+ror in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/pinc=
+trl/pincfg-node.yaml
+   Documentation/devicetree/bindings/pinctrl/aspeed,ast2500-pinctrl.yaml: i=
+gnoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/pinc=
+trl/aspeed,ast2500-pinctrl.yaml
+   Documentation/devicetree/bindings/power/amlogic,meson-ee-pwrc.yaml: igno=
+ring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/powe=
+r/amlogic,meson-ee-pwrc.yaml
+   Documentation/devicetree/bindings/ptp/ptp-xilinx.yaml: ignoring, error i=
+n schema: =
+
+>> warning: no schema found in file: Documentation/devicetree/bindings/ptp/=
+ptp-xilinx.yaml
+   Documentation/devicetree/bindings/regulator/gpio-regulator.yaml: ignorin=
+g, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/regu=
+lator/gpio-regulator.yaml
+   Documentation/devicetree/bindings/regulator/regulator.yaml: ignoring, er=
+ror in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/regu=
+lator/regulator.yaml
+   Documentation/devicetree/bindings/regulator/fixed-regulator.yaml: ignori=
+ng, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/regu=
+lator/fixed-regulator.yaml
+   Documentation/devicetree/bindings/reset/amlogic,meson-reset.yaml: ignori=
+ng, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/rese=
+t/amlogic,meson-reset.yaml
+   Documentation/devicetree/bindings/riscv/sifive.yaml: ignoring, error in =
+schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/risc=
+v/sifive.yaml
+   Documentation/devicetree/bindings/riscv/cpus.yaml: ignoring, error in sc=
+hema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/risc=
+v/cpus.yaml
+   Documentation/devicetree/bindings/rng/amlogic,meson-rng.yaml: ignoring, =
+error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/rng/=
+amlogic,meson-rng.yaml
+   Documentation/devicetree/bindings/rtc/rtc.yaml: ignoring, error in schem=
+a: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/rtc/=
+rtc.yaml
+   Documentation/devicetree/bindings/serial/amlogic,meson-uart.yaml: ignori=
+ng, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/seri=
+al/amlogic,meson-uart.yaml
+   Documentation/devicetree/bindings/serial/snps-dw-apb-uart.yaml: ignoring=
+, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/seri=
+al/snps-dw-apb-uart.yaml
+   Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml: ignori=
+ng, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/soc/=
+xilinx/xlnx,ai-engine.yaml
+   Documentation/devicetree/bindings/soundwire/soundwire-controller.yaml: i=
+gnoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/soun=
+dwire/soundwire-controller.yaml
+   Documentation/devicetree/bindings/spi/amlogic,meson6-spifc.yaml: ignorin=
+g, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/spi/=
+amlogic,meson6-spifc.yaml
+   Documentation/devicetree/bindings/spi/spi-pl022.yaml: ignoring, error in=
+ schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/spi/=
+spi-pl022.yaml
+   Documentation/devicetree/bindings/spi/amlogic,meson-gx-spicc.yaml: ignor=
+ing, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/spi/=
+amlogic,meson-gx-spicc.yaml
+   Documentation/devicetree/bindings/spi/spi-controller.yaml: ignoring, err=
+or in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/spi/=
+spi-controller.yaml
+   Documentation/devicetree/bindings/spi/spi-gpio.yaml: ignoring, error in =
+schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/spi/=
+spi-gpio.yaml
+   Documentation/devicetree/bindings/timer/arm,arch_timer_mmio.yaml: ignori=
+ng, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/time=
+r/arm,arch_timer_mmio.yaml
+   Documentation/devicetree/bindings/timer/arm,global_timer.yaml: ignoring,=
+ error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/time=
+r/arm,global_timer.yaml
+   Documentation/devicetree/bindings/timer/arm,arch_timer.yaml: ignoring, e=
+rror in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/time=
+r/arm,arch_timer.yaml
+   Documentation/devicetree/bindings/timer/intel,ixp4xx-timer.yaml: ignorin=
+g, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/time=
+r/intel,ixp4xx-timer.yaml
+   Documentation/devicetree/bindings/trivial-devices.yaml: ignoring, error =
+in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/triv=
+ial-devices.yaml
+   Documentation/devicetree/bindings/usb/usb-hcd.yaml: ignoring, error in s=
+chema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/usb/=
+usb-hcd.yaml
+   Documentation/devicetree/bindings/watchdog/amlogic,meson-gxbb-wdt.yaml: =
+ignoring, error in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/watc=
+hdog/amlogic,meson-gxbb-wdt.yaml
+   Documentation/devicetree/bindings/watchdog/watchdog.yaml: ignoring, erro=
+r in schema: =
+
+   warning: no schema found in file: Documentation/devicetree/bindings/watc=
+hdog/watchdog.yaml
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4839022181426389666==
+--===============2805251297337971546==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
---===============4839022181426389666==--
+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
+F3g+vZXCSAMA
+--===============2805251297337971546==--
 
