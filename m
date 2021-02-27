@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6885144497165770973=="
+Content-Type: multipart/mixed; boundary="===============2184892263890899503=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [lee-linaro:tb-fix-w1-warnings 216/226] drivers/scsi/mpt3sas/mpt3sas_scsih.c:10244 _scsih_scan_for_devices_after_reset() warn: possible memory leak of 'volume_pg0'
-Date: Sat, 27 Feb 2021 09:26:00 +0800
-Message-ID: <202102270956.Y3RU3bZB-lkp@intel.com>
+Subject: [lee-linaro:tb-fix-w1-warnings 215/226] drivers/scsi/bfa/bfa_fcs_lport.c:1912 bfa_fcs_lport_fdmi_build_rhba_pyld() warn: signedness bug returning '(-12)'
+Date: Sat, 27 Feb 2021 08:30:54 +0800
+Message-ID: <202102270848.RgpuX8d8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6885144497165770973==
+--===============2184892263890899503==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,12 +15,16 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Lee Jones <lee.jones@linaro.org>
 
+Hi Lee,
+
+First bad commit (maybe !=3D root cause):
+
 tree:   https://git.linaro.org/people/lee.jones/linux.git tb-fix-w1-warnings
 head:   49fe493a5f7cebaec70944df919df3350d4cb520
-commit: a5ab8c19b6f704742e181af8b429a208e9a0e393 [216/226] fixup! scsi: mpt=
-3sas: mpt3sas_scs: Move a little data from the stack onto the heap
-:::::: branch date: 9 hours ago
-:::::: commit date: 11 hours ago
+commit: ffdcc79844033bab9aae2f65246b91334831ee11 [215/226] fixup! scsi: bfa=
+: bfa_fcs_lport: Move a large struct from the stack onto the heap
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 hours ago
 config: xtensa-randconfig-m031-20210227 (attached as .config)
 compiler: xtensa-linux-gcc (GCC) 9.3.0
 
@@ -28,517 +32,449 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:10244 _scsih_scan_for_devices_after_re=
-set() warn: possible memory leak of 'volume_pg0'
+smatch warnings:
+drivers/scsi/bfa/bfa_fcs_lport.c:1912 bfa_fcs_lport_fdmi_build_rhba_pyld() =
+warn: signedness bug returning '(-12)'
 
-Old smatch warnings:
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:6865 _scsih_expander_add() warn: retur=
-ning -1 instead of -ENOMEM is sloppy
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:6885 _scsih_expander_add() warn: missi=
-ng error code 'rc'
-drivers/scsi/mpt3sas/mpt3sas_scsih.c:10650 _mpt3sas_fw_work() warn: inconsi=
-stent indenting
+vim +1912 drivers/scsi/bfa/bfa_fcs_lport.c
 
-vim +/volume_pg0 +10244 drivers/scsi/mpt3sas/mpt3sas_scsih.c
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1898  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10211  =
-
-f92363d12359498f Sreekanth Reddy          2012-11-30  10212  /**
-f92363d12359498f Sreekanth Reddy          2012-11-30  10213   * _scsih_scan=
-_for_devices_after_reset - scan for devices after host reset
-f92363d12359498f Sreekanth Reddy          2012-11-30  10214   * @ioc: per a=
-dapter object
-f92363d12359498f Sreekanth Reddy          2012-11-30  10215   */
-f92363d12359498f Sreekanth Reddy          2012-11-30  10216  static void
-f92363d12359498f Sreekanth Reddy          2012-11-30  10217  _scsih_scan_fo=
-r_devices_after_reset(struct MPT3SAS_ADAPTER *ioc)
-f92363d12359498f Sreekanth Reddy          2012-11-30  10218  {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10219  	Mpi2ExpanderP=
-age0_t expander_pg0;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10220  	Mpi2SasDevice=
-Page0_t sas_device_pg0;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10221  	Mpi26PCIeDevi=
-cePage0_t pcie_device_pg0;
-16dc4b15325d1db7 Lee Jones                2021-02-25  10222  	Mpi2RaidVolPa=
-ge1_t *volume_pg1;
-16dc4b15325d1db7 Lee Jones                2021-02-25  10223  	Mpi2RaidVolPa=
-ge0_t *volume_pg0;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10224  	Mpi2RaidPhysD=
-iskPage0_t pd_pg0;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10225  	Mpi2EventIrCo=
-nfigElement_t element;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10226  	Mpi2ConfigRep=
-ly_t mpi_reply;
-e2f0cdf7525353d8 Sreekanth Reddy          2020-10-27  10227  	u8 phys_disk_=
-num, port_id;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10228  	u16 ioc_statu=
-s;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10229  	u16 handle, p=
-arent_handle;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10230  	u64 sas_addre=
-ss;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10231  	struct _sas_d=
-evice *sas_device;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10232  	struct _pcie_=
-device *pcie_device;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10233  	struct _sas_n=
-ode *expander_device;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10234  	static struct=
- _raid_device *raid_device;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10235  	u8 retry_coun=
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1899  static          u16
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1900  bfa_fcs_lport_fdmi_bu=
+ild_rhba_pyld(struct bfa_fcs_lport_fdmi_s *fdmi, u8 *pyld)
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1901  {
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1902  	struct bfa_fcs_lport=
+_s *port =3D fdmi->ms->port;
+ffdcc79844033bab Lee Jones          2021-02-26  1903  	struct bfa_fcs_fdmi_=
+hba_attr_s *fcs_hba_attr;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1904  	struct fdmi_rhba_s *=
+rhba =3D (struct fdmi_rhba_s *) pyld;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1905  	struct fdmi_attr_s *=
+attr;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1906  	u8        *curr_ptr;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1907  	u16        len, coun=
 t;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10236  	unsigned long=
- flags;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10237  =
+50444a340028119c Maggie             2010-11-29  1908  	u16	templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1909  =
 
-16dc4b15325d1db7 Lee Jones                2021-02-25  10238  	volume_pg0 =
-=3D kzalloc(sizeof(*volume_pg0), GFP_KERNEL);
-16dc4b15325d1db7 Lee Jones                2021-02-25  10239  	if (!volume_p=
-g0)
-16dc4b15325d1db7 Lee Jones                2021-02-25  10240  		return;
-16dc4b15325d1db7 Lee Jones                2021-02-25  10241  =
+ffdcc79844033bab Lee Jones          2021-02-26  1910  	fcs_hba_attr =3D kza=
+lloc(sizeof(*fcs_hba_attr), GFP_KERNEL);
+ffdcc79844033bab Lee Jones          2021-02-26  1911  	if (!fcs_hba_attr)
+7ba45b2cf0939bf6 Lee Jones          2021-02-25 @1912  		return -ENOMEM;
+7ba45b2cf0939bf6 Lee Jones          2021-02-25  1913  =
 
-16dc4b15325d1db7 Lee Jones                2021-02-25  10242  	volume_pg1 =
-=3D kzalloc(sizeof(*volume_pg1), GFP_KERNEL);
-16dc4b15325d1db7 Lee Jones                2021-02-25  10243  	if (!volume_p=
-g1)
-16dc4b15325d1db7 Lee Jones                2021-02-25 @10244  		return;
-16dc4b15325d1db7 Lee Jones                2021-02-25  10245  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1914  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1915  	 * get hba attributes
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1916  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1917  	bfa_fcs_fdmi_get_hba=
+attr(fdmi, fcs_hba_attr);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1918  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10246  	ioc_info(ioc,=
- "scan devices: start\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10247  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1919  	rhba->hba_id =3D bfa=
+_fcs_lport_get_pwwn(port);
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  1920  	rhba->port_list.num_=
+ports =3D cpu_to_be32(1);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1921  	rhba->port_list.port=
+_entry =3D bfa_fcs_lport_get_pwwn(port);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1922  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10248  	_scsih_sas_ho=
-st_refresh(ioc);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10249  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1923  	len =3D sizeof(rhba-=
+>hba_id) + sizeof(rhba->port_list);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1924  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10250  	ioc_info(ioc,=
- "\tscan devices: expanders start\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10251  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1925  	count =3D 0;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1926  	len +=3D sizeof(rhba=
+->hba_attr_blk.attr_count);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1927  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10252  	/* expanders =
-*/
-f92363d12359498f Sreekanth Reddy          2012-11-30  10253  	handle =3D 0x=
-FFFF;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10254  	while (!(mpt3=
-sas_config_get_expander_pg0(ioc, &mpi_reply, &expander_pg0,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10255  	    MPI2_SAS_=
-EXPAND_PGAD_FORM_GET_NEXT_HNDL, handle))) {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10256  		ioc_status =
-=3D le16_to_cpu(mpi_reply.IOCStatus) &
-f92363d12359498f Sreekanth Reddy          2012-11-30  10257  		    MPI2_IOC=
-STATUS_MASK;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10258  		if (ioc_stat=
-us !=3D MPI2_IOCSTATUS_SUCCESS) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10259  			ioc_info(io=
-c, "\tbreak from expander scan: ioc_status(0x%04x), loginfo(0x%08x)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10260  				 ioc_statu=
-s, le32_to_cpu(mpi_reply.IOCLogInfo));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10261  			break;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10262  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10263  		handle =3D l=
-e16_to_cpu(expander_pg0.DevHandle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10264  		spin_lock_ir=
-qsave(&ioc->sas_node_lock, flags);
-7d310f241001e090 Sreekanth Reddy          2020-10-27  10265  		port_id =3D =
-expander_pg0.PhysicalPort;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10266  		expander_dev=
-ice =3D mpt3sas_scsih_expander_find_by_sas_address(
-7d310f241001e090 Sreekanth Reddy          2020-10-27  10267  		    ioc, le6=
-4_to_cpu(expander_pg0.SASAddress),
-34b0a78532f61e60 Sreekanth Reddy          2020-10-27  10268  		    mpt3sas_=
-get_port_by_id(ioc, port_id, 0));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10269  		spin_unlock_=
-irqrestore(&ioc->sas_node_lock, flags);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10270  		if (expander=
-_device)
-f92363d12359498f Sreekanth Reddy          2012-11-30  10271  			_scsih_refr=
-esh_expander_links(ioc, expander_device,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10272  			    handle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10273  		else {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10274  			ioc_info(io=
-c, "\tBEFORE adding expander: handle (0x%04x), sas_addr(0x%016llx)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10275  				 handle,
-919d8a3f3fef9910 Joe Perches              2018-09-17  10276  				 (u64)le64=
-_to_cpu(expander_pg0.SASAddress));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10277  			_scsih_expa=
-nder_add(ioc, handle);
-919d8a3f3fef9910 Joe Perches              2018-09-17  10278  			ioc_info(io=
-c, "\tAFTER adding expander: handle (0x%04x), sas_addr(0x%016llx)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10279  				 handle,
-919d8a3f3fef9910 Joe Perches              2018-09-17  10280  				 (u64)le64=
-_to_cpu(expander_pg0.SASAddress));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10281  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10282  	}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10283  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1928  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1929  	 * fill out the invi=
+didual entries of the HBA attrib Block
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1930  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1931  	curr_ptr =3D (u8 *) =
+&rhba->hba_attr_blk.hba_attr;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1932  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10284  	ioc_info(ioc,=
- "\tscan devices: expanders complete\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10285  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1933  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1934  	 * Node Name
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1935  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1936  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  1937  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_NODENAME);
+50444a340028119c Maggie             2010-11-29  1938  	templen =3D sizeof(w=
+wn_t);
+50444a340028119c Maggie             2010-11-29  1939  	memcpy(attr->value, =
+&bfa_fcs_lport_get_nwwn(port), templen);
+50444a340028119c Maggie             2010-11-29  1940  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  1941  	len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1942  	count++;
+50444a340028119c Maggie             2010-11-29  1943  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  1944  			     sizeof(temple=
+n));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1945  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10286  	if (!ioc->ir_=
-firmware)
-f92363d12359498f Sreekanth Reddy          2012-11-30  10287  		goto skip_to=
-_sas;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10288  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1946  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1947  	 * Manufacturer
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1948  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1949  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  1950  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_MANUFACTURER);
+50444a340028119c Maggie             2010-11-29  1951  	templen =3D (u16) st=
+rlen(fcs_hba_attr->manufacturer);
+50444a340028119c Maggie             2010-11-29  1952  	memcpy(attr->value, =
+fcs_hba_attr->manufacturer, templen);
+50444a340028119c Maggie             2010-11-29  1953  	templen =3D fc_round=
+up(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  1954  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  1955  	len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1956  	count++;
+50444a340028119c Maggie             2010-11-29  1957  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  1958  			     sizeof(temple=
+n));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1959  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10289  	ioc_info(ioc,=
- "\tscan devices: phys disk start\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10290  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1960  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1961  	 * Serial Number
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1962  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1963  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  1964  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_SERIALNUM);
+50444a340028119c Maggie             2010-11-29  1965  	templen =3D (u16) st=
+rlen(fcs_hba_attr->serial_num);
+50444a340028119c Maggie             2010-11-29  1966  	memcpy(attr->value, =
+fcs_hba_attr->serial_num, templen);
+50444a340028119c Maggie             2010-11-29  1967  	templen =3D fc_round=
+up(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  1968  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  1969  	len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1970  	count++;
+50444a340028119c Maggie             2010-11-29  1971  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  1972  			     sizeof(temple=
+n));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1973  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10291  	/* phys disk =
-*/
-f92363d12359498f Sreekanth Reddy          2012-11-30  10292  	phys_disk_num=
- =3D 0xFF;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10293  	while (!(mpt3=
-sas_config_get_phys_disk_pg0(ioc, &mpi_reply,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10294  	    &pd_pg0, =
-MPI2_PHYSDISK_PGAD_FORM_GET_NEXT_PHYSDISKNUM,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10295  	    phys_disk=
-_num))) {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10296  		ioc_status =
-=3D le16_to_cpu(mpi_reply.IOCStatus) &
-f92363d12359498f Sreekanth Reddy          2012-11-30  10297  		    MPI2_IOC=
-STATUS_MASK;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10298  		if (ioc_stat=
-us !=3D MPI2_IOCSTATUS_SUCCESS) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10299  			ioc_info(io=
-c, "\tbreak from phys disk scan: ioc_status(0x%04x), loginfo(0x%08x)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10300  				 ioc_statu=
-s, le32_to_cpu(mpi_reply.IOCLogInfo));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10301  			break;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10302  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10303  		phys_disk_nu=
-m =3D pd_pg0.PhysDiskNum;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10304  		handle =3D l=
-e16_to_cpu(pd_pg0.DevHandle);
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10305  		sas_device =
-=3D mpt3sas_get_sdev_by_handle(ioc, handle);
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10306  		if (sas_devi=
-ce) {
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10307  			sas_device_=
-put(sas_device);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10308  			continue;
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10309  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10310  		if (mpt3sas_=
-config_get_sas_device_pg0(ioc, &mpi_reply,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10311  		    &sas_dev=
-ice_pg0, MPI2_SAS_DEVICE_PGAD_FORM_HANDLE,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10312  		    handle) =
-!=3D 0)
-f92363d12359498f Sreekanth Reddy          2012-11-30  10313  			continue;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10314  		ioc_status =
-=3D le16_to_cpu(mpi_reply.IOCStatus) &
-f92363d12359498f Sreekanth Reddy          2012-11-30  10315  		    MPI2_IOC=
-STATUS_MASK;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10316  		if (ioc_stat=
-us !=3D MPI2_IOCSTATUS_SUCCESS) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10317  			ioc_info(io=
-c, "\tbreak from phys disk scan ioc_status(0x%04x), loginfo(0x%08x)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10318  				 ioc_statu=
-s, le32_to_cpu(mpi_reply.IOCLogInfo));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10319  			break;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10320  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10321  		parent_handl=
-e =3D le16_to_cpu(sas_device_pg0.ParentDevHandle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10322  		if (!_scsih_=
-get_sas_address(ioc, parent_handle,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10323  		    &sas_add=
-ress)) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10324  			ioc_info(io=
-c, "\tBEFORE adding phys disk: handle (0x%04x), sas_addr(0x%016llx)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10325  				 handle,
-919d8a3f3fef9910 Joe Perches              2018-09-17  10326  				 (u64)le64=
-_to_cpu(sas_device_pg0.SASAddress));
-e2f0cdf7525353d8 Sreekanth Reddy          2020-10-27  10327  			port_id =3D=
- sas_device_pg0.PhysicalPort;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10328  			mpt3sas_tra=
-nsport_update_links(ioc, sas_address,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10329  			    handle,=
- sas_device_pg0.PhyNum,
-e2f0cdf7525353d8 Sreekanth Reddy          2020-10-27  10330  			    MPI2_SA=
-S_NEG_LINK_RATE_1_5,
-34b0a78532f61e60 Sreekanth Reddy          2020-10-27  10331  			    mpt3sas=
-_get_port_by_id(ioc, port_id, 0));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10332  			set_bit(han=
-dle, ioc->pd_handles);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10333  			retry_count=
- =3D 0;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10334  			/* This wil=
-l retry adding the end device.
-f92363d12359498f Sreekanth Reddy          2012-11-30  10335  			 * _scsih_a=
-dd_device() will decide on retries and
-f92363d12359498f Sreekanth Reddy          2012-11-30  10336  			 * return "=
-1" when it should be retried
-f92363d12359498f Sreekanth Reddy          2012-11-30  10337  			 */
-f92363d12359498f Sreekanth Reddy          2012-11-30  10338  			while (_scs=
-ih_add_device(ioc, handle, retry_count++,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10339  			    1)) {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10340  				ssleep(1);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10341  			}
-919d8a3f3fef9910 Joe Perches              2018-09-17  10342  			ioc_info(io=
-c, "\tAFTER adding phys disk: handle (0x%04x), sas_addr(0x%016llx)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10343  				 handle,
-919d8a3f3fef9910 Joe Perches              2018-09-17  10344  				 (u64)le64=
-_to_cpu(sas_device_pg0.SASAddress));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10345  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10346  	}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10347  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1974  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1975  	 * Model
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1976  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1977  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  1978  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_MODEL);
+50444a340028119c Maggie             2010-11-29  1979  	templen =3D (u16) st=
+rlen(fcs_hba_attr->model);
+50444a340028119c Maggie             2010-11-29  1980  	memcpy(attr->value, =
+fcs_hba_attr->model, templen);
+50444a340028119c Maggie             2010-11-29  1981  	templen =3D fc_round=
+up(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  1982  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  1983  	len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1984  	count++;
+50444a340028119c Maggie             2010-11-29  1985  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  1986  			     sizeof(temple=
+n));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1987  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10348  	ioc_info(ioc,=
- "\tscan devices: phys disk complete\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10349  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1988  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1989  	 * Model Desc
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1990  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1991  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  1992  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_MODEL_DESC);
+50444a340028119c Maggie             2010-11-29  1993  	templen =3D (u16) st=
+rlen(fcs_hba_attr->model_desc);
+50444a340028119c Maggie             2010-11-29  1994  	memcpy(attr->value, =
+fcs_hba_attr->model_desc, templen);
+50444a340028119c Maggie             2010-11-29  1995  	templen =3D fc_round=
+up(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  1996  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  1997  	len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  1998  	count++;
+50444a340028119c Maggie             2010-11-29  1999  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  2000  			     sizeof(temple=
+n));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2001  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10350  	ioc_info(ioc,=
- "\tscan devices: volumes start\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10351  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2002  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2003  	 * H/W Version
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2004  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2005  	if (fcs_hba_attr->hw=
+_version[0] !=3D '\0') {
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2006  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  2007  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_HW_VERSION);
+50444a340028119c Maggie             2010-11-29  2008  		templen =3D (u16) s=
+trlen(fcs_hba_attr->hw_version);
+50444a340028119c Maggie             2010-11-29  2009  		memcpy(attr->value,=
+ fcs_hba_attr->hw_version, templen);
+50444a340028119c Maggie             2010-11-29  2010  		templen =3D fc_roun=
+dup(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  2011  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  2012  		len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2013  		count++;
+50444a340028119c Maggie             2010-11-29  2014  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  2015  					 sizeof(templen)=
+);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2016  	}
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2017  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10352  	/* volumes */
-f92363d12359498f Sreekanth Reddy          2012-11-30  10353  	handle =3D 0x=
-FFFF;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10354  	while (!(mpt3=
-sas_config_get_raid_volume_pg1(ioc, &mpi_reply,
-a5ab8c19b6f70474 Lee Jones                2021-02-26  10355  	    volume_pg=
-1, MPI2_RAID_VOLUME_PGAD_FORM_GET_NEXT_HANDLE, handle))) {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10356  		ioc_status =
-=3D le16_to_cpu(mpi_reply.IOCStatus) &
-f92363d12359498f Sreekanth Reddy          2012-11-30  10357  		    MPI2_IOC=
-STATUS_MASK;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10358  		if (ioc_stat=
-us !=3D MPI2_IOCSTATUS_SUCCESS) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10359  			ioc_info(io=
-c, "\tbreak from volume scan: ioc_status(0x%04x), loginfo(0x%08x)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10360  				 ioc_statu=
-s, le32_to_cpu(mpi_reply.IOCLogInfo));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10361  			break;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10362  		}
-b04209dac6aabeb1 Lee Jones                2021-02-26  10363  		handle =3D l=
-e16_to_cpu(volume_pg1->DevHandle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10364  		spin_lock_ir=
-qsave(&ioc->raid_device_lock, flags);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10365  		raid_device =
-=3D _scsih_raid_device_find_by_wwid(ioc,
-b04209dac6aabeb1 Lee Jones                2021-02-26  10366  		    le64_to_=
-cpu(volume_pg1->WWID));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10367  		spin_unlock_=
-irqrestore(&ioc->raid_device_lock, flags);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10368  		if (raid_dev=
-ice)
-f92363d12359498f Sreekanth Reddy          2012-11-30  10369  			continue;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10370  		if (mpt3sas_=
-config_get_raid_volume_pg0(ioc, &mpi_reply,
-a5ab8c19b6f70474 Lee Jones                2021-02-26  10371  		    volume_p=
-g0, MPI2_RAID_VOLUME_PGAD_FORM_HANDLE, handle,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10372  		     sizeof(=
-Mpi2RaidVolPage0_t)))
-f92363d12359498f Sreekanth Reddy          2012-11-30  10373  			continue;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10374  		ioc_status =
-=3D le16_to_cpu(mpi_reply.IOCStatus) &
-f92363d12359498f Sreekanth Reddy          2012-11-30  10375  		    MPI2_IOC=
-STATUS_MASK;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10376  		if (ioc_stat=
-us !=3D MPI2_IOCSTATUS_SUCCESS) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10377  			ioc_info(io=
-c, "\tbreak from volume scan: ioc_status(0x%04x), loginfo(0x%08x)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10378  				 ioc_statu=
-s, le32_to_cpu(mpi_reply.IOCLogInfo));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10379  			break;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10380  		}
-b04209dac6aabeb1 Lee Jones                2021-02-26  10381  		if (volume_p=
-g0->VolumeState =3D=3D MPI2_RAID_VOL_STATE_OPTIMAL ||
-b04209dac6aabeb1 Lee Jones                2021-02-26  10382  		    volume_p=
-g0->VolumeState =3D=3D MPI2_RAID_VOL_STATE_ONLINE ||
-b04209dac6aabeb1 Lee Jones                2021-02-26  10383  		    volume_p=
-g0->VolumeState =3D=3D MPI2_RAID_VOL_STATE_DEGRADED) {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10384  			memset(&ele=
-ment, 0, sizeof(Mpi2EventIrConfigElement_t));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10385  			element.Rea=
-sonCode =3D MPI2_EVENT_IR_CHANGE_RC_ADDED;
-b04209dac6aabeb1 Lee Jones                2021-02-26  10386  			element.Vol=
-DevHandle =3D volume_pg1->DevHandle;
-919d8a3f3fef9910 Joe Perches              2018-09-17  10387  			ioc_info(io=
-c, "\tBEFORE adding volume: handle (0x%04x)\n",
-b04209dac6aabeb1 Lee Jones                2021-02-26  10388  				 volume_pg=
-1->DevHandle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10389  			_scsih_sas_=
-volume_add(ioc, &element);
-919d8a3f3fef9910 Joe Perches              2018-09-17  10390  			ioc_info(io=
-c, "\tAFTER adding volume: handle (0x%04x)\n",
-b04209dac6aabeb1 Lee Jones                2021-02-26  10391  				 volume_pg=
-1->DevHandle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10392  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10393  	}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10394  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2018  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2019  	 * Driver Version
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2020  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2021  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  2022  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_DRIVER_VERSION);
+50444a340028119c Maggie             2010-11-29  2023  	templen =3D (u16) st=
+rlen(fcs_hba_attr->driver_version);
+50444a340028119c Maggie             2010-11-29  2024  	memcpy(attr->value, =
+fcs_hba_attr->driver_version, templen);
+50444a340028119c Maggie             2010-11-29  2025  	templen =3D fc_round=
+up(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  2026  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+dd5aaf4536c51117 Krishna Gudipati   2011-06-13  2027  	len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2028  	count++;
+50444a340028119c Maggie             2010-11-29  2029  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  2030  			     sizeof(temple=
+n));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2031  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10395  	ioc_info(ioc,=
- "\tscan devices: volumes complete\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10396  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2032  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2033  	 * Option Rom Version
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2034  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2035  	if (fcs_hba_attr->op=
+tion_rom_ver[0] !=3D '\0') {
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2036  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  2037  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_ROM_VERSION);
+50444a340028119c Maggie             2010-11-29  2038  		templen =3D (u16) s=
+trlen(fcs_hba_attr->option_rom_ver);
+50444a340028119c Maggie             2010-11-29  2039  		memcpy(attr->value,=
+ fcs_hba_attr->option_rom_ver, templen);
+50444a340028119c Maggie             2010-11-29  2040  		templen =3D fc_roun=
+dup(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  2041  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  2042  		len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2043  		count++;
+50444a340028119c Maggie             2010-11-29  2044  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  2045  					 sizeof(templen)=
+);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2046  	}
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2047  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10397   skip_to_sas:
-f92363d12359498f Sreekanth Reddy          2012-11-30  10398  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2048  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  2049  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_FW_VERSION);
+b480a32e69b7b3c8 Krishna Gudipati   2012-09-21  2050  	templen =3D (u16) st=
+rlen(fcs_hba_attr->fw_version);
+b480a32e69b7b3c8 Krishna Gudipati   2012-09-21  2051  	memcpy(attr->value, =
+fcs_hba_attr->fw_version, templen);
+50444a340028119c Maggie             2010-11-29  2052  	templen =3D fc_round=
+up(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  2053  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  2054  	len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2055  	count++;
+50444a340028119c Maggie             2010-11-29  2056  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  2057  			     sizeof(temple=
+n));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2058  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10399  	ioc_info(ioc,=
- "\tscan devices: end devices start\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10400  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2059  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2060  	 * OS Name
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2061  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2062  	if (fcs_hba_attr->os=
+_name[0] !=3D '\0') {
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2063  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  2064  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_OS_NAME);
+50444a340028119c Maggie             2010-11-29  2065  		templen =3D (u16) s=
+trlen(fcs_hba_attr->os_name);
+50444a340028119c Maggie             2010-11-29  2066  		memcpy(attr->value,=
+ fcs_hba_attr->os_name, templen);
+50444a340028119c Maggie             2010-11-29  2067  		templen =3D fc_roun=
+dup(templen, sizeof(u32));
+50444a340028119c Maggie             2010-11-29  2068  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  2069  		len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2070  		count++;
+50444a340028119c Maggie             2010-11-29  2071  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  2072  					sizeof(templen));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2073  	}
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2074  =
 
-f92363d12359498f Sreekanth Reddy          2012-11-30  10401  	/* sas device=
-s */
-f92363d12359498f Sreekanth Reddy          2012-11-30  10402  	handle =3D 0x=
-FFFF;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10403  	while (!(mpt3=
-sas_config_get_sas_device_pg0(ioc, &mpi_reply,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10404  	    &sas_devi=
-ce_pg0, MPI2_SAS_DEVICE_PGAD_FORM_GET_NEXT_HANDLE,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10405  	    handle)))=
- {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10406  		ioc_status =
-=3D le16_to_cpu(mpi_reply.IOCStatus) &
-f92363d12359498f Sreekanth Reddy          2012-11-30  10407  		    MPI2_IOC=
-STATUS_MASK;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10408  		if (ioc_stat=
-us !=3D MPI2_IOCSTATUS_SUCCESS) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10409  			ioc_info(io=
-c, "\tbreak from end device scan: ioc_status(0x%04x), loginfo(0x%08x)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10410  				 ioc_statu=
-s, le32_to_cpu(mpi_reply.IOCLogInfo));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10411  			break;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10412  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10413  		handle =3D l=
-e16_to_cpu(sas_device_pg0.DevHandle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10414  		if (!(_scsih=
-_is_end_device(
-f92363d12359498f Sreekanth Reddy          2012-11-30  10415  		    le32_to_=
-cpu(sas_device_pg0.DeviceInfo))))
-f92363d12359498f Sreekanth Reddy          2012-11-30  10416  			continue;
-e2f0cdf7525353d8 Sreekanth Reddy          2020-10-27  10417  		port_id =3D =
-sas_device_pg0.PhysicalPort;
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10418  		sas_device =
-=3D mpt3sas_get_sdev_by_addr(ioc,
-7d310f241001e090 Sreekanth Reddy          2020-10-27  10419  		    le64_to_=
-cpu(sas_device_pg0.SASAddress),
-34b0a78532f61e60 Sreekanth Reddy          2020-10-27  10420  		    mpt3sas_=
-get_port_by_id(ioc, port_id, 0));
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10421  		if (sas_devi=
-ce) {
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10422  			sas_device_=
-put(sas_device);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10423  			continue;
-d1cb5e495e5384f6 Sreekanth Reddy          2015-11-11  10424  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10425  		parent_handl=
-e =3D le16_to_cpu(sas_device_pg0.ParentDevHandle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10426  		if (!_scsih_=
-get_sas_address(ioc, parent_handle, &sas_address)) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10427  			ioc_info(io=
-c, "\tBEFORE adding end device: handle (0x%04x), sas_addr(0x%016llx)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10428  				 handle,
-919d8a3f3fef9910 Joe Perches              2018-09-17  10429  				 (u64)le64=
-_to_cpu(sas_device_pg0.SASAddress));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10430  			mpt3sas_tra=
-nsport_update_links(ioc, sas_address, handle,
-e2f0cdf7525353d8 Sreekanth Reddy          2020-10-27  10431  			    sas_dev=
-ice_pg0.PhyNum, MPI2_SAS_NEG_LINK_RATE_1_5,
-34b0a78532f61e60 Sreekanth Reddy          2020-10-27  10432  			    mpt3sas=
-_get_port_by_id(ioc, port_id, 0));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10433  			retry_count=
- =3D 0;
-f92363d12359498f Sreekanth Reddy          2012-11-30  10434  			/* This wil=
-l retry adding the end device.
-f92363d12359498f Sreekanth Reddy          2012-11-30  10435  			 * _scsih_a=
-dd_device() will decide on retries and
-f92363d12359498f Sreekanth Reddy          2012-11-30  10436  			 * return "=
-1" when it should be retried
-f92363d12359498f Sreekanth Reddy          2012-11-30  10437  			 */
-f92363d12359498f Sreekanth Reddy          2012-11-30  10438  			while (_scs=
-ih_add_device(ioc, handle, retry_count++,
-f92363d12359498f Sreekanth Reddy          2012-11-30  10439  			    0)) {
-f92363d12359498f Sreekanth Reddy          2012-11-30  10440  				ssleep(1);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10441  			}
-919d8a3f3fef9910 Joe Perches              2018-09-17  10442  			ioc_info(io=
-c, "\tAFTER adding end device: handle (0x%04x), sas_addr(0x%016llx)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10443  				 handle,
-919d8a3f3fef9910 Joe Perches              2018-09-17  10444  				 (u64)le64=
-_to_cpu(sas_device_pg0.SASAddress));
-f92363d12359498f Sreekanth Reddy          2012-11-30  10445  		}
-f92363d12359498f Sreekanth Reddy          2012-11-30  10446  	}
-919d8a3f3fef9910 Joe Perches              2018-09-17  10447  	ioc_info(ioc,=
- "\tscan devices: end devices complete\n");
-919d8a3f3fef9910 Joe Perches              2018-09-17  10448  	ioc_info(ioc,=
- "\tscan devices: pcie end devices start\n");
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10449  =
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2075  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2076  	 * MAX_CT_PAYLOAD
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2077  	 */
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2078  	attr =3D (struct fdm=
+i_attr_s *) curr_ptr;
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  2079  	attr->type =3D cpu_t=
+o_be16(FDMI_HBA_ATTRIB_MAX_CT);
+50444a340028119c Maggie             2010-11-29  2080  	templen =3D sizeof(f=
+cs_hba_attr->max_ct_pyld);
+50444a340028119c Maggie             2010-11-29  2081  	memcpy(attr->value, =
+&fcs_hba_attr->max_ct_pyld, templen);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2082  	templen =3D fc_round=
+up(templen, sizeof(u32));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2083  	curr_ptr +=3D sizeof=
+(attr->type) + sizeof(templen) + templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2084  	len +=3D templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2085  	count++;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2086  	attr->len =3D cpu_to=
+_be16(templen + sizeof(attr->type) +
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2087  			     sizeof(temple=
+n));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2088  	/*
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2089  	 * Send extended att=
+ributes ( FOS 7.1 support )
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2090  	 */
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2091  	if (fdmi->retry_cnt =
+=3D=3D 0) {
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2092  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2093  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_NODE_SYM_NAME);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2094  		templen =3D sizeof(=
+fcs_hba_attr->node_sym_name);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2095  		memcpy(attr->value,=
+ &fcs_hba_attr->node_sym_name, templen);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2096  		templen =3D fc_roun=
+dup(templen, sizeof(u32));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2097  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2098  		len +=3D templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2099  		count++;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2100  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2101  					sizeof(templen));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2102  =
 
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10450  	/* pcie devic=
-es */
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10451  	handle =3D 0x=
-FFFF;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10452  	while (!(mpt3=
-sas_config_get_pcie_device_pg0(ioc, &mpi_reply,
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10453  		&pcie_device=
-_pg0, MPI26_PCIE_DEVICE_PGAD_FORM_GET_NEXT_HANDLE,
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10454  		handle))) {
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10455  		ioc_status =
-=3D le16_to_cpu(mpi_reply.IOCStatus)
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10456  				& MPI2_IOC=
-STATUS_MASK;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10457  		if (ioc_stat=
-us !=3D MPI2_IOCSTATUS_SUCCESS) {
-919d8a3f3fef9910 Joe Perches              2018-09-17  10458  			ioc_info(io=
-c, "\tbreak from pcie end device scan: ioc_status(0x%04x), loginfo(0x%08x)\=
-n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10459  				 ioc_statu=
-s, le32_to_cpu(mpi_reply.IOCLogInfo));
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10460  			break;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10461  		}
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10462  		handle =3D l=
-e16_to_cpu(pcie_device_pg0.DevHandle);
-5bb309dbbbf21577 Suganath Prabu           2019-08-03  10463  		if (!(_scsih=
-_is_nvme_pciescsi_device(
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10464  			le32_to_cpu=
-(pcie_device_pg0.DeviceInfo))))
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10465  			continue;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10466  		pcie_device =
-=3D mpt3sas_get_pdev_by_wwid(ioc,
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10467  				le64_to_cp=
-u(pcie_device_pg0.WWID));
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10468  		if (pcie_dev=
-ice) {
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10469  			pcie_device=
-_put(pcie_device);
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10470  			continue;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10471  		}
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10472  		retry_count =
-=3D 0;
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10473  		parent_handl=
-e =3D le16_to_cpu(pcie_device_pg0.ParentDevHandle);
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10474  		_scsih_pcie_=
-add_device(ioc, handle);
-f92363d12359498f Sreekanth Reddy          2012-11-30  10475  =
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2103  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2104  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_VENDOR_ID);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2105  		templen =3D sizeof(=
+fcs_hba_attr->vendor_info);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2106  		memcpy(attr->value,=
+ &fcs_hba_attr->vendor_info, templen);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2107  		templen =3D fc_roun=
+dup(templen, sizeof(u32));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2108  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2109  		len +=3D templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2110  		count++;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2111  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2112  					sizeof(templen));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2113  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10476  		ioc_info(ioc=
-, "\tAFTER adding pcie end device: handle (0x%04x), wwid(0x%016llx)\n",
-919d8a3f3fef9910 Joe Perches              2018-09-17  10477  			 handle, (u=
-64)le64_to_cpu(pcie_device_pg0.WWID));
-ec051e5a4bbaa989 Suganath Prabu Subramani 2017-10-31  10478  	}
-16dc4b15325d1db7 Lee Jones                2021-02-25  10479  =
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2114  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2115  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_NUM_PORTS);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2116  		templen =3D sizeof(=
+fcs_hba_attr->num_ports);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2117  		memcpy(attr->value,=
+ &fcs_hba_attr->num_ports, templen);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2118  		templen =3D fc_roun=
+dup(templen, sizeof(u32));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2119  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2120  		len +=3D templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2121  		count++;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2122  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2123  					sizeof(templen));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2124  =
 
-16dc4b15325d1db7 Lee Jones                2021-02-25  10480  	kfree(volume_=
-pg0);
-16dc4b15325d1db7 Lee Jones                2021-02-25  10481  	kfree(volume_=
-pg1);
-16dc4b15325d1db7 Lee Jones                2021-02-25  10482  =
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2125  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2126  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_FABRIC_NAME);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2127  		templen =3D sizeof(=
+fcs_hba_attr->fabric_name);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2128  		memcpy(attr->value,=
+ &fcs_hba_attr->fabric_name, templen);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2129  		templen =3D fc_roun=
+dup(templen, sizeof(u32));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2130  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+50444a340028119c Maggie             2010-11-29  2131  		len +=3D templen;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2132  		count++;
+50444a340028119c Maggie             2010-11-29  2133  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+50444a340028119c Maggie             2010-11-29  2134  					sizeof(templen));
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2135  =
 
-919d8a3f3fef9910 Joe Perches              2018-09-17  10483  	ioc_info(ioc,=
- "\tpcie devices: pcie end devices complete\n");
-919d8a3f3fef9910 Joe Perches              2018-09-17  10484  	ioc_info(ioc,=
- "scan devices: complete\n");
-f92363d12359498f Sreekanth Reddy          2012-11-30  10485  }
-c7a3570588826375 Bart Van Assche          2018-06-15  10486  =
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2136  		attr =3D (struct fd=
+mi_attr_s *) curr_ptr;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2137  		attr->type =3D cpu_=
+to_be16(FDMI_HBA_ATTRIB_BIOS_VER);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2138  		templen =3D sizeof(=
+fcs_hba_attr->bios_ver);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2139  		memcpy(attr->value,=
+ &fcs_hba_attr->bios_ver, templen);
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2140  		templen =3D fc_roun=
+dup(attr->len, sizeof(u32));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2141  		curr_ptr +=3D sizeo=
+f(attr->type) + sizeof(templen) + templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2142  		len +=3D templen;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2143  		count++;
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2144  		attr->len =3D cpu_t=
+o_be16(templen + sizeof(attr->type) +
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2145  					sizeof(templen));
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2146  	}
+d7cbc3044f2b2883 Vijaya Mohan Guvva 2013-05-13  2147  =
+
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2148  	/*
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2149  	 * Update size of pa=
+yload
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2150  	 */
+5fbe25c7a6646016 Jing Huang         2010-10-18  2151  	len +=3D ((sizeof(at=
+tr->type) + sizeof(attr->len)) * count);
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2152  =
+
+ba816ea8e2eacbf3 Jing Huang         2010-10-18  2153  	rhba->hba_attr_blk.a=
+ttr_count =3D cpu_to_be32(count);
+7ba45b2cf0939bf6 Lee Jones          2021-02-25  2154  =
+
+ffdcc79844033bab Lee Jones          2021-02-26  2155  	kfree(fcs_hba_attr);
+7ba45b2cf0939bf6 Lee Jones          2021-02-25  2156  =
+
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2157  	return len;
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2158  }
+a36c61f9025b8924 Krishna Gudipati   2010-09-15  2159  =
 
 
-:::::: The code at line 10244 was first introduced by commit
-:::::: 16dc4b15325d1db79fccc9a2cdeab4ed1f61c3db scsi: mpt3sas: mpt3sas_scs:=
- Move a little data from the stack onto the heap
+:::::: The code at line 1912 was first introduced by commit
+:::::: 7ba45b2cf0939bf6cb07165d291ab1ae85f2c426 scsi: bfa: bfa_fcs_lport: M=
+ove a large struct from the stack onto the heap
 
 :::::: TO: Lee Jones <lee.jones@linaro.org>
 :::::: CC: Lee Jones <lee.jones@linaro.org>
@@ -547,13 +483,13 @@ c7a3570588826375 Bart Van Assche          2018-06-15  10486  =
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6885144497165770973==
+--===============2184892263890899503==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICGCXOWAAAy5jb25maWcAjBxdc9s28r2/QpO+3D00Z8mJk9yNH0AQlFCRBA2AkuwXjGoriae2
+H4sICEmLOWAAAy5jb25maWcAjBxdc9s28r2/QpO+3D00Z8mJk9yNH0AQlFCRBA2AkuwXjGoriae2
 lZHltvn3twt+ASQou9PJmLvLBbDYb4D69ZdfJ+TluH/cHu9vtw8PPyffdk+7w/a4u5t8vX/Y/W8S
 i0ku9ITFXL8H4vT+6eWf//xz3D09bycf30+n788my93hafcwofunr/ffXuDl+/3TL7/+QkWe8Lmh
 1KyYVFzkRrONvnxXvfzbA3L67dvt7eRfc0r/Pfny/vz92TvnLa4MIC5/NqB5x+nyy9n52VlLm5J8
@@ -1229,5 +1165,5 @@ gtZ8lqj7rPE2bCFsgyECxhEfCkN2ifSj3nV2kzr9gW7yAQEIu0yl9GkOKBnk4J51Syv844mv64uc
 rvyaXfAszjCIWc3py+m7WVymILVpD4tADXwKDgyLR8MtVAZv4rgynqR1wqKkUYCOGLat/qru2ylh
 GlHkAq0IPeBxXHu/lKMZwaF3b+9x6eZDJgb2IKMjSQBz7V8GdB567v+qiNgYOznUuNORfVspilO7
 +bbzDHuUWkJ3GlcVbuEoDxt8beHWnJTOp7E8ggyVgqWd/x+Qjoh9HGECAA==
---===============6885144497165770973==--
+--===============2184892263890899503==--
 
