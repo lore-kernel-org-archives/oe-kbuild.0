@@ -1,29 +1,35 @@
-Content-Type: multipart/mixed; boundary="===============3836890770165321049=="
+Content-Type: multipart/mixed; boundary="===============7514584856570456137=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/dp/dp_debug.c:218 dp_debug_init() warn: passing zero to 'PTR_ERR'
-Date: Mon, 01 Mar 2021 14:53:37 +0800
-Message-ID: <202103011435.ugT9Cgo8-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/dp/dp_hpd.c:37 dp_hpd_connect() error: we previously assumed 'hpd_priv->dp_cb' could be null (see line 37)
+Date: Mon, 01 Mar 2021 13:40:12 +0800
+Message-ID: <202103011304.2bHlFmS7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3836890770165321049==
+--===============7514584856570456137==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Abhinav Kumar <abhinavk@codeaurora.org>
+TO: Chandan Uddaraju <chandanu@codeaurora.org>
 CC: Rob Clark <robdclark@chromium.org>
+CC: Vara Reddy <varar@codeaurora.org>
+CC: Tanmay Shah <tanmay@codeaurora.org>
+CC: Abhinav Kumar <abhinavk@codeaurora.org>
+CC: Kuogee Hsieh <khsieh@codeaurora.org>
+CC: Guenter Roeck <groeck@chromium.org>
+CC: Stephen Boyd <swboyd@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   fe07bfda2fb9cdef8a4d4008a409bb02f35f1bd8
-commit: d11a93690df7e9a7e07c0784ecad019a627b1449 drm/msm/dp: add debugfs su=
-pport to DP driver
+commit: c943b4948b5848fc0e07f875edbd35a973879e22 drm/msm/dp: add displayPor=
+t driver support
 date:   6 months ago
-:::::: branch date: 7 hours ago
+:::::: branch date: 6 hours ago
 :::::: commit date: 6 months ago
 config: arm64-randconfig-m031-20210301 (attached as .config)
 compiler: aarch64-linux-gcc (GCC) 9.3.0
@@ -32,73 +38,64 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/msm/dp/dp_debug.c:218 dp_debug_init() warn: passing zero to=
- 'PTR_ERR'
+smatch warnings:
+drivers/gpu/drm/msm/dp/dp_hpd.c:37 dp_hpd_connect() error: we previously as=
+sumed 'hpd_priv->dp_cb' could be null (see line 37)
+drivers/gpu/drm/msm/dp/dp_power.c:203 dp_power_clk_enable() warn: inconsist=
+ent indenting
 
-Old smatch warnings:
-drivers/gpu/drm/msm/dp/dp_debug.c:227 dp_debug_init() warn: passing zero to=
- 'PTR_ERR'
+vim +37 drivers/gpu/drm/msm/dp/dp_hpd.c
 
-vim +/PTR_ERR +218 drivers/gpu/drm/msm/dp/dp_debug.c
+c943b4948b5848 Chandan Uddaraju 2020-08-27  26  =
 
-d11a93690df7e9 Abhinav Kumar 2020-09-12  208  =
+c943b4948b5848 Chandan Uddaraju 2020-08-27  27  static int dp_hpd_connect(s=
+truct dp_usbpd *dp_usbpd, bool hpd)
+c943b4948b5848 Chandan Uddaraju 2020-08-27  28  {
+c943b4948b5848 Chandan Uddaraju 2020-08-27  29  	int rc =3D 0;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  30  	struct dp_hpd_private *hpd=
+_priv;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  31  =
 
-d11a93690df7e9 Abhinav Kumar 2020-09-12  209  static int dp_debug_init(stru=
-ct dp_debug *dp_debug)
-d11a93690df7e9 Abhinav Kumar 2020-09-12  210  {
-d11a93690df7e9 Abhinav Kumar 2020-09-12  211  	int rc =3D 0;
-d11a93690df7e9 Abhinav Kumar 2020-09-12  212  	struct dp_debug_private *deb=
-ug =3D container_of(dp_debug,
-d11a93690df7e9 Abhinav Kumar 2020-09-12  213  			struct dp_debug_private, d=
-p_debug);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  214  	struct dentry *dir, *file;
-d11a93690df7e9 Abhinav Kumar 2020-09-12  215  =
+c943b4948b5848 Chandan Uddaraju 2020-08-27  32  	hpd_priv =3D container_of(=
+dp_usbpd, struct dp_hpd_private,
+c943b4948b5848 Chandan Uddaraju 2020-08-27  33  					dp_usbpd);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  34  =
 
-d11a93690df7e9 Abhinav Kumar 2020-09-12  216  	dir =3D debugfs_create_dir(D=
-EBUG_NAME, NULL);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  217  	if (IS_ERR_OR_NULL(dir)) {
-d11a93690df7e9 Abhinav Kumar 2020-09-12 @218  		rc =3D PTR_ERR(dir);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  219  		DRM_ERROR("[%s] debugfs cre=
-ate dir failed, rc =3D %d\n",
-d11a93690df7e9 Abhinav Kumar 2020-09-12  220  				  DEBUG_NAME, rc);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  221  		goto error;
-d11a93690df7e9 Abhinav Kumar 2020-09-12  222  	}
-d11a93690df7e9 Abhinav Kumar 2020-09-12  223  =
+c943b4948b5848 Chandan Uddaraju 2020-08-27  35  	dp_usbpd->hpd_high =3D hpd;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  36  =
 
-d11a93690df7e9 Abhinav Kumar 2020-09-12  224  	file =3D debugfs_create_file=
-("dp_debug", 0444, dir,
-d11a93690df7e9 Abhinav Kumar 2020-09-12  225  			debug, &dp_debug_fops);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  226  	if (IS_ERR_OR_NULL(file)) {
-d11a93690df7e9 Abhinav Kumar 2020-09-12  227  		rc =3D PTR_ERR(file);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  228  		DRM_ERROR("[%s] debugfs cre=
-ate file failed, rc=3D%d\n",
-d11a93690df7e9 Abhinav Kumar 2020-09-12  229  				  DEBUG_NAME, rc);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  230  		goto error_remove_dir;
-d11a93690df7e9 Abhinav Kumar 2020-09-12  231  	}
-d11a93690df7e9 Abhinav Kumar 2020-09-12  232  =
+c943b4948b5848 Chandan Uddaraju 2020-08-27 @37  	if (!hpd_priv->dp_cb && !h=
+pd_priv->dp_cb->configure
+c943b4948b5848 Chandan Uddaraju 2020-08-27  38  				&& !hpd_priv->dp_cb->di=
+sconnect) {
+c943b4948b5848 Chandan Uddaraju 2020-08-27  39  		pr_err("hpd dp_cb not ini=
+tialized\n");
+c943b4948b5848 Chandan Uddaraju 2020-08-27  40  		return -EINVAL;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  41  	}
+c943b4948b5848 Chandan Uddaraju 2020-08-27  42  	if (hpd)
+c943b4948b5848 Chandan Uddaraju 2020-08-27  43  		hpd_priv->dp_cb->configur=
+e(hpd_priv->dev);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  44  	else
+c943b4948b5848 Chandan Uddaraju 2020-08-27  45  		hpd_priv->dp_cb->disconne=
+ct(hpd_priv->dev);
+c943b4948b5848 Chandan Uddaraju 2020-08-27  46  =
 
-d11a93690df7e9 Abhinav Kumar 2020-09-12  233  	debug->root =3D dir;
-d11a93690df7e9 Abhinav Kumar 2020-09-12  234  	return rc;
-d11a93690df7e9 Abhinav Kumar 2020-09-12  235   error_remove_dir:
-d11a93690df7e9 Abhinav Kumar 2020-09-12  236  	debugfs_remove(dir);
-d11a93690df7e9 Abhinav Kumar 2020-09-12  237   error:
-d11a93690df7e9 Abhinav Kumar 2020-09-12  238  	return rc;
-d11a93690df7e9 Abhinav Kumar 2020-09-12  239  }
-d11a93690df7e9 Abhinav Kumar 2020-09-12  240  =
+c943b4948b5848 Chandan Uddaraju 2020-08-27  47  	return rc;
+c943b4948b5848 Chandan Uddaraju 2020-08-27  48  }
+c943b4948b5848 Chandan Uddaraju 2020-08-27  49  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3836890770165321049==
+--===============7514584856570456137==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICFKKPGAAAy5jb25maWcAnBzZcuM28j1foZq8JA+Z1WWNp7b8AJGghIjXAKBk+4WleDQTV3zM
+H4sICNhzPGAAAy5jb25maWcAnBzZcuM28j1foZq8JA+Z1WWNp7b8AJGghIjXAKBk+4WleDQTV3zM
 ynKS+fvtBngAZFPx7lQlZXY3rkajLzT04w8/jtjr6flxf7q/2z88fB99PTwdjvvT4fPoy/3D4d+j
 MBulmR7xUOj3QBzfP73+/a/98XExH128//h+/MvxbjLaHI5Ph4dR8Pz05f7rKzS/f3764ccfgiyN
 xKoMgnLLpRJZWmp+ra/e7ffHu98X818esLNfvt7djX5aBcHPo4/vZ+/H75xmQpWAuPpeg1ZtV1cf
@@ -679,5 +676,5 @@ xmiM8GfBsRM0/QUHN+rPNTBeMcTUUQ/h8BOF6VcOZqaJtY2Jdkq0FimVbLSKwxnxvs3L49mpx227
 70tikNS6WUjisJBg60MbjdEI07eEBchUmJUxuLP9MXDbX7193SGRRkEhwmJrm/stCyFqUJJ8FD87
 TYdp69QsD6lt0zc0uW3PIQSUth2ynHA0laOCaACkFJpfrPUqHL1LpoIgjr+Yl1FxPRJUQQCFZrel
 S6HWI36YjMFpQBtvbSUM8tUKIsK+mDTMHlyGUWyItdP+Bwvqi7kl/QEA
---===============3836890770165321049==--
+--===============7514584856570456137==--
 
