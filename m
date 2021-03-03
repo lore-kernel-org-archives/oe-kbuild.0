@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2141041208138802553=="
+Content-Type: multipart/mixed; boundary="===============5892602912185243629=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [peterz-queue:sched/core-sched 41/43] kernel/sched/sched.h:1138:30: sparse: sparse: context imbalance in '__task_rq_lock' - wrong count at exit
-Date: Wed, 03 Mar 2021 20:41:36 +0800
-Message-ID: <202103032034.u6J1JmCF-lkp@intel.com>
+Subject: [peterz-queue:sched/core-sched 40/43] kernel/sched/core.c:384:16: sparse: sparse: context imbalance in 'raw_spin_rq_trylock' - wrong count at exit
+Date: Wed, 03 Mar 2021 19:32:55 +0800
+Message-ID: <202103031953.hG6TTl95-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2141041208138802553==
+--===============5892602912185243629==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,10 +18,10 @@ TO: Peter Zijlstra <peterz@infradead.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sc=
 hed/core-sched
 head:   4a2c9e0f53dc03a005b20f0355d0833b577e304b
-commit: d00b3b305224f410fc0dff05c6a5d22c20201d9d [41/43] sched: Use raw_spi=
-n_rq_*lock*() helpers
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
+commit: c2a73235e000ad7365055061a464af75cb48963a [40/43] sched: Provide raw=
+_spin_rq_*lock*() helpers
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 config: powerpc64-randconfig-s032-20210303 (attached as .config)
 compiler: powerpc64le-linux-gcc (GCC) 9.3.0
 reproduce:
@@ -31,11 +31,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.3-245-gacc5c298-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/=
-commit/?id=3Dd00b3b305224f410fc0dff05c6a5d22c20201d9d
+commit/?id=3Dc2a73235e000ad7365055061a464af75cb48963a
         git remote add peterz-queue https://git.kernel.org/pub/scm/linux/ke=
 rnel/git/peterz/queue.git
         git fetch --no-tags peterz-queue sched/core-sched
-        git checkout d00b3b305224f410fc0dff05c6a5d22c20201d9d
+        git checkout c2a73235e000ad7365055061a464af75cb48963a
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Dpowerpc64 =
@@ -46,23 +46,6 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 "sparse warnings: (new ones prefixed by >>)"
-   kernel/livepatch/transition.c:372:44: sparse: sparse: incorrect type in =
-argument 1 (different address spaces) @@     expected struct spinlock [user=
-type] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/livepatch/transition.c:372:44: sparse:     expected struct spinlo=
-ck [usertype] *lock
-   kernel/livepatch/transition.c:372:44: sparse:     got struct spinlock [n=
-oderef] __rcu *
-   kernel/livepatch/transition.c:374:46: sparse: sparse: incorrect type in =
-argument 1 (different address spaces) @@     expected struct spinlock [user=
-type] *lock @@     got struct spinlock [noderef] __rcu * @@
-   kernel/livepatch/transition.c:374:46: sparse:     expected struct spinlo=
-ck [usertype] *lock
-   kernel/livepatch/transition.c:374:46: sparse:     got struct spinlock [n=
-oderef] __rcu *
->> kernel/livepatch/transition.c:281:13: sparse: sparse: context imbalance =
-in 'klp_try_switch_task' - different lock contexts for basic block
---
    kernel/sched/core.c:254:6: sparse: sparse: symbol 'sched_core_get' was n=
 ot declared. Should it be static?
    kernel/sched/core.c:262:6: sparse: sparse: symbol 'sched_core_put' was n=
@@ -167,14 +150,10 @@ f] __rcu *curr
    kernel/sched/core.c: note: in included file:
    kernel/sched/sched.h:1138:30: sparse: sparse: context imbalance in 'raw_=
 spin_rq_lock_nested' - wrong count at exit
-   kernel/sched/core.c:384:16: sparse: sparse: context imbalance in 'raw_sp=
+>> kernel/sched/core.c:384:16: sparse: sparse: context imbalance in 'raw_sp=
 in_rq_trylock' - wrong count at exit
    kernel/sched/sched.h:1138:30: sparse: sparse: context imbalance in 'raw_=
 spin_rq_unlock' - unexpected unlock
->> kernel/sched/sched.h:1138:30: sparse: sparse: context imbalance in '__ta=
-sk_rq_lock' - wrong count at exit
->> kernel/sched/sched.h:1138:30: sparse: sparse: context imbalance in 'task=
-_rq_lock' - wrong count at exit
    kernel/sched/core.c: note: in included file:
    kernel/sched/pelt.h:85:13: sparse: sparse: incorrect type in argument 1 =
 (different address spaces) @@     expected struct task_struct const *p @@  =
@@ -192,6 +171,10 @@ ession
    kernel/sched/core.c:1929:37: sparse: sparse: dereference of noderef expr=
 ession
    kernel/sched/core.c: note: in included file:
+   kernel/sched/sched.h:1138:30: sparse: sparse: context imbalance in 'move=
+_queued_task' - unexpected unlock
+   kernel/sched/core.c:2267:9: sparse: sparse: context imbalance in 'push_c=
+pu_stop' - different lock contexts for basic block
    kernel/sched/sched.h:1880:25: sparse: sparse: incompatible types in comp=
 arison expression (different address spaces):
    kernel/sched/sched.h:1880:25: sparse:    struct task_struct [noderef] __=
@@ -273,39 +256,30 @@ rison expression (different address spaces):
 cu *
    kernel/sched/sched.h:2038:9: sparse:    struct task_struct *
 
-vim +/__task_rq_lock +1138 kernel/sched/sched.h
+vim +/raw_spin_rq_trylock +384 kernel/sched/core.c
 
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1137  =
+c2a73235e000ad Peter Zijlstra 2021-03-02  381  =
 
-172de0bfac8d66 Peter Zijlstra 2020-11-17 @1138  static inline raw_spinlock_=
-t *rq_lockp(struct rq *rq)
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1139  {
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1140  	if (sched_core_enabled(rq))
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1141  		return &rq->core->__lock;
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1142  =
+c2a73235e000ad Peter Zijlstra 2021-03-02  382  bool raw_spin_rq_trylock(str=
+uct rq *rq)
+c2a73235e000ad Peter Zijlstra 2021-03-02  383  {
+c2a73235e000ad Peter Zijlstra 2021-03-02 @384  	return raw_spin_trylock(rq_=
+lockp(rq));
+c2a73235e000ad Peter Zijlstra 2021-03-02  385  }
+c2a73235e000ad Peter Zijlstra 2021-03-02  386  =
 
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1143  	return &rq->__lock;
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1144  }
-172de0bfac8d66 Peter Zijlstra 2020-11-17  1145  =
-
-
-:::::: The code at line 1138 was first introduced by commit
-:::::: 172de0bfac8d66fab5ae0a0a2f93348db895d4bb sched: Core-wide rq->lock
-
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2141041208138802553==
+--===============5892602912185243629==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICDR8P2AAAy5jb25maWcAlFxZc9y4rn6fX9GVvJzzkBxvcZK65QdKoro5LYkKSfXiF1an3cm4
+H4sICFNsP2AAAy5jb25maWcAlFxZc9y4rn6fX9GVvJzzkBxvcZK65QdKoro5LYkKSfXiF1an3cm4
 jpfctj0z+fcXILWQFOXJnZrJxAAEcQGBDyDkt7+9nZGX58f73fPtfnd393P2/fBwOO6eDzezb7d3
 h/+ZZXxWcTWjGVPvQbi4fXj5+z8/Hv86HH/sZx/en569P3l33J/Olofjw+Fulj4+fLv9/gIabh8f
 fnv7W8qrnM11muoVFZLxSiu6UVdvWg2XF3eHd3eo8933/X72r3ma/nv2+f35+5M3zqNMamBc/exI
@@ -869,5 +843,5 @@ nZNlT18MIIduKzbTkSIoshLvBUkONAVutUXSO39amn2JO8GsFqV2hy/oK1u752bg2Oa9YEVqi/dw
 tY9BbJrGqzu3+AZdcTplJ3ARrm+/AsFB4rXDN8PqFbMtwj7gpZu/tHZFcAfvdLJFgQndc6dtlZWY
 bpmc8UGhq6wpQO3mjE+6VHXQBVOoIjFNuCjFuPeuLg45H0iKdTAT2hoda4E6cPCmNvgOCozc4Oqu
 4TJGs4IzlPBRNOP0IaY5Xr7gHUWRtS0u4rRK+sIX0vQtxjLTzIx/Stmzn/8fbYo5nOvyAQA=
---===============2141041208138802553==--
+--===============5892602912185243629==--
 
