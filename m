@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6428709700148768771=="
+Content-Type: multipart/mixed; boundary="===============2957889628217559322=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [peterz-queue:sched/core-sched 43/43] kernel/sched/core.c:244:17: sparse: sparse: context imbalance in '__sched_core_flip' - different lock contexts for basic block
-Date: Wed, 03 Mar 2021 22:55:17 +0800
-Message-ID: <202103032215.uyTjxYgk-lkp@intel.com>
+Subject: [peterz-queue:sched/core-sched 42/43] kernel/sched/core.c:377:6: sparse: sparse: context imbalance in 'raw_spin_rq_lock_nested' - wrong count at exit
+Date: Wed, 03 Mar 2021 22:39:48 +0800
+Message-ID: <202103032237.V1PZLnE3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6428709700148768771==
+--===============2957889628217559322==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -18,10 +18,10 @@ TO: Peter Zijlstra <peterz@infradead.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sc=
 hed/core-sched
 head:   4a2c9e0f53dc03a005b20f0355d0833b577e304b
-commit: 4a2c9e0f53dc03a005b20f0355d0833b577e304b [43/43] sched: Remove stop=
--machine based core-sched switch
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
+commit: 18016992c4635b47e8494f599697d7cdcb78bdf9 [42/43] sched: Prepare to =
+drop stop_machine() for core sched
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
 config: powerpc64-randconfig-s032-20210303 (attached as .config)
 compiler: powerpc64le-linux-gcc (GCC) 9.3.0
 reproduce:
@@ -31,11 +31,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.3-245-gacc5c298-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/=
-commit/?id=3D4a2c9e0f53dc03a005b20f0355d0833b577e304b
+commit/?id=3D18016992c4635b47e8494f599697d7cdcb78bdf9
         git remote add peterz-queue https://git.kernel.org/pub/scm/linux/ke=
 rnel/git/peterz/queue.git
         git fetch --no-tags peterz-queue sched/core-sched
-        git checkout 4a2c9e0f53dc03a005b20f0355d0833b577e304b
+        git checkout 18016992c4635b47e8494f599697d7cdcb78bdf9
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Dpowerpc64 =
@@ -46,112 +46,110 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 "sparse warnings: (new ones prefixed by >>)"
-   kernel/sched/core.c:287:6: sparse: sparse: symbol 'sched_core_get' was n=
+   kernel/sched/core.c:254:6: sparse: sparse: symbol 'sched_core_get' was n=
 ot declared. Should it be static?
-   kernel/sched/core.c:295:6: sparse: sparse: symbol 'sched_core_put' was n=
+   kernel/sched/core.c:262:6: sparse: sparse: symbol 'sched_core_put' was n=
 ot declared. Should it be static?
-   kernel/sched/core.c:637:48: sparse: sparse: incorrect type in argument 2=
+   kernel/sched/core.c:604:48: sparse: sparse: incorrect type in argument 2=
  (different address spaces) @@     expected struct task_struct *p @@     go=
 t struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:637:48: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:637:48: sparse:     got struct task_struct [noderef]=
+   kernel/sched/core.c:604:48: sparse:     expected struct task_struct *p
+   kernel/sched/core.c:604:48: sparse:     got struct task_struct [noderef]=
  __rcu *curr
-   kernel/sched/core.c:891:38: sparse: sparse: incorrect type in initialize=
+   kernel/sched/core.c:858:38: sparse: sparse: incorrect type in initialize=
 r (different address spaces) @@     expected struct task_struct *curr @@   =
   got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:891:38: sparse:     expected struct task_struct *curr
-   kernel/sched/core.c:891:38: sparse:     got struct task_struct [noderef]=
+   kernel/sched/core.c:858:38: sparse:     expected struct task_struct *curr
+   kernel/sched/core.c:858:38: sparse:     got struct task_struct [noderef]=
  __rcu *curr
-   kernel/sched/core.c:2011:33: sparse: sparse: incorrect type in argument =
+   kernel/sched/core.c:1978:33: sparse: sparse: incorrect type in argument =
 1 (different address spaces) @@     expected struct task_struct *p @@     g=
 ot struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2011:33: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:2011:33: sparse:     got struct task_struct [noderef=
+   kernel/sched/core.c:1978:33: sparse:     expected struct task_struct *p
+   kernel/sched/core.c:1978:33: sparse:     got struct task_struct [noderef=
 ] __rcu *curr
-   kernel/sched/core.c:2011:68: sparse: sparse: incorrect type in argument =
+   kernel/sched/core.c:1978:68: sparse: sparse: incorrect type in argument =
 1 (different address spaces) @@     expected struct task_struct *tsk @@    =
  got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:2011:68: sparse:     expected struct task_struct *tsk
-   kernel/sched/core.c:2011:68: sparse:     got struct task_struct [noderef=
+   kernel/sched/core.c:1978:68: sparse:     expected struct task_struct *tsk
+   kernel/sched/core.c:1978:68: sparse:     got struct task_struct [noderef=
 ] __rcu *curr
-   kernel/sched/core.c:3218:17: sparse: sparse: incorrect type in assignmen=
+   kernel/sched/core.c:3185:17: sparse: sparse: incorrect type in assignmen=
 t (different address spaces) @@     expected struct sched_domain *[assigned=
 ] sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:3218:17: sparse:     expected struct sched_domain *[=
+   kernel/sched/core.c:3185:17: sparse:     expected struct sched_domain *[=
 assigned] sd
-   kernel/sched/core.c:3218:17: sparse:     got struct sched_domain [nodere=
+   kernel/sched/core.c:3185:17: sparse:     got struct sched_domain [nodere=
 f] __rcu *parent
-   kernel/sched/core.c:3415:36: sparse: sparse: incorrect type in argument =
+   kernel/sched/core.c:3382:36: sparse: sparse: incorrect type in argument =
 1 (different address spaces) @@     expected struct task_struct const *p @@=
      got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:3415:36: sparse:     expected struct task_struct con=
+   kernel/sched/core.c:3382:36: sparse:     expected struct task_struct con=
 st *p
-   kernel/sched/core.c:3415:36: sparse:     got struct task_struct [noderef=
+   kernel/sched/core.c:3382:36: sparse:     got struct task_struct [noderef=
 ] __rcu *curr
-   kernel/sched/core.c:8394:43: sparse: sparse: incorrect type in initializ=
+   kernel/sched/core.c:8361:43: sparse: sparse: incorrect type in initializ=
 er (different address spaces) @@     expected struct task_struct *push_task=
  @@     got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:8394:43: sparse:     expected struct task_struct *pu=
+   kernel/sched/core.c:8361:43: sparse:     expected struct task_struct *pu=
 sh_task
-   kernel/sched/core.c:8394:43: sparse:     got struct task_struct [noderef=
+   kernel/sched/core.c:8361:43: sparse:     got struct task_struct [noderef=
 ] __rcu *curr
-   kernel/sched/core.c:4836:38: sparse: sparse: incorrect type in initializ=
+   kernel/sched/core.c:4803:38: sparse: sparse: incorrect type in initializ=
 er (different address spaces) @@     expected struct task_struct *curr @@  =
    got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:4836:38: sparse:     expected struct task_struct *cu=
+   kernel/sched/core.c:4803:38: sparse:     expected struct task_struct *cu=
 rr
-   kernel/sched/core.c:4836:38: sparse:     got struct task_struct [noderef=
+   kernel/sched/core.c:4803:38: sparse:     got struct task_struct [noderef=
 ] __rcu *curr
-   kernel/sched/core.c:5511:32: sparse: sparse: incompatible types in compa=
+   kernel/sched/core.c:5478:32: sparse: sparse: incompatible types in compa=
 rison expression (different address spaces):
-   kernel/sched/core.c:5511:32: sparse:    struct task_struct [noderef] __r=
+   kernel/sched/core.c:5478:32: sparse:    struct task_struct [noderef] __r=
 cu *
-   kernel/sched/core.c:5511:32: sparse:    struct task_struct *
-   kernel/sched/core.c:5538:23: sparse: sparse: incompatible types in compa=
+   kernel/sched/core.c:5478:32: sparse:    struct task_struct *
+   kernel/sched/core.c:5505:23: sparse: sparse: incompatible types in compa=
 rison expression (different address spaces):
-   kernel/sched/core.c:5538:23: sparse:    struct task_struct [noderef] __r=
+   kernel/sched/core.c:5505:23: sparse:    struct task_struct [noderef] __r=
 cu *
-   kernel/sched/core.c:5538:23: sparse:    struct task_struct *
-   kernel/sched/core.c:5546:46: sparse: sparse: incompatible types in compa=
+   kernel/sched/core.c:5505:23: sparse:    struct task_struct *
+   kernel/sched/core.c:5513:46: sparse: sparse: incompatible types in compa=
 rison expression (different address spaces):
-   kernel/sched/core.c:5546:46: sparse:    struct task_struct *
-   kernel/sched/core.c:5546:46: sparse:    struct task_struct [noderef] __r=
+   kernel/sched/core.c:5513:46: sparse:    struct task_struct *
+   kernel/sched/core.c:5513:46: sparse:    struct task_struct [noderef] __r=
 cu *
-   kernel/sched/core.c:5603:9: sparse: sparse: incorrect type in assignment=
+   kernel/sched/core.c:5570:9: sparse: sparse: incorrect type in assignment=
  (different address spaces) @@     expected struct sched_domain *[assigned]=
  sd @@     got struct sched_domain [noderef] __rcu *parent @@
-   kernel/sched/core.c:5603:9: sparse:     expected struct sched_domain *[a=
+   kernel/sched/core.c:5570:9: sparse:     expected struct sched_domain *[a=
 ssigned] sd
-   kernel/sched/core.c:5603:9: sparse:     got struct sched_domain [noderef=
+   kernel/sched/core.c:5570:9: sparse:     got struct sched_domain [noderef=
 ] __rcu *parent
-   kernel/sched/core.c:5721:14: sparse: sparse: incorrect type in assignmen=
+   kernel/sched/core.c:5688:14: sparse: sparse: incorrect type in assignmen=
 t (different address spaces) @@     expected struct task_struct *prev @@   =
   got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:5721:14: sparse:     expected struct task_struct *pr=
+   kernel/sched/core.c:5688:14: sparse:     expected struct task_struct *pr=
 ev
-   kernel/sched/core.c:5721:14: sparse:     got struct task_struct [noderef=
+   kernel/sched/core.c:5688:14: sparse:     got struct task_struct [noderef=
 ] __rcu *curr
-   kernel/sched/core.c:6380:17: sparse: sparse: incompatible types in compa=
+   kernel/sched/core.c:6347:17: sparse: sparse: incompatible types in compa=
 rison expression (different address spaces):
-   kernel/sched/core.c:6380:17: sparse:    struct task_struct *
-   kernel/sched/core.c:6380:17: sparse:    struct task_struct [noderef] __r=
+   kernel/sched/core.c:6347:17: sparse:    struct task_struct *
+   kernel/sched/core.c:6347:17: sparse:    struct task_struct [noderef] __r=
 cu *
-   kernel/sched/core.c:6587:22: sparse: sparse: incompatible types in compa=
+   kernel/sched/core.c:6554:22: sparse: sparse: incompatible types in compa=
 rison expression (different address spaces):
-   kernel/sched/core.c:6587:22: sparse:    struct task_struct [noderef] __r=
+   kernel/sched/core.c:6554:22: sparse:    struct task_struct [noderef] __r=
 cu *
-   kernel/sched/core.c:6587:22: sparse:    struct task_struct *
-   kernel/sched/core.c:10275:25: sparse: sparse: incorrect type in argument=
+   kernel/sched/core.c:6554:22: sparse:    struct task_struct *
+   kernel/sched/core.c:10242:25: sparse: sparse: incorrect type in argument=
  1 (different address spaces) @@     expected struct task_struct *p @@     =
 got struct task_struct [noderef] __rcu *curr @@
-   kernel/sched/core.c:10275:25: sparse:     expected struct task_struct *p
-   kernel/sched/core.c:10275:25: sparse:     got struct task_struct [nodere=
+   kernel/sched/core.c:10242:25: sparse:     expected struct task_struct *p
+   kernel/sched/core.c:10242:25: sparse:     got struct task_struct [nodere=
 f] __rcu *curr
->> kernel/sched/core.c:244:17: sparse: sparse: context imbalance in '__sche=
-d_core_flip' - different lock contexts for basic block
-   kernel/sched/core.c:410:6: sparse: sparse: context imbalance in 'raw_spi=
+>> kernel/sched/core.c:377:6: sparse: sparse: context imbalance in 'raw_spi=
 n_rq_lock_nested' - wrong count at exit
-   kernel/sched/core.c:428:6: sparse: sparse: context imbalance in 'raw_spi=
+   kernel/sched/core.c:395:6: sparse: sparse: context imbalance in 'raw_spi=
 n_rq_trylock' - wrong count at exit
    kernel/sched/core.c: note: in included file:
    kernel/sched/sched.h:1138:30: sparse: sparse: context imbalance in 'raw_=
@@ -168,13 +166,13 @@ _rq_lock' - wrong count at exit
  *p
    kernel/sched/pelt.h:85:13: sparse:     got struct task_struct [noderef] =
 __rcu *curr
-   kernel/sched/core.c:637:11: sparse: sparse: dereference of noderef expre=
+   kernel/sched/core.c:604:11: sparse: sparse: dereference of noderef expre=
 ssion
-   kernel/sched/core.c:2002:33: sparse: sparse: dereference of noderef expr=
+   kernel/sched/core.c:1969:33: sparse: sparse: dereference of noderef expr=
 ession
-   kernel/sched/core.c:2003:19: sparse: sparse: dereference of noderef expr=
+   kernel/sched/core.c:1970:19: sparse: sparse: dereference of noderef expr=
 ession
-   kernel/sched/core.c:2004:37: sparse: sparse: dereference of noderef expr=
+   kernel/sched/core.c:1971:37: sparse: sparse: dereference of noderef expr=
 ession
    kernel/sched/core.c: note: in included file:
    kernel/sched/sched.h:1880:25: sparse: sparse: incompatible types in comp=
@@ -187,11 +185,11 @@ rison expression (different address spaces):
    kernel/sched/sched.h:2038:9: sparse:    struct task_struct [noderef] __r=
 cu *
    kernel/sched/sched.h:2038:9: sparse:    struct task_struct *
-   kernel/sched/core.c:1977:38: sparse: sparse: incompatible types in compa=
+   kernel/sched/core.c:1944:38: sparse: sparse: incompatible types in compa=
 rison expression (different address spaces):
-   kernel/sched/core.c:1977:38: sparse:    struct task_struct [noderef] __r=
+   kernel/sched/core.c:1944:38: sparse:    struct task_struct [noderef] __r=
 cu *
-   kernel/sched/core.c:1977:38: sparse:    struct task_struct const *
+   kernel/sched/core.c:1944:38: sparse:    struct task_struct const *
    kernel/sched/sched.h:1880:25: sparse: sparse: incompatible types in comp=
 arison expression (different address spaces):
    kernel/sched/sched.h:1880:25: sparse:    struct task_struct [noderef] __=
@@ -258,87 +256,219 @@ rison expression (different address spaces):
 cu *
    kernel/sched/sched.h:2038:9: sparse:    struct task_struct *
 
-vim +/__sched_core_flip +244 kernel/sched/core.c
+vim +/raw_spin_rq_lock_nested +377 kernel/sched/core.c
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  228  =
+fa85ae2418e684 kernel/sched.c      Peter Zijlstra 2008-01-25  282  =
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  229  static void __sched_core_fli=
-p(bool enabled)
-172de0bfac8d66 Peter Zijlstra 2020-11-17  230  {
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  231  	int cpu, t, i;
-172de0bfac8d66 Peter Zijlstra 2020-11-17  232  =
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  283  =
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  233  	cpus_read_lock();
-172de0bfac8d66 Peter Zijlstra 2020-11-17  234  =
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  284  /*
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  285   * Seria=
+lization rules:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  286   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  287   * Lock =
+order:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  288   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  289   *   p->=
+pi_lock
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  290   *     r=
+q->lock
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  291   *      =
+ hrtimer_cpu_base->lock (hrtimer_start() for bandwidth controls)
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  292   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  293   *  rq1-=
+>lock
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  294   *    rq=
+2->lock  where: rq1 < rq2
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  295   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  296   * Regul=
+ar state:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  297   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  298   * Norma=
+l scheduling state is serialized by rq->lock. __schedule() takes the
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  299   * local=
+ CPU's rq->lock, it optionally removes the task from the runqueue and
+b19a888c1e9bdf kernel/sched/core.c Tal Zussman    2020-11-12  300   * alway=
+s looks at the local rq data structures to find the most eligible task
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  301   * to ru=
+n next.
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  302   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  303   * Task =
+enqueue is also under rq->lock, possibly taken from another CPU.
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  304   * Wakeu=
+ps from another LLC domain might use an IPI to transfer the enqueue to
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  305   * the l=
+ocal CPU to avoid bouncing the runqueue state around [ see
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  306   * ttwu_=
+queue_wakelist() ]
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  307   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  308   * Task =
+wakeup, specifically wakeups that involve migration, are horribly
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  309   * compl=
+icated to avoid having to take two rq->locks.
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  310   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  311   * Speci=
+al state:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  312   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  313   * Syste=
+m-calls and anything external will use task_rq_lock() which acquires
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  314   * both =
+p->pi_lock and rq->lock. As a consequence the state they change is
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  315   * stabl=
+e while holding either lock:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  316   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  317   *  - sc=
+hed_setaffinity()/
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  318   *    se=
+t_cpus_allowed_ptr():	p->cpus_ptr, p->nr_cpus_allowed
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  319   *  - se=
+t_user_nice():		p->se.load, p->*prio
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  320   *  - __=
+sched_setscheduler():	p->sched_class, p->policy, p->*prio,
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  321   *				p-=
+>se.load, p->rt_priority,
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  322   *				p-=
+>dl.dl_{runtime, deadline, period, flags, bw, density}
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  323   *  - sc=
+hed_setnuma():		p->numa_preferred_nid
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  324   *  - sc=
+hed_move_task()/
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  325   *    cp=
+u_cgroup_fork():	p->sched_task_group
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  326   *  - uc=
+lamp_update_active()	p->uclamp*
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  327   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  328   * p->st=
+ate <- TASK_*:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  329   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  330   *   is =
+changed locklessly using set_current_state(), __set_current_state() or
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  331   *   set=
+_special_state(), see their respective comments, or by
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  332   *   try=
+_to_wake_up(). This latter uses p->pi_lock to serialize against
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  333   *   con=
+current self.
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  334   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  335   * p->on=
+_rq <- { 0, 1 =3D TASK_ON_RQ_QUEUED, 2 =3D TASK_ON_RQ_MIGRATING }:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  336   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  337   *   is =
+set by activate_task() and cleared by deactivate_task(), under
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  338   *   rq-=
+>lock. Non-zero indicates the task is runnable, the special
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  339   *   ON_=
+RQ_MIGRATING state is used for migration without holding both
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  340   *   rq-=
+>locks. It indicates task_cpu() is not stable, see task_rq_lock().
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  341   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  342   * p->on=
+_cpu <- { 0, 1 }:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  343   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  344   *   is =
+set by prepare_task() and cleared by finish_task() such that it will be
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  345   *   set=
+ before p is scheduled-in and cleared after p is scheduled-out, both
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  346   *   und=
+er rq->lock. Non-zero indicates the task is running on its CPU.
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  347   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  348   *   [ T=
+he astute reader will observe that it is possible for two tasks on one
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  349   *     C=
+PU to have ->on_cpu =3D 1 at the same time. ]
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  350   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  351   * task_=
+cpu(p): is changed by set_task_cpu(), the rules are:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  352   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  353   *  - Do=
+n't call set_task_cpu() on a blocked task:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  354   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  355   *    We=
+ don't care what CPU we're not running on, this simplifies hotplug,
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  356   *    th=
+e CPU assignment of blocked tasks isn't required to be valid.
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  357   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  358   *  - fo=
+r try_to_wake_up(), called under p->pi_lock:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  359   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  360   *    Th=
+is allows try_to_wake_up() to only take one rq->lock, see its comment.
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  361   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  362   *  - fo=
+r migration called under rq->lock:
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  363   *    [ =
+see task_on_rq_migrating() in task_rq_lock() ]
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  364   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  365   *    o =
+move_queued_task()
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  366   *    o =
+detach_task()
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  367   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  368   *  - fo=
+r migration called under double_rq_lock():
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  369   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  370   *    o =
+__migrate_swap_task()
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  371   *    o =
+push_rt_task() / pull_rt_task()
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  372   *    o =
+push_dl_task() / pull_dl_task()
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  373   *    o =
+dl_task_offline_migration()
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  374   *
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  375   */
+58877d347b58c9 kernel/sched/core.c Peter Zijlstra 2020-07-02  376  =
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  235  	/*
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  236  	 * Toggle the online cores,=
- one by one.
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  237  	 */
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  238  	cpumask_copy(&sched_core_ma=
-sk, cpu_online_mask);
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  239  	for_each_cpu(cpu, &sched_co=
-re_mask) {
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  240  		const struct cpumask *smt_=
-mask =3D cpu_smt_mask(cpu);
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  241  =
+c2a73235e000ad kernel/sched/core.c Peter Zijlstra 2021-03-02 @377  void raw=
+_spin_rq_lock_nested(struct rq *rq, int subclass)
+c2a73235e000ad kernel/sched/core.c Peter Zijlstra 2021-03-02  378  {
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  379  	raw_spi=
+nlock_t *lock;
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  380  =
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  242  		i =3D 0;
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  243  		local_irq_disable();
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02 @244  		for_each_cpu(t, smt_mask) {
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  245  			/* supports up to SMT8 */
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  246  			raw_spin_lock_nested(&cpu=
-_rq(t)->__lock, i++);
-172de0bfac8d66 Peter Zijlstra 2020-11-17  247  		}
-172de0bfac8d66 Peter Zijlstra 2020-11-17  248  =
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  381  	if (!st=
+atic_branch_unlikely(&__sched_core_enabled)) {
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  382  		raw_sp=
+in_lock_nested(&rq->__lock, subclass);
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  383  		return;
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  384  	}
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  385  =
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  249  		for_each_cpu(t, smt_mask)
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  250  			cpu_rq(t)->core_enabled =
-=3D enabled;
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  251  =
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  386  	for (;;=
+) {
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  387  		lock =
+=3D rq_lockp(rq);
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  388  		raw_sp=
+in_lock_nested(lock, subclass);
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  389  		if (li=
+kely(lock =3D=3D rq_lockp(rq)))
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  390  			retur=
+n;
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  391  		raw_sp=
+in_unlock(lock);
+18016992c4635b kernel/sched/core.c Peter Zijlstra 2021-03-02  392  	}
+c2a73235e000ad kernel/sched/core.c Peter Zijlstra 2021-03-02  393  }
+c2a73235e000ad kernel/sched/core.c Peter Zijlstra 2021-03-02  394  =
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  252  		for_each_cpu(t, smt_mask)
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  253  			raw_spin_unlock(&cpu_rq(t=
-)->__lock);
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  254  		local_irq_enable();
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  255  =
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  256  		cpumask_andnot(&sched_core=
-_mask, &sched_core_mask, smt_mask);
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  257  	}
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  258  =
+:::::: The code at line 377 was first introduced by commit
+:::::: c2a73235e000ad7365055061a464af75cb48963a sched: Provide raw_spin_rq_=
+*lock*() helpers
 
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  259  	/*
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  260  	 * Toggle the offline CPUs.
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  261  	 */
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  262  	cpumask_copy(&sched_core_ma=
-sk, cpu_possible_mask);
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  263  	cpumask_andnot(&sched_core_=
-mask, &sched_core_mask, cpu_online_mask);
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  264  =
-
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  265  	for_each_cpu(cpu, &sched_co=
-re_mask)
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  266  		cpu_rq(cpu)->core_enabled =
-=3D enabled;
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  267  =
-
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  268  	cpus_read_unlock();
-4a2c9e0f53dc03 Peter Zijlstra 2021-03-02  269  }
-172de0bfac8d66 Peter Zijlstra 2020-11-17  270  =
-
+:::::: TO: Peter Zijlstra <peterz@infradead.org>
+:::::: CC: Peter Zijlstra <peterz@infradead.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6428709700148768771==
+--===============2957889628217559322==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICLKgP2AAAy5jb25maWcAlFxZc9y4rn6fX9GVvJzzkBxvcZK65QdKoro5LYkKSfXiF1an3cm4
+H4sICAaeP2AAAy5jb25maWcAlFxZc9y4rn6fX9GVvJzzkBxvcZK65QdKoro5LYkKSfXiF1an3cm4
 jpfctj0z+fcXILWQFOXJnZrJxAAEcQGBDyDkt7+9nZGX58f73fPtfnd393P2/fBwOO6eDzezb7d3
 h/+ZZXxWcTWjGVPvQbi4fXj5+z8/Hv86HH/sZx/en569P3l33J/Olofjw+Fulj4+fLv9/gIabh8f
 fnv7W8qrnM11muoVFZLxSiu6UVdvWg2XF3eHd3eo8933/X72r3ma/nv2+f35+5M3zqNMamBc/exI
@@ -902,5 +1032,5 @@ nZNlT18MIIduKzbTkSIoshLvBUkONAVutUXSO39amn2JO8GsFqV2hy/oK1u752bg2Oa9YEVqi/dw
 tY9BbJrGqzu3+AZdcTplJ3ARrm+/AsFB4rXDN8PqFbMtwj7gpZu/tHZFcAfvdLJFgQndc6dtlZWY
 bpmc8UGhq6wpQO3mjE+6VHXQBVOoIjFNuCjFuPeuLg45H0iKdTAT2hoda4E6cPCmNvgOCozc4Oqu
 4TJGs4IzlPBRNOP0IaY5Xr7gHUWRtS0u4rRK+sIX0vQtxjLTzIx/Stmzn/8fbYo5nOvyAQA=
---===============6428709700148768771==--
+--===============2957889628217559322==--
 
