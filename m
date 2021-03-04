@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7433295965657426612=="
+Content-Type: multipart/mixed; boundary="===============3884589092388990733=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [skeggsb:00.01-disp 111/130] drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:209 nvkm_uoutp_mthd_acquire() error: we previously assumed 'outp->ior' could be null (see line 176)
-Date: Fri, 05 Mar 2021 06:34:16 +0800
-Message-ID: <202103050612.XYYuJL31-lkp@intel.com>
+Subject: [skeggsb:00.01-disp 109/130] drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42 nvkm_uoutp_mthd_infoframe() error: we previously assumed 'ior->func->hdmi' could be null (see line 40)
+Date: Fri, 05 Mar 2021 03:45:58 +0800
+Message-ID: <202103050353.7b6POai4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7433295965657426612==
+--===============3884589092388990733==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,10 +16,10 @@ TO: Ben Skeggs <bskeggs@redhat.com>
 
 tree:   https://github.com/skeggsb/linux 00.01-disp
 head:   7548db689355586b323cda41f8a429b02e27a63f
-commit: fd1eb5e1604ba276c8846fd39e168e5565682864 [111/130] drm/nouveau/disp=
-: move DP link config into acquire
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
+commit: fa698dbb89f2fc8b8da766d1a7c78bc61aa0d435 [109/130] drm/nouveau/disp=
+: move HDMI config into acquire + infoframe methods
+:::::: branch date: 9 hours ago
+:::::: commit date: 9 hours ago
 config: i386-randconfig-m021-20210304 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -27,101 +27,64 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:209 nvkm_uoutp_mthd_acquir=
-e() error: we previously assumed 'outp->ior' could be null (see line 176)
-
-Old smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:71 nvkm_uoutp_mthd_infofra=
+smatch warnings:
+drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c:42 nvkm_uoutp_mthd_infofra=
 me() error: we previously assumed 'ior->func->hdmi' could be null (see line=
- 69)
+ 40)
 
-vim +209 drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
+vim +42 drivers/gpu/drm/nouveau/nvkm/engine/disp/uoutp.c
 
-7b3e8d2983fb9a Ben Skeggs 2021-03-02  167  =
+c288ce3cf9b20f Ben Skeggs 2021-03-02  28  =
 
-2e3413c202b82b Ben Skeggs 2021-03-02  168  static int
-2e3413c202b82b Ben Skeggs 2021-03-02  169  nvkm_uoutp_mthd_acquire(struct n=
-vkm_outp *outp, void *argv, u32 argc)
-2e3413c202b82b Ben Skeggs 2021-03-02  170  {
-2e3413c202b82b Ben Skeggs 2021-03-02  171  	union nvif_outp_acquire_args *a=
-rgs =3D argv;
-2e3413c202b82b Ben Skeggs 2021-03-02  172  	int ret;
-2e3413c202b82b Ben Skeggs 2021-03-02  173  =
+fa698dbb89f2fc Ben Skeggs 2021-03-02  29  static int
+fa698dbb89f2fc Ben Skeggs 2021-03-02  30  nvkm_uoutp_mthd_infoframe(struct =
+nvkm_outp *outp, void *argv, u32 argc)
+fa698dbb89f2fc Ben Skeggs 2021-03-02  31  {
+fa698dbb89f2fc Ben Skeggs 2021-03-02  32  	struct nvkm_ior *ior =3D outp->i=
+or;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  33  	union nvif_outp_infoframe_args *=
+args =3D argv;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  34  =
 
-2e3413c202b82b Ben Skeggs 2021-03-02  174  	if (argc !=3D sizeof(args->v0) =
-|| args->v0.version !=3D 0)
-2e3413c202b82b Ben Skeggs 2021-03-02  175  		return -ENOSYS;
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02 @176  	if (outp->ior)
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  177  		return -EBUSY;
-2e3413c202b82b Ben Skeggs 2021-03-02  178  =
+fa698dbb89f2fc Ben Skeggs 2021-03-02  35  	if (argc < sizeof(args->v0) || a=
+rgs->v0.version !=3D 0)
+fa698dbb89f2fc Ben Skeggs 2021-03-02  36  		return -ENOSYS;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  37  	if (!nvkm_head_find(outp->disp, =
+args->v0.head))
+fa698dbb89f2fc Ben Skeggs 2021-03-02  38  		return -EINVAL;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  39  =
 
-2e3413c202b82b Ben Skeggs 2021-03-02  179  	switch (args->v0.proto) {
-2e3413c202b82b Ben Skeggs 2021-03-02  180  	case NVIF_OUTP_ACQUIRE_V0_RGB_C=
-RT:
-2e3413c202b82b Ben Skeggs 2021-03-02  181  		ret =3D nvkm_outp_acquire(outp=
-, NVKM_OUTP_USER, false);
-2e3413c202b82b Ben Skeggs 2021-03-02  182  		break;
-2e3413c202b82b Ben Skeggs 2021-03-02  183  	case NVIF_OUTP_ACQUIRE_V0_TMDS:
-fa698dbb89f2fc Ben Skeggs 2021-03-02  184  		ret =3D nvkm_uoutp_mthd_acquir=
-e_tmds(outp, args->v0.tmds.head,
-fa698dbb89f2fc Ben Skeggs 2021-03-02  185  							 args->v0.tmds.hdmi,
-fa698dbb89f2fc Ben Skeggs 2021-03-02  186  							 args->v0.tmds.hdmi_max_a=
-c_packet,
-fa698dbb89f2fc Ben Skeggs 2021-03-02  187  							 args->v0.tmds.hdmi_rekey,
-fa698dbb89f2fc Ben Skeggs 2021-03-02  188  							 args->v0.tmds.hdmi_scdc,
-fa698dbb89f2fc Ben Skeggs 2021-03-02  189  							 args->v0.tmds.hdmi_hda);
-fa698dbb89f2fc Ben Skeggs 2021-03-02  190  		break;
-7b3e8d2983fb9a Ben Skeggs 2021-03-02  191  	case NVIF_OUTP_ACQUIRE_V0_LVDS:
-7b3e8d2983fb9a Ben Skeggs 2021-03-02  192  		ret =3D nvkm_uoutp_mthd_acquir=
-e_lvds(outp, args->v0.lvds.dual, args->v0.lvds.bpc8);
-7b3e8d2983fb9a Ben Skeggs 2021-03-02  193  		break;
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  194  	case NVIF_OUTP_ACQUIRE_V0_DP:
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  195  		ret =3D nvkm_uoutp_mthd_acquir=
-e_dp(outp, args->v0.dp.dpcd,
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  196  						       args->v0.dp.link_nr,
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  197  						       args->v0.dp.link_bw,
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  198  						       args->v0.dp.hda !=
-=3D 0,
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  199  						       args->v0.dp.mst !=
-=3D 0);
-fd1eb5e1604ba2 Ben Skeggs 2021-03-02  200  		break;
-2e3413c202b82b Ben Skeggs 2021-03-02  201  	default:
-2e3413c202b82b Ben Skeggs 2021-03-02  202  		ret =3D -EINVAL;
-2e3413c202b82b Ben Skeggs 2021-03-02  203  		break;
-2e3413c202b82b Ben Skeggs 2021-03-02  204  	}
-2e3413c202b82b Ben Skeggs 2021-03-02  205  =
+fa698dbb89f2fc Ben Skeggs 2021-03-02 @40  	switch (ior->func->hdmi ? args->=
+v0.type : 0xff) {
+fa698dbb89f2fc Ben Skeggs 2021-03-02  41  	case NVIF_OUTP_INFOFRAME_V0_AVI:
+fa698dbb89f2fc Ben Skeggs 2021-03-02 @42  		ior->func->hdmi->infoframe_avi(=
+ior, args->v0.head, argv, argc);
+fa698dbb89f2fc Ben Skeggs 2021-03-02  43  		return 0;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  44  	case NVIF_OUTP_INFOFRAME_V0_VSI:
+fa698dbb89f2fc Ben Skeggs 2021-03-02  45  		ior->func->hdmi->infoframe_vsi(=
+ior, args->v0.head, argv, argc);
+fa698dbb89f2fc Ben Skeggs 2021-03-02  46  		return 0;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  47  	default:
+fa698dbb89f2fc Ben Skeggs 2021-03-02  48  		break;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  49  	}
+fa698dbb89f2fc Ben Skeggs 2021-03-02  50  =
 
-2e3413c202b82b Ben Skeggs 2021-03-02  206  	if (ret)
-2e3413c202b82b Ben Skeggs 2021-03-02  207  		return ret;
-2e3413c202b82b Ben Skeggs 2021-03-02  208  =
+fa698dbb89f2fc Ben Skeggs 2021-03-02  51  	return -EINVAL;
+fa698dbb89f2fc Ben Skeggs 2021-03-02  52  }
+fa698dbb89f2fc Ben Skeggs 2021-03-02  53  =
 
-2e3413c202b82b Ben Skeggs 2021-03-02 @209  	args->v0.or =3D outp->ior->id;
-2e3413c202b82b Ben Skeggs 2021-03-02  210  	args->v0.link =3D outp->ior->as=
-y.link;
-2e3413c202b82b Ben Skeggs 2021-03-02  211  	return 0;
-2e3413c202b82b Ben Skeggs 2021-03-02  212  }
-2e3413c202b82b Ben Skeggs 2021-03-02  213  =
-
-
-:::::: The code at line 209 was first introduced by commit
-:::::: 2e3413c202b82b5f5896ae6ee9e6a2febded3554 drm/nouveau/disp: move and =
-extend the role of outp acquire/release methods
-
-:::::: TO: Ben Skeggs <bskeggs@redhat.com>
-:::::: CC: Ben Skeggs <bskeggs@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7433295965657426612==
+--===============3884589092388990733==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICOJOQWAAAy5jb25maWcAlFxLd+M2st7nV+h0NskiGb+nc+7xAiJBChFBMAApyd7wOG51xydu
+H4sICMIoQWAAAy5jb25maWcAlFxLd+M2st7nV+h0NskiGb+nc+7xAiJBChFBMAApyd7wOG51xydu
 OyPbk/S/n6oCHwAIqvtm0bFQRQAE6vFVocDvv/t+wd5enz/fvT7c3z0+fll82j/tD3ev+w+Ljw+P
 +/9bpGpRqnrBU1H/DMzFw9PbP/96OH9/tbj8+fT055OfDveXi/X+8LR/XCTPTx8fPr3B4w/PT999
 /12iykzkbZK0G66NUGVb8119/e7T/f1Pvyx+SPe/P9w9LX75+Ry6OTv70f71znlMmDZPkusvfVM+
@@ -697,5 +660,5 @@ TFAqdEe6TUasNq6to8/lOwJ0lZz+nhGUD1Go2VXWKYWMXanv3VcwTeh11DQBSshwSR9jYzTw/eC4
 zoWJC73owdAskWOI1I7dLWxnGnIVytcN+FXhUQlrasA2xsph1mm4Dk9zTrt8CzOdet5nJgTwjKIe
 yfZfu/111hR4RmJhK3EijTDcv8LsLcbBqYjz9cZGHEoc0WZaqAsJ2vYbGmsGOSg1LJxEjqddwHHt
 ORpIjQfF6cXryAslVebc/wA1r+ss0AMCAA==
---===============7433295965657426612==--
+--===============3884589092388990733==--
 
