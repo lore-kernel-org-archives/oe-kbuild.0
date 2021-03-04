@@ -1,24 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============8115395863069217918=="
+Content-Type: multipart/mixed; boundary="===============0049206249575329240=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] crypto: qat - fix use of 'dma_map_single'
-Date: Thu, 04 Mar 2021 16:40:26 +0300
-Message-ID: <20210304134026.GC2087@kadam>
-In-Reply-To: <1614570058-38194-1-git-send-email-tanghui20@huawei.com>
+Date: Thu, 04 Mar 2021 21:25:03 +0800
+Message-ID: <202103042138.QOnGrAD4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8115395863069217918==
+--===============0049206249575329240==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+In-Reply-To: <1614570058-38194-1-git-send-email-tanghui20@huawei.com>
+References: <1614570058-38194-1-git-send-email-tanghui20@huawei.com>
+TO: Hui Tang <tanghui20@huawei.com>
+TO: herbert(a)gondor.apana.org.au
+TO: davem(a)davemloft.net
+TO: marco.chiappero(a)intel.com
+TO: ebiggers(a)google.com
+TO: tomaszx.kowalik(a)intel.com
+CC: linux-crypto(a)vger.kernel.org
+CC: xuzaibo(a)huawei.com
+CC: wangzhou1(a)hisilicon.com
+CC: tanghui20(a)huawei.com
+CC: linux-kernel(a)vger.kernel.org
+
 Hi Hui,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on cryptodev/master]
+[also build test WARNING on crypto/master sparc-next/master v5.12-rc1 next-=
+20210304]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Hui-Tang/crypto-qat-fix-us=
 e-of-dma_map_single/20210301-114717
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
 .6.git master
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
 config: i386-randconfig-m021-20210304 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -31,6 +55,8 @@ drivers/crypto/qat/qat_common/qat_algs.c:809 qat_alg_sgl_to_bufl() error: u=
 ninitialized symbol 'blp'.
 
 vim +/blp +809 drivers/crypto/qat/qat_common/qat_algs.c
+
+d370cec3219490 Tadeusz Struk       2014-06-05  710  =
 
 d370cec3219490 Tadeusz Struk       2014-06-05  711  static int qat_alg_sgl_=
 to_bufl(struct qat_crypto_instance *inst,
@@ -51,8 +77,6 @@ t *bufl;
 d370cec3219490 Tadeusz Struk       2014-06-05  720  	struct qat_alg_buf_lis=
 t *buflout =3D NULL;
 d370cec3219490 Tadeusz Struk       2014-06-05  721  	dma_addr_t blp;
-                                                        ^^^^^^^^^^^^^^
-
 d370cec3219490 Tadeusz Struk       2014-06-05  722  	dma_addr_t bloutp =3D =
 0;
 d370cec3219490 Tadeusz Struk       2014-06-05  723  	struct scatterlist *sg;
@@ -91,18 +115,12 @@ d370cec3219490 Tadeusz Struk       2014-06-05  743  		bufl->bufers[y].len =
 d370cec3219490 Tadeusz Struk       2014-06-05  744  		if (unlikely(dma_mapp=
 ing_error(dev, bufl->bufers[y].addr)))
 72eed063767e13 Arnd Bergmann       2017-06-22  745  			goto err_in;
-
-"blp" uninitialized at this goto.
-
 82f82504b8f5f1 Tadeusz Struk       2014-12-08  746  		sg_nctr++;
 d370cec3219490 Tadeusz Struk       2014-06-05  747  	}
 e19ab1211d2848 Herbert Xu          2015-07-30  748  	bufl->num_bufs =3D sg_=
 nctr;
 54bc41cf4d0517 Hui Tang            2021-03-01  749  	blp =3D dma_map_single=
 (dev, bufl, sz, DMA_TO_DEVICE);
-                                                        ^^^^^^
-Initialized here.
-
 54bc41cf4d0517 Hui Tang            2021-03-01  750  	if (unlikely(dma_mappi=
 ng_error(dev, blp)))
 54bc41cf4d0517 Hui Tang            2021-03-01  751  		goto err_in;
@@ -203,10 +221,6 @@ d370cec3219490 Tadeusz Struk       2014-06-05  806  	kfree(buflout);
 72eed063767e13 Arnd Bergmann       2017-06-22  808  err_in:
 54bc41cf4d0517 Hui Tang            2021-03-01 @809  	if (!dma_mapping_error=
 (dev, blp))
-                                                                           =
-         ^^^
-Uninitialized.
-
 54bc41cf4d0517 Hui Tang            2021-03-01  810  		dma_unmap_single(dev,=
  blp, sz, DMA_TO_DEVICE);
 54bc41cf4d0517 Hui Tang            2021-03-01  811  =
@@ -231,12 +245,14 @@ en,
 o map buf for dma\n");
 d370cec3219490 Tadeusz Struk       2014-06-05  822  	return -ENOMEM;
 d370cec3219490 Tadeusz Struk       2014-06-05  823  }
+d370cec3219490 Tadeusz Struk       2014-06-05  824  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8115395863069217918==
+--===============0049206249575329240==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -817,5 +833,5 @@ n5f8UkQcI1p/NV/AtIEF7ngcxAoW1QU4W0mrokLayiiWY56No8GOSFxFFK6lic+flr05eOBbdQ21
 3EI4vHJh4mIPazA0z+RQH71jdwvbmYZcxdJmA361D6iEMzVgG1PtS+s1XMenuaBdvoUFTz+iMxMC
 OE1Rj2TTsNv+Om/2eM1hYStxPos4PLzC3C3GMaIItw3GRhxKmtBmWqgLCdp1KRprRjkoPSycRA5r
 XcDx7TkGSI1HxenF6yiI6NSW3n8BQVu5YxUDAgA=
---===============8115395863069217918==--
+--===============0049206249575329240==--
 
