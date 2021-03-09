@@ -1,22 +1,45 @@
-Content-Type: multipart/mixed; boundary="===============9104020086248236073=="
+Content-Type: multipart/mixed; boundary="===============8884231294606612051=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH v3 1/2] char: xillybus: Move class-related functions to new xillybus_class.c
-Date: Tue, 09 Mar 2021 19:03:26 +0300
-Message-ID: <20210309160326.GD21246@kadam>
-In-Reply-To: <20210309113425.61296-2-eli.billauer@gmail.com>
+Date: Tue, 09 Mar 2021 23:22:12 +0800
+Message-ID: <202103092349.W9jLiBNe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9104020086248236073==
+--===============8884231294606612051==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210309113425.61296-2-eli.billauer@gmail.com>
+References: <20210309113425.61296-2-eli.billauer@gmail.com>
+TO: eli.billauer(a)gmail.com
+TO: gregkh(a)linuxfoundation.org
+TO: arnd(a)arndb.de
+CC: devel(a)driverdev.osuosl.org
+CC: Eli Billauer <eli.billauer@gmail.com>
+CC: linux-usb(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+
+Hi,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on char-misc/char-misc-testing]
+[also build test WARNING on staging/staging-testing soc/for-next linus/mast=
+er v5.12-rc2 next-20210309]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
 url:    https://github.com/0day-ci/linux/commits/eli-billauer-gmail-com/Sub=
 mission-of-XillyUSB-driver/20210309-193645
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/char-misc.gi=
-t  080951f99de1e483a9a48f34c079b634f2912a54
+t 080951f99de1e483a9a48f34c079b634f2912a54
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
 config: x86_64-randconfig-m001-20210309 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -31,6 +54,8 @@ drivers/char/xillybus/xillybus_class.c:96 xillybus_init_chrdev() warn: miss=
 ing error code 'rc'
 
 vim +86 drivers/char/xillybus/xillybus_class.c
+
+10702b71f93292 Eli Billauer 2021-03-09   41  =
 
 10702b71f93292 Eli Billauer 2021-03-09   42  int xillybus_init_chrdev(struc=
 t device *dev,
@@ -97,11 +122,7 @@ dev, 0, num_nodes, unit->name);
 10702b71f93292 Eli Billauer 2021-03-09   84  		dev_warn(dev, "Failed to obt=
 ain major/minors");
 10702b71f93292 Eli Billauer 2021-03-09   85  		goto fail_obtain;
-                                                        ^^^^^^^^^^^^^^^^^
 10702b71f93292 Eli Billauer 2021-03-09  @86  		return rc;
-                                                        ^^^^^^^^^^
-Unreachable
-
 10702b71f93292 Eli Billauer 2021-03-09   87  	}
 10702b71f93292 Eli Billauer 2021-03-09   88  =
 
@@ -116,9 +137,6 @@ e_data;
 10702b71f93292 Eli Billauer 2021-03-09   94  	unit->cdev =3D cdev_alloc();
 10702b71f93292 Eli Billauer 2021-03-09   95  	if (!unit->cdev)
 10702b71f93292 Eli Billauer 2021-03-09  @96  		goto unregister_chrdev;
-
-"rc =3D -ENOMEM;"
-
 10702b71f93292 Eli Billauer 2021-03-09   97  =
 
 10702b71f93292 Eli Billauer 2021-03-09   98  	unit->cdev->ops =3D fops;
@@ -230,17 +248,16 @@ V(unit->major, unit->lowest_minor),
 
 10702b71f93292 Eli Billauer 2021-03-09  170  	return rc;
 10702b71f93292 Eli Billauer 2021-03-09  171  }
+10702b71f93292 Eli Billauer 2021-03-09  172  EXPORT_SYMBOL(xillybus_init_ch=
+rdev);
+10702b71f93292 Eli Billauer 2021-03-09  173  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============9104020086248236073==
+--===============8884231294606612051==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -973,5 +990,5 @@ ow6xils6d6k0cSGzbWCjh0nytMALgypMEXx+PmonsGEmDp45ekxN4E13riCV5X4VJlP3GkG8tNN8
 LYzHvLuJk8rXpqjRtcW713Amzokdt7EgeEys2NXEcoZ3d/JJ23h14zAxOahVB9mM7KNKJpDovb4s
 xY3YmuZF6MQN43xNYMTWkrTON6yemEiZ2XfifcIHqVp6IqWQm1HJJrIumyYYBc8jUJ4oY4XuC22c
 tqymn0xDJ46cCNzReGDQo4Tng95Sk0eelwhIOk/9HwRnRoprmAIA
---===============9104020086248236073==--
+--===============8884231294606612051==--
 
