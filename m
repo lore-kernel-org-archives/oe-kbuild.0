@@ -1,27 +1,38 @@
-Content-Type: multipart/mixed; boundary="===============7958270616168718967=="
+Content-Type: multipart/mixed; boundary="===============1920955018475471335=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [peterz-queue:sched/core-sched 17/20] include/linux/spinlock_api_smp.h:161:9: sparse: sparse: context imbalance in 'io_wq_worker_affinity' - wrong count at exit
-Date: Wed, 10 Mar 2021 22:18:42 +0800
-Message-ID: <202103102235.rik4J01a-lkp@intel.com>
+Subject: Re: [RFC PATCH] devres: better type safety with devm_*_action()
+Date: Wed, 10 Mar 2021 22:08:14 +0800
+Message-ID: <202103102232.WBGoCJ5S-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7958270616168718967==
+--===============1920955018475471335==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Peter Zijlstra <peterz@infradead.org>
+In-Reply-To: <20210309235917.2134565-1-linux@rasmusvillemoes.dk>
+References: <20210309235917.2134565-1-linux@rasmusvillemoes.dk>
+TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git sc=
-hed/core-sched
-head:   94de431a1e723df4b3dc918876b11b85486ccc74
-commit: 80565265301bd8e564ebcb9c9f13aad1f7ef3b11 [17/20] sched: Use raw_spi=
-n_rq_*lock*() helpers
-:::::: branch date: 5 hours ago
-:::::: commit date: 5 hours ago
+Hi Rasmus,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on driver-core/driver-core-testing]
+[also build test WARNING on linux/master linus/master v5.12-rc2 next-202103=
+10]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Rasmus-Villemoes/devres-be=
+tter-type-safety-with-devm_-_action/20210310-080019
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.=
+git a38fd8748464831584a19438cbb3082b5a2dab15
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
 config: s390-randconfig-s032-20210310 (attached as .config)
 compiler: s390-linux-gcc (GCC) 9.3.0
 reproduce:
@@ -30,12 +41,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.3-262-g5e674421-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/=
-commit/?id=3D80565265301bd8e564ebcb9c9f13aad1f7ef3b11
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue sched/core-sched
-        git checkout 80565265301bd8e564ebcb9c9f13aad1f7ef3b11
+        # https://github.com/0day-ci/linux/commit/663d41317b8fa291fc1c82100=
+b3e2526627ab4d4
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Rasmus-Villemoes/devres-better-typ=
+e-safety-with-devm_-_action/20210310-080019
+        git checkout 663d41317b8fa291fc1c82100b3e2526627ab4d4
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Ds390 =
@@ -46,47 +57,342 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 "sparse warnings: (new ones prefixed by >>)"
-   fs/io-wq.c: note: in included file (through include/linux/spinlock.h, in=
-clude/linux/wait.h, include/linux/pid.h, ...):
->> include/linux/spinlock_api_smp.h:161:9: sparse: sparse: context imbalanc=
-e in 'io_wq_worker_affinity' - wrong count at exit
+   drivers/input/touchscreen/stmfts.c: note: in included file (through incl=
+ude/linux/acpi.h, include/linux/i2c.h):
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: static assertion failed: =
+"__same_type(action + 0, void (*)(void *)) || __same_type(action + 0, void =
+(*)(typeof(data)))"
+>> drivers/input/touchscreen/stmfts.c:708:15: sparse: sparse: arithmetics o=
+n pointers to functions
+>> drivers/input/touchscreen/stmfts.c:708:15: sparse: sparse: arithmetics o=
+n pointers to functions
+>> drivers/input/touchscreen/stmfts.c:708:15: sparse: sparse: static assert=
+ion failed: "__same_type(stmfts_power_off + 0, void (*)(void *)) || __same_=
+type(stmfts_power_off + 0, void (*)(typeof(sdata)))"
+--
+   drivers/nvdimm/core.c: note: in included file (through include/linux/blk=
+_types.h, include/linux/bio.h, include/linux/libnvdimm.h):
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: static assertion failed: =
+"__same_type(action + 0, void (*)(void *)) || __same_type(action + 0, void =
+(*)(typeof(data)))"
+>> drivers/nvdimm/core.c:172:13: sparse: sparse: arithmetics on pointers to=
+ functions
+>> drivers/nvdimm/core.c:172:13: sparse: sparse: arithmetics on pointers to=
+ functions
+>> drivers/nvdimm/core.c:172:13: sparse: sparse: static assertion failed: "=
+__same_type(nvdimm_map_put + 0, void (*)(void *)) || __same_type(nvdimm_map=
+_put + 0, void (*)(typeof(nvdimm_map)))"
+--
+   drivers/nvdimm/dimm_devs.c: note: in included file:
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: static assertion failed: =
+"__same_type(action + 0, void (*)(void *)) || __same_type(action + 0, void =
+(*)(typeof(data)))"
+>> drivers/nvdimm/dimm_devs.c:663:16: sparse: sparse: arithmetics on pointe=
+rs to functions
+>> drivers/nvdimm/dimm_devs.c:663:16: sparse: sparse: arithmetics on pointe=
+rs to functions
+>> drivers/nvdimm/dimm_devs.c:663:16: sparse: sparse: static assertion fail=
+ed: "__same_type(shutdown_security_notify + 0, void (*)(void *)) || __same_=
+type(shutdown_security_notify + 0, void (*)(typeof(nvdimm)))"
+--
+   drivers/nvdimm/namespace_devs.c: note: in included file:
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: static assertion failed: =
+"__same_type(action + 0, void (*)(void *)) || __same_type(action + 0, void =
+(*)(typeof(data)))"
+>> drivers/nvdimm/namespace_devs.c:2594:16: sparse: sparse: arithmetics on =
+pointers to functions
+>> drivers/nvdimm/namespace_devs.c:2594:16: sparse: sparse: arithmetics on =
+pointers to functions
+>> drivers/nvdimm/namespace_devs.c:2594:16: sparse: sparse: static assertio=
+n failed: "__same_type(deactivate_labels + 0, void (*)(void *)) || __same_t=
+ype(deactivate_labels + 0, void (*)(typeof(nd_region)))"
+--
+   drivers/nvdimm/pmem.c: note: in included file (through include/linux/blk=
+_types.h, include/linux/genhd.h, include/linux/blkdev.h):
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: static assertion failed: =
+"__same_type(action + 0, void (*)(void *)) || __same_type(action + 0, void =
+(*)(typeof(data)))"
+>> drivers/nvdimm/pmem.c:450:21: sparse: sparse: arithmetics on pointers to=
+ functions
+>> drivers/nvdimm/pmem.c:450:21: sparse: sparse: arithmetics on pointers to=
+ functions
+>> drivers/nvdimm/pmem.c:450:21: sparse: sparse: static assertion failed: "=
+__same_type(pmem_release_queue + 0, void (*)(void *)) || __same_type(pmem_r=
+elease_queue + 0, void (*)(typeof(&pmem->pgmap)))"
+   drivers/nvdimm/pmem.c:501:13: sparse: sparse: arithmetics on pointers to=
+ functions
+   drivers/nvdimm/pmem.c:501:13: sparse: sparse: arithmetics on pointers to=
+ functions
+>> drivers/nvdimm/pmem.c:501:13: sparse: sparse: static assertion failed: "=
+__same_type(pmem_release_disk + 0, void (*)(void *)) || __same_type(pmem_re=
+lease_disk + 0, void (*)(typeof(pmem)))"
+--
+   drivers/nvdimm/blk.c: note: in included file (through include/linux/blk_=
+types.h, include/linux/genhd.h, include/linux/blkdev.h):
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: static assertion failed: =
+"__same_type(action + 0, void (*)(void *)) || __same_type(action + 0, void =
+(*)(typeof(data)))"
+>> drivers/nvdimm/blk.c:256:13: sparse: sparse: arithmetics on pointers to =
+functions
+>> drivers/nvdimm/blk.c:256:13: sparse: sparse: arithmetics on pointers to =
+functions
+>> drivers/nvdimm/blk.c:256:13: sparse: sparse: static assertion failed: "_=
+_same_type(nd_blk_release_queue + 0, void (*)(void *)) || __same_type(nd_bl=
+k_release_queue + 0, void (*)(typeof(q)))"
+   drivers/nvdimm/blk.c:274:13: sparse: sparse: arithmetics on pointers to =
+functions
+   drivers/nvdimm/blk.c:274:13: sparse: sparse: arithmetics on pointers to =
+functions
+>> drivers/nvdimm/blk.c:274:13: sparse: sparse: static assertion failed: "_=
+_same_type(nd_blk_release_disk + 0, void (*)(void *)) || __same_type(nd_blk=
+_release_disk + 0, void (*)(typeof(disk)))"
+--
+   drivers/cxl/mem.c: note: in included file (through include/linux/cdev.h):
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: arithmetics on pointers t=
+o functions
+   include/linux/device.h:290:15: sparse: sparse: static assertion failed: =
+"__same_type(action + 0, void (*)(void *)) || __same_type(action + 0, void =
+(*)(typeof(data)))"
+>> drivers/cxl/mem.c:1216:16: sparse: sparse: arithmetics on pointers to fu=
+nctions
+>> drivers/cxl/mem.c:1216:16: sparse: sparse: arithmetics on pointers to fu=
+nctions
+>> drivers/cxl/mem.c:1216:16: sparse: sparse: static assertion failed: "__s=
+ame_type(cxlmdev_unregister + 0, void (*)(void *)) || __same_type(cxlmdev_u=
+nregister + 0, void (*)(typeof(cxlmd)))"
 
-vim +/io_wq_worker_affinity +161 include/linux/spinlock_api_smp.h
+vim +708 drivers/input/touchscreen/stmfts.c
 
-69d0ee7377eef8 Heiko Carstens  2009-08-31  154  =
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  624  =
 
-9c1721aa4994f6 Thomas Gleixner 2009-12-03  155  static inline void __raw_sp=
-in_unlock_irqrestore(raw_spinlock_t *lock,
-69d0ee7377eef8 Heiko Carstens  2009-08-31  156  					    unsigned long flag=
-s)
-69d0ee7377eef8 Heiko Carstens  2009-08-31  157  {
-5facae4f3549b5 Qian Cai        2019-09-19  158  	spin_release(&lock->dep_ma=
-p, _RET_IP_);
-9828ea9d75c38f Thomas Gleixner 2009-12-03  159  	do_raw_spin_unlock(lock);
-69d0ee7377eef8 Heiko Carstens  2009-08-31  160  	local_irq_restore(flags);
-69d0ee7377eef8 Heiko Carstens  2009-08-31 @161  	preempt_enable();
-69d0ee7377eef8 Heiko Carstens  2009-08-31  162  }
-69d0ee7377eef8 Heiko Carstens  2009-08-31  163  =
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  625  static int stmfts_probe(st=
+ruct i2c_client *client,
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  626  			const struct i2c_device=
+_id *id)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  627  {
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  628  	int err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  629  	struct stmfts_data *sdata;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  630  =
 
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  631  	if (!i2c_check_functional=
+ity(client->adapter, I2C_FUNC_I2C |
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  632  						I2C_FUNC_SMBUS_BYTE_=
+DATA |
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  633  						I2C_FUNC_SMBUS_I2C_B=
+LOCK))
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  634  		return -ENODEV;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  635  =
 
-:::::: The code at line 161 was first introduced by commit
-:::::: 69d0ee7377eef808e34ba5542b554ec97244b871 locking: Move spinlock func=
-tion bodies to header file
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  636  	sdata =3D devm_kzalloc(&c=
+lient->dev, sizeof(*sdata), GFP_KERNEL);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  637  	if (!sdata)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  638  		return -ENOMEM;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  639  =
 
-:::::: TO: Heiko Carstens <heiko.carstens@de.ibm.com>
-:::::: CC: Ingo Molnar <mingo@elte.hu>
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  640  	i2c_set_clientdata(client=
+, sdata);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  641  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  642  	sdata->client =3D client;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  643  	mutex_init(&sdata->mutex);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  644  	init_completion(&sdata->c=
+md_done);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  645  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  646  	sdata->regulators[STMFTS_=
+REGULATOR_VDD].supply =3D "vdd";
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  647  	sdata->regulators[STMFTS_=
+REGULATOR_AVDD].supply =3D "avdd";
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  648  	err =3D devm_regulator_bu=
+lk_get(&client->dev,
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  649  				      ARRAY_SIZE(sdata=
+->regulators),
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  650  				      sdata->regulator=
+s);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  651  	if (err)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  652  		return err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  653  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  654  	sdata->input =3D devm_inp=
+ut_allocate_device(&client->dev);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  655  	if (!sdata->input)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  656  		return -ENOMEM;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  657  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  658  	sdata->input->name =3D ST=
+MFTS_DEV_NAME;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  659  	sdata->input->id.bustype =
+=3D BUS_I2C;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  660  	sdata->input->open =3D st=
+mfts_input_open;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  661  	sdata->input->close =3D s=
+tmfts_input_close;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  662  =
+
+c9bfb2f0031a2d Chanwoo Choi     2017-10-18  663  	input_set_capability(sdat=
+a->input, EV_ABS, ABS_MT_POSITION_X);
+c9bfb2f0031a2d Chanwoo Choi     2017-10-18  664  	input_set_capability(sdat=
+a->input, EV_ABS, ABS_MT_POSITION_Y);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  665  	touchscreen_parse_propert=
+ies(sdata->input, true, &sdata->prop);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  666  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  667  	input_set_abs_params(sdat=
+a->input, ABS_MT_TOUCH_MAJOR, 0, 255, 0, 0);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  668  	input_set_abs_params(sdat=
+a->input, ABS_MT_TOUCH_MINOR, 0, 255, 0, 0);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  669  	input_set_abs_params(sdat=
+a->input, ABS_MT_ORIENTATION, 0, 255, 0, 0);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  670  	input_set_abs_params(sdat=
+a->input, ABS_MT_PRESSURE, 0, 255, 0, 0);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  671  	input_set_abs_params(sdat=
+a->input, ABS_DISTANCE, 0, 255, 0, 0);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  672  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  673  	sdata->use_key =3D device=
+_property_read_bool(&client->dev,
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  674  						   "touch-key-connec=
+ted");
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  675  	if (sdata->use_key) {
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  676  		input_set_capability(sda=
+ta->input, EV_KEY, KEY_MENU);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  677  		input_set_capability(sda=
+ta->input, EV_KEY, KEY_BACK);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  678  	}
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  679  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  680  	err =3D input_mt_init_slo=
+ts(sdata->input,
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  681  				  STMFTS_MAX_FINGERS, =
+INPUT_MT_DIRECT);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  682  	if (err)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  683  		return err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  684  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  685  	input_set_drvdata(sdata->=
+input, sdata);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  686  =
+
+cba04cdf437d74 Andi Shyti       2018-01-22  687  	/*
+cba04cdf437d74 Andi Shyti       2018-01-22  688  	 * stmfts_power_on expect=
+s interrupt to be disabled, but
+cba04cdf437d74 Andi Shyti       2018-01-22  689  	 * at this point the devi=
+ce is still off and I do not trust
+cba04cdf437d74 Andi Shyti       2018-01-22  690  	 * the status of the irq =
+line that can generate some spurious
+cba04cdf437d74 Andi Shyti       2018-01-22  691  	 * interrupts. To be on t=
+he safe side it's better to not enable
+cba04cdf437d74 Andi Shyti       2018-01-22  692  	 * the interrupts during =
+their request.
+cba04cdf437d74 Andi Shyti       2018-01-22  693  	 */
+cba04cdf437d74 Andi Shyti       2018-01-22  694  	irq_set_status_flags(clie=
+nt->irq, IRQ_NOAUTOEN);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  695  	err =3D devm_request_thre=
+aded_irq(&client->dev, client->irq,
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  696  					NULL, stmfts_irq_hand=
+ler,
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  697  					IRQF_ONESHOT,
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  698  					"stmfts_irq", sdata);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  699  	if (err)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  700  		return err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  701  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  702  	dev_dbg(&client->dev, "in=
+itializing ST-Microelectronics FTS...\n");
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  703  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  704  	err =3D stmfts_power_on(s=
+data);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  705  	if (err)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  706  		return err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  707  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05 @708  	err =3D devm_add_action_o=
+r_reset(&client->dev, stmfts_power_off, sdata);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  709  	if (err)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  710  		return err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  711  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  712  	err =3D input_register_de=
+vice(sdata->input);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  713  	if (err)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  714  		return err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  715  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  716  	if (sdata->use_key) {
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  717  		err =3D stmfts_enable_le=
+d(sdata);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  718  		if (err) {
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  719  			/*
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  720  			 * Even if the LEDs hav=
+e failed to be initialized and
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  721  			 * used in the driver, =
+I can still use the device even
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  722  			 * without LEDs. The le=
+dvdd regulator pointer will be
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  723  			 * used as a flag.
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  724  			 */
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  725  			dev_warn(&client->dev, =
+"unable to use touchkey leds\n");
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  726  			sdata->ledvdd =3D NULL;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  727  		}
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  728  	}
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  729  =
+
+c2690bd69788c6 Andi Shyti       2017-09-22  730  	err =3D devm_device_add_g=
+roup(&client->dev, &stmfts_attribute_group);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  731  	if (err)
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  732  		return err;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  733  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  734  	pm_runtime_enable(&client=
+->dev);
+1d960003603403 Marek Szyprowski 2018-03-30  735  	device_enable_async_suspe=
+nd(&client->dev);
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  736  =
+
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  737  	return 0;
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  738  }
+78bcac7b2ae1e4 Andi Shyti       2017-06-05  739  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7958270616168718967==
+--===============1920955018475471335==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICKvLSGAAAy5jb25maWcAjDzbcts4su/7FapM1ak9D5mRZTux65QfQBIUMSIJhgAl2S8oxVYy
+H4sICJuoSGAAAy5jb25maWcAjDzbcts4su/7FapM1ak9D5mRZTux65QfQBIUMSIJhgAl2S8oxVYy
 qnFslyTvbvbrTzdIigAIUtnaytjdjVsDfW/6t3/8NiHvx9cfm+PucfP8/HPyffuy3W+O26fJt93z
 9v8mEZ/kXE5oxOTvQJzuXt7/88fh8nY6uf79Yvb79OP+cTZZbPcv2+dJ+Prybff9HYbvXl/+8ds/
 Qp7HbK7CUC1pKRjPlaRrefcBh398xpk+fn98nPxzHob/O7n9/fL36QdjDBMKEHc/W9C8m+fudno5
@@ -498,5 +804,5 @@ LqK9g9qPRbZLSNN4O+WANkRqq6gOdDzLaHKL50wmd62+yGcDaphIicipz1RiVevDEbkqyg4RJm5b
 Pa1NuWdeZ7Q/fMtzUOWTS5AZvmp9x9DYNpaYQogELxzWVABM37m8s4wuzvTEtktJ2Zx3Pu20czVS
 ibxjEwEau7ZO33BqQcyj3Mhb28rRIKwCuJ3ZwhaLAUFWLmFVo4IUeZxOnp1RfARWlquvPDmpntey
 Vl/+D9icx0vtbgEA
---===============7958270616168718967==--
+--===============1920955018475471335==--
 
