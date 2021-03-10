@@ -1,21 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============6448044024347526930=="
+Content-Type: multipart/mixed; boundary="===============8227296522122989658=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [agd5f:amd-staging-drm-next 1823/1993] drivers/gpu/drm/amd/amdgpu/gfxhub_v1_1.c:90 gfxhub_v1_1_get_xgmi_info() warn: if statement not indented
-Date: Wed, 10 Mar 2021 14:13:43 +0300
-Message-ID: <20210310111343.GK2087@kadam>
+Date: Wed, 10 Mar 2021 18:59:57 +0800
+Message-ID: <202103101855.gCKdivDz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6448044024347526930==
+--===============8227296522122989658==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Rajneesh Bhardwaj <rajneesh.bhardwaj@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Hawking Zhang <Hawking.Zhang@amd.com>
 
 tree:   https://gitlab.freedesktop.org/agd5f/linux.git amd-staging-drm-next
 head:   dec2310256916626e4356af784822e02fb807cad
 commit: 3387daae08120c05a9d6a0e37cfd792c638f0a92 [1823/1993] drm/amdgpu: su=
 pport get xgmi information for Aldebaran
+:::::: branch date: 9 hours ago
+:::::: commit date: 5 days ago
 config: x86_64-randconfig-m001-20210309 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -33,41 +40,97 @@ n: if statement not indented
 
 vim +90 drivers/gpu/drm/amd/amdgpu/gfxhub_v1_1.c
 
-    86          /* PF_MAX_REGION=3D0 means xgmi is disabled */
-    87          if (max_region || adev->gmc.xgmi.connected_to_cpu) {
-    88                  adev->gmc.xgmi.num_physical_nodes =3D max_region + =
-1;
-    89  =
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  43  =
 
-    90                  if (adev->gmc.xgmi.num_physical_nodes > max_num_phy=
-sical_nodes)
-    91                  return -EINVAL;
-                        ^^^^^^^^^^^^^^^
-Missing tab
+21470d97c9f8bb Kevin Wang        2020-10-14  44  int gfxhub_v1_1_get_xgmi_i=
+nfo(struct amdgpu_device *adev)
+bf0a60b78b61a7 Alex Deucher      2018-06-19  45  {
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  46  	u32 max_num_physical_node=
+s;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  47  	u32 max_physical_node_id;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  48  	u32 xgmi_lfb_cntl;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  49  	u32 max_region;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  50  	u64 seg_size;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  51  =
 
-    92  =
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  52  	if (adev->asic_type =3D=
+=3D CHIP_ALDEBARAN) {
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  53  		xgmi_lfb_cntl =3D RREG32=
+_SOC15(GC, 0, mmMC_VM_XGMI_LFB_CNTL_ALDE);
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  54  		seg_size =3D REG_GET_FIE=
+LD(
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  55  			RREG32_SOC15(GC, 0, mmM=
+C_VM_XGMI_LFB_SIZE_ALDE),
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  56  			MC_VM_XGMI_LFB_SIZE, PF=
+_LFB_SIZE) << 24;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  57  	} else {
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  58  		xgmi_lfb_cntl =3D RREG32=
+_SOC15(GC, 0, mmMC_VM_XGMI_LFB_CNTL);
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  59  		seg_size =3D REG_GET_FIE=
+LD(
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  60  			RREG32_SOC15(GC, 0, mmM=
+C_VM_XGMI_LFB_SIZE),
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  61  			MC_VM_XGMI_LFB_SIZE, PF=
+_LFB_SIZE) << 24;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  62  	}
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  63  =
 
-    93                  adev->gmc.xgmi.physical_node_id =3D
-    94                  REG_GET_FIELD(xgmi_lfb_cntl, MC_VM_XGMI_LFB_CNTL,
-    95                                PF_LFB_REGION);
-    96  =
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  64  	max_region =3D
+bf0a60b78b61a7 Alex Deucher      2018-06-19  65  		REG_GET_FIELD(xgmi_lfb_c=
+ntl, MC_VM_XGMI_LFB_CNTL, PF_MAX_REGION);
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  66  =
 
-    97                  if (adev->gmc.xgmi.physical_node_id > max_physical_=
-node_id)
-    98                  return -EINVAL;
-                        ^^^^^^^^^^^^^^^
-Missing tab
+f0312f45a0540a John Clements     2019-12-02  67  =
 
-    99  =
+f0312f45a0540a John Clements     2019-12-02  68  	switch (adev->asic_type) {
+f0312f45a0540a John Clements     2019-12-02  69  	case CHIP_VEGA20:
+f0312f45a0540a John Clements     2019-12-02  70  		max_num_physical_nodes  =
+ =3D 4;
+f0312f45a0540a John Clements     2019-12-02  71  		max_physical_node_id    =
+ =3D 3;
+f0312f45a0540a John Clements     2019-12-02  72  		break;
+f0312f45a0540a John Clements     2019-12-02  73  	case CHIP_ARCTURUS:
+f0312f45a0540a John Clements     2019-12-02  74  		max_num_physical_nodes  =
+ =3D 8;
+f0312f45a0540a John Clements     2019-12-02  75  		max_physical_node_id    =
+ =3D 7;
+f0312f45a0540a John Clements     2019-12-02  76  		break;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  77  	case CHIP_ALDEBARAN:
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  78  		/* just using duplicates=
+ for Aldebaran support, revisit later */
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  79  		max_num_physical_nodes  =
+ =3D 8;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  80  		max_physical_node_id    =
+ =3D 7;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  81  		break;
+f0312f45a0540a John Clements     2019-12-02  82  	default:
+f0312f45a0540a John Clements     2019-12-02  83  		return -EINVAL;
+f0312f45a0540a John Clements     2019-12-02  84  	}
+bf0a60b78b61a7 Alex Deucher      2018-06-19  85  =
 
-   100                  adev->gmc.xgmi.node_segment_size =3D seg_size;
-   101          }
+bf0a60b78b61a7 Alex Deucher      2018-06-19  86  	/* PF_MAX_REGION=3D0 mean=
+s xgmi is disabled */
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  87  	if (max_region || adev->g=
+mc.xgmi.connected_to_cpu) {
+bf0a60b78b61a7 Alex Deucher      2018-06-19  88  		adev->gmc.xgmi.num_physi=
+cal_nodes =3D max_region + 1;
+3387daae08120c Rajneesh Bhardwaj 2020-04-30  89  =
+
+f0312f45a0540a John Clements     2019-12-02 @90  		if (adev->gmc.xgmi.num_p=
+hysical_nodes > max_num_physical_nodes)
+
+:::::: The code at line 90 was first introduced by commit
+:::::: f0312f45a0540a1551ca4644ff2461250520111a drm/amdgpu: Added ASIC spec=
+ific checks in gfxhub V1.1 get XGMI info
+
+:::::: TO: John Clements <john.clements@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6448044024347526930==
+--===============8227296522122989658==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -795,5 +858,5 @@ mjJRBOFSGfP+fPmQixfP+BZtPQsrI/0oZGIGkh1UWF3cWKRG+msDoK8pTx0BnpyG7aeivC+XvtYw
 5DT1FdCt8P8KwzEHb+qk9bUxWnTm9EwUzsI5QeQ2FBiPhR17sbCd4d2d3NI2XBkPFhYHpesgmZFj
 NOkCEH3Ds1oYt9Y0LUIXaZjnrxhG7C3N23LD2oWFlFl+F94nfJGqrSdyD7mpl2wky260QCh4GYPw
 RCkt9FioyLR5Nf1kHrpx5ELgicYLg54lPB90U1q88ryMQdJr6f+oD63jqZMCAA==
---===============6448044024347526930==--
+--===============8227296522122989658==--
 
