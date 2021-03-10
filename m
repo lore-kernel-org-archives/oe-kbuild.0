@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============2537556050530931226=="
+Content-Type: multipart/mixed; boundary="===============3239620401559929773=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: api: fix kobj_to_dev.cocci warnings
-Date: Wed, 10 Mar 2021 08:31:19 +0800
-Message-ID: <20210310003119.GA185632@da48b91e3745>
+Date: Wed, 10 Mar 2021 08:31:18 +0800
+Message-ID: <20210310003118.GA185141@da48b91e3745>
 In-Reply-To: <202103100840.NM8LWxi2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2537556050530931226==
+--===============3239620401559929773==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,14 +17,16 @@ CC: kbuild-all(a)01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@lip6.fr>
-CC: Jean Delvare <jdelvare@suse.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: linux-hwmon(a)vger.kernel.org
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: Colin Ian King <colin.king@canonical.com>
+CC: Dan Carpenter <error27@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/hwmon/ltc2990.c:156:60-61: WARNING opportunity for kobj_to_dev()
+drivers/input/misc/ims-pcu.c:1231:60-61: WARNING opportunity for kobj_to_de=
+v()
 
 
  Use kobj_to_dev() instead of container_of()
@@ -47,19 +49,19 @@ to_dev.cocci script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- ltc2990.c |    2 +-
+ ims-pcu.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/hwmon/ltc2990.c
-+++ b/drivers/hwmon/ltc2990.c
-@@ -153,7 +153,7 @@ static ssize_t ltc2990_value_show(struct
- static umode_t ltc2990_attrs_visible(struct kobject *kobj,
- 				     struct attribute *a, int n)
+--- a/drivers/input/misc/ims-pcu.c
++++ b/drivers/input/misc/ims-pcu.c
+@@ -1228,7 +1228,7 @@ static struct attribute *ims_pcu_attrs[]
+ static umode_t ims_pcu_is_attr_visible(struct kobject *kobj,
+ 				       struct attribute *attr, int n)
  {
 -	struct device *dev =3D container_of(kobj, struct device, kobj);
 +	struct device *dev =3D kobj_to_dev(kobj);
- 	struct ltc2990_data *data =3D dev_get_drvdata(dev);
- 	struct device_attribute *da =3D
- 			container_of(a, struct device_attribute, attr);
---===============2537556050530931226==--
+ 	struct usb_interface *intf =3D to_usb_interface(dev);
+ 	struct ims_pcu *pcu =3D usb_get_intfdata(intf);
+ 	umode_t mode =3D attr->mode;
+--===============3239620401559929773==--
 
