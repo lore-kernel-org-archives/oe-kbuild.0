@@ -1,22 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1163475968633073717=="
+Content-Type: multipart/mixed; boundary="===============2286121821746612657=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: drivers/usb/host/ohci-hcd.c:1318 ohci_hcd_mod_init() warn: ignoring unreachable code.
-Date: Tue, 16 Mar 2021 11:32:54 +0300
-Message-ID: <20210316083254.GR2087@kadam>
+Date: Tue, 16 Mar 2021 14:46:59 +0800
+Message-ID: <202103161445.f4upDBZN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1163475968633073717==
+--===============2286121821746612657==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Stephen Boyd <sboyd@kernel.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   1a4431a5db2bf800c647ee0ed87f2727b8d6c29c
 commit: bbd7ffdbef6888459f301c5889f3b14ada38b913 clk: Allow the common clk =
 framework to be selectable
+date:   10 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 10 months ago
 config: arm-randconfig-m031-20210316 (attached as .config)
 compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
 
@@ -33,9 +42,6 @@ vim +1318 drivers/usb/host/ohci-hcd.c
 78c73414f4f674 Dmitry Eremin-Solenikov 2008-10-08  1313  =
 
 5e16fabe5dbcff Sylvain Munaut          2006-12-13  1314  	return retval;
-                                                                ^^^^^^^^^^^=
-^^
-
 5e16fabe5dbcff Sylvain Munaut          2006-12-13  1315  =
 
 5e16fabe5dbcff Sylvain Munaut          2006-12-13  1316  	/* Error path */
@@ -43,10 +49,6 @@ vim +1318 drivers/usb/host/ohci-hcd.c
 RIVER
 78c73414f4f674 Dmitry Eremin-Solenikov 2008-10-08 @1318  	platform_driver_u=
 nregister(&TMIO_OHCI_DRIVER);
-                                                                ^^^^^^^^^^^=
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-Unreachable
-
 78c73414f4f674 Dmitry Eremin-Solenikov 2008-10-08  1319   error_tmio:
 78c73414f4f674 Dmitry Eremin-Solenikov 2008-10-08  1320  #endif
 3ee38d8bf46b36 Ben Dooks               2008-06-08  1321  #ifdef SM501_OHCI_=
@@ -83,12 +85,23 @@ ci_debug_root);
 I_LOADED, &usb_hcds_loaded);
 5e16fabe5dbcff Sylvain Munaut          2006-12-13  1341  	return retval;
 5e16fabe5dbcff Sylvain Munaut          2006-12-13  1342  }
+5e16fabe5dbcff Sylvain Munaut          2006-12-13  1343  module_init(ohci_h=
+cd_mod_init);
+5e16fabe5dbcff Sylvain Munaut          2006-12-13  1344  =
+
+
+:::::: The code at line 1318 was first introduced by commit
+:::::: 78c73414f4f6744e2ea5a07b263a9698aa6f2416 USB: ohci: add support for =
+tmio-ohci cell
+
+:::::: TO: Dmitry Baryshkov <dbaryshkov@gmail.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1163475968633073717==
+--===============2286121821746612657==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -733,5 +746,5 @@ UlhX2duBYZHG3AGh8HWtAgiaH23U25bvE4wlgmzB6nSBr62VUlLZ5SHGV1oUCKugeJlYkFWirwQm
 FBl2oyKZ0ChDwOux04M5ga/iWVQkIFCTI0ZPjo7vQA9JBfkTa9HWEyyN0WitPnaXhPLtRMsQ35em
 6sMcCnRpE7BCrL70Wn2rKrztUB1JV0aUmm7QAPLq/g+ybcenrzUOofcYFcIHHcIyWePbGPLx/wNw
 SLZ9ID0CAA==
---===============1163475968633073717==--
+--===============2286121821746612657==--
 
