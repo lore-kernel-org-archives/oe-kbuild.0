@@ -1,172 +1,139 @@
-Content-Type: multipart/mixed; boundary="===============5974481581867134840=="
+Content-Type: multipart/mixed; boundary="===============3514327355607147359=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4880/6512] sound/soc/codecs/rt1019.c:707:61: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses.
-Date: Tue, 23 Mar 2021 23:18:45 +0800
-Message-ID: <202103232333.svdnSFYq-lkp@intel.com>
+Subject: drivers/media/test-drivers/vidtv/vidtv_psi.c:432:62: warning: Same expression on both sides of '-' because 'sizeof(struct vidtv_psi_desc_service_list_entry)' and 'sizeof(struct represent the same value. [knownCondition...
+Date: Tue, 23 Mar 2021 22:46:45 +0800
+Message-ID: <202103232236.PhwfzXI1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5974481581867134840==
+--===============3514327355607147359==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jack Yu <jack.yu@realtek.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   d949689e7383cd5271470f2b99dbe2fd3199bffd
-commit: 7ec79d3850d0cb6dc52e6aa472886ab3adf15863 [4880/6512] ASoC: rt1019: =
-add rt1019 amplifier driver
-:::::: branch date: 8 hours ago
-:::::: commit date: 5 days ago
-compiler: powerpc64-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   84196390620ac0e5070ae36af84c137c6216a7dc
+commit: c2f78f0cb294aa6f009d3a170f4ee8ad199ba5da media: vidtv: psi: add a N=
+etwork Information Table (NIT)
+date:   4 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 4 months ago
+compiler: xtensa-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> sound/soc/codecs/wm2200.c:1905:25: warning: Uninitialized variable: frat=
-io [uninitvar]
-    fll_div->n =3D target / (fratio * Fref);
-                           ^
---
->> sound/soc/codecs/wm8996.c:1979:25: warning: Uninitialized variable: frat=
-io [uninitvar]
-    fll_div->n =3D target / (fratio * Fref);
-                           ^
-
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> sound/soc/codecs/rt1019.c:707:61: warning: Boolean result is used in bit=
-wise operation. Clarify expression with parentheses. [clarifyCondition]
-     (pll_code.m_bp ? 0 : pll_code.m_code) << RT1019_PLL_M_SFT |
-                                                               ^
->> sound/soc/codecs/rt5677.c:4750:9: warning: Boolean result is used in bit=
-wise operation. Clarify expression with parentheses. [clarifyCondition]
-      (0x2 | !!value) << (offset * 3 + 1));
-           ^
-   sound/soc/codecs/rt5677.c:4756:25: warning: Boolean result is used in bi=
-twise operation. Clarify expression with parentheses. [clarifyCondition]
-      RT5677_GPIO6_DIR_OUT | !!value << RT5677_GPIO6_OUT_SFT);
-                           ^
---
+>> drivers/media/test-drivers/vidtv/vidtv_psi.c:432:62: warning: Same expre=
+ssion on both sides of '-' because 'sizeof(struct vidtv_psi_desc_service_li=
+st_entry)' and 'sizeof(struct vidtv_psi_desc_service_list_entry*)' represen=
+t the same value. [knownConditionTrueFalse]
+     length +=3D sizeof(struct vidtv_psi_desc_service_list_entry) -
+                                                                ^
+   drivers/media/test-drivers/vidtv/vidtv_psi.c:676:68: warning: Same expre=
+ssion on both sides of '-' because 'sizeof(struct vidtv_psi_desc_service_li=
+st_entry)' and 'sizeof(struct vidtv_psi_desc_service_list_entry*)' represen=
+t the same value. [knownConditionTrueFalse]
+      psi_args.len =3D sizeof(struct vidtv_psi_desc_service_list_entry) -
+                                                                      ^
+>> drivers/media/test-drivers/vidtv/vidtv_psi.c:734:56: warning: Same expre=
+ssion on both sides of '-' because 'sizeof(struct vidtv_psi_table_pat_progr=
+am)' and 'sizeof(struct vidtv_psi_table_pat_program*)' represent the same v=
+alue. [knownConditionTrueFalse]
+     length +=3D sizeof(struct vidtv_psi_table_pat_program) -
+                                                          ^
 
-vim +707 sound/soc/codecs/rt1019.c
+vim +432 drivers/media/test-drivers/vidtv/vidtv_psi.c
 
-7ec79d3850d0cb Jack Yu 2021-03-11  656  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  412  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  657  static int rt1019_set_dai_pll(struc=
-t snd_soc_dai *dai, int pll_id, int source,
-7ec79d3850d0cb Jack Yu 2021-03-11  658  			unsigned int freq_in, unsigned i=
-nt freq_out)
-7ec79d3850d0cb Jack Yu 2021-03-11  659  {
-7ec79d3850d0cb Jack Yu 2021-03-11  660  	struct snd_soc_component *componen=
-t =3D dai->component;
-7ec79d3850d0cb Jack Yu 2021-03-11  661  	struct rt1019_priv *rt1019 =3D snd=
-_soc_component_get_drvdata(component);
-7ec79d3850d0cb Jack Yu 2021-03-11  662  	struct rl6231_pll_code pll_code;
-7ec79d3850d0cb Jack Yu 2021-03-11  663  	int ret;
-7ec79d3850d0cb Jack Yu 2021-03-11  664  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  413  struct vidtv_psi_desc_=
+service_list
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  414  *vidtv_psi_service_lis=
+t_desc_init(struct vidtv_psi_desc *head,
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  415  				  struct vidtv_psi=
+_desc_service_list_entry *entry)
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  416  {
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  417  	struct vidtv_psi_desc=
+_service_list *desc;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  418  	struct vidtv_psi_desc=
+_service_list_entry *curr_e =3D NULL;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  419  	struct vidtv_psi_desc=
+_service_list_entry *head_e =3D NULL;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  420  	struct vidtv_psi_desc=
+_service_list_entry *prev_e =3D NULL;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  421  	u16 length =3D 0;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  422  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  665  	if (!freq_in || !freq_out) {
-7ec79d3850d0cb Jack Yu 2021-03-11  666  		dev_dbg(component->dev, "PLL disa=
-bled\n");
-7ec79d3850d0cb Jack Yu 2021-03-11  667  		rt1019->pll_in =3D 0;
-7ec79d3850d0cb Jack Yu 2021-03-11  668  		rt1019->pll_out =3D 0;
-7ec79d3850d0cb Jack Yu 2021-03-11  669  		return 0;
-7ec79d3850d0cb Jack Yu 2021-03-11  670  	}
-7ec79d3850d0cb Jack Yu 2021-03-11  671  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  423  	desc =3D kzalloc(size=
+of(*desc), GFP_KERNEL);
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  424  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  672  	if (source =3D=3D rt1019->pll_src =
-&& freq_in =3D=3D rt1019->pll_in &&
-7ec79d3850d0cb Jack Yu 2021-03-11  673  		freq_out =3D=3D rt1019->pll_out)
-7ec79d3850d0cb Jack Yu 2021-03-11  674  		return 0;
-7ec79d3850d0cb Jack Yu 2021-03-11  675  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  425  	desc->type =3D SERVIC=
+E_LIST_DESCRIPTOR;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  426  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  676  	switch (source) {
-7ec79d3850d0cb Jack Yu 2021-03-11  677  	case RT1019_PLL_S_BCLK:
-7ec79d3850d0cb Jack Yu 2021-03-11  678  		snd_soc_component_update_bits(com=
-ponent, RT1019_CLK_TREE_1,
-7ec79d3850d0cb Jack Yu 2021-03-11  679  			RT1019_PLL_SRC_MASK, RT1019_PLL_=
-SRC_SEL_BCLK);
-7ec79d3850d0cb Jack Yu 2021-03-11  680  		break;
-7ec79d3850d0cb Jack Yu 2021-03-11  681  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  427  	while (entry) {
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  428  		curr_e =3D kzalloc(s=
+izeof(*curr_e), GFP_KERNEL);
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  429  		curr_e->service_id =
+=3D entry->service_id;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  430  		curr_e->service_type=
+ =3D entry->service_type;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  431  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  682  	case RT1019_PLL_S_RC25M:
-7ec79d3850d0cb Jack Yu 2021-03-11  683  		snd_soc_component_update_bits(com=
-ponent, RT1019_CLK_TREE_1,
-7ec79d3850d0cb Jack Yu 2021-03-11  684  			RT1019_PLL_SRC_MASK, RT1019_PLL_=
-SRC_SEL_RC);
-7ec79d3850d0cb Jack Yu 2021-03-11  685  		break;
-7ec79d3850d0cb Jack Yu 2021-03-11  686  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31 @432  		length +=3D sizeof(s=
+truct vidtv_psi_desc_service_list_entry) -
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  433  			  sizeof(struct vid=
+tv_psi_desc_service_list_entry *);
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  434  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  687  	default:
-7ec79d3850d0cb Jack Yu 2021-03-11  688  		dev_err(component->dev, "Unknown =
-PLL source %d\n", source);
-7ec79d3850d0cb Jack Yu 2021-03-11  689  		return -EINVAL;
-7ec79d3850d0cb Jack Yu 2021-03-11  690  	}
-7ec79d3850d0cb Jack Yu 2021-03-11  691  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  435  		if (!head_e)
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  436  			head_e =3D curr_e;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  437  		if (prev_e)
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  438  			prev_e->next =3D cu=
+rr_e;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  439  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  692  	ret =3D rl6231_pll_calc(freq_in, f=
-req_out, &pll_code);
-7ec79d3850d0cb Jack Yu 2021-03-11  693  	if (ret < 0) {
-7ec79d3850d0cb Jack Yu 2021-03-11  694  		dev_err(component->dev, "Unsuppor=
-t input clock %d\n", freq_in);
-7ec79d3850d0cb Jack Yu 2021-03-11  695  		return ret;
-7ec79d3850d0cb Jack Yu 2021-03-11  696  	}
-7ec79d3850d0cb Jack Yu 2021-03-11  697  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  440  		prev_e =3D curr_e;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  441  		entry =3D entry->nex=
+t;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  442  	}
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  443  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  698  	dev_dbg(component->dev, "bypass=3D=
-%d m=3D%d n=3D%d k=3D%d\n",
-7ec79d3850d0cb Jack Yu 2021-03-11  699  		pll_code.m_bp, (pll_code.m_bp ? 0=
- : pll_code.m_code),
-7ec79d3850d0cb Jack Yu 2021-03-11  700  		pll_code.n_code, pll_code.k_code);
-7ec79d3850d0cb Jack Yu 2021-03-11  701  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  444  	desc->length =3D leng=
+th;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  445  	desc->service_list =
+=3D head_e;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  446  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  702  	snd_soc_component_update_bits(comp=
-onent, RT1019_PWR_STRP_2,
-7ec79d3850d0cb Jack Yu 2021-03-11  703  		RT1019_AUTO_BITS_SEL_MASK | RT101=
-9_AUTO_CLK_SEL_MASK,
-7ec79d3850d0cb Jack Yu 2021-03-11  704  		RT1019_AUTO_BITS_SEL_MANU | RT101=
-9_AUTO_CLK_SEL_MANU);
-7ec79d3850d0cb Jack Yu 2021-03-11  705  	snd_soc_component_update_bits(comp=
-onent, RT1019_PLL_1,
-7ec79d3850d0cb Jack Yu 2021-03-11  706  		RT1019_PLL_M_MASK | RT1019_PLL_M_=
-BP_MASK | RT1019_PLL_Q_8_8_MASK,
-7ec79d3850d0cb Jack Yu 2021-03-11 @707  		(pll_code.m_bp ? 0 : pll_code.m_c=
-ode) << RT1019_PLL_M_SFT |
-7ec79d3850d0cb Jack Yu 2021-03-11  708  		pll_code.m_bp << RT1019_PLL_M_BP_=
-SFT |
-7ec79d3850d0cb Jack Yu 2021-03-11  709  		((pll_code.n_code >> 8) & RT1019_=
-PLL_Q_8_8_MASK));
-7ec79d3850d0cb Jack Yu 2021-03-11  710  	snd_soc_component_update_bits(comp=
-onent, RT1019_PLL_2,
-7ec79d3850d0cb Jack Yu 2021-03-11  711  		RT1019_PLL_Q_7_0_MASK, pll_code.n=
-_code & RT1019_PLL_Q_7_0_MASK);
-7ec79d3850d0cb Jack Yu 2021-03-11  712  	snd_soc_component_update_bits(comp=
-onent, RT1019_PLL_3,
-7ec79d3850d0cb Jack Yu 2021-03-11  713  		RT1019_PLL_K_MASK, pll_code.k_cod=
-e);
-7ec79d3850d0cb Jack Yu 2021-03-11  714  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  447  	if (head) {
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  448  		while (head->next)
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  449  			head =3D head->next;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  450  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  715  	rt1019->pll_in =3D freq_in;
-7ec79d3850d0cb Jack Yu 2021-03-11  716  	rt1019->pll_out =3D freq_out;
-7ec79d3850d0cb Jack Yu 2021-03-11  717  	rt1019->pll_src =3D source;
-7ec79d3850d0cb Jack Yu 2021-03-11  718  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  451  		head->next =3D (stru=
+ct vidtv_psi_desc *)desc;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  452  	}
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  453  =
 
-7ec79d3850d0cb Jack Yu 2021-03-11  719  	return 0;
-7ec79d3850d0cb Jack Yu 2021-03-11  720  }
-7ec79d3850d0cb Jack Yu 2021-03-11  721  =
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  454  	return desc;
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  455  }
+c2f78f0cb294aa Daniel W. S. Almeida 2020-10-31  456  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5974481581867134840==--
+--===============3514327355607147359==--
 
