@@ -1,210 +1,172 @@
-Content-Type: multipart/mixed; boundary="===============8423949751912021467=="
+Content-Type: multipart/mixed; boundary="===============5974481581867134840=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [smfrench-smb3-kernel:pr/34 4/23] fs/cifsd/smbacl.c:784:37: warning: Either the condition 'pntsd==NULL' is redundant or there is pointer arithmetic with NULL pointer.
-Date: Tue, 23 Mar 2021 23:32:55 +0800
-Message-ID: <202103232322.6aVosOOT-lkp@intel.com>
+Subject: [linux-next:master 4880/6512] sound/soc/codecs/rt1019.c:707:61: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses.
+Date: Tue, 23 Mar 2021 23:18:45 +0800
+Message-ID: <202103232333.svdnSFYq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8423949751912021467==
+--===============5974481581867134840==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Namjae Jeon <namjae.jeon@samsung.com>
-CC: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-CC: Hyunchul Lee <hyc.lee@gmail.com>
-CC: Steve French <stfrench@microsoft.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jack Yu <jack.yu@realtek.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   git://github.com/smfrench/smb3-kernel.git pr/34
-head:   040d73b154cc4abb007ff290fd233a73089f45d0
-commit: 001c10aa51b4deb76eb074442ad1eac6df042f97 [4/23] cifsd: add Kconfig =
-and Makefile
-:::::: branch date: 9 hours ago
-:::::: commit date: 7 days ago
-compiler: arceb-elf-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   d949689e7383cd5271470f2b99dbe2fd3199bffd
+commit: 7ec79d3850d0cb6dc52e6aa472886ab3adf15863 [4880/6512] ASoC: rt1019: =
+add rt1019 amplifier driver
+:::::: branch date: 8 hours ago
+:::::: commit date: 5 days ago
+compiler: powerpc64-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
+cppcheck warnings: (new ones prefixed by >>)
+>> sound/soc/codecs/wm2200.c:1905:25: warning: Uninitialized variable: frat=
+io [uninitvar]
+    fll_div->n =3D target / (fratio * Fref);
+                           ^
+--
+>> sound/soc/codecs/wm8996.c:1979:25: warning: Uninitialized variable: frat=
+io [uninitvar]
+    fll_div->n =3D target / (fratio * Fref);
+                           ^
+
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> fs/cifsd/smbacl.c:784:37: warning: Either the condition 'pntsd=3D=3DNULL=
-' is redundant or there is pointer arithmetic with NULL pointer. [nullPoint=
-erArithmeticRedundantCheck]
-    char *end_of_acl =3D ((char *)pntsd) + acl_len;
-                                       ^
-   fs/cifsd/smbacl.c:788:12: note: Assuming that condition 'pntsd=3D=3DNULL=
-' is not redundant
-    if (pntsd =3D=3D NULL)
-              ^
-   fs/cifsd/smbacl.c:784:37: note: Null pointer addition
-    char *end_of_acl =3D ((char *)pntsd) + acl_len;
-                                       ^
-   fs/cifsd/smbacl.c:1140:43: warning: Either the condition 'pntsd' is redu=
-ndant or there is pointer arithmetic with NULL pointer. [nullPointerArithme=
-ticRedundantCheck]
-    pdacl =3D (struct smb_acl *)((char *)pntsd + le32_to_cpu(pntsd->dacloff=
-set));
-                                             ^
-   fs/cifsd/smbacl.c:1137:24: note: Assuming that condition 'pntsd' is not =
-redundant
-    if (acl_size <=3D 0 || (pntsd && !pntsd->dacloffset))
-                          ^
-   fs/cifsd/smbacl.c:1140:43: note: Null pointer addition
-    pdacl =3D (struct smb_acl *)((char *)pntsd + le32_to_cpu(pntsd->dacloff=
-set));
-                                             ^
+>> sound/soc/codecs/rt1019.c:707:61: warning: Boolean result is used in bit=
+wise operation. Clarify expression with parentheses. [clarifyCondition]
+     (pll_code.m_bp ? 0 : pll_code.m_code) << RT1019_PLL_M_SFT |
+                                                               ^
+>> sound/soc/codecs/rt5677.c:4750:9: warning: Boolean result is used in bit=
+wise operation. Clarify expression with parentheses. [clarifyCondition]
+      (0x2 | !!value) << (offset * 3 + 1));
+           ^
+   sound/soc/codecs/rt5677.c:4756:25: warning: Boolean result is used in bi=
+twise operation. Clarify expression with parentheses. [clarifyCondition]
+      RT5677_GPIO6_DIR_OUT | !!value << RT5677_GPIO6_OUT_SFT);
+                           ^
+--
 
-vim +784 fs/cifsd/smbacl.c
+vim +707 sound/soc/codecs/rt1019.c
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  776  =
+7ec79d3850d0cb Jack Yu 2021-03-11  656  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  777  /* Convert CIFS ACL to POSIX fo=
-rm */
-788b6f45c1d2ee Namjae Jeon 2021-03-16  778  int parse_sec_desc(struct smb_n=
-tsd *pntsd, int acl_len,
-788b6f45c1d2ee Namjae Jeon 2021-03-16  779  		struct smb_fattr *fattr)
-788b6f45c1d2ee Namjae Jeon 2021-03-16  780  {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  781  	int rc =3D 0;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  782  	struct smb_sid *owner_sid_ptr,=
- *group_sid_ptr;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  783  	struct smb_acl *dacl_ptr; /* n=
-o need for SACL ptr */
-788b6f45c1d2ee Namjae Jeon 2021-03-16 @784  	char *end_of_acl =3D ((char *)=
-pntsd) + acl_len;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  785  	__u32 dacloffset;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  786  	int total_ace_size =3D 0, pnts=
-d_type;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  787  =
+7ec79d3850d0cb Jack Yu 2021-03-11  657  static int rt1019_set_dai_pll(struc=
+t snd_soc_dai *dai, int pll_id, int source,
+7ec79d3850d0cb Jack Yu 2021-03-11  658  			unsigned int freq_in, unsigned i=
+nt freq_out)
+7ec79d3850d0cb Jack Yu 2021-03-11  659  {
+7ec79d3850d0cb Jack Yu 2021-03-11  660  	struct snd_soc_component *componen=
+t =3D dai->component;
+7ec79d3850d0cb Jack Yu 2021-03-11  661  	struct rt1019_priv *rt1019 =3D snd=
+_soc_component_get_drvdata(component);
+7ec79d3850d0cb Jack Yu 2021-03-11  662  	struct rl6231_pll_code pll_code;
+7ec79d3850d0cb Jack Yu 2021-03-11  663  	int ret;
+7ec79d3850d0cb Jack Yu 2021-03-11  664  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  788  	if (pntsd =3D=3D NULL)
-788b6f45c1d2ee Namjae Jeon 2021-03-16  789  		return -EIO;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  790  =
+7ec79d3850d0cb Jack Yu 2021-03-11  665  	if (!freq_in || !freq_out) {
+7ec79d3850d0cb Jack Yu 2021-03-11  666  		dev_dbg(component->dev, "PLL disa=
+bled\n");
+7ec79d3850d0cb Jack Yu 2021-03-11  667  		rt1019->pll_in =3D 0;
+7ec79d3850d0cb Jack Yu 2021-03-11  668  		rt1019->pll_out =3D 0;
+7ec79d3850d0cb Jack Yu 2021-03-11  669  		return 0;
+7ec79d3850d0cb Jack Yu 2021-03-11  670  	}
+7ec79d3850d0cb Jack Yu 2021-03-11  671  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  791  	owner_sid_ptr =3D (struct smb_=
-sid *)((char *)pntsd +
-788b6f45c1d2ee Namjae Jeon 2021-03-16  792  			le32_to_cpu(pntsd->osidoffse=
-t));
-788b6f45c1d2ee Namjae Jeon 2021-03-16  793  	group_sid_ptr =3D (struct smb_=
-sid *)((char *)pntsd +
-788b6f45c1d2ee Namjae Jeon 2021-03-16  794  			le32_to_cpu(pntsd->gsidoffse=
-t));
-788b6f45c1d2ee Namjae Jeon 2021-03-16  795  	dacloffset =3D le32_to_cpu(pnt=
-sd->dacloffset);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  796  	dacl_ptr =3D (struct smb_acl *=
-)((char *)pntsd + dacloffset);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  797  	ksmbd_debug(SMB,
-788b6f45c1d2ee Namjae Jeon 2021-03-16  798  		"revision %d type 0x%x ooffse=
-t 0x%x goffset 0x%x sacloffset 0x%x dacloffset 0x%x\n",
-788b6f45c1d2ee Namjae Jeon 2021-03-16  799  		 pntsd->revision, pntsd->type=
-, le32_to_cpu(pntsd->osidoffset),
-788b6f45c1d2ee Namjae Jeon 2021-03-16  800  		 le32_to_cpu(pntsd->gsidoffse=
-t),
-788b6f45c1d2ee Namjae Jeon 2021-03-16  801  		 le32_to_cpu(pntsd->sacloffse=
-t), dacloffset);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  802  =
+7ec79d3850d0cb Jack Yu 2021-03-11  672  	if (source =3D=3D rt1019->pll_src =
+&& freq_in =3D=3D rt1019->pll_in &&
+7ec79d3850d0cb Jack Yu 2021-03-11  673  		freq_out =3D=3D rt1019->pll_out)
+7ec79d3850d0cb Jack Yu 2021-03-11  674  		return 0;
+7ec79d3850d0cb Jack Yu 2021-03-11  675  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  803  	if (dacloffset && dacl_ptr)
-788b6f45c1d2ee Namjae Jeon 2021-03-16  804  		total_ace_size =3D
-788b6f45c1d2ee Namjae Jeon 2021-03-16  805  			le16_to_cpu(dacl_ptr->size) =
-- sizeof(struct smb_acl);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  806  =
+7ec79d3850d0cb Jack Yu 2021-03-11  676  	switch (source) {
+7ec79d3850d0cb Jack Yu 2021-03-11  677  	case RT1019_PLL_S_BCLK:
+7ec79d3850d0cb Jack Yu 2021-03-11  678  		snd_soc_component_update_bits(com=
+ponent, RT1019_CLK_TREE_1,
+7ec79d3850d0cb Jack Yu 2021-03-11  679  			RT1019_PLL_SRC_MASK, RT1019_PLL_=
+SRC_SEL_BCLK);
+7ec79d3850d0cb Jack Yu 2021-03-11  680  		break;
+7ec79d3850d0cb Jack Yu 2021-03-11  681  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  807  	pntsd_type =3D le16_to_cpu(pnt=
-sd->type);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  808  =
+7ec79d3850d0cb Jack Yu 2021-03-11  682  	case RT1019_PLL_S_RC25M:
+7ec79d3850d0cb Jack Yu 2021-03-11  683  		snd_soc_component_update_bits(com=
+ponent, RT1019_CLK_TREE_1,
+7ec79d3850d0cb Jack Yu 2021-03-11  684  			RT1019_PLL_SRC_MASK, RT1019_PLL_=
+SRC_SEL_RC);
+7ec79d3850d0cb Jack Yu 2021-03-11  685  		break;
+7ec79d3850d0cb Jack Yu 2021-03-11  686  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  809  	if (!(pntsd_type & DACL_PRESEN=
-T)) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  810  		ksmbd_debug(SMB, "DACL_PRESEN=
-T in DACL type is not set\n");
-788b6f45c1d2ee Namjae Jeon 2021-03-16  811  		return rc;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  812  	}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  813  =
+7ec79d3850d0cb Jack Yu 2021-03-11  687  	default:
+7ec79d3850d0cb Jack Yu 2021-03-11  688  		dev_err(component->dev, "Unknown =
+PLL source %d\n", source);
+7ec79d3850d0cb Jack Yu 2021-03-11  689  		return -EINVAL;
+7ec79d3850d0cb Jack Yu 2021-03-11  690  	}
+7ec79d3850d0cb Jack Yu 2021-03-11  691  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  814  	pntsd->type =3D cpu_to_le16(DA=
-CL_PRESENT);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  815  =
+7ec79d3850d0cb Jack Yu 2021-03-11  692  	ret =3D rl6231_pll_calc(freq_in, f=
+req_out, &pll_code);
+7ec79d3850d0cb Jack Yu 2021-03-11  693  	if (ret < 0) {
+7ec79d3850d0cb Jack Yu 2021-03-11  694  		dev_err(component->dev, "Unsuppor=
+t input clock %d\n", freq_in);
+7ec79d3850d0cb Jack Yu 2021-03-11  695  		return ret;
+7ec79d3850d0cb Jack Yu 2021-03-11  696  	}
+7ec79d3850d0cb Jack Yu 2021-03-11  697  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  816  	if (pntsd->osidoffset) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  817  		rc =3D parse_sid(owner_sid_pt=
-r, end_of_acl);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  818  		if (rc) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  819  			ksmbd_err("%s: Error %d pars=
-ing Owner SID\n", __func__, rc);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  820  			return rc;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  821  		}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  822  =
+7ec79d3850d0cb Jack Yu 2021-03-11  698  	dev_dbg(component->dev, "bypass=3D=
+%d m=3D%d n=3D%d k=3D%d\n",
+7ec79d3850d0cb Jack Yu 2021-03-11  699  		pll_code.m_bp, (pll_code.m_bp ? 0=
+ : pll_code.m_code),
+7ec79d3850d0cb Jack Yu 2021-03-11  700  		pll_code.n_code, pll_code.k_code);
+7ec79d3850d0cb Jack Yu 2021-03-11  701  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  823  		rc =3D sid_to_id(owner_sid_pt=
-r, SIDOWNER, fattr);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  824  		if (rc) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  825  			ksmbd_err("%s: Error %d mapp=
-ing Owner SID to uid\n",
-788b6f45c1d2ee Namjae Jeon 2021-03-16  826  					__func__, rc);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  827  			owner_sid_ptr =3D NULL;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  828  		}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  829  	}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  830  =
+7ec79d3850d0cb Jack Yu 2021-03-11  702  	snd_soc_component_update_bits(comp=
+onent, RT1019_PWR_STRP_2,
+7ec79d3850d0cb Jack Yu 2021-03-11  703  		RT1019_AUTO_BITS_SEL_MASK | RT101=
+9_AUTO_CLK_SEL_MASK,
+7ec79d3850d0cb Jack Yu 2021-03-11  704  		RT1019_AUTO_BITS_SEL_MANU | RT101=
+9_AUTO_CLK_SEL_MANU);
+7ec79d3850d0cb Jack Yu 2021-03-11  705  	snd_soc_component_update_bits(comp=
+onent, RT1019_PLL_1,
+7ec79d3850d0cb Jack Yu 2021-03-11  706  		RT1019_PLL_M_MASK | RT1019_PLL_M_=
+BP_MASK | RT1019_PLL_Q_8_8_MASK,
+7ec79d3850d0cb Jack Yu 2021-03-11 @707  		(pll_code.m_bp ? 0 : pll_code.m_c=
+ode) << RT1019_PLL_M_SFT |
+7ec79d3850d0cb Jack Yu 2021-03-11  708  		pll_code.m_bp << RT1019_PLL_M_BP_=
+SFT |
+7ec79d3850d0cb Jack Yu 2021-03-11  709  		((pll_code.n_code >> 8) & RT1019_=
+PLL_Q_8_8_MASK));
+7ec79d3850d0cb Jack Yu 2021-03-11  710  	snd_soc_component_update_bits(comp=
+onent, RT1019_PLL_2,
+7ec79d3850d0cb Jack Yu 2021-03-11  711  		RT1019_PLL_Q_7_0_MASK, pll_code.n=
+_code & RT1019_PLL_Q_7_0_MASK);
+7ec79d3850d0cb Jack Yu 2021-03-11  712  	snd_soc_component_update_bits(comp=
+onent, RT1019_PLL_3,
+7ec79d3850d0cb Jack Yu 2021-03-11  713  		RT1019_PLL_K_MASK, pll_code.k_cod=
+e);
+7ec79d3850d0cb Jack Yu 2021-03-11  714  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  831  	if (pntsd->gsidoffset) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  832  		rc =3D parse_sid(group_sid_pt=
-r, end_of_acl);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  833  		if (rc) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  834  			ksmbd_err("%s: Error %d mapp=
-ing Owner SID to gid\n",
-788b6f45c1d2ee Namjae Jeon 2021-03-16  835  					__func__, rc);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  836  			return rc;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  837  		}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  838  		rc =3D sid_to_id(group_sid_pt=
-r, SIDUNIX_GROUP, fattr);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  839  		if (rc) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  840  			ksmbd_err("%s: Error %d mapp=
-ing Group SID to gid\n",
-788b6f45c1d2ee Namjae Jeon 2021-03-16  841  					__func__, rc);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  842  			group_sid_ptr =3D NULL;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  843  		}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  844  	}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  845  =
+7ec79d3850d0cb Jack Yu 2021-03-11  715  	rt1019->pll_in =3D freq_in;
+7ec79d3850d0cb Jack Yu 2021-03-11  716  	rt1019->pll_out =3D freq_out;
+7ec79d3850d0cb Jack Yu 2021-03-11  717  	rt1019->pll_src =3D source;
+7ec79d3850d0cb Jack Yu 2021-03-11  718  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  846  	if ((pntsd_type &
-788b6f45c1d2ee Namjae Jeon 2021-03-16  847  	     (DACL_AUTO_INHERITED | DA=
-CL_AUTO_INHERIT_REQ)) =3D=3D
-788b6f45c1d2ee Namjae Jeon 2021-03-16  848  	    (DACL_AUTO_INHERITED | DAC=
-L_AUTO_INHERIT_REQ))
-788b6f45c1d2ee Namjae Jeon 2021-03-16  849  		pntsd->type |=3D cpu_to_le16(=
-DACL_AUTO_INHERITED);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  850  	if (pntsd_type & DACL_PROTECTE=
-D)
-788b6f45c1d2ee Namjae Jeon 2021-03-16  851  		pntsd->type |=3D cpu_to_le16(=
-DACL_PROTECTED);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  852  =
+7ec79d3850d0cb Jack Yu 2021-03-11  719  	return 0;
+7ec79d3850d0cb Jack Yu 2021-03-11  720  }
+7ec79d3850d0cb Jack Yu 2021-03-11  721  =
 
-788b6f45c1d2ee Namjae Jeon 2021-03-16  853  	if (dacloffset) {
-788b6f45c1d2ee Namjae Jeon 2021-03-16  854  		parse_dacl(dacl_ptr, end_of_a=
-cl, owner_sid_ptr, group_sid_ptr,
-788b6f45c1d2ee Namjae Jeon 2021-03-16  855  				fattr);
-788b6f45c1d2ee Namjae Jeon 2021-03-16  856  	}
-788b6f45c1d2ee Namjae Jeon 2021-03-16  857  =
-
-788b6f45c1d2ee Namjae Jeon 2021-03-16  858  	return 0;
-788b6f45c1d2ee Namjae Jeon 2021-03-16  859  }
-788b6f45c1d2ee Namjae Jeon 2021-03-16  860  =
-
-
-:::::: The code at line 784 was first introduced by commit
-:::::: 788b6f45c1d2eef909c296d775196bc6ec7dd63a cifsd: add server-side proc=
-edures for SMB3
-
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Namjae Jeon <namjae.jeon@samsung.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8423949751912021467==--
+--===============5974481581867134840==--
 
