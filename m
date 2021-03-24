@@ -1,26 +1,33 @@
-Content-Type: multipart/mixed; boundary="===============5888918789783068864=="
+Content-Type: multipart/mixed; boundary="===============6926343599526299011=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [chrome-os:chromeos-5.4 12/42] drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c:580:2: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing
-Date: Wed, 24 Mar 2021 11:17:26 +0300
-Message-ID: <20210324081726.GO1667@kadam>
+Date: Wed, 24 Mar 2021 14:54:00 +0800
+Message-ID: <202103241452.D0AyCNPD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5888918789783068864==
+--===============6926343599526299011==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel  ch=
-romeos-5.4
+CC: kbuild-all(a)lists.01.org
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
+
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.4
 head:   21ca1f912dcdfbfd6818d3b1e57a106c2e82dc56
 commit: 5fa56a01339db0586f27519d81aa226f1bb49f03 [12/42] FROMLIST: media: m=
 tk-vcodec: vdec: support stateless H.264 decoding
+:::::: branch date: 4 hours ago
+:::::: commit date: 2 days ago
 compiler: ia64-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
@@ -31,6 +38,8 @@ you forget dereferencing it? [uselessAssignmentPtrArg]
     ^
 
 vim +580 drivers/media/platform/mtk-vcodec/vdec/vdec_h264_req_if.c
+
+5fa56a01339db0 Yunfei Dong 2021-02-26  567  =
 
 5fa56a01339db0 Yunfei Dong 2021-02-26  568  static void get_pic_info(struct=
  vdec_h264_slice_inst *inst,
@@ -55,9 +64,6 @@ mt->num_planes;
 5fa56a01339db0 Yunfei Dong 2021-02-26  579  =
 
 5fa56a01339db0 Yunfei Dong 2021-02-26 @580  	pic =3D &ctx->picinfo;
-                                                ^^^^^^^^^^^^^^^^^^^^
-no-op code.  It's unclear without more context what was intended.
-
 5fa56a01339db0 Yunfei Dong 2021-02-26  581  	mtk_vcodec_debug(inst, "pic(%d=
 , %d), buf(%d, %d)",
 5fa56a01339db0 Yunfei Dong 2021-02-26  582  			 ctx->picinfo.pic_w, ctx->pi=
@@ -97,13 +103,11 @@ c_h,
 info.pic_h);
 5fa56a01339db0 Yunfei Dong 2021-02-26  600  	}
 5fa56a01339db0 Yunfei Dong 2021-02-26  601  }
+5fa56a01339db0 Yunfei Dong 2021-02-26  602  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
---===============5888918789783068864==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============6926343599526299011==--
 
