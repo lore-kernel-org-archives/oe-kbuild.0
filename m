@@ -1,24 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============1253284209066536495=="
+Content-Type: multipart/mixed; boundary="===============1875803438666489300=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH net-next 5/6] ethtool: fec: sanitize ethtool_fecparam->fec
-Date: Thu, 25 Mar 2021 15:00:47 +0300
-Message-ID: <20210325120047.GX1717@kadam>
-In-Reply-To: <20210325011200.145818-6-kuba@kernel.org>
+Date: Thu, 25 Mar 2021 19:29:23 +0800
+Message-ID: <202103251913.KTXE4xu3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1253284209066536495==
+--===============1875803438666489300==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210325011200.145818-6-kuba@kernel.org>
+References: <20210325011200.145818-6-kuba@kernel.org>
+TO: Jakub Kicinski <kuba@kernel.org>
+TO: davem(a)davemloft.net
+CC: netdev(a)vger.kernel.org
+CC: ecree.xilinx(a)gmail.com
+CC: michael.chan(a)broadcom.com
+CC: damian.dybek(a)intel.com
+CC: paul.greenwalt(a)intel.com
+CC: rajur(a)chelsio.com
+CC: jaroslawx.gawin(a)intel.com
+CC: vkochan(a)marvell.com
+CC: alobakin(a)pm.me
+
 Hi Jakub,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
 
 url:    https://github.com/0day-ci/linux/commits/Jakub-Kicinski/ethtool-cla=
 rify-the-ethtool-FEC-interface/20210325-091411
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
 69cdfb530f7b8b094e49555454869afc8140b1bb
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
 config: x86_64-randconfig-m001-20210325 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -31,6 +51,8 @@ net/ethtool/ioctl.c:2589 ethtool_set_fecparam() warn: bitwise AND condition=
  is false here
 
 vim +2589 net/ethtool/ioctl.c
+
+1a5f3da20bd966 net/core/ethtool.c  Vidya Sagar Ravipati 2017-07-27  2578  =
 
 1a5f3da20bd966 net/core/ethtool.c  Vidya Sagar Ravipati 2017-07-27  2579  s=
 tatic int ethtool_set_fecparam(struct net_device *dev, void __user *useradd=
@@ -54,11 +76,6 @@ if (copy_from_user(&fecparam, useraddr, sizeof(fecparam)))
 
 15beed7dba77ce net/ethtool/ioctl.c Jakub Kicinski       2021-03-24 @2589  	=
 if (!fecparam.fec || fecparam.fec & ETHTOOL_FEC_NONE_BIT)
-                                                                           =
-                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-This should be if (!fecparam.fec || fecparam.fec & BIT(ETHTOOL_FEC_NONE_BIT=
-))
-
 15beed7dba77ce net/ethtool/ioctl.c Jakub Kicinski       2021-03-24  2590  	=
 	return -EINVAL;
 15beed7dba77ce net/ethtool/ioctl.c Jakub Kicinski       2021-03-24  2591  =
@@ -72,12 +89,14 @@ fecparam.reserved =3D 0;
 1a5f3da20bd966 net/core/ethtool.c  Vidya Sagar Ravipati 2017-07-27  2595  	=
 return dev->ethtool_ops->set_fecparam(dev, &fecparam);
 1a5f3da20bd966 net/core/ethtool.c  Vidya Sagar Ravipati 2017-07-27  2596  }
+1a5f3da20bd966 net/core/ethtool.c  Vidya Sagar Ravipati 2017-07-27  2597  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1253284209066536495==
+--===============1875803438666489300==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -658,5 +677,5 @@ n/BxI1vSaD3sJVAkEqeOzQRX70QtnkZ7KM/outiYDg4w4Jwg0sk0WEPef4yaPwJgFPPjEngN33QL
 Fk81Sfpf7l2T4Gb7KizB6NsDxlgA8fOSwmLUKXRDDhfye1PVqpkztTE5nHhUsuLWI1DbU7FyEuco
 6Bzjm7yDG/at5IYgUEyxCHACfiN+kzcFImx/Frod1+SpT0kb+ixYZ0JY03NNbVCpsskzOB4bn0AL
 Xx13DWom9DJeRSQmyKY8zg2VYgLjJ52QRYQoMwUHFf0Hgf4jNfsEAgA=
---===============1253284209066536495==--
+--===============1875803438666489300==--
 
