@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3144128930744268268=="
+Content-Type: multipart/mixed; boundary="===============7703164616172809711=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/dma/ti/k3-udma.c:2635 pktdma_alloc_chan_resources() warn: variable dereferenced before check 'uc->rchan' (see line 2556)
-Date: Fri, 26 Mar 2021 10:57:22 +0800
-Message-ID: <202103261014.HDAUWiiv-lkp@intel.com>
+Subject: drivers/dma/ti/k3-udma.c:4236 bcdma_setup_resources() error: 'rm_res' dereferencing possible ERR_PTR()
+Date: Fri, 26 Mar 2021 08:09:51 +0800
+Message-ID: <202103260844.YJb2v53g-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3144128930744268268==
+--===============7703164616172809711==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,11 +19,11 @@ CC: Vinod Koul <vkoul@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   db24726bfefa68c606947a86132591568a06bfb4
-commit: d2abc982333c02f9e1ff1c6b3782174f5b7662d7 dmaengine: ti: k3-udma: In=
-itial support for K3 PKTDMA
+head:   002322402dafd846c424ffa9240a937f49b48c42
+commit: 017794739702d444ca48115ff0fcdce19edb5559 dmaengine: ti: k3-udma: In=
+itial support for K3 BCDMA
 date:   3 months ago
-:::::: branch date: 3 hours ago
+:::::: branch date: 5 hours ago
 :::::: commit date: 3 months ago
 config: arm64-randconfig-m031-20210325 (attached as .config)
 compiler: aarch64-linux-gcc (GCC) 9.3.0
@@ -33,278 +33,260 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/dma/ti/k3-udma.c:2635 pktdma_alloc_chan_resources() warn: variable =
-dereferenced before check 'uc->rchan' (see line 2556)
-drivers/dma/ti/k3-udma.c:4769 pktdma_setup_resources() error: 'rm_res' dere=
-ferencing possible ERR_PTR()
+drivers/dma/ti/k3-udma.c:4236 bcdma_setup_resources() error: 'rm_res' deref=
+erencing possible ERR_PTR()
 
 Old smatch warnings:
-drivers/dma/ti/k3-udma.c:4445 udma_setup_resources() error: 'rm_res' derefe=
+drivers/dma/ti/k3-udma.c:4113 udma_setup_resources() error: 'rm_res' derefe=
 rencing possible ERR_PTR()
-drivers/dma/ti/k3-udma.c:4458 udma_setup_resources() error: 'rm_res' derefe=
+drivers/dma/ti/k3-udma.c:4126 udma_setup_resources() error: 'rm_res' derefe=
 rencing possible ERR_PTR()
-drivers/dma/ti/k3-udma.c:4602 bcdma_setup_resources() error: 'rm_res' deref=
+drivers/dma/ti/k3-udma.c:4251 bcdma_setup_resources() error: 'rm_res' deref=
 erencing possible ERR_PTR()
-drivers/dma/ti/k3-udma.c:4617 bcdma_setup_resources() error: 'rm_res' deref=
+drivers/dma/ti/k3-udma.c:4266 bcdma_setup_resources() error: 'rm_res' deref=
 erencing possible ERR_PTR()
-drivers/dma/ti/k3-udma.c:4632 bcdma_setup_resources() error: 'rm_res' deref=
-erencing possible ERR_PTR()
-drivers/dma/ti/k3-udma.c:4782 pktdma_setup_resources() error: 'rm_res' dere=
-ferencing possible ERR_PTR()
 
-vim +2635 drivers/dma/ti/k3-udma.c
+vim +/rm_res +4236 drivers/dma/ti/k3-udma.c
 
-017794739702d4 Peter Ujfalusi 2020-12-08  2507  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4169  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2508  static int pktdma_alloc_cha=
-n_resources(struct dma_chan *chan)
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2509  {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2510  	struct udma_chan *uc =3D t=
-o_udma_chan(chan);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2511  	struct udma_dev *ud =3D to=
-_udma_dev(chan->device);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2512  	const struct udma_oes_offs=
+017794739702d4 Peter Ujfalusi 2020-12-08  4170  static int bcdma_setup_reso=
+urces(struct udma_dev *ud)
+017794739702d4 Peter Ujfalusi 2020-12-08  4171  {
+017794739702d4 Peter Ujfalusi 2020-12-08  4172  	int ret, i, j;
+017794739702d4 Peter Ujfalusi 2020-12-08  4173  	struct device *dev =3D ud-=
+>dev;
+017794739702d4 Peter Ujfalusi 2020-12-08  4174  	struct ti_sci_resource *rm=
+_res, irq_res;
+017794739702d4 Peter Ujfalusi 2020-12-08  4175  	struct udma_tisci_rm *tisc=
+i_rm =3D &ud->tisci_rm;
+017794739702d4 Peter Ujfalusi 2020-12-08  4176  	const struct udma_oes_offs=
 ets *oes =3D &ud->soc_data->oes;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2513  	u32 irq_ring_idx;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2514  	int ret;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2515  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4177  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2516  	/*
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2517  	 * Make sure that the comp=
-letion is in a known state:
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2518  	 * No teardown, the channe=
-l is idle
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2519  	 */
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2520  	reinit_completion(&uc->tea=
-rdown_completed);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2521  	complete_all(&uc->teardown=
-_completed);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2522  	uc->state =3D UDMA_CHAN_IS=
-_IDLE;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2523  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4178  	ud->bchan_map =3D devm_kma=
+lloc_array(dev, BITS_TO_LONGS(ud->bchan_cnt),
+017794739702d4 Peter Ujfalusi 2020-12-08  4179  					   sizeof(unsigned lon=
+g), GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4180  	ud->bchans =3D devm_kcallo=
+c(dev, ud->bchan_cnt, sizeof(*ud->bchans),
+017794739702d4 Peter Ujfalusi 2020-12-08  4181  				  GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4182  	ud->tchan_map =3D devm_kma=
+lloc_array(dev, BITS_TO_LONGS(ud->tchan_cnt),
+017794739702d4 Peter Ujfalusi 2020-12-08  4183  					   sizeof(unsigned lon=
+g), GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4184  	ud->tchans =3D devm_kcallo=
+c(dev, ud->tchan_cnt, sizeof(*ud->tchans),
+017794739702d4 Peter Ujfalusi 2020-12-08  4185  				  GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4186  	ud->rchan_map =3D devm_kma=
+lloc_array(dev, BITS_TO_LONGS(ud->rchan_cnt),
+017794739702d4 Peter Ujfalusi 2020-12-08  4187  					   sizeof(unsigned lon=
+g), GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4188  	ud->rchans =3D devm_kcallo=
+c(dev, ud->rchan_cnt, sizeof(*ud->rchans),
+017794739702d4 Peter Ujfalusi 2020-12-08  4189  				  GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4190  	/* BCDMA do not really hav=
+e flows, but the driver expect it */
+017794739702d4 Peter Ujfalusi 2020-12-08  4191  	ud->rflow_in_use =3D devm_=
+kcalloc(dev, BITS_TO_LONGS(ud->rchan_cnt),
+017794739702d4 Peter Ujfalusi 2020-12-08  4192  					sizeof(unsigned long),
+017794739702d4 Peter Ujfalusi 2020-12-08  4193  					GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4194  	ud->rflows =3D devm_kcallo=
+c(dev, ud->rchan_cnt, sizeof(*ud->rflows),
+017794739702d4 Peter Ujfalusi 2020-12-08  4195  				  GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4196  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2524  	switch (uc->config.dir) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2525  	case DMA_MEM_TO_DEV:
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2526  		/* Slave transfer synchro=
-nized - mem to dev (TX) trasnfer */
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2527  		dev_dbg(uc->ud->dev, "%s:=
- chan%d as MEM-to-DEV\n", __func__,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2528  			uc->id);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2529  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4197  	if (!ud->bchan_map || !ud-=
+>tchan_map || !ud->rchan_map ||
+017794739702d4 Peter Ujfalusi 2020-12-08  4198  	    !ud->rflow_in_use || !=
+ud->bchans || !ud->tchans || !ud->rchans ||
+017794739702d4 Peter Ujfalusi 2020-12-08  4199  	    !ud->rflows)
+017794739702d4 Peter Ujfalusi 2020-12-08  4200  		return -ENOMEM;
+017794739702d4 Peter Ujfalusi 2020-12-08  4201  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2530  		ret =3D udma_alloc_tx_res=
-ources(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2531  		if (ret) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2532  			uc->config.remote_thread=
-_id =3D -1;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2533  			return ret;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2534  		}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2535  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4202  	/* TPL is not yet supporte=
+d for BCDMA */
+017794739702d4 Peter Ujfalusi 2020-12-08  4203  	ud->tpl_levels =3D 1;
+017794739702d4 Peter Ujfalusi 2020-12-08  4204  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2536  		uc->config.src_thread =3D=
- ud->psil_base + uc->tchan->id;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2537  		uc->config.dst_thread =3D=
- uc->config.remote_thread_id;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2538  		uc->config.dst_thread |=
-=3D K3_PSIL_DST_THREAD_ID_OFFSET;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2539  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4205  	/* Get resource ranges fro=
+m tisci */
+017794739702d4 Peter Ujfalusi 2020-12-08  4206  	for (i =3D 0; i < RM_RANGE=
+_LAST; i++) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4207  		if (i =3D=3D RM_RANGE_RFL=
+OW)
+017794739702d4 Peter Ujfalusi 2020-12-08  4208  			continue;
+017794739702d4 Peter Ujfalusi 2020-12-08  4209  		if (i =3D=3D RM_RANGE_BCH=
+AN && ud->bchan_cnt =3D=3D 0)
+017794739702d4 Peter Ujfalusi 2020-12-08  4210  			continue;
+017794739702d4 Peter Ujfalusi 2020-12-08  4211  		if (i =3D=3D RM_RANGE_TCH=
+AN && ud->tchan_cnt =3D=3D 0)
+017794739702d4 Peter Ujfalusi 2020-12-08  4212  			continue;
+017794739702d4 Peter Ujfalusi 2020-12-08  4213  		if (i =3D=3D RM_RANGE_RCH=
+AN && ud->rchan_cnt =3D=3D 0)
+017794739702d4 Peter Ujfalusi 2020-12-08  4214  			continue;
+017794739702d4 Peter Ujfalusi 2020-12-08  4215  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2540  		irq_ring_idx =3D uc->tcha=
-n->tflow_id + oes->pktdma_tchan_flow;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2541  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4216  		tisci_rm->rm_ranges[i] =
+=3D
+017794739702d4 Peter Ujfalusi 2020-12-08  4217  			devm_ti_sci_get_of_resou=
+rce(tisci_rm->tisci, dev,
+017794739702d4 Peter Ujfalusi 2020-12-08  4218  						    tisci_rm->tisci_d=
+ev_id,
+017794739702d4 Peter Ujfalusi 2020-12-08  4219  						    (char *)range_nam=
+es[i]);
+017794739702d4 Peter Ujfalusi 2020-12-08  4220  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4221  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2542  		ret =3D pktdma_tisci_tx_c=
-hannel_config(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2543  		break;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2544  	case DMA_DEV_TO_MEM:
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2545  		/* Slave transfer synchro=
-nized - dev to mem (RX) trasnfer */
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2546  		dev_dbg(uc->ud->dev, "%s:=
- chan%d as DEV-to-MEM\n", __func__,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2547  			uc->id);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2548  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4222  	irq_res.sets =3D 0;
+017794739702d4 Peter Ujfalusi 2020-12-08  4223  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2549  		ret =3D udma_alloc_rx_res=
-ources(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2550  		if (ret) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2551  			uc->config.remote_thread=
-_id =3D -1;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2552  			return ret;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2553  		}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2554  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4224  	/* bchan ranges */
+017794739702d4 Peter Ujfalusi 2020-12-08  4225  	if (ud->bchan_cnt) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4226  		rm_res =3D tisci_rm->rm_r=
+anges[RM_RANGE_BCHAN];
+017794739702d4 Peter Ujfalusi 2020-12-08  4227  		if (IS_ERR(rm_res)) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4228  			bitmap_zero(ud->bchan_ma=
+p, ud->bchan_cnt);
+017794739702d4 Peter Ujfalusi 2020-12-08  4229  		} else {
+017794739702d4 Peter Ujfalusi 2020-12-08  4230  			bitmap_fill(ud->bchan_ma=
+p, ud->bchan_cnt);
+017794739702d4 Peter Ujfalusi 2020-12-08  4231  			for (i =3D 0; i < rm_res=
+->sets; i++)
+017794739702d4 Peter Ujfalusi 2020-12-08  4232  				udma_mark_resource_rang=
+es(ud, ud->bchan_map,
+017794739702d4 Peter Ujfalusi 2020-12-08  4233  							  &rm_res->desc[i],
+017794739702d4 Peter Ujfalusi 2020-12-08  4234  							  "bchan");
+017794739702d4 Peter Ujfalusi 2020-12-08  4235  		}
+017794739702d4 Peter Ujfalusi 2020-12-08 @4236  		irq_res.sets +=3D rm_res-=
+>sets;
+017794739702d4 Peter Ujfalusi 2020-12-08  4237  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4238  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2555  		uc->config.src_thread =3D=
- uc->config.remote_thread_id;
-d2abc982333c02 Peter Ujfalusi 2020-12-08 @2556  		uc->config.dst_thread =3D=
- (ud->psil_base + uc->rchan->id) |
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2557  					K3_PSIL_DST_THREAD_ID_=
-OFFSET;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2558  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4239  	/* tchan ranges */
+017794739702d4 Peter Ujfalusi 2020-12-08  4240  	if (ud->tchan_cnt) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4241  		rm_res =3D tisci_rm->rm_r=
+anges[RM_RANGE_TCHAN];
+017794739702d4 Peter Ujfalusi 2020-12-08  4242  		if (IS_ERR(rm_res)) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4243  			bitmap_zero(ud->tchan_ma=
+p, ud->tchan_cnt);
+017794739702d4 Peter Ujfalusi 2020-12-08  4244  		} else {
+017794739702d4 Peter Ujfalusi 2020-12-08  4245  			bitmap_fill(ud->tchan_ma=
+p, ud->tchan_cnt);
+017794739702d4 Peter Ujfalusi 2020-12-08  4246  			for (i =3D 0; i < rm_res=
+->sets; i++)
+017794739702d4 Peter Ujfalusi 2020-12-08  4247  				udma_mark_resource_rang=
+es(ud, ud->tchan_map,
+017794739702d4 Peter Ujfalusi 2020-12-08  4248  							  &rm_res->desc[i],
+017794739702d4 Peter Ujfalusi 2020-12-08  4249  							  "tchan");
+017794739702d4 Peter Ujfalusi 2020-12-08  4250  		}
+017794739702d4 Peter Ujfalusi 2020-12-08  4251  		irq_res.sets +=3D rm_res-=
+>sets * 2;
+017794739702d4 Peter Ujfalusi 2020-12-08  4252  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4253  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2559  		irq_ring_idx =3D uc->rflo=
-w->id + oes->pktdma_rchan_flow;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2560  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4254  	/* rchan ranges */
+017794739702d4 Peter Ujfalusi 2020-12-08  4255  	if (ud->rchan_cnt) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4256  		rm_res =3D tisci_rm->rm_r=
+anges[RM_RANGE_RCHAN];
+017794739702d4 Peter Ujfalusi 2020-12-08  4257  		if (IS_ERR(rm_res)) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4258  			bitmap_zero(ud->rchan_ma=
+p, ud->rchan_cnt);
+017794739702d4 Peter Ujfalusi 2020-12-08  4259  		} else {
+017794739702d4 Peter Ujfalusi 2020-12-08  4260  			bitmap_fill(ud->rchan_ma=
+p, ud->rchan_cnt);
+017794739702d4 Peter Ujfalusi 2020-12-08  4261  			for (i =3D 0; i < rm_res=
+->sets; i++)
+017794739702d4 Peter Ujfalusi 2020-12-08  4262  				udma_mark_resource_rang=
+es(ud, ud->rchan_map,
+017794739702d4 Peter Ujfalusi 2020-12-08  4263  							  &rm_res->desc[i],
+017794739702d4 Peter Ujfalusi 2020-12-08  4264  							  "rchan");
+017794739702d4 Peter Ujfalusi 2020-12-08  4265  		}
+017794739702d4 Peter Ujfalusi 2020-12-08  4266  		irq_res.sets +=3D rm_res-=
+>sets * 2;
+017794739702d4 Peter Ujfalusi 2020-12-08  4267  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4268  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2561  		ret =3D pktdma_tisci_rx_c=
-hannel_config(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2562  		break;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2563  	default:
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2564  		/* Can not happen */
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2565  		dev_err(uc->ud->dev, "%s:=
- chan%d invalid direction (%u)\n",
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2566  			__func__, uc->id, uc->co=
-nfig.dir);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2567  		return -EINVAL;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2568  	}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2569  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4269  	irq_res.desc =3D kcalloc(i=
+rq_res.sets, sizeof(*irq_res.desc), GFP_KERNEL);
+017794739702d4 Peter Ujfalusi 2020-12-08  4270  	if (ud->bchan_cnt) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4271  		rm_res =3D tisci_rm->rm_r=
+anges[RM_RANGE_BCHAN];
+017794739702d4 Peter Ujfalusi 2020-12-08  4272  		for (i =3D 0; i < rm_res-=
+>sets; i++) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4273  			irq_res.desc[i].start =
+=3D rm_res->desc[i].start +
+017794739702d4 Peter Ujfalusi 2020-12-08  4274  						oes->bcdma_bchan_ring;
+017794739702d4 Peter Ujfalusi 2020-12-08  4275  			irq_res.desc[i].num =3D =
+rm_res->desc[i].num;
+017794739702d4 Peter Ujfalusi 2020-12-08  4276  		}
+017794739702d4 Peter Ujfalusi 2020-12-08  4277  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4278  	if (ud->tchan_cnt) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4279  		rm_res =3D tisci_rm->rm_r=
+anges[RM_RANGE_TCHAN];
+017794739702d4 Peter Ujfalusi 2020-12-08  4280  		for (j =3D 0; j < rm_res-=
+>sets; j++, i +=3D 2) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4281  			irq_res.desc[i].start =
+=3D rm_res->desc[j].start +
+017794739702d4 Peter Ujfalusi 2020-12-08  4282  						oes->bcdma_tchan_data;
+017794739702d4 Peter Ujfalusi 2020-12-08  4283  			irq_res.desc[i].num =3D =
+rm_res->desc[j].num;
+017794739702d4 Peter Ujfalusi 2020-12-08  4284  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2570  	/* check if the channel co=
-nfiguration was successful */
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2571  	if (ret)
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2572  		goto err_res_free;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2573  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4285  			irq_res.desc[i + 1].star=
+t =3D rm_res->desc[j].start +
+017794739702d4 Peter Ujfalusi 2020-12-08  4286  						oes->bcdma_tchan_ring;
+017794739702d4 Peter Ujfalusi 2020-12-08  4287  			irq_res.desc[i + 1].num =
+=3D rm_res->desc[j].num;
+017794739702d4 Peter Ujfalusi 2020-12-08  4288  		}
+017794739702d4 Peter Ujfalusi 2020-12-08  4289  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4290  	if (ud->rchan_cnt) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4291  		rm_res =3D tisci_rm->rm_r=
+anges[RM_RANGE_RCHAN];
+017794739702d4 Peter Ujfalusi 2020-12-08  4292  		for (j =3D 0; j < rm_res-=
+>sets; j++, i +=3D 2) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4293  			irq_res.desc[i].start =
+=3D rm_res->desc[j].start +
+017794739702d4 Peter Ujfalusi 2020-12-08  4294  						oes->bcdma_rchan_data;
+017794739702d4 Peter Ujfalusi 2020-12-08  4295  			irq_res.desc[i].num =3D =
+rm_res->desc[j].num;
+017794739702d4 Peter Ujfalusi 2020-12-08  4296  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2574  	if (udma_is_chan_running(u=
-c)) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2575  		dev_warn(ud->dev, "chan%d=
-: is running!\n", uc->id);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2576  		udma_reset_chan(uc, false=
-);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2577  		if (udma_is_chan_running(=
-uc)) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2578  			dev_err(ud->dev, "chan%d=
-: won't stop!\n", uc->id);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2579  			ret =3D -EBUSY;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2580  			goto err_res_free;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2581  		}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2582  	}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2583  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4297  			irq_res.desc[i + 1].star=
+t =3D rm_res->desc[j].start +
+017794739702d4 Peter Ujfalusi 2020-12-08  4298  						oes->bcdma_rchan_ring;
+017794739702d4 Peter Ujfalusi 2020-12-08  4299  			irq_res.desc[i + 1].num =
+=3D rm_res->desc[j].num;
+017794739702d4 Peter Ujfalusi 2020-12-08  4300  		}
+017794739702d4 Peter Ujfalusi 2020-12-08  4301  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4302  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2584  	uc->dma_dev =3D dmaengine_=
-get_dma_device(chan);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2585  	uc->hdesc_pool =3D dma_poo=
-l_create(uc->name, uc->dma_dev,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2586  					 uc->config.hdesc_size=
-, ud->desc_align,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2587  					 0);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2588  	if (!uc->hdesc_pool) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2589  		dev_err(ud->ddev.dev,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2590  			"Descriptor pool allocat=
-ion failed\n");
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2591  		uc->use_dma_pool =3D fals=
-e;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2592  		ret =3D -ENOMEM;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2593  		goto err_res_free;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2594  	}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2595  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4303  	ret =3D ti_sci_inta_msi_do=
+main_alloc_irqs(ud->dev, &irq_res);
+017794739702d4 Peter Ujfalusi 2020-12-08  4304  	kfree(irq_res.desc);
+017794739702d4 Peter Ujfalusi 2020-12-08  4305  	if (ret) {
+017794739702d4 Peter Ujfalusi 2020-12-08  4306  		dev_err(ud->dev, "Failed =
+to allocate MSI interrupts\n");
+017794739702d4 Peter Ujfalusi 2020-12-08  4307  		return ret;
+017794739702d4 Peter Ujfalusi 2020-12-08  4308  	}
+017794739702d4 Peter Ujfalusi 2020-12-08  4309  =
 
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2596  	uc->use_dma_pool =3D true;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2597  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2598  	/* PSI-L pairing */
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2599  	ret =3D navss_psil_pair(ud=
-, uc->config.src_thread, uc->config.dst_thread);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2600  	if (ret) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2601  		dev_err(ud->dev, "PSI-L p=
-airing failed: 0x%04x -> 0x%04x\n",
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2602  			uc->config.src_thread, u=
-c->config.dst_thread);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2603  		goto err_res_free;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2604  	}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2605  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2606  	uc->psil_paired =3D true;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2607  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2608  	uc->irq_num_ring =3D ti_sc=
-i_inta_msi_get_virq(ud->dev, irq_ring_idx);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2609  	if (uc->irq_num_ring <=3D =
-0) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2610  		dev_err(ud->dev, "Failed =
-to get ring irq (index: %u)\n",
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2611  			irq_ring_idx);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2612  		ret =3D -EINVAL;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2613  		goto err_psi_free;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2614  	}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2615  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2616  	ret =3D request_irq(uc->ir=
-q_num_ring, udma_ring_irq_handler,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2617  			  IRQF_TRIGGER_HIGH, uc-=
->name, uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2618  	if (ret) {
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2619  		dev_err(ud->dev, "chan%d:=
- ring irq request failed\n", uc->id);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2620  		goto err_irq_free;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2621  	}
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2622  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2623  	uc->irq_num_udma =3D 0;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2624  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2625  	udma_reset_rings(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2626  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2627  	INIT_DELAYED_WORK_ONSTACK(=
-&uc->tx_drain.work,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2628  				  udma_check_tx_complet=
-ion);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2629  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2630  	if (uc->tchan)
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2631  		dev_dbg(ud->dev,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2632  			"chan%d: tchan%d, tflow%=
-d, Remote thread: 0x%04x\n",
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2633  			uc->id, uc->tchan->id, u=
-c->tchan->tflow_id,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2634  			uc->config.remote_thread=
-_id);
-d2abc982333c02 Peter Ujfalusi 2020-12-08 @2635  	else if (uc->rchan)
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2636  		dev_dbg(ud->dev,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2637  			"chan%d: rchan%d, rflow%=
-d, Remote thread: 0x%04x\n",
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2638  			uc->id, uc->rchan->id, u=
-c->rflow->id,
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2639  			uc->config.remote_thread=
-_id);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2640  	return 0;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2641  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2642  err_irq_free:
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2643  	uc->irq_num_ring =3D 0;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2644  err_psi_free:
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2645  	navss_psil_unpair(ud, uc->=
-config.src_thread, uc->config.dst_thread);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2646  	uc->psil_paired =3D false;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2647  err_res_free:
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2648  	udma_free_tx_resources(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2649  	udma_free_rx_resources(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2650  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2651  	udma_reset_uchan(uc);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2652  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2653  	dma_pool_destroy(uc->hdesc=
-_pool);
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2654  	uc->use_dma_pool =3D false;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2655  =
-
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2656  	return ret;
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2657  }
-d2abc982333c02 Peter Ujfalusi 2020-12-08  2658  =
+017794739702d4 Peter Ujfalusi 2020-12-08  4310  	return 0;
+017794739702d4 Peter Ujfalusi 2020-12-08  4311  }
+017794739702d4 Peter Ujfalusi 2020-12-08  4312  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3144128930744268268==
+--===============7703164616172809711==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICIE0XWAAAy5jb25maWcAnDxJc+M2s/f8ClVySQ6ZT5uXqVc+gCRIISIJDgBq8YWleDSJK17m
+H4sICHUNXWAAAy5jb25maWcAnDxJc+M2s/f8ClVySQ6ZT5uXqVc+gCRIISIJDgBq8YWleDSJK17m
 k+0k8+9fN8AFIEGN35vDlIVuAI1Go9Eb+NMPP03I2+vz4+H1/u7w8PBt8sfx6Xg6vB4/T77cPxz/
 ZxLxSc7VhEZMfQDk9P7p7d//HE6Pl8vJxYfZ9MP019PdbLI+np6OD5Pw+enL/R9v0P/++emHn34I
 eR6zpArDakOFZDyvFN2pmx8Ph9Pdn5fLXx9wtF//uLub/JyE4S+Tjx8WH6Y/Wt2YrABw861pSrqh
@@ -1003,5 +985,5 @@ YuxT6+yUoVC1wtMHe/tEwvhWL2Jv8yqs5FWiEpdhzvEtq2roYI7+3eqRWoeJGxDSRojcVVQiRKmb
 g5dtr5RPvHmxnIJdc+MFTTUcaUQ1sthuIzIUJg/Vb15LDukZr5NqHejUWrg4q7U5eCw526XGX0bJ
 K82lGlTUtx4BPrg1vYxe5LynKCScowyOEKWyPf57foxK2+lghstOcmowPnhGo+E79UTPC/+x+OD6
 DVxgtZWmKwEXosXAVkNaJbL5zjj+HyXAKoZxeAIA
---===============3144128930744268268==--
+--===============7703164616172809711==--
 
