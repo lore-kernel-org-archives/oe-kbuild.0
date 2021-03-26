@@ -1,22 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============2031212015540678260=="
+Content-Type: multipart/mixed; boundary="===============2748983079386203875=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: drivers/gpu/drm/exynos/exynos_drm_dma.c:144 exynos_drm_register_dma() error: uninitialized symbol 'mapping'.
-Date: Fri, 26 Mar 2021 14:21:12 +0300
-Message-ID: <20210326112112.GB1667@kadam>
+Date: Fri, 26 Mar 2021 19:10:04 +0800
+Message-ID: <202103261957.LXTcrTOO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2031212015540678260==
+--===============2748983079386203875==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Robin Murphy <robin.murphy@arm.com>
+CC: Joerg Roedel <jroedel@suse.de>
+
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
- master
+master
 head:   db24726bfefa68c606947a86132591568a06bfb4
 commit: b4ceb4a5359ed1c9ba4a20acf3a70d4bbead3248 iommu: Tidy up Kconfig for=
  SoC IOMMUs
+date:   9 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 9 months ago
 config: nios2-randconfig-m031-20210326 (attached as .config)
 compiler: nios2-linux-gcc (GCC) 9.3.0
 
@@ -29,6 +37,8 @@ drivers/gpu/drm/exynos/exynos_drm_dma.c:144 exynos_drm_register_dma() error=
 : uninitialized symbol 'mapping'.
 
 vim +/mapping +144 drivers/gpu/drm/exynos/exynos_drm_dma.c
+
+237556962e5115 Andrzej Hajda    2018-10-12  120  =
 
 07dc3678bacc2a Marek Szyprowski 2020-03-09  121  int exynos_drm_register_dm=
 a(struct drm_device *drm, struct device *dev,
@@ -69,10 +79,6 @@ omain_for_dev(priv->dma_dev);
 
 67fbf3a3ef8443 Andrzej Hajda    2018-10-12 @144  		if (IS_ERR(mapping))
 67fbf3a3ef8443 Andrzej Hajda    2018-10-12  145  			return PTR_ERR(mapping);
-
-Uninitialized in the attached .config.  (I feel like I already sent
-this warning.  Sorry for the duplicate if so).
-
 67fbf3a3ef8443 Andrzej Hajda    2018-10-12  146  		priv->mapping =3D mappin=
 g;
 237556962e5115 Andrzej Hajda    2018-10-12  147  	}
@@ -81,17 +87,21 @@ g;
 07dc3678bacc2a Marek Szyprowski 2020-03-09  149  	return drm_iommu_attach_d=
 evice(drm, dev, dma_priv);
 237556962e5115 Andrzej Hajda    2018-10-12  150  }
+237556962e5115 Andrzej Hajda    2018-10-12  151  =
+
+
+:::::: The code at line 144 was first introduced by commit
+:::::: 67fbf3a3ef84436c58b5ead53b4b866125ad7ce9 drm/exynos/iommu: merge IOM=
+MU and DMA code
+
+:::::: TO: Andrzej Hajda <a.hajda@samsung.com>
+:::::: CC: Inki Dae <inki.dae@samsung.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============2031212015540678260==
+--===============2748983079386203875==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -530,5 +540,5 @@ dgF9L1/szhccr6iOvOO/d6fty66t8a7EVezV+FkHDNTWJAFuJoQBDTaiF11ilkQ4AeQ0bJ2N1DDD
 1YrlVc5iL3moiox5QZV6n398+rXnJfGCL6usjAseBVUR5AWPl1UUxGVvf+4djpfeeXf55CXxgi+r
 KIiKIC8+//j0a293eO4d/+zd7U6H3fdesTtf9oeX3vbw3POO/96dti+7T7/2dofn3vHP3t3udNh9
 733bPv21P7x8+vRrz0viBV9Wa5bFVcTznMfLyk+8MgriIu/tz73D8dI77y6f/h/gPpYL838BAA==
---===============2031212015540678260==--
+--===============2748983079386203875==--
 
