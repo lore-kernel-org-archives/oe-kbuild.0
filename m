@@ -1,21 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============7715986715175607840=="
+Content-Type: multipart/mixed; boundary="===============2795246208922189620=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [hch-block:part-iter-removal 8/15] block/partitions/core.c:695 bdev_disk_changed() error: uninitialized symbol 'ret'.
-Date: Fri, 26 Mar 2021 21:28:42 +0300
-Message-ID: <20210326182842.GG1667@kadam>
+Date: Sat, 27 Mar 2021 02:20:30 +0800
+Message-ID: <202103270225.LD0mc9iz-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7715986715175607840==
+--===============2795246208922189620==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+TO: Christoph Hellwig <hch@lst.de>
 
 tree:   git://git.infradead.org/users/hch/block.git part-iter-removal
 head:   6f228f9a15062f99cbf1cf04709f270346af2a1a
 commit: 825b0d53db68f321da5bb1616771cf2a7e4c4493 [8/15] block: refactor blk=
 _drop_partitions
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
 config: x86_64-randconfig-m001-20210326 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -34,6 +39,8 @@ block/partitions/core.c:585 blk_add_partition() error: 'part' dereferencing=
  possible ERR_PTR()
 
 vim +/ret +695 block/partitions/core.c
+
+fe316bf2d5847b block/partition-generic.c Jun'ichi Nomura   2012-03-02  650  =
 
 29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  651 =
  int bdev_disk_changed(struct block_device *bdev, bool invalidate)
@@ -107,10 +114,6 @@ vim +/ret +695 block/partitions/core.c
  		if (ret =3D=3D -EAGAIN)
 29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  686 =
  			goto rescan;
-
-
-"ret" not initialized if get_capacity() is zero.
-
 29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  687 =
  	} else if (invalidate) {
 29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  688 =
@@ -129,21 +132,33 @@ vim +/ret +695 block/partitions/core.c
 
 29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26 @695 =
  	return ret;
-                                                                           =
-     ^^^^^^^^^^
 29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  696 =
  }
+29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  697 =
+ /*
+29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  698 =
+  * Only exported for loop and dasd for historic reasons.  Don't use in new
+29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  699 =
+  * code!
+29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  700 =
+  */
+29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  701 =
+ EXPORT_SYMBOL_GPL(bdev_disk_changed);
+29c37f52a89aec block/partitions/core.c   Christoph Hellwig 2021-03-26  702  =
+
+
+:::::: The code at line 695 was first introduced by commit
+:::::: 29c37f52a89aecb536f576a1be0c4291b469e1a7 block: move bdev_disk_chang=
+ed
+
+:::::: TO: Christoph Hellwig <hch@lst.de>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============7715986715175607840==
+--===============2795246208922189620==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -766,5 +781,5 @@ znrrdI2hm4sGxGfNXt/BxaUUsTCTrUvBXF+/6pVs1R5PqNGigcfHHH7bh1aJaIGtU51GCdBZnZm2
 CrxMo2N8FW5oB7pZgSAjOdNhFuh0RrwFzQrJ0w0mmCc8GVtlGlYiq8VPPjBFILv+jkJEPuYaNvei
 WFwfWBcTCo32OWkseMPvII7w2LkOuzAjXIuRJsp6ffCHhpjXIvels/7uRmqMa177mfqGWliWS5A0
 spXkgLm2bpGeP2lADyBRV1jT6IEPUzGw6F7R1iNU8IvZCmMhnBD+D/zg2SNvJwIA
---===============7715986715175607840==--
+--===============2795246208922189620==--
 
