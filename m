@@ -1,24 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============3791169796006878707=="
+Content-Type: multipart/mixed; boundary="===============2287727694898342235=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH 2/4] rtc: abx80x: Enable SQW output
-Date: Mon, 29 Mar 2021 09:19:56 +0300
-Message-ID: <20210329061956.GJ1717@kadam>
-In-Reply-To: <20210328210232.10395-3-kirill.kapranov@compulab.co.il>
+Date: Mon, 29 Mar 2021 11:26:48 +0800
+Message-ID: <202103291120.hjxdaeHF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3791169796006878707==
+--===============2287727694898342235==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210328210232.10395-3-kirill.kapranov@compulab.co.il>
+References: <20210328210232.10395-3-kirill.kapranov@compulab.co.il>
+TO: Kirill Kapranov <kirill.kapranov@compulab.co.il>
+TO: a.zummo(a)towertech.it
+TO: alexandre.belloni(a)bootlin.com
+TO: phdm(a)macqel.be
+TO: linux-rtc(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+CC: Kirill Kapranov <kirill.kapranov@compulab.co.il>
+
 Hi Kirill,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on abelloni/rtc-next]
+[also build test WARNING on v5.12-rc5 next-20210326]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Kirill-Kapranov/rtc-abx80x=
 -Enable-distributed-digital-calibration/20210329-053233
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/abelloni/linux.git =
 rtc-next
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
 config: i386-randconfig-m021-20210328 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -30,6 +50,8 @@ smatch warnings:
 drivers/rtc/rtc-abx80x.c:561 sqw_set() error: uninitialized symbol 'retval'.
 
 vim +/retval +561 drivers/rtc/rtc-abx80x.c
+
+3f6d456de4f347 Kirill Kapranov 2021-03-29  526  =
 
 3f6d456de4f347 Kirill Kapranov 2021-03-29  527  static int sqw_set(struct i=
 2c_client *client, const char *buf)
@@ -43,10 +65,6 @@ qw;
 read_byte_data(client, ABX8XX_REG_SQW);
 3f6d456de4f347 Kirill Kapranov 2021-03-29  533  	if (reg_sqw.val < 0)
 3f6d456de4f347 Kirill Kapranov 2021-03-29  534  		goto err;
-
-"retval" not set.  Forgetting to set the error code is the canonical
-bug for do nothing gotos like this.
-
 3f6d456de4f347 Kirill Kapranov 2021-03-29  535  =
 
 3f6d456de4f347 Kirill Kapranov 2021-03-29  536  	if (sysfs_streq(buf, "none=
@@ -61,11 +79,6 @@ _string(sqfs, SQFS_COUNT, buf);
 
 3f6d456de4f347 Kirill Kapranov 2021-03-29  542  		if (idx < 0)
 3f6d456de4f347 Kirill Kapranov 2021-03-29  543  			return idx;
-                                                                        ^^^=
-^^^^^^^^
-These are direct returns.  Just do direct returns everywhere (more
-readably, fewer bugs).
-
 3f6d456de4f347 Kirill Kapranov 2021-03-29  544  =
 
 3f6d456de4f347 Kirill Kapranov 2021-03-29  545  		if (abx80x_is_rc_mode(cli=
@@ -93,8 +106,6 @@ _byte_data(client, ABX8XX_REG_SQW, reg_sqw.val);
 3f6d456de4f347 Kirill Kapranov 2021-03-29  560  	dev_err(&client->dev, "Fai=
 led to set SQW\n");
 3f6d456de4f347 Kirill Kapranov 2021-03-29 @561  	return retval;
-                                                        ^^^^^^^^^^^^^
-
 3f6d456de4f347 Kirill Kapranov 2021-03-29  562  =
 
 
@@ -102,7 +113,7 @@ led to set SQW\n");
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3791169796006878707==
+--===============2287727694898342235==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -724,5 +735,5 @@ I7sbhmwZfE38dep3qMnJQQ3XfvZu/UbB1xaTSAxiXuTksbnmOQBG4EI/+Yhis7WZKNNVwKaKlbvF
 SmEGzQIbSqKeBWsHqkvQPLBdVnbC9ljWLAOzdcTAcfTwZ1/TYRohHds2dLtyWpXL4Q8/6Y4LpRTw
 JkWSZyfNRza84fsZYYpxGoKOxVlQVU/QRircMcCXXvFSrjJyL/TIjowB7ncWCY17raSjl7Xz4l0G
 MP0fkhReW6wlAgA=
---===============3791169796006878707==--
+--===============2287727694898342235==--
 
