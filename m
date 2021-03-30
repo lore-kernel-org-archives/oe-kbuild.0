@@ -1,103 +1,134 @@
-Content-Type: multipart/mixed; boundary="===============0983516436127237194=="
+Content-Type: multipart/mixed; boundary="===============5115175422698027305=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: arch/h8300/kernel/setup.c:72:26: warning: Unused variable: region
-Date: Tue, 23 Mar 2021 18:37:19 +0800
-Message-ID: <202103231816.uz2dCulZ-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: Re: [linux-next:master 3841/8469] drivers/gpu/drm/gud/gud_pipe.c:544 gud_pipe_update() error: we previously assumed 'fb' could be null (see line 536)
+Date: Tue, 30 Mar 2021 16:20:58 +0300
+Message-ID: <20210330132058.GB2088@kadam>
+In-Reply-To: <4e6a2ef2-5b43-3545-35e8-c5fae7f13a3f@tronnes.org>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0983516436127237194==
+--===============5115175422698027305==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Mike Rapoport <rppt@linux.ibm.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+On Tue, Mar 30, 2021 at 01:49:42PM +0200, Noralf Tr=C3=B8nnes wrote:
+> =
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   84196390620ac0e5070ae36af84c137c6216a7dc
-commit: 80c4574417ae42fe2ba6978772854dc67cfc5331 h8300, nds32, openrisc: si=
-mplify detection of memory extents
-date:   5 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 5 months ago
-compiler: h8300-linux-gcc (GCC) 9.3.0
+> =
 
-If you fix the issue, kindly add following tag as appropriate
-Reported-by: kernel test robot <lkp@intel.com>
+> Den 30.03.2021 12.08, skrev Dan Carpenter:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next=
+.git  master
+> > head:   9d49ed9ca93b8c564033c1d6808017bc9052b5db
+> > commit: 40e1a70b4aedf2859a1829991b48ef0ebe650bf2 [3841/8469] drm: Add G=
+UD USB Display driver
+> > config: openrisc-randconfig-m031-20210330 (attached as .config)
+> > compiler: or1k-linux-gcc (GCC) 9.3.0
+> > =
+
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+> > =
+
+> > smatch warnings:
+> > drivers/gpu/drm/gud/gud_pipe.c:544 gud_pipe_update() error: we previous=
+ly assumed 'fb' could be null (see line 536)
+> > =
+
+> > vim +/fb +544 drivers/gpu/drm/gud/gud_pipe.c
+> > =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  508  void gud_pipe_updat=
+e(struct drm_simple_display_pipe *pipe,
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  509  		     struct drm_p=
+lane_state *old_state)
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  510  {
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  511  	struct drm_device =
+*drm =3D pipe->crtc.dev;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  512  	struct gud_device =
+*gdrm =3D to_gud_device(drm);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  513  	struct drm_plane_s=
+tate *state =3D pipe->plane.state;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  514  	struct drm_framebu=
+ffer *fb =3D state->fb;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  515  	struct drm_crtc *c=
+rtc =3D &pipe->crtc;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  516  	struct drm_rect da=
+mage;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  517  	int idx;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  518  =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  519  	if (crtc->state->m=
+ode_changed || !crtc->state->enable) {
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  520  		cancel_work_sync(=
+&gdrm->work);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  521  		mutex_lock(&gdrm-=
+>damage_lock);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  522  		if (gdrm->fb) {
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  523  			drm_framebuffer_=
+put(gdrm->fb);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  524  			gdrm->fb =3D NUL=
+L;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  525  		}
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  526  		gud_clear_damage(=
+gdrm);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  527  		mutex_unlock(&gdr=
+m->damage_lock);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  528  	}
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  529  =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  530  	if (!drm_dev_enter=
+(drm, &idx))
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  531  		return;
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  532  =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  533  	if (!old_state->fb)
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  534  		gud_usb_set_u8(gd=
+rm, GUD_REQ_SET_CONTROLLER_ENABLE, 1);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  535  =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13 @536  	if (fb && (crtc->s=
+tate->mode_changed || crtc->state->connectors_changed))
+> >                                                     ^^
+> > Can "fb" be NULL?
+> > =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  537  		gud_usb_set(gdrm,=
+ GUD_REQ_SET_STATE_COMMIT, 0, NULL, 0);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  538  =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  539  	if (crtc->state->a=
+ctive_changed)
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  540  		gud_usb_set_u8(gd=
+rm, GUD_REQ_SET_DISPLAY_ENABLE, crtc->state->active);
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  541  =
+
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  542  	if (drm_atomic_hel=
+per_damage_merged(old_state, state, &damage)) {
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13  543  		if (gdrm->flags &=
+ GUD_DISPLAY_FLAG_FULL_UPDATE)
+> > 40e1a70b4aedf2 Noralf Tr=C3=B8nnes 2021-03-13 @544  			drm_rect_init(&d=
+amage, 0, 0, fb->width, fb->height);
+> >                                                                        =
+                      ^^^^^^^^^^^^^^^^^^^^^
+> =
+
+> drm_atomic_helper_damage_merged() returns false if state->fb is NULL, so
+> this is good.
+> =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Thanks.  These warnings are from the zero day bot.  On my own system
+with the cross function DB then Smatch parses this correctly and does
+not print a warning.  I probably should have looked at this harder
+before forwarding the warning.
 
->> arch/h8300/kernel/setup.c:72:26: warning: Unused variable: region [unuse=
-dVariable]
-    struct memblock_region *region;
-                            ^
-
-vim +72 arch/h8300/kernel/setup.c
-
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  69  =
-
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  70  static void __init bootmem_in=
-it(void)
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  71  {
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11 @72  	struct memblock_region *regi=
-on;
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  73  =
-
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  74  	memory_end =3D memory_start =
-=3D 0;
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  75  =
-
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  76  	/* Find main memory where is=
- the kernel */
-80c4574417ae42 Mike Rapoport  2020-10-13  77  	memory_start =3D memblock_st=
-art_of_DRAM();
-80c4574417ae42 Mike Rapoport  2020-10-13  78  	memory_end =3D memblock_end_=
-of_DRAM();
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  79  =
-
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  80  	if (!memory_end)
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  81  		panic("No memory!");
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  82  =
-
-c489dfefe739d3 Rob Herring    2018-03-16  83  	/* setup bootmem globals (we=
- use no_bootmem, but mm still depends on this) */
-c489dfefe739d3 Rob Herring    2018-03-16  84  	min_low_pfn =3D PFN_UP(memor=
-y_start);
-80c4574417ae42 Mike Rapoport  2020-10-13  85  	max_low_pfn =3D PFN_DOWN(mem=
-ory_end);
-c489dfefe739d3 Rob Herring    2018-03-16  86  	max_pfn =3D max_low_pfn;
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  87  =
-
-c489dfefe739d3 Rob Herring    2018-03-16  88  	memblock_reserve(__pa(_stext=
-), _end - _stext);
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  89  =
-
-c489dfefe739d3 Rob Herring    2018-03-16  90  	early_init_fdt_reserve_self(=
-);
-c489dfefe739d3 Rob Herring    2018-03-16  91  	early_init_fdt_scan_reserved=
-_mem();
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  92  =
-
-c489dfefe739d3 Rob Herring    2018-03-16  93  	memblock_dump_all();
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  94  }
-d8b0bdb444ed0e Yoshinori Sato 2015-05-11  95  =
+regards,
+dan carpenter
 
 
-:::::: The code at line 72 was first introduced by commit
-:::::: d8b0bdb444ed0e2bd5f9d3ea7412cb90bdec58cf h8300: kernel startup
-
-:::::: TO: Yoshinori Sato <ysato@users.sourceforge.jp>
-:::::: CC: Yoshinori Sato <ysato@users.sourceforge.jp>
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0983516436127237194==--
+--===============5115175422698027305==--
 
