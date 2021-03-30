@@ -1,3023 +1,616 @@
-Content-Type: multipart/mixed; boundary="===============5396201924578045667=="
+Content-Type: multipart/mixed; boundary="===============3425446283456938362=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3] lib: fix kconfig dependency on ARCH_WANT_FRAME_POINTERS
-Date: Tue, 30 Mar 2021 11:38:03 +0800
-Message-ID: <202103301156.Vg86nG9I-lkp@intel.com>
+Subject: include/linux/spinlock.h:379:9: sparse: sparse: context imbalance in 'mxc_rtc_lock' - wrong count at exit
+Date: Tue, 30 Mar 2021 11:10:16 +0800
+Message-ID: <202103301159.jcS0VSau-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5396201924578045667==
+--===============3425446283456938362==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210329165329.27994-1-julianbraha@gmail.com>
-References: <20210329165329.27994-1-julianbraha@gmail.com>
-TO: Julian Braha <julianbraha@gmail.com>
-TO: akpm(a)linux-foundation.org
-CC: schwab(a)linux-m68k.org
-CC: geert(a)linux-m68k.org
 CC: linux-kernel(a)vger.kernel.org
-CC: fazilyildiran(a)gmail.com
+TO: Alexandre Belloni <alexandre.belloni@bootlin.com>
+CC: Fabio Estevam <festevam@gmail.com>
 
-Hi Julian,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on linux/master]
-[also build test ERROR on linus/master hnaz-linux-mm/master v5.12-rc5 next-=
-20210329]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Julian-Braha/lib-fix-kconf=
-ig-dependency-on-ARCH_WANT_FRAME_POINTERS/20210330-005647
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-a74e6a014c9d4d4161061f770c9b4f98372ac778
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: csky-randconfig-s032-20210329 (attached as .config)
-compiler: csky-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   1e43c377a79f9189fea8f2711b399d4e8b4e609b
+commit: 0020868f2a7037e87d6b3b196526de2fb885830d rtc: mxc{,_v2}: enable COM=
+PILE_TEST
+date:   4 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+config: sparc64-randconfig-s031-20210330 (attached as .config)
+compiler: sparc64-linux-gcc (GCC) 9.3.0
 reproduce:
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.3-277-gc089cd2d-dirty
-        # https://github.com/0day-ci/linux/commit/41ca1a7330de6aa0b70ee618d=
-49033ba5d63e80f
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Julian-Braha/lib-fix-kconfig-depen=
-dency-on-ARCH_WANT_FRAME_POINTERS/20210330-005647
-        git checkout 41ca1a7330de6aa0b70ee618d49033ba5d63e80f
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D0020868f2a7037e87d6b3b196526de2fb885830d
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 0020868f2a7037e87d6b3b196526de2fb885830d
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
-C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Dcsky =
+C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Dsparc64 =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
-
-   arch/csky/mm/tcm.c:9:2: error: #error "You should define ITCM_RAM_BASE"
-       9 | #error "You should define ITCM_RAM_BASE"
-         |  ^~~~~
->> arch/csky/mm/tcm.c:14:2: error: #error "You should define DTCM_RAM_BASE"
-      14 | #error "You should define DTCM_RAM_BASE"
-         |  ^~~~~
->> arch/csky/mm/tcm.c:18:2: error: #error "You should define correct DTCM_R=
-AM_BASE"
-      18 | #error "You should define correct DTCM_RAM_BASE"
-         |  ^~~~~
-   arch/csky/mm/tcm.c:109:7: warning: no previous prototype for 'tcm_alloc'=
- [-Wmissing-prototypes]
-     109 | void *tcm_alloc(size_t len)
-         |       ^~~~~~~~~
-   arch/csky/mm/tcm.c:124:6: warning: no previous prototype for 'tcm_free' =
-[-Wmissing-prototypes]
-     124 | void tcm_free(void *addr, size_t len)
-         |      ^~~~~~~~
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for LOCKDEP
-   Depends on DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT && (FRAME_POINTER || M=
-IPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86)
-   Selected by
-   - PROVE_LOCKING && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
-   - LOCK_STAT && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
-   - DEBUG_LOCK_ALLOC && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
-
 
 sparse warnings: (new ones prefixed by >>)
->> net/atm/br2684.c:731:23: sparse: sparse: incorrect type in argument 1 (d=
-ifferent address spaces) @@     expected void const *addr @@     got unsign=
-ed short const [noderef] __user *__gu_ptr @@
-   net/atm/br2684.c:731:23: sparse:     expected void const *addr
-   net/atm/br2684.c:731:23: sparse:     got unsigned short const [noderef] =
-__user *__gu_ptr
---
->> net/netrom/af_netrom.c:359:13: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-int const [noderef] __user *__gu_ptr @@
-   net/netrom/af_netrom.c:359:13: sparse:     expected void const *addr
-   net/netrom/af_netrom.c:359:13: sparse:     got int const [noderef] __use=
-r *__gu_ptr
->> net/netrom/af_netrom.c:392:13: sparse: sparse: incorrect type in initial=
-izer (different address spaces) @@     expected int *__pu_addr @@     got i=
-nt [noderef] __user *optlen @@
-   net/netrom/af_netrom.c:392:13: sparse:     expected int *__pu_addr
-   net/netrom/af_netrom.c:392:13: sparse:     got int [noderef] __user *opt=
-len
->> net/netrom/af_netrom.c:1211:24: sparse: sparse: incorrect type in initia=
-lizer (different address spaces) @@     expected int *__pu_addr @@     got =
-int [noderef] __user * @@
-   net/netrom/af_netrom.c:1211:24: sparse:     expected int *__pu_addr
-   net/netrom/af_netrom.c:1211:24: sparse:     got int [noderef] __user *
-   net/netrom/af_netrom.c:1223:24: sparse: sparse: incorrect type in initia=
-lizer (different address spaces) @@     expected int *__pu_addr @@     got =
-int [noderef] __user * @@
-   net/netrom/af_netrom.c:1223:24: sparse:     expected int *__pu_addr
-   net/netrom/af_netrom.c:1223:24: sparse:     got int [noderef] __user *
---
->> net/rose/af_rose.c:438:13: sparse: sparse: incorrect type in argument 1 =
-(different address spaces) @@     expected void const *addr @@     got int =
-const [noderef] __user *__gu_ptr @@
-   net/rose/af_rose.c:438:13: sparse:     expected void const *addr
-   net/rose/af_rose.c:438:13: sparse:     got int const [noderef] __user *_=
-_gu_ptr
->> net/rose/af_rose.c:479:13: sparse: sparse: incorrect type in initializer=
- (different address spaces) @@     expected int *__pu_addr @@     got int [=
-noderef] __user *optlen @@
-   net/rose/af_rose.c:479:13: sparse:     expected int *__pu_addr
-   net/rose/af_rose.c:479:13: sparse:     got int [noderef] __user *optlen
->> net/rose/af_rose.c:1289:24: sparse: sparse: incorrect type in initialize=
-r (different address spaces) @@     expected unsigned int *__pu_addr @@    =
- got unsigned int [noderef] __user * @@
-   net/rose/af_rose.c:1289:24: sparse:     expected unsigned int *__pu_addr
-   net/rose/af_rose.c:1289:24: sparse:     got unsigned int [noderef] __use=
-r *
-   net/rose/af_rose.c:1298:24: sparse: sparse: incorrect type in initialize=
-r (different address spaces) @@     expected unsigned int *__pu_addr @@    =
- got unsigned int [noderef] __user * @@
-   net/rose/af_rose.c:1298:24: sparse:     expected unsigned int *__pu_addr
-   net/rose/af_rose.c:1298:24: sparse:     got unsigned int [noderef] __use=
-r *
---
->> net/ax25/af_ax25.c:695:13: sparse: sparse: incorrect type in argument 1 =
-(different address spaces) @@     expected void const *addr @@     got int =
-const [noderef] __user *__gu_ptr @@
-   net/ax25/af_ax25.c:695:13: sparse:     expected void const *addr
-   net/ax25/af_ax25.c:695:13: sparse:     got int const [noderef] __user *_=
-_gu_ptr
->> net/ax25/af_ax25.c:772:13: sparse: sparse: incorrect type in initializer=
- (different address spaces) @@     expected int *__pu_addr @@     got int [=
-noderef] __user *optlen @@
-   net/ax25/af_ax25.c:772:13: sparse:     expected int *__pu_addr
-   net/ax25/af_ax25.c:772:13: sparse:     got int [noderef] __user *optlen
->> net/ax25/af_ax25.c:1710:23: sparse: sparse: incorrect type in initialize=
-r (different address spaces) @@     expected int *__pu_addr @@     got int =
-[noderef] __user * @@
-   net/ax25/af_ax25.c:1710:23: sparse:     expected int *__pu_addr
-   net/ax25/af_ax25.c:1710:23: sparse:     got int [noderef] __user *
-   net/ax25/af_ax25.c:1720:23: sparse: sparse: incorrect type in initialize=
-r (different address spaces) @@     expected int *__pu_addr @@     got int =
-[noderef] __user * @@
-   net/ax25/af_ax25.c:1720:23: sparse:     expected int *__pu_addr
-   net/ax25/af_ax25.c:1720:23: sparse:     got int [noderef] __user *
->> net/ax25/af_ax25.c:1742:21: sparse: sparse: incorrect type in argument 1=
- (different address spaces) @@     expected void const *addr @@     got lon=
-g const [noderef] __user *__gu_ptr @@
-   net/ax25/af_ax25.c:1742:21: sparse:     expected void const *addr
-   net/ax25/af_ax25.c:1742:21: sparse:     got long const [noderef] __user =
-*__gu_ptr
---
-   drivers/net/ethernet/intel/e1000/e1000_param.c: note: in included file (=
-through drivers/net/ethernet/intel/e1000/e1000_hw.h, drivers/net/ethernet/i=
-ntel/e1000/e1000.h):
-   drivers/net/ethernet/intel/e1000/e1000_osdep.h:13:9: sparse: sparse: pre=
-processor token CONFIG_RAM_BASE redefined
-   drivers/net/ethernet/intel/e1000/e1000_param.c: note: in included file (=
-through include/linux/kconfig.h, builtin):
->> ./include/generated/autoconf.h:2158:9: sparse: this was the original def=
-inition
---
-   drivers/net/ethernet/intel/e1000/e1000_ethtool.c: note: in included file=
- (through drivers/net/ethernet/intel/e1000/e1000_hw.h, drivers/net/ethernet=
-/intel/e1000/e1000.h):
-   drivers/net/ethernet/intel/e1000/e1000_osdep.h:13:9: sparse: sparse: pre=
-processor token CONFIG_RAM_BASE redefined
-   drivers/net/ethernet/intel/e1000/e1000_ethtool.c: note: in included file=
- (through include/linux/kconfig.h, builtin):
->> ./include/generated/autoconf.h:2158:9: sparse: this was the original def=
-inition
-   drivers/net/ethernet/intel/e1000/e1000_ethtool.c:516:32: sparse: sparse:=
- incorrect type in assignment (different base types) @@     expected unsign=
-ed short [usertype] @@     got restricted __le16 [usertype] @@
-   drivers/net/ethernet/intel/e1000/e1000_ethtool.c:516:32: sparse:     exp=
-ected unsigned short [usertype]
-   drivers/net/ethernet/intel/e1000/e1000_ethtool.c:516:32: sparse:     got=
- restricted __le16 [usertype]
-   drivers/net/ethernet/intel/e1000/e1000_ethtool.c: note: in included file=
- (through arch/csky/include/asm/io.h, include/linux/io.h, include/linux/irq=
-.h, ...):
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
---
-   drivers/net/ethernet/intel/e1000/e1000_hw.c: note: in included file (thr=
-ough drivers/net/ethernet/intel/e1000/e1000_hw.h, drivers/net/ethernet/inte=
-l/e1000/e1000.h):
-   drivers/net/ethernet/intel/e1000/e1000_osdep.h:13:9: sparse: sparse: pre=
-processor token CONFIG_RAM_BASE redefined
-   drivers/net/ethernet/intel/e1000/e1000_hw.c: note: in included file (thr=
-ough include/linux/kconfig.h, builtin):
->> ./include/generated/autoconf.h:2158:9: sparse: this was the original def=
-inition
-   drivers/net/ethernet/intel/e1000/e1000_hw.c: note: in included file (thr=
-ough arch/csky/include/asm/io.h, include/linux/io.h, include/linux/irq.h, .=
-..):
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
---
-   drivers/net/ethernet/intel/e1000/e1000_main.c: note: in included file (t=
-hrough drivers/net/ethernet/intel/e1000/e1000_hw.h, drivers/net/ethernet/in=
-tel/e1000/e1000.h):
-   drivers/net/ethernet/intel/e1000/e1000_osdep.h:13:9: sparse: sparse: pre=
-processor token CONFIG_RAM_BASE redefined
-   drivers/net/ethernet/intel/e1000/e1000_main.c: note: in included file (t=
-hrough include/linux/kconfig.h, builtin):
->> ./include/generated/autoconf.h:2158:9: sparse: this was the original def=
-inition
-   drivers/net/ethernet/intel/e1000/e1000_main.c: note: in included file (t=
-hrough arch/csky/include/asm/io.h, include/linux/io.h, include/linux/irq.h,=
- ...):
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
---
-   fs/notify/fanotify/fanotify_user.c:143:63: sparse: sparse: restricted fm=
-ode_t degrades to integer
->> fs/notify/fanotify/fanotify_user.c:317:35: sparse: sparse: incorrect typ=
-e in argument 1 (different address spaces) @@     expected void *to @@     =
-got char [noderef] __user *[assigned] buf @@
-   fs/notify/fanotify/fanotify_user.c:317:35: sparse:     expected void *to
-   fs/notify/fanotify/fanotify_user.c:317:35: sparse:     got char [noderef=
-] __user *[assigned] buf
->> fs/notify/fanotify/fanotify_user.c:646:23: sparse: sparse: incorrect typ=
-e in initializer (different address spaces) @@     expected int *__pu_addr =
-@@     got int [noderef] __user * @@
-   fs/notify/fanotify/fanotify_user.c:646:23: sparse:     expected int *__p=
-u_addr
-   fs/notify/fanotify/fanotify_user.c:646:23: sparse:     got int [noderef]=
- __user *
-   fs/notify/fanotify/fanotify_user.c:972:28: sparse: sparse: restricted fm=
-ode_t degrades to integer
---
->> drivers/net/hamradio/6pack.c:701:23: sparse: sparse: incorrect type in i=
-nitializer (different address spaces) @@     expected int *__pu_addr @@    =
- got int [noderef] __user * @@
-   drivers/net/hamradio/6pack.c:701:23: sparse:     expected int *__pu_addr
-   drivers/net/hamradio/6pack.c:701:23: sparse:     got int [noderef] __use=
-r *
->> drivers/net/hamradio/6pack.c:705:21: sparse: sparse: incorrect type in a=
-rgument 1 (different address spaces) @@     expected void const *addr @@   =
-  got int const [noderef] __user *__gu_ptr @@
-   drivers/net/hamradio/6pack.c:705:21: sparse:     expected void const *ad=
-dr
-   drivers/net/hamradio/6pack.c:705:21: sparse:     got int const [noderef]=
- __user *__gu_ptr
---
-   drivers/net/slip/slip.c:458:14: sparse: sparse: incompatible types in co=
-mparison expression (different address spaces):
-   drivers/net/slip/slip.c:458:14: sparse:    void [noderef] __rcu *
-   drivers/net/slip/slip.c:458:14: sparse:    void *
-   drivers/net/slip/slip.c:892:9: sparse: sparse: incompatible types in com=
-parison expression (different address spaces):
-   drivers/net/slip/slip.c:892:9: sparse:    void [noderef] __rcu *
-   drivers/net/slip/slip.c:892:9: sparse:    void *
->> drivers/net/slip/slip.c:1094:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected int *__pu_addr @@     got=
- int [noderef] __user *p @@
->> drivers/net/slip/slip.c:1099:21: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t int const [noderef] __user *__gu_ptr @@
-   drivers/net/slip/slip.c:1124:21: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t int const [noderef] __user *__gu_ptr @@
-   drivers/net/slip/slip.c:1145:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected int *__pu_addr @@     got=
- int [noderef] __user *p @@
-   drivers/net/slip/slip.c:1150:21: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t int const [noderef] __user *__gu_ptr @@
-   drivers/net/slip/slip.c:1170:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected int *__pu_addr @@     got=
- int [noderef] __user *p @@
---
->> drivers/scsi/megaraid.c:3017:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned int *__pu_addr @=
-@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/scsi/megaraid.c:3017:21: sparse:     expected unsigned int *__pu=
-_addr
-   drivers/scsi/megaraid.c:3017:21: sparse:     got unsigned int [noderef] =
-[usertype] __user *
-   drivers/scsi/megaraid.c:3023:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned int *__pu_addr @=
-@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/scsi/megaraid.c:3023:21: sparse:     expected unsigned int *__pu=
-_addr
-   drivers/scsi/megaraid.c:3023:21: sparse:     got unsigned int [noderef] =
-[usertype] __user *
->> drivers/scsi/megaraid.c:3533:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned char *__pu_addr =
-@@     got unsigned char [noderef] [usertype] __user * @@
-   drivers/scsi/megaraid.c:3533:21: sparse:     expected unsigned char *__p=
-u_addr
-   drivers/scsi/megaraid.c:3533:21: sparse:     got unsigned char [noderef]=
- [usertype] __user *
->> drivers/scsi/megaraid.c:3540:29: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t struct mega_passthru [noderef] [usertype] __user *const [noderef] __user =
-*__gu_ptr @@
-   drivers/scsi/megaraid.c:3540:29: sparse:     expected void const *addr
-   drivers/scsi/megaraid.c:3540:29: sparse:     got struct mega_passthru [n=
-oderef] [usertype] __user *const [noderef] __user *__gu_ptr
-   drivers/scsi/megaraid.c:3540:29: sparse: sparse: Using plain integer as =
-NULL pointer
-   drivers/scsi/megaraid.c:3543:29: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned char *__pu_addr =
-@@     got unsigned char [noderef] [usertype] __user * @@
-   drivers/scsi/megaraid.c:3543:29: sparse:     expected unsigned char *__p=
-u_addr
-   drivers/scsi/megaraid.c:3543:29: sparse:     got unsigned char [noderef]=
- [usertype] __user *
-   drivers/scsi/megaraid.c:3550:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned char *__pu_addr =
-@@     got unsigned char [noderef] [usertype] __user * @@
-   drivers/scsi/megaraid.c:3550:21: sparse:     expected unsigned char *__p=
-u_addr
-   drivers/scsi/megaraid.c:3550:21: sparse:     got unsigned char [noderef]=
- [usertype] __user *
-   drivers/scsi/megaraid.c:3557:29: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t struct mega_passthru [noderef] [usertype] __user *const [noderef] __user =
-*__gu_ptr @@
-   drivers/scsi/megaraid.c:3557:29: sparse:     expected void const *addr
-   drivers/scsi/megaraid.c:3557:29: sparse:     got struct mega_passthru [n=
-oderef] [usertype] __user *const [noderef] __user *__gu_ptr
-   drivers/scsi/megaraid.c:3557:29: sparse: sparse: Using plain integer as =
-NULL pointer
-   drivers/scsi/megaraid.c:3560:29: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned char *__pu_addr =
-@@     got unsigned char [noderef] [usertype] __user * @@
-   drivers/scsi/megaraid.c:3560:29: sparse:     expected unsigned char *__p=
-u_addr
-   drivers/scsi/megaraid.c:3560:29: sparse:     got unsigned char [noderef]=
- [usertype] __user *
-   drivers/scsi/megaraid.c:4497:26: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void volatile [noderef] __=
-iomem *addr @@     got void * @@
-   drivers/scsi/megaraid.c:4497:26: sparse:     expected void volatile [nod=
-eref] __iomem *addr
-   drivers/scsi/megaraid.c:4497:26: sparse:     got void *
-   drivers/scsi/megaraid.c:4556:26: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void volatile [noderef] __=
-iomem *addr @@     got void * @@
-   drivers/scsi/megaraid.c:4556:26: sparse:     expected void volatile [nod=
-eref] __iomem *addr
-   drivers/scsi/megaraid.c:4556:26: sparse:     got void *
-   drivers/scsi/megaraid.c: note: in included file (through arch/csky/inclu=
-de/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
---
->> drivers/staging/comedi/comedi_fops.c:1083:29: sparse: sparse: incorrect =
-type in initializer (different address spaces) @@     expected unsigned int=
- *__pu_addr @@     got unsigned int [noderef] __user * @@
-   drivers/staging/comedi/comedi_fops.c:1083:29: sparse:     expected unsig=
-ned int *__pu_addr
-   drivers/staging/comedi/comedi_fops.c:1083:29: sparse:     got unsigned i=
-nt [noderef] __user *
---
->> drivers/thunderbolt/debugfs.c:64:24: sparse: sparse: incorrect type in a=
-rgument 1 (different address spaces) @@     expected void const *addr @@   =
-  got void const [noderef] __user *user_buf @@
-   drivers/thunderbolt/debugfs.c:64:24: sparse:     expected void const *ad=
-dr
-   drivers/thunderbolt/debugfs.c:64:24: sparse:     got void const [noderef=
-] __user *user_buf
---
-   kernel/sys.c:1878:17: sparse: sparse: incorrect type in assignment (diff=
-erent address spaces) @@     expected struct file *old_exe @@     got struc=
-t file [noderef] __rcu * @@
-   kernel/sys.c:1878:17: sparse:     expected struct file *old_exe
-   kernel/sys.c:1878:17: sparse:     got struct file [noderef] __rcu *
-   kernel/sys.c:1976:24: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected unsigned int *__pu_addr @@     got u=
-nsigned int [noderef] __user * @@
-   kernel/sys.c:1976:24: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:1976:24: sparse:     got unsigned int [noderef] __user *
->> kernel/sys.c:2243:16: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected int [noderef] __user **__pu_addr @@ =
-    got int [noderef] __user *[noderef] __user *tid_addr @@
-   kernel/sys.c:2243:16: sparse:     expected int [noderef] __user **__pu_a=
-ddr
-   kernel/sys.c:2243:16: sparse:     got int [noderef] __user *[noderef] __=
-user *tid_addr
-   kernel/sys.c:710:18: sparse: sparse: incorrect type in initializer (diff=
-erent address spaces) @@     expected unsigned int *__pu_addr @@     got un=
-signed int [noderef] [usertype] __user *ruidp @@
-   kernel/sys.c:710:18: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:710:18: sparse:     got unsigned int [noderef] [usertype] _=
-_user *ruidp
-   kernel/sys.c:712:26: sparse: sparse: incorrect type in initializer (diff=
-erent address spaces) @@     expected unsigned int *__pu_addr @@     got un=
-signed int [noderef] [usertype] __user *euidp @@
-   kernel/sys.c:712:26: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:712:26: sparse:     got unsigned int [noderef] [usertype] _=
-_user *euidp
-   kernel/sys.c:714:32: sparse: sparse: incorrect type in initializer (diff=
-erent address spaces) @@     expected unsigned int *__pu_addr @@     got un=
-signed int [noderef] [usertype] __user *suidp @@
-   kernel/sys.c:714:32: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:714:32: sparse:     got unsigned int [noderef] [usertype] _=
-_user *suidp
-   kernel/sys.c:793:18: sparse: sparse: incorrect type in initializer (diff=
-erent address spaces) @@     expected unsigned int *__pu_addr @@     got un=
-signed int [noderef] [usertype] __user *rgidp @@
-   kernel/sys.c:793:18: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:793:18: sparse:     got unsigned int [noderef] [usertype] _=
-_user *rgidp
-   kernel/sys.c:795:26: sparse: sparse: incorrect type in initializer (diff=
-erent address spaces) @@     expected unsigned int *__pu_addr @@     got un=
-signed int [noderef] [usertype] __user *egidp @@
-   kernel/sys.c:795:26: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:795:26: sparse:     got unsigned int [noderef] [usertype] _=
-_user *egidp
-   kernel/sys.c:797:34: sparse: sparse: incorrect type in initializer (diff=
-erent address spaces) @@     expected unsigned int *__pu_addr @@     got un=
-signed int [noderef] [usertype] __user *sgidp @@
-   kernel/sys.c:797:34: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:797:34: sparse:     got unsigned int [noderef] [usertype] _=
-_user *sgidp
-   kernel/sys.c:1049:32: sparse: sparse: incorrect type in argument 1 (diff=
-erent address spaces) @@     expected struct task_struct *p1 @@     got str=
-uct task_struct [noderef] __rcu *real_parent @@
-   kernel/sys.c:1049:32: sparse:     expected struct task_struct *p1
-   kernel/sys.c:1049:32: sparse:     got struct task_struct [noderef] __rcu=
- *real_parent
-   kernel/sys.c: note: in included file (through include/linux/rcuwait.h, i=
-nclude/linux/percpu-rwsem.h, include/linux/fs.h, ...):
-   include/linux/sched/signal.h:708:37: sparse: sparse: incorrect type in a=
-rgument 1 (different address spaces) @@     expected struct spinlock [usert=
-ype] *lock @@     got struct spinlock [noderef] __rcu * @@
-   include/linux/sched/signal.h:708:37: sparse:     expected struct spinloc=
-k [usertype] *lock
-   include/linux/sched/signal.h:708:37: sparse:     got struct spinlock [no=
-deref] __rcu *
-   kernel/sys.c:2304:25: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected int *__pu_addr @@     got int [noder=
-ef] __user * @@
-   kernel/sys.c:2304:25: sparse:     expected int *__pu_addr
-   kernel/sys.c:2304:25: sparse:     got int [noderef] __user *
-   kernel/sys.c:2344:46: sparse: sparse: incorrect type in argument 2 (diff=
-erent address spaces) @@     expected char const *src @@     got char [node=
-ref] __user * @@
-   kernel/sys.c:2344:46: sparse:     expected char const *src
-   kernel/sys.c:2344:46: sparse:     got char [noderef] __user *
-   kernel/sys.c:2440:25: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected int *__pu_addr @@     got int [noder=
-ef] __user * @@
-   kernel/sys.c:2440:25: sparse:     expected int *__pu_addr
-   kernel/sys.c:2440:25: sparse:     got int [noderef] __user *
-   kernel/sys.c:2551:24: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected unsigned int *__pu_addr @@     got u=
-nsigned int [noderef] __user *cpup @@
-   kernel/sys.c:2551:24: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:2551:24: sparse:     got unsigned int [noderef] __user *cpup
-   kernel/sys.c:2553:24: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected unsigned int *__pu_addr @@     got u=
-nsigned int [noderef] __user *nodep @@
-   kernel/sys.c:2553:24: sparse:     expected unsigned int *__pu_addr
-   kernel/sys.c:2553:24: sparse:     got unsigned int [noderef] __user *nod=
-ep
---
->> mm/kmemleak.c:1777:36: sparse: sparse: incorrect type in argument 2 (dif=
-ferent address spaces) @@     expected char const *src @@     got char cons=
-t [noderef] __user *user_buf @@
-   mm/kmemleak.c:1777:36: sparse:     expected char const *src
-   mm/kmemleak.c:1777:36: sparse:     got char const [noderef] __user *user=
-_buf
-   mm/kmemleak.c:1616:13: sparse: sparse: context imbalance in 'kmemleak_se=
-q_start' - different lock contexts for basic block
-   mm/kmemleak.c: note: in included file (through include/linux/rculist.h, =
-include/linux/sched/signal.h):
-   include/linux/rcupdate.h:708:9: sparse: sparse: context imbalance in 'km=
-emleak_seq_stop' - unexpected unlock
---
->> fs/ecryptfs/miscdev.c:283:13: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected char *__pu_addr @@     got c=
-har [noderef] __user *buf @@
-   fs/ecryptfs/miscdev.c:283:13: sparse:     expected char *__pu_addr
-   fs/ecryptfs/miscdev.c:283:13: sparse:     got char [noderef] __user *buf
->> fs/ecryptfs/miscdev.c:285:13: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected restricted __be32 *__pu_addr=
- @@     got restricted __be32 [noderef] [usertype] __user * @@
-   fs/ecryptfs/miscdev.c:285:13: sparse:     expected restricted __be32 *__=
-pu_addr
-   fs/ecryptfs/miscdev.c:285:13: sparse:     got restricted __be32 [noderef=
-] [usertype] __user *
---
->> drivers/fsi/fsi-scom.c:497:13: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-unsigned int const [noderef] __user *__gu_ptr @@
-   drivers/fsi/fsi-scom.c:497:13: sparse:     expected void const *addr
-   drivers/fsi/fsi-scom.c:497:13: sparse:     got unsigned int const [noder=
-ef] __user *__gu_ptr
-   drivers/fsi/fsi-scom.c:511:16: sparse: sparse: incorrect type in initial=
-izer (different address spaces) @@     expected unsigned int *__pu_addr @@ =
-    got unsigned int [noderef] [usertype] __user * @@
-   drivers/fsi/fsi-scom.c:511:16: sparse:     expected unsigned int *__pu_a=
-ddr
-   drivers/fsi/fsi-scom.c:511:16: sparse:     got unsigned int [noderef] [u=
-sertype] __user *
---
->> sound/core/timer.c:2044:13: sparse: sparse: incorrect type in argument 1=
- (different address spaces) @@     expected void const *addr @@     got int=
- const [noderef] __user *__gu_ptr @@
-   sound/core/timer.c:2044:13: sparse:     expected void const *addr
-   sound/core/timer.c:2044:13: sparse:     got int const [noderef] __user *=
-__gu_ptr
->> sound/core/timer.c:2083:24: sparse: sparse: incorrect type in initialize=
-r (different address spaces) @@     expected int *__pu_addr @@     got int =
-[noderef] __user *p @@
-   sound/core/timer.c:2083:24: sparse:     expected int *__pu_addr
-   sound/core/timer.c:2083:24: sparse:     got int [noderef] __user *p
-   sound/core/timer.c:790:25: sparse: sparse: context imbalance in 'snd_tim=
-er_process_callbacks' - unexpected unlock
---
->> sound/core/pcm.c:92:29: sparse: sparse: incorrect type in argument 1 (di=
-fferent address spaces) @@     expected void const *addr @@     got int con=
-st [noderef] __user *__gu_ptr @@
-   sound/core/pcm.c:92:29: sparse:     expected void const *addr
-   sound/core/pcm.c:92:29: sparse:     got int const [noderef] __user *__gu=
-_ptr
->> sound/core/pcm.c:97:29: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected int *__pu_addr @@     got int [nod=
-eref] __user * @@
-   sound/core/pcm.c:97:29: sparse:     expected int *__pu_addr
-   sound/core/pcm.c:97:29: sparse:     got int [noderef] __user *
->> sound/core/pcm.c:112:29: sparse: sparse: incorrect type in argument 1 (d=
-ifferent address spaces) @@     expected void const *addr @@     got unsign=
-ed int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm.c:112:29: sparse:     expected void const *addr
-   sound/core/pcm.c:112:29: sparse:     got unsigned int const [noderef] __=
-user *__gu_ptr
-   sound/core/pcm.c:114:29: sparse: sparse: incorrect type in argument 1 (d=
-ifferent address spaces) @@     expected void const *addr @@     got int co=
-nst [noderef] __user *__gu_ptr @@
-   sound/core/pcm.c:114:29: sparse:     expected void const *addr
-   sound/core/pcm.c:114:29: sparse:     got int const [noderef] __user *__g=
-u_ptr
-   sound/core/pcm.c:119:29: sparse: sparse: incorrect type in argument 1 (d=
-ifferent address spaces) @@     expected void const *addr @@     got unsign=
-ed int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm.c:119:29: sparse:     expected void const *addr
-   sound/core/pcm.c:119:29: sparse:     got unsigned int const [noderef] __=
-user *__gu_ptr
-   sound/core/pcm.c:155:29: sparse: sparse: incorrect type in argument 1 (d=
-ifferent address spaces) @@     expected void const *addr @@     got int co=
-nst [noderef] __user *__gu_ptr @@
-   sound/core/pcm.c:155:29: sparse:     expected void const *addr
-   sound/core/pcm.c:155:29: sparse:     got int const [noderef] __user *__g=
-u_ptr
---
->> sound/core/pcm_lib.c:2375:13: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user *tlv @@
-   sound/core/pcm_lib.c:2375:13: sparse:     expected unsigned int *__pu_ad=
-dr
-   sound/core/pcm_lib.c:2375:13: sparse:     got unsigned int [noderef] __u=
-ser *tlv
->> sound/core/pcm_lib.c:2385:21: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user *[assigned] dst @@
-   sound/core/pcm_lib.c:2385:21: sparse:     expected unsigned int *__pu_ad=
-dr
-   sound/core/pcm_lib.c:2385:21: sparse:     got unsigned int [noderef] __u=
-ser *[assigned] dst
->> sound/core/pcm_lib.c:2386:21: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user * @@
-   sound/core/pcm_lib.c:2386:21: sparse:     expected unsigned int *__pu_ad=
-dr
-   sound/core/pcm_lib.c:2386:21: sparse:     got unsigned int [noderef] __u=
-ser *
-   sound/core/pcm_lib.c:2396:29: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user *[assigned] dst @@
-   sound/core/pcm_lib.c:2396:29: sparse:     expected unsigned int *__pu_ad=
-dr
-   sound/core/pcm_lib.c:2396:29: sparse:     got unsigned int [noderef] __u=
-ser *[assigned] dst
-   sound/core/pcm_lib.c:2401:13: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user * @@
-   sound/core/pcm_lib.c:2401:13: sparse:     expected unsigned int *__pu_ad=
-dr
-   sound/core/pcm_lib.c:2401:13: sparse:     got unsigned int [noderef] __u=
-ser *
---
->> sound/core/pcm_native.c:1015:20: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:1015:20: sparse:     expected void const *addr
-   sound/core/pcm_native.c:1015:20: sparse:     got unsigned int const [nod=
-eref] __user *__gu_ptr
-   sound/core/pcm_native.c:1041:20: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:1041:20: sparse:     expected void const *addr
-   sound/core/pcm_native.c:1041:20: sparse:     got unsigned int const [nod=
-eref] __user *__gu_ptr
-   sound/core/pcm_native.c:2951:13: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:2951:13: sparse:     expected void const *addr
-   sound/core/pcm_native.c:2951:13: sparse:     got unsigned int const [nod=
-eref] __user *__gu_ptr
-   sound/core/pcm_native.c:3044:13: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:3044:13: sparse:     expected void const *addr
-   sound/core/pcm_native.c:3044:13: sparse:     got unsigned int const [nod=
-eref] __user *__gu_ptr
-   sound/core/pcm_native.c:3045:13: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:3045:13: sparse:     expected void const *addr
-   sound/core/pcm_native.c:3045:13: sparse:     got unsigned int const [nod=
-eref] __user *__gu_ptr
-   sound/core/pcm_native.c:3046:13: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:3046:13: sparse:     expected void const *addr
-   sound/core/pcm_native.c:3046:13: sparse:     got unsigned int const [nod=
-eref] __user *__gu_ptr
->> sound/core/pcm_native.c:3074:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected restricted snd_pcm_state_=
-t *__pu_addr @@     got restricted snd_pcm_state_t [noderef] __user * @@
-   sound/core/pcm_native.c:3074:13: sparse:     expected restricted snd_pcm=
-_state_t *__pu_addr
-   sound/core/pcm_native.c:3074:13: sparse:     got restricted snd_pcm_stat=
-e_t [noderef] __user *
->> sound/core/pcm_native.c:3075:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned int *__pu_addr @=
-@     got unsigned int [noderef] __user * @@
-   sound/core/pcm_native.c:3075:13: sparse:     expected unsigned int *__pu=
-_addr
-   sound/core/pcm_native.c:3075:13: sparse:     got unsigned int [noderef] =
-__user *
->> sound/core/pcm_native.c:3076:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed int *__pu_addr @@ =
-    got signed int [noderef] __user * @@
-   sound/core/pcm_native.c:3076:13: sparse:     expected signed int *__pu_a=
-ddr
-   sound/core/pcm_native.c:3076:13: sparse:     got signed int [noderef] __=
-user *
-   sound/core/pcm_native.c:3077:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed int *__pu_addr @@ =
-    got signed int [noderef] __user * @@
-   sound/core/pcm_native.c:3077:13: sparse:     expected signed int *__pu_a=
-ddr
-   sound/core/pcm_native.c:3077:13: sparse:     got signed int [noderef] __=
-user *
-   sound/core/pcm_native.c:3078:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected restricted snd_pcm_state_=
-t *__pu_addr @@     got restricted snd_pcm_state_t [noderef] __user * @@
-   sound/core/pcm_native.c:3078:13: sparse:     expected restricted snd_pcm=
-_state_t *__pu_addr
-   sound/core/pcm_native.c:3078:13: sparse:     got restricted snd_pcm_stat=
-e_t [noderef] __user *
-   sound/core/pcm_native.c:3079:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed int *__pu_addr @@ =
-    got signed int [noderef] __user * @@
-   sound/core/pcm_native.c:3079:13: sparse:     expected signed int *__pu_a=
-ddr
-   sound/core/pcm_native.c:3079:13: sparse:     got signed int [noderef] __=
-user *
-   sound/core/pcm_native.c:3080:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed int *__pu_addr @@ =
-    got signed int [noderef] __user * @@
-   sound/core/pcm_native.c:3080:13: sparse:     expected signed int *__pu_a=
-ddr
-   sound/core/pcm_native.c:3080:13: sparse:     got signed int [noderef] __=
-user *
-   sound/core/pcm_native.c:3081:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned int *__pu_addr @=
-@     got unsigned int [noderef] __user * @@
-   sound/core/pcm_native.c:3081:13: sparse:     expected unsigned int *__pu=
-_addr
-   sound/core/pcm_native.c:3081:13: sparse:     got unsigned int [noderef] =
-__user *
-   sound/core/pcm_native.c:3082:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned int *__pu_addr @=
-@     got unsigned int [noderef] __user * @@
-   sound/core/pcm_native.c:3082:13: sparse:     expected unsigned int *__pu=
-_addr
-   sound/core/pcm_native.c:3082:13: sparse:     got unsigned int [noderef] =
-__user *
->> sound/core/pcm_native.c:3094:13: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:3094:13: sparse:     expected void const *addr
-   sound/core/pcm_native.c:3094:13: sparse:     got int const [noderef] __u=
-ser *__gu_ptr
->> sound/core/pcm_native.c:3111:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed long *__pu_addr @@=
-     got signed long [noderef] __user * @@
-   sound/core/pcm_native.c:3111:13: sparse:     expected signed long *__pu_=
-addr
-   sound/core/pcm_native.c:3111:13: sparse:     got signed long [noderef] _=
-_user *
-   sound/core/pcm_native.c:3119:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed long *__pu_addr @@=
-     got signed long [noderef] __user * @@
-   sound/core/pcm_native.c:3119:13: sparse:     expected signed long *__pu_=
-addr
-   sound/core/pcm_native.c:3119:13: sparse:     got signed long [noderef] _=
-_user *
-   sound/core/pcm_native.c:3136:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed long *__pu_addr @@=
-     got signed long [noderef] __user * @@
-   sound/core/pcm_native.c:3136:13: sparse:     expected signed long *__pu_=
-addr
-   sound/core/pcm_native.c:3136:13: sparse:     got signed long [noderef] _=
-_user *
-   sound/core/pcm_native.c:3149:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed long *__pu_addr @@=
-     got signed long [noderef] __user * @@
-   sound/core/pcm_native.c:3149:13: sparse:     expected signed long *__pu_=
-addr
-   sound/core/pcm_native.c:3149:13: sparse:     got signed long [noderef] _=
-_user *
->> sound/core/pcm_native.c:3160:13: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned long const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:3160:13: sparse:     expected void const *addr
-   sound/core/pcm_native.c:3160:13: sparse:     got unsigned long const [no=
-deref] __user *__gu_ptr
->> sound/core/pcm_native.c:3162:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned long *__pu_addr =
-@@     got unsigned long [noderef] [usertype] __user *_frames @@
-   sound/core/pcm_native.c:3162:13: sparse:     expected unsigned long *__p=
-u_addr
-   sound/core/pcm_native.c:3162:13: sparse:     got unsigned long [noderef]=
- [usertype] __user *_frames
-   sound/core/pcm_native.c:3165:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned long *__pu_addr =
-@@     got unsigned long [noderef] [usertype] __user *_frames @@
-   sound/core/pcm_native.c:3165:13: sparse:     expected unsigned long *__p=
-u_addr
-   sound/core/pcm_native.c:3165:13: sparse:     got unsigned long [noderef]=
- [usertype] __user *_frames
-   sound/core/pcm_native.c:3176:13: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned long const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:3176:13: sparse:     expected void const *addr
-   sound/core/pcm_native.c:3176:13: sparse:     got unsigned long const [no=
-deref] __user *__gu_ptr
-   sound/core/pcm_native.c:3178:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned long *__pu_addr =
-@@     got unsigned long [noderef] [usertype] __user *_frames @@
-   sound/core/pcm_native.c:3178:13: sparse:     expected unsigned long *__p=
-u_addr
-   sound/core/pcm_native.c:3178:13: sparse:     got unsigned long [noderef]=
- [usertype] __user *_frames
-   sound/core/pcm_native.c:3181:13: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected unsigned long *__pu_addr =
-@@     got unsigned long [noderef] [usertype] __user *_frames @@
-   sound/core/pcm_native.c:3181:13: sparse:     expected unsigned long *__p=
-u_addr
-   sound/core/pcm_native.c:3181:13: sparse:     got unsigned long [noderef]=
- [usertype] __user *_frames
->> sound/core/pcm_native.c:3202:24: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected int *__pu_addr @@     got=
- int [noderef] __user * @@
-   sound/core/pcm_native.c:3202:24: sparse:     expected int *__pu_addr
-   sound/core/pcm_native.c:3202:24: sparse:     got int [noderef] __user *
-   sound/core/pcm_native.c:3210:21: sparse: sparse: incorrect type in argum=
-ent 1 (different address spaces) @@     expected void const *addr @@     go=
-t unsigned int const [noderef] __user *__gu_ptr @@
-   sound/core/pcm_native.c:3210:21: sparse:     expected void const *addr
-   sound/core/pcm_native.c:3210:21: sparse:     got unsigned int const [nod=
-eref] __user *__gu_ptr
->> sound/core/pcm_native.c:3257:21: sparse: sparse: incorrect type in initi=
-alizer (different address spaces) @@     expected signed long *__pu_addr @@=
-     got signed long [noderef] [usertype] __user *res @@
-   sound/core/pcm_native.c:3257:21: sparse:     expected signed long *__pu_=
-addr
-   sound/core/pcm_native.c:3257:21: sparse:     got signed long [noderef] [=
-usertype] __user *res
-   sound/core/pcm_native.c:95:1: sparse: sparse: context imbalance in 'snd_=
-pcm_group_lock' - different lock contexts for basic block
-   sound/core/pcm_native.c:96:1: sparse: sparse: context imbalance in 'snd_=
-pcm_group_unlock' - unexpected unlock
-   sound/core/pcm_native.c:97:1: sparse: sparse: context imbalance in 'snd_=
-pcm_group_lock_irq' - different lock contexts for basic block
-   sound/core/pcm_native.c:98:1: sparse: sparse: context imbalance in 'snd_=
-pcm_group_unlock_irq' - unexpected unlock
-   sound/core/pcm_native.c:145:9: sparse: sparse: context imbalance in 'snd=
-_pcm_stream_lock_nested' - different lock contexts for basic block
-   sound/core/pcm_native.c:171:9: sparse: sparse: context imbalance in '_sn=
-d_pcm_stream_lock_irqsave' - different lock contexts for basic block
-   sound/core/pcm_native.c:188:39: sparse: sparse: context imbalance in 'sn=
-d_pcm_stream_unlock_irqrestore' - unexpected unlock
-   sound/core/pcm_native.c:1191:52: sparse: sparse: context imbalance in 's=
-nd_pcm_action_group' - unexpected unlock
-   sound/core/pcm_native.c:1262:37: sparse: sparse: context imbalance in 's=
-nd_pcm_stream_group_ref' - different lock contexts for basic block
---
->> sound/core/rawmidi.c:664:13: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got un=
-signed int const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:664:13: sparse:     expected void const *addr
-   sound/core/rawmidi.c:664:13: sparse:     got unsigned int const [noderef=
-] __user *__gu_ptr
->> sound/core/rawmidi.c:666:13: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:666:13: sparse:     expected void const *addr
-   sound/core/rawmidi.c:666:13: sparse:     got int const [noderef] __user =
-*__gu_ptr
-   sound/core/rawmidi.c:668:13: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got un=
-signed int const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:668:13: sparse:     expected void const *addr
-   sound/core/rawmidi.c:668:13: sparse:     got unsigned int const [noderef=
-] __user *__gu_ptr
->> sound/core/rawmidi.c:840:24: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected int *__pu_addr @@     got int=
- [noderef] __user * @@
-   sound/core/rawmidi.c:840:24: sparse:     expected int *__pu_addr
-   sound/core/rawmidi.c:840:24: sparse:     got int [noderef] __user *
-   sound/core/rawmidi.c:846:21: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:846:21: sparse:     expected void const *addr
-   sound/core/rawmidi.c:846:21: sparse:     got int const [noderef] __user =
-*__gu_ptr
-   sound/core/rawmidi.c:884:21: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:884:21: sparse:     expected void const *addr
-   sound/core/rawmidi.c:884:21: sparse:     got int const [noderef] __user =
-*__gu_ptr
-   sound/core/rawmidi.c:899:21: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:899:21: sparse:     expected void const *addr
-   sound/core/rawmidi.c:899:21: sparse:     got int const [noderef] __user =
-*__gu_ptr
-   sound/core/rawmidi.c:933:21: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:933:21: sparse:     expected void const *addr
-   sound/core/rawmidi.c:933:21: sparse:     got int const [noderef] __user =
-*__gu_ptr
-   sound/core/rawmidi.c:947:21: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected int *__pu_addr @@     got int=
- [noderef] __user * @@
-   sound/core/rawmidi.c:947:21: sparse:     expected int *__pu_addr
-   sound/core/rawmidi.c:947:21: sparse:     got int [noderef] __user *
-   sound/core/rawmidi.c:955:21: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t const [noderef] __user *__gu_ptr @@
-   sound/core/rawmidi.c:955:21: sparse:     expected void const *addr
-   sound/core/rawmidi.c:955:21: sparse:     got int const [noderef] __user =
-*__gu_ptr
---
-   sound/core/control.c:788:17: sparse: sparse: restricted snd_ctl_elem_typ=
-e_t degrades to integer
-   sound/core/control.c:788:26: sparse: sparse: restricted snd_ctl_elem_typ=
-e_t degrades to integer
-   sound/core/control.c:789:17: sparse: sparse: restricted snd_ctl_elem_typ=
-e_t degrades to integer
-   sound/core/control.c:789:26: sparse: sparse: restricted snd_ctl_elem_typ=
-e_t degrades to integer
-   sound/core/control.c:808:48: sparse: sparse: restricted snd_ctl_elem_typ=
-e_t degrades to integer
-   sound/core/control.c:1474:40: sparse: sparse: restricted snd_ctl_elem_ty=
-pe_t degrades to integer
->> sound/core/control.c:1577:13: sparse: sparse: incorrect type in argument=
- 1 (different address spaces) @@     expected void const *addr @@     got i=
-nt const [noderef] __user *__gu_ptr @@
-   sound/core/control.c:1577:13: sparse:     expected void const *addr
-   sound/core/control.c:1577:13: sparse:     got int const [noderef] __user=
- *__gu_ptr
->> sound/core/control.c:1581:21: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected int *__pu_addr @@     got in=
-t [noderef] __user *ptr @@
-   sound/core/control.c:1581:21: sparse:     expected int *__pu_addr
-   sound/core/control.c:1581:21: sparse:     got int [noderef] __user *ptr
->> sound/core/control.c:1714:24: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected int *__pu_addr @@     got in=
-t [noderef] __user *ip @@
-   sound/core/control.c:1714:24: sparse:     expected int *__pu_addr
-   sound/core/control.c:1714:24: sparse:     got int [noderef] __user *ip
-   sound/core/control.c:1758:24: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected int *__pu_addr @@     got in=
-t [noderef] __user *ip @@
-   sound/core/control.c:1758:24: sparse:     expected int *__pu_addr
-   sound/core/control.c:1758:24: sparse:     got int [noderef] __user *ip
---
->> sound/core/oss/mixer_oss.c:312:29: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@     expected void const *addr @@     =
-got int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/mixer_oss.c:312:29: sparse:     expected void const *addr
-   sound/core/oss/mixer_oss.c:312:29: sparse:     got int const [noderef] _=
-_user *__gu_ptr
->> sound/core/oss/mixer_oss.c:317:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:317:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:317:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:319:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:319:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:319:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:321:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:321:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:321:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:326:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:326:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:326:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:331:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:331:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:331:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:336:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:336:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:336:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:341:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:341:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:341:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:346:32: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:346:32: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:346:32: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:350:21: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@     expected void const *addr @@     =
-got int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/mixer_oss.c:350:21: sparse:     expected void const *addr
-   sound/core/oss/mixer_oss.c:350:21: sparse:     got int const [noderef] _=
-_user *__gu_ptr
-   sound/core/oss/mixer_oss.c:355:24: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:355:24: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:355:24: sparse:     got int [noderef] __user =
-*p
-   sound/core/oss/mixer_oss.c:360:24: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *p @@
-   sound/core/oss/mixer_oss.c:360:24: sparse:     expected int *__pu_addr
-   sound/core/oss/mixer_oss.c:360:24: sparse:     got int [noderef] __user =
-*p
---
->> sound/core/oss/pcm_oss.c:2574:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2574:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2574:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2576:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2576:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2576:24: sparse:     got int [noderef] __user *p
->> sound/core/oss/pcm_oss.c:2602:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/pcm_oss.c:2602:21: sparse:     expected void const *addr
-   sound/core/oss/pcm_oss.c:2602:21: sparse:     got int const [noderef] __=
-user *__gu_ptr
-   sound/core/oss/pcm_oss.c:2606:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2606:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2606:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2611:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2611:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2611:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2613:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/pcm_oss.c:2613:21: sparse:     expected void const *addr
-   sound/core/oss/pcm_oss.c:2613:21: sparse:     got int const [noderef] __=
-user *__gu_ptr
-   sound/core/oss/pcm_oss.c:2618:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2618:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2618:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2623:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2623:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2623:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2625:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/pcm_oss.c:2625:21: sparse:     expected void const *addr
-   sound/core/oss/pcm_oss.c:2625:21: sparse:     got int const [noderef] __=
-user *__gu_ptr
-   sound/core/oss/pcm_oss.c:2630:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2630:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2630:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2635:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2635:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2635:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2637:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/pcm_oss.c:2637:21: sparse:     expected void const *addr
-   sound/core/oss/pcm_oss.c:2637:21: sparse:     got int const [noderef] __=
-user *__gu_ptr
-   sound/core/oss/pcm_oss.c:2642:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2642:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2642:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2647:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2647:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2647:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2654:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/pcm_oss.c:2654:21: sparse:     expected void const *addr
-   sound/core/oss/pcm_oss.c:2654:21: sparse:     got int const [noderef] __=
-user *__gu_ptr
-   sound/core/oss/pcm_oss.c:2659:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2659:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2659:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2661:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/pcm_oss.c:2661:21: sparse:     expected void const *addr
-   sound/core/oss/pcm_oss.c:2661:21: sparse:     got int const [noderef] __=
-user *__gu_ptr
-   sound/core/oss/pcm_oss.c:2668:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2668:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2668:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2681:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2681:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2681:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2686:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2686:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2686:24: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2688:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot int const [noderef] __user *__gu_ptr @@
-   sound/core/oss/pcm_oss.c:2688:21: sparse:     expected void const *addr
-   sound/core/oss/pcm_oss.c:2688:21: sparse:     got int const [noderef] __=
-user *__gu_ptr
-   sound/core/oss/pcm_oss.c:2714:25: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2714:25: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2714:25: sparse:     got int [noderef] __user *p
-   sound/core/oss/pcm_oss.c:2717:24: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected int *__pu_addr @@     go=
-t int [noderef] __user *p @@
-   sound/core/oss/pcm_oss.c:2717:24: sparse:     expected int *__pu_addr
-   sound/core/oss/pcm_oss.c:2717:24: sparse:     got int [noderef] __user *p
---
->> drivers/mtd/mtdchar.c:417:13: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] [usertype] __user *retp @@
-   drivers/mtd/mtdchar.c:417:13: sparse:     expected unsigned int *__pu_ad=
-dr
-   drivers/mtd/mtdchar.c:417:13: sparse:     got unsigned int [noderef] [us=
-ertype] __user *retp
->> drivers/mtd/mtdchar.c:697:21: sparse: sparse: incorrect type in argument=
- 1 (different address spaces) @@     expected void const *addr @@     got u=
-nsigned int const [noderef] __user *__gu_ptr @@
-   drivers/mtd/mtdchar.c:697:21: sparse:     expected void const *addr
-   drivers/mtd/mtdchar.c:697:21: sparse:     got unsigned int const [nodere=
-f] __user *__gu_ptr
->> drivers/mtd/mtdchar.c:705:21: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user * @@
-   drivers/mtd/mtdchar.c:705:21: sparse:     expected unsigned int *__pu_ad=
-dr
-   drivers/mtd/mtdchar.c:705:21: sparse:     got unsigned int [noderef] __u=
-ser *
-   drivers/mtd/mtdchar.c:706:24: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user * @@
-   drivers/mtd/mtdchar.c:706:24: sparse:     expected unsigned int *__pu_ad=
-dr
-   drivers/mtd/mtdchar.c:706:24: sparse:     got unsigned int [noderef] __u=
-ser *
-   drivers/mtd/mtdchar.c:707:24: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user * @@
-   drivers/mtd/mtdchar.c:707:24: sparse:     expected unsigned int *__pu_ad=
-dr
-   drivers/mtd/mtdchar.c:707:24: sparse:     got unsigned int [noderef] __u=
-ser *
---
->> sound/core/seq/seq_clientmgr.c:412:24: sparse: sparse: incorrect type in=
- argument 1 (different address spaces) @@     expected void const *addr @@ =
-    got char [noderef] __user *buf @@
-   sound/core/seq/seq_clientmgr.c:412:24: sparse:     expected void const *=
-addr
-   sound/core/seq/seq_clientmgr.c:412:24: sparse:     got char [noderef] __=
-user *buf
-   sound/core/seq/seq_clientmgr.c:708:9: sparse: sparse: context imbalance =
-in 'deliver_to_subscribers' - different lock contexts for basic block
---
-   fs/f2fs/file.c:48:54: sparse: sparse: cast from restricted vm_fault_t
-   fs/f2fs/file.c:1972:16: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected int *__pu_addr @@     got int [nod=
-eref] __user * @@
-   fs/f2fs/file.c:1972:16: sparse:     expected int *__pu_addr
-   fs/f2fs/file.c:1972:16: sparse:     got int [noderef] __user *
->> fs/f2fs/file.c:1986:13: sparse: sparse: incorrect type in argument 1 (di=
-fferent address spaces) @@     expected void const *addr @@     got int con=
-st [noderef] __user *__gu_ptr @@
-   fs/f2fs/file.c:1986:13: sparse:     expected void const *addr
-   fs/f2fs/file.c:1986:13: sparse:     got int const [noderef] __user *__gu=
-_ptr
-   fs/f2fs/file.c:2020:16: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected int *__pu_addr @@     got int [nod=
-eref] __user * @@
-   fs/f2fs/file.c:2020:16: sparse:     expected int *__pu_addr
-   fs/f2fs/file.c:2020:16: sparse:     got int [noderef] __user *
->> fs/f2fs/file.c:2240:13: sparse: sparse: incorrect type in argument 1 (di=
-fferent address spaces) @@     expected void const *addr @@     got unsigne=
-d int const [noderef] __user *__gu_ptr @@
-   fs/f2fs/file.c:2240:13: sparse:     expected void const *addr
-   fs/f2fs/file.c:2240:13: sparse:     got unsigned int const [noderef] __u=
-ser *__gu_ptr
-   fs/f2fs/file.c:2473:13: sparse: sparse: incorrect type in argument 1 (di=
-fferent address spaces) @@     expected void const *addr @@     got unsigne=
-d int const [noderef] __user *__gu_ptr @@
-   fs/f2fs/file.c:2473:13: sparse:     expected void const *addr
-   fs/f2fs/file.c:2473:13: sparse:     got unsigned int const [noderef] __u=
-ser *__gu_ptr
-   fs/f2fs/file.c:3001:16: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected unsigned int *__pu_addr @@     got=
- unsigned int [noderef] [usertype] __user * @@
-   fs/f2fs/file.c:3001:16: sparse:     expected unsigned int *__pu_addr
-   fs/f2fs/file.c:3001:16: sparse:     got unsigned int [noderef] [usertype=
-] __user *
-   fs/f2fs/file.c:3239:13: sparse: sparse: incorrect type in argument 1 (di=
-fferent address spaces) @@     expected void const *addr @@     got unsigne=
-d int const [noderef] __user *__gu_ptr @@
-   fs/f2fs/file.c:3239:13: sparse:     expected void const *addr
-   fs/f2fs/file.c:3239:13: sparse:     got unsigned int const [noderef] __u=
-ser *__gu_ptr
-   fs/f2fs/file.c:3296:16: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected unsigned int *__pu_addr @@     got=
- unsigned int [noderef] [usertype] __user * @@
-   fs/f2fs/file.c:3296:16: sparse:     expected unsigned int *__pu_addr
-   fs/f2fs/file.c:3296:16: sparse:     got unsigned int [noderef] [usertype=
-] __user *
-   fs/f2fs/file.c:3400:36: sparse: sparse: incorrect type in argument 1 (di=
-fferent base types) @@     expected unsigned short const [usertype] *pwcs @=
-@     got restricted __le16 * @@
-   fs/f2fs/file.c:3400:36: sparse:     expected unsigned short const [usert=
-ype] *pwcs
-   fs/f2fs/file.c:3400:36: sparse:     got restricted __le16 *
-   fs/f2fs/file.c:3436:28: sparse: sparse: incorrect type in argument 4 (di=
-fferent base types) @@     expected unsigned short [usertype] *pwcs @@     =
-got restricted __le16 * @@
-   fs/f2fs/file.c:3436:28: sparse:     expected unsigned short [usertype] *=
-pwcs
-   fs/f2fs/file.c:3436:28: sparse:     got restricted __le16 *
-   fs/f2fs/file.c:3461:16: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected unsigned long long *__pu_addr @@  =
-   got unsigned long long [noderef] [usertype] __user * @@
-   fs/f2fs/file.c:3461:16: sparse:     expected unsigned long long *__pu_ad=
-dr
-   fs/f2fs/file.c:3461:16: sparse:     got unsigned long long [noderef] [us=
-ertype] __user *
-   fs/f2fs/file.c:3612:23: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected unsigned long long *__pu_addr @@  =
-   got unsigned long long [noderef] [usertype] __user * @@
-   fs/f2fs/file.c:3612:23: sparse:     expected unsigned long long *__pu_ad=
-dr
-   fs/f2fs/file.c:3612:23: sparse:     got unsigned long long [noderef] [us=
-ertype] __user *
-   fs/f2fs/file.c:3772:23: sparse: sparse: incorrect type in initializer (d=
-ifferent address spaces) @@     expected unsigned long long *__pu_addr @@  =
-   got unsigned long long [noderef] [usertype] __user * @@
-   fs/f2fs/file.c:3772:23: sparse:     expected unsigned long long *__pu_ad=
-dr
-   fs/f2fs/file.c:3772:23: sparse:     got unsigned long long [noderef] [us=
-ertype] __user *
---
-   fs/jfs/ioctl.c:70:24: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected int *__pu_addr @@     got int [noder=
-ef] __user * @@
-   fs/jfs/ioctl.c:70:24: sparse:     expected int *__pu_addr
-   fs/jfs/ioctl.c:70:24: sparse:     got int [noderef] __user *
->> fs/jfs/ioctl.c:83:21: sparse: sparse: incorrect type in argument 1 (diff=
-erent address spaces) @@     expected void const *addr @@     got int const=
- [noderef] __user *__gu_ptr @@
-   fs/jfs/ioctl.c:83:21: sparse:     expected void const *addr
-   fs/jfs/ioctl.c:83:21: sparse:     got int const [noderef] __user *__gu_p=
-tr
---
->> net/can/isotp.c:1260:13: sparse: sparse: incorrect type in argument 1 (d=
-ifferent address spaces) @@     expected void const *addr @@     got int co=
-nst [noderef] __user *__gu_ptr @@
-   net/can/isotp.c:1260:13: sparse:     expected void const *addr
-   net/can/isotp.c:1260:13: sparse:     got int const [noderef] __user *__g=
-u_ptr
->> net/can/isotp.c:1295:13: sparse: sparse: incorrect type in initializer (=
-different address spaces) @@     expected int *__pu_addr @@     got int [no=
-deref] __user *optlen @@
-   net/can/isotp.c:1295:13: sparse:     expected int *__pu_addr
-   net/can/isotp.c:1295:13: sparse:     got int [noderef] __user *optlen
---
->> net/can/raw.c:657:13: sparse: sparse: incorrect type in argument 1 (diff=
-erent address spaces) @@     expected void const *addr @@     got int const=
- [noderef] __user *__gu_ptr @@
-   net/can/raw.c:657:13: sparse:     expected void const *addr
-   net/can/raw.c:657:13: sparse:     got int const [noderef] __user *__gu_p=
-tr
-   net/can/raw.c:672:37: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected int *__pu_addr @@     got int [noder=
-ef] __user *optlen @@
-   net/can/raw.c:672:37: sparse:     expected int *__pu_addr
-   net/can/raw.c:672:37: sparse:     got int [noderef] __user *optlen
-   net/can/raw.c:686:31: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected int *__pu_addr @@     got int [noder=
-ef] __user *optlen @@
-   net/can/raw.c:686:31: sparse:     expected int *__pu_addr
-   net/can/raw.c:686:31: sparse:     got int [noderef] __user *optlen
-   net/can/raw.c:723:13: sparse: sparse: incorrect type in initializer (dif=
-ferent address spaces) @@     expected int *__pu_addr @@     got int [noder=
-ef] __user *optlen @@
-   net/can/raw.c:723:13: sparse:     expected int *__pu_addr
-   net/can/raw.c:723:13: sparse:     got int [noderef] __user *optlen
---
->> drivers/tty/moxa.c:332:23: sparse: sparse: incorrect type in initializer=
- (different address spaces) @@     expected unsigned long *__pu_addr @@    =
- got unsigned long [noderef] __user * @@
-   drivers/tty/moxa.c:332:23: sparse:     expected unsigned long *__pu_addr
-   drivers/tty/moxa.c:332:23: sparse:     got unsigned long [noderef] __use=
-r *
-   drivers/tty/moxa.c:336:23: sparse: sparse: incorrect type in initializer=
- (different address spaces) @@     expected unsigned long *__pu_addr @@    =
- got unsigned long [noderef] __user * @@
-   drivers/tty/moxa.c:336:23: sparse:     expected unsigned long *__pu_addr
-   drivers/tty/moxa.c:336:23: sparse:     got unsigned long [noderef] __use=
-r *
-   drivers/tty/moxa.c: note: in included file (through arch/csky/include/as=
-m/io.h, include/linux/io.h, include/linux/irq.h, ...):
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
---
->> drivers/tty/synclink_gt.c:2620:13: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *idle_mode @@
-   drivers/tty/synclink_gt.c:2620:13: sparse:     expected int *__pu_addr
-   drivers/tty/synclink_gt.c:2620:13: sparse:     got int [noderef] __user =
-*idle_mode
->> drivers/tty/synclink_gt.c:2727:13: sparse: sparse: incorrect type in arg=
-ument 1 (different address spaces) @@     expected void const *addr @@     =
-got int const [noderef] __user *__gu_ptr @@
-   drivers/tty/synclink_gt.c:2727:13: sparse:     expected void const *addr
-   drivers/tty/synclink_gt.c:2727:13: sparse:     got int const [noderef] _=
-_user *__gu_ptr
->> drivers/tty/synclink_gt.c:2826:22: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *mask_ptr @@
-   drivers/tty/synclink_gt.c:2826:22: sparse:     expected int *__pu_addr
-   drivers/tty/synclink_gt.c:2826:22: sparse:     got int [noderef] __user =
-*mask_ptr
->> drivers/tty/synclink_gt.c:2833:13: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *if_mode @@
-   drivers/tty/synclink_gt.c:2833:13: sparse:     expected int *__pu_addr
-   drivers/tty/synclink_gt.c:2833:13: sparse:     got int [noderef] __user =
-*if_mode
->> drivers/tty/synclink_gt.c:2864:13: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *xsync @@
-   drivers/tty/synclink_gt.c:2864:13: sparse:     expected int *__pu_addr
-   drivers/tty/synclink_gt.c:2864:13: sparse:     got int [noderef] __user =
-*xsync
->> drivers/tty/synclink_gt.c:2890:13: sparse: sparse: incorrect type in ini=
-tializer (different address spaces) @@     expected int *__pu_addr @@     g=
-ot int [noderef] __user *xctrl @@
-   drivers/tty/synclink_gt.c:2890:13: sparse:     expected int *__pu_addr
-   drivers/tty/synclink_gt.c:2890:13: sparse:     got int [noderef] __user =
-*xctrl
-   drivers/tty/synclink_gt.c: note: in included file (through arch/csky/inc=
-lude/asm/io.h, include/linux/io.h, include/linux/irq.h, ...):
-   include/asm-generic/io.h:259:16: sparse: sparse: cast to restricted __le=
-16
-   include/asm-generic/io.h:291:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned short [usertype] valu=
-e @@     got restricted __le16 [usertype] @@
-   include/asm-generic/io.h:291:22: sparse:     expected unsigned short [us=
-ertype] value
-   include/asm-generic/io.h:291:22: sparse:     got restricted __le16 [user=
-type]
-   include/asm-generic/io.h:267:16: sparse: sparse: cast to restricted __le=
-32
-   include/asm-generic/io.h:299:22: sparse: sparse: incorrect type in argum=
-ent 1 (different base types) @@     expected unsigned int [usertype] value =
-@@     got restricted __le32 [usertype] @@
-   include/asm-generic/io.h:299:22: sparse:     expected unsigned int [user=
-type] value
-   include/asm-generic/io.h:299:22: sparse:     got restricted __le32 [user=
-type]
---
->> net/l2tp/l2tp_ppp.c:1075:21: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected int *__pu_addr @@     got int=
- [noderef] __user * @@
-   net/l2tp/l2tp_ppp.c:1075:21: sparse:     expected int *__pu_addr
-   net/l2tp/l2tp_ppp.c:1075:21: sparse:     got int [noderef] __user *
->> net/l2tp/l2tp_ppp.c:1092:33: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t [noderef] __user * @@
-   net/l2tp/l2tp_ppp.c:1092:33: sparse:     expected void const *addr
-   net/l2tp/l2tp_ppp.c:1092:33: sparse:     got int [noderef] __user *
->> net/l2tp/l2tp_ppp.c:1348:13: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got in=
-t const [noderef] __user *__gu_ptr @@
-   net/l2tp/l2tp_ppp.c:1348:13: sparse:     expected void const *addr
-   net/l2tp/l2tp_ppp.c:1348:13: sparse:     got int const [noderef] __user =
-*__gu_ptr
->> net/l2tp/l2tp_ppp.c:1379:13: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected int *__pu_addr @@     got int=
- [noderef] __user *optlen @@
-   net/l2tp/l2tp_ppp.c:1379:13: sparse:     expected int *__pu_addr
-   net/l2tp/l2tp_ppp.c:1379:13: sparse:     got int [noderef] __user *optlen
---
->> drivers/vhost/scsi.c:1906:21: sparse: sparse: incorrect type in argument=
- 1 (different address spaces) @@     expected void const *addr @@     got u=
-nsigned int const [noderef] __user *__gu_ptr @@
-   drivers/vhost/scsi.c:1906:21: sparse:     expected void const *addr
-   drivers/vhost/scsi.c:1906:21: sparse:     got unsigned int const [nodere=
-f] __user *__gu_ptr
->> drivers/vhost/scsi.c:1916:21: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] [usertype] __user *eventsp @@
-   drivers/vhost/scsi.c:1916:21: sparse:     expected unsigned int *__pu_ad=
-dr
-   drivers/vhost/scsi.c:1916:21: sparse:     got unsigned int [noderef] [us=
-ertype] __user *eventsp
-   drivers/vhost/scsi.c: note: in included file (through include/linux/sche=
-d/task.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
-   include/linux/uaccess.h:148:33: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void *to @@     got void [n=
-oderef] __user *to @@
-   include/linux/uaccess.h:148:33: sparse:     expected void *to
-   include/linux/uaccess.h:148:33: sparse:     got void [noderef] __user *to
-   include/linux/uaccess.h:148:33: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void *to @@     got void [n=
-oderef] __user *to @@
-   include/linux/uaccess.h:148:33: sparse:     expected void *to
-   include/linux/uaccess.h:148:33: sparse:     got void [noderef] __user *to
---
->> drivers/vhost/vdpa.c:364:13: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected void const *addr @@     got un=
-signed int const [noderef] __user *__gu_ptr @@
-   drivers/vhost/vdpa.c:364:13: sparse:     expected void const *addr
-   drivers/vhost/vdpa.c:364:13: sparse:     got unsigned int const [noderef=
-] __user *__gu_ptr
---
->> drivers/vhost/vhost.c:734:35: sparse: sparse: incorrect type in argument=
- 1 (different address spaces) @@     expected void const *addr @@     got v=
-oid [noderef] __user * @@
-   drivers/vhost/vhost.c:734:35: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:734:35: sparse:     got void [noderef] __user *
-   drivers/vhost/vhost.c:760:33: sparse: sparse: incorrect type in argument=
- 1 (different address spaces) @@     expected void const *addr @@     got v=
-oid [noderef] __user * @@
-   drivers/vhost/vhost.c:760:33: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:760:33: sparse:     got void [noderef] __user *
-   drivers/vhost/vhost.c:1079:25: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-void [noderef] __user * @@
-   drivers/vhost/vhost.c:1079:25: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:1079:25: sparse:     got void [noderef] __user *
-   drivers/vhost/vhost.c:1082:25: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-void [noderef] __user * @@
-   drivers/vhost/vhost.c:1082:25: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:1082:25: sparse:     got void [noderef] __user *
->> drivers/vhost/vhost.c:1303:26: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-struct vring_desc [noderef] [usertype] __user *desc @@
-   drivers/vhost/vhost.c:1303:26: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:1303:26: sparse:     got struct vring_desc [nodere=
-f] [usertype] __user *desc
->> drivers/vhost/vhost.c:1304:26: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-struct vring_avail [noderef] [usertype] __user *avail @@
-   drivers/vhost/vhost.c:1304:26: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:1304:26: sparse:     got struct vring_avail [noder=
-ef] [usertype] __user *avail
->> drivers/vhost/vhost.c:1305:26: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-struct vring_used [noderef] [usertype] __user *used @@
-   drivers/vhost/vhost.c:1305:26: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:1305:26: sparse:     got struct vring_used [nodere=
-f] [usertype] __user *used
->> drivers/vhost/vhost.c:1589:13: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-unsigned int const [noderef] __user *__gu_ptr @@
-   drivers/vhost/vhost.c:1589:13: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:1589:13: sparse:     got unsigned int const [noder=
-ef] __user *__gu_ptr
->> drivers/vhost/vhost.c:1787:21: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-int const [noderef] __user *__gu_ptr @@
-   drivers/vhost/vhost.c:1787:21: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:1787:21: sparse:     got int const [noderef] __use=
-r *__gu_ptr
->> drivers/vhost/vhost.c:2012:27: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-restricted __virtio16 [noderef] __user * @@
-   drivers/vhost/vhost.c:2012:27: sparse:     expected void const *addr
-   drivers/vhost/vhost.c:2012:27: sparse:     got restricted __virtio16 [no=
-deref] __user *
-   drivers/vhost/vhost.c: note: in included file (through include/linux/sch=
-ed/task.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
-   include/linux/uaccess.h:148:33: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void *to @@     got void [n=
-oderef] __user *to @@
-   include/linux/uaccess.h:148:33: sparse:     expected void *to
-   include/linux/uaccess.h:148:33: sparse:     got void [noderef] __user *to
-   include/linux/uaccess.h:148:33: sparse: sparse: incorrect type in argume=
-nt 1 (different address spaces) @@     expected void *to @@     got void [n=
-oderef] __user *to @@
-   include/linux/uaccess.h:148:33: sparse:     expected void *to
-   include/linux/uaccess.h:148:33: sparse:     got void [noderef] __user *to
-   include/linux/uaccess.h:114:39: sparse: sparse: incorrect type in argume=
-nt 2 (different address spaces) @@     expected void const *from @@     got=
- void const [noderef] __user *from @@
-   include/linux/uaccess.h:114:39: sparse:     expected void const *from
-   include/linux/uaccess.h:114:39: sparse:     got void const [noderef] __u=
-ser *from
-   include/linux/uaccess.h:114:39: sparse: sparse: incorrect type in argume=
-nt 2 (different address spaces) @@     expected void const *from @@     got=
- void const [noderef] __user *from @@
-   include/linux/uaccess.h:114:39: sparse:     expected void const *from
-   include/linux/uaccess.h:114:39: sparse:     got void const [noderef] __u=
-ser *from
->> drivers/vhost/vhost.c:963:16: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected restricted __virtio16 *__pu_=
-addr @@     got restricted __virtio16 [noderef] __user * @@
-   drivers/vhost/vhost.c:963:16: sparse:     expected restricted __virtio16=
- *__pu_addr
-   drivers/vhost/vhost.c:963:16: sparse:     got restricted __virtio16 [nod=
-eref] __user *
->> drivers/vhost/vhost.c:963:16: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected restricted __virtio16 *__pu_=
-addr @@     got restricted __virtio16 [noderef] __user *to @@
-   drivers/vhost/vhost.c:963:16: sparse:     expected restricted __virtio16=
- *__pu_addr
-   drivers/vhost/vhost.c:963:16: sparse:     got restricted __virtio16 [nod=
-eref] __user *to
->> drivers/vhost/vhost.c:948:16: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected restricted __virtio16 *__pu_=
-addr @@     got restricted __virtio16 [noderef] [usertype] __user * @@
-   drivers/vhost/vhost.c:948:16: sparse:     expected restricted __virtio16=
- *__pu_addr
-   drivers/vhost/vhost.c:948:16: sparse:     got restricted __virtio16 [nod=
-eref] [usertype] __user *
->> drivers/vhost/vhost.c:948:16: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected restricted __virtio16 *__pu_=
-addr @@     got restricted __virtio16 [noderef] [usertype] __user *to @@
-   drivers/vhost/vhost.c:948:16: sparse:     expected restricted __virtio16=
- *__pu_addr
-   drivers/vhost/vhost.c:948:16: sparse:     got restricted __virtio16 [nod=
-eref] [usertype] __user *to
-   drivers/vhost/vhost.c:970:16: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected restricted __virtio16 *__pu_=
-addr @@     got restricted __virtio16 [noderef] __user * @@
-   drivers/vhost/vhost.c:970:16: sparse:     expected restricted __virtio16=
- *__pu_addr
-   drivers/vhost/vhost.c:970:16: sparse:     got restricted __virtio16 [nod=
-eref] __user *
-   drivers/vhost/vhost.c:970:16: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected restricted __virtio16 *__pu_=
-addr @@     got restricted __virtio16 [noderef] __user *to @@
-   drivers/vhost/vhost.c:970:16: sparse:     expected restricted __virtio16=
- *__pu_addr
-   drivers/vhost/vhost.c:970:16: sparse:     got restricted __virtio16 [nod=
-eref] __user *to
+   drivers/rtc/rtc-mxc_v2.c: note: in included file (through include/linux/=
+rwsem.h, include/linux/notifier.h, include/linux/clk.h):
+>> include/linux/spinlock.h:379:9: sparse: sparse: context imbalance in 'mx=
+c_rtc_lock' - wrong count at exit
+   drivers/rtc/rtc-mxc_v2.c:128:12: sparse: sparse: context imbalance in 'm=
+xc_rtc_unlock' - unexpected unlock
 
-vim +14 arch/csky/mm/tcm.c
+vim +/mxc_rtc_lock +379 include/linux/spinlock.h
 
-f525bb2c9e7cf1 Guo Ren 2019-11-27   7  =
+c2f21ce2e31286 Thomas Gleixner 2009-12-02  376  =
 
-f525bb2c9e7cf1 Guo Ren 2019-11-27   8  #if (CONFIG_ITCM_RAM_BASE =3D=3D 0xf=
-fffffff)
-f525bb2c9e7cf1 Guo Ren 2019-11-27  @9  #error "You should define ITCM_RAM_B=
-ASE"
-f525bb2c9e7cf1 Guo Ren 2019-11-27  10  #endif
-f525bb2c9e7cf1 Guo Ren 2019-11-27  11  =
+3490565b633c70 Denys Vlasenko  2015-07-13  377  static __always_inline void=
+ spin_lock_irq(spinlock_t *lock)
+c2f21ce2e31286 Thomas Gleixner 2009-12-02  378  {
+c2f21ce2e31286 Thomas Gleixner 2009-12-02 @379  	raw_spin_lock_irq(&lock->r=
+lock);
+c2f21ce2e31286 Thomas Gleixner 2009-12-02  380  }
+c2f21ce2e31286 Thomas Gleixner 2009-12-02  381  =
 
-f525bb2c9e7cf1 Guo Ren 2019-11-27  12  #ifdef CONFIG_HAVE_DTCM
-f525bb2c9e7cf1 Guo Ren 2019-11-27  13  #if (CONFIG_DTCM_RAM_BASE =3D=3D 0xf=
-fffffff)
-f525bb2c9e7cf1 Guo Ren 2019-11-27 @14  #error "You should define DTCM_RAM_B=
-ASE"
-f525bb2c9e7cf1 Guo Ren 2019-11-27  15  #endif
-f525bb2c9e7cf1 Guo Ren 2019-11-27  16  =
 
-f525bb2c9e7cf1 Guo Ren 2019-11-27  17  #if (CONFIG_DTCM_RAM_BASE =3D=3D CON=
-FIG_ITCM_RAM_BASE)
-f525bb2c9e7cf1 Guo Ren 2019-11-27 @18  #error "You should define correct DT=
-CM_RAM_BASE"
-f525bb2c9e7cf1 Guo Ren 2019-11-27  19  #endif
-f525bb2c9e7cf1 Guo Ren 2019-11-27  20  #endif
-f525bb2c9e7cf1 Guo Ren 2019-11-27  21  =
+:::::: The code at line 379 was first introduced by commit
+:::::: c2f21ce2e31286a0a32f8da0a7856e9ca1122ef3 locking: Implement new raw_=
+spinlock
 
+:::::: TO: Thomas Gleixner <tglx@linutronix.de>
+:::::: CC: Thomas Gleixner <tglx@linutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5396201924578045667==
+--===============3425446283456938362==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
---===============5396201924578045667==--
+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
+--===============3425446283456938362==--
 
