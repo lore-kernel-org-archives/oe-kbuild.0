@@ -1,24 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============4164490139832585296=="
+Content-Type: multipart/mixed; boundary="===============1333537058029979234=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH] fix NULL pointer deference crash
-Date: Wed, 31 Mar 2021 23:02:33 +0300
-Message-ID: <20210331200233.GN2065@kadam>
-In-Reply-To: <20210331163425.8092-1-h.shahbazi.git@gmail.com>
+Date: Thu, 01 Apr 2021 03:29:12 +0800
+Message-ID: <202104010354.qDklBPnd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4164490139832585296==
+--===============1333537058029979234==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210331163425.8092-1-h.shahbazi.git@gmail.com>
+References: <20210331163425.8092-1-h.shahbazi.git@gmail.com>
+TO: Hassan Shahbazi <h.shahbazi.git@gmail.com>
+TO: gregkh(a)linuxfoundation.org
+TO: daniel.vetter(a)ffwll.ch
+TO: jirislaby(a)kernel.org
+TO: yepeilin.cs(a)gmail.com
+CC: linux-fbdev(a)vger.kernel.org
+CC: dri-devel(a)lists.freedesktop.org
+CC: linux-kernel(a)vger.kernel.org
+CC: Hassan Shahbazi <h.shahbazi.git@gmail.com>
+
 Hi Hassan,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on linus/master]
+[also build test WARNING on v5.12-rc5]
+[cannot apply to next-20210331]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Hassan-Shahbazi/fix-NULL-p=
 ointer-deference-crash/20210401-004543
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 5e46d1b78a03d52306f21f77a4e4a144b6d31486
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
 config: x86_64-randconfig-m001-20210330 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -35,6 +58,9 @@ drivers/video/fbdev/core/fbcon.c:3028 fbcon_get_con2fb_map_ioctl() warn: po=
 tential spectre issue 'con2fb_map' [r]
 
 vim +/ops +1336 drivers/video/fbdev/core/fbcon.c
+
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds     2005-04=
+-16  1317  =
 
 ^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds     2005-04=
 -16  1318  static void fbcon_cursor(struct vc_data *vc, int mode)
@@ -75,31 +101,26 @@ acba9cd01974353 drivers/video/console/fbcon.c    Antonino A. Daplas 2007-07=
 
 ^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds     2005-04=
 -16  1334  	ops->cursor_flash =3D (mode =3D=3D CM_ERASE) ? 0 : 1;
-                                                                           =
-             ^^^^^^^^^^^^^^^^^
-Dereferenced
-
 ^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds     2005-04=
 -16  1335  =
 
 1d73453653c6d4f drivers/video/fbdev/core/fbcon.c Hassan Shahbazi    2021-03=
 -31 @1336  	if (ops && ops->cursor)
-                                                                           =
-                 ^^^
-Checked too late
-
 06a0df4d1b8b13b drivers/video/fbdev/core/fbcon.c Linus Torvalds     2020-09=
 -08  1337  		ops->cursor(vc, info, mode, get_color(vc, info, c, 1),
 ^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds     2005-04=
 -16  1338  				get_color(vc, info, c, 0));
 ^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds     2005-04=
 -16  1339  }
+^1da177e4c3f415 drivers/video/console/fbcon.c    Linus Torvalds     2005-04=
+-16  1340  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4164490139832585296==
+--===============1333537058029979234==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -901,5 +922,5 @@ ESiXSqBoSv5lVCJQvoHMOlOZ1dXN8KNTqG3dpPAmdh8WZgiPWQFXTn5Cm0LiPbVnkXbGMJRTibBp
 zOXIVuv7Kvc6BP10jIs2XltUQ1WSrkPJDLyKK/7qRCHR4XODN85wqPN8Ch0XoXGjz0e4tlUq8x0w
 hYnVQunxwvjWu7C21xolWHDzV6hllpcTCwID/AUstal1TD6jAdbeVxKQ6FXvcYPjbZWpXRCias3m
 QjUh8/cN7LVtzzXNS8Cps8ky3eRpXeO+jcuIWLjRFmXaWabqeKqZ6ns/iP8D99dgxmfeAgA=
---===============4164490139832585296==--
+--===============1333537058029979234==--
 
