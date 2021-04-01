@@ -1,5128 +1,799 @@
-Content-Type: multipart/mixed; boundary="===============0341457631590160035=="
+Content-Type: multipart/mixed; boundary="===============6383461672289828236=="
 MIME-Version: 1.0
-From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 8729/9190] drivers/misc/altera-stapl/altera.c:2113:1: warning: the frame size of 4232 bytes is larger than 1024 bytes
-Date: Fri, 02 Apr 2021 00:21:35 +0800
-Message-ID: <202104020023.za9dag7v-lkp@intel.com>
+From: Dan Carpenter <dan.carpenter@oracle.com>
+Subject: [linux-next:master 8404/9190] drivers/phy/cadence/phy-cadence-sierra.c:500 cdns_sierra_pll_mux_register() warn: passing zero to 'PTR_ERR'
+Date: Thu, 01 Apr 2021 16:47:39 +0300
+Message-ID: <20210401134739.GU2065@kadam>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0341457631590160035==
+--===============6383461672289828236==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Julian Braha <julianbraha@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-
-Hi Julian,
-
-First bad commit (maybe !=3D root cause):
-
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   454c576c3f5e51d60f00a4ac0dde07f4f9d70e9d
-commit: 969f31e9eae3fb5d8388677c2ec34c2f447f7376 [8729/9190] lib: fix kconf=
-ig dependency on ARCH_WANT_FRAME_POINTERS
-:::::: branch date: 8 hours ago
-:::::: commit date: 12 hours ago
-config: csky-randconfig-s031-20210401 (attached as .config)
-compiler: csky-linux-gcc (GCC) 9.3.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.3-279-g6d5d9b42-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D969f31e9eae3fb5d8388677c2ec34c2f447f7376
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 969f31e9eae3fb5d8388677c2ec34c2f447f7376
-        # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
-C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Dcsky =
-
+commit: 28081b72859f0fa3d5b56cfd84b2f5ba578765d2 [8404/9190] phy: cadence: =
+Sierra: Model PLL_CMNLC and PLL_CMNLC1 as clocks (mux clocks)
+config: i386-randconfig-m021-20210401 (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-
-All warnings (new ones prefixed by >>):
-
-   drivers/misc/altera-stapl/altera.c: In function 'altera_execute':
->> drivers/misc/altera-stapl/altera.c:2113:1: warning: the frame size of 42=
-32 bytes is larger than 1024 bytes [-Wframe-larger-than=3D]
-    2113 | }
-         | ^
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for LOCKDEP
-   Depends on DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT && (FRAME_POINTER || M=
-IPS || PPC || S390 || MICROBLAZE || ARM || ARC || X86)
-   Selected by
-   - PROVE_LOCKING && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
-   - DEBUG_LOCK_ALLOC && DEBUG_KERNEL && LOCK_DEBUGGING_SUPPORT
-
-
-sparse warnings: (new ones prefixed by >>)
->> arch/csky/kernel/perf_callchain.c:57:49: sparse: sparse: incorrect type =
-in argument 2 (different address spaces) @@     expected void const [nodere=
-f] __user *from @@     got unsigned long *user_frame_tail @@
-   arch/csky/kernel/perf_callchain.c:57:49: sparse:     expected void const=
- [noderef] __user *from
-   arch/csky/kernel/perf_callchain.c:57:49: sparse:     got unsigned long *=
-user_frame_tail
-   arch/csky/kernel/perf_callchain.c: note: in included file (through inclu=
-de/linux/sched/task.h, include/linux/sched/signal.h, include/linux/ptrace.h=
-, ...):
-   include/linux/uaccess.h:103:39: sparse: sparse: incorrect type in argume=
-nt 2 (different address spaces) @@     expected void const *from @@     got=
- void const [noderef] __user *from @@
-   include/linux/uaccess.h:103:39: sparse:     expected void const *from
-   include/linux/uaccess.h:103:39: sparse:     got void const [noderef] __u=
-ser *from
---
-   kernel/events/core.c:583:26: sparse: sparse: function 'perf_pmu_name' wi=
-th external linkage has definition
-   kernel/events/core.c:1466:15: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:1466:15: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:1466:15: sparse:    struct perf_event_context *
-   kernel/events/core.c:1479:28: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:1479:28: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:1479:28: sparse:    struct perf_event_context *
-   kernel/events/core.c:3390:18: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:3390:18: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:3390:18: sparse:    struct perf_event_context *
-   kernel/events/core.c:3391:23: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:3391:23: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:3391:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:3439:25: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:3439:25: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:3439:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:3440:25: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:3440:25: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:3440:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:4582:25: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:4582:25: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:4582:25: sparse:    struct perf_event_context *
-   kernel/events/core.c:5844:9: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/events/core.c:5844:9: sparse:    struct perf_buffer [noderef] __r=
-cu *
-   kernel/events/core.c:5844:9: sparse:    struct perf_buffer *
-   kernel/events/core.c:5320:24: sparse: sparse: incorrect type in assignme=
-nt (different base types) @@     expected restricted __poll_t [usertype] ev=
-ents @@     got int @@
->> kernel/events/core.c:11514:15: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-unsigned int const [noderef] __user *__gu_ptr @@
->> kernel/events/core.c:11617:9: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected unsigned int *__pu_addr @@  =
-   got unsigned int [noderef] __user * @@
-   kernel/events/core.c:5550:22: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:5550:22: sparse:    struct perf_buffer [noderef] __=
-rcu *
-   kernel/events/core.c:5550:22: sparse:    struct perf_buffer *
-   kernel/events/core.c:5686:14: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:5686:14: sparse:    struct perf_buffer [noderef] __=
-rcu *
-   kernel/events/core.c:5686:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5719:14: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:5719:14: sparse:    struct perf_buffer [noderef] __=
-rcu *
-   kernel/events/core.c:5719:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5776:14: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:5776:14: sparse:    struct perf_buffer [noderef] __=
-rcu *
-   kernel/events/core.c:5776:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5862:14: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:5862:14: sparse:    struct perf_buffer [noderef] __=
-rcu *
-   kernel/events/core.c:5862:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:5875:14: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:5875:14: sparse:    struct perf_buffer [noderef] __=
-rcu *
-   kernel/events/core.c:5875:14: sparse:    struct perf_buffer *
-   kernel/events/core.c:6557:6: sparse: sparse: symbol 'perf_pmu_snapshot_a=
-ux' was not declared. Should it be static?
-   kernel/events/core.c:7476:23: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:7476:23: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:7476:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:7567:13: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:7567:13: sparse:    struct perf_buffer [noderef] __=
-rcu *
-   kernel/events/core.c:7567:13: sparse:    struct perf_buffer *
-   kernel/events/core.c:7672:61: sparse: sparse: incorrect type in argument=
- 2 (different address spaces) @@     expected struct task_struct *p @@     =
-got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/events/core.c:7672:61: sparse:     expected struct task_struct *p
-   kernel/events/core.c:7672:61: sparse:     got struct task_struct [nodere=
-f] __rcu *real_parent
-   kernel/events/core.c:7674:61: sparse: sparse: incorrect type in argument=
- 2 (different address spaces) @@     expected struct task_struct *p @@     =
-got struct task_struct [noderef] __rcu *real_parent @@
-   kernel/events/core.c:7674:61: sparse:     expected struct task_struct *p
-   kernel/events/core.c:7674:61: sparse:     got struct task_struct [nodere=
-f] __rcu *real_parent
-   kernel/events/core.c:8379:23: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:8379:23: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:8379:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:9343:9: sparse: sparse: incompatible types in compa=
-rison expression (different address spaces):
-   kernel/events/core.c:9343:9: sparse:    struct swevent_hlist [noderef] _=
-_rcu *
-   kernel/events/core.c:9343:9: sparse:    struct swevent_hlist *
-   kernel/events/core.c:9382:17: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:9382:17: sparse:    struct swevent_hlist [noderef] =
-__rcu *
-   kernel/events/core.c:9382:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:9563:23: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:9563:23: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:9563:23: sparse:    struct perf_event_context *
-   kernel/events/core.c:10748:1: sparse: sparse: symbol 'dev_attr_nr_addr_f=
-ilters' was not declared. Should it be static?
-   kernel/events/core.c:12489:9: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:12489:9: sparse:    struct perf_event_context [node=
-ref] __rcu *
-   kernel/events/core.c:12489:9: sparse:    struct perf_event_context *
-   kernel/events/core.c:12599:17: sparse: sparse: incompatible types in com=
-parison expression (different address spaces):
-   kernel/events/core.c:12599:17: sparse:    struct perf_event_context [nod=
-eref] __rcu *
-   kernel/events/core.c:12599:17: sparse:    struct perf_event_context *
-   kernel/events/core.c:13022:17: sparse: sparse: incompatible types in com=
-parison expression (different address spaces):
-   kernel/events/core.c:13022:17: sparse:    struct swevent_hlist [noderef]=
- __rcu *
-   kernel/events/core.c:13022:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:166:9: sparse: sparse: context imbalance in 'perf_c=
-tx_lock' - wrong count at exit
-   kernel/events/core.c:174:17: sparse: sparse: context imbalance in 'perf_=
-ctx_unlock' - unexpected unlock
-   kernel/events/core.c: note: in included file (through include/linux/rcul=
-ist.h, include/linux/dcache.h, include/linux/fs.h):
-   include/linux/rcupdate.h:706:9: sparse: sparse: context imbalance in 'pe=
-rf_lock_task_context' - different lock contexts for basic block
-   kernel/events/core.c:1513:17: sparse: sparse: context imbalance in 'perf=
-_pin_task_context' - unexpected unlock
-   kernel/events/core.c:2807:9: sparse: sparse: context imbalance in '__per=
-f_install_in_context' - wrong count at exit
-   kernel/events/core.c:4554:17: sparse: sparse: context imbalance in 'find=
-_get_context' - unexpected unlock
-   kernel/events/core.c: note: in included file:
-   kernel/events/internal.h:197:46: sparse: sparse: incorrect type in argum=
-ent 2 (different address spaces) @@     expected void const [noderef] __use=
-r *from @@     got void const *src @@
-   kernel/events/core.c: note: in included file (through include/linux/sche=
-d/task.h, include/linux/sched/signal.h, include/linux/rcuwait.h, ...):
-   include/linux/uaccess.h:103:39: sparse: sparse: incorrect type in argume=
-nt 2 (different address spaces) @@     expected void const *from @@     got=
- void const [noderef] __user *from @@
-   kernel/events/core.c:9192:17: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:9192:17: sparse:    struct swevent_hlist [noderef] =
-__rcu *
-   kernel/events/core.c:9192:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:9212:17: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:9212:17: sparse:    struct swevent_hlist [noderef] =
-__rcu *
-   kernel/events/core.c:9212:17: sparse:    struct swevent_hlist *
-   kernel/events/core.c:9332:16: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:9332:16: sparse:    struct swevent_hlist [noderef] =
-__rcu *
-   kernel/events/core.c:9332:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:9332:16: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:9332:16: sparse:    struct swevent_hlist [noderef] =
-__rcu *
-   kernel/events/core.c:9332:16: sparse:    struct swevent_hlist *
-   kernel/events/core.c:9332:16: sparse: sparse: incompatible types in comp=
-arison expression (different address spaces):
-   kernel/events/core.c:9332:16: sparse:    struct swevent_hlist [noderef] =
-__rcu *
-   kernel/events/core.c:9332:16: sparse:    struct swevent_hlist *
---
->> fs/verity/measure.c:42:13: sparse: sparse: incorrect type in argument 1 =
-(different address spaces) @@     expected void const *addr @@     got unsi=
-gned short const [noderef] __user *__gu_ptr @@
-   fs/verity/measure.c:42:13: sparse:     expected void const *addr
-   fs/verity/measure.c:42:13: sparse:     got unsigned short const [noderef=
-] __user *__gu_ptr
---
->> drivers/android/binder.c:3203:21: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned int const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3203:21: sparse:     expected void const *addr
-   drivers/android/binder.c:3203:21: sparse:     got unsigned int const [no=
-deref] __user *__gu_ptr
-   drivers/android/binder.c:3223:29: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned int const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3223:29: sparse:     expected void const *addr
-   drivers/android/binder.c:3223:29: sparse:     got unsigned int const [no=
-deref] __user *__gu_ptr
->> drivers/android/binder.c:3290:29: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned long long const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3290:29: sparse:     expected void const *addr
-   drivers/android/binder.c:3290:29: sparse:     got unsigned long long con=
-st [noderef] __user *__gu_ptr
-   drivers/android/binder.c:3293:29: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned long long const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3293:29: sparse:     expected void const *addr
-   drivers/android/binder.c:3293:29: sparse:     got unsigned long long con=
-st [noderef] __user *__gu_ptr
-   drivers/android/binder.c:3362:29: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned long long const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3362:29: sparse:     expected void const *addr
-   drivers/android/binder.c:3362:29: sparse:     got unsigned long long con=
-st [noderef] __user *__gu_ptr
-   drivers/android/binder.c:3459:29: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned int const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3459:29: sparse:     expected void const *addr
-   drivers/android/binder.c:3459:29: sparse:     got unsigned int const [no=
-deref] __user *__gu_ptr
-   drivers/android/binder.c:3462:29: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned long long const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3462:29: sparse:     expected void const *addr
-   drivers/android/binder.c:3462:29: sparse:     got unsigned long long con=
-st [noderef] __user *__gu_ptr
-   drivers/android/binder.c:3581:29: sparse: sparse: incorrect type in argu=
-ment 1 (different address spaces) @@     expected void const *addr @@     g=
-ot unsigned long long const [noderef] __user *__gu_ptr @@
-   drivers/android/binder.c:3581:29: sparse:     expected void const *addr
-   drivers/android/binder.c:3581:29: sparse:     got unsigned long long con=
-st [noderef] __user *__gu_ptr
->> drivers/android/binder.c:3657:13: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:3657:13: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:3657:13: sparse:     got unsigned int [noderef]=
- [usertype] __user *
->> drivers/android/binder.c:3661:13: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned long long *__pu=
-_addr @@     got unsigned long long [noderef] [usertype] __user * @@
-   drivers/android/binder.c:3661:13: sparse:     expected unsigned long lon=
-g *__pu_addr
-   drivers/android/binder.c:3661:13: sparse:     got unsigned long long [no=
-deref] [usertype] __user *
-   drivers/android/binder.c:3665:13: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned long long *__pu=
-_addr @@     got unsigned long long [noderef] [usertype] __user * @@
-   drivers/android/binder.c:3665:13: sparse:     expected unsigned long lon=
-g *__pu_addr
-   drivers/android/binder.c:3665:13: sparse:     got unsigned long long [no=
-deref] [usertype] __user *
-   drivers/android/binder.c:3788:21: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:3788:21: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:3788:21: sparse:     got unsigned int [noderef]=
- [usertype] __user *
-   drivers/android/binder.c:3870:29: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:3870:29: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:3870:29: sparse:     got unsigned int [noderef]=
- [usertype] __user *
-   drivers/android/binder.c:3883:29: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:3883:29: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:3883:29: sparse:     got unsigned int [noderef]=
- [usertype] __user *
-   drivers/android/binder.c:4009:29: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:4009:29: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:4009:29: sparse:     got unsigned int [noderef]=
- [usertype] __user *
-   drivers/android/binder.c:4012:29: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned long long *__pu=
-_addr @@     got unsigned long long [noderef] [usertype] __user * @@
-   drivers/android/binder.c:4012:29: sparse:     expected unsigned long lon=
-g *__pu_addr
-   drivers/android/binder.c:4012:29: sparse:     got unsigned long long [no=
-deref] [usertype] __user *
-   drivers/android/binder.c:4084:37: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:4084:37: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:4084:37: sparse:     got unsigned int [noderef]=
- [usertype] __user *
-   drivers/android/binder.c:4104:21: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:4104:21: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:4104:21: sparse:     got unsigned int [noderef]=
- [usertype] __user *
-   drivers/android/binder.c:4169:21: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected unsigned int *__pu_addr =
-@@     got unsigned int [noderef] [usertype] __user * @@
-   drivers/android/binder.c:4169:21: sparse:     expected unsigned int *__p=
-u_addr
-   drivers/android/binder.c:4169:21: sparse:     got unsigned int [noderef]=
- [usertype] __user *
-   drivers/android/binder.c:4421:24: sparse: sparse: incorrect type in retu=
-rn expression (different base types) @@     expected restricted __poll_t @@=
-     got int @@
-   drivers/android/binder.c:4421:24: sparse:     expected restricted __poll=
-_t
-   drivers/android/binder.c:4421:24: sparse:     got int
->> drivers/android/binder.c:4686:21: sparse: sparse: incorrect type in init=
-ializer (different address spaces) @@     expected signed int *__pu_addr @@=
-     got signed int [noderef] __user * @@
-   drivers/android/binder.c:4686:21: sparse:     expected signed int *__pu_=
-addr
-   drivers/android/binder.c:4686:21: sparse:     got signed int [noderef] _=
-_user *
---
->> net/bluetooth/rfcomm/sock.c:769:13: sparse: sparse: incorrect type in ar=
-gument 1 (different address spaces) @@     expected void const *addr @@    =
- got int const [noderef] __user *__gu_ptr @@
-   net/bluetooth/rfcomm/sock.c:769:13: sparse:     expected void const *addr
-   net/bluetooth/rfcomm/sock.c:769:13: sparse:     got int const [noderef] =
-__user *__gu_ptr
->> net/bluetooth/rfcomm/sock.c:799:21: sparse: sparse: incorrect type in in=
-itializer (different address spaces) @@     expected unsigned int *__pu_add=
-r @@     got unsigned int [noderef] [usertype] __user * @@
-   net/bluetooth/rfcomm/sock.c:799:21: sparse:     expected unsigned int *_=
-_pu_addr
-   net/bluetooth/rfcomm/sock.c:799:21: sparse:     got unsigned int [nodere=
-f] [usertype] __user *
-   net/bluetooth/rfcomm/sock.c:847:13: sparse: sparse: incorrect type in ar=
-gument 1 (different address spaces) @@     expected void const *addr @@    =
- got int const [noderef] __user *__gu_ptr @@
-   net/bluetooth/rfcomm/sock.c:847:13: sparse:     expected void const *addr
-   net/bluetooth/rfcomm/sock.c:847:13: sparse:     got int const [noderef] =
-__user *__gu_ptr
-   net/bluetooth/rfcomm/sock.c:874:21: sparse: sparse: incorrect type in in=
-itializer (different address spaces) @@     expected unsigned int *__pu_add=
-r @@     got unsigned int [noderef] [usertype] __user * @@
-   net/bluetooth/rfcomm/sock.c:874:21: sparse:     expected unsigned int *_=
-_pu_addr
-   net/bluetooth/rfcomm/sock.c:874:21: sparse:     got unsigned int [nodere=
-f] [usertype] __user *
---
->> net/can/j1939/socket.c:749:13: sparse: sparse: incorrect type in argumen=
-t 1 (different address spaces) @@     expected void const *addr @@     got =
-int const [noderef] __user *__gu_ptr @@
-   net/can/j1939/socket.c:749:13: sparse:     expected void const *addr
-   net/can/j1939/socket.c:749:13: sparse:     got int const [noderef] __use=
-r *__gu_ptr
-   net/can/j1939/socket.c:776:18: sparse: sparse: incorrect type in initial=
-izer (different address spaces) @@     expected int *__pu_addr @@     got i=
-nt [noderef] __user *optlen @@
-   net/can/j1939/socket.c:776:18: sparse:     expected int *__pu_addr
-   net/can/j1939/socket.c:776:18: sparse:     got int [noderef] __user *opt=
-len
-
-vim +2113 drivers/misc/altera-stapl/altera.c
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   203  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   204  static int altera_execute(struct altera_state *astate,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   205  				u8 *p,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   206  				s32 program_size,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   207  				s32 *error_address,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   208  				int *exit_code,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   209  				int *format_version)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   210  {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   211  	struct altera_config *aconf =3D astate->config;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   212  	char *msg_buff =3D astate->msg_buff;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   213  	long *stack =3D astate->stack;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   214  	int status =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   215  	u32 first_word =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   216  	u32 action_table =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   217  	u32 proc_table =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   218  	u32 str_table =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   219  	u32 sym_table =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   220  	u32 data_sect =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   221  	u32 code_sect =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   222  	u32 debug_sect =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   223  	u32 action_count =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   224  	u32 proc_count =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   225  	u32 sym_count =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   226  	long *vars =3D NULL;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   227  	s32 *var_size =3D NULL;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   228  	char *attrs =3D NULL;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   229  	u8 *proc_attributes =3D NULL;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   230  	u32 pc;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   231  	u32 opcode_address;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   232  	u32 args[3];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   233  	u32 opcode;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   234  	u32 name_id;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   235  	u8 charbuf[4];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   236  	long long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   237  	u32 variable_id;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   238  	u8 *charptr_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   239  	u8 *charptr_tmp2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   240  	long *longptr_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   241  	int version =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   242  	int delta =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   243  	int stack_ptr =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   244  	u32 arg_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   245  	int done =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   246  	int bad_opcode =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   247  	u32 count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   248  	u32 index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   249  	u32 index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   250  	s32 long_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   251  	s32 long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   252  	s32 long_idx2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   253  	u32 i;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   254  	u32 j;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   255  	u32 uncomp_size;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   256  	u32 offset;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   257  	u32 value;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   258  	int current_proc =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   259  	int reverse;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   260  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   261  	char *name;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   262  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   263  	dprintk("%s\n", __func__);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   264  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   265  	/* Read header information */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   266  	if (program_size > 52L) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   267  		first_word    =3D get_unaligned_be32(&p[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   268  		version =3D (first_word & 1L);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   269  		*format_version =3D version + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   270  		delta =3D version * 8;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   271  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   272  		action_table  =3D get_unaligned_be32(&p[4]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   273  		proc_table    =3D get_unaligned_be32(&p[8]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   274  		str_table  =3D get_unaligned_be32(&p[4 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   275  		sym_table  =3D get_unaligned_be32(&p[16 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   276  		data_sect  =3D get_unaligned_be32(&p[20 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   277  		code_sect  =3D get_unaligned_be32(&p[24 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   278  		debug_sect =3D get_unaligned_be32(&p[28 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   279  		action_count  =3D get_unaligned_be32(&p[40 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   280  		proc_count    =3D get_unaligned_be32(&p[44 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   281  		sym_count  =3D get_unaligned_be32(&p[48 + (2 * delta)]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   282  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   283  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   284  	if ((first_word !=3D 0x4A414D00L) && (first_word !=3D 0x4A41=
-4D01L)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   285  		done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   286  		status =3D -EIO;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   287  		goto exit_done;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   288  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   289  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   290  	if (sym_count <=3D 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   291  		goto exit_done;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   292  =
-
-6396bb221514d2 drivers/misc/altera-stapl/altera.c    Kees Cook         2018=
--06-12   293  	vars =3D kcalloc(sym_count, sizeof(long), GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   294  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   295  	if (vars =3D=3D NULL)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   296  		status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   297  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   298  	if (status =3D=3D 0) {
-6396bb221514d2 drivers/misc/altera-stapl/altera.c    Kees Cook         2018=
--06-12   299  		var_size =3D kcalloc(sym_count, sizeof(s32), GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   300  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   301  		if (var_size =3D=3D NULL)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   302  			status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   303  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   304  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   305  	if (status =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   306  		attrs =3D kzalloc(sym_count, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   307  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   308  		if (attrs =3D=3D NULL)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   309  			status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   310  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   311  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   312  	if ((status =3D=3D 0) && (version > 0)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   313  		proc_attributes =3D kzalloc(proc_count, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   314  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   315  		if (proc_attributes =3D=3D NULL)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   316  			status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   317  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   318  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   319  	if (status !=3D 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   320  		goto exit_done;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   321  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   322  	delta =3D version * 2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   323  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   324  	for (i =3D 0; i < sym_count; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   325  		offset =3D (sym_table + ((11 + delta) * i));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   326  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   327  		value =3D get_unaligned_be32(&p[offset + 3 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   328  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   329  		attrs[i] =3D p[offset];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   330  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   331  		/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   332  		 * use bit 7 of attribute byte to indicate that
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   333  		 * this buffer was dynamically allocated
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   334  		 * and should be freed later
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   335  		 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   336  		attrs[i] &=3D 0x7f;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   337  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   338  		var_size[i] =3D get_unaligned_be32(&p[offset + 7 + delta]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   339  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   340  		/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   341  		 * Attribute bits:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   342  		 * bit 0: 0 =3D read-only, 1 =3D read-write
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   343  		 * bit 1: 0 =3D not compressed, 1 =3D compressed
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   344  		 * bit 2: 0 =3D not initialized, 1 =3D initialized
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   345  		 * bit 3: 0 =3D scalar, 1 =3D array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   346  		 * bit 4: 0 =3D Boolean, 1 =3D integer
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   347  		 * bit 5: 0 =3D declared variable,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   348  		 *	1 =3D compiler created temporary variable
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   349  		 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   350  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   351  		if ((attrs[i] & 0x0c) =3D=3D 0x04)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   352  			/* initialized scalar variable */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   353  			vars[i] =3D value;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   354  		else if ((attrs[i] & 0x1e) =3D=3D 0x0e) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   355  			/* initialized compressed Boolean array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   356  			uncomp_size =3D get_unaligned_le32(&p[data_sect + value]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   357  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   358  			/* allocate a buffer for the uncompressed data */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   359  			vars[i] =3D (long)kzalloc(uncomp_size, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   360  			if (vars[i] =3D=3D 0L)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   361  				status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   362  			else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   363  				/* set flag so buffer will be freed later */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   364  				attrs[i] |=3D 0x80;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   365  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   366  				/* uncompress the data */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   367  				if (altera_shrink(&p[data_sect + value],
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   368  						var_size[i],
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   369  						(u8 *)vars[i],
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   370  						uncomp_size,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   371  						version) !=3D uncomp_size)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   372  					/* decompression failed */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   373  					status =3D -EIO;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   374  				else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   375  					var_size[i] =3D uncomp_size * 8L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   376  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   377  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   378  		} else if ((attrs[i] & 0x1e) =3D=3D 0x0c) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   379  			/* initialized Boolean array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   380  			vars[i] =3D value + data_sect + (long)p;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   381  		} else if ((attrs[i] & 0x1c) =3D=3D 0x1c) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   382  			/* initialized integer array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   383  			vars[i] =3D value + data_sect;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   384  		} else if ((attrs[i] & 0x0c) =3D=3D 0x08) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   385  			/* uninitialized array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   386  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   387  			/* flag attrs so that memory is freed */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   388  			attrs[i] |=3D 0x80;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   389  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   390  			if (var_size[i] > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   391  				u32 size;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   392  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   393  				if (attrs[i] & 0x10)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   394  					/* integer array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   395  					size =3D (var_size[i] * sizeof(s32));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   396  				else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   397  					/* Boolean array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   398  					size =3D ((var_size[i] + 7L) / 8L);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   399  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   400  				vars[i] =3D (long)kzalloc(size, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   401  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   402  				if (vars[i] =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   403  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   404  				} else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   405  					/* zero out memory */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   406  					for (j =3D 0; j < size; ++j)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   407  						((u8 *)(vars[i]))[j] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   408  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   409  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   410  			} else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   411  				vars[i] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   412  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   413  		} else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   414  			vars[i] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   415  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   416  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   417  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   418  exit_done:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   419  	if (status !=3D 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   420  		done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   421  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   422  	altera_jinit(astate);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   423  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   424  	pc =3D code_sect;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   425  	msg_buff[0] =3D '\0';
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   426  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   427  	/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   428  	 * For JBC version 2, we will execute the procedures corresp=
-onding to
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   429  	 * the selected ACTION
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   430  	 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   431  	if (version > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   432  		if (aconf->action =3D=3D NULL) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   433  			status =3D -EINVAL;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   434  			done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   435  		} else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   436  			int action_found =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   437  			for (i =3D 0; (i < action_count) && !action_found; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   438  				name_id =3D get_unaligned_be32(&p[action_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   439  								(12 * i)]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   440  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   441  				name =3D &p[str_table + name_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   442  =
-
-30614cf34105c5 drivers/misc/altera-stapl/altera.c    Rasmus Villemoes  2014=
--10-13   443  				if (strncasecmp(aconf->action, name, strlen(name)) =3D=3D=
- 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   444  					action_found =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   445  					current_proc =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   446  						get_unaligned_be32(&p[action_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   447  								(12 * i) + 8]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   448  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   449  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   450  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   451  			if (!action_found) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   452  				status =3D -EINVAL;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   453  				done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   454  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   455  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   456  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   457  		if (status =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   458  			int first_time =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   459  			i =3D current_proc;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   460  			while ((i !=3D 0) || first_time) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   461  				first_time =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   462  				/* check procedure attribute byte */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   463  				proc_attributes[i] =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   464  						(p[proc_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   465  								(13 * i) + 8] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   466  									0x03);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   467  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   468  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   469  				 * BIT0 - OPTIONAL
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   470  				 * BIT1 - RECOMMENDED
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   471  				 * BIT6 - FORCED OFF
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   472  				 * BIT7 - FORCED ON
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   473  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   474  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   475  				i =3D get_unaligned_be32(&p[proc_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   476  							(13 * i) + 4]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   477  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   478  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   479  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   480  			 * Set current_proc to the first procedure
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   481  			 * to be executed
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   482  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   483  			i =3D current_proc;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   484  			while ((i !=3D 0) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   485  				((proc_attributes[i] =3D=3D 1) ||
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   486  				((proc_attributes[i] & 0xc0) =3D=3D 0x40))) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   487  				i =3D get_unaligned_be32(&p[proc_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   488  							(13 * i) + 4]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   489  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   490  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   491  			if ((i !=3D 0) || ((i =3D=3D 0) && (current_proc =3D=3D 0)=
- &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   492  				((proc_attributes[0] !=3D 1) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   493  				((proc_attributes[0] & 0xc0) !=3D 0x40)))) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   494  				current_proc =3D i;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   495  				pc =3D code_sect +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   496  					get_unaligned_be32(&p[proc_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   497  								(13 * i) + 9]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   498  				if ((pc < code_sect) || (pc >=3D debug_sect))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   499  					status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   500  			} else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   501  				/* there are no procedures to execute! */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   502  				done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   503  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   504  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   505  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   506  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   507  	msg_buff[0] =3D '\0';
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   508  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   509  	while (!done) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   510  		opcode =3D (p[pc] & 0xff);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   511  		opcode_address =3D pc;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   512  		++pc;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   513  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   514  		if (debug > 1)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   515  			printk("opcode: %02x\n", opcode);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   516  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   517  		arg_count =3D (opcode >> 6) & 3;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   518  		for (i =3D 0; i < arg_count; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   519  			args[i] =3D get_unaligned_be32(&p[pc]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   520  			pc +=3D 4;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   521  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   522  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   523  		switch (opcode) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   524  		case OP_NOP:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   525  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   526  		case OP_DUP:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   527  			if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   528  				stack[stack_ptr] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   529  				++stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   530  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   531  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   532  		case OP_SWP:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   533  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   534  				long_tmp =3D stack[stack_ptr - 2];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   535  				stack[stack_ptr - 2] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   536  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   537  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   538  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   539  		case OP_ADD:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   540  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   541  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   542  				stack[stack_ptr - 1] +=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   543  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   544  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   545  		case OP_SUB:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   546  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   547  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   548  				stack[stack_ptr - 1] -=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   549  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   550  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   551  		case OP_MULT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   552  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   553  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   554  				stack[stack_ptr - 1] *=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   555  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   556  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   557  		case OP_DIV:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   558  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   559  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   560  				stack[stack_ptr - 1] /=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   561  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   562  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   563  		case OP_MOD:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   564  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   565  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   566  				stack[stack_ptr - 1] %=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   567  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   568  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   569  		case OP_SHL:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   570  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   571  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   572  				stack[stack_ptr - 1] <<=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   573  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   574  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   575  		case OP_SHR:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   576  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   577  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   578  				stack[stack_ptr - 1] >>=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   579  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   580  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   581  		case OP_NOT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   582  			if (altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   583  				stack[stack_ptr - 1] ^=3D (-1L);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   584  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   585  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   586  		case OP_AND:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   587  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   588  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   589  				stack[stack_ptr - 1] &=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   590  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   591  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   592  		case OP_OR:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   593  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   594  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   595  				stack[stack_ptr - 1] |=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   596  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   597  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   598  		case OP_XOR:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   599  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   600  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   601  				stack[stack_ptr - 1] ^=3D stack[stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   602  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   603  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   604  		case OP_INV:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   605  			if (!altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   606  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   607  			stack[stack_ptr - 1] =3D stack[stack_ptr - 1] ? 0L : 1L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   608  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   609  		case OP_GT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   610  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   611  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   612  			--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   613  			stack[stack_ptr - 1] =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   614  				(stack[stack_ptr - 1] > stack[stack_ptr]) ?
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   615  									1L : 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   616  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   617  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   618  		case OP_LT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   619  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   620  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   621  			--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   622  			stack[stack_ptr - 1] =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   623  				(stack[stack_ptr - 1] < stack[stack_ptr]) ?
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   624  									1L : 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   625  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   626  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   627  		case OP_RET:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   628  			if ((version > 0) && (stack_ptr =3D=3D 0)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   629  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   630  				 * We completed one of the main procedures
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   631  				 * of an ACTION.
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   632  				 * Find the next procedure
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   633  				 * to be executed and jump to it.
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   634  				 * If there are no more procedures, then EXIT.
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   635  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   636  				i =3D get_unaligned_be32(&p[proc_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   637  						(13 * current_proc) + 4]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   638  				while ((i !=3D 0) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   639  					((proc_attributes[i] =3D=3D 1) ||
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   640  					((proc_attributes[i] & 0xc0) =3D=3D 0x40)))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   641  					i =3D get_unaligned_be32(&p[proc_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   642  								(13 * i) + 4]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   643  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   644  				if (i =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   645  					/* no procedures to execute! */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   646  					done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   647  					*exit_code =3D 0;	/* success */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   648  				} else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   649  					current_proc =3D i;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   650  					pc =3D code_sect + get_unaligned_be32(
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   651  								&p[proc_table +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   652  								(13 * i) + 9]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   653  					if ((pc < code_sect) ||
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   654  					    (pc >=3D debug_sect))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   655  						status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   656  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   657  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   658  			} else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   659  				if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   660  					pc =3D stack[--stack_ptr] + code_sect;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   661  					if ((pc <=3D code_sect) ||
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   662  					    (pc >=3D debug_sect))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   663  						status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   664  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   665  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   666  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   667  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   668  		case OP_CMPS:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   669  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   670  			 * Array short compare
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   671  			 * ...stack 0 is source 1 value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   672  			 * ...stack 1 is source 2 value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   673  			 * ...stack 2 is mask value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   674  			 * ...stack 3 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   675  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   676  			if (altera_check_stack(stack_ptr, 4, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   677  				s32 a =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   678  				s32 b =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   679  				long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   680  				count =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   681  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   682  				if ((count < 1) || (count > 32))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   683  					status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   684  				else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   685  					long_tmp &=3D ((-1L) >> (32 - count));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   686  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   687  					stack[stack_ptr - 1] =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   688  					((a & long_tmp) =3D=3D (b & long_tmp))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   689  								? 1L : 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   690  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   691  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   692  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   693  		case OP_PINT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   694  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   695  			 * PRINT add integer
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   696  			 * ...stack 0 is integer value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   697  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   698  			if (!altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   699  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   700  			sprintf(&msg_buff[strlen(msg_buff)],
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   701  					"%ld", stack[--stack_ptr]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   702  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   703  		case OP_PRNT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   704  			/* PRINT finish */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   705  			if (debug)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   706  				printk(msg_buff, "\n");
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   707  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   708  			msg_buff[0] =3D '\0';
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   709  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   710  		case OP_DSS:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   711  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   712  			 * DRSCAN short
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   713  			 * ...stack 0 is scan data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   714  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   715  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   716  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   717  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   718  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   719  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   720  			put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   721  			status =3D altera_drscan(astate, count, charbuf, 0);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   722  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   723  		case OP_DSSC:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   724  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   725  			 * DRSCAN short with capture
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   726  			 * ...stack 0 is scan data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   727  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   728  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   729  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   730  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   731  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   732  			count =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   733  			put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   734  			status =3D altera_swap_dr(astate, count, charbuf,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   735  							0, charbuf, 0);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   736  			stack[stack_ptr - 1] =3D get_unaligned_le32(&charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   737  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   738  		case OP_ISS:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   739  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   740  			 * IRSCAN short
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   741  			 * ...stack 0 is scan data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   742  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   743  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   744  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   745  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   746  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   747  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   748  			put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   749  			status =3D altera_irscan(astate, count, charbuf, 0);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   750  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   751  		case OP_ISSC:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   752  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   753  			 * IRSCAN short with capture
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   754  			 * ...stack 0 is scan data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   755  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   756  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   757  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   758  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   759  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   760  			count =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   761  			put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   762  			status =3D altera_swap_ir(astate, count, charbuf,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   763  							0, charbuf, 0);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   764  			stack[stack_ptr - 1] =3D get_unaligned_le32(&charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   765  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   766  		case OP_DPR:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   767  			if (!altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   768  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   769  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   770  			status =3D altera_set_dr_pre(&astate->js, count, 0, NULL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   771  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   772  		case OP_DPRL:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   773  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   774  			 * DRPRE with literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   775  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   776  			 * ...stack 1 is literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   777  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   778  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   779  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   780  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   781  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   782  			put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   783  			status =3D altera_set_dr_pre(&astate->js, count, 0,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   784  						charbuf);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   785  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   786  		case OP_DPO:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   787  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   788  			 * DRPOST
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   789  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   790  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   791  			if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   792  				count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   793  				status =3D altera_set_dr_post(&astate->js, count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   794  								0, NULL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   795  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   796  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   797  		case OP_DPOL:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   798  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   799  			 * DRPOST with literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   800  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   801  			 * ...stack 1 is literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   802  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   803  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   804  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   805  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   806  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   807  			put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   808  			status =3D altera_set_dr_post(&astate->js, count, 0,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   809  							charbuf);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   810  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   811  		case OP_IPR:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   812  			if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   813  				count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   814  				status =3D altera_set_ir_pre(&astate->js, count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   815  								0, NULL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   816  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   817  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   818  		case OP_IPRL:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   819  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   820  			 * IRPRE with literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   821  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   822  			 * ...stack 1 is literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   823  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   824  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   825  				count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   826  				long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   827  				put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   828  				status =3D altera_set_ir_pre(&astate->js, count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   829  							0, charbuf);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   830  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   831  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   832  		case OP_IPO:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   833  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   834  			 * IRPOST
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   835  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   836  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   837  			if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   838  				count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   839  				status =3D altera_set_ir_post(&astate->js, count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   840  							0, NULL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   841  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   842  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   843  		case OP_IPOL:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   844  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   845  			 * IRPOST with literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   846  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   847  			 * ...stack 1 is literal data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   848  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   849  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   850  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   851  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   852  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   853  			put_unaligned_le32(long_tmp, &charbuf[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   854  			status =3D altera_set_ir_post(&astate->js, count, 0,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   855  							charbuf);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   856  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   857  		case OP_PCHR:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   858  			if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   859  				u8 ch;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   860  				count =3D strlen(msg_buff);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   861  				ch =3D (char) stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   862  				if ((ch < 1) || (ch > 127)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   863  					/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   864  					 * character code out of range
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   865  					 * instead of flagging an error,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   866  					 * force the value to 127
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   867  					 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   868  					ch =3D 127;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   869  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   870  				msg_buff[count] =3D ch;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   871  				msg_buff[count + 1] =3D '\0';
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   872  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   873  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   874  		case OP_EXIT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   875  			if (altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   876  				*exit_code =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   877  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   878  			done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   879  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   880  		case OP_EQU:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   881  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   882  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   883  			--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   884  			stack[stack_ptr - 1] =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   885  				(stack[stack_ptr - 1] =3D=3D stack[stack_ptr]) ?
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   886  									1L : 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   887  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   888  		case OP_POPT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   889  			if (altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   890  				--stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   891  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   892  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   893  		case OP_ABS:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   894  			if (!altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   895  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   896  			if (stack[stack_ptr - 1] < 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   897  				stack[stack_ptr - 1] =3D 0 - stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   898  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   899  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   900  		case OP_BCH0:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   901  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   902  			 * Batch operation 0
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   903  			 * SWP
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   904  			 * SWPN 7
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   905  			 * SWP
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   906  			 * SWPN 6
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   907  			 * DUPN 8
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   908  			 * SWPN 2
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   909  			 * SWP
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   910  			 * DUPN 6
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   911  			 * DUPN 6
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   912  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   913  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   914  			/* SWP  */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   915  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   916  				long_tmp =3D stack[stack_ptr - 2];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   917  				stack[stack_ptr - 2] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   918  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   919  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   920  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   921  			/* SWPN 7 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   922  			index =3D 7 + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   923  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   924  				long_tmp =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   925  				stack[stack_ptr - index] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   926  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   927  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   928  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   929  			/* SWP  */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   930  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   931  				long_tmp =3D stack[stack_ptr - 2];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   932  				stack[stack_ptr - 2] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   933  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   934  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   935  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   936  			/* SWPN 6 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   937  			index =3D 6 + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   938  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   939  				long_tmp =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   940  				stack[stack_ptr - index] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   941  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   942  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   943  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   944  			/* DUPN 8 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   945  			index =3D 8 + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   946  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   947  				stack[stack_ptr] =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   948  				++stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   949  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   950  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   951  			/* SWPN 2 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   952  			index =3D 2 + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   953  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   954  				long_tmp =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   955  				stack[stack_ptr - index] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   956  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   957  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   958  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   959  			/* SWP  */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   960  			if (altera_check_stack(stack_ptr, 2, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   961  				long_tmp =3D stack[stack_ptr - 2];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   962  				stack[stack_ptr - 2] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   963  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   964  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   965  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   966  			/* DUPN 6 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   967  			index =3D 6 + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   968  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   969  				stack[stack_ptr] =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   970  				++stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   971  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   972  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   973  			/* DUPN 6 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   974  			index =3D 6 + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   975  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   976  				stack[stack_ptr] =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   977  				++stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   978  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   979  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   980  		case OP_PSH0:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   981  			stack[stack_ptr++] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   982  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   983  		case OP_PSHL:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   984  			stack[stack_ptr++] =3D (s32) args[0];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   985  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   986  		case OP_PSHV:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   987  			stack[stack_ptr++] =3D vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   988  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   989  		case OP_JMP:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   990  			pc =3D args[0] + code_sect;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   991  			if ((pc < code_sect) || (pc >=3D debug_sect))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   992  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   993  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   994  		case OP_CALL:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   995  			stack[stack_ptr++] =3D pc;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   996  			pc =3D args[0] + code_sect;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   997  			if ((pc < code_sect) || (pc >=3D debug_sect))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   998  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25   999  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1000  		case OP_NEXT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1001  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1002  			 * Process FOR / NEXT loop
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1003  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1004  			 * ...stack 0 is step value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1005  			 * ...stack 1 is end value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1006  			 * ...stack 2 is top address
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1007  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1008  			if (altera_check_stack(stack_ptr, 3, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1009  				s32 step =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1010  				s32 end =3D stack[stack_ptr - 2];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1011  				s32 top =3D stack[stack_ptr - 3];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1012  				s32 iterator =3D vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1013  				int break_out =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1014  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1015  				if (step < 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1016  					if (iterator <=3D end)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1017  						break_out =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1018  				} else if (iterator >=3D end)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1019  					break_out =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1020  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1021  				if (break_out) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1022  					stack_ptr -=3D 3;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1023  				} else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1024  					vars[args[0]] =3D iterator + step;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1025  					pc =3D top + code_sect;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1026  					if ((pc < code_sect) ||
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1027  					    (pc >=3D debug_sect))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1028  						status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1029  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1030  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1031  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1032  		case OP_PSTR:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1033  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1034  			 * PRINT add string
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1035  			 * ...argument 0 is string ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1036  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1037  			count =3D strlen(msg_buff);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1038  			strlcpy(&msg_buff[count],
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1039  				&p[str_table + args[0]],
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1040  				ALTERA_MESSAGE_LENGTH - count);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1041  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1042  		case OP_SINT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1043  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1044  			 * STATE intermediate state
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1045  			 * ...argument 0 is state code
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1046  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1047  			status =3D altera_goto_jstate(astate, args[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1048  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1049  		case OP_ST:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1050  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1051  			 * STATE final state
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1052  			 * ...argument 0 is state code
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1053  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1054  			status =3D altera_goto_jstate(astate, args[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1055  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1056  		case OP_ISTP:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1057  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1058  			 * IRSTOP state
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1059  			 * ...argument 0 is state code
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1060  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1061  			status =3D altera_set_irstop(&astate->js, args[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1062  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1063  		case OP_DSTP:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1064  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1065  			 * DRSTOP state
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1066  			 * ...argument 0 is state code
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1067  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1068  			status =3D altera_set_drstop(&astate->js, args[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1069  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1070  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1071  		case OP_SWPN:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1072  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1073  			 * Exchange top with Nth stack value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1074  			 * ...argument 0 is 0-based stack entry
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1075  			 * to swap with top element
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1076  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1077  			index =3D (args[0]) + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1078  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1079  				long_tmp =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1080  				stack[stack_ptr - index] =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1081  				stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1082  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1083  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1084  		case OP_DUPN:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1085  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1086  			 * Duplicate Nth stack value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1087  			 * ...argument 0 is 0-based stack entry to duplicate
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1088  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1089  			index =3D (args[0]) + 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1090  			if (altera_check_stack(stack_ptr, index, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1091  				stack[stack_ptr] =3D stack[stack_ptr - index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1092  				++stack_ptr;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1093  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1094  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1095  		case OP_POPV:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1096  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1097  			 * Pop stack into scalar variable
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1098  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1099  			 * ...stack 0 is value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1100  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1101  			if (altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1102  				vars[args[0]] =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1103  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1104  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1105  		case OP_POPE:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1106  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1107  			 * Pop stack into integer array element
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1108  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1109  			 * ...stack 0 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1110  			 * ...stack 1 is value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1111  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1112  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1113  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1114  			variable_id =3D args[0];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1115  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1116  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1117  			 * If variable is read-only,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1118  			 * convert to writable array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1119  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1120  			if ((version > 0) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1121  				((attrs[variable_id] & 0x9c) =3D=3D 0x1c)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1122  				/* Allocate a writable buffer for this array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1123  				count =3D var_size[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1124  				long_tmp =3D vars[variable_id];
-6396bb221514d2 drivers/misc/altera-stapl/altera.c    Kees Cook         2018=
--06-12  1125  				longptr_tmp =3D kcalloc(count, sizeof(long),
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1126  								GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1127  				vars[variable_id] =3D (long)longptr_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1128  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1129  				if (vars[variable_id] =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1130  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1131  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1132  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1133  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1134  				/* copy previous contents into buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1135  				for (i =3D 0; i < count; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1136  					longptr_tmp[i] =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1137  						get_unaligned_be32(&p[long_tmp]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1138  					long_tmp +=3D sizeof(long);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1139  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1140  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1141  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1142  				 * set bit 7 - buffer was
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1143  				 * dynamically allocated
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1144  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1145  				attrs[variable_id] |=3D 0x80;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1146  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1147  				/* clear bit 2 - variable is writable */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1148  				attrs[variable_id] &=3D ~0x04;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1149  				attrs[variable_id] |=3D 0x01;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1150  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1151  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1152  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1153  			/* check that variable is a writable integer array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1154  			if ((attrs[variable_id] & 0x1c) !=3D 0x18)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1155  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1156  			else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1157  				longptr_tmp =3D (long *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1158  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1159  				/* pop the array index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1160  				index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1161  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1162  				/* pop the value and store it into the array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1163  				longptr_tmp[index] =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1164  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1165  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1166  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1167  		case OP_POPA:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1168  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1169  			 * Pop stack into Boolean array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1170  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1171  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1172  			 * ...stack 1 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1173  			 * ...stack 2 is value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1174  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1175  			if (!altera_check_stack(stack_ptr, 3, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1176  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1177  			variable_id =3D args[0];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1178  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1179  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1180  			 * If variable is read-only,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1181  			 * convert to writable array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1182  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1183  			if ((version > 0) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1184  				((attrs[variable_id] & 0x9c) =3D=3D 0x0c)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1185  				/* Allocate a writable buffer for this array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1186  				long_tmp =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1187  					(var_size[variable_id] + 7L) >> 3L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1188  				charptr_tmp2 =3D (u8 *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1189  				charptr_tmp =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1190  					kzalloc(long_tmp, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1191  				vars[variable_id] =3D (long)charptr_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1192  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1193  				if (vars[variable_id] =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1194  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1195  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1196  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1197  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1198  				/* zero the buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1199  				for (long_idx =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1200  					long_idx < long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1201  					++long_idx) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1202  					charptr_tmp[long_idx] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1203  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1204  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1205  				/* copy previous contents into buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1206  				for (long_idx =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1207  					long_idx < var_size[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1208  					++long_idx) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1209  					long_idx2 =3D long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1210  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1211  					if (charptr_tmp2[long_idx2 >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1212  						(1 << (long_idx2 & 7))) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1213  						charptr_tmp[long_idx >> 3] |=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1214  							(1 << (long_idx & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1215  					}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1216  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1217  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1218  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1219  				 * set bit 7 - buffer was
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1220  				 * dynamically allocated
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1221  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1222  				attrs[variable_id] |=3D 0x80;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1223  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1224  				/* clear bit 2 - variable is writable */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1225  				attrs[variable_id] &=3D ~0x04;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1226  				attrs[variable_id] |=3D 0x01;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1227  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1228  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1229  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1230  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1231  			 * check that variable is
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1232  			 * a writable Boolean array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1233  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1234  			if ((attrs[variable_id] & 0x1c) !=3D 0x08) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1235  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1236  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1237  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1238  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1239  			charptr_tmp =3D (u8 *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1240  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1241  			/* pop the count (number of bits to copy) */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1242  			long_count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1243  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1244  			/* pop the array index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1245  			long_idx =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1246  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1247  			reverse =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1248  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1249  			if (version > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1250  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1251  				 * stack 0 =3D array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1252  				 * stack 1 =3D array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1253  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1254  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1255  				if (long_idx > long_count) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1256  					reverse =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1257  					long_tmp =3D long_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1258  					long_count =3D 1 + long_idx -
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1259  								long_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1260  					long_idx =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1261  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1262  					/* reverse POPA is not supported */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1263  					status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1264  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1265  				} else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1266  					long_count =3D 1 + long_count -
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1267  								long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1268  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1269  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1270  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1271  			/* pop the data */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1272  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1273  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1274  			if (long_count < 1) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1275  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1276  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1277  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1278  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1279  			for (i =3D 0; i < long_count; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1280  				if (long_tmp & (1L << (s32) i))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1281  					charptr_tmp[long_idx >> 3L] |=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1282  						(1L << (long_idx & 7L));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1283  				else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1284  					charptr_tmp[long_idx >> 3L] &=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1285  						~(1L << (long_idx & 7L));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1286  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1287  				++long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1288  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1289  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1290  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1291  		case OP_JMPZ:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1292  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1293  			 * Pop stack and branch if zero
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1294  			 * ...argument 0 is address
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1295  			 * ...stack 0 is condition value
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1296  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1297  			if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1298  				if (stack[--stack_ptr] =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1299  					pc =3D args[0] + code_sect;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1300  					if ((pc < code_sect) ||
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1301  					    (pc >=3D debug_sect))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1302  						status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1303  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1304  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1305  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1306  		case OP_DS:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1307  		case OP_IS:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1308  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1309  			 * DRSCAN
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1310  			 * IRSCAN
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1311  			 * ...argument 0 is scan data variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1312  			 * ...stack 0 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1313  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1314  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1315  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1316  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1317  			long_idx =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1318  			long_count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1319  			reverse =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1320  			if (version > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1321  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1322  				 * stack 0 =3D array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1323  				 * stack 1 =3D array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1324  				 * stack 2 =3D count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1325  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1326  				long_tmp =3D long_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1327  				long_count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1328  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1329  				if (long_idx > long_tmp) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1330  					reverse =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1331  					long_idx =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1332  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1333  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1334  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1335  			charptr_tmp =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1336  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1337  			if (reverse) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1338  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1339  				 * allocate a buffer
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1340  				 * and reverse the data order
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1341  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1342  				charptr_tmp2 =3D charptr_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1343  				charptr_tmp =3D kzalloc((long_count >> 3) + 1,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1344  								GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1345  				if (charptr_tmp =3D=3D NULL) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1346  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1347  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1348  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1349  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1350  				long_tmp =3D long_idx + long_count - 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1351  				long_idx2 =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1352  				while (long_idx2 < long_count) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1353  					if (charptr_tmp2[long_tmp >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1354  							(1 << (long_tmp & 7)))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1355  						charptr_tmp[long_idx2 >> 3] |=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1356  							(1 << (long_idx2 & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1357  					else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1358  						charptr_tmp[long_idx2 >> 3] &=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1359  							~(1 << (long_idx2 & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1360  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1361  					--long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1362  					++long_idx2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1363  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1364  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1365  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1366  			if (opcode =3D=3D 0x51) /* DS */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1367  				status =3D altera_drscan(astate, long_count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1368  						charptr_tmp, long_idx);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1369  			else /* IS */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1370  				status =3D altera_irscan(astate, long_count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1371  						charptr_tmp, long_idx);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1372  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1373  			if (reverse)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1374  				kfree(charptr_tmp);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1375  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1376  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1377  		case OP_DPRA:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1378  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1379  			 * DRPRE with array data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1380  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1381  			 * ...stack 0 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1382  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1383  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1384  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1385  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1386  			index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1387  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1388  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1389  			if (version > 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1390  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1391  				 * stack 0 =3D array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1392  				 * stack 1 =3D array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1393  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1394  				count =3D 1 + count - index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1395  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1396  			charptr_tmp =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1397  			status =3D altera_set_dr_pre(&astate->js, count, index,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1398  							charptr_tmp);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1399  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1400  		case OP_DPOA:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1401  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1402  			 * DRPOST with array data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1403  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1404  			 * ...stack 0 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1405  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1406  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1407  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1408  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1409  			index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1410  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1411  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1412  			if (version > 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1413  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1414  				 * stack 0 =3D array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1415  				 * stack 1 =3D array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1416  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1417  				count =3D 1 + count - index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1418  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1419  			charptr_tmp =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1420  			status =3D altera_set_dr_post(&astate->js, count, index,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1421  							charptr_tmp);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1422  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1423  		case OP_IPRA:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1424  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1425  			 * IRPRE with array data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1426  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1427  			 * ...stack 0 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1428  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1429  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1430  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1431  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1432  			index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1433  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1434  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1435  			if (version > 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1436  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1437  				 * stack 0 =3D array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1438  				 * stack 1 =3D array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1439  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1440  				count =3D 1 + count - index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1441  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1442  			charptr_tmp =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1443  			status =3D altera_set_ir_pre(&astate->js, count, index,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1444  							charptr_tmp);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1445  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1446  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1447  		case OP_IPOA:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1448  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1449  			 * IRPOST with array data
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1450  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1451  			 * ...stack 0 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1452  			 * ...stack 1 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1453  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1454  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1455  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1456  			index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1457  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1458  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1459  			if (version > 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1460  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1461  				 * stack 0 =3D array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1462  				 * stack 1 =3D array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1463  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1464  				count =3D 1 + count - index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1465  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1466  			charptr_tmp =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1467  			status =3D altera_set_ir_post(&astate->js, count, index,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1468  							charptr_tmp);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1469  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1470  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1471  		case OP_EXPT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1472  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1473  			 * EXPORT
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1474  			 * ...argument 0 is string ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1475  			 * ...stack 0 is integer expression
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1476  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1477  			if (altera_check_stack(stack_ptr, 1, &status)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1478  				name =3D &p[str_table + args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1479  				long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1480  				altera_export_int(name, long_tmp);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1481  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1482  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1483  		case OP_PSHE:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1484  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1485  			 * Push integer array element
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1486  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1487  			 * ...stack 0 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1488  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1489  			if (!altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1490  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1491  			variable_id =3D args[0];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1492  			index =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1493  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1494  			/* check variable type */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1495  			if ((attrs[variable_id] & 0x1f) =3D=3D 0x19) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1496  				/* writable integer array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1497  				longptr_tmp =3D (long *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1498  				stack[stack_ptr - 1] =3D longptr_tmp[index];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1499  			} else if ((attrs[variable_id] & 0x1f) =3D=3D 0x1c) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1500  				/* read-only integer array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1501  				long_tmp =3D vars[variable_id] +
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1502  						(index * sizeof(long));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1503  				stack[stack_ptr - 1] =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1504  					get_unaligned_be32(&p[long_tmp]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1505  			} else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1506  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1507  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1508  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1509  		case OP_PSHA:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1510  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1511  			 * Push Boolean array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1512  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1513  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1514  			 * ...stack 1 is array index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1515  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1516  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1517  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1518  			variable_id =3D args[0];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1519  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1520  			/* check that variable is a Boolean array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1521  			if ((attrs[variable_id] & 0x18) !=3D 0x08) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1522  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1523  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1524  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1525  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1526  			charptr_tmp =3D (u8 *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1527  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1528  			/* pop the count (number of bits to copy) */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1529  			count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1530  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1531  			/* pop the array index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1532  			index =3D stack[stack_ptr - 1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1533  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1534  			if (version > 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1535  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1536  				 * stack 0 =3D array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1537  				 * stack 1 =3D array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1538  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1539  				count =3D 1 + count - index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1540  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1541  			if ((count < 1) || (count > 32)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1542  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1543  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1544  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1545  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1546  			long_tmp =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1547  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1548  			for (i =3D 0; i < count; ++i)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1549  				if (charptr_tmp[(i + index) >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1550  						(1 << ((i + index) & 7)))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1551  					long_tmp |=3D (1L << i);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1552  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1553  			stack[stack_ptr - 1] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1554  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1555  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1556  		case OP_DYNA:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1557  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1558  			 * Dynamically change size of array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1559  			 * ...argument 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1560  			 * ...stack 0 is new size
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1561  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1562  			if (!altera_check_stack(stack_ptr, 1, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1563  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1564  			variable_id =3D args[0];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1565  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1566  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1567  			if (long_tmp > var_size[variable_id]) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1568  				var_size[variable_id] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1569  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1570  				if (attrs[variable_id] & 0x10)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1571  					/* allocate integer array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1572  					long_tmp *=3D sizeof(long);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1573  				else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1574  					/* allocate Boolean array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1575  					long_tmp =3D (long_tmp + 7) >> 3;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1576  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1577  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1578  				 * If the buffer was previously allocated,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1579  				 * free it
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1580  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1581  				if (attrs[variable_id] & 0x80) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1582  					kfree((void *)vars[variable_id]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1583  					vars[variable_id] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1584  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1585  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1586  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1587  				 * Allocate a new buffer
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1588  				 * of the requested size
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1589  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1590  				vars[variable_id] =3D (long)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1591  					kzalloc(long_tmp, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1592  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1593  				if (vars[variable_id] =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1594  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1595  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1596  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1597  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1598  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1599  				 * Set the attribute bit to indicate that
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1600  				 * this buffer was dynamically allocated and
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1601  				 * should be freed later
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1602  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1603  				attrs[variable_id] |=3D 0x80;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1604  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1605  				/* zero out memory */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1606  				count =3D ((var_size[variable_id] + 7L) /
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1607  									8L);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1608  				charptr_tmp =3D (u8 *)(vars[variable_id]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1609  				for (index =3D 0; index < count; ++index)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1610  					charptr_tmp[index] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1611  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1612  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1613  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1614  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1615  		case OP_EXPV:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1616  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1617  			 * Export Boolean array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1618  			 * ...argument 0 is string ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1619  			 * ...stack 0 is variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1620  			 * ...stack 1 is array right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1621  			 * ...stack 2 is array left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1622  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1623  			if (!altera_check_stack(stack_ptr, 3, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1624  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1625  			if (version =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1626  				/* EXPV is not supported in JBC 1.0 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1627  				bad_opcode =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1628  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1629  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1630  			name =3D &p[str_table + args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1631  			variable_id =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1632  			long_idx =3D stack[--stack_ptr];/* right indx */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1633  			long_idx2 =3D stack[--stack_ptr];/* left indx */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1634  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1635  			if (long_idx > long_idx2) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1636  				/* reverse indices not supported */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1637  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1638  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1639  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1640  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1641  			long_count =3D 1 + long_idx2 - long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1642  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1643  			charptr_tmp =3D (u8 *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1644  			charptr_tmp2 =3D NULL;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1645  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1646  			if ((long_idx & 7L) !=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1647  				s32 k =3D long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1648  				charptr_tmp2 =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1649  					kzalloc(((long_count + 7L) / 8L),
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1650  							GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1651  				if (charptr_tmp2 =3D=3D NULL) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1652  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1653  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1654  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1655  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1656  				for (i =3D 0; i < long_count; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1657  					if (charptr_tmp[k >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1658  							(1 << (k & 7)))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1659  						charptr_tmp2[i >> 3] |=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1660  								(1 << (i & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1661  					else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1662  						charptr_tmp2[i >> 3] &=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1663  								~(1 << (i & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1664  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1665  					++k;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1666  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1667  				charptr_tmp =3D charptr_tmp2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1668  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1669  			} else if (long_idx !=3D 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1670  				charptr_tmp =3D &charptr_tmp[long_idx >> 3];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1671  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1672  			altera_export_bool_array(name, charptr_tmp,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1673  							long_count);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1674  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1675  			/* free allocated buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1676  			if ((long_idx & 7L) !=3D 0)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1677  				kfree(charptr_tmp2);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1678  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1679  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1680  		case OP_COPY: {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1681  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1682  			 * Array copy
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1683  			 * ...argument 0 is dest ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1684  			 * ...argument 1 is source ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1685  			 * ...stack 0 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1686  			 * ...stack 1 is dest index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1687  			 * ...stack 2 is source index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1688  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1689  			s32 copy_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1690  			s32 copy_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1691  			s32 copy_index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1692  			s32 destleft;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1693  			s32 src_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1694  			s32 dest_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1695  			int src_reverse =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1696  			int dest_reverse =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1697  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1698  			if (!altera_check_stack(stack_ptr, 3, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1699  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1700  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1701  			copy_count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1702  			copy_index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1703  			copy_index2 =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1704  			reverse =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1705  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1706  			if (version > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1707  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1708  				 * stack 0 =3D source right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1709  				 * stack 1 =3D source left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1710  				 * stack 2 =3D destination right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1711  				 * stack 3 =3D destination left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1712  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1713  				destleft =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1714  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1715  				if (copy_count > copy_index) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1716  					src_reverse =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1717  					reverse =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1718  					src_count =3D 1 + copy_count - copy_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1719  					/* copy_index =3D source start index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1720  				} else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1721  					src_count =3D 1 + copy_index - copy_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1722  					/* source start index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1723  					copy_index =3D copy_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1724  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1725  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1726  				if (copy_index2 > destleft) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1727  					dest_reverse =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1728  					reverse =3D !reverse;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1729  					dest_count =3D 1 + copy_index2 - destleft;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1730  					/* destination start index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1731  					copy_index2 =3D destleft;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1732  				} else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1733  					dest_count =3D 1 + destleft - copy_index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1734  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1735  				copy_count =3D (src_count < dest_count) ?
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1736  							src_count : dest_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1737  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1738  				if ((src_reverse || dest_reverse) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1739  					(src_count !=3D dest_count))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1740  					/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1741  					 * If either the source or destination
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1742  					 * is reversed, we can't tolerate
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1743  					 * a length mismatch, because we
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1744  					 * "left justify" arrays when copying.
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1745  					 * This won't work correctly
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1746  					 * with reversed arrays.
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1747  					 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1748  					status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1749  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1750  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1751  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1752  			count =3D copy_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1753  			index =3D copy_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1754  			index2 =3D copy_index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1755  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1756  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1757  			 * If destination is a read-only array,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1758  			 * allocate a buffer and convert it to a writable array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1759  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1760  			variable_id =3D args[1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1761  			if ((version > 0) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1762  				((attrs[variable_id] & 0x9c) =3D=3D 0x0c)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1763  				/* Allocate a writable buffer for this array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1764  				long_tmp =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1765  					(var_size[variable_id] + 7L) >> 3L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1766  				charptr_tmp2 =3D (u8 *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1767  				charptr_tmp =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1768  					kzalloc(long_tmp, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1769  				vars[variable_id] =3D (long)charptr_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1770  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1771  				if (vars[variable_id] =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1772  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1773  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1774  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1775  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1776  				/* zero the buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1777  				for (long_idx =3D 0L; long_idx < long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1778  								++long_idx)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1779  					charptr_tmp[long_idx] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1780  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1781  				/* copy previous contents into buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1782  				for (long_idx =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1783  					long_idx < var_size[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1784  								++long_idx) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1785  					long_idx2 =3D long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1786  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1787  					if (charptr_tmp2[long_idx2 >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1788  						(1 << (long_idx2 & 7)))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1789  						charptr_tmp[long_idx >> 3] |=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1790  							(1 << (long_idx & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1791  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1792  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1793  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1794  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1795  				set bit 7 - buffer was dynamically allocated */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1796  				attrs[variable_id] |=3D 0x80;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1797  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1798  				/* clear bit 2 - variable is writable */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1799  				attrs[variable_id] &=3D ~0x04;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1800  				attrs[variable_id] |=3D 0x01;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1801  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1802  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1803  			charptr_tmp =3D (u8 *)vars[args[1]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1804  			charptr_tmp2 =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1805  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1806  			/* check if destination is a writable Boolean array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1807  			if ((attrs[args[1]] & 0x1c) !=3D 0x08) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1808  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1809  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1810  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1811  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1812  			if (count < 1) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1813  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1814  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1815  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1816  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1817  			if (reverse)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1818  				index2 +=3D (count - 1);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1819  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1820  			for (i =3D 0; i < count; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1821  				if (charptr_tmp2[index >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1822  							(1 << (index & 7)))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1823  					charptr_tmp[index2 >> 3] |=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1824  							(1 << (index2 & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1825  				else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1826  					charptr_tmp[index2 >> 3] &=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1827  						~(1 << (index2 & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1828  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1829  				++index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1830  				if (reverse)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1831  					--index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1832  				else
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1833  					++index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1834  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1835  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1836  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1837  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1838  		case OP_DSC:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1839  		case OP_ISC: {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1840  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1841  			 * DRSCAN with capture
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1842  			 * IRSCAN with capture
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1843  			 * ...argument 0 is scan data variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1844  			 * ...argument 1 is capture variable ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1845  			 * ...stack 0 is capture index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1846  			 * ...stack 1 is scan data index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1847  			 * ...stack 2 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1848  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1849  			s32 scan_right, scan_left;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1850  			s32 capture_count =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1851  			s32 scan_count =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1852  			s32 capture_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1853  			s32 scan_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1854  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1855  			if (!altera_check_stack(stack_ptr, 3, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1856  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1857  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1858  			capture_index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1859  			scan_index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1860  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1861  			if (version > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1862  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1863  				 * stack 0 =3D capture right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1864  				 * stack 1 =3D capture left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1865  				 * stack 2 =3D scan right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1866  				 * stack 3 =3D scan left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1867  				 * stack 4 =3D count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1868  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1869  				scan_right =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1870  				scan_left =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1871  				capture_count =3D 1 + scan_index - capture_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1872  				scan_count =3D 1 + scan_left - scan_right;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1873  				scan_index =3D scan_right;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1874  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1875  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1876  			long_count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1877  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1878  			 * If capture array is read-only, allocate a buffer
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1879  			 * and convert it to a writable array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1880  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1881  			variable_id =3D args[1];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1882  			if ((version > 0) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1883  				((attrs[variable_id] & 0x9c) =3D=3D 0x0c)) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1884  				/* Allocate a writable buffer for this array */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1885  				long_tmp =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1886  					(var_size[variable_id] + 7L) >> 3L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1887  				charptr_tmp2 =3D (u8 *)vars[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1888  				charptr_tmp =3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1889  					kzalloc(long_tmp, GFP_KERNEL);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1890  				vars[variable_id] =3D (long)charptr_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1891  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1892  				if (vars[variable_id] =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1893  					status =3D -ENOMEM;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1894  					break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1895  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1896  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1897  				/* zero the buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1898  				for (long_idx =3D 0L; long_idx < long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1899  								++long_idx)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1900  					charptr_tmp[long_idx] =3D 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1901  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1902  				/* copy previous contents into buffer */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1903  				for (long_idx =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1904  					long_idx < var_size[variable_id];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1905  								++long_idx) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1906  					long_idx2 =3D long_idx;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1907  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1908  					if (charptr_tmp2[long_idx2 >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1909  						(1 << (long_idx2 & 7)))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1910  						charptr_tmp[long_idx >> 3] |=3D
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1911  							(1 << (long_idx & 7));
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1912  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1913  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1914  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1915  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1916  				 * set bit 7 - buffer was
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1917  				 * dynamically allocated
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1918  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1919  				attrs[variable_id] |=3D 0x80;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1920  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1921  				/* clear bit 2 - variable is writable */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1922  				attrs[variable_id] &=3D ~0x04;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1923  				attrs[variable_id] |=3D 0x01;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1924  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1925  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1926  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1927  			charptr_tmp =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1928  			charptr_tmp2 =3D (u8 *)vars[args[1]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1929  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1930  			if ((version > 0) &&
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1931  					((long_count > capture_count) ||
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1932  					(long_count > scan_count))) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1933  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1934  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1935  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1936  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1937  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1938  			 * check that capture array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1939  			 * is a writable Boolean array
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1940  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1941  			if ((attrs[args[1]] & 0x1c) !=3D 0x08) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1942  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1943  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1944  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1945  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1946  			if (status =3D=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1947  				if (opcode =3D=3D 0x82) /* DSC */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1948  					status =3D altera_swap_dr(astate,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1949  							long_count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1950  							charptr_tmp,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1951  							scan_index,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1952  							charptr_tmp2,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1953  							capture_index);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1954  				else /* ISC */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1955  					status =3D altera_swap_ir(astate,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1956  							long_count,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1957  							charptr_tmp,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1958  							scan_index,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1959  							charptr_tmp2,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1960  							capture_index);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1961  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1962  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1963  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1964  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1965  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1966  		case OP_WAIT:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1967  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1968  			 * WAIT
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1969  			 * ...argument 0 is wait state
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1970  			 * ...argument 1 is end state
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1971  			 * ...stack 0 is cycles
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1972  			 * ...stack 1 is microseconds
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1973  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1974  			if (!altera_check_stack(stack_ptr, 2, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1975  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1976  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1977  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1978  			if (long_tmp !=3D 0L)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1979  				status =3D altera_wait_cycles(astate, long_tmp,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1980  								args[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1981  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1982  			long_tmp =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1983  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1984  			if ((status =3D=3D 0) && (long_tmp !=3D 0L))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1985  				status =3D altera_wait_msecs(astate,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1986  								long_tmp,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1987  								args[0]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1988  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1989  			if ((status =3D=3D 0) && (args[1] !=3D args[0]))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1990  				status =3D altera_goto_jstate(astate,
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1991  								args[1]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1992  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1993  			if (version > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1994  				--stack_ptr; /* throw away MAX cycles */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1995  				--stack_ptr; /* throw away MAX microseconds */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1996  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1997  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1998  		case OP_CMPA: {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  1999  			/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2000  			 * Array compare
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2001  			 * ...argument 0 is source 1 ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2002  			 * ...argument 1 is source 2 ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2003  			 * ...argument 2 is mask ID
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2004  			 * ...stack 0 is source 1 index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2005  			 * ...stack 1 is source 2 index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2006  			 * ...stack 2 is mask index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2007  			 * ...stack 3 is count
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2008  			 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2009  			s32 a, b;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2010  			u8 *source1 =3D (u8 *)vars[args[0]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2011  			u8 *source2 =3D (u8 *)vars[args[1]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2012  			u8 *mask =3D (u8 *)vars[args[2]];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2013  			u32 index1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2014  			u32 index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2015  			u32 mask_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2016  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2017  			if (!altera_check_stack(stack_ptr, 4, &status))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2018  				break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2019  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2020  			index1 =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2021  			index2 =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2022  			mask_index =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2023  			long_count =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2024  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2025  			if (version > 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2026  				/*
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2027  				 * stack 0 =3D source 1 right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2028  				 * stack 1 =3D source 1 left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2029  				 * stack 2 =3D source 2 right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2030  				 * stack 3 =3D source 2 left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2031  				 * stack 4 =3D mask right index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2032  				 * stack 5 =3D mask left index
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2033  				 */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2034  				s32 mask_right =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2035  				s32 mask_left =3D stack[--stack_ptr];
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2036  				/* source 1 count */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2037  				a =3D 1 + index2 - index1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2038  				/* source 2 count */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2039  				b =3D 1 + long_count - mask_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2040  				a =3D (a < b) ? a : b;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2041  				/* mask count */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2042  				b =3D 1 + mask_left - mask_right;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2043  				a =3D (a < b) ? a : b;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2044  				/* source 2 start index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2045  				index2 =3D mask_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2046  				/* mask start index */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2047  				mask_index =3D mask_right;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2048  				long_count =3D a;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2049  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2050  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2051  			long_tmp =3D 1L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2052  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2053  			if (long_count < 1)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2054  				status =3D -ERANGE;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2055  			else {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2056  				count =3D long_count;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2057  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2058  				for (i =3D 0; i < count; ++i) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2059  					if (mask[mask_index >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2060  						(1 << (mask_index & 7))) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2061  						a =3D source1[index1 >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2062  							(1 << (index1 & 7))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2063  								? 1 : 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2064  						b =3D source2[index2 >> 3] &
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2065  							(1 << (index2 & 7))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2066  								? 1 : 0;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2067  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2068  						if (a !=3D b) /* failure */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2069  							long_tmp =3D 0L;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2070  					}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2071  					++index1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2072  					++index2;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2073  					++mask_index;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2074  				}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2075  			}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2076  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2077  			stack[stack_ptr++] =3D long_tmp;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2078  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2079  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2080  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2081  		default:
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2082  			/* Unrecognized opcode -- ERROR! */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2083  			bad_opcode =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2084  			break;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2085  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2086  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2087  		if (bad_opcode)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2088  			status =3D -ENOSYS;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2089  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2090  		if ((stack_ptr < 0) || (stack_ptr >=3D ALTERA_STACK_SIZE))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2091  			status =3D -EOVERFLOW;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2092  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2093  		if (status !=3D 0) {
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2094  			done =3D 1;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2095  			*error_address =3D (s32)(opcode_address - code_sect);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2096  		}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2097  	}
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2098  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2099  	altera_free_buffers(astate);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2100  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2101  	/* Free all dynamically allocated arrays */
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2102  	if ((attrs !=3D NULL) && (vars !=3D NULL))
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2103  		for (i =3D 0; i < sym_count; ++i)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2104  			if (attrs[i] & 0x80)
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2105  				kfree((void *)vars[i]);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2106  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2107  	kfree(vars);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2108  	kfree(var_size);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2109  	kfree(attrs);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2110  	kfree(proc_attributes);
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2111  =
-
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2112  	return status;
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25 @2113  }
-fa766c9be58bd8 drivers/staging/altera-stapl/altera.c Igor M. Liplianin 2011=
--01-25  2114  =
-
-
-:::::: The code@line 2113 was first introduced by commit
-:::::: fa766c9be58bd872784b081074a7d15a3ce61c5f [media] Altera FPGA firmwar=
-e download module
-
-:::::: TO: Igor M. Liplianin <liplianin@me.by>
-:::::: CC: Mauro Carvalho Chehab <mchehab@redhat.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/phy/cadence/phy-cadence-sierra.c:500 cdns_sierra_pll_mux_register()=
+ warn: passing zero to 'PTR_ERR'
+
+vim +/PTR_ERR +500 drivers/phy/cadence/phy-cadence-sierra.c
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  472  static int cdns_sier=
+ra_pll_mux_register(struct cdns_sierra_phy *sp,
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  473  					struct regmap_f=
+ield *pfdclk1_sel_field,
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  474  					struct regmap_f=
+ield *plllc1en_field,
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  475  					struct regmap_f=
+ield *termen_field,
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  476  					int clk_index)
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  477  {
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  478  	struct cdns_sierra_=
+pll_mux *mux;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  479  	struct device *dev =
+=3D sp->dev;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  480  	struct clk_init_dat=
+a *init;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  481  	const char **parent=
+_names;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  482  	unsigned int num_pa=
+rents;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  483  	char clk_name[100];
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  484  	struct clk *clk;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  485  	int i;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  486  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  487  	mux =3D devm_kzallo=
+c(dev, sizeof(*mux), GFP_KERNEL);
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  488  	if (!mux)
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  489  		return -ENOMEM;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  490  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  491  	num_parents =3D SIE=
+RRA_NUM_CMN_PLLC_PARENTS;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  492  	parent_names =3D de=
+vm_kzalloc(dev, (sizeof(char *) * num_parents), GFP_KERNEL);
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  493  	if (!parent_names)
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  494  		return -ENOMEM;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  495  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  496  	for (i =3D 0; i < n=
+um_parents; i++) {
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  497  		clk =3D sp->input_=
+clks[pll_mux_parent_index[clk_index][i]];
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  498  		if (IS_ERR_OR_NULL=
+(clk)) {
+                                                                    ^^^^^^^=
+^^^^^^^^^^^^
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  499  			dev_err(dev, "No =
+parent clock for derived_refclk\n");
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19 @500  			return PTR_ERR(cl=
+k);
+                                                                           =
+    ^^^^^^^^^^^^
+Can "clk" really be NULL, and if it is then do we really want to return
+PTR_ERR(NULL) (which is zero/success)?
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  501  		}
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  502  		parent_names[i] =
+=3D __clk_get_name(clk);
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  503  	}
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  504  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  505  	snprintf(clk_name, =
+sizeof(clk_name), "%s_%s", dev_name(dev), clk_names[clk_index]);
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  506  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  507  	init =3D &mux->clk_=
+data;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  508  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  509  	init->ops =3D &cdns=
+_sierra_pll_mux_ops;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  510  	init->flags =3D CLK=
+_SET_RATE_NO_REPARENT;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  511  	init->parent_names =
+=3D parent_names;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  512  	init->num_parents =
+=3D num_parents;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  513  	init->name =3D clk_=
+name;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  514  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  515  	mux->pfdclk_sel_pre=
+g =3D pfdclk1_sel_field;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  516  	mux->plllc1en_field=
+ =3D plllc1en_field;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  517  	mux->termen_field =
+=3D termen_field;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  518  	mux->hw.init =3D in=
+it;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  519  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  520  	clk =3D devm_clk_re=
+gister(dev, &mux->hw);
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  521  	if (IS_ERR(clk))
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  522  		return PTR_ERR(clk=
+);
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  523  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  524  	sp->output_clks[clk=
+_index] =3D clk;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  525  =
+
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  526  	return 0;
+28081b72859f0f Kishon Vijay Abraham I 2021-03-19  527  }
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0341457631590160035==
+--===============6383461672289828236==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
---===============0341457631590160035==--
+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
+--===============6383461672289828236==--
 
