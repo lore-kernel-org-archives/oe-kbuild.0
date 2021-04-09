@@ -1,24 +1,29 @@
-Content-Type: multipart/mixed; boundary="===============4923021144749300607=="
+Content-Type: multipart/mixed; boundary="===============2093955323138714999=="
 MIME-Version: 1.0
 From: Dan Carpenter <dan.carpenter@oracle.com>
 Subject: Re: [PATCH net-next v2 1/2] of: net: pass the dst buffer to of_get_mac_address()
-Date: Wed, 14 Apr 2021 08:33:36 +0300
-Message-ID: <20210414053336.GQ6021@kadam>
+Date: Fri, 09 Apr 2021 12:06:26 +0300
+Message-ID: <20210409090626.GG6048@kadam>
 In-Reply-To: <20210406153725.10059-2-michael@walle.cc>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4923021144749300607==
+--===============2093955323138714999==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 Hi Michael,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+
 url:    https://github.com/0day-ci/linux/commits/Michael-Walle/of-net-suppo=
-rt-non-platform-devices-in-of_get_mac_address/20210406-234030
+rt-non-platform-devices-in-of_get_mac_address/20210406-234030 =
+
 base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-cc0626c2aaed8e475efdd85fa374b497a7192e35
+ cc0626c2aaed8e475efdd85fa374b497a7192e35
 config: x86_64-randconfig-m001-20210406 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -31,6 +36,380 @@ drivers/net/ethernet/xilinx/xilinx_axienet_main.c:2069 axienet_probe() warn=
 : passing a valid pointer to 'PTR_ERR'
 
 vim +/PTR_ERR +2069 drivers/net/ethernet/xilinx/xilinx_axienet_main.c
+
+2be586205ca2b8 Srikanth Thokala    2015-05-05  1832  static int axienet_pro=
+be(struct platform_device *pdev)
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1833  {
+8495659bf93c8e Srikanth Thokala    2015-05-05  1834  	int ret;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1835  	struct device_node *n=
+p;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1836  	struct axienet_local =
+*lp;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1837  	struct net_device *nd=
+ev;
+28ef9ebdb64c6f Robert Hancock      2019-06-06  1838  	struct resource *ethr=
+es;
+411b125c6ace1f Michael Walle       2021-04-06  1839  	u8 mac_addr[ETH_ALEN];
+                                                        ^^^^^^^^^^^^^^^^^^^=
+^^^
+
+5fff0151b3244d Andre Przywara      2020-03-24  1840  	int addr_width =3D 32;
+8495659bf93c8e Srikanth Thokala    2015-05-05  1841  	u32 value;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1842  =
+
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1843  	ndev =3D alloc_etherd=
+ev(sizeof(*lp));
+41de8d4cff21a2 Joe Perches         2012-01-29  1844  	if (!ndev)
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1845  		return -ENOMEM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1846  =
+
+95219aa538e11d Srikanth Thokala    2015-05-05  1847  	platform_set_drvdata(=
+pdev, ndev);
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1848  =
+
+95219aa538e11d Srikanth Thokala    2015-05-05  1849  	SET_NETDEV_DEV(ndev, =
+&pdev->dev);
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1850  	ndev->flags &=3D ~IFF=
+_MULTICAST;  /* clear multicast */
+28e24c62ab3062 Eric Dumazet        2013-12-02  1851  	ndev->features =3D NE=
+TIF_F_SG;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1852  	ndev->netdev_ops =3D =
+&axienet_netdev_ops;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1853  	ndev->ethtool_ops =3D=
+ &axienet_ethtool_ops;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1854  =
+
+d894be57ca92c8 Jarod Wilson        2016-10-20  1855  	/* MTU range: 64 - 90=
+00 */
+d894be57ca92c8 Jarod Wilson        2016-10-20  1856  	ndev->min_mtu =3D 64;
+d894be57ca92c8 Jarod Wilson        2016-10-20  1857  	ndev->max_mtu =3D XAE=
+_JUMBO_MTU;
+d894be57ca92c8 Jarod Wilson        2016-10-20  1858  =
+
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1859  	lp =3D netdev_priv(nd=
+ev);
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1860  	lp->ndev =3D ndev;
+95219aa538e11d Srikanth Thokala    2015-05-05  1861  	lp->dev =3D &pdev->de=
+v;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1862  	lp->options =3D XAE_O=
+PTION_DEFAULTS;
+8b09ca823ffb4e Robert Hancock      2019-06-06  1863  	lp->rx_bd_num =3D RX_=
+BD_NUM_DEFAULT;
+8b09ca823ffb4e Robert Hancock      2019-06-06  1864  	lp->tx_bd_num =3D TX_=
+BD_NUM_DEFAULT;
+57baf8cc70ea4c Robert Hancock      2021-02-12  1865  =
+
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1866  	lp->axi_clk =3D devm_=
+clk_get_optional(&pdev->dev, "s_axi_lite_clk");
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1867  	if (!lp->axi_clk) {
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1868  		/* For backward comp=
+atibility, if named AXI clock is not present,
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1869  		 * treat the first c=
+lock specified as the AXI clock.
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1870  		 */
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1871  		lp->axi_clk =3D devm=
+_clk_get_optional(&pdev->dev, NULL);
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1872  	}
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1873  	if (IS_ERR(lp->axi_cl=
+k)) {
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1874  		ret =3D PTR_ERR(lp->=
+axi_clk);
+57baf8cc70ea4c Robert Hancock      2021-02-12  1875  		goto free_netdev;
+57baf8cc70ea4c Robert Hancock      2021-02-12  1876  	}
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1877  	ret =3D clk_prepare_e=
+nable(lp->axi_clk);
+57baf8cc70ea4c Robert Hancock      2021-02-12  1878  	if (ret) {
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1879  		dev_err(&pdev->dev, =
+"Unable to enable AXI clock: %d\n", ret);
+57baf8cc70ea4c Robert Hancock      2021-02-12  1880  		goto free_netdev;
+57baf8cc70ea4c Robert Hancock      2021-02-12  1881  	}
+57baf8cc70ea4c Robert Hancock      2021-02-12  1882  =
+
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1883  	lp->misc_clks[0].id =
+=3D "axis_clk";
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1884  	lp->misc_clks[1].id =
+=3D "ref_clk";
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1885  	lp->misc_clks[2].id =
+=3D "mgt_clk";
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1886  =
+
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1887  	ret =3D devm_clk_bulk=
+_get_optional(&pdev->dev, XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1888  	if (ret)
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1889  		goto cleanup_clk;
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1890  =
+
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1891  	ret =3D clk_bulk_prep=
+are_enable(XAE_NUM_MISC_CLOCKS, lp->misc_clks);
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1892  	if (ret)
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1893  		goto cleanup_clk;
+b11bfb9a19f9d7 Robert Hancock      2021-03-25  1894  =
+
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1895  	/* Map device registe=
+rs */
+46aa27df885321 Srikanth Thokala    2015-05-05  1896  	ethres =3D platform_g=
+et_resource(pdev, IORESOURCE_MEM, 0);
+46aa27df885321 Srikanth Thokala    2015-05-05  1897  	lp->regs =3D devm_ior=
+emap_resource(&pdev->dev, ethres);
+fcc028c106e575 Krzysztof Kozlowski 2015-07-09  1898  	if (IS_ERR(lp->regs))=
+ {
+fcc028c106e575 Krzysztof Kozlowski 2015-07-09  1899  		ret =3D PTR_ERR(lp->=
+regs);
+59cd4f19267a0a Robert Hancock      2021-03-11  1900  		goto cleanup_clk;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1901  	}
+7fa0043d5c74c6 Robert Hancock      2019-06-11  1902  	lp->regs_start =3D et=
+hres->start;
+46aa27df885321 Srikanth Thokala    2015-05-05  1903  =
+
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1904  	/* Setup checksum off=
+load, but default to off if not specified */
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1905  	lp->features =3D 0;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1906  =
+
+8495659bf93c8e Srikanth Thokala    2015-05-05  1907  	ret =3D of_property_r=
+ead_u32(pdev->dev.of_node, "xlnx,txcsum", &value);
+8495659bf93c8e Srikanth Thokala    2015-05-05  1908  	if (!ret) {
+8495659bf93c8e Srikanth Thokala    2015-05-05  1909  		switch (value) {
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1910  		case 1:
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1911  			lp->csum_offload_on=
+_tx_path =3D
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1912  				XAE_FEATURE_PARTIA=
+L_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1913  			lp->features |=3D X=
+AE_FEATURE_PARTIAL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1914  			/* Can checksum TCP=
+/UDP over IPv4. */
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1915  			ndev->features |=3D=
+ NETIF_F_IP_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1916  			break;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1917  		case 2:
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1918  			lp->csum_offload_on=
+_tx_path =3D
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1919  				XAE_FEATURE_FULL_T=
+X_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1920  			lp->features |=3D X=
+AE_FEATURE_FULL_TX_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1921  			/* Can checksum TCP=
+/UDP over IPv4. */
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1922  			ndev->features |=3D=
+ NETIF_F_IP_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1923  			break;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1924  		default:
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1925  			lp->csum_offload_on=
+_tx_path =3D XAE_NO_CSUM_OFFLOAD;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1926  		}
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1927  	}
+8495659bf93c8e Srikanth Thokala    2015-05-05  1928  	ret =3D of_property_r=
+ead_u32(pdev->dev.of_node, "xlnx,rxcsum", &value);
+8495659bf93c8e Srikanth Thokala    2015-05-05  1929  	if (!ret) {
+8495659bf93c8e Srikanth Thokala    2015-05-05  1930  		switch (value) {
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1931  		case 1:
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1932  			lp->csum_offload_on=
+_rx_path =3D
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1933  				XAE_FEATURE_PARTIA=
+L_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1934  			lp->features |=3D X=
+AE_FEATURE_PARTIAL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1935  			break;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1936  		case 2:
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1937  			lp->csum_offload_on=
+_rx_path =3D
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1938  				XAE_FEATURE_FULL_R=
+X_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1939  			lp->features |=3D X=
+AE_FEATURE_FULL_RX_CSUM;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1940  			break;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1941  		default:
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1942  			lp->csum_offload_on=
+_rx_path =3D XAE_NO_CSUM_OFFLOAD;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1943  		}
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1944  	}
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1945  	/* For supporting jum=
+bo frames, the Axi Ethernet hardware must have
+f080a8c35d8932 Srikanth Thokala    2015-05-05  1946  	 * a larger Rx/Tx Mem=
+ory. Typically, the size must be large so that
+f080a8c35d8932 Srikanth Thokala    2015-05-05  1947  	 * we can enable jumb=
+o option and start supporting jumbo frames.
+f080a8c35d8932 Srikanth Thokala    2015-05-05  1948  	 * Here we check for =
+memory allocated for Rx/Tx in the hardware from
+f080a8c35d8932 Srikanth Thokala    2015-05-05  1949  	 * the device-tree an=
+d accordingly set flags.
+f080a8c35d8932 Srikanth Thokala    2015-05-05  1950  	 */
+8495659bf93c8e Srikanth Thokala    2015-05-05  1951  	of_property_read_u32(=
+pdev->dev.of_node, "xlnx,rxmem", &lp->rxmem);
+ee06b1728b9564 Alvaro G. M         2017-07-17  1952  =
+
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1953  	lp->switch_x_sgmii =
+=3D of_property_read_bool(pdev->dev.of_node,
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1954  						   "xlnx,switch-=
+x-sgmii");
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1955  =
+
+ee06b1728b9564 Alvaro G. M         2017-07-17  1956  	/* Start with the pro=
+prietary, and broken phy_type */
+ee06b1728b9564 Alvaro G. M         2017-07-17  1957  	ret =3D of_property_r=
+ead_u32(pdev->dev.of_node, "xlnx,phy-type", &value);
+ee06b1728b9564 Alvaro G. M         2017-07-17  1958  	if (!ret) {
+ee06b1728b9564 Alvaro G. M         2017-07-17  1959  		netdev_warn(ndev, "P=
+lease upgrade your device tree binary blob to use phy-mode");
+ee06b1728b9564 Alvaro G. M         2017-07-17  1960  		switch (value) {
+ee06b1728b9564 Alvaro G. M         2017-07-17  1961  		case XAE_PHY_TYPE_MI=
+I:
+ee06b1728b9564 Alvaro G. M         2017-07-17  1962  			lp->phy_mode =3D PH=
+Y_INTERFACE_MODE_MII;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1963  			break;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1964  		case XAE_PHY_TYPE_GM=
+II:
+ee06b1728b9564 Alvaro G. M         2017-07-17  1965  			lp->phy_mode =3D PH=
+Y_INTERFACE_MODE_GMII;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1966  			break;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1967  		case XAE_PHY_TYPE_RG=
+MII_2_0:
+ee06b1728b9564 Alvaro G. M         2017-07-17  1968  			lp->phy_mode =3D PH=
+Y_INTERFACE_MODE_RGMII_ID;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1969  			break;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1970  		case XAE_PHY_TYPE_SG=
+MII:
+ee06b1728b9564 Alvaro G. M         2017-07-17  1971  			lp->phy_mode =3D PH=
+Y_INTERFACE_MODE_SGMII;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1972  			break;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1973  		case XAE_PHY_TYPE_10=
+00BASE_X:
+ee06b1728b9564 Alvaro G. M         2017-07-17  1974  			lp->phy_mode =3D PH=
+Y_INTERFACE_MODE_1000BASEX;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1975  			break;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1976  		default:
+ee06b1728b9564 Alvaro G. M         2017-07-17  1977  			ret =3D -EINVAL;
+59cd4f19267a0a Robert Hancock      2021-03-11  1978  			goto cleanup_clk;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1979  		}
+ee06b1728b9564 Alvaro G. M         2017-07-17  1980  	} else {
+0c65b2b90d13c1 Andrew Lunn         2019-11-04  1981  		ret =3D of_get_phy_m=
+ode(pdev->dev.of_node, &lp->phy_mode);
+0c65b2b90d13c1 Andrew Lunn         2019-11-04  1982  		if (ret)
+59cd4f19267a0a Robert Hancock      2021-03-11  1983  			goto cleanup_clk;
+ee06b1728b9564 Alvaro G. M         2017-07-17  1984  	}
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1985  	if (lp->switch_x_sgmi=
+i && lp->phy_mode !=3D PHY_INTERFACE_MODE_SGMII &&
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1986  	    lp->phy_mode !=3D=
+ PHY_INTERFACE_MODE_1000BASEX) {
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1987  		dev_err(&pdev->dev, =
+"xlnx,switch-x-sgmii only supported with SGMII or 1000BaseX\n");
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1988  		ret =3D -EINVAL;
+59cd4f19267a0a Robert Hancock      2021-03-11  1989  		goto cleanup_clk;
+6c8f06bb2e5147 Robert Hancock      2021-02-12  1990  	}
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1991  =
+
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  1992  	/* Find the DMA node,=
+ map the DMA registers, and decode the DMA IRQs */
+95219aa538e11d Srikanth Thokala    2015-05-05  1993  	np =3D of_parse_phand=
+le(pdev->dev.of_node, "axistream-connected", 0);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  1994  	if (np) {
+28ef9ebdb64c6f Robert Hancock      2019-06-06  1995  		struct resource dmar=
+es;
+28ef9ebdb64c6f Robert Hancock      2019-06-06  1996  =
+
+46aa27df885321 Srikanth Thokala    2015-05-05  1997  		ret =3D of_address_t=
+o_resource(np, 0, &dmares);
+46aa27df885321 Srikanth Thokala    2015-05-05  1998  		if (ret) {
+28ef9ebdb64c6f Robert Hancock      2019-06-06  1999  			dev_err(&pdev->dev,
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2000  				"unable to get DMA=
+ resource\n");
+fa3a419d2f674b Wen Yang            2019-03-22  2001  			of_node_put(np);
+59cd4f19267a0a Robert Hancock      2021-03-11  2002  			goto cleanup_clk;
+46aa27df885321 Srikanth Thokala    2015-05-05  2003  		}
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2004  		lp->dma_regs =3D dev=
+m_ioremap_resource(&pdev->dev,
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2005  						     &dmares);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2006  		lp->rx_irq =3D irq_o=
+f_parse_and_map(np, 1);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2007  		lp->tx_irq =3D irq_o=
+f_parse_and_map(np, 0);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2008  		of_node_put(np);
+d6349e3e14c7f7 Andre Przywara      2020-03-24  2009  		lp->eth_irq =3D plat=
+form_get_irq_optional(pdev, 0);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2010  	} else {
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2011  		/* Check for these r=
+esources directly on the Ethernet node. */
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2012  		struct resource *res=
+ =3D platform_get_resource(pdev,
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2013  							     IORESOURCE=
+_MEM, 1);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2014  		lp->dma_regs =3D dev=
+m_ioremap_resource(&pdev->dev, res);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2015  		lp->rx_irq =3D platf=
+orm_get_irq(pdev, 1);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2016  		lp->tx_irq =3D platf=
+orm_get_irq(pdev, 0);
+d6349e3e14c7f7 Andre Przywara      2020-03-24  2017  		lp->eth_irq =3D plat=
+form_get_irq_optional(pdev, 2);
+28ef9ebdb64c6f Robert Hancock      2019-06-06  2018  	}
+fcc028c106e575 Krzysztof Kozlowski 2015-07-09  2019  	if (IS_ERR(lp->dma_re=
+gs)) {
+46aa27df885321 Srikanth Thokala    2015-05-05  2020  		dev_err(&pdev->dev, =
+"could not map DMA regs\n");
+fcc028c106e575 Krzysztof Kozlowski 2015-07-09  2021  		ret =3D PTR_ERR(lp->=
+dma_regs);
+59cd4f19267a0a Robert Hancock      2021-03-11  2022  		goto cleanup_clk;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  2023  	}
+cb59c87dbc8be2 Michal Simek        2013-01-10  2024  	if ((lp->rx_irq <=3D =
+0) || (lp->tx_irq <=3D 0)) {
+95219aa538e11d Srikanth Thokala    2015-05-05  2025  		dev_err(&pdev->dev, =
+"could not determine irqs\n");
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  2026  		ret =3D -ENOMEM;
+59cd4f19267a0a Robert Hancock      2021-03-11  2027  		goto cleanup_clk;
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  2028  	}
+8a3b7a252dca9f Daniel Borkmann     2012-01-19  2029  =
+
+f735c40ed93cca Andre Przywara      2020-03-24  2030  	/* Autodetect the nee=
+d for 64-bit DMA pointers.
+f735c40ed93cca Andre Przywara      2020-03-24  2031  	 * When the IP is con=
+figured for a bus width bigger than 32 bits,
+f735c40ed93cca Andre Przywara      2020-03-24  2032  	 * writing the MSB re=
+gisters is mandatory, even if they are all 0.
+f735c40ed93cca Andre Przywara      2020-03-24  2033  	 * We can detect this=
+ case by writing all 1's to one such register
+f735c40ed93cca Andre Przywara      2020-03-24  2034  	 * and see if that st=
+icks: when the IP is configured for 32 bits
+f735c40ed93cca Andre Przywara      2020-03-24  2035  	 * only, those regist=
+ers are RES0.
+f735c40ed93cca Andre Przywara      2020-03-24  2036  	 * Those MSB register=
+s were introduced in IP v7.1, which we check first.
+f735c40ed93cca Andre Przywara      2020-03-24  2037  	 */
+f735c40ed93cca Andre Przywara      2020-03-24  2038  	if ((axienet_ior(lp, =
+XAE_ID_OFFSET) >> 24) >=3D 0x9) {
+f735c40ed93cca Andre Przywara      2020-03-24  2039  		void __iomem *desc =
+=3D lp->dma_regs + XAXIDMA_TX_CDESC_OFFSET + 4;
+f735c40ed93cca Andre Przywara      2020-03-24  2040  =
+
+f735c40ed93cca Andre Przywara      2020-03-24  2041  		iowrite32(0x0, desc);
+f735c40ed93cca Andre Przywara      2020-03-24  2042  		if (ioread32(desc) =
+=3D=3D 0) {	/* sanity check */
+f735c40ed93cca Andre Przywara      2020-03-24  2043  			iowrite32(0xfffffff=
+f, desc);
+f735c40ed93cca Andre Przywara      2020-03-24  2044  			if (ioread32(desc) =
+> 0) {
+f735c40ed93cca Andre Przywara      2020-03-24  2045  				lp->features |=3D =
+XAE_FEATURE_DMA_64BIT;
+5fff0151b3244d Andre Przywara      2020-03-24  2046  				addr_width =3D 64;
+f735c40ed93cca Andre Przywara      2020-03-24  2047  				dev_info(&pdev->de=
+v,
+f735c40ed93cca Andre Przywara      2020-03-24  2048  					 "autodetected 64=
+-bit DMA range\n");
+f735c40ed93cca Andre Przywara      2020-03-24  2049  			}
+f735c40ed93cca Andre Przywara      2020-03-24  2050  			iowrite32(0x0, desc=
+);
+f735c40ed93cca Andre Przywara      2020-03-24  2051  		}
+f735c40ed93cca Andre Przywara      2020-03-24  2052  	}
+f735c40ed93cca Andre Przywara      2020-03-24  2053  =
+
+5fff0151b3244d Andre Przywara      2020-03-24  2054  	ret =3D dma_set_mask_=
+and_coherent(&pdev->dev, DMA_BIT_MASK(addr_width));
+5fff0151b3244d Andre Przywara      2020-03-24  2055  	if (ret) {
+5fff0151b3244d Andre Przywara      2020-03-24  2056  		dev_err(&pdev->dev, =
+"No suitable DMA available\n");
+59cd4f19267a0a Robert Hancock      2021-03-11  2057  		goto cleanup_clk;
+5fff0151b3244d Andre Przywara      2020-03-24  2058  	}
+5fff0151b3244d Andre Przywara      2020-03-24  2059  =
 
 522856cefaf09d Robert Hancock      2019-06-06  2060  	/* Check for Ethernet=
  core IRQ (optional) */
@@ -53,23 +432,24 @@ d05a9ed5c3a773 Robert Hancock      2019-06-06 @2069  		dev_warn(&pdev->dev,=
 d05a9ed5c3a773 Robert Hancock      2019-06-06  2070  			 PTR_ERR(mac_addr));
                                                                          ^^=
 ^^^^^^^^^^^^^^^
-This should print "ret".
+mac_addr isn't an error pointer.
 
 411b125c6ace1f Michael Walle       2021-04-06  2071  		axienet_set_mac_addr=
 ess(ndev, NULL);
 8a3b7a252dca9f Daniel Borkmann     2012-01-19  2072  	}
 8a3b7a252dca9f Daniel Borkmann     2012-01-19  2073  =
 
-8a3b7a252dca9f Daniel Borkmann     2012-01-19  2074  	lp->coalesce_count_rx=
- =3D XAXIDMA_DFT_RX_THRESHOLD;
-8a3b7a252dca9f Daniel Borkmann     2012-01-19  2075  	lp->coalesce_count_tx=
- =3D XAXIDMA_DFT_TX_THRESHOLD;
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
 
---===============4923021144749300607==
+
+_______________________________________________
+kbuild mailing list -- kbuild(a)lists.01.org
+To unsubscribe send an email to kbuild-leave(a)lists.01.org
+
+--===============2093955323138714999==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -622,5 +1002,5 @@ oqv4B4+JQDrFhvHScySM7/vAW96Eld5VYTzmEF+FXusligYdWrybHmcMQwnSCAtb/wxbb2d4Hvpe
 hR42Rry6mZgZHDxco1PPTB313OCjE/QG3VxCb3uTSy+0k/dLtkvTL7LP8BolpJ7pT9hLRnEh5UIJ
 JoUjIuv6bUaaiCKBQw5nBtV1oaEz6zyehy9dTcsaBlz0lBLG+3IVsK9AicHHnGY3HS+DiXSf+j/Y
 9g7bF/ABAA==
---===============4923021144749300607==--
+--===============2093955323138714999==--
 
