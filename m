@@ -1,27 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============1752412740740486757=="
+Content-Type: multipart/mixed; boundary="===============0432001283956751563=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH 13/15] usb: dwc2: Add exit hibernation mode before removing drive
-Date: Thu, 15 Apr 2021 16:40:07 +0300
-Message-ID: <20210415134007.GL6048@kadam>
-In-Reply-To: <d01d23e2473407af37c42acb6ca4815ae5fd256e.1618464534.git.Arthur.Petrosyan@synopsys.com>
+Date: Thu, 15 Apr 2021 20:34:32 +0800
+Message-ID: <202104152012.r8uUkYwV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1752412740740486757==
+--===============0432001283956751563==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <d01d23e2473407af37c42acb6ca4815ae5fd256e.1618464534.git.Arthu=
+r.Petrosyan@synopsys.com>
+References: <d01d23e2473407af37c42acb6ca4815ae5fd256e.1618464534.git.Arthur=
+.Petrosyan@synopsys.com>
+TO: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+TO: Felipe Balbi <balbi@kernel.org>
+TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Minas Harutyunyan <Minas.Harutyunyan@synopsys.com>
+TO: linux-usb(a)vger.kernel.org
+TO: linux-kernel(a)vger.kernel.org
+CC: John Youn <John.Youn@synopsys.com>
+CC: Artur Petrosyan <Arthur.Petrosyan@synopsys.com>
+
 Hi Artur,
 
-https://git-scm.com/docs/git-format-patch ]
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on next-20210414]
+[cannot apply to peter.chen-usb/for-usb-next linus/master balbi-usb/testing=
+/next v5.12-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Artur-Petrosyan/usb-dwc2-U=
-pdate-exit-hibernation-when-port-reset-is-asserted/20210415-144021 =
-
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git  usb=
--testing
+pdate-exit-hibernation-when-port-reset-is-asserted/20210415-144021
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-=
+testing
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
 config: i386-randconfig-m021-20210415 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -35,6 +57,35 @@ eferencing uninitialized 'gr'.
 
 vim +/gr +324 drivers/usb/dwc2/platform.c
 
+09a75e85779014 drivers/usb/dwc2/platform.c     Marek Szyprowski   2015-10-1=
+4  304  =
+
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  305  /**
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  306   * dwc2_driver_remove() - Called when the DWC_otg core is unregiste=
+red with the
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  307   * DWC_otg driver
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  308   *
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  309   * @dev: Platform device
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  310   *
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  311   * This routine is called, for example, when the rmmod command is e=
+xecuted. The
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  312   * device may or may not be electrically present. If it is present,=
+ the driver
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  313   * stops device processing. Any resources used on behalf of this de=
+vice are
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  314   * freed.
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  315   */
 5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
 2  316  static int dwc2_driver_remove(struct platform_device *dev)
 5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
@@ -43,8 +94,6 @@ vim +/gr +324 drivers/usb/dwc2/platform.c
 2  318  	struct dwc2_hsotg *hsotg =3D platform_get_drvdata(dev);
 8e4dbc0200040a drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
 5  319  	struct dwc2_gregs_backup *gr;
-                                                                           =
-                                       ^^
 b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
 8  320  	int ret =3D 0;
 b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
@@ -56,8 +105,6 @@ b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
 5  323  	if (hsotg->hibernated) {
 8e4dbc0200040a drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
 5 @324  		if (gr->gotgctl & GOTGCTL_CURMODE_HOST) {
-                                                                           =
-                         ^^^^^^^^^^^
 8e4dbc0200040a drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
 5  325  			ret =3D dwc2_exit_hibernation(hsotg, 0, 0, 1);
 8e4dbc0200040a drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
@@ -80,17 +127,97 @@ b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
 5  334  		}
 8e4dbc0200040a drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
 5  335  	}
+8e4dbc0200040a drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+5  336  =
+
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  337  	/* Exit Partial Power Down when driver is removed. */
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  338  	if (hsotg->in_ppd) {
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  339  		ret =3D dwc2_exit_partial_power_down(hsotg, 0, true);
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  340  		if (ret)
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  341  			dev_err(hsotg->dev,
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  342  				"exit partial_power_down failed\n");
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  343  	}
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  344  =
+
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  345  	/* Exit clock gating when driver is removed. */
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  346  	if (hsotg->params.power_down =3D=3D DWC2_POWER_DOWN_PARAM_NONE &&
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  347  	    hsotg->bus_suspended) {
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  348  		if (dwc2_is_device_mode(hsotg))
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  349  			dwc2_gadget_exit_clock_gating(hsotg, 0);
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  350  		else
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  351  			dwc2_host_exit_clock_gating(hsotg, 0);
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  352  	}
+401411bbc4e62b drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-1=
+3  353  =
+
+f91eea447ac32d drivers/usb/dwc2/platform.c     Mian Yousaf Kaukab 2015-04-2=
+9  354  	dwc2_debugfs_exit(hsotg);
+e39af88f18dfe9 drivers/usb/dwc2/platform.c     Marek Szyprowski   2015-03-1=
+0  355  	if (hsotg->hcd_enabled)
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  356  		dwc2_hcd_remove(hsotg);
+e39af88f18dfe9 drivers/usb/dwc2/platform.c     Marek Szyprowski   2015-03-1=
+0  357  	if (hsotg->gadget_enabled)
+1f91b4cc03556b drivers/usb/dwc2/platform.c     Felipe Balbi       2015-08-0=
+6  358  		dwc2_hsotg_remove(hsotg);
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  359  =
+
+17f934024e84e7 drivers/usb/dwc2/platform.c     Amelie Delaunay    2020-09-0=
+9  360  	dwc2_drd_exit(hsotg);
+17f934024e84e7 drivers/usb/dwc2/platform.c     Amelie Delaunay    2020-09-0=
+9  361  =
+
+a415083a11cc76 drivers/usb/dwc2/platform.c     Amelie Delaunay    2020-01-2=
+4  362  	if (hsotg->params.activate_stm_id_vb_detection)
+a415083a11cc76 drivers/usb/dwc2/platform.c     Amelie Delaunay    2020-01-2=
+4  363  		regulator_disable(hsotg->usb33d);
+a415083a11cc76 drivers/usb/dwc2/platform.c     Amelie Delaunay    2020-01-2=
+4  364  =
+
+09a75e85779014 drivers/usb/dwc2/platform.c     Marek Szyprowski   2015-10-1=
+4  365  	if (hsotg->ll_hw_enabled)
+09a75e85779014 drivers/usb/dwc2/platform.c     Marek Szyprowski   2015-10-1=
+4  366  		dwc2_lowlevel_hw_disable(hsotg);
+09a75e85779014 drivers/usb/dwc2/platform.c     Marek Szyprowski   2015-10-1=
+4  367  =
+
+83f8da562f8b52 drivers/usb/dwc2/platform.c     Dinh Nguyen        2016-08-1=
+0  368  	reset_control_assert(hsotg->reset);
+f2830ad455ec0f drivers/usb/dwc2/platform.c     Dinh Nguyen        2017-11-0=
+1  369  	reset_control_assert(hsotg->reset_ecc);
+83f8da562f8b52 drivers/usb/dwc2/platform.c     Dinh Nguyen        2016-08-1=
+0  370  =
+
+b46b1ef7b0da5c drivers/usb/dwc2/platform.c     Artur Petrosyan    2021-04-0=
+8  371  	return ret;
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  372  }
+5b9974b13e3648 drivers/staging/dwc2/platform.c Matthijs Kooijman  2013-04-2=
+2  373  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============1752412740740486757==
+--===============0432001283956751563==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -786,5 +913,5 @@ HRUkWOAlWEVq17da4WoigUWRVz7DmN3YMCP0D2fIWpZCK/A2YPQADRcn9YYX0e76RKaGPu5BmnB8
 o6/PNskfhapipDhDHa9hyD1gvK1bqpHFsyJfnj6vExmoI4y9JrMDagLRIfTlkc5k4FqY5At3V0vH
 Ynd+fELBHVXS9J9/z1/e3Z9F3i6+3LHJ0GgUs6mHEcm74kZzsiTLUzi4lRivr8pMOKPAi768qvlW
 zdF4XdLxy7Lpqk3KtDqMLMY5LQ3wd/RBd6yLUrC30hHQkkledVMr9RUO8i/Zv/sfFcB51X5nAgA=
---===============1752412740740486757==--
+--===============0432001283956751563==--
 
