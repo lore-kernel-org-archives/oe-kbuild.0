@@ -1,29 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============0398868245982925374=="
+Content-Type: multipart/mixed; boundary="===============0107458564753762923=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 11640/13394] drivers/net/can/usb/peak_usb/pcan_usb.c:852:9: warning: Variable 'pc' is modified but its new value is never used. [unreadVariable]
-Date: Sat, 17 Apr 2021 13:30:09 +0800
-Message-ID: <202104171353.qtkCyK12-lkp@intel.com>
+Subject: drivers/gpu/drm/vc4/vc4_crtc.c:595:50: warning: Function 'vc4_crtc_get_margins' argument order different: declaration 'state, right, left, top, bottom' definition 'state, left, right, top, bottom' [funcArgOrderDifferent]
+Date: Sat, 17 Apr 2021 12:14:42 +0800
+Message-ID: <202104171234.yWPSTQK2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0398868245982925374==
+--===============0107458564753762923==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Marc Kleine-Budde" <mkl@pengutronix.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Stephen Boyd <sboyd@kernel.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   18250b538735142307082e4e99e3ae5c12d44013
-commit: bd573ea5720470d1ea70f3e39fb2e2efad219311 [11640/13394] can: peak_us=
-b: pcan_usb: replace open coded endianness conversion of unaligned data
-:::::: branch date: 18 hours ago
-:::::: commit date: 4 days ago
-compiler: h8300-linux-gcc (GCC) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9cdbf6467424045617cd6e79dcaad06bb8efa31c
+commit: bbd7ffdbef6888459f301c5889f3b14ada38b913 clk: Allow the common clk =
+framework to be selectable
+date:   12 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 12 months ago
+compiler: m68k-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -31,99 +34,89 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/net/can/usb/peak_usb/pcan_usb.c:852:9: warning: Variable 'pc' is=
- modified but its new value is never used. [unreadVariable]
-     pc +=3D cf->len;
-           ^
+>> drivers/gpu/drm/vc4/vc4_crtc.c:595:50: warning: Function 'vc4_crtc_get_m=
+argins' argument order different: declaration 'state, right, left, top, bot=
+tom' definition 'state, left, right, top, bottom' [funcArgOrderDifferent]
+   void vc4_crtc_get_margins(struct drm_crtc_state *state,
+                                                    ^
+   drivers/gpu/drm/vc4/vc4_drv.h:757:50: note: Function 'vc4_crtc_get_margi=
+ns' argument order different: declaration 'state, right, left, top, bottom'=
+ definition 'state, left, right, top, bottom'
+   void vc4_crtc_get_margins(struct drm_crtc_state *state,
+                                                    ^
+   drivers/gpu/drm/vc4/vc4_crtc.c:595:50: note: Function 'vc4_crtc_get_marg=
+ins' argument order different: declaration 'state, right, left, top, bottom=
+' definition 'state, left, right, top, bottom'
+   void vc4_crtc_get_margins(struct drm_crtc_state *state,
+                                                    ^
 
-vim +/pc +852 drivers/net/can/usb/peak_usb/pcan_usb.c
+vim +595 drivers/gpu/drm/vc4/vc4_crtc.c
 
-46be265d338833 Stephane Grosjean 2012-03-02  812  =
+acc1be1d351e8d Mario Kleiner   2016-07-19  594  =
 
-46be265d338833 Stephane Grosjean 2012-03-02  813  /*
-46be265d338833 Stephane Grosjean 2012-03-02  814   * process outgoing packet
-46be265d338833 Stephane Grosjean 2012-03-02  815   */
-46be265d338833 Stephane Grosjean 2012-03-02  816  static int pcan_usb_encod=
-e_msg(struct peak_usb_device *dev, struct sk_buff *skb,
-46be265d338833 Stephane Grosjean 2012-03-02  817  			       u8 *obuf, size_=
-t *size)
-46be265d338833 Stephane Grosjean 2012-03-02  818  {
-46be265d338833 Stephane Grosjean 2012-03-02  819  	struct net_device *netde=
-v =3D dev->netdev;
-46be265d338833 Stephane Grosjean 2012-03-02  820  	struct net_device_stats =
-*stats =3D &netdev->stats;
-46be265d338833 Stephane Grosjean 2012-03-02  821  	struct can_frame *cf =3D=
- (struct can_frame *)skb->data;
-46be265d338833 Stephane Grosjean 2012-03-02  822  	u8 *pc;
-46be265d338833 Stephane Grosjean 2012-03-02  823  =
+666e73587f90f4 Boris Brezillon 2018-12-06 @595  void vc4_crtc_get_margins(s=
+truct drm_crtc_state *state,
+666e73587f90f4 Boris Brezillon 2018-12-06  596  			  unsigned int *left, un=
+signed int *right,
+666e73587f90f4 Boris Brezillon 2018-12-06  597  			  unsigned int *top, uns=
+igned int *bottom)
+666e73587f90f4 Boris Brezillon 2018-12-06  598  {
+666e73587f90f4 Boris Brezillon 2018-12-06  599  	struct vc4_crtc_state *vc4=
+_state =3D to_vc4_crtc_state(state);
+666e73587f90f4 Boris Brezillon 2018-12-06  600  	struct drm_connector_state=
+ *conn_state;
+666e73587f90f4 Boris Brezillon 2018-12-06  601  	struct drm_connector *conn;
+666e73587f90f4 Boris Brezillon 2018-12-06  602  	int i;
+666e73587f90f4 Boris Brezillon 2018-12-06  603  =
 
-46be265d338833 Stephane Grosjean 2012-03-02  824  	obuf[0] =3D 2;
-46be265d338833 Stephane Grosjean 2012-03-02  825  	obuf[1] =3D 1;
-46be265d338833 Stephane Grosjean 2012-03-02  826  =
+666e73587f90f4 Boris Brezillon 2018-12-06  604  	*left =3D vc4_state->margi=
+ns.left;
+666e73587f90f4 Boris Brezillon 2018-12-06  605  	*right =3D vc4_state->marg=
+ins.right;
+666e73587f90f4 Boris Brezillon 2018-12-06  606  	*top =3D vc4_state->margin=
+s.top;
+666e73587f90f4 Boris Brezillon 2018-12-06  607  	*bottom =3D vc4_state->mar=
+gins.bottom;
+666e73587f90f4 Boris Brezillon 2018-12-06  608  =
 
-46be265d338833 Stephane Grosjean 2012-03-02  827  	pc =3D obuf + PCAN_USB_M=
-SG_HEADER_LEN;
-46be265d338833 Stephane Grosjean 2012-03-02  828  =
+666e73587f90f4 Boris Brezillon 2018-12-06  609  	/* We have to interate ove=
+r all new connector states because
+666e73587f90f4 Boris Brezillon 2018-12-06  610  	 * vc4_crtc_get_margins() =
+might be called before
+666e73587f90f4 Boris Brezillon 2018-12-06  611  	 * vc4_crtc_atomic_check()=
+ which means margins info in vc4_crtc_state
+666e73587f90f4 Boris Brezillon 2018-12-06  612  	 * might be outdated.
+666e73587f90f4 Boris Brezillon 2018-12-06  613  	 */
+666e73587f90f4 Boris Brezillon 2018-12-06  614  	for_each_new_connector_in_=
+state(state->state, conn, conn_state, i) {
+666e73587f90f4 Boris Brezillon 2018-12-06  615  		if (conn_state->crtc !=3D=
+ state->crtc)
+666e73587f90f4 Boris Brezillon 2018-12-06  616  			continue;
+666e73587f90f4 Boris Brezillon 2018-12-06  617  =
 
-46be265d338833 Stephane Grosjean 2012-03-02  829  	/* status/len byte */
-4c01fc87675e69 Oliver Hartkopp   2020-11-11  830  	*pc =3D can_get_cc_dlc(c=
-f, dev->can.ctrlmode);
-4c01fc87675e69 Oliver Hartkopp   2020-11-11  831  =
-
-46be265d338833 Stephane Grosjean 2012-03-02  832  	if (cf->can_id & CAN_RTR=
-_FLAG)
-46be265d338833 Stephane Grosjean 2012-03-02  833  		*pc |=3D PCAN_USB_STATU=
-SLEN_RTR;
-46be265d338833 Stephane Grosjean 2012-03-02  834  =
-
-46be265d338833 Stephane Grosjean 2012-03-02  835  	/* can id */
-46be265d338833 Stephane Grosjean 2012-03-02  836  	if (cf->can_id & CAN_EFF=
-_FLAG) {
-46be265d338833 Stephane Grosjean 2012-03-02  837  		*pc |=3D PCAN_USB_STATU=
-SLEN_EXT_ID;
-bd573ea5720470 Marc Kleine-Budde 2021-04-05  838  		pc++;
-bd573ea5720470 Marc Kleine-Budde 2021-04-05  839  =
-
-bd573ea5720470 Marc Kleine-Budde 2021-04-05  840  		put_unaligned_le32((cf-=
->can_id & CAN_ERR_MASK) << 3, pc);
-46be265d338833 Stephane Grosjean 2012-03-02  841  		pc +=3D 4;
-46be265d338833 Stephane Grosjean 2012-03-02  842  	} else {
-bd573ea5720470 Marc Kleine-Budde 2021-04-05  843  		pc++;
-46be265d338833 Stephane Grosjean 2012-03-02  844  =
-
-bd573ea5720470 Marc Kleine-Budde 2021-04-05  845  		put_unaligned_le16((cf-=
->can_id & CAN_ERR_MASK) << 5, pc);
-46be265d338833 Stephane Grosjean 2012-03-02  846  		pc +=3D 2;
-46be265d338833 Stephane Grosjean 2012-03-02  847  	}
-46be265d338833 Stephane Grosjean 2012-03-02  848  =
-
-46be265d338833 Stephane Grosjean 2012-03-02  849  	/* can data */
-46be265d338833 Stephane Grosjean 2012-03-02  850  	if (!(cf->can_id & CAN_R=
-TR_FLAG)) {
-c7b74967799b1a Oliver Hartkopp   2020-11-20  851  		memcpy(pc, cf->data, cf=
-->len);
-c7b74967799b1a Oliver Hartkopp   2020-11-20 @852  		pc +=3D cf->len;
-46be265d338833 Stephane Grosjean 2012-03-02  853  	}
-46be265d338833 Stephane Grosjean 2012-03-02  854  =
-
-46be265d338833 Stephane Grosjean 2012-03-02  855  	obuf[(*size)-1] =3D (u8)=
-(stats->tx_packets & 0xff);
-46be265d338833 Stephane Grosjean 2012-03-02  856  =
-
-46be265d338833 Stephane Grosjean 2012-03-02  857  	return 0;
-46be265d338833 Stephane Grosjean 2012-03-02  858  }
-46be265d338833 Stephane Grosjean 2012-03-02  859  =
+666e73587f90f4 Boris Brezillon 2018-12-06  618  		*left =3D conn_state->tv.=
+margins.left;
+666e73587f90f4 Boris Brezillon 2018-12-06  619  		*right =3D conn_state->tv=
+.margins.right;
+666e73587f90f4 Boris Brezillon 2018-12-06  620  		*top =3D conn_state->tv.m=
+argins.top;
+666e73587f90f4 Boris Brezillon 2018-12-06  621  		*bottom =3D conn_state->t=
+v.margins.bottom;
+666e73587f90f4 Boris Brezillon 2018-12-06  622  		break;
+666e73587f90f4 Boris Brezillon 2018-12-06  623  	}
+666e73587f90f4 Boris Brezillon 2018-12-06  624  }
+666e73587f90f4 Boris Brezillon 2018-12-06  625  =
 
 
-:::::: The code at line 852 was first introduced by commit
-:::::: c7b74967799b1af52b3045d69d4c26836b2d41de can: replace can_dlc as var=
-iable/element for payload length
+:::::: The code at line 595 was first introduced by commit
+:::::: 666e73587f90f42d90385c1bea1009a650bf73f4 drm/vc4: Take margin setup =
+into account when updating planes
 
-:::::: TO: Oliver Hartkopp <socketcan@hartkopp.net>
-:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
+:::::: TO: Boris Brezillon <boris.brezillon@bootlin.com>
+:::::: CC: Boris Brezillon <boris.brezillon@bootlin.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0398868245982925374==--
+--===============0107458564753762923==--
 
