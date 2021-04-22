@@ -1,24 +1,43 @@
-Content-Type: multipart/mixed; boundary="===============0638489152969349709=="
+Content-Type: multipart/mixed; boundary="===============8244539792890613461=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: Re: [PATCH for-next v4 10/10] RDMA/rxe: Disallow MR dereg and invalidate when bound
-Date: Thu, 22 Apr 2021 13:42:03 +0300
-Message-ID: <20210422104203.GN1959@kadam>
-In-Reply-To: <20210422052822.36527-11-rpearson@hpe.com>
+Date: Thu, 22 Apr 2021 18:00:47 +0800
+Message-ID: <202104221719.ZBvbuedQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0638489152969349709==
+--===============8244539792890613461==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20210422052822.36527-11-rpearson@hpe.com>
+References: <20210422052822.36527-11-rpearson@hpe.com>
+TO: Bob Pearson <rpearsonhpe@gmail.com>
+TO: jgg(a)nvidia.com
+TO: zyjzyj2000(a)gmail.com
+TO: linux-rdma(a)vger.kernel.org
+CC: Bob Pearson <rpearson@hpe.com>
+
 Hi Bob,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on rdma/for-next]
+[also build test WARNING on next-20210421]
+[cannot apply to v5.12-rc8]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
 url:    https://github.com/0day-ci/linux/commits/Bob-Pearson/RDMA-rxe-Imple=
 ment-memory-windows/20210422-132958
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git  for-=
-next
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rdma/rdma.git for-n=
+ext
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
 config: x86_64-randconfig-m001-20210421 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -31,6 +50,8 @@ drivers/infiniband/sw/rxe/rxe_mr.c:553 rxe_invalidate_mr() warn: ignoring u=
 nreachable code.
 
 vim +553 drivers/infiniband/sw/rxe/rxe_mr.c
+
+5f1e7f44d3a9cdb Bob Pearson 2021-04-22  528  =
 
 5f1e7f44d3a9cdb Bob Pearson 2021-04-22  529  int rxe_invalidate_mr(struct r=
 xe_qp *qp, u32 rkey)
@@ -68,11 +89,6 @@ lidate an MR while bound to MWs\n",
 740526f943e87ee Bob Pearson 2021-04-22  551  				__func__);
 740526f943e87ee Bob Pearson 2021-04-22  552  		return -EINVAL;
 740526f943e87ee Bob Pearson 2021-04-22 @553  		goto err_drop_ref;
-
-Either the goto or the return should be deleted.  I would have expected
-that it would be the return to be deleted, otherwise it needs a big
-comment why we're holding on to the reference.
-
 740526f943e87ee Bob Pearson 2021-04-22  554  	}
 740526f943e87ee Bob Pearson 2021-04-22  555  =
 
@@ -86,17 +102,14 @@ EE;
 5f1e7f44d3a9cdb Bob Pearson 2021-04-22  561  err:
 5f1e7f44d3a9cdb Bob Pearson 2021-04-22  562  	return ret;
 5f1e7f44d3a9cdb Bob Pearson 2021-04-22  563  }
+5f1e7f44d3a9cdb Bob Pearson 2021-04-22  564  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============0638489152969349709==
+--===============8244539792890613461==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -683,5 +696,5 @@ sYdpLuaGIWZOU3GhpXyXbE17/061cPFsD9VtyKmD5ZDgI0lNo/MyizeUCYKWywSEMXZa4B2Dl1B4
 9+GmHhv/Ejk/nqYwBb4LlUjNNBwZo3d0cKcxeoRhRS60YOFSd6gZStJShkyvMzRMUw5Smftw4yZK
 I7ChI8lbpI9EyRYB4rIDB+BECeEtA0KI/6YedTHYb21X981cJEpkC+Fw/urMfNLBXobwOIcS7oJk
 tn3VlKTUZemcr1Ikgt5tI3kEzo/D+Z904bhq0iLsHW2vG8v41AM1e3pG+XUk9O9/y+JGyG8HAgA=
---===============0638489152969349709==--
+--===============8244539792890613461==--
 
