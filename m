@@ -1,22 +1,27 @@
-Content-Type: multipart/mixed; boundary="===============3486745456022011034=="
+Content-Type: multipart/mixed; boundary="===============4662270833939337853=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: [freescale-fslc:5.4-2.3.x-imx 14423/18271] drivers/misc/mic/host/mic_main.c:209 mic_probe() warn: missing error code 'rc'
-Date: Fri, 23 Apr 2021 10:54:13 +0300
-Message-ID: <20210423075413.GR1959@kadam>
+Date: Fri, 23 Apr 2021 08:16:34 +0800
+Message-ID: <202104230823.3U1sGlsv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3486745456022011034==
+--===============4662270833939337853==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-tree:   https://github.com/Freescale/linux-fslc  5.4-2.3.x-imx
+CC: kbuild-all(a)lists.01.org
+TO: Otavio Salvador <otavio@ossystems.com.br>
+
+tree:   https://github.com/Freescale/linux-fslc 5.4-2.3.x-imx
 head:   e67919750cd7d48b9321b79dbbc6d0709e5b53df
 commit: c27a982e3ef1422c74ca1b628a6b35118e6a3ed8 [14423/18271] MLK-24935-2 =
 misc: vop: use dma_alloc_coherent to allocate vrings and device page direct=
 ly
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 months ago
 config: x86_64-randconfig-m001-20210421 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -30,6 +35,20 @@ rc'
 
 vim +/rc +209 drivers/misc/mic/host/mic_main.c
 
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  123  =
+
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  124  /**
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  125   * mic_probe - =
+Device Initialization Routine
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  126   *
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  127   * @pdev: PCI d=
+evice structure
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  128   * @ent: entry =
+in mic_pci_tbl
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  129   *
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  130   * returns 0 on=
+ success, < 0 on failure.
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  131   */
 b170d8ce3f81bd Sudeep Dutt                 2013-09-05  132  static int mic_=
 probe(struct pci_dev *pdev,
 b170d8ce3f81bd Sudeep Dutt                 2013-09-05  133  		     const st=
@@ -166,9 +185,6 @@ c27a982e3ef142 Sherry Sun                  2020-10-29  208  		dev_err(&pdev=
 ->dev, "failed to allocate device page\n");
 1da2b3eeef3667 Ashutosh Dixit              2015-09-29 @209  		goto smpt_uni=
 nit;
-
-"rc =3D -ENOMEM;"
-
 3a6a9201897c64 Sudeep Dutt                 2013-09-05  210  	}
 c27a982e3ef142 Sherry Sun                  2020-10-29  211  =
 
@@ -230,17 +246,21 @@ b170d8ce3f81bd Sudeep Dutt                 2013-09-05  245  	dev_err(&pdev-=
 >dev, "Probe failed rc %d\n", rc);
 b170d8ce3f81bd Sudeep Dutt                 2013-09-05  246  	return rc;
 b170d8ce3f81bd Sudeep Dutt                 2013-09-05  247  }
+b170d8ce3f81bd Sudeep Dutt                 2013-09-05  248  =
+
+
+:::::: The code at line 209 was first introduced by commit
+:::::: 1da2b3eeef3667dbb92749f269e81757a6a79a16 misc: mic: Remove COSM func=
+tionality from the MIC host driver
+
+:::::: TO: Ashutosh Dixit <ashutosh.dixit@intel.com>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org =
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
-
-_______________________________________________
-kbuild mailing list -- kbuild(a)lists.01.org
-To unsubscribe send an email to kbuild-leave(a)lists.01.org
-
---===============3486745456022011034==
+--===============4662270833939337853==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -804,5 +824,5 @@ kLDM5+IrL4k3WaqZ9iraZgxr2cYyWItqFqxf2m1RMPTK5Lp7s2wq5S6DBrDyPk0aNzX1uPqVo6xg
 tXF8QIkxD4HqV4N1FTXuekYg0wGhjlS4jttiU7fmNqnfPbUc5kHewM7giu4kNWPJit7BjRvEIAcM
 ozdYy0AD0XAlwJN77P0GU0bRaT05LHnnFIUi5HfKnsJefiaF6egrVST0QI2qU35Z+gUTNtEogy5Z
 I/gsjcdHQgwZXW8LLm5F0aCfMZ6Tph60yfYxxoxt81K7W/dw8U5MIpkjLKhhd/B/BDHk2W7wAQA=
---===============3486745456022011034==--
+--===============4662270833939337853==--
 
