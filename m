@@ -1,115 +1,794 @@
-Content-Type: multipart/mixed; boundary="===============9130703103684670658=="
+Content-Type: multipart/mixed; boundary="===============6233104714177322757=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [zen-kernel-zen-kernel:5.12/futex2 1/7] kernel/futex2.c:434:23: warning: Unused variable: waiter [unusedVariable]
-Date: Thu, 29 Apr 2021 06:49:00 +0800
-Message-ID: <202104290653.8CeAa6OJ-lkp@intel.com>
+Subject: Re: [RFC 6/8] media: v4l2-dv-timings: Add more CEA/CTA-861 video format timings
+Date: Thu, 29 Apr 2021 04:35:08 +0800
+Message-ID: <202104290403.p9UQMVBb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9130703103684670658==
+--===============6233104714177322757==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: steven(a)liquorix.net
+In-Reply-To: <821e6f76310316cd84c3be47581c92b001e5d4ca.1618937288.git.nelso=
+n.costa@synopsys.com>
+References: <821e6f76310316cd84c3be47581c92b001e5d4ca.1618937288.git.nelson=
+.costa@synopsys.com>
+TO: Nelson Costa <Nelson.Costa@synopsys.com>
 
-tree:   https://github.com/zen-kernel/zen-kernel 5.12/futex2
-head:   f24c1ade4967d4bb131e56bc344ac43ad8a6ca66
-commit: 83f6018faa64933582396f3ef3081c3e75e69b72 [1/7] futex2: Implement wa=
-it and wake functions
+Hi Nelson,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on linuxtv-media/master]
+[also build test WARNING on linux/master linus/master v5.12 next-20210428]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Nelson-Costa/Add-Synopsys-=
+DesignWare-HDMI-RX-Controller-and-PHY-drivers/20210428-232828
+base:   git://linuxtv.org/media_tree.git master
 :::::: branch date: 5 hours ago
 :::::: commit date: 5 hours ago
-compiler: h8300-linux-gcc (GCC) 9.3.0
+config: m68k-randconfig-s032-20210428 (attached as .config)
+compiler: m68k-linux-gcc (GCC) 9.3.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.3-341-g8af24329-dirty
+        # https://github.com/0day-ci/linux/commit/a0e7878053f9c2570d83cc316=
+5c2ec58b8aa6526
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Nelson-Costa/Add-Synopsys-DesignWa=
+re-HDMI-RX-Controller-and-PHY-drivers/20210428-232828
+        git checkout a0e7878053f9c2570d83cc3165c2ec58b8aa6526
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
+C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' W=3D1 ARCH=3Dm68k =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/media/v4l2-core/v4l2-dv-timings.c:252:9: sparse: sparse: decimal=
+ constant 2376000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:253:9: sparse: sparse: decimal=
+ constant 2376000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:254:9: sparse: sparse: decimal=
+ constant 2376000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:260:9: sparse: sparse: decimal=
+ constant 2376000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:261:9: sparse: sparse: decimal=
+ constant 2376000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:262:9: sparse: sparse: decimal=
+ constant 2376000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:268:9: sparse: sparse: decimal=
+ constant 2970000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:269:9: sparse: sparse: decimal=
+ constant 2970000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
+   drivers/media/v4l2-core/v4l2-dv-timings.c:270:9: sparse: sparse: decimal=
+ constant 2970000000 is between LONG_MAX and ULONG_MAX. For C99 that means =
+long long, C90 compilers are very likely to produce unsigned long (and a wa=
+rning) here
 
->> kernel/futex2.c:434:23: warning: Unused variable: waiter [unusedVariable]
-    struct futex_waiter *waiter;
-                         ^
->> kernel/futex2.c:435:28: warning: Unused variable: futexv [unusedVariable]
-    struct futex_waiter_head *futexv;
-                              ^
+vim +252 drivers/media/v4l2-core/v4l2-dv-timings.c
 
-vim +434 kernel/futex2.c
+c4885ada88e433 Hans Verkuil 2014-03-04   23  =
 
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  429  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  430  static long ksys_futex_w=
-ait(void __user *uaddr, u64 val, unsigned int flags,
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  431  			    struct __kernel_t=
-imespec __user *timo)
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  432  {
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  433  	unsigned int size =3D f=
-lags & FUTEX_SIZE_MASK;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27 @434  	struct futex_waiter *wa=
-iter;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27 @435  	struct futex_waiter_hea=
-d *futexv;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  436  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  437  	/* Wrapper for a futexv=
-_waiter_head with one element */
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  438  	struct {
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  439  		struct futex_waiter_he=
-ad futexv;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  440  		struct futex_waiter wa=
-iter;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  441  	} __packed wait_single;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  442  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  443  	if (flags & ~FUTEX2_MAS=
-K)
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  444  		return -EINVAL;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  445  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  446  	if (size !=3D FUTEX_32)
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  447  		return -EINVAL;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  448  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  449  	futexv =3D &wait_single=
-.futexv;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  450  	futexv->task =3D curren=
-t;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  451  	futexv->hint =3D false;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  452  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  453  	waiter =3D &wait_single=
-.waiter;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  454  	waiter->index =3D 0;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  455  	waiter->val =3D val;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  456  	waiter->uaddr =3D uaddr;
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  457  	memset(&wait_single.wai=
-ter.key, 0, sizeof(struct futex_key));
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  458  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  459  	INIT_LIST_HEAD(&waiter-=
->list);
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  460  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  461  	/* Get an unlocked hash=
- bucket */
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  462  	waiter->bucket =3D fute=
-x_get_bucket(uaddr, &waiter->key);
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  463  	if (IS_ERR(waiter->buck=
-et))
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  464  		return PTR_ERR(waiter-=
->bucket);
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  465  =
-
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  466  	return __futex_waitv(fu=
-texv, 1, timo, flags);
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  467  }
-83f6018faa6493 Andr=C3=A9 Almeida 2021-04-27  468  =
+d1c65ad6a44b0f Hans Verkuil 2013-08-19   24  const struct v4l2_dv_timings v=
+4l2_dv_timings_presets[] =3D {
+b18787ed1ce32e Hans Verkuil 2013-07-29   25  	V4L2_DV_BT_CEA_640X480P59_94,
+b18787ed1ce32e Hans Verkuil 2013-07-29   26  	V4L2_DV_BT_CEA_720X480I59_94,
+b18787ed1ce32e Hans Verkuil 2013-07-29   27  	V4L2_DV_BT_CEA_720X480P59_94,
+b18787ed1ce32e Hans Verkuil 2013-07-29   28  	V4L2_DV_BT_CEA_720X576I50,
+b18787ed1ce32e Hans Verkuil 2013-07-29   29  	V4L2_DV_BT_CEA_720X576P50,
+b18787ed1ce32e Hans Verkuil 2013-07-29   30  	V4L2_DV_BT_CEA_1280X720P24,
+b18787ed1ce32e Hans Verkuil 2013-07-29   31  	V4L2_DV_BT_CEA_1280X720P25,
+b18787ed1ce32e Hans Verkuil 2013-07-29   32  	V4L2_DV_BT_CEA_1280X720P30,
+b18787ed1ce32e Hans Verkuil 2013-07-29   33  	V4L2_DV_BT_CEA_1280X720P50,
+b18787ed1ce32e Hans Verkuil 2013-07-29   34  	V4L2_DV_BT_CEA_1280X720P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   35  	V4L2_DV_BT_CEA_1920X1080P24,
+b18787ed1ce32e Hans Verkuil 2013-07-29   36  	V4L2_DV_BT_CEA_1920X1080P25,
+b18787ed1ce32e Hans Verkuil 2013-07-29   37  	V4L2_DV_BT_CEA_1920X1080P30,
+b18787ed1ce32e Hans Verkuil 2013-07-29   38  	V4L2_DV_BT_CEA_1920X1080I50,
+b18787ed1ce32e Hans Verkuil 2013-07-29   39  	V4L2_DV_BT_CEA_1920X1080P50,
+b18787ed1ce32e Hans Verkuil 2013-07-29   40  	V4L2_DV_BT_CEA_1920X1080I60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   41  	V4L2_DV_BT_CEA_1920X1080P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   42  	V4L2_DV_BT_DMT_640X350P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   43  	V4L2_DV_BT_DMT_640X400P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   44  	V4L2_DV_BT_DMT_720X400P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   45  	V4L2_DV_BT_DMT_640X480P72,
+b18787ed1ce32e Hans Verkuil 2013-07-29   46  	V4L2_DV_BT_DMT_640X480P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   47  	V4L2_DV_BT_DMT_640X480P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   48  	V4L2_DV_BT_DMT_800X600P56,
+b18787ed1ce32e Hans Verkuil 2013-07-29   49  	V4L2_DV_BT_DMT_800X600P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   50  	V4L2_DV_BT_DMT_800X600P72,
+b18787ed1ce32e Hans Verkuil 2013-07-29   51  	V4L2_DV_BT_DMT_800X600P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   52  	V4L2_DV_BT_DMT_800X600P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   53  	V4L2_DV_BT_DMT_800X600P120_RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   54  	V4L2_DV_BT_DMT_848X480P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   55  	V4L2_DV_BT_DMT_1024X768I43,
+b18787ed1ce32e Hans Verkuil 2013-07-29   56  	V4L2_DV_BT_DMT_1024X768P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   57  	V4L2_DV_BT_DMT_1024X768P70,
+b18787ed1ce32e Hans Verkuil 2013-07-29   58  	V4L2_DV_BT_DMT_1024X768P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   59  	V4L2_DV_BT_DMT_1024X768P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   60  	V4L2_DV_BT_DMT_1024X768P120_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29   61  	V4L2_DV_BT_DMT_1152X864P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   62  	V4L2_DV_BT_DMT_1280X768P60_RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   63  	V4L2_DV_BT_DMT_1280X768P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   64  	V4L2_DV_BT_DMT_1280X768P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   65  	V4L2_DV_BT_DMT_1280X768P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   66  	V4L2_DV_BT_DMT_1280X768P120_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29   67  	V4L2_DV_BT_DMT_1280X800P60_RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   68  	V4L2_DV_BT_DMT_1280X800P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   69  	V4L2_DV_BT_DMT_1280X800P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   70  	V4L2_DV_BT_DMT_1280X800P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   71  	V4L2_DV_BT_DMT_1280X800P120_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29   72  	V4L2_DV_BT_DMT_1280X960P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   73  	V4L2_DV_BT_DMT_1280X960P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   74  	V4L2_DV_BT_DMT_1280X960P120_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29   75  	V4L2_DV_BT_DMT_1280X1024P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   76  	V4L2_DV_BT_DMT_1280X1024P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   77  	V4L2_DV_BT_DMT_1280X1024P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   78  	V4L2_DV_BT_DMT_1280X1024P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   79  	V4L2_DV_BT_DMT_1360X768P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   80  	V4L2_DV_BT_DMT_1360X768P120_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29   81  	V4L2_DV_BT_DMT_1366X768P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   82  	V4L2_DV_BT_DMT_1366X768P60_RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   83  	V4L2_DV_BT_DMT_1400X1050P60_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29   84  	V4L2_DV_BT_DMT_1400X1050P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   85  	V4L2_DV_BT_DMT_1400X1050P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   86  	V4L2_DV_BT_DMT_1400X1050P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   87  	V4L2_DV_BT_DMT_1400X1050P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   88  	V4L2_DV_BT_DMT_1440X900P60_RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   89  	V4L2_DV_BT_DMT_1440X900P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   90  	V4L2_DV_BT_DMT_1440X900P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   91  	V4L2_DV_BT_DMT_1440X900P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   92  	V4L2_DV_BT_DMT_1440X900P120_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29   93  	V4L2_DV_BT_DMT_1600X900P60_RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29   94  	V4L2_DV_BT_DMT_1600X1200P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29   95  	V4L2_DV_BT_DMT_1600X1200P65,
+b18787ed1ce32e Hans Verkuil 2013-07-29   96  	V4L2_DV_BT_DMT_1600X1200P70,
+b18787ed1ce32e Hans Verkuil 2013-07-29   97  	V4L2_DV_BT_DMT_1600X1200P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29   98  	V4L2_DV_BT_DMT_1600X1200P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29   99  	V4L2_DV_BT_DMT_1600X1200P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29  100  	V4L2_DV_BT_DMT_1680X1050P60_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29  101  	V4L2_DV_BT_DMT_1680X1050P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29  102  	V4L2_DV_BT_DMT_1680X1050P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29  103  	V4L2_DV_BT_DMT_1680X1050P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29  104  	V4L2_DV_BT_DMT_1680X1050P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29  105  	V4L2_DV_BT_DMT_1792X1344P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29  106  	V4L2_DV_BT_DMT_1792X1344P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29  107  	V4L2_DV_BT_DMT_1792X1344P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29  108  	V4L2_DV_BT_DMT_1856X1392P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29  109  	V4L2_DV_BT_DMT_1856X1392P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29  110  	V4L2_DV_BT_DMT_1856X1392P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29  111  	V4L2_DV_BT_DMT_1920X1200P60_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29  112  	V4L2_DV_BT_DMT_1920X1200P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29  113  	V4L2_DV_BT_DMT_1920X1200P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29  114  	V4L2_DV_BT_DMT_1920X1200P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29  115  	V4L2_DV_BT_DMT_1920X1200P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29  116  	V4L2_DV_BT_DMT_1920X1440P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29  117  	V4L2_DV_BT_DMT_1920X1440P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29  118  	V4L2_DV_BT_DMT_1920X1440P120_=
+RB,
+b18787ed1ce32e Hans Verkuil 2013-07-29  119  	V4L2_DV_BT_DMT_2048X1152P60_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29  120  	V4L2_DV_BT_DMT_2560X1600P60_R=
+B,
+b18787ed1ce32e Hans Verkuil 2013-07-29  121  	V4L2_DV_BT_DMT_2560X1600P60,
+b18787ed1ce32e Hans Verkuil 2013-07-29  122  	V4L2_DV_BT_DMT_2560X1600P75,
+b18787ed1ce32e Hans Verkuil 2013-07-29  123  	V4L2_DV_BT_DMT_2560X1600P85,
+b18787ed1ce32e Hans Verkuil 2013-07-29  124  	V4L2_DV_BT_DMT_2560X1600P120_=
+RB,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  125  	V4L2_DV_BT_CEA_3840X2160P24,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  126  	V4L2_DV_BT_CEA_3840X2160P25,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  127  	V4L2_DV_BT_CEA_3840X2160P30,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  128  	V4L2_DV_BT_CEA_3840X2160P50,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  129  	V4L2_DV_BT_CEA_3840X2160P60,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  130  	V4L2_DV_BT_CEA_4096X2160P24,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  131  	V4L2_DV_BT_CEA_4096X2160P25,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  132  	V4L2_DV_BT_CEA_4096X2160P30,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  133  	V4L2_DV_BT_CEA_4096X2160P50,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  134  	V4L2_DV_BT_DMT_4096X2160P59_9=
+4_RB,
+bc96f30c3b96cc Hans Verkuil 2014-04-08  135  	V4L2_DV_BT_CEA_4096X2160P60,
+a0e7878053f9c2 Nelson Costa 2021-04-28  136  	V4L2_DV_BT_CEA_720X480P60_PA1=
+6_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  137  	V4L2_DV_BT_CEA_720X480I60_PA1=
+6_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  138  	V4L2_DV_BT_CEA_720X240P60_VTO=
+T262_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  139  	V4L2_DV_BT_CEA_720X240P60_VTO=
+T263_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  140  	V4L2_DV_BT_CEA_720X240P60_VTO=
+T262_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  141  	V4L2_DV_BT_CEA_720X240P60_VTO=
+T263_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  142  	V4L2_DV_BT_CEA_2880X480I60_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  143  	V4L2_DV_BT_CEA_2880X480I60_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  144  	V4L2_DV_BT_CEA_2880X240P60_VT=
+OT262_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  145  	V4L2_DV_BT_CEA_2880X240P60_VT=
+OT263_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  146  	V4L2_DV_BT_CEA_2880X240P60_VT=
+OT262_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  147  	V4L2_DV_BT_CEA_2880X240P60_VT=
+OT263_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  148  	V4L2_DV_BT_CEA_1440X480P60_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  149  	V4L2_DV_BT_CEA_1440X480P60_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  150  	V4L2_DV_BT_CEA_720X576P50_PA1=
+6_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  151  	V4L2_DV_BT_CEA_1920X1080I50_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  152  	V4L2_DV_BT_CEA_720X576I50_PA1=
+6_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  153  	V4L2_DV_BT_CEA_720X288P50_VTO=
+T312_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  154  	V4L2_DV_BT_CEA_720X288P50_VTO=
+T313_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  155  	V4L2_DV_BT_CEA_720X288P50_VTO=
+T314_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  156  	V4L2_DV_BT_CEA_720X288P50_VTO=
+T312_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  157  	V4L2_DV_BT_CEA_720X288P50_VTO=
+T313_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  158  	V4L2_DV_BT_CEA_720X288P50_VTO=
+T314_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  159  	V4L2_DV_BT_CEA_2880X576I50_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  160  	V4L2_DV_BT_CEA_2880X576I50_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  161  	V4L2_DV_BT_CEA_2880X288P50_VT=
+OT312_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  162  	V4L2_DV_BT_CEA_2880X288P50_VT=
+OT313_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  163  	V4L2_DV_BT_CEA_2880X288P50_VT=
+OT314_PA4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  164  	V4L2_DV_BT_CEA_2880X288P50_VT=
+OT312_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  165  	V4L2_DV_BT_CEA_2880X288P50_VT=
+OT313_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  166  	V4L2_DV_BT_CEA_2880X288P50_VT=
+OT314_PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  167  	V4L2_DV_BT_CEA_1440X576P50_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  168  	V4L2_DV_BT_CEA_1440X576P50_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  169  	V4L2_DV_BT_CEA_2880X480P60_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  170  	V4L2_DV_BT_CEA_2880X480P60_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  171  	V4L2_DV_BT_CEA_2880X576P50_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  172  	V4L2_DV_BT_CEA_2880X576P50_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  173  	V4L2_DV_BT_CEA_1920X1080I50_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  174  	V4L2_DV_BT_CEA_1920X1080I100_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  175  	V4L2_DV_BT_CEA_1280X720P100_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  176  	V4L2_DV_BT_CEA_720X576P100_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  177  	V4L2_DV_BT_CEA_720X576P100_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  178  	V4L2_DV_BT_CEA_1440X576I100_P=
+A4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  179  	V4L2_DV_BT_CEA_1440X576I100_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  180  	V4L2_DV_BT_CEA_1920X1080I120_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  181  	V4L2_DV_BT_CEA_1280X720P120_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  182  	V4L2_DV_BT_CEA_720X480P120_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  183  	V4L2_DV_BT_CEA_720X480P120_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  184  	V4L2_DV_BT_CEA_1440X480I120_P=
+A4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  185  	V4L2_DV_BT_CEA_1440X480I120_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  186  	V4L2_DV_BT_CEA_720X576P200_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  187  	V4L2_DV_BT_CEA_720X576P200_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  188  	V4L2_DV_BT_CEA_1440X576I200_P=
+A4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  189  	V4L2_DV_BT_CEA_1440X576I200_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  190  	V4L2_DV_BT_CEA_720X480P240_PA=
+4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  191  	V4L2_DV_BT_CEA_720X480P240_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  192  	V4L2_DV_BT_CEA_1440X480I240_P=
+A4_3,
+a0e7878053f9c2 Nelson Costa 2021-04-28  193  	V4L2_DV_BT_CEA_1440X480I240_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  194  	V4L2_DV_BT_CEA_1920X1080P120_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  195  	V4L2_DV_BT_CEA_1920X1080P100_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  196  	V4L2_DV_BT_CEA_1280X720P24_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  197  	V4L2_DV_BT_CEA_1280X720P25_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  198  	V4L2_DV_BT_CEA_1280X720P30_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  199  	V4L2_DV_BT_CEA_1280X720P50_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  200  	V4L2_DV_BT_CEA_1280X720P60_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  201  	V4L2_DV_BT_CEA_1280X720P100_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  202  	V4L2_DV_BT_CEA_1280X720P120_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  203  	V4L2_DV_BT_CEA_1920X1080P24_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  204  	V4L2_DV_BT_CEA_1920X1080P25_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  205  	V4L2_DV_BT_CEA_1920X1080P30_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  206  	V4L2_DV_BT_CEA_1920X1080P50_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  207  	V4L2_DV_BT_CEA_1920X1080P60_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  208  	V4L2_DV_BT_CEA_1920X1080P100_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  209  	V4L2_DV_BT_CEA_1920X1080P120_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  210  	V4L2_DV_BT_CEA_1680X720P24_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  211  	V4L2_DV_BT_CEA_1680X720P25_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  212  	V4L2_DV_BT_CEA_1680X720P30_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  213  	V4L2_DV_BT_CEA_1680X720P50_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  214  	V4L2_DV_BT_CEA_1680X720P60_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  215  	V4L2_DV_BT_CEA_1680X720P100_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  216  	V4L2_DV_BT_CEA_1680X720P120_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  217  	V4L2_DV_BT_CEA_2560X1080P24_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  218  	V4L2_DV_BT_CEA_2560X1080P25_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  219  	V4L2_DV_BT_CEA_2560X1080P30_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  220  	V4L2_DV_BT_CEA_2560X1080P50_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  221  	V4L2_DV_BT_CEA_2560X1080P60_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  222  	V4L2_DV_BT_CEA_2560X1080P100_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  223  	V4L2_DV_BT_CEA_2560X1080P120_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  224  	V4L2_DV_BT_CEA_3840X2160P24_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  225  	V4L2_DV_BT_CEA_3840X2160P25_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  226  	V4L2_DV_BT_CEA_3840X2160P30_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  227  	V4L2_DV_BT_CEA_3840X2160P50_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  228  	V4L2_DV_BT_CEA_3840X2160P60_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  229  	V4L2_DV_BT_CEA_1280X720P48_PA=
+16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  230  	V4L2_DV_BT_CEA_1280X720P48_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  231  	V4L2_DV_BT_CEA_1680X720P48_PA=
+64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  232  	V4L2_DV_BT_CEA_1920X1080P48_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  233  	V4L2_DV_BT_CEA_1920X1080P48_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  234  	V4L2_DV_BT_CEA_3840X2160P48_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  235  	V4L2_DV_BT_CEA_4096X2160P48_P=
+A256_135,
+a0e7878053f9c2 Nelson Costa 2021-04-28  236  	V4L2_DV_BT_CEA_3840X2160P48_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  237  	V4L2_DV_BT_CEA_3840X2160P100_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  238  	V4L2_DV_BT_CEA_3840X2160P120_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  239  	V4L2_DV_BT_CEA_3840X2160P100_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  240  	V4L2_DV_BT_CEA_3840X2160P120_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  241  	V4L2_DV_BT_CEA_5120X2160P24_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  242  	V4L2_DV_BT_CEA_5120X2160P25_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  243  	V4L2_DV_BT_CEA_5120X2160P30_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  244  	V4L2_DV_BT_CEA_5120X2160P48_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  245  	V4L2_DV_BT_CEA_5120X2160P50_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  246  	V4L2_DV_BT_CEA_5120X2160P60_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  247  	V4L2_DV_BT_CEA_5120X2160P100_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  248  	V4L2_DV_BT_CEA_5120X2160P120_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  249  	V4L2_DV_BT_CEA_7680X4320P24_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  250  	V4L2_DV_BT_CEA_7680X4320P25_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  251  	V4L2_DV_BT_CEA_7680X4320P30_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28 @252  	V4L2_DV_BT_CEA_7680X4320P48_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  253  	V4L2_DV_BT_CEA_7680X4320P50_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  254  	V4L2_DV_BT_CEA_7680X4320P60_P=
+A16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  255  	V4L2_DV_BT_CEA_7680X4320P100_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  256  	V4L2_DV_BT_CEA_7680X4320P120_=
+PA16_9,
+a0e7878053f9c2 Nelson Costa 2021-04-28  257  	V4L2_DV_BT_CEA_7680X4320P24_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  258  	V4L2_DV_BT_CEA_7680X4320P25_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  259  	V4L2_DV_BT_CEA_7680X4320P30_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  260  	V4L2_DV_BT_CEA_7680X4320P48_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  261  	V4L2_DV_BT_CEA_7680X4320P50_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  262  	V4L2_DV_BT_CEA_7680X4320P60_P=
+A64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  263  	V4L2_DV_BT_CEA_7680X4320P100_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  264  	V4L2_DV_BT_CEA_7680X4320P120_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  265  	V4L2_DV_BT_CEA_10240X4320P24_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  266  	V4L2_DV_BT_CEA_10240X4320P25_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  267  	V4L2_DV_BT_CEA_10240X4320P30_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  268  	V4L2_DV_BT_CEA_10240X4320P48_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  269  	V4L2_DV_BT_CEA_10240X4320P50_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  270  	V4L2_DV_BT_CEA_10240X4320P60_=
+PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  271  	V4L2_DV_BT_CEA_10240X4320P100=
+_PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  272  	V4L2_DV_BT_CEA_10240X4320P120=
+_PA64_27,
+a0e7878053f9c2 Nelson Costa 2021-04-28  273  	V4L2_DV_BT_CEA_4096X2160P100_=
+PA256_135,
+a0e7878053f9c2 Nelson Costa 2021-04-28  274  	V4L2_DV_BT_CEA_4096X2160P120_=
+PA256_135,
+d1c65ad6a44b0f Hans Verkuil 2013-08-19  275  	{ }
+b18787ed1ce32e Hans Verkuil 2013-07-29  276  };
+d1c65ad6a44b0f Hans Verkuil 2013-08-19  277  EXPORT_SYMBOL_GPL(v4l2_dv_timi=
+ngs_presets);
+b18787ed1ce32e Hans Verkuil 2013-07-29  278  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9130703103684670658==--
+
+--===============6233104714177322757==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+2tsAAA==
+--===============6233104714177322757==--
 
