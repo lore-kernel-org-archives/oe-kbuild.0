@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7380154937470387864=="
+Content-Type: multipart/mixed; boundary="===============3381058763368600303=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: misc: fix minmax.cocci warnings
-Date: Sun, 02 May 2021 09:01:50 +0800
-Message-ID: <20210502010150.GA17257@43098db6d9e0>
+Date: Sun, 02 May 2021 09:01:47 +0800
+Message-ID: <20210502010147.GA16766@43098db6d9e0>
 In-Reply-To: <202105020845.qMwklVPu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7380154937470387864==
+--===============3381058763368600303==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,16 +16,17 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 TO: Denis Efremov <efremov@linux.com>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Sathya Prakash <sathya.prakash@broadcom.com>
-CC: Sreekanth Reddy <sreekanth.reddy@broadcom.com>
-CC: Suganath Prabu Subramani <suganath-prabu.subramani@broadcom.com>
-CC: MPT-FusionLinux.pdl(a)broadcom.com
+CC: Don Brace <don.brace@microchip.com>
+CC: "James E.J. Bottomley" <jejb@linux.ibm.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: storagedev(a)microchip.com
 CC: linux-scsi(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/message/fusion/mptctl.c:1618:29-30: WARNING opportunity for min()
+drivers/scsi/hpsa.c:2668:28-29: WARNING opportunity for min()
+drivers/scsi/hpsa.c:3634:34-36: WARNING opportunity for min()
 
 
  Check for opencoded min(), max() implementations.
@@ -50,23 +51,36 @@ d minmax script
 
 Please take the patch only if it's a positive warning. Thanks!
 
- mptctl.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hpsa.c |   11 +++--------
+ 1 file changed, 3 insertions(+), 8 deletions(-)
 
---- a/drivers/message/fusion/mptctl.c
-+++ b/drivers/message/fusion/mptctl.c
-@@ -1615,7 +1615,7 @@ mptctl_eventreport (MPT_ADAPTER *ioc, un
- 	maxEvents =3D numBytes/sizeof(MPT_IOCTL_EVENTS);
+--- a/drivers/scsi/hpsa.c
++++ b/drivers/scsi/hpsa.c
+@@ -2665,10 +2665,8 @@ static void complete_scsi_command(struct
+ 	case CMD_TARGET_STATUS:
+ 		cmd->result |=3D ei->ScsiStatus;
+ 		/* copy the sense data */
+-		if (SCSI_SENSE_BUFFERSIZE < sizeof(ei->SenseInfo))
+-			sense_data_size =3D SCSI_SENSE_BUFFERSIZE;
+-		else
+-			sense_data_size =3D sizeof(ei->SenseInfo);
++		sense_data_size =3D min(SCSI_SENSE_BUFFERSIZE,
++				      sizeof(ei->SenseInfo));
+ 		if (ei->SenseLen < sense_data_size)
+ 			sense_data_size =3D ei->SenseLen;
+ 		memcpy(cmd->sense_buffer, ei->SenseInfo, sense_data_size);
+@@ -3631,10 +3629,7 @@ static bool hpsa_vpd_page_supported(stru
+ 	if (rc !=3D 0)
+ 		goto exit_unsupported;
+ 	pages =3D buf[3];
+-	if ((pages + HPSA_VPD_HEADER_SZ) <=3D 255)
+-		bufsize =3D pages + HPSA_VPD_HEADER_SZ;
+-	else
+-		bufsize =3D 255;
++	bufsize =3D min(pages + HPSA_VPD_HEADER_SZ, 255);
  =
 
- =
-
--	max =3D MPTCTL_EVENT_LOG_SIZE < maxEvents ? MPTCTL_EVENT_LOG_SIZE : maxEv=
-ents;
-+	max =3D min(MPTCTL_EVENT_LOG_SIZE, maxEvents);
- =
-
- 	/* If fewer than 1 event is requested, there must have
- 	 * been some type of error.
---===============7380154937470387864==--
+ 	/* Get the whole VPD page list */
+ 	rc =3D hpsa_scsi_do_inquiry(h, scsi3addr,
+--===============3381058763368600303==--
 
