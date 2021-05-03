@@ -1,22 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============1116753930664388487=="
+Content-Type: multipart/mixed; boundary="===============3840810379739873927=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
+From: kernel test robot <lkp@intel.com>
 Subject: drivers/gpu/drm/exynos/exynos_drm_dma.c:144 exynos_drm_register_dma() error: uninitialized symbol 'mapping'.
-Date: Mon, 03 May 2021 15:35:47 +0300
-Message-ID: <20210503123547.GR1981@kadam>
+Date: Mon, 03 May 2021 20:28:24 +0800
+Message-ID: <202105032016.xAvdmhj1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1116753930664388487==
+--===============3840810379739873927==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Robin Murphy <robin.murphy@arm.com>
+CC: Joerg Roedel <jroedel@suse.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9ccce092fc64d19504fa54de4fd659e279cc92e7
 commit: b4ceb4a5359ed1c9ba4a20acf3a70d4bbead3248 iommu: Tidy up Kconfig for=
  SoC IOMMUs
+date:   10 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 10 months ago
 config: microblaze-randconfig-m031-20210503 (attached as .config)
 compiler: microblaze-linux-gcc (GCC) 9.3.0
 
@@ -29,6 +37,8 @@ drivers/gpu/drm/exynos/exynos_drm_dma.c:144 exynos_drm_register_dma() error=
 : uninitialized symbol 'mapping'.
 
 vim +/mapping +144 drivers/gpu/drm/exynos/exynos_drm_dma.c
+
+237556962e5115 Andrzej Hajda    2018-10-12  120  =
 
 07dc3678bacc2a Marek Szyprowski 2020-03-09  121  int exynos_drm_register_dm=
 a(struct drm_device *drm, struct device *dev,
@@ -67,9 +77,6 @@ IG_IOMMU_DMA))
 omain_for_dev(priv->dma_dev);
 67fbf3a3ef8443 Andrzej Hajda    2018-10-12  143  =
 
-
-Both CONFIG_ options disabled in the attached .config file.
-
 67fbf3a3ef8443 Andrzej Hajda    2018-10-12 @144  		if (IS_ERR(mapping))
 67fbf3a3ef8443 Andrzej Hajda    2018-10-12  145  			return PTR_ERR(mapping);
 67fbf3a3ef8443 Andrzej Hajda    2018-10-12  146  		priv->mapping =3D mappin=
@@ -80,12 +87,21 @@ g;
 07dc3678bacc2a Marek Szyprowski 2020-03-09  149  	return drm_iommu_attach_d=
 evice(drm, dev, dma_priv);
 237556962e5115 Andrzej Hajda    2018-10-12  150  }
+237556962e5115 Andrzej Hajda    2018-10-12  151  =
+
+
+:::::: The code at line 144 was first introduced by commit
+:::::: 67fbf3a3ef84436c58b5ead53b4b866125ad7ce9 drm/exynos/iommu: merge IOM=
+MU and DMA code
+
+:::::: TO: Andrzej Hajda <a.hajda@samsung.com>
+:::::: CC: Inki Dae <inki.dae@samsung.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1116753930664388487==
+--===============3840810379739873927==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
@@ -702,5 +718,5 @@ OJ/p25a+rxpV+8X6CMBBKCM+yaiWxquQi0xRuBttnjR7h0HEQZROLXCOhvpSKTamuG8a8BUo9IX1
 tW0Z0DM9iS0y6A6InBbwOtZmLBOqnFdULIVVRBbYELwZG6PWDsuLxMqGiY8Vclua+i4I8xgkMOlO
 sIoc3TPkanfoZU4do2FGumi2lrEHp5zNbo0VxZ56ddiG/Lpsi1OKB03KI2N797NjHPitwAmEMC8M
 laAKOmKB68JPvSpuzpn/ARMw6KhjEwIA
---===============1116753930664388487==--
+--===============3840810379739873927==--
 
