@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7143911434270977524=="
+Content-Type: multipart/mixed; boundary="===============5592789722906384543=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/dma/idxd/init.c:348 idxd_setup_internals() warn: passing devm_ allocated variable to kfree. 'idxd->int_handles'
-Date: Sat, 08 May 2021 08:06:07 +0800
-Message-ID: <202105080805.Gq1hHJng-lkp@intel.com>
+Subject: drivers/dma/idxd/sysfs.c:429 engine_group_id_store() warn: possible spectre second half. 'engine->group'
+Date: Sat, 08 May 2021 07:48:27 +0800
+Message-ID: <202105080724.qFa7xrsf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7143911434270977524==
+--===============5592789722906384543==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,11 +20,11 @@ CC: Vinod Koul <vkoul@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   dd860052c99b1e088352bdd4fb7aef46f8d2ef47
-commit: eb15e7154fbfa3e61c777704b2ff28eb3a0d4796 dmaengine: idxd: add inter=
-rupt handle request and release support
-date:   2 weeks ago
+commit: defe49f96012ca91e8e673cb95b5c30b4a3735e8 dmaengine: idxd: fix group=
+ conf_dev lifetime
+date:   3 weeks ago
 :::::: branch date: 2 hours ago
-:::::: commit date: 2 weeks ago
+:::::: commit date: 3 weeks ago
 config: x86_64-randconfig-m001-20210508 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -32,94 +32,96 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/dma/idxd/init.c:348 idxd_setup_internals() warn: passing devm_ allo=
-cated variable to kfree. 'idxd->int_handles'
+New smatch warnings:
+drivers/dma/idxd/sysfs.c:429 engine_group_id_store() warn: possible spectre=
+ second half.  'engine->group'
+drivers/dma/idxd/sysfs.c:867 wq_group_id_store() warn: possible spectre sec=
+ond half.  'group'
 
-vim +348 drivers/dma/idxd/init.c
+Old smatch warnings:
+drivers/dma/idxd/sysfs.c:428 engine_group_id_store() warn: potential spectr=
+e issue 'idxd->groups' [r] (local cap)
+drivers/dma/idxd/sysfs.c:862 wq_group_id_store() warn: potential spectre is=
+sue 'idxd->groups' [r] (local cap)
 
-defe49f96012ca Dave Jiang 2021-04-15  304  =
+vim +429 drivers/dma/idxd/sysfs.c
 
-defe49f96012ca Dave Jiang 2021-04-15  305  static int idxd_setup_internals(=
-struct idxd_device *idxd)
-defe49f96012ca Dave Jiang 2021-04-15  306  {
-defe49f96012ca Dave Jiang 2021-04-15  307  	struct device *dev =3D &idxd->p=
-dev->dev;
-defe49f96012ca Dave Jiang 2021-04-15  308  	int rc, i;
-defe49f96012ca Dave Jiang 2021-04-15  309  =
+c52ca478233c17 Dave Jiang 2020-01-21  394  =
 
-0d5c10b4c84d6a Dave Jiang 2020-06-26  310  	init_waitqueue_head(&idxd->cmd_=
-waitq);
-7c5dd23e57c14c Dave Jiang 2021-04-15  311  =
+c52ca478233c17 Dave Jiang 2020-01-21  395  static ssize_t engine_group_id_s=
+tore(struct device *dev,
+c52ca478233c17 Dave Jiang 2020-01-21  396  				     struct device_attribute=
+ *attr,
+c52ca478233c17 Dave Jiang 2020-01-21  397  				     const char *buf, size_t=
+ count)
+c52ca478233c17 Dave Jiang 2020-01-21  398  {
+c52ca478233c17 Dave Jiang 2020-01-21  399  	struct idxd_engine *engine =3D
+c52ca478233c17 Dave Jiang 2020-01-21  400  		container_of(dev, struct idxd_=
+engine, conf_dev);
+c52ca478233c17 Dave Jiang 2020-01-21  401  	struct idxd_device *idxd =3D en=
+gine->idxd;
+c52ca478233c17 Dave Jiang 2020-01-21  402  	long id;
+c52ca478233c17 Dave Jiang 2020-01-21  403  	int rc;
+f7b280c6388137 YueHaibing 2020-02-11  404  	struct idxd_group *prevg;
+c52ca478233c17 Dave Jiang 2020-01-21  405  =
 
-eb15e7154fbfa3 Dave Jiang 2021-04-20  312  	if (idxd->hw.cmd_cap & BIT(IDXD=
-_CMD_REQUEST_INT_HANDLE)) {
-eb15e7154fbfa3 Dave Jiang 2021-04-20  313  		idxd->int_handles =3D devm_kca=
-lloc(dev, idxd->max_wqs, sizeof(int), GFP_KERNEL);
-eb15e7154fbfa3 Dave Jiang 2021-04-20  314  		if (!idxd->int_handles)
-eb15e7154fbfa3 Dave Jiang 2021-04-20  315  			return -ENOMEM;
-eb15e7154fbfa3 Dave Jiang 2021-04-20  316  	}
-eb15e7154fbfa3 Dave Jiang 2021-04-20  317  =
+c52ca478233c17 Dave Jiang 2020-01-21  406  	rc =3D kstrtol(buf, 10, &id);
+c52ca478233c17 Dave Jiang 2020-01-21  407  	if (rc < 0)
+c52ca478233c17 Dave Jiang 2020-01-21  408  		return -EINVAL;
+c52ca478233c17 Dave Jiang 2020-01-21  409  =
 
-7c5dd23e57c14c Dave Jiang 2021-04-15  318  	rc =3D idxd_setup_wqs(idxd);
-7c5dd23e57c14c Dave Jiang 2021-04-15  319  	if (rc < 0)
-eb15e7154fbfa3 Dave Jiang 2021-04-20  320  		goto err_wqs;
-7c5dd23e57c14c Dave Jiang 2021-04-15  321  =
+c52ca478233c17 Dave Jiang 2020-01-21  410  	if (!test_bit(IDXD_FLAG_CONFIGU=
+RABLE, &idxd->flags))
+c52ca478233c17 Dave Jiang 2020-01-21  411  		return -EPERM;
+c52ca478233c17 Dave Jiang 2020-01-21  412  =
 
-75b911309060f4 Dave Jiang 2021-04-15  322  	rc =3D idxd_setup_engines(idxd);
-75b911309060f4 Dave Jiang 2021-04-15  323  	if (rc < 0)
-75b911309060f4 Dave Jiang 2021-04-15  324  		goto err_engine;
-75b911309060f4 Dave Jiang 2021-04-15  325  =
+c52ca478233c17 Dave Jiang 2020-01-21  413  	if (id > idxd->max_groups - 1 |=
+| id < -1)
+c52ca478233c17 Dave Jiang 2020-01-21  414  		return -EINVAL;
+c52ca478233c17 Dave Jiang 2020-01-21  415  =
 
-defe49f96012ca Dave Jiang 2021-04-15  326  	rc =3D idxd_setup_groups(idxd);
-defe49f96012ca Dave Jiang 2021-04-15  327  	if (rc < 0)
-defe49f96012ca Dave Jiang 2021-04-15  328  		goto err_group;
-bfe1d56091c1a4 Dave Jiang 2020-01-21  329  =
+c52ca478233c17 Dave Jiang 2020-01-21  416  	if (id =3D=3D -1) {
+c52ca478233c17 Dave Jiang 2020-01-21  417  		if (engine->group) {
+c52ca478233c17 Dave Jiang 2020-01-21  418  			engine->group->num_engines--;
+c52ca478233c17 Dave Jiang 2020-01-21  419  			engine->group =3D NULL;
+c52ca478233c17 Dave Jiang 2020-01-21  420  		}
+c52ca478233c17 Dave Jiang 2020-01-21  421  		return count;
+c52ca478233c17 Dave Jiang 2020-01-21  422  	}
+c52ca478233c17 Dave Jiang 2020-01-21  423  =
 
-0d5c10b4c84d6a Dave Jiang 2020-06-26  330  	idxd->wq =3D create_workqueue(d=
-ev_name(dev));
-7c5dd23e57c14c Dave Jiang 2021-04-15  331  	if (!idxd->wq) {
-7c5dd23e57c14c Dave Jiang 2021-04-15  332  		rc =3D -ENOMEM;
-defe49f96012ca Dave Jiang 2021-04-15  333  		goto err_wkq_create;
-7c5dd23e57c14c Dave Jiang 2021-04-15  334  	}
-0d5c10b4c84d6a Dave Jiang 2020-06-26  335  =
+c52ca478233c17 Dave Jiang 2020-01-21  424  	prevg =3D engine->group;
+c52ca478233c17 Dave Jiang 2020-01-21  425  =
 
-bfe1d56091c1a4 Dave Jiang 2020-01-21  336  	return 0;
-7c5dd23e57c14c Dave Jiang 2021-04-15  337  =
+c52ca478233c17 Dave Jiang 2020-01-21  426  	if (prevg)
+c52ca478233c17 Dave Jiang 2020-01-21  427  		prevg->num_engines--;
+defe49f96012ca Dave Jiang 2021-04-15  428  	engine->group =3D idxd->groups[=
+id];
+c52ca478233c17 Dave Jiang 2020-01-21 @429  	engine->group->num_engines++;
+c52ca478233c17 Dave Jiang 2020-01-21  430  =
 
-defe49f96012ca Dave Jiang 2021-04-15  338   err_wkq_create:
-defe49f96012ca Dave Jiang 2021-04-15  339  	for (i =3D 0; i < idxd->max_gro=
-ups; i++)
-defe49f96012ca Dave Jiang 2021-04-15  340  		put_device(&idxd->groups[i]->c=
-onf_dev);
-defe49f96012ca Dave Jiang 2021-04-15  341   err_group:
-75b911309060f4 Dave Jiang 2021-04-15  342  	for (i =3D 0; i < idxd->max_eng=
-ines; i++)
-75b911309060f4 Dave Jiang 2021-04-15  343  		put_device(&idxd->engines[i]->=
-conf_dev);
-75b911309060f4 Dave Jiang 2021-04-15  344   err_engine:
-7c5dd23e57c14c Dave Jiang 2021-04-15  345  	for (i =3D 0; i < idxd->max_wqs=
-; i++)
-7c5dd23e57c14c Dave Jiang 2021-04-15  346  		put_device(&idxd->wqs[i]->conf=
-_dev);
-eb15e7154fbfa3 Dave Jiang 2021-04-20  347   err_wqs:
-eb15e7154fbfa3 Dave Jiang 2021-04-20 @348  	kfree(idxd->int_handles);
-7c5dd23e57c14c Dave Jiang 2021-04-15  349  	return rc;
-bfe1d56091c1a4 Dave Jiang 2020-01-21  350  }
-bfe1d56091c1a4 Dave Jiang 2020-01-21  351  =
+c52ca478233c17 Dave Jiang 2020-01-21  431  	return count;
+c52ca478233c17 Dave Jiang 2020-01-21  432  }
+c52ca478233c17 Dave Jiang 2020-01-21  433  =
 
+
+:::::: The code at line 429 was first introduced by commit
+:::::: c52ca478233c172b2d322b5241d6279a8661cbba dmaengine: idxd: add config=
+uration component of driver
+
+:::::: TO: Dave Jiang <dave.jiang@intel.com>
+:::::: CC: Vinod Koul <vkoul@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7143911434270977524==
+--===============5592789722906384543==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICBrUlWAAAy5jb25maWcAlDzLcty2svt8xZSzSRb2kWRZ5dQtLUASJJEhCRoA56ENS5HHjurY
+H4sICI/OlWAAAy5jb25maWcAlDzLcty2svt8xZSzSRb2kWRZ5dQtLUASJJEhCRoA56ENS5HHjurY
 ku9IOif++9sNgCQAgmPfLGJNd+PdbzT46y+/rsjL8+PX2+f7u9svX76vPh8eDsfb58PH1af7L4f/
 WWV81XC1ohlTb4C4un94+edf/7y/6q8uV+/enF+8OXt9vLtYrQ/Hh8OXVfr48On+8wt0cP/48Muv
 v6S8yVnRp2m/oUIy3vSK7tT1q893d6//WP2WHf66v31Y/fHmLXRzcfG7+euV04zJvkjT6+8DqJi6
@@ -789,5 +791,5 @@ wu9BuMWwApqkaqLq2ql+DYiWzWxJ6MEP2CwlvC/8feo6Oz+Hjt2RA5gfj9FyF1awXpOiRqcQus/w
 rfNtwMZzFQvHiswK1QL/y+KBC2vbRmbq4G8ZBtEX62O5s3ByZxGal7mFi/KY4oJz5aCvA7k1B/7z
 W24XCoeCHv4TrCrJI1CoOPOoqgQNoKnbPJREuK8gxR3BC9rGKblg43JCfcNnmoFH+JPUiU4iHJ3+
 H3MGDTVlYgIA
---===============7143911434270977524==--
+--===============5592789722906384543==--
 
