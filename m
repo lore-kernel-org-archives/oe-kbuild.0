@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5834330800648688615=="
+Content-Type: multipart/mixed; boundary="===============6391512634915415161=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/ti/wlcore/main.c:700:9: sparse: sparse: context imbalance in 'wlcore_irq' - different lock contexts for basic block
-Date: Mon, 10 May 2021 17:04:15 +0800
-Message-ID: <202105101754.sMCvhaAs-lkp@intel.com>
+Subject: drivers/net/wireless/ti/wlcore/main.c:643:34: sparse: sparse: context imbalance in 'wlcore_irq_locked' - different lock contexts for basic block
+Date: Mon, 10 May 2021 15:08:50 +0800
+Message-ID: <202105101530.AYgrRwEp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5834330800648688615==
+--===============6391512634915415161==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,10 +20,10 @@ CC: Kalle Valo <kvalo@codeaurora.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6efb943b8616ec53a5e444193dccf1af9ad627b5
-commit: 35fba0f0fd762a8b87d403ae3c723e0061c4aa25 wlcore: Use spin_trylock i=
-n wlcore_irq() to see if we need to queue tx
+commit: f0325e38ab39c2e270770b72c79795772ac3b49e wlcore: Use spin_trylock i=
+n wlcore_irq_locked() for running the queue
 date:   10 months ago
-:::::: branch date: 12 hours ago
+:::::: branch date: 10 hours ago
 :::::: commit date: 10 months ago
 config: arm-randconfig-s031-20210510 (attached as .config)
 compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
@@ -34,11 +34,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.3-341-g8af24329-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D35fba0f0fd762a8b87d403ae3c723e0061c4aa25
+t/commit/?id=3Df0325e38ab39c2e270770b72c79795772ac3b49e
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 35fba0f0fd762a8b87d403ae3c723e0061c4aa25
+        git checkout f0325e38ab39c2e270770b72c79795772ac3b49e
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' W=3D1 ARCH=3Darm =
@@ -49,167 +49,324 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 sparse warnings: (new ones prefixed by >>)
-   drivers/net/wireless/ti/wlcore/main.c:643:34: sparse: sparse: context im=
+>> drivers/net/wireless/ti/wlcore/main.c:643:34: sparse: sparse: context im=
 balance in 'wlcore_irq_locked' - different lock contexts for basic block
->> drivers/net/wireless/ti/wlcore/main.c:700:9: sparse: sparse: context imb=
-alance in 'wlcore_irq' - different lock contexts for basic block
 
-vim +/wlcore_irq +700 drivers/net/wireless/ti/wlcore/main.c
+vim +/wlcore_irq_locked +643 drivers/net/wireless/ti/wlcore/main.c
 
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  649  =
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  518  =
 
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  650  static irqreturn_t wlcore_irq(int irq, void *cookie)
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  651  {
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  652  	int ret;
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  653  	unsigned long flags;
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  654  	struct wl1271 *wl =3D cookie;
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  655  	bool queue_tx_work =3D true;
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  656  =
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  519  static int wlcore_irq_locked(struct wl1271 *wl)
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  520  {
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  521  	int ret =3D 0;
+c15f63bffabb99 drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+09-10-12  522  	u32 intr;
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  523  	int loopcount =3D WL1271_IRQ_MAX_LOOPS;
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  524  	bool run_tx_queue =3D true;
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  525  	bool done =3D false;
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  526  	unsigned int defer_count;
+b07d4037051318 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  527  	unsigned long flags;
+b07d4037051318 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  528  =
 
-eb215c33f308ce drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  657  	set_bit(WL1271_FLAG_IRQ_RUNNING, &wl->flags);
-eb215c33f308ce drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  658  =
+341b7cde6ccc60 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-31  529  	/*
+341b7cde6ccc60 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-31  530  	 * In case edge triggered interrupt must be used, we cannot=
+ iterate
+341b7cde6ccc60 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-31  531  	 * more than once without introducing race conditions with =
+the hardirq.
+341b7cde6ccc60 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-31  532  	 */
+6f921fab584494 drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho  20=
+15-03-18  533  	if (wl->irq_flags & (IRQF_TRIGGER_RISING | IRQF_TRIGGER_FAL=
+LING))
+341b7cde6ccc60 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-31  534  		loopcount =3D 1;
+341b7cde6ccc60 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-31  535  =
 
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  659  	/* complete the ELP completion */
-eb215c33f308ce drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  660  	if (test_bit(WL1271_FLAG_IN_ELP, &wl->flags)) {
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  661  		spin_lock_irqsave(&wl->wl_lock, flags);
-eb215c33f308ce drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  662  		if (wl->elp_compl)
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  663  			complete(wl->elp_compl);
-eb215c33f308ce drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  664  		spin_unlock_irqrestore(&wl->wl_lock, flags);
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  665  	}
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  666  =
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  536  	wl1271_debug(DEBUG_IRQ, "IRQ work");
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  537  =
 
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  667  	if (test_bit(WL1271_FLAG_SUSPENDED, &wl->flags)) {
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  668  		/* don't enqueue a work right now. mark it as pending */
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  669  		set_bit(WL1271_FLAG_PENDING_WORK, &wl->flags);
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  670  		wl1271_debug(DEBUG_IRQ, "should not enqueue work");
-eb215c33f308ce drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  671  		spin_lock_irqsave(&wl->wl_lock, flags);
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  672  		disable_irq_nosync(wl->irq);
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  673  		pm_wakeup_event(wl->dev, 0);
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  674  		spin_unlock_irqrestore(&wl->wl_lock, flags);
-4633d30b61ac14 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  201=
-9-10-09  675  		goto out_handled;
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  676  	}
-97236a0656034e drivers/net/wireless/ti/wlcore/main.c     Luciano Coelho 201=
-3-03-08  677  =
+4cc533830b7e6b drivers/net/wireless/ti/wlcore/main.c     Ido Yariv       20=
+12-07-24  538  	if (unlikely(wl->state !=3D WLCORE_STATE_ON))
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  539  		goto out;
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  540  =
 
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  678  	/* TX might be handled here, avoid redundant work */
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  679  	set_bit(WL1271_FLAG_TX_PENDING, &wl->flags);
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  680  	cancel_work_sync(&wl->tx_work);
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  681  =
+fa2648a34e73fb drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+18-06-19  541  	ret =3D pm_runtime_get_sync(wl->dev);
+fa2648a34e73fb drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+18-06-19  542  	if (ret < 0) {
+fa2648a34e73fb drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+18-06-19  543  		pm_runtime_put_noidle(wl->dev);
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  544  		goto out;
+fa2648a34e73fb drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+18-06-19  545  	}
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  546  =
 
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  682  	mutex_lock(&wl->mutex);
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  683  =
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  547  	while (!done && loopcount--) {
+4e857c58efeb99 drivers/net/wireless/ti/wlcore/main.c     Peter Zijlstra  20=
+14-03-17  548  		smp_mb__after_atomic();
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  549  =
 
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  684  	ret =3D wlcore_irq_locked(wl);
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  685  	if (ret)
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  686  		wl12xx_queue_recovery_work(wl);
-b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov   201=
-2-06-21  687  =
+75fb4df7f80422 drivers/net/wireless/ti/wlcore/main.c     Eliad Peller    20=
+14-02-10  550  		ret =3D wlcore_fw_status(wl, wl->fw_status);
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  551  		if (ret < 0)
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  552  			goto err_ret;
+53d67a50cd17ac drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+11-12-12  553  =
 
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  688  	/* In case TX was not handled in wlcore_irq_locked(), queue =
-TX work */
-b07d4037051318 drivers/net/wireless/wl12xx/main.c        Ido Yariv      201=
-1-03-01  689  	clear_bit(WL1271_FLAG_TX_PENDING, &wl->flags);
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  690  	if (!test_bit(WL1271_FLAG_FW_TX_BUSY, &wl->flags)) {
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  691  		if (spin_trylock_irqsave(&wl->wl_lock, flags)) {
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  692  			if (!wl1271_tx_total_queue_count(wl))
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  693  				queue_tx_work =3D false;
-b07d4037051318 drivers/net/wireless/wl12xx/main.c        Ido Yariv      201=
-1-03-01  694  			spin_unlock_irqrestore(&wl->wl_lock, flags);
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  695  		}
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  696  		if (queue_tx_work)
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  697  			ieee80211_queue_work(wl->hw, &wl->tx_work);
-35fba0f0fd762a drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  202=
-0-07-02  698  	}
-b07d4037051318 drivers/net/wireless/wl12xx/main.c        Ido Yariv      201=
-1-03-01  699  =
+53d67a50cd17ac drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+11-12-12  554  		wlcore_hw_tx_immediate_compl(wl);
+53d67a50cd17ac drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+11-12-12  555  =
 
-f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho 200=
-9-08-06 @700  	mutex_unlock(&wl->mutex);
-a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv      201=
-1-03-01  701  =
+75fb4df7f80422 drivers/net/wireless/ti/wlcore/main.c     Eliad Peller    20=
+14-02-10  556  		intr =3D wl->fw_status->intr;
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  557  		intr &=3D WLCORE_ALL_INTR_MASK;
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  558  		if (!intr) {
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  559  			done =3D true;
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  560  			continue;
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  561  		}
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  562  =
 
-4633d30b61ac14 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  201=
-9-10-09  702  out_handled:
-4633d30b61ac14 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  201=
-9-10-09  703  	spin_lock_irqsave(&wl->wl_lock, flags);
-4633d30b61ac14 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  201=
-9-10-09  704  	clear_bit(WL1271_FLAG_IRQ_RUNNING, &wl->flags);
-4633d30b61ac14 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  201=
-9-10-09  705  	spin_unlock_irqrestore(&wl->wl_lock, flags);
-4633d30b61ac14 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren  201=
-9-10-09  706  =
+ccc83b046c0337 drivers/net/wireless/wl12xx/wl1271_main.c Eliad Peller    20=
+10-10-27  563  		if (unlikely(intr & WL1271_ACX_INTR_WATCHDOG)) {
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  564  			wl1271_error("HW watchdog interrupt received! starting re=
+covery.");
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  565  			wl->watchdog_recovery =3D true;
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  566  			ret =3D -EIO;
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  567  =
 
-a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv      201=
-1-03-01  707  	return IRQ_HANDLED;
-f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho 200=
-9-08-06  708  }
-f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho 200=
-9-08-06  709  =
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  568  			/* restarting the chip. ignore any other interrupt. */
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  569  			goto err_ret;
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  570  		}
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  571  =
+
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  572  		if (unlikely(intr & WL1271_ACX_SW_INTR_WATCHDOG)) {
+f5755fe96cb010 drivers/net/wireless/ti/wlcore/main.c     Ido Reis        20=
+12-04-23  573  			wl1271_error("SW watchdog interrupt received! "
+ccc83b046c0337 drivers/net/wireless/wl12xx/wl1271_main.c Eliad Peller    20=
+10-10-27  574  				     "starting recovery.");
+afbe37185c0eca drivers/net/wireless/ti/wlcore/main.c     Yoni Divinsky   20=
+12-05-16  575  			wl->watchdog_recovery =3D true;
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  576  			ret =3D -EIO;
+ccc83b046c0337 drivers/net/wireless/wl12xx/wl1271_main.c Eliad Peller    20=
+10-10-27  577  =
+
+ccc83b046c0337 drivers/net/wireless/wl12xx/wl1271_main.c Eliad Peller    20=
+10-10-27  578  			/* restarting the chip. ignore any other interrupt. */
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  579  			goto err_ret;
+ccc83b046c0337 drivers/net/wireless/wl12xx/wl1271_main.c Eliad Peller    20=
+10-10-27  580  		}
+ccc83b046c0337 drivers/net/wireless/wl12xx/wl1271_main.c Eliad Peller    20=
+10-10-27  581  =
+
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  582  		if (likely(intr & WL1271_ACX_INTR_DATA)) {
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  583  			wl1271_debug(DEBUG_IRQ, "WL1271_ACX_INTR_DATA");
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  584  =
+
+75fb4df7f80422 drivers/net/wireless/ti/wlcore/main.c     Eliad Peller    20=
+14-02-10  585  			ret =3D wlcore_rx(wl, wl->fw_status);
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  586  			if (ret < 0)
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  587  				goto err_ret;
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  588  =
+
+a522550a283de3 drivers/net/wireless/wl12xx/wl1271_main.c Ido Yariv       20=
+10-10-12  589  			/* Check if any tx blocks were freed */
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  590  			if (!test_bit(WL1271_FLAG_FW_TX_BUSY, &wl->flags)) {
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  591  				if (spin_trylock_irqsave(&wl->wl_lock, flags)) {
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  592  					if (!wl1271_tx_total_queue_count(wl))
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  593  						run_tx_queue =3D false;
+b07d4037051318 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  594  					spin_unlock_irqrestore(&wl->wl_lock, flags);
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  595  				}
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  596  =
+
+a522550a283de3 drivers/net/wireless/wl12xx/wl1271_main.c Ido Yariv       20=
+10-10-12  597  				/*
+a522550a283de3 drivers/net/wireless/wl12xx/wl1271_main.c Ido Yariv       20=
+10-10-12  598  				 * In order to avoid starvation of the TX path,
+a522550a283de3 drivers/net/wireless/wl12xx/wl1271_main.c Ido Yariv       20=
+10-10-12  599  				 * call the work function directly.
+a522550a283de3 drivers/net/wireless/wl12xx/wl1271_main.c Ido Yariv       20=
+10-10-12  600  				 */
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  601  				if (run_tx_queue) {
+eb96f841b9563b drivers/net/wireless/ti/wlcore/main.c     Ido Yariv       20=
+12-06-18  602  					ret =3D wlcore_tx_work_locked(wl);
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  603  					if (ret < 0)
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  604  						goto err_ret;
+f0325e38ab39c2 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+20-07-02  605  				}
+a522550a283de3 drivers/net/wireless/wl12xx/wl1271_main.c Ido Yariv       20=
+10-10-12  606  			}
+a522550a283de3 drivers/net/wireless/wl12xx/wl1271_main.c Ido Yariv       20=
+10-10-12  607  =
+
+8aad24642a7c06 drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  608  			/* check for tx results */
+045b9b5f4172b2 drivers/net/wireless/ti/wlcore/main.c     Ido Yariv       20=
+12-06-18  609  			ret =3D wlcore_hw_tx_delayed_compl(wl);
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  610  			if (ret < 0)
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  611  				goto err_ret;
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  612  =
+
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  613  			/* Make sure the deferred queues don't get too long */
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  614  			defer_count =3D skb_queue_len(&wl->deferred_tx_queue) +
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  615  				      skb_queue_len(&wl->deferred_rx_queue);
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  616  			if (defer_count > WL1271_DEFERRED_QUEUE_LIMIT)
+a620865edf62ea drivers/net/wireless/wl12xx/main.c        Ido Yariv       20=
+11-03-01  617  				wl1271_flush_deferred_work(wl);
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  618  		}
+1e73eb62cec7cf drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+10-02-22  619  =
+
+1fd2794f369139 drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+09-10-13  620  		if (intr & WL1271_ACX_INTR_EVENT_A) {
+1fd2794f369139 drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+09-10-13  621  			wl1271_debug(DEBUG_IRQ, "WL1271_ACX_INTR_EVENT_A");
+045b9b5f4172b2 drivers/net/wireless/ti/wlcore/main.c     Ido Yariv       20=
+12-06-18  622  			ret =3D wl1271_event_handle(wl, 0);
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  623  			if (ret < 0)
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  624  				goto err_ret;
+1fd2794f369139 drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+09-10-13  625  		}
+1fd2794f369139 drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+09-10-13  626  =
+
+1fd2794f369139 drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+09-10-13  627  		if (intr & WL1271_ACX_INTR_EVENT_B) {
+1fd2794f369139 drivers/net/wireless/wl12xx/wl1271_main.c Juuso Oikarinen 20=
+09-10-13  628  			wl1271_debug(DEBUG_IRQ, "WL1271_ACX_INTR_EVENT_B");
+045b9b5f4172b2 drivers/net/wireless/ti/wlcore/main.c     Ido Yariv       20=
+12-06-18  629  			ret =3D wl1271_event_handle(wl, 1);
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  630  			if (ret < 0)
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  631  				goto err_ret;
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  632  		}
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  633  =
+
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  634  		if (intr & WL1271_ACX_INTR_INIT_COMPLETE)
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  635  			wl1271_debug(DEBUG_IRQ,
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  636  				     "WL1271_ACX_INTR_INIT_COMPLETE");
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  637  =
+
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  638  		if (intr & WL1271_ACX_INTR_HW_AVAILABLE)
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  639  			wl1271_debug(DEBUG_IRQ, "WL1271_ACX_INTR_HW_AVAILABLE");
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  640  	}
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  641  =
+
+da74b6933b3ba2 drivers/net/wireless/ti/wlcore/main.c     Dinghao Liu     20=
+20-05-22  642  err_ret:
+9b71578de08748 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+18-06-19 @643  	pm_runtime_mark_last_busy(wl->dev);
+9b71578de08748 drivers/net/wireless/ti/wlcore/main.c     Tony Lindgren   20=
+18-06-19  644  	pm_runtime_put_autosuspend(wl->dev);
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  645  =
+
+f5fc0f86b02afe drivers/net/wireless/wl12xx/wl1271_main.c Luciano Coelho  20=
+09-08-06  646  out:
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  647  	return ret;
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  648  }
+b5b45b3cbd5616 drivers/net/wireless/ti/wlcore/main.c     Arik Nemtsov    20=
+12-06-21  649  =
 
 
-:::::: The code at line 700 was first introduced by commit
-:::::: f5fc0f86b02afef1119b523623b4cde41475bc8c wl1271: add wl1271 driver f=
-iles
+:::::: The code at line 643 was first introduced by commit
+:::::: 9b71578de08748defb3bcae3ce8ed1a75cb6a8d7 wlcore: Enable runtime PM a=
+utosuspend support
 
-:::::: TO: Luciano Coelho <luciano.coelho@nokia.com>
-:::::: CC: John W. Linville <linville@tuxdriver.com>
+:::::: TO: Tony Lindgren <tony@atomide.com>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5834330800648688615==
+--===============6391512634915415161==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICDjtmGAAAy5jb25maWcAjFxdc9u20r7vr9CkN+dctLWtxE3mHV+AICihIgmYAGXLNxzVUXI8
+H4sICE7RmGAAAy5jb25maWcAjFxdc9u20r7vr9CkN+dctLWtxE3mHV+AICihIgmYAGXLNxzVUXI8
 cewcf7TNv393wS8AXCqnM51YuwtgASwWz+5C+vmnnxfs9eXx6/7l7nZ/f/998fnwcHjavxw+Lj7d
 3R/+b5GqRansQqTS/grC+d3D6z+/7Z++Lt79+v7Xk1+ebk8Xm8PTw+F+wR8fPt19foXGd48PP/38
 E1dlJlcN581WVEaqsrHi2l68gca/3GM3v3x+eD3s/7z75fPt7eJfK87/vfjw6/LXkzdeU2kaYFx8
@@ -792,5 +949,5 @@ N/oqFfcmdWuV7zCNL4BaVyGH37cxss1kCAWfuwK4k4UBCUqutmUAdI5JfwQBDMui0KMgiKLvzRHs
 jrzb83gsB7QMigz5FA2eC3Xop5mbRXtw5D9mFom+XEDx4VcdPfqkFpamKcGczcORHqvOjDqcfqvy
 j493JWJiaHm4GtltwQiTU3Sum2ASZAlMasQQdE5rQt4Ccgt1LwFQ3AE/aF/XEFFkP/uk/wV7Sk+w
 wAACAA==
---===============5834330800648688615==--
+--===============6391512634915415161==--
 
