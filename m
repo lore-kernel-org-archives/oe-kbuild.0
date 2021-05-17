@@ -1,31 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============0428555361732006371=="
+Content-Type: multipart/mixed; boundary="===============1971757582562204031=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/en/trap.c:359 mlx5e_handle_action_trap() error: we previously assumed 'priv->en_trap' could be null (see line 346)
-Date: Mon, 17 May 2021 14:18:52 +0800
-Message-ID: <202105171449.Lh3XR9zu-lkp@intel.com>
+Subject: drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:478 mlx5e_htb_root_add() warn: passing a valid pointer to 'PTR_ERR'
+Date: Mon, 17 May 2021 12:00:17 +0800
+Message-ID: <202105171213.fRoA1BYA-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0428555361732006371==
+--===============1971757582562204031==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Aya Levin <ayal@nvidia.com>
+TO: Maxim Mikityanskiy <maximmi@mellanox.com>
 CC: Jakub Kicinski <kuba@kernel.org>
 CC: Tariq Toukan <tariqt@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d07f6ca923ea0927a1024dfccafc5b53b61cfecc
-commit: 5543e989fe5e2fe6a5829ee42c00152cac2bb8a0 net/mlx5e: Add trap entity=
- to ETH driver
+commit: 214baf22870cfa437522f3bd4fbae56338674b04 net/mlx5e: Support HTB off=
+load
 date:   4 months ago
-:::::: branch date: 8 hours ago
+:::::: branch date: 6 hours ago
 :::::: commit date: 4 months ago
 config: i386-randconfig-m021-20210517 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
@@ -35,68 +34,440 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/en/trap.c:359 mlx5e_handle_action_t=
-rap() error: we previously assumed 'priv->en_trap' could be null (see line =
-346)
+drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:478 mlx5e_htb_root_add() w=
+arn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:585 mlx5e_htb_leaf_alloc_q=
+ueue() warn: passing a valid pointer to 'PTR_ERR'
+drivers/net/ethernet/mellanox/mlx5/core/en/qos.c:644 mlx5e_htb_leaf_to_inne=
+r() warn: passing a valid pointer to 'PTR_ERR'
 
-vim +359 drivers/net/ethernet/mellanox/mlx5/core/en/trap.c
+vim +/PTR_ERR +478 drivers/net/ethernet/mellanox/mlx5/core/en/qos.c
 
-5543e989fe5e2fe Aya Levin 2021-01-26  343  =
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  453  =
 
-5543e989fe5e2fe Aya Levin 2021-01-26  344  static int mlx5e_handle_action_t=
-rap(struct mlx5e_priv *priv, int trap_id)
-5543e989fe5e2fe Aya Levin 2021-01-26  345  {
-5543e989fe5e2fe Aya Levin 2021-01-26 @346  	bool open_queue =3D !priv->en_t=
-rap;
-5543e989fe5e2fe Aya Levin 2021-01-26  347  	struct mlx5e_trap *trap;
-5543e989fe5e2fe Aya Levin 2021-01-26  348  	int err;
-5543e989fe5e2fe Aya Levin 2021-01-26  349  =
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  454  int mlx5e_htb_root_add(=
+struct mlx5e_priv *priv, u16 htb_maj_id, u16 htb_defcls,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  455  		       struct netlink=
+_ext_ack *extack)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  456  {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  457  	struct mlx5e_qos_node =
+*root;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  458  	bool opened;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  459  	int err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  460  =
 
-5543e989fe5e2fe Aya Levin 2021-01-26  350  	if (open_queue) {
-5543e989fe5e2fe Aya Levin 2021-01-26  351  		trap =3D mlx5e_add_trap_queue(=
-priv);
-5543e989fe5e2fe Aya Levin 2021-01-26  352  		if (IS_ERR(trap))
-5543e989fe5e2fe Aya Levin 2021-01-26  353  			return PTR_ERR(trap);
-5543e989fe5e2fe Aya Levin 2021-01-26  354  		priv->en_trap =3D trap;
-5543e989fe5e2fe Aya Levin 2021-01-26  355  	}
-5543e989fe5e2fe Aya Levin 2021-01-26  356  =
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  461  	qos_dbg(priv->mdev, "T=
+C_HTB_CREATE handle %04x:, default :%04x\n", htb_maj_id, htb_defcls);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  462  =
 
-5543e989fe5e2fe Aya Levin 2021-01-26  357  	switch (trap_id) {
-5543e989fe5e2fe Aya Levin 2021-01-26  358  	case DEVLINK_TRAP_GENERIC_ID_IN=
-GRESS_VLAN_FILTER:
-5543e989fe5e2fe Aya Levin 2021-01-26 @359  		err =3D mlx5e_add_vlan_trap(pr=
-iv, trap_id, mlx5e_trap_get_tirn(priv->en_trap));
-5543e989fe5e2fe Aya Levin 2021-01-26  360  		if (err)
-5543e989fe5e2fe Aya Levin 2021-01-26  361  			goto err_out;
-5543e989fe5e2fe Aya Levin 2021-01-26  362  		break;
-5543e989fe5e2fe Aya Levin 2021-01-26  363  	default:
-5543e989fe5e2fe Aya Levin 2021-01-26  364  		netdev_warn(priv->netdev, "%s:=
- Unknown trap id %d\n", __func__, trap_id);
-5543e989fe5e2fe Aya Levin 2021-01-26  365  		err =3D -EINVAL;
-5543e989fe5e2fe Aya Levin 2021-01-26  366  		goto err_out;
-5543e989fe5e2fe Aya Levin 2021-01-26  367  	}
-5543e989fe5e2fe Aya Levin 2021-01-26  368  	return 0;
-5543e989fe5e2fe Aya Levin 2021-01-26  369  =
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  463  	if (!mlx5_qos_is_suppo=
+rted(priv->mdev)) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  464  		NL_SET_ERR_MSG_MOD(ex=
+tack,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  465  				   "Missing QoS cap=
+abilities. Try disabling SRIOV or use a supported device.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  466  		return -EOPNOTSUPP;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  467  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  468  =
 
-5543e989fe5e2fe Aya Levin 2021-01-26  370  err_out:
-5543e989fe5e2fe Aya Levin 2021-01-26  371  	if (open_queue)
-5543e989fe5e2fe Aya Levin 2021-01-26  372  		mlx5e_del_trap_queue(priv);
-5543e989fe5e2fe Aya Levin 2021-01-26  373  	return err;
-5543e989fe5e2fe Aya Levin 2021-01-26  374  }
-5543e989fe5e2fe Aya Levin 2021-01-26  375  =
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  469  	opened =3D test_bit(ML=
+X5E_STATE_OPENED, &priv->state);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  470  	if (opened) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  471  		err =3D mlx5e_qos_all=
+oc_queues(priv, &priv->channels);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  472  		if (err)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  473  			return err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  474  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  475  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  476  	root =3D mlx5e_sw_node=
+_create_root(priv);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  477  	if (IS_ERR(root)) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19 @478  		err =3D PTR_ERR(root);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  479  		goto err_free_queues;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  480  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  481  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  482  	err =3D mlx5_qos_creat=
+e_root_node(priv->mdev, &root->hw_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  483  	if (err) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  484  		NL_SET_ERR_MSG_MOD(ex=
+tack, "Firmware error. Try upgrading firmware.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  485  		goto err_sw_node_dele=
+te;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  486  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  487  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  488  	WRITE_ONCE(priv->htb.d=
+efcls, htb_defcls);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  489  	/* Order maj_id after =
+defcls - pairs with
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  490  	 * mlx5e_select_queue/=
+mlx5e_select_htb_queues.
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  491  	 */
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  492  	smp_store_release(&pri=
+v->htb.maj_id, htb_maj_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  493  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  494  	return 0;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  495  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  496  err_sw_node_delete:
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  497  	mlx5e_sw_node_delete(p=
+riv, root);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  498  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  499  err_free_queues:
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  500  	if (opened)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  501  		mlx5e_qos_close_all_q=
+ueues(&priv->channels);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  502  	return err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  503  }
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  504  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  505  int mlx5e_htb_root_del(=
+struct mlx5e_priv *priv)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  506  {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  507  	struct mlx5e_qos_node =
+*root;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  508  	int err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  509  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  510  	qos_dbg(priv->mdev, "T=
+C_HTB_DESTROY\n");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  511  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  512  	WRITE_ONCE(priv->htb.m=
+aj_id, 0);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  513  	synchronize_rcu(); /* =
+Sync with mlx5e_select_htb_queue and TX data path. */
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  514  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  515  	root =3D mlx5e_sw_node=
+_find(priv, MLX5E_HTB_CLASSID_ROOT);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  516  	if (!root) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  517  		qos_err(priv->mdev, "=
+Failed to find the root node in the QoS tree\n");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  518  		return -ENOENT;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  519  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  520  	err =3D mlx5_qos_destr=
+oy_node(priv->mdev, root->hw_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  521  	if (err)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  522  		qos_err(priv->mdev, "=
+Failed to destroy root node %u, err =3D %d\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  523  			root->hw_id, err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  524  	mlx5e_sw_node_delete(p=
+riv, root);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  525  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  526  	mlx5e_qos_deactivate_a=
+ll_queues(&priv->channels);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  527  	mlx5e_qos_close_all_qu=
+eues(&priv->channels);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  528  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  529  	return err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  530  }
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  531  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  532  static int mlx5e_htb_co=
+nvert_rate(struct mlx5e_priv *priv, u64 rate,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  533  				  struct mlx5e_qos_=
+node *parent, u32 *bw_share)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  534  {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  535  	u64 share =3D 0;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  536  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  537  	while (parent->classid=
+ !=3D MLX5E_HTB_CLASSID_ROOT && !parent->max_average_bw)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  538  		parent =3D parent->pa=
+rent;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  539  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  540  	if (parent->max_averag=
+e_bw)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  541  		share =3D div64_u64(d=
+iv_u64(rate * 100, BYTES_IN_MBIT),
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  542  				  parent->max_avera=
+ge_bw);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  543  	else
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  544  		share =3D 101;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  545  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  546  	*bw_share =3D share =
+=3D=3D 0 ? 1 : share > 100 ? 0 : share;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  547  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  548  	qos_dbg(priv->mdev, "C=
+onvert: rate %llu, parent ceil %llu -> bw_share %u\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  549  		rate, (u64)parent->ma=
+x_average_bw * BYTES_IN_MBIT, *bw_share);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  550  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  551  	return 0;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  552  }
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  553  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  554  static void mlx5e_htb_c=
+onvert_ceil(struct mlx5e_priv *priv, u64 ceil, u32 *max_average_bw)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  555  {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  556  	*max_average_bw =3D di=
+v_u64(ceil, BYTES_IN_MBIT);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  557  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  558  	qos_dbg(priv->mdev, "C=
+onvert: ceil %llu -> max_average_bw %u\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  559  		ceil, *max_average_bw=
+);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  560  }
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  561  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  562  int mlx5e_htb_leaf_allo=
+c_queue(struct mlx5e_priv *priv, u16 classid,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  563  			       u32 parent_cl=
+assid, u64 rate, u64 ceil,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  564  			       struct netlin=
+k_ext_ack *extack)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  565  {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  566  	struct mlx5e_qos_node =
+*node, *parent;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  567  	int qid;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  568  	int err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  569  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  570  	qos_dbg(priv->mdev, "T=
+C_HTB_LEAF_ALLOC_QUEUE classid %04x, parent %04x, rate %llu, ceil %llu\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  571  		classid, parent_class=
+id, rate, ceil);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  572  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  573  	qid =3D mlx5e_find_unu=
+sed_qos_qid(priv);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  574  	if (qid < 0) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  575  		NL_SET_ERR_MSG_MOD(ex=
+tack, "Maximum amount of leaf classes is reached.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  576  		return qid;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  577  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  578  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  579  	parent =3D mlx5e_sw_no=
+de_find(priv, parent_classid);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  580  	if (!parent)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  581  		return -EINVAL;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  582  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  583  	node =3D mlx5e_sw_node=
+_create_leaf(priv, classid, qid, parent);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  584  	if (IS_ERR(node))
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19 @585  		return PTR_ERR(node);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  586  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  587  	node->rate =3D rate;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  588  	mlx5e_htb_convert_rate=
+(priv, rate, node->parent, &node->bw_share);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  589  	mlx5e_htb_convert_ceil=
+(priv, ceil, &node->max_average_bw);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  590  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  591  	err =3D mlx5_qos_creat=
+e_leaf_node(priv->mdev, node->parent->hw_id,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  592  					node->bw_share, no=
+de->max_average_bw,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  593  					&node->hw_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  594  	if (err) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  595  		NL_SET_ERR_MSG_MOD(ex=
+tack, "Firmware error when creating a leaf node.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  596  		qos_err(priv->mdev, "=
+Failed to create a leaf node (class %04x), err =3D %d\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  597  			classid, err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  598  		mlx5e_sw_node_delete(=
+priv, node);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  599  		return err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  600  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  601  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  602  	if (test_bit(MLX5E_STA=
+TE_OPENED, &priv->state)) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  603  		err =3D mlx5e_open_qo=
+s_sq(priv, &priv->channels, node);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  604  		if (err) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  605  			NL_SET_ERR_MSG_MOD(e=
+xtack, "Error creating an SQ.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  606  			qos_warn(priv->mdev,=
+ "Failed to create a QoS SQ (class %04x), err =3D %d\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  607  				 classid, err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  608  		} else {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  609  			mlx5e_activate_qos_s=
+q(priv, node);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  610  		}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  611  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  612  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  613  	return mlx5e_qid_from_=
+qos(&priv->channels, node->qid);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  614  }
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  615  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  616  int mlx5e_htb_leaf_to_i=
+nner(struct mlx5e_priv *priv, u16 classid, u16 child_classid,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  617  			    u64 rate, u64 ce=
+il, struct netlink_ext_ack *extack)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  618  {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  619  	struct mlx5e_qos_node =
+*node, *child;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  620  	int err, tmp_err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  621  	u32 new_hw_id;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  622  	u16 qid;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  623  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  624  	qos_dbg(priv->mdev, "T=
+C_HTB_LEAF_TO_INNER classid %04x, upcoming child %04x, rate %llu, ceil %llu=
+\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  625  		classid, child_classi=
+d, rate, ceil);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  626  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  627  	node =3D mlx5e_sw_node=
+_find(priv, classid);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  628  	if (!node)
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  629  		return -ENOENT;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  630  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  631  	err =3D mlx5_qos_creat=
+e_inner_node(priv->mdev, node->parent->hw_id,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  632  					 node->bw_share, n=
+ode->max_average_bw,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  633  					 &new_hw_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  634  	if (err) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  635  		NL_SET_ERR_MSG_MOD(ex=
+tack, "Firmware error when creating an inner node.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  636  		qos_err(priv->mdev, "=
+Failed to create an inner node (class %04x), err =3D %d\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  637  			classid, err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  638  		return err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  639  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  640  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  641  	/* Intentionally reuse=
+ the qid for the upcoming first child. */
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  642  	child =3D mlx5e_sw_nod=
+e_create_leaf(priv, child_classid, node->qid, node);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  643  	if (IS_ERR(child)) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19 @644  		err =3D PTR_ERR(child=
+);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  645  		goto err_destroy_hw_n=
+ode;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  646  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  647  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  648  	child->rate =3D rate;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  649  	mlx5e_htb_convert_rate=
+(priv, rate, node, &child->bw_share);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  650  	mlx5e_htb_convert_ceil=
+(priv, ceil, &child->max_average_bw);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  651  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  652  	err =3D mlx5_qos_creat=
+e_leaf_node(priv->mdev, new_hw_id, child->bw_share,
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  653  					child->max_average=
+_bw, &child->hw_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  654  	if (err) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  655  		NL_SET_ERR_MSG_MOD(ex=
+tack, "Firmware error when creating a leaf node.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  656  		qos_err(priv->mdev, "=
+Failed to create a leaf node (class %04x), err =3D %d\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  657  			classid, err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  658  		goto err_delete_sw_no=
+de;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  659  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  660  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  661  	/* No fail point. */
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  662  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  663  	qid =3D node->qid;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  664  	/* Pairs with mlx5e_ge=
+t_txq_by_classid. */
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  665  	WRITE_ONCE(node->qid, =
+MLX5E_QOS_QID_INNER);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  666  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  667  	if (test_bit(MLX5E_STA=
+TE_OPENED, &priv->state)) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  668  		mlx5e_deactivate_qos_=
+sq(priv, qid);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  669  		mlx5e_close_qos_sq(pr=
+iv, qid);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  670  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  671  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  672  	err =3D mlx5_qos_destr=
+oy_node(priv->mdev, node->hw_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  673  	if (err) /* Not fatal.=
+ */
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  674  		qos_warn(priv->mdev, =
+"Failed to destroy leaf node %u (class %04x), err =3D %d\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  675  			 node->hw_id, classi=
+d, err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  676  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  677  	node->hw_id =3D new_hw=
+_id;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  678  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  679  	if (test_bit(MLX5E_STA=
+TE_OPENED, &priv->state)) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  680  		err =3D mlx5e_open_qo=
+s_sq(priv, &priv->channels, child);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  681  		if (err) {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  682  			NL_SET_ERR_MSG_MOD(e=
+xtack, "Error creating an SQ.");
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  683  			qos_warn(priv->mdev,=
+ "Failed to create a QoS SQ (class %04x), err =3D %d\n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  684  				 classid, err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  685  		} else {
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  686  			mlx5e_activate_qos_s=
+q(priv, child);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  687  		}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  688  	}
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  689  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  690  	return 0;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  691  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  692  err_delete_sw_node:
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  693  	child->qid =3D MLX5E_Q=
+OS_QID_INNER;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  694  	mlx5e_sw_node_delete(p=
+riv, child);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  695  =
+
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  696  err_destroy_hw_node:
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  697  	tmp_err =3D mlx5_qos_d=
+estroy_node(priv->mdev, new_hw_id);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  698  	if (tmp_err) /* Not fa=
+tal. */
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  699  		qos_warn(priv->mdev, =
+"Failed to roll back creation of an inner node %u (class %04x), err =3D %d\=
+n",
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  700  			 new_hw_id, classid,=
+ tmp_err);
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  701  	return err;
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  702  }
+214baf22870cfa4 Maxim Mikityanskiy 2021-01-19  703  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0428555361732006371==
+--===============1971757582562204031==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICDb5oWAAAy5jb25maWcAjFzJd9w20r/nr+jnXJJDMlpsjfO+pwOaBLuRJggEIHvRhU+R2x69
+H4sICLTdoWAAAy5jb25maWcAjFzJd9w20r/nr+jnXJJDMlpsjfO+pwOaBLuRJggEIHvRhU+R2x69
 2FJGyyT+77+qAhcABNuZQ8aqwkagll8VCv39d98v2OvL45fbl/u728+fvy4+HR+OT7cvxw+Lj/ef
 j/+3yNWiUvWC56L+GRqX9w+vf//r/vL91eLdz+fnP5/99HT3drE5Pj0cPy+yx4eP959eofv948N3
 33+XqaoQqzbL2i03Vqiqrfm+vn7z6e7up18WP+TH3+9vHxa//HwJw1xc/Oj+9cbrJmy7yrLrrz1p
@@ -668,5 +1039,5 @@ cOdGTmMMmDhH3vk0DqKkoXD2Zsj0NkPDsHbhKw7h900UdRObg7Zu2fWZHdj1emyNgZhrS1F4YHpd
 dcFk012d0MvC0fb10JyKIbOR3GlN57h6AoFzrFiKaRqPsd1CNcHIA6sgTiVWe78Gmb4pviqbCvHU
 seGlx2hU/jJ0GOZYjar+Mec6jRREgTJyzjQlWFNZxqbk5USyhhskEU7ib4uSCYO1vrlFgPBghWGS
 bsfs4RhV63Pe0X89sUi30fkBAA==
---===============0428555361732006371==--
+--===============1971757582562204031==--
 
