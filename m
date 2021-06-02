@@ -1,27 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============1432248429778161091=="
+Content-Type: multipart/mixed; boundary="===============2843774272728079070=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [arnd-playground:randconfig-5.13 102/585] Warning: Kernel ABI header at 'tools/include/uapi/sound/asound.h' differs from latest version at 'include/uapi/sound/asound.h': 614> #if !(__BITS_PER_LONG == 32 && defined(__USE_TIME_BITS64))
-Date: Thu, 03 Jun 2021 05:54:18 +0800
-Message-ID: <202106030512.auo4A1ST-lkp@intel.com>
+Subject: [tip:x86/urgent 4/5] Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-features.h' differs from latest version at 'arch/x86/include/asm/disabled-features.h': 59< #ifdef CONFIG_IOMMU_SUPPORT
+Date: Thu, 03 Jun 2021 05:16:06 +0800
+Message-ID: <202106030503.rZ2TiJST-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1432248429778161091==
+--===============2843774272728079070==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Arnd Bergmann <arnd@arndb.de>
+CC: linux-kernel(a)vger.kernel.org
+CC: x86(a)kernel.org
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: Borislav Petkov <bp@suse.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/arnd/playground.git=
- randconfig-5.13
-head:   36fc4b7a9bf27491b6165cd5e546e41e0a7290ae
-commit: 79291aa5a517c994f6e1d1ec112a0b9957e73ee0 [102/585] ALSA: Deprecate =
-CLOCK_REALTIME timestamps
-:::::: branch date: 2 days ago
-:::::: commit date: 2 weeks ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/urg=
+ent
+head:   f01775b09efa3b9d1f4a2519678f11d274362da9
+commit: 6867ee8bcb754c59a8304f4a9d693ed6cfb96b31 [4/5] x86/cpufeatures: For=
+ce disable X86_FEATURE_ENQCMD and remove update_pasid()
+:::::: branch date: 11 hours ago
+:::::: commit date: 11 hours ago
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 reproduce:
 cd tools/perf && ./check-headers.sh
@@ -31,20 +34,30 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 perfheadercheck warnings: (new ones prefixed by >>)
->> Warning: Kernel ABI header at 'tools/include/uapi/sound/asound.h' differ=
-s from latest version at 'include/uapi/sound/asound.h':  614> #if !(__BITS_=
-PER_LONG =3D=3D 32 && defined(__USE_TIME_BITS64))
->> Warning: Kernel ABI header at 'tools/include/uapi/sound/asound.h' differ=
-s from latest version at 'include/uapi/sound/asound.h':  615< 	SNDRV_PCM_TS=
-TAMP_TYPE_MONOTONIC,	/* posix_clock_monotonic equivalent */
->> Warning: Kernel ABI header at 'tools/include/uapi/sound/asound.h' differ=
-s from latest version at 'include/uapi/sound/asound.h':  616> #endif
-   Warning: Kernel ABI header at 'tools/include/uapi/sound/asound.h' differ=
-s from latest version at 'include/uapi/sound/asound.h':  617> 	SNDRV_PCM_TS=
-TAMP_TYPE_MONOTONIC =3D 1,	/* posix_clock_monotonic equivalent */
+>> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
+res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
+es.h':   59< #ifdef CONFIG_IOMMU_SUPPORT
+>> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
+res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
+es.h':   60< # define DISABLE_ENQCMD	0
+   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
+res.h' differs from latest version@'arch/x86/include/asm/disabled-featur=
+es.h':   61< #else
+>> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
+res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
+es.h':   62< # define DISABLE_ENQCMD (1 << (X86_FEATURE_ENQCMD & 31))
+   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
+res.h' differs from latest version@'arch/x86/include/asm/disabled-featur=
+es.h':   63< #endif
+>> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
+res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
+es.h':   59> /* Force disable because it's broken beyond repair */
+   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
+res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
+es.h':   60> #define DISABLE_ENQCMD		(1 << (X86_FEATURE_ENQCMD & 31))
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1432248429778161091==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============2843774272728079070==--
 
