@@ -1,63 +1,88 @@
-Content-Type: multipart/mixed; boundary="===============2843774272728079070=="
+Content-Type: multipart/mixed; boundary="===============4226043010758059234=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tip:x86/urgent 4/5] Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-features.h' differs from latest version at 'arch/x86/include/asm/disabled-features.h': 59< #ifdef CONFIG_IOMMU_SUPPORT
-Date: Thu, 03 Jun 2021 05:16:06 +0800
-Message-ID: <202106030503.rZ2TiJST-lkp@intel.com>
+Subject: [linux-next:master 5030/6331] dtbs_check: arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml: nand-controller@1b30000: nand@0:secure-regions: More than one condition true in oneOf schema:
+Date: Thu, 03 Jun 2021 03:28:12 +0800
+Message-ID: <202106030309.qfprt8Gb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2843774272728079070==
+--===============4226043010758059234==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-CC: x86(a)kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Borislav Petkov <bp@suse.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+CC: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git x86/urg=
-ent
-head:   f01775b09efa3b9d1f4a2519678f11d274362da9
-commit: 6867ee8bcb754c59a8304f4a9d693ed6cfb96b31 [4/5] x86/cpufeatures: For=
-ce disable X86_FEATURE_ENQCMD and remove update_pasid()
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-cd tools/perf && ./check-headers.sh
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   ed5d0667a6540293c9485dd95babb5f1e241226a
+commit: 619d3c4bf8f346ac9192d3c266efc9e231ca5d17 [5030/6331] ARM: dts: qcom=
+: sdx55-t55: Represent secure-regions as 64-bit elements
+:::::: branch date: 13 hours ago
+:::::: commit date: 4 days ago
+compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
+reproduce: make ARCH=3Darm dtbs_check
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-perfheadercheck warnings: (new ones prefixed by >>)
->> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
-res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
-es.h':   59< #ifdef CONFIG_IOMMU_SUPPORT
->> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
-res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
-es.h':   60< # define DISABLE_ENQCMD	0
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
-res.h' differs from latest version@'arch/x86/include/asm/disabled-featur=
-es.h':   61< #else
->> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
-res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
-es.h':   62< # define DISABLE_ENQCMD (1 << (X86_FEATURE_ENQCMD & 31))
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
-res.h' differs from latest version@'arch/x86/include/asm/disabled-featur=
-es.h':   63< #endif
->> Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
-res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
-es.h':   59> /* Force disable because it's broken beyond repair */
-   Warning: Kernel ABI header at 'tools/arch/x86/include/asm/disabled-featu=
-res.h' differs from latest version at 'arch/x86/include/asm/disabled-featur=
-es.h':   60> #define DISABLE_ENQCMD		(1 << (X86_FEATURE_ENQCMD & 31))
+dtcheck warnings: (new ones prefixed by >>)
+   arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml: memory(a)8fced000: 'device_typ=
+e' is a required property
+   	From schema: /usr/local/lib/python3.9/dist-packages/dtschema/schemas/me=
+mory.yaml
+   arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml: memory(a)90800000: 'device_typ=
+e' is a required property
+   	From schema: /usr/local/lib/python3.9/dist-packages/dtschema/schemas/me=
+mory.yaml
+   arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml:0:0: /smp2p-mpss: failed to mat=
+ch any schema with compatible: ['qcom,smp2p']
+   arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml:0:0: /soc/serial(a)831000: fail=
+ed to match any schema with compatible: ['qcom,msm-uartdm-v1.4', 'qcom,msm-=
+uartdm']
+   arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml:0:0: /soc/serial(a)831000: fail=
+ed to match any schema with compatible: ['qcom,msm-uartdm-v1.4', 'qcom,msm-=
+uartdm']
+   arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml: phy(a)ff6000: '#phy-cells' is =
+a required property
+   	From schema: /usr/local/lib/python3.9/dist-packages/dtschema/schemas/ph=
+y/phy-provider.yaml
+   arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml:0:0: /soc/dma-controller(a)1b04=
+000: failed to match any schema with compatible: ['qcom,bam-v1.7.0']
+>> arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml: nand-controller(a)1b30000: nan=
+d(a)0:secure-regions: More than one condition true in oneOf schema:
+   	{'oneOf': [{'items': {'items': {'$ref': '#/definitions/cell'},
+   	                      'minItems': 2,
+   	                      'type': 'array'},
+   	            'minItems': 1,
+   	            'type': 'array'},
+   	           {'items': {'items': {'maximum': 18446744073709551615,
+   	                                'minimum': 0},
+   	                      'type': 'array'},
+   	            'minItems': 1,
+   	            'type': 'array',
+   	            'typeSize': 64}]}
+   	From schema: Documentation/devicetree/bindings/mtd/nand-controller.yaml
+>> arch/arm/boot/dts/qcom-sdx55-t55.dt.yaml: nand-controller(a)1b30000: nan=
+d(a)0:secure-regions: More than one condition true in oneOf schema:
+   	{'oneOf': [{'items': {'items': {'$ref': '#/definitions/cell'},
+   	                      'minItems': 2,
+   	                      'type': 'array'},
+   	            'minItems': 1,
+   	            'type': 'array'},
+   	           {'items': {'items': {'maximum': 18446744073709551615,
+   	                                'minimum': 0},
+   	                      'type': 'array'},
+   	            'minItems': 1,
+   	            'type': 'array',
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============2843774272728079070==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============4226043010758059234==--
 
