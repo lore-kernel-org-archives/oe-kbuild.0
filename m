@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3946153122376023493=="
+Content-Type: multipart/mixed; boundary="===============6967626721189847747=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [android-common:android12-5.10 2/10] lib/crypto/aes.c:10:1: iwyu: warning: superfluous #include <trace/hooks/fips140.h>
-Date: Fri, 11 Jun 2021 23:31:45 +0800
-Message-ID: <202106112341.XxzBhp4X-lkp@intel.com>
+Subject: [android-common:android12-5.10 1/10] lib/crypto/sha256.c:20:1: iwyu: warning: superfluous #include <trace/hooks/fips140.h>
+Date: Fri, 11 Jun 2021 23:12:46 +0800
+Message-ID: <202106112335.jxt6LB3z-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3946153122376023493==
+--===============6967626721189847747==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,10 +17,10 @@ TO: cros-kernel-buildreports(a)googlegroups.com
 
 tree:   https://android.googlesource.com/kernel/common android12-5.10
 head:   a11dacedd687ed3ed223ba80e75b6cededc7dddf
-commit: 9c556792b713c8ce16b99d245c56fe43e9b8b020 [2/10] ANDROID: crypto: li=
-b/aes - add vendor hooks for AES library routines
-:::::: branch date: 8 hours ago
-:::::: commit date: 8 hours ago
+commit: 7a689ebc67b3b3f282fa8d6754da7930dcf1b15c [1/10] ANDROID: crypto: li=
+b/sha256 - add vendor hook for sha256() routine
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
 config: x86_64-randconfig-b001-20210611 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project d2012d=
 965d60c3258b3a69d024491698f8aec386)
@@ -34,7 +34,7 @@ make.cross -O ~/bin/make.cross
         git remote add android-common https://android.googlesource.com/kern=
 el/common
         git fetch --no-tags android-common android12-5.10
-        git checkout 9c556792b713c8ce16b99d245c56fe43e9b8b020
+        git checkout 7a689ebc67b3b3f282fa8d6754da7930dcf1b15c
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -45,32 +45,31 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   lib/crypto/aes.c:9:1: iwyu: warning: superfluous #include <asm/unaligned=
-.h>
-   lib/crypto/aes.c:7:1: iwyu: warning: superfluous #include <linux/crypto.=
-h>
->> lib/crypto/aes.c:10:1: iwyu: warning: superfluous #include <trace/hooks/=
-fips140.h>
+   lib/crypto/sha256.c:19:1: iwyu: warning: superfluous #include <asm/unali=
+gned.h>
+   lib/crypto/sha256.c:14:1: iwyu: warning: superfluous #include <linux/bit=
+ops.h>
+>> lib/crypto/sha256.c:20:1: iwyu: warning: superfluous #include <trace/hoo=
+ks/fips140.h>
 
-vim +10 lib/crypto/aes.c
+vim +20 lib/crypto/sha256.c
 
-e59c1c98745637 Ard Biesheuvel 2019-07-02  @9  #include <asm/unaligned.h>
-9c556792b713c8 Ard Biesheuvel 2021-04-12 @10  #include <trace/hooks/fips140=
-.h>
-e59c1c98745637 Ard Biesheuvel 2019-07-02  11  =
+7a689ebc67b3b3 lib/crypto/sha256.c         Ard Biesheuvel 2021-04-12 @20  #=
+include <trace/hooks/fips140.h>
+daeba0641a7076 arch/x86/purgatory/sha256.c Vivek Goyal    2014-08-08  21  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3946153122376023493==
+--===============6967626721189847747==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICH5+w2AAAy5jb25maWcAlFxLd9w2st7Pr+jjbDKLOJIs6zj3Hi1AEmQjTRI0QPZDGxxFaju6
+H4sICK14w2AAAy5jb25maWcAlFxLd9w2st7Pr+jjbDKLOJIs6zj3Hi1AEmQjTRI0QPZDGxxFaju6
 o4enJWXif3+rAJAEQLCtySJJowrvenxVKOqnf/y0IK8vTw/XL3c31/f33xdf94/7w/XL/nbx5e5+
 /7+LjC9q3i5oxtr3wFzePb7+/evfny7Uxfni4/vTk/fnZ4vV/vC4v1+kT49f7r6+Qu+7p8d//PSP
 lNc5K1SaqjUVkvFatXTbXr67ub9+/Lr4a394Br7F6Yf3J+9PFj9/vXv5n19/hX8/3B0OT4df7+//
@@ -742,5 +741,5 @@ dR+d3q6TG3zEmxgOaTIjDavYoEmKqomqnVf8FSDaklvWhFZm3+5X0nAn3KauC4SwIewN2QqG8Ris
 fQlSQJiiRnsiekUK0wRDNRI2jbkA+3KRXlkWkbK7aI/ojoJ6DgmVQxd3iqTklFYxA4oW++uSniQ3
 PI9DU3RoyCighju3TOt8K9jAtHIx6CDgzqyFDma1gigEkxt6i3DWC93E3k7yCO5ek4uZTP8DgqQu
 ZJqAYuJQwCmWBr4PmpZNnqZewBxpafZ/HsdmrG9TAgA=
---===============3946153122376023493==--
+--===============6967626721189847747==--
 
