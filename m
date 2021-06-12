@@ -1,30 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============3930307525602201821=="
+Content-Type: multipart/mixed; boundary="===============7030814165157351744=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mtd/nand/raw/nand_base.c:5065 of_get_nand_secure_regions() warn: assigning (-19) to unsigned variable 'chip->nr_secure_regions'
-Date: Sat, 12 Jun 2021 12:35:57 +0800
-Message-ID: <202106121254.IW4Ci5e9-lkp@intel.com>
+Subject: drivers/mtd/spi-nor/swp.c:45 spi_nor_get_min_prot_length_sr() warn: should 'nor->info->sector_size << (bp_slots_needed - bp_slots)' be a 64 bit type?
+Date: Sat, 12 Jun 2021 10:33:03 +0800
+Message-ID: <202106121001.MgvWhMrt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3930307525602201821==
+--===============7030814165157351744==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-CC: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+CC: Michael Walle <michael@walle.cc>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ad347abe4a9876b1f65f408ab467137e88f77eb4
-commit: 13b89768275d6ca9764bf91449e4cafe46ba706b mtd: rawnand: Add support =
-for secure regions in NAND memory
-date:   9 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 9 weeks ago
+commit: c4c795105f2924c80752c30ffd3c7029a8e0ef28 mtd: spi-nor: Move Softwar=
+e Write Protection logic out of the core
+date:   2 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 months ago
 config: x86_64-randconfig-m001-20210611 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
@@ -32,89 +32,55 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/mtd/nand/raw/nand_base.c:5065 of_get_nand_secure_regions() warn: as=
-signing (-19) to unsigned variable 'chip->nr_secure_regions'
+smatch warnings:
+drivers/mtd/spi-nor/swp.c:45 spi_nor_get_min_prot_length_sr() warn: should =
+'nor->info->sector_size << (bp_slots_needed - bp_slots)' be a 64 bit type?
 
-Old smatch warnings:
-drivers/mtd/nand/raw/nand_base.c:883 nand_setup_interface() warn: missing e=
-rror code 'ret'
+vim +45 drivers/mtd/spi-nor/swp.c
 
-vim +5065 drivers/mtd/nand/raw/nand_base.c
+c4c795105f2924 Tudor Ambarus 2021-03-22  33  =
 
-d48f62b9a0a035 drivers/mtd/nand/nand_base.c     Boris Brezillon       2016-=
-04-01  5055  =
+c4c795105f2924 Tudor Ambarus 2021-03-22  34  static u64 spi_nor_get_min_pro=
+t_length_sr(struct spi_nor *nor)
+c4c795105f2924 Tudor Ambarus 2021-03-22  35  {
+c4c795105f2924 Tudor Ambarus 2021-03-22  36  	unsigned int bp_slots, bp_slo=
+ts_needed;
+c4c795105f2924 Tudor Ambarus 2021-03-22  37  	u8 mask =3D spi_nor_get_sr_bp=
+_mask(nor);
+c4c795105f2924 Tudor Ambarus 2021-03-22  38  =
 
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5056  static int of_get_nand_secure_regions(struct nand_chip *chip)
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5057  {
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5058  	struct device_node *dn =3D nand_get_flash_node(chip);
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5059  	int nr_elem, i, j;
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5060  =
+c4c795105f2924 Tudor Ambarus 2021-03-22  39  	/* Reserved one for "protect =
+none" and one for "protect all". */
+c4c795105f2924 Tudor Ambarus 2021-03-22  40  	bp_slots =3D (1 << hweight8(m=
+ask)) - 2;
+c4c795105f2924 Tudor Ambarus 2021-03-22  41  	bp_slots_needed =3D ilog2(nor=
+->info->n_sectors);
+c4c795105f2924 Tudor Ambarus 2021-03-22  42  =
 
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5061  	nr_elem =3D of_property_count_elems_of_size(dn, "secure-regio=
-ns", sizeof(u64));
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5062  	if (!nr_elem)
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5063  		return 0;
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5064  =
-
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02 @5065  	chip->nr_secure_regions =3D nr_elem / 2;
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5066  	chip->secure_regions =3D kcalloc(chip->nr_secure_regions, siz=
-eof(*chip->secure_regions),
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5067  				       GFP_KERNEL);
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5068  	if (!chip->secure_regions)
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5069  		return -ENOMEM;
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5070  =
-
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5071  	for (i =3D 0, j =3D 0; i < chip->nr_secure_regions; i++, j +=
-=3D 2) {
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5072  		of_property_read_u64_index(dn, "secure-regions", j,
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5073  					   &chip->secure_regions[i].offset);
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5074  		of_property_read_u64_index(dn, "secure-regions", j + 1,
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5075  					   &chip->secure_regions[i].size);
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5076  	}
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5077  =
-
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5078  	return 0;
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5079  }
-13b89768275d6c drivers/mtd/nand/raw/nand_base.c Manivannan Sadhasivam 2021-=
-04-02  5080  =
+c4c795105f2924 Tudor Ambarus 2021-03-22  43  	if (bp_slots_needed > bp_slot=
+s)
+c4c795105f2924 Tudor Ambarus 2021-03-22  44  		return nor->info->sector_siz=
+e <<
+c4c795105f2924 Tudor Ambarus 2021-03-22 @45  			(bp_slots_needed - bp_slots=
+);
+c4c795105f2924 Tudor Ambarus 2021-03-22  46  	else
+c4c795105f2924 Tudor Ambarus 2021-03-22  47  		return nor->info->sector_siz=
+e;
+c4c795105f2924 Tudor Ambarus 2021-03-22  48  }
+c4c795105f2924 Tudor Ambarus 2021-03-22  49  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3930307525602201821==
+--===============7030814165157351744==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEgvxGAAAy5jb25maWcAjFxNc9s40r7Pr1BlLjOHzNqO4zdTWz6AJCghIgkGAGXJF5bHUbKu
+H4sICLENxGAAAy5jb25maWcAjFxNc9s40r7Pr1BlLjOHzNqO4zdTWz6AJCghIgkGAGXJF5bHUbKu
 dey8sr2b/PvtBvjRAEF5cpix0I3vRvfTjQZ//eXXBXt5fvx283x3e3N//3Pxdf+wP9w87z8vvtzd
 7/+5yOSikmbBM2H+AObi7uHlxz9+fLhoL84X7/84Pfvj5O3h9myx3h8e9veL9PHhy93XF2jg7vHh
 l19/SWWVi2Wbpu2GKy1k1Rq+NZdvvt7evv1z8Vu2/+vu5mHx5x/voJmzs9/dX29INaHbZZpe/uyL
@@ -750,5 +716,5 @@ sZmQEyZuykrjtUL5tifaOXqDl+Zj+QazH1ddUVmL15fLu15xRN2kP0pZsrey6RLR7F+PaHBAs1yM
 T4LtHvdGsirslHkQpa117NJm3OosgGyrSJw22VpQIeUHDThaj0eXhKJS3JWTlz+96OigWmxSpgIe
 qaUnLCs7+4e8GahBhCnWmpYbli6FPYwN0VSUjnj2t8K7usAUIi7erVdtJqLkyAtZiQVMMwICLf2s
 T3+dn8L/DI4Neo0Q3aUl0XtZXQurLOuZqZ2Whd4eXu4W6VbzX7HzIYYONgIA
---===============3930307525602201821==--
+--===============7030814165157351744==--
 
