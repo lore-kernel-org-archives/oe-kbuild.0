@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8986846921450581867=="
+Content-Type: multipart/mixed; boundary="===============9127040493359926158=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 142/315] fs/xfs/xfs_inode.c:20:1: iwyu: warning: superfluous #include "xfs_bit.h"
-Date: Tue, 15 Jun 2021 04:33:22 +0800
-Message-ID: <202106150418.ujOSbE4h-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 264/315] fs/xfs/libxfs/xfs_rtrefcount_btree.c:6:1: iwyu: warning: superfluous #include "xfs.h"
+Date: Tue, 15 Jun 2021 02:03:51 +0800
+Message-ID: <202106150245.KMomsJbe-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8986846921450581867==
+--===============9127040493359926158==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ TO: "Darrick J. Wong" <djwong@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   e907b5eb3852612685b26c1aa94707544d45ced0
-commit: ecf974916499c07cbef2a2421f81ff8e8af110f2 [142/315] xfs: online repa=
-ir of directories
-:::::: branch date: 17 hours ago
-:::::: commit date: 17 hours ago
+commit: c8675127b0551e3f876000d2fb4bd9184d04eeff [264/315] xfs: define the =
+on-disk realtime refcount btree format
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
 config: x86_64-randconfig-b001-20210614 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project d2012d=
 965d60c3258b3a69d024491698f8aec386)
@@ -34,11 +34,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3Decf974916499c07cbef2a2421f81ff8e8af110f2
+git/commit/?id=3Dc8675127b0551e3f876000d2fb4bd9184d04eeff
         git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
 el/git/djwong/xfs-linux.git
         git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout ecf974916499c07cbef2a2421f81ff8e8af110f2
+        git checkout c8675127b0551e3f876000d2fb4bd9184d04eeff
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -49,72 +49,70 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   fs/xfs/xfs_inode.c:8:1: iwyu: warning: superfluous #include "xfs.h"
->> fs/xfs/xfs_inode.c:20:1: iwyu: warning: superfluous #include "xfs_bit.h"
-   fs/xfs/xfs_inode.c:37:1: iwyu: warning: superfluous #include "xfs_bmap_b=
-tree.h"
-   fs/xfs/xfs_inode.c:23:1: iwyu: warning: superfluous #include "xfs_buf_it=
-em.h"
-   fs/xfs/xfs_inode.c:16:1: iwyu: warning: superfluous #include "xfs_defer.=
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:6:1: iwyu: warning: superfluous #in=
+clude "xfs.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:26:1: iwyu: warning: superfluous #i=
+nclude "xfs_ag_resv.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:18:1: iwyu: warning: superfluous #i=
+nclude "xfs_alloc.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:12:1: iwyu: warning: superfluous #i=
+nclude "xfs_bit.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:23:1: iwyu: warning: superfluous #i=
+nclude "xfs_cksum.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:15:1: iwyu: warning: superfluous #i=
+nclude "xfs_defer.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:25:1: iwyu: warning: superfluous #i=
+nclude "xfs_extent_busy.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:7:1: iwyu: warning: superfluous #in=
+clude "xfs_fs.h"
+   fs/xfs/libxfs/xfs_rtrefcount_btree.c:16:1: iwyu: warning: superfluous #i=
+nclude "xfs_inode.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:13:1: iwyu: warning: superfluous #i=
+nclude "xfs_sb.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:8:1: iwyu: warning: superfluous #in=
+clude "xfs_shared.h"
+>> fs/xfs/libxfs/xfs_rtrefcount_btree.c:11:1: iwyu: warning: superfluous #i=
+nclude "xfs_trans_resv.h"
+
+vim +6 fs/xfs/libxfs/xfs_rtrefcount_btree.c
+
+c8675127b0551e Darrick J. Wong 2021-01-05  @6  #include "xfs.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  @7  #include "xfs_fs.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  @8  #include "xfs_shared.h"
+c8675127b0551e Darrick J. Wong 2021-01-05   9  #include "xfs_format.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  10  #include "xfs_log_format.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @11  #include "xfs_trans_resv.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @12  #include "xfs_bit.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @13  #include "xfs_sb.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  14  #include "xfs_mount.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @15  #include "xfs_defer.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  16  #include "xfs_inode.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  17  #include "xfs_trans.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @18  #include "xfs_alloc.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  19  #include "xfs_btree.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  20  #include "xfs_btree_staging.=
 h"
-   fs/xfs/xfs_inode.c:28:1: iwyu: warning: superfluous #include "xfs_errort=
-ag.h"
-   fs/xfs/xfs_inode.c:9:1: iwyu: warning: superfluous #include "xfs_fs.h"
-   fs/xfs/xfs_inode.c:40:1: iwyu: warning: superfluous #include "xfs_health=
-.h"
-
-vim +20 fs/xfs/xfs_inode.c
-
-40ebd81d1a7635 Robert P. J. Day  2007-11-23   7  =
-
-^1da177e4c3f41 Linus Torvalds    2005-04-16   8  #include "xfs.h"
-a844f4510dce23 Nathan Scott      2005-11-02   9  #include "xfs_fs.h"
-70a9883c5f34b2 Dave Chinner      2013-10-23  10  #include "xfs_shared.h"
-239880ef6454cc Dave Chinner      2013-10-23  11  #include "xfs_format.h"
-239880ef6454cc Dave Chinner      2013-10-23  12  #include "xfs_log_format.h"
-239880ef6454cc Dave Chinner      2013-10-23  13  #include "xfs_trans_resv.h"
-^1da177e4c3f41 Linus Torvalds    2005-04-16  14  #include "xfs_sb.h"
-^1da177e4c3f41 Linus Torvalds    2005-04-16  15  #include "xfs_mount.h"
-3ab78df2a59a48 Darrick J. Wong   2016-08-03  16  #include "xfs_defer.h"
-a4fbe6ab1e7abe Dave Chinner      2013-10-23  17  #include "xfs_inode.h"
-c24b5dfadc4a4f Dave Chinner      2013-08-12  18  #include "xfs_dir2.h"
-c24b5dfadc4a4f Dave Chinner      2013-08-12  19  #include "xfs_attr.h"
-ecf974916499c0 Darrick J. Wong   2021-01-05 @20  #include "xfs_bit.h"
-239880ef6454cc Dave Chinner      2013-10-23  21  #include "xfs_trans_space.=
-h"
-239880ef6454cc Dave Chinner      2013-10-23  22  #include "xfs_trans.h"
-^1da177e4c3f41 Linus Torvalds    2005-04-16  23  #include "xfs_buf_item.h"
-a844f4510dce23 Nathan Scott      2005-11-02  24  #include "xfs_inode_item.h"
-a844f4510dce23 Nathan Scott      2005-11-02  25  #include "xfs_ialloc.h"
-a844f4510dce23 Nathan Scott      2005-11-02  26  #include "xfs_bmap.h"
-6898811459ff52 Dave Chinner      2013-08-12  27  #include "xfs_bmap_util.h"
-e9e899a2a8c3c2 Darrick J. Wong   2017-10-31  28  #include "xfs_errortag.h"
-^1da177e4c3f41 Linus Torvalds    2005-04-16  29  #include "xfs_error.h"
-^1da177e4c3f41 Linus Torvalds    2005-04-16  30  #include "xfs_quota.h"
-2a82b8be8a8dac David Chinner     2007-07-11  31  #include "xfs_filestream.h"
-0b1b213fcf3a84 Christoph Hellwig 2009-12-14  32  #include "xfs_trace.h"
-33479e0542df06 Dave Chinner      2012-10-08  33  #include "xfs_icache.h"
-c24b5dfadc4a4f Dave Chinner      2013-08-12  34  #include "xfs_symlink.h"
-239880ef6454cc Dave Chinner      2013-10-23  35  #include "xfs_trans_priv.h"
-239880ef6454cc Dave Chinner      2013-10-23  36  #include "xfs_log.h"
-a4fbe6ab1e7abe Dave Chinner      2013-10-23  37  #include "xfs_bmap_btree.h"
-aa8968f227a8c6 Darrick J. Wong   2016-10-03  38  #include "xfs_reflink.h"
-e9b150228c6e6f Darrick J. Wong   2021-01-05  39  #include "xfs_health.h"
-118911fd81c870 Darrick J. Wong   2021-01-05  40  #include "xfs_health.h"
-^1da177e4c3f41 Linus Torvalds    2005-04-16  41  =
+c8675127b0551e Darrick J. Wong 2021-01-05  21  #include "xfs_rtrefcount_btr=
+ee.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  22  #include "xfs_trace.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @23  #include "xfs_cksum.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  24  #include "xfs_error.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @25  #include "xfs_extent_busy.h"
+c8675127b0551e Darrick J. Wong 2021-01-05 @26  #include "xfs_ag_resv.h"
+c8675127b0551e Darrick J. Wong 2021-01-05  27  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8986846921450581867==
+--===============9127040493359926158==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICK2vx2AAAy5jb25maWcAjDxbe9yoku/zK/rLvMx5mMS3eLK7nx+QhLpJC6EA6otf9HXsdsZ7
+H4sICHKKx2AAAy5jb25maWcAjDxbe9yoku/zK/rLvMx5mMS3eLK7nx+QhLpJC6EA6otf9HXsdsZ7
 fMm27TmTf79VoAsg1Jl5yLipAgqoO4V+/eXXGXl7fX7cvd7f7B4efsy+7Z/2h93r/nZ2d/+w/59Z
 Jmal0DOaMf0ekIv7p7e/P/z96bK5vJh9fH96/v7k98PN5Wy5PzztH2bp89Pd/bc3GOD++emXX39J
 RZmzeZOmzYpKxUTZaLrRV+9uHnZP32Z/7Q8vgDfDUd6fzH77dv/63x8+wL+P94fD8+HDw8Nfj833
@@ -788,5 +786,5 @@ XY7NliRYYJRdGtL4gfA6DJeLOeipm7ECnF16m8zj2s55TzKHcnv0Lnmq1XHSf3z5/YqxLMJP9c8/
 L7+ev0cfmCI08byQGVz0iYwEUlXB1IRoTgx+yqiGqeRLShRg5QlxIWba6ctbXziVqltCLpqm8Ug7
 cQ/GNUO2HWyTYHNZ94cUOQaCblXBYSWvjHEqupRQGhhPk4LlSQ82nhtk6QB9grL6Anx04x9iWKli
 FmECAA==
---===============8986846921450581867==--
+--===============9127040493359926158==--
 
