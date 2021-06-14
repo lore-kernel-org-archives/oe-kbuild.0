@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7610238505173498139=="
+Content-Type: multipart/mixed; boundary="===============0441882348548483821=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 221/315] fs/xfs/xfs_extfree_item.c:28:1: iwyu: warning: superfluous #include "xfs_inode.h"
-Date: Mon, 14 Jun 2021 18:58:15 +0800
-Message-ID: <202106141802.zi7i58Rq-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 97/315] fs/xfs/xfs_health.c:20:1: iwyu: warning: superfluous #include "xfs_quota_defs.h"
+Date: Mon, 14 Jun 2021 18:20:22 +0800
+Message-ID: <202106141817.f08Skb17-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7610238505173498139==
+--===============0441882348548483821==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ TO: "Darrick J. Wong" <djwong@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   e907b5eb3852612685b26c1aa94707544d45ced0
-commit: 0ece9114e4254616dedab86c18b9a93d90974389 [221/315] xfs: support log=
-ging EFIs for realtime extents
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
+commit: a668734abc8c204bf210b0b4542c7564b540f6aa [97/315] xfs: report quota=
+ block corruption errors to the health system
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
 config: x86_64-randconfig-b001-20210614 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project d2012d=
 965d60c3258b3a69d024491698f8aec386)
@@ -34,11 +34,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3D0ece9114e4254616dedab86c18b9a93d90974389
+git/commit/?id=3Da668734abc8c204bf210b0b4542c7564b540f6aa
         git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
 el/git/djwong/xfs-linux.git
         git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout 0ece9114e4254616dedab86c18b9a93d90974389
+        git checkout a668734abc8c204bf210b0b4542c7564b540f6aa
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -49,34 +49,35 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   fs/xfs/xfs_extfree_item.c:6:1: iwyu: warning: superfluous #include "xfs.=
-h"
-   fs/xfs/xfs_extfree_item.c:11:1: iwyu: warning: superfluous #include "xfs=
-_bit.h"
-   fs/xfs/xfs_extfree_item.c:19:1: iwyu: warning: superfluous #include "xfs=
-_btree.h"
-   fs/xfs/xfs_extfree_item.c:7:1: iwyu: warning: superfluous #include "xfs_=
-fs.h"
->> fs/xfs/xfs_extfree_item.c:28:1: iwyu: warning: superfluous #include "xfs=
-_inode.h"
+   fs/xfs/xfs_health.c:6:1: iwyu: warning: superfluous #include "xfs.h"
+   fs/xfs/xfs_health.c:18:1: iwyu: warning: superfluous #include "xfs_da_fo=
+rmat.h"
+   fs/xfs/xfs_health.c:10:1: iwyu: warning: superfluous #include "xfs_log_f=
+ormat.h"
+>> fs/xfs/xfs_health.c:20:1: iwyu: warning: superfluous #include "xfs_quota=
+_defs.h"
+   fs/xfs/xfs_health.c:8:1: iwyu: warning: superfluous #include "xfs_shared=
+.h"
+   fs/xfs/xfs_health.c:11:1: iwyu: warning: superfluous #include "xfs_trans=
+_resv.h"
 
-vim +28 fs/xfs/xfs_extfree_item.c
+vim +20 fs/xfs/xfs_health.c
 
-0ece9114e42546 Darrick J. Wong 2021-01-05 @28  #include "xfs_inode.h"
-^1da177e4c3f41 Linus Torvalds  2005-04-16  29  =
+a668734abc8c20 Darrick J. Wong 2021-01-05 @20  #include "xfs_quota_defs.h"
+6772c1f11206f2 Darrick J. Wong 2019-04-12  21  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7610238505173498139==
+--===============0441882348548483821==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICEofx2AAAy5jb25maWcAjDzbduSmsu/5il6Tl+yHzPg2Xs45yw9IQt2khdAA6otftDp2e+Kz
+H4sICBUjx2AAAy5jb25maWcAjDzbduSmsu/5il6Tl+yHzPg2Xs45yw9IQt2khdAA6otftDp2e+Kz
 fZndtrMzf3+qQBdAqCd5mLipAgqoO4V+/unnGXl/e3navT3c7h4fv8++7p/3h93b/m52//C4/99Z
 Jmal0DOaMf0RkIuH5/e/P/19ddlcXsw+fzw9/3jy6+H2crbcH573j7P05fn+4es7DPDw8vzTzz+l
 oszZvEnTZkWlYqJsNN3o6w+3j7vnr7O/9odXwJvhKB9PZr98fXj7n0+f4N+nh8Ph5fDp8fGvp+bb
@@ -750,5 +751,5 @@ XY7NliRYYJRdGtL4gfA6DJeLOeipm7ECnF16m8zj2s55TzKHcnv0Lnmq1XHSf3z5/YqxLMJP9c8/
 L7+ev0cfmCI08byQGVz0iYwEUlXB1IRoTgx+yqiGqeRLShRg5QlxIWba6ctbXziVqltCLpqm8Ug7
 cQ/GNUO2HWyTYHNZ94cUOQaCblXBYSWvjHEqupRQGhhPk4LlSQ82nhtk6QB9grL6Anx04x/uTsMu
 FmECAA==
---===============7610238505173498139==--
+--===============0441882348548483821==--
 
