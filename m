@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5983078134278622492=="
+Content-Type: multipart/mixed; boundary="===============3278427024133327661=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 122/315] fs/xfs/xfs_swapext_item.c:6:1: iwyu: warning: superfluous #include "xfs.h"
-Date: Mon, 14 Jun 2021 21:13:58 +0800
-Message-ID: <202106142155.z5rysKJj-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 223/315] fs/xfs/libxfs/xfs_rtbitmap.c:20:1: iwyu: warning: superfluous #include "xfs_errortag.h"
+Date: Mon, 14 Jun 2021 20:42:54 +0800
+Message-ID: <202106142046.8609NFAH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5983078134278622492==
+--===============3278427024133327661==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,8 +19,8 @@ TO: "Darrick J. Wong" <djwong@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   e907b5eb3852612685b26c1aa94707544d45ced0
-commit: 9b97c6d98e0686e4a916deca0a91ca83b92c8a15 [122/315] xfs: introduce a=
- swap-extent log intent item
+commit: 6a1c1606eec5676ad305c461420799202775d286 [223/315] xfs: support err=
+or injection when freeing rt extents
 :::::: branch date: 9 hours ago
 :::::: commit date: 9 hours ago
 config: x86_64-randconfig-b001-20210614 (attached as .config)
@@ -34,11 +34,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3D9b97c6d98e0686e4a916deca0a91ca83b92c8a15
+git/commit/?id=3D6a1c1606eec5676ad305c461420799202775d286
         git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
 el/git/djwong/xfs-linux.git
         git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout 9b97c6d98e0686e4a916deca0a91ca83b92c8a15
+        git checkout 6a1c1606eec5676ad305c461420799202775d286
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -49,65 +49,35 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
->> fs/xfs/xfs_swapext_item.c:6:1: iwyu: warning: superfluous #include "xfs.=
-h"
->> fs/xfs/xfs_swapext_item.c:11:1: iwyu: warning: superfluous #include "xfs=
-_bit.h"
->> fs/xfs/xfs_swapext_item.c:20:1: iwyu: warning: superfluous #include "xfs=
-_bmap.h"
-   fs/xfs/xfs_swapext_item.c:14:1: iwyu: warning: superfluous #include "xfs=
-_defer.h"
-   fs/xfs/xfs_swapext_item.c:8:1: iwyu: warning: superfluous #include "xfs_=
-format.h"
->> fs/xfs/xfs_swapext_item.c:7:1: iwyu: warning: superfluous #include "xfs_=
+   fs/xfs/libxfs/xfs_rtbitmap.c:6:1: iwyu: warning: superfluous #include "x=
 fs.h"
->> fs/xfs/xfs_swapext_item.c:21:1: iwyu: warning: superfluous #include "xfs=
-_icache.h"
-   fs/xfs/xfs_swapext_item.c:15:1: iwyu: warning: superfluous #include "xfs=
-_inode.h"
-   fs/xfs/xfs_swapext_item.c:12:1: iwyu: warning: superfluous #include "xfs=
-_shared.h"
-   fs/xfs/xfs_swapext_item.c:10:1: iwyu: warning: superfluous #include "xfs=
-_trans_resv.h"
->> fs/xfs/xfs_swapext_item.c:22:1: iwyu: warning: superfluous #include "xfs=
-_trans_space.h"
+   fs/xfs/libxfs/xfs_rtbitmap.c:12:1: iwyu: warning: superfluous #include "=
+xfs_bit.h"
+>> fs/xfs/libxfs/xfs_rtbitmap.c:20:1: iwyu: warning: superfluous #include "=
+xfs_errortag.h"
+   fs/xfs/libxfs/xfs_rtbitmap.c:7:1: iwyu: warning: superfluous #include "x=
+fs_fs.h"
+   fs/xfs/libxfs/xfs_rtbitmap.c:11:1: iwyu: warning: superfluous #include "=
+xfs_trans_resv.h"
 
-vim +6 fs/xfs/xfs_swapext_item.c
+vim +20 fs/xfs/libxfs/xfs_rtbitmap.c
 
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  @6  #include "xfs.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  @7  #include "xfs_fs.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05   8  #include "xfs_format.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05   9  #include "xfs_log_format.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  10  #include "xfs_trans_resv.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05 @11  #include "xfs_bit.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  12  #include "xfs_shared.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  13  #include "xfs_mount.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  14  #include "xfs_defer.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  15  #include "xfs_inode.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  16  #include "xfs_trans.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  17  #include "xfs_trans_priv.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  18  #include "xfs_swapext_item.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  19  #include "xfs_log.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05 @20  #include "xfs_bmap.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05 @21  #include "xfs_icache.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05 @22  #include "xfs_trans_space.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  23  #include "xfs_error.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  24  #include "xfs_log_priv.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  25  #include "xfs_log_recover.h"
-9b97c6d98e0686 Darrick J. Wong 2021-01-05  26  =
+6a1c1606eec567 fs/xfs/libxfs/xfs_rtbitmap.c Darrick J. Wong 2021-01-05 @20 =
+ #include "xfs_errortag.h"
+c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner    2013-10-15  21  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5983078134278622492==
+--===============3278427024133327661==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICN1Kx2AAAy5jb25maWcAjDxbe9yoku/zK/rLvMx5mMS3eLK7nx+QhLpJC6EA6otf9HXsdsZ7
+H4sICKtBx2AAAy5jb25maWcAjDxbe9yoku/zK/rLvMx5mMS3eLK7nx+QhLpJC6EA6otf9HXsdsZ7
 fMm27TmTf79VoAsg1Jl5yLipAgqoO4V+/eXXGXl7fX7cvd7f7B4efsy+7Z/2h93r/nZ2d/+w/59Z
 Jmal0DOaMf0ekIv7p7e/P/z96bK5vJh9fH96/v7k98PN5Wy5PzztH2bp89Pd/bc3GOD++emXX39J
 RZmzeZOmzYpKxUTZaLrRV+9uHnZP32Z/7Q8vgDfDUd6fzH77dv/63x8+wL+P94fD8+HDw8Nfj833
@@ -781,5 +751,5 @@ XY7NliRYYJRdGtL4gfA6DJeLOeipm7ECnF16m8zj2s55TzKHcnv0Lnmq1XHSf3z5/YqxLMJP9c8/
 L7+ev0cfmCI08byQGVz0iYwEUlXB1IRoTgx+yqiGqeRLShRg5QlxIWba6ctbXziVqltCLpqm8Ug7
 cQ/GNUO2HWyTYHNZ94cUOQaCblXBYSWvjHEqupRQGhhPk4LlSQ82nhtk6QB9grL6Anx04x9iWKli
 FmECAA==
---===============5983078134278622492==--
+--===============3278427024133327661==--
 
