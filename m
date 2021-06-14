@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6461052274255608345=="
+Content-Type: multipart/mixed; boundary="===============8247934520455902906=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 94/315] fs/xfs/xfs_health.c:18:1: iwyu: warning: superfluous #include "xfs_da_format.h"
-Date: Mon, 14 Jun 2021 16:59:20 +0800
-Message-ID: <202106141615.n01e4ESP-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 220/315] fs/xfs/libxfs/xfs_imeta.c:26:1: iwyu: warning: superfluous #include "xfs_errortag.h"
+Date: Mon, 14 Jun 2021 16:51:38 +0800
+Message-ID: <202106141635.6CWZjtrV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6461052274255608345==
+--===============8247934520455902906==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,8 +19,8 @@ TO: "Darrick J. Wong" <djwong@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   e907b5eb3852612685b26c1aa94707544d45ced0
-commit: a54a99bfa44d7540f8505063b932322add356a6f [94/315] xfs: report dir/a=
-ttr block corruption errors to the health system
+commit: 04061a9f2a7f3d750ca061aecf1874be10b6231f [220/315] xfs: allow inode=
+-based btrees to reserve space in the data device
 :::::: branch date: 5 hours ago
 :::::: commit date: 5 hours ago
 config: x86_64-randconfig-b001-20210614 (attached as .config)
@@ -34,11 +34,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3Da54a99bfa44d7540f8505063b932322add356a6f
+git/commit/?id=3D04061a9f2a7f3d750ca061aecf1874be10b6231f
         git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
 el/git/djwong/xfs-linux.git
         git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout a54a99bfa44d7540f8505063b932322add356a6f
+        git checkout 04061a9f2a7f3d750ca061aecf1874be10b6231f
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -49,34 +49,43 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   fs/xfs/xfs_health.c:6:1: iwyu: warning: superfluous #include "xfs.h"
->> fs/xfs/xfs_health.c:18:1: iwyu: warning: superfluous #include "xfs_da_fo=
-rmat.h"
-   fs/xfs/xfs_health.c:10:1: iwyu: warning: superfluous #include "xfs_log_f=
-ormat.h"
-   fs/xfs/xfs_health.c:8:1: iwyu: warning: superfluous #include "xfs_shared=
-.h"
-   fs/xfs/xfs_health.c:11:1: iwyu: warning: superfluous #include "xfs_trans=
-_resv.h"
+   fs/xfs/libxfs/xfs_imeta.c:6:1: iwyu: warning: superfluous #include "xfs.=
+h"
+   fs/xfs/libxfs/xfs_imeta.c:12:1: iwyu: warning: superfluous #include "xfs=
+_bit.h"
+   fs/xfs/libxfs/xfs_imeta.c:21:1: iwyu: warning: superfluous #include "xfs=
+_bmap_btree.h"
+   fs/xfs/libxfs/xfs_imeta.c:23:1: iwyu: warning: superfluous #include "xfs=
+_da_btree.h"
+   fs/xfs/libxfs/xfs_imeta.c:15:1: iwyu: warning: superfluous #include "xfs=
+_defer.h"
+>> fs/xfs/libxfs/xfs_imeta.c:26:1: iwyu: warning: superfluous #include "xfs=
+_errortag.h"
+   fs/xfs/libxfs/xfs_imeta.c:7:1: iwyu: warning: superfluous #include "xfs_=
+fs.h"
+   fs/xfs/libxfs/xfs_imeta.c:11:1: iwyu: warning: superfluous #include "xfs=
+_trans_resv.h"
 
-vim +18 fs/xfs/xfs_health.c
+vim +26 fs/xfs/libxfs/xfs_imeta.c
 
-a54a99bfa44d75 Darrick J. Wong 2021-01-05 @18  #include "xfs_da_format.h"
-a54a99bfa44d75 Darrick J. Wong 2021-01-05  19  #include "xfs_da_btree.h"
-6772c1f11206f2 Darrick J. Wong 2019-04-12  20  =
+04061a9f2a7f3d Darrick J. Wong 2021-04-27 @26  #include "xfs_errortag.h"
+04061a9f2a7f3d Darrick J. Wong 2021-04-27  27  #include "xfs_error.h"
+04061a9f2a7f3d Darrick J. Wong 2021-04-27  28  #include "xfs_btree.h"
+04061a9f2a7f3d Darrick J. Wong 2021-04-27  29  #include "xfs_alloc.h"
+57c59d138944ce Darrick J. Wong 2021-01-05  30  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6461052274255608345==
+--===============8247934520455902906==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICPgSx2AAAy5jb25maWcAjDzbduSmsu/5il6Tl+yHzPg2Xs45yw9IQt2khdAA6otftDp2e+Kz
+H4sICBEMx2AAAy5jb25maWcAjDzbduSmsu/5il6Tl+yHzPg2Xs45yw9IQt2khdAA6otftDp2e+Kz
 fZndtrMzf3+qQBdAqCd5mLipAgqoO4V+/unnGXl/e3navT3c7h4fv8++7p/3h93b/m52//C4/99Z
 Jmal0DOaMf0RkIuH5/e/P/19ddlcXsw+fzw9/3jy6+H2crbcH573j7P05fn+4es7DPDw8vzTzz+l
 oszZvEnTZkWlYqJsNN3o6w+3j7vnr7O/9odXwJvhKB9PZr98fXj7n0+f4N+nh8Ph5fDp8fGvp+bb
@@ -750,5 +759,5 @@ XY7NliRYYJRdGtL4gfA6DJeLOeipm7ECnF16m8zj2s55TzKHcnv0Lnmq1XHSf3z5/YqxLMJP9c8/
 L7+ev0cfmCI08byQGVz0iYwEUlXB1IRoTgx+yqiGqeRLShRg5QlxIWba6ctbXziVqltCLpqm8Ug7
 cQ/GNUO2HWyTYHNZ94cUOQaCblXBYSWvjHEqupRQGhhPk4LlSQ82nhtk6QB9grL6Anx04x/uTsMu
 FmECAA==
---===============6461052274255608345==--
+--===============8247934520455902906==--
 
