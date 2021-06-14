@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3278427024133327661=="
+Content-Type: multipart/mixed; boundary="===============4239464658895640094=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 223/315] fs/xfs/libxfs/xfs_rtbitmap.c:20:1: iwyu: warning: superfluous #include "xfs_errortag.h"
-Date: Mon, 14 Jun 2021 20:42:54 +0800
-Message-ID: <202106142046.8609NFAH-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 101/315] fs/xfs/xfs_inode.c:39:1: iwyu: warning: superfluous #include "xfs_health.h"
+Date: Mon, 14 Jun 2021 19:51:29 +0800
+Message-ID: <202106141923.e0R5XNPk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3278427024133327661==
+--===============4239464658895640094==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,10 +19,10 @@ TO: "Darrick J. Wong" <djwong@kernel.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
 t vectorized-scrub
 head:   e907b5eb3852612685b26c1aa94707544d45ced0
-commit: 6a1c1606eec5676ad305c461420799202775d286 [223/315] xfs: support err=
-or injection when freeing rt extents
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
+commit: 118911fd81c870c769bb7ba4e7eb5c944a2dd8b9 [101/315] xfs: remember si=
+ck inodes that get inactivated
+:::::: branch date: 8 hours ago
+:::::: commit date: 8 hours ago
 config: x86_64-randconfig-b001-20210614 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project d2012d=
 965d60c3258b3a69d024491698f8aec386)
@@ -34,11 +34,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3D6a1c1606eec5676ad305c461420799202775d286
+git/commit/?id=3D118911fd81c870c769bb7ba4e7eb5c944a2dd8b9
         git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
 el/git/djwong/xfs-linux.git
         git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout 6a1c1606eec5676ad305c461420799202775d286
+        git checkout 118911fd81c870c769bb7ba4e7eb5c944a2dd8b9
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -49,35 +49,70 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   fs/xfs/libxfs/xfs_rtbitmap.c:6:1: iwyu: warning: superfluous #include "x=
-fs.h"
-   fs/xfs/libxfs/xfs_rtbitmap.c:12:1: iwyu: warning: superfluous #include "=
-xfs_bit.h"
->> fs/xfs/libxfs/xfs_rtbitmap.c:20:1: iwyu: warning: superfluous #include "=
-xfs_errortag.h"
-   fs/xfs/libxfs/xfs_rtbitmap.c:7:1: iwyu: warning: superfluous #include "x=
-fs_fs.h"
-   fs/xfs/libxfs/xfs_rtbitmap.c:11:1: iwyu: warning: superfluous #include "=
-xfs_trans_resv.h"
+   fs/xfs/xfs_inode.c:8:1: iwyu: warning: superfluous #include "xfs.h"
+   fs/xfs/xfs_inode.c:36:1: iwyu: warning: superfluous #include "xfs_bmap_b=
+tree.h"
+   fs/xfs/xfs_inode.c:22:1: iwyu: warning: superfluous #include "xfs_buf_it=
+em.h"
+   fs/xfs/xfs_inode.c:16:1: iwyu: warning: superfluous #include "xfs_defer.=
+h"
+   fs/xfs/xfs_inode.c:27:1: iwyu: warning: superfluous #include "xfs_errort=
+ag.h"
+   fs/xfs/xfs_inode.c:9:1: iwyu: warning: superfluous #include "xfs_fs.h"
+>> fs/xfs/xfs_inode.c:39:1: iwyu: warning: superfluous #include "xfs_health=
+.h"
 
-vim +20 fs/xfs/libxfs/xfs_rtbitmap.c
+vim +39 fs/xfs/xfs_inode.c
 
-6a1c1606eec567 fs/xfs/libxfs/xfs_rtbitmap.c Darrick J. Wong 2021-01-05 @20 =
- #include "xfs_errortag.h"
-c963c6193a5ada fs/xfs/xfs_rtbitmap.c        Dave Chinner    2013-10-15  21  =
+40ebd81d1a7635 Robert P. J. Day  2007-11-23   7  =
+
+^1da177e4c3f41 Linus Torvalds    2005-04-16   8  #include "xfs.h"
+a844f4510dce23 Nathan Scott      2005-11-02   9  #include "xfs_fs.h"
+70a9883c5f34b2 Dave Chinner      2013-10-23  10  #include "xfs_shared.h"
+239880ef6454cc Dave Chinner      2013-10-23  11  #include "xfs_format.h"
+239880ef6454cc Dave Chinner      2013-10-23  12  #include "xfs_log_format.h"
+239880ef6454cc Dave Chinner      2013-10-23  13  #include "xfs_trans_resv.h"
+^1da177e4c3f41 Linus Torvalds    2005-04-16  14  #include "xfs_sb.h"
+^1da177e4c3f41 Linus Torvalds    2005-04-16  15  #include "xfs_mount.h"
+3ab78df2a59a48 Darrick J. Wong   2016-08-03  16  #include "xfs_defer.h"
+a4fbe6ab1e7abe Dave Chinner      2013-10-23  17  #include "xfs_inode.h"
+c24b5dfadc4a4f Dave Chinner      2013-08-12  18  #include "xfs_dir2.h"
+c24b5dfadc4a4f Dave Chinner      2013-08-12  19  #include "xfs_attr.h"
+239880ef6454cc Dave Chinner      2013-10-23  20  #include "xfs_trans_space.=
+h"
+239880ef6454cc Dave Chinner      2013-10-23  21  #include "xfs_trans.h"
+^1da177e4c3f41 Linus Torvalds    2005-04-16  22  #include "xfs_buf_item.h"
+a844f4510dce23 Nathan Scott      2005-11-02  23  #include "xfs_inode_item.h"
+a844f4510dce23 Nathan Scott      2005-11-02  24  #include "xfs_ialloc.h"
+a844f4510dce23 Nathan Scott      2005-11-02  25  #include "xfs_bmap.h"
+6898811459ff52 Dave Chinner      2013-08-12  26  #include "xfs_bmap_util.h"
+e9e899a2a8c3c2 Darrick J. Wong   2017-10-31  27  #include "xfs_errortag.h"
+^1da177e4c3f41 Linus Torvalds    2005-04-16  28  #include "xfs_error.h"
+^1da177e4c3f41 Linus Torvalds    2005-04-16  29  #include "xfs_quota.h"
+2a82b8be8a8dac David Chinner     2007-07-11  30  #include "xfs_filestream.h"
+0b1b213fcf3a84 Christoph Hellwig 2009-12-14  31  #include "xfs_trace.h"
+33479e0542df06 Dave Chinner      2012-10-08  32  #include "xfs_icache.h"
+c24b5dfadc4a4f Dave Chinner      2013-08-12  33  #include "xfs_symlink.h"
+239880ef6454cc Dave Chinner      2013-10-23  34  #include "xfs_trans_priv.h"
+239880ef6454cc Dave Chinner      2013-10-23  35  #include "xfs_log.h"
+a4fbe6ab1e7abe Dave Chinner      2013-10-23  36  #include "xfs_bmap_btree.h"
+aa8968f227a8c6 Darrick J. Wong   2016-10-03  37  #include "xfs_reflink.h"
+e9b150228c6e6f Darrick J. Wong   2021-01-05  38  #include "xfs_health.h"
+118911fd81c870 Darrick J. Wong   2021-01-05 @39  #include "xfs_health.h"
+^1da177e4c3f41 Linus Torvalds    2005-04-16  40  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3278427024133327661==
+--===============4239464658895640094==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICKtBx2AAAy5jb25maWcAjDxbe9yoku/zK/rLvMx5mMS3eLK7nx+QhLpJC6EA6otf9HXsdsZ7
+H4sICMo1x2AAAy5jb25maWcAjDxbe9yoku/zK/rLvMx5mMS3eLK7nx+QhLpJC6EA6otf9HXsdsZ7
 fMm27TmTf79VoAsg1Jl5yLipAgqoO4V+/eXXGXl7fX7cvd7f7B4efsy+7Z/2h93r/nZ2d/+w/59Z
 Jmal0DOaMf0ekIv7p7e/P/z96bK5vJh9fH96/v7k98PN5Wy5PzztH2bp89Pd/bc3GOD++emXX39J
 RZmzeZOmzYpKxUTZaLrRV+9uHnZP32Z/7Q8vgDfDUd6fzH77dv/63x8+wL+P94fD8+HDw8Nfj833
@@ -751,5 +786,5 @@ XY7NliRYYJRdGtL4gfA6DJeLOeipm7ECnF16m8zj2s55TzKHcnv0Lnmq1XHSf3z5/YqxLMJP9c8/
 L7+ev0cfmCI08byQGVz0iYwEUlXB1IRoTgx+yqiGqeRLShRg5QlxIWba6ctbXziVqltCLpqm8Ug7
 cQ/GNUO2HWyTYHNZ94cUOQaCblXBYSWvjHEqupRQGhhPk4LlSQ82nhtk6QB9grL6Anx04x9iWKli
 FmECAA==
---===============3278427024133327661==--
+--===============4239464658895640094==--
 
