@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2559927793988614207=="
+Content-Type: multipart/mixed; boundary="===============7354461691237336918=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mark-rutland:irq/slow-handler 1/2] kernel/irq/chip.c:18:1: iwyu: warning: superfluous #include <trace/events/irq.h>
-Date: Tue, 15 Jun 2021 22:20:37 +0800
-Message-ID: <202106152228.ovE9qiT7-lkp@intel.com>
+Subject: [mark-rutland:irq/slow-handler 1/2] kernel/irq/handle.c:17:1: iwyu: warning: superfluous #include <trace/events/irq.h>
+Date: Tue, 15 Jun 2021 22:17:25 +0800
+Message-ID: <202106152215.e2zNH7BF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2559927793988614207==
+--===============7354461691237336918==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -48,24 +48,22 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   kernel/irq/chip.c:15:1: iwyu: warning: superfluous #include <linux/kerne=
-l_stat.h>
-   kernel/irq/chip.c:13:1: iwyu: warning: superfluous #include <linux/modul=
-e.h>
->> kernel/irq/chip.c:18:1: iwyu: warning: superfluous #include <trace/event=
-s/irq.h>
+   kernel/irq/handle.c:15:1: iwyu: warning: superfluous #include <linux/ker=
+nel_stat.h>
+>> kernel/irq/handle.c:17:1: iwyu: warning: superfluous #include <trace/eve=
+nts/irq.h>
 
-vim +18 kernel/irq/chip.c
+vim +17 kernel/irq/handle.c
 
-dd87eb3a24c452 Thomas Gleixner 2006-06-29  17  =
+3795de236d67a0 Thomas Gleixner 2010-09-22  16  =
 
-f069686e4bdc60 Steven Rostedt  2012-01-25 @18  #include <trace/events/irq.h>
-f069686e4bdc60 Steven Rostedt  2012-01-25  19  =
+ad8d75fff811a6 Steven Rostedt  2009-04-14 @17  #include <trace/events/irq.h>
+^1da177e4c3f41 Linus Torvalds  2005-04-16  18  =
 
 
-:::::: The code at line 18 was first introduced by commit
-:::::: f069686e4bdc60a637d210ea3eea25fcdb82df88 tracing/softirq: Move __rai=
-se_softirq_irqoff() out of header
+:::::: The code at line 17 was first introduced by commit
+:::::: ad8d75fff811a6a230f7f43b05a6483099349533 tracing/events: move trace =
+point headers into include/trace/events
 
 :::::: TO: Steven Rostedt <srostedt@redhat.com>
 :::::: CC: Steven Rostedt <rostedt@goodmis.org>
@@ -74,13 +72,13 @@ se_softirq_irqoff() out of header
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2559927793988614207==
+--===============7354461691237336918==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICMKuyGAAAy5jb25maWcAjDxLd9u20vv+Cp1007to41fc9LvHC4gEJVQkwQKkZHmDozhy6ls/
+H4sICL2tyGAAAy5jb25maWcAjDxLd9u20vv+Cp1007to41fc9LvHC4gEJVQkwQKkZHmDozhy6ls/
 cmW7bf79N4MHCYCgerNIIszgNZg3Bvz+u+9n5O31+XH3en+7e3j4Nvuyf9ofdq/7z7O7+4f9v2c5
 n9W8ndGctT8Bcnn/9Pb3+78/XqrLi9mHn07Pfzr58XB7MVvtD0/7h1n2/HR3/+UNBrh/fvru++8y
 XhdsobJMramQjNeqpdft1bvbh93Tl9mf+8ML4M1wlJ9OZj98uX/9v/fv4e/H+8Ph+fD+4eHPR/X1
@@ -573,43 +571,43 @@ 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
-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
---===============2559927793988614207==--
+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
+--===============7354461691237336918==--
 
