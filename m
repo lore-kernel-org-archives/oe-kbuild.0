@@ -1,305 +1,198 @@
-Content-Type: multipart/mixed; boundary="===============1675842992516563478=="
+Content-Type: multipart/mixed; boundary="===============1109337970131088720=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/4] KVM: stats: Make sure no missing or mismatched binary stats definition
-Date: Wed, 16 Jun 2021 21:45:48 +0800
-Message-ID: <202106162143.IIe7bUo1-lkp@intel.com>
+Subject: Re: [PATCH v3 2/6] Bluetooth: eir: Move EIR/Adv Data functions to its own file
+Date: Wed, 16 Jun 2021 21:06:35 +0800
+Message-ID: <202106162100.YZKeaYEf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1675842992516563478==
+--===============1109337970131088720==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210614025351.365284-2-jingzhangos@google.com>
-References: <20210614025351.365284-2-jingzhangos@google.com>
-TO: Jing Zhang <jingzhangos@google.com>
-TO: KVM <kvm@vger.kernel.org>
-TO: KVMARM <kvmarm@lists.cs.columbia.edu>
-TO: LinuxMIPS <linux-mips@vger.kernel.org>
-TO: KVMPPC <kvm-ppc@vger.kernel.org>
-TO: LinuxS390 <linux-s390@vger.kernel.org>
-TO: Paolo Bonzini <pbonzini@redhat.com>
-TO: Fuad Tabba <tabba@google.com>
-CC: Jing Zhang <jingzhangos@google.com>
+In-Reply-To: <20210609222124.298336-2-luiz.dentz@gmail.com>
+References: <20210609222124.298336-2-luiz.dentz@gmail.com>
+TO: Luiz Augusto von Dentz <luiz.dentz@gmail.com>
+TO: linux-bluetooth(a)vger.kernel.org
 
-Hi Jing,
+Hi Luiz,
 
-Thank you for the patch! Perhaps something to improve:
+I love your patch! Perhaps something to improve:
 
-[auto build test WARNING on 39be2e28180a2e87af5fbb8d83643812e1a3b371]
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on next-20210615]
+[cannot apply to bluetooth/master v5.13-rc6]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Jing-Zhang/Remove-duplicat=
-ed-stats-definitions-for-debugfs/20210616-151523
-base:   39be2e28180a2e87af5fbb8d83643812e1a3b371
-:::::: branch date: 7 hours ago
-:::::: commit date: 7 hours ago
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-cd tools/perf && ./check-headers.sh
+url:    https://github.com/0day-ci/linux/commits/Luiz-Augusto-von-Dentz/Blu=
+etooth-Add-helper-for-serialized-HCI-command-execution/20210616-164554
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
+-next.git master
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 hours ago
+compiler: nios2-linux-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-perfheadercheck warnings: (new ones prefixed by >>)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1082> #define KVM_CAP_SET=
-_GUEST_DEBUG2 195
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1083> #define KVM_CAP_SGX=
-_ATTRIBUTE 196
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1084> #define KVM_CAP_VM_=
-COPY_ENC_CONTEXT_FROM 197
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1085> #define KVM_CAP_PTP=
-_KVM 198
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1086> #define KVM_CAP_HYP=
-ERV_ENFORCE_CPUID 199
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1087> #define KVM_CAP_SRE=
-GS2 200
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1088> #define KVM_CAP_EXI=
-T_HYPERCALL 201
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1089> #define KVM_CAP_BIN=
-ARY_STATS_FD 202
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1628> #define KVM_GET_SRE=
-GS2             _IOR(KVMIO,  0xcc, struct kvm_sregs2)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1629> #define KVM_SET_SRE=
-GS2             _IOW(KVMIO,  0xcd, struct kvm_sregs2)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1630> =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1686> 	/* Guest Migration=
- Extension */
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1687> 	KVM_SEV_SEND_CANCE=
-L,
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1746> struct kvm_sev_send=
-_start {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1747> 	__u32 policy;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1748> 	__u64 pdh_cert_uad=
-dr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1749> 	__u32 pdh_cert_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1750> 	__u64 plat_certs_u=
-addr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1751> 	__u32 plat_certs_l=
-en;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1752> 	__u64 amd_certs_ua=
-ddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1753> 	__u32 amd_certs_le=
-n;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1754> 	__u64 session_uadd=
-r;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1755> 	__u32 session_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1756> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1757> =
+>> net/bluetooth/eir.c:295:4: warning: Assignment of function parameter has=
+ no effect outside the function. Did you forget dereferencing it? [uselessA=
+ssignmentPtrArg]
+      ptr +=3D 3;
+      ^
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1758> struct kvm_sev_send=
-_update_data {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1759> 	__u64 hdr_uaddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1760> 	__u32 hdr_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1761> 	__u64 guest_uaddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1762> 	__u32 guest_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1763> 	__u64 trans_uaddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1764> 	__u32 trans_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1765> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1766> =
+vim +295 net/bluetooth/eir.c
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1767> struct kvm_sev_rece=
-ive_start {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1768> 	__u32 handle;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1769> 	__u32 policy;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1770> 	__u64 pdh_uaddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1771> 	__u32 pdh_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1772> 	__u64 session_uadd=
-r;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1773> 	__u32 session_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1774> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1775> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  214  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1776> struct kvm_sev_rece=
-ive_update_data {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1777> 	__u64 hdr_uaddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1778> 	__u32 hdr_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1779> 	__u64 guest_uaddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1780> 	__u32 guest_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1781> 	__u64 trans_uaddr;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1782> 	__u32 trans_len;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1783> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1784> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  215  u8 eir_create_adv_da=
+ta(struct hci_dev *hdev, u8 instance, u8 *ptr)
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  216  {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  217  	struct adv_info *ad=
+v =3D NULL;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  218  	u8 ad_len =3D 0, fl=
+ags =3D 0;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  219  	u32 instance_flags;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  220  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1908> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  221  	/* Return 0 when th=
+e current instance identifier is invalid. */
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  222  	if (instance) {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  223  		adv =3D hci_find_a=
+dv_instance(hdev, instance);
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  224  		if (!adv)
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  225  			return 0;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  226  	}
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  227  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1909> #define KVM_STATS_I=
-D_MAXLEN		64
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1910> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  228  	instance_flags =3D =
+hci_adv_instance_flags(hdev, instance);
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  229  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1911> struct kvm_stats_he=
-ader {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1912> 	__u32 name_size;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1913> 	__u32 count;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1914> 	__u32 desc_offset;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1915> 	__u32 data_offset;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1916> 	char id[0];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1917> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1918> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  230  	/* If instance alre=
+ady has the flags set skip adding it once
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  231  	 * again.
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  232  	 */
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  233  	if (adv && eir_get_=
+data(adv->adv_data, adv->adv_data_len, EIR_FLAGS,
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  234  				NULL))
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  235  		goto skip_flags;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  236  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1919> #define KVM_STATS_T=
-YPE_SHIFT		0
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1920> #define KVM_STATS_T=
-YPE_MASK		(0xF << KVM_STATS_TYPE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1921> #define KVM_STATS_T=
-YPE_CUMULATIVE	(0x0 << KVM_STATS_TYPE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1922> #define KVM_STATS_T=
-YPE_INSTANT		(0x1 << KVM_STATS_TYPE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1923> #define KVM_STATS_T=
-YPE_MAX		KVM_STATS_TYPE_INSTANT
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1924> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  237  	/* The Add Advertis=
+ing command allows userspace to set both the general
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  238  	 * and limited disc=
+overable flags.
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  239  	 */
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  240  	if (instance_flags =
+& MGMT_ADV_FLAG_DISCOV)
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  241  		flags |=3D LE_AD_G=
+ENERAL;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  242  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1925> #define KVM_STATS_U=
-NIT_SHIFT		4
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1926> #define KVM_STATS_U=
-NIT_MASK		(0xF << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1927> #define KVM_STATS_U=
-NIT_NONE		(0x0 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1928> #define KVM_STATS_U=
-NIT_BYTES		(0x1 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1929> #define KVM_STATS_U=
-NIT_SECONDS		(0x2 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1930> #define KVM_STATS_U=
-NIT_CYCLES		(0x3 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1931> #define KVM_STATS_U=
-NIT_MAX		KVM_STATS_UNIT_CYCLES
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1932> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  243  	if (instance_flags =
+& MGMT_ADV_FLAG_LIMITED_DISCOV)
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  244  		flags |=3D LE_AD_L=
+IMITED;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  245  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1933> #define KVM_STATS_B=
-ASE_SHIFT		8
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1934> #define KVM_STATS_B=
-ASE_MASK		(0xF << KVM_STATS_BASE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1935> #define KVM_STATS_B=
-ASE_POW10		(0x0 << KVM_STATS_BASE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1936> #define KVM_STATS_B=
-ASE_POW2		(0x1 << KVM_STATS_BASE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1937> #define KVM_STATS_B=
-ASE_MAX		KVM_STATS_BASE_POW2
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1938> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  246  	if (!hci_dev_test_f=
+lag(hdev, HCI_BREDR_ENABLED))
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  247  		flags |=3D LE_AD_N=
+O_BREDR;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  248  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1939> struct kvm_stats_de=
-sc {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1940> 	__u32 flags;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1941> 	__s16 exponent;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1942> 	__u16 size;
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1943> 	__u32 offset;
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1944> 	__u32 unused;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1945> 	char name[0];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1946> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1947> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  249  	if (flags || (insta=
+nce_flags & MGMT_ADV_FLAG_MANAGED_FLAGS)) {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  250  		/* If a discovery =
+flag wasn't provided, simply use the global
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  251  		 * settings.
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  252  		 */
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  253  		if (!flags)
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  254  			flags |=3D mgmt_g=
+et_adv_discov_flags(hdev);
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  255  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1948> struct kvm_stats_da=
-ta {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1949> 	__u64 value[0];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1950> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1951> =
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  256  		/* If flags would =
+still be empty, then there is no need to
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  257  		 * include the "Fl=
+ags" AD field".
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  258  		 */
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  259  		if (flags) {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  260  			ptr[0] =3D 0x02;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  261  			ptr[1] =3D EIR_FL=
+AGS;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  262  			ptr[2] =3D flags;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  263  =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1952> #define KVM_GET_STA=
-TS_FD  _IO(KVMIO,  0xce)
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  264  			ad_len +=3D 3;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  265  			ptr +=3D 3;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  266  		}
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  267  	}
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  268  =
+
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  269  skip_flags:
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  270  	if (adv) {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  271  		memcpy(ptr, adv->a=
+dv_data, adv->adv_data_len);
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  272  		ad_len +=3D adv->a=
+dv_data_len;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  273  		ptr +=3D adv->adv_=
+data_len;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  274  	}
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  275  =
+
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  276  	if (instance_flags =
+& MGMT_ADV_FLAG_TX_POWER) {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  277  		s8 adv_tx_power;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  278  =
+
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  279  		if (ext_adv_capabl=
+e(hdev)) {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  280  			if (adv)
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  281  				adv_tx_power =3D=
+ adv->tx_power;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  282  			else
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  283  				adv_tx_power =3D=
+ hdev->adv_tx_power;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  284  		} else {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  285  			adv_tx_power =3D =
+hdev->adv_tx_power;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  286  		}
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  287  =
+
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  288  		/* Provide Tx Powe=
+r only if we can provide a valid value for it */
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  289  		if (adv_tx_power !=
+=3D HCI_TX_POWER_INVALID) {
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  290  			ptr[0] =3D 0x02;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  291  			ptr[1] =3D EIR_TX=
+_POWER;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  292  			ptr[2] =3D (u8)ad=
+v_tx_power;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  293  =
+
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  294  			ad_len +=3D 3;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09 @295  			ptr +=3D 3;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  296  		}
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  297  	}
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  298  =
+
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  299  	return ad_len;
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  300  }
+fb463d77766be9 Luiz Augusto von Dentz 2021-06-09  301  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1675842992516563478==--
+--===============1109337970131088720==--
 
