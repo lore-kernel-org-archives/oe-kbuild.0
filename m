@@ -1,20 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============2676906706416977359=="
+Content-Type: multipart/mixed; boundary="===============1675842992516563478=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/4] KVM: stats: Use binary stats descriptors for debugfs interface
-Date: Wed, 16 Jun 2021 22:21:48 +0800
-Message-ID: <202106162213.kX6xOFl3-lkp@intel.com>
+Subject: Re: [PATCH 1/4] KVM: stats: Make sure no missing or mismatched binary stats definition
+Date: Wed, 16 Jun 2021 21:45:48 +0800
+Message-ID: <202106162143.IIe7bUo1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2676906706416977359==
+--===============1675842992516563478==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210614025351.365284-3-jingzhangos@google.com>
-References: <20210614025351.365284-3-jingzhangos@google.com>
+In-Reply-To: <20210614025351.365284-2-jingzhangos@google.com>
+References: <20210614025351.365284-2-jingzhangos@google.com>
 TO: Jing Zhang <jingzhangos@google.com>
 TO: KVM <kvm@vger.kernel.org>
 TO: KVMARM <kvmarm@lists.cs.columbia.edu>
@@ -264,63 +264,42 @@ ASE_MAX		KVM_STATS_BASE_POW2
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
 rom latest version at 'include/uapi/linux/kvm.h': 1938> =
 
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1939> #define KVM_STATS_M=
-ODE_SHIFT		12
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1940> #define KVM_STATS_M=
-ODE_MASK		(0xF << KVM_STATS_MODE_SHIFT)
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1941> #define KVM_STATS_M=
-ODE_RW		(0x0 << KVM_STATS_MODE_SHIFT)
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1942> #define KVM_STATS_M=
-ODE_READ		(0x1 << KVM_STATS_MODE_SHIFT)
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1943> #define KVM_STATS_M=
-ODE_WRITE		(0x2 << KVM_STATS_MODE_SHIFT)
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1944> #define KVM_STATS_M=
-ODE_MAX		KVM_STATS_MODE_WRITE
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1945> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1946> struct kvm_stats_de=
+rom latest version at 'include/uapi/linux/kvm.h': 1939> struct kvm_stats_de=
 sc {
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1947> 	__u32 flags;
+rom latest version at 'include/uapi/linux/kvm.h': 1940> 	__u32 flags;
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1948> 	__s16 exponent;
+rom latest version at 'include/uapi/linux/kvm.h': 1941> 	__s16 exponent;
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1949> 	__u16 size;
+rom latest version at 'include/uapi/linux/kvm.h': 1942> 	__u16 size;
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1943> 	__u32 offset;
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1944> 	__u32 unused;
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1950> 	__u32 offset;
+rom latest version at 'include/uapi/linux/kvm.h': 1945> 	char name[0];
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1951> 	__u32 unused;
+rom latest version at 'include/uapi/linux/kvm.h': 1946> };
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1952> 	char name[0];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1953> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1954> =
+rom latest version at 'include/uapi/linux/kvm.h': 1947> =
 
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1955> struct kvm_stats_da=
+rom latest version at 'include/uapi/linux/kvm.h': 1948> struct kvm_stats_da=
 ta {
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1956> 	__u64 value[0];
+rom latest version at 'include/uapi/linux/kvm.h': 1949> 	__u64 value[0];
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1957> };
+rom latest version at 'include/uapi/linux/kvm.h': 1950> };
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1958> =
+rom latest version at 'include/uapi/linux/kvm.h': 1951> =
 
    Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1959> #define KVM_GET_STA=
+rom latest version at 'include/uapi/linux/kvm.h': 1952> #define KVM_GET_STA=
 TS_FD  _IO(KVMIO,  0xce)
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2676906706416977359==--
+--===============1675842992516563478==--
 
