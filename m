@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============6871033286674315263=="
+Content-Type: multipart/mixed; boundary="===============0052360046293681832=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] memory: tegra: fix debugfs_simple_attr.cocci warnings
-Date: Thu, 17 Jun 2021 17:59:04 +0800
-Message-ID: <20210617095904.GA45617@d641290d9800>
+Date: Thu, 17 Jun 2021 17:58:58 +0800
+Message-ID: <20210617095858.GA45126@d641290d9800>
 In-Reply-To: <202106171758.yqVPuduD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6871033286674315263==
+--===============0052360046293681832==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,17 +19,17 @@ TO: Dmitry Osipenko <digetx@gmail.com>
 CC: Thierry Reding <treding@nvidia.com>
 CC: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Jonathan Hunter <jonathanh@nvidia.com>
-CC: Nathan Chancellor <nathan@kernel.org>
 CC: Viresh Kumar <viresh.kumar@linaro.org>
+CC: Chanwoo Choi <cw00.choi@samsung.com>
 CC: linux-kernel(a)vger.kernel.org
 CC: linux-tegra(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/memory/tegra/tegra30-emc.c:1322:0-23: WARNING: tegra_emc_debug_max_=
-rate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
-drivers/memory/tegra/tegra30-emc.c:1292:0-23: WARNING: tegra_emc_debug_min_=
-rate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
+drivers/memory/tegra/tegra20-emc.c:744:0-23: WARNING: tegra_emc_debug_max_r=
+ate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
+drivers/memory/tegra/tegra20-emc.c:714:0-23: WARNING: tegra_emc_debug_min_r=
+ate_fops should be defined with DEFINE_DEBUGFS_ATTRIBUTE
 
  Use DEFINE_DEBUGFS_ATTRIBUTE rather than DEFINE_SIMPLE_ATTRIBUTE
  for debugfs files.
@@ -58,12 +58,12 @@ commit: 56ebc9b0d77e0406aba2d900c82e79204cc7dc32 [6065/10489] memory: tegra=
 
 Please take the patch only if it's a positive warning. Thanks!
 
- tegra30-emc.c |   20 ++++++++++----------
+ tegra20-emc.c |   20 ++++++++++----------
  1 file changed, 10 insertions(+), 10 deletions(-)
 
---- a/drivers/memory/tegra/tegra30-emc.c
-+++ b/drivers/memory/tegra/tegra30-emc.c
-@@ -1289,9 +1289,9 @@ static int tegra_emc_debug_min_rate_set(
+--- a/drivers/memory/tegra/tegra20-emc.c
++++ b/drivers/memory/tegra/tegra20-emc.c
+@@ -711,9 +711,9 @@ static int tegra_emc_debug_min_rate_set(
  	return 0;
  }
  =
@@ -78,7 +78,7 @@ Please take the patch only if it's a positive warning. Thanks!
 
  static int tegra_emc_debug_max_rate_get(void *data, u64 *rate)
  {
-@@ -1319,9 +1319,9 @@ static int tegra_emc_debug_max_rate_set(
+@@ -741,9 +741,9 @@ static int tegra_emc_debug_max_rate_set(
  	return 0;
  }
  =
@@ -93,7 +93,7 @@ Please take the patch only if it's a positive warning. Thanks!
 
  static void tegra_emc_debugfs_init(struct tegra_emc *emc)
  {
-@@ -1361,10 +1361,10 @@ static void tegra_emc_debugfs_init(struc
+@@ -783,10 +783,10 @@ static void tegra_emc_debugfs_init(struc
  =
 
  	debugfs_create_file("available_rates", 0444, emc->debugfs.root,
@@ -110,5 +110,5 @@ Please take the patch only if it's a positive warning. Thanks!
  =
 
  static inline struct tegra_emc *
---===============6871033286674315263==--
+--===============0052360046293681832==--
 
