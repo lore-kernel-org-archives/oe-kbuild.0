@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4133061200447144004=="
+Content-Type: multipart/mixed; boundary="===============8611058326863478735=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 11634/12271] drivers/regulator/irq_helpers.c:15:1: iwyu: warning: superfluous #include <linux/regmap.h>
-Date: Wed, 23 Jun 2021 08:10:20 +0800
-Message-ID: <202106230812.OZkp8E8x-lkp@intel.com>
+Subject: [linux-next:master 11630/12271] kernel/reboot.c:10:1: iwyu: warning: superfluous #include <linux/atomic.h>
+Date: Wed, 23 Jun 2021 05:59:22 +0800
+Message-ID: <202106230512.QffHfRnq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4133061200447144004==
+--===============8611058326863478735==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,14 @@ CC: Linux Memory Management List <linux-mm@kvack.org>
 TO: Matti Vaittinen <matti.vaittinen@fi.rohmeurope.com>, Matti Vaittinen =
 <mazziesaccount@gmail.com>
 CC: Mark Brown <broonie@kernel.org>
-CC: Andy Shevchenko <andy.shevchenko@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   4238b1710eadd18dd16de0288a2bc5bb84614b4e
-commit: 7111c6d1b31b42c8c758f6681e895a5116e3bad6 [11634/12271] regulator: I=
-RQ based event/error notification helpers
-:::::: branch date: 13 hours ago
-:::::: commit date: 2 days ago
+commit: dfa19b11385d4cf8f0242fd93e2073e25183c331 [11630/12271] reboot: Add =
+hardware protection power-off
+:::::: branch date: 11 hours ago
+:::::: commit date: 34 hours ago
 config: x86_64-randconfig-b001-20210622 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project b3634d=
 3e88b7f26534a5057bff182b7dced584fc)
@@ -37,11 +36,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D7111c6d1b31b42c8c758f6681e895a5116e3bad6
+it/commit/?id=3Ddfa19b11385d4cf8f0242fd93e2073e25183c331
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
 el/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout 7111c6d1b31b42c8c758f6681e895a5116e3bad6
+        git checkout dfa19b11385d4cf8f0242fd93e2073e25183c331
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -52,39 +51,45 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
->> drivers/regulator/irq_helpers.c:15:1: iwyu: warning: superfluous #includ=
-e <linux/regmap.h>
->> drivers/regulator/irq_helpers.c:16:1: iwyu: warning: superfluous #includ=
-e <linux/slab.h>
+>> kernel/reboot.c:10:1: iwyu: warning: superfluous #include <linux/atomic.=
+h>
+   kernel/reboot.c:13:1: iwyu: warning: superfluous #include <linux/kexec.h>
+   kernel/reboot.c:14:1: iwyu: warning: superfluous #include <linux/kmod.h>
+   kernel/reboot.c:17:1: iwyu: warning: superfluous #include <linux/suspend=
+.h>
+   kernel/reboot.c:20:1: iwyu: warning: superfluous #include <linux/uaccess=
+.h>
 
-vim +15 drivers/regulator/irq_helpers.c
+vim +10 kernel/reboot.c
 
-7111c6d1b31b42 Matti Vaittinen 2021-06-03   9  =
+972ee83df88a7f Robin Holt      2013-07-08   9  =
 
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  10  #include <linux/device.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  11  #include <linux/err.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  12  #include <linux/interrupt.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  13  #include <linux/kernel.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  14  #include <linux/reboot.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03 @15  #include <linux/regmap.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03 @16  #include <linux/slab.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  17  #include <linux/spinlock.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  18  #include <linux/regulator/dr=
-iver.h>
-7111c6d1b31b42 Matti Vaittinen 2021-06-03  19  =
+dfa19b11385d4c Matti Vaittinen 2021-06-03 @10  #include <linux/atomic.h>
+1b3a5d02ee070c Robin Holt      2013-07-08  11  #include <linux/ctype.h>
+15d94b82565ebf Robin Holt      2013-07-08  12  #include <linux/export.h>
+15d94b82565ebf Robin Holt      2013-07-08  13  #include <linux/kexec.h>
+15d94b82565ebf Robin Holt      2013-07-08  14  #include <linux/kmod.h>
+15d94b82565ebf Robin Holt      2013-07-08  15  #include <linux/kmsg_dump.h>
+15d94b82565ebf Robin Holt      2013-07-08  16  #include <linux/reboot.h>
+15d94b82565ebf Robin Holt      2013-07-08  17  #include <linux/suspend.h>
+15d94b82565ebf Robin Holt      2013-07-08  18  #include <linux/syscalls.h>
+15d94b82565ebf Robin Holt      2013-07-08  19  #include <linux/syscore_ops.=
+h>
+15d94b82565ebf Robin Holt      2013-07-08  20  #include <linux/uaccess.h>
+15d94b82565ebf Robin Holt      2013-07-08  21  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4133061200447144004==
+--===============8611058326863478735==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICJdl0mAAAy5jb25maWcAlDzLduO2kvv7FTqdTbJI2q92PDPHC4gEJUQkwQZAWfaGx23LfT3X
+H4sICOs50mAAAy5jb25maWcAlDzLduO2kvv7FTqdTbJI2q92PDPHC4gEJUQkwQZAWfaGx23LfT3X
 j76yndv991MFgCIAFp1MLxILVQAKQL1R4E//+GnG3l6fH69f72+uHx5+zL5un7a769ft7ezu/mH7
 P7NczmppZjwX5jdALu+f3r5//H522p2ezD79dnj828Gvu5uT2Wq7e9o+zLLnp7v7r28wwP3z0z9+
 +kcm60Isuizr1lxpIevO8I05/3DzcP30dfbndvcCeDMc5beD2c9f71//++NH+O/j/W73vPv48PDn
@@ -805,5 +810,5 @@ sCA4hJHSUCM0Jtl1zg1IWfHbkfBKzz8xYngRdSOnOHVU6wkkmkNv0fYCpACeV6FtLrTzA+GPSlun
 db4XAYsJuZ4ovOVEf8KmG2o9UliXYAQeuTjzcmIZWQ9bE0wmySO4pHD3BLnaHCsc3TzU/Nnimy7O
 fStzxg7ZAT7LTnTMOTbNswItjKEOV5OjQKwGZerMM9SQqH/L06ZBbhGXER0OHL+QirpVKk/Axjxw
 HYOj/wNxyje6d5UCAA==
---===============4133061200447144004==--
+--===============8611058326863478735==--
 
