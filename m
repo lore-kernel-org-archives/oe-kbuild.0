@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8017802018988829181=="
+Content-Type: multipart/mixed; boundary="===============7798189701263105535=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: security/landlock/ruleset.c:9:1: iwyu: warning: superfluous #include <linux/bits.h>
-Date: Fri, 25 Jun 2021 23:45:46 +0800
-Message-ID: <202106252342.y9Oj7qPF-lkp@intel.com>
+Subject: security/landlock/object.c:9:1: iwyu: warning: superfluous #include <linux/bug.h>
+Date: Fri, 25 Jun 2021 23:06:59 +0800
+Message-ID: <202106252352.yH0rM5QE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8017802018988829181==
+--===============7798189701263105535==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,14 +16,14 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: "Micka=C3=ABl Sala=C3=BCn" <mic@linux.microsoft.com>
 CC: James Morris <jamorris@linux.microsoft.com>
-CC: Kees Cook <keescook@chromium.org>
 CC: Jann Horn <jannh@google.com>
+CC: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   44db63d1ad8d71c6932cbe007eb41f31c434d140
-commit: ae271c1b14de343b888e77f74f640e3dcbdeb4c9 landlock: Add ruleset and =
-domain management
+commit: 90945448e9830aa1b39d7acaa4e0724a001e2ff8 landlock: Add object manag=
+ement
 date:   9 weeks ago
 :::::: branch date: 19 hours ago
 :::::: commit date: 9 weeks ago
@@ -38,11 +38,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dae271c1b14de343b888e77f74f640e3dcbdeb4c9
+t/commit/?id=3D90945448e9830aa1b39d7acaa4e0724a001e2ff8
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout ae271c1b14de343b888e77f74f640e3dcbdeb4c9
+        git checkout 90945448e9830aa1b39d7acaa4e0724a001e2ff8
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
 1 CHECK=3Diwyu ARCH=3Dx86_64 =
@@ -53,57 +53,41 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
->> security/landlock/ruleset.c:9:1: iwyu: warning: superfluous #include <li=
-nux/bits.h>
->> security/landlock/ruleset.c:10:1: iwyu: warning: superfluous #include <l=
-inux/bug.h>
->> security/landlock/ruleset.c:13:1: iwyu: warning: superfluous #include <l=
-inux/errno.h>
->> security/landlock/ruleset.c:20:1: iwyu: warning: superfluous #include <l=
-inux/spinlock.h>
+>> security/landlock/object.c:9:1: iwyu: warning: superfluous #include <lin=
+ux/bug.h>
 
-vim +9 security/landlock/ruleset.c
+vim +9 security/landlock/object.c
 
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  @9  #include <linux/bit=
-s.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22 @10  #include <linux/bug=
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  @9  #include <linux/bug=
 .h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  11  #include <linux/com=
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  10  #include <linux/com=
 piler_types.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  12  #include <linux/err=
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  11  #include <linux/err=
 .h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22 @13  #include <linux/err=
-no.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  14  #include <linux/ker=
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  12  #include <linux/ker=
 nel.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  15  #include <linux/loc=
-kdep.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  16  #include <linux/ove=
-rflow.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  17  #include <linux/rbt=
-ree.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  18  #include <linux/ref=
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  13  #include <linux/rcu=
+pdate.h>
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  14  #include <linux/ref=
 count.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  19  #include <linux/sla=
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  15  #include <linux/sla=
 b.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22 @20  #include <linux/spi=
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  16  #include <linux/spi=
 nlock.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  21  #include <linux/wor=
-kqueue.h>
-ae271c1b14de34 Micka=C3=ABl Sala=C3=BCn 2021-04-22  22  =
+90945448e9830a Micka=C3=ABl Sala=C3=BCn 2021-04-22  17  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8017802018988829181==
+--===============7798189701263105535==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICJ711WAAAy5jb25maWcAjDxLe9u2svvzK/Slm55FU8t23PTezwuQBCVUJMEApB7e8FNtOce3
+H4sICMDs1WAAAy5jb25maWcAjDxLe9u2svvzK/Slm55FU8t23PTezwuQBCVUJMEApB7e8FNtOce3
 jp0j223y7+8MwAcADtV2kVozg/e8MeAP//phxt5en7/sXx9u94+P32efD0+H4/71cDe7f3g8/O8s
 kbNCVjOeiOo9EGcPT2/ffv728aq5upx9eD8/f3/20/H2YrY6HJ8Oj7P4+en+4fMbdPDw/PSvH/4V
 yyIViyaOmzVXWsiiqfi2un53+7h/+jz783B8AbrZ/OL92fuz2Y+fH17/5+ef4d8vD8fj8/Hnx8c/
@@ -893,5 +877,5 @@ DmNheBIqUvoQWxHvxQRlw9g9B5IL1761iclBPRJPTSfaqKYmHwPONniACEKd5hYYOAX9pKO/3NpW
 os7BpJuYSJU9kt6HogUWlqWK4VFchKucJ3ROCFkxCVLxdDZgZDx21Fp8tyV5KvN3j5VQrjXRNkED
 apHikltvLZmbJZphR+2z3LdjbKjjSZ5gkzxPGGzJ+CaX8XoiHAN86auMzsojN6t0Mg+PKCICH2oM
 J9zNXkAKXMtzgt6DXDSYirFPy6TDzIH0FCpHw1IoAUkLfu9s//8BMojSvqr5AgA=
---===============8017802018988829181==--
+--===============7798189701263105535==--
 
