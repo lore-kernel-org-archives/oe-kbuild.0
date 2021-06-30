@@ -1,51 +1,52 @@
-Content-Type: multipart/mixed; boundary="===============7073126622327956101=="
+Content-Type: multipart/mixed; boundary="===============2560010682774273972=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [PATCH v3 07/15] fsnotify: pass arguments of fsnotify() in struct fsnotify_event_info
-Date: Wed, 30 Jun 2021 13:49:04 +0300
-Message-ID: <20210630104904.GS2040@kadam>
-In-Reply-To: <CAOQ4uxiCYBL2-FVMbn2RWcQnueueVoAd5sBtte+twLoU9eyFgA@mail.gmail.com>
+From: kernel test robot <lkp@intel.com>
+Subject: [tobetter-linux:odroid-5.13.y 94/95] drivers/hwmon/pwm-fan.c:218:9: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
+Date: Wed, 30 Jun 2021 17:55:35 +0800
+Message-ID: <202106301730.TS0aUra9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7073126622327956101==
+--===============2560010682774273972==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-I think my bug report was not clear...  :/  The code looks like this:
+CC: kbuild-all(a)lists.01.org
+TO: Dongjin Kim <tobetter@gmail.com>
 
-	sb =3D inode->i_sb;
+tree:   https://github.com/tobetter/linux odroid-5.13.y
+head:   710bf4eba39225487edc126ffcca61ee80b80631
+commit: 17ef58010ec970e3397a97cefc11f893a17eb95d [94/95] ODROID-HC4: hwmon:=
+ (pwm-fan): fix to add 'pwm1_enable' to set PWM fan mode
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+compiler: csky-linux-gcc (GCC) 9.3.0
 
-	if (inode) ...
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-The NULL check cannot be false because if "inode" is NULL we would have
-already crashed when we dereference it on the line before.
 
-In this case, based on last years discussion, the "inode" pointer can't
-be NULL.  The debate is only whether the unnecessary NULL checks help
-readability or hurt readability.
+vim +218 drivers/hwmon/pwm-fan.c
 
-> Why does it presume that event_info->dir is non-NULL?
+17ef58010ec970 Dongjin Kim 2021-06-30  212  =
 
-That was my commentary, just from reading the code.  Smatch says that
-"event->dir" is unknown.
+17ef58010ec970 Dongjin Kim 2021-06-30  213  static ssize_t enable_show(stru=
+ct device *dev, struct device_attribute *attr,
+17ef58010ec970 Dongjin Kim 2021-06-30  214  		char *buf)
+17ef58010ec970 Dongjin Kim 2021-06-30  215  {
+17ef58010ec970 Dongjin Kim 2021-06-30  216  	struct pwm_fan_ctx *ctx =3D de=
+v_get_drvdata(dev);
+17ef58010ec970 Dongjin Kim 2021-06-30  217  =
 
-> Did smach check all the callers to fsnotify() or something?
+17ef58010ec970 Dongjin Kim 2021-06-30 @218  	return sprintf(buf, "%u\n", ct=
+x->enable);
+17ef58010ec970 Dongjin Kim 2021-06-30  219  }
+17ef58010ec970 Dongjin Kim 2021-06-30  220  =
 
-The kbuild-bot doesn't build the cross function database but if you did
-use the cross function database then, yes, it does track all the
-callers.  There are two pointers that we care about, the "inode" and
-the parent inode (dir).  Smatch can figure out when "inode" is NULL vs
-non-NULL but where it gets stuck is on the some of the parent inodes
-like this call from fsnotify_dirent():
 
-	fsnotify_name(dir, mask, d_inode(dentry), &dentry->d_name, 0);
-                                 ^^^^^^^^^^^^^^^
-
-Smatch doesn't know that d_inode() is always non-NULL at this point.
-
-regards,
-dan carpenter
---===============7073126622327956101==--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2560010682774273972==--
 
