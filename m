@@ -1,490 +1,749 @@
-Content-Type: multipart/mixed; boundary="===============3735935681175897509=="
+Content-Type: multipart/mixed; boundary="===============6652339934818369573=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [Intel-gfx] [PATCH] drm/i915: Add TTM offset argument to mmap.
-Date: Thu, 01 Jul 2021 21:25:49 +0800
-Message-ID: <202107012104.0kdBQPjs-lkp@intel.com>
+Subject: [zen-kernel-zen-kernel:5.12/futex2 4/18] kernel/futex2.c:1012:2-11: second lock on line 1012
+Date: Thu, 01 Jul 2021 19:43:24 +0800
+Message-ID: <202107011917.BPYb0TA8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3735935681175897509==
+--===============6652339934818369573==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210701114234.3859716-1-maarten.lankhorst@linux.intel.com>
-References: <20210701114234.3859716-1-maarten.lankhorst@linux.intel.com>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: intel-gfx(a)lists.freedesktop.org
+TO: steven(a)liquorix.net
 
-Hi Maarten,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on drm-tip/drm-tip]
-[cannot apply to drm-intel/for-linux-next v5.13 next-20210701]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Maarten-Lankhorst/drm-i915=
--Add-TTM-offset-argument-to-mmap/20210701-194501
-base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
-:::::: branch date: 2 hours ago
-:::::: commit date: 2 hours ago
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-cd tools/perf && ./check-headers.sh
+tree:   https://github.com/zen-kernel/zen-kernel 5.12/futex2
+head:   f8ef78621cdaa4c962fd2a44deedeff3cc6067a0
+commit: 270e16f72b29d04a83645b653e9fc65be51801d2 [4/18] futex2: Implement r=
+equeue operation
+:::::: branch date: 13 hours ago
+:::::: commit date: 8 weeks ago
+config: arm-randconfig-c024-20210628 (attached as .config)
+compiler: arm-linux-gnueabi-gcc (GCC) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-perfheadercheck warnings: (new ones prefixed by >>)
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   65< /*
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   66<  * i915_user_=
-extension: Base class for defining a chain of extensions
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h':   65> /**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   66>  * struct i91=
-5_user_extension - Base class for defining a chain of extensions
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   79>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   80>  * Example ch=
-aining:
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   81>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   82>  * .. code-bl=
-ock:: C
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   83>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   84>  *	struct i91=
-5_user_extension ext3 {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   85>  *		.next_ext=
-ension =3D 0, // end
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   86>  *		.name =3D=
- ...,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   87>  *	};
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   88>  *	struct i91=
-5_user_extension ext2 {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   89>  *		.next_ext=
-ension =3D (uintptr_t)&ext3,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   90>  *		.name =3D=
- ...,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   91>  *	};
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   92>  *	struct i91=
-5_user_extension ext1 {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   93>  *		.next_ext=
-ension =3D (uintptr_t)&ext2,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   94>  *		.name =3D=
- ...,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   95>  *	};
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   96>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   97>  * Typically =
-the struct i915_user_extension would be embedded in some uAPI
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   98>  * struct, an=
-d in this case we would feed it the head of the chain(i.e ext1),
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   99>  * which woul=
-d then apply all of the above extensions.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  100>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  103> 	/**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  104> 	 * @next_ext=
-ension:
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  105> 	 *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  106> 	 * Pointer t=
-o the next struct i915_user_extension, or zero if the end.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  107> 	 */
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  109> 	/**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  110> 	 * @name: Na=
-me of the extension.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  111> 	 *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  112> 	 * Note that=
- the name here is just some integer.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  113> 	 *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  114> 	 * Also note=
- that the name space for this is not global for the whole
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  115> 	 * driver, b=
-ut rather its scope/meaning is limited to the specific piece
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  116> 	 * of uAPI w=
-hich has embedded the struct i915_user_extension.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  117> 	 */
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   83< 	__u32 flags;=
- /* All undefined bits must be zero. */
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':   84< 	__u32 rsvd[4=
-]; /* Reserved for future use; must be zero. */
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h':  119> 	/**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  120> 	 * @flags: M=
-BZ
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  121> 	 *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  122> 	 * All undef=
-ined bits must be zero.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  123> 	 */
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  124> 	__u32 flags;
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  125> 	/**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  126> 	 * @rsvd: MBZ
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  127> 	 *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  128> 	 * Reserved =
-for future use; must be zero.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  129> 	 */
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  130> 	__u32 rsvd[4=
-];
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  409> #define DRM_I=
-915_GEM_CREATE_EXT		0x3c
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  442> #define DRM_I=
-OCTL_I915_GEM_CREATE_EXT	DRM_IOWR(DRM_COMMAND_BASE + DRM_I915_GEM_CREATE_EX=
-T, struct drm_i915_gem_create_ext)
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  822< #define I915_=
-MMAP_OFFSET_GTT 0
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  823< #define I915_=
-MMAP_OFFSET_WC  1
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  824< #define I915_=
-MMAP_OFFSET_WB  2
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  825< #define I915_=
-MMAP_OFFSET_UC  3
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h':  870> #define I915_=
-MMAP_OFFSET_GTT	0
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  871> #define I915_=
-MMAP_OFFSET_WC	1
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  872> #define I915_=
-MMAP_OFFSET_WB	2
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  873> #define I915_=
-MMAP_OFFSET_UC	3
->> Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h':  874> #define I915_=
-MMAP_OFFSET_TTM	4
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1057< /**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h': 1106> /*
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1062< /**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h': 1111> /*
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1303< 	 * I915_CONT=
-EXT_SET_ENGINES parameter and via perf, i.e.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h': 1352> 	 * I915_CONT=
-EXT_PARAM_ENGINES context parameter and via perf, i.e.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1305< 	 * reported =
-as active itself. Some hardware may have parallel
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1306< 	 * execution=
- engines, e.g. multiple media engines, which are
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1307< 	 * mapped to=
- the same class identifier and so are not separately
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1308< 	 * reported =
-for busyness.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h': 1354> 	 * Some hard=
-ware may have parallel execution engines, e.g. multiple
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1355> 	 * media eng=
-ines, which are mapped to the same class identifier and so
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1356> 	 * are not s=
-eparately reported for busyness.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1703< /**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version@'include/uapi/drm/i915_drm.h': 1751> /*
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1810> /**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1811>  * DOC: Virtu=
-al Engine uAPI
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1812>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1813>  * Virtual en=
-gine is a concept where userspace is able to configure a set of
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1814>  * physical e=
-ngines, submit a batch buffer, and let the driver execute it on any
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1815>  * engine fro=
-m the set as it sees fit.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1816>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1817>  * This is pr=
-imarily useful on parts which have multiple instances of a same
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1818>  * class engi=
-ne, like for example GT3+ Skylake parts with their two VCS engines.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1819>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1820>  * For instan=
-ce userspace can enumerate all engines of a certain class using the
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1821>  * previously=
- described `Engine Discovery uAPI`_. After that userspace can
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1822>  * create a G=
-EM context with a placeholder slot for the virtual engine (using
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1823>  * `I915_ENGI=
-NE_CLASS_INVALID` and `I915_ENGINE_CLASS_INVALID_NONE` for class
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1824>  * and instan=
-ce respectively) and finally using the
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1825>  * `I915_CONT=
-EXT_ENGINES_EXT_LOAD_BALANCE` extension place a virtual engine in
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1826>  * the same r=
-eserved slot.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1827>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1828>  * Example of=
- creating a virtual engine and submitting a batch buffer to it:
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1829>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1830>  * .. code-bl=
-ock:: C
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1831>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1832>  * 	I915_DEFI=
-NE_CONTEXT_ENGINES_LOAD_BALANCE(virtual, 2) =3D {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1833>  * 		.base.na=
-me =3D I915_CONTEXT_ENGINES_EXT_LOAD_BALANCE,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1834>  * 		.engine_=
-index =3D 0, // Place this virtual engine into engine map slot 0
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1835>  * 		.num_sib=
-lings =3D 2,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1836>  * 		.engines=
- =3D { { I915_ENGINE_CLASS_VIDEO, 0 },
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1837>  * 			     { =
-I915_ENGINE_CLASS_VIDEO, 1 }, },
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1838>  * 	};
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1839>  * 	I915_DEFI=
-NE_CONTEXT_PARAM_ENGINES(engines, 1) =3D {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1840>  * 		.engines=
- =3D { { I915_ENGINE_CLASS_INVALID,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1841>  * 			       =
-I915_ENGINE_CLASS_INVALID_NONE } },
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1842>  * 		.extensi=
-ons =3D to_user_pointer(&virtual), // Chains after load_balance extension
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1843>  * 	};
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1844>  * 	struct dr=
-m_i915_gem_context_create_ext_setparam p_engines =3D {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1845>  * 		.base =
-=3D {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1846>  * 			.name =
-=3D I915_CONTEXT_CREATE_EXT_SETPARAM,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1847>  * 		},
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1848>  * 		.param =
-=3D {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1849>  * 			.param =
-=3D I915_CONTEXT_PARAM_ENGINES,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1850>  * 			.value =
-=3D to_user_pointer(&engines),
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1851>  * 			.size =
-=3D sizeof(engines),
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1852>  * 		},
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1853>  * 	};
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1854>  * 	struct dr=
-m_i915_gem_context_create_ext create =3D {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1855>  * 		.flags =
-=3D I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1856>  * 		.extensi=
-ons =3D to_user_pointer(&p_engines);
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1857>  * 	};
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1858>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1859>  * 	ctx_id =
-=3D gem_context_create_ext(drm_fd, &create);
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1860>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1861>  * 	// Now we=
- have created a GEM context with its engine map containing a
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1862>  * 	// single=
- virtual engine. Submissions to this slot can go either to
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1863>  * 	// vcs0 o=
-r vcs1, depending on the load balancing algorithm used inside
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1864>  * 	// the dr=
-iver. The load balancing is dynamic from one batch buffer to
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1865>  * 	// anothe=
-r and transparent to userspace.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1866>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1867>  * 	...
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1868>  * 	execbuf.r=
-svd1 =3D ctx_id;
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1869>  * 	execbuf.f=
-lags =3D 0; // Submits to index 0 which is the virtual engine
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1870>  * 	gem_execb=
-uf(drm_fd, &execbuf);
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1871>  */
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1872> =
+cocci warnings: (new ones prefixed by >>)
+>> kernel/futex2.c:1012:2-11: second lock on line 1012
+   kernel/futex2.c:1016:2-11: second lock on line 1016
+--
+>> kernel/futex2.c:997:3-9: preceding lock on line 1012
+   kernel/futex2.c:997:3-9: preceding lock on line 1016
+   kernel/futex2.c:1003:3-9: preceding lock on line 1012
+   kernel/futex2.c:1003:3-9: preceding lock on line 1016
 
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1949> /**
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1950>  * DOC: Conte=
-xt Engine Map uAPI
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1951>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1952>  * Context en=
-gine map is a new way of addressing engines when submitting batch-
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1953>  * buffers, r=
-eplacing the existing way of using identifiers like `I915_EXEC_BLT`
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1954>  * inside the=
- flags field of `struct drm_i915_gem_execbuffer2`.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1955>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1956>  * To use it =
-created GEM contexts need to be configured with a list of engines
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1957>  * the user i=
-s intending to submit to. This is accomplished using the
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1958>  * `I915_CONT=
-EXT_PARAM_ENGINES` parameter and `struct
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1959>  * i915_conte=
-xt_param_engines`.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1960>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1961>  * For such c=
-ontexts the `I915_EXEC_RING_MASK` field becomes an index into the
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1962>  * configured=
- map.
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1963>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1964>  * Example of=
- creating such context and submitting against it:
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1965>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1966>  * .. code-bl=
-ock:: C
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1967>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1968>  * 	I915_DEFI=
-NE_CONTEXT_PARAM_ENGINES(engines, 2) =3D {
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1969>  * 		.engines=
- =3D { { I915_ENGINE_CLASS_RENDER, 0 },
-   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
-s from latest version at 'include/uapi/drm/i915_drm.h': 1970>  * 			     { =
-I915_ENGINE_CLASS_COPY, 0 } }
+vim +1012 kernel/futex2.c
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   972  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   973  static inline int __fut=
+ex_requeue(struct futex_requeue rq1,
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   974  				  struct futex_requ=
+eue rq2, unsigned int nr_wake,
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   975  				  unsigned int nr_r=
+equeue, u64 cmpval,
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   976  				  bool shared1, boo=
+l shared2)
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   977  {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   978  	struct futex_waiter w1=
+, w2, *aux, *tmp;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   979  	bool retry =3D false;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   980  	struct futex_bucket *b=
+1, *b2;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   981  	DEFINE_WAKE_Q(wake_q);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   982  	u32 uval;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   983  	int ret;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   984  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   985  	b1 =3D futex_get_bucke=
+t(rq1.uaddr, &w1.key, shared1);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   986  	if (IS_ERR(b1))
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   987  		return PTR_ERR(b1);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   988  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   989  	b2 =3D futex_get_bucke=
+t(rq2.uaddr, &w2.key, shared2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   990  	if (IS_ERR(b2))
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   991  		return PTR_ERR(b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   992  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   993  retry:
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   994  	if (shared1 && retry) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   995  		b1 =3D futex_get_buck=
+et(rq1.uaddr, &w1.key, shared1);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   996  		if (IS_ERR(b1))
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  @997  			return PTR_ERR(b1);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   998  	}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05   999  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1000  	if (shared2 && retry) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1001  		b2 =3D futex_get_buck=
+et(rq2.uaddr, &w2.key, shared2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1002  		if (IS_ERR(b2))
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1003  			return PTR_ERR(b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1004  	}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1005  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1006  	bucket_inc_waiters(b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1007  	/*
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1008  	 * To ensure the locks=
+ are taken in the same order for all threads (and
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1009  	 * thus avoiding deadl=
+ocks), take the "smaller" one first
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1010  	 */
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1011  	if (b1 <=3D b2) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05 @1012  		spin_lock(&b1->lock);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1013  		if (b1 < b2)
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1014  			spin_lock_nested(&b2=
+->lock, SINGLE_DEPTH_NESTING);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1015  	} else {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1016  		spin_lock(&b2->lock);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1017  		spin_lock_nested(&b1-=
+>lock, SINGLE_DEPTH_NESTING);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1018  	}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1019  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1020  	ret =3D futex_get_user=
+(&uval, rq1.uaddr);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1021  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1022  	if (unlikely(ret)) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1023  		futex_double_unlock(b=
+1, b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1024  		if (__get_user(uval, =
+(u32 __user *)rq1.uaddr))
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1025  			return -EFAULT;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1026  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1027  		bucket_dec_waiters(b2=
+);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1028  		retry =3D true;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1029  		goto retry;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1030  	}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1031  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1032  	if (uval !=3D cmpval) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1033  		futex_double_unlock(b=
+1, b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1034  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1035  		bucket_dec_waiters(b2=
+);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1036  		return -EAGAIN;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1037  	}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1038  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1039  	list_for_each_entry_sa=
+fe(aux, tmp, &b1->list, list) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1040  		if (futex_match(w1.ke=
+y, aux->key)) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1041  			if (ret < nr_wake) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1042  				futex_mark_wake(aux=
+, b1, &wake_q);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1043  				ret++;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1044  				continue;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1045  			}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1046  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1047  			if (ret >=3D nr_wake=
+ + nr_requeue)
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1048  				break;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1049  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1050  			aux->key.pointer =3D=
+ w2.key.pointer;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1051  			aux->key.index =3D w=
+2.key.index;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1052  			aux->key.offset =3D =
+w2.key.offset;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1053  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1054  			if (b1 !=3D b2) {
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1055  				list_del_init(&aux-=
+>list);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1056  				bucket_dec_waiters(=
+b1);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1057  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1058  				list_add_tail(&aux-=
+>list, &b2->list);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1059  				bucket_inc_waiters(=
+b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1060  			}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1061  			ret++;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1062  		}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1063  	}
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1064  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1065  	futex_double_unlock(b1=
+, b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1066  	wake_up_q(&wake_q);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1067  	bucket_dec_waiters(b2);
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1068  =
+
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1069  	return ret;
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1070  }
+270e16f72b29d0 Andr=C3=A9 Almeida 2021-02-05  1071  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3735935681175897509==--
+
+--===============6652339934818369573==
+Content-Type: application/gzip
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="config.gz"
+
+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
+--===============6652339934818369573==--
 
