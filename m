@@ -1,60 +1,57 @@
-Content-Type: multipart/mixed; boundary="===============0995507605008141642=="
+Content-Type: multipart/mixed; boundary="===============7295911888060180117=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [Intel-gfx] [drm-intel:drm-intel-gt-next 8/14] drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized symbol 'rq'.
-Date: Fri, 02 Jul 2021 15:19:10 +0300
-Message-ID: <20210702121910.GX1983@kadam>
-In-Reply-To: <CAM0jSHMyXEdS9wgkypKdvW1BNdUgcLxZR8Pd8nxSpPQHtiX+yA@mail.gmail.com>
+From: kernel test robot <lkp@intel.com>
+Subject: [android-common:android13-5.10 10947/10965] Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs from latest version at 'include/uapi/linux/kvm.h': 1057> #define KVM_CAP_SYS_HYPERV_CPUID 191
+Date: Fri, 02 Jul 2021 19:27:03 +0800
+Message-ID: <202107021955.bGyK1qs4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0995507605008141642==
+--===============7295911888060180117==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Jul 02, 2021 at 12:34:33PM +0100, Matthew Auld wrote:
-> > > > cf586021642d80 Chris Wilson 2021-06-17   85             err =3D fn(=
-migrate, &ww, src, dst, &rq);
-> > > > cf586021642d80 Chris Wilson 2021-06-17   86             if (!err)
-> > > > cf586021642d80 Chris Wilson 2021-06-17   87                     con=
-tinue;
-> > > >
-> > > > Does fn() initialize "rq" on the success path?  Anyway Smatch would
-> > > > complain anyway because it thinks the list could be empty or that we
-> > > > might hit and early continue for everything.
-> > >
-> > > The fn() will always first initialize the rq to NULL. If it returns
-> > > success then rq will always be a valid rq. If it returns an err then
-> > > the rq might be NULL, or a valid rq depending on how far the copy/fn
-> > > got.
-> > >
-> > > And for_i915_gem_ww() will always run at least once, since ww->loop =
-=3D
-> > > true, so this looks like a false positive?
-> >
-> > You don't think i915_gem_object_lock(), i915_gem_object_pin_map() or
-> > i915_gem_object_pin_map() can fail?
-> =
+CC: kbuild-all(a)lists.01.org
+TO: cros-kernel-buildreports(a)googlegroups.com
 
-> Yeah, they can totally fail but then we mostly likely just hit the
-> err_out. The for_i915_gem_ww() is a little strange since it's not
-> really looping over anything, it's just about retrying the block if we
-> see -EDEADLK(which involves dropping some locks), if we see any other
-> error then the loop is terminated with ww->loop =3D false, which then
-> hits the goto err_out.
-> =
+tree:   https://android.googlesource.com/kernel/common android13-5.10
+head:   d870ecaadb2299dadfb8ed3993b731e37d3cbc21
+commit: a669f441f8f5e2b4eff9d90f41043e1b4693d7c6 [10947/10965] BACKPORT: KV=
+M: arm64: Add support for the KVM PTP service
+:::::: branch date: 2 hours ago
+:::::: commit date: 2 hours ago
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+cd tools/perf && ./check-headers.sh
+
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
 
-Ah, yeah, you're right.  False positive.
+perfheadercheck warnings: (new ones prefixed by >>)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1056> /*
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1057> #define KVM_CAP_SYS=
+_HYPERV_CPUID 191
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1058> #define KVM_CAP_DIR=
+TY_LOG_RING 192
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1059> #define KVM_CAP_X86=
+_BUS_LOCK_EXIT 193
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1060> #define KVM_CAP_PPC=
+_DAWR1 194
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1061> */
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1062> #define KVM_CAP_PTP=
+_KVM 195
 
-I hadn't looked at this code in context (I only had reviewed the email).
-Now that I've pulled the tree and looked at the code, then I'm sort of
-surprised that Smatch generates a warning...  I will investigate some
-more.  Thanks!
-
-regards,
-dan carpenter
-
---===============0995507605008141642==--
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============7295911888060180117==--
 
