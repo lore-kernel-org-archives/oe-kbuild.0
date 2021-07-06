@@ -1,509 +1,352 @@
-Content-Type: multipart/mixed; boundary="===============1343150379687528564=="
+Content-Type: multipart/mixed; boundary="===============3541652751805968234=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [peterz-queue:locking/core 19/21] include/linux/atomic/atomic-arch-fallback.h:511:9: sparse: sparse: context imbalance in 'futex_requeue' - different lock contexts for basic block
-Date: Wed, 14 Jul 2021 07:18:47 +0800
-Message-ID: <202107140740.hcfqH55K-lkp@intel.com>
+Subject: Re: [PATCH v1 1/4] KVM: stats: Support linear and logarithmic histogram statistics
+Date: Wed, 07 Jul 2021 04:40:09 +0800
+Message-ID: <202107070457.hcBCFivp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1343150379687528564==
+--===============3541652751805968234==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Mark Rutland <mark.rutland@arm.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+In-Reply-To: <20210706180350.2838127-2-jingzhangos@google.com>
+References: <20210706180350.2838127-2-jingzhangos@google.com>
+TO: Jing Zhang <jingzhangos@google.com>
+TO: KVM <kvm@vger.kernel.org>
+TO: KVMPPC <kvm-ppc@vger.kernel.org>
+TO: Paolo Bonzini <pbonzini@redhat.com>
+TO: Sean Christopherson <seanjc@google.com>
+TO: Jim Mattson <jmattson@google.com>
+TO: Peter Shier <pshier@google.com>
+TO: Oliver Upton <oupton@google.com>
+TO: David Rientjes <rientjes@google.com>
+TO: David Matlack <dmatlack@google.com>
+CC: Jing Zhang <jingzhangos@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git lo=
-cking/core
-head:   ceb71d863ae0bfca14303c189bbf5903a02ff95a
-commit: 57aa0db75a19cc1da2d3861ec83184da66ebe554 [19/21] locking/atomic: ce=
-ntralize generated headers
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: ia64-randconfig-s031-20210713 (attached as .config)
-compiler: ia64-linux-gcc (GCC) 9.3.0
+Hi Jing,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on 7caa04b36f204a01dac65582b71d26d190a1e022]
+
+url:    https://github.com/0day-ci/linux/commits/Jing-Zhang/Linear-and-Loga=
+rithmic-histogram-statistics/20210707-020549
+base:   7caa04b36f204a01dac65582b71d26d190a1e022
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 hours ago
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.3-341-g8af24329-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git/=
-commit/?id=3D57aa0db75a19cc1da2d3861ec83184da66ebe554
-        git remote add peterz-queue https://git.kernel.org/pub/scm/linux/ke=
-rnel/git/peterz/queue.git
-        git fetch --no-tags peterz-queue locking/core
-        git checkout 57aa0db75a19cc1da2d3861ec83184da66ebe554
-        # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-9.3.0 make.cross =
-C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dia=
-64 SHELL=3D/bin/bash
+cd tools/perf && ./check-headers.sh
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/futex.c:1557:9: sparse: sparse: context imbalance in 'wake_futex_=
-pi' - unexpected unlock
-   kernel/futex.c:1713:33: sparse: sparse: context imbalance in 'futex_wake=
-_op' - different lock contexts for basic block
-   kernel/futex.c: note: in included file (through include/linux/atomic.h, =
-arch/ia64/include/asm/processor.h, arch/ia64/include/asm/timex.h, ...):
->> include/linux/atomic/atomic-arch-fallback.h:511:9: sparse: sparse: conte=
-xt imbalance in 'futex_requeue' - different lock contexts for basic block
-   kernel/futex.c:2450:9: sparse: sparse: context imbalance in '__fixup_pi_=
-state_owner' - unexpected unlock
-   kernel/futex.c:2576:13: sparse: sparse: context imbalance in 'futex_wait=
-_queue_me' - unexpected unlock
-   kernel/futex.c:2677:9: sparse: sparse: context imbalance in 'futex_wait_=
-setup' - different lock contexts for basic block
-   kernel/futex.c:2941:12: sparse: sparse: context imbalance in 'futex_unlo=
-ck_pi' - different lock contexts for basic block
-   kernel/futex.c:3214:29: sparse: sparse: context imbalance in 'futex_wait=
-_requeue_pi' - unexpected unlock
+perfheadercheck warnings: (new ones prefixed by >>)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  283> /* Flags that descr=
+ibe what fields in emulation_failure hold valid data. */
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  284> #define KVM_INTERNA=
+L_ERROR_EMULATION_FLAG_INSTRUCTION_BYTES (1ULL << 0)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h':  285> =
 
-vim +/futex_requeue +511 include/linux/atomic/atomic-arch-fallback.h
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  389> 		/*
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  390> 		 * KVM_INTERNAL_E=
+RROR_EMULATION
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  391> 		 *
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  392> 		 * "struct emulat=
+ion_failure" is an overlay of "struct internal"
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  393> 		 * that is used f=
+or the KVM_INTERNAL_ERROR_EMULATION sub-type of
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  394> 		 * KVM_EXIT_INTER=
+NAL_ERROR.  Note, unlike other internal error
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  395> 		 * sub-types, thi=
+s struct is ABI!  It also needs to be backwards
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  396> 		 * compatible wit=
+h "struct internal".  Take special care that
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  397> 		 * "ndata" is cor=
+rect, that new fields are enumerated in "flags",
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  398> 		 * and that each =
+flag enumerates fields that are 64-bit aligned
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  399> 		 * and sized (so =
+that ndata+internal.data[] is valid/accurate).
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  400> 		 */
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  401> 		struct {
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  402> 			__u32 suberror;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  403> 			__u32 ndata;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  404> 			__u64 flags;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  405> 			__u8  insn_size;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  406> 			__u8  insn_bytes=
+[15];
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h':  407> 		} emulation_failu=
+re;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1108> #define KVM_CAP_HYP=
+ERV_ENFORCE_CPUID 199
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1109> #define KVM_CAP_SRE=
+GS2 200
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1110> #define KVM_CAP_EXI=
+T_HYPERCALL 201
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1111> #define KVM_CAP_PPC=
+_RPT_INVALIDATE 202
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1112> #define KVM_CAP_BIN=
+ARY_STATS_FD 203
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1113> #define KVM_CAP_EXI=
+T_ON_EMULATION_FAILURE 204
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1652> #define KVM_GET_SRE=
+GS2             _IOR(KVMIO,  0xcc, struct kvm_sregs2)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1653> #define KVM_SET_SRE=
+GS2             _IOW(KVMIO,  0xcd, struct kvm_sregs2)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1654> =
 
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  506  =
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1932> =
 
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  507  #ifndef arch_atomic_dec
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  508  static __always_inline void
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  509  arch_atomic_dec(atomic_t *v)
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  510  {
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24 @511  	arch_atomic_sub(1, v);
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  512  }
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  513  #define arch_atomic_dec arch_atomic_dec
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  514  #endif
-37f8173dd84936 include/linux/atomic-arch-fallback.h Peter Zijlstra 2020-01-=
-24  515  =
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1933> /**
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1934>  * struct kvm_stats=
+_header - Header of per vm/vcpu binary statistics data.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1935>  * @flags: Some ext=
+ra information for header, always 0 for now.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1936>  * @name_size: The =
+size in bytes of the memory which contains statistics
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1937>  *             name=
+ string including trailing '\0'. The memory is allocated
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1938>  *             at t=
+he send of statistics descriptor.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1939>  * @num_desc: The n=
+umber of statistics the vm or vcpu has.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1940>  * @id_offset: The =
+offset of the vm/vcpu stats' id string in the file pointed
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1941>  *             by v=
+m/vcpu stats fd.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1942>  * @desc_offset: Th=
+e offset of the vm/vcpu stats' descriptor block in the file
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1943>  *               po=
+intd by vm/vcpu stats fd.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1944>  * @data_offset: Th=
+e offset of the vm/vcpu stats' data block in the file
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1945>  *               po=
+inted by vm/vcpu stats fd.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1946>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1947>  * This is the head=
+er userspace needs to read from stats fd before any other
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1948>  * readings. It is =
+used by userspace to discover all the information about the
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1949>  * vm/vcpu's binary=
+ statistics.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1950>  * Userspace reads =
+this header from the start of the vm/vcpu's stats fd.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1951>  */
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1952> struct kvm_stats_he=
+ader {
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1953> 	__u32 flags;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1954> 	__u32 name_size;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1955> 	__u32 num_desc;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1956> 	__u32 id_offset;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1957> 	__u32 desc_offset;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1958> 	__u32 data_offset;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1959> };
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1960> =
 
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1961> #define KVM_STATS_T=
+YPE_SHIFT		0
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1962> #define KVM_STATS_T=
+YPE_MASK		(0xF << KVM_STATS_TYPE_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1963> #define KVM_STATS_T=
+YPE_CUMULATIVE	(0x0 << KVM_STATS_TYPE_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1964> #define KVM_STATS_T=
+YPE_INSTANT		(0x1 << KVM_STATS_TYPE_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1965> #define KVM_STATS_T=
+YPE_PEAK		(0x2 << KVM_STATS_TYPE_SHIFT)
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1966> #define KVM_STATS_T=
+YPE_LINEAR_HIST	(0x3 << KVM_STATS_TYPE_SHIFT)
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1967> #define KVM_STATS_T=
+YPE_LOG_HIST		(0x4 << KVM_STATS_TYPE_SHIFT)
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1968> #define KVM_STATS_T=
+YPE_MAX		KVM_STATS_TYPE_LOG_HIST
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1969> =
 
-:::::: The code at line 511 was first introduced by commit
-:::::: 37f8173dd84936ea78000ed1cad24f8b18d48ebb locking/atomics: Flip fallb=
-acks and instrumentation
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1970> #define KVM_STATS_U=
+NIT_SHIFT		4
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1971> #define KVM_STATS_U=
+NIT_MASK		(0xF << KVM_STATS_UNIT_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1972> #define KVM_STATS_U=
+NIT_NONE		(0x0 << KVM_STATS_UNIT_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1973> #define KVM_STATS_U=
+NIT_BYTES		(0x1 << KVM_STATS_UNIT_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1974> #define KVM_STATS_U=
+NIT_SECONDS		(0x2 << KVM_STATS_UNIT_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1975> #define KVM_STATS_U=
+NIT_CYCLES		(0x3 << KVM_STATS_UNIT_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1976> #define KVM_STATS_U=
+NIT_MAX		KVM_STATS_UNIT_CYCLES
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1977> =
 
-:::::: TO: Peter Zijlstra <peterz@infradead.org>
-:::::: CC: Thomas Gleixner <tglx@linutronix.de>
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1978> #define KVM_STATS_B=
+ASE_SHIFT		8
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1979> #define KVM_STATS_B=
+ASE_MASK		(0xF << KVM_STATS_BASE_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1980> #define KVM_STATS_B=
+ASE_POW10		(0x0 << KVM_STATS_BASE_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1981> #define KVM_STATS_B=
+ASE_POW2		(0x1 << KVM_STATS_BASE_SHIFT)
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version@'include/uapi/linux/kvm.h': 1982> #define KVM_STATS_B=
+ASE_MAX		KVM_STATS_BASE_POW2
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1983> =
+
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1984> /**
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1985>  * struct kvm_stats=
+_desc - Descriptor of a KVM statistics.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1986>  * @flags: Annotati=
+ons of the stats, like type, unit, etc.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1987>  * @exponent: Used =
+together with @flags to determine the unit.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1988>  * @size: The numbe=
+r of data items for this stats.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1989>  *        Every dat=
+a item is of type __u64.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1990>  * @offset: The off=
+set of the stats to the start of stat structure in
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1991>  *          strutur=
+e kvm or kvm_vcpu.
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1992>  * @hist_param: A p=
+arameter value used for histogram stats. For linear
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1993>  *              his=
+togram stats, it indicates the size of the bucket;
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1994>  *              For=
+ logarithmic histogram stats, it indicates the base
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1995>  *              of =
+the logarithm. Only base of 2 is supported.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1996>  * @name: The name =
+string for the stats. Its size is indicated by the
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1997>  *        &kvm_stat=
+s_header->name_size.
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1998>  */
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 1999> struct kvm_stats_de=
+sc {
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2000> 	__u32 flags;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2001> 	__s16 exponent;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2002> 	__u16 size;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2003> 	__u32 offset;
+>> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2004> 	__u32 hist_param;
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2005> 	char name[];
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2006> };
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2007> =
+
+   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
+rom latest version at 'include/uapi/linux/kvm.h': 2008> #define KVM_GET_STA=
+TS_FD  _IO(KVMIO,  0xce)
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
-
---===============1343150379687528564==
-Content-Type: application/gzip
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="config.gz"
-
-H4sICNwM7mAAAy5jb25maWcAlDxbc9s2s+/9FZp05ky/hzSSfIkzZ/wAgqCEircQoCz7haPISqqp
-LflIctv8+7ML8AKAoJMvk7Gl3eUC2F3sDaB//eXXEXk9H57X591m/fT0ffRtu98e1+ft4+jr7mn7
-v6MwG6WZHLGQy9+BON7tX//9sFtfX46ufp9c/D5+f9xMRovtcb99GtHD/uvu2ys8vjvsf/n1F5ql
-EZ9VlFZLVgiepZVkK3n7Dh9//4Sc3n/bbEa/zSj9z+jT78DtnfEMFxUgbr83oFnH5/bT+GI8bmlj
-ks5aVAsmQrFIy44FgBqy6cVlxyEOkTSIwo4UQH5SAzE2ZjsH3kQk1SyTWcfFQPA05ikzUFkqZFFS
-mRWig/Lic3WXFQuAgAB/Hc2UOp5Gp+359aUTKU+5rFi6rEgBU+IJl7cXUyBveSc5jxmIW8jR7jTa
-H87IoV1DRkncLOLdOx+4IqW5jqDksG5BYmnQhywiZSzVZDzgeSZkShJ2++63/WG//U9LIO5I3rEW
-92LJc9oD4G8q4w5+RySdV59LVqIUu7UWmRBVwpKsuK+IlITOzSW3dKVgMQ880piTJQM5Am9SgpXj
-sCSOGwWAQkan1y+n76fz9rlTwIylrOBU6StmM0LvDUM1cHmRBcyPEvPsro/JWRryVBmC/zGe/sGo
-RM1ZRhNmCeFeWDXnrMD1eaaYCO4fqUb02JozCVlQziKhlLHdP44OXx1ptdsOhUvBvBYiKwvKqpBI
-0ucpecKqZSf/xiyVeBW2gJ900aHygrEkl1WapZZNNPBlFpepJMW91yJqKhOnVE7z8oNcn/4anXfP
-29EaVnY6r8+n0XqzObzuz7v9t84OcD4VPFARSjMYC1RnTmTJC+mgq5RIvmQeQwxEiPZCGdgz0EuT
-kYurlhceDrnghnBAhc1eDLkgQcxCU1c/sUxjl8EauMhigpbXk1hBy5HobxIJAq4A180JvlRslbNC
-GvvdolDPOCAiFkI9WluKB9UDlSHzwWVBqGdOQoLJodtMzH2FmJQxcHxsRoOYC2njIpJmpby9vuwD
-wWpJdDu1OGU0QDkOTqkqGAmrJDCVZEu23dwL/eH2udNQA1Nm4rV3vpjDAODfvSEBnXwETolH8nby
-0YSj7hOyMvHTbgfyVC4gMkTM5XFhOdgSoh2aYCXoHCSqvEHjY8Xmz+3j69P2OPq6XZ9fj9uTAtci
-8GCd8ApTmExvjNA6K7IyF+b+gfhAZ16pBPGifsAjFo3Qc+74R4QXlY3pNkoEiQRJwzseSn8gAo9g
-POslqYfNeejTVY0twoS4a64i2D4PrLBmlEPok+KtgUK25NTnkmo8sHAdUo0J8ugtxgkXdJitCiDd
-EjBZEDlsBktzpRRV6p89ZgkDKFhyMYQDsTqoZlpzRhd5BuYEW1FAYmZEbm22mBWpuZszhIgFSg8Z
-xBNK5IBKCxYTfxhCAwQFqDSq8D8cZJms9GfftGmV5RAe+QOroqyAFKKAXwlJqZ0oOWQCPni4uWmX
-/q5jeJmSmM9ScGWQjRWGpwQzMIfSLt7DPIFgxFE3Fn+QXi/qR3PYRLGhgDwTfKWzACNf1v7HTFQN
-g2JxBFIztRgQAYsvrYFKKEqcr2AiBpc8M+kFCIDEZqmg5mQC2JKl0gSIOfgfowzhRmrNs6osdNrQ
-oMMlh2nWIjEWC0wCUhTcFN8CSe4Ta8s0sAp++/KMPDLk3RkZgMGE44z4jRDVprKJKPQwXdDE2hQw
-VRaG9mZQXr2uFfPt8evh+Lzeb7Yj9vd2D4kHAX9PMfXYHq0A8JNPNDNZJloBlcq4LGsRcRm4Xgdr
-JSKrQNVc3Z6Oia9WQAYmOxKAUooZaxItB4feGNOGqgBjzpIh7JwUIWQ2VhwR8zKKIFzmBLiDpqA2
-A4fkVYxaFQbpnBSSE5/KQd2SJSrvxuqVR5ySuoYw0uEs4lCjOmGyVoJdiLbbb6aDegwSB0u90CrO
-j4fN9nQ6HEfn7y86tTQCe2P35PqyE8j1ZcAN6T1AQl9BfLuYGtafGKkTJBN0oTMnUeZ5ZiaUTT0B
-Bs6DAjwyaAecb0egEhKIiRhiIUyo/Bxyr44gTMz9HxlfdBjIoOAG9UG8qlS4MDckrgscJSU6YDSa
-M7a38qSCCZBeS2igsQhVRKZyuCQpLxOfS6ULnsbs3qLGOSjLQSdfXS4Cf/y0yW4WPpN3iCbXi+CN
-oa6Hxpo/VJPxeAg1vRp7hgbExXhsjqa5+GlvjZaQmlU8qZRw64T0o4UUM16VS0dtc0jKAgIuWdua
-vUh6D0lr6guZEE3BDjFFRrvNYDMXt5NJazKJ0e1IlbmJ28vxp2tjWZnM41Klav4drmxJJL6QqsxJ
-sJhBUVh3QZIMDN4xuAhKN0BXLMUN6yAh6yoE+wl0z82lpZmEpjCwaPL/sbXdFCPEKx/EVpKlwmpi
-wI7A3YibEZkq2oqHzq7VK4yxDFaDOQpMKIFMi2bg4+6t4khbKXi3KBveCgmtWFHUHZahrcDMGrux
-GpLEVRrdNQVNtDs+/7M+bkfhcfd3E806d1LlNMy90wDHw/3RFzA6VfLMS+EoScEE6ZyD50yzVI0T
-gfsJCLUi2yzLZuCxI14kkMOxXnyG50a/sX/P2/1p9+Vp262FY5j9ut5s/wMV6cvL4Xh2l7UkhT/j
-RiTmsJhboMPNUllkvjiFhNi0NHWHsLp/AYLjGBa8Eeq/mbg5Hi0h1U8qIUJZoeFAqBCNIuX223E9
-+tpwelTqNHOTAYIG3TeEBvNWjNRB9PAPlLyQ7qy/bZ8h21EkhOZ8dHjB/roRSvPEiuOJTnF8/aEE
-Cm/LGu4+QwS7A52wCHICjmlTvccHXY0Ot9iGMrNk5xtSJnw2l/XuB2yVh9Smb9ISPQMI6RK9RxvO
-20kqWrWmGSt881K8clpU0vFeiGDU6lSaKOIrThUmIFI6PkTDSyntBpiJlTy9r1ejCZ2p9PB1NXF7
-cWPRRSTtrz+jC+/m0rLVvcFsUDw8h5zm2QLVhh+i4UPmx7CH75H5G4PCbhRxJocpcKcT8Ej+xFWR
-NLFPe/ah6WOK5Oqinn/C5DzzlSSKqA5QzpgJ8dp3PWX4DMby3O0ajqVzwWY6YDVN4lF03P7f63a/
-+T46bdZPui/8JtJqp0L6/9nryAae/kn0j/1GmzmKnFH3oGl93Py5O2836IneP25fgCsy6fkcSJ+r
-yAi/C3XSIZxwrdL6SjUNMBmmaKPGMwWT3sf8zAbJlbdRxcA8y4xmQFMIQAYGmQSeh82xxeq4KezC
-VvoorsIdKYl5xNAjGcroNW/9uI9Iz1QkmJ3Vh2zCYaFIUgzm2E6FgnpF50alGsusOekweXrOGH5M
-gbJxU6ssbNI9RrFCNEqvLCwh51I5GjZVsJnlPM1WoGhXvnVtfTFFK8A2ibkTsQNsVuqil4rMIJF7
-/2V92j6O/tI9gJfj4evuyTqBQaJqwYqUxWbj/M1n3aL2B0bfDAVSTLA9ZBqg6iiJBHspY1tc6Nsr
-1YiTPUm6gLqEwPzI6lprZJkONmUMY/LVhvVECtoe65qtrG6enkFFU9i8wRcN188QigAyGeAKqOn0
-cmg5JtXV9U9QXdz8DK+ryfTthcyJmN++O/25nrzr8UA7LnTNYReAg4SzB+47T3DJVg8eGbXYByF9
-ca0mQx9zhx12oU8V6+Z5xROVn1laUW4TCiAJS/xw+rLbf3g+PMKG+LJtT+WD+kSm/QoejwoOe/1z
-ycyTr6ZfHYiZFxjzoA/HJsms4PL+DVQlJ1ax3xBgUT3QF8ezmyTEixWVqlF96Q8S3QXS5QygKvk8
-QK8Sn8rOGJVEsPmT2y02i0Df8oAymhb3ufesNF8fzzv0KyMJib9VGqr+nVTbNFxi+96rfRFmoiO1
-+lQWuMsInBHNhSafMYuzlQIwjBhmkxrBqsrQdyKy7lDOWgA8yTPdrAghEKAo/Lulo1vcBwPZYUMR
-RP40yZ5Fm6wR+3IBEenEqNe1ekTOU+VVIQJZ1x9qvIrkGv8WzvvsHZgyG3rYRNpPdwd3ugr/d7t5
-Pa+xjsV7WCPV+T5bwg54GiUS47HPiDVS0ILntulrxNDBXFawsKw7+U1dPTAVNZdk+3w4fh8lXbrp
-yRR9val2Qk1jKiFp6e9dt90nTWI0YxuM0YHC43p1ypTHzG0RGW2ulSxYwnyoJfxISN7rhPUo7CYY
-pCAsx0Vii8k6ssFVt1cnnIxPD9JQ1aVQ7+kfwOupWZHEJmiugWSpuyXfnAyIKFsy37AuRuQxZHi5
-VHatG5xWDuhcWFL94oJhnLKy1YTPCkdMWEHqNCMzEtJ8fi/ASYZQ8btHByrZhUw5KO0zMeFrnjeC
-URoH1SmeTnOWxozoLr3XTUUFzBCvtPm2k3VCD0binj01ILOSQqDq9NkgPKEQt5NPDewhz7LYrIkf
-gtIXLx4uoiwOu2r2QSWrSpjdozVM9WD87UcWsaLAJrSugpQG8cTa1yYNm3MrrMkWlobrDi+OY6ln
-Vua924qtBxp2Mh2DlPUvcoXbv3cbswlrFixW2NPptwVyv9RX4YQN9JyjAlhZNhigrwUHWCLyxGKj
-IEZz3eKlcKppJMjSb4M2GbbQfoq4uycwMFHY0fZE8V5gD+C9KNjg9OFD3Yd2hPe55MVCOOsdbl6i
-uKV5/ooQIh2mjJLEZcmz5QDDvHDWkxNhHjogKCaBeZzSOFXLQAyg0wp1MRUPEj+WDnIU87xt1MD3
-0eawPx8PT3gn6rF/woBPRBJ+TrwnZYjGu7m9624tonfNTtnCCg+HV651gtekRUbnPFfPevbgafdt
-f4c9cJw5PcCH7vjAZBTeOQOGd4plb0SA5xBNe+P5qZjPMSvrZMLOk9+aqk52Dl9A2LsnRG/dpXTe
-aphKa2n9uMU7DArdafI0OnnFQknI9E0eDxRWN4DAtfckZyJ74hskdMao/vg4nTB3iyngGzxrAmal
-lj8WRVvD+K2+3RFs//hy2O1t4UFGE6rzecdD1NCu1Wuj86h3BtXAUxl4I5Q1hXZSp392582f/t1q
-OrU7+M8lnUtGrbrtTRZtbrCKVa7zbAIwJ3YBVUHu1J4naeg4XUoGLp4VJOchz3q7WjXOdps6tI4y
-N+cvdV9vzuLcvBthget2hNFtgWJfJnnkP0OElCENiXsCb17mVrybc039ykJv4u2B3NMBbO/YzTi6
-q/TppJEUNCCVzIR4t9WotqGCIO1oxusP3VPqDmIrgi5h9BG0IdKfY7aPNL0hrxW6i2uze9UpwlaK
-Vd+1UsdeR1jwpbd9UqPZsjBLKQ3FbVI/WbUlQctYYYm4T2lDo9pQnjEKNrMKKv294lPag4mYJzq1
-d+BmzK1hSWL2MBqmZtXdPJyVeGMX9Pg8hKmS4HMfi2eIyySxGs/+raGsL3g9jR5VUmrslSRbSSY7
-3oInWLtCgmatM5lze5/XgLam6Iq/GoG+pQ7lXnMxZ2Nk4qnwtpKlkRXBF6VdnI3T1HpZH0+Wh0Na
-UnxUrSlh+lREGM07OTBqlUXtswYU7FjditWo7z5UCGrD16vu697m+8kgA3WzVR3ZsNDPTJNh8weK
-6Ht/e61ZuxJJCR8hF8D2lL6oKI/r/elJvRs3itffe0IK4gXsMmctTlc2klapkcJ3f+9sEFNEYeXg
-GrsTUUhNBYnEpbR0l2X5kMrUG16WutrGJLZniJBdp6sgyYciSz5ET+sTBLo/dy/9KKlMJeKu9fzB
-QkaHfAoSgPXXb2C5dhdx7LGqC9EDRycSJ5rjXf5FpS7zVxNbNQ52+ib20sbi+HzigU09sFSyGN+b
-9K0hCQfOCGoCiJrE1gRCS8ljZzuRxOUPShnUPQkEBFuvV3lDnzqJXr+87PbfGiC2EzXVeoMXYqx2
-Mk43Q2+4QnnmPJ0NqQobQknP6DSwPoa0JdvgQECFvB3/ezNW/3wkMTNe9TQRqF+l3tupPemGIPO/
-HIEkSqvVsqhS750NxQWS70YvTW3xA+Hp12m2T1/fY8a43u23jyNgVbt5/8bKE3p15diihuFt+oiv
-vKh+1AEctt6jmIj50Iai83x6sZheXduKEkJOrxyLFHFBEldnWhwmRxm6MPheyUySWN1I1c08G8sK
-dWiL2Mn0pudupxjr6sAW7k5/vc/27ykKuddPshef0dmFd0v8WCGKVwoJrq0ahDhvMCjPmzLEuNKv
-wfqC970+axiKqTVpV+l7OWXSf03RpJmu0MXOQK4DY2HZoaZbi7RY//MBIuUaqpkntebRV+0quvrP
-IwWoR0nciwAGCtOdgRmYVKG0DUiLmES9EKEQyYr7jkla/CyHDLPPD3cutta8POva+i22BAyUpN6n
-td+IZ0mvtEl2p41HcPgDUkovM1B9NrRXtdC4WGQpdnf8km/ROsy+eW75xkMhljS2j3VJg0Aqg3ZN
-FVNwZUS9e6yUwv77Bjuu31hpB2DmHxgwoViUzwkUEGnPyXlIIFXyv3Lp0gfuy+nNGZtnsg1OuQW1
-pDgHSY3+R/+ejnKajJ51a9zTBcSh9QO+AX/M6hdXyFnhlX2m6tjqEg/H1R8zGBREQy7u8uZC71D+
-2KfEq1lLdYgW+22gJsdjuAGuZcDtvQqA6i5Wt5bEHA9JnFihCAIW1H9hYTq2h0VsBLls4j37aShm
-ccl8AzeZvcVyfp+zwn9wEErDVLPI/AzVC5fSuqQBQDxYxbepLSAjRXzvRy2y4A8LEN6nJOHWqO1e
-NWFWRZ3h7TDBiiUm+ubJrEZksd0jAGh953roVNK4RZxTrCPsl30agNms0yAg93eKajRZ3dx8/OS/
-YdTQQHpw6ZlYnpot0bR+kxU7yoLMWHt7PD8ezofN4cns96W5fTxQX3LpAaq0jGP80sdgh1YIzH14
-fjFdWS35BycO9y7TxFC29Zv0RQApye6Eh/yPoy/bzfr1tB3hneIqEiPIMTker+lHnrab8/axW1HD
-WKxuzIk04KH50BCKhCpfSBoufeFC30BRAnh2hyqEWrROmpYJ6x8oINR99bOR69K+hqhI9Y0BMvDG
-tiKZ3yXei98KGZEAYqmxLTSUOgCoNWbMslUDjEdPAnyR/xUgk9DVoYckokOjRNR9vIs0pizbnKLf
-sYLaT4CjB7coLuLleGreqA2vplerKswz6QWqnt6zD4ENvBYRlklyrxxLdwt7TlJpvkMpeZQ0Ou56
-jgj8uFpNfOfSVHy6mIrL8aTjCplYnImywPcBC3wJ3mgzzfOKx0YDkeSh+HQznpLYIOIinn4ajy9c
-yNS6ytZITALuyvuuW0MRzCcfP46NmxU1XA3+abwyppfQ64sro2EQisn1zbQjQCfP8YyI5hf1WYc1
-p6GtGd5VK/WWFjqagdOc9gzFPSnRp4SVCCPmzZy5oFUhhVFU0mntwHXaxnJsPJw8bxgpTEXk1OeS
-O+yVoV0NbP9Aj8srIavrm49Xw+w+XdDVtdH0b6Cr1WUfzENZ3Xya58xcXY1jbDIeX5qlvLPQVhrB
-x8m4Z9YaOnQybmAr8CFlortat+1LTP+uTyO+P52Pr8/qvenTn+sjOPozdiRx9NETZp4QADa7F/xo
-v+H0Xz/t8xN1M797DyOWUIZj+yX3NSOhML37bP/hJPjeFlb4nt7/M3Yl3XEjOfqv6Nh9qGkG9zzU
-gUkyM2lxM8nMpHzhU9maKb/x9mzVTM2/HyCCSywIqg+2JHxg7BsQAKLpNlc/6WSWpxfaxe+YVtPt
-0TYmkzLF0AmpfFJbxqp21Z8ckzqZEomE0THkG9pbm9TK/bkgiAsJ+aQy0zXRdVP3yMvvlv8NHSOV
-8QF/Gps6Wu8uegZDAuKmvVWj6BC6pMgwgpblCM/TI9UbREZSRw8JmVxF7frzHsWHv9ROA3RdwQ/M
-1DcAovuS2rSna09Z3xZ5nj8w7+A//OP0+efLHf79k1psTkWX47UPkd8CgcjRKxcBu2krm7FZrG8/
-/nq1dlZRt1dpO+V/wqKWydsQp51OeOYuxQFdugxATBgJPtLCimCpkqErxkehR10vMb6gA9HnxYfy
-l1YsGEQg/iknWJU+tX1yHa1on4IcUk/j78xx/X2ep9+jMFZZ3jVPmLXWDPmNJAqFpdTedn2e+OQx
-fzo22tW4WUJJgdBwJ+beJUiwwLQ9RT8+ZRS5bM4F/GxbCuxBMoM1PiUTXMGpV29KN5b0qVWluA3i
-JnuL0YTkmbDgeQnHsDwltUZbEXLUUml6xS2L5ppeHknTwY3phMEIMSOyilTF4ABXJKWZZfqUtIk1
-L6yPetGs0vV9S0N5SayJ30BQGZNET3vWGmppbv0GCVuHHIz4Xg2Ct1Am2JVg1GzjfgM8xXlyo2eU
-xnSF0+bYKb6TK3I+ubShwsbRkf4vCj6pdggbdi3KMq8sfqUrG4+7kZCO+itPDxvjvajRrINqgKHK
-qJbesuB2oUSLCmByPZdM945ReizRWlamKjnnJYyjfS7u09N0dFANletIh/vZmNDYmreE0Q73IoM/
-iDH14ZLXl2tCfJMdD2Tdz0kFp7I3ajVcuyPeGZzGvQInfeAwRuSNy/5VDquxIm0/tkk2W4OY+W4w
-7JV7WZ/6IgmP+h7C3cuVhVFQ5rUH+j1tKtobbU4Alz6xndk3FTh26ttlHLdV7IxTU8OepAS24HCS
-RcynmnKGu+JDA0fWy7xpmN8PqRsuyduTGaq8nFJIBGuhF/FYJSxwzLRzb3QIt3mNCySxKAoD540i
-VCnzotib2ns3O9hrPVRVSewHjl44XHGnI4hc8vCXoAyGrGL7JWE3DCKkf5W20A72YjyOw7uDntrQ
-9mHgstj+2XAvfcdzFAZ9BM0svFQ7DXrlP6wN2SZllfT2krTpKQ4i38yfN0nXYFBVVJ5gq1kzyZLI
-jR1p2GnowQncdUibWGAb7oiG3htD5V7FHsMhraedZGPp+SM1iziwu/0uPIq2SkDF+94ND4ne60AO
-3dAcQFXiOY5jIc9qMq2AsJklfPkq4bdjstPw3Y3PZ+uE5wxhsDDsJxRGa0KmVDFgdARm7YuuKnxN
-EctJqmkfUlQDPk6ppAWYU06Op/EAhS++jUZ3s1n7oPMzZlBcneIpuruZRimdZigx2QNFqcRFi8vz
-z08iHs2/mgcU8BSNqlIF4uJD4+B/TkXs+K6qZ0Qy/I8qNVqK5xwgCz4eaZPfmSFF6YPUUyJcFkdF
-zBHULrnrpFnNQzADqdK8XeZPunTayztped5fVSpfl5RsrqLJVj48mOiRZRbaVPdBEJPtsbKU9Ma+
-4nl1Zc4jpXheWU6wiTNZCUiNiVWdQOkEhJD65/PP54+vaAyuq+YH2cP6JikN4EfflNwlq+6FL2Iv
-cy4Mkp7rLtHW6gLnBqA3aaZFDFxavy7GA2x1w5OUzRzK20YUcSB+dwPJ+67MuHbuOjR6DITZ1unn
-5+cvpmHTfCDj152p7OQyA7EbOCRRiuO6WAfSfOIOUBm7C8TCIHASDIdVJDVp1ypzn1CQebSlNbf0
-G2koCkoZyMeksyVd5TUcqMgwlxJX3U1XbmPrU2iH4USqfGUhM+LR3jLSKkRp+bsSOkCFbJXoBjeO
-qaPvzITWw5s1jrgy/P7tN/wWuPng4TpsQgc4pwBHU4/2pFIYlAPFjGCrlLQV1syhbo0S0ZyPM/iu
-r4ic+uJUWPz9Fo40rUdKJl9xFhZ9NI50mVaY6IjtU/roZLApe/2MHtMq9MZRXdeBPu8g74bkjM1p
-wzmmpylh2EsiLoY+jmWmY3LNMGLo74wFruMYNZV535yZ81VY29OFU2Frf8N2aNYZtkiYl6I+TAO7
-1jU+ANo2kT1XQ099OZUt2bocKupTmY8kDn/BEoNR44pzkcIa3RGjWWeh9pVlLsGa9IF51JXcMora
-LjOKgZOMbOQF4NE5l/bSM12ZiC6VjDiVnUZfA9KhK4Viz6xUjU+9oPcSqUo+N2V2KvoL37vlS/vm
-Q1MV5JTmtiHATqR2uS3eNkRBeISWqyUqescVatR9b6uo02fLDGO8YoS5SUTt7jQqBqgUIrYGcP9C
-NWCHoPNrMe7RpcgcG9YPHX3wEBnygPZCRXhKZBUeh3vFkFSQYAW1pcZfnslk1aooCDpbN6eTUvbj
-Tt5wcNIDQa8kEUW8aITn3lq2DeeGn2TPbTzHxPfYGzyi+6iRs7KkMJiVIGIrMhbtJe/k8CptW8Kk
-VjyuoQGgFmQx0BZ4x9Pspp/PL21OizEwzs48XL9oN/JaEP61dFPLZM5X9Mudo0o1CKrgLxGntJNP
-lAuCdwR2hGvUFHWiBMKqW9Q5aXMks9XXW6NEmkSQTPiNBNPuqNbsNmCQgK4Zn8zS94PnfWhdRUGk
-Y5bTgMGmNCnsiuWT8HOTbUo4zTBIMTl0j4vF0diQmFYRfh4S3bUfpBi160UhVMG8j9VMGbhXv7vF
-iKTWEYD5XeIcHmZbfHCAcP8Uy1cpjw4vX2cCsbquBnDVX19eP//48vI3VA5Lyz0VqCLDqeEoxGRI
-sizz+pwbiRo72EaH/y0lRLwcUt9zQjPBNk0OgS+HYFKAv4kviho3U/MLaFyVmOUyv5FQVY5pWypv
-Hu02lvz97JWrvoK2XvippKQ8N0oImoUIVVxkDsxsFfbR8XLrodld/AFSBvqf33+97nqMi8QLFniB
-3lGcHHrkDFnxcQevskgNuaeCMWPMyLPKpqp1rWkWsUPa4iHUK7cIQGmLYvTVjqz5TZur8tW3IisS
-GJRXlbkv+iA4BFqPFX3oOQbjIRxV2q1I9MoBCdY/Q+nAo6kSJvc85VQ9s22rCH/C6eEPdLqdvbf+
-8RU6+8v/Pbx8/ePl06eXTw//mrl+AwkV3br+qXZ7iivcPEOVaYBRhLnTu243psF9mZAvj2lsq8Bs
-y0Yxk0Isr/Kb1kf6JfdCm5ZHA99xdwHrwHnMq7YkTS9wpcWKatMQZpss6ktI9+iNeqv0RTXklney
-ABbCmdGRGF785zcQA4DnX2LCPn96/vFqm6iEdTqSh6Tp4XRr2gE1r3+KlWlOXBotasKnvlBMj2zL
-izLoMXiOOg1wPBgtU/J4rsI8kW5+wYKmn+h5oA8TNENUdQgbHZdFc4AiYsglUtWM2njKBpxmdY+0
-2bOYOlreJVwSEkFYkuiS5R/u6ABc5IGuai2W8NgqycgBafkaORH+fKief+F4Sbc1njBA4pEFuLKB
-koRXUDu1SkB2UoKDcWQs+E/Y+ekocAjCRnZMVKenfo57DuJMST9hxc+/Vrc20VTL4qE14X1SnjGb
-aa3W7kjTjSf5Jb5ukihh9dhOqLfANqcLZYjrQCuryJnKklSU8QxRXXBUC4xEzeIAyU3KA75bUmrH
-xFXUXSvNrH3XpI+zE55E7VMWw97muBqZqwJVGvoxqpQRI8HoJTZXPQn88FS/r9rp/F45r/OBVWXK
-AJcOWabhKZZmO70i/+ImM8+MXyoz/FOsC3knNU2LwVIM63MEhzIP3ZF+aoYnaNkE+TDTXZ56ETZ/
-kzstA65tzfDV7dA+fPzy/eN/64e9/BuPptlenvBFWjSvrPMBX/1Fx3Eu0PZDUqG7+8Prd0jv5QG2
-BdhoPvEwE7D78FR//Ydspm1mtqpv9PP0+tSsAKb1tcTtg0q22JT48Vh9utapdi+CKcFvdBYCkLQD
-uNrPeVPaprlUSe9FrmJetSIVfXO54FXaul7vxDuJY8hk5XG5hT6ywBkJ+lCdpLm6kIUVBVXGJs1t
-DyOsxVwDp/W4EBnDp3v59vLr+dfDj8/fPr7+/KIcOJdYCxYWM7MScqqTM2kzsBYIBd/ErHza+1HJ
-AgtwkM59WA9ldZwJ3E0S3atmT8pge0C0OWknWn5GVH3kllSK7j1fBY3RpLefnFSqrB4raboxjWpE
-veNUNEzynE3aFk6yX59//IDzOs+XEAT4l5EPSzluWraSiZ1ar3mVtcqSJkps3VyF+dI9aZVXuTgV
-7/7oK2t+DB/wh8Ooiy25PQhpQMCd6vzOiZfynhnlqI5x2EfUtiLgvP7A3EhLad7F1DzvaXZA0x2V
-Ogcm/Kq343QC+VIOnmHvu1VK49SXv3/Aokz1aZK1QRBTK8sM161WjjOGIcw0ohhUDjXUXL12M1V7
-pptbO6AGxdP5Z6qNP9JzFZZeeipDW6RuzBy5/Yj2EXPilL3ZbsIC0dZuxyxyAjc2Rg7QWcwC+yDm
-DK7FcEMwQJVZdafif4qpw63QtNoL8zOt094l9YdpGEpjcpqSqoqXrXfwqee6ZzSOPH30IjEIAyMr
-sURbZ9JsRKklNu9SahVhR2tzo8GH1Avig3WqcgtGJw6Nci2mjbsfxqE5yoB8YK5W4OF9NcahThSG
-j1oK1/TIfEevsbD9U+a+OUbXMI1vjN3jEI+jvXd5fNkMfmGU5mxhyQWP62vl77LUc9koy/JEkdaj
-slFUbcNh/E1NfcyMHjsw+/rLFyOmL1Gp58WxY/R0W/RNv7OtjF0CHWId7Wuwu+1e1awWr+7t88/X
-v+Csq+2xyqpyPnf5mT+zY0wUkJiutJczmfCS7p0tGlv22/9+npUpm1yyZnJns6jPnaYaqnE3lqx3
-fdkxV0bYXbnv2yDLmWZj6M+F3I5EeeV69F+e/+dFr8Ksx7nkHX1dt7L02oWejmMNnUCpoQTEWg1l
-iIfU0wNfUqzMsyUfWpN3aV23zBM79PaipOPR0qTKQ1+8qjxvl8f3qEVU5ghkJ3AZiNTpqkKUEl5p
-h9zx6WTjnEXEQJsH1CoT8MjjGPpDDs6xERd5jsaE/4EkYEmgKh7oCH+pPVFvjWWeEpI+BPT9hMw3
-J/MmHwZ8t3gymGyriQBtxXHjUXlzHl8S38WgZLMloHtbPplVFPSdZ/oUNiOCxcaWJYKVGiTCjh6n
-6FXyuJnJ/Cvp2hhDvgraZnl6Qafejp+dnVDaZ+Y3FkHYG+KDHyTy4F2w9O46lgPgwoLDO6QnqMwS
-/xss9BRWWCi75IWhP/ZmtRVilYAQrhOXz4/v3WiUVYIaoDsF6PAlI58z0riyYbpCf+NTmzAAzVLM
-B2IiH0BYsN+KcJZgkeP/W0z0nFSYXPLUsrQssMQH2SNgAfD0DAKlfEMwI/qmajCUgxcG9DDYWFKf
-hS5tiyOVjflBFO0yZfnA78AEd0hevUoJamd7FTl4cpctGHS6z4K9RkQON4jMRkQg8gIzPwACSJMG
-oENo4BBbgHAciUlTHT2fKJQQQA6OOWzPyfWci9XeJ9aYxchOHhQL1g2BY9mZl3y7ARYoehla6yJk
-2L2mzg6HQyBJAF0dDCH6g6mLKF+nZbulCmOfFYpiRRDnu7ZLYYZ0qp9f4WRLKafWiDJZ5DHKq0Vi
-8JlUXIUeyzaYC71ijstsgCLNqhA18FWOg3JVIUMedbKROVgUUXWoDnB0pIAhGplDl3WAFtsL3oMc
-PnOoFkCA2VL1Q9rdReIgYwJxICCb5jIwyxXIwgHnsbc40ih06cVw5Rn5a8U7T3pvqbW5+ojvigxj
-u59LCv8lRTelmjWGha3tr2ZjZX3oEj2DQZNcRrAL78QkS6nmFQqinaIUweOUyP5rC3CKGIgcJxqI
-3dPZLMopCrwo6M1PFm9YSyFPA8iJV/6q9k5Jz2XAYt2nYIVch3w3a+WAk1dCfhrtDunZEKQ2K3sp
-LiHziMFeHKtEftVCorf5SNCHmJj371LfNamwAHfMdclZj/Hp4cy2U5n1bsUshNiPAhtAFHAGVAdJ
-HRQ3sGZRET7sLVCCwyXLAwcFYh4g4DJy7eaQu9fNnMMPLKmGRC8LgNhD8IjEmAWQbw9keuiERNtz
-hB0sQBibpULgQHQWV60pUq2KeMSCgzHHQmqX5IBHFysMfZfqAg5ZzuQKz4E+iarF3R06Vdp65O4+
-pGHgU+sPHNZcLw73l/Yqr08uO1apNcDiytlFsBx59EEgtaho13FVhZROcoMjevJXEX0wlBj2tgGA
-qTleRcTxqaxiakKAnE1S6SlZxfsdXVaH/dECDLRgJjHst+QhcD3i1MgBnxg/AiAWiTaNIy8kphAC
-vks0bD2kQptZ9EIprOPpAPPbo4EoIsoAQBQ7xARH4OAQ9azbtIpkmWYr9SkODlIDtKop8cpXKc+8
-yEdZNwwtQEQOh2NeTu1pb+86tsnU9aFDjv5T304eab+07b1Tejq1RC2Kum+v3VS0PYl2XuBSiwkA
-oeMyapIDFDsh7YS98bR94JMWxytLX4YxnJuoLMrKDZyQDgmsbKERJedJHF7MLBtP4DmkGDBvV3vy
-mNieHHrrcJ2IOjUJhNrYxZIfk9IDYr5vUeNITHFI3oWvHC20FDWxqzAK/aEjkDGHrZmox/vA798x
-J06Is0s/tFmWhnTA1bb3HX/3kAIsgRdGB6pXrml2cCy+vxuH6xAlHrM2Zy5R3A8l1JD4oD8OfUGQ
-QZIjxhKQKbEFyN7fVE0ASPemxWI6T3yaVTkcZfb3lRxkEfraT+JwmUOsvQCEqOWluq+v+tSPqt2C
-zywH157A0VPPPzpTekE1lPEgpoJT+w0HvJAAhqHHWUd1RFXBkW1fqM5S5sZZzGjDho2tj2JS46Rw
-RGTLJtDqsbu7UNaJ6xDHUaRT+xvQPXJNH9KI2CeHS5UG9JytWubszlhkIE5FnB5TjQ6ItiuQLLvt
-AQwBI3K9FUkYywF+VmBgLq3zuQ2xu6u3usdeFHmELgCBmGU0cGCZWQoOuLYvyOM0R/aOtcBQwtah
-vuemgiHpnCvxwIS6nCy5A5Zf6EuzlYvfP+0OX3wopWLOtAoXy9W+5r+jzwx059PvtfBQqQaXnEn8
-Keuit0RRWpjyKu/OeY1hTuYbwSnLy+RpqqRnTxZmTf+7kJsTlT0+isLfxxi6gnyPbWFcnjo/Nzco
-c95O90J9M55iPKE6rb8kHe12SX3CH7Xk8Qh3P7GnTjDK5SVgdFiYZq8FAt5KJF0otFeqU7P8dury
-9wu0W4O8uoo4OjuFV1+gXP3IDYrmL7OS6+aePDVX5XZ7BYWvPXdanfIaBwHlLrWyN21ec+NyTM8h
-0uOPzhsXCffn149/fvr+Xw/tz5fXz19fvv/1+nD+DlPn23d59qyptF0+Z4KNT9RJZYBpJ7lu2pjq
-pmnf5mrVqNsUmzxSeaJUw1r4efL29rG9Nt83p0Hu+m0pkwEpU/peVFwvrfwk06y0fpsneJsn9Eie
-mUOY2RlxETZtDlVhtPR1wsN+3vcsgVbJ6FaYrQ52CjZHVTGL9qEoOrRoMZHlsWtzemZ3sh7Lvd1O
-MZYwjWaaqI7zxpFAllh6JpKURRUxh2G7yFtuEXqOk/dHa3sVQ9ro4AwJq9U5xa2DpsQV2WzPzf/2
-x/Ovl0/bQE+ff37SH5xv053GgORUlyYocdv0fXFU4t30R+UPjPQih8rgX6UFf6Ge/HpBVeLy9HBa
-8LBK0pfbRDTY6KPHxmYxzjumVULmgICxcnA/qf/869tH/iSs9YnGk/EEIFAkmxmZ2nuRHOBwobmK
-bISjTFiyu5Rkyz9KBjeOzHcoOMbDwKJnXWp7IXTlupRpZnkZDXigVYKDM1KnOA4vtttGCcbWdWzB
-ppBB92TZaEY47w2h/QR5868OMMp3nOzRotyKx2/gpM59Q82Ow7XZo5psRQNXL+m8L9hrODOocdAX
-ulFxvj1QAtoKeuq4FJZD8sqF1HMy5Oj11k/n3tqTKfNGNeiYRN6p0cJhVKlq3dA96GW5FCFIf7wN
-iQQvA7py90WqGNkgFZK32f6XLcBkoHxEROwDpQxCYmkreinnHBhL1jZduH9CWjWZ8iQlAGKlV2ki
-oLRDEY3u5uTQseW7mDrpTSrskqxLjGnQtFHjUJ+7ponTSo9J34oZjg9OZM53ILv2eclxUmG0obFW
-wCEUNxVqQkC1p7McleTi5R94YBTyPUFcExBTG6wexv/n7Nqa28aV9F/R055Mbc2OSIoStVV5gEhK
-QsybSUqW88LyOE7iOraVsp06k3+/aAAkcWlQqX2xS/01rsQd6K9Ta0RjS0ncixiAVbwNWQ/FKk1a
-UxhW5TzGwU5BFfKHU1bicdiGEX5txvGrCLXN5JhYWZkV2aRxZ07LKkwXq+XJ8hrDoTxEbwM4dnUb
-sZbr64XqDWOEzUWbP96/nrnTu9fzy+P924zjM9r7Q0HW+6BgzjNCaAxXow3E7ydjFM/9GhngFmyz
-gyA8dW3DVrmuQVYYKJnfEV5Rosf7MuYsP+htZLAzGrfKVbP05iF+NSve8qHvqQS0OunxD9ZHv2zp
-em5mX5ok4cfWvUK0WLnGJyihYZqliEP1YYGSXIRIhd2Tnbk1WnYF9pGSMqk9pw2IwUIgMTbQo6eN
-/SYFW+X1GDkkjiezTGM5X8ynOuZN5vmrAI0/y4MQHYN44sIMzSiksAoz4jmeIvQhFk9jeJijr4iF
-MSIqxNaHPXRhgegvzIA3eYgfZPegZ7VatsF1Tz0cjJAgC/SKSoKBZzU/uY12L6ClAtKcAAnnZlC7
-DPg9LR/jy30uDDedK/9eRRqFooF9qyIkxjYNp/yAkTmK4Z1vsq0xf2v0c8vUWGxqhJ0KJrR7pXYC
-/dFkIXNt/JRjhnQHJ4wlZpVRx8YkXQOLjbI2yGitMuzHvYsLlTSp7op0AMagTM7mcId8ico/HdV4
-xuOHumvK4raH8CMKpkOK2/Ki0p7U1SWlPE67q02CqY1Kp7xCC0HFk2qsFHWc55Np8woG3k+H++sU
-+MpiVttgi2Nw82s6EtePzRQAXN3hHEe92iapj5y4rkmzNB4OcvKHL493fWN7//VDZY2X2SM53wcP
-OdBQ4V2qa48uBaD3bUk2oVETsIF1gE1Su6DB66MD51ZHasUNBv9WkZWquD+/PmC030eapNAaj1Nf
-suTPnTOcbOq4Gac8LStaksLz8uO3x/e7p1l7nJ1/wHCgfBWIB2iLSUKqFnqup/DiAyjZarqcFmWN
-+gwHJU6SCL7ZKWveWdnAg1X1jJPpHLJ0ILMasoxkTW1IiMd58bFiOtHIj4ts/JziME11Q8CrXp7H
-6llEAo2La9Z0TNw+bcvjvxpYy7DYetI23S4ibzpQAKcn+Kk4ywZvakgSZpszzIpF1exZ8Vg/immW
-gfsc0VX1/nn3cv/49HT3+gs5CBTdsG0JPzpQAsHChIwlkvrxKfGjaC54jeqjasKJBDN61KEYOVDb
-ny8jv93s7uf7+c/eDfjs71+zfxEmEQI7+/8y889jBva9Sj29VbE2IZGvmvhYoMpWYYBsXbDynOg6
-Ut+Ea2BKwtXSFZKDjpB5689PjgydYn+urWA0LJzPHaU8xQsnlseLBVvRB/3Xgea8ZZvGd/i2//+P
-NJ5Iv73fvXy5e/0y+/B29/7w9PT4/vDH7KtM4c2hes8Zrf57xtrS68PbO1ClI4FYXv9spuMFlXb2
-4XI8sUwUgQnb7c4+FGyQ/T4jzw+vj/d3L39dsbH37mXWjhH/FfNMJ+0RiYM2yW9khGvpJfqv3wza
-D6+K1uz88vRr9g7d7e2vKst6VTZ495SwPX/x7Ov5VVRnrxSfn5/ZanI8MfiQFuHc970/cDpZ0bXP
-56c3IBlj0T48nX/MXh7+o2VVnUi4T/Ztag8k9qDFI9+93v34DmcZFgkc2SmWxOxHRxeqMQBI9lX3
-+aT0x+OOAIGxJeAz5K46GLNjbXNrEiYb/eUMRVDFXL59vXt+mP398+tXoGZUAsi4txt04EeD8XCb
-u/t/Pz1++/7O2kYWJ043vwzr4oywCVosJceyApIttvO5v/Bb9eUTB/LGj4LdVuVf4PL2yHZq10dd
-m2Z07fsnXRWEgWodBcI2Kf2FZhcE0uNu5y8Cn2APVQG32aJASvImWK63u7m2f5e5D+fe1RZ9OwgK
-+xPbcK7MbJRtHvh+iFHhgKV6xn1n4ZU54ldt4ofaofKIiRsR/Cp+ULqOy7y7wd9djFr2HnzESFJF
-kdN6XdNyWOspWuLSbjIvWR6AjQlSGRUQodcEr43+qHQy7uH2EYnAdWE6ZuwY+vNVVmFZ2yRLb77C
-EFLHp7hQXPwpEaYa8/eFTiiH0Je38xN3Zf/j6a4fzeyOCkNPbLq/EMPjtJj9zw550XyM5jhelzfN
-Rz8cs30pS72eNdYOp9HloVBfBRo/hPsEXVTFuS5IciI4Y22oSa/7DqbJa3KT04Tqwk9E9VvcS3pX
-g6l2zwso26vAIyvskZ/Ipsy9EezitohnXG6ny4yNThqxL0Rdl0CxrAvZkn9TggNqBroxWrRGGceN
-lSnsg+GvDWQRT/WhsBk+FKW4zbojyWjCH6OZCcka/iT3f1MRHS3yYvGBD7Ab005Ehi8PjddVwQyH
-JiC9uFitxm4eID3S2gby6rCYe53hgKiAVxDrVQeHMrHRYM2NJRdCZo3wmfaujFcCmoG2IkezAvK2
-wc01eFGE/y/uCQ4rjNHjWEvMSeGfFmYivISSxYW4HHzxlmKzzu+TP8nPL49ndbUzyNTk90D/Uqck
-y0ogRv+cflwutNKY/aMpjQpnApFV3aJJIj2TpD6OWGrEahBCyI3Mqd+4waZK6BaBc6jAymq5Eoo/
-cw+13jo/rWGNwZaS+nW9K1TdhstFOK0u3r+wQI4WIt2dQbm6mz1t2swchhW+fVF4YwBR2PjtxW5z
-jmf8Q/ONwvb14eHt/o7NI3F1eDN2DKOqPOZBgvyvcr0p6wJIr0lTx1jtckJs4qDmVsMfkpyij7jV
-iBqkWQjKbfSrA5Sy1HGETQxbmjlCTZXnFB+xw75eheYnXpyDRjs4+RnUKKAZ7OnS9+bYxxYJ4O8l
-ezxvr7pNGx8bh1tXqdaU264tq4yNypndatB76MCfQTu+4+VQD0wnb6/RUHZ+5HtNVujJbEs1fhvZ
-wf6Cc7f8ThDeSqYV2221I2YWzOoHXydyLJRmBHziQewI1PEQmZzEwEUO3aGlGTqokYMXrHw3YhJB
-Wbj1zgBTXOFmkprKyXPkYrWcQGT+XKjOH6+gq/ncUWq2r4jcSLe/mQDxzFwtPJXwTpXr708UZBGi
-xlajQhjiUS69wBHlcoEaOg0KYaASoSryMMQqJIvDpY+mtUn8aOmjBnq9BtvmxaUdqfHoaBA3QZgF
-yPcSQOACrCXOCKEmR5oGUhdxs/CzBZoPBoRIM5UA3jAE6IzOlYEVWukABQ6LZUVlOV3whb+a48mu
-HKVbea4hQqIOnxiK0umEtC8JOGsu8IK5I9Vg4TC/U1XWF1TCIAtQY9xeA4yd1cOtHuDrPKRJJjlF
-qyltVh7q8V1REGQGSNAoQKmAVQUfqVwhx+tWYujIuWvzpbmh4DNWUZTg+mgeLLF8Do9jOvTx7bCs
-IGxxPI+Q/HKELZuJAwqx8ZUjy5UDWPsuJMA7WI+5HA+bak2CzBQCXSN9TOQWA5o8WntLeCUiL8an
-deTduK3E1u7eMkK+HgCraO0E8HbCwTXSASQwGQpvXgBGS0eUDHBHCaArymCOVasEnFFy0Bklq0ik
-LfaIa0Qc8OkxkanBYy48gdDz/3ECztJw0KRykjDrtwFu2t0rZGw2RwegumWjcARNfSo4U2JtU/QH
-JIpw6TloMBQV3IRZUQjXrtgj38wgosbWgxeLsfKQzsPFeGfvoZi48dAhdleXAEWc09uvXZuFDkaJ
-XoXucpI0yJKrR+BlWI6tycS1ekfYX7ql5oGCotFvU0304l6paXI/mE+tV0Bjia3jJYD33x5E+woD
-FyE2aTQtCbDpHuTmuZuQ064hyJ6rJY0fYqs+DiwdwGqJzHAcwBZsDDB9J6jQynMwWKk6voOSZdRh
-G4qpdUvLVkILD5lW2i1ZRysMyI6BPyc0xvcVCnxhElY10TYwKATeCfmoI+yfsHpXYbwd6SoX8jCZ
-A4uLGVO5tAuXukl88hZTA0LbBMT3VymaXiPW5JPBmUqIbrsOCfGCCxsU/hDWYeWm6Sym2+9NHoU4
-eaqi4CNrdC5Hsw+Ig9ZbUWHj/UWVyakWFAJkluHylSNjqwv7HVBxEfepKg76OUXFxeKqqkztR0Ah
-QkY4Jo+wJbyQ4z1MYo5FDTwMxzmCVAU8yTW2XuRy35XUamog5ArIrgbkBrdejzQkinDKEanxOQOG
-MnQH/JmfXa6Xle9g11N2HKtwPZEIGJWF6MKPI1MNmSkssWosyIHtWZFVDwDhwhEi8tCScuhCKYXO
-9LjTVgSIYMnU+VhWwQMP9mHgLqYusewIlaPUmExRqNYnWxVVbE9Kqv11vXYkrIUTC6+Y1Al68DvC
-OiBOvHc1qfYIeqR1q5p7Dndw8oh6TxP7+cKeKmxA7Mfov6Ct02LXaoapDK8JvqY9QOwYAHHKOz/7
-iuHHwz08dYOwyBtiCEoWbYrazXIwrg/K1DyIuu1WLxSp4IWprniAS06j7Gl2RQtdFu/Tur5VW5OQ
-UvYLu+7maHnQDI1AxpoHybJbPRNVXSb0Kr1tdHHM33gastuqTpvGzAj7ILuyqKnj4QCopHnTObyO
-cDhLY9S5Mwc/s9zpBdml+YbWidEuut22dkWyy8qalofGDHKkR5Il2EYbUJZwWx5Ur/Bcemt8xxuS
-tWWlKx1petOUGv8Lz8dtLZ5FaBFQeGJuZo227vr8RDao2zXA2hta7ImRwlVagI/R1kw5i02yfxCm
-iSkoymNpyModhX6hl6+Xwo9KY7MZkC1mCgVofcg3WVqRxBedRwu6Wy/mriYE+M0+TTOzkWltf0fj
-nLUAq55z9vVqlDVJoLfbjDRGMetUNHqzK3AfqsCj44qtLNjIllp9OT9kLeVNzRGwaKle/WXdpld6
-pipSAM8Ta+karb0inuqDVdqS7LbAF81cgQ038FINz2CVETBBYQ2+MXKVkVvOSabXliJ2f7SqpmwB
-Yn6whrCGhPnnEmDeHIqdXlmc6j+jxZUVVZsS15DBMNai2KSRGiVi8VfZwRDWObWGozpNC9JQ4qzS
-Jid1+6m8hehcvZmaHY8NNU2aWoNfu2f9G+c/AfgA02ZXNdhyl49hlOZlm5oN80SLHFt6APY5rUte
-EUP2eonRf7nybQKLE9w2nNcFp7vr9oeNU4VkFW7kgk3igwtVdM0B1+dirlZ33b203GKybleyqVLz
-jWjGbwYyza4w3UOz6cp9TLuMti1bc6UFm3i1d3OgMWGnl2s7/+qmhodrKROjFSlxscDDo+s2WRlf
-jVUwiOQTxo/RsOaDxaD+Dg6UpRt0xc5JmDrtz2/v8IS0f/1vcRVAYOt9IgibZB+j1s45v2XWPS7y
-LNBt3jnenvAIceNphsSblb6TAOGRWwQadargB5ZBuqzLbK7XBCzw2GDVaXxTPJXrfUzNVPbNtTPD
-bdns6YaYL+s0nbzFhsWcrb5aGmuDXy+zH2AqbqWb98f7f2OGXzLsoWjINgUPc4dcNZ4CoizZhhTh
-0KqsFC43iz5F/lXzBi3JJz75Fl0QoWbcvVod6iRGIzB+KiR8kd7AukgZ9eGXeNKPyTpj1aAgfLJn
-c6nKCM/hTQ0vxQu2xO72N+CmqdjxcZ5XGLzqtz4FD0ZI62kGakJaBHM/XBNT3ARLjadLSIHwWDtP
-FRmCR4HoWdQIh5EVLHZQxgiwns+9hac6cuLyNPPAnYKwM9Pj49wM2FHdiPpGgcCuYIEJ15qtSS+d
-e6ZUuK32rbxIucuAgOvoHiJFIkBpYhYZhCrdixSG85OVxyoMR0JoG1Npjkeh/UFBjDJlSTQKdTb4
-XmyYhFgVEp6MUkhpXxV2HS5RzjAO92QPbHWoLi44ZvOJSXHs+YtmHmE3QaKtJn40txpEG4TrwMi6
-9GJkqLYxAQoYQ7fN4nDtWZ/L5pJSxGvks7AmHP7jyvrIzKRHB+ZCy7XZfmgTeNss8NbmJ5GAz3Nr
-DCn8OejfT48v//7g/TFj641ZvdvMpCHRT/CCjK2xZh/GhecfxqC0geV2blZtdqrTnVV8IMTFN3aA
-gr3w5rbF1iriG3DqH4ssfezxK2xAWfor/LxPpLnLA+MSRNjiPd29fZ/dscVce369/z4xKNftItSp
-y6Q4CnX/ocOXaF8fv30zjp9EAdm0sLPsu6UGieMU+B0pWz3eohp1G4uJB0UTYBu0iCKERWhONoet
-wgMwnlDeFjEQP2DfRIRiO91j2hUlm7A1P7ESdXuIlQr7lDjW+kauhpPGwymhDewqxyYAjg7ZjlXZ
-PiWLxSqaj+PouL0QCJolmu/A9xylHb79ZVLVGKAiNbfkYftulUqY/+zBkWRbiusSqvNjqG3bGSAW
-AWwIaBrc6ZcsI+tvbIei7bpUBN92KRp8tYJE3xdi3Iug095xq8548It9e8pq+aDmiMtd61cO5gbN
-RY/RusXYGfhhs5oAl8CAecBi4VSttGwzxQ8eFxo/eQRKOlzWxOq7fyGDw55GbthYX92R+HZgQoAn
-6G/nr++z/a8fD69/Hmfffj6wZS7yXv2Sap/mrk5vNVc8rBmnibaJEBKnVdUACxJp6GhgXtNdbT76
-80U0ocamLlVzbqjmtIkxJgwJb8oC6zgSlbtFXdh3FLtwtCEY44URPKZDfuwoIj8MHet8qUES9geh
-ZlZQAml488BHElAUQvRxDaLnLafSCZeL6XSW6KW7pefP1bWyDfu66yVLIfBQBk1bL1TfgNqw5lh6
-gDP4Kktfd5qho6tTgJ9R6mqR53DNpKutPQ97NGYpRUhmj4B5xmGBiU7XVq8UTEZxoSBSDV2i60qd
-xsXaY3mVxYCwT6+fU2gKVewHS4lbeeg1lsGFbiUVqe+jzXmAA3wqlnoxHKPHfYmmNBPCNgXOOadX
-agP8CVyP3xb83MWbI412x0a+fZXY1ZZvlyeskDSuxBHAdL6vNyWpE9/ImKn3qb5Q41dg5H2AWwck
-KzHnKE8IbjhqKrkjSPAjbk0pZzFcSiRnMdn1mHLyGTvxPIVqcsdZ0G4Zqi+4VTnyJUEObHqYfIXL
-M7KpYrTTFHwOEv3NzLjAcnQlJVXqNgl9rNDNEvVOPczDbYplha2K4jyxEDYPLjBhiCTM58wGu3Ts
-W5r4n9HN5BAzNbw4q9hRJkxcl4eWFvacDasMrAlzeZeeiOM8XFOT8ae6RWRLdhR1L6R4eTckXUUr
-laLgUG9JnA5sJarRsoQCaXZdVmwLrd0g9xo7LMZ92VaZYe/fJ1aXAVvctS1++QnOKeJMOcJlP9jy
-vMvK8uqg3nZLRTDZZqs21akN32bJSNR6l1K30yRFZ2DgfsbB9SIKUayhYbDwnFDoOTLFQNQNva6y
-MId2BUM5TxSVOInT1RwvEWBrP8QqsYsbmA66uEJRMDxn/3dpgcII+ayCDlzJNnSM8fqVlKlomC09
-pUnvbWioJWkBe4xxMvD9TVPRAi4J8AsOQrNNibUWvtGUrBnjrp0LkWszvvWqH57P7w8/Xs/32Kuf
-OoW7UCDWQI8gkMAi0h/Pb9/Q+Kq86XeneIxayKEPA1fKDeW0qtKK/ufLl5vH1weFB8rUHegKn22I
-M8BiABAHYfKeKYFTMfR3+CIrrG4+NL/e3h+eZ+XLLP7++OOP2RucEX59vFducATV1fPT+RsTg/m5
-Wj095RUCC6aq1/Pdl/vzsysginOF4lT9NZq3X59f6bUrkkuqXPfxf/KTKwIL42D6wtncssf3B4Fu
-fj4+wUHqUEn2wSGbvdVTW/jJH/jBelfQe1roYcOmA0GSsRiz9PuJ87xe/7x7YtXorGcUH1sL3Lb2
-5x6nx6fHl39cEWHocIn/Wy1qOJjKe+doA/Gg+Ik5A+vdqHH/XuJlY1kkaU4K7aWMqlalNTfrL2L0
-kFPVhGkZyFC0c05FAY63LQd0WESkaegxNcuT2OPJWHjBZoOOl+mpjdGZPWejW62dynK+gWQLPuQc
-9jbUsc0qWvy5xpEtzjcH/Mi5urH5QWh9PbtnXxx5qVFfx3uqPSUjGZtg0Jt46VOnvtYeaZhxD1FX
-QEa00V8F8m1XBw6ifIejXU6lQ6sybnVnfXXapK2Dilf4rtrfzpqff7/xNj6WsB9kGawsFEchW9UD
-ZaoGb+K8uwIS+EOz8XnI8aCZhehdiLVlXWtsRyqYiGDjd1GwhmRHbHsCOsA+QvNTlF9D6mYMOZv6
-szHLjjiqE+n8qMj/r7KjaW4b1/2VTE7v0N3WiZMmhx5kibJV66uUFCe5eNzEm3qaOBnbmd2+X/8A
-UpRAEvL2XZoagPgJAiAIgstZRUMkLRR2jc6jPXzdJ7j8MCNAn+KsLsnBUxZaTcz0TpNjHsCkpRVL
-I9ktK7TLMv7wt3a5xpV6/5KP29RkmU4P7fFGsH3cvW4e6SoH6SQLN6TZqMyWvNcGk/wmSjKixScp
-RneAWIH13kNzdPfPrd9hGiRkwJCiJiyDPzpkETvlRcFt62glExAQLZbfIL39Uz/t6AHLDPa3UUBb
-qxBS16gjyBcnh93qYbN94nJlVzUXzacT39dkG2Ygrj+rg6snWVlBaCimNZ9sqSPIKt7M7euuOTbs
-0F4CbKbr5iMU4LQfGMkiMYkWyCnvQQxb7GdT2ZFXA2FRLmF4Qy57dsguwY01pB06CcX4079VgDms
-bgvnUqbCTmQSTYlV2zYFlKC4Fx62bQsMAGbJb0orm5Uqz91FA2ezcKMbfcgyiBuvpwjPk8K89wsa
-ZpkPeBc7est/FNNH1+GHijzCdZwXdow44nSGPC8YhaNxAit9gkBFyVodAmTFB+Yr1ETESVy4bSpC
-VjWjxxOm4bbP461SNr89r/+x8gD3krrBVPPTz9dnnNOpxVaj8Sf6xk3ThpxYkG4fSt+7cComdmVh
-B65XCbvprNIks7PLAUBnYA1rSdgFGUHC/3P9+EG3WTZOWUommxIsCKqw4xoKbYJIp23qBwdj3dAu
-WtagtkD91Q3/6o0+3ey/U8eWg48JqIPOnFc5znuyOh5iA7sMrZCJud1mfxTADniOV1HdACDYmVN1
-DXbqGSa3fHEAy9ugrq1kmgZRFlUCsx9ymTgNTSXCBlTxnVXPuU6iSQs8HyzQozJF8rWOrQSdLaAv
-2UeRFtKqxkeCIxR63uRJrf2RTEu+TiISEYS/OkXSz0A2CUHOEk+dFAnMEmDoPHRAILWjRzuMSkya
-5DEvfUipejJZqq+KgOnKrWlP70DCYWsTpd5wPjok+NYUNYl6vHVmwSpM8lsnRBV5ipkhq1CyghNJ
-FoHM3RKHjt7BNjxzejOp5VDX8yTt6M20nXnDoUAYJscX0n7RrSMHzA6KQXK8bhMppjhWsYod6DK9
-cpWArFQXypKB+BQczoCTvUMLCxnDXoUa0kavFyXBYbwNOkXnSW69hpxH+MTR3QA+xnCPUN6VbZ84
-MJgm08rWiphZl5cccdUFSRnr2QUkGqD8CFaxgUawY6dWAVOfgoc1GTZ8mieubPGlYRYohuothgzx
-LhXhxjb4huWIAvqfBnfW9z0Mr1MlEvhkCX9oDzmSIF0Ed9A02GIXXCoW8k2SR9SfRjC3MKaqkyw2
-EzBERdnF8oSrhx/U15qLuhdEtL0tAlYkuywqI3UJZyiQ/4lHgSlZi6lkbysZGu/mhEEUE1yFsEms
-uAskigbZ3Q7d6aBHFBIhYhvYX0TWQ6iHM/pDFtnH6CZS9kNvPvRbpKq4vrz85PBSv5OOYg9l6uHL
-1g61ovoYB/VHcYv/5rVTe7eqaotNswq+syA3Lgn+NsFSeOO6DGArMj7/zOGTAqPuKlF/Od3sX6+u
-Lq7/GJ3SNd2TNnXMhd6r5jsG00AN74e/rkjhee3pm966OzY42nu1X78/vp78xQ1an6C89wUhaD7w
-GKNC4mOhVBApII4dXpNMQAg7KDB300jS4625kLmV+tx2K9RZ6f3kFIdGeOamBie47xqIJZo1U1Gn
-E1bkZUK9xCgFGMLU7Mc/jmiFFXQTSKPcjbfLH25q/lc6ABd6XIuMNSFS6mBJK8MfPN8hgWHdJbAu
-7+ylRJ9/i+gzF5BvkVzZD3E7OO6ugkNyYXeTYEjoh42hSScczGi4MZd8EgmHiLtg6ZCMj9Tx7+N1
-eTnY+OuBobg+vxzCXAwNxbUd2GjjBjJj2s1h850gCYh3ZMDl1UDVo7PBVgHKOrdHpIrN/peqRnZ5
-BnzGg8/t0TLgMU99wVNfusNnENxzqhR/zVczGmjVyGOnDsNnSUKSeZFcLbn84R2ycYc5C8Il6NaA
-O1Iy+FDg1Ta3PRqT16IZyHjSEckiqJPjNdzJJE3pmYHBTAOh4V6xeBGbuxhp8Ak0G48CmU+TvEn4
-PaI1JMfbXDdyjlFA1rSidu87AXv6UPv3bMAyx0PINLnXN+UrkcYqXLrfHBTLhXXaZblk9FH9+uF9
-tzn88l90VGk/SK/xN1ja3xp8VVDZdvwBnpAVWHswo/iFhA0Sp4AmfQVGocoGvoqWbbaR3q2ht04t
-hikKwMtoBvs3obNnuI3WF00SHaEwkLi93dAuo0xU6qyulknIT+3Rza9BskpfxUKB9RWJHHqDGzbc
-R5jwCWrReES0S34JMRSBbwnxTcI8CqEizoBnZiIt+YdAWwuxH4uArKO0yr6cPq+2j8+vDz8/4D+P
-r39vP/xavazg1+rxbbP9sF/9tYYCN48fNtvD+gm56sP3t79ONaPN17vt+vnkx2r3uN7iMUXPcOTO
-78lmuzlsVs+b/64QS0560a8FfYGdel7k1j5JodTOGp8EMf1gT7cNKR4MEErL/8u3w6CHu9GFKrgr
-qjPvkI+Lbt+4+/V2eNWvrL7uTn6sn9/WO/IgpiJGb4H14I8FPvPhIohYoE9azcOknFHvq4PwP5lZ
-l5YJ0CeV1C/Sw1jCzvj0Gj7YkmCo8fOy9KnnZemXgP4lnxTENVgSfrktfPCDZZRUwSQVbSSpSzWN
-R2dXWZN6iLxJeaBfU6n+WrtwjVB/2Cs0bVebegZS1CuQJmIo378/bx7++Ln+dfKgGPMJ3+j65fGj
-rAKvnMhnChH61YkwmjGtBzAfOGzQMmLqrDJ6UaUdh0beiLOLi9G1WWPB++HHenvYPKzwZVGxVV3D
-Z8z/3uBrm/v968NGoaLVYUV9DKbEkPOomDlVzwJ5n8xAMwZnn8oivRs5yWdd2kBMk2rEXqE33RTf
-Eustp25UZgHIMuugRgfFoWg+eXl9pC4p07SJPylhPPFhtc//IcPUIvS/TeXCm5cinniwEhvjAm/r
-ihlRUOELyaYMMMtlZgbbX+V4+a5uMr/tGE1l2GSG93YHxiwL/EGbccBb3SO39TdA681StHla7w9+
-ZTI8P2PmCMH+YN224titcZIGc3HGR15ZJOyNi67KevQJXyzyJNlArRy/O5IyGnudyKILpqwsAfZW
-cUJ8lhoji7JoxN9rahfPLBj5ggMW58UlB74YnTHzBwhu096JoXOvT5iYUEwKX/8tSqzCqP/N2w/7
-BWwjE7g1ANAlGxDSTWixiK1dhINgbjWbqQ4yAXumIyI4DNDgNzfo/e+r+sisI/qS+SwSvCneomP1
-90ixrZj1J1LIEoPa/BqrbOCqXKsNFwUOlLdWw9eXt916v7es0a4TcWp78FopeF94M3E19lV6ej9m
-ZgSgs6OMf1/Z6l7Hl4Nx/vpykr+/fF/vTqbr7XrnmNCGl/IqWYYlZ6FFcjJ17jdTTCv3vKlUOP6K
-OCXh9AoiPODXBFN8CgyVLO986Qs1qWNlx5J+3nzf4bPOu9f3w2bLyPI0mQwsL8T8q0xEIs12Jv7S
-n8+OhEd1BsrxEno7xmUiRBtJC7YYBnaPjpEcq2ZQafa96M0YlqiTpe54zrizt6C6yzKBG2u1K6/v
-SrJwCLJsJmlLUzWTlqwPXusJ6zKjVNw5/MWn62UoZLv/F17ASTkPqyvMJHiDWCyMo/hsUiwMYNGQ
-xo/JJYlkijv0UuiTYjzgNR6IjmvXuwMGr4P9qR8x3G+etqvDO2wHH36sH37C3pLkuCqiBsqBYlU9
-pw/w8f4jfgFkS7Da/3xbv5x2tSu/P/WoSOuc2sdXX06Jv7/Fi9saw/n64RtyeRR5FMg7tz6eWhcN
-iw2fPq5qntic1/3GEPUOpRzboN60jc0Yp4MiAcM3ArmUmEDDPpkK1KE+67ICxY45A6wTGxklxJDF
-nJQC9m/ZxEpGoR1TNJtvF8EdJm7Ik0E54ECGM/TigEla3oazqQo/kMLO6iFD2LOA9GSlWDiy7B5Y
-QJ6JB7XWzdLaiYfnZ85P6mikVSMGVq6Y3PE7GkIwZj4N5GKIxzTFJBno16VlWIZjq700K1MyaU1s
-Sk4crZ1N3c1bHhWZ3eMWBeq8C1GxoRhT6sLvUVyCzrKtBQX1bAgwHvqSXyiUlEzgY5Z6zFLf3i+t
-Jx717+XtFeGMFqZC58vQgyfB5dgDBjLjYPUMVoKHqECK+uVOwq8ezE7+4dw3ow5TsLgx23laWBnQ
-KBTLo/w/CYmxHFRVESawSG8ENFvSNEHAELgSaZS6Bqk4M2uFIjzKiOrHeH4rrChXDdKI1GQvpzhE
-QJnKaSuctY+4IIrksl5ejmEtOOi2dvhczpdhKoLcbgj0Pw3wBmAxU7YVUQcLnfbGzsSEVyYHA9ZM
-OyciD2dYIyltmuoZIqswvV/WgVVBIr+hAcIFaWaluiZOV20c0VsGKsXyFJSHJPPUhNUZbr1sRYc3
-QAoidmEe2xDungaG0ppGXYgt5FqF5OmTnoHyEZ5UFJGK2rUd3kaXK+jbbrM9/FRZwh5f1vsn/9xF
-P8uuXosnhoYGYop2yztZ5MDfGIo2VY/kdq7Uz4MU35pE1F/G/Yhoy8YrYUxiEYuiNi2IRBrwZx/m
-Jfsj6bsoxfDNA7DwJgWagEJK+ECwtsHgOHabts3z+o/D5qW1FfaK9EHDd1zeMt0qN161RcYSGqJj
-OlUyJHK8IpMS5h+vrbChFlIEkfIMAw2RFQJvo2EACSx16gLWrah0XCSGcmSYZ4hwp4NRbcJ4VDuT
-miolLmQIjRbBHE/lYM/X8GbW7w6WGi21s9w8GPaO1t/fn57wICTZ7g+795f19kCTs2JmdbT61K07
-H9gdwogcB+nLp39GHJW+V8eX0N65q/BkEq82n57aY0mDaQxESajFUo+8O2qVcuYrggwD8XletkvC
-Mylm8ptJReWw+gl2MhU3YahEt0ZN8HJ15X7AQ3HOB1DVLIkt60yDo+RGZeEeauiyyYFbYd+HM+G1
-oUj9EgWYukxpakOk+06Cln6Lc+yZwhgu4a0ODHAyJn57XNcVRuQoijXYw+DjBlTg6zIQa9SUM6kd
-qmVKw6P8cTfWUixy9kxVIcsiwbceqF7S9ejAy8pvQIvoVNARBjSkeKD5G2SoVNjMaDbZoqAa3cbJ
-sFHSawgPkgYETXeFZYDKHtneiVGlzcSQUiWNYBUHS2DhDK0pdSQs8si/iKCLueEYtOUjdddZHQpb
-JgICddAASE1QQoVsQ9UZXtFyFY0h1nWkFzeOJ9oUeQFLIqkxVx5acnqL4J4896zsVgbLWlopjfRh
-AtKfFK9v+w8n6evDz/c3Lb5nq+0TNSug5hDPvgvLJLXAeDmnIS4ljUSmKRpMS9lrvSKucf/ZlNC0
-Gkam4K9vaORy1kDn66DiIxQW37pkekOyRNdFhcnxXuvQFtBlj+8qZ7gvHTT3eEHRCswEXJuzfaZI
-d5ZwuOZClI4XQTsk8HSuF3z/2b9ttnhiB514eT+s/1nDf9aHhz///JOkzNXF4m6jqcWtYATG0dQo
-La/rbwfXglxUImOKhn0WmmxVCj0a/Li9CaG2DEZoWWWpGxbAJHgRzbvi3DPCQjeTFXzdBMVWQZYj
-oYp0TYsgqTk71Jjx/8cs2B2F9Qe79SmVQih/QKOHRGMqkww0CObAh10d8Jl2JPijO9fycGBN/9SK
-8nF1WJ2ghnxA19feZQx0o3narQW6fMLu5RTKyDvSNS2El1FQB2is4/XDxI6VOdpMu/xQwkDkNVhq
-lVHdoEm4lenMrjGjQe1UsP0RxinQdQ0xQ6xFSKSI7QIIDiW4ssM7WXc2ongzv1ad4tuxyw+qvSqK
-DN9Dw4RaYKYW/OVJeyDscQPhqM14qRSNO9H67hJYOXgLmAyXijWLm1xvFlT7pYM1u7HY4V79qQIu
-M6XGYezQ0dmTaGRoP+JQqSRp1rLXII7LHYJSFhMnb1qLkaLWyCNfq4vG/rf618A1kXZuYNRA4Xvr
-b7O6HHO8ic4vnM8cvfGjy8z2aSBSbZNhDO8DGQ0k1W4jhW5mJS8GVTntqtG+Xi6SrSdyMpo4bae+
-iHq9P6DEQ0UZYiac1dOaBHzi3dF+YeirpG3qin6a+xumLmmbJo/FqbXVJtlrEayFZVnqZTZohrUU
-Rax4c7g860akfelw2FwDIy0sblouL60dgoTlgC5+7AtqPDebtBsnyI+4F0yoXUT/A3aE7zvhXAEA
---===============1343150379687528564==--
+--===============3541652751805968234==--
 
