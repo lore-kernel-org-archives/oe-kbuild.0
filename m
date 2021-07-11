@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5836374113078543273=="
+Content-Type: multipart/mixed; boundary="===============6594739325060729509=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/display/intel_display.c:42:1: iwyu: warning: superfluous #include <drm/drm_plane_helper.h>
-Date: Sun, 11 Jul 2021 16:34:28 +0800
-Message-ID: <202107111659.5IpspWDY-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_display.c:38:1: iwyu: warning: superfluous #include <drm/drm_damage_helper.h>
+Date: Sun, 11 Jul 2021 14:13:28 +0800
+Message-ID: <202107111405.rWxCrzL1-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5836374113078543273==
+--===============6594739325060729509==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -21,10 +21,10 @@ CC: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   de5540965853e514a85d3b775e9049deb85a2ff3
-commit: 00a16d02f4df8383e34d6ed81accc48b8f1b8143 drm/i915: refactor i915 pl=
-ane code into separate file.
+commit: 99ce270a1ec1540d2517bac646a552c0199ae226 drm/i915: refactor cursor =
+code out of i915_display.c
 date:   7 months ago
-:::::: branch date: 9 hours ago
+:::::: branch date: 7 hours ago
 :::::: commit date: 7 months ago
 config: x86_64-randconfig-b001-20210705 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 89c1c6=
@@ -37,11 +37,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D00a16d02f4df8383e34d6ed81accc48b8f1b8143
+t/commit/?id=3D99ce270a1ec1540d2517bac646a552c0199ae226
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 00a16d02f4df8383e34d6ed81accc48b8f1b8143
+        git checkout 99ce270a1ec1540d2517bac646a552c0199ae226
         # save the attached .config to linux build tree
         mkdir build_dir
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
@@ -53,12 +53,10 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/i915/display/intel_display.c:38:1: iwyu: warning: superf=
+>> drivers/gpu/drm/i915/display/intel_display.c:38:1: iwyu: warning: superf=
 luous #include <drm/drm_damage_helper.h>
    drivers/gpu/drm/i915/display/intel_display.c:40:1: iwyu: warning: superf=
 luous #include <drm/drm_edid.h>
->> drivers/gpu/drm/i915/display/intel_display.c:42:1: iwyu: warning: superf=
-luous #include <drm/drm_plane_helper.h>
    drivers/gpu/drm/i915/display/intel_display.c:43:1: iwyu: warning: superf=
 luous #include <drm/drm_probe_helper.h>
    drivers/gpu/drm/i915/display/intel_display.c:27:1: iwyu: warning: superf=
@@ -71,11 +69,8 @@ luous #include <linux/intel-iommu.h>
 luous #include <linux/module.h>
    drivers/gpu/drm/i915/display/intel_display.c:74:1: iwyu: warning: superf=
 luous #include "intel_dp_link_training.h"
---
->> drivers/gpu/drm/i915/display/i9xx_plane.c:11:1: iwyu: warning: superfluo=
-us #include "intel_atomic.h"
 
-vim +42 drivers/gpu/drm/i915/display/intel_display.c
+vim +38 drivers/gpu/drm/i915/display/intel_display.c
 
 d0e93599d396db drivers/gpu/drm/i915/intel_display.c         Sam Ravnborg   =
        2019-01-26  34  =
@@ -87,7 +82,7 @@ c196e1d66c36b0 drivers/gpu/drm/i915/intel_display.c         Matt Roper     =
 d0e93599d396db drivers/gpu/drm/i915/intel_display.c         Sam Ravnborg   =
        2019-01-26  37  #include <drm/drm_atomic_uapi.h>
 093a3a30000926 drivers/gpu/drm/i915/display/intel_display.c Jos=C3=A9 Rober=
-to de Souza 2020-06-25  38  #include <drm/drm_damage_helper.h>
+to de Souza 2020-06-25 @38  #include <drm/drm_damage_helper.h>
 760285e7e7ab28 drivers/gpu/drm/i915/intel_display.c         David Howells  =
        2012-10-02  39  #include <drm/drm_dp_helper.h>
 d0e93599d396db drivers/gpu/drm/i915/intel_display.c         Sam Ravnborg   =
@@ -95,7 +90,7 @@ d0e93599d396db drivers/gpu/drm/i915/intel_display.c         Sam Ravnborg   =
 d0e93599d396db drivers/gpu/drm/i915/intel_display.c         Sam Ravnborg   =
        2019-01-26  41  #include <drm/drm_fourcc.h>
 465c120c4c252e drivers/gpu/drm/i915/intel_display.c         Matt Roper     =
-       2014-05-29 @42  #include <drm/drm_plane_helper.h>
+       2014-05-29  42  #include <drm/drm_plane_helper.h>
 fcd70cd36b9bf6 drivers/gpu/drm/i915/intel_display.c         Daniel Vetter  =
        2019-01-17  43  #include <drm/drm_probe_helper.h>
 465c120c4c252e drivers/gpu/drm/i915/intel_display.c         Matt Roper     =
@@ -104,24 +99,24 @@ d0e93599d396db drivers/gpu/drm/i915/intel_display.c         Sam Ravnborg   =
        2019-01-26  45  =
 
 
-:::::: The code at line 42 was first introduced by commit
-:::::: 465c120c4c252e127b57cd133c4611b075e0a237 drm/i915: Intel-specific pr=
-imary plane handling (v8)
+:::::: The code at line 38 was first introduced by commit
+:::::: 093a3a30000926b8bda9eef773e4ed5079053350 drm/i915: Add plane damage =
+clips property
 
-:::::: TO: Matt Roper <matthew.d.roper@intel.com>
-:::::: CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+:::::: TO: Jos=C3=A9 Roberto de Souza <jose.souza@intel.com>
+:::::: CC: Jos=C3=A9 Roberto de Souza <jose.souza@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5836374113078543273==
+--===============6594739325060729509==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICC2g6mAAAy5jb25maWcAlDxbd9s2k+/fr9BJX9qHtrbjuMnu8QNEgiIqkmABUBe/8Ki2nHrr
+H4sICHB56mAAAy5jb25maWcAlDxbd9s2k+/fr9BJX9qHtrbjuMnu8QNEgiIqkmABUBe/8Ki2nHrr
 S1aW2+Tf7wwAkgAIqt08JCFmcJ/7DPTdf76bkbfjy9Pu+HC7e3z8Nvu8f94fdsf93ez+4XH/37OU
 zyquZjRl6idALh6e377+/PXjVXt1Ofvw0/nZT2c/Hm4vZsv94Xn/OEtenu8fPr/BAA8vz//57j8J
 rzK2aJOkXVEhGa9aRTfq+t3t4+758+yv/eEV8Gbn73+CcWbff344/tfPP8PfTw+Hw8vh58fHv57a
@@ -798,5 +793,5 @@ xNW1J8gBYZVfix+P4QGXcPT7KQp0E3OMr9Zw+gJtETYK+XgHavFuuAgGXc/RCGfPXWtT9JUiCZoY
 yqNZW760IeiEusY76y5oacdf0OMSvt4sQFBfJ6LgLfBUyTIqEtAsRwZHBRvkHUqBA8ehfaCoAuYB
 MvACcpplrac9heba6pSHj5af2F1H5Ix2zVO8EG8EMyIyzO4jjEkmgYBN4JtNUoUiNTxOSdtob80M
 chA8ijyhD3vd0wy5wJ79Q9VkRaBwqhhRIAuI4fPjoAwOi0gdsXxSV8uN4/8AYRGoJypjAgA=
---===============5836374113078543273==--
+--===============6594739325060729509==--
 
