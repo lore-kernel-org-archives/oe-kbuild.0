@@ -1,228 +1,191 @@
-Content-Type: multipart/mixed; boundary="===============5768162717486512997=="
+Content-Type: multipart/mixed; boundary="===============5136046341979462432=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/display/intel_dp.c:4053:10: warning: Suspicious condition (assignment + comparison); Clarify expression with parentheses. [clarifyCondition]
-Date: Tue, 13 Jul 2021 08:30:27 +0800
-Message-ID: <202107130818.gSA1xDD9-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:2341:52: warning: Uninitialized variable: pw [uninitvar]
+Date: Tue, 13 Jul 2021 06:45:40 +0800
+Message-ID: <202107130633.1vd14ku5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5768162717486512997==
+--===============5136046341979462432==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ankit Nautiyal <ankit.k.nautiyal@intel.com>
-CC: Jani Nikula <jani.nikula@intel.com>
-CC: Uma Shankar <uma.shankar@intel.com>
+TO: Chris Wilson <chris@chris-wilson.co.uk>
+CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+CC: Mika Kuoppala <mika.kuoppala@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   7fef2edf7cc753b51f7ccc74993971b0a9c81eca
-commit: ced42f2df5fd8621c896faeafe7ecc0ea8b2ea81 drm/i915: Add support for =
-starting FRL training for HDMI2.1 via PCON
-date:   7 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 months ago
+head:   e73f0f0ee7541171d89f2e2491130c7771ba58d3
+commit: c60b93cd4862d108214a14e655358ea714d7a12a drm/i915: Avoid mixing int=
+eger types during batch copies
+date:   10 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 10 months ago
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
->> drivers/hwmon/adm9240.c:363:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", IN_FROM_REG(data->in[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:376:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", IN_FROM_REG(data->in_min[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:389:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", IN_FROM_REG(data->in_max[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:464:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", FAN_FROM_REG(data->fan[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:477:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", FAN_FROM_REG(data->fan_min[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:627:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", AOUT_FROM_REG(data->aout));
-           ^
---
-
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/hwmon/adm9240.c:363:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", IN_FROM_REG(data->in[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:376:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", IN_FROM_REG(data->in_min[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:389:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", IN_FROM_REG(data->in_max[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:464:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", FAN_FROM_REG(data->fan[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:477:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", FAN_FROM_REG(data->fan_min[attr->index],
-           ^
-   drivers/hwmon/adm9240.c:627:9: warning: %d in format string (no. 1) requ=
-ires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_s=
-int]
-    return sprintf(buf, "%dn", AOUT_FROM_REG(data->aout));
-           ^
---
->> drivers/gpu/drm/i915/display/intel_dp.c:4053:10: warning: Suspicious con=
-dition (assignment + comparison); Clarify expression with parentheses. [cla=
-rifyCondition]
-    wait_for(is_active =3D drm_dp_pcon_is_frl_ready(&intel_dp->aux) =3D=3D =
-true, TIMEOUT_FRL_READY_MS);
-            ^
-   drivers/gpu/drm/i915/display/intel_dp.c:4072:10: warning: Suspicious con=
-dition (assignment + comparison); Clarify expression with parentheses. [cla=
-rifyCondition]
-    wait_for(is_active =3D drm_dp_pcon_hdmi_link_active(&intel_dp->aux) =3D=
-=3D true, TIMEOUT_HDMI_LINK_ACTIVE_MS);
-            ^
+   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1535:6: warning: Local va=
+riable reloc_gpu shadows outer function [shadowFunction]
+    int reloc_gpu =3D reloc_entry_gpu(eb, vma, offset, target_addr);
+        ^
+   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1384:13: note: Shadowed d=
+eclaration
+   static u32 *reloc_gpu(struct i915_execbuffer *eb,
+               ^
+   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:1535:6: note: Shadow vari=
+able
+    int reloc_gpu =3D reloc_entry_gpu(eb, vma, offset, target_addr);
+        ^
+>> drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:2341:52: warning: Uniniti=
+alized variable: pw [uninitvar]
+    GEM_BUG_ON(overflows_type(eb->batch_start_offset, pw->batch_offset));
+                                                      ^
+   drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c:2342:43: warning: Uniniti=
+alized variable: pw [uninitvar]
+    GEM_BUG_ON(overflows_type(eb->batch_len, pw->batch_length));
+                                             ^
 
-vim +4053 drivers/gpu/drm/i915/display/intel_dp.c
+vim +2341 drivers/gpu/drm/i915/gem/i915_gem_execbuffer.c
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4028  =
+57a78ca4eceab1 Chris Wilson      2020-06-04  2333  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4029  	struct drm_i915_private *i=
-915 =3D dp_to_i915(intel_dp);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4030  	int max_frl_bw, max_pcon_f=
-rl_bw, max_edid_frl_bw, ret;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4031  	u8 max_frl_bw_mask =3D 0, =
-frl_trained_mask;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4032  	bool is_active;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4033  =
+686c7c35abc220 Chris Wilson      2019-12-11  2334  static int eb_parse_pipe=
+line(struct i915_execbuffer *eb,
+686c7c35abc220 Chris Wilson      2019-12-11  2335  			     struct i915_vma =
+*shadow,
+686c7c35abc220 Chris Wilson      2019-12-11  2336  			     struct i915_vma =
+*trampoline)
+686c7c35abc220 Chris Wilson      2019-12-11  2337  {
+686c7c35abc220 Chris Wilson      2019-12-11  2338  	struct eb_parse_work *p=
+w;
+686c7c35abc220 Chris Wilson      2019-12-11  2339  	int err;
+686c7c35abc220 Chris Wilson      2019-12-11  2340  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4034  	ret =3D drm_dp_pcon_reset_=
-frl_config(&intel_dp->aux);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4035  	if (ret < 0)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4036  		return ret;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4037  =
+c60b93cd4862d1 Chris Wilson      2020-09-28 @2341  	GEM_BUG_ON(overflows_ty=
+pe(eb->batch_start_offset, pw->batch_offset));
+c60b93cd4862d1 Chris Wilson      2020-09-28  2342  	GEM_BUG_ON(overflows_ty=
+pe(eb->batch_len, pw->batch_length));
+c60b93cd4862d1 Chris Wilson      2020-09-28  2343  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4038  	max_pcon_frl_bw =3D intel_=
-dp->dfp.pcon_max_frl_bw;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4039  	drm_dbg(&i915->drm, "PCON =
-max rate =3D %d Gbps\n", max_pcon_frl_bw);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4040  =
+686c7c35abc220 Chris Wilson      2019-12-11  2344  	pw =3D kzalloc(sizeof(*=
+pw), GFP_KERNEL);
+686c7c35abc220 Chris Wilson      2019-12-11  2345  	if (!pw)
+686c7c35abc220 Chris Wilson      2019-12-11  2346  		return -ENOMEM;
+686c7c35abc220 Chris Wilson      2019-12-11  2347  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4041  	max_edid_frl_bw =3D intel_=
-dp_hdmi_sink_max_frl(intel_dp);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4042  	drm_dbg(&i915->drm, "Sink =
-max rate from EDID =3D %d Gbps\n", max_edid_frl_bw);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4043  =
+7d6236bb13352c Chris Wilson      2020-03-03  2348  	err =3D i915_active_acq=
+uire(&eb->batch->vma->active);
+36c8e356a76e14 Chris Wilson      2020-01-13  2349  	if (err)
+36c8e356a76e14 Chris Wilson      2020-01-13  2350  		goto err_free;
+36c8e356a76e14 Chris Wilson      2020-01-13  2351  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4044  	max_frl_bw =3D min(max_edi=
-d_frl_bw, max_pcon_frl_bw);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4045  =
+36c8e356a76e14 Chris Wilson      2020-01-13  2352  	err =3D i915_active_acq=
+uire(&shadow->active);
+36c8e356a76e14 Chris Wilson      2020-01-13  2353  	if (err)
+36c8e356a76e14 Chris Wilson      2020-01-13  2354  		goto err_batch;
+36c8e356a76e14 Chris Wilson      2020-01-13  2355  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4046  	if (max_frl_bw <=3D 0)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4047  		return -EINVAL;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4048  =
+36c8e356a76e14 Chris Wilson      2020-01-13  2356  	if (trampoline) {
+36c8e356a76e14 Chris Wilson      2020-01-13  2357  		err =3D i915_active_ac=
+quire(&trampoline->active);
+36c8e356a76e14 Chris Wilson      2020-01-13  2358  		if (err)
+36c8e356a76e14 Chris Wilson      2020-01-13  2359  			goto err_shadow;
+36c8e356a76e14 Chris Wilson      2020-01-13  2360  	}
+36c8e356a76e14 Chris Wilson      2020-01-13  2361  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4049  	ret =3D drm_dp_pcon_frl_pr=
-epare(&intel_dp->aux, false);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4050  	if (ret < 0)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4051  		return ret;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4052  	/* Wait for PCON to be FRL=
- Ready */
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18 @4053  	wait_for(is_active =3D drm=
-_dp_pcon_is_frl_ready(&intel_dp->aux) =3D=3D true, TIMEOUT_FRL_READY_MS);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4054  =
+686c7c35abc220 Chris Wilson      2019-12-11  2362  	dma_fence_work_init(&pw=
+->base, &eb_parse_ops);
+686c7c35abc220 Chris Wilson      2019-12-11  2363  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4055  	if (!is_active)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4056  		return -ETIMEDOUT;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4057  =
+686c7c35abc220 Chris Wilson      2019-12-11  2364  	pw->engine =3D eb->engi=
+ne;
+7d6236bb13352c Chris Wilson      2020-03-03  2365  	pw->batch =3D eb->batch=
+->vma;
+686c7c35abc220 Chris Wilson      2019-12-11  2366  	pw->batch_offset =3D eb=
+->batch_start_offset;
+686c7c35abc220 Chris Wilson      2019-12-11  2367  	pw->batch_length =3D eb=
+->batch_len;
+686c7c35abc220 Chris Wilson      2019-12-11  2368  	pw->shadow =3D shadow;
+686c7c35abc220 Chris Wilson      2019-12-11  2369  	pw->trampoline =3D tram=
+poline;
+686c7c35abc220 Chris Wilson      2019-12-11  2370  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4058  	max_frl_bw_mask =3D intel_=
-dp_pcon_set_frl_mask(max_frl_bw);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4059  	ret =3D drm_dp_pcon_frl_co=
-nfigure_1(&intel_dp->aux, max_frl_bw, PCON_SEQUENTIAL_MODE);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4060  	if (ret < 0)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4061  		return ret;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4062  	ret =3D drm_dp_pcon_frl_co=
-nfigure_2(&intel_dp->aux, max_frl_bw_mask, PCON_NORMAL_TRAIN_MODE);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4063  	if (ret < 0)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4064  		return ret;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4065  	ret =3D drm_dp_pcon_frl_en=
-able(&intel_dp->aux);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4066  	if (ret < 0)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4067  		return ret;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4068  	/*
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4069  	 * Wait for FRL to be comp=
-leted
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4070  	 * Check if the HDMI Link =
-is up and active.
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4071  	 */
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4072  	wait_for(is_active =3D drm=
-_dp_pcon_hdmi_link_active(&intel_dp->aux) =3D=3D true, TIMEOUT_HDMI_LINK_AC=
-TIVE_MS);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4073  =
+57a78ca4eceab1 Chris Wilson      2020-06-04  2371  	/* Mark active refs ear=
+ly for this worker, in case we get interrupted */
+57a78ca4eceab1 Chris Wilson      2020-06-04  2372  	err =3D parser_mark_act=
+ive(pw, eb->context->timeline);
+57a78ca4eceab1 Chris Wilson      2020-06-04  2373  	if (err)
+57a78ca4eceab1 Chris Wilson      2020-06-04  2374  		goto err_commit;
+57a78ca4eceab1 Chris Wilson      2020-06-04  2375  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4074  	if (!is_active)
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4075  		return -ETIMEDOUT;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4076  =
+686c7c35abc220 Chris Wilson      2019-12-11  2376  	err =3D dma_resv_reserv=
+e_shared(pw->batch->resv, 1);
+686c7c35abc220 Chris Wilson      2019-12-11  2377  	if (err)
+c43ce12328df07 Maarten Lankhorst 2020-08-19  2378  		goto err_commit;
+686c7c35abc220 Chris Wilson      2019-12-11  2379  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4077  	/* Verify HDMI Link config=
-uration shows FRL Mode */
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4078  	if (drm_dp_pcon_hdmi_link_=
-mode(&intel_dp->aux, &frl_trained_mask) !=3D
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4079  	    DP_PCON_HDMI_MODE_FRL)=
- {
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4080  		drm_dbg(&i915->drm, "HDMI=
- couldn't be trained in FRL Mode\n");
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4081  		return -EINVAL;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4082  	}
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4083  	drm_dbg(&i915->drm, "MAX_F=
-RL_MASK =3D %u, FRL_TRAINED_MASK =3D %u\n", max_frl_bw_mask, frl_trained_ma=
-sk);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4084  =
+686c7c35abc220 Chris Wilson      2019-12-11  2380  	/* Wait for all writes =
+(and relocs) into the batch to complete */
+686c7c35abc220 Chris Wilson      2019-12-11  2381  	err =3D i915_sw_fence_a=
+wait_reservation(&pw->base.chain,
+686c7c35abc220 Chris Wilson      2019-12-11  2382  					      pw->batch->re=
+sv, NULL, false,
+686c7c35abc220 Chris Wilson      2019-12-11  2383  					      0, I915_FENCE=
+_GFP);
+686c7c35abc220 Chris Wilson      2019-12-11  2384  	if (err < 0)
+c43ce12328df07 Maarten Lankhorst 2020-08-19  2385  		goto err_commit;
+686c7c35abc220 Chris Wilson      2019-12-11  2386  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4085  	intel_dp->frl.trained_rate=
-_gbps =3D intel_dp_pcon_get_frl_mask(frl_trained_mask);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4086  	intel_dp->frl.is_trained =
-=3D true;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4087  	drm_dbg(&i915->drm, "FRL t=
-rained with : %d Gbps\n", intel_dp->frl.trained_rate_gbps);
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4088  =
+686c7c35abc220 Chris Wilson      2019-12-11  2387  	/* Keep the batch alive=
+ and unwritten as we parse */
+686c7c35abc220 Chris Wilson      2019-12-11  2388  	dma_resv_add_shared_fen=
+ce(pw->batch->resv, &pw->base.dma);
+686c7c35abc220 Chris Wilson      2019-12-11  2389  =
 
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4089  	return 0;
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4090  }
-ced42f2df5fd86 Ankit Nautiyal 2020-12-18  4091  =
+686c7c35abc220 Chris Wilson      2019-12-11  2390  	/* Force execution to w=
+ait for completion of the parser */
+686c7c35abc220 Chris Wilson      2019-12-11  2391  	dma_resv_add_excl_fence=
+(shadow->resv, &pw->base.dma);
+686c7c35abc220 Chris Wilson      2019-12-11  2392  =
+
+92581f9fb99ca4 Chris Wilson      2020-03-25  2393  	dma_fence_work_commit_i=
+mm(&pw->base);
+686c7c35abc220 Chris Wilson      2019-12-11  2394  	return 0;
+686c7c35abc220 Chris Wilson      2019-12-11  2395  =
+
+57a78ca4eceab1 Chris Wilson      2020-06-04  2396  err_commit:
+57a78ca4eceab1 Chris Wilson      2020-06-04  2397  	i915_sw_fence_set_error=
+_once(&pw->base.chain, err);
+57a78ca4eceab1 Chris Wilson      2020-06-04  2398  	dma_fence_work_commit_i=
+mm(&pw->base);
+57a78ca4eceab1 Chris Wilson      2020-06-04  2399  	return err;
+57a78ca4eceab1 Chris Wilson      2020-06-04  2400  =
+
+36c8e356a76e14 Chris Wilson      2020-01-13  2401  err_shadow:
+36c8e356a76e14 Chris Wilson      2020-01-13  2402  	i915_active_release(&sh=
+adow->active);
+36c8e356a76e14 Chris Wilson      2020-01-13  2403  err_batch:
+7d6236bb13352c Chris Wilson      2020-03-03  2404  	i915_active_release(&eb=
+->batch->vma->active);
+36c8e356a76e14 Chris Wilson      2020-01-13  2405  err_free:
+686c7c35abc220 Chris Wilson      2019-12-11  2406  	kfree(pw);
+686c7c35abc220 Chris Wilson      2019-12-11  2407  	return err;
+686c7c35abc220 Chris Wilson      2019-12-11  2408  }
+686c7c35abc220 Chris Wilson      2019-12-11  2409  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5768162717486512997==--
+--===============5136046341979462432==--
 
