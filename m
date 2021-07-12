@@ -1,29 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============2071356405588713256=="
+Content-Type: multipart/mixed; boundary="===============1901502799602330372=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/i915_gem.c:40:1: iwyu: warning: superfluous #include "display/intel_display.h"
-Date: Mon, 12 Jul 2021 18:36:19 +0800
-Message-ID: <202107121803.k31BIBFn-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/display/intel_dpll.c:10:1: iwyu: warning: superfluous #include "intel_panel.h"
+Date: Mon, 12 Jul 2021 11:47:29 +0800
+Message-ID: <202107121123.AVPaWS1Q-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2071356405588713256==
+--===============1901502799602330372==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
-CC: Chris Wilson <chris@chris-wilson.co.uk>
+TO: Dave Airlie <airlied@redhat.com>
+CC: Jani Nikula <jani.nikula@intel.com>
+CC: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   e73f0f0ee7541171d89f2e2491130c7771ba58d3
-commit: dcaccaf0e83a97750985bdb866649cc952b127cf drm/i915/gem: split gem_cr=
-eate into own file
+commit: 8cf41f316e6497c043c161606959d39dcba265e6 drm/i915: refactor pll cod=
+e out into intel_dpll.c
 date:   6 months ago
-:::::: branch date: 12 hours ago
+:::::: branch date: 6 hours ago
 :::::: commit date: 6 months ago
 config: x86_64-randconfig-b001-20210705 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 89c1c6=
@@ -36,11 +37,11 @@ make.cross -O ~/bin/make.cross
         # apt-get install binutils-x86-64-linux-gnu
         # apt-get install iwyu # include-what-you-use
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Ddcaccaf0e83a97750985bdb866649cc952b127cf
+t/commit/?id=3D8cf41f316e6497c043c161606959d39dcba265e6
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout dcaccaf0e83a97750985bdb866649cc952b127cf
+        git checkout 8cf41f316e6497c043c161606959d39dcba265e6
         # save the attached .config to linux build tree
         mkdir build_dir
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross C=3D=
@@ -53,80 +54,28 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 iwyu warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/i915/i915_gem.c:28:1: iwyu: warning: superfluous #includ=
-e <drm/drm_vma_manager.h>
-   drivers/gpu/drm/i915/i915_gem.c:37:1: iwyu: warning: superfluous #includ=
-e <linux/dma-buf.h>
-   drivers/gpu/drm/i915/i915_gem.c:29:1: iwyu: warning: superfluous #includ=
-e <linux/dma-fence-array.h>
-   drivers/gpu/drm/i915/i915_gem.c:30:1: iwyu: warning: superfluous #includ=
-e <linux/kthread.h>
-   drivers/gpu/drm/i915/i915_gem.c:38:1: iwyu: warning: superfluous #includ=
-e <linux/mman.h>
-   drivers/gpu/drm/i915/i915_gem.c:36:1: iwyu: warning: superfluous #includ=
-e <linux/pci.h>
-   drivers/gpu/drm/i915/i915_gem.c:32:1: iwyu: warning: superfluous #includ=
-e <linux/shmem_fs.h>
-   drivers/gpu/drm/i915/i915_gem.c:34:1: iwyu: warning: superfluous #includ=
-e <linux/stop_machine.h>
-   drivers/gpu/drm/i915/i915_gem.c:35:1: iwyu: warning: superfluous #includ=
-e <linux/swap.h>
->> drivers/gpu/drm/i915/i915_gem.c:40:1: iwyu: warning: superfluous #includ=
-e "display/intel_display.h"
-   drivers/gpu/drm/i915/i915_gem.c:43:1: iwyu: warning: superfluous #includ=
-e "gem/i915_gem_clflush.h"
->> drivers/gpu/drm/i915/i915_gem.c:47:1: iwyu: warning: superfluous #includ=
-e "gem/i915_gem_region.h"
-   drivers/gpu/drm/i915/i915_gem.c:50:1: iwyu: warning: superfluous #includ=
-e "gt/intel_gt_pm.h"
+   drivers/gpu/drm/i915/display/intel_dpll.c:5:1: iwyu: warning: superfluou=
+s #include <linux/kernel.h>
+>> drivers/gpu/drm/i915/display/intel_dpll.c:10:1: iwyu: warning: superfluo=
+us #include "intel_panel.h"
 
-vim +40 drivers/gpu/drm/i915/i915_gem.c
+vim +10 drivers/gpu/drm/i915/display/intel_dpll.c
 
-673a394b1e3b69 Eric Anholt     2008-07-30  39  =
+8cf41f316e6497 Dave Airlie 2021-01-14 @10  #include "intel_panel.h"
+8cf41f316e6497 Dave Airlie 2021-01-14  11  =
 
-df0566a641f959 Jani Nikula     2019-06-13 @40  #include "display/intel_disp=
-lay.h"
-df0566a641f959 Jani Nikula     2019-06-13  41  #include "display/intel_fron=
-tbuffer.h"
-df0566a641f959 Jani Nikula     2019-06-13  42  =
-
-10be98a77c558f Chris Wilson    2019-05-28  43  #include "gem/i915_gem_clflu=
-sh.h"
-10be98a77c558f Chris Wilson    2019-05-28  44  #include "gem/i915_gem_conte=
-xt.h"
-afa1308596c9db Chris Wilson    2019-05-28  45  #include "gem/i915_gem_ioctl=
-s.h"
-cc662126b4134e Abdiel Janulgue 2019-12-04  46  #include "gem/i915_gem_mman.=
-h"
-05e8a5f51eb586 Ramalingam C    2020-01-04 @47  #include "gem/i915_gem_regio=
-n.h"
-750e76b4f9f63c Chris Wilson    2019-08-06  48  #include "gt/intel_engine_us=
-er.h"
-baea429dc5ed90 Tvrtko Ursulin  2019-06-21  49  #include "gt/intel_gt.h"
-79ffac8599c4d8 Chris Wilson    2019-04-24  50  #include "gt/intel_gt_pm.h"
-112ed2d31a46f4 Chris Wilson    2019-04-24  51  #include "gt/intel_workaroun=
-ds.h"
-112ed2d31a46f4 Chris Wilson    2019-04-24  52  =
-
-
-:::::: The code at line 40 was first introduced by commit
-:::::: df0566a641f959108c152be748a0a58794280e0e drm/i915: move modesetting =
-core code under display/
-
-:::::: TO: Jani Nikula <jani.nikula@intel.com>
-:::::: CC: Jani Nikula <jani.nikula@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2071356405588713256==
+--===============1901502799602330372==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICN0G7GAAAy5jb25maWcAlDxbd9s2k+/fr9BpX9qHprbjuMnu8QNEgiIqkmABUBe/8Ki2nHrr
+H4sICBer62AAAy5jb25maWcAlDxbd9s2k+/fr9BpX9qHprbjuMnu8QNEgiIqkmABUBe/8Ki2nHrr
 S1aW2+Tf7wwAkgAIqt08JBFmcJ/7DPj9f76fkbfjy9Pu+HC7e3z8Nvu8f94fdsf93ez+4XH/37OU
 zyquZjRl6h0gFw/Pb19//vrxqr26nH14d37+7uynw+3FbLk/PO8fZ8nL8/3D5zcY4OHl+T/f/yfh
 VcYWbZK0Kyok41Wr6EZdf3f7uHv+PPtrf3gFvNn5+3dn785mP3x+OP7Xzz/D308Ph8PL4efHx7+e
@@ -810,5 +759,5 @@ i14h4ugwCi+yBovuTOU6I2pZ6OkkePLuNG/R9OVoq5NjZ02PqacIaJNA+RbW1q5lCcb4btHvP+WN
 neQLBrTC2124TLr967KrQAFd6BzO96jH64IE3hfzhuKtFc6QkrCmTgCNKg43GiczKHZ56fEgwlge
 g68KJCfqhob3Z0y8C1jFrhtK6ZJMREdMgS9hQbiZKs9gIaVmBGldpeji6UnpiRCji1IIt7NEBstZ
 zQ2zYqj4wVVNBgvKiotJH5qcNg29H9i2sSp5m9avHRbhNP8B3Ojsu0VqAgA=
---===============2071356405588713256==--
+--===============1901502799602330372==--
 
