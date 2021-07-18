@@ -1,20 +1,20 @@
-Content-Type: multipart/mixed; boundary="===============1881984115924600892=="
+Content-Type: multipart/mixed; boundary="===============6008879154657389318=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 10/12] KVM: arm64: Provide userspace access to the physical counter offset
-Date: Mon, 19 Jul 2021 04:28:23 +0800
-Message-ID: <202107190452.eSN5wIZn-lkp@intel.com>
+Subject: Re: [PATCH v2 08/12] KVM: arm64: Allow userspace to configure a vCPU's virtual offset
+Date: Mon, 19 Jul 2021 04:23:56 +0800
+Message-ID: <202107190443.6krerBEV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1881984115924600892==
+--===============6008879154657389318==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210716212629.2232756-11-oupton@google.com>
-References: <20210716212629.2232756-11-oupton@google.com>
+In-Reply-To: <20210716212629.2232756-9-oupton@google.com>
+References: <20210716212629.2232756-9-oupton@google.com>
 TO: Oliver Upton <oupton@google.com>
 TO: kvm(a)vger.kernel.org
 TO: kvmarm(a)lists.cs.columbia.edu
@@ -84,15 +84,12 @@ define KVM_ARM_TAGS_FROM_GUEST		1
    Warning: Kernel ABI header at 'tools/arch/arm64/include/uapi/asm/kvm.h' =
 differs from latest version at 'arch/arm64/include/uapi/asm/kvm.h':  197> =
 
-   Warning: Kernel ABI header at 'tools/arch/arm64/include/uapi/asm/kvm.h' =
+>> Warning: Kernel ABI header at 'tools/arch/arm64/include/uapi/asm/kvm.h' =
 differs from latest version at 'arch/arm64/include/uapi/asm/kvm.h':  368> #=
 define   KVM_ARM_VCPU_TIMER_OFFSET_VTIMER	2
->> Warning: Kernel ABI header at 'tools/arch/arm64/include/uapi/asm/kvm.h' =
-differs from latest version at 'arch/arm64/include/uapi/asm/kvm.h':  369> #=
-define   KVM_ARM_VCPU_TIMER_OFFSET_PTIMER	3
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1881984115924600892==--
+--===============6008879154657389318==--
 
