@@ -1,46 +1,28 @@
-Content-Type: multipart/mixed; boundary="===============4874942775616924772=="
+Content-Type: multipart/mixed; boundary="===============1753519230336006072=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 01/12] KVM: x86: Report host tsc and realtime values in KVM_GET_CLOCK
-Date: Tue, 20 Jul 2021 17:10:35 +0800
-Message-ID: <202107201704.fXScedbr-lkp@intel.com>
+Subject: [drm-drm-intel:drm-intel-gt-next 1/1] Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differs from latest version at 'include/uapi/drm/i915_drm.h': 886> * type. On devices without local memory, this caching mode is invalid.
+Date: Thu, 22 Jul 2021 01:36:04 +0800
+Message-ID: <202107220157.AfPZtVNu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4874942775616924772==
+--===============1753519230336006072==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20210719184949.1385910-2-oupton@google.com>
-References: <20210719184949.1385910-2-oupton@google.com>
-TO: Oliver Upton <oupton@google.com>
-TO: kvm(a)vger.kernel.org
-TO: kvmarm(a)lists.cs.columbia.edu
-CC: Paolo Bonzini <pbonzini@redhat.com>
-CC: Sean Christopherson <seanjc@google.com>
-CC: Marc Zyngier <maz@kernel.org>
-CC: Peter Shier <pshier@google.com>
-CC: Jim Mattson <jmattson@google.com>
-CC: David Matlack <dmatlack@google.com>
-CC: Ricardo Koller <ricarkol@google.com>
-CC: Jing Zhang <jingzhangos@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Matthew Auld <matthew.auld@intel.com>
+CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+CC: Jason Ekstrand <jason@jlekstrand.net>
 
-Hi Oliver,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on kvm/queue]
-[also build test WARNING on vhost/linux-next v5.14-rc2 next-20210720]
-[cannot apply to kvmarm/next]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Oliver-Upton/KVM-Add-idemp=
-otent-controls-for-migrating-system-counter-state/20210720-151644
-base:   https://git.kernel.org/pub/scm/virt/kvm/kvm.git queue
+tree:   git://anongit.freedesktop.org/drm/drm-intel drm-intel-gt-next
+head:   7961c5b60f23dff5d82a523f9aeb8ebf34cf9926
+commit: 7961c5b60f23dff5d82a523f9aeb8ebf34cf9926 [1/1] drm/i915: Add TTM of=
+fset argument to mmap.
 :::::: branch date: 2 hours ago
 :::::: commit date: 2 hours ago
 compiler: gcc-10 (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
@@ -52,313 +34,367 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 perfheadercheck warnings: (new ones prefixed by >>)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  283> /* Flags that descr=
-ibe what fields in emulation_failure hold valid data. */
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  284> #define KVM_INTERNA=
-L_ERROR_EMULATION_FLAG_INSTRUCTION_BYTES (1ULL << 0)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h':  285> =
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  852> /**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  853>  * struct drm=
+_i915_gem_mmap_offset - Retrieve an offset so we can mmap this buffer objec=
+t.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  854>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  855>  * This struc=
+t is passed as argument to the `DRM_IOCTL_I915_GEM_MMAP_OFFSET` ioctl,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  856>  * and is use=
+d to retrieve the fake offset to mmap an object specified by &handle.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  857>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  858>  * The legacy=
+ way of using `DRM_IOCTL_I915_GEM_MMAP` is removed on gen12+.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  859>  * `DRM_IOCTL=
+_I915_GEM_MMAP_GTT` is an older supported alias to this struct, but will be=
+have
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  860>  * as setting=
+ the &extensions to 0, and &flags to `I915_MMAP_OFFSET_GTT`.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  861>  */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  853< 	/** Handle f=
+or the object being mapped. */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  863> 	/** @handle:=
+ Handle for the object being mapped. */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  865> 	/** @pad: Mu=
+st be zero */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  857< 	 * Fake offs=
+et to use for subsequent mmap call
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  868> 	 * @offset: =
+The fake offset to use for subsequent mmap call
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  864< 	 * Flags for=
+ extended behaviour.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  875> 	 * @flags: F=
+lags for extended behaviour.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  876> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  877> 	 * It is man=
+datory that one of the `MMAP_OFFSET` types
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  878> 	 * should be=
+ included:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  866< 	 * It is man=
+datory that one of the MMAP_OFFSET types
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  867< 	 * (GTT, WC,=
+ WB, UC, etc) should be included.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  880> 	 * - `I915_M=
+MAP_OFFSET_GTT`: Use mmap with the object bound to GTT. (Write-Combined)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  881> 	 * - `I915_M=
+MAP_OFFSET_WC`: Use Write-Combined caching.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  882> 	 * - `I915_M=
+MAP_OFFSET_WB`: Use Write-Back caching.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  883> 	 * - `I915_M=
+MAP_OFFSET_FIXED`: Use object placement to determine caching.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  884> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  885> 	 * On device=
+s with local memory `I915_MMAP_OFFSET_FIXED` is the only valid
+>> Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  886> 	 * type. On =
+devices without local memory, this caching mode is invalid.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  887> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  888> 	 * As cachin=
+g mode when specifying `I915_MMAP_OFFSET_FIXED`, WC or WB will
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  889> 	 * be used, =
+depending on the object placement on creation. WB will be used
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  890> 	 * when the =
+object can only exist in system memory, WC otherwise.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  870< #define I915_=
+MMAP_OFFSET_GTT 0
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  871< #define I915_=
+MMAP_OFFSET_WC  1
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  872< #define I915_=
+MMAP_OFFSET_WB  2
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  873< #define I915_=
+MMAP_OFFSET_UC  3
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  875< 	/*
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  876< 	 * Zero-term=
+inated chain of extensions.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  894> #define I915_=
+MMAP_OFFSET_GTT	0
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  895> #define I915_=
+MMAP_OFFSET_WC	1
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  896> #define I915_=
+MMAP_OFFSET_WB	2
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  897> #define I915_=
+MMAP_OFFSET_UC	3
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  898> #define I915_=
+MMAP_OFFSET_FIXED	4
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  899> =
 
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  389> 		/*
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  390> 		 * KVM_INTERNAL_E=
-RROR_EMULATION
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  391> 		 *
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  392> 		 * "struct emulat=
-ion_failure" is an overlay of "struct internal"
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  393> 		 * that is used f=
-or the KVM_INTERNAL_ERROR_EMULATION sub-type of
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  394> 		 * KVM_EXIT_INTER=
-NAL_ERROR.  Note, unlike other internal error
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  395> 		 * sub-types, thi=
-s struct is ABI!  It also needs to be backwards
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  396> 		 * compatible wit=
-h "struct internal".  Take special care that
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  397> 		 * "ndata" is cor=
-rect, that new fields are enumerated in "flags",
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  398> 		 * and that each =
-flag enumerates fields that are 64-bit aligned
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  399> 		 * and sized (so =
-that ndata+internal.data[] is valid/accurate).
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  400> 		 */
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  401> 		struct {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  402> 			__u32 suberror;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  403> 			__u32 ndata;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  404> 			__u64 flags;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  405> 			__u8  insn_size;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  406> 			__u8  insn_bytes=
-[15];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h':  407> 		} emulation_failu=
-re;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1108> #define KVM_CAP_HYP=
-ERV_ENFORCE_CPUID 199
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1109> #define KVM_CAP_SRE=
-GS2 200
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1110> #define KVM_CAP_EXI=
-T_HYPERCALL 201
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1111> #define KVM_CAP_PPC=
-_RPT_INVALIDATE 202
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1112> #define KVM_CAP_BIN=
-ARY_STATS_FD 203
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1113> #define KVM_CAP_EXI=
-T_ON_EMULATION_FAILURE 204
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1114> #define KVM_CAP_ARM=
-_MTE 205
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1226> #define KVM_CLOCK_R=
-EALTIME		(1 << 2)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1227> #define KVM_CLOCK_H=
-OST_TSC		(1 << 3)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1201< 	__u32 pad[9];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1232> 	__u32 pad0;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1233> 	__u64 realtime;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1234> 	__u64 host_tsc;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1235> 	__u32 pad[4];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1465> #define KVM_ARM_MTE=
-_COPY_TAGS	  _IOR(KVMIO,  0xb4, struct kvm_arm_copy_mte_tags)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1659> #define KVM_GET_SRE=
-GS2             _IOR(KVMIO,  0xcc, struct kvm_sregs2)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1660> #define KVM_SET_SRE=
-GS2             _IOW(KVMIO,  0xcd, struct kvm_sregs2)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1661> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1939> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1940> /**
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1941>  * struct kvm_stats=
-_header - Header of per vm/vcpu binary statistics data.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1942>  * @flags: Some ext=
-ra information for header, always 0 for now.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1943>  * @name_size: The =
-size in bytes of the memory which contains statistics
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1944>  *             name=
- string including trailing '\0'. The memory is allocated
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1945>  *             at t=
-he send of statistics descriptor.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1946>  * @num_desc: The n=
-umber of statistics the vm or vcpu has.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1947>  * @id_offset: The =
-offset of the vm/vcpu stats' id string in the file pointed
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1948>  *             by v=
-m/vcpu stats fd.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1949>  * @desc_offset: Th=
-e offset of the vm/vcpu stats' descriptor block in the file
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1950>  *               po=
-intd by vm/vcpu stats fd.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1951>  * @data_offset: Th=
-e offset of the vm/vcpu stats' data block in the file
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1952>  *               po=
-inted by vm/vcpu stats fd.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1953>  *
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1954>  * This is the head=
-er userspace needs to read from stats fd before any other
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1955>  * readings. It is =
-used by userspace to discover all the information about the
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1956>  * vm/vcpu's binary=
- statistics.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1957>  * Userspace reads =
-this header from the start of the vm/vcpu's stats fd.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1958>  */
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1959> struct kvm_stats_he=
-ader {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1960> 	__u32 flags;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1961> 	__u32 name_size;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1962> 	__u32 num_desc;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1963> 	__u32 id_offset;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1964> 	__u32 desc_offset;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1965> 	__u32 data_offset;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1966> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1967> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1968> #define KVM_STATS_T=
-YPE_SHIFT		0
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1969> #define KVM_STATS_T=
-YPE_MASK		(0xF << KVM_STATS_TYPE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1970> #define KVM_STATS_T=
-YPE_CUMULATIVE	(0x0 << KVM_STATS_TYPE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1971> #define KVM_STATS_T=
-YPE_INSTANT		(0x1 << KVM_STATS_TYPE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1972> #define KVM_STATS_T=
-YPE_PEAK		(0x2 << KVM_STATS_TYPE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1973> #define KVM_STATS_T=
-YPE_MAX		KVM_STATS_TYPE_PEAK
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1974> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1975> #define KVM_STATS_U=
-NIT_SHIFT		4
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1976> #define KVM_STATS_U=
-NIT_MASK		(0xF << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1977> #define KVM_STATS_U=
-NIT_NONE		(0x0 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1978> #define KVM_STATS_U=
-NIT_BYTES		(0x1 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1979> #define KVM_STATS_U=
-NIT_SECONDS		(0x2 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1980> #define KVM_STATS_U=
-NIT_CYCLES		(0x3 << KVM_STATS_UNIT_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1981> #define KVM_STATS_U=
-NIT_MAX		KVM_STATS_UNIT_CYCLES
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1982> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1983> #define KVM_STATS_B=
-ASE_SHIFT		8
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1984> #define KVM_STATS_B=
-ASE_MASK		(0xF << KVM_STATS_BASE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1985> #define KVM_STATS_B=
-ASE_POW10		(0x0 << KVM_STATS_BASE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1986> #define KVM_STATS_B=
-ASE_POW2		(0x1 << KVM_STATS_BASE_SHIFT)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version@'include/uapi/linux/kvm.h': 1987> #define KVM_STATS_B=
-ASE_MAX		KVM_STATS_BASE_POW2
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1988> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1989> /**
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1990>  * struct kvm_stats=
-_desc - Descriptor of a KVM statistics.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1991>  * @flags: Annotati=
-ons of the stats, like type, unit, etc.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1992>  * @exponent: Used =
-together with @flags to determine the unit.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1993>  * @size: The numbe=
-r of data items for this stats.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1994>  *        Every dat=
-a item is of type __u64.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1995>  * @offset: The off=
-set of the stats to the start of stat structure in
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1996>  *          strutur=
-e kvm or kvm_vcpu.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1997>  * @unused: Unused =
-field for future usage. Always 0 for now.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1998>  * @name: The name =
-string for the stats. Its size is indicated by the
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 1999>  *        &kvm_stat=
-s_header->name_size.
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2000>  */
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2001> struct kvm_stats_de=
-sc {
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2002> 	__u32 flags;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2003> 	__s16 exponent;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2004> 	__u16 size;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2005> 	__u32 offset;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2006> 	__u32 unused;
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2007> 	char name[];
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2008> };
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2009> =
-
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/kvm.h' differs f=
-rom latest version at 'include/uapi/linux/kvm.h': 2010> #define KVM_GET_STA=
-TS_FD  _IO(KVMIO,  0xce)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  900> 	/**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  901> 	 * @extensio=
+ns: Zero-terminated chain of extensions.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  908> /**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  909>  * struct drm=
+_i915_gem_set_domain - Adjust the objects write or read domain, in
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  910>  * preparatio=
+n for accessing the pages via some CPU domain.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  911>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  912>  * Specifying=
+ a new write or read domain will flush the object out of the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  913>  * previous d=
+omain(if required), before then updating the objects domain
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  914>  * tracking w=
+ith the new domain.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  915>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  916>  * Note this =
+might involve waiting for the object first if it is still active on
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  917>  * the GPU.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  918>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  919>  * Supported =
+values for @read_domains and @write_domain:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  920>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  921>  *	- I915_GEM=
+_DOMAIN_WC: Uncached write-combined domain
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  922>  *	- I915_GEM=
+_DOMAIN_CPU: CPU cache domain
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  923>  *	- I915_GEM=
+_DOMAIN_GTT: Mappable aperture domain
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  924>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  925>  * All other =
+domains are rejected.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  926>  */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  884< 	/** Handle f=
+or the object */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  928> 	/** @handle:=
+ Handle for the object. */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  887< 	/** New read=
+ domains */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  931> 	/** @read_do=
+mains: New read domains. */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  890< 	/** New writ=
+e domain */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h':  934> 	/**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  935> 	 * @write_do=
+main: New write domain.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  936> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  937> 	 * Note that=
+ having something in the write domain implies it's in the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  938> 	 * read doma=
+in, and only that read domain.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h':  939> 	 */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1351< 	 * I915_CONT=
+EXT_SET_ENGINES parameter and via perf, i.e.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 1400> 	 * I915_CONT=
+EXT_PARAM_ENGINES context parameter and via perf, i.e.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1353< 	 * reported =
+as active itself. Some hardware may have parallel
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1354< 	 * execution=
+ engines, e.g. multiple media engines, which are
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1355< 	 * mapped to=
+ the same class identifier and so are not separately
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1356< 	 * reported =
+for busyness.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 1402> 	 * Some hard=
+ware may have parallel execution engines, e.g. multiple
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1403> 	 * media eng=
+ines, which are mapped to the same class identifier and so
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1404> 	 * are not s=
+eparately reported for busyness.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1367<  * I915_CACHI=
+NG_NONE
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 1415>  * struct drm=
+_i915_gem_caching - Set or get the caching for given object
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1416>  * handle.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1369<  * GPU access=
+ is not coherent with cpu caches. Default for machines without an
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1370<  * LLC.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 1418>  * Allow user=
+space to control the GTT caching bits for a given object when the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1419>  * object is =
+later mapped through the ppGTT(or GGTT on older platforms lacking
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1420>  * ppGTT supp=
+ort, or if the object is used for scanout). Note that this might
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1421>  * require un=
+binding the object from the GTT first, if its current caching value
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1422>  * doesn't ma=
+tch.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1423>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1424>  * Note that =
+this all changes on discrete platforms, starting from DG1, the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1425>  * set/get ca=
+ching is no longer supported, and is now rejected.  Instead the CPU
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1426>  * caching at=
+tributes(WB vs WC) will become an immutable creation time property
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1427>  * for the ob=
+ject, along with the GTT caching level. For now we don't expose any
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1428>  * new uAPI f=
+or this, instead on DG1 this is all implicit, although this largely
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1429>  * shouldn't =
+matter since DG1 is coherent by default(without any way of
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1430>  * controllin=
+g it).
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1431>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1432>  * Implicit c=
+aching rules, starting from DG1:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1433>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1434>  *     - If a=
+ny of the object placements (see &drm_i915_gem_create_ext_memory_regions)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1435>  *       cont=
+ain I915_MEMORY_CLASS_DEVICE then the object will be allocated and
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1436>  *       mapp=
+ed as write-combined only.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1437>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1438>  *     - Ever=
+ything else is always allocated and mapped as write-back, with the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1439>  *       guar=
+antee that everything is also coherent with the GPU.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1440>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1441>  * Note that =
+this is likely to change in the future again, where we might need
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1442>  * more flexi=
+bility on future devices, so making this all explicit as part of a
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1443>  * new &drm_i=
+915_gem_create_ext extension is probable.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1444>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1445>  * Side note:=
+ Part of the reason for this is that changing the at-allocation-time CPU
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1446>  * caching at=
+tributes for the pages might be required(and is expensive) if we
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1447>  * need to th=
+en CPU map the pages later with different caching attributes. This
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1448>  * inconsiste=
+nt caching behaviour, while supported on x86, is not universally
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1449>  * supported =
+on other architectures. So for simplicity we opt for setting
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1450>  * everything=
+ at creation time, whilst also making it immutable, on discrete
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1451>  * platforms.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1372< #define I915_=
+CACHING_NONE		0
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1373< /**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1374<  * I915_CACHI=
+NG_CACHED
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 1375<  *
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4874942775616924772==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============1753519230336006072==--
 
