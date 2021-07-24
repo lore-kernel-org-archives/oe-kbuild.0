@@ -1,419 +1,546 @@
-Content-Type: multipart/mixed; boundary="===============6903741820568984670=="
+Content-Type: multipart/mixed; boundary="===============0802238929838498682=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/md/raid10.c:1707:39: warning: Uninitialized variable: first_r10bio [uninitvar]
-Date: Sat, 24 Jul 2021 10:49:15 +0800
-Message-ID: <202107241008.4HjH6nhN-lkp@intel.com>
+Subject: Re: [PATCH] drm/i915/userptr: Probe existence of backing struct pages upon creation
+Date: Sat, 24 Jul 2021 09:20:21 +0800
+Message-ID: <202107240913.pJPcHDNQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6903741820568984670==
+--===============0802238929838498682==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Xiao Ni <xni@redhat.com>
-CC: Song Liu <songliubraving@fb.com>
+In-Reply-To: <20210723113405.427004-1-matthew.auld@intel.com>
+References: <20210723113405.427004-1-matthew.auld@intel.com>
+TO: Matthew Auld <matthew.auld@intel.com>
+TO: intel-gfx(a)lists.freedesktop.org
+CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+CC: Tvrtko Ursulin <tvrtko.ursulin@linux.intel.com>
+CC: Jordan Justen <jordan.l.justen@intel.com>
+CC: dri-devel(a)lists.freedesktop.org
+CC: Chris Wilson <chris@chris-wilson.co.uk>
+CC: Kenneth Graunke <kenneth@whitecape.org>
+CC: Jason Ekstrand <jason@jlekstrand.net>
+CC: Daniel Vetter <daniel.vetter@ffwll.ch>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   f0fddcec6b6254b4b3611388786bbafb703ad257
-commit: 254c271da0712ea8914f187588e0f81f7678ee2f md/raid10: improve discard=
- request for far layout
-date:   4 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 4 months ago
-compiler: h8300-linux-gcc (GCC) 10.3.0
+Hi Matthew,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-tip/drm-tip]
+[cannot apply to drm-intel/for-linux-next drm-exynos/exynos-drm-next tegra-=
+drm/drm/tegra/for-next drm/drm-next v5.14-rc2 next-20210723]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Matthew-Auld/drm-i915-user=
+ptr-Probe-existence-of-backing-struct-pages-upon-creation/20210723-193637
+base:   git://anongit.freedesktop.org/drm/drm-tip drm-tip
+:::::: branch date: 14 hours ago
+:::::: commit date: 14 hours ago
+compiler: gcc-10 (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
+reproduce:
+cd tools/perf && ./check-headers.sh
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+perfheadercheck warnings: (new ones prefixed by >>)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2038>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2039>  * Example of=
+ creating such context and submitting against it:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2040>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2041>  * .. code-bl=
+ock:: C
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2042>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2043>  * 	I915_DEFI=
+NE_CONTEXT_PARAM_ENGINES(engines, 2) =3D {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2044>  * 		.engines=
+ =3D { { I915_ENGINE_CLASS_RENDER, 0 },
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2045>  * 			     { =
+I915_ENGINE_CLASS_COPY, 0 } }
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2046>  * 	};
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2047>  * 	struct dr=
+m_i915_gem_context_create_ext_setparam p_engines =3D {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2048>  * 		.base =
+=3D {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2049>  * 			.name =
+=3D I915_CONTEXT_CREATE_EXT_SETPARAM,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2050>  * 		},
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2051>  * 		.param =
+=3D {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2052>  * 			.param =
+=3D I915_CONTEXT_PARAM_ENGINES,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2053>  * 			.value =
+=3D to_user_pointer(&engines),
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2054>  * 			.size =
+=3D sizeof(engines),
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2055>  * 		},
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2056>  * 	};
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2057>  * 	struct dr=
+m_i915_gem_context_create_ext create =3D {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2058>  * 		.flags =
+=3D I915_CONTEXT_CREATE_FLAGS_USE_EXTENSIONS,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2059>  * 		.extensi=
+ons =3D to_user_pointer(&p_engines);
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2060>  * 	};
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2061>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2062>  * 	ctx_id =
+=3D gem_context_create_ext(drm_fd, &create);
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2063>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2064>  * 	// We hav=
+e now created a GEM context with two engines in the map:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2065>  * 	// Index =
+0 points to rcs0 while index 1 points to bcs0. Other engines
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2066>  * 	// will n=
+ot be accessible from this context.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2067>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2068>  * 	...
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2069>  * 	execbuf.r=
+svd1 =3D ctx_id;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2070>  * 	execbuf.f=
+lags =3D 0; // Submits to index 0, which is rcs0 for this context
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2071>  * 	gem_execb=
+uf(drm_fd, &execbuf);
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2072>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2073>  * 	...
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2074>  * 	execbuf.r=
+svd1 =3D ctx_id;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2075>  * 	execbuf.f=
+lags =3D 1; // Submits to index 0, which is bcs0 for this context
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2076>  * 	gem_execb=
+uf(drm_fd, &execbuf);
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2077>  */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2078> =
 
-   In file included from drivers/md/raid10.c:
->> drivers/md/raid10.c:1707:39: warning: Uninitialized variable: first_r10b=
-io [uninitvar]
-     r10_bio->master_bio =3D (struct bio *)first_r10bio;
-                                         ^
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1904< struct drm_i9=
+15_gem_context_create_ext_clone {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 2097> /* This API h=
+as been removed.  On the off chance someone somewhere has
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2098>  * attempted =
+to use it, never re-use this extension number.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2099>  */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1906< 	struct i915_=
+user_extension base;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1907< 	__u32 clone_=
+id;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1908< 	__u32 flags;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1909< #define I915_=
+CONTEXT_CLONE_ENGINES	(1u << 0)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1910< #define I915_=
+CONTEXT_CLONE_FLAGS	(1u << 1)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1911< #define I915_=
+CONTEXT_CLONE_SCHEDATTR	(1u << 2)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1912< #define I915_=
+CONTEXT_CLONE_SSEU		(1u << 3)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1913< #define I915_=
+CONTEXT_CLONE_TIMELINE	(1u << 4)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1914< #define I915_=
+CONTEXT_CLONE_VM		(1u << 5)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1915< #define I915_=
+CONTEXT_CLONE_UNKNOWN -(I915_CONTEXT_CLONE_VM << 1)
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1916< 	__u64 rsvd;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1917< };
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 2172> /**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2173>  * struct drm=
+_i915_gem_userptr - Create GEM object from user allocated memory.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2174>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2175>  * Userptr ob=
+jects have several restrictions on what ioctls can be used with the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2176>  * object han=
+dle.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2177>  */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2179> 	/**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2180> 	 * @user_ptr=
+: The pointer to the allocated memory.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2181> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2182> 	 * Needs to =
+be aligned to PAGE_SIZE.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2183> 	 */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2185> =
 
-vim +1707 drivers/md/raid10.c
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1573  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1574  /*
-d30588b2731fb0 Xiao Ni 2021-02-04  1575   * There are some limitations to h=
-andle discard bio
-d30588b2731fb0 Xiao Ni 2021-02-04  1576   * 1st, the discard size is bigger=
- than stripe_size*2.
-d30588b2731fb0 Xiao Ni 2021-02-04  1577   * 2st, if the discard bio spans r=
-eshape progress, we use the old way to
-d30588b2731fb0 Xiao Ni 2021-02-04  1578   * handle discard bio
-d30588b2731fb0 Xiao Ni 2021-02-04  1579   */
-d30588b2731fb0 Xiao Ni 2021-02-04  1580  static int raid10_handle_discard(s=
-truct mddev *mddev, struct bio *bio)
-d30588b2731fb0 Xiao Ni 2021-02-04  1581  {
-d30588b2731fb0 Xiao Ni 2021-02-04  1582  	struct r10conf *conf =3D mddev->p=
-rivate;
-d30588b2731fb0 Xiao Ni 2021-02-04  1583  	struct geom *geo =3D &conf->geo;
-254c271da0712e Xiao Ni 2021-02-04  1584  	int far_copies =3D geo->far_copie=
-s;
-254c271da0712e Xiao Ni 2021-02-04  1585  	bool first_copy =3D true;
-254c271da0712e Xiao Ni 2021-02-04  1586  	struct r10bio *r10_bio, *first_r1=
-0bio;
-d30588b2731fb0 Xiao Ni 2021-02-04  1587  	struct bio *split;
-d30588b2731fb0 Xiao Ni 2021-02-04  1588  	int disk;
-d30588b2731fb0 Xiao Ni 2021-02-04  1589  	sector_t chunk;
-d30588b2731fb0 Xiao Ni 2021-02-04  1590  	unsigned int stripe_size;
-d30588b2731fb0 Xiao Ni 2021-02-04  1591  	unsigned int stripe_data_disks;
-d30588b2731fb0 Xiao Ni 2021-02-04  1592  	sector_t split_size;
-d30588b2731fb0 Xiao Ni 2021-02-04  1593  	sector_t bio_start, bio_end;
-d30588b2731fb0 Xiao Ni 2021-02-04  1594  	sector_t first_stripe_index, last=
-_stripe_index;
-d30588b2731fb0 Xiao Ni 2021-02-04  1595  	sector_t start_disk_offset;
-d30588b2731fb0 Xiao Ni 2021-02-04  1596  	unsigned int start_disk_index;
-d30588b2731fb0 Xiao Ni 2021-02-04  1597  	sector_t end_disk_offset;
-d30588b2731fb0 Xiao Ni 2021-02-04  1598  	unsigned int end_disk_index;
-d30588b2731fb0 Xiao Ni 2021-02-04  1599  	unsigned int remainder;
-d30588b2731fb0 Xiao Ni 2021-02-04  1600  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1601  	if (test_bit(MD_RECOVERY_RESHAPE,=
- &mddev->recovery))
-d30588b2731fb0 Xiao Ni 2021-02-04  1602  		return -EAGAIN;
-d30588b2731fb0 Xiao Ni 2021-02-04  1603  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1604  	wait_barrier(conf);
-d30588b2731fb0 Xiao Ni 2021-02-04  1605  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1606  	/*
-d30588b2731fb0 Xiao Ni 2021-02-04  1607  	 * Check reshape again to avoid r=
-eshape happens after checking
-d30588b2731fb0 Xiao Ni 2021-02-04  1608  	 * MD_RECOVERY_RESHAPE and before=
- wait_barrier
-d30588b2731fb0 Xiao Ni 2021-02-04  1609  	 */
-d30588b2731fb0 Xiao Ni 2021-02-04  1610  	if (test_bit(MD_RECOVERY_RESHAPE,=
- &mddev->recovery))
-d30588b2731fb0 Xiao Ni 2021-02-04  1611  		goto out;
-d30588b2731fb0 Xiao Ni 2021-02-04  1612  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1613  	if (geo->near_copies)
-d30588b2731fb0 Xiao Ni 2021-02-04  1614  		stripe_data_disks =3D geo->raid_=
-disks / geo->near_copies +
-d30588b2731fb0 Xiao Ni 2021-02-04  1615  					geo->raid_disks % geo->near_c=
-opies;
-d30588b2731fb0 Xiao Ni 2021-02-04  1616  	else
-d30588b2731fb0 Xiao Ni 2021-02-04  1617  		stripe_data_disks =3D geo->raid_=
-disks;
-d30588b2731fb0 Xiao Ni 2021-02-04  1618  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1619  	stripe_size =3D stripe_data_disks=
- << geo->chunk_shift;
-d30588b2731fb0 Xiao Ni 2021-02-04  1620  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1621  	bio_start =3D bio->bi_iter.bi_sec=
-tor;
-d30588b2731fb0 Xiao Ni 2021-02-04  1622  	bio_end =3D bio_end_sector(bio);
-d30588b2731fb0 Xiao Ni 2021-02-04  1623  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1624  	/*
-d30588b2731fb0 Xiao Ni 2021-02-04  1625  	 * Maybe one discard bio is small=
-er than strip size or across one
-d30588b2731fb0 Xiao Ni 2021-02-04  1626  	 * stripe and discard region is l=
-arger than one stripe size. For far
-d30588b2731fb0 Xiao Ni 2021-02-04  1627  	 * offset layout, if the discard =
-region is not aligned with stripe
-d30588b2731fb0 Xiao Ni 2021-02-04  1628  	 * size, there is hole when we su=
-bmit discard bio to member disk.
-d30588b2731fb0 Xiao Ni 2021-02-04  1629  	 * For simplicity, we only handle=
- discard bio which discard region
-d30588b2731fb0 Xiao Ni 2021-02-04  1630  	 * is bigger than stripe_size * 2
-d30588b2731fb0 Xiao Ni 2021-02-04  1631  	 */
-d30588b2731fb0 Xiao Ni 2021-02-04  1632  	if (bio_sectors(bio) < stripe_siz=
-e*2)
-d30588b2731fb0 Xiao Ni 2021-02-04  1633  		goto out;
-d30588b2731fb0 Xiao Ni 2021-02-04  1634  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1635  	/*
-d30588b2731fb0 Xiao Ni 2021-02-04  1636  	 * Keep bio aligned with strip si=
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2186> 	/**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2187> 	 * @user_siz=
+e:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2188> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2189> 	 * The size =
+in bytes for the allocated memory. This will also become the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2190> 	 * object si=
 ze.
-d30588b2731fb0 Xiao Ni 2021-02-04  1637  	 */
-d30588b2731fb0 Xiao Ni 2021-02-04  1638  	div_u64_rem(bio_start, stripe_siz=
-e, &remainder);
-d30588b2731fb0 Xiao Ni 2021-02-04  1639  	if (remainder) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1640  		split_size =3D stripe_size - rem=
-ainder;
-d30588b2731fb0 Xiao Ni 2021-02-04  1641  		split =3D bio_split(bio, split_s=
-ize, GFP_NOIO, &conf->bio_split);
-d30588b2731fb0 Xiao Ni 2021-02-04  1642  		bio_chain(split, bio);
-d30588b2731fb0 Xiao Ni 2021-02-04  1643  		allow_barrier(conf);
-d30588b2731fb0 Xiao Ni 2021-02-04  1644  		/* Resend the fist split part */
-d30588b2731fb0 Xiao Ni 2021-02-04  1645  		submit_bio_noacct(split);
-d30588b2731fb0 Xiao Ni 2021-02-04  1646  		wait_barrier(conf);
-d30588b2731fb0 Xiao Ni 2021-02-04  1647  	}
-d30588b2731fb0 Xiao Ni 2021-02-04  1648  	div_u64_rem(bio_end, stripe_size,=
- &remainder);
-d30588b2731fb0 Xiao Ni 2021-02-04  1649  	if (remainder) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1650  		split_size =3D bio_sectors(bio) =
-- remainder;
-d30588b2731fb0 Xiao Ni 2021-02-04  1651  		split =3D bio_split(bio, split_s=
-ize, GFP_NOIO, &conf->bio_split);
-d30588b2731fb0 Xiao Ni 2021-02-04  1652  		bio_chain(split, bio);
-d30588b2731fb0 Xiao Ni 2021-02-04  1653  		allow_barrier(conf);
-d30588b2731fb0 Xiao Ni 2021-02-04  1654  		/* Resend the second split part =
-*/
-d30588b2731fb0 Xiao Ni 2021-02-04  1655  		submit_bio_noacct(bio);
-d30588b2731fb0 Xiao Ni 2021-02-04  1656  		bio =3D split;
-d30588b2731fb0 Xiao Ni 2021-02-04  1657  		wait_barrier(conf);
-d30588b2731fb0 Xiao Ni 2021-02-04  1658  	}
-d30588b2731fb0 Xiao Ni 2021-02-04  1659  =
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2191> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2192> 	 * Needs to =
+be aligned to PAGE_SIZE, and should be at least PAGE_SIZE,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2193> 	 * or larger.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2194> 	 */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2196> =
 
-d30588b2731fb0 Xiao Ni 2021-02-04  1660  	bio_start =3D bio->bi_iter.bi_sec=
-tor;
-d30588b2731fb0 Xiao Ni 2021-02-04  1661  	bio_end =3D bio_end_sector(bio);
-d30588b2731fb0 Xiao Ni 2021-02-04  1662  =
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2197> 	/**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2198> 	 * @flags:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2199> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2200> 	 * Supported=
+ flags:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2201> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2202> 	 * I915_USER=
+PTR_READ_ONLY:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2203> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2204> 	 * Mark the =
+object as readonly, this also means GPU access can only be
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2205> 	 * readonly.=
+ This is only supported on HW which supports readonly access
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2206> 	 * through t=
+he GTT. If the HW can't support readonly access, an error is
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2207> 	 * returned.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2208> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2209> 	 * I915_USER=
+PTR_PROBE:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2210> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2211> 	 * Probe the=
+ provided @user_ptr range and validate that the @user_ptr is
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2212> 	 * indeed po=
+inting to normal memory and that the range is also valid.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2213> 	 * For examp=
+le if some garbage address is given to the kernel, then this
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2214> 	 * should co=
+mplain.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2215> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2216> 	 * Returns -=
+EFAULT if the probe failed.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2217> 	 *
+>> Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2218> 	 * Note that=
+ this doesn't populate the backing pages, and also doesn't
+>> Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2219> 	 * guarantee=
+ that the object will remain valid when the object is
+>> Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2220> 	 * eventuall=
+y used.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2221> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2222> 	 * The kerne=
+l supports this feature if I915_PARAM_HAS_USERPTR_PROBE
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2223> 	 * returns a=
+ non-zero value.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2224> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2225> 	 * I915_USER=
+PTR_UNSYNCHRONIZED:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2226> 	 *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2227> 	 * NOT USED.=
+ Setting this flag will result in an error.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2228> 	 */
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2231> #define I915_=
+USERPTR_PROBE 0x2
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 1996< 	 * Returned =
+handle for the object.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version@'include/uapi/drm/i915_drm.h': 2234> 	 * @handle: =
+Returned handle for the object.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2616> =
 
-d30588b2731fb0 Xiao Ni 2021-02-04  1663  	/*
-d30588b2731fb0 Xiao Ni 2021-02-04  1664  	 * Raid10 uses chunk as the unit =
-to store data. It's similar like raid0.
-d30588b2731fb0 Xiao Ni 2021-02-04  1665  	 * One stripe contains the chunks=
- from all member disk (one chunk from
-d30588b2731fb0 Xiao Ni 2021-02-04  1666  	 * one disk at the same HBA addre=
-ss). For layout detail, see 'man md 4'
-d30588b2731fb0 Xiao Ni 2021-02-04  1667  	 */
-d30588b2731fb0 Xiao Ni 2021-02-04  1668  	chunk =3D bio_start >> geo->chunk=
-_shift;
-d30588b2731fb0 Xiao Ni 2021-02-04  1669  	chunk *=3D geo->near_copies;
-d30588b2731fb0 Xiao Ni 2021-02-04  1670  	first_stripe_index =3D chunk;
-d30588b2731fb0 Xiao Ni 2021-02-04  1671  	start_disk_index =3D sector_div(f=
-irst_stripe_index, geo->raid_disks);
-d30588b2731fb0 Xiao Ni 2021-02-04  1672  	if (geo->far_offset)
-d30588b2731fb0 Xiao Ni 2021-02-04  1673  		first_stripe_index *=3D geo->far=
-_copies;
-d30588b2731fb0 Xiao Ni 2021-02-04  1674  	start_disk_offset =3D (bio_start =
-& geo->chunk_mask) +
-d30588b2731fb0 Xiao Ni 2021-02-04  1675  				(first_stripe_index << geo->ch=
-unk_shift);
-d30588b2731fb0 Xiao Ni 2021-02-04  1676  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1677  	chunk =3D bio_end >> geo->chunk_s=
-hift;
-d30588b2731fb0 Xiao Ni 2021-02-04  1678  	chunk *=3D geo->near_copies;
-d30588b2731fb0 Xiao Ni 2021-02-04  1679  	last_stripe_index =3D chunk;
-d30588b2731fb0 Xiao Ni 2021-02-04  1680  	end_disk_index =3D sector_div(las=
-t_stripe_index, geo->raid_disks);
-d30588b2731fb0 Xiao Ni 2021-02-04  1681  	if (geo->far_offset)
-d30588b2731fb0 Xiao Ni 2021-02-04  1682  		last_stripe_index *=3D geo->far_=
-copies;
-d30588b2731fb0 Xiao Ni 2021-02-04  1683  	end_disk_offset =3D (bio_end & ge=
-o->chunk_mask) +
-d30588b2731fb0 Xiao Ni 2021-02-04  1684  				(last_stripe_index << geo->chu=
-nk_shift);
-d30588b2731fb0 Xiao Ni 2021-02-04  1685  =
-
-254c271da0712e Xiao Ni 2021-02-04  1686  retry_discard:
-254c271da0712e Xiao Ni 2021-02-04  1687  	r10_bio =3D mempool_alloc(&conf->=
-r10bio_pool, GFP_NOIO);
-254c271da0712e Xiao Ni 2021-02-04  1688  	r10_bio->mddev =3D mddev;
-254c271da0712e Xiao Ni 2021-02-04  1689  	r10_bio->state =3D 0;
-254c271da0712e Xiao Ni 2021-02-04  1690  	r10_bio->sectors =3D 0;
-254c271da0712e Xiao Ni 2021-02-04  1691  	memset(r10_bio->devs, 0, sizeof(r=
-10_bio->devs[0]) * geo->raid_disks);
-254c271da0712e Xiao Ni 2021-02-04  1692  	wait_blocked_dev(mddev, r10_bio);
-254c271da0712e Xiao Ni 2021-02-04  1693  =
-
-254c271da0712e Xiao Ni 2021-02-04  1694  	/*
-254c271da0712e Xiao Ni 2021-02-04  1695  	 * For far layout it needs more t=
-han one r10bio to cover all regions.
-254c271da0712e Xiao Ni 2021-02-04  1696  	 * Inspired by raid10_sync_reques=
-t, we can use the first r10bio->master_bio
-254c271da0712e Xiao Ni 2021-02-04  1697  	 * to record the discard bio. Oth=
-er r10bio->master_bio record the first
-254c271da0712e Xiao Ni 2021-02-04  1698  	 * r10bio. The first r10bio only =
-release after all other r10bios finish.
-254c271da0712e Xiao Ni 2021-02-04  1699  	 * The discard bio returns only f=
-irst r10bio finishes
-254c271da0712e Xiao Ni 2021-02-04  1700  	 */
-254c271da0712e Xiao Ni 2021-02-04  1701  	if (first_copy) {
-254c271da0712e Xiao Ni 2021-02-04  1702  		r10_bio->master_bio =3D bio;
-254c271da0712e Xiao Ni 2021-02-04  1703  		set_bit(R10BIO_Discard, &r10_bio=
-->state);
-254c271da0712e Xiao Ni 2021-02-04  1704  		first_copy =3D false;
-254c271da0712e Xiao Ni 2021-02-04  1705  		first_r10bio =3D r10_bio;
-254c271da0712e Xiao Ni 2021-02-04  1706  	} else
-254c271da0712e Xiao Ni 2021-02-04 @1707  		r10_bio->master_bio =3D (struct =
-bio *)first_r10bio;
-254c271da0712e Xiao Ni 2021-02-04  1708  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1709  	rcu_read_lock();
-d30588b2731fb0 Xiao Ni 2021-02-04  1710  	for (disk =3D 0; disk < geo->raid=
-_disks; disk++) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1711  		struct md_rdev *rdev =3D rcu_der=
-eference(conf->mirrors[disk].rdev);
-d30588b2731fb0 Xiao Ni 2021-02-04  1712  		struct md_rdev *rrdev =3D rcu_de=
-reference(
-d30588b2731fb0 Xiao Ni 2021-02-04  1713  			conf->mirrors[disk].replacement=
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2617> /**
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2618>  * DOC: Engin=
+e Discovery uAPI
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2619>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2620>  * Engine dis=
+covery uAPI is a way of enumerating physical engines present in a
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2621>  * GPU associ=
+ated with an open i915 DRM file descriptor. This supersedes the old
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2622>  * way of usi=
+ng `DRM_IOCTL_I915_GETPARAM` and engine identifiers like
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2623>  * `I915_PARA=
+M_HAS_BLT`.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2624>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2625>  * The need f=
+or this interface came starting with Icelake and newer GPUs, which
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2626>  * started to=
+ establish a pattern of having multiple engines of a same class,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2627>  * where not =
+all instances were always completely functionally equivalent.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2628>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2629>  * Entry poin=
+t for this uapi is `DRM_IOCTL_I915_QUERY` with the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2630>  * `DRM_I915_=
+QUERY_ENGINE_INFO` as the queried item id.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2631>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2632>  * Example fo=
+r getting the list of engines:
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2633>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2634>  * .. code-bl=
+ock:: C
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2635>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2636>  * 	struct dr=
+m_i915_query_engine_info *info;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2637>  * 	struct dr=
+m_i915_query_item item =3D {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2638>  * 		.query_i=
+d =3D DRM_I915_QUERY_ENGINE_INFO;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2639>  * 	};
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2640>  * 	struct dr=
+m_i915_query query =3D {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2641>  * 		.num_ite=
+ms =3D 1,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2642>  * 		.items_p=
+tr =3D (uintptr_t)&item,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2643>  * 	};
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2644>  * 	int err, =
+i;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2645>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2646>  * 	// First =
+query the size of the blob we need, this needs to be large
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2647>  * 	// enough=
+ to hold our array of engines. The kernel will fill out the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2648>  * 	// item.l=
+ength for us, which is the number of bytes we need.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2649>  * 	//
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2650>  * 	// Altern=
+atively a large buffer can be allocated straight away enabling
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2651>  * 	// queryi=
+ng in one pass, in which case item.length should contain the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2652>  * 	// length=
+ of the provided buffer.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2653>  * 	err =3D i=
+octl(fd, DRM_IOCTL_I915_QUERY, &query);
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2654>  * 	if (err) =
+...
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2655>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2656>  * 	info =3D =
+calloc(1, item.length);
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2657>  * 	// Now th=
+at we allocated the required number of bytes, we call the ioctl
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2658>  * 	// again,=
+ this time with the data_ptr pointing to our newly allocated
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2659>  * 	// blob, =
+which the kernel can then populate with info on all engines.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2660>  * 	item.data=
+_ptr =3D (uintptr_t)&info,
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2661>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2662>  * 	err =3D i=
+octl(fd, DRM_IOCTL_I915_QUERY, &query);
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2663>  * 	if (err) =
+...
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2664>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2665>  * 	// We can=
+ now access each engine in the array
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2666>  * 	for (i =
+=3D 0; i < info->num_engines; i++) {
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2667>  * 		struct d=
+rm_i915_engine_info einfo =3D info->engines[i];
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2668>  * 		u16 clas=
+s =3D einfo.engine.class;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2669>  * 		u16 inst=
+ance =3D einfo.engine.instance;
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2670>  * 		....
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2671>  * 	}
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2672>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2673>  * 	free(info=
 );
-d30588b2731fb0 Xiao Ni 2021-02-04  1714  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1715  		r10_bio->devs[disk].bio =3D NULL;
-d30588b2731fb0 Xiao Ni 2021-02-04  1716  		r10_bio->devs[disk].repl_bio =3D=
- NULL;
-d30588b2731fb0 Xiao Ni 2021-02-04  1717  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1718  		if (rdev && (test_bit(Faulty, &r=
-dev->flags)))
-d30588b2731fb0 Xiao Ni 2021-02-04  1719  			rdev =3D NULL;
-d30588b2731fb0 Xiao Ni 2021-02-04  1720  		if (rrdev && (test_bit(Faulty, &=
-rrdev->flags)))
-d30588b2731fb0 Xiao Ni 2021-02-04  1721  			rrdev =3D NULL;
-d30588b2731fb0 Xiao Ni 2021-02-04  1722  		if (!rdev && !rrdev)
-d30588b2731fb0 Xiao Ni 2021-02-04  1723  			continue;
-d30588b2731fb0 Xiao Ni 2021-02-04  1724  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1725  		if (rdev) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1726  			r10_bio->devs[disk].bio =3D bio;
-d30588b2731fb0 Xiao Ni 2021-02-04  1727  			atomic_inc(&rdev->nr_pending);
-d30588b2731fb0 Xiao Ni 2021-02-04  1728  		}
-d30588b2731fb0 Xiao Ni 2021-02-04  1729  		if (rrdev) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1730  			r10_bio->devs[disk].repl_bio =
-=3D bio;
-d30588b2731fb0 Xiao Ni 2021-02-04  1731  			atomic_inc(&rrdev->nr_pending);
-d30588b2731fb0 Xiao Ni 2021-02-04  1732  		}
-d30588b2731fb0 Xiao Ni 2021-02-04  1733  	}
-d30588b2731fb0 Xiao Ni 2021-02-04  1734  	rcu_read_unlock();
-d30588b2731fb0 Xiao Ni 2021-02-04  1735  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1736  	atomic_set(&r10_bio->remaining, 1=
-);
-d30588b2731fb0 Xiao Ni 2021-02-04  1737  	for (disk =3D 0; disk < geo->raid=
-_disks; disk++) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1738  		sector_t dev_start, dev_end;
-d30588b2731fb0 Xiao Ni 2021-02-04  1739  		struct bio *mbio, *rbio =3D NULL;
-d30588b2731fb0 Xiao Ni 2021-02-04  1740  		struct md_rdev *rdev =3D rcu_der=
-eference(conf->mirrors[disk].rdev);
-d30588b2731fb0 Xiao Ni 2021-02-04  1741  		struct md_rdev *rrdev =3D rcu_de=
-reference(
-d30588b2731fb0 Xiao Ni 2021-02-04  1742  			conf->mirrors[disk].replacement=
-);
-d30588b2731fb0 Xiao Ni 2021-02-04  1743  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1744  		/*
-d30588b2731fb0 Xiao Ni 2021-02-04  1745  		 * Now start to calculate the st=
-art and end address for each disk.
-d30588b2731fb0 Xiao Ni 2021-02-04  1746  		 * The space between dev_start a=
-nd dev_end is the discard region.
-d30588b2731fb0 Xiao Ni 2021-02-04  1747  		 *
-d30588b2731fb0 Xiao Ni 2021-02-04  1748  		 * For dev_start, it needs to co=
-nsider three conditions:
-d30588b2731fb0 Xiao Ni 2021-02-04  1749  		 * 1st, the disk is before start=
-_disk, you can imagine the disk in
-d30588b2731fb0 Xiao Ni 2021-02-04  1750  		 * the next stripe. So the dev_s=
-tart is the start address of next
-d30588b2731fb0 Xiao Ni 2021-02-04  1751  		 * stripe.
-d30588b2731fb0 Xiao Ni 2021-02-04  1752  		 * 2st, the disk is after start_=
-disk, it means the disk is at the
-d30588b2731fb0 Xiao Ni 2021-02-04  1753  		 * same stripe of first disk
-d30588b2731fb0 Xiao Ni 2021-02-04  1754  		 * 3st, the first disk itself, w=
-e can use start_disk_offset directly
-d30588b2731fb0 Xiao Ni 2021-02-04  1755  		 */
-d30588b2731fb0 Xiao Ni 2021-02-04  1756  		if (disk < start_disk_index)
-d30588b2731fb0 Xiao Ni 2021-02-04  1757  			dev_start =3D (first_stripe_ind=
-ex + 1) * mddev->chunk_sectors;
-d30588b2731fb0 Xiao Ni 2021-02-04  1758  		else if (disk > start_disk_index)
-d30588b2731fb0 Xiao Ni 2021-02-04  1759  			dev_start =3D first_stripe_inde=
-x * mddev->chunk_sectors;
-d30588b2731fb0 Xiao Ni 2021-02-04  1760  		else
-d30588b2731fb0 Xiao Ni 2021-02-04  1761  			dev_start =3D start_disk_offset;
-d30588b2731fb0 Xiao Ni 2021-02-04  1762  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1763  		if (disk < end_disk_index)
-d30588b2731fb0 Xiao Ni 2021-02-04  1764  			dev_end =3D (last_stripe_index =
-+ 1) * mddev->chunk_sectors;
-d30588b2731fb0 Xiao Ni 2021-02-04  1765  		else if (disk > end_disk_index)
-d30588b2731fb0 Xiao Ni 2021-02-04  1766  			dev_end =3D last_stripe_index *=
- mddev->chunk_sectors;
-d30588b2731fb0 Xiao Ni 2021-02-04  1767  		else
-d30588b2731fb0 Xiao Ni 2021-02-04  1768  			dev_end =3D end_disk_offset;
-d30588b2731fb0 Xiao Ni 2021-02-04  1769  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1770  		/*
-d30588b2731fb0 Xiao Ni 2021-02-04  1771  		 * It only handles discard bio w=
-hich size is >=3D stripe size, so
-d30588b2731fb0 Xiao Ni 2021-02-04  1772  		 * dev_end > dev_start all the t=
-ime
-d30588b2731fb0 Xiao Ni 2021-02-04  1773  		 */
-d30588b2731fb0 Xiao Ni 2021-02-04  1774  		if (r10_bio->devs[disk].bio) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1775  			mbio =3D bio_clone_fast(bio, GF=
-P_NOIO, &mddev->bio_set);
-d30588b2731fb0 Xiao Ni 2021-02-04  1776  			mbio->bi_end_io =3D raid10_end_=
-discard_request;
-d30588b2731fb0 Xiao Ni 2021-02-04  1777  			mbio->bi_private =3D r10_bio;
-d30588b2731fb0 Xiao Ni 2021-02-04  1778  			r10_bio->devs[disk].bio =3D mbi=
-o;
-d30588b2731fb0 Xiao Ni 2021-02-04  1779  			r10_bio->devs[disk].devnum =3D =
-disk;
-d30588b2731fb0 Xiao Ni 2021-02-04  1780  			atomic_inc(&r10_bio->remaining);
-d30588b2731fb0 Xiao Ni 2021-02-04  1781  			md_submit_discard_bio(mddev, rd=
-ev, mbio,
-d30588b2731fb0 Xiao Ni 2021-02-04  1782  					dev_start + choose_data_offse=
-t(r10_bio, rdev),
-d30588b2731fb0 Xiao Ni 2021-02-04  1783  					dev_end - dev_start);
-d30588b2731fb0 Xiao Ni 2021-02-04  1784  			bio_endio(mbio);
-d30588b2731fb0 Xiao Ni 2021-02-04  1785  		}
-d30588b2731fb0 Xiao Ni 2021-02-04  1786  		if (r10_bio->devs[disk].repl_bio=
-) {
-d30588b2731fb0 Xiao Ni 2021-02-04  1787  			rbio =3D bio_clone_fast(bio, GF=
-P_NOIO, &mddev->bio_set);
-d30588b2731fb0 Xiao Ni 2021-02-04  1788  			rbio->bi_end_io =3D raid10_end_=
-discard_request;
-d30588b2731fb0 Xiao Ni 2021-02-04  1789  			rbio->bi_private =3D r10_bio;
-d30588b2731fb0 Xiao Ni 2021-02-04  1790  			r10_bio->devs[disk].repl_bio =
-=3D rbio;
-d30588b2731fb0 Xiao Ni 2021-02-04  1791  			r10_bio->devs[disk].devnum =3D =
-disk;
-d30588b2731fb0 Xiao Ni 2021-02-04  1792  			atomic_inc(&r10_bio->remaining);
-d30588b2731fb0 Xiao Ni 2021-02-04  1793  			md_submit_discard_bio(mddev, rr=
-dev, rbio,
-d30588b2731fb0 Xiao Ni 2021-02-04  1794  					dev_start + choose_data_offse=
-t(r10_bio, rrdev),
-d30588b2731fb0 Xiao Ni 2021-02-04  1795  					dev_end - dev_start);
-d30588b2731fb0 Xiao Ni 2021-02-04  1796  			bio_endio(rbio);
-d30588b2731fb0 Xiao Ni 2021-02-04  1797  		}
-d30588b2731fb0 Xiao Ni 2021-02-04  1798  	}
-d30588b2731fb0 Xiao Ni 2021-02-04  1799  =
-
-254c271da0712e Xiao Ni 2021-02-04  1800  	if (!geo->far_offset && --far_cop=
-ies) {
-254c271da0712e Xiao Ni 2021-02-04  1801  		first_stripe_index +=3D geo->str=
-ide >> geo->chunk_shift;
-254c271da0712e Xiao Ni 2021-02-04  1802  		start_disk_offset +=3D geo->stri=
-de;
-254c271da0712e Xiao Ni 2021-02-04  1803  		last_stripe_index +=3D geo->stri=
-de >> geo->chunk_shift;
-254c271da0712e Xiao Ni 2021-02-04  1804  		end_disk_offset +=3D geo->stride;
-254c271da0712e Xiao Ni 2021-02-04  1805  		atomic_inc(&first_r10bio->remain=
-ing);
-254c271da0712e Xiao Ni 2021-02-04  1806  		raid_end_discard_bio(r10_bio);
-254c271da0712e Xiao Ni 2021-02-04  1807  		wait_barrier(conf);
-254c271da0712e Xiao Ni 2021-02-04  1808  		goto retry_discard;
-d30588b2731fb0 Xiao Ni 2021-02-04  1809  	}
-d30588b2731fb0 Xiao Ni 2021-02-04  1810  =
-
-254c271da0712e Xiao Ni 2021-02-04  1811  	raid_end_discard_bio(r10_bio);
-254c271da0712e Xiao Ni 2021-02-04  1812  =
-
-d30588b2731fb0 Xiao Ni 2021-02-04  1813  	return 0;
-d30588b2731fb0 Xiao Ni 2021-02-04  1814  out:
-d30588b2731fb0 Xiao Ni 2021-02-04  1815  	allow_barrier(conf);
-d30588b2731fb0 Xiao Ni 2021-02-04  1816  	return -EAGAIN;
-d30588b2731fb0 Xiao Ni 2021-02-04  1817  }
-d30588b2731fb0 Xiao Ni 2021-02-04  1818  =
-
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2674>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2675>  * Each of th=
+e enumerated engines, apart from being defined by its class and
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2676>  * instance (=
+see `struct i915_engine_class_instance`), also can have flags and
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2677>  * capabiliti=
+es defined as documented in i915_drm.h.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2678>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2679>  * For instan=
+ce video engines which support HEVC encoding will have the
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2680>  * `I915_VIDE=
+O_CLASS_CAPABILITY_HEVC` capability bit set.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2681>  *
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2682>  * Engine dis=
+covery only fully comes to its own when combined with the new way
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2683>  * of address=
+ing engines when submitting batch buffers using contexts with
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2684>  * engine map=
+s configured.
+   Warning: Kernel ABI header at 'tools/include/uapi/drm/i915_drm.h' differ=
+s from latest version at 'include/uapi/drm/i915_drm.h': 2685>  */
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6903741820568984670==--
+--===============0802238929838498682==--
 
