@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============5608273971065669755=="
+Content-Type: multipart/mixed; boundary="===============7832451992248014398=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1779/3296] sound/pci/cs46xx/cs46xx_lib.c:3980 snd_cs46xx_create() warn: 'pci' not released on lines: 3869, 3945, 3952.
-Date: Sun, 25 Jul 2021 01:44:01 +0800
-Message-ID: <202107250154.BwYAJzNq-lkp@intel.com>
+Subject: [linux-next:master 1766/3296] sound/pci/es1938.c:1585 snd_es1938_create() warn: 'pci' not released on lines: 1573.
+Date: Sun, 25 Jul 2021 00:56:40 +0800
+Message-ID: <202107250027.qPWs98QY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5608273971065669755==
+--===============7832451992248014398==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,9 +19,9 @@ TO: Takashi Iwai <tiwai@suse.de>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   90d856e71443a2fcacca8e7539bac44d9cb3f7ab
-commit: 5bff69b3645db7b3018ecbc26218d8866aeaf214 [1779/3296] ALSA: cs46xx: =
+commit: 08e9d3ab4cc1435ff96af563087894c482533c9e [1766/3296] ALSA: es1938: =
 Allocate resources with device-managed APIs
-:::::: branch date: 34 hours ago
+:::::: branch date: 33 hours ago
 :::::: commit date: 5 days ago
 config: x86_64-randconfig-m001-20210724 (attached as .config)
 compiler: gcc-10 (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
@@ -30,25 +30,93 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-sound/pci/cs46xx/cs46xx_lib.c:3980 snd_cs46xx_create() warn: 'pci' not rele=
-ased on lines: 3869,3945,3952.
+smatch warnings:
+sound/pci/es1938.c:1585 snd_es1938_create() warn: 'pci' not released on lin=
+es: 1573.
 
-Old smatch warnings:
-sound/pci/cs46xx/cs46xx_lib.c:976 snd_cs46xx_playback_trigger() warn: incon=
-sistent indenting
-sound/pci/cs46xx/cs46xx_lib.c:995 snd_cs46xx_playback_trigger() warn: incon=
-sistent indenting
+vim +/pci +1585 sound/pci/es1938.c
 
-vim +/pci +3980 sound/pci/cs46xx/cs46xx_lib.c
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1538  =
 
-89f157d9e6bf08 Takashi Iwai   2007-07-19  3978  =
+e23e7a14362072 Bill Pemberton 2012-12-06  1539  static int snd_es1938_creat=
+e(struct snd_card *card,
+08e9d3ab4cc143 Takashi Iwai   2021-07-15  1540  			     struct pci_dev *pci)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1541  {
+08e9d3ab4cc143 Takashi Iwai   2021-07-15  1542  	struct es1938 *chip =3D ca=
+rd->private_data;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1543  	int err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1544  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3979  	chip->active_ctrl(chip, -1=
-); /* disable CLKRUN */
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @3980  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1545  	/* enable PCI device */
+08e9d3ab4cc143 Takashi Iwai   2021-07-15  1546  	err =3D pcim_enable_device=
+(pci);
+3dc52815408b90 Takashi Iwai   2021-06-08  1547  	if (err < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1548  		return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1549          /* check, if we can=
+ restrict PCI DMA transfers to 24 bits */
+669f65eaeb969e Takashi Iwai   2021-01-14  1550  	if (dma_set_mask_and_coher=
+ent(&pci->dev, DMA_BIT_MASK(24))) {
+ebebecaa0a9a26 Takashi Iwai   2014-02-25  1551  		dev_err(card->dev,
+ebebecaa0a9a26 Takashi Iwai   2014-02-25  1552  			"architecture does not s=
+upport 24bit PCI busmaster DMA\n");
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1553                  return -ENX=
+IO;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1554          }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1555  =
 
-:::::: The code at line 3980 was first introduced by commit
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1556  	spin_lock_init(&chip->reg_=
+lock);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1557  	spin_lock_init(&chip->mixe=
+r_lock);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1558  	chip->card =3D card;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1559  	chip->pci =3D pci;
+30b35399ceb239 Takashi Iwai   2006-10-11  1560  	chip->irq =3D -1;
+3dc52815408b90 Takashi Iwai   2021-06-08  1561  	err =3D pci_request_region=
+s(pci, "ESS Solo-1");
+08e9d3ab4cc143 Takashi Iwai   2021-07-15  1562  	if (err < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1563  		return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1564  	chip->io_port =3D pci_reso=
+urce_start(pci, 0);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1565  	chip->sb_port =3D pci_reso=
+urce_start(pci, 1);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1566  	chip->vc_port =3D pci_reso=
+urce_start(pci, 2);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1567  	chip->mpu_port =3D pci_res=
+ource_start(pci, 3);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1568  	chip->game_port =3D pci_re=
+source_start(pci, 4);
+08e9d3ab4cc143 Takashi Iwai   2021-07-15  1569  	/* still use non-managed i=
+rq handler as it's re-acquired at PM resume */
+437a5a4606c12a Takashi Iwai   2006-11-21  1570  	if (request_irq(pci->irq, =
+snd_es1938_interrupt, IRQF_SHARED,
+934c2b6d0cb50f Takashi Iwai   2011-06-10  1571  			KBUILD_MODNAME, chip)) {
+ebebecaa0a9a26 Takashi Iwai   2014-02-25  1572  		dev_err(card->dev, "unabl=
+e to grab IRQ %d\n", pci->irq);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1573  		return -EBUSY;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1574  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1575  	chip->irq =3D pci->irq;
+6b276e6281b6df Takashi Iwai   2019-12-10  1576  	card->sync_irq =3D chip->i=
+rq;
+08e9d3ab4cc143 Takashi Iwai   2021-07-15  1577  	card->private_free =3D snd=
+_es1938_free;
+ebebecaa0a9a26 Takashi Iwai   2014-02-25  1578  	dev_dbg(card->dev,
+ebebecaa0a9a26 Takashi Iwai   2014-02-25  1579  		"create: io: 0x%lx, sb: 0=
+x%lx, vc: 0x%lx, mpu: 0x%lx, game: 0x%lx\n",
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1580  		   chip->io_port, chip->s=
+b_port, chip->vc_port, chip->mpu_port, chip->game_port);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1581  =
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1582  	chip->ddma_port =3D chip->=
+vc_port + 0x00;		/* fix from Thomas Sailer */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1583  =
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1584  	snd_es1938_chip_init(chip);
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @1585  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1586  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1587  =
+
+
+:::::: The code at line 1585 was first introduced by commit
 :::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
 :::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
@@ -58,13 +126,13 @@ vim +/pci +3980 sound/pci/cs46xx/cs46xx_lib.c
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============5608273971065669755==
+--===============7832451992248014398==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICANN/GAAAy5jb25maWcAjDzJkts4svf5CoX70n2wWyrbFX7xog4gCUpokQQNgCqpLoxyWfZU
+H4sICGlA/GAAAy5jb25maWcAjDzJkts4svf5CoX70n2wWyrbFX7xog4gCUpokQQNgCqpLoxyWfZU
 TC39apmxL/PtLxPgAoBJdfehXcpM7LkjwV/+8cuCvb483l+/3N5c3939XHw/Phyfrl+OXxffbu+O
 /7vI5KKSZsEzYd4BcXH78Prj9x+fztvzD4uP71Yf3i3fPt2sFtvj08PxbpE+Pny7/f4KHdw+Pvzj
 l3+kssrFuk3TdseVFrJqDd+bizffb27erpaLX5svrw8vr4vV8t176Gj1an+u/nu2fLf88FsHfuP1
@@ -772,5 +840,5 @@ JknQ9os6uCTrdrOAxMBfcjwDl5P5GcayrtEfLYVUua1tClWBoivV9eNPzWV558sKix6YapnpA+PB
 3m9cimL5ehpuL3KQcDjz0uNOGHGg6qVVhgRRW/I8hi6OJWfNYiemYN/IKPgrB2KLuy+N2T3cm1Wz
 sGOwHEEC+3OJM1BMdUSYnhpZJqC6DOiui3IWR6IhCGklegmEtlkTmAzvdv17M8Av7iBLLEEFCA4c
 +h8i8AmKznoCAA==
---===============5608273971065669755==--
+--===============7832451992248014398==--
 
