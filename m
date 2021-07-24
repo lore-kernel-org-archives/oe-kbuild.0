@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2637493612287369749=="
+Content-Type: multipart/mixed; boundary="===============3456557303361013654=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1758/3296] sound/pci/als300.c:654 snd_als300_create() warn: 'pci' not released on lines: 634.
-Date: Sat, 24 Jul 2021 23:51:29 +0800
-Message-ID: <202107242318.g48AhHQ3-lkp@intel.com>
+Subject: [linux-next:master 1754/3296] sound/pci/intel8x0m.c:1152 snd_intel8x0m_init() warn: 'pci' not released on lines: 1118, 1136, 1145.
+Date: Sat, 24 Jul 2021 22:43:55 +0800
+Message-ID: <202107242239.PC37P8fu-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2637493612287369749==
+--===============3456557303361013654==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,9 +19,9 @@ TO: Takashi Iwai <tiwai@suse.de>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   90d856e71443a2fcacca8e7539bac44d9cb3f7ab
-commit: 21a9314cf93bfe9f77e2e019c272d15d58504670 [1758/3296] ALSA: als300: =
-Allocate resources with device-managed APIs
-:::::: branch date: 32 hours ago
+commit: 7835e0901e245aa8b83d7e2964f17088cb2e1f1e [1754/3296] ALSA: intel8x0=
+: Allocate resources with device-managed APIs
+:::::: branch date: 31 hours ago
 :::::: commit date: 5 days ago
 config: x86_64-randconfig-m001-20210724 (attached as .config)
 compiler: gcc-10 (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
@@ -30,131 +30,207 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-sound/pci/als300.c:654 snd_als300_create() warn: 'pci' not released on line=
-s: 634.
+smatch warnings:
+sound/pci/intel8x0m.c:1152 snd_intel8x0m_init() warn: 'pci' not released on=
+ lines: 1118,1136,1145.
 
-Old smatch warnings:
-sound/pci/als300.c:713 snd_als300_probe() error: potentially dereferencing =
-uninitialized 'chip'.
+vim +/pci +1152 sound/pci/intel8x0m.c
 
-vim +/pci +654 sound/pci/als300.c
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1045  =
 
-b3a70d5ece6068 Ash Willis     2006-03-27  596  =
-
-e23e7a14362072 Bill Pemberton 2012-12-06  597  static int snd_als300_create=
-(struct snd_card *card,
-21a9314cf93bfe Takashi Iwai   2021-07-15  598  			     struct pci_dev *pci,=
- int chip_type)
-b3a70d5ece6068 Ash Willis     2006-03-27  599  {
-21a9314cf93bfe Takashi Iwai   2021-07-15  600  	struct snd_als300 *chip =3D=
+7835e0901e245a Takashi Iwai   2021-07-15  1046  static int snd_intel8x0m_in=
+it(struct snd_card *card,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1047  			      struct pci_dev *pc=
+i,
+7835e0901e245a Takashi Iwai   2021-07-15  1048  			      unsigned long devi=
+ce_type)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1049  {
+7835e0901e245a Takashi Iwai   2021-07-15  1050  	struct intel8x0m *chip =3D=
  card->private_data;
-b3a70d5ece6068 Ash Willis     2006-03-27  601  	void *irq_handler;
-b3a70d5ece6068 Ash Willis     2006-03-27  602  	int err;
-b3a70d5ece6068 Ash Willis     2006-03-27  603  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1051  	int err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1052  	unsigned int i;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1053  	unsigned int int_sta_masks;
+6b75a9d8b6c794 Takashi Iwai   2005-11-17  1054  	struct ichdev *ichdev;
+f729f88a04089d Takashi Iwai   2020-01-05  1055  	static const struct ich_re=
+g_info intel_regs[2] =3D {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1056  		{ ICH_MIINT, 0 },
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1057  		{ ICH_MOINT, 0x10 },
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1058  	};
+f729f88a04089d Takashi Iwai   2020-01-05  1059  	const struct ich_reg_info =
+*tbl;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1060  =
 
-21a9314cf93bfe Takashi Iwai   2021-07-15  604  	err =3D pcim_enable_device(=
-pci);
-5bd11527e31fe4 Takashi Iwai   2021-06-08  605  	if (err < 0)
-b3a70d5ece6068 Ash Willis     2006-03-27  606  		return err;
-b3a70d5ece6068 Ash Willis     2006-03-27  607  =
+7835e0901e245a Takashi Iwai   2021-07-15  1061  	err =3D pcim_enable_device=
+(pci);
+3a5f3dd3295288 Takashi Iwai   2021-06-08  1062  	if (err < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1063  		return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1064  =
 
-669f65eaeb969e Takashi Iwai   2021-01-14  608  	if (dma_set_mask_and_cohere=
-nt(&pci->dev, DMA_BIT_MASK(28))) {
-c778f7ec745351 Takashi Iwai   2014-02-25  609  		dev_err(card->dev, "error =
-setting 28bit DMA mask\n");
-b3a70d5ece6068 Ash Willis     2006-03-27  610  		return -ENXIO;
-b3a70d5ece6068 Ash Willis     2006-03-27  611  	}
-b3a70d5ece6068 Ash Willis     2006-03-27  612  	pci_set_master(pci);
-b3a70d5ece6068 Ash Willis     2006-03-27  613  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1065  	spin_lock_init(&chip->reg_=
+lock);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1066  	chip->device_type =3D devi=
+ce_type;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1067  	chip->card =3D card;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1068  	chip->pci =3D pci;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1069  	chip->irq =3D -1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1070  =
 
-b3a70d5ece6068 Ash Willis     2006-03-27  614  	chip->card =3D card;
-b3a70d5ece6068 Ash Willis     2006-03-27  615  	chip->pci =3D pci;
-b3a70d5ece6068 Ash Willis     2006-03-27  616  	chip->irq =3D -1;
-b3a70d5ece6068 Ash Willis     2006-03-27  617  	chip->chip_type =3D chip_ty=
-pe;
-b3a70d5ece6068 Ash Willis     2006-03-27  618  	spin_lock_init(&chip->reg_l=
-ock);
-b3a70d5ece6068 Ash Willis     2006-03-27  619  =
+3a5f3dd3295288 Takashi Iwai   2021-06-08  1071  	err =3D pci_request_region=
+s(pci, card->shortname);
+7835e0901e245a Takashi Iwai   2021-07-15  1072  	if (err < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1073  		return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1074  =
 
-5bd11527e31fe4 Takashi Iwai   2021-06-08  620  	err =3D pci_request_regions=
-(pci, "ALS300");
-21a9314cf93bfe Takashi Iwai   2021-07-15  621  	if (err < 0)
-b3a70d5ece6068 Ash Willis     2006-03-27  622  		return err;
-21a9314cf93bfe Takashi Iwai   2021-07-15  623  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1075  	if (device_type =3D=3D DEV=
+ICE_ALI) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1076  		/* ALI5455 has no ac97 re=
+gion */
+7835e0901e245a Takashi Iwai   2021-07-15  1077  		chip->bmaddr =3D pcim_iom=
+ap(pci, 0, 0);
+7835e0901e245a Takashi Iwai   2021-07-15  1078  	} else {
+3388c37e04ec0e Takashi Iwai   2006-10-06  1079  		if (pci_resource_flags(pc=
+i, 2) & IORESOURCE_MEM) /* ICH4 and Nforce */
+7835e0901e245a Takashi Iwai   2021-07-15  1080  			chip->addr =3D pcim_ioma=
+p(pci, 2, 0);
+3388c37e04ec0e Takashi Iwai   2006-10-06  1081  		else
+7835e0901e245a Takashi Iwai   2021-07-15  1082  			chip->addr =3D pcim_ioma=
+p(pci, 0, 0);
+3388c37e04ec0e Takashi Iwai   2006-10-06  1083  		if (pci_resource_flags(pc=
+i, 3) & IORESOURCE_MEM) /* ICH4 */
+7835e0901e245a Takashi Iwai   2021-07-15  1084  			chip->bmaddr =3D pcim_io=
+map(pci, 3, 0);
+3388c37e04ec0e Takashi Iwai   2006-10-06  1085  		else
+7835e0901e245a Takashi Iwai   2021-07-15  1086  			chip->bmaddr =3D pcim_io=
+map(pci, 1, 0);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1087  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1088  =
 
-b3a70d5ece6068 Ash Willis     2006-03-27  624  	chip->port =3D pci_resource=
-_start(pci, 0);
-b3a70d5ece6068 Ash Willis     2006-03-27  625  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1089  	/* initialize offsets */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1090  	chip->bdbars_count =3D 2;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1091  	tbl =3D intel_regs;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1092  =
 
-b3a70d5ece6068 Ash Willis     2006-03-27  626  	if (chip->chip_type =3D=3D =
-DEVICE_ALS300_PLUS)
-b3a70d5ece6068 Ash Willis     2006-03-27  627  		irq_handler =3D snd_als300=
-plus_interrupt;
-b3a70d5ece6068 Ash Willis     2006-03-27  628  	else
-b3a70d5ece6068 Ash Willis     2006-03-27  629  		irq_handler =3D snd_als300=
-_interrupt;
-b3a70d5ece6068 Ash Willis     2006-03-27  630  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1093  	for (i =3D 0; i < chip->bd=
+bars_count; i++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1094  		ichdev =3D &chip->ichd[i];
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1095  		ichdev->ichd =3D i;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1096  		ichdev->reg_offset =3D tb=
+l[i].offset;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1097  		ichdev->int_sta_mask =3D =
+tbl[i].int_sta_mask;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1098  		if (device_type =3D=3D DE=
+VICE_SIS) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1099  			/* SiS 7013 swaps the re=
+gisters */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1100  			ichdev->roff_sr =3D ICH_=
+REG_OFF_PICB;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1101  			ichdev->roff_picb =3D IC=
+H_REG_OFF_SR;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1102  		} else {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1103  			ichdev->roff_sr =3D ICH_=
+REG_OFF_SR;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1104  			ichdev->roff_picb =3D IC=
+H_REG_OFF_PICB;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1105  		}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1106  		if (device_type =3D=3D DE=
+VICE_ALI)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1107  			ichdev->ali_slot =3D (ic=
+hdev->reg_offset - 0x40) / 0x10;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1108  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1109  	/* SIS7013 handles the pcm=
+ data in bytes, others are in words */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1110  	chip->pcm_pos_shift =3D (d=
+evice_type =3D=3D DEVICE_SIS) ? 0 : 1;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1111  =
 
-21a9314cf93bfe Takashi Iwai   2021-07-15  631  	if (devm_request_irq(&pci->=
-dev, pci->irq, irq_handler, IRQF_SHARED,
-934c2b6d0cb50f Takashi Iwai   2011-06-10  632  			     KBUILD_MODNAME, chip=
-)) {
-c778f7ec745351 Takashi Iwai   2014-02-25  633  		dev_err(card->dev, "unable=
- to grab IRQ %d\n", pci->irq);
-b3a70d5ece6068 Ash Willis     2006-03-27  634  		return -EBUSY;
-b3a70d5ece6068 Ash Willis     2006-03-27  635  	}
-b3a70d5ece6068 Ash Willis     2006-03-27  636  	chip->irq =3D pci->irq;
-ea2eab50a0e1a8 Takashi Iwai   2019-12-10  637  	card->sync_irq =3D chip->ir=
-q;
-21a9314cf93bfe Takashi Iwai   2021-07-15  638  	card->private_free =3D snd_=
-als300_free;
-b3a70d5ece6068 Ash Willis     2006-03-27  639  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1112  	/* allocate buffer descrip=
+tor lists */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1113  	/* the start of each lists=
+ must be aligned to 8 bytes */
+7835e0901e245a Takashi Iwai   2021-07-15  1114  	chip->bdbars =3D snd_devm_=
+alloc_pages(&pci->dev, SNDRV_DMA_TYPE_DEV,
+7835e0901e245a Takashi Iwai   2021-07-15  1115  					    chip->bdbars_count=
+ * sizeof(u32) *
+7835e0901e245a Takashi Iwai   2021-07-15  1116  					    ICH_MAX_FRAGS * 2);
+7835e0901e245a Takashi Iwai   2021-07-15  1117  	if (!chip->bdbars)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1118  		return -ENOMEM;
+7835e0901e245a Takashi Iwai   2021-07-15  1119  =
 
-b3a70d5ece6068 Ash Willis     2006-03-27  640  	snd_als300_init(chip);
-b3a70d5ece6068 Ash Willis     2006-03-27  641  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1120  	/* tables must be aligned =
+to 8 bytes here, but the kernel pages
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1121  	   are much bigger, so we =
+don't care (on i386) */
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1122  	int_sta_masks =3D 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1123  	for (i =3D 0; i < chip->bd=
+bars_count; i++) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1124  		ichdev =3D &chip->ichd[i];
+7835e0901e245a Takashi Iwai   2021-07-15  1125  		ichdev->bdbar =3D ((__le3=
+2 *)chip->bdbars->area) + (i * ICH_MAX_FRAGS * 2);
+7835e0901e245a Takashi Iwai   2021-07-15  1126  		ichdev->bdbar_addr =3D ch=
+ip->bdbars->addr + (i * sizeof(u32) * ICH_MAX_FRAGS * 2);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1127  		int_sta_masks |=3D ichdev=
+->int_sta_mask;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1128  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1129  	chip->int_sta_reg =3D ICH_=
+REG_GLOB_STA;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1130  	chip->int_sta_mask =3D int=
+_sta_masks;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1131  =
 
-65ff2357a7e40b Ash Willis     2007-05-29  642  	err =3D snd_als300_ac97(chi=
-p);
-65ff2357a7e40b Ash Willis     2007-05-29  643  	if (err < 0) {
-c778f7ec745351 Takashi Iwai   2014-02-25  644  		dev_err(card->dev, "Could =
-not create ac97\n");
-b3a70d5ece6068 Ash Willis     2006-03-27  645  		return err;
-b3a70d5ece6068 Ash Willis     2006-03-27  646  	}
-b3a70d5ece6068 Ash Willis     2006-03-27  647  =
+7064f376d4a106 Takashi Iwai   2018-08-28  1132  	pci_set_master(pci);
+7064f376d4a106 Takashi Iwai   2018-08-28  1133  =
 
-5bd11527e31fe4 Takashi Iwai   2021-06-08  648  	err =3D snd_als300_new_pcm(=
-chip);
-5bd11527e31fe4 Takashi Iwai   2021-06-08  649  	if (err < 0) {
-c778f7ec745351 Takashi Iwai   2014-02-25  650  		dev_err(card->dev, "Could =
-not create PCM\n");
-b3a70d5ece6068 Ash Willis     2006-03-27  651  		return err;
-b3a70d5ece6068 Ash Willis     2006-03-27  652  	}
-b3a70d5ece6068 Ash Willis     2006-03-27  653  =
+3a5f3dd3295288 Takashi Iwai   2021-06-08  1134  	err =3D snd_intel8x0m_chip=
+_init(chip, 1);
+7835e0901e245a Takashi Iwai   2021-07-15  1135  	if (err < 0)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1136  		return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1137  =
 
-b3a70d5ece6068 Ash Willis     2006-03-27 @654  	return 0;
-b3a70d5ece6068 Ash Willis     2006-03-27  655  }
-b3a70d5ece6068 Ash Willis     2006-03-27  656  =
+7835e0901e245a Takashi Iwai   2021-07-15  1138  	/* NOTE: we don't use devm=
+ version here since it's released /
+7835e0901e245a Takashi Iwai   2021-07-15  1139  	 * re-acquired in PM callb=
+acks.
+7835e0901e245a Takashi Iwai   2021-07-15  1140  	 * It's released explicitl=
+y in snd_intel8x0m_free(), too.
+7835e0901e245a Takashi Iwai   2021-07-15  1141  	 */
+7064f376d4a106 Takashi Iwai   2018-08-28  1142  	if (request_irq(pci->irq, =
+snd_intel8x0m_interrupt, IRQF_SHARED,
+7064f376d4a106 Takashi Iwai   2018-08-28  1143  			KBUILD_MODNAME, chip)) {
+7064f376d4a106 Takashi Iwai   2018-08-28  1144  		dev_err(card->dev, "unabl=
+e to grab IRQ %d\n", pci->irq);
+7064f376d4a106 Takashi Iwai   2018-08-28  1145  		return -EBUSY;
+7064f376d4a106 Takashi Iwai   2018-08-28  1146  	}
+7064f376d4a106 Takashi Iwai   2018-08-28  1147  	chip->irq =3D pci->irq;
+be1391c7858ffd Takashi Iwai   2019-12-10  1148  	card->sync_irq =3D chip->i=
+rq;
+7064f376d4a106 Takashi Iwai   2018-08-28  1149  =
+
+7835e0901e245a Takashi Iwai   2021-07-15  1150  	card->private_free =3D snd=
+_intel8x0m_free;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1151  =
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16 @1152  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1153  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  1154  =
 
 
-:::::: The code at line 654 was first introduced by commit
-:::::: b3a70d5ece60684c00d7d94ccc42741efdf99336 [ALSA] Add snd-als300 drive=
-r for Avance Logic ALS300/ALS300+ soundcards
+:::::: The code at line 1152 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Ash Willis <ashwillis@programmer.net>
-:::::: CC: Jaroslav Kysela <perex@suse.cz>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2637493612287369749==
+--===============3456557303361013654==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICGUy/GAAAy5jb25maWcAjDzJkts4svf5CoX70n2wWyrbFX7xog4gCUpokQQNgCqpLoxyWfZU
+H4sICB4f/GAAAy5jb25maWcAjDzJkts4svf5CoX70n2wWyrbFX7xog4gCUpokQQNgCqpLoxyWfZU
 TC39apmxL/PtLxPgAoBJdfehXcpM7LkjwV/+8cuCvb483l+/3N5c3939XHw/Phyfrl+OXxffbu+O
 /7vI5KKSZsEzYd4BcXH78Prj9x+fztvzD4uP71Yf3i3fPt2sFtvj08PxbpE+Pny7/f4KHdw+Pvzj
 l3+kssrFuk3TdseVFrJqDd+bizffb27erpaLX5svrw8vr4vV8t176Gj1an+u/nu2fLf88FsHfuP1
@@ -862,5 +938,5 @@ JknQ9os6uCTrdrOAxMBfcjwDl5P5GcayrtEfLYVUua1tClWBoivV9eNPzWV558sKix6YapnpA+PB
 3m9cimL5ehpuL3KQcDjz0uNOGHGg6qVVhgRRW/I8hi6OJWfNYiemYN/IKPgrB2KLuy+N2T3cm1Wz
 sGOwHEEC+3OJM1BMdUSYnhpZJqC6DOiui3IWR6IhCGklegmEtlkTmAzvdv17M8Av7iBLLEEFCA4c
 +h8i8AmKznoCAA==
---===============2637493612287369749==--
+--===============3456557303361013654==--
 
