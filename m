@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7418813813099460841=="
+Content-Type: multipart/mixed; boundary="===============4732413425994663473=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 1797/3296] sound/pci/trident/trident_main.c:3599 snd_trident_create() warn: 'pci' not released on lines: 3544.
-Date: Tue, 27 Jul 2021 01:16:23 +0800
-Message-ID: <202107270116.ETbWwAHV-lkp@intel.com>
+Subject: [linux-next:master 1793/3296] sound/pci/riptide/riptide.c:1860 snd_riptide_create() warn: 'pci' not released on lines: 1850.
+Date: Tue, 27 Jul 2021 00:28:23 +0800
+Message-ID: <202107270012.daqY9M2x-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7418813813099460841==
+--===============4732413425994663473==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,7 +19,7 @@ TO: Takashi Iwai <tiwai@suse.de>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   90d856e71443a2fcacca8e7539bac44d9cb3f7ab
-commit: 5adfd8c26607cdc666aa86ecc10104924d54082a [1797/3296] ALSA: trident:=
+commit: 546c201a891e8439d11a13f5dd3e636ebd94b7d6 [1793/3296] ALSA: riptide:=
  Allocate resources with device-managed APIs
 :::::: branch date: 3 days ago
 :::::: commit date: 7 days ago
@@ -30,233 +30,106 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-sound/pci/trident/trident_main.c:3599 snd_trident_create() warn: 'pci' not =
-released on lines: 3544.
+New smatch warnings:
+sound/pci/riptide/riptide.c:1860 snd_riptide_create() warn: 'pci' not relea=
+sed on lines: 1850.
 
-vim +/pci +3599 sound/pci/trident/trident_main.c
+Old smatch warnings:
+sound/pci/riptide/riptide.c:1231 try_to_load_firmware() error: we previousl=
+y assumed 'chip->fw_entry' could be null (see line 1222)
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3477  =
+vim +/pci +1860 sound/pci/riptide/riptide.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3478  /*-------------------------=
---------------------------------------------------
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3479     snd_trident_create
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3480    =
+109a9638f0fe38 Peter Gruber   2006-03-27  1815  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3481     Description: This routin=
-e will create the device specific class for
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3482                  the 4DWave =
-card. It will also perform basic initialization.
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3483                  =
+e23e7a14362072 Bill Pemberton 2012-12-06  1816  static int
+546c201a891e84 Takashi Iwai   2021-07-15  1817  snd_riptide_create(struct s=
+nd_card *card, struct pci_dev *pci)
+109a9638f0fe38 Peter Gruber   2006-03-27  1818  {
+546c201a891e84 Takashi Iwai   2021-07-15  1819  	struct snd_riptide *chip =
+=3D card->private_data;
+109a9638f0fe38 Peter Gruber   2006-03-27  1820  	struct riptideport *hwport;
+109a9638f0fe38 Peter Gruber   2006-03-27  1821  	int err;
+109a9638f0fe38 Peter Gruber   2006-03-27  1822  =
 
-561de31a23a8a5 Joe Perches    2007-12-18  3484     Parameters:  card  - whi=
-ch card to create
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3485                  pci   - int=
-erface to PCI bus resource info
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3486                  dma1ptr - p=
-layback dma buffer
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3487                  dma2ptr - c=
-apture dma buffer
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3488                  irqptr  -  =
-interrupt resource info
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3489  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3490     Returns:     4DWave devi=
-ce class private data
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3491    =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3492    -------------------------=
---------------------------------------------------*/
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3493  =
-
-e23e7a14362072 Bill Pemberton 2012-12-06  3494  int snd_trident_create(stru=
-ct snd_card *card,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3495  		       struct pci_dev *pc=
-i,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3496  		       int pcm_streams,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3497  		       int pcm_spdif_devi=
-ce,
-5adfd8c26607cd Takashi Iwai   2021-07-15  3498  		       int max_wavetable_=
-size)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3499  {
-5adfd8c26607cd Takashi Iwai   2021-07-15  3500  	struct snd_trident *triden=
-t =3D card->private_data;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3501  	int i, err;
-bee1a5be8b6210 Takashi Iwai   2005-11-17  3502  	struct snd_trident_voice *=
-voice;
-bee1a5be8b6210 Takashi Iwai   2005-11-17  3503  	struct snd_trident_pcm_mix=
-er *tmix;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3504  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3505  	/* enable PCI device */
-5adfd8c26607cd Takashi Iwai   2021-07-15  3506  	err =3D pcim_enable_device=
+546c201a891e84 Takashi Iwai   2021-07-15  1823  	err =3D pcim_enable_device=
 (pci);
-34b946ee28699b Takashi Iwai   2021-06-08  3507  	if (err < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3508  		return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3509  	/* check, if we can restri=
-ct PCI DMA transfers to 30 bits */
-669f65eaeb969e Takashi Iwai   2021-01-14  3510  	if (dma_set_mask_and_coher=
-ent(&pci->dev, DMA_BIT_MASK(30))) {
-80c19b7513029a Takashi Iwai   2014-02-26  3511  		dev_err(card->dev,
-80c19b7513029a Takashi Iwai   2014-02-26  3512  			"architecture does not s=
-upport 30bit PCI busmaster DMA\n");
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3513  		return -ENXIO;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3514  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3515  	=
+28c0709921fe13 Takashi Iwai   2021-06-08  1824  	if (err < 0)
+109a9638f0fe38 Peter Gruber   2006-03-27  1825  		return err;
+109a9638f0fe38 Peter Gruber   2006-03-27  1826  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3516  	trident->device =3D (pci->=
-vendor << 16) | pci->device;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3517  	trident->card =3D card;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3518  	trident->pci =3D pci;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3519  	spin_lock_init(&trident->r=
-eg_lock);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3520  	spin_lock_init(&trident->e=
-vent_lock);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3521  	spin_lock_init(&trident->v=
-oice_alloc);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3522  	if (pcm_streams < 1)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3523  		pcm_streams =3D 1;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3524  	if (pcm_streams > 32)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3525  		pcm_streams =3D 32;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3526  	trident->ChanPCM =3D pcm_s=
-treams;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3527  	if (max_wavetable_size < 0=
- )
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3528  		max_wavetable_size =3D 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3529  	trident->synth.max_size =
-=3D max_wavetable_size * 1024;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3530  	trident->irq =3D -1;
-5adfd8c26607cd Takashi Iwai   2021-07-15  3531  	card->private_free =3D snd=
-_trident_free;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3532  =
+109a9638f0fe38 Peter Gruber   2006-03-27  1827  	spin_lock_init(&chip->lock=
+);
+109a9638f0fe38 Peter Gruber   2006-03-27  1828  	chip->card =3D card;
+109a9638f0fe38 Peter Gruber   2006-03-27  1829  	chip->pci =3D pci;
+109a9638f0fe38 Peter Gruber   2006-03-27  1830  	chip->irq =3D -1;
+109a9638f0fe38 Peter Gruber   2006-03-27  1831  	chip->openstreams =3D 0;
+109a9638f0fe38 Peter Gruber   2006-03-27  1832  	chip->port =3D pci_resourc=
+e_start(pci, 0);
+109a9638f0fe38 Peter Gruber   2006-03-27  1833  	chip->received_irqs =3D 0;
+109a9638f0fe38 Peter Gruber   2006-03-27  1834  	chip->handled_irqs =3D 0;
+109a9638f0fe38 Peter Gruber   2006-03-27  1835  	chip->cif =3D NULL;
+546c201a891e84 Takashi Iwai   2021-07-15  1836  	card->private_free =3D snd=
+_riptide_free;
+109a9638f0fe38 Peter Gruber   2006-03-27  1837  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3533  	trident->midi_port =3D TRI=
-D_REG(trident, T4D_MPU401_BASE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3534  	pci_set_master(pci);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3535  =
+546c201a891e84 Takashi Iwai   2021-07-15  1838  	err =3D pci_request_region=
+s(pci, "RIPTIDE");
+546c201a891e84 Takashi Iwai   2021-07-15  1839  	if (err < 0)
+546c201a891e84 Takashi Iwai   2021-07-15  1840  		return err;
+109a9638f0fe38 Peter Gruber   2006-03-27  1841  	hwport =3D (struct riptide=
+port *)chip->port;
+109a9638f0fe38 Peter Gruber   2006-03-27  1842  	UNSET_AIE(hwport);
+109a9638f0fe38 Peter Gruber   2006-03-27  1843  =
 
-34b946ee28699b Takashi Iwai   2021-06-08  3536  	err =3D pci_request_region=
-s(pci, "Trident Audio");
-5adfd8c26607cd Takashi Iwai   2021-07-15  3537  	if (err < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3538  		return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3539  	trident->port =3D pci_reso=
-urce_start(pci, 0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3540  =
+546c201a891e84 Takashi Iwai   2021-07-15  1844  	if (devm_request_threaded_=
+irq(&pci->dev, pci->irq,
+546c201a891e84 Takashi Iwai   2021-07-15  1845  				      snd_riptide_inter=
+rupt,
+2ac55daffee5af Takashi Iwai   2020-09-03  1846  				      riptide_handleirq=
+, IRQF_SHARED,
+934c2b6d0cb50f Takashi Iwai   2011-06-10  1847  				      KBUILD_MODNAME, c=
+hip)) {
+109a9638f0fe38 Peter Gruber   2006-03-27  1848  		snd_printk(KERN_ERR "Ript=
+ide: unable to grab IRQ %d\n",
+109a9638f0fe38 Peter Gruber   2006-03-27  1849  			   pci->irq);
+109a9638f0fe38 Peter Gruber   2006-03-27  1850  		return -EBUSY;
+109a9638f0fe38 Peter Gruber   2006-03-27  1851  	}
+109a9638f0fe38 Peter Gruber   2006-03-27  1852  	chip->irq =3D pci->irq;
+3992f78f349f7f Takashi Iwai   2019-12-10  1853  	card->sync_irq =3D chip->i=
+rq;
+109a9638f0fe38 Peter Gruber   2006-03-27  1854  	chip->device_id =3D pci->d=
+evice;
+109a9638f0fe38 Peter Gruber   2006-03-27  1855  	pci_set_master(pci);
+28c0709921fe13 Takashi Iwai   2021-06-08  1856  	err =3D snd_riptide_initia=
+lize(chip);
+546c201a891e84 Takashi Iwai   2021-07-15  1857  	if (err < 0)
+109a9638f0fe38 Peter Gruber   2006-03-27  1858  		return err;
+109a9638f0fe38 Peter Gruber   2006-03-27  1859  =
 
-5adfd8c26607cd Takashi Iwai   2021-07-15  3541  	if (devm_request_irq(&pci-=
->dev, pci->irq, snd_trident_interrupt,
-5adfd8c26607cd Takashi Iwai   2021-07-15  3542  			     IRQF_SHARED, KBUILD=
-_MODNAME, trident)) {
-80c19b7513029a Takashi Iwai   2014-02-26  3543  		dev_err(card->dev, "unabl=
-e to grab IRQ %d\n", pci->irq);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3544  		return -EBUSY;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3545  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3546  	trident->irq =3D pci->irq;
-4a9ff148bd348f Takashi Iwai   2019-12-10  3547  	card->sync_irq =3D trident=
-->irq;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3548  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3549  	/* allocate 16k-aligned TL=
-B for NX cards */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3550  	trident->tlb.entries =3D N=
-ULL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3551  	if (trident->device =3D=3D=
- TRIDENT_DEVICE_ID_NX) {
-34b946ee28699b Takashi Iwai   2021-06-08  3552  		err =3D snd_trident_tlb_a=
-lloc(trident);
-5adfd8c26607cd Takashi Iwai   2021-07-15  3553  		if (err < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3554  			return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3555  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3556  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3557  	trident->spdif_bits =3D tr=
-ident->spdif_pcm_bits =3D SNDRV_PCM_DEFAULT_CON_SPDIF;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3558  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3559  	/* initialize chip */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3560  	switch (trident->device) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3561  	case TRIDENT_DEVICE_ID_DX:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3562  		err =3D snd_trident_4d_dx=
-_init(trident);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3563  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3564  	case TRIDENT_DEVICE_ID_NX:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3565  		err =3D snd_trident_4d_nx=
-_init(trident);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3566  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3567  	case TRIDENT_DEVICE_ID_SI7=
-018:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3568  		err =3D snd_trident_sis_i=
-nit(trident);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3569  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3570  	default:
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3571  		snd_BUG();
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3572  		break;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3573  	}
-5adfd8c26607cd Takashi Iwai   2021-07-15  3574  	if (err < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3575  		return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3576  =
-
-34b946ee28699b Takashi Iwai   2021-06-08  3577  	err =3D snd_trident_mixer(=
-trident, pcm_spdif_device);
-34b946ee28699b Takashi Iwai   2021-06-08  3578  	if (err < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3579  		return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3580  	=
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3581  	/* initialise synth voices=
- */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3582  	for (i =3D 0; i < 64; i++)=
- {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3583  		voice =3D &trident->synth=
-.voices[i];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3584  		voice->number =3D i;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3585  		voice->trident =3D triden=
-t;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3586  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3587  	/* initialize pcm mixer en=
-tries */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3588  	for (i =3D 0; i < 32; i++)=
- {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3589  		tmix =3D &trident->pcm_mi=
-xer[i];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3590  		tmix->vol =3D T4D_DEFAULT=
-_PCM_VOL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3591  		tmix->pan =3D T4D_DEFAULT=
-_PCM_PAN;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3592  		tmix->rvol =3D T4D_DEFAUL=
-T_PCM_RVOL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3593  		tmix->cvol =3D T4D_DEFAUL=
-T_PCM_CVOL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3594  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3595  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3596  	snd_trident_enable_eso(tri=
-dent);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3597  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3598  	snd_trident_proc_init(trid=
-ent);
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @3599  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3600  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  3601  =
+109a9638f0fe38 Peter Gruber   2006-03-27 @1860  	return 0;
+109a9638f0fe38 Peter Gruber   2006-03-27  1861  }
+109a9638f0fe38 Peter Gruber   2006-03-27  1862  =
 
 
-:::::: The code at line 3599 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code@line 1860 was first introduced by commit
+:::::: 109a9638f0fe38915838b7b9acd98e7cfa91797f [ALSA] Add snd-riptide driv=
+er for Conexant Riptide chip
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Peter Gruber <nokos@gmx.net>
+:::::: CC: Jaroslav Kysela <perex@suse.cz>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============7418813813099460841==
+--===============4732413425994663473==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICPbo/mAAAy5jb25maWcAlDzLctw4kvf+igr3pftgt0q2tY7Y0AEkQRZcJEEDZKmkC0OWyx7F
+H4sICNLe/mAAAy5jb25maWcAlDzLctw4kvf+igr3pftgt0q2tY7Y0AEkQRZcJEEDZKmkC0OWyx7F
 WJK3JM3Yl/32zQRAMgGCmt4+uFWZiXe+keDvv/2+Ys9PD3fXT7c319+//1p9O9wfjtdPhy+rr7ff
 D/+9yuSqlu2KZ6J9A8Tl7f3zz79+fjjrz96t3r9Zv3tz8vp4s15tD8f7w/dV+nD/9fbbM3Rw+3D/
 2++/pbLORdGnab/jSgtZ9y3ft+evvt3cvF6frP7oPj/fPz2v1idv3kJH62fzc/2/pydvTt796cCv
@@ -915,5 +788,5 @@ YinVBh0Vh2S6TB6aCTVhdOFQGtKUqgGLCkWv/JoJ1/KVqloCoghnNddo95ZpEHLstW5eLDfbtz0K
 VDpejsZlCDdxYeT77M19dZQDWJ8whgLbU489RzJ10UU3r1GFVnl+BESL14lVS3koI9anQ1HBcR7B
 saO8eo9/nB3Df4YYCyIGel40ykBA4RWhMaIPJXA8253PA/S1LPsGzbVycGF4GQqUW8L/Ad7rKh9f
 SAIA
---===============7418813813099460841==--
+--===============4732413425994663473==--
 
