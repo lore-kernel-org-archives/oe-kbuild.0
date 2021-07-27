@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4317489740833270692=="
+Content-Type: multipart/mixed; boundary="===============0930417716950716854=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [android-common:android-4.19 3/24] Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs from latest version at 'include/uapi/linux/prctl.h': 226> /* Tagged user address controls for arm64 */
-Date: Tue, 27 Jul 2021 08:51:50 +0800
-Message-ID: <202107270836.Nh1d1Dzi-lkp@intel.com>
+Subject: [android-common:android-4.19 11/12] Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' differs from latest version at 'include/uapi/asm-generic/unistd.h': 741> #define __NR_pidfd_open 434
+Date: Tue, 27 Jul 2021 08:42:10 +0800
+Message-ID: <202107270856.cTnfQPwE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4317489740833270692==
+--===============0930417716950716854==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,11 +16,11 @@ CC: kbuild-all(a)lists.01.org
 TO: cros-kernel-buildreports(a)googlegroups.com
 
 tree:   https://android.googlesource.com/kernel/common android-4.19
-head:   13daec4d7036419a94790ecd8ca478efdb7f14f1
-commit: f077ee260964eb925a593dcf30553432b3243ac8 [3/24] BACKPORT: arm64: In=
-troduce prctl() options to control the tagged user addresses ABI
-:::::: branch date: 1 year, 10 months ago
-:::::: commit date: 1 year, 10 months ago
+head:   0c4addb71853e2be2d0895b8d9f1fc3f20811ac8
+commit: 6c0620339fa75a3df127fd63c3f145c7dab9d523 [11/12] BACKPORT: arch: wi=
+re-up pidfd_open()
+:::::: branch date: 1 year, 11 months ago
+:::::: commit date: 1 year, 11 months ago
 compiler: gcc-10 (Ubuntu 10.3.0-1ubuntu1~20.04) 10.3.0
 reproduce:
 cd tools/perf && ./check-headers.sh
@@ -30,33 +30,34 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 perfheadercheck warnings: (new ones prefixed by >>)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version at 'include/uapi/linux/prctl.h':  223> #define PR_SET_=
-VMA		0x53564d41
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version at 'include/uapi/linux/prctl.h':  224> # define PR_SET=
-_VMA_ANON_NAME		0
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version at 'include/uapi/linux/prctl.h':  225> =
-
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version at 'include/uapi/linux/prctl.h':  226> /* Tagged user =
-address controls for arm64 */
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version at 'include/uapi/linux/prctl.h':  227> #define PR_SET_=
-TAGGED_ADDR_CTRL		55
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version at 'include/uapi/linux/prctl.h':  228> #define PR_GET_=
-TAGGED_ADDR_CTRL		56
->> Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version at 'include/uapi/linux/prctl.h':  229> # define PR_TAG=
-GED_ADDR_ENABLE		(1UL << 0)
-   Warning: Kernel ABI header at 'tools/include/uapi/linux/prctl.h' differs=
- from latest version@'include/uapi/linux/prctl.h':  230> =
-
+   Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' =
+differs from latest version at 'include/uapi/asm-generic/unistd.h':  739> #=
+define __NR_pidfd_send_signal 424
+   Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' =
+differs from latest version at 'include/uapi/asm-generic/unistd.h':  740> _=
+_SYSCALL(__NR_pidfd_send_signal, sys_pidfd_send_signal)
+>> Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' =
+differs from latest version at 'include/uapi/asm-generic/unistd.h':  741> #=
+define __NR_pidfd_open 434
+>> Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' =
+differs from latest version at 'include/uapi/asm-generic/unistd.h':  742> _=
+_SYSCALL(__NR_pidfd_open, sys_pidfd_open)
+   Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' =
+differs from latest version at 'include/uapi/asm-generic/unistd.h':  741< #=
+define __NR_syscalls 294
+   Warning: Kernel ABI header at 'tools/include/uapi/asm-generic/unistd.h' =
+differs from latest version@'include/uapi/asm-generic/unistd.h':  745> #=
+define __NR_syscalls 435
+--
+   Warning: Kernel ABI header at 'tools/perf/arch/x86/entry/syscalls/syscal=
+l_64.tbl' differs from latest version at 'arch/x86/entry/syscalls/syscall_6=
+4.tbl':  346> 424	common	pidfd_send_signal	__x64_sys_pidfd_send_signal
+>> Warning: Kernel ABI header at 'tools/perf/arch/x86/entry/syscalls/syscal=
+l_64.tbl' differs from latest version at 'arch/x86/entry/syscalls/syscall_6=
+4.tbl':  347> 434	common	pidfd_open		__x64_sys_pidfd_open
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4317489740833270692==--
+--===============0930417716950716854==--
 
