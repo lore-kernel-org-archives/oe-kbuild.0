@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4418322986505728639=="
+Content-Type: multipart/mixed; boundary="===============7296551485908152405=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/powerpc/mm/fault.c:538 ___do_page_fault() warn: inconsistent returns '&mm->mmap_lock'.
-Date: Thu, 29 Jul 2021 04:58:05 +0800
-Message-ID: <202107290455.0r0NYMBk-lkp@intel.com>
+Subject: arch/powerpc/kernel/traps.c:1631 ____alignment_exception() warn: bitwise AND condition is false here
+Date: Thu, 29 Jul 2021 04:15:24 +0800
+Message-ID: <202107290416.24q2EVZX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4418322986505728639==
+--===============7296551485908152405==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,8 +20,8 @@ CC: Michael Ellerman <mpe@ellerman.id.au>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4010a528219e01dd02e768b22168f7f0e78365ce
-commit: a008f8f9fd67ffb13d906ef4ea6235a3d62dfdb6 powerpc/64s/hash: improve =
-context tracking of hash faults
+commit: 3a96570ffceb15c6ed9cc6f990f172dcdc8ac279 powerpc: convert interrupt=
+ handlers to use wrappers
 date:   6 months ago
 :::::: branch date: 3 hours ago
 :::::: commit date: 6 months ago
@@ -32,101 +32,122 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/powerpc/mm/fault.c:538 ___do_page_fault() warn: inconsistent returns '=
-&mm->mmap_lock'.
+New smatch warnings:
+arch/powerpc/kernel/traps.c:1631 ____alignment_exception() warn: bitwise AN=
+D condition is false here
 
-vim +538 arch/powerpc/mm/fault.c
+Old smatch warnings:
+arch/powerpc/kernel/traps.c:1254 emulate_string_inst() warn: bitwise AND co=
+ndition is false here
 
-fe4a6856cb4f43 Aneesh Kumar K.V       2020-05-05  500  =
+vim +1631 arch/powerpc/kernel/traps.c
 
-bd0d63f8095ae6 Benjamin Herrenschmidt 2017-07-19  501  	if (unlikely(access=
-_error(is_write, is_exec, vma)))
-ecb101aed86156 John Sperbeck          2017-12-31  502  		return bad_access(=
-regs, address);
-14cf11af6cf608 Paul Mackerras         2005-09-26  503  =
+bf593907f7236e Paul Mackerras         2013-06-14  1618  =
 
-14cf11af6cf608 Paul Mackerras         2005-09-26  504  	/*
-14cf11af6cf608 Paul Mackerras         2005-09-26  505  	 * If for any reaso=
-n at all we couldn't handle the fault,
-14cf11af6cf608 Paul Mackerras         2005-09-26  506  	 * make sure we exi=
-t gracefully rather than endlessly redo
-14cf11af6cf608 Paul Mackerras         2005-09-26  507  	 * the fault.
-14cf11af6cf608 Paul Mackerras         2005-09-26  508  	 */
-428fdc094492e7 Peter Xu               2020-08-11  509  	fault =3D handle_mm=
-_fault(vma, address, flags, regs);
-e6c2a4797e101a Ram Pai                2018-01-18  510  =
+3a96570ffceb15 Nicholas Piggin        2021-01-30  1619  DEFINE_INTERRUPT_HA=
+NDLER(alignment_exception)
+14cf11af6cf608 Paul Mackerras         2005-09-26  1620  {
+ba12eedee321ee Li Zhong               2013-05-13  1621  	enum ctx_state pre=
+v_state =3D exception_enter();
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1622  	int sig, code, fix=
+ed =3D 0;
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1623  	unsigned long  rea=
+son;
+14cf11af6cf608 Paul Mackerras         2005-09-26  1624  =
 
-f43bb27ebf27ee Benjamin Herrenschmidt 2017-07-19  511  	major |=3D fault & =
-VM_FAULT_MAJOR;
-14c02e419a395c Laurent Dufour         2017-02-14  512  =
+a3512b2dd57cb6 Benjamin Herrenschmidt 2012-05-08  1625  	/* We restore the =
+interrupt state now */
+a3512b2dd57cb6 Benjamin Herrenschmidt 2012-05-08  1626  	if (!arch_irq_disa=
+bled_regs(regs))
+a3512b2dd57cb6 Benjamin Herrenschmidt 2012-05-08  1627  		local_irq_enable(=
+);
+a3512b2dd57cb6 Benjamin Herrenschmidt 2012-05-08  1628  =
 
-c9a0dad1620141 Peter Xu               2020-04-01  513  	if (fault_signal_pe=
-nding(fault, regs))
-c9a0dad1620141 Peter Xu               2020-04-01  514  		return user_mode(r=
-egs) ? 0 : SIGBUS;
-c9a0dad1620141 Peter Xu               2020-04-01  515  =
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1629  	reason =3D get_rea=
+son(regs);
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1630  =
 
-14c02e419a395c Laurent Dufour         2017-02-14  516  	/*
-c1e8d7c6a7a682 Michel Lespinasse      2020-06-08  517  	 * Handle the retry=
- right now, the mmap_lock has been released in that
-14c02e419a395c Laurent Dufour         2017-02-14  518  	 * case.
-14c02e419a395c Laurent Dufour         2017-02-14  519  	 */
-14c02e419a395c Laurent Dufour         2017-02-14  520  	if (unlikely(fault =
-& VM_FAULT_RETRY)) {
-14c02e419a395c Laurent Dufour         2017-02-14  521  		if (flags & FAULT_=
-FLAG_ALLOW_RETRY) {
-14c02e419a395c Laurent Dufour         2017-02-14  522  			flags |=3D FAULT_=
-FLAG_TRIED;
-14c02e419a395c Laurent Dufour         2017-02-14  523  			goto retry;
-14c02e419a395c Laurent Dufour         2017-02-14  524  		}
-14cf11af6cf608 Paul Mackerras         2005-09-26  525  	}
-9be72573a80648 Benjamin Herrenschmidt 2012-03-01  526  =
+9409d2f9dad2f0 Jordan Niethe          2020-05-06 @1631  	if (reason & REASO=
+N_BOUNDARY) {
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1632  		sig =3D SIGBUS;
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1633  		code =3D BUS_ADRA=
+LN;
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1634  		goto bad;
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1635  	}
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1636  =
 
-d8ed45c5dcd455 Michel Lespinasse      2020-06-08  527  	mmap_read_unlock(cu=
-rrent->mm);
-b5c8f0fd595d25 Benjamin Herrenschmidt 2017-07-19  528  =
+6ce6c629fd8254 Michael Neuling        2013-05-26  1637  	if (tm_abort_check=
+(regs, TM_CAUSE_ALIGNMENT | TM_CAUSE_PERSISTENT))
+6ce6c629fd8254 Michael Neuling        2013-05-26  1638  		goto bail;
+6ce6c629fd8254 Michael Neuling        2013-05-26  1639  =
 
-b5c8f0fd595d25 Benjamin Herrenschmidt 2017-07-19  529  	if (unlikely(fault =
-& VM_FAULT_ERROR))
-b5c8f0fd595d25 Benjamin Herrenschmidt 2017-07-19  530  		return mm_fault_er=
-ror(regs, address, fault);
-b5c8f0fd595d25 Benjamin Herrenschmidt 2017-07-19  531  =
+e9370ae15dc2f8 Paul Mackerras         2006-06-07  1640  	/* we don't implem=
+ent logging of alignment exceptions */
+e9370ae15dc2f8 Paul Mackerras         2006-06-07  1641  	if (!(current->thr=
+ead.align_ctl & PR_UNALIGN_SIGBUS))
+14cf11af6cf608 Paul Mackerras         2005-09-26  1642  		fixed =3D fix_ali=
+gnment(regs);
+14cf11af6cf608 Paul Mackerras         2005-09-26  1643  =
 
-9be72573a80648 Benjamin Herrenschmidt 2012-03-01  532  	/*
-14c02e419a395c Laurent Dufour         2017-02-14  533  	 * Major/minor page=
- fault accounting.
-9be72573a80648 Benjamin Herrenschmidt 2012-03-01  534  	 */
-428fdc094492e7 Peter Xu               2020-08-11  535  	if (major)
-3da026480a7536 Benjamin Herrenschmidt 2017-07-19  536  		cmo_account_page_f=
-ault();
-428fdc094492e7 Peter Xu               2020-08-11  537  =
+14cf11af6cf608 Paul Mackerras         2005-09-26  1644  	if (fixed =3D=3D 1=
+) {
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1645  		/* skip over emul=
+ated instruction */
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1646  		regs->nip +=3D in=
+st_length(reason);
+14cf11af6cf608 Paul Mackerras         2005-09-26  1647  		emulate_single_st=
+ep(regs);
+ba12eedee321ee Li Zhong               2013-05-13  1648  		goto bail;
+14cf11af6cf608 Paul Mackerras         2005-09-26  1649  	}
+14cf11af6cf608 Paul Mackerras         2005-09-26  1650  =
 
-65d47fd4a37cbd Benjamin Herrenschmidt 2017-07-19 @538  	return 0;
-14cf11af6cf608 Paul Mackerras         2005-09-26  539  }
-a008f8f9fd67ff Nicholas Piggin        2021-01-30  540  NOKPROBE_SYMBOL(___d=
-o_page_fault);
-7afad422ac6106 Benjamin Herrenschmidt 2017-07-19  541  =
+14cf11af6cf608 Paul Mackerras         2005-09-26  1651  	/* Operand address=
+ was bad */
+14cf11af6cf608 Paul Mackerras         2005-09-26  1652  	if (fixed =3D=3D -=
+EFAULT) {
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1653  		sig =3D SIGSEGV;
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1654  		code =3D SEGV_ACC=
+ERR;
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1655  	} else {
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1656  		sig =3D SIGBUS;
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1657  		code =3D BUS_ADRA=
+LN;
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1658  	}
+9409d2f9dad2f0 Jordan Niethe          2020-05-06  1659  bad:
+14cf11af6cf608 Paul Mackerras         2005-09-26  1660  	if (user_mode(regs=
+))
+4393c4f6788cee Benjamin Herrenschmidt 2006-11-01  1661  		_exception(sig, r=
+egs, code, regs->dar);
+14cf11af6cf608 Paul Mackerras         2005-09-26  1662  	else
+8458c628a53ba4 Nicholas Piggin        2021-01-30  1663  		bad_page_fault(re=
+gs, sig);
+ba12eedee321ee Li Zhong               2013-05-13  1664  =
+
+ba12eedee321ee Li Zhong               2013-05-13  1665  bail:
+ba12eedee321ee Li Zhong               2013-05-13  1666  	exception_exit(pre=
+v_state);
+14cf11af6cf608 Paul Mackerras         2005-09-26  1667  }
+14cf11af6cf608 Paul Mackerras         2005-09-26  1668  =
 
 
-:::::: The code at line 538 was first introduced by commit
-:::::: 65d47fd4a37cbd60d0737cdae09edf1d208364d7 powerpc/mm: Simplify return=
-s from __do_page_fault
+:::::: The code at line 1631 was first introduced by commit
+:::::: 9409d2f9dad2f0679d67dc24d8116dd3e837b035 powerpc: Support prefixed i=
+nstructions in alignment handler
 
-:::::: TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+:::::: TO: Jordan Niethe <jniethe5@gmail.com>
 :::::: CC: Michael Ellerman <mpe@ellerman.id.au>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4418322986505728639==
+--===============7296551485908152405==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICN7CAWEAAy5jb25maWcAnFzdc9u2sn/vX8FJX9qZm1QftuPMHT+AICihIgmGICXZLxhVVlLP
+H4sICKC4AWEAAy5jb25maWcAnFzdc9u2sn/vX8FJX9qZm1QftuPMHT+AICihIgmGICXZLxhVVlLP
 kS0fSU6T//7ugl8ACSqde2Z6YmMXC2Cx2P3tAvSvv/zqkbfz4Xlzftpu9vsf3tfdy+64Oe8evS9P
 +93/eoHwEpF7LOD5B2COnl7evv/xevhnd3zdetcfxuMPo/fH7cRb7I4vu71HDy9fnr6+gYSnw8sv
 v/5CRRLymaJULVkmuUhUztb53btKwvs9ynv/dbv1fptR+rs3Hn2Yfhi9M/pxqYBy96NumrWy7saj
@@ -441,5 +462,5 @@ Ms+zwxUEcREp25/wjZzlD1a/9SfwygWC1gAHXB1VnpAFCLgAROPx2pMAdRPtpyve4ae3rSetraRu
 mBAsUD1q124iBF5uyizhfozXUkJS05hyXVMz+CJ3uh4aXHrONSS9PyTwvRLvzbtIWT5NSzstYnxx
 8LpLPr5MRQ6KMLfmSRvzjBnn7P3wS48Z26fIWoM8jxgMdGgWSWsCz6HP8JIwQHqpSG8fEgPPe7cW
 If5sbQ/ytK5xYcRl1ObevBFqJ7FIFbel4zBbN1X/B/bpJAwfGgEA
---===============4418322986505728639==--
+--===============7296551485908152405==--
 
