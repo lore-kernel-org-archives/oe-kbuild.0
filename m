@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8403555776111211742=="
+Content-Type: multipart/mixed; boundary="===============8798401080952035664=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [allisonhenderson-xfs_work:delayed_attrs_v22_extended 32/32] fs/xfs/xfs_ioctl.c:1834 xfs_ioc_get_parent_pointer() warn: maybe return -EFAULT instead of the bytes remaining?
-Date: Sun, 01 Aug 2021 09:12:31 +0800
-Message-ID: <202108010926.A5KQJjiK-lkp@intel.com>
+Subject: [allisonhenderson-xfs_work:delayed_attrs_v22_extended 29/32] fs/xfs/xfs_inode.c:3526 xfs_rename() error: uninitialized symbol 'new_diroffset'.
+Date: Sun, 01 Aug 2021 06:16:34 +0800
+Message-ID: <202108010623.3OOFigeM-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8403555776111211742==
+--===============8798401080952035664==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,12 +15,15 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Allison Henderson <allison.henderson@oracle.com>
+CC: Mark Tinguely <tinguely@sgi.com>
+CC: Dave Chinner <dchinner@redhat.com>
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 
 tree:   https://github.com/allisonhenderson/xfs_work.git delayed_attrs_v22_=
 extended
 head:   aff89515c2d9aca9b24ac0296f3806af62cd9206
-commit: aff89515c2d9aca9b24ac0296f3806af62cd9206 [32/32] xfs: Add parent po=
-inter ioctl
+commit: 7ea04e9ca4238354c031a0ee00b8b5215c15ea01 [29/32] xfs: Add the paren=
+t pointer support to the  superblock version 5.
 :::::: branch date: 5 days ago
 :::::: commit date: 5 days ago
 config: microblaze-randconfig-m031-20210730 (attached as .config)
@@ -31,156 +34,711 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-fs/xfs/xfs_ioctl.c:1834 xfs_ioc_get_parent_pointer() warn: maybe return -EF=
-AULT instead of the bytes remaining?
+fs/xfs/xfs_inode.c:3526 xfs_rename() error: uninitialized symbol 'new_dirof=
+fset'.
+fs/xfs/xfs_inode.c:3534 xfs_rename() error: uninitialized symbol 'old_dirof=
+fset'.
 
 Old smatch warnings:
 arch/microblaze/include/asm/thread_info.h:91 current_thread_info() error: u=
 ninitialized symbol 'sp'.
 
-vim +1834 fs/xfs/xfs_ioctl.c
+vim +/new_diroffset +3526 fs/xfs/xfs_inode.c
 
-36fd6e863cb7329 Darrick J. Wong   2017-10-17  1755  =
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3155  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1756  /*
-aff89515c2d9aca Allison Henderson 2021-07-23  1757   * IOCTL routine to get=
- the parent pointers of an inode and return it to user
-aff89515c2d9aca Allison Henderson 2021-07-23  1758   * space.  Caller must =
-pass a buffer space containing a struct xfs_pptr_info,
-aff89515c2d9aca Allison Henderson 2021-07-23  1759   * followed by a region=
- large enough to contain an array of struct
-aff89515c2d9aca Allison Henderson 2021-07-23  1760   * xfs_parent_ptr of a =
-size specified in pi_ptrs_size.  If the inode contains
-aff89515c2d9aca Allison Henderson 2021-07-23  1761   * more parent pointers=
- than can fit in the buffer space, caller may re-call
-aff89515c2d9aca Allison Henderson 2021-07-23  1762   * the function using t=
-he returned pi_cursor to resume iteration.  The
-aff89515c2d9aca Allison Henderson 2021-07-23  1763   * number of xfs_parent=
-_ptr returned will be stored in pi_ptrs_used.
-aff89515c2d9aca Allison Henderson 2021-07-23  1764   *
-aff89515c2d9aca Allison Henderson 2021-07-23  1765   * Returns 0 on success=
- or non-zero on failure
-aff89515c2d9aca Allison Henderson 2021-07-23  1766   */
-aff89515c2d9aca Allison Henderson 2021-07-23  1767  STATIC int
-aff89515c2d9aca Allison Henderson 2021-07-23  1768  xfs_ioc_get_parent_poin=
-ter(
-aff89515c2d9aca Allison Henderson 2021-07-23  1769  	struct file			*filp,
-aff89515c2d9aca Allison Henderson 2021-07-23  1770  	void				__user *arg)
-aff89515c2d9aca Allison Henderson 2021-07-23  1771  {
-aff89515c2d9aca Allison Henderson 2021-07-23  1772  	struct xfs_pptr_info		=
-*ppi =3D NULL;
-aff89515c2d9aca Allison Henderson 2021-07-23  1773  	int				error =3D 0;
-aff89515c2d9aca Allison Henderson 2021-07-23  1774  	struct xfs_inode		*ip =
-=3D XFS_I(file_inode(filp));
-aff89515c2d9aca Allison Henderson 2021-07-23  1775  	struct xfs_mount		*mp =
-=3D ip->i_mount;
-aff89515c2d9aca Allison Henderson 2021-07-23  1776  =
+f6bba2017afb3bd Dave Chinner      2013-08-12  3156  /*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3157   * xfs_rename
+f6bba2017afb3bd Dave Chinner      2013-08-12  3158   */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3159  int
+f6bba2017afb3bd Dave Chinner      2013-08-12  3160  xfs_rename(
+f736d93d76d3e97 Christoph Hellwig 2021-01-21  3161  	struct user_namespace	=
+	*mnt_userns,
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3162  	struct xfs_inode		*src=
+_dp,
+f6bba2017afb3bd Dave Chinner      2013-08-12  3163  	struct xfs_name			*src=
+_name,
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3164  	struct xfs_inode		*src=
+_ip,
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3165  	struct xfs_inode		*tar=
+get_dp,
+f6bba2017afb3bd Dave Chinner      2013-08-12  3166  	struct xfs_name			*tar=
+get_name,
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3167  	struct xfs_inode		*tar=
+get_ip,
+d31a1825450062b Carlos Maiolino   2014-12-24  3168  	unsigned int			flags)
+f6bba2017afb3bd Dave Chinner      2013-08-12  3169  {
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3170  	struct xfs_mount		*mp =
+=3D src_dp->i_mount;
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3171  	struct xfs_trans		*tp;
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3172  	struct xfs_inode		*wip=
+ =3D NULL;		/* whiteout inode */
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3173  	struct xfs_inode		*ino=
+des[__XFS_SORT_INODES];
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3174  	int				i;
+95afcf5c7bca93f Dave Chinner      2015-03-25  3175  	int				num_inodes =3D =
+__XFS_SORT_INODES;
+2b93681f593577d Dave Chinner      2015-03-25  3176  	bool				new_parent =3D=
+ (src_dp !=3D target_dp);
+c19b3b05ae440de Dave Chinner      2016-02-09  3177  	bool				src_is_directo=
+ry =3D S_ISDIR(VFS_I(src_ip)->i_mode);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3178  	int				spaceres;
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3179  	int				error;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3180  	struct xfs_parent_name=
+_rec	new_rec;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3181  	struct xfs_parent_name=
+_rec	old_rec;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3182  	xfs_dir2_dataptr_t		ne=
+w_diroffset;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3183  	xfs_dir2_dataptr_t		ol=
+d_diroffset;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3184  	struct xfs_da_args		ne=
+w_args =3D {
+3818584f03ce2d5 Allison Henderson 2021-03-24  3185  		.dp		=3D src_ip,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3186  		.geo		=3D mp->m_attr_=
+geo,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3187  		.whichfork	=3D XFS_AT=
+TR_FORK,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3188  		.attr_filter	=3D XFS_=
+ATTR_PARENT,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3189  		.op_flags	=3D XFS_DA_=
+OP_OKNOENT,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3190  		.name		=3D (const uin=
+t8_t *)&new_rec,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3191  		.namelen	=3D sizeof(n=
+ew_rec),
+3818584f03ce2d5 Allison Henderson 2021-03-24  3192  		.value		=3D (void *)t=
+arget_name->name,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3193  		.valuelen	=3D target_=
+name->len,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3194  	};
+3818584f03ce2d5 Allison Henderson 2021-03-24  3195  	struct xfs_da_args		ol=
+d_args =3D {
+3818584f03ce2d5 Allison Henderson 2021-03-24  3196  		.dp		=3D src_ip,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3197  		.geo		=3D mp->m_attr_=
+geo,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3198  		.whichfork	=3D XFS_AT=
+TR_FORK,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3199  		.attr_filter	=3D XFS_=
+ATTR_PARENT,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3200  		.op_flags	=3D XFS_DA_=
+OP_OKNOENT,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3201  		.name		=3D (const uin=
+t8_t *)&old_rec,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3202  		.namelen	=3D sizeof(o=
+ld_rec),
+3818584f03ce2d5 Allison Henderson 2021-03-24  3203  		.value		=3D NULL,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3204  		.valuelen	=3D 0,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3205  	};
+f6bba2017afb3bd Dave Chinner      2013-08-12  3206  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1777  	if (!capable(CAP_SYS_A=
-DMIN))
-aff89515c2d9aca Allison Henderson 2021-07-23  1778  		return -EPERM;
-aff89515c2d9aca Allison Henderson 2021-07-23  1779  =
+f6bba2017afb3bd Dave Chinner      2013-08-12  3207  	trace_xfs_rename(src_d=
+p, target_dp, src_name, target_name);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3208  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1780  	/* Allocate an xfs_ppt=
-r_info to put the user data */
-aff89515c2d9aca Allison Henderson 2021-07-23  1781  	ppi =3D kmem_alloc(siz=
-eof(struct xfs_pptr_info), 0);
-aff89515c2d9aca Allison Henderson 2021-07-23  1782  	if (!ppi)
-aff89515c2d9aca Allison Henderson 2021-07-23  1783  		return -ENOMEM;
-aff89515c2d9aca Allison Henderson 2021-07-23  1784  =
+eeacd3217b8fa81 Dave Chinner      2015-03-25  3209  	if ((flags & RENAME_EX=
+CHANGE) && !target_ip)
+eeacd3217b8fa81 Dave Chinner      2015-03-25  3210  		return -EINVAL;
+eeacd3217b8fa81 Dave Chinner      2015-03-25  3211  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1785  	/* Copy the data from =
-the user */
-aff89515c2d9aca Allison Henderson 2021-07-23  1786  	error =3D copy_from_us=
-er(ppi, arg, sizeof(struct xfs_pptr_info));
-aff89515c2d9aca Allison Henderson 2021-07-23  1787  	if (error)
-aff89515c2d9aca Allison Henderson 2021-07-23  1788  		goto out;
-aff89515c2d9aca Allison Henderson 2021-07-23  1789  =
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3212  	/*
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3213  	 * If we are doing a w=
+hiteout operation, allocate the whiteout inode
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3214  	 * we will be placing =
+at the target and ensure the type is set
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3215  	 * appropriately.
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3216  	 */
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3217  	if (flags & RENAME_WHI=
+TEOUT) {
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3218  		ASSERT(!(flags & (REN=
+AME_NOREPLACE | RENAME_EXCHANGE)));
+f736d93d76d3e97 Christoph Hellwig 2021-01-21  3219  		error =3D xfs_rename_=
+alloc_whiteout(mnt_userns, target_dp, &wip);
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3220  		if (error)
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3221  			return error;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3222  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1790  	/* Check size of buffe=
-r requested by user */
-aff89515c2d9aca Allison Henderson 2021-07-23  1791  	if (XFS_PPTR_INFO_SIZE=
-OF(ppi->pi_ptrs_size) > XFS_XATTR_LIST_MAX) {
-aff89515c2d9aca Allison Henderson 2021-07-23  1792  		error =3D -ENOMEM;
-aff89515c2d9aca Allison Henderson 2021-07-23  1793  		goto out;
-aff89515c2d9aca Allison Henderson 2021-07-23  1794  	}
-aff89515c2d9aca Allison Henderson 2021-07-23  1795  =
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3223  		/* setup target diren=
+t info as whiteout */
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3224  		src_name->type =3D XF=
+S_DIR3_FT_CHRDEV;
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3225  	}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3226  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1796  	/*
-aff89515c2d9aca Allison Henderson 2021-07-23  1797  	 * Now that we know ho=
-w big the trailing buffer is, expand
-aff89515c2d9aca Allison Henderson 2021-07-23  1798  	 * our kernel xfs_pptr=
-_info to be the same size
-aff89515c2d9aca Allison Henderson 2021-07-23  1799  	 */
-aff89515c2d9aca Allison Henderson 2021-07-23  1800  	ppi =3D krealloc(ppi, =
-XFS_PPTR_INFO_SIZEOF(ppi->pi_ptrs_size),
-aff89515c2d9aca Allison Henderson 2021-07-23  1801  		       GFP_NOFS | __G=
-FP_NOFAIL);
-aff89515c2d9aca Allison Henderson 2021-07-23  1802  	if (!ppi)
-aff89515c2d9aca Allison Henderson 2021-07-23  1803  		return -ENOMEM;
-aff89515c2d9aca Allison Henderson 2021-07-23  1804  =
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3227  	xfs_sort_for_rename(sr=
+c_dp, target_dp, src_ip, target_ip, wip,
+f6bba2017afb3bd Dave Chinner      2013-08-12  3228  				inodes, &num_inodes=
+);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3229  	if (xfs_hasdelattr(mp)=
+) {
+3818584f03ce2d5 Allison Henderson 2021-03-24  3230  		error =3D xfs_attr_us=
+e_log_assist(mp);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3231  		if (error)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3232  			goto out_release_wip;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3233  	}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3234  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1805  	if (ppi->pi_flags !=3D=
- 0 && ppi->pi_flags !=3D XFS_PPTR_IFLAG_HANDLE) {
-aff89515c2d9aca Allison Henderson 2021-07-23  1806  		error =3D -EINVAL;
-aff89515c2d9aca Allison Henderson 2021-07-23  1807  		goto out;
-aff89515c2d9aca Allison Henderson 2021-07-23  1808  	}
-aff89515c2d9aca Allison Henderson 2021-07-23  1809  =
+f6bba2017afb3bd Dave Chinner      2013-08-12  3235  	spaceres =3D XFS_RENAM=
+E_SPACE_RES(mp, target_name->len);
+253f4911f297b83 Christoph Hellwig 2016-04-06  3236  	error =3D xfs_trans_al=
+loc(mp, &M_RES(mp)->tr_rename, spaceres, 0, 0, &tp);
+2451337dd043901 Dave Chinner      2014-06-25  3237  	if (error =3D=3D -ENOS=
+PC) {
+f6bba2017afb3bd Dave Chinner      2013-08-12  3238  		spaceres =3D 0;
+253f4911f297b83 Christoph Hellwig 2016-04-06  3239  		error =3D xfs_trans_a=
+lloc(mp, &M_RES(mp)->tr_rename, 0, 0, 0,
+253f4911f297b83 Christoph Hellwig 2016-04-06  3240  				&tp);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3241  	}
+445883e8133975f Dave Chinner      2015-03-25  3242  	if (error)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3243  		goto drop_incompat;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3244  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1810  	if (ppi->pi_flags =3D=
-=3D XFS_PPTR_IFLAG_HANDLE) {
-aff89515c2d9aca Allison Henderson 2021-07-23  1811  		error =3D xfs_iget(mp=
-, NULL, ppi->pi_handle.ha_fid.fid_ino,
-aff89515c2d9aca Allison Henderson 2021-07-23  1812  				0, 0, &ip);
-aff89515c2d9aca Allison Henderson 2021-07-23  1813  		if (error)
-aff89515c2d9aca Allison Henderson 2021-07-23  1814  			goto out;
-aff89515c2d9aca Allison Henderson 2021-07-23  1815  	}
-aff89515c2d9aca Allison Henderson 2021-07-23  1816  =
+f6bba2017afb3bd Dave Chinner      2013-08-12  3245  	/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3246  	 * Attach the dquots t=
+o the inodes
+f6bba2017afb3bd Dave Chinner      2013-08-12  3247  	 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3248  	error =3D xfs_qm_vop_r=
+ename_dqattach(inodes);
+445883e8133975f Dave Chinner      2015-03-25  3249  	if (error)
+445883e8133975f Dave Chinner      2015-03-25  3250  		goto out_trans_cancel;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3251  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1817  	if (ip->i_ino =3D=3D m=
-p->m_sb.sb_rootino)
-aff89515c2d9aca Allison Henderson 2021-07-23  1818  		ppi->pi_flags |=3D XF=
-S_PPTR_OFLAG_ROOT;
-aff89515c2d9aca Allison Henderson 2021-07-23  1819  =
+f6bba2017afb3bd Dave Chinner      2013-08-12  3252  	/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3253  	 * Lock all the partic=
+ipating inodes. Depending upon whether
+f6bba2017afb3bd Dave Chinner      2013-08-12  3254  	 * the target_name exi=
+sts in the target directory, and
+f6bba2017afb3bd Dave Chinner      2013-08-12  3255  	 * whether the target =
+directory is the same as the source
+f6bba2017afb3bd Dave Chinner      2013-08-12  3256  	 * directory, we can l=
+ock from 2 to 4 inodes.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3257  	 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3258  	xfs_lock_inodes(inodes=
+, num_inodes, XFS_ILOCK_EXCL);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3259  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1820  	/* Get the parent poin=
-ters */
-aff89515c2d9aca Allison Henderson 2021-07-23  1821  	error =3D xfs_attr_get=
-_parent_pointer(ip, ppi);
-aff89515c2d9aca Allison Henderson 2021-07-23  1822  =
+f6bba2017afb3bd Dave Chinner      2013-08-12  3260  	/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3261  	 * Join all the inodes=
+ to the transaction. From this point on,
+f6bba2017afb3bd Dave Chinner      2013-08-12  3262  	 * we can rely on eith=
+er trans_commit or trans_cancel to unlock
+f6bba2017afb3bd Dave Chinner      2013-08-12  3263  	 * them.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3264  	 */
+3818584f03ce2d5 Allison Henderson 2021-03-24  3265  	xfs_trans_ijoin(tp, sr=
+c_dp, 0);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3266  	if (new_parent)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3267  		xfs_trans_ijoin(tp, t=
+arget_dp, 0);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3268  	xfs_trans_ijoin(tp, sr=
+c_ip, 0);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3269  	if (target_ip)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3270  		xfs_trans_ijoin(tp, t=
+arget_ip, 0);
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3271  	if (wip)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3272  		xfs_trans_ijoin(tp, w=
+ip, 0);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3273  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1823  	if (error)
-aff89515c2d9aca Allison Henderson 2021-07-23  1824  		goto out;
-aff89515c2d9aca Allison Henderson 2021-07-23  1825  =
+f6bba2017afb3bd Dave Chinner      2013-08-12  3274  	/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3275  	 * If we are using pro=
+ject inheritance, we only allow renames
+f6bba2017afb3bd Dave Chinner      2013-08-12  3276  	 * into our tree when =
+the project IDs are the same; else the
+f6bba2017afb3bd Dave Chinner      2013-08-12  3277  	 * tree quota mechanis=
+m would be circumvented.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3278  	 */
+db07349da2f5647 Christoph Hellwig 2021-03-29  3279  	if (unlikely((target_d=
+p->i_diflags & XFS_DIFLAG_PROJINHERIT) &&
+ceaf603c7024d3c Christoph Hellwig 2021-03-29  3280  		     target_dp->i_pro=
+jid !=3D src_ip->i_projid)) {
+2451337dd043901 Dave Chinner      2014-06-25  3281  		error =3D -EXDEV;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3282  		goto out_unlock;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3283  	}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3284  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1826  	/* Copy the parent poi=
-nters back to the user */
-aff89515c2d9aca Allison Henderson 2021-07-23  1827  	error =3D copy_to_user=
-(arg, ppi,
-aff89515c2d9aca Allison Henderson 2021-07-23  1828  			XFS_PPTR_INFO_SIZEOF=
-(ppi->pi_ptrs_size));
-aff89515c2d9aca Allison Henderson 2021-07-23  1829  	if (error)
-aff89515c2d9aca Allison Henderson 2021-07-23  1830  		goto out;
-aff89515c2d9aca Allison Henderson 2021-07-23  1831  =
+eeacd3217b8fa81 Dave Chinner      2015-03-25  3285  	/* RENAME_EXCHANGE is =
+unique from here on. */
+3818584f03ce2d5 Allison Henderson 2021-03-24  3286  	if (flags & RENAME_EXC=
+HANGE) {
+3818584f03ce2d5 Allison Henderson 2021-03-24  3287  		error =3D xfs_cross_r=
+ename(tp, src_dp, src_name, src_ip,
+d31a1825450062b Carlos Maiolino   2014-12-24  3288  					target_dp, target_=
+name, target_ip,
+f16dea54b789aad Brian Foster      2018-07-11  3289  					spaceres);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3290  		goto out_pptr;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3291  	}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3292  	/*
+bc56ad8c74b8588 kaixuxia          2019-09-03  3293  	 * Check for expected =
+errors before we dirty the transaction
+bc56ad8c74b8588 kaixuxia          2019-09-03  3294  	 * so we can return an=
+ error without a transaction abort.
+02092a2f034fdea Chandan Babu R    2021-01-22  3295  	 *
+02092a2f034fdea Chandan Babu R    2021-01-22  3296  	 * Extent count overfl=
+ow check:
+02092a2f034fdea Chandan Babu R    2021-01-22  3297  	 *
+02092a2f034fdea Chandan Babu R    2021-01-22  3298  	 * From the perspectiv=
+e of src_dp, a rename operation is essentially a
+02092a2f034fdea Chandan Babu R    2021-01-22  3299  	 * directory entry rem=
+ove operation. Hence the only place where we check
+02092a2f034fdea Chandan Babu R    2021-01-22  3300  	 * for extent count ov=
+erflow for src_dp is in
+02092a2f034fdea Chandan Babu R    2021-01-22  3301  	 * xfs_bmap_del_extent=
+_real(). xfs_bmap_del_extent_real() returns
+02092a2f034fdea Chandan Babu R    2021-01-22  3302  	 * -ENOSPC when it det=
+ects a possible extent count overflow and in
+02092a2f034fdea Chandan Babu R    2021-01-22  3303  	 * response, the highe=
+r layers of directory handling code do the
+02092a2f034fdea Chandan Babu R    2021-01-22  3304  	 * following:
+02092a2f034fdea Chandan Babu R    2021-01-22  3305  	 * 1. Data/Free blocks=
+: XFS lets these blocks linger until a
+02092a2f034fdea Chandan Babu R    2021-01-22  3306  	 *    future remove op=
+eration removes them.
+02092a2f034fdea Chandan Babu R    2021-01-22  3307  	 * 2. Dabtree blocks: =
+XFS swaps the blocks with the last block in the
+02092a2f034fdea Chandan Babu R    2021-01-22  3308  	 *    Leaf space and u=
+nmaps the last block.
+02092a2f034fdea Chandan Babu R    2021-01-22  3309  	 *
+02092a2f034fdea Chandan Babu R    2021-01-22  3310  	 * For target_dp, ther=
+e are two cases depending on whether the
+02092a2f034fdea Chandan Babu R    2021-01-22  3311  	 * destination directo=
+ry entry exists or not.
+02092a2f034fdea Chandan Babu R    2021-01-22  3312  	 *
+02092a2f034fdea Chandan Babu R    2021-01-22  3313  	 * When destination di=
+rectory entry does not exist (i.e. target_ip =3D=3D
+02092a2f034fdea Chandan Babu R    2021-01-22  3314  	 * NULL), extent count=
+ overflow check is performed only when transaction
+02092a2f034fdea Chandan Babu R    2021-01-22  3315  	 * has a non-zero size=
+d space reservation associated with it.  With a
+02092a2f034fdea Chandan Babu R    2021-01-22  3316  	 * zero-sized space re=
+servation, XFS allows a rename operation to
+02092a2f034fdea Chandan Babu R    2021-01-22  3317  	 * continue only when =
+the directory has sufficient free space in its
+02092a2f034fdea Chandan Babu R    2021-01-22  3318  	 * data/leaf/free spac=
+e blocks to hold the new entry.
+02092a2f034fdea Chandan Babu R    2021-01-22  3319  	 *
+02092a2f034fdea Chandan Babu R    2021-01-22  3320  	 * When destination di=
+rectory entry exists (i.e. target_ip !=3D NULL), all
+02092a2f034fdea Chandan Babu R    2021-01-22  3321  	 * we need to do is ch=
+ange the inode number associated with the already
+02092a2f034fdea Chandan Babu R    2021-01-22  3322  	 * existing entry. Hen=
+ce there is no need to perform an extent count
+02092a2f034fdea Chandan Babu R    2021-01-22  3323  	 * overflow check.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3324  	 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3325  	if (target_ip =3D=3D N=
+ULL) {
+f6bba2017afb3bd Dave Chinner      2013-08-12  3326  		/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3327  		 * If there's no spac=
+e reservation, check the entry will
+f6bba2017afb3bd Dave Chinner      2013-08-12  3328  		 * fit before actuall=
+y inserting it.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3329  		 */
+94f3cad555d6604 Eric Sandeen      2014-09-09  3330  		if (!spaceres) {
+94f3cad555d6604 Eric Sandeen      2014-09-09  3331  			error =3D xfs_dir_ca=
+nenter(tp, target_dp, target_name);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3332  			if (error)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3333  				goto out_unlock;
+02092a2f034fdea Chandan Babu R    2021-01-22  3334  		} else {
+02092a2f034fdea Chandan Babu R    2021-01-22  3335  			error =3D xfs_iext_c=
+ount_may_overflow(target_dp,
+02092a2f034fdea Chandan Babu R    2021-01-22  3336  					XFS_DATA_FORK,
+02092a2f034fdea Chandan Babu R    2021-01-22  3337  					XFS_IEXT_DIR_MANIP=
+_CNT(mp));
+02092a2f034fdea Chandan Babu R    2021-01-22  3338  			if (error)
+02092a2f034fdea Chandan Babu R    2021-01-22  3339  				goto out_trans_canc=
+el;
+94f3cad555d6604 Eric Sandeen      2014-09-09  3340  		}
+bc56ad8c74b8588 kaixuxia          2019-09-03  3341  	} else {
+bc56ad8c74b8588 kaixuxia          2019-09-03  3342  		/*
+bc56ad8c74b8588 kaixuxia          2019-09-03  3343  		 * If target exists a=
+nd it's a directory, check that whether
+bc56ad8c74b8588 kaixuxia          2019-09-03  3344  		 * it can be destroye=
+d.
+bc56ad8c74b8588 kaixuxia          2019-09-03  3345  		 */
+bc56ad8c74b8588 kaixuxia          2019-09-03  3346  		if (S_ISDIR(VFS_I(tar=
+get_ip)->i_mode) &&
+bc56ad8c74b8588 kaixuxia          2019-09-03  3347  		    (!xfs_dir_isempty=
+(target_ip) ||
+bc56ad8c74b8588 kaixuxia          2019-09-03  3348  		     (VFS_I(target_ip=
+)->i_nlink > 2))) {
+bc56ad8c74b8588 kaixuxia          2019-09-03  3349  			error =3D -EEXIST;
+bc56ad8c74b8588 kaixuxia          2019-09-03  3350  			goto out_trans_cance=
+l;
+bc56ad8c74b8588 kaixuxia          2019-09-03  3351  		}
+bc56ad8c74b8588 kaixuxia          2019-09-03  3352  	}
+bc56ad8c74b8588 kaixuxia          2019-09-03  3353  =
 
-aff89515c2d9aca Allison Henderson 2021-07-23  1832  out:
-aff89515c2d9aca Allison Henderson 2021-07-23  1833  	kmem_free(ppi);
-aff89515c2d9aca Allison Henderson 2021-07-23 @1834  	return error;
-aff89515c2d9aca Allison Henderson 2021-07-23  1835  }
-aff89515c2d9aca Allison Henderson 2021-07-23  1836  =
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3354  	/*
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3355  	 * Lock the AGI buffer=
+s we need to handle bumping the nlink of the
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3356  	 * whiteout inode off =
+the unlinked list and to handle dropping the
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3357  	 * nlink of the target=
+ inode.  Per locking order rules, do this in
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3358  	 * increasing AG order=
+ and before directory block allocation tries to
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3359  	 * grab AGFs because w=
+e grab AGIs before AGFs.
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3360  	 *
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3361  	 * The (vfs) caller mu=
+st ensure that if src is a directory then
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3362  	 * target_ip is either=
+ null or an empty directory.
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3363  	 */
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3364  	for (i =3D 0; i < num_=
+inodes && inodes[i] !=3D NULL; i++) {
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3365  		if (inodes[i] =3D=3D =
+wip ||
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3366  		    (inodes[i] =3D=3D=
+ target_ip &&
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3367  		     (VFS_I(target_ip=
+)->i_nlink =3D=3D 1 || src_is_directory))) {
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3368  			struct xfs_buf	*bp;
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3369  			xfs_agnumber_t	agno;
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3370  =
 
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3371  			agno =3D XFS_INO_TO_=
+AGNO(mp, inodes[i]->i_ino);
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3372  			error =3D xfs_read_a=
+gi(mp, tp, agno, &bp);
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3373  			if (error)
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3374  				goto out_trans_canc=
+el;
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3375  		}
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3376  	}
+6da1b4b1ab36d80 Darrick J. Wong   2021-01-22  3377  =
+
+bc56ad8c74b8588 kaixuxia          2019-09-03  3378  	/*
+bc56ad8c74b8588 kaixuxia          2019-09-03  3379  	 * Directory entry cre=
+ation below may acquire the AGF. Remove
+bc56ad8c74b8588 kaixuxia          2019-09-03  3380  	 * the whiteout from t=
+he unlinked list first to preserve correct
+bc56ad8c74b8588 kaixuxia          2019-09-03  3381  	 * AGI/AGF locking ord=
+er. This dirties the transaction so failures
+bc56ad8c74b8588 kaixuxia          2019-09-03  3382  	 * after this point wi=
+ll abort and log recovery will clean up the
+bc56ad8c74b8588 kaixuxia          2019-09-03  3383  	 * mess.
+bc56ad8c74b8588 kaixuxia          2019-09-03  3384  	 *
+bc56ad8c74b8588 kaixuxia          2019-09-03  3385  	 * For whiteouts, we n=
+eed to bump the link count on the whiteout
+bc56ad8c74b8588 kaixuxia          2019-09-03  3386  	 * inode. After this p=
+oint, we have a real link, clear the tmpfile
+bc56ad8c74b8588 kaixuxia          2019-09-03  3387  	 * state flag from the=
+ inode so it doesn't accidentally get misused
+bc56ad8c74b8588 kaixuxia          2019-09-03  3388  	 * in future.
+bc56ad8c74b8588 kaixuxia          2019-09-03  3389  	 */
+bc56ad8c74b8588 kaixuxia          2019-09-03  3390  	if (wip) {
+f40aadb2bb64fe0 Dave Chinner      2021-06-02  3391  		struct xfs_perag	*pag;
+f40aadb2bb64fe0 Dave Chinner      2021-06-02  3392  =
+
+bc56ad8c74b8588 kaixuxia          2019-09-03  3393  		ASSERT(VFS_I(wip)->i_=
+nlink =3D=3D 0);
+f40aadb2bb64fe0 Dave Chinner      2021-06-02  3394  =
+
+f40aadb2bb64fe0 Dave Chinner      2021-06-02  3395  		pag =3D xfs_perag_get=
+(mp, XFS_INO_TO_AGNO(mp, wip->i_ino));
+f40aadb2bb64fe0 Dave Chinner      2021-06-02  3396  		error =3D xfs_iunlink=
+_remove(tp, pag, wip);
+f40aadb2bb64fe0 Dave Chinner      2021-06-02  3397  		xfs_perag_put(pag);
+bc56ad8c74b8588 kaixuxia          2019-09-03  3398  		if (error)
+bc56ad8c74b8588 kaixuxia          2019-09-03  3399  			goto out_trans_cance=
+l;
+bc56ad8c74b8588 kaixuxia          2019-09-03  3400  =
+
+bc56ad8c74b8588 kaixuxia          2019-09-03  3401  		xfs_bumplink(tp, wip);
+bc56ad8c74b8588 kaixuxia          2019-09-03  3402  		VFS_I(wip)->i_state &=
+=3D ~I_LINKABLE;
+bc56ad8c74b8588 kaixuxia          2019-09-03  3403  	}
+bc56ad8c74b8588 kaixuxia          2019-09-03  3404  =
+
+bc56ad8c74b8588 kaixuxia          2019-09-03  3405  	/*
+bc56ad8c74b8588 kaixuxia          2019-09-03  3406  	 * Set up the target.
+bc56ad8c74b8588 kaixuxia          2019-09-03  3407  	 */
+bc56ad8c74b8588 kaixuxia          2019-09-03  3408  	if (target_ip =3D=3D N=
+ULL) {
+f6bba2017afb3bd Dave Chinner      2013-08-12  3409  		/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3410  		 * If target does not=
+ exist and the rename crosses
+f6bba2017afb3bd Dave Chinner      2013-08-12  3411  		 * directories, adjus=
+t the target directory link count
+f6bba2017afb3bd Dave Chinner      2013-08-12  3412  		 * to account for the=
+ ".." reference from the new entry.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3413  		 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3414  		error =3D xfs_dir_cre=
+atename(tp, target_dp, target_name,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3415  					   src_ip->i_ino, =
+spaceres, &new_diroffset);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3416  		if (error)
+c8eac49ef798a7d Brian Foster      2018-07-24  3417  			goto out_trans_cance=
+l;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3418  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3419  		xfs_trans_ichgtime(tp=
+, target_dp,
+f6bba2017afb3bd Dave Chinner      2013-08-12  3420  					XFS_ICHGTIME_MOD |=
+ XFS_ICHGTIME_CHG);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3421  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3422  		if (new_parent && src=
+_is_directory) {
+910832697cf8553 Eric Sandeen      2019-05-01  3423  			xfs_bumplink(tp, tar=
+get_dp);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3424  		}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3425  	} else { /* target_ip =
+!=3D NULL */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3426  		/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3427  		 * Link the source in=
+ode under the target name.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3428  		 * If the source inod=
+e is a directory and we are moving
+f6bba2017afb3bd Dave Chinner      2013-08-12  3429  		 * it across director=
+ies, its ".." entry will be
+f6bba2017afb3bd Dave Chinner      2013-08-12  3430  		 * inconsistent until=
+ we replace that down below.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3431  		 *
+f6bba2017afb3bd Dave Chinner      2013-08-12  3432  		 * In case there is a=
+lready an entry with the same
+f6bba2017afb3bd Dave Chinner      2013-08-12  3433  		 * name at the destin=
+ation directory, remove it first.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3434  		 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3435  		error =3D xfs_dir_rep=
+lace(tp, target_dp, target_name,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3436  					src_ip->i_ino, spa=
+ceres, &new_diroffset);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3437  		if (error)
+c8eac49ef798a7d Brian Foster      2018-07-24  3438  			goto out_trans_cance=
+l;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3439  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3440  		xfs_trans_ichgtime(tp=
+, target_dp,
+f6bba2017afb3bd Dave Chinner      2013-08-12  3441  					XFS_ICHGTIME_MOD |=
+ XFS_ICHGTIME_CHG);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3442  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3443  		/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3444  		 * Decrement the link=
+ count on the target since the target
+f6bba2017afb3bd Dave Chinner      2013-08-12  3445  		 * dir no longer poin=
+ts to it.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3446  		 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3447  		error =3D xfs_droplin=
+k(tp, target_ip);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3448  		if (error)
+c8eac49ef798a7d Brian Foster      2018-07-24  3449  			goto out_trans_cance=
+l;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3450  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3451  		if (src_is_directory)=
+ {
+f6bba2017afb3bd Dave Chinner      2013-08-12  3452  			/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3453  			 * Drop the link fro=
+m the old "." entry.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3454  			 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3455  			error =3D xfs_dropli=
+nk(tp, target_ip);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3456  			if (error)
+c8eac49ef798a7d Brian Foster      2018-07-24  3457  				goto out_trans_canc=
+el;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3458  		}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3459  	} /* target_ip !=3D NU=
+LL */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3460  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3461  	/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3462  	 * Remove the source.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3463  	 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3464  	if (new_parent && src_=
+is_directory) {
+f6bba2017afb3bd Dave Chinner      2013-08-12  3465  		/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3466  		 * Rewrite the ".." e=
+ntry to point to the new
+f6bba2017afb3bd Dave Chinner      2013-08-12  3467  		 * directory.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3468  		 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3469  		error =3D xfs_dir_rep=
+lace(tp, src_ip, &xfs_name_dotdot,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3470  					target_dp->i_ino, =
+spaceres, &new_diroffset);
+2451337dd043901 Dave Chinner      2014-06-25  3471  		ASSERT(error !=3D -EE=
+XIST);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3472  		if (error)
+c8eac49ef798a7d Brian Foster      2018-07-24  3473  			goto out_trans_cance=
+l;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3474  	}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3475  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3476  	/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3477  	 * We always want to h=
+it the ctime on the source inode.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3478  	 *
+f6bba2017afb3bd Dave Chinner      2013-08-12  3479  	 * This isn't strictly=
+ required by the standards since the source
+f6bba2017afb3bd Dave Chinner      2013-08-12  3480  	 * inode isn't really =
+being changed, but old unix file systems did
+f6bba2017afb3bd Dave Chinner      2013-08-12  3481  	 * it and some increme=
+ntal backup programs won't work without it.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3482  	 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3483  	xfs_trans_ichgtime(tp,=
+ src_ip, XFS_ICHGTIME_CHG);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3484  	xfs_trans_log_inode(tp=
+, src_ip, XFS_ILOG_CORE);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3485  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3486  	/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3487  	 * Adjust the link cou=
+nt on src_dp.  This is necessary when
+f6bba2017afb3bd Dave Chinner      2013-08-12  3488  	 * renaming a director=
+y, either within one parent when
+f6bba2017afb3bd Dave Chinner      2013-08-12  3489  	 * the target existed,=
+ or across two parent directories.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3490  	 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3491  	if (src_is_directory &=
+& (new_parent || target_ip !=3D NULL)) {
+f6bba2017afb3bd Dave Chinner      2013-08-12  3492  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3493  		/*
+f6bba2017afb3bd Dave Chinner      2013-08-12  3494  		 * Decrement link cou=
+nt on src_directory since the
+f6bba2017afb3bd Dave Chinner      2013-08-12  3495  		 * entry that's moved=
+ no longer points to it.
+f6bba2017afb3bd Dave Chinner      2013-08-12  3496  		 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3497  		error =3D xfs_droplin=
+k(tp, src_dp);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3498  		if (error)
+c8eac49ef798a7d Brian Foster      2018-07-24  3499  			goto out_trans_cance=
+l;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3500  	}
+f6bba2017afb3bd Dave Chinner      2013-08-12  3501  =
+
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3502  	/*
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3503  	 * For whiteouts, we o=
+nly need to update the source dirent with the
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3504  	 * inode number of the=
+ whiteout inode rather than removing it
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3505  	 * altogether.
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3506  	 */
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3507  	if (wip) {
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3508  		error =3D xfs_dir_rep=
+lace(tp, src_dp, src_name, wip->i_ino,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3509  					spaceres, &old_dir=
+offset);
+02092a2f034fdea Chandan Babu R    2021-01-22  3510  	} else {
+02092a2f034fdea Chandan Babu R    2021-01-22  3511  		/*
+02092a2f034fdea Chandan Babu R    2021-01-22  3512  		 * NOTE: We don't nee=
+d to check for extent count overflow here
+02092a2f034fdea Chandan Babu R    2021-01-22  3513  		 * because the dir re=
+move name code will leave the dir block in
+02092a2f034fdea Chandan Babu R    2021-01-22  3514  		 * place if the exten=
+t count would overflow.
+02092a2f034fdea Chandan Babu R    2021-01-22  3515  		 */
+f6bba2017afb3bd Dave Chinner      2013-08-12  3516  		error =3D xfs_dir_rem=
+ovename(tp, src_dp, src_name, src_ip->i_ino,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3517  					   spaceres, &old_=
+diroffset);
+02092a2f034fdea Chandan Babu R    2021-01-22  3518  	}
+02092a2f034fdea Chandan Babu R    2021-01-22  3519  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3520  	if (error)
+c8eac49ef798a7d Brian Foster      2018-07-24  3521  		goto out_trans_cancel;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3522  =
+
+3818584f03ce2d5 Allison Henderson 2021-03-24  3523  out_pptr:
+3818584f03ce2d5 Allison Henderson 2021-03-24  3524  	if (xfs_sb_version_has=
+parent(&mp->m_sb)) {
+3818584f03ce2d5 Allison Henderson 2021-03-24  3525  		new_args.trans	=3D tp;
+3818584f03ce2d5 Allison Henderson 2021-03-24 @3526  		xfs_init_parent_name_=
+rec(&new_rec, target_dp, new_diroffset);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3527  		new_args.hashval =3D =
+xfs_da_hashname(new_args.name,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3528  						   new_args.namel=
+en);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3529  		error =3D  xfs_attr_s=
+et_deferred(&new_args);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3530  		if (error)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3531  			goto out_trans_cance=
+l;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3532  =
+
+3818584f03ce2d5 Allison Henderson 2021-03-24  3533  		old_args.trans	=3D tp;
+3818584f03ce2d5 Allison Henderson 2021-03-24 @3534  		xfs_init_parent_name_=
+rec(&old_rec, src_dp, old_diroffset);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3535  		old_args.hashval =3D =
+xfs_da_hashname(old_args.name,
+3818584f03ce2d5 Allison Henderson 2021-03-24  3536  						   old_args.namel=
+en);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3537  		error =3D xfs_attr_re=
+move_deferred(&old_args);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3538  		if (error)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3539  			goto out_trans_cance=
+l;
+3818584f03ce2d5 Allison Henderson 2021-03-24  3540  	}
+3818584f03ce2d5 Allison Henderson 2021-03-24  3541  =
+
+f6bba2017afb3bd Dave Chinner      2013-08-12  3542  	xfs_trans_ichgtime(tp,=
+ src_dp, XFS_ICHGTIME_MOD | XFS_ICHGTIME_CHG);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3543  	xfs_trans_log_inode(tp=
+, src_dp, XFS_ILOG_CORE);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3544  	if (new_parent)
+f6bba2017afb3bd Dave Chinner      2013-08-12  3545  		xfs_trans_log_inode(t=
+p, target_dp, XFS_ILOG_CORE);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3546  =
+
+c9cfdb381172174 Brian Foster      2018-07-11  3547  	error =3D xfs_finish_r=
+ename(tp);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3548  =
+
+3818584f03ce2d5 Allison Henderson 2021-03-24  3549  out_unlock:
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3550  	if (wip)
+44a8736bd20a08e Darrick J. Wong   2018-07-25  3551  		xfs_irele(wip);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3552  	if (wip)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3553  		xfs_iunlock(wip, XFS_=
+ILOCK_EXCL);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3554  	if (target_ip)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3555  		xfs_iunlock(target_ip=
+, XFS_ILOCK_EXCL);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3556  	xfs_iunlock(src_ip, XF=
+S_ILOCK_EXCL);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3557  	if (new_parent)
+3818584f03ce2d5 Allison Henderson 2021-03-24  3558  		xfs_iunlock(target_dp=
+, XFS_ILOCK_EXCL);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3559  	xfs_iunlock(src_dp, XF=
+S_ILOCK_EXCL);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3560  =
+
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3561  	return error;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3562  =
+
+445883e8133975f Dave Chinner      2015-03-25  3563  out_trans_cancel:
+4906e21545814e4 Christoph Hellwig 2015-06-04  3564  	xfs_trans_cancel(tp);
+3818584f03ce2d5 Allison Henderson 2021-03-24  3565  drop_incompat:
+3818584f03ce2d5 Allison Henderson 2021-03-24  3566  	if (xfs_hasdelattr(mp))
+3818584f03ce2d5 Allison Henderson 2021-03-24  3567  		xlog_drop_incompat_fe=
+at(mp->m_log);
+253f4911f297b83 Christoph Hellwig 2016-04-06  3568  out_release_wip:
+7dcf5c3e4527cfa Dave Chinner      2015-03-25  3569  	if (wip)
+44a8736bd20a08e Darrick J. Wong   2018-07-25  3570  		xfs_irele(wip);
+f6bba2017afb3bd Dave Chinner      2013-08-12  3571  	return error;
+f6bba2017afb3bd Dave Chinner      2013-08-12  3572  }
+f6bba2017afb3bd Dave Chinner      2013-08-12  3573  =
+
+
+:::::: The code at line 3526 was first introduced by commit
+:::::: 3818584f03ce2d5c1310199a6466aafdf22c8256 xfs: Add parent pointers to=
+ rename
+
+:::::: TO: Allison Henderson <allison.henderson@oracle.com>
+:::::: CC: Allison Henderson <allison.henderson@oracle.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8403555776111211742==
+--===============8798401080952035664==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICCnlBWEAAy5jb25maWcAjDxbb9s4s+/7K4QscLDfQ7u2c2mCgzxQEmVzrVtJyrHzIriO2hqb
+H4sICCK/BWEAAy5jb25maWcAjDxbb9s4s+/7K4QscLDfQ7u2c2mCgzxQEmVzrVtJyrHzIriO2hqb
 xP1sZ7c9v/7MkLqQMuV2gUWtmeF97kPm999+98jbcfeyPm436+fnH96X6rXar4/Vk/d5+1z9rxdm
 XppJj4ZMvgfiePv69v3Pl+1mv/v0vP6/yrt+P756P3q334y9ebV/rZ69YPf6efvlDTrZ7l5/+/23
 IEsjNi2DoFxQLliWlpIu5f1F18m7Z+z13ZfNxvtjGgT/8caj95fvRxdGUyZKwNz/aEDTrrv78Wh0
@@ -727,5 +1285,5 @@ FaDjSoK6qD1fIHTS20QX0eIGzJZhWu2YW+9ud4/3335u/4wpptUSRL3Sc0fyeekJ6cenPUosVPr5
 /e/xcft9FEczMRuR5HFOT0Qck8zgENIXBbnJZe6ahpisQwFmUh4dhAS6Quo2pKyR81kXxA7T9Cku
 dj1+6E2Sy4HOZMrRMBjAb15f+aVo9JXcwLD4XatnnEFhX0kUNrcWAuuhrKcMMXiooM7XK3sjqVIK
 ZyUPTsFx4//6C7ygL5tU4QEA
---===============8403555776111211742==--
+--===============8798401080952035664==--
 
