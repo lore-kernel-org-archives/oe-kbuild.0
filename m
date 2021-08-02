@@ -1,29 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============1593972181006084119=="
+Content-Type: multipart/mixed; boundary="===============3024272998380427126=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [peterz-queue:locking/ww_rt_mutex 18/18] kernel/locking/test-ww_rt_mutex.c:380:17: warning: Local variable stress shadows outer function [shadowFunction]
-Date: Tue, 03 Aug 2021 05:27:08 +0800
-Message-ID: <202108030556.048GbZb4-lkp@intel.com>
+Subject: drivers/net/can/usb/etas_es58x/es58x_fd.c:174:8: warning: Uninitialized variable: rx_event_msg [uninitvar]
+Date: Tue, 03 Aug 2021 03:31:10 +0800
+Message-ID: <202108030307.ryURmLNU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1593972181006084119==
+--===============3024272998380427126==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
+TO: Vincent Mailhol <mailhol.vincent@wanadoo.fr>
+CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
+CC: Arunachalam Santhanam <arunachalam.santhanam@in.bosch.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/peterz/queue.git lo=
-cking/ww_rt_mutex
-head:   513277f3c78127286fd37a34f616801bdcc3aa60
-commit: 513277f3c78127286fd37a34f616801bdcc3aa60 [18/18] locking/ww_mutex: =
-test_ww_rt_mutex
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-compiler: aarch64-linux-gcc (GCC) 10.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c7d102232649226a69dddd58a4942cf13cff4f7c
+commit: c664e2137a27680922d8aeb64fb10313416b254f can: etas_es58x: add suppo=
+rt for the ETAS ES58X_FD CAN USB interfaces
+date:   4 months ago
+:::::: branch date: 3 days ago
+:::::: commit date: 4 months ago
+compiler: mips-linux-gcc (GCC) 10.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -31,131 +34,52 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> kernel/locking/test-ww_rt_mutex.c:380:17: warning: Local variable stress=
- shadows outer function [shadowFunction]
-    struct stress *stress =3D container_of(work, typeof(*stress), work);
-                   ^
-   kernel/locking/test-ww_rt_mutex.c:524:12: note: Shadowed declaration
-   static int stress(int nlocks, int nthreads, unsigned int flags)
-              ^
-   kernel/locking/test-ww_rt_mutex.c:380:17: note: Shadow variable
-    struct stress *stress =3D container_of(work, typeof(*stress), work);
-                   ^
-   kernel/locking/test-ww_rt_mutex.c:439:17: warning: Local variable stress=
- shadows outer function [shadowFunction]
-    struct stress *stress =3D container_of(work, typeof(*stress), work);
-                   ^
-   kernel/locking/test-ww_rt_mutex.c:524:12: note: Shadowed declaration
-   static int stress(int nlocks, int nthreads, unsigned int flags)
-              ^
-   kernel/locking/test-ww_rt_mutex.c:439:17: note: Shadow variable
-    struct stress *stress =3D container_of(work, typeof(*stress), work);
-                   ^
-   kernel/locking/test-ww_rt_mutex.c:499:17: warning: Local variable stress=
- shadows outer function [shadowFunction]
-    struct stress *stress =3D container_of(work, typeof(*stress), work);
-                   ^
-   kernel/locking/test-ww_rt_mutex.c:524:12: note: Shadowed declaration
-   static int stress(int nlocks, int nthreads, unsigned int flags)
-              ^
-   kernel/locking/test-ww_rt_mutex.c:499:17: note: Shadow variable
-    struct stress *stress =3D container_of(work, typeof(*stress), work);
-                   ^
-   kernel/locking/test-ww_rt_mutex.c:537:18: warning: Local variable stress=
- shadows outer function [shadowFunction]
-     struct stress *stress;
-                    ^
-   kernel/locking/test-ww_rt_mutex.c:524:12: note: Shadowed declaration
-   static int stress(int nlocks, int nthreads, unsigned int flags)
-              ^
-   kernel/locking/test-ww_rt_mutex.c:537:18: note: Shadow variable
-     struct stress *stress;
-                    ^
+   In file included from drivers/net/can/usb/etas_es58x/es58x_fd.c:
+>> drivers/net/can/usb/etas_es58x/es58x_fd.c:174:8: warning: Uninitialized =
+variable: rx_event_msg [uninitvar]
+    ret =3D es58x_check_msg_len(es58x_dev->dev, *rx_event_msg, msg_len);
+          ^
 
-vim +380 kernel/locking/test-ww_rt_mutex.c
+vim +174 drivers/net/can/usb/etas_es58x/es58x_fd.c
 
-513277f3c78127 Peter Zijlstra 2021-07-16  377  =
+c664e2137a2768 Vincent Mailhol 2021-04-10  165  =
 
-513277f3c78127 Peter Zijlstra 2021-07-16  378  static void stress_inorder_w=
-ork(struct work_struct *work)
-513277f3c78127 Peter Zijlstra 2021-07-16  379  {
-513277f3c78127 Peter Zijlstra 2021-07-16 @380  	struct stress *stress =3D c=
-ontainer_of(work, typeof(*stress), work);
-513277f3c78127 Peter Zijlstra 2021-07-16  381  	const int nlocks =3D stress=
-->nlocks;
-513277f3c78127 Peter Zijlstra 2021-07-16  382  	struct ww_rt_mutex *locks =
-=3D stress->locks;
-513277f3c78127 Peter Zijlstra 2021-07-16  383  	struct ww_acquire_ctx ctx;
-513277f3c78127 Peter Zijlstra 2021-07-16  384  	int *order;
-513277f3c78127 Peter Zijlstra 2021-07-16  385  =
+c664e2137a2768 Vincent Mailhol 2021-04-10  166  static int es58x_fd_rx_even=
+t_msg(struct net_device *netdev,
+c664e2137a2768 Vincent Mailhol 2021-04-10  167  				 const struct es58x_fd_=
+urb_cmd *es58x_fd_urb_cmd)
+c664e2137a2768 Vincent Mailhol 2021-04-10  168  {
+c664e2137a2768 Vincent Mailhol 2021-04-10  169  	struct es58x_device *es58x=
+_dev =3D es58x_priv(netdev)->es58x_dev;
+c664e2137a2768 Vincent Mailhol 2021-04-10  170  	u16 msg_len =3D get_unalig=
+ned_le16(&es58x_fd_urb_cmd->msg_len);
+c664e2137a2768 Vincent Mailhol 2021-04-10  171  	const struct es58x_fd_rx_e=
+vent_msg *rx_event_msg;
+c664e2137a2768 Vincent Mailhol 2021-04-10  172  	int ret;
+c664e2137a2768 Vincent Mailhol 2021-04-10  173  =
 
-513277f3c78127 Peter Zijlstra 2021-07-16  386  	order =3D get_random_order(=
-nlocks);
-513277f3c78127 Peter Zijlstra 2021-07-16  387  	if (!order)
-513277f3c78127 Peter Zijlstra 2021-07-16  388  		return;
-513277f3c78127 Peter Zijlstra 2021-07-16  389  =
+c664e2137a2768 Vincent Mailhol 2021-04-10 @174  	ret =3D es58x_check_msg_le=
+n(es58x_dev->dev, *rx_event_msg, msg_len);
+c664e2137a2768 Vincent Mailhol 2021-04-10  175  	if (ret)
+c664e2137a2768 Vincent Mailhol 2021-04-10  176  		return ret;
+c664e2137a2768 Vincent Mailhol 2021-04-10  177  =
 
-513277f3c78127 Peter Zijlstra 2021-07-16  390  	do {
-513277f3c78127 Peter Zijlstra 2021-07-16  391  		int contended =3D -1;
-513277f3c78127 Peter Zijlstra 2021-07-16  392  		int n, err;
-513277f3c78127 Peter Zijlstra 2021-07-16  393  =
+c664e2137a2768 Vincent Mailhol 2021-04-10  178  	rx_event_msg =3D &es58x_fd=
+_urb_cmd->rx_event_msg;
+c664e2137a2768 Vincent Mailhol 2021-04-10  179  =
 
-513277f3c78127 Peter Zijlstra 2021-07-16  394  		ww_acquire_init(&ctx, &ww_=
-class);
-513277f3c78127 Peter Zijlstra 2021-07-16  395  retry:
-513277f3c78127 Peter Zijlstra 2021-07-16  396  		err =3D 0;
-513277f3c78127 Peter Zijlstra 2021-07-16  397  		for (n =3D 0; n < nlocks; =
-n++) {
-513277f3c78127 Peter Zijlstra 2021-07-16  398  			if (n =3D=3D contended)
-513277f3c78127 Peter Zijlstra 2021-07-16  399  				continue;
-513277f3c78127 Peter Zijlstra 2021-07-16  400  =
-
-513277f3c78127 Peter Zijlstra 2021-07-16  401  			err =3D ww_rt_mutex_lock(=
-&locks[order[n]], &ctx);
-513277f3c78127 Peter Zijlstra 2021-07-16  402  			if (err < 0)
-513277f3c78127 Peter Zijlstra 2021-07-16  403  				break;
-513277f3c78127 Peter Zijlstra 2021-07-16  404  		}
-513277f3c78127 Peter Zijlstra 2021-07-16  405  		if (!err)
-513277f3c78127 Peter Zijlstra 2021-07-16  406  			dummy_load(stress);
-513277f3c78127 Peter Zijlstra 2021-07-16  407  =
-
-513277f3c78127 Peter Zijlstra 2021-07-16  408  		if (contended > n)
-513277f3c78127 Peter Zijlstra 2021-07-16  409  			ww_rt_mutex_unlock(&locks=
-[order[contended]]);
-513277f3c78127 Peter Zijlstra 2021-07-16  410  		contended =3D n;
-513277f3c78127 Peter Zijlstra 2021-07-16  411  		while (n--)
-513277f3c78127 Peter Zijlstra 2021-07-16  412  			ww_rt_mutex_unlock(&locks=
-[order[n]]);
-513277f3c78127 Peter Zijlstra 2021-07-16  413  =
-
-513277f3c78127 Peter Zijlstra 2021-07-16  414  		if (err =3D=3D -EDEADLK) {
-513277f3c78127 Peter Zijlstra 2021-07-16  415  			ww_rt_mutex_lock_slow(&lo=
-cks[order[contended]], &ctx);
-513277f3c78127 Peter Zijlstra 2021-07-16  416  			goto retry;
-513277f3c78127 Peter Zijlstra 2021-07-16  417  		}
-513277f3c78127 Peter Zijlstra 2021-07-16  418  =
-
-513277f3c78127 Peter Zijlstra 2021-07-16  419  		if (err) {
-513277f3c78127 Peter Zijlstra 2021-07-16  420  			pr_err_once("stress (%s) =
-failed with %d\n",
-513277f3c78127 Peter Zijlstra 2021-07-16  421  				    __func__, err);
-513277f3c78127 Peter Zijlstra 2021-07-16  422  			break;
-513277f3c78127 Peter Zijlstra 2021-07-16  423  		}
-513277f3c78127 Peter Zijlstra 2021-07-16  424  =
-
-513277f3c78127 Peter Zijlstra 2021-07-16  425  		ww_acquire_fini(&ctx);
-513277f3c78127 Peter Zijlstra 2021-07-16  426  	} while (!time_after(jiffie=
-s, stress->timeout));
-513277f3c78127 Peter Zijlstra 2021-07-16  427  =
-
-513277f3c78127 Peter Zijlstra 2021-07-16  428  	kfree(order);
-513277f3c78127 Peter Zijlstra 2021-07-16  429  	kfree(stress);
-513277f3c78127 Peter Zijlstra 2021-07-16  430  }
-513277f3c78127 Peter Zijlstra 2021-07-16  431  =
+c664e2137a2768 Vincent Mailhol 2021-04-10  180  	return es58x_rx_err_msg(ne=
+tdev, rx_event_msg->error_code,
+c664e2137a2768 Vincent Mailhol 2021-04-10  181  				rx_event_msg->event_cod=
+e,
+c664e2137a2768 Vincent Mailhol 2021-04-10  182  				get_unaligned_le64(&rx_=
+event_msg->timestamp));
+c664e2137a2768 Vincent Mailhol 2021-04-10  183  }
+c664e2137a2768 Vincent Mailhol 2021-04-10  184  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1593972181006084119==--
+--===============3024272998380427126==--
 
