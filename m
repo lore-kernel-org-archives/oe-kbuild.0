@@ -1,87 +1,96 @@
-Content-Type: multipart/mixed; boundary="===============3024734553839407947=="
+Content-Type: multipart/mixed; boundary="===============3034171851618320363=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/target/target_core_user.c:2477:8: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-Date: Wed, 04 Aug 2021 09:33:29 +0800
-Message-ID: <202108040913.BVsINf7h-lkp@intel.com>
+Subject: drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
+Date: Wed, 04 Aug 2021 08:22:21 +0800
+Message-ID: <202108040813.GPhfzrHH-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3024734553839407947==
+--===============3034171851618320363==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Bodo Stroesser <bostroesser@gmail.com>
-CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+TO: Michael Zaidman <michael.zaidman@gmail.com>
+CC: Jiri Kosina <jkosina@suse.cz>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d5ad8ec3cfb56a017de6a784835666475b4be349
-commit: f5ce815f34bc97b92f5605eced806f1d32e1d602 scsi: target: tcmu: Suppor=
-t DATA_BLOCK_SIZE =3D N * PAGE_SIZE
-date:   4 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 4 months ago
-compiler: microblaze-linux-gcc (GCC) 10.3.0
+commit: 6a82582d9fa438045191074856f47165334f2777 HID: ft260: add usb hid to=
+ i2c host bridge driver
+date:   5 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 5 months ago
+compiler: powerpc-linux-gcc (GCC) 10.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck warnings: (new ones prefixed by >>)
-   drivers/target/target_core_user.c:2476:8: warning: %llu in format string=
- (no. 1) requires 'unsigned long long' but the argument type is 'unsigned l=
-ong'. [invalidPrintfArgType_uint]
-    bl +=3D sprintf(b + bl, "Size: %llu ", udev->dev_size);
-          ^
->> drivers/target/target_core_user.c:2477:8: warning: %u in format string (=
-no. 1) requires 'unsigned int' but the argument type is 'signed int'. [inva=
-lidPrintfArgType_uint]
-    bl +=3D sprintf(b + bl, "MaxDataAreaMB: %un", udev->data_area_mb);
-          ^
-   drivers/target/target_core_user.c:2571:9: warning: %u in format string (=
-no. 1) requires 'unsigned int' but the argument type is 'signed int'. [inva=
-lidPrintfArgType_uint]
-    return snprintf(page, PAGE_SIZE, "%un", udev->data_area_mb);
-           ^
-   drivers/target/target_core_user.c:2643:9: warning: %llu in format string=
- (no. 1) requires 'unsigned long long' but the argument type is 'unsigned l=
-ong'. [invalidPrintfArgType_uint]
-    return snprintf(page, PAGE_SIZE, "%llun", udev->dev_size);
-           ^
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +2477 drivers/target/target_core_user.c
+>> drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
+   =
 
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2468  =
+   ^
 
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2469  static ssize_t tcmu_show_co=
-nfigfs_dev_params(struct se_device *dev, char *b)
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2470  {
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2471  	struct tcmu_dev *udev =3D =
-TCMU_DEV(dev);
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2472  	ssize_t bl =3D 0;
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2473  =
+vim +374 drivers/hid/hid-ft260.c
 
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2474  	bl =3D sprintf(b + bl, "Co=
-nfig: %s ",
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2475  		     udev->dev_config[0] =
-? udev->dev_config : "NULL");
-0e0d75267107e6 Mike Christie  2018-07-23  2476  	bl +=3D sprintf(b + bl, "S=
-ize: %llu ", udev->dev_size);
-f5ce815f34bc97 Bodo Stroesser 2021-03-24 @2477  	bl +=3D sprintf(b + bl, "M=
-axDataAreaMB: %u\n", udev->data_area_mb);
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2478  =
+6a82582d9fa438 Michael Zaidman 2021-02-19  351  =
 
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2479  	return bl;
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2480  }
-7c9e7a6fe11c8d Andy Grover    2014-10-01  2481  =
+6a82582d9fa438 Michael Zaidman 2021-02-19  352  static int ft260_hid_output=
+_report_check_status(struct ft260_device *dev,
+6a82582d9fa438 Michael Zaidman 2021-02-19  353  						u8 *data, int len)
+6a82582d9fa438 Michael Zaidman 2021-02-19  354  {
+6a82582d9fa438 Michael Zaidman 2021-02-19  355  	int ret, usec, try =3D 3;
+6a82582d9fa438 Michael Zaidman 2021-02-19  356  	struct hid_device *hdev =
+=3D dev->hdev;
+6a82582d9fa438 Michael Zaidman 2021-02-19  357  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  358  	ret =3D ft260_hid_output_r=
+eport(hdev, data, len);
+6a82582d9fa438 Michael Zaidman 2021-02-19  359  	if (ret < 0) {
+6a82582d9fa438 Michael Zaidman 2021-02-19  360  		hid_err(hdev, "%s: failed=
+ to start transfer, ret %d\n",
+6a82582d9fa438 Michael Zaidman 2021-02-19  361  			__func__, ret);
+6a82582d9fa438 Michael Zaidman 2021-02-19  362  		ft260_i2c_reset(hdev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  363  		return ret;
+6a82582d9fa438 Michael Zaidman 2021-02-19  364  	}
+6a82582d9fa438 Michael Zaidman 2021-02-19  365  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  366  	/* transfer time =3D 1 / c=
+lock(KHz) * 10 bits * bytes */
+6a82582d9fa438 Michael Zaidman 2021-02-19  367  	usec =3D 10000 / dev->cloc=
+k * len;
+6a82582d9fa438 Michael Zaidman 2021-02-19  368  	usleep_range(usec, usec + =
+100);
+6a82582d9fa438 Michael Zaidman 2021-02-19  369  	ft260_dbg("wait %d usec, l=
+en %d\n", usec, len);
+6a82582d9fa438 Michael Zaidman 2021-02-19  370  	do {
+6a82582d9fa438 Michael Zaidman 2021-02-19  371  		ret =3D ft260_xfer_status=
+(dev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  372  		if (ret !=3D -EAGAIN)
+6a82582d9fa438 Michael Zaidman 2021-02-19  373  			break;
+6a82582d9fa438 Michael Zaidman 2021-02-19 @374  	} while (--try);
+6a82582d9fa438 Michael Zaidman 2021-02-19  375  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  376  	if (ret =3D=3D 0 || ret =
+=3D=3D -EBUSY)
+6a82582d9fa438 Michael Zaidman 2021-02-19  377  		return 0;
+6a82582d9fa438 Michael Zaidman 2021-02-19  378  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  379  	ft260_i2c_reset(hdev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  380  	return -EIO;
+6a82582d9fa438 Michael Zaidman 2021-02-19  381  }
+6a82582d9fa438 Michael Zaidman 2021-02-19  382  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3024734553839407947==--
+--===============3034171851618320363==--
 
