@@ -1,31 +1,26 @@
-Content-Type: multipart/mixed; boundary="===============1169661249542951047=="
+Content-Type: multipart/mixed; boundary="===============7569157859838608443=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [pavel-linux-leds:for-next 9/18] drivers/leds/blink/leds-lgm-sso.c:635:4: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 04 Aug 2021 18:07:12 +0800
-Message-ID: <202108041809.QsYhsqqy-lkp@intel.com>
+Subject: [alexandrebelloni:rtc-misc 3/9] drivers/rtc/dev.c:420:4: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 04 Aug 2021 14:09:52 +0800
+Message-ID: <202108041442.T5TaGVxO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1169661249542951047==
+--===============7569157859838608443==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: clang-built-linux(a)googlegroups.com
 CC: kbuild-all(a)lists.01.org
-CC: linux-leds(a)vger.kernel.org
-TO: Andy Shevchenko <andy.shevchenko@gmail.com>
-CC: Pavel Machek <pavel@ucw.cz>
+TO: Alexandre Belloni <alexandre.belloni@free-electrons.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.git =
-for-next
-head:   64f67b5240db79eceb0bd57dae8e591fd3103ba0
-commit: 9999908ca1abee7aa518a4f6a3739517c137acbf [9/18] leds: lgm-sso: Put =
-fwnode in any case during ->probe()
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-randconfig-c001-20210803 (attached as .config)
+tree:   https://github.com/alexandrebelloni/linux rtc-misc
+head:   e133d60472e6fd2c66009703416386df7688d342
+commit: 36c52b4430b4cb116160a2fd5c9b0cdf9de32f6f [3/9] WIP PARAMS
+:::::: branch date: 8 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-randconfig-c001-20210804 (attached as .config)
 compiler: clang version 13.0.0 (https://github.com/llvm/llvm-project 4f71f5=
 9bf3d9914188a11d0c41bedbb339d36ff5)
 reproduce (this is a W=3D1 build):
@@ -34,12 +29,12 @@ make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install x86_64 cross compiling tool for clang build
         # apt-get install binutils-x86-64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/pavel/linux-leds.=
-git/commit/?id=3D9999908ca1abee7aa518a4f6a3739517c137acbf
-        git remote add pavel-linux-leds git://git.kernel.org/pub/scm/linux/=
-kernel/git/pavel/linux-leds.git
-        git fetch --no-tags pavel-linux-leds for-next
-        git checkout 9999908ca1abee7aa518a4f6a3739517c137acbf
+        # https://github.com/alexandrebelloni/linux/commit/36c52b4430b4cb11=
+6160a2fd5c9b0cdf9de32f6f
+        git remote add alexandrebelloni https://github.com/alexandrebelloni=
+/linux
+        git fetch --no-tags alexandrebelloni rtc-misc
+        git checkout 36c52b4430b4cb116160a2fd5c9b0cdf9de32f6f
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -50,86 +45,101 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/tty/serial/serial_core.c:734:29: note: Loop condition is false. =
- Exiting loop
-           struct uart_state *state =3D container_of(port, struct uart_stat=
-e, port);
-                                      ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/tty/serial/serial_core.c:744:6: note: Assuming 'uport' is null
-           if (!uport)
-               ^~~~~~
-   drivers/tty/serial/serial_core.c:744:2: note: Taking true branch
-           if (!uport)
-           ^
-   drivers/tty/serial/serial_core.c:745:3: note: Control jumps to line 768
-                   goto out;
-                   ^
-   drivers/tty/serial/serial_core.c:769:2: note: Returning without writing =
-to 'retinfo->iomem_reg_shift'
-           return ret;
-           ^
-   drivers/tty/serial/serial_core.c:2729:2: note: Returning from 'uart_get_=
-info'
-           uart_get_info(port, &tmp);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/serial_core.c:2730:9: note: 3rd function call argumen=
-t is an uninitialized value
-           return sprintf(buf, "%d\n", tmp.iomem_reg_shift);
-                  ^                    ~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/binfmt_elf.c:1293:3: note: Value stored to 'error' is never read
+                   error =3D vm_mmap(NULL, 0, PAGE_SIZE, PROT_READ | PROT_E=
+XEC,
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
    fs/nfs/direct.c:703:19: warning: Value stored to 'req' during its initia=
 lization is never read [clang-analyzer-deadcode.DeadStores]
            struct nfs_page *req =3D nfs_list_entry(hdr->pages.next);
@@ -138,916 +148,1177 @@ lization is never read [clang-analyzer-deadcode.DeadStores]
 ation is never read
            struct nfs_page *req =3D nfs_list_entry(hdr->pages.next);
                             ^~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   Suppressed 14 warnings (14 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/leds/uleds.c:150:4: warning: Value stored to 'retval' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/uleds.c:150:4: note: Value stored to 'retval' is never read
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/leds/blink/leds-lgm-sso.c:635:4: warning: Value stored to 'ret' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D -ENOMEM;
-                           ^     ~~~~~~~
-   drivers/leds/blink/leds-lgm-sso.c:635:4: note: Value stored to 'ret' is =
-never read
-                           ret =3D -ENOMEM;
-                           ^     ~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
-   drivers/rtc/interface.c:799:8: warning: Passed-by-value struct argument =
-contains uninitialized data (e.g., field: 'tm_sec') [clang-analyzer-core.Ca=
-llAndMessage]
-           now =3D rtc_tm_to_ktime(tm);
-                 ^
-   drivers/rtc/interface.c:984:6: note: Assuming field 'enabled' is 0
-           if (timer->enabled)
-               ^~~~~~~~~~~~~~
-   drivers/rtc/interface.c:984:2: note: Taking false branch
-           if (timer->enabled)
-           ^
-   drivers/rtc/interface.c:990:8: note: Calling 'rtc_timer_enqueue'
-           ret =3D rtc_timer_enqueue(rtc, timer);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rtc/interface.c:794:2: note: 'tm' initialized here
-           struct rtc_time tm;
-           ^~~~~~~~~~~~~~~~~~
-   drivers/rtc/interface.c:799:8: note: Passed-by-value struct argument con=
-tains uninitialized data (e.g., field: 'tm_sec')
-           now =3D rtc_tm_to_ktime(tm);
-                 ^               ~~
-   drivers/rtc/interface.c:899:8: warning: Passed-by-value struct argument =
-contains uninitialized data (e.g., field: 'tm_sec') [clang-analyzer-core.Ca=
-llAndMessage]
-           now =3D rtc_tm_to_ktime(tm);
-                 ^               ~~
-   drivers/rtc/interface.c:891:2: note: 'tm' initialized here
-           struct rtc_time tm;
-           ^~~~~~~~~~~~~~~~~~
-   drivers/rtc/interface.c:894:3: note: Left side of '&&' is false
-                   container_of(work, struct rtc_device, irqwork);
-                   ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/rtc/interface.c:894:3: note: Taking false branch
-                   container_of(work, struct rtc_device, irqwork);
-                   ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/rtc/interface.c:894:3: note: Loop condition is false.  Exiting l=
-oop
-                   container_of(work, struct rtc_device, irqwork);
-                   ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/rtc/interface.c:899:8: note: Passed-by-value struct argument con=
-tains uninitialized data (e.g., field: 'tm_sec')
-           now =3D rtc_tm_to_ktime(tm);
-                 ^               ~~
-   Suppressed 4 warnings (4 in non-user code).
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/input/keyboard/samsung-keypad.c:88:23: warning: The result of th=
-e left shift is undefined because the left operand is negative [clang-analy=
-zer-core.UndefinedBinaryOperatorResult]
-                           val &=3D ~(1 << col) << 8;
-                                              ^
-   drivers/input/keyboard/samsung-keypad.c:158:3: note: Calling 'samsung_ke=
-ypad_scan'
-                   samsung_keypad_scan(keypad, row_state);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/samsung-keypad.c:85:16: note: Assuming 'col' is <=
- field 'cols'
-           for (col =3D 0; col < keypad->cols; col++) {
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> drivers/rtc/dev.c:420:4: warning: Value stored to 'err' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                           err =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/rtc/dev.c:420:4: note: Value stored to 'err' is never read
+                           err =3D -EFAULT;
+                           ^     ~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/rtc/rtc-ab-eoz9.c:552:3: warning: Value stored to 'ret' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D device_init_wakeup(dev, true);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-ab-eoz9.c:552:3: note: Value stored to 'ret' is never re=
+ad
+                   ret =3D device_init_wakeup(dev, true);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/rtc/rtc-abx80x.c:534:3: warning: Value stored to 'status' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   status &=3D ~ABX8XX_STATUS_BLF;
+                   ^         ~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-abx80x.c:534:3: note: Value stored to 'status' is never =
+read
+                   status &=3D ~ABX8XX_STATUS_BLF;
+                   ^         ~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/staging/greybus/audio_topology.c:814:3: warning: Value stored to=
+ 'mask' is never read [clang-analyzer-deadcode.DeadStores]
+                   mask |=3D e->mask << e->shift_r;
+                   ^       ~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/greybus/audio_topology.c:814:3: note: Value stored to 'm=
+ask' is never read
+                   mask |=3D e->mask << e->shift_r;
+                   ^       ~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/acpi/acpi_processor.c:370:2: warning: Call to function 'strcpy' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(acpi_device_name(device), ACPI_PROCESSOR_DEVICE_NAME);
+           ^~~~~~
+   drivers/acpi/acpi_processor.c:370:2: note: Call to function 'strcpy' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcpy'. CWE-119
+           strcpy(acpi_device_name(device), ACPI_PROCESSOR_DEVICE_NAME);
+           ^~~~~~
+   drivers/acpi/acpi_processor.c:371:2: warning: Call to function 'strcpy' =
+is insecure as it does not provide bounding of the memory buffer. Replace u=
+nbounded copy functions with analogous functions that support length argume=
+nts such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(acpi_device_class(device), ACPI_PROCESSOR_CLASS);
+           ^~~~~~
+   drivers/acpi/acpi_processor.c:371:2: note: Call to function 'strcpy' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcpy'. CWE-119
+           strcpy(acpi_device_class(device), ACPI_PROCESSOR_CLASS);
+           ^~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +/ret +635 drivers/leds/blink/leds-lgm-sso.c
+vim +/err +420 drivers/rtc/dev.c
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  619  =
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  202  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  620  static int
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  621  __sso_led_dt_p=
-arse(struct sso_led_priv *priv, struct fwnode_handle *fw_ssoled)
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  622  {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  623  	struct fwnode=
-_handle *fwnode_child;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  624  	struct device=
- *dev =3D priv->dev;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  625  	struct sso_le=
-d_desc *desc;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  626  	struct sso_le=
-d *led;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  627  	struct list_h=
-ead *p;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  628  	const char *t=
-mp;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  629  	u32 prop;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  630  	int ret;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  631  =
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  203  sta=
+tic long rtc_dev_ioctl(struct file *file,
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  204  			=
+  unsigned int cmd, unsigned long arg)
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  205  {
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  206  	in=
+t err =3D 0;
+ab6a2d70d18edc drivers/rtc/rtc-dev.c David Brownell    2007-05-08  207  	st=
+ruct rtc_device *rtc =3D file->private_data;
+ff8371ac9a5a55 drivers/rtc/rtc-dev.c David Brownell    2006-09-30  208  	co=
+nst struct rtc_class_ops *ops =3D rtc->ops;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  209  	st=
+ruct rtc_time tm;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  210  	st=
+ruct rtc_wkalrm alarm;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  211  	st=
+ruct rtc_param param;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  212  	vo=
+id __user *uarg =3D (void __user *)arg;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  213  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  632  	fwnode_for_ea=
-ch_child_node(fw_ssoled, fwnode_child) {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  633  		led =3D devm=
-_kzalloc(dev, sizeof(*led), GFP_KERNEL);
-9999908ca1abee7 Andy Shevchenko             2021-05-29  634  		if (!led) {
-9999908ca1abee7 Andy Shevchenko             2021-05-29 @635  			ret =3D -EN=
-OMEM;
-9999908ca1abee7 Andy Shevchenko             2021-05-29  636  			goto __dt_e=
-rr;
-9999908ca1abee7 Andy Shevchenko             2021-05-29  637  		}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  638  =
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  214  	er=
+r =3D mutex_lock_interruptible(&rtc->ops_lock);
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  215  	if=
+ (err)
+b68bb2632453a9 drivers/rtc/rtc-dev.c David Brownell    2008-07-29  216  		r=
+eturn err;
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  217  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  639  		INIT_LIST_HE=
-AD(&led->list);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  640  		led->priv =
-=3D priv;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  641  		desc =3D &le=
-d->desc;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  642  =
+2601a46474db2d drivers/rtc/rtc-dev.c David Brownell    2006-11-25  218  	/*=
+ check that the calling task has appropriate permissions
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  219  	 *=
+ for certain ioctls. doing this check here is useful
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  220  	 *=
+ to avoid duplicate code in each driver.
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  221  	 */
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  222  	sw=
+itch (cmd) {
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  223  	ca=
+se RTC_EPOCH_SET:
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  224  	ca=
+se RTC_SET_TIME:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  225  	ca=
+se RTC_PARAM_SET:
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  226  		i=
+f (!capable(CAP_SYS_TIME))
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  227  			=
+err =3D -EACCES;
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  228  		b=
+reak;
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  229  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  643  		led->gpiod =
-=3D devm_fwnode_get_gpiod_from_child(dev, NULL,
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  644  							      f=
-wnode_child,
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  645  							      G=
-PIOD_ASIS, NULL);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  646  		if (IS_ERR(l=
-ed->gpiod)) {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  647  			dev_err(dev=
-, "led: get gpio fail!\n");
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  648  			goto __dt_e=
-rr;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  649  		}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  650  =
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  230  	ca=
+se RTC_IRQP_SET:
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  231  		i=
+f (arg > rtc->max_user_freq && !capable(CAP_SYS_RESOURCE))
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  232  			=
+err =3D -EACCES;
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  233  		b=
+reak;
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  234  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  651  		fwnode_prope=
-rty_read_string(fwnode_child,
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  652  					    "linu=
-x,default-trigger",
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  653  					    &desc=
-->default_trigger);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  654  =
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  235  	ca=
+se RTC_PIE_ON:
+9d013d3b14f4c8 drivers/rtc/rtc-dev.c Bryan Kadzban     2007-10-16  236  		i=
+f (rtc->irq_freq > rtc->max_user_freq &&
+9d013d3b14f4c8 drivers/rtc/rtc-dev.c Bryan Kadzban     2007-10-16  237  		 =
+   !capable(CAP_SYS_RESOURCE))
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  238  			=
+err =3D -EACCES;
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  239  		b=
+reak;
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  240  	}
+110d693d589864 drivers/rtc/rtc-dev.c Alessandro Zummo  2006-06-25  241  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  655  		if (fwnode_p=
-roperty_present(fwnode_child,
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  656  					    "reta=
-in-state-suspended"))
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  657  			desc->retai=
-n_state_suspended =3D 1;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  658  =
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  242  	if=
+ (err)
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  243  		g=
+oto done;
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  244  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  659  		if (fwnode_p=
-roperty_present(fwnode_child,
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  660  					    "reta=
-in-state-shutdown"))
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  661  			desc->retai=
-n_state_shutdown =3D 1;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  662  =
+ac54cd2bd5b4db drivers/rtc/rtc-dev.c John Stultz       2011-02-02  245  	/*
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  246  	 *=
+ Drivers *SHOULD NOT* provide ioctl implementations
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  247  	 *=
+ for these requests.  Instead, provide methods to
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  248  	 *=
+ support the following code, so that the RTC's main
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  249  	 *=
+ features are accessible without using ioctls.
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  250  	 *
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  251  	 *=
+ RTC and alarm times will be in UTC, by preference,
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  252  	 *=
+ but dual-booting with MS-Windows implies RTCs must
+8a0bdfd7a05f5b drivers/rtc/rtc-dev.c David Brownell    2008-02-06  253  	 *=
+ use the local wall clock time.
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  254  	 */
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  255  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  663  		if (fwnode_p=
-roperty_present(fwnode_child, "panic-indicator"))
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  664  			desc->panic=
-_indicator =3D 1;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  665  =
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  256  	sw=
+itch (cmd) {
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  257  	ca=
+se RTC_ALM_READ:
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  258  		m=
+utex_unlock(&rtc->ops_lock);
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  259  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  666  		ret =3D fwno=
-de_property_read_u32(fwnode_child, "reg", &prop);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  667  		if (ret !=3D=
- 0 || prop >=3D SSO_LED_MAX_NUM) {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  668  			dev_err(dev=
-, "invalid LED pin:%u\n", prop);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  669  			goto __dt_e=
-rr;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  670  		}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  671  		desc->pin =
-=3D prop;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  672  =
+ab6a2d70d18edc drivers/rtc/rtc-dev.c David Brownell    2007-05-08  260  		e=
+rr =3D rtc_read_alarm(rtc, &alarm);
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  261  		i=
+f (err < 0)
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  262  			=
+return err;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  263  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  673  		if (fwnode_p=
-roperty_present(fwnode_child, "intel,sso-hw-blink"))
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  674  			desc->hw_bl=
-ink =3D 1;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  675  =
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  264  		i=
+f (copy_to_user(uarg, &alarm.time, sizeof(tm)))
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  265  			=
+err =3D -EFAULT;
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  266  		r=
+eturn err;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  267  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  676  		desc->hw_tri=
-g =3D fwnode_property_read_bool(fwnode_child,
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  677  							  "inte=
-l,sso-hw-trigger");
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  678  		if (desc->hw=
-_trig) {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  679  			desc->defau=
-lt_trigger =3D NULL;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  680  			desc->retai=
-n_state_shutdown =3D 0;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  681  			desc->retai=
-n_state_suspended =3D 0;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  682  			desc->panic=
-_indicator =3D 0;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  683  			desc->hw_bl=
-ink =3D 0;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  684  		}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  685  =
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  268  	ca=
+se RTC_ALM_SET:
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  269  		m=
+utex_unlock(&rtc->ops_lock);
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  270  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  686  		if (fwnode_p=
-roperty_read_u32(fwnode_child,
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  687  					     "int=
-el,sso-blink-rate-hz", &prop)) {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  688  			/* default =
-first freq rate */
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  689  			desc->freq_=
-idx =3D 0;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  690  			desc->blink=
-_rate =3D priv->freq[desc->freq_idx];
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  691  		} else {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  692  			desc->freq_=
-idx =3D sso_get_blink_rate_idx(priv, prop);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  693  			if (desc->f=
-req_idx =3D=3D -1)
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  694  				desc->freq=
-_idx =3D MAX_FREQ_RANK - 1;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  695  =
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  271  		i=
+f (copy_from_user(&alarm.time, uarg, sizeof(tm)))
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  272  			=
+return -EFAULT;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  273  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  696  			desc->blink=
-_rate =3D priv->freq[desc->freq_idx];
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  697  		}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  698  =
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  274  		a=
+larm.enabled =3D 0;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  275  		a=
+larm.pending =3D 0;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  276  		a=
+larm.time.tm_wday =3D -1;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  277  		a=
+larm.time.tm_yday =3D -1;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  278  		a=
+larm.time.tm_isdst =3D -1;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  279  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  699  		if (!fwnode_=
-property_read_string(fwnode_child, "default-state", &tmp)) {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  700  			if (!strcmp=
-(tmp, "on"))
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  701  				desc->brig=
-htness =3D LED_FULL;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  702  		}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  703  =
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  280  		/=
+* RTC_ALM_SET alarms may be up to 24 hours in the future.
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  281  		 =
+* Rather than expecting every RTC to implement "don't care"
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  282  		 =
+* for day/month/year fields, just force the alarm to have
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  283  		 =
+* the right values for those fields.
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  284  		 *
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  285  		 =
+* RTC_WKALM_SET should be used instead.  Not only does it
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  286  		 =
+* eliminate the need for a separate RTC_AIE_ON call, it
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  287  		 =
+* doesn't have the "alarm 23:59:59 in the future" race.
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  288  		 *
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  289  		 =
+* NOTE:  some legacy code may have used invalid fields as
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  290  		 =
+* wildcards, exposing hardware "periodic alarm" capabilities.
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  291  		 =
+* Not supported here.
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  292  		 =
+*/
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  293  		{
+4ec2364f491023 drivers/rtc/rtc-dev.c Xunlei Pang       2015-01-22  294  			=
+time64_t now, then;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  295  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  704  		if (sso_crea=
-te_led(priv, led, fwnode_child))
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  705  			goto __dt_e=
-rr;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  706  	}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  707  =
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  296  			=
+err =3D rtc_read_time(rtc, &tm);
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  297  			=
+if (err < 0)
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  298  			=
+	return err;
+4ec2364f491023 drivers/rtc/rtc-dev.c Xunlei Pang       2015-01-22  299  			=
+now =3D rtc_tm_to_time64(&tm);
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  300  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  708  	return 0;
-9999908ca1abee7 Andy Shevchenko             2021-05-29  709  =
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  301  			=
+alarm.time.tm_mday =3D tm.tm_mday;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  302  			=
+alarm.time.tm_mon =3D tm.tm_mon;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  303  			=
+alarm.time.tm_year =3D tm.tm_year;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  304  			=
+err  =3D rtc_valid_tm(&alarm.time);
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  305  			=
+if (err < 0)
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  306  			=
+	return err;
+4ec2364f491023 drivers/rtc/rtc-dev.c Xunlei Pang       2015-01-22  307  			=
+then =3D rtc_tm_to_time64(&alarm.time);
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  308  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  710  __dt_err:
-9999908ca1abee7 Andy Shevchenko             2021-05-29  711  	fwnode_handle=
-_put(fwnode_child);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  712  	/* unregister=
- leds */
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  713  	list_for_each=
-(p, &priv->led_list) {
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  714  		led =3D list=
-_entry(p, struct sso_led, list);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  715  		sso_led_shut=
-down(led);
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  716  	}
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  717  =
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  309  			=
+/* alarm may need to wrap into tomorrow */
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  310  			=
+if (then < now) {
+4ec2364f491023 drivers/rtc/rtc-dev.c Xunlei Pang       2015-01-22  311  			=
+	rtc_time64_to_tm(now + 24 * 60 * 60, &tm);
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  312  			=
+	alarm.time.tm_mday =3D tm.tm_mday;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  313  			=
+	alarm.time.tm_mon =3D tm.tm_mon;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  314  			=
+	alarm.time.tm_year =3D tm.tm_year;
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  315  			}
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  316  		}
+f8245c26886c91 drivers/rtc/rtc-dev.c David Brownell    2007-05-08  317  =
 
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  718  	return -EINVA=
-L;
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  719  }
-c3987cd2bca34dd Amireddy Mallikarjuna reddy 2020-12-10  720  =
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  318  		r=
+eturn rtc_set_alarm(rtc, &alarm);
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  319  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  320  	ca=
+se RTC_RD_TIME:
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  321  		m=
+utex_unlock(&rtc->ops_lock);
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  322  =
+
+ab6a2d70d18edc drivers/rtc/rtc-dev.c David Brownell    2007-05-08  323  		e=
+rr =3D rtc_read_time(rtc, &tm);
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  324  		i=
+f (err < 0)
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  325  			=
+return err;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  326  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  327  		i=
+f (copy_to_user(uarg, &tm, sizeof(tm)))
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  328  			=
+err =3D -EFAULT;
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  329  		r=
+eturn err;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  330  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  331  	ca=
+se RTC_SET_TIME:
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  332  		m=
+utex_unlock(&rtc->ops_lock);
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  333  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  334  		i=
+f (copy_from_user(&tm, uarg, sizeof(tm)))
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  335  			=
+return -EFAULT;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  336  =
+
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  337  		r=
+eturn rtc_set_time(rtc, &tm);
+2601a46474db2d drivers/rtc/rtc-dev.c David Brownell    2006-11-25  338  =
+
+d691eb901e0440 drivers/rtc/rtc-dev.c Alessandro Zummo  2007-10-16  339  	ca=
+se RTC_PIE_ON:
+8719d3c9188b38 drivers/rtc/rtc-dev.c Alexandre Belloni 2018-07-25  340  		e=
+rr =3D rtc_irq_set_state(rtc, 1);
+d691eb901e0440 drivers/rtc/rtc-dev.c Alessandro Zummo  2007-10-16  341  		b=
+reak;
+d691eb901e0440 drivers/rtc/rtc-dev.c Alessandro Zummo  2007-10-16  342  =
+
+d691eb901e0440 drivers/rtc/rtc-dev.c Alessandro Zummo  2007-10-16  343  	ca=
+se RTC_PIE_OFF:
+8719d3c9188b38 drivers/rtc/rtc-dev.c Alexandre Belloni 2018-07-25  344  		e=
+rr =3D rtc_irq_set_state(rtc, 0);
+2601a46474db2d drivers/rtc/rtc-dev.c David Brownell    2006-11-25  345  		b=
+reak;
+2601a46474db2d drivers/rtc/rtc-dev.c David Brownell    2006-11-25  346  =
+
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  347  	ca=
+se RTC_AIE_ON:
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  348  		m=
+utex_unlock(&rtc->ops_lock);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  349  		r=
+eturn rtc_alarm_irq_enable(rtc, 1);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  350  =
+
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  351  	ca=
+se RTC_AIE_OFF:
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  352  		m=
+utex_unlock(&rtc->ops_lock);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  353  		r=
+eturn rtc_alarm_irq_enable(rtc, 0);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  354  =
+
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  355  	ca=
+se RTC_UIE_ON:
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  356  		m=
+utex_unlock(&rtc->ops_lock);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  357  		r=
+eturn rtc_update_irq_enable(rtc, 1);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  358  =
+
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  359  	ca=
+se RTC_UIE_OFF:
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  360  		m=
+utex_unlock(&rtc->ops_lock);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  361  		r=
+eturn rtc_update_irq_enable(rtc, 0);
+099e657625e801 drivers/rtc/rtc-dev.c Alessandro Zummo  2009-01-04  362  =
+
+2601a46474db2d drivers/rtc/rtc-dev.c David Brownell    2006-11-25  363  	ca=
+se RTC_IRQP_SET:
+8719d3c9188b38 drivers/rtc/rtc-dev.c Alexandre Belloni 2018-07-25  364  		e=
+rr =3D rtc_irq_set_freq(rtc, arg);
+d691eb901e0440 drivers/rtc/rtc-dev.c Alessandro Zummo  2007-10-16  365  		b=
+reak;
+d691eb901e0440 drivers/rtc/rtc-dev.c Alessandro Zummo  2007-10-16  366  	ca=
+se RTC_IRQP_READ:
+d691eb901e0440 drivers/rtc/rtc-dev.c Alessandro Zummo  2007-10-16  367  		e=
+rr =3D put_user(rtc->irq_freq, (unsigned long __user *)uarg);
+2601a46474db2d drivers/rtc/rtc-dev.c David Brownell    2006-11-25  368  		b=
+reak;
+2601a46474db2d drivers/rtc/rtc-dev.c David Brownell    2006-11-25  369  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  370  	ca=
+se RTC_WKALM_SET:
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  371  		m=
+utex_unlock(&rtc->ops_lock);
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  372  		i=
+f (copy_from_user(&alarm, uarg, sizeof(alarm)))
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  373  			=
+return -EFAULT;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  374  =
+
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  375  		r=
+eturn rtc_set_alarm(rtc, &alarm);
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  376  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  377  	ca=
+se RTC_WKALM_RD:
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  378  		m=
+utex_unlock(&rtc->ops_lock);
+ab6a2d70d18edc drivers/rtc/rtc-dev.c David Brownell    2007-05-08  379  		e=
+rr =3D rtc_read_alarm(rtc, &alarm);
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  380  		i=
+f (err < 0)
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  381  			=
+return err;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  382  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  383  		i=
+f (copy_to_user(uarg, &alarm, sizeof(alarm)))
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  384  			=
+err =3D -EFAULT;
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  385  		r=
+eturn err;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  386  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  387  	ca=
+se RTC_PARAM_GET:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  388  		i=
+f (copy_from_user(&param, uarg, sizeof(param)))
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  389  			=
+err =3D -EFAULT;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  390  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  391  		s=
+witch(param.param) {
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  392  			=
+long offset;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  393  		c=
+ase RTC_PARAM_FEATURES:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  394  			=
+if (param.index !=3D 0)
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  395  			=
+	err =3D -EINVAL;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  396  			=
+param.uvalue =3D rtc->features[0];
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  397  			=
+break;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  398  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  399  		c=
+ase RTC_PARAM_CORRECTION:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  400  			=
+mutex_unlock(&rtc->ops_lock);
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  401  			=
+if (param.index !=3D 0)
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  402  			=
+	return -EINVAL;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  403  			=
+err =3D rtc_read_offset(rtc, &offset);
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  404  			=
+if (err =3D=3D 0)
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  405  			=
+	param.svalue =3D offset;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  406  			=
+mutex_lock(&rtc->ops_lock);
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  407  			=
+break;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  408  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  409  		d=
+efault:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  410  			=
+err =3D -EINVAL;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  411  		}
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  412  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  413  		i=
+f (copy_to_user(uarg, &param, sizeof(param)))
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  414  			=
+err =3D -EFAULT;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  415  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  416  		b=
+reak;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  417  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  418  	ca=
+se RTC_PARAM_SET:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  419  		i=
+f (copy_from_user(&param, uarg, sizeof(param)))
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16 @420  			=
+err =3D -EFAULT;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  421  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  422  		s=
+witch(param.param) {
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  423  		c=
+ase RTC_PARAM_CORRECTION:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  424  			=
+mutex_unlock(&rtc->ops_lock);
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  425  			=
+if (param.index !=3D 0)
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  426  			=
+	return -EINVAL;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  427  			=
+return rtc_set_offset(rtc, param.svalue);
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  428  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  429  		c=
+ase RTC_PARAM_FEATURES:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  430  		d=
+efault:
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  431  			=
+err =3D -EINVAL;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  432  		}
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  433  =
+
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  434  		b=
+reak;
+36c52b4430b4cb drivers/rtc/dev.c     Alexandre Belloni 2021-01-16  435  =
+
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  436  	de=
+fault:
+ac54cd2bd5b4db drivers/rtc/rtc-dev.c John Stultz       2011-02-02  437  		/=
+* Finally try the driver's ioctl interface */
+ac54cd2bd5b4db drivers/rtc/rtc-dev.c John Stultz       2011-02-02  438  		i=
+f (ops->ioctl) {
+ac54cd2bd5b4db drivers/rtc/rtc-dev.c John Stultz       2011-02-02  439  			=
+err =3D ops->ioctl(rtc->dev.parent, cmd, arg);
+ac54cd2bd5b4db drivers/rtc/rtc-dev.c John Stultz       2011-02-02  440  			=
+if (err =3D=3D -ENOIOCTLCMD)
+b3969e5831adac drivers/rtc/rtc-dev.c Alessandro Zummo  2006-05-20  441  			=
+	err =3D -ENOTTY;
+606cc43c720bde drivers/rtc/dev.c     Alexandre Belloni 2019-03-20  442  		}=
+ else {
+e17fd4ba2a81f1 drivers/rtc/rtc-dev.c John Stultz       2011-05-31  443  			=
+err =3D -ENOTTY;
+606cc43c720bde drivers/rtc/dev.c     Alexandre Belloni 2019-03-20  444  		}
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  445  		b=
+reak;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  446  	}
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  447  =
+
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  448  don=
+e:
+5ad31a57515714 drivers/rtc/rtc-dev.c David Brownell    2008-07-23  449  	mu=
+tex_unlock(&rtc->ops_lock);
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  450  	re=
+turn err;
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  451  }
+e824290e5dcfaf drivers/rtc/rtc-dev.c Alessandro Zummo  2006-03-27  452  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1169661249542951047==
+--===============7569157859838608443==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
-pojV1Y5etEFsPW3f/v9CnCCYB94BAA==
---===============1169661249542951047==--
+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
+pG/WmQiiiG5qSINHNHhMgyd2p1oElQhBx1/T9d3Q4FtfM2QuKYPAM9FDa9vcZdGsLghYZcISFsDV
+m+jh8lpwwDFold1ThUlLXnmiVndERcbKiIxS25FsiyiOdWFii1kyHtNtY8BKMnRXg4fHXWxoQDtE
+WkUlVaMc/uWOllVxF5mBYRFVlQs6cH4Y04LYKo1wl5NvYkMqpgwK9o/fTofzd9dRGC8i/dW4RTnG
+PTpSugkHgTUR8A6HJUPCAp4gHvPfohLoMOm95Br5F0HS96MOVzWmlZQxVfWHLN79UblF11mx7Pwz
+XQIXYr6ouooaVpZifPEMKRUPBLyzE/W1qyJnJRVUcAGMH0rilITZlDszfGSiiA6zLa94nHNPxta2
+DQHb5+4ySZkl2dYTAb6lYXnOoM0fNLZlthu10x22QI2ZrdiwySS/mgGvEgtPSumOEr41pPbInZfN
+mhpC+aXqSrRMGXxYHuG9ZyR8TQmk2vdwv82YdqjAIOB1tXt7Qmuq3/Cfp+N/3n77vnvdwa/d0/vh
+7beP3Zc9VHh4+g1Nd7/iZ/fb3+9fPqkv8W5/etu/DJ53p6f9G+oM+i9SOfzuX48ntPo9nA+7l8N/
+d4jVjL4CKaVAmWC9ZgVMQlS6caBIKoxWa84fADF37V2dZilt9NtRAJupNUPVgRTYhEeBEqE4plY5
+uWn5jEMsZTo+2tazmZ6uFu2f7c6qxj4ZuznEE6pLUhCcvr+fj4PH42k/OJ4Gz/uX9/1JWxZJDMNb
+KjM4Cjxy4dxwF+yBLqm4C6J8xQsvwi2yUvHHXaBLWhg+dB2MJNQkI1bHvT1hvs7f5blLfZfnbg0o
+43BJ4baFE9qtt4Gb3sgKhScu9aozCnYvX9uRUFEtF8PRzIiR1SDSKqaBVE9y+dffF/mH2B9VuYL7
+04E34bms3RElbg3KM6Xd2fm3v18Oj7//s/8+eJSb/Otp9/783dnbheHwqmChu8F44HaNB+GKmAAA
+C/po7giKkPZEb0aXuFsCTu01H02netoqB9WkJFEa+2/n5/3b+fC4O++fBvxNTgKcBIP/HM7PA/bx
+cXw8SFS4O++cWQmCxN0eAHu16VbATLHRVZ7F2+H4akpMB+PLCEMTXZqRlgb+I9KoFoJ7xA3NBPH7
+iHYbaOZ3xeCwXbdTMZc2wq/HJ11j1A5g7q5rsJi7sNL9HAPiG+KBWzYuHhxYZiYM6L6dOe108b/K
+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
+anBzEMiz6yUq4FiF/wFC1VlWc8YBAA==
+--===============7569157859838608443==--
 
