@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1103938297955935804=="
+Content-Type: multipart/mixed; boundary="===============1611902820131183282=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [sound:test/memalloc-noncontig 43/147] sound/pci/emu10k1/emu10k1x.c:960 snd_emu10k1x_create() warn: 'pci' not released on lines: 895, 904.
-Date: Fri, 13 Aug 2021 21:54:43 +0800
-Message-ID: <202108132126.PKaUlSmX-lkp@intel.com>
+Subject: [sound:test/memalloc-noncontig 19/147] sound/pci/als4000.c:930 snd_card_als4000_probe() warn: 'pci' not released on lines: 852, 872.
+Date: Fri, 13 Aug 2021 21:03:11 +0800
+Message-ID: <202108132159.1uF2sIlo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1103938297955935804==
+--===============1611902820131183282==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,9 +19,9 @@ TO: Takashi Iwai <tiwai@suse.de>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tes=
 t/memalloc-noncontig
 head:   e55c7d9612e9742d6c5287388214863869745122
-commit: 2b377c6b6012b6ae71ae74d0b14677050a5aaf6c [43/147] ALSA: emu10k1x: A=
-llocate resources with device-managed APIs
-:::::: branch date: 25 hours ago
+commit: 0e175f665960c7be30aba47afbee4f2d121ea5fc [19/147] ALSA: als4000: Al=
+locate resources with device-managed APIs
+:::::: branch date: 24 hours ago
 :::::: commit date: 4 weeks ago
 config: x86_64-randconfig-m001-20210813 (attached as .config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
@@ -31,208 +31,215 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-sound/pci/emu10k1/emu10k1x.c:960 snd_emu10k1x_create() warn: 'pci' not rele=
-ased on lines: 895,904.
+sound/pci/als4000.c:930 snd_card_als4000_probe() warn: 'pci' not released o=
+n lines: 852,872.
 
-vim +/pci +960 sound/pci/emu10k1/emu10k1x.c
+vim +/pci +930 sound/pci/als4000.c
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  863  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  808  =
 
-e23e7a14362072 Bill Pemberton     2012-12-06  864  static int snd_emu10k1x_=
-create(struct snd_card *card,
-2b377c6b6012b6 Takashi Iwai       2021-07-15  865  			       struct pci_dev=
- *pci)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  866  {
-2b377c6b6012b6 Takashi Iwai       2021-07-15  867  	struct emu10k1x *chip =
-=3D card->private_data;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  868  	int err;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  869  	int ch;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  870  =
+e23e7a14362072 Bill Pemberton  2012-12-06  809  static int snd_card_als4000=
+_probe(struct pci_dev *pci,
+^1da177e4c3f41 Linus Torvalds  2005-04-16  810  				  const struct pci_devi=
+ce_id *pci_id)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  811  {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  812  	static int dev;
+17c39d9a59cbf4 Takashi Iwai    2005-11-17  813  	struct snd_card *card;
+17c39d9a59cbf4 Takashi Iwai    2005-11-17  814  	struct snd_card_als4000 *a=
+card;
+c0874449849175 Andreas Mohr    2008-08-20  815  	unsigned long iobase;
+17c39d9a59cbf4 Takashi Iwai    2005-11-17  816  	struct snd_sb *chip;
+17c39d9a59cbf4 Takashi Iwai    2005-11-17  817  	struct snd_opl3 *opl3;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  818  	unsigned short word;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  819  	int err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  820  =
 
-2b377c6b6012b6 Takashi Iwai       2021-07-15  871  	err =3D pcim_enable_dev=
-ice(pci);
-9031f93851bc47 Takashi Iwai       2021-06-08  872  	if (err < 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  873  		return err;
-9ac05523d38d4c Christophe JAILLET 2020-11-21  874  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  821  	if (dev >=3D SNDRV_CARDS)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  822  		return -ENODEV;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  823  	if (!enable[dev]) {
+^1da177e4c3f41 Linus Torvalds  2005-04-16  824  		dev++;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  825  		return -ENOENT;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  826  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  827  =
 
-9ac05523d38d4c Christophe JAILLET 2020-11-21  875  	if (dma_set_mask_and_co=
-herent(&pci->dev, DMA_BIT_MASK(28)) < 0) {
-26bc6964f97b3a Takashi Iwai       2014-02-25  876  		dev_err(card->dev, "er=
-ror to set 28bit mask DMA\n");
-^1da177e4c3f41 Linus Torvalds     2005-04-16  877  		return -ENXIO;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  878  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  879  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  828  	/* enable PCI device */
+0e175f665960c7 Takashi Iwai    2021-07-15  829  	err =3D pcim_enable_device=
+(pci);
+61ea06e8a88163 Takashi Iwai    2021-06-08  830  	if (err < 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  831  		return err;
+61ea06e8a88163 Takashi Iwai    2021-06-08  832  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  880  	chip->card =3D card;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  881  	chip->pci =3D pci;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  882  	chip->irq =3D -1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  883  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  833  	/* check, if we can restri=
+ct PCI DMA transfers to 24 bits */
+669f65eaeb969e Takashi Iwai    2021-01-14  834  	if (dma_set_mask_and_coher=
+ent(&pci->dev, DMA_BIT_MASK(24))) {
+d85d878efb3047 Takashi Iwai    2014-02-25  835  		dev_err(&pci->dev, "archi=
+tecture does not support 24bit PCI busmaster DMA\n");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  836  		return -ENXIO;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  837  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  838  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  884  	spin_lock_init(&chip->e=
-mu_lock);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  885  	spin_lock_init(&chip->v=
-oice_lock);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  886    =
+61ea06e8a88163 Takashi Iwai    2021-06-08  839  	err =3D pci_request_region=
+s(pci, "ALS4000");
+0e175f665960c7 Takashi Iwai    2021-07-15  840  	if (err < 0)
+^1da177e4c3f41 Linus Torvalds  2005-04-16  841  		return err;
+c0874449849175 Andreas Mohr    2008-08-20  842  	iobase =3D pci_resource_st=
+art(pci, 0);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  843  =
 
-2b377c6b6012b6 Takashi Iwai       2021-07-15  887  	err =3D pci_request_reg=
-ions(pci, "EMU10K1X");
-2b377c6b6012b6 Takashi Iwai       2021-07-15  888  	if (err < 0)
-2b377c6b6012b6 Takashi Iwai       2021-07-15  889  		return err;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  890  	chip->port =3D pci_reso=
-urce_start(pci, 0);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  891  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  844  	pci_read_config_word(pci, =
+PCI_COMMAND, &word);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  845  	pci_write_config_word(pci,=
+ PCI_COMMAND, word | PCI_COMMAND_IO);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  846  	pci_set_master(pci);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  847  	=
 
-2b377c6b6012b6 Takashi Iwai       2021-07-15  892  	if (devm_request_irq(&p=
-ci->dev, pci->irq, snd_emu10k1x_interrupt,
-934c2b6d0cb50f Takashi Iwai       2011-06-10  893  			     IRQF_SHARED, KBU=
-ILD_MODNAME, chip)) {
-26bc6964f97b3a Takashi Iwai       2014-02-25  894  		dev_err(card->dev, "ca=
-nnot grab irq %d\n", pci->irq);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  895  		return -EBUSY;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  896  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  897  	chip->irq =3D pci->irq;
-66471aa715f0d4 Takashi Iwai       2019-12-10  898  	card->sync_irq =3D chip=
-->irq;
-2b377c6b6012b6 Takashi Iwai       2021-07-15  899  	card->private_free =3D =
-snd_emu10k1x_free;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  900    =
+0e175f665960c7 Takashi Iwai    2021-07-15  848  	err =3D snd_devm_card_new(=
+&pci->dev, index[dev], id[dev], THIS_MODULE,
+e58de7baf7de11 Takashi Iwai    2008-12-28  849  				sizeof(*acard) /* priva=
+te_data: acard */,
+e58de7baf7de11 Takashi Iwai    2008-12-28  850  				&card);
+0e175f665960c7 Takashi Iwai    2021-07-15  851  	if (err < 0)
+e58de7baf7de11 Takashi Iwai    2008-12-28  852  		return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  853  =
 
-2b377c6b6012b6 Takashi Iwai       2021-07-15  901  	chip->dma_buffer =3D sn=
-d_devm_alloc_pages(&pci->dev, SNDRV_DMA_TYPE_DEV,
-2b377c6b6012b6 Takashi Iwai       2021-07-15  902  						4 * 1024);
-2b377c6b6012b6 Takashi Iwai       2021-07-15  903  	if (!chip->dma_buffer)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  904  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  905  =
+c0874449849175 Andreas Mohr    2008-08-20  854  	acard =3D card->private_da=
+ta;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  855  	acard->pci =3D pci;
+c0874449849175 Andreas Mohr    2008-08-20  856  	acard->iobase =3D iobase;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  857  	card->private_free =3D snd=
+_card_als4000_free;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  858  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  906  	pci_set_master(pci);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  907  	/* read revision & seri=
-al */
-44c10138fd4bbc Auke Kok           2007-06-08  908  	chip->revision =3D pci-=
->revision;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  909  	pci_read_config_dword(p=
-ci, PCI_SUBSYSTEM_VENDOR_ID, &chip->serial);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  910  	pci_read_config_word(pc=
-i, PCI_SUBSYSTEM_ID, &chip->model);
-26bc6964f97b3a Takashi Iwai       2014-02-25  911  	dev_info(card->dev, "Mo=
-del %04x Rev %08x Serial %08x\n", chip->model,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  912  		   chip->revision, chi=
-p->serial);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  913  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  859  	/* disable all legacy ISA =
+stuff */
+c0874449849175 Andreas Mohr    2008-08-20  860  	snd_als4000_set_addr(acard=
+->iobase, 0, 0, 0, 0);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  861  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  914  	outl(0, chip->port + IN=
-TE);	=
+61ea06e8a88163 Takashi Iwai    2021-06-08  862  	err =3D snd_sbdsp_create(c=
+ard,
+c0874449849175 Andreas Mohr    2008-08-20  863  			       iobase + ALS4K_IO=
+B_10_ADLIB_ADDR0,
+^1da177e4c3f41 Linus Torvalds  2005-04-16  864  			       pci->irq,
+cb780cdd85b8ae Andreas Mohr    2008-08-21  865  		/* internally registered =
+as IRQF_SHARED in case of ALS4000 SB */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  866  			       snd_als4000_inter=
+rupt,
+^1da177e4c3f41 Linus Torvalds  2005-04-16  867  			       -1,
+^1da177e4c3f41 Linus Torvalds  2005-04-16  868  			       -1,
+^1da177e4c3f41 Linus Torvalds  2005-04-16  869  			       SB_HW_ALS4000,
+61ea06e8a88163 Takashi Iwai    2021-06-08  870  			       &chip);
+61ea06e8a88163 Takashi Iwai    2021-06-08  871  	if (err < 0)
+0e175f665960c7 Takashi Iwai    2021-07-15  872  		return err;
+703529140cfb77 Takashi Iwai    2005-11-17  873  	acard->chip =3D chip;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  874  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  915  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  875  	chip->pci =3D pci;
+c0874449849175 Andreas Mohr    2008-08-20  876  	chip->alt_port =3D iobase;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  877  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  916  	for(ch =3D 0; ch < 3; c=
-h++) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  917  		chip->voices[ch].emu =
-=3D chip;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  918  		chip->voices[ch].numbe=
-r =3D ch;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  919  	}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  920  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  878  	snd_als4000_configure(chip=
+);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  879  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  921  	/*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  922  	 *  Init to 0x02109204 :
-^1da177e4c3f41 Linus Torvalds     2005-04-16  923  	 *  Clock accuracy    =
-=3D 0     (1000ppm)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  924  	 *  Sample Rate       =
-=3D 2     (48kHz)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  925  	 *  Audio Channel     =
-=3D 1     (Left of 2)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  926  	 *  Source Number     =
-=3D 0     (Unspecified)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  927  	 *  Generation Status =
-=3D 1     (Original for Cat Code 12)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  928  	 *  Cat Code          =
-=3D 12    (Digital Signal Mixer)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  929  	 *  Mode              =
-=3D 0     (Mode 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  930  	 *  Emphasis          =
-=3D 0     (None)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  931  	 *  CP                =
-=3D 1     (Copyright unasserted)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  932  	 *  AN                =
-=3D 0     (Audio data)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  933  	 *  P                 =
-=3D 0     (Consumer)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  934  	 */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  935  	snd_emu10k1x_ptr_write(=
-chip, SPCS0, 0,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  936  			       chip->spdif_bi=
-ts[0] =3D =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  880  	strcpy(card->driver, "ALS4=
+000");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  881  	strcpy(card->shortname, "A=
+vance Logic ALS4000");
+^1da177e4c3f41 Linus Torvalds  2005-04-16  882  	sprintf(card->longname, "%=
+s at 0x%lx, irq %i",
+^1da177e4c3f41 Linus Torvalds  2005-04-16  883  		card->shortname, chip->al=
+t_port, chip->irq);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  884  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  937  			       SPCS_CLKACCY_1=
-000PPM | SPCS_SAMPLERATE_48 |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  938  			       SPCS_CHANNELNU=
-M_LEFT | SPCS_SOURCENUM_UNSPEC |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  939  			       SPCS_GENERATIO=
-NSTATUS | 0x00001200 |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  940  			       0x00000000 | S=
-PCS_EMPHASIS_NONE | SPCS_COPYRIGHT);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  941  	snd_emu10k1x_ptr_write(=
-chip, SPCS1, 0,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  942  			       chip->spdif_bi=
-ts[1] =3D =
+61ea06e8a88163 Takashi Iwai    2021-06-08  885  	err =3D snd_mpu401_uart_ne=
+w(card, 0, MPU401_HW_ALS4000,
+c0874449849175 Andreas Mohr    2008-08-20  886  				  iobase + ALS4K_IOB_30=
+_MIDI_DATA,
+dba8b46992c559 Clemens Ladisch 2011-09-13  887  				  MPU401_INFO_INTEGRATE=
+D |
+dba8b46992c559 Clemens Ladisch 2011-09-13  888  				  MPU401_INFO_IRQ_HOOK,
+61ea06e8a88163 Takashi Iwai    2021-06-08  889  				  -1, &chip->rmidi);
+61ea06e8a88163 Takashi Iwai    2021-06-08  890  	if (err < 0) {
+d85d878efb3047 Takashi Iwai    2014-02-25  891  		dev_err(&pci->dev, "no MP=
+U-401 device at 0x%lx?\n",
+c0874449849175 Andreas Mohr    2008-08-20  892  				iobase + ALS4K_IOB_30_M=
+IDI_DATA);
+0e175f665960c7 Takashi Iwai    2021-07-15  893  		return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  894  	}
+c0874449849175 Andreas Mohr    2008-08-20  895  	/* FIXME: ALS4000 has inte=
+resting MPU401 configuration features
+cb780cdd85b8ae Andreas Mohr    2008-08-21  896  	 * at ALS4K_CR1A_MPU401_UA=
+RT_MODE_CONTROL
+cb780cdd85b8ae Andreas Mohr    2008-08-21  897  	 * (pass-thru / UART switc=
+hing, fast MIDI clock, etc.),
+cb780cdd85b8ae Andreas Mohr    2008-08-21  898  	 * however there doesn't s=
+eem to be an ALSA API for this...
+cb780cdd85b8ae Andreas Mohr    2008-08-21  899  	 * SPECS_PAGE: 21 */
+^1da177e4c3f41 Linus Torvalds  2005-04-16  900  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  943  			       SPCS_CLKACCY_1=
-000PPM | SPCS_SAMPLERATE_48 |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  944  			       SPCS_CHANNELNU=
-M_LEFT | SPCS_SOURCENUM_UNSPEC |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  945  			       SPCS_GENERATIO=
-NSTATUS | 0x00001200 |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  946  			       0x00000000 | S=
-PCS_EMPHASIS_NONE | SPCS_COPYRIGHT);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  947  	snd_emu10k1x_ptr_write(=
-chip, SPCS2, 0,
-^1da177e4c3f41 Linus Torvalds     2005-04-16  948  			       chip->spdif_bi=
-ts[2] =3D =
+61ea06e8a88163 Takashi Iwai    2021-06-08  901  	err =3D snd_als4000_pcm(ch=
+ip, 0);
+61ea06e8a88163 Takashi Iwai    2021-06-08  902  	if (err < 0)
+0e175f665960c7 Takashi Iwai    2021-07-15  903  		return err;
+61ea06e8a88163 Takashi Iwai    2021-06-08  904  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  949  			       SPCS_CLKACCY_1=
-000PPM | SPCS_SAMPLERATE_48 |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  950  			       SPCS_CHANNELNU=
-M_LEFT | SPCS_SOURCENUM_UNSPEC |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  951  			       SPCS_GENERATIO=
-NSTATUS | 0x00001200 |
-^1da177e4c3f41 Linus Torvalds     2005-04-16  952  			       0x00000000 | S=
-PCS_EMPHASIS_NONE | SPCS_COPYRIGHT);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  953  =
+61ea06e8a88163 Takashi Iwai    2021-06-08  905  	err =3D snd_sbmixer_new(ch=
+ip);
+61ea06e8a88163 Takashi Iwai    2021-06-08  906  	if (err < 0)
+0e175f665960c7 Takashi Iwai    2021-07-15  907  		return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  908  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  954  	snd_emu10k1x_ptr_write(=
-chip, SPDIF_SELECT, 0, 0x700); // disable SPDIF
-^1da177e4c3f41 Linus Torvalds     2005-04-16  955  	snd_emu10k1x_ptr_write(=
-chip, ROUTING, 0, 0x1003F); // routing
-^1da177e4c3f41 Linus Torvalds     2005-04-16  956  	snd_emu10k1x_gpio_write=
-(chip, 0x1080); // analog mode
-^1da177e4c3f41 Linus Torvalds     2005-04-16  957  =
+c0874449849175 Andreas Mohr    2008-08-20  909  	if (snd_opl3_create(card,
+c0874449849175 Andreas Mohr    2008-08-20  910  				iobase + ALS4K_IOB_10_A=
+DLIB_ADDR0,
+c0874449849175 Andreas Mohr    2008-08-20  911  				iobase + ALS4K_IOB_12_A=
+DLIB_ADDR2,
+^1da177e4c3f41 Linus Torvalds  2005-04-16  912  			    OPL3_HW_AUTO, 1, &op=
+l3) < 0) {
+d85d878efb3047 Takashi Iwai    2014-02-25  913  		dev_err(&pci->dev, "no OP=
+L device at 0x%lx-0x%lx?\n",
+c0874449849175 Andreas Mohr    2008-08-20  914  			   iobase + ALS4K_IOB_10=
+_ADLIB_ADDR0,
+c0874449849175 Andreas Mohr    2008-08-20  915  			   iobase + ALS4K_IOB_12=
+_ADLIB_ADDR2);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  916  	} else {
+61ea06e8a88163 Takashi Iwai    2021-06-08  917  		err =3D snd_opl3_hwdep_ne=
+w(opl3, 0, 1, NULL);
+61ea06e8a88163 Takashi Iwai    2021-06-08  918  		if (err < 0)
+0e175f665960c7 Takashi Iwai    2021-07-15  919  			return err;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  920  	}
+^1da177e4c3f41 Linus Torvalds  2005-04-16  921  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16  958  	outl(HCFG_LOCKSOUNDCACH=
-E|HCFG_AUDIOENABLE, chip->port+HCFG);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  959  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  922  	snd_als4000_create_gamepor=
+t(acard, dev);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  923  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @960  	return 0;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  961  }
-^1da177e4c3f41 Linus Torvalds     2005-04-16  962  =
+61ea06e8a88163 Takashi Iwai    2021-06-08  924  	err =3D snd_card_register(=
+card);
+61ea06e8a88163 Takashi Iwai    2021-06-08  925  	if (err < 0)
+0e175f665960c7 Takashi Iwai    2021-07-15  926  		return err;
+61ea06e8a88163 Takashi Iwai    2021-06-08  927  =
 
+^1da177e4c3f41 Linus Torvalds  2005-04-16  928  	pci_set_drvdata(pci, card);
+^1da177e4c3f41 Linus Torvalds  2005-04-16  929  	dev++;
+0e175f665960c7 Takashi Iwai    2021-07-15 @930  	return 0;
+^1da177e4c3f41 Linus Torvalds  2005-04-16  931  }
+^1da177e4c3f41 Linus Torvalds  2005-04-16  932  =
 
-:::::: The code at line 960 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
-
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============1103938297955935804==
+--===============1611902820131183282==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICAl0FmEAAy5jb25maWcAjDzLcty2svt8xZSzSRZO9LKuU7e0wJDgDDIkQQPgaKQNS5bHPqoj
+H4sICMtnFmEAAy5jb25maWcAjDzLcty2svt8xZSzSRZO9LKuU7e0wJDgDDIkQQPgaKQNS5bHPqoj
 S756nGP//e0GQBIAm+NkEWu6G+9+o8Fff/l1wV5fHr/evNzd3tzf/1h82T/sn25e9p8Wn+/u9/+7
 yOWilmbBc2H+AOLy7uH1+5/f359352eLd38cn/1x9Pbp9nix2T897O8X2ePD57svr9DB3ePDL7/+
 ksm6EKsuy7otV1rIujN8Zy7efLm9ffvX4rd8//Hu5mHx1x+n0M3Jye/urzdBM6G7VZZd/OhBq7Gr
@@ -824,5 +831,5 @@ KpCsItrbfGa0hiZObs5PvMNkASTcvhZjpD/HcSRPlXIoed8puCmuPXZZ2vlOPczSktR8ttWx1+dV
 In9c59wr4NqjqGuHhD42O0zb3E8gYcck4hksnbBWdvfp1w22GPbPB1R60b6VYzm0u4e9k+hk9Czo
 bH1dnB1es791uc2Ulw8UHYaSMCrNBVaIZ/URQxja3svwvuz/bRwt+jkbNeCh9/oHRGr5Y3zj0s9L
 wFZ6DYcvcGsjQXl7DfHjvBaEaJIT2UZGV09SA2P8L3Arf9mXBpnfIf6hgyQQHHrzH/0676djFgIA
---===============1103938297955935804==--
+--===============1611902820131183282==--
 
