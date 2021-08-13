@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6702869808295238011=="
+Content-Type: multipart/mixed; boundary="===============1078925739119689677=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [sound:test/memalloc-noncontig 51/147] sound/pci/nm256/nm256.c:1578 snd_nm256_create() warn: 'pci' not released on lines: 1490, 1506.
-Date: Fri, 13 Aug 2021 23:18:36 +0800
-Message-ID: <202108132326.C2RR2ERS-lkp@intel.com>
+Subject: [sound:test/memalloc-noncontig 50/147] sound/pci/lx6464es/lx6464es.c:993 snd_lx6464es_create() warn: 'pci' not released on lines: 956, 961.
+Date: Fri, 13 Aug 2021 22:46:47 +0800
+Message-ID: <202108132239.CI6unLUF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6702869808295238011==
+--===============1078925739119689677==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,8 +19,8 @@ TO: Takashi Iwai <tiwai@suse.de>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tiwai/sound.git tes=
 t/memalloc-noncontig
 head:   e55c7d9612e9742d6c5287388214863869745122
-commit: c19935f04784dcaa456fcd1d1b1fbf3a85765ff1 [51/147] ALSA: nm256: Allo=
-cate resources with device-managed APIs
+commit: 6f16c19b115eb6564da7ea882af2afee4e26c213 [50/147] ALSA: lx6464es: A=
+llocate resources with device-managed APIs
 :::::: branch date: 26 hours ago
 :::::: commit date: 4 weeks ago
 config: x86_64-randconfig-m001-20210813 (attached as .config)
@@ -31,247 +31,158 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-sound/pci/nm256/nm256.c:1578 snd_nm256_create() warn: 'pci' not released on=
- lines: 1490,1506.
+sound/pci/lx6464es/lx6464es.c:993 snd_lx6464es_create() warn: 'pci' not rel=
+eased on lines: 956,961.
 
-vim +/pci +1578 sound/pci/nm256/nm256.c
+vim +/pci +993 sound/pci/lx6464es/lx6464es.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1448  =
+02bec490450836 Tim Blechmann   2009-03-24  912  =
 
-e23e7a14362072 Bill Pemberton 2012-12-06  1449  static int
-c19935f04784dc Takashi Iwai   2021-07-15  1450  snd_nm256_create(struct snd=
-_card *card, struct pci_dev *pci)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1451  {
-c19935f04784dc Takashi Iwai   2021-07-15  1452  	struct nm256 *chip =3D car=
-d->private_data;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1453  	int err, pval;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1454  	u32 addr;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1455  =
+02bec490450836 Tim Blechmann   2009-03-24  913  =
 
-c19935f04784dc Takashi Iwai   2021-07-15  1456  	err =3D pcim_enable_device=
+e23e7a14362072 Bill Pemberton  2012-12-06  914  static int snd_lx6464es_cre=
+ate(struct snd_card *card,
+6f16c19b115eb6 Takashi Iwai    2021-07-15  915  			       struct pci_dev *p=
+ci)
+02bec490450836 Tim Blechmann   2009-03-24  916  {
+6f16c19b115eb6 Takashi Iwai    2021-07-15  917  	struct lx6464es *chip =3D =
+card->private_data;
+02bec490450836 Tim Blechmann   2009-03-24  918  	int err;
+02bec490450836 Tim Blechmann   2009-03-24  919  =
+
+be4e6d3c0fa03d Takashi Iwai    2014-02-25  920  	dev_dbg(card->dev, "->snd_=
+lx6464es_create\n");
+02bec490450836 Tim Blechmann   2009-03-24  921  =
+
+02bec490450836 Tim Blechmann   2009-03-24  922  	/* enable PCI device */
+6f16c19b115eb6 Takashi Iwai    2021-07-15  923  	err =3D pcim_enable_device=
 (pci);
-36f74c7ff9e6de Takashi Iwai   2021-06-08  1457  	if (err < 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1458  		return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1459  =
+02bec490450836 Tim Blechmann   2009-03-24  924  	if (err < 0)
+02bec490450836 Tim Blechmann   2009-03-24  925  		return err;
+02bec490450836 Tim Blechmann   2009-03-24  926  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1460  	chip->card =3D card;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1461  	chip->pci =3D pci;
-3f05f868f1112b Takashi Iwai   2005-11-17  1462  	chip->use_cache =3D use_ca=
-che;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1463  	spin_lock_init(&chip->reg_=
-lock);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1464  	chip->irq =3D -1;
-62932df8fb20ba Ingo Molnar    2006-01-16  1465  	mutex_init(&chip->irq_mute=
-x);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1466  =
+02bec490450836 Tim Blechmann   2009-03-24  927  	pci_set_master(pci);
+02bec490450836 Tim Blechmann   2009-03-24  928  =
 
-3f05f868f1112b Takashi Iwai   2005-11-17  1467  	/* store buffer sizes in b=
-ytes */
-3f05f868f1112b Takashi Iwai   2005-11-17  1468  	chip->streams[SNDRV_PCM_ST=
-REAM_PLAYBACK].bufsize =3D playback_bufsize * 1024;
-3f05f868f1112b Takashi Iwai   2005-11-17  1469  	chip->streams[SNDRV_PCM_ST=
-REAM_CAPTURE].bufsize =3D capture_bufsize * 1024;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1470  =
+02bec490450836 Tim Blechmann   2009-03-24  929  	/* check if we can restric=
+t PCI DMA transfers to 32 bits */
+412b979ccceff4 Quentin Lambert 2015-04-15  930  	err =3D dma_set_mask(&pci-=
+>dev, DMA_BIT_MASK(32));
+02bec490450836 Tim Blechmann   2009-03-24  931  	if (err < 0) {
+be4e6d3c0fa03d Takashi Iwai    2014-02-25  932  		dev_err(card->dev,
+be4e6d3c0fa03d Takashi Iwai    2014-02-25  933  			"architecture does not s=
+upport 32bit PCI busmaster DMA\n");
+02bec490450836 Tim Blechmann   2009-03-24  934  		return -ENXIO;
+02bec490450836 Tim Blechmann   2009-03-24  935  	}
+02bec490450836 Tim Blechmann   2009-03-24  936  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1471  	/* =
+02bec490450836 Tim Blechmann   2009-03-24  937  	chip->card =3D card;
+02bec490450836 Tim Blechmann   2009-03-24  938  	chip->pci =3D pci;
+02bec490450836 Tim Blechmann   2009-03-24  939  	chip->irq =3D -1;
+02bec490450836 Tim Blechmann   2009-03-24  940  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1472  	 * The NM256 has two memor=
-y ports.  The first port is nothing
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1473  	 * more than a chunk of vi=
-deo RAM, which is used as the I/O ring
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1474  	 * buffer.  The second por=
-t has the actual juicy stuff (like the
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1475  	 * mixer and the playback =
-engine control registers).
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1476  	 */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1477  =
+02bec490450836 Tim Blechmann   2009-03-24  941  	/* initialize synchronizat=
+ion structs */
+6336c20cdaee1d Takashi Iwai    2014-09-10  942  	mutex_init(&chip->lock);
+6336c20cdaee1d Takashi Iwai    2014-09-10  943  	mutex_init(&chip->msg_lock=
+);
+02bec490450836 Tim Blechmann   2009-03-24  944  	mutex_init(&chip->setup_mu=
+tex);
+02bec490450836 Tim Blechmann   2009-03-24  945  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1478  	chip->buffer_addr =3D pci_=
-resource_start(pci, 0);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1479  	chip->cport_addr =3D pci_r=
-esource_start(pci, 1);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1480  =
+02bec490450836 Tim Blechmann   2009-03-24  946  	/* request resources */
+02bec490450836 Tim Blechmann   2009-03-24  947  	err =3D pci_request_region=
+s(pci, card_name);
+02bec490450836 Tim Blechmann   2009-03-24  948  	if (err < 0)
+6f16c19b115eb6 Takashi Iwai    2021-07-15  949  		return err;
+02bec490450836 Tim Blechmann   2009-03-24  950  =
 
-c19935f04784dc Takashi Iwai   2021-07-15  1481  	if (pci_request_regions(pc=
-i, card->driver))
-c19935f04784dc Takashi Iwai   2021-07-15  1482  		return err;
-c19935f04784dc Takashi Iwai   2021-07-15  1483  =
+02bec490450836 Tim Blechmann   2009-03-24  951  	/* plx port */
+02bec490450836 Tim Blechmann   2009-03-24  952  	chip->port_plx =3D pci_res=
+ource_start(pci, 1);
+6f16c19b115eb6 Takashi Iwai    2021-07-15  953  	chip->port_plx_remapped =
+=3D devm_ioport_map(&pci->dev, chip->port_plx,
+02bec490450836 Tim Blechmann   2009-03-24  954  						  pci_resource_len(pc=
+i, 1));
+6f16c19b115eb6 Takashi Iwai    2021-07-15  955  	if (!chip->port_plx_remapp=
+ed)
+6f16c19b115eb6 Takashi Iwai    2021-07-15  956  		return -ENOMEM;
+02bec490450836 Tim Blechmann   2009-03-24  957  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1484  	/* Init the memory port in=
-fo.  */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1485  	/* remap control port (#2)=
- */
-c19935f04784dc Takashi Iwai   2021-07-15  1486  	chip->cport =3D devm_iorem=
-ap(&pci->dev, chip->cport_addr, NM_PORT2_SIZE);
-c19935f04784dc Takashi Iwai   2021-07-15  1487  	if (!chip->cport) {
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1488  		dev_err(card->dev, "unabl=
-e to map control port %lx\n",
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1489  			chip->cport_addr);
-c19935f04784dc Takashi Iwai   2021-07-15  1490  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1491  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1492  =
+02bec490450836 Tim Blechmann   2009-03-24  958  	/* dsp port */
+6f16c19b115eb6 Takashi Iwai    2021-07-15  959  	chip->port_dsp_bar =3D pci=
+m_iomap(pci, 2, 0);
+6f16c19b115eb6 Takashi Iwai    2021-07-15  960  	if (!chip->port_dsp_bar)
+6f16c19b115eb6 Takashi Iwai    2021-07-15  961  		return -ENOMEM;
+02bec490450836 Tim Blechmann   2009-03-24  962  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1493  	if (!strcmp(card->driver, =
-"NM256AV")) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1494  		/* Ok, try to see if this=
- is a non-AC97 version of the hardware. */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1495  		pval =3D snd_nm256_readw(=
-chip, NM_MIXER_PRESENCE);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1496  		if ((pval & NM_PRESENCE_M=
-ASK) !=3D NM_PRESENCE_VALUE) {
-3f05f868f1112b Takashi Iwai   2005-11-17  1497  			if (! force_ac97) {
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1498  				dev_err(card->dev,
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1499  					"no ac97 is found!\n");
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1500  				dev_err(card->dev,
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1501  					"force the driver to l=
-oad by passing in the module parameter\n");
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1502  				dev_err(card->dev,
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1503  					" force_ac97=3D1\n");
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1504  				dev_err(card->dev,
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1505  					"or try sb16, opl3sa2,=
- or cs423x drivers instead.\n");
-c19935f04784dc Takashi Iwai   2021-07-15  1506  				return -ENXIO;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1507  			}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1508  		}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1509  		chip->buffer_end =3D 2560=
- * 1024;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1510  		chip->interrupt =3D snd_n=
-m256_interrupt;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1511  		chip->mixer_status_offset=
- =3D NM_MIXER_STATUS_OFFSET;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1512  		chip->mixer_status_mask =
-=3D NM_MIXER_READY_MASK;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1513  	} else {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1514  		/* Not sure if there is a=
-ny relevant detect for the ZX or not.  */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1515  		if (snd_nm256_readb(chip,=
- 0xa0b) !=3D 0)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1516  			chip->buffer_end =3D 614=
-4 * 1024;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1517  		else
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1518  			chip->buffer_end =3D 409=
-6 * 1024;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1519  =
+6f16c19b115eb6 Takashi Iwai    2021-07-15  963  	err =3D devm_request_threa=
+ded_irq(&pci->dev, pci->irq, lx_interrupt,
+6f16c19b115eb6 Takashi Iwai    2021-07-15  964  					lx_threaded_irq, IRQF_=
+SHARED,
+6f16c19b115eb6 Takashi Iwai    2021-07-15  965  					KBUILD_MODNAME, chip);
+02bec490450836 Tim Blechmann   2009-03-24  966  	if (err) {
+be4e6d3c0fa03d Takashi Iwai    2014-02-25  967  		dev_err(card->dev, "unabl=
+e to grab IRQ %d\n", pci->irq);
+6f16c19b115eb6 Takashi Iwai    2021-07-15  968  		return err;
+02bec490450836 Tim Blechmann   2009-03-24  969  	}
+02bec490450836 Tim Blechmann   2009-03-24  970  	chip->irq =3D pci->irq;
+41094b243e621f Takashi Iwai    2019-12-10  971  	card->sync_irq =3D chip->i=
+rq;
+6f16c19b115eb6 Takashi Iwai    2021-07-15  972  	card->private_free =3D snd=
+_lx6464es_free;
+02bec490450836 Tim Blechmann   2009-03-24  973  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1520  		chip->interrupt =3D snd_n=
-m256_interrupt_zx;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1521  		chip->mixer_status_offset=
- =3D NM2_MIXER_STATUS_OFFSET;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1522  		chip->mixer_status_mask =
-=3D NM2_MIXER_READY_MASK;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1523  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1524  	=
+02bec490450836 Tim Blechmann   2009-03-24  974  	err =3D lx_init_dsp(chip);
+02bec490450836 Tim Blechmann   2009-03-24  975  	if (err < 0) {
+be4e6d3c0fa03d Takashi Iwai    2014-02-25  976  		dev_err(card->dev, "error=
+ during DSP initialization\n");
+02bec490450836 Tim Blechmann   2009-03-24  977  		return err;
+02bec490450836 Tim Blechmann   2009-03-24  978  	}
+02bec490450836 Tim Blechmann   2009-03-24  979  =
 
-10754f53450a2c Takashi Iwai   2005-11-17  1525  	chip->buffer_size =3D chip=
-->streams[SNDRV_PCM_STREAM_PLAYBACK].bufsize +
-10754f53450a2c Takashi Iwai   2005-11-17  1526  		chip->streams[SNDRV_PCM_S=
-TREAM_CAPTURE].bufsize;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1527  	if (chip->use_cache)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1528  		chip->buffer_size +=3D NM=
-_TOTAL_COEFF_COUNT * 4;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1529  	else
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1530  		chip->buffer_size +=3D NM=
-_MAX_PLAYBACK_COEF_SIZE + NM_MAX_RECORD_COEF_SIZE;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1531  =
+02bec490450836 Tim Blechmann   2009-03-24  980  	err =3D lx_pcm_create(chip=
+);
+02bec490450836 Tim Blechmann   2009-03-24  981  	if (err < 0)
+02bec490450836 Tim Blechmann   2009-03-24  982  		return err;
+02bec490450836 Tim Blechmann   2009-03-24  983  =
 
-3f05f868f1112b Takashi Iwai   2005-11-17  1532  	if (buffer_top >=3D chip->=
-buffer_size && buffer_top < chip->buffer_end)
-3f05f868f1112b Takashi Iwai   2005-11-17  1533  		chip->buffer_end =3D buff=
-er_top;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1534  	else {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1535  		/* get buffer end pointer=
- from signature */
-36f74c7ff9e6de Takashi Iwai   2021-06-08  1536  		err =3D snd_nm256_peek_fo=
-r_sig(chip);
-36f74c7ff9e6de Takashi Iwai   2021-06-08  1537  		if (err < 0)
-c19935f04784dc Takashi Iwai   2021-07-15  1538  			return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1539  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1540  =
+02bec490450836 Tim Blechmann   2009-03-24  984  	err =3D lx_proc_create(car=
+d, chip);
+02bec490450836 Tim Blechmann   2009-03-24  985  	if (err < 0)
+02bec490450836 Tim Blechmann   2009-03-24  986  		return err;
+02bec490450836 Tim Blechmann   2009-03-24  987  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1541  	chip->buffer_start =3D chi=
-p->buffer_end - chip->buffer_size;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1542  	chip->buffer_addr +=3D chi=
-p->buffer_start;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1543  =
+02bec490450836 Tim Blechmann   2009-03-24  988  	err =3D snd_ctl_add(card, =
+snd_ctl_new1(&lx_control_playback_switch,
+02bec490450836 Tim Blechmann   2009-03-24  989  					     chip));
+02bec490450836 Tim Blechmann   2009-03-24  990  	if (err < 0)
+02bec490450836 Tim Blechmann   2009-03-24  991  		return err;
+02bec490450836 Tim Blechmann   2009-03-24  992  =
 
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1544  	dev_info(card->dev, "Mappi=
-ng port 1 from 0x%x - 0x%x\n",
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1545  	       chip->buffer_start,=
- chip->buffer_end);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1546  =
-
-c19935f04784dc Takashi Iwai   2021-07-15  1547  	chip->buffer =3D devm_iore=
-map(&pci->dev, chip->buffer_addr,
-c19935f04784dc Takashi Iwai   2021-07-15  1548  				    chip->buffer_size);
-c19935f04784dc Takashi Iwai   2021-07-15  1549  	if (!chip->buffer) {
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1550  		dev_err(card->dev, "unabl=
-e to map ring buffer at %lx\n",
-a3fe03f412daf4 Takashi Iwai   2014-02-25  1551  			chip->buffer_addr);
-c19935f04784dc Takashi Iwai   2021-07-15  1552  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1553  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1554  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1555  	/* set offsets */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1556  	addr =3D chip->buffer_star=
-t;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1557  	chip->streams[SNDRV_PCM_ST=
-REAM_PLAYBACK].buf =3D addr;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1558  	addr +=3D chip->streams[SN=
-DRV_PCM_STREAM_PLAYBACK].bufsize;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1559  	chip->streams[SNDRV_PCM_ST=
-REAM_CAPTURE].buf =3D addr;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1560  	addr +=3D chip->streams[SN=
-DRV_PCM_STREAM_CAPTURE].bufsize;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1561  	if (chip->use_cache) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1562  		chip->all_coeff_buf =3D a=
-ddr;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1563  	} else {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1564  		chip->coeff_buf[SNDRV_PCM=
-_STREAM_PLAYBACK] =3D addr;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1565  		addr +=3D NM_MAX_PLAYBACK=
-_COEF_SIZE;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1566  		chip->coeff_buf[SNDRV_PCM=
-_STREAM_CAPTURE] =3D addr;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1567  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1568  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1569  	/* Fixed setting. */
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1570  	chip->mixer_base =3D NM_MI=
-XER_OFFSET;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1571  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1572  	chip->coeffs_current =3D 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1573  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1574  	snd_nm256_init_chip(chip);
-c19935f04784dc Takashi Iwai   2021-07-15  1575  	card->private_free =3D snd=
-_nm256_free;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1576  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1577  	// pci_set_master(pci); /*=
- needed? */
-^1da177e4c3f41 Linus Torvalds 2005-04-16 @1578  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1579  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  1580  =
+02bec490450836 Tim Blechmann   2009-03-24 @993  	return 0;
+02bec490450836 Tim Blechmann   2009-03-24  994  }
+02bec490450836 Tim Blechmann   2009-03-24  995  =
 
 
-:::::: The code at line 1578 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+:::::: The code@line 993 was first introduced by commit
+:::::: 02bec490450836ebbd628e97ec03f10b57def8ce ALSA: lx6464es - driver for=
+ the digigram lx6464es interface
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: TO: Tim Blechmann <tim@klingt.org>
+:::::: CC: Takashi Iwai <tiwai@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============6702869808295238011==
+--===============1078925739119689677==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICMmIFmEAAy5jb25maWcAjDzLcty2svt8xZSzSRZO9LKuU7e0wJDgDDIkQQPgaKQNS5bHPqoj
+H4sICDWBFmEAAy5jb25maWcAjDzLcty2svt8xZSzSRZO9LKuU7e0wJDgDDIkQQPgaKQNS5bHPqoj
 S756nGP//e0GQBIAm+NkEWu6G+9+o8Fff/l1wV5fHr/evNzd3tzf/1h82T/sn25e9p8Wn+/u9/+7
 yOWilmbBc2H+AOLy7uH1+5/f359352eLd38cn/1x9Pbp9nix2T897O8X2ePD57svr9DB3ePDL7/+
 ksm6EKsuy7otV1rIujN8Zy7efLm9ffvX4rd8//Hu5mHx1x+n0M3Jye/urzdBM6G7VZZd/OhBq7Gr
@@ -863,5 +774,5 @@ KpCsItrbfGa0hiZObs5PvMNkASTcvhZjpD/HcSRPlXIoed8puCmuPXZZ2vlOPczSktR8ttWx1+dV
 In9c59wr4NqjqGuHhD42O0zb3E8gYcck4hksnbBWdvfp1w22GPbPB1R60b6VYzm0u4e9k+hk9Czo
 bH1dnB1es791uc2Ulw8UHYaSMCrNBVaIZ/URQxja3svwvuz/bRwt+jkbNeCh9/oHRGr5Y3zj0s9L
 wFZ6DYcvcGsjQXl7DfHjvBaEaJIT2UZGV09SA2P8L3Arf9mXBpnfIf6hgyQQHHrzH/0676djFgIA
---===============6702869808295238011==--
+--===============1078925739119689677==--
 
