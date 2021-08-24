@@ -1,28 +1,29 @@
-Content-Type: multipart/mixed; boundary="===============6389042094883915372=="
+Content-Type: multipart/mixed; boundary="===============6300630445979642131=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [intel-linux-intel-lts:5.10/yocto 9477/15122] drivers/net/pcs/pcs-xpcs.c:843:13: warning: Identical inner 'return' condition is always true. [identicalInnerCondition]
-Date: Fri, 27 Aug 2021 08:44:01 +0800
-Message-ID: <202108270851.GQ8IGpa8-lkp@intel.com>
+Subject: [mcgrof-next:20210823-for-axboe-add-disk-error-handling-next 41/70] drivers/block/rsxx/dev.c:212:6: warning: Uninitialized variable: err [uninitvar]
+Date: Tue, 24 Aug 2021 10:20:39 +0800
+Message-ID: <202108241033.Ly5zufPy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6389042094883915372==
+--===============6300630445979642131==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Ong Boon Leong <boon.leong.ong@intel.com>
-CC: Zhou Furong <furong.zhou@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Luis Chamberlain <mcgrof@kernel.org>
 
-tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
-head:   cef410ba7c738624a98b855c955a0092789b224e
-commit: 4d8e49ce43d3128c2861f28619b7f3e682f95574 [9477/15122] net: pcs: add=
- C37 SGMII AN support for intel mGbE controller
-:::::: branch date: 7 days ago
-:::::: commit date: 3 months ago
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mcgrof/linux-next.g=
+it 20210823-for-axboe-add-disk-error-handling-next
+head:   4b448d7532233530f59b5bf8a184b4b3d0acc73f
+commit: 830cca58563fc304bc786521664a0d4fdb101e78 [41/70] block/rsxx: add er=
+ror handling support for add_disk()
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 hours ago
+compiler: microblaze-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -30,117 +31,60 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/net/pcs/pcs-xpcs.c:843:13: warning: Identical inner 'return' con=
-dition is always true. [identicalInnerCondition]
-     return id | ret;
-               ^
-   drivers/net/pcs/pcs-xpcs.c:842:9: note: outer condition: id|ret
-    if (id | ret)
-           ^
-   drivers/net/pcs/pcs-xpcs.c:843:13: note: identical inner condition: id|r=
-et
-     return id | ret;
-               ^
-   drivers/net/pcs/pcs-xpcs.c:858:13: warning: Identical inner 'return' con=
-dition is always true. [identicalInnerCondition]
-     return id | ret;
-               ^
-   drivers/net/pcs/pcs-xpcs.c:857:9: note: outer condition: id|ret
-    if (id | ret)
-           ^
-   drivers/net/pcs/pcs-xpcs.c:858:13: note: identical inner condition: id|r=
-et
-     return id | ret;
-               ^
+>> drivers/block/rsxx/dev.c:212:6: warning: Uninitialized variable: err [un=
+initvar]
+    if (err)
+        ^
 
-vim +/return +843 drivers/net/pcs/pcs-xpcs.c
+vim +212 drivers/block/rsxx/dev.c
 
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  824  =
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  192  =
 
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  825  =
-static u32 xpcs_get_id(struct mdio_xpcs_args *xpcs)
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  826  {
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  827  =
-	int ret;
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  828  =
-	u32 id;
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  829  =
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  193  int rsxx_attach_=
+dev(struct rsxx_cardinfo *card)
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  194  {
+830cca58563fc3 Luis Chamberlain         2021-07-13  195  	int err;
+830cca58563fc3 Luis Chamberlain         2021-07-13  196  =
 
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  830  =
-	/* First, search C73 PCS using PCS MMD */
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  831  =
-	ret =3D xpcs_read(xpcs, MDIO_MMD_PCS, MII_PHYSID1);
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  832  =
-	if (ret < 0)
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  833  =
-		return 0xffffffff;
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  834  =
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  197  	mutex_lock(&car=
+d->dev_lock);
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  198  =
 
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  835  =
-	id =3D ret << 16;
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  836  =
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  199  	/* The block de=
+vice requires the stripe size from the config. */
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  200  	if (enable_blkd=
+ev) {
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  201  		if (card->conf=
+ig_valid)
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  202  			set_capacity(=
+card->gendisk, card->size8 >> 9);
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  203  		else
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  204  			set_capacity(=
+card->gendisk, 0);
+830cca58563fc3 Luis Chamberlain         2021-07-13  205  		err =3D device_a=
+dd_disk(CARD_TO_DEV(card), card->gendisk, NULL);
+830cca58563fc3 Luis Chamberlain         2021-07-13  206  		if (err =3D=3D 0)
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  207  			card->bdev_at=
+tached =3D 1;
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  208  	}
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  209  =
 
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  837  =
-	ret =3D xpcs_read(xpcs, MDIO_MMD_PCS, MII_PHYSID2);
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  838  =
-	if (ret < 0)
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  839  =
-		return 0xffffffff;
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  840  =
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  210  	mutex_unlock(&c=
+ard->dev_lock);
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  211  =
 
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  841  =
-	/* If Device IDs are not all zeros, we found C73 AN-type device */
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  842  =
-	if (id | ret)
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09 @843  =
-		return id | ret;
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  844  =
+830cca58563fc3 Luis Chamberlain         2021-07-13 @212  	if (err)
+830cca58563fc3 Luis Chamberlain         2021-07-13  213  		blk_cleanup_disk=
+(card->gendisk);
+830cca58563fc3 Luis Chamberlain         2021-07-13  214  =
 
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  845  =
-	/* Next, search C37 PCS using Vendor-Specific MII MMD */
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  846  =
-	ret =3D xpcs_read(xpcs, MDIO_MMD_VEND2, MII_PHYSID1);
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  847  =
-	if (ret < 0)
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  848  =
-		return 0xffffffff;
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  849  =
+830cca58563fc3 Luis Chamberlain         2021-07-13  215  	return err;
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  216  }
+8722ff8cdbfac9 josh.h.morris(a)us.ibm.com 2013-02-05  217  =
 
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  850  =
-	id =3D ret << 16;
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  851  =
-
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  852  =
-	ret =3D xpcs_read(xpcs, MDIO_MMD_VEND2, MII_PHYSID2);
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  853  =
-	if (ret < 0)
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  854  =
-		return 0xffffffff;
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  855  =
-
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  856  =
-	/* If Device IDs are not all zeros, we found C37 AN-type device */
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  857  =
-	if (id | ret)
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  858  =
-		return id | ret;
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  859  =
-
-4d8e49ce43d312 drivers/net/pcs/pcs-xpcs.c  Ong Boon Leong 2021-03-15  860  =
-	return 0xffffffff;
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  861  }
-fcb26bd2b6cab5 drivers/net/phy/mdio-xpcs.c Jose Abreu     2020-03-09  862  =
-
-
-:::::: The code@line 843 was first introduced by commit
-:::::: fcb26bd2b6cab573f06e5855638368cf88e99c2b net: phy: Add Synopsys Desi=
-gnWare XPCS MDIO module
-
-:::::: TO: Jose Abreu <Jose.Abreu@synopsys.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6389042094883915372==--
+--===============6300630445979642131==--
 
