@@ -1,33 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============0562452514131819641=="
+Content-Type: multipart/mixed; boundary="===============2331923755222942302=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xlnx:master 10/101] drivers/media/i2c/adv7511-v4l2.c:352:2: warning: Non-boolean value returned from function returning bool [returnNonBoolInBooleanFunction]
-Date: Thu, 26 Aug 2021 10:58:08 +0800
-Message-ID: <202108261058.RqA261Y1-lkp@intel.com>
+Subject: [block:for-5.15/io_uring 68/75] fs/io_uring.c:1407:2: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+Date: Thu, 26 Aug 2021 09:49:03 +0800
+Message-ID: <202108260945.geSo0LnQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0562452514131819641==
+--===============2331923755222942302==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Quanyang Wang <quanyang.wang@windriver.com>
-CC: Michal Simek <monstr@monstr.eu>
+CC: linux-kernel(a)vger.kernel.org
+TO: Pavel Begunkov <asml.silence@gmail.com>
+CC: Jens Axboe <axboe@kernel.dk>
 
-Hi Quanyang,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://github.com/Xilinx/linux-xlnx master
-head:   45cd0074cdf1ddd710b28848e6a860b442babfcc
-commit: bd76b5963aee700d5e6ff0cd29834bfdaf05532e [10/101] media: adv7511-v4=
-l2: fix compile error
-:::::: branch date: 3 days ago
-:::::: commit date: 6 weeks ago
-compiler: m68k-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-5.15/io_uring
+head:   0c6e1d7fd5e7560fdc4bb3418c2c0f0d7a95bf76
+commit: f237c30a5610d35a584f3296d397b93d80ce374e [68/75] io_uring: batch ta=
+sk work locking
+:::::: branch date: 7 hours ago
+:::::: commit date: 2 days ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -35,37 +32,73 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/media/i2c/adv7511-v4l2.c:352:2: warning: Non-boolean value retur=
-ned from function returning bool [returnNonBoolInBooleanFunction]
-    return adv7511_rd(sd, 0x42) & MASK_ADV7511_HPD_DETECT;
-    ^
-   drivers/media/i2c/adv7511-v4l2.c:357:2: warning: Non-boolean value retur=
-ned from function returning bool [returnNonBoolInBooleanFunction]
-    return adv7511_rd(sd, 0x42) & MASK_ADV7511_MSEN_DETECT;
+>> fs/io_uring.c:1407:2: warning: Assignment of function parameter has no e=
+ffect outside the function. Did you forget dereferencing it? [uselessAssign=
+mentPtrArg]
+    locked =3D NULL;
     ^
 
-vim +352 drivers/media/i2c/adv7511-v4l2.c
+vim +1407 fs/io_uring.c
 
-b4dbad8fe3b604 drivers/media/i2c/adv7511.c Hans Verkuil 2015-06-07  349  =
+54a91f3bb9b96e Jens Axboe     2019-09-10  1399  =
 
-5a544cce2177fe drivers/media/i2c/adv7511.c Hans Verkuil 2013-08-23  350  st=
-atic inline bool adv7511_have_hotplug(struct v4l2_subdev *sd)
-5a544cce2177fe drivers/media/i2c/adv7511.c Hans Verkuil 2013-08-23  351  {
-5a544cce2177fe drivers/media/i2c/adv7511.c Hans Verkuil 2013-08-23 @352  	r=
-eturn adv7511_rd(sd, 0x42) & MASK_ADV7511_HPD_DETECT;
-5a544cce2177fe drivers/media/i2c/adv7511.c Hans Verkuil 2013-08-23  353  }
-5a544cce2177fe drivers/media/i2c/adv7511.c Hans Verkuil 2013-08-23  354  =
+f237c30a5610d3 Pavel Begunkov 2021-08-18  1400  static void io_queue_async_=
+work(struct io_kiocb *req, bool *locked)
+561fb04a6a2257 Jens Axboe     2019-10-24  1401  {
+a197f664a0db8a Jackie Liu     2019-11-08  1402  	struct io_ring_ctx *ctx =
+=3D req->ctx;
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1403  	struct io_kiocb *link =3D =
+io_prep_linked_timeout(req);
+5aa75ed5b93f08 Jens Axboe     2021-02-16  1404  	struct io_uring_task *tctx=
+ =3D req->task->io_uring;
+561fb04a6a2257 Jens Axboe     2019-10-24  1405  =
 
+f237c30a5610d3 Pavel Begunkov 2021-08-18  1406  	/* must not take the lock,=
+ NULL it as a precaution */
+f237c30a5610d3 Pavel Begunkov 2021-08-18 @1407  	locked =3D NULL;
+f237c30a5610d3 Pavel Begunkov 2021-08-18  1408  =
 
-:::::: The code at line 352 was first introduced by commit
-:::::: 5a544cce2177fe361ba539db9ddaf1eff4e73f81 [media] adv7511: add new vi=
-deo encoder
+3bfe6106693b6b Jens Axboe     2021-02-16  1409  	BUG_ON(!tctx);
+3bfe6106693b6b Jens Axboe     2021-02-16  1410  	BUG_ON(!tctx->io_wq);
+561fb04a6a2257 Jens Axboe     2019-10-24  1411  =
 
-:::::: TO: Hans Verkuil <hans.verkuil@cisco.com>
-:::::: CC: Mauro Carvalho Chehab <m.chehab@samsung.com>
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1412  	/* init ->work of the whol=
+e link before punting */
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1413  	io_prep_async_link(req);
+991468dcf198bb Jens Axboe     2021-07-23  1414  =
+
+991468dcf198bb Jens Axboe     2021-07-23  1415  	/*
+991468dcf198bb Jens Axboe     2021-07-23  1416  	 * Not expected to happen,=
+ but if we do have a bug where this _can_
+991468dcf198bb Jens Axboe     2021-07-23  1417  	 * happen, catch it here a=
+nd ensure the request is marked as
+991468dcf198bb Jens Axboe     2021-07-23  1418  	 * canceled. That will mak=
+e io-wq go through the usual work cancel
+991468dcf198bb Jens Axboe     2021-07-23  1419  	 * procedure rather than a=
+ttempt to run this request (or create a new
+991468dcf198bb Jens Axboe     2021-07-23  1420  	 * worker for it).
+991468dcf198bb Jens Axboe     2021-07-23  1421  	 */
+991468dcf198bb Jens Axboe     2021-07-23  1422  	if (WARN_ON_ONCE(!same_thr=
+ead_group(req->task, current)))
+991468dcf198bb Jens Axboe     2021-07-23  1423  		req->work.flags |=3D IO_W=
+Q_WORK_CANCEL;
+991468dcf198bb Jens Axboe     2021-07-23  1424  =
+
+d07f1e8a42614c Pavel Begunkov 2021-03-22  1425  	trace_io_uring_queue_async=
+_work(ctx, io_wq_is_hashed(&req->work), req,
+d07f1e8a42614c Pavel Begunkov 2021-03-22  1426  					&req->work, req->flags=
+);
+ebf936670721be Pavel Begunkov 2021-03-01  1427  	io_wq_enqueue(tctx->io_wq,=
+ &req->work);
+7271ef3a93a832 Jens Axboe     2020-08-10  1428  	if (link)
+7271ef3a93a832 Jens Axboe     2020-08-10  1429  		io_queue_linked_timeout(l=
+ink);
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1430  }
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1431  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0562452514131819641==--
+--===============2331923755222942302==--
 
