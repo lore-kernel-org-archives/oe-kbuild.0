@@ -1,3007 +1,2004 @@
-Content-Type: multipart/mixed; boundary="===============4281132719474119865=="
+Content-Type: multipart/mixed; boundary="===============2407980494801279391=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 10155/11721] security/keys/encrypted-keys/encrypted.c:935:2: warning: Potential leak of memory pointed to by 'ret' [clang-analyzer-unix.Malloc]
-Date: Sat, 04 Sep 2021 01:44:14 +0800
-Message-ID: <202109040109.vfESwUvs-lkp@intel.com>
+Subject: [linux-next:master 9124/10638] sound/soc/intel/skylake/skl-topology.c:2578:38: sparse: sparse: incorrect type in assignment (different base types)
+Date: Thu, 26 Aug 2021 23:32:02 +0800
+Message-ID: <202108262352.2NBPzYeO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4281132719474119865==
+--===============2407980494801279391==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kees Cook <keescook@chromium.org>
+TO: Kareem Shaik <kareem.m.shaik@intel.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Gustaw Lewandowski <gustaw.lewandowski@linux.intel.com>
+CC: Cezary Rojewski <cezary.rojewski@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
-head:   14c6345e6e6ca0570f3897214f24748ef6009761
-commit: 6bea7154887de1e7ddd3673a03505de911dfb6c4 [10155/11721] fortify: Exp=
-licitly disable Clang support
-:::::: branch date: 12 hours ago
-:::::: commit date: 9 days ago
-config: i386-randconfig-c001-20210901 (attached as .config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c9948e=
-9254fbb6ea00f66c7b4542311d21e060be)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
+head:   88fac11862d38306dd0d2398015744877140390d
+commit: a4ad42d28618eef83bee02e0a19af0d467bd9722 [9124/10638] ASoC: Intel: =
+Skylake: Support multiple format configs
+:::::: branch date: 5 hours ago
+:::::: commit date: 3 days ago
+config: i386-allyesconfig (attached as .config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.3-348-gf0e6938b-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D6bea7154887de1e7ddd3673a03505de911dfb6c4
+it/commit/?id=3Da4ad42d28618eef83bee02e0a19af0d467bd9722
         git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
 el/git/next/linux-next.git
         git fetch --no-tags linux-next master
-        git checkout 6bea7154887de1e7ddd3673a03505de911dfb6c4
+        git checkout a4ad42d28618eef83bee02e0a19af0d467bd9722
         # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=
+=3Di386 =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   security/keys/encrypted-keys/encrypted.c:646:2: note: Taking false branch
-           if (!epayload)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   security/keys/encrypted-keys/encrypted.c:806:13: note: Returned allocate=
-d memory
-           epayload =3D encrypted_key_alloc(key, format, master_desc,
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/keys/encrypted-keys/encrypted.c:808:2: note: '?' condition is f=
-alse
-           if (IS_ERR(epayload)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   security/keys/encrypted-keys/encrypted.c:808:2: note: '?' condition is f=
-alse
-           if (IS_ERR(epayload)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   security/keys/encrypted-keys/encrypted.c:808:2: note: Taking false branch
-           if (IS_ERR(epayload)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   security/keys/encrypted-keys/encrypted.c:814:6: note: 'ret' is < 0
-           if (ret < 0) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   security/keys/encrypted-keys/encrypted.c:814:2: note: '?' condition is f=
-alse
-           if (ret < 0) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   security/keys/encrypted-keys/encrypted.c:814:6: note: 'ret' is < 0
-           if (ret < 0) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   security/keys/encrypted-keys/encrypted.c:814:2: note: '?' condition is t=
-rue
-           if (ret < 0) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   security/keys/encrypted-keys/encrypted.c:814:2: note: Taking true branch
-           if (ret < 0) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   security/keys/encrypted-keys/encrypted.c:816:3: note: Control jumps to l=
-ine 821
-                   goto out;
-                   ^
-   security/keys/encrypted-keys/encrypted.c:821:2: note: Potential leak of =
-memory pointed to by 'epayload'
-           kfree_sensitive(datablob);
-           ^
->> security/keys/encrypted-keys/encrypted.c:935:2: warning: Potential leak =
-of memory pointed to by 'ret' [clang-analyzer-unix.Malloc]
-           if (ret < 0)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   security/keys/encrypted-keys/encrypted.c:912:13: note: Left side of '&&'=
- is false
-           epayload =3D dereference_key_locked(key);
-                      ^
-   include/linux/key.h:471:3: note: expanded from macro 'dereference_key_lo=
-cked'
-           (rcu_dereference_protected((KEY)->payload.rcu_data0,            \
-            ^
-   include/linux/rcupdate.h:587:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:396:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:318:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                           ^
-   security/keys/encrypted-keys/encrypted.c:912:13: note: '?' condition is =
-false
-           epayload =3D dereference_key_locked(key);
-                      ^
-   include/linux/key.h:471:3: note: expanded from macro 'dereference_key_lo=
-cked'
-           (rcu_dereference_protected((KEY)->payload.rcu_data0,            \
-            ^
-   include/linux/rcupdate.h:587:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:396:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:318:3: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   security/keys/encrypted-keys/encrypted.c:912:13: note: Left side of '&&'=
- is false
-           epayload =3D dereference_key_locked(key);
-                      ^
-   include/linux/key.h:471:3: note: expanded from macro 'dereference_key_lo=
-cked'
-           (rcu_dereference_protected((KEY)->payload.rcu_data0,            \
-            ^
-   include/linux/rcupdate.h:587:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:396:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:318:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                           ^
-   security/keys/encrypted-keys/encrypted.c:912:13: note: '?' condition is =
-false
-           epayload =3D dereference_key_locked(key);
-                      ^
-   include/linux/key.h:471:3: note: expanded from macro 'dereference_key_lo=
-cked'
-           (rcu_dereference_protected((KEY)->payload.rcu_data0,            \
-            ^
-   include/linux/rcupdate.h:587:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:396:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   security/keys/encrypted-keys/encrypted.c:912:13: note: Taking false bran=
-ch
-           epayload =3D dereference_key_locked(key);
-                      ^
-   include/linux/key.h:471:3: note: expanded from macro 'dereference_key_lo=
-cked'
-           (rcu_dereference_protected((KEY)->payload.rcu_data0,            \
-            ^
-   include/linux/rcupdate.h:587:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:396:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:318:3: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   security/keys/encrypted-keys/encrypted.c:912:13: note: Loop condition is=
- false.  Exiting loop
---
-   kernel/locking/lockdep.c:1983:6: note: Assuming the condition is false
-           if (!debug_locks_off_graph_unlock() || debug_locks_silent)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1983:6: note: Left side of '||' is false
-   kernel/locking/lockdep.c:1983:41: note: Assuming 'debug_locks_silent' is=
- 0
-           if (!debug_locks_off_graph_unlock() || debug_locks_silent)
-                                                  ^~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1983:2: note: Taking false branch
-           if (!debug_locks_off_graph_unlock() || debug_locks_silent)
-           ^
-   kernel/locking/lockdep.c:1987:6: note: Assuming field 'trace' is non-null
-           if (!this->trace)
-               ^~~~~~~~~~~~
-   kernel/locking/lockdep.c:1987:2: note: Taking false branch
-           if (!this->trace)
-           ^
-   kernel/locking/lockdep.c:1990:10: note: Value assigned to field 'parent'
-           depth =3D get_lock_depth(target);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1992:2: note: Calling 'print_circular_bug_heade=
-r'
-           print_circular_bug_header(target, depth, check_src, check_tgt);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1890:6: note: Assuming 'debug_locks_silent' is =
-not equal to 0
-           if (debug_locks_silent)
-               ^~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1890:2: note: Taking true branch
-           if (debug_locks_silent)
-           ^
-   kernel/locking/lockdep.c:1891:3: note: Returning without writing to 'ent=
-ry->parent'
-                   return;
-                   ^
-   kernel/locking/lockdep.c:1992:2: note: Returning from 'print_circular_bu=
-g_header'
-           print_circular_bug_header(target, depth, check_src, check_tgt);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1994:11: note: Calling 'get_lock_parent'
-           parent =3D get_lock_parent(target);
-                    ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1489:2: note: Returning without writing to 'chi=
-ld->parent'
-           return child->parent;
-           ^
-   kernel/locking/lockdep.c:1489:2: note: Returning pointer
-           return child->parent;
-           ^~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1994:11: note: Returning from 'get_lock_parent'
-           parent =3D get_lock_parent(target);
-                    ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1994:2: note: Value assigned to 'parent'
-           parent =3D get_lock_parent(target);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1995:2: note: The value of 'parent' is assigned=
- to 'first_parent'
-           first_parent =3D parent;
-           ^~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1997:9: note: Assuming pointer value is null
-           while (parent) {
-                  ^~~~~~
-   kernel/locking/lockdep.c:1997:2: note: Loop condition is false. Executio=
-n continues on line 2002
-           while (parent) {
-           ^
-   kernel/locking/lockdep.c:2004:10: note: Passing null pointer value via 3=
-rd parameter 'prt'
-                                        first_parent);
-                                        ^~~~~~~~~~~~
-   kernel/locking/lockdep.c:2003:2: note: Calling 'print_circular_lock_scen=
-ario'
-           print_circular_lock_scenario(check_src, check_tgt,
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/lockdep.c:1836:30: note: Access to field 'class' results =
-in a dereference of a null pointer (loaded from variable 'prt')
-           struct lock_class *parent =3D prt->class;
-                                       ^~~
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   crypto/drbg.c:245:17: warning: Value stored to 'entropylen' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned short entropylen =3D drbg_sec_strength(drbg->core->flag=
-s);
-                          ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/drbg.c:245:17: note: Value stored to 'entropylen' during its init=
-ialization is never read
-           unsigned short entropylen =3D drbg_sec_strength(drbg->core->flag=
-s);
-                          ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   crypto/tcrypt.c:292:2: warning: Value stored to 'ret' is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-           ret =3D crypto_aead_setauthsize(tfm, authsize);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/tcrypt.c:292:2: note: Value stored to 'ret' is never read
-           ret =3D crypto_aead_setauthsize(tfm, authsize);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/tcrypt.c:614:4: warning: Value stored to 'ret' is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-                           ret =3D crypto_aead_setkey(tfm, key, *keysize);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   crypto/tcrypt.c:614:4: note: Value stored to 'ret' is never read
-                           ret =3D crypto_aead_setkey(tfm, key, *keysize);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> crypto/tcrypt.c:687:2: warning: Potential leak of memory pointed to by '=
-req' [clang-analyzer-unix.Malloc]
-           crypto_free_aead(tfm);
-           ^
-   crypto/tcrypt.c:544:6: note: Assuming 'iv' is non-null
-           if (!iv)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/tcrypt.c:544:2: note: '?' condition is false
-           if (!iv)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   crypto/tcrypt.c:544:7: note: 'iv' is non-null
-           if (!iv)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   crypto/tcrypt.c:544:2: note: '?' condition is false
-           if (!iv)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   crypto/tcrypt.c:544:2: note: Taking false branch
-           if (!iv)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   crypto/tcrypt.c:547:6: note: Assuming the condition is false
-           if (aad_size >=3D PAGE_SIZE) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/tcrypt.c:547:2: note: '?' condition is false
-           if (aad_size >=3D PAGE_SIZE) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   crypto/tcrypt.c:547:2: note: '?' condition is false
-           if (aad_size >=3D PAGE_SIZE) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   crypto/tcrypt.c:547:2: note: Taking false branch
-           if (aad_size >=3D PAGE_SIZE) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   crypto/tcrypt.c:552:6: note: Assuming 'enc' is not equal to 1
-           if (enc =3D=3D ENCRYPT)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   crypto/tcrypt.c:552:2: note: '?' condition is false
-           if (enc =3D=3D ENCRYPT)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
---
-                                                      ^~~~
-   arch/x86/kernel/apic/io_apic.c:1295:34: note: Left side of '&&' is false
-           if (reg_01.bits.version >=3D 0x10 && reg_02.raw !=3D reg_01.raw)=
- {
-                                           ^
-   arch/x86/kernel/apic/io_apic.c:1295:2: note: '?' condition is false
-           if (reg_01.bits.version >=3D 0x10 && reg_02.raw !=3D reg_01.raw)=
- {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   arch/x86/kernel/apic/io_apic.c:1295:6: note: Assuming field 'version' is=
- < 16
-           if (reg_01.bits.version >=3D 0x10 && reg_02.raw !=3D reg_01.raw)=
- {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   arch/x86/kernel/apic/io_apic.c:1295:34: note: Left side of '&&' is false
-           if (reg_01.bits.version >=3D 0x10 && reg_02.raw !=3D reg_01.raw)=
- {
-                                           ^
-   arch/x86/kernel/apic/io_apic.c:1295:2: note: '?' condition is false
-           if (reg_01.bits.version >=3D 0x10 && reg_02.raw !=3D reg_01.raw)=
- {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   arch/x86/kernel/apic/io_apic.c:1295:2: note: Taking false branch
-           if (reg_01.bits.version >=3D 0x10 && reg_02.raw !=3D reg_01.raw)=
- {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   arch/x86/kernel/apic/io_apic.c:1305:6: note: Assuming field 'version' is=
- >=3D 32
-           if (reg_01.bits.version >=3D 0x20 && reg_03.raw !=3D reg_02.raw =
-&&
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   arch/x86/kernel/apic/io_apic.c:1305:6: note: Left side of '&&' is true
-           if (reg_01.bits.version >=3D 0x20 && reg_03.raw !=3D reg_02.raw =
-&&
-               ^
-   arch/x86/kernel/apic/io_apic.c:1305:48: note: The right operand of '!=3D=
-' is a garbage value
-           if (reg_01.bits.version >=3D 0x20 && reg_03.raw !=3D reg_02.raw =
-&&
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   43 warnings generated.
-   Suppressed 43 warnings (3 in non-user code, 40 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/acpi/acpica/rscreate.c:327:5: warning: Call to function 'strcpy'=
- is insecure as it does not provide bounding of the memory buffer. Replace =
-unbounded copy functions with analogous functions that support length argum=
-ents such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                                   strcpy(user_prt->source,
-                                   ^~~~~~
-   drivers/acpi/acpica/rscreate.c:327:5: note: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119
-                                   strcpy(user_prt->source,
-                                   ^~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/mtd/lpddr/qinfo_probe.c:173:10: warning: Potential leak of memor=
-y pointed to by 'lpddr.qinfo' [clang-analyzer-unix.Malloc]
-                   return NULL;
-                          ^
-   include/linux/stddef.h:8:23: note: expanded from macro 'NULL'
-   #define NULL ((void *)0)
-                         ^
-   drivers/mtd/lpddr/qinfo_probe.c:190:10: note: Calling 'lpddr_probe_chip'
-           lpddr =3D lpddr_probe_chip(map);
-                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/lpddr/qinfo_probe.c:152:6: note: Assuming the condition is f=
-alse
-           if ((map->pfow_base + 0x1000) >=3D map->size) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/mtd/lpddr/qinfo_probe.c:152:2: note: '?' condition is false
-           if ((map->pfow_base + 0x1000) >=3D map->size) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mtd/lpddr/qinfo_probe.c:152:2: note: '?' condition is false
-           if ((map->pfow_base + 0x1000) >=3D map->size) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mtd/lpddr/qinfo_probe.c:152:2: note: Taking false branch
-           if ((map->pfow_base + 0x1000) >=3D map->size) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mtd/lpddr/qinfo_probe.c:159:6: note: Assuming the condition is f=
-alse
-           if (!lpddr_pfow_present(map, &lpddr))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/mtd/lpddr/qinfo_probe.c:159:2: note: '?' condition is false
-           if (!lpddr_pfow_present(map, &lpddr))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mtd/lpddr/qinfo_probe.c:159:6: note: Assuming the condition is f=
-alse
-           if (!lpddr_pfow_present(map, &lpddr))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/mtd/lpddr/qinfo_probe.c:159:2: note: '?' condition is false
-           if (!lpddr_pfow_present(map, &lpddr))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mtd/lpddr/qinfo_probe.c:159:2: note: Taking false branch
-           if (!lpddr_pfow_present(map, &lpddr))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mtd/lpddr/qinfo_probe.c:162:2: note: '?' condition is false
-           if (!lpddr_chip_setup(map, &lpddr))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
---
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/spi/spi-dw-dma.c:597:6: note: Left side of '||' is false
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-               ^
-   drivers/spi/spi-dw-dma.c:597:28: note: Assuming field 'rx_buf' is non-nu=
-ll
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-                                     ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/spi/spi-dw-dma.c:597:6: note: Left side of '||' is false
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-               ^
-   drivers/spi/spi-dw-dma.c:597:45: note: Assuming 'nents' is > field 'dma_=
-sg_burst'
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-                                                      ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/spi/spi-dw-dma.c:597:2: note: '?' condition is false
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/spi/spi-dw-dma.c:597:12: note: Field 'dma_sg_burst' is not equal=
- to 0
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-                     ^
-   drivers/spi/spi-dw-dma.c:597:6: note: Left side of '||' is false
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-               ^
-   drivers/spi/spi-dw-dma.c:597:35: note: Field 'rx_buf' is non-null
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-                                            ^
-   drivers/spi/spi-dw-dma.c:597:6: note: Left side of '||' is false
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-               ^
-   drivers/spi/spi-dw-dma.c:597:45: note: 'nents' is > field 'dma_sg_burst'
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-                                                      ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/spi/spi-dw-dma.c:597:2: note: '?' condition is false
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/spi/spi-dw-dma.c:597:2: note: Taking false branch
-           if (!dws->dma_sg_burst || !xfer->rx_buf || nents <=3D dws->dma_s=
-g_burst)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/spi/spi-dw-dma.c:600:9: note: Calling 'dw_spi_dma_transfer_one'
-                   ret =3D dw_spi_dma_transfer_one(dws, xfer);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-dw-dma.c:520:2: note: 'ret' declared without an initial =
-value
-           int ret;
-           ^~~~~~~
-   drivers/spi/spi-dw-dma.c:525:26: note: Assuming 'base' is >=3D field 'le=
-n'
-           for (base =3D 0, len =3D 0; base < xfer->len; base +=3D len) {
-                                   ^~~~~~~~~~~~~~~~
-   drivers/spi/spi-dw-dma.c:525:2: note: Loop condition is false. Execution=
- continues on line 578
-           for (base =3D 0, len =3D 0; base < xfer->len; base +=3D len) {
-           ^
-   drivers/spi/spi-dw-dma.c:580:2: note: Undefined or garbage value returne=
-d to caller
-           return ret;
-           ^      ~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> mm/vmscan.c:2090:2: warning: Address of stack memory associated with loc=
-al variable 'pages_to_free' is still referred to by the stack variable 'l_a=
-ctive' upon returning to the caller.  This will be a dangling reference [cl=
-ang-analyzer-core.StackAddressEscape]
-           return nr_moved;
-           ^
-   mm/vmscan.c:2244:2: note: '?' condition is false
-           if (!cgroup_reclaim(sc))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   mm/vmscan.c:2244:2: note: '?' condition is true
-           if (!cgroup_reclaim(sc))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   mm/vmscan.c:2244:2: note: Taking true branch
-           if (!cgroup_reclaim(sc))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   mm/vmscan.c:2250:9: note: Assuming the condition is false
-           while (!list_empty(&l_hold)) {
-                  ^~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:2250:2: note: Loop condition is false. Execution continues o=
-n line 2294
-           while (!list_empty(&l_hold)) {
-           ^
-   mm/vmscan.c:2296:16: note: Calling 'move_pages_to_lru'
-           nr_activate =3D move_pages_to_lru(lruvec, &l_active);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/vmscan.c:2036:9: note: Assuming the condition is false
-           while (!list_empty(list)) {
-                  ^~~~~~~~~~~~~~~~~
-   mm/vmscan.c:2036:2: note: Loop condition is false. Execution continues o=
-n line 2088
-           while (!list_empty(list)) {
-           ^
-   mm/vmscan.c:2090:2: note: Address of stack memory associated with local =
-variable 'pages_to_free' is still referred to by the stack variable 'l_acti=
-ve' upon returning to the caller.  This will be a dangling reference
-           return nr_moved;
-           ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   mm/shmem.c:1061:24: warning: Value stored to 'sbinfo' during its initial=
-ization is never read [clang-analyzer-deadcode.DeadStores]
-           struct shmem_sb_info *sbinfo =3D SHMEM_SB(inode->i_sb);
-                                 ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~
-   mm/shmem.c:1061:24: note: Value stored to 'sbinfo' during its initializa=
-tion is never read
-           struct shmem_sb_info *sbinfo =3D SHMEM_SB(inode->i_sb);
-                                 ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~
-   mm/shmem.c:1221:11: warning: 2nd function call argument is an uninitiali=
-zed value [clang-analyzer-core.CallAndMessage]
-                   error =3D shmem_swapin_page(inode, indices[i],
-                           ^
-   mm/shmem.c:1294:2: note: '?' condition is false
-           if (list_empty(&shmem_swaplist))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   mm/shmem.c:1294:2: note: Assuming the condition is false
-           if (list_empty(&shmem_swaplist))
-           ^
-   include/linux/compiler.h:56:44: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   mm/shmem.c:1294:2: note: '?' condition is false
-           if (list_empty(&shmem_swaplist))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   mm/shmem.c:1294:2: note: Taking false branch
-           if (list_empty(&shmem_swaplist))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   mm/shmem.c:1298:2: note: Left side of '&&' is false
-           list_for_each_entry_safe(info, next, &shmem_swaplist, swaplist) {
---
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/mtd/nand/spi/gigadevice.c:186:3: note: '?' condition is false
-                   if (ret)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mtd/nand/spi/gigadevice.c:186:3: note: Taking false branch
-                   if (ret)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mtd/nand/spi/gigadevice.c:195:14: note: The left operand of '&' =
-is a garbage value
-                           ((status2 & STATUS_ECC_MASK) >> 4);
-                             ~~~~~~~ ^
-   drivers/mtd/nand/spi/gigadevice.c:235:20: warning: The left operand of '=
-&' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   return ((status2 & STATUS_ECC_MASK) >> 4) + 1;
-                            ~~~~~~~ ^
-   drivers/mtd/nand/spi/gigadevice.c:213:2: note: 'status2' declared withou=
-t an initial value
-           u8 status2;
-           ^~~~~~~~~~
-   drivers/mtd/nand/spi/gigadevice.c:218:2: note: Control jumps to 'case 16=
-:'  at line 222
-           switch (status & STATUS_ECC_MASK) {
-           ^
-   drivers/mtd/nand/spi/gigadevice.c:228:3: note: Assuming 'ret' is 0
-                   if (ret)
-                   ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/mtd/nand/spi/gigadevice.c:228:3: note: '?' condition is false
-                   if (ret)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/mtd/nand/spi/gigadevice.c:228:7: note: 'ret' is 0
-                   if (ret)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/mtd/nand/spi/gigadevice.c:228:3: note: '?' condition is false
-                   if (ret)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/mtd/nand/spi/gigadevice.c:228:3: note: Taking false branch
-                   if (ret)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/mtd/nand/spi/gigadevice.c:235:20: note: The left operand of '&' =
-is a garbage value
-                   return ((status2 & STATUS_ECC_MASK) >> 4) + 1;
-                            ~~~~~~~ ^
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> mm/vmstat.c:1606:14: warning: The result of the left shift is undefined =
-because the right operand is negative [clang-analyzer-core.UndefinedBinaryO=
-peratorResult]
-                                   pages /=3D HPAGE_PMD_NR;
-                                            ^
-   include/linux/huge_mm.h:105:24: note: expanded from macro 'HPAGE_PMD_NR'
-   #define HPAGE_PMD_NR (1<<HPAGE_PMD_ORDER)
-                          ^ ~~~~~~~~~~~~~~~
-   mm/vmstat.c:1600:2: note: Assuming the condition is false
-           if (is_zone_first_populated(pgdat, zone)) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   mm/vmstat.c:1600:2: note: '?' condition is false
-           if (is_zone_first_populated(pgdat, zone)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   mm/vmstat.c:1600:2: note: Assuming the condition is false
-           if (is_zone_first_populated(pgdat, zone)) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   mm/vmstat.c:1600:2: note: '?' condition is true
-           if (is_zone_first_populated(pgdat, zone)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   mm/vmstat.c:1600:2: note: Taking true branch
-           if (is_zone_first_populated(pgdat, zone)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   mm/vmstat.c:1602:3: note: Loop condition is true.  Entering loop body
-                   for (i =3D 0; i < NR_VM_NODE_STAT_ITEMS; i++) {
-                   ^
-   mm/vmstat.c:1605:4: note: '?' condition is false
-                           if (vmstat_item_print_in_thp(i))
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   mm/vmstat.c:1605:4: note: Assuming the condition is false
-                           if (vmstat_item_print_in_thp(i))
-                           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   mm/vmstat.c:1605:4: note: '?' condition is true
-                           if (vmstat_item_print_in_thp(i))
-                           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   mm/vmstat.c:1605:4: note: Taking true branch
-                           if (vmstat_item_print_in_thp(i))
-                           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   mm/vmstat.c:1606:14: note: '?' condition is true
-                                   pages /=3D HPAGE_PMD_NR;
-                                            ^
-   include/linux/huge_mm.h:105:26: note: expanded from macro 'HPAGE_PMD_NR'
-   #define HPAGE_PMD_NR (1<<HPAGE_PMD_ORDER)
---
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/spi/spi-axi-spi-engine.c:268:2: note: Taking false branch
-           if (xfer) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/spi/spi-axi-spi-engine.c:272:3: note: Null pointer value stored =
-to field 'tx_buf'
-                   spi_engine->tx_buf =3D NULL;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:274:1: note: Returning without writing =
-to 'spi_engine->tx_length', which participates in a condition later
-   }
-   ^
-   drivers/spi/spi-axi-spi-engine.c:446:2: note: Returning from 'spi_engine=
-_tx_next'
-           spi_engine_tx_next(spi_engine);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:447:6: note: Calling 'spi_engine_write_=
-tx_fifo'
-           if (spi_engine_write_tx_fifo(spi_engine))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/spi/spi-axi-spi-engine.c:320:9: note: Assuming 'n' is not equal =
-to 0
-           while (n && spi_engine->tx_length) {
-                  ^
-   drivers/spi/spi-axi-spi-engine.c:320:9: note: Left side of '&&' is true
-   drivers/spi/spi-axi-spi-engine.c:320:2: note: Loop condition is true.  E=
-ntering loop body
-           while (n && spi_engine->tx_length) {
-           ^
-   drivers/spi/spi-axi-spi-engine.c:321:7: note: Assuming '__UNIQUE_ID___x2=
-62' is >=3D '__UNIQUE_ID___y263'
-                   m =3D min(n, spi_engine->tx_length);
-                       ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:321:7: note: '?' condition is false
-                   m =3D min(n, spi_engine->tx_length);
-                       ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/spi/spi-axi-spi-engine.c:322:3: note: Null pointer value stored =
-to 'buf'
-                   buf =3D spi_engine->tx_buf;
-                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-axi-spi-engine.c:323:15: note: 'i' is < 'm'
-                   for (i =3D 0; i < m; i++)
-                               ^
-   drivers/spi/spi-axi-spi-engine.c:323:3: note: Loop condition is true.  E=
-ntering loop body
-                   for (i =3D 0; i < m; i++)
-                   ^
-   drivers/spi/spi-axi-spi-engine.c:324:19: note: Array access (from variab=
-le 'buf') results in a null pointer dereference
-                           writel_relaxed(buf[i], addr);
-                                          ^
-   arch/x86/include/asm/io.h:88:39: note: expanded from macro 'writel_relax=
-ed'
-   #define writel_relaxed(v, a) __writel(v, a)
-                                         ^
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/usb/gadget/udc/bdc/bdc_udc.c:349:2: warning: Value stored to 'sr=
-r_int' is never read [clang-analyzer-deadcode.DeadStores]
-           srr_int =3D bdc_readl(bdc->regs, BDC_SRRINT(0));
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/bdc/bdc_udc.c:349:2: note: Value stored to 'srr_i=
-nt' is never read
-           srr_int =3D bdc_readl(bdc->regs, BDC_SRRINT(0));
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/usb/gadget/function/f_fs.c:1050:8: warning: Potential leak of me=
-mory pointed to by 'data' [clang-analyzer-unix.Malloc]
-                   WARN(1, "%s: data_len =3D=3D -EINVAL\n", __func__);
-                        ^
-   drivers/usb/gadget/function/f_fs.c:951:14: note: Assuming field 'state' =
-is equal to FFS_ACTIVE
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-                       ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/usb/gadget/function/f_fs.c:951:6: note: '?' condition is false
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/usb/gadget/function/f_fs.c:951:6: note: '?' condition is false
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/usb/gadget/function/f_fs.c:951:6: note: Taking false branch
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/usb/gadget/function/f_fs.c:951:2: note: '?' condition is false
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/usb/gadget/function/f_fs.c:951:6: note: '?' condition is false
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/usb/gadget/function/f_fs.c:951:6: note: '?' condition is false
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/usb/gadget/function/f_fs.c:951:6: note: Taking false branch
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/usb/gadget/function/f_fs.c:951:2: note: '?' condition is false
-           if (WARN_ON(epfile->ffs->state !=3D FFS_ACTIVE))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
---
-                                 ^
-   sound/soc/codecs/sti-sas.c:422:7: note: 'drvdata' is non-null
-           if (!drvdata)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/soc/codecs/sti-sas.c:422:7: note: 'drvdata' is non-null
-           if (!drvdata)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/soc/codecs/sti-sas.c:422:2: note: '?' condition is false
-           if (!drvdata)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   sound/soc/codecs/sti-sas.c:422:2: note: Taking false branch
-           if (!drvdata)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/soc/codecs/sti-sas.c:426:2: note: Null pointer value stored to 'of=
-_id'
-           of_id =3D of_match_node(sti_sas_dev_match, pnode);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/sti-sas.c:427:7: note: Access to field 'data' results i=
-n a dereference of a null pointer (loaded from variable 'of_id')
-           if (!of_id->data) {
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   net/sunrpc/auth_gss/gss_krb5_wrap.c:429:8: warning: Although the value s=
-tored to 'plainhdr' is used in the enclosing expression, the value is never=
- actually read from 'plainhdr' [clang-analyzer-deadcode.DeadStores]
-           ptr =3D plainhdr =3D buf->head[0].iov_base + offset;
-                 ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sunrpc/auth_gss/gss_krb5_wrap.c:429:8: note: Although the value stor=
-ed to 'plainhdr' is used in the enclosing expression, the value is never ac=
-tually read from 'plainhdr'
-           ptr =3D plainhdr =3D buf->head[0].iov_base + offset;
-                 ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> net/sunrpc/auth_gss/gss_krb5_crypto.c:225:2: warning: Potential leak of =
-memory pointed to by 'req' [clang-analyzer-unix.Malloc]
-           crypto_free_ahash(tfm);
-           ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:158:6: note: Assuming field 'len' =
-is >=3D field 'cksumlength'
-           if (cksumout->len < kctx->gk5e->cksumlength) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:158:2: note: '?' condition is false
-           if (cksumout->len < kctx->gk5e->cksumlength) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:158:16: note: Field 'len' is >=3D =
-field 'cksumlength'
-           if (cksumout->len < kctx->gk5e->cksumlength) {
-                         ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:158:2: note: '?' condition is false
-           if (cksumout->len < kctx->gk5e->cksumlength) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:158:2: note: Taking false branch
-           if (cksumout->len < kctx->gk5e->cksumlength) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:165:6: note: Assuming 'checksumdat=
-a' is not equal to null
-           if (checksumdata =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:165:2: note: '?' condition is false
-           if (checksumdata =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:165:6: note: 'checksumdata' is not=
- equal to null
-           if (checksumdata =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:165:2: note: '?' condition is false
-           if (checksumdata =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:165:2: note: Taking false branch
-           if (checksumdata =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:169:2: note: '?' condition is false
-           if (IS_ERR(tfm))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/gss_krb5_crypto.c:169:2: note: '?' condition is false
-           if (IS_ERR(tfm))
---
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/auth_gss_internal.h:19:15: note: 'q' is <=3D 'end'
-           if (unlikely(q > end || q < p))
-                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/sunrpc/auth_gss/auth_gss_internal.h:19:15: note: Left side of '||' i=
-s false
-           if (unlikely(q > end || q < p))
-                        ^
-   net/sunrpc/auth_gss/auth_gss_internal.h:19:15: note: 'q' is <=3D 'end'
-   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
-k__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/sunrpc/auth_gss/auth_gss_internal.h:19:15: note: Left side of '||' i=
-s false
-           if (unlikely(q > end || q < p))
-                        ^
-   net/sunrpc/auth_gss/auth_gss_internal.h:19:2: note: '?' condition is fal=
-se
-           if (unlikely(q > end || q < p))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/sunrpc/auth_gss/auth_gss_internal.h:19:2: note: Taking false branch
-           if (unlikely(q > end || q < p))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/sunrpc/auth_gss/auth_gss.c:714:6: note: Returning from 'simple_get_b=
-ytes'
-           p =3D simple_get_bytes(buf, end, &id, sizeof(id));
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sunrpc/auth_gss/auth_gss.c:715:2: note: '?' condition is false
-           if (IS_ERR(p)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/auth_gss.c:715:2: note: '?' condition is true
-           if (IS_ERR(p)) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/sunrpc/auth_gss/auth_gss.c:715:2: note: Taking true branch
-           if (IS_ERR(p)) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/sunrpc/auth_gss/auth_gss.c:717:3: note: Control jumps to line 775
-                   goto err;
-                   ^
-   net/sunrpc/auth_gss/auth_gss.c:775:2: note: Memory is released
-           kfree(buf);
-           ^~~~~~~~~~
-   net/sunrpc/auth_gss/auth_gss.c:777:2: note: Use of memory after it is fr=
-eed
-           return err;
-           ^      ~~~
->> net/sunrpc/auth_gss/auth_gss.c:1006:2: warning: Potential leak of memory=
- pointed to by 'gss_auth' [clang-analyzer-unix.Malloc]
-           if (!(gss_auth =3D kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:71:4: note: expanded from macro '__trace_if_val=
-ue'
-                   (__if_trace.miss_hit[0]++,0);           \
-                    ^
-   net/sunrpc/auth_gss/auth_gss.c:1004:2: note: '?' condition is false
-           if (!try_module_get(THIS_MODULE))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/auth_gss.c:1004:2: note: '?' condition is false
-           if (!try_module_get(THIS_MODULE))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/sunrpc/auth_gss/auth_gss.c:1004:2: note: Taking false branch
-           if (!try_module_get(THIS_MODULE))
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/sunrpc/auth_gss/auth_gss.c:1006:19: note: Memory is allocated
-           if (!(gss_auth =3D kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
-                            ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/sunrpc/auth_gss/auth_gss.c:1006:8: note: Assuming 'gss_auth' is non-=
-null
-           if (!(gss_auth =3D kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
-                 ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/sunrpc/auth_gss/auth_gss.c:1006:2: note: '?' condition is false
-           if (!(gss_auth =3D kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/auth_gss.c:1006:8: note: Assuming 'gss_auth' is non-=
-null
-           if (!(gss_auth =3D kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
-                 ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/sunrpc/auth_gss/auth_gss.c:1006:2: note: '?' condition is false
-           if (!(gss_auth =3D kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/sunrpc/auth_gss/auth_gss.c:1006:2: note: Potential leak of memory po=
-inted to by 'gss_auth'
-           if (!(gss_auth =3D kmalloc(sizeof(*gss_auth), GFP_KERNEL)))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:71:4: note: expanded from macro '__trace_if_val=
-ue'
-                   (__if_trace.miss_hit[0]++,0);           \
-                    ^
->> net/sunrpc/auth_gss/auth_gss.c:1354:2: warning: Potential leak of memory=
- pointed to by 'cred' [clang-analyzer-unix.Malloc]
-           if (!(cred =3D kzalloc(sizeof(*cred), gfp)))
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:71:4: note: expanded from macro '__trace_if_val=
-ue'
-                   (__if_trace.miss_hit[0]++,0);           \
-                    ^
-   net/sunrpc/auth_gss/auth_gss.c:1350:30: note: Left side of '&&' is false
-           struct gss_auth *gss_auth =3D container_of(auth, struct gss_auth=
-, rpc_auth);
-                                       ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   net/sunrpc/auth_gss/auth_gss.c:1350:30: note: '?' condition is true
-           struct gss_auth *gss_auth =3D container_of(auth, struct gss_auth=
-, rpc_auth);
-                                       ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:324:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:304:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sunrpc/auth_gss/auth_gss.c:1350:30: note: Left side of '&&' is false
-           struct gss_auth *gss_auth =3D container_of(auth, struct gss_auth=
-, rpc_auth);
-                                       ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   net/sunrpc/auth_gss/auth_gss.c:1350:30: note: Taking false branch
-           struct gss_auth *gss_auth =3D container_of(auth, struct gss_auth=
-, rpc_auth);
-                                       ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:324:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:312:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:304:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/sunrpc/auth_gss/auth_gss.c:1350:30: note: Loop condition is false.  =
-Exiting loop
-           struct gss_auth *gss_auth =3D container_of(auth, struct gss_auth=
-, rpc_auth);
-                                       ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:324:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:312:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:302:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   net/sunrpc/auth_gss/auth_gss.c:1354:15: note: Calling 'kzalloc'
-           if (!(cred =3D kzalloc(sizeof(*cred), gfp)))
-                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   include/linux/slab.h:721:9: note: Memory is allocated
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/sunrpc/auth_gss/auth_gss.c:1354:15: note: Returned allocated memory
-           if (!(cred =3D kzalloc(sizeof(*cred), gfp)))
-                        ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+sparse warnings: (new ones prefixed by >>)
+   sound/soc/intel/skylake/skl-topology.c:2297:33: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2291:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2291:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] dma_buffer_size @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse:     expected uns=
+igned int [usertype] dma_buffer_size
+   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] cpc @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse:     expected uns=
+igned int [usertype] cpc
+   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] is_pages @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse:     expected uns=
+igned int [usertype] is_pages
+   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] obs @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse:     expected uns=
+igned int [usertype] obs
+   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] ibs @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse:     expected uns=
+igned int [usertype] ibs
+   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2392:21: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] max_input_pins @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse:     expected uns=
+igned char [usertype] max_input_pins
+   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] max_output_pins @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse:     expected uns=
+igned char [usertype] max_output_pins
+   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse: sparse: incorrec=
+t type in argument 3 (different base types) @@     expected unsigned int [u=
+sertype] value @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse:     expected uns=
+igned int [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse: sparse: incorrec=
+t type in argument 3 (different base types) @@     expected unsigned int [u=
+sertype] value @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse:     expected uns=
+igned int [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] time_slot @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse:     expected uns=
+igned char [usertype] time_slot
+   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] core_id @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse:     expected uns=
+igned char [usertype] core_id
+   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int en=
+um skl_module_type m_type @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse:     expected uns=
+igned int enum skl_module_type m_type
+   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] dev_type @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse:     expected uns=
+igned char [usertype] dev_type
+   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int en=
+um skl_hw_conn_type hw_conn_type @@     got restricted __le32 [usertype] va=
+lue @@
+   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse:     expected uns=
+igned int enum skl_hw_conn_type hw_conn_type
+   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] instance_id @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse:     expected uns=
+igned int [usertype] instance_id
+   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] vbus_id @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse:     expected uns=
+igned int [usertype] vbus_id
+   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] params_fixup @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse:     expected uns=
+igned int [usertype] params_fixup
+   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] converter @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse:     expected uns=
+igned int [usertype] converter
+   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int en=
+um d0i3_capability d0i3_caps @@     got restricted __le32 [usertype] value =
+@@
+   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse:     expected uns=
+igned int enum d0i3_capability d0i3_caps
+   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected int static conf=
+_idx @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse:     expected int=
+ static conf_idx
+   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse: sparse: incorrec=
+t type in argument 3 (different base types) @@     expected unsigned int [u=
+sertype] tkn @@     got restricted __le32 [usertype] token @@
+   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse:     expected uns=
+igned int [usertype] tkn
+   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse:     got restrict=
+ed __le32 [usertype] token
+   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse: sparse: incorrec=
+t type in argument 4 (different base types) @@     expected unsigned int [u=
+sertype] tkn_val @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse:     expected uns=
+igned int [usertype] tkn_val
+   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse: sparse: incorrec=
+t type in argument 3 (different base types) @@     expected unsigned int [u=
+sertype] tkn @@     got restricted __le32 [usertype] token @@
+   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse:     expected uns=
+igned int [usertype] tkn
+   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse:     got restrict=
+ed __le32 [usertype] token
+   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse: sparse: incorrec=
+t type in argument 4 (different base types) @@     expected unsigned int [u=
+sertype] tkn_val @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse:     expected uns=
+igned int [usertype] tkn_val
+   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] res_idx @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse:     expected uns=
+igned char [usertype] res_idx
+   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] fmt_idx @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse:     expected uns=
+igned char [usertype] fmt_idx
+   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2541:31: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2542:38: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse: sparse: incorrec=
+t type in argument 3 (different base types) @@     expected unsigned int [u=
+sertype] tkn @@     got restricted __le32 [usertype] token @@
+   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse:     expected uns=
+igned int [usertype] tkn
+   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse:     got restrict=
+ed __le32 [usertype] token
+   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse: sparse: incorrec=
+t type in argument 4 (different base types) @@     expected unsigned int [u=
+sertype] val @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse:     expected uns=
+igned int [usertype] val
+   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2575:29: sparse: sparse: restrict=
+ed __le32 degrades to integer
+>> sound/soc/intel/skylake/skl-topology.c:2578:38: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected int fmt_cfg_idx=
+ @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2578:38: sparse:     expected int=
+ fmt_cfg_idx
+   sound/soc/intel/skylake/skl-topology.c:2578:38: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] caps_size @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse:     expected uns=
+igned int [usertype] caps_size
+   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] set_params @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse:     expected uns=
+igned int [usertype] set_params
+   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] param_id @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse:     expected uns=
+igned int [usertype] param_id
+   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] domain @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse:     expected uns=
+igned char [usertype] domain
+   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] dma_buffer_size @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse:     expected uns=
+igned int [usertype] dma_buffer_size
+   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: too many=
+ warnings
 
-vim +/ret +935 security/keys/encrypted-keys/encrypted.c
+vim +2578 sound/soc/intel/skylake/skl-topology.c
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  891  =
+db6ed55de6da11 Shreyas NC          2017-08-23  2365  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  892  /*
-d3ec10aa95819b security/keys/encrypted-keys/encrypted.c Waiman Long   2020-=
-03-21  893   * encrypted_read - format and copy out the encrypted data
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  894   *
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  895   * The resulting datablob format is:
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  896   * <master-key name> <decrypted data length> <encrypted iv> <en=
-crypted data>
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  897   *
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  898   * On success, return to userspace the encrypted key datablob s=
-ize.
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  899   */
-d3ec10aa95819b security/keys/encrypted-keys/encrypted.c Waiman Long   2020-=
-03-21  900  static long encrypted_read(const struct key *key, char *buffer,
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  901  			   size_t buflen)
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  902  {
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  903  	struct encrypted_key_payload *epayload;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  904  	struct key *mkey;
-146aa8b1453bd8 security/keys/encrypted-keys/encrypted.c David Howells 2015-=
-10-21  905  	const u8 *master_key;
-3b1826cebe1d53 security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-12-13  906  	size_t master_keylen;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  907  	char derived_key[HASH_SIZE];
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  908  	char *ascii_buf;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  909  	size_t asciiblob_len;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  910  	int ret;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  911  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2366  /*
+6277e83292a2d4 Shreyas NC          2016-08-12  2367   * Parse tokens to fil=
+l up the module private data
+6277e83292a2d4 Shreyas NC          2016-08-12  2368   */
+6277e83292a2d4 Shreyas NC          2016-08-12  2369  static int skl_tplg_ge=
+t_token(struct device *dev,
+6277e83292a2d4 Shreyas NC          2016-08-12  2370  		struct snd_soc_tplg_=
+vendor_value_elem *tkn_elem,
+bcc2a2dc3ba8c3 Cezary Rojewski     2019-07-23  2371  		struct skl_dev *skl,=
+ struct skl_module_cfg *mconfig)
+6277e83292a2d4 Shreyas NC          2016-08-12  2372  {
+6277e83292a2d4 Shreyas NC          2016-08-12  2373  	int tkn_count =3D 0;
+6277e83292a2d4 Shreyas NC          2016-08-12  2374  	int ret;
+6277e83292a2d4 Shreyas NC          2016-08-12  2375  	static int is_pipe_ex=
+ists;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2376  	static int pin_index,=
+ dir, conf_idx;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2377  	struct skl_module_ifa=
+ce *iface =3D NULL;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2378  	struct skl_module_res=
+ *res =3D NULL;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2379  	int res_idx =3D mconf=
+ig->res_idx;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2380  	int fmt_idx =3D mconf=
+ig->fmt_idx;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2381  =
 
-0837e49ab3fa8d security/keys/encrypted-keys/encrypted.c David Howells 2017-=
-03-01  912  	epayload =3D dereference_key_locked(key);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  913  =
+f6fa56e22559ad Ramesh Babu         2017-08-23  2382  	/*
+f6fa56e22559ad Ramesh Babu         2017-08-23  2383  	 * If the manifest st=
+ructure contains no modules, fill all
+f6fa56e22559ad Ramesh Babu         2017-08-23  2384  	 * the module data to=
+ 0th index.
+f6fa56e22559ad Ramesh Babu         2017-08-23  2385  	 * res_idx and fmt_id=
+x are default set to 0.
+f6fa56e22559ad Ramesh Babu         2017-08-23  2386  	 */
+f6fa56e22559ad Ramesh Babu         2017-08-23  2387  	if (skl->nr_modules =
+=3D=3D 0) {
+f6fa56e22559ad Ramesh Babu         2017-08-23  2388  		res =3D &mconfig->mo=
+dule->resources[res_idx];
+f6fa56e22559ad Ramesh Babu         2017-08-23  2389  		iface =3D &mconfig->=
+module->formats[fmt_idx];
+f6fa56e22559ad Ramesh Babu         2017-08-23  2390  	}
+6277e83292a2d4 Shreyas NC          2016-08-12  2391  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  914  	/* returns the hex encoded iv, encrypted-data, and hmac as asc=
-ii */
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  915  	asciiblob_len =3D epayload->datablob_len + ivsize + 1
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  916  	    + roundup(epayload->decrypted_datalen, blksize)
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  917  	    + (HASH_SIZE * 2);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  918  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2392  	if (tkn_elem->token >=
+ SKL_TKN_MAX)
+6277e83292a2d4 Shreyas NC          2016-08-12  2393  		return -EINVAL;
+6277e83292a2d4 Shreyas NC          2016-08-12  2394  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  919  	if (!buffer || buflen < asciiblob_len)
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  920  		return asciiblob_len;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  921  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2395  	switch (tkn_elem->tok=
+en) {
+6277e83292a2d4 Shreyas NC          2016-08-12  2396  	case SKL_TKN_U8_IN_QU=
+EUE_COUNT:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2397  		mconfig->module->max=
+_input_pins =3D tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2398  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2399  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  922  	mkey =3D request_master_key(epayload, &master_key, &master_key=
-len);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  923  	if (IS_ERR(mkey))
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  924  		return PTR_ERR(mkey);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  925  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2400  	case SKL_TKN_U8_OUT_Q=
+UEUE_COUNT:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2401  		mconfig->module->max=
+_output_pins =3D tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2402  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2403  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  926  	ret =3D get_derived_key(derived_key, ENC_KEY, master_key, mast=
-er_keylen);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  927  	if (ret < 0)
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  928  		goto out;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  929  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2404  	case SKL_TKN_U8_DYN_I=
+N_PIN:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2405  		if (!mconfig->m_in_p=
+in)
+a86854d0c599b3 Kees Cook           2018-06-12  2406  			mconfig->m_in_pin =
+=3D
+a86854d0c599b3 Kees Cook           2018-06-12  2407  				devm_kcalloc(dev, =
+MAX_IN_QUEUE,
+a86854d0c599b3 Kees Cook           2018-06-12  2408  					     sizeof(*mcon=
+fig->m_in_pin),
+a86854d0c599b3 Kees Cook           2018-06-12  2409  					     GFP_KERNEL);
+6277e83292a2d4 Shreyas NC          2016-08-12  2410  		if (!mconfig->m_in_p=
+in)
+6277e83292a2d4 Shreyas NC          2016-08-12  2411  			return -ENOMEM;
+6277e83292a2d4 Shreyas NC          2016-08-12  2412  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  930  	ret =3D derived_key_encrypt(epayload, derived_key, sizeof deri=
-ved_key);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  931  	if (ret < 0)
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  932  		goto out;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  933  =
+f6fa56e22559ad Ramesh Babu         2017-08-23  2413  		skl_tplg_fill_pin_dy=
+namic_val(mconfig->m_in_pin, MAX_IN_QUEUE,
+f6fa56e22559ad Ramesh Babu         2017-08-23  2414  					      tkn_elem->v=
+alue);
+6277e83292a2d4 Shreyas NC          2016-08-12  2415  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2416  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  934  	ret =3D datablob_hmac_append(epayload, master_key, master_keyl=
-en);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23 @935  	if (ret < 0)
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  936  		goto out;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  937  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2417  	case SKL_TKN_U8_DYN_O=
+UT_PIN:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2418  		if (!mconfig->m_out_=
+pin)
+a86854d0c599b3 Kees Cook           2018-06-12  2419  			mconfig->m_out_pin =
+=3D
+a86854d0c599b3 Kees Cook           2018-06-12  2420  				devm_kcalloc(dev, =
+MAX_IN_QUEUE,
+a86854d0c599b3 Kees Cook           2018-06-12  2421  					     sizeof(*mcon=
+fig->m_in_pin),
+a86854d0c599b3 Kees Cook           2018-06-12  2422  					     GFP_KERNEL);
+6277e83292a2d4 Shreyas NC          2016-08-12  2423  		if (!mconfig->m_out_=
+pin)
+6277e83292a2d4 Shreyas NC          2016-08-12  2424  			return -ENOMEM;
+6277e83292a2d4 Shreyas NC          2016-08-12  2425  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  938  	ascii_buf =3D datablob_format(epayload, asciiblob_len);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  939  	if (!ascii_buf) {
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  940  		ret =3D -ENOMEM;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  941  		goto out;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  942  	}
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  943  =
+f6fa56e22559ad Ramesh Babu         2017-08-23  2426  		skl_tplg_fill_pin_dy=
+namic_val(mconfig->m_out_pin, MAX_OUT_QUEUE,
+f6fa56e22559ad Ramesh Babu         2017-08-23  2427  					      tkn_elem->v=
+alue);
+6277e83292a2d4 Shreyas NC          2016-08-12  2428  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2429  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  944  	up_read(&mkey->sem);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  945  	key_put(mkey);
-a9dd74b252e04b security/keys/encrypted-keys/encrypted.c Eric Biggers  2017-=
-06-08  946  	memzero_explicit(derived_key, sizeof(derived_key));
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  947  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2430  	case SKL_TKN_U8_TIME_=
+SLOT:
+6277e83292a2d4 Shreyas NC          2016-08-12  2431  		mconfig->time_slot =
+=3D tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2432  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2433  =
 
-d3ec10aa95819b security/keys/encrypted-keys/encrypted.c Waiman Long   2020-=
-03-21  948  	memcpy(buffer, ascii_buf, asciiblob_len);
-453431a54934d9 security/keys/encrypted-keys/encrypted.c Waiman Long   2020-=
-08-06  949  	kfree_sensitive(ascii_buf);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  950  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2434  	case SKL_TKN_U8_CORE_=
+ID:
+6277e83292a2d4 Shreyas NC          2016-08-12  2435  		mconfig->core_id =3D=
+ tkn_elem->value;
+9c80c5a8831471 Takashi Iwai        2018-10-03  2436  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2437  =
 
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  951  	return asciiblob_len;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  952  out:
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  953  	up_read(&mkey->sem);
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  954  	key_put(mkey);
-a9dd74b252e04b security/keys/encrypted-keys/encrypted.c Eric Biggers  2017-=
-06-08  955  	memzero_explicit(derived_key, sizeof(derived_key));
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  956  	return ret;
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  957  }
-7e70cb4978507c security/keys/encrypted_defined.c        Mimi Zohar    2010-=
-11-23  958  =
+6277e83292a2d4 Shreyas NC          2016-08-12  2438  	case SKL_TKN_U8_MOD_T=
+YPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2439  		mconfig->m_type =3D =
+tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2440  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2441  =
 
+6277e83292a2d4 Shreyas NC          2016-08-12  2442  	case SKL_TKN_U8_DEV_T=
+YPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2443  		mconfig->dev_type =
+=3D tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2444  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2445  =
 
-:::::: The code at line 935 was first introduced by commit
-:::::: 7e70cb4978507cf31d76b90e4cfb4c28cad87f0c keys: add new key-type encr=
-ypted
+6277e83292a2d4 Shreyas NC          2016-08-12  2446  	case SKL_TKN_U8_HW_CO=
+NN_TYPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2447  		mconfig->hw_conn_typ=
+e =3D tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2448  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2449  =
 
-:::::: TO: Mimi Zohar <zohar@linux.vnet.ibm.com>
-:::::: CC: James Morris <jmorris@namei.org>
+6277e83292a2d4 Shreyas NC          2016-08-12  2450  	case SKL_TKN_U16_MOD_=
+INST_ID:
+6277e83292a2d4 Shreyas NC          2016-08-12  2451  		mconfig->id.instance=
+_id =3D
+6277e83292a2d4 Shreyas NC          2016-08-12  2452  		tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2453  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2454  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2455  	case SKL_TKN_U32_MEM_=
+PAGES:
+6277e83292a2d4 Shreyas NC          2016-08-12  2456  	case SKL_TKN_U32_MAX_=
+MCPS:
+6277e83292a2d4 Shreyas NC          2016-08-12  2457  	case SKL_TKN_U32_OBS:
+6277e83292a2d4 Shreyas NC          2016-08-12  2458  	case SKL_TKN_U32_IBS:
+2b79b15c258a90 Colin Ian King      2017-09-20  2459  		ret =3D skl_tplg_fil=
+l_res_tkn(dev, tkn_elem, res, pin_index, dir);
+f6fa56e22559ad Ramesh Babu         2017-08-23  2460  		if (ret < 0)
+f6fa56e22559ad Ramesh Babu         2017-08-23  2461  			return ret;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2462  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2463  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2464  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2465  	case SKL_TKN_U32_VBUS=
+_ID:
+6277e83292a2d4 Shreyas NC          2016-08-12  2466  		mconfig->vbus_id =3D=
+ tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2467  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2468  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2469  	case SKL_TKN_U32_PARA=
+MS_FIXUP:
+6277e83292a2d4 Shreyas NC          2016-08-12  2470  		mconfig->params_fixu=
+p =3D tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2471  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2472  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2473  	case SKL_TKN_U32_CONV=
+ERTER:
+6277e83292a2d4 Shreyas NC          2016-08-12  2474  		mconfig->converter =
+=3D tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2475  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2476  =
+
+c0116be3d19139 Subhransu S. Prusty 2017-05-04  2477  	case SKL_TKN_U32_D0I3=
+_CAPS:
+6bd9dcf339ebb2 Vinod Koul          2016-11-03  2478  		mconfig->d0i3_caps =
+=3D tkn_elem->value;
+6bd9dcf339ebb2 Vinod Koul          2016-11-03  2479  		break;
+6bd9dcf339ebb2 Vinod Koul          2016-11-03  2480  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2481  	case SKL_TKN_U32_PIPE=
+_ID:
+6277e83292a2d4 Shreyas NC          2016-08-12  2482  		ret =3D skl_tplg_add=
+_pipe(dev,
+6277e83292a2d4 Shreyas NC          2016-08-12  2483  				mconfig, skl, tkn_=
+elem);
+6277e83292a2d4 Shreyas NC          2016-08-12  2484  =
+
+081dc8ab46df85 Guneshwor Singh     2017-04-27  2485  		if (ret < 0) {
+081dc8ab46df85 Guneshwor Singh     2017-04-27  2486  			if (ret =3D=3D -EEX=
+IST) {
+6277e83292a2d4 Shreyas NC          2016-08-12  2487  				is_pipe_exists =3D=
+ 1;
+081dc8ab46df85 Guneshwor Singh     2017-04-27  2488  				break;
+081dc8ab46df85 Guneshwor Singh     2017-04-27  2489  			}
+081dc8ab46df85 Guneshwor Singh     2017-04-27  2490  			return is_pipe_exis=
+ts;
+081dc8ab46df85 Guneshwor Singh     2017-04-27  2491  		}
+6277e83292a2d4 Shreyas NC          2016-08-12  2492  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2493  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2494  =
+
+f6fa56e22559ad Ramesh Babu         2017-08-23  2495  	case SKL_TKN_U32_PIPE=
+_CONFIG_ID:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2496  		conf_idx =3D tkn_ele=
+m->value;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2497  		break;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2498  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2499  	case SKL_TKN_U32_PIPE=
+_CONN_TYPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2500  	case SKL_TKN_U32_PIPE=
+_PRIORITY:
+6277e83292a2d4 Shreyas NC          2016-08-12  2501  	case SKL_TKN_U32_PIPE=
+_MEM_PGS:
+8a0cb2360ddb94 Vinod Koul          2016-11-03  2502  	case SKL_TKN_U32_PMOD=
+E:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2503  	case SKL_TKN_U32_PIPE=
+_DIRECTION:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2504  	case SKL_TKN_U32_NUM_=
+CONFIGS:
+6277e83292a2d4 Shreyas NC          2016-08-12  2505  		if (is_pipe_exists) {
+6277e83292a2d4 Shreyas NC          2016-08-12  2506  			ret =3D skl_tplg_fi=
+ll_pipe_tkn(dev, mconfig->pipe,
+6277e83292a2d4 Shreyas NC          2016-08-12  2507  					tkn_elem->token, =
+tkn_elem->value);
+6277e83292a2d4 Shreyas NC          2016-08-12  2508  			if (ret < 0)
+6277e83292a2d4 Shreyas NC          2016-08-12  2509  				return ret;
+6277e83292a2d4 Shreyas NC          2016-08-12  2510  		}
+6277e83292a2d4 Shreyas NC          2016-08-12  2511  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2512  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2513  =
+
+f6fa56e22559ad Ramesh Babu         2017-08-23  2514  	case SKL_TKN_U32_PATH=
+_MEM_PGS:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2515  	case SKL_TKN_U32_CFG_=
+FREQ:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2516  	case SKL_TKN_U8_CFG_C=
+HAN:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2517  	case SKL_TKN_U8_CFG_B=
+PS:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2518  		if (mconfig->pipe->n=
+r_cfgs) {
+f6fa56e22559ad Ramesh Babu         2017-08-23  2519  			ret =3D skl_tplg_fi=
+ll_pipe_cfg(dev, mconfig->pipe,
+f6fa56e22559ad Ramesh Babu         2017-08-23  2520  					tkn_elem->token, =
+tkn_elem->value,
+f6fa56e22559ad Ramesh Babu         2017-08-23  2521  					conf_idx, dir);
+f6fa56e22559ad Ramesh Babu         2017-08-23  2522  			if (ret < 0)
+f6fa56e22559ad Ramesh Babu         2017-08-23  2523  				return ret;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2524  		}
+f6fa56e22559ad Ramesh Babu         2017-08-23  2525  		break;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2526  =
+
+f6fa56e22559ad Ramesh Babu         2017-08-23  2527  	case SKL_TKN_CFG_MOD_=
+RES_ID:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2528  		mconfig->mod_cfg[con=
+f_idx].res_idx =3D tkn_elem->value;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2529  		break;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2530  =
+
+f6fa56e22559ad Ramesh Babu         2017-08-23  2531  	case SKL_TKN_CFG_MOD_=
+FMT_ID:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2532  		mconfig->mod_cfg[con=
+f_idx].fmt_idx =3D tkn_elem->value;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2533  		break;
+f6fa56e22559ad Ramesh Babu         2017-08-23  2534  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2535  	/*
+6277e83292a2d4 Shreyas NC          2016-08-12  2536  	 * SKL_TKN_U32_DIR_PI=
+N_COUNT token has the value for both
+6277e83292a2d4 Shreyas NC          2016-08-12  2537  	 * direction and the =
+pin count. The first four bits represent
+6277e83292a2d4 Shreyas NC          2016-08-12  2538  	 * direction and next=
+ four the pin count.
+6277e83292a2d4 Shreyas NC          2016-08-12  2539  	 */
+6277e83292a2d4 Shreyas NC          2016-08-12  2540  	case SKL_TKN_U32_DIR_=
+PIN_COUNT:
+6277e83292a2d4 Shreyas NC          2016-08-12  2541  		dir =3D tkn_elem->va=
+lue & SKL_IN_DIR_BIT_MASK;
+6277e83292a2d4 Shreyas NC          2016-08-12  2542  		pin_index =3D (tkn_e=
+lem->value &
+6277e83292a2d4 Shreyas NC          2016-08-12  2543  			SKL_PIN_COUNT_MASK)=
+ >> 4;
+6277e83292a2d4 Shreyas NC          2016-08-12  2544  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2545  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2546  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2547  	case SKL_TKN_U32_FMT_=
+CH:
+6277e83292a2d4 Shreyas NC          2016-08-12  2548  	case SKL_TKN_U32_FMT_=
+FREQ:
+6277e83292a2d4 Shreyas NC          2016-08-12  2549  	case SKL_TKN_U32_FMT_=
+BIT_DEPTH:
+6277e83292a2d4 Shreyas NC          2016-08-12  2550  	case SKL_TKN_U32_FMT_=
+SAMPLE_SIZE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2551  	case SKL_TKN_U32_FMT_=
+CH_CONFIG:
+6277e83292a2d4 Shreyas NC          2016-08-12  2552  	case SKL_TKN_U32_FMT_=
+INTERLEAVE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2553  	case SKL_TKN_U32_FMT_=
+SAMPLE_TYPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2554  	case SKL_TKN_U32_FMT_=
+CH_MAP:
+f6fa56e22559ad Ramesh Babu         2017-08-23  2555  		ret =3D skl_tplg_wid=
+get_fill_fmt(dev, iface, tkn_elem->token,
+6277e83292a2d4 Shreyas NC          2016-08-12  2556  				tkn_elem->value, d=
+ir, pin_index);
+6277e83292a2d4 Shreyas NC          2016-08-12  2557  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2558  		if (ret < 0)
+6277e83292a2d4 Shreyas NC          2016-08-12  2559  			return ret;
+6277e83292a2d4 Shreyas NC          2016-08-12  2560  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2561  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2562  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2563  	case SKL_TKN_U32_PIN_=
+MOD_ID:
+6277e83292a2d4 Shreyas NC          2016-08-12  2564  	case SKL_TKN_U32_PIN_=
+INST_ID:
+d956147473ec18 Sriram Periyasamy   2017-11-07  2565  	case SKL_TKN_UUID:
+6277e83292a2d4 Shreyas NC          2016-08-12  2566  		ret =3D skl_tplg_fil=
+l_pins_info(dev,
+6277e83292a2d4 Shreyas NC          2016-08-12  2567  				mconfig, tkn_elem,=
+ dir,
+6277e83292a2d4 Shreyas NC          2016-08-12  2568  				pin_index);
+6277e83292a2d4 Shreyas NC          2016-08-12  2569  		if (ret < 0)
+6277e83292a2d4 Shreyas NC          2016-08-12  2570  			return ret;
+6277e83292a2d4 Shreyas NC          2016-08-12  2571  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2572  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2573  =
+
+a4ad42d28618ee Kareem Shaik        2021-08-18  2574  	case SKL_TKN_U32_FMT_=
+CFG_IDX:
+a4ad42d28618ee Kareem Shaik        2021-08-18  2575  		if (tkn_elem->value =
+> SKL_MAX_PARAMS_TYPES)
+a4ad42d28618ee Kareem Shaik        2021-08-18  2576  			return -EINVAL;
+a4ad42d28618ee Kareem Shaik        2021-08-18  2577  =
+
+a4ad42d28618ee Kareem Shaik        2021-08-18 @2578  		mconfig->fmt_cfg_idx=
+ =3D tkn_elem->value;
+a4ad42d28618ee Kareem Shaik        2021-08-18  2579  		break;
+a4ad42d28618ee Kareem Shaik        2021-08-18  2580  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2581  	case SKL_TKN_U32_CAPS=
+_SIZE:
+a4ad42d28618ee Kareem Shaik        2021-08-18  2582  		mconfig->formats_con=
+fig[mconfig->fmt_cfg_idx].caps_size =3D
+6277e83292a2d4 Shreyas NC          2016-08-12  2583  			tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2584  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2585  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2586  =
+
+133e6e5c27340f Shreyas NC          2017-05-15  2587  	case SKL_TKN_U32_CAPS=
+_SET_PARAMS:
+a4ad42d28618ee Kareem Shaik        2021-08-18  2588  		mconfig->formats_con=
+fig[mconfig->fmt_cfg_idx].set_params =3D
+133e6e5c27340f Shreyas NC          2017-05-15  2589  				tkn_elem->value;
+133e6e5c27340f Shreyas NC          2017-05-15  2590  		break;
+133e6e5c27340f Shreyas NC          2017-05-15  2591  =
+
+133e6e5c27340f Shreyas NC          2017-05-15  2592  	case SKL_TKN_U32_CAPS=
+_PARAMS_ID:
+a4ad42d28618ee Kareem Shaik        2021-08-18  2593  		mconfig->formats_con=
+fig[mconfig->fmt_cfg_idx].param_id =3D
+133e6e5c27340f Shreyas NC          2017-05-15  2594  				tkn_elem->value;
+133e6e5c27340f Shreyas NC          2017-05-15  2595  		break;
+133e6e5c27340f Shreyas NC          2017-05-15  2596  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2597  	case SKL_TKN_U32_PROC=
+_DOMAIN:
+6277e83292a2d4 Shreyas NC          2016-08-12  2598  		mconfig->domain =3D
+6277e83292a2d4 Shreyas NC          2016-08-12  2599  			tkn_elem->value;
+6277e83292a2d4 Shreyas NC          2016-08-12  2600  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2601  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2602  =
+
+939df3ada789cc Ramesh Babu         2017-06-19  2603  	case SKL_TKN_U32_DMA_=
+BUF_SIZE:
+939df3ada789cc Ramesh Babu         2017-06-19  2604  		mconfig->dma_buffer_=
+size =3D tkn_elem->value;
+939df3ada789cc Ramesh Babu         2017-06-19  2605  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2606  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2607  	case SKL_TKN_U8_IN_PI=
+N_TYPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2608  	case SKL_TKN_U8_OUT_P=
+IN_TYPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2609  	case SKL_TKN_U8_CONN_=
+TYPE:
+6277e83292a2d4 Shreyas NC          2016-08-12  2610  		break;
+6277e83292a2d4 Shreyas NC          2016-08-12  2611  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2612  	default:
+6277e83292a2d4 Shreyas NC          2016-08-12  2613  		dev_err(dev, "Token =
+%d not handled\n",
+6277e83292a2d4 Shreyas NC          2016-08-12  2614  				tkn_elem->token);
+6277e83292a2d4 Shreyas NC          2016-08-12  2615  		return -EINVAL;
+6277e83292a2d4 Shreyas NC          2016-08-12  2616  	}
+6277e83292a2d4 Shreyas NC          2016-08-12  2617  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2618  	tkn_count++;
+6277e83292a2d4 Shreyas NC          2016-08-12  2619  =
+
+6277e83292a2d4 Shreyas NC          2016-08-12  2620  	return tkn_count;
+6277e83292a2d4 Shreyas NC          2016-08-12  2621  }
+6277e83292a2d4 Shreyas NC          2016-08-12  2622  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============4281132719474119865==
+--===============2407980494801279391==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
---===============4281132719474119865==--
+H4sICBWsJ2EAAy5jb25maWcAlDzJdty2svt8RR9nkyySq8FWnPOOFyAIspEmCQYAW93a8Chy29F5
+tuSr4d74718VwKEAomW/LGKxqjAXakb/+MOPK/b8dP/5+un25vrTp6+rj4e7w8P10+H96sPtp8P/
+rHK1apRdiVzaX4G4ur17/udft+dvL1Zvfj19/evJLw83p6vN4eHu8GnF7+8+3H58hua393c//PgD
+V00hy57zfiu0karprdjZd68+3tz88vvqp/zw1+313er3X8+hm7Ozn/1fr0gzafqS83dfR1A5d/Xu
+95Pzk5OJtmJNOaEmMDOui6abuwDQSHZ2/ubkbIRXOZJmRT6TAihNShAnZLacNX0lm83cAwH2xjIr
+eYBbw2SYqftSWZVEyAaaigWqUX2rVSEr0RdNz6zVhEQ1xuqOW6XNDJX6z/5SaTK1rJNVbmUtessy
+6MgobWesXWvBYEeaQsH/gMRgUzjSH1elY5BPq8fD0/OX+ZBlI20vmm3PNOyQrKV9d34G5NO06hbn
+a4Wxq9vH1d39E/Ywtu5YK/s1DCm0IyGHoDirxt1+9SoF7llH98+trDessoR+zbai3wjdiKovr2Q7
+k1NMBpizNKq6qlkas7s61kIdQ7xOI66MJewXznbaSTpVupMxAU74Jfzu6uXW6mX065fQuJDEKeei
+YF1lHa+QsxnBa2Vsw2rx7tVPd/d3h58nAnPJyIGZvdnKli8A+C+31QxvlZG7vv6zE51IQxdNLpnl
+6z5qwbUypq9FrfQebxvj6xnZGVHJjMiXDiRldLxMQ6cOgeOxqorIZ6i7YXBZV4/Pfz1+fXw6fJ5v
+WCkaoSV3dxmuf0ZmSFFmrS7TGFEUgluJEyqKvvZ3OqJrRZPLxgmMdCe1LDUIMriMSbRs/sAxKHrN
+dA4oA8fYa2FggHRTvqbXEiG5qplsQpiRdYqoX0uhcZ/3y85rI9PrGRDJcRxO1XV3ZBuY1cBGcGog
+iEDWpqlwuXrrtquvVS7CIQqlucgHWQubTji6ZdqI44eQi6wrC+PEwuHu/er+Q8Q0s15UfGNUBwN5
+3s4VGcbxJSVxF/NrqvGWVTJnVvQVM7bne14l2M+pk+2Cx0e0609sRWPNi8g+04rlnFE1kCKr4dhZ
+/keXpKuV6bsWpxxdRn//edu56WrjlFukHL+Hxi1206HaGzSWu7z29vPh4TF1f0H7b3rVCLigZMKg
+y9dXqB5rd2cmSQrAFlaicskTktS3kjk9BQcji5XlGhlwWALllcUcJ9XZFtFuCQD1f8hpefCZWhtS
+Lc59bhoC4NZcsr3pqZAYUaMuiHFd02q5ndEFmSiIYI23q8+BRGi6i9i01aICfkrsImIrU9OtCdc3
+8YMWom4tbLGzxqbuR/hWVV1jmd4nleJAlZjA2J4raE6uP1+DXOBKi3HbgRX/Za8f/3f1BEe3uoa5
+Pj5dPz2urm9u7p/vnm7vPkZ8hrzLuOs3kCwoPRznppDuxP3gbBvpgMzkqHW4AFUIbe1xTL89J7cE
+Lg5aviYEwUFWbB915BC7BEyq5HRbI4OPiTtyadCmzenBfscOTnIP9k4aVY1qzp2A5t3KJC41nGAP
+uHki8NGLHdxdeqABhWsTgXCbXNNBgCVQC1CXixTcasYTc4JTqKpZ0BBMI+DAjSh5VkkqSxFXsEZ1
+zpRfAPtKsOLd6UWIMTYWRG4IxTPc16Nz7Z2/UWf0yMItD837TDZnZJPkxv+xhDjWpGDvZRB+rBR2
+CvJrLQv77vQ3CkdWqNmO4qedAIHUWPDrWCHiPs6DG9WBR+Z9LH+vUYWNbGVu/j68f/50eFh9OFw/
+PT8cHmfe6sCrrdvR+QqBWQdqEHSglxxv5k1LdBio+0vW2D5DUwCm0jU1gwGqrC+qzhCrlpdadS3Z
+pJaVwg8miK0DNjEvo8/IWvewDfxDJEa1GUaIR+wvtbQiY3yzwLjNm6EFk7pPYngBFgRr8kuZW7Ik
+bdPkZJf79JxamZsFUOfUHxyABdzsK7pBA3zdlQJ2mcBbUFpUKCKX4kADZtFDLraSiwUYqEN5OU5Z
+6GIBDLT7AKul4YnBwLwk0kvxzYRiliwbvTWwVUH0k/0ErmyouEdtQwHoqtFvVN8BALeBfjfCBt9w
+fnzTKrh9aN9YryYD1YkBgegswToBvsgFqFww2CkDxJh+S0IAGvVUyLlwFM5Q1qQP981q6Mfby8S7
+1XkUcABAFGcASBheAACNKji8ir5fB99h6CBTCo2KUCJy3qsWTkNeCXQ9HI8oXbOGBzZNTGbgj4Tp
+AjJY6XbNGpAougl2M/CovQSU+elFTANakovW+UZODcR2OjftBmYJahinOWNj5Rp1XoMFIJGnyHhw
++9DdXZqo/uwX4ALWFdjW3iGYLOlAA8TffVMTuyS4SaIqRrNubHJslRkDB7Dogll1VuyiT7gspPtW
+BYuTZcMqGtF0C6AA50lRgFkHkppJwnZghnU6sMBYvpVGjPtHdgY6yZjWkp7CBkn2tVlC+mDzJ6jb
+AryAGLMI5YWz8+i8nW7D2Og8Mkyr4dF2b3hNb6IRxMJ1Ui+CQWciz6m08LwJM+hjT9YBYXL9tnZh
+AXrIpyevR40/xMrbw8OH+4fP13c3h5X4z+EOTFEGGpyjMQrO2WwFJMfyc02MONkB3znM2OG29mOM
+Op6MZaoui1UChnMZ2BHOIZ5Eh6lYlhAV2EFIptJkLIPj02BoDIY8nQPgULuihdpruJ2qPobFeBMY
+0QFTd0UB9pczYhIhG7dCNPVapq1koXywonZaD0P+spA8Cn75QHxwK5w0c/op8LrDwPlIvHt70Z8T
+XeCCQn2+B9UqeV9EkhGoqdLxkX6UoLng4AGTNYGB3oKN7iS8fffq8OnD+dkvmLehIfQNaL3edG0b
+BP/BWuUbb5kvcEFAzF26Gk1I3aBJ7mMy796+hGc74jKEBCNTfaOfgCzobgqRGdYH5tmICHjY9wpe
+6KBu+iLnyyYg2GSmMfKVh6bAJHGQcVBK7RI4YA24TH1bApvEUWEw87yl5p11cICoyQN2yIhyQgi6
+0hh5W3c0wRTQOfZOkvn5yEzoxgcjQZ8ZmVEN50hMZzAAfAztfAe3Maxa2rRuUcD0ourtzgY8Cxze
+Gyp5h9Ecc2GcDsPZROQUoGwF09WeY+CUKqS29K5UBdIKFM7kjA2ZMcMa4fkXN1xwf82d3G0f7m8O
+j4/3D6unr198BGDpcgWTxIkXgtlOC2/phqi6dVFawjKqygtJ3SgtLKjkIIWHLT3HgA2kqxCRyXIx
+A7GzcCR4zAsbAdHLQRHqj6GWeQr8Z8doIHNGVK2J1sjqedyFDyKVKcBll0tIrC6wK53z87PT3YIv
+GjhiOLEmZzqa7cQfQ+oFXL6qC4x9y852p6eLLqWWVH85l0DVEqQh2OgYAZahG7vewxUCSwas3bIL
+so9wwmwrdQISL3GCm1Y2LnAeTmu9RVFSoWsLmoQH+mcD2jca2Ifm2w5DvMDZlQ1Nu3a7Tgx9NLA3
+UYyxh0kX16/fXphdMmyJqDTizQsIa/hRXF3vEnq/vnBKbaYEEQQWfC1luqMJ/TK+fhGbTl/WmyML
+2/x2BP42Dee6M0qkcaIAK0KoJo29lA0mwviRiQzo8/xI3xU70m8pwD4od6cvYPvqCCPwvZa7o/u9
+lYyf9+lctEMe2Tu0zI+0AvOsTnCKk3dxfHQUX7rBJXAGt30Iw11Qkur0OM5LP/QruGr3YddoXreg
+THzUwXSR+LUmmgo4GDu+Li9ex2C1jdSHbGTd1U4ZFGDsVftwUk6+gJtcGyIpJAPxhjqpD5xspN/W
+u2PaaojOozMvKhGEi2BwELN+B5Zgd/CBeTpiQDEsget9SU3jqRe4cqzTSwTYmI2pBdjWqSG6mifh
+V2umdjRdu26Fl306gom6q9By05YcUk6988ZZTgY9CrCdMlFCv2dpJOatL17HuNFTOY9bEYhXQKZe
+ZHhqvoRgEEGFJ+tqXXrWLrheJYBaaDD9fegm02ojGh8Nwgx8xICRY4EAjGNXomR8v0DFPDKCA05w
+NkPDJXqSqf5dstuswWZJ9f+H501vrhHH9fP93e3T/UOQ5SJu8Xh/myi0sqDQrK1ewnPMVB3pwVlC
+6nJILw4u3ZFJBofndhNuJ/Xcwi8kO73IZGQzC9OCHUxvgD/0tsL/CWoIWgVSLSP+g3y7idkCuQD6
+C6L64GKCaAgKEyZQfN4zIjjxGaywhA4FcRG7rH0gwwYLWOZU6TcK89Vg6CXE/oB5XdIGA/DidZlo
+sa1NW4G9dx40maEY4UxqnpHkrPwG+ps9nKbm5Tw0VRQY4T/5h5/4/6J1xjvFfOmgsZKTo3MGYgHi
+DVqAbGIJZ865J8fRThWMtjXmz8lhywr5thpNZSz/6MS7YKatjb0aVJDgwijMSmndtWGgxPk3wINo
+i9bjsDOhb074ymodfqFzJ60M8ishfFjoJJRPjpDhzmBk0QnrkfiUTrRlsS0OdoAB7xOlDAsTSA4d
+h6Sc/1KzyJcDqzWCDP6y2bkTGOoaJmZKUaTtuwQlJkESPCgKGjEuJHBXGJ5bX/WnJyepe3jVn705
+iUjPQ9Kol3Q376CbUO+tNVYtEI9I7ATNS2lm1n3eUd/YkfR/BLB2vTcSlSXcGI1X7DS8YVgJwpkN
+b4M/Okx3YMA5PB4XX3GtTGIUVsmygVHOwmsMPF51ZZjunjmfoE+IVeICumncEPDa5oZWCdc5Bhaw
+42oBJeknYAVZ7PsqtyTNMSuwF4IiAX/X6xbvLMbgfEgGb+8kV7zGvv/v4WEFyvD64+Hz4e7J9cZ4
+K1f3X7AgnIRZFvEon5Qn1pAPRC0AywzriDAb2bqIP7EBhwHE5HmbJTIsVSRTMg1rsVQLwx7k7Gvg
+rdwHim1YkoyoSog2JEZIGFYCKF7NJe0l24gockChQ1X16cxpAbakCYc66CIOVdSYuMG8X55AYTHb
+cv+npUQNcjeHuLCQQp1ljjUkp2d04lFge4SEtjpAebUJvse4rK/ZJFt1+ae3z3rnXzsLdJFGWLZP
+HFlMoUjWHFHlQluG0UxkeYJbfI0moRNDcKpKbbo4NFqDgrVD8TA2aWlo2kGGzIRfsrNbzTJa7yjd
+iZX0zgTgPsyV+s5brvtITHpEuFsOpsW2V1uhtcxFKnKMNCCp55pVimDxujJmweDYx9DOWnpRHXAL
+A6oIVrCYyrI8XrmiqsaBnBOuBbCQiWc4O8+xexChw2rMEBnBZVvHTJHUGtEIrCzBaAlzV36Na3AH
+aN7KNxwDt8NjkYjH3CMTv0NoNHVtqVker+AlXCQK/JgcmUTFPAh/W7hMC0YbVy1V6Ml6Zsviswjt
+LtdxZ6xCc9KuVYzLysVd0CLvUOxhjvASjUDVVITX5gvHWiGPwcMEf4J8pizXYsHxCIdtEmyxGw51
+LNg9UwjwlJNwzPykDiVvLZFh+DW5sgEMPQq5jWeVqBt3V3pnqwXQ/10EGkxiQQnwbaBps73lmh/D
+8vVL2J0Xesd63tn+8qWev4HNsY79GIFtzcXb17+dHMMPcklFrjxqtzA+5QIlAEa7kDSnihvRYF8q
+4FJXIrXQyUiQq6V31/qgYiSPkFiCb8r2fVaxIDuIBkFVqct+SFmPJcer4uHw7+fD3c3X1ePN9acg
+/jJKTLJ5owwt1dY9SuvDQjaKjstQJySKWOphTIixthdbk8qlpO+RboRMY+Aif38T3HZX3pbwYpIN
+nDPTWVkdWXZYcpWkGGd5BD9N6QheNbmA/vOj+94ML1KOjkDXMDHCh5gRVu8fbv8T1KkAmd+P8MwH
+mFNGgSU9e6xtpFfdjcGnk751dGkGdf0yBv7Nog5xYxvg8c3FMcRvRxGRFRdi30bTqPOBlUVjwEfY
+ShsFU8udu8u1ivOdLXibYNX5iLmWjfoWPrbRQirJ18dQpo6X89rnBheTGje0cYUpUTCyUk2pu2YJ
+XMOVCKFiZu0pJf/49/XD4f3SPQznGjyvC1Gu7AJLqsEtHeNHtOI/IcAmlpbvPx1CcRYKzBHiLkXF
+8sA/DZC1oA+MA5SlBmqAWeZ0R8iY9o3X4iY8EvubE5N92wX3j3ieH0fA6icwRVaHp5tff/Y7M2ht
+MONKhbG89IsWh65r//kCSS614OlAqSdQVZt63+SRrCE3B0E4oRDiBwhh47xCKI4UQniTnZ3AcfzZ
+SVoPgdVDWWdCQF4zTLYEwPnDcIwBxd9rHWv9cA741e/UaeCuT8DAEZ6ghssl9E0IZpUkZRaNsG/e
+nJAiiVLQTURx1QTxP3fF9qbIwmMbH0ilecfz1e3d9cPXlfj8/Ok6utJDDMtlM+a+FvShwQ2WPVZz
+KR9HdUMUtw+f/wtSY5XH+kfktK41z8M3YoXUtTP4fRCLWL61pFUy8OmLgiMQPuOvGV9jyA0rVjBw
+WgxRJcoUHJ+NZoWFAakSnhFkSpc9L8p4NAqdwnnz2SlVVmJazQIRyPUBhlkxlwKMlMWAxgcaYBWo
+F1EklfUS1TjUgmbb5uMJws6tfhL/PB3uHm//+nSYT1RiReqH65vDzyvz/OXL/cMTOVzY7i2jVakI
+EYY6eCMN2hNBIjBCxM/EQkKNtTM1rIoyiT/tzZJ7EIHvg0bkXLNI+7rUrG1FPPsxzoTx9+FBwRTV
+xQeLVHAgPW6shzt3WtO4L+JBCZquSrcdcU7U+QKwntOiMSQKf3gBpowlsxpTjVZSNxZfNVv/EH7T
+12DilFEY1a2dy7OY4xA+bLoX3q5GcxIH/x/OCNhgKNJOXIvOLb6l2zGBwmJaNzexxczPuneZs2gL
+x3rEaGN9/MEYMHExCAbu1eRB2cPHh+vVh3EV3mJ2mPEdbppgRC9kXSAdN1uiNUYIpvnDd/QUU8R1
+7AO8x5KB5UvQzVgUTtshsK5piQJCmKu1X7wedsQmDqQgdCqa9SljfAgS9rgt4jGmuKzUdo+FCu7J
+4FDneWRh2b5lNKI3IfEnVALrC4G7An9+RPlavOi599SyxcZWFsHbBiyu60DvXkU3wR/S/PMY0B6M
+YK10wuZxcw5z7m5r62j3d6KJj6OLf3YCQ3vb3ZvTswBk1uy0b2QMO3tzEUNtyzozZXbGyvXrh5u/
+b58ON5gf+uX94QvwKRqZC/vdp+uilxcuXRfCxuhfUBozHjO6OETZbOIaYcz8gV2e0f3yv7EDY+0N
+5reLUKINWEwGJbCqtfEQw5iY8YoL8Rcly/61/JR66BqXHMS3aByjt2R3h2yye8gKt67PwgeTGywa
+jjp38R+Ad7pJMJ8vvIadxexcotB8sXUemhjHIRIbQbtJ7YbDF13j3yI4Bk//EgiQBcHT+edRXI9r
+peIrh4Y3qjtZdooa5ZP2BC5wTpX/GY1on10NvgL9VezHl3lLAtRmPup6BOmdjNAkIDP3v5Xk32L0
+l2tpRfiOeqqdN9O7Dvfa1LdI0jXKv+6IkOdnmXQ/ftAvfmLG1JiVGn4RKT46LUoQCJgldTrbs2To
+z3i64PFTeKr4u05HG64v+wx2wb/KjHC1RBd9Rhs3nYjoOzicVmMtmQgj+hjAcM9XfeV/9Ap27iQx
+/viUSg9bFNYazIedkjopbOLdGoppsJTWYkituVx2Eo3v4VMkA1P6S+Qfng/lpvFkBtkz8CSWHUUU
+QztfW3gEl6vuyBsQfMLrf6Jm/GWuxGYYwdHrewE1PI8hEjpu8g3CoaQ3ynmQcfAsK2C8CLl4ITJr
+iO+A47aqJn5JNOV/K7Ag3O/RfZMARAetY0X48Asji5VcSqQdmNM9Y4g5+Nu/7FErZPQuNgI9uP4/
+zt6sSW4cWRf8K2n1cE+3zampIBkLY8z0gOASQQW3JBhL6oWWJWVVpbW2SaVOV99fP3CAC9zhDOlO
+W5ek+D4HiH11uFN4GJVLrS2lKh0e/OCWNDUI4CAOWE40NANqXBo00pIIntBZjb6KT3AJDvMhPI5t
+nH4lq7SFrKkRqLr0BcAM0zrwoMjD5QQ9Q6PT9hWM+HDzBw41bu76IyI8EEZ5Bfo4Kn1qD2JbDADF
+SJnt+/ubwCEEmSbHsxIY7KFKufxMWktH0yh6tcJpl8YLuEoR01TXqgm1HWy4NZer3QFmKRrcVCkb
+nKOmHIGdnsAfdLTwLDYumtQ8za1zYOS3H7DSoP3LYLWojJqHms5Q1sKQTgu9gZ5+3uaa/txDeNzn
++we7qvuQt8F9xwCVUTXDrsdnwvuoOv/6++O3pw93/zJPeb++fPnjGV/CgVBfKUyGNTsYihwUv+yQ
+Fsee9d1KAyomsMsJK3mjkOO8eP3BvmFssaqFwJt2e2jTb8AlPG+2tDlNM1I9Z3jeSscTCvSvauFk
+xKFOJQubEAzpLrFm115DQptotFRpt7ApHxxmUsAyM7Ho/Z1dyZjy/ZlHT1hqNfPyCEkF4c/Epfaf
+3HuvSUa10sObX7799ej9QlgYAxtYa1KTW5QH2xq3kjIKzti7pGIzpit7MXNNXmRSgpHE0fxJlxW6
+m6Na0dslfZ705pffvv3+/Pm3T18+qA70+9Mv0+fVwFioVqaGtliN0w+FnP22NHajqLrYLkfaTGCg
+RM2WepAhcwdQ+hi6Se7xY8PJHo8am/sbeIuCY7Gd3LMgupybrKO0yb5B954O1bXewqXfVejh/gCr
+ublqW/zK3uVU2VxIpvrjVHqeB9xl1zpAV9yzpZKBMTA1dzywbBrBYWkWzwSNqpmyzir81sfkCOYJ
++0LARrnygZZT1fYiHlBjOXiY77CCDEfblxlGm/fx5fUZxue79j9f7SfSo+rrqERqjYRRpfZvk3Ls
+HNFFp0KUYp5PElld52n8EoKQIk5vsPoWuk2ieYkmk5F9gSayK5cleOrM5bRQCzqWaEWTcUQhIhaW
+cSU5AuztxZk8kl0ovCcExYIdEwSM2als9U8bHPqkQurLMSbaPC64IABTM1F7NntqrdnwJShPbFs5
+CjWncwSct3PRPMjzOuQYq/uP1HRXThq43T2Ke7ifwF1GYXDKSzusgrEpMAD1ha6x5VtNFtmsTqRC
+ZZV5+hCrXQe+5GNIx1yaJXN82Nlj2wDvUnssS++7YdAh9s+AIna/JqOyKPXjCDBawzTnNMhMHDYQ
+JmTpoXZmxh14I6/XVs5ebtKiNpe/TWEN6Xp1aAKb7aCdbzVzqQX+DKn3BzPcuLfQZp9j7gH/PEMD
+Nxc+qIOPq3S4TTY3R2oOKcGmUqwXIkTLa9pmDVaNul2SDsqB2LiwJatffAwXkJPE9IzC3Mn+/fT+
+++sjXLqB1f87/ajx1Wqvu6xMixZ22VZ3zFN8nK8TBQdn4w0r7Mode4t9XDJqMnsn1sPEIF0FGrtF
+bTfKucTqnBRPn768/OeumFRgnNuJmw/fhhd1ano6CbRjmp7TGY5ZqPWBraFpDEOt/5uzVbCWuUfd
+2iTKtj5q12n/vq2X6q9P7M/BNrJudWvXj5CXJOIdLAzRZGIAc+bAnUMQTL9gbBLoo2g1xpgFj/Sp
+fUf2uzu1PbfbtTFcUWGNGzgLdU+Bj9Iq2qGJ6RMaYwk6bt4sF1tsXOiHNkTm8MOlrlQ1lNOz5HHF
+futIjGN7e8d2Y2LFCmNOjVM2zRNh3h3aXViVL746ipBJSjWJUqtdA2QvkAAkOigAgT0i+WY0hvqu
+/9KYAw2M26aqmbQqEugGXC5mgxjjhj+OOlzy9iJuRMxvU28FOPD2S2aDzGwY5+Tf/PLxf3/5BUu9
+q6sqnyLcnWK3OIhMkFY5bwOEFZfGQNxsOpH4m1/+9+/fP5A0coa5dSjr584+WzZJtH5LahZvQDq8
+5RwvgEHhYrjXtAtEX/fpHgOXhkc1DjH5msxz6SsCs+xAZ8OjBGyq9D0jOj8dUGtIKNTYn8HlpjV8
+6bPI1B4hk0ZbqsBGr/dg7gJtuvWlITw/UTvYWptrSLnlQd0m5tzc3uEV/VpBq0KoGTbH2kVHSNRw
+szPOm/NT4xCutPMPVlfVNxp0eQ1gwmBqliaKmPK4M6arhjMxPT2XT6///vLyL1Agd+ZlNdcc7QSY
+3yqPwhrCYKuCf6mFREEQHKS1DVOqH44dK8DaylajTpGVLfULDs/xSaBGRb6vCIRf02mIM4oAuNqr
+gRJKhoxtAGEmU0ecsQJgUnEgQCJrmoQa36tBnR2TBweY+XQCK982si/mkO2SIiJlfo1rbTYY2Ti2
+QCKeoZaX1caIK/YAodDx1ao2cdIgLs12cJiW0I43RAbKbObFJeKMsRQjIWxz0SOnlua7yn4XPjJR
+LqS0j30UU5c1/d3Fh8gF9YNwB21EQ2opqzMH2WslxuJ0pUTXnkp0FzDKc1EwbjagtPrMkRc6I8MJ
+3yrhOitk0Z09DrTUk9S2Rn2zOiJNQ5PWc5th6BTzOU2rkwNMpSJxe0PdRgOo2wyI2/MHhvSIzCQW
+9zMN6i5E06sZFnS7Rqc+xMFQDgzciAsHA6SaDVxeWx0folb/3DOneSO1Q/4IBjQ68fhFfeJSVVxE
+B1RiEyxn8IddLhj8nOyFZPDyzICwA8ZqqCOVcx89J/a7mxF+SOz2MsJZrlYWVcalJo74XEXxnivj
+HXJcMiy3dqz7l4EdqsAJBgXNrg5HASjamxK6kH8gUfJOwgaBoSXcFNLFdFNCFdhNXhXdTb4h6ST0
+UAVvfnn//ffn97/YVVPEK3Q9pwajNf7Vz0VwKJZyjPahRwhjXx2m8i6mI8vaGZfW7sC0nh+Z1jND
+09odmyApRVbTDGV2nzNBZ0ewtYtCFGjE1ojMWhfp1siGPqBlnMmoA1N+7UOdEJL9FprcNIKmgQHh
+A9+YuCCJpx3cuVHYnQdH8AcRutOe+U6yX3f5hU2h5g6FbSdhwpFHB9Pm6pyJSdUUvS2o3clLY2Tm
+MBhu9gZDrq+m74DWNKhnFcjGLERft3W/ZEof3CD14UHfV6rlW1GjoyUlQdW/RoiZtXZNFqutoR3K
+vGz78vIE+48/nj++Pr3M+SqdYub2Pj0FxZlhM8wDZSw59om4IUDXeTjmDivCujx2+uHyxIOhK4Ce
+7rt0Ja2GVYLTgrLUm22EghK+fJAzcUEY4tjKjqkjLcSm3PZjs7AzlzMcGMtI50hqRR+Rg5maeVY3
+zRledy8SdauVlCo1w0U1z+CFuUXIqJ0JotZ8edYmM8kQ8PZbzJApjXNkDoEfzFBZE80wzPYB8aol
+aGNw5VyJy3K2OOt6Nq1g4nuOyuYCtU7eW6YX2zDfHibaHLrc6kP7/KS2UTiCUji/uToDmKYYMFoZ
+gNFMA+ZkF0D3jKYnCiHVeIENvEzZURsz1fKuDygYnd1GiGzlJ1zB6Pl/maqyPBV7+zELYDh9qhhA
+4cZZ6WhJ6o3KgGVp7GQhGA9RALgyUAwY0SVGkixIKGeqVVi1e4tWg4DREVlDFXKmpL/4NqElYDCn
+YNteTxRjWqMKF6CtodMDTGT4zAsQc1RDciZJtlqnbbR8i4lPNdsG5vD0EvO4Sj2H96XkUqYFGXV6
+p3FOHNf0r2Mz1yuIq750/Hb3/sun358/P324+/QFbsa/cauHa0vnN5uCVnqDNufQ6Juvjy9/Pr3O
+faoVzR5ONPAjME7EtWLNSnHLNFfqdi4sKW496Ar+IOmxjNg10yRxyH/A/zgRcLdAHu1zYrm94mQF
++DXRJHAjKXiMYcKW4M7qB2VRpj9MQpnOLhMtoYqu+xghODKmGwFXyJ1/2HK5NRlNcm3yIwE6BnEy
++BkbJ/JTTVfthwp+q4Bk1L4fNOFr2rk/Pb6+/+vGOAI+yeF6G2+JGSG0H2R4qkXEieQnObPXmmSq
+okjKuYocZMpy99Amc6UySZGd6ZwUmbB5qRtVNQndatC9VH26yZMVPSOQnH9c1DcGNCOQROVtXt4O
+D4uBH5fb/Ep2ErldP8ztkiuirej/QOZ8u7Xkfnv7K3lS7u1LHE7kh+WBzlpY/gdtzJwBIUOcjFSZ
+zm3iRxG82mJ4rMjGSNDrRU7k8CDxkomRObY/HHvoataVuD1L9DKJyOcWJ4NE9KOxh+yeGQG6tGVE
+sE2yGQl9iPsDqYY/zZpEbs4evQjS5GcETtiyzs3DriEaMJhM7l31U2hxfeOv1gTdZbDm6LLakR8Z
+ckhpk7g39BwMT1yEPY77GeZuxad102ZjBbZkcj1+1M2DpmaJEnx83YjzFnGLm8+iIjOsTtCz2v0h
+rdKzJD+dSwzAiKaYAdX2xzx89Pxem1mN0HevL4+fv4ERFngN9vrl/ZePdx+/PH64+/3x4+Pn96Da
+8Y2a7zHRmQOsllyGj8QpniEEmelsbpYQBx7vx4YpO98GBWea3KahMVxcKI8cIRfCF0CAVOfUiWnn
+BgTM+WTs5Ew6SOHKJDGFynunwi+VRIUjD/Plo1ri2EBCK0xxI0xhwmRlnFxxq3r8+vXj83s9QN39
+9fTxqxs2bZ2qLtOINvauTvojsT7u/+cnDv1TuAxshL5DsRw3KdzMFC5udhcM3p+CEXw6xXEIOABx
+UX1IMxM5vjvABxw0CBe7PrenkQDmCM4k2pw7luCGXsjMPZJ0Tm8BxGfMqq4UntWMwojC+y3PgcfR
+stgmmppeFNls2+aU4MXH/So+i0Oke8ZlaLR3RyG4jS0SoLt6khi6eR6yVu7zuRj7vVw2FylTkMNm
+1S2rRlwopPbGJ/zMz+CqbfH1KuZqSBFTVqbnJzc6b9+7/2f9c/176sdr3KXGfrzmuhrF7X5MiL6n
+EbTvxzhy3GExx0Uz99Gh06LZfD3XsdZzPcsiklNme65DHAyQMxQcbMxQh3yGgHRTtx9IoJhLJNeI
+bLqdIWTjxsicHPbMzDdmBweb5UaHNd9d10zfWs91rjUzxNjf5ccYW6KsW9zDbnUgdn5cD1NrnESf
+n15/ovspwVIfN3b7RuzAJV+FvKj9KCK3WzrX62k73PuDO0GWcK9W0F0mjnBQIki7ZEd7Us8pAq5A
+kSaIRbVOA0IkqkSLCRd+F7CMKJDNGZuxp3ILz+bgNYuTkxGLwTsxi3DOBSxOtvznz7ntogNno0lq
+2x2DRcZzBQZp63jKnTPt5M1FiI7NLZwcqO+cQWhAuhNZfePTQqOLGU2aNqYzKeAuirL421wv6iPq
+QMhn9msjGczAc2HatImwkW3EOI9CZ5M6ZeRorIUcHt//C9krGSLm4yShrED4QAd+dfFuD/eskX0U
+ZIhBa1ArE2vVKVDje2M/5ZuTAwMarCrhbAgwT8HoFmp5NwVzbG+4w24h5otIFwsZFVI/yMNjQNDm
+GgBS521mG6CGX2rAVF/p7Oq3YLQn17g2GFAREKdTtAX6odah9lA0INrIXVQQJkfqHYAUdSUwsmv8
+dbjkMNVYaLfEh8bwy30Dp9FzQICMhkvss2U0vu3RGFy4A7IzpGR7tX2SZVVhZbeehUGyn0A4mvlA
+F6X43LSLpXAANYHuYY7x7nlKNNsg8Hhu10SF8yyACtwISs1HOwIw/CMHJ7bEIcnzqEmSI0/v5YW+
+kxgo+PtWsmfLKZllinYmGUf5jieaNl92M7FV4He3vcXdqrL7aCZa1YS2wSLgSflWeN5ixZNqTZTl
+5GZhJK+N3CwW1tMT3VZJAies25/txmoRBSLMIpH+dl765PYhmfphG7hthe0rDmzDaBvWGM7bGr0v
+t93hwq8uFg+2ZRKNtXB3VaJld4xPK9VPsKaCHH76VvHmwnZIUh8qlNm12hDW9rKoB9yRaiDKQ8SC
++oEHz8ACHl/b2uyhqnkC7y9tpqh2WY52KDbr2JS2STSvDMReEclVbcbihk/O/lZImEq4lNqx8oVj
+S+BNLidBlb+TJIH2vFpyWFfm/T+Sa63Gcih/+yGnJUnvpCzKaR5qzUC/adYMxrKHXojdf3/6/qTW
+Ub/1FjzQQqyX7qLdvRNFd2h3DJjKyEXRVD+A2KrRgOpbUeZrDVGl0aBMmSTIlAneJvc5g+5SF4x2
+0gWTlpFsBZ+HPZvYWLrK7oCrvxOmeOKmYUrnnv+iPO54IjpUx8SF77kyirCNiwEGwy88Ewkubi7q
+w4EpvjpjQ/M4+8ZYx4JsW0z1xYhONi2dxz/p/e23RVAANyWGUvqRkMrcTRGJU0JYtWxNK20QxJ7B
+DNfn8s0vX/94/uNL98fjt9df+jcNHx+/fXv+o783wd07yklBKcA5r+/hNjI3Mg6hB7uli6cXFzvZ
+rup7gJhgHlC3v+iPyXPNo2smBcjY24AyCk4m30QxaoyCrnIA16eFyMYiMImGOaw3Shv4DBXRV9c9
+rnWjWAYVo4WTg62JaNXMxBKRKLOYZbJa0qf+I9O6BSKIngoARrUkcfE9kt4L83Jh5wqCKQU6nAIu
+RVHnTMRO0gCkupImaQnVgzURZ7QyNHrc8eIRVZM1qa5pvwIUH2oNqNPqdLScmpphWvxW0Eohcss2
+FkjKlJLRR3cf95sPcNVF26GKVn/SSWNPuPNRT7CjSBsNpiCYKSGzsxtHViOJSzATL6v8jI7Y1HpD
+aMODHDb8c4a0nzVaeIzOASfc9iRuwQV+8WJHhI9aLAbOmNFSuFL73LPasaIBxQLxwyCbOF9RS0Nh
+kjKx7c2fHQMMZ976wgjnVVVjh1Zn4zTrXEQZF5+2h/djwtl+Hx7UvHBmApb92xn6CJH2OUDUnr/C
+Mu6eQ6Nq4GCMBZS21sRB0jWZLlOqF9flAdyxwCEvou4b21UD/OqkbVBdI63tKFEjxYEYNigj21kO
+/OqqpAA7hp253kEe7OqT3uQ2SYpOQRt7S9ukUnttsJ2kgHWw5mpepAymZCb6inbExjAgpA13e4tw
+zGDoffsVLHo9ECc7O3utrkZH0I5LROHYZ4UY9CXpcCdhG4+5e3369ursZupji98SwZFFU9Vql1pm
+5MLJiYgQtnmasYWIohGxLoLePur7fz293jWPH56/jIpQlgq3QNt/+KVGGrAxlCPnriqZTWVNM001
+ud0R1//bX9197hP74el/nt8/uX5Xi2Nmr57XNerAu/o+AZ8SVvVHEfqh2lAuHjDUNtdEbTDswewh
+AjdX8IA1vrL4gcFVvTpYUluT8IMo7Iq5meOx6dkDIPjlQ7enAOzsc0gA9kTgrbcNthjKZDUphing
+LjZfd/wMgvDZScP56kAydyA0aAAQiTwCDSqwB2B3QuDSPHEj3TcO9FaU77pM/SvA+PEsoF7A1bjt
+wKs2K0OSjhlo9CHPcraJVA1Hm82CgbCzzAnmI8+0v7rSTrP2vugmseCTUdxIueFa9cfyurpirk7E
+0SkuXZNvhbdYkJwlhXQ/bUA1W5L8pqG3tn1w4vrhkzGTuIjF3U/W+dWNpc+JWyEDwZdaC/4vSfK1
+Yw7aZnuwiyY34qoryTq7ex58+JGudMgCzyMVUUS1v5oBnWYxwPAw2BxGTlrQ7rfHNJ3kbjZNIUyr
+SsCtWxeUMYA+QVtwSSJXIcnDnomhbwYOXkQ74aK6uh30ZLoGyjjJIB6GwJy4MYMmaTgy7o2jt73o
+Bc2HJG4Q0qSwymOgrkWG4FXYMqkdQOXX1ZjoKaO5y7BR0eKYDllMAIl+2vtK9dM5WNUiMQ5TyBRv
+sUFXoZI1xZyzetAycNzMWWCXRLYur83IYpyLdh+/P71++fL61+wKAHQ6sN9AKLiI1EWLeXRtBAUV
+ZbsWNSwL7MSprXr/NbwA/dxIoKsym6AJ0oSMkX1tjZ5E03IYrDrQhGpRhyULl9Uxc7KtmV0ka5YQ
+7SFwcqCZ3Em/hoNL1iQs41bS9HWn9DTOlJHGmcozid2vr1eWKZqzW9xR4S8CR35Xq6nARVOmccRt
+7rmVGEQOlp+SSDRO2zkfkJV1JpkAdE6rcCtFNTNHSmFc22kk/uZo1X3ySz3X5cblfKo2OI19kTgg
+5LpsgrUVYbXDRq4gB5YcHTTXI/JElXZHu4HMbJpA1bTB3m+gKebocH1A8IHMJdGP0u12qyGwpkIg
+WT84Qpm9qk33cDVl6xDoKzBPmwrCdsoHWZiKkhwcDWsfSmoBIRmhCPwQp5nxDdVV5YkTAt8mKovg
+XQYc4DXJPt4xYmCxfXBmBSLaZSgjp/LXiEkEzEH88gvzUfUjyfNTLtQ+KEM2ZpCQ8XgLei8NWwr9
+XQAX3LXbPJZLE4vBzjVDX1BNIxguJVGgPNuRyhsQo/ejQtWzXITOugnZHjOOJA2/v9f0XETbwrWt
+n4xEE4H5b+gTOc+OlsJ/RurNL5+eP397fXn62P31+osjWCT2qdEI4zXDCDt1ZscjBwPG+MAKhVVy
+5Ykhy8o4UmCo3lzpXMl2RV7Mk7J1bIZPFdDOUlW0m+WynXS00EaynqeKOr/BgZPuWfZwKep5VtWg
+8aFwUyKS8yWhBW4kvY3zedLUa2+7hmsaUAf9i8OrsVg9Oj5r0mNmrzrMb9L6ejAra9t4UY/ua3p2
+v63pb8fNSQ9jbcMepBbmRZbiX5wEBCZHIVlKdjVJfcBKqQMCamJqR0GjHVgY2fnLgzJFL5VAa3Gf
+IW0MAEt7RdID4PjDBfHaAtADDSsPsdZX6o8vH1/u0uenjx/uoi+fPn3/PDx3+4cS/We/1LCNQKRw
+EJdutpuFwNEWSQbPtsm3sgIDMLR79qkFgL2jcjebqb1x6oEu80mR1eVquWSgGUlIqQMHAQPh2p9g
+Lt7AZ8q+yKKmwh48EezGNFFOKvEydEDcNBrUTQvA7vf0Upa2JNn6nvpb8Kgbi2zdujPYnCzTeq81
+084NyMQSpJemXLHgnHTIVZFstyutLmKdt/9UlxgiqbmrYXQL6pq+HBB8GRuroiH+NPZNpRdx1lCq
+b0rOIs9i0SbdlRqOGLfrVCMFghWSKK+oAQ+bm9MeDLAHBfBCUqFBK2kPLbhmKEdjdUbLfuZw2riz
+Rad77q/unMMoSo6cNVOrBsAF6EeNprL1VDVVMq6I0bEj/dHFVSEy2yggnGrCYIVcwPTObXQIEMDi
+wi6jHnA8tQDeJVETEVFZFy7C6RCNnHYaJ1XWWA0fLAZL8Z8SThrtvbSMuAcEOu11QbLdxTXJTFe3
+Bc1xjMtGNcXMAbS7aFMTmIPt01GSGsNzLUCN8WM7eCSC8yEsINvTDiP6uo+CyFa/bn2RwBnSvrv0
+ltVgmMyqM/lKQzJbC3Q5qWPsLQ6hStEOndVYkYC1wbkaAZmZhqI58Mk+W+1aYqbaOcGk8eEPJi1W
+5+B7jDYNeH+L68pzY5e0LZHtZggR1TMfBGY+XDSfUPjjXbtarRY3BHqXMLyEPNTjGkv9vnv/5fPr
+y5ePH59e3KNSkE9b9SdaGAF6qGTr6CmMhJMAXU3XTI3JVwLqZUV0yGodchqwvz3/+fny+PKk06jt
+s0hqJsN08QuJML4MMRHU3osPGNzf8OhMJJpyYtJHlejaVI8bak2N7hlu5cq4Y/vyu6qB549AP9Fc
+T55p5qXMfc3jh6fP758MPVXvN9fQiE58JOIE+RizUa4YBsophoFgStWmbsXJlW/3duN7CQO5EfV4
+gjzg/bg8RieXfH8Y+0ry+cPXL8+fcQmqQT2uq6wkKRnQfhxO6cCtxnd81TGgpdYnR2kavzum5Nu/
+n1/f//XDzisvvWqOceGKIp2PYtwlXnPsaA4A5LGvB7QPDRgNRBkTcTwG1hE+16Y3sea39jzeRbab
+CAhmktIXwa/vH18+3P3+8vzhT3sX+AAvBqZg+mdX+RRRg1N1oKBthd8gahjTc5wjWclDtrPTHa83
+vqUikYX+Yuuj38Ha2hO0ER4dda61B2xaVvBkknpDbESdodP7Huhaman27+LaS8BgoTlYULpflTTX
+rr12xDP3GEUBxbFHp2gjR87jx2hPBVWhHrjoUNgXiQOs/YJ3kTnt0DXdPH59/gCOVU1rdVq5lfXV
+5sp8qJbdlcFBfh3y8mr68l2muWomsPvRTOp0yvdPn59ent/3u467ijrwEieYEAW4mbT72EmbXXfM
+DCK4d5M+Hriq8mqL2h5iBqQrsEl51ZTKWOSVXY11Y+JOs8boL+5OWT4+jEmfXz79G6YssFplmxlK
+L7qfojuVAdK7tVhFZDtA1ZcDw0es1E+hTloziuScpW0H3I7c4EYQccP+daw7mrFB9iJKvf20vakO
+Vab92fPcHKp1B5oMbVNHjYImkRTVF9omgNo2FJWt/qb2QfeVZH1J6GDCnNSawGY4+TTG3qMJG3zw
+IghakrA7IWORTZ9Pufoh9GM25H6qSfbIIo/5jc88ekzmWYFa/YDbk8WIFS548RyoKNCQ2H+8uXcj
+VF0ixtfOlOmKHRMuslWuhw8ETO7U4l6cbe0O7S7xoJq97hMpaguKSvXaZzCvO7bQmRHE6Dl8/+ae
+gRbVtbVfKoAKPzh/LIi/2EPGAs4pfA/jPcV072slYZynq7JMotb2+Qi3oo4viX0pyS/QT0BeGzVY
+tEeekFmT8sxpd3WIoo3Rj86cQ30alFMH3+ZfH1++YXVRJSuajfaJLnEUtrt0QlUph6raBzd2tyhj
+gUO7Htbevn/1ZiPoTqU+UxBtEt/4jnacCX4z0fLPybAuh5P6p9pdaCvtd0KJtmC78KM5Y8wf/+OU
+zC4/qkGM5GWH/ZSnLTobpr+6xrblg/kmjXFwKdMYOVLEtC569EQZEOz0F5DRwb3qjkY/fVxtiOK3
+pip+Sz8+flNL47+evzIaxFD3aYajfJvESUQGTcBVt6Hruj68fuoArq2qkjYsRZYV9SA8MDs1Pz+A
+l1PFs0cig2A+I0jE9klVJG3zgNMAw9hOlMfuksXtofNusv5NdnmTDW9/d32TDny35DKPwTi5JYOR
+1CCfk6MQbPaRlsBYo0Us6UADuFp0CRc9tRlpu+iESQMVAcROmifp0wp0vsWaI4XHr19BQb8Hwf27
+kXp8r8Zt2qwrmC+uwysH0i7B9HHh9CUDOt41bE7lv2nfLP4OF/p/nEielG9YAmpbV/Ybn6OrlP/k
+Gc6UVQEnPL1PiqzMZrhaLfa1e3Q8jOyibm/vJDQY/e0vFl1cRWmOXInoyirizfrq1GEWHVwwkTvf
+AaNjuFi6sjLa+R3zvTJpX58+YixfLhd7kmh0umgAvAufsE6o7eeD2kOQpmAOvM6NGqdIMcEBToOf
+KfyoCep2Kp8+/vErnEU8al8hKqr5JxzwmSJarUhPN1gHSiQZzbKh6PpGMbFoBVOWI9xdmsy4tUUO
+PrCMM04U0aH2g6O/ouOXwpdhvl4uSJXK1l+R0UDmznhQHxxI/Ucx9btrq1bkRh9iudiuCauW77L3
+7+35oTN5+2a5ZE5in7/969fq868RVNjcPZoujSra26bYjPcAtSkp3nhLF23fLKcW8uPKNyoBau+K
+PwoI0cTT43aZAMOCfVWaeuUlnONrm3TqeiD8K8z0e3cQF5euT01/ovHv39Sy6/Hjx6ePOkt3f5ix
+ezqZZDIZq4/kpN9ahNupbTJuGS4SacLBcrUKrgxRXGmRmMJCOjIj7L6MsD5MDpxHRqh2iQx3DIQZ
+b/J9MRRi8fztPS4l6VpbGoPDH0jhY2TIQeBUcJk8ViXcS9wkzdqOcat4SzbWZxOLH4sesv3ttHW7
+Xcu0Y9h/2i0uiSLV0/5Ufcu9AhhjTSKudhUKh8gHUeDr7xkB7OicCu30+92x13PJGlUdoKvrxOe1
+KrC7/2X+9u/UvHT36enTl5f/8BODFsNJuId34uMqfPzEjyN2ypROdj2otaiW2g+j2rtJumofpOQF
+TNRJOGudWY8zkmp46c5VPqxlZiM+Jgm3ygcR03nQ0QqC8dhBKLYbn3aZA3SXvGsPqmkfqjymk44W
+2CW7/oWqv6AcmPJw1pZAgFtA7mtklwmwfiaNzjXi1mqN9lJRbdDhEAyfgVVgali04MMWgYlo8gee
+Uo2qcMBjtXuLgPihFEWGkjIOAzaGDqsqrfeHfqsASXOGTat9B2MI0N5DGCjGoJeqogGzGGpIaQe1
+E9gIY43mOaBDihQ9Rg9ZJlliqsAitLZHxnPOZVBPiWsYbrZrl1Brl6WLlhVJblmjH6OusNYpnq6U
+3EfJqgfSwOCi0wHMEVeKCXzxtcuP+DlrD3TlKc/hxzzTGX1so66T2fPbIIke+cVov6AKJYvHJ9L1
+sOxQ2N1fz3/+9evHp/9RP927Qx2sq2MakypZBktdqHWhPZuM0SuG4x6wDyda+6F6D+7q6MiCawfF
+7+x6UG3UGwdMs9bnwMABE7TXtcAoZGDSqHWsjW3cawTriwMed1nkgq19WdmDVekvOHDtthi4c5cS
+dg9ZHfj2rvYdWr/CL9Dg0dv7Ln9XNXgWwvw72fLO62k0y5+Sqn4urkP0E3Lh0mdmRyTz5peP//vL
+ry8fn35BtF5f4ZsmjasxGM5ptUFsbHS0L2MwD8Kj8LbC6LS/CSlvDMbyYeNmZ3U++PXjsaG0gwyg
+vIYuiCreAvuUemuOc3aYevwB8xJRfKbD0gD3dyByyj2mL0TXVMAdPlxeIYuyvdUUduxsuFw3Er32
+G1C2hAAFs7vIACQi9VQ8HhyX5yJxNZQAJdvTsV7OyEUVCBpHaAJ5ZAP8cMHGWAFLxU5tXSRByZsD
+LRgRANk8Noi2dc+CoA4o1aruxLO4mdoMk5KecRM04POxmTRPmwO7sMftoHsdJpNSqvU4OHoK8vPC
+tx8Jxit/de3i2tbQtUB8a2kTaB0dn4riAa/bsl3RCWnPOAdRtvac3GZpQVqFhjbXq23WOpLbwJdL
+2w6C2jbnlTzBgz3V+vrn6EMXgn37qivSvT332uj4tAvSuyESEaynzTVdJ20d4EPdZbm1YBN1LLfh
+whe26ncmc3+7sK3nGsSekIbaaBWD9BcHYnfwkEGMAddf3NpvbA9FtA5W1lwdS28dWr97Q0w7uCHD
+Gorgwc/WqoVVfQbKbFEdOCqzEo2J8aW7wpmfq2A9KXvhHYXReOxknNp2KArQxmlaaWcok5n645g8
+kHc9PnmmqH+rZqcSJprO93Q5mk1+ApsRd4NvcDWG+tZaeQJXDkgNT/dwIa7rcOOKb4PoumbQ63Xp
+wlncduH2UCd25nsuSbzFYmn3c5KlsRB2G29BOpDB6CunCVRdUp6K8bZNl1j79Pfjt7sM3i9+//T0
++fXb3be/Hl+ePlgu2z7C4cQHNbg8f4V/TqXawq2Ondb/H5FxwxQZd8CEg4D7k9q2gqt35+gVzgh1
+9qwyoe2VhQ+xPRlY1susysGGjaKiOx/pb2yyQjdvkav6IYeSQ7Ofg1HLP4idKEUnLMkTWOay+t25
+FiVaGxuAKIIMqPnodClhzxjmBiKS2XDs7PQiIDtkVrARWdzBkYD9AgYZJNNh0Dyokeltio1OW8gp
+MX0q7l7/8/Xp7h+q5fzrv+9eH78+/fddFP+qesY/LaMWw8rOXnMdGoMxSxjbgNsot2cw2+SeTug4
+BxE80nqKSMlD43m136P1sUbBQo5RV0I5bofO8o0UvVapcQtbrRpYONN/cowUchbPs536iw1AKxFQ
+reoubW0vQzX1+IXphoPkjhTRJYcn/fbsCTj2/aghrdghH2RKkxld97vACDHMkmV25dWfJa6qbCt7
+4Zr4RHRoS4GaF9X/dI8gER1qSUtOSW+v9kJ8QN2iF1hZ2GAH4a18GlyjS59BN/ZVm0FFxKRUZNEG
+JasHQM1HP0PpDQBZdmsHCTiWa41duK6Qb1bWFfcgYuYgo2frfqI/kBLy+MYJCXYQzBNeeKuD3bf0
+yd7SZG9/mOztj5O9vZns7Y1kb38q2dslSTYAdAY3w+7ZbRoam5dWGwd5zBP62eJ8KpwBuobFfkUT
+CDc68sFpkU1U2EOnGRHVB337ZkAtoPTsUCYXZGRxJOwDqQkUWb6rrgxDV2QjwZRL3QYs6kOp6Dfy
+e3Tpa4e6xftcrFlQ0MIA4+5tfU9L+ZTKQ0T7nAHJ9UNPqNV2BNZwWVKHcm4mxqARvGi/wQ9Rz0vs
+JG1WOl7izKcf4tSiks4Bu5NU8569ODGzFWgLkLcipigfmp0L2SZizdqsPuMhuLcMK9uqEbbXHDWT
+2fts/dMezN1fXVo6yZU81Hd8ZwqKi2vgbT1ayyl9N2mjTP0OTOZMHWr+ocKDYnIZNasgpEN9VjsL
+gzJDxhoGUKAXbmZFVjvfL2hbyd5lNZjotPXUJkKCtnjUOl2kTej8JR+KVRCFagCkc9jEgKJwf2sE
+N63aNpA3J9vv9Fuxl9bJHZGC7q4l1ss5icItrJrmRyGj7jLFsTa8hu91z4AbP55Qgw+tivtcoHOj
+Vm07FOajCdsC2YkBIiErmPskxr9SEiavU9oDAJrrAQlysGzKMivUJpT2lCjYrv6mcwsU+nazJHAp
+64A2iku88ba0DXF5rgturVMX4cI+VjJDVorLWIPUtolZUB6SXGYVGUTQSnbuYdewevtE8GGMoHiZ
+lW+F2VZRyrQWBzZtVy1mJsaUDt3HxIeuiQXNsEIPquNeXDgpGFmRn4SzzCd7yHGJgzYRcI5Eni8K
+/QatwIqXAA5GipKmsTUQgFLzV0ROyvHFo/7Qu7qKY4LVk83EyHoT+e/n17/uPn/5/KtM07vPj6/P
+//M02cW0NmX6S8iCi4a0k6NEdZLCeDx4mJaGYxBm4tVwlJwFge4rdE+mo1CjdeSt0RbAZBteyzFJ
+klluH31pKE2HvEM239P8v//+7fXLpzs14nJ5r2O16cT7eoj0XqJnD+bbV/LlXWECmm8rhE+AFrOe
+ikF9ZRnNslrHuEhX5XHnpg4YOkIM+JkjijMBSgrA4VwmE7e4HURS5HwhyCmn1XbOaBbOWavmvuky
++2dLT3cspDxnkCKmSNPaKzmDtarcXbAO1/ZrQ42qLdd66YBytcLXsj0YsOCKA9cUfCDP2zSqpvyG
+QGptGqxpaACdtAN49UsODVgQNzFNZG3oe1Rag/Rrb/Wrf/o1tXNQU0dO0DJpIwaFiSHwKSrDzdKj
+Zag6BO48BlXrdjcPqm/7C98pHujyVU7bC1i4R3tEg8YRQWTk+Qta3ehkzSD6RvFSYYMifZ9ah04E
+GRVznyVrtMnANjpBzxmVu2TlrpqUBuus+vXL54//oV2M9Cvd6BfEbI2ueKo8o6uYqQhTaTR3UD20
+Ehz9IACducQET+eY+5jG27zD5srt0gDjP0OJDM/x/nj8+PH3x/f/uvvt7uPTn4/vGU3E2p2IAXHt
+YgDqbO+Z+2gbK2L9RDNOWmS/R8HwHs0eBIpYH8otHMRzEVdoibTXY+5+uug1EFDquyg/SWx7mlzo
+m9+OCxiD9sfLzulOT5s3rk2yz6TadPBKD3Gh3zC3GctNWFzQj+iQqb3kHWSMxiG4pFc77Uab2UHH
+2kROO7lyDVZC/Bkoo2bSTnisDRypHt3C/WuMloqKO4Epzqy2FYwVqo8jECJLUctDhcH2kOk3aOdM
+LdpLmhpSMwPSyeIeoVoNZnpDPRHJTnKO2vQjAxwvfnWuEHBpVaGnsHBboJ95yxrtJ+OCnC4r4F3S
+4Gpi2qeNdrY3FUTIdoY4zDJZJUjVI11LQE4kMBw94FrVt+0ISnOBXFEpCJ4rtBw0PGQAK2PaAqbM
+9j8pBprKanAD2wPqcw1tE31AdGkNrYt4YOqrS7cMSbLaJnsn2e/gweWE9LodRBFCbeIzotsLWKp2
+FXavBKzGm3mAoOlYi4LBQ5Oj4qKjtHLX37cQKRs11yjWinRXO/LpSaLhyPzGGiM9Zn98ELMPRHqM
+OZDtmch++NpjyNfVgI3Xb3oOAzepd16wXd79I31+ebqo//7p3namWZPgB/ID0lVogzXCqjh8BkYa
+zBNaSfQc+WaixnkFRlJY4fSWDLAxWLU9P8EztWTXYq9Gk9uGQTgjXqSIfpbqF7g/gIrP9BMysD+h
+e6kRopNJcn9S2453jqsmu+FRz61tYqucDIg+7et2TSVi7FANCzRgv6BRW/ByVkKUcTX7ARG1qmih
+x1CvkJMM2NjYiVzgFzwiwj79AGhtff6s1r6s80BSDP1GYYj3NuqxbSeaBPk33qOnWSKS9gAG+4iq
+lBUxiNljro6+4rA3Lu02SyFw09026h+oXtudY6a3ybDbavMbbOzQl3c907gM8oKGCkcx3Vm336aS
+ErnqOHN6kigpZe74dz/bnke1qzn8luqQ4SjkqdwnBTasKxrsldz87tTux3PBxcoFkW+qHkNewges
+KraLv/+ew+2ZYog5UxMLJ692Zvb+nBD4FoKSaNdDyQid4hXusKVBPLoAhG79AVCdQGQYSkoXoKPP
+AGsjjbtTYw8bA6dhaJHe+nKDDW+Ry1ukP0s2Nz/a3Ppoc+ujjftRmHiMFwiMv0P+uAeEK8cyi+AR
+Owvq11+qN2TzbBa3m41q8FhCo76txmijXDJGronOHXK5i1g+QaLYCSlFXDVzOPfJQ9Vk7+yBwALZ
+JAr6m5NS+/JE9ZKER3UGnBt8JNGCigFYrZgutxBvvrlAiSZfOyQzBaXmA/uRjzHLTjuvRtvegZaN
+HWTG7Ic0Nd6mDC+rX1+ef//++vRhsB8mXt7/9fz69P71+wvnuGhlv69eBVopipqWArzQRtk4Auwb
+cIRsxI4nwGkQMdgcS6EV/2TquwRR4u7RQ9ZIbfKtBPtdedQkyZEJK8o2u+/2aqPBxFG0G3RoOuLn
+MEzWizVHjcZFj/Kd8zyYldouN5ufECGWvGfFsDFxTizcbFc/IfIzMYVrVWEFJ6aLCN2WOlRXt1yh
+g39LqdbQOTUkDqxotkHguTi4x0PDHSH4bw1kK5gGN5Dn3OWujdwsFkzmeoKvrIEsYuq9Adj7SIRM
+EwVDzm1y5ItZqtKCRrwNbE14juVThCT4ZPV3IGqBFm0Crj6JAN9sqJB1VDoZq/3J4Wnc7IDfVLT6
+c3NwTkqYZoLI3oIkuVVYQbRC5/fmUleh9r34hIaWzc1z1SDFivahPlTOKtekQMSibhP0wkMD2lRN
+ina+dqh9YjNJ6wXelZfMRaQPzOxb5zyLkD8rJN8maJKNEqR7Y353VQGG+7K9mnrtOctoibdyJtWF
+QBN4UgqmslAA+6FMEYceuHaytxRk91fDwhddxvS390WEHb1ntg1UFXN33duWsQYE+zYfUWOtP4r4
+RKu9tpo97NXHPT4ctoWbmUigWCq0RM/R8sz23wa/EvwTqe7zLcPs4e32v7NdhKgfxkA4eBBMcnTA
+33NwXnGLt4CogD2zLVJebd+bqI3pdhXQ3/T1mVYNJj/V8gEZlpcPsk0K/HJFCZJfNJTGwI110oBN
+eThnICRqFhqhT+NQOYOdEVtesIKuNRJhfwZ+6XXi4aLGhqImDCpvFOs5OxU8ZdRnrGro9Wlaj8M6
+b8/AAYMtOQwXmoVj7Z2JOKcuij0L9aDxqeUoRZrf5i3rEKn9VGwMXssk6qhjLivIoLnMlmHWNCdk
+aCOS4fbvBbPyRqFkZKUUD7G2nGq5md1cjLkwZtSMruCBwT7DnxtUY3IWpbblub3KjRPfW9jaAz2g
+5ut82seQQPpnV1wyB0J6ewYrRe3IAaZatlpHqt5OLtPiZHm1huvhQjS0FerjYustrBFFRbry18jG
+v54JrlkT0WPHoWDwY5g49+2nMacyxnPNgJAsWhEmxQldd+8SH4+B+rczrhlU/cVggYPpGbBxYHl8
+OIjLkU/XO2xOyPzuylr2l4oF3P0lcw0oPb3NWnlyijYtzm+9kJ9s9lW1t9ft+zPfnQ4ncbGfkx2y
+ua6Rhf6KLjsHCvtrTZBGbYKv2PXPhP5WdWI/H8r2O/SDVpmC7MEquyJ5vLTIzAqCROAuNgykxyYC
+0k8pwJFb2nmCXyRygSJRPPptN/O08BZHO6t8dej9H3gRn9i3BV/HjnZNccYLdHm0Ncjhl6MwBhis
+KLBG1/HBx78cDzhw/Iaugwdkdv4sVFJFiV5D5Ndlh15TGAAXsQaJQTiAqOW/QYzYelf4yg2+6uDl
+YU6wtN4LJiRN4wrSqDYV0kWbK3Kyp2Fsxt1I0otXje6aLN7TdEZq2hRIKQTQNuo4jLoHs7PglGrP
+ZHWVUQIKgnYFTXCYipqDdRxonWBS6SAqvAuCm4s2SfBFtmFSBxhUOBAhL2619xgdNSwG1gOFyCmH
+37dqCO33DSRrtXpv7EUixp0qkDBPlxn9YGqddpOhwW6zRxmG9gs5+G3fwJjfKkIU5p0KdJ3vpcPx
+k72oivzwrX0YNyBGUYAa0lTs1V8q2gqhev5mqW0Qjss7WYtGVzT0hNurPDMmJvYBjT7FqlQXhseT
+Ogq8pHV5PrsPtrcs+OUt7C6YJiIv+cmxFC1OkgvIMAj9BR86acFqlv2GxreH7vPVTgb8GpwJwLMM
+fFOAo22qskITRor8WtadqOt+U+biYqevOTBBRlr7c3Zusw5S+TMLnzDYIudT5iHBlYj7aH2hfh+p
+Kz3jYwVfUJ7y1p6WLnG4+DvgE3/OYvt0QSvex+hUxJKujujThw4tRlSoip/PaxEdk7Z3tIL8BKrd
+5gH5pwFXFCm96B+iSUoJF/0seU9ept3nIkBHw/c5Phgwv+l2vUfRINVj7q78qoZtHKetCaR+dLl9
+0AIA/Vxib+ZBwH3LQ/a0gFTVTCGcwEKB/Z7rPhIb1IZ6AJ+gDiB213kfgf2Kwn5N0hRz7RnpBzfr
+xZLv8/1J88QJ+8w89IJtRH63dl57oEPWWQdQXwm3lwxraQ5s6NmujADVbwqa/smwlfjQW29nEl8m
+kh7jD1yl2rj1WfrbElUrFFAzsIY9vTyf63UySe55osrVCiwXyGgBeuwEDmdt0+0aiGKw+VBilJ51
+DYKunQPwCgytrOQw/Dk7rRk6M5XR1l/QO5ZR1F6GZ3KL3jBm0tvyTQvuGSzBItp6W/d4XeOR7cUq
+qbMIv5NUEW09+wxcI8uZaUxWESi6XPl+IVs9c1txtYXW7LJru8cYV7I942p9xxfA4Z0L+M5BsRnK
+0co2sDGTgn3ZWQwFwdDQHin1DimaWTxJW7XnoObThyKxl3ZGwWb6HQl4+Inm0BMf8UNZ1ehdAmT+
+mu/RADVhsylsk8PJ1sKnv21RWwzcUMIy+PAAFWUR+DZgCo0eI6gfXXNAp4IjRE59AFebWtWsbFVT
+K+JL9g4Nw+Z3d1mhZjyigUbHRWePa8842jELa2jQkspKV86VEuUDnyL3sq7PBvWc2duVghknR9af
+e0JcMzId9USeq0pEBPoKPqSzzu58+yF1GttPKOIkRdY8jvYKUm0NkEenSsQN+JduOEyt+xu1Jmzw
+A0h9rLYjLzQOD8Q5NAD2C/oL0kvL1UqgbbI9KO4jIs2uSYwhmY7vIossu1PcrCMCuJnC+m8xqNoj
+pL+WIqixaLvD6HA1RNCoWC09eGJDUG0ehILhMgw9F90wokahkRRclEUiJqntj8MxGItz5qQ1i+oc
+/EWhsr+2REiPq9eLeCCC8IC69RaeF2GiP7niQbUD44kwvPrqf4RM1CIe7u/Blzgi9G7ZxYxyxQzc
+egwDuzoCV20FPYsUVqnP2wX5KPiVj5arrgV9B1prQLKEaMNFQLB7NyWD9gIB9VqNgGpR5mZdKyhg
+pE28hf0+Ek71VMPKIhJhXMP21nfBNgo9j5Fdhgy43nDgFoODdgMC+wFwr/q03+yREnhf90cZbrcr
++0Wg0aMit1AaRFbG00sJitH4NLVKCaBdPmNoiB95ATTxZ+1OoMMsjcILBzgAighBfDAApC0Kpokr
+i0+itNPNM7K8ZjA4EVGlVNDQ9f1y4W1dNFysl+O4qbC74vvH1+evH5/+xib6+9LritPVLVNAucwM
+lHl/kydXdHqHJNT6oEkmS9ORnB29Fddda1tLF5D8oTQHT6OnXCeGURzdxdU1/tHtZKzNCiNQzZZq
+QZlgMM1ytBEDrKhrIqUzT6a9uq6QDisAKFiLv1/lPkFGI2wWpF/YIZt+EmVV5ocIc6PLTXtbrwlt
+D4hg+h0B/Mt6X6iaoFFPooqWQETCNuQPyFFc0EoesDrZC3kiQZs2Dz3b2ugE+hiEU8fQXsoAqP7D
+B0Z9MmEG9zbXOWLbeZtQuGwUR/oSmWW6xF7u20QZMYS5tJvngSh2GcPExXZta+QPuGy2m8WCxUMW
+V6PEZkWLbGC2LLPP1/6CKZkSpv6Q+QisKHYuXERyEwaMfKPW4JKY1rCLRJ52Uh+xYaNmrgjmwI1O
+sVoHpNGI0t/4JBW7JD/aB3NarilU1z2RAklqtWH0wzAkjTvy0dZ9SNs7cWpo+9ZpvoZ+4C06p0cA
+eRR5kTEFfq8WB5eLIOk8yMoVVSu2lXclDQYKqj5UTu/I6oOTDpklTaOf8mP8nK+5dhUdtj6Hi/vI
+80gyTFcOusTuAhe00YRfk+JfgQ/V4iL0PaTVdXAUhVEEdt5A2NFuP5hTd23mS2ICrOL1D42MM2MA
+Dj8hFyWNsS2MTpiU6OpIfjLpWZl3yElDUfx8xQiCG+HoINR+LMeJ2h67w4UitKRslEmJ4uK0f9id
+OtHv2qhKruAiBKuOaZYK07QrSBx2ztf4L2mH6vDkEv6WbRY5Eu11u+WSDhWRpZk9zfWkqq7ISeWl
+coqsSY8Zfrmhi8wUuX5bhg7IhtxWScEUQVdWvflkp67sGXOE5grkcGlKp6r6ajT3kfbJVCSafOvZ
+proHBHbakoGdz47MxXbVMqJuetbHnP7uJF5gGxDNFj3mtkRAncf5Pa56HzVZJ5rVyrcuhi6Zmsa8
+hQN0mdTqYy7hfGwguBpBuh/md4fNPGmI9gHAaCcAzCknAGk5AeaW04i6KWQaRk9wBasj4jvQJSqD
+tb1W6AH+w96R/nbz7DFl47HZ82ay583kwuOyjeeHIsHvsuyfWrWXQuZCk4bbrKPVghjFtj/EKRIH
+6AfsFwVGpB2bFlHTi9SCHThqM/x4tIkl2NPPSUSFZc49gZ9XaA5+oNAckLY75Apfa+l4HODw0O1d
+qHShvHaxA0kGHtcAIUMUQNRgyTKgpl1G6FaZTBK3SqaXchLW427yemIukdigk5UMUrCTtG4x4CxX
+m6LEzcaSAnau6UzfcMQGoSYqsKdkQCQ61wAkZRGwe9LCwUk8TxZyvzulDE2a3gCjHjnFhXxCAOwO
+IIDGO3sOsPozUU4WWUN+oQfFdkhyHZXVFx9db/QAXGVmyETdQJAmAbBPI/DnIgACDGFV5Lm/YYyN
+uOiEPAgP5H3FgCQxebbLbK9Y5reT5AvtaQpZbu3nJgoItksA9MnQ878/ws+73+BfIHkXP/3+/c8/
+wVFx9RU83tuO4C5858F4iiy+/8wHrHgume1SvgdI71ZofC7Q74L81qF2YCOiP1WybH/czqAO6eZv
+glPJEXA4arX06fnYbGZp022QxUDYuNsNyfyGJ9zaAvIs0ZVn5Kylp2v7Gc6A2UuDHrP7Fij1Jc5v
+bbOpcFBjLSm9gJ9ObOFHfdqJqi1iByvh3VruwDBBuJheK8zArkJhpaq/iio8ZNWrpbNvA8wRwvpT
+CkDXkz0wmhqm2xDg++Y7jvi6CFdL7nrUahSOprLq82rVaKuTDAhO9IhGnCgezifYztSIuqOQwVW5
+HxgYbGxBS7xBzUY5CuBTeOhf9jOGHiDZGFA8/QwoiTG3X7SiEu+vxSxhtf5ceCcMOJ62FYRHKA3h
+rwJC0qygvxc+UcHsQTew+ncJ+hWuNOPwGeATBUia//b5gL4jR2JaBETCW7ExeSsitw7MMRjcVHAB
+1sGJArhQtzTKrW+/PUR16erkqq1mhC/QB4TUzATbnWJED2qUq3YwaDf8t9WuCN1PNK1/tT+rfi8X
+CzSuKGjlQGuPyoRuMAOpfwXoITRiVnPMaj6Mv13Q5KFG2bSbgAAQmodmktczTPIGZhPwDJfwnpmJ
+7VQey+pSUgp3qAkjKjamCm8TtGYGnBbJlfnqIOtO8BZJ3xhaFB5/LMJZs/QcGYZR86Uql/pwOVxQ
+YOMATjJyOMsiUOht/ShxIOlCMYE2fiBcaEcDhmHixkWh0PdoXJCuE4LwarQHaD0bkFQyu44cPuIM
+fn1OONycBmf2NQ5IX6/Xk4uoRg4n1/apUtNe7HsV/ZNMYAYjuQJIFZK/48DIAVXq6UdB0nMlIU7n
+4zpSF4VYOVnPlXWKegTTmf1iY6tNqx/d1tbgbCSz3gcQTxWA4KrXPsDsFYv9Tbsaows2h2x+G3H8
+EcSgKcmKukW459uPWsxvGtZgeOZTIDqCzL0Q/8ZNx/ymERuMTqlqShzVUoltVzsf7x5ie4kLQ/e7
+GJtOg9+e11xc5NawplXQktJ+0HzflvjApAcc15Z6Y9GIh8jdbqj99MpOnAoeLlRi4KU8d+tsLmbx
+1RxYROrwYIOuJGF3lki1SD973uTQIaqkmH6pCPX6dQol1TiuvVAsVXomwUOc235N1S9sb25A8D2q
+RsnhjMbShgBIA0QjVx/ZMslUY5YPJcrrFR0FB4sF0uK33yaqNZhV2qlosOJGLurdoFswPZvalZw1
+KjC4CXWltmiOvoXFpeKY5DuWEm24blLfvoDnWObkYJIqlMjy7ZKPIop8ZDcfxY4GHpuJ041vP3Kz
+IxQhurFxqNtpjRqktmBRQ3PXZyxgu/Tj07dvd6pqp+MVfM8Ov2gnAfOKGlc7eKtFNHUh9xyRVRJZ
+60HfHXtXAa+krIVk/4a8S/A4s8Q3871TKfp+JU7OKMnQp1OR5RUyGpbJuMS/wICj1b/hF3UXNIqp
+3Usc5wleCBY4Tv2zi2VNodyrslF39xNAd389vnz49yNnTM0EOaQRdUZqUK1sxeB4e6pRcS7SJmvf
+UVzWSRKn4kpx2O2XyNqPwS/rtf3YwoCqkN8im0omIWgk66OthYtJgYaD8lzYo4GxCPz56/fXWb+n
+WVmfbIvI8JOeSmosTbsiKXLklsIw8HRTJscCHQ9rphBtk117Rifm9O3p5eOjatKj25VvJC2dtvKL
+7KxivKulsPVsCCvB9lzZXd94C395W+bhzWYdYpG31QPz6eTMgmZCtgo5NoUc07ZoAhyTh12FDAsP
+iBrXIhatsW8RzNirX8JsOaauVe3ZPXWi2uOOS9Z96y1W3PeB2PCE7605QlsBgVcW63DF0PmRTwHW
+FUWwttWbcIHaSKyXtsc2mwmXHldupqlyKSvCwNYMQETAEYW4boIVVwWFvcqa0LpRazyGKJNLaw8j
+I1HVSQlLUS4250ndVGhVHqeZPBgn8GzYtrqIi23nfqJOJV9Dsi1sRdYRz+4l8uE0JV4NB0u2bgLV
+cLkQbeF3bXWKDsh0/kRf8uUi4BrddaZdgxZ/l3BdTs1RoHzPMDtb/2yqu1Yt/ZFZaWuosUZr+KkG
+Lp+BOpHbj28mfPcQczC87lV/22vRiVRLRlFjfSeG7GSBFNwnEcfzkPXdLE12VXXkOJjuj8Tv5cQm
+YPcTmcpzufkkyQSuP+0itr6rW0XGfrXKazZMWkVwCsQn51zM1RyfQJk0GTLXoFE91Oq0UQYe+yAX
+gAaOHoTtjNKAUDREmx/hNzk2taptIsW7PrVtdnWyAK1sVzjlEHneohZOuzzL6/UqnBwQTX9TYmMj
+ZJI/kXgHMMzNoMpnNcAB6UQpVII5wj68mVB7urXQjEGjamdbEBjxfepzKdk39sE8gruCZU5gerWw
+fbqMnL49ReZeRkpmcXLJythemo9kW7AZzIgzQULgMqekb2tGj6RayDdZxaWhEHtt4odLO/h+qRru
+Y5raIXsWEwfKsXx+L1msfjDMu0NSHk5c/cW7LVcbogDPKdw3Ts2u2jcivXJNR64WtpLxSMB68sTW
++xV1IwR3aTrH4JW5VQ35UbUUtSbjElFLHRat/RiS/2x9bbi2dH/JMg5PZSbWTtdtQRffds+ifxvF
++SiJRMxTWY1O6y3qIMoLej9lcced+sEyzgOSnjOjuCrFqCqWTtphHDc7BivgBHZhWBfh2jZPbLMi
+lptwuZ4jN6Ftjtrhtrc4PIIyPKpxzM8FbNS2ybsRMWgxdoWtwMzSXRvMZesENiuuUdbw/O7kewvb
+y6BD+jOFAneiValmuagMA3uRPye0si1YI6GHMGoL4dlHVy6/97xZvm1lTT0fuQKzxdzzs/VneGoI
+jZP4wSeW89+IxXYRLOc5+3kV4mAOt3XbbPIgiloesrlUJ0k7kxrVc3Mx08UM56zFkMgVjl5nqsux
+vGiT+6qKs5kPH9QknNQz3IMC1Z9LpPlsS2R5plrzPInHPouTa/mwWXsz6T2V7+ZK99imvufPdMwE
+TdaYmalNPWB2F+xs2hWYbYNqp+x54VxgtVtezdZZUUjPm2mdagxKQZUnq+cE5N5fBzMjREEW7qhW
+iuv6lHetnMlQVibXbKawiuPGm+kyhzaq52YXRai1cTkz4CZx26Xt6rqYmWD0v5tsf5gJr/99yWa+
+3YLT8iBYXedzfIp2apicqaRb4/wlbrXVgtnGcSlCZH0dc9vNXLcCbm5gB26uEjQ3M+/o93BVUVcS
+WePArdULNuGN8LdGML04EeXbbKaagA+KeS5rb5CJXrrO8zdGDKDjIoLqn5vr9OebG31GC8RU88JJ
+BNjoUWuwH0S0r5AHZ0q/FRJZ/XeKYm4k06Q/M/fom9oHMKWX3Yq7VaueaLlCuygqdGN80HEI+XCj
+BPS/s9afa6aqmvQsOPMFRfvgEGN+1WAkZkZNQ870LEPOTC092WVzKauRDzCbaYrOPqpE02CWJ2jn
+gDg5P7LI1kO7WcwV6ewH8VEnok7N3GJRUana5ATzKy15DderuUKv5Xq12MyMG++Sdu37M63hHdnu
+o9VflWe7JuvO6Wom2U11KPr19kz82b1czQ3C70BVOnNvaTLpHJUO26euKtH5rsXOkWqb4y2djxgU
+Vz9iUEX0jPZ3JcBMFz497ek28meTaDY9qgWTnmvYndpH2GXcXx4F14Uq3Rad7xuqjmR9bJySE9fN
+RrUEPgmG3QZ9+hk63Pqr2bDhdruZC2qmta6+NHxyi0KESzeDQk1n6NGKRvW9zU6tmRMng5qKk6iK
+Z7hzhg7iDBPByDGfOLCAqIbtbteWTJ3mapHIM1nXwJGcbSt+vMOTKmc97bDX9u3WqU+wrVoIV/oh
+Idq0fZYKb+FEAg5Ic9GCKXe2mho1yc8Xgx5EfC+clxDX2lftu06c5PS3Kzci7wXY+lEkGMDkyRN7
++VyLvABrRXPfqyM1Zq0D1SSLE8OFyJNQD1+KmVYHDJu25hiCG6tLw/QY3RybqgX3ynARx7TYWGz8
+cDE3nJjtM98dNTfTVYFbBzxnlssdV17uxbyIr3nAjZwa5odOQzFjZ1ao2oqculDTg7/eOgWr7wXX
+bkcuBN6gI5hLEawp9cllrv61E04VyCrqR1g1ujfCLczmrMf0uToCer26TW/m6AZcGckbI5Ns4drQ
+o3XZFBk91dEQyr9GUEUYpNgRJLXdlA0IXSFq3I/hnk3aJ/lG3j7V7hGfIvbda48sHURQZOXIrMbH
+e4dBrSf7rboDhRVLmYIkXzTRQa0r1A7X+I+qnSWw/tll4cJWHDOg+hPfiBk4akM/2tg7HoPXokEX
+yj0aZehm16BqfcWgSB/RQL13L0ZYQaCm5ARoIk5a1PiDvZaXq3VixI0KhR3gRMoN7kJw6QxIV8rV
+KmTwfMmASXHyFkePYdLCHP6MWm5cvY9OxDk9Jt1aor8eXx7fvz699KzVWJCRq7Oto9y7hW4bUcpc
+WwuRtuQgwGFqyEHHfocLKz3B3S4jTsdPZXbdqvm4ta24Do+lZ0AVG5wD+avRI2oeq/W0fj/eO9PS
+xSGfXp4fP7oacf0tRyKaHM4mcYNQROivFiyolmV1A26QwN52TYrKlqvLmie89Wq1EN1ZLbMFUj2x
+hVK47jzynFO+KHmFmEmPrfpnE8nVni/Qh2YSV+gjnh1Plo22Fy7fLDm2UbWWFcktkeTaJmWcxDPf
+FqVqAFUzW3DViRnGBhZcm5RznNZh7M7Y2rktsauimcKFMoSt9Dpa2UO5LXI47dY8Iw/wpDdr7uca
+XJtE7TzfyJlExRdsJhZRM3G1fmi7V7K5vJZz7SFzK6tKbevUui+WXz7/CvJ330ynhEHLVcLswx/3
+8a4rC7fNqi1agO1y27ibdqhObDeYELP9aRQYm7RHJPDixALdOIfRDxT1nCBv7bfWPSazNDu7sRt4
+Ns3Gq/AMPBtKRlF5dYcrA98I5a0zCefWbDmM9I2AaCnnsGhZ17Nq9NglTSyY9OyiYh0wn+vx2Xz0
+i463rdizfZ/wPxvPNOE91ILpOr34rU/qaFTDNuMdHS1toZ04xQ3sqz1v5S8WNyTnUg+OO9i0DMRs
+yN7abC358JieL73GbQqwurshDx3TFA3tmE3tOwEUNvXkwCdsKlUvqdkMTNRsYrRIVqZ5cp2PYuJn
+44nAY4Dqq12c7bNIrWTcmdkVmY0N5ul3XrByu1hN18A9OD+uqHGQzdlAQDOdqYxRZIp8XMiS9RnN
+ALwDIZpzPVWquFpRxmg1X1RXYSzE5FjZ7iqMbVYU0UMZaUXsvf30gzw3GPWE0eLZRs0a0i24stvb
+o3pZvauQB6QTmKe3Iz2cI8crfZ9Z0NNHKowWrotIRYQXPZCwulFFceSwTr8YezOunTVqfzdnRv26
+Ror/8JpNv/AnYpnay4NKUpyjkyBAY/hPn2oSAlYK5LGgwQV42NEq2iwjW+wFzXzFmGnROUrxyxug
+7fegBlBTKoEuoo0OcUVj1qeXVYqldzc+qHY9DbgmKhgIZjLYYxYJyxI7RxOBHFZP8E4sbccpE7FP
+UHlPBPJDYcO4m0xMpJqaXdoTcwU7qPa5YdzmtuW6ugZ34PYapyof9OTeG66GN5Z37+e3rmNftbck
+8OhcbQe6JTorm1D7EkpGjY/O+OpL1iT9Cx7L/vVMQsaR5CLQmiz6G57s4gGqjsJNsP6boKXanGJE
+NRtU98Smj6Jxlz7UCfkF9w01Aw1maixKlPvokIDqJrQ6a0yI1H813z5tWMtlkl6XGtQVw9d7E9hF
+Dbpj6xlQ0p5niLVAm3Kfl9lseTpXLSVLpL0ROVYLAeKjjWwtXQDOqojA6Nf1gclsGwTvan85z5A7
+WcriIkzyKK9sdW+1qsofwBB8lKPF5YAzkvi58whXKQFPvV3EvlO4J0qD9NBQmhPY0a1tUwU2s6uq
+Fs5kdLszL8T8iHl9ZxeHdiAAdVjVTbJH3gAB1ad4qpYqDINaiu3BSGNqd41frCnQGOQ39vsn0/06
+XdFfz1/ZxKkV586cFKoo8zwpbTeEfaSki08o8gAwwHkbLQNbW2kg6khsV0tvjvibIbKSvJntCeMf
+wALj5KZ8kV+jOo/tBnCzhOzwhySvk0afweGIyQMMXZj5vtplrQvW+oxlbCbjKeju+zerWvp5407F
+rPC/vnx7vXv/5fPry5ePH6GhOo8OdeSZt7IXwyO4DhjwSsEi3qzWHNbJZRj6DhMi89092BU1kcyQ
+zp9GJLo510hBSqrOsuuSNvS2u0QYK7Xag8+CKtnbkBSHcfyo2uuJVGAmV6vtygHX6E28wbZr0tTR
+QqMHjFKsrkXo6nyNyajI7Lbw7T/fXp8+3f2uaryXv/vHJ1X1H/9z9/Tp96cPH54+3P3WS/365fOv
+71VD/SeOMoIRz+2kcSKzfalN6+EZjpAyR/M/YV13bERgJx7aRmT5fAz2IS1wyd5fkKpPiuRMatTN
+kB6njK26rHybRNiSpRI4JoXp5hZWkXeUuqFFYiZf9VU4gJuB5hhcaRMpkF4aYKPPL13Xyd9qtvms
+toWK+s308McPj19f53p2nFXw1Ovkk1jjvCQFFdX+2iPNuBbkwFgnu9pVbXp6966r8PZAca2AF5Nn
+UhxtVj6Ql1q6qasRcbhz0pmrXv8y42ifM6s141xByWeSlHH/WhOcWiKVkn4lKiLy/VRvd6Z7o7kR
+FVVQe9pNhkQ04jZ7DTl2ECcGLBSdSjrAG0e9XBcDHIZ/DjeTB8qEk+7AtqwelxKQrhDY6Wd8YWGp
+dt4cXmSwCFHEAd2d1PiH4zgeLDvQLwCWjCfh6udd8fgNGnQ0zVrOU3kIZY7ucEz9cR45dZ2IOM0J
+fs3038bVLuYc70saPLWwmc0fMBypRVwZJSwIlndipmyGsY3gF3JTZbA6ouEvxBKbBlG/1q+1JAkH
+59Zw2uYkiBwmKSQvwJS/bRfbxJhj820D6MTYn61L5GZU4ZUZEzCoxkhkemnC3LwPbskwKiMvVBPv
+gpSAc10ALe6akTS1anmVZ2kKh7qYuWIHwRoijhgBe/dQ3hd1t793isGcS0zN21o0unc8kLhpCQ7y
+9cuX1y/vv3zs+wXpBeo/tIbX5V5V9U5Exo3HNF7pbObJ2r8uSAnhQWyE9JaYw+WD6sSF9lLRVKRH
+9Q5LbBDdVelDsExmwdo2DXGwm6n6gfYxRtlDZtZC9tuw0tXwx+enz7byB0QAu5spytp+PK9+jEOT
+WS7XcojErRKQVk0DnJMfyRmBRelLdpZxZlGL6/vcmIg/nz4/vTy+fnlxV/RtrZL45f2/mAS2deet
+wKwd3giDV7w19RiJhTvsX5yQqCsQ7mjP8jTSuA392rZ64QpE88HPxWWWq7S36+lYyimVMRzdxvXu
+fQei2zfVCTWKrERbUUsedn/pSQXDOg0Qk/oX/wlEmMnaSdKQFCGDje8zOKhbbhncPugcQK31x0RS
+qJVdIBchPkVwWGzUmbAuI7Nyj47AB/zqreyr5hFvi5SBjUaybbxmYIx+p4trjUsXrqIktx/Hjx8Y
+vXRKchbZC7gbj4GJDknTPJyz5OJy4B6QGLIYv6hCgdnlnKkjcnQ91mceJ00ujkx57prqig7qxtSJ
+sqxKPlCUxKJR25Ij00qS8pw0bIxJfjzAvT4bZaLWGq3cnZq9y+2TIiszPlym6oUl3oJSyUymAZ0p
+wTy5ZDPJkKeyyWQyUy1tth8/pwfURg213x6/3X19/vz+9cVWhBpHlzkRJ1GqhZVij+absYHHaJE6
+VpFcbnKPaciaCOaIcI7YMl3IEMyQkNyfMv2wwzYSD90DLet6QO2VZVuDO7I8U23gzcobL4irlCwa
+9d4aTi3cWLLmHq/YzJjIhFeLC9v6njlXRGucEerOHkEdJ+4a1baWFtPB5tOnLy//ufv0+PXr04c7
+kHD3mTrcZnm9klW2ySLZehiwiOuWJpJuC8z7hYuoSUETXTNzSNHCXwtbwdTOI3P4YOiGKdRDfokJ
+lNmzu0bAmkt0dgpvF66l/bTIoEn5Dj0SNnUnCrGKffDksjtRjqzDe7CiMctWLfo9WrGqVUT2qGUe
+e1zD1YpglyjeIqV1jdIV+1BjXapLYTrRnW8aZhmm1hi/9ixon95oPN5iCecv3TKkmQYmA8q2PmYz
+KgxtCxsPqZ+ZmtYVQes/a0OnWpyqVkjgeTTCS1buqpI2lIv01pFO0bTuulUM46mkRp/+/vr4+YNb
+PI5xOhvFOn09Y6uNmvyrbXFOU2v6Ou0zGvWdRmxQ5mv6OiGg8j06J7+hXzUPTWgsbZ1Ffqi7NTq5
+IcVlhqo0/oli9OmH+4dqBN3Fm8XKp0WuUC/0aDfSKCOrcukVF2cwbtSOUKvgOD08kit0t2BGQGIZ
+YgIdSXSioaG3onzXtW1OYHpua4a0Otja/tB6MNw4dQvgak0/T+fvsdngVasFr5xGQFay5l1QtGpX
+IU0YeTpqWgs1eGdQRtmvb1zwEjSkA8vwtouDw7XbQhW8dSaeHqb1AXC4dBp/e19c3XRQK3wDukZK
+CRp1jAaY0eiQyWPywDU1agtgBJ06UeB2u0QDv9vR+pu07AcdkN5n9dOjuwswhFoTV3Q0rp3xGZxQ
+8FME3FUbyr5CN40qjgLfKQBZxeIM1sPQAO5mazxwupldtSTy1vTDWsN463zZDMVO0URBEIZOL8lk
+JekK6NqAdR3aSwq1JdIKH5OunJtqY0dW7m7nBl1CjNExwXR05+eX1++PH29N+mK/b5K9QJdKfaKj
+4wmdXbCxDWEutvV6rzNLH50I79d/P/dXFM6BoJI05+vaUKm9spqYWPpLe7eAGfu21ma8S8EReKU5
+4XKPLleYNNt5kR8f/+cJZ6M/fwQXVyj+/vwRqQeNMGTAPhzARDhLgMePeIf89iIJ25ACDrqeIfyZ
+EOFs8oLFHOHNEXOpCgI1H0dz5EwxoFMbm9iEMynbhDMpCxPbNgRmvA3TLvr6H0JoZUJVJ8j5ugW6
+52U2Z97g8yRurpSBf7ZIk9eWyFXE29XMV4t2jcz/2tz4KHuOvvFRuutxOUb1sgEDrO3gjrMHe2mW
+K0HdjqfMB8EXt33jZaP0kg9xhwv2LxcLw1uDY7+ZFXHU7QTcrVnfGSwSkDD9I2bosafagRlheOSF
+Ue3gnGD95xlLfXCXsAf9HbXYXtgmtYYgImrD7XIlXCbCD6tH+OIv7DX3gEO/si1j23g4hzMJ0rjv
+4tjc7YBSQ0kDLnfSLQQEFqIUDjgE3937Klom3p7AR9KUPMT382TcdifVmlQ1Qutl8g9m6bjyIhuP
+IVMKR/Y3LHmEjy1BW0JgGgLBB4sJuKUBClcaJjIHT09J3u3FyVajGz4AxtA2aK1MGKbSNYMWhgMz
+WGUokKnHIZPzHWGwruDG2FxtxzuDfCZrSJtL6B5ur/AGwtkoDATs0+xzJxu3jxMGHI/503d1u2Wi
+aYM1lwPQSPTWfs5mwVuuNkySzPvEqhdZ2zpyVmCyZ8TMlima3hTLHMGUQVH7a9se5oCr3rT0Vkz9
+amLLpAoIf8V8G4iNvc+3iNXcN9TGlv/GahvOEMhO4jgkFbtgySTKbIa5b/T74Y3bgHW/M7P9khlY
+hwcuTMtvV4uAqa6mVTMDUzBaYUltNerY5U6R9BYLZpzaxdvtdsV0JPDOaJtrKFftGky58FNcb22K
+KUlKkBlc/1TbpphCvf7SYXK9Uj6+qj0N98AcLEjITuyy9rQ/NdY5sUMFDBdvAtuko4UvZ/GQwwsw
+YjtHrOaI9RyxnSGCmW949pBhEVsfPc8YiXZz9WaIYI5YzhNsqhRh3yEjYjMX1YYrq0PLflqt3Fk4
+2qzZurhmXQpejxxNk17gGLaJbTh7xL0FT6Si8FYH2i/G72nvJ0XEJXFH3lYPOLyNZ/D2WjMZitQf
+IlOdH9m+pWwtmU6hX8DxmYolOo2cYI8t1TjJczVmFgxjTA6h1QDimKrOVsdOFDumqDee2u+mPBH6
+6Z5jVsFmJV1iL5kUDVbH2OSmMjoUTMWkrWyTUwtLR+Yz+coLJVMwivAXLKGW64KFmX5krnJE6TKH
+7LD2AqYOs10hEua7Cq9tL4sjDpd9eMyeKmrFtWBQluSbFb5JGtC30ZLJmupQjedzrTDPykTYS9mR
+cK/NR0pPv0xjMwSTqp6g7+YxSZ7NW+SWS7gmmLzqteCK6VhA+B6f7KXvz0Tlz2R06a/5VCmC+bg2
+k8wN60D4TJEBvl6smY9rxmMmNE2smdkUiC3/jcDbcDk3DNfkFbNmxy1NBHyy1muuVWpiNfeN+QRz
+zaGI6oBdMBT5tUn2fL9uo/WKWZSo5acfhGwtJmXqe7simuvFRbNRQxG7MIquzICQF2tGGFR7WZSX
+5Rpowa1fFMq0jrwI2a+F7NdC9mvcUJQXbL8t2E5bbNmvbVd+wNSQJpZcH9cEk0TzupVJDxBLrgOW
+bWSOuDPZVswoWEat6mxMqoHYcJWiiE24YHIPxHbB5LOso2LDtZvy3bXtjo04JiU33MPN9tYqnrog
+z/B7OR6G9a+/nllK+1zOdkne1Skzi+xq0TVyzc1sqay74MHF1dzZRWlaMwmLa7n1F4JZzWSlrE9N
+l9WSC5c1wcrnBgdFrNlRQxHhYs3USNbUcrVccEFkvg69gO0I/mrBlaeew9guaQjudNoSCUJuNoPB
+fhVwKeynFCZXZuaYCeMv5iYCxXATrRmluYECmOWS20HB6cg65OYuOHTj8S3XFOusWAY+E6Au1pv1
+smWKsr4makJlEnW/Wsq33iIUTB+TbR3HETeiqOljuVhys6piVsF6w8yRpyjeLrheAoTPEde4Tjzu
+I+/yNbsXAjOp7Cwod61kVl5SbRKZ8lUw12EUHPzNwksejrhI6HPNseMXiVqNMF0rUbuMJTffKsL3
+Zoj1xeeauixktNwUNxhu5jLcLuCWK2qTA0di8L6bXS1onpt7NBEwI4ZsW8n2ObVhXHOLRbXu8Pww
+DvlDFrkJua6iiQ2341eFF7LjZSmQMryNc/OXwgN2RG6jDbciOxQRt1Bsi9rjJlSNM5WvcSbDCmfH
+dMDZVBb1ymPiP2cCDArwGzZFrsM1sx09t+AfnsNDnzufuoTBZhMwG3QgQo/ZVgOxnSX8OYLJocaZ
+dmZwGGDwKwqLz9WU0DKzs6HWJZ8h1T8OzCmFYRKWIopGNs41oivccnJNtAU/WN6is9f7N55+j50E
+bEDMHWG1xwV2OQUrTOTxyADgVBpbFh8I2Yo2k9hg8cAlRdKo3ICt0f7iGY6TxENXyDcLKky2MANs
+29UYsEuTaTdrXdtkNfPd3nBLt6/OKn1JDUbbjUbTDcEUDtO0EUnb3/XNIGDe1vgX/Okg5sZb5HkV
+wULKDkdC4TS5maSZY2h4kdrhZ6k2PSWf50laJyE1prgtBcC0Se55JovzxGXi5MwHmVrQyVjSdSms
+aj+oWTLf0G+dLLz3rv369PEOHpF/4gzbmt6mCyDKhT18qnXhmIQzsQgAXH0EhYGidhNi4gQb4nGr
++nMlU/qEGwnMhL8/ieZIBKZRQMkEy8X1ZsZAwI1dDxNDxhrsZwGCrK0go07OzW/idO/UDhHsk8/l
+C+wjzlBtBDZpqtwYKbOsN3NVaHW/TJdlHynT02x1EufTrvGyASG1NsJldREPle19YKSMITdtwqdL
+Shi6YkYKfHDrZ7QQycKhyVuXKfJGvzTt6iYZAvdN4vL4+v6vD1/+vKtfnl6fPz19+f56t/+iiunz
+F6QJOMQ0xQD9n/kUFlDTSD69GJ4TKivbvdKclLZEZw/RnKA9kEK0TJ3+KNjwHVw+sTEB7poOqNKW
+aQkIxuU+pr/Xnx/FmLRqBflrcUqZT/SXKzPEaoZYB3MEF5XRbr4NG2P44HonQi50p6NHNwJ47rNY
+b7kuFIsW3LRZiNHDYkSNKpZL9IZQXeJdlmkfCS4zuE5gkppfcXoGMwxMMV64mPurc5cZtGWYb4qr
+NqTLMmYSYz4E3liYltj7fHAZEd2fsibBuRPxufeNjuE8K8Cok4tuvIWH0WSnBuMgXGJUX9+F5GtS
+7UoWaka2dQ20HUUipmJMs7aOuDaanJrKTXC226iICVQIWyf8IlLQdEAi62CxSOSOoAnsiTFk1tpZ
+zJmwVNkh0oCckzKujCojtoLTqp2rn9IQ4QYjB65xHmolA9a7jblPZKPTPGAhBan21rRYeos2CNNn
+zF6AwfKMK6p/H4CF1gtaVKry1NaHfnQXbfwlAdUqkDQwOKsYHpe5TLDZbWgxmWciGINNLh5S+l2a
+g4abjQtuHbAQ0eGd20ST+qoaPtciTGtJMlKg2XYRXCkWbRYwXKDvgQtjf+hmZnUqxa+/P357+jBN
+UdHjywdrZqojZvjIwPyI/XbTirKOsh9GmXGxqjiMTZXhlcQPogEtJSYaCf4oKymzHbKLbFt6AhGJ
+LSEBtANjDsjcDEQVZYdKq+UyUQ4siWcZ6KcyuyaL904AMFl6M8ZBgKQ3zqobwQYao8Y+MSRGW7nn
+g2IhlsPqiruoEExcABMhp0Q1arIRZTNxjDwHq4U2gafkE0KmuUAqcZb0XvW9LirKGdbNLrLMoo3l
+/PH98/vX5y+fB7cuzg6oSGOygtcIeXkImKuorVEZbOzjsQFDjwwKva0gry21pGj9cLNgUmB8/oG1
+JWTjd6IOeWTrrgChymC1Xdgnmhp1H17qWIi68YRhRQhdHL2BNPSUHgj6xnHC3Eh6HClSmLIm9gxG
+kNaAY8dgBLcLDqRVoDW7rwxoq3VD8H657SS1x52sUf2mAVsz8dpX6j2G1MQ1hl6uArIXbXKpmiNR
+Z9LlGnnBlVZ6D7pZGAi3eoiiL2CHbL1UU1GNjDIdWjDvJ7MowJiKET2ihQjsQwrXpmJeR9iUAADY
+Tud4BoLTgHE4TbjMs9HhByxs+LNZgaJJ+Wxh3y0YJ6YsCImGwYmrC50VnqIweLkjla5fN0eFWhtW
+mKDvmwEzfk8XHLhiwDUdK1zd9R4l75snlLZyg9rvfCd0GzBouHTRcLtwkwAvfxhwy0naSu8abNdI
+FWPAnMDDlneCk3dX4gxRj0UuhN6OWnjZXhPSLWGnhxH3AcXosBJpM44o7nT902hmynHeAGuwXYaB
+RzGsrq4x+ipdg8dwQYq33yJjUCYRkx6ZLTdr6gdHE8Vq4TEQyanGjw+haqZkNB0ey5t3y23x/P7l
+y9PHp/evL18+P7//dqd5faL48scjexIEAkRhUENmvJ1eF/983Dh9xI6JBsmDPsBaMBEYBKsreMAW
+dD1ALRgYDL916WPJC9rKiOkBePXgLezHGOaFBLouclxJ69gdswITSudt923FkD5id8GCkeUFKxKa
+ScdewYgicwUW6vOoO3eOjDPdKkYNsnYHGk6C3GY9MOKEBvDBw60b4JJ7/iZgiLwIVrSDcmYfNE6N
+RGiQGGDQgxa2mKO/46rh6mUkNSFigW7hDQS/MLQtFeg8Fyt0qT5gtAq1mYYNg4UOtqSzIL2jnTA3
+9T3uJJ7e504YG4cxKWGPk9o7OlhSoUu7gcH2WHCYGaY/YKaDoT40dEbIlJYAtY5k9iLkzbQFuhm9
+V3uZTi87rPQNx7FuM0aX3G+o8fy5rd0Yr6ueNjm5Ji+PJyLNruCvsMpbpHg+CYArl5NxGSVPyKTn
+JANXqfom9aaUWlft0YCEKLw4I9TaXvRMHGxRQ3s4xBTevVpcvArsfmExZn/KUn23zePKu8WrtgXH
+oKwI2Ttjxt5BWwxtcBZFdrQT426MLY7aMCKUzxaM0zNtytlvExL3wYkkK0WLMPtvtiGTPS1mVmwZ
+0u0qZtazYeytK2I8n61Fxfge23g0w4ZJRbkKVnzqNIfsv0wcXvpZ3uz1FnaeOa8CNr6eXfOdMJP5
+NliwiQRNW3/jsR1NzctrvrKYmdQi1Tpuw+ZBM2x96bfO/KfIUgozfMk76yxMhWwfyc3SYo5ab9Yc
+5e4rMbcK54KRjSflVnNcuF6yidTUejZUuGW7g7MnJZTPlqKm+N6qqc38t7bz3+IHdXffTbnZnG3w
+EwHK+Xyc/ZET8TqP+E3If1JR4Zb/YlR7qk55rl4tPT4tdRiu+NpWDD8ZF/X9ZjvTstp1wI9jmuGr
+mhh8wcyKrzJg+GST4wrM8G2D7u0sJhJqkcBGNzc3uccRFpeGV34ArdPTu8Sb4c5qjOfzpCl+AtDU
+lqdsC1QTrFej2MQ8IU9y153RK5RJoBGy3oGZZ+0B4BQdZNQkcHfXYgcFVgh6RGJR+KDEIuhxiUWp
+NT2Lt0vk/QgzwQyDT3RsZu3xdaEY9JjJZooz31+kX9SCTxxQku9LclWEmzXblN3zHYvL96BxwCeE
+bnosSsW4WLPzt6JC5PGQUJuSo+Bhhaf6/AxHjlUw5890bnN8wg8j7jEM5fix3z2SIZw3nwd8aONw
+bAM2HF+c7mkN4bb8wtI9uUEcOYuxOGozZqLOWGd8IugxAWb4UZQeNyAGHQKQoSgXu2xn3Y439MS0
+AVc71gidZ7Yht12dakTb6PJRKOM8trFdVDVdmYwEwtUYNoOvWfztmY8HfJXyhCgfKp45iKZmmUJt
+tI+7mOWuBR8mM5ZHuJwUhUvocgKPtBJhos1URRVVm6A4kMp+BpuJ6+oQ+04C3BQ14kKzht1fKbk2
+6aIMJzqFo5IjrkHqpxPyloA/8wAXq31yBb/bJhHFO7spZc1g3tn5cLavmjo/7Z1E7k/CPgFUUNsq
+oQyX6eBuBgka27/kQ8bY6xVh8GiMQMaHMwN1bSNKWWRtS5sVSdJ1V127+BzjtFfWjB45txWAlFUL
+Vlvto9AE3P4BZ/fECXW0w3TEh01gn3xojG7/dejE1s8aEPQpWL7Up1wmIfAYb0RWqh4VVxfMmeQ5
+SUOwam556+ZUnnZxc9aeKmWSJ9GobFQ8fXh+HI7pXv/z1TbY2ReHKLRuAP9Z1ZLyat+15zkB8NoO
+NqTnJRoBZm/nshUzqnqGGgzlz/HaGODEWcbgnSwPAc9ZnFRElcIUgrFUg1x8x+fd0NZ6O7Ifnr4s
+8+fP3/+++/IVjj+tsjQxn5e51X4mDB/HWjjUW6LqzR4IDC3iMz0pNYQ5JS2yUi+Ey709LBqJ9lTa
++dAfKpLCB3OR2OU5MFoJqMtVnMTzrmEvJbIsqUEB7qvJV3enFNT4GTQGVSOaDSDOhX7R8gZZ13XL
+2GrHlktUpwZoRUL9zVezGo/vT9CAhOW2++PT47cn0A3XLeevx1d406CS9vj7x6cPbhKap//3+9O3
+1zsVBeiUJ9daDXdFUqruYPsjmU26Foqf/3x+ffx4157dLEELxC6xASltA6taRFxVcxF1CysJb21T
+vVsv01wkDmYc56qRC171qOlAgm2XPZY55cnYCscMMUm2x5rxwtbkr3ds+sfzx9enF1WMj9/uvulL
+Wfj3691/pZq4+2QH/i9arTBsTl3dPBl4+v394yfXtbreOOp+QNozIbqsrE9tl5xRlwChvTQ+ey2o
+WCEHdTo57XmBzNrpoHlobxrG2LpdUt5zuAISGoch6kx4HBG3kUQbxolK2qqQHAHev+uM/c7bBLT4
+37JU7i8Wq10Uc+RRRRm1LFOVGS0/wxSiYZNXNFswhsaGKS/hgk14dV7Ztm4QYZsGIUTHhqlF5NsH
+h4jZBLTuLcpjK0km6NmwRZRb9SX7YoNybGbVmj277mYZtvrgD2Q6ilJ8AjW1mqfW8xSfK6DWs9/y
+VjOFcb+dSQUQ0QwTzBQfvK5l24RiPC/gPwQdPOTL71SqlTfbltu1x/bNtkK242ziVKMNhEWdw1XA
+Nr1ztEB+USxG9b2CI65ZA++G1eqe7bXvooAOZvWFLmgvEV2TDDA7mPajrRrJSCbeNcF6ST+nquKS
+7JzUS9+3L0ZMnIpoz8NMID4/fvzyJ0xH4ALAmRBMiPrcKNZZnfUwfdKHSbSSIBQUR5Y6q7tDrCQo
+qBvbeuGYfUAshffVZmEPTTaK/TMjJq8E2kXTYLpcFx1y5WwK8rcP0/x+o0DFaYEuaG2UXQj3VOOU
+VXT1A89uDQieD9CJ3HYnjTmmztpijY4kbZSNq6dMVHS1xhaNXjPZddIDtNuMcLYL1CdsTcaBEkgJ
+wQqg1yPcJwbK+El/mJdgvqaoxYb74KloO6RpNhDRlc2ohvtto8sWWzTBTV9Xm8izi5/rzcI+57Zx
+n4lnX4e1PLp4WZ3VaNrhAWAg9eEIg8dtq9Y/J5eo1DrfXpuNNZZuFwsmtQZ3DqsGuo7a83LlM0x8
+8ZHC1VjGau3V7B+6lk31eeVxFSneqSXshsl+Eh3KTIq54jkzGOTIm8lpwOHlg0yYDIrTes21LUjr
+gklrlKz9gJFPIs82bzg2hxwZ6xvgvEj8FffZ4pp7nidTl2na3A+vV6YxqL/lkelr72IP2doCXLe0
+bneK93QLZ5jYPg2ShTQfaEjH2PmR379Oqd3BhrLcyCOkaVbWPuq/YUj7xyOaAP55a/hPCj90x2yD
+ssN/T3HjbE8xQ3bPNONDcfnlj9d/P748qWT98fxZbSFfHj88f+ETqltS1sjaqh7ADiI6NinGCpn5
+aLHcn0FFGd139tv5x6+v31UyHLfOJt1F8pDQvMgqr9bYGLTRNQaddGfquaxC2yDbgK6dGRew9ZVN
+3W+P48poJp3ZuXXWa4Cx1ZTuWPke7tKqiRK1KWqpwCG5Zqeidzg7Q1ZN5q6IiqvTIOI28PRycDa3
+v/31n99fnj/cyHR09ZxSBGx2PRGih0/mXFT7Eu0iJz9KfoUsYSF45hMhk55wLj2K2OWqCe8y+w2D
+xTL9SOPG3oWaPIPFymlaWuIGVdSJcxS5a8MlGXYV5I4KUoiNFzjx9jCbzYFzF38Dw+RyoPgls2Z1
+n7JPq6YFHThXEx9UW0LPDXSm9IhNLh4mgsNQy7BgcWswr51AhOUGc7URbSsyR4OderoSqVuPAraa
+uijbTDJZNATGDlVd05PyEhvL0qmI6QNfG4Uh17RIzMsiA2d5JPakPanprMyYWs/qU6CK2y4D+OW8
+Lu43bjCiH5M8QRd05o5iPEQleJuI1QYpCpgrjWy5oecNFIOXdxSbQtOjAopNVyCEGKK1sSnaNUlU
+0YT0HCiWu4YGLcQ10/9y4jwI2yu5BZJ9/TFBjUCvnASse0ty9FGILVJFmYrZnvQQ3F1b+3axT4Tq
+05vF+uCGSdWs6Dsw8xDDMOY9B4fa/nvVuqZn1IK5fwzttJbMHs0MBLZMWgo2bYOuX2200yuOYPEH
+RzrZ6uEh0HvSqt/BEt9p6xrtg6wWmFRTNTqSstE+yPI9TzbVzincImuqOiqQXpKpvtRbp0gJzIIb
+t/qSphEtUsY2eHOSTvFqcCZ/7UN9qNz+38N9oOkmBbPFSbWuJrl/E27UihHLvKvytsmcvt7DJmJ/
+qqDhVgqOg9S2Ei5i5DA/vf/y6RO8sNA3InMXjrA6WXrOhNuekwSbb2jBdERH0eihbhIpuzRriguy
+bTdc0vlkSphwZo2v8UJ195oepWkGLgIV2GbMZaBv3QayAbkbRHIyR2fMG3Mpe7OqFwjL9Qzcna2p
+GzZnMhOlattxy+JNxKH6u+5Bo75VbWs7RWqkGUd/Z6DpK1+kSRdFmXu1PF7ru0GIZ3sEd5HaBTXu
+QZzFtg5LXan0S/eTI0idudto/2Xp5LGncdnYzLmNcKmNN918oU0X4aC30+TI5qJZT82VOugqMKxZ
+TRbRb2Bi5E5FcfforCJ1C4CRAO3mIblai2EmreesYOoWuXGyQKxMYhNwQRwnZ/lmvXQ+4BduGFDA
+ImeEfDKBUYGmo/j0+eXpAs5B/5ElSXLnBdvlP2cW1WrMSWJ66NeD5jrhjavUYfuqN9Dj5/fPHz8+
+vvyHsS9idmptK/T0Z+z5NNppez+qPn5//fLreBv9+3/u/ksoxABuzP/l7J6bXrHDnJ5/h5OID0/v
+v4Dv4f+++/ry5f3Tt29fXr6pqD7cfXr+G6VuGKnJk9MejsVmGThnKArehkv3CDsW3na7caeBRKyX
+3sppFRr3nWgKWQdL94A8kkGwcDeochUsnXsZQPPAd0/S83PgL0QW+YGzfj+p1AdLJ6+XIkTOEibU
+9iXSN9na38iidjeeoOq4a9POcJO1zJ+qKl2rTSxHQVp5amZYr/TefYwZiU9qQ7NRiPgMBtucQVXD
+AQcvQ3cIVvB64eyve5gbF4AK3TLvYS6E2th7TrkrcOXMlwpcO+BRLpA3m77F5eFapXHN79U9p1gM
+7LZzeOy0WTrFNeBcftpzvfKWzMpJwSu3h8GNw8Ltjxc/dMu9vWyRc0wLdcoFUDef5/oa+EwHFdet
+rxXIrZYFDfYRtWemmW48d3TQR1J6MMHqV2z7ffp8I263YjUcOr1XN+sN39rdvg5w4NaqhrcMvA3C
+rTO6iGMYMi3mIEPjPYHkfcynlffnT2p8+J+nT0+fX+/e//X81SmEUx2vl4vAc4Y9Q+h+TL7jxjnN
+Ib8ZEbUB+PqiRiV4Z81+Foafzco/SGdom43BnKHHzd3r989q/iPRwgIHvHeYupgsaRB5M/s+f3v/
+pKbHz09fvn+7++vp41c3vrGsN4HbH4qVjxw29VOqqyipFh5FVmex7n7TgmD++zp90eOnp5fHu29P
+n9WwPnuHrbZcJWia5k7niCQHH7KVO+BlxdV3J0hAPWds0KgzjgK6YmPYsDEw5VZcAzbewD13BdRV
+qajOC1+4Q1F19tfuigPQlfM5QN25TKPM51TeGNkV+zWFMjEo1Bl5NOoUZXXGDsUmWXc00ij7tS2D
+bvyVc9ivUPQAeETZvG3YNGzY0gmZ+RbQNZOyLfu1LVsO243bTKqzF4RuqzzL9dp3hIt2WywWTklo
+2F3HAoyc3o1wjR4JjXDLx916Hhf3ecHGfeZTcmZSIptFsKijwCmqsqrKhcdSxaqocne/CXP2xuvy
+zJmamljgQzEbdpLUvF0tSzehq+NauLcngDojrkKXSbR3V8mr42onUgpHkZOZpA2To9Mi5CraBAWa
+5PjRVw/MucLcvdowh69Ct0DEcRO4HTK+bDfu+Aqoe0eq0HCx6c5RYScSpcRsXz8+fvtrdrKI4dWz
+U6pg8MfV2gJzA/ooafwajttMxHV2c+bcS2+9RrOeE8LaCQPnbrWja+yH4QLeGvWHD2RPjYINofoX
+Fv1DAjOhfv/2+uXT8/9+grsyvRxwttpavpNZUSNLRxYHO9XQR8Z5MBuiuc0hkYErJ17bUANht6Ht
+iRCR+nphLqQmZ0IWMkPDEuJaH1sDJdx6JpeaC2Y55H2PcF4wk5b71kMaXDZ3JdrImFstXJWIgVvO
+csU1VwFtf8Auu3Gf8xg2Wi5luJgrAVicrp3LeLsNeDOZSaMFmhUczr/BzSSn/+JMyGS+hNJILffm
+Si8MtWPExUwJtSexnW12MvO91UxzzdqtF8w0yUYNu3M1cs2DhWfry6C2VXixp4poOVMImt+p3CzR
+9MCMJfYg8+1Jn6OmL18+v6og42MSbXzq26va8j6+fLj7x7fHV7UFeH59+ufdH5Zonwx9mdzuFuHW
+Wqj24NpRkQNt7+3ibwakmmIKXHseI7pGCwl9ea7auj0KaCwMYxkYL2Rcpt7Da6O7/+tOjcdq7/b6
+8gyKWDPZi5sr0XYcBsLIj2OSwAx3HZ2WMgyXG58Dx+Qp6Ff5M2UdXf2lRwtLg/Zbef2FNvDIR9/l
+qkZsx3YTSGtvdfDQ4eVQUb6tRTPU84KrZ99tEbpKuRaxcMo3XISBW+gL9LJ/EPWp/uE5kd51S8P3
+/TP2nOQayhSt+1UV/5XKC7dtm+BrDtxw1UULQrUc2opbqeYNIqeatZP+YheuBf20KS89W49NrL37
+x8+0eFmrifzqJNp3dJcN6DNtJ6DKMs2VdJVc7StDqrup07wkny6vrdvEVPNeMc07WJEKHJS/dzwc
+OfAGYBatHXTrNiWTA9JJtCovSVgSscNjsHZai1pb+gv6ZhbQpUcVhLQKLVXeNaDPgnAcxQxhNP2g
+y9ql5BLPaN/CE8eK1K1REXcC9Mtku0VG/Vg82xahL4e0E5hS9tnWQ8dBMxZtho+KVqpvll9eXv+6
+E2r/9Pz+8fNvxy8vT4+f79qpb/wW6Rkibs+zKVPN0l9QRfuqWWF3kgPo0QrYRWpPQ4fDfB+3QUAj
+7dEVi9qWXAzsowcuY5dckPFYnMKV73NY51wZ9vh5mTMRMxPyejuqPmcy/vmBZ0vrVHWykB/v/IVE
+n8DT5//6P/puG4EpQW6KXgaj1u/wLMWK8O7L54//6ddWv9V5jmNFR5vTPAOvQBYbdgrS1HbsIDKJ
+hifNw5727g+11derBWeREmyvD29JWyh3B582G8C2DlbTktcYKRKw/bek7VCDNLQBSVeEjWdAW6sM
+97nTshVIJ0PR7tSqjo5tqs+v1yuyTMyuave7Ik1YL/l9py3p1xQkUYeqOcmA9Csho6qlD0gOSW6U
+8czC2mgTTbav/5GUq4Xve/+0X6Y7xzLD0LhwVkw1OpeYW7frb7dfvnz8dvcKF0v/8/Txy9e7z0//
+nl3RnoriwYzO5JzCvejXke9fHr/+Bca9HWVvsbdmRfUD3GgRoKVAETuArZAIkLaMi6HynKkdD8ak
+rTSrAe1DAmNnGipJ0yxKkOkYbYh339pa9XvRiWbnAFrPY1+fbCMAQMlL1kaHpKksNYO4KdAPfcXS
+xbuMQyVBY1Uwp2sXHUSD3ntqDjScuqLgUJnkKSiSYO5YSGisWKN4DKO+VcgWns9WebV/6JrEVp8C
+uVSb0GD8k05kdU4ao13mTRp7E50n4tjVhwfwlp2QlMM7yk5taGNGSa4vC3S7DFjbkkjOjSjYPCpJ
+Ft8nRadd+jAclNccB+HkAfSbOFaqVjA+9gQ1mP62804N3Pw5JIQCXePooFaZaxyb0UHOPbuDDHh5
+rfWp29ZWVnDIFbqAvZUgsz5qCubFJZRIVSSxsOOyRW3JRsQJbSIG04aj65aUmOr/qkNxWEc7RQ9H
+2ZHFp+gHH7F3/zBqKNGXelA/+af68fmP5z+/vzyCuifOpYoIXJu8wV5ffyKWfonw7evHx//cJZ//
+fP789KPvxJGTCYWp/5csfoijmiVQIen+fEyaUg1o3AfUmuLUJGqlIetcPLxBFkduJN6OpqxO50RY
+FdYDqovvRfTQRe3VNSc0yBil0BULD65L3wQ8XRTMRw2lBuQDzuzAg/mtPNsfyICYbdHbyh4Z3ldp
+BetffnHoSNQtFF/SNFXDBI+qwij7zgmQFvrh5dNvzwq/i59+//6nKvc/ybAAYS5DZKO31ZHSmWd8
+rWKBwXn0THgY0G7FIS9qrQC6qUa62r1NolYymRsF1RAYHbtY7Bmh/pOniIuAnbs0lVcX1b7OiTZ0
+FiV1peZsLg0m+vMuF+WxS84iTmaFmlMJnmy7Gl1YMVWCq0oNAX88q73h/vvzh6cPd9XX12e1KGP6
+uP7UYAJp8JkLK9CF2+x0sQ0yHisDTcd49tUWyE6yTsr4jb9yJQ+JaNpdIlq9sGnOIgcxV0411aSo
+p7Sptb0jA8udIQ+7k3y4iKx9E3Lpk2r5YGfBEQBO5hk0pFNjlhEeU+63yhfN93u6jDgfC9IkzsVl
+n145TK1KIjpJ7QtsywWwU5yTQZQ2z2Iv9j4N1kSiAR+6h7jIGCY/xySl91fynV0VHWhusqaFVyB0
+sqxFmYyO0YdhvH78/PSRzOFasBO7tntYBIvrdbHeCCYqtc5VH0saqSopT1gB1fy6d4uFajvFql51
+ZRusVts1J7qrku6Qgbluf7ON5yTas7fwLic1bOdsLGp53EUFx7hFaXB6QzoxSZ7FojvGwar10NZv
+lEiT7JqV3RHcAWeFvxPojNMWexDlvksf1H7eX8aZvxbBgs1jlmfwcifLt8j6ISOQbcPQi1iRsqxy
+tSWoF5vtu4ituLdx1uWtSk2RLPC94iRzPIhYyK6VixXPZ+W+Xx6oQlpsN/FiyRZ8ImJIct4eVUyH
+wFuuLz+QU0k6xF6Ijh+mChOFPKnSzOPtYsmmLFfkbhGs7vnqAHq/XG3YKgWDr2UeLpbhIUcHVpNE
+dRaQTt2WPTYBlsh6vfHZKrBktguPbcz6uee1K3KRLlabS7Ji01Plary8dnkUwz/Lk2qRFSvXZDLR
+78yqFpyqbNlkVTKG/1SLbv1VuOlWAZ0+jZz6U4C5q6g7n6/eIl0Ey5JvRzMGwnnRhxgeoDfFeuNt
+2dxaIqEzmvYiVbmrugZsqMQBKzE0IbmOvXX8A5EkOAi2HVki6+Dt4rpgGxSSKn70LRDBpmjnxZyj
+AEcsDMVCreYlWDRJF2x52tJC3E5elapYeJEkO1bdMricU2/PCmijxfm9aleNJ68zaTFCchFszpv4
+8gOhZdB6eTIjlLUN2GJTi43N5mdE+KqzRcLtmZWBVw0iui79pTjWtyRW65U4slNTG8OjDNVcL/LA
+N9i2hoclCz9sVQdms9NLLIOiTcS8RL33+CGrbU75Qz8/b7rL/XXPDg/nTKr1WHWF/rfFV7ejjBqA
+1JJz313rerFaRf4GnU6SdQdaytAX6tPUPzBo6TIdoO5enj/8SU8ioriUbieJDlldlUmXReXapyN8
+dFAVDmd8cMZC5/zB+68or5s1ut9W5DATKghsMdJNXQ5PLdWwlbfh1vN3c+R2TVOEudOVbodalZN2
+vUaeh3Q4tdzp6NsxWIXC3lsVgVSNOq6v4I9kn3S7cLU4B11KJubyks+cOsKxUd2WwXLttCY4wulq
+Ga7dBcxI0XlbZtDbshA5rjFEtsXWpXrQD5YUhHUc24baQ6YqvD1E60AVi7fwSVC1SzpkO9E/UVn7
+N9nbYTc32fAWuyHnDK2aLtN6SburgmW5XqkaCYNZZu1GVceeLxf0MMPYBlNDnGrUa/SGjLIbZEsE
+sTE9b7KDrX16fuJH+tnIijZ1i6C+HyntnPLqvl4c4jpcLUnm2d1VD3bisOO+NdCZL2/RJhnO0OaO
+S3bgpC3FOSOTSQ+qRpo0hSBbvOIqHSAlY4hoonpP9ntR1jRq/3WfFITYF55/Cty+Bj0oti8jwIUL
+UIdrGKw2sUvAPsS3a9gmgqXHE0u7gQ5Ekan5LbhvXaZJaoHOzwdCzcsrLiqYr4MVGYLPu+qqVXlJ
+WZzIRuzwoL5FqsecWJJOFdMTg8bzSQ/PQtp9Czqvorspnc6MSoizoENacjUG6MFlRyL5Jbpa8IP9
+a21R+v6UoQsvnakMLIKUsTZCYFSuXx4/Pd39/v2PP55e7mJ6up/u1NY6VlsMKy3pzhj8f7Ah69/9
+NY2+tEGhYvvQWf3eVVULShyM8Xv4bgrPkfO8QWaOeyKq6gf1DeEQWaHKbZdnOIh8kHxcQLBxAcHH
+pco/yfZll5RxJkqSofYw4eORKjDqL0PYp6m2hPpMq+YyV4jkAtl2gEJNUrXRSuLOHrBSuH6OTjuS
+p/NeoGcQkDD3CFyh4Cmlv8HCX4NDHygR1ev2bAv66/Hlg7EPR6+yoYL04IQirAuf/lY1lVawuOrX
+VbiOH9S+El/V26jTxkRDfqtlhypgHGlWyBYjqqTs/blCTtBQsQwFkjTDvQSpv0Cd7HGASq2ZwbwH
+LhLpxdppHI6LXHGPEH6xN8HEwsZE8DXeZGfhAE7cGnRj1jAfb4aeUQGAhsce6PZt6oL063kSLlab
+ENe8aFS/rmBQs23sQBsWaid3ZSA16+R5UqoVNks+yDa7PyUct+dAmsohHnFO8OhA7z5HyC1mA8/U
+lCHdWhDtA5qMRmgmItE+0N9d5IiAU4mkySI4bHK5qwPx35IB+el0VDrjjZBTOj0sosjWAwEik/R3
+F5CRQmP2ihg6MulYZ+1WBeYKuO2LUumwV32bp6bZHZzN4mIsk0rNGxlO8/GhwcNzgFYSPcDkScO0
+BM5VFVcVHlvOrdpJ4VJu1b4oIUMdMiSmx1scRvWngs72PaYWEKKAe7PcntwQGZ1kW3EXhiqWfYIc
+mQxIl18ZcM+DOMuyQDb0NSKjEylYdEsDQ8tOLQCv7XJFWsa+yuM0kwdS2drjNe7gCRwRVQUZInaq
+/Mmg3WPa5t2etPeBo3VLl6KQKwnatBuS042HzljYdZyen3eP7//18fnPv17v/ted6sSDZx5HXwtO
+k41nDuPua/oeMPkyXahdtN/a52aaKKRaw+9TW/dP4+05WC3uzxg1m4erC6KtCYBtXPnLAmPn/d5f
+Br5YYngwCoRRUchgvU33tt5Mn2DVbo4pzYjZ8GCsaotA7XWs8WEc32bKauKPbezbKucTA08WA5aZ
+mc4mAeTPc4KpK2zM2NrwE+O45J0oUaP7sYnQ/vguuW1vaiKpj82JkeIgGrYQqSNBKw1xvVrZjQJR
+IfLzQqgNS/Xe49mPuZ5crSipI3hUketgwWZMU1uWqcPVik0F9SdtpQ/2bHwJum5AJ851T2lli3ig
+nxjsT9xK3lnVxyavOW4Xr70F/50mukZlyTYYtUbqJBufaWLj6PaDMWwIr5btUu1+qX01fjvTnxD1
+6rmfv335qHYt/XFOb5/KNWC81yb0ZIUe2MYMaBRpb8Pq7/xUlPJNuOD5prrIN/6oEZWqOVYt+9IU
+niTRmBlSDU6tWcWorWzzcFu2qVqiv8nH2G83W3FMQK3TrqUflOI4sFZ7q33Br05fYnbYTqlFkO2Y
+xUT5qfV99LjR0UgegsnqVFoDl/7ZgdstbGIR46AJo0b6zBp2JYpFyYL2SoOhOiocoEvy2AWzJNra
+Vh4AjwuRlHtYVjnxHC5xUmNIJvfONAR4Iy6F2vJhcFRDq9IUdGsx+xZZRB2Q3rsM0jWWpoxA7ReD
+RXZV7aWyTQkOWZ0DwYayyi1DMiV7aBhwzs+aTpC4wrwayzeBj4qt9+io1n3YAaD+uFr4dymJSTX3
+XSUTZ1eAuaxsSRmSvdoIDYHcfF+bk7PF07XX5p1agGcx6apWTb3tHcoxoc+FGh6dotPGPVU3d7+E
+5vm+pZ1AHa1hGiAMXDPSbsVDiL4iR81ORwAar9pvoC2Mzc2FcJokUGol74Yp6tNy4XUn0ZBPVHUe
+YJMhPbpkUS0Ln+HlXeZ8deMR0XZDr+90BTl2MHUjkWQUYCpAgI9Z8mG2GNpanCkk7WsvU4ramezJ
+W69s7aCpHEkKVd8qROlfl0w26+oCr+XV/H+THNvGwha6gKdEWnrgnYS4dTJw2MW0qOTOW7soshut
+ExO7dRR7obd25Dxkh98UvURvODX2rvXW9japB/3AntxG0CfBoyILAz9kwIBKyqUfeAxGPpNID11q
+9xi69dPlFeFHtoDtT1JvgLLIwZNr2yRF4uBqICYlDiqoF6cRjDC8IKdj3Lt3tLCg/0lbXceArdpo
+Xtm6GTiumDQXkHSC/WynWblNiiLikjCQOxjo5uj0ZykjUZMIoFBSUFcg6dP9LStLEeUJQ7EVhZwd
+DM043BIsl4HTjHO5dJqDmpNWyxUpTCGzA51Y1cSVXWsO07cOZLUjTiE6Lx4w2jcAo71AXEibUL0q
+cDrQrkXv2UdIv1mK8oquhyKx8BakqiPtMoE0pOvDPimZ2ULjbt8M3f66pv3QYF2ZXNzRK5KrlTsO
+KGxFLrPN5H5NSXpj0eSCFqtalDlYLh5cQRN6yYRecqEJqEZtMqQWGQGS6FAFZDmTlXG2rziM5teg
+8Vte1hmVjDCB1bLCWxw9FnT7dE/QOErpBZsFB9KIpbcN3KF5u2ax0V6zyxCHEsCkRUgnaw0Nfjbg
+YpasoA6mvRlVrC+f/+sVHhv/+fQKr0ofP3y4+/3788fXX58/3/3x/PIJ7v/Ma2QI1u8CLSuXfXyk
+q6vti7fxfAakzUU/yQyvCx4l0R6rZu/5NN68ykkDy6/r5XqZOHuHRLZNFfAoV+xq++OsJsvCX5Eh
+o46uB7KKbjI198R0D1ckge9A2zUDrYiczORm4ZEBXevvnrMdzahzV2AWiyL06SDUg9xorU/LK0ma
+2/nq+yRpD0VqBkzdoA7xr/oNHW0igrZBMV1GJbF0WfI0eICZLTPAal+vAS4e2O7uEi7UxOkSeONR
+gVq00cFx/zmwen2vPg3+q45zNPXeiFmZ7QvBZtTwZzp2ThRWisIcvZwnLPjJFrSBWLyaFulEjVna
+jCnrTmmWhDZpNV8g2GsWaSwu8aMNxtiWjMqXzHLVNdRiVFUbeg82Nlw3XU3iflZl8Ea7KEBFlStg
+/BxxQNUie+YzNbQutXBR6X6X4IyZTJUHuts2OKSP6xKG1cdil6yBm1e6qDMSuwc4aoQDQtAbJ+MO
+DYIcJ/YA1btDMDxyGx22lGr4zXNakNpfqvDo5KZhefUfXDgSmbifgbnR3UTl+X7u4mtwnuDChywV
+9GRuF8W+s4TWrjGzMlm7cF3FLHhg4FY1I6xMNTBnoTbwZDSHNF+cdA+ou3yNnVPG6mqrEOvWIPH9
+/xgjNsCgCyLZVbuZb4NTWmREB7GtkMhVNSKLqj25lFsPdVREdFw5X2u16E9I+utYN8KINusqcgBz
+iLGjYykww/R143wXxIYzWpcZzDDMM93xVGZth5/KTimj3VCjzlGaATtx1eqw86Ss48wtEeulPENE
+79RuYeN72+K6hQtXtZqyrzqJaNOC6ekbMuo7wd881Zx18NC/EbxJyiqjx5mIu/3tFfm2aAs9VjLN
+osiOTaUPj1syxu2iYh1oXQDZXQ6ZbJ2RLU5Unyq1WqVTIRZnWlPvqDXq3WzAQjx9eXr69v7x49Nd
+VJ9Gc469UZpJtPdyxQT5f/DiTOrTcXjs2TA5BUYKplEBUdwzDUrHdVKTLT15GmKTM7HNtECgkvkk
+ZFGa0TPiIdR8lq7RmWkpwDR1IfculRVXnasTcn5ys2bQOKqawyFb+1oVjim0rGC/udcBM3oQanEV
+ndYGEp5rqGk1n5fQ5T0buWHno1dNG16iVOaIT61y1VDAFHa/4DBmZ/TL/hsyc1Qk2pqSKkbRVgXM
+yZnPqI3cEHLPy+YE+UG2T+/xIRdHeixo0bM5FfUsddzNUvv8OFs+5WyoKJ2nCrUovkXmzLCP8t6l
+oshyZgbDUhIWo/OpH8QOZl7m7k1cYfaCoJ8We9ECdm9z8fAzgeHABEOXgvp9nD/AE659V4qCbrMn
++WFDMJemYdGdaregxQ/kDkJekvx2CnfxRc+Hq8VPiW3mZuZerFE7mR9/86GNGjOJ/+Cro+DK+wnB
+S7ECs5O3BCPQSpF9Xn5edHaxgUXBrUC42C7gndXPyJf61Hr5o6xp+ejqLzb+9adk9VIq+CnRRIaB
+t/4p0bIyO+tbsmqsUgXmh7djBCmd99xfqT5dLFVl/HwAXcpqjShuBjHLSUuY3fhbuby2bpjb/YsN
+crMkr6AP52/D25lV3ftShOHidsNQA7xum+vAfH3r3y5DS179tfKWPx/s/yiTNMBPp+v2WABNYBge
+hx3Tj0rx5kJ/ElML5JXn/z0jV7THbtdGZ0nVHuAwRYWeX42YuDNXRcYieYJfLQzMfITOAUuP9zav
+wEoVM/cYCZWFqoZTGvrsyhazzF11sHO/PyUnZuECov1wcZO8/THZqkpWy6ldZgxEzSbd0WnByR0H
+rooepOPy0fo1YJXoltCg0pPVM1kzYubLSqirK5m5ejlY2rhcHxzRqlWqyu9PyI+v6rSJq1sBICFp
+XlXxzBnAJNkkrcjK4divTa689EyDHhtGd6NlmJ53u9/0Kxi1iO6Ser6w+2XwsODuHC04JDc3nIPE
+TjyoUuQ2gJodFjY8XSRNoz7vqPKRZHKrdd2p6yqHyyduDwD8PimyMpvnb6zdgY5EWVblfPCoStMk
+ucUXSfujr2fRXE1GN6J+C46Kmx/F3e5n4m6z/a3QSX48iOZG0kUe3wrfn8HPthlzsD4/qAKfZ6Wa
+P4RM8HtZN5PTUfr/eRBe6NompVZfMmc/bfH8/uWLdqP78uUz6MJKeMhwp8R7X5WTZvN0LvHzoWgS
+el/Q7ClFz5ltGmyQRevoIFpyMwc61zat92LmHASsBMC/60mfG2YB9w3quOFrsneOzgEQF7V9d9XF
+qmhWOU9zag/andosZ09KxckLNvRq1mLwCyCHdS5ORvb/o+xamtzGkfRfUcxp5jDRIilK1G70AXxI
+YouvJkA9fGFU22p3RZdd3qpy7PrfLxIgKSCRLMdc7NL3ASCQSCQTIJDY4O8cd+Yyy6zfYd6pCbCz
+NbFvZrUYz8P7pAymP5zfIenKHFfeEu9LHHDyUcfVCm+uHvAQfzIc8LUX0PiKauQxDCK88UvjIfnc
+IgmtY3ojEad+RBOi5wnefSbxpEkYoadjwJoZVU14EBb4S+ydIJ6vCUJUmgjnCEIosM2poKSoCLx5
+zCBoXdDkbHFzFdiQjVz5dBtX/pps4srH23gmfKYdm3easZkZXcBdLoQeDcRsiYGH94KNxIquXrBy
+Nookw23iVEF6hcIl9HLEDE48IS2paboOtEJrcMY3HtVVEveptulVDxrHewHvOC3YgSO7ai/KNWWQ
+pWNA7bswKOI1BOEc+/YYLKlhVNTJoWJ7Judv1FcmtTCFd/XemS3RndNsf4YKKZOrGDP4kUVs/Tkm
+oAbgyNByn1ieEm8Mzc62a00RvIy23ro/wzFRYrMNTgOfogUjPNMmKb013ro5Ehu8m9Yg6IYqckuM
+q4F4Nxetl0BG65kiJTFfJJBzRQZLSqwDMVukImeLlIIkFHBk5gtV7FypsExMlwrrQLPE7NMUST5M
+DlfSoLTHyCPGQlusnc3nAx6sqJGo1lpJeEs9Fe6cpIoHnHijaZxwKCQRLCN65AEnR8gMBwuPc/iM
+CEW4pmw14KSshH1btYWTjYTPCzM4MVb1WuUMTlgx9alhJv2G0gH9mWVWFhHh3AwLnaR+DtxMf2zw
+hqMJns1Ba5CE38khqYTN82S3bCBG+GyOd0qUYF/WybGjFoP2ogidXVaKyVcbyiSqnZXk9G9kaLlP
+bJvJP8jsKlAhk//C2hEx+x1S6K0CmKOnxJyXfoCPE41ESM2GgFhTc7WBoDVxJOmm6086BCFYQHmI
+gOPjYxrPe86oLU+M+yHl5itiPUNsnNNrI0ENUEmES8q6ArHBu/gnAp+CGAg5U6QeLn3gFeUDix3b
+Rps5gvIGRHEK/CXLE2rCaJB0l5kJyA6fEgSecxLMop2zfQ79kxqoJD+pw7s1mHFfzATvFZ8mF496
+gQgeMN/fEIttguup1wxDrSl0KfMCasoiPcttQM2gweUs4wPRMJVlRTxdEdE8QZtP/RmdwqMQ7+Ye
+cUrnFE61UOIRXQ75bgGc8qEApxwAhRPGB3BqMgg4ZXwUTreLtBcKJ8wF4NRLW3/jncNpHR44Un0l
+t13S9d3OPGdLOTIKp+u73cyUs6H7R84SCZyzKKLM54ciiMgpBEzZNpQvVop1QPluCqdmu2JN+m6w
+tyCgvBAgQsoYVNQhxInAR1vuBCE/TRAPFw1bSz8bn2IFqmggzJCUJHy0ds6hTglOP+Hby/u8uPP3
+eB7WKrqVT7srEFaBXPm+0zahvwLsW9YcCPZivoLVIlDRZNShAH6tINKm4y3pW1DumLETW580ylM3
+psvBDFMqf/Sx+kJxVQc+qr04WGzLDDvaOXnvW0/0l5hvt49wGSg82PkaAenZCq5nsMtgSdKpWxMw
+3JrtnaB+t0OoHb1pgsx9zgrk5h51hXRwdgRJIyuO5n5PjcGFPvi5cb6Ps8qB4epDM/iMxnL5C4N1
+yxmuZFJ3e4YwqaisKFDupq3T/JhdUZPw0SGFNb5nnghUmGy5yOHMeby0zIAir2g/PoBSFfZ1BTds
+3PE75oghK7mLFazCSJbUJcZqBHyQ7bShnfDXS6yKZZy3WD93LSp9X9RtXmNNONT2ATX922nAvq73
+cqAfWGmFZAHqlJ9YYZ4sUOnFOgpQQtkWQtuPV6TCXQIBxhMbPLPC2sShH5yd1TFH9Ohri4KmAJon
+1jVgChII+I3FLdIgcc6rA+67Y1bxXBoM/IwiUQfOEJilGKjqE+poaLFrH0a0Nw80W4T80RhSmXCz
++wBsuzIusoalvkPtt6ulA54PWVa4aqziXZZShzKMFxAqEYPXXcE4alOb6aGD0ubwPaveCQTDbpUW
+D4GyK0ROaFIlcgy05hE3gOrW1nawJ6yCyOxydBgdZYCOFJqskjKoBEYFK64VMtyNNH9WQFUDtKJp
+mzgRWtWkZ8uzD8uaTIKtbSMNkroAJcE5CnblOECYAbrSgJhjF9zJsmw83No6SRhqknwNOP0xXEmD
+wKwkUlpvFnUXC64db7IMwprjnCJjpQNJlZfv9AxJRFamKbDZbEts8ODeI8bNN9AEObXSsT97YiTx
+krXit/pqP9FEncLkywxZE2kpeYbNDlyUsS8x1nZc4GBRJuo8rQPHqG/MOL8K9ncfshbV48ycV9w5
+z8sa291LLgeUDUFhtgxGxKnRh2sK/myFFabiddsfupjEdQDb4RfyjYoGdXYp/QhfXcJy30ND+HvK
+Eex4THuf+oioM3INYEihd4JOT8IFTncKk0+BLTLaYTSnkyNq7vG7Y/ByT3Pr6BIuH2caDiRr1/e7
+vg+D/3h9u31ZsM+fX26fH96eXxbl86fvTze6orxr4ZimLZIRPMZWUMj/6AnEA8bq3s9zE+lB+vUh
+ye0A/XbvOFtbOyIalTrem6lIC3sb7Yomt8+L6vxVhUJxqrPQLbzfGe8Pia0jdjJrv7HKV1Xy5QRb
+ZCF6jIoWOE2LysfXj7enp4evt+fvr0qzhoOAtpoOZ+V7CKOZc9TcnSw2h5OnYOQtY6myzsTnU9IV
+ewdQ3nyXiMJ5DpBpztWm2OwynCKzhvOYasdLR/pciX8vDZgE3D4zbk+VrYVLkH2T1v15H8/Pr28Q
+8/Lt5fnpCaIu4wme6sb15rJcOr3VX0CnaDSN99benolwOnVE4ahqZq2e31nnkBtQGfl0hbZwK4cU
+aC8EwQoBCjReZI5Zp4IK3fGCfvpM5epL53vLQ+NWMOeN560vLrGTHQ7nJB1C+iDByvdcoiYlUE81
+wy2ZGI6HWv1+azryQR1EvHBQXkQeUdcJlgKoKSpBPd9GbL2GS92coqCQOCmZizrtAhC2kI+b6Se9
+19HFF8nTw+uru6qhxlGChKCiYprOBIDnFKUS5bRwUklv4L8WqoWiljODbPHp9k2a6dcFHFhOeL74
+4/vbIi6OYMt6ni6+PPwYjzU/PL0+L/64Lb7ebp9un/578Xq7WSUdbk/f1NnbL88vt8Xj1z+f7doP
+6ZCgNYiPIJiUE9VlAJRZacqZ8phgOxbT5E66ipavZJI5T63bME1O/s0ETfE0bZfbeS4Mae63rmz4
+oZ4plRWsSxnN1VWGpmUme2QtVseRGpZdeimiZEZC0u71Xbz2QySIjnFTZfMvD3Bd9xA3GmlrmSYR
+FqSaeVqdKdG8QSFXNHaiRvgdV5Ew+a8RQVbSE5Vj17OpQ41eepC8M+8P0BihiupONNodAcYpWcEB
+AfV7lu4zKvFcIeo9dG7xiwu4xjWnGp57CCEDOb0Hm5S2+vo1h5DpyauVphT6WcTdFFOKtGNwk2wx
+Gbvm6eFN2okvi/3T99uiePihwphpl0kZwpJJG/LpdlcnVY702aTOm+uTqvRzEriIcv5wixTxbotU
+indbpFL8pEXaYZF+NDEnUfmdbtM1Yw127wCGY1zoYu2B84kG+k4DVQX3D58+395+Sb8/PP37BWKJ
+g3wXL7f/+f4IQeVA6jrJ6KhDBDpp629fH/54un0aNv/bD5L+at4cspYV87LyLVk5JRBy8Knxp3An
+qvPEwOGto7QtnGewTLFzxeiPB/hkneXsK0Fj45DLqWHGaLTHNuLOEGN2pNyhOTIldqAnJi8vM4xz
+9NZiRbZvUeXBpduslyRIO4BwFkG31OrqKY9squrH2cEzptTjx0lLpHTGEeih0j7S/ek4t/aGqBeW
+ip5MYW4of4Mj5Tlw1GgbKJa3CUyRaLI9Bp65z87g8Nces5oHa/O4wZwPucgOmeNxaBY2z+qbjTL3
+tTSW3Ujv/UJTgxNQRiSdlU2G/THN7EQKsduww6zJU24t8BhM3pgRwUyCTp9JJZpt10j2IqfrGHm+
+eRzDpsKAFsle3bk0U/szjXcdicMHs4ZVEN/qPZ7mCk636ljHcLlvQsukTETfzbVaXa5EMzXfzIwq
+zXkhxK+Z7QpIE61m8l+62XwVO5UzAmgKP1gGJFWLfB2FtMr+nrCO7tjfpZ2BdSN6uDdJE12wdz5w
+bEePdSCkWNIUz9cnG5K1LYODhYX1gdNMci3j2rrzyyBFPmM6p9EbZ619q4RpOM4zkoUw3HjxbKTK
+Kq+w02hkS2byXWBRty/pjOecH+K6mpEh7zxnojV0mKDVuGvSTbRbbgI624U2JaNDMb1i7IU58l2T
+lfka1UFCPrLuLO2Eq3Mnjk1nke1rYX+sVDB+D49GOblukjWeP1zVjcboxZ2irxoAKgttfwNXlYXN
+CsPl6ndGoX25y/sd4yI5sNaZoudc/nfaI0tWoLoLuFwrO+VxywR+B+T1mbXS80KwfZJeyfjAMx1l
+r9/lF9GhWeEQA3GHjPFVpkO9kH1QkrigPoQFOPm/H3oXvCzD8wT+CEJsekZmtTb3gCkRwDFjKc2s
+JZoiRVlza0OB6gSBrRB8MiPm8ckFdqHYWJexfZE5RVw6WJYoTQ1v/vrx+vjx4UnPrmgVbw5G3aq6
+0WUlmXmhNkCwWN6frIV0wQ4niBwaE5D2FOOrewHJ6PoFS+vjzjv1tapBTGoHV5OYMQwMOWcwc8H9
+xXhV3eZpEuTRq11LPsGOyyhVV/b6pidupHMd1Hu/3V4ev/11e5GSuK+A2922AyXFdnNcqHWmKvvW
+xcZlTBttLszfoFFUntzcgAX4rVcRSzgKldnVAi4qA56PhmacJu7DWJmGYbB2cPmm8v2NT4IQBpQg
+IiSyfX1Ewyvb+0tawfQhetQGtQROiFzfNabnWLaSk51rG5RYRSzm1mYZ1cHu4u+uhwtbkBkblQuj
+Gbw8MIi2AA6FEvl3fR1jC7vrK7dGmQs1h9rxK2TCzG1NF3M3YVulOcdgCVsryfXknTNgd33HEo/C
+nLvoJ8p3sFPi1MG670djB/yBeUcv0e96gQWl/8SVH1GyVybSUY2JcbttopzemxinE02G7KYpAdFb
+98y4yyeGUpGJnO/rKclODoMeu9kGOytVSjcQSSqJncafJV0dMUhHWcxSsb4ZHKlRBi8SyxUY1vW+
+vdw+Pn/59vx6+7T4+Pz1z8fP318eiK/R9r6SEekPVeO6OMh+DMbSFqkBkqLMxMEBKDUC2NGgvavF
++nmOEegqdX3bPO5WxOAoI3RnycWkebUdJCLA08avG3Kcq+vXSPdnRhdSHeuaeI2Ao3fMGQalAelL
+7OjonX8kSAlkpBLHBXE1fQ8f45tf0dxXo8NVfzPz3yENJaZ9f85iK3i5cnbY+S4763X884Ex+bbX
+xoyZoH7KYWZ+e5wwc9lXg63wNp53wDCcsDAXaI0SdGxSTGnHz8fwOanNm7402CXWGpL81SfJHiH2
+rqXh+XC17dY88aTxQxpwHvi+U2EuOrhoS60yTjZH/Ph2+3eyKL8/vT1+e7r93+3ll/Rm/Frw/318
++/iXu09pEE136Zs8UO0NA6fFQOvwTU2Z4F79Tx+N68ye3m4vXx/ebrDb6ebOnHQV0qZnhbDD4Wmm
+OuVwl8KdpWo38xBLb+FaWH7OBZ4YAsGH9sNWlDtbloaSNucW7mfMKJCn0SbauDBa+JZZ+9i+qmuC
+xi1H0+dXru6SsO7ogcT2SwOQpL02KlK7/uBXJr/w9BfI/fONP5AdzfUA4ikWg4Z6WSNYIOfc2hx1
+5xucTVrx+mDL8Z7aHi5GKYXYlRQB4dFaxs11GJtUc/93SUJ+9xRi681Q6Tkp+YFsBWzMr5KMonbw
+v7m0dqfKvIgz1qGqnGOOqg/rrC3SgHwnnUbcTFeUWvYJ6qgk3nioRqccTq07nXTq7GkxYJ0jhE62
+J1/LMYRSjntKXJUYCGuxQ9Xsd0frDvx31PaaH/KYuaWW4kiJ+ZJVNa0t1vl3QyfLtXk29k5Me/is
+yXCZlVzk1oAeEHuRtLx9eX75wd8eP/7tWsApS1epZfA24515LWXJG+kwYsPBJ8R5ws/H/fhEpUum
+ozIxv6mdJVVvHdad2NZabbjDZKdj1up52OZpb/xX2x/VVZAU1qNDGQaj3KWkLswBo+i4hUXOChaC
+D2dYR6z2ykwowckUbpeobFHUlNHa/NynYMaE55thfDRaSVci3DIMNx1GeLBehU66s780A1LpesN9
+G+Y54zsaYhTFWdNYu1x6K88Mb6LwrPBCfxlYMScUUZSBdTnjHfQpENdXglb0uQnc+liIgC49jIIL
+5+NS5Ux2ZV31qlB7B4+CpAS2bk0HFG1RVhQBFU2wXWF5ARg67WrCpVMrCYaXi7OneuJ8jwIdOUpw
+7T4vCpdudul4YFWQoBVNahgi2amWfrAZTvYunxA3ZEApEQG1Dpz+KKPAu0DYDNHhgQtciCuUsu3S
+KQVAR9KpnOr6K740T27rmpxLhLTZvivszyV6zKR+tMTljldzrHx3IIgg3OJuYSl0Fk5aJl6wiXBa
+kbB1uNxgtEjCredojZydbDZrR0Iadqoh4Wi7xUXDgDQv+VFgLdymlVm1873YfNsr/ChSf711ZMQD
+b1cE3hbXeSB0iAlkSNWm1T+eHr/+/U/vX8pNb/ex4uUc9PvXTzBpcA+gLP55P+fzL2SKY/gyhDub
+X3nijLKyuCSN+SltRFvzG6IC4SoMbGvyZBPFuK0czj1czam/7s1cSr2bGexg9Yg+WvsbbF1ghugt
+nRHI92VgBf3QReyntajd08PrX4sHORcSzy9yAjb/ImvFKlziwdOKKFTxBabOEy+Pnz+7uYeTCHhQ
+jwcURF46Yhy5Wr5zra24Fpvm/DhDlQL34MgcMjkliq09PBZPHD60+MR5IY8MS0R+ysV1hiYs4dSQ
+4cDJ/djF47c32Of3unjTMr0rfnV7+/MRZqvD2sjinyD6twe4pRZr/STillU8ty5dtNvEZBdgj2Ik
+G2YdMbY4+Wq1AvejjBBeACv2JC17qdKurylEPWHM47ywZMs87yodM/k+ggAM9oc7aRwe/v7+DST0
+CnsrX7/dbh//Mg5fNRmzQ2lpYFjFsqIwjIyKxMCSSnD2HmtFdbdZFRF9lu3SRrRzbFzxOSrNEmFd
+H4RZO9w9ZmV9v8yQ7xR7zK7zDS3eyWifcUZcc7Rv1LJYcWna+YbAF75f7fOJlAaMuXP5byXngZVh
+Je6YMuzyNfkOqZXynczmwrhByglRmpXwV8P2uXnK10jE0nQYsz+hiW9URrpSHBI2z+CFG4NPLvt4
+RTJ5a09fCwh9RQhTEuHPpFwndmEGddJ3QDSn2RQdt6ySWcWmNi/zxEyf0D2jyXmZGLw6y0Im4m0z
+hwu6VMuFQASdpRUt3d9ASDfdtvOYl8WezEdmEJsXLpvIk54nrXm+UFHOGYvMuslOpdFfkcCdMjVR
+UUieAwbxdqTfmyFif8hwflamZoC7EbOiGiow21wuLhb6GMsjP9qY8T9HdLsJnbT2DHfAfBfLAs9F
+L+a19jpduHLzbuxtGlMl1zhlG/lrN3tIVDH0iMdYS3GtSOwrbwGQE5HVOvIil0GLKQAdElHzKw0O
+x25//cfL28flP8wEkhS1uQJogPO5kBIBVJ20hVWvewksHr9KlwhOSRveJySUc7Qd1swJb9o6IWDL
+pTHRvssziMZU2HTansZl4el0OtTJcabHxO7CkMVQBIvj8ENmHmG6M1n9YUvhF7okHmzMYF4jnnIv
+MCecNt4n0qx0ZngjkzfnJDben1NBcusNUYfDtYzCNdFIvE4x4nIuu95izR6IaEs1RxFmaDKL2NLP
+sOfLBiHn12Ysr5Fpj9GSKKnlYRJQ7c55IS0IkUMTVHcNDPHwi8SJ9jXJzg5qaBFLSuqKCWaZWSIi
+iHLliYjqKIXTahKnm2XoE2KJfw/8owuLc7FaBsRDGlaUjBMZ4OOqFTXcYrYeUZZkouXSjNI4dW8S
+CrLtQKw9YozyIAz+n7Ura24c185/xXWfkqpMRlxFPcwDBVISR9xMUIv7hdWxNT2u2FbH9lSm768P
+DsDlHAC0O6m8tJvfBwIghOUAOMtqEZvEpqCRDcacxJi2VUrgQWSrkkhv6+xp4S1cS5dujgK39VyB
+e5Ze2ByjaGH5Yh4UFjARE0k0zJK8zj6eJaFnrGZ60mpmwlnMTWyWNgDct+Qv8ZmJcGWfasKVY5sF
+ViR0zfSb+PbfCmYHf3aSs3yZGGyuYxvSBauXK+2TLdGD4CeA859PF6yEe67t51d4tzuRAyxavble
+tmLW/gTMXIbNOXRk76c2nh9WnRWVZeCL39K1TdwCDxzLbwN4YO8rYRQYoX4p/RtSqyHMymq6h5Is
+3Sj4NI3/E2kimsaWi/Xndf2FbaRpp+wEt400gdsWC97unWUb27q8H7W23wdwz7Z4CzywTLAFL0LX
+9mnrWz+yDammDpht0EK/tIx9dWthxwPbQsQ2sNRa2uLLXXlb1CbeBzoyibI9p6MbievLL6w+fDIS
+dEWDcbFpxf+sywq9E5xmF8cju62RaEPPJig1S8/WpsOV4+iylF9e3q6vH38FcmIFJ8dmrtsqTzYZ
+vuIdf5QsZxVpy6SIJxdBBqZvPBBzJLfzYB+f6B4XBNil5ZbEuwMMfLcepJlpXJZpTkvWdFoAwU6r
+4P67AYPlLTkXSU5dfM4gNfq2DQezTHp8IqMaCgzvqWtwsIiT1fmZAqKd1xTpY9ipPtslNSFvmQxd
+CXUvttgObSJI1aHamrFCj5rJiGKAAFM9MwAgFXaxxg+09j2gxaoV20FLa+UKG39m9vR4eXlHP3PM
+70oGXoVpTYqYKgpNvaFr4ixBWa4PG9MNlcwULGFQBU8SnYCDepmUIZ67ojpCgNg229wZnNmjAeVp
+voHqcoPZpcQHAkblvh0fcxJSud4Zz2O17xwb73A27N/A4o26eEx8fym2CPo9WY9PwJ6LSSzSn6Vb
+kt8Wf3vLSCM0z1dsE29BKvDR6ceEiZ+tTX9zF2P3KOC3Z1mm+aNsnXBPFBtYgmM59pa7cKuC48TK
+x9Gsd6HBTSW7QkBhpYfSFSnnRKVZsWtwbzVw//jHJBb07dutczG1bKySA05SWuQGxGvaNNpnHYg1
+S1Z1DAf4AKCWU3ZaZs0tJZIiLaxEjCdwAHjasIo4d4F8WWZRAxdEmbZnLWlzIKYKAio2IXZrDtDu
+aM8v2aDvPW4Ekol+epDKp47GiKn/dpNQUEtSVvJ1DSUz1YB0xAJ0RAuimTbCYjo72+CtVp+uIMdf
+osbd+k56Ti/iUvQldHYMK5lYWLMjudw9rqvz9kAmvzJrG7HwliyPj3ip1d2Yq2dZL3IG2eNFWh5s
+ie0ZaKYNPXVM6tgA13GeV3hq6fGsrPGF1FCNwlJnAMWkB75W086QKfpEsAhwMXbSpDdCRClovcQT
+aP+aSEfsckZUU+7LNuyIBpq8jaEljJCWYa3XRBqPZlWL7doU2JD7qyN1vaKSaL+YxGh5EuJEOV5h
+R06+qActdQMBmffuKqdfvff3eP96fbv+8X6z+/H98vrL8ebbX5e3d4trfOmQFs3iykGtpprQo1oc
+gB6d+tC46H1W/JDDtknviDVvD3QpRzsUCFmNjZfUs76ij6jSKJCre/YFXIqKtcuPPkhWxGeccqEl
+LTLOzMHek+sK3/H1IBWAetDwXNHjnIttYlkbeMbj2VJrlpPoKgjGszeGQyuMT9omOHKM1lewNZMI
+B6Ia4cKzVQXiY4nGzCp3sYAvnElQM9cLP+ZDz8qL2YZ4esOw+VFJzKwod8LCbF6BC9nJVqp8w4ba
+6gKJZ/DQt1WndaOFpTYCtvQBCZsNL+HADi+tML5AHOCi8NzY7MKbPLD0mBhElqxy3M7sH8BlmVga
+Lc2WSWsId7FnBsXCM/gaqgyiqFlo627JreOuDbgUTNvFrhOYv0LPmUVIorCUPRBOaM4Egsvjdc2s
+vUYMkth8RaBJbB2Aha10AR9sDQIa3beegfPAOhNks1NN5AYBFTXGthX/nOKW7ZLKnIYlG0PGDjk+
+N+nAMhQwbekhmA5tv/pIh2ezF0+0+3HVXPfDqsHV90d0YBm0iD5bq5ZDW4fkRoxyy7M3+56YoG2t
+IbmVY5ksJs5WHpyCZQ4xetE5awsMnNn7Js5Wz54LZ/PsEktPJ0uKtaOiJeVDPvQ+5DN3dkED0rKU
+MohiwWZrrtYTW5FJSxUwBviulGc3zsLSd7ZCStnVFjlJbOnOZsUzVutWtWO1btdV3IDrWbMKvzf2
+RtqDKuKBGgAPrSB9lcvVbZ6bYxJz2lRMMf9SYXurSH3b9xTgn/fWgMW8HQauuTBK3NL4gBO1BoQv
+7bhaF2xtWcoZ2dZjFGNbBpo2CSyDkYeW6b4gtthT1mKjJtYe2wrDsnlZVLS5FH+IvRzp4RailN2s
+g8i08yyMaX+GV61n5+SG1GRuD7GKqRPf1jZeOkyZ+cikXdmE4lK+FdpmeoEnB/OHVzD4t5qhZKRZ
+gzsW+8g26MXqbA4qWLLt67hFCNmrv+TUwTKzfjSr2n9224YmsXza8GN+KDvNvNjax0hTiZ1qaQol
+2kkvRrv0HFOTY8L2meKTDd5qeqx1k/HCpTZ6m3VX5eITEkZvdcWmaeUeJgVkgcAvoD33BsodY0U9
+x7X7bJY7pZSCQlOKiFV6zREULR0XHVw0YnMXpaii8CQEmI7amzetkCvxT35sw1B0wmfyHIpnpSaW
+VTdv772/7vG6S1Lx/f3l6fJ6fb68k0uwOMnEHONijYsekoYe48mD9r7K8+Xr0/UbuBF+ePz2+P71
+CZSjRaF6CUuywRXPylHTlPdH+eCSBvo/Hn95eHy93MPR/0yZ7dKjhUqAGiUPoAoiqlfns8KUw+Sv
+37/ei2Qv95efaIelH+KCPn9Z3ejI0sUfRfMfL+9/Xt4eSdarCEvc8tnHRc3moUIGXN7/+/r6n/LL
+f/zz8vpvN9nz98uDrBizfkqwkjcSY/4/mUPfFd9F1xRvXl6//biRHQo6bMZwAekywjNwD9B4rwPI
+ez/gY1edy1/pdl7erk9gEvbp7+Vyx3VIT/3s3THaj2UgoqmLFzSWrprxOpgXjetCqUmNA6sfsySt
+PoHBB58YwM4cXR1dorFJ2S1zXawSQdmCNxBbptuleU3P7kmqdlUQM1+9iIWH9z9G9cLoAzYgJoiU
+lVaHRrlfqiYuraBYQjyjKMV8abyQhNrF5PrwZS4/88MUkxe5Z9QbUc3ci/GRh+kdPf4HNqsPHlwb
+ooUlOa5F8qXjLIjX5Qm2Jq2w8wbA1wfpwKiOiW8SYHgdRctRYyp+eXi9Pj7gy+ud0qNG06lKovd2
+uRea8s7btNsmhdjBnqflbZM1KXjYNZwBbU5tewcHzF1bteBPWAaKCH2Tl4F2Fe2NF7Nb3m3qbQw3
+mlOehzLjd5zXOGaqGKwtti9Sz128LRw39PcdvqrruXUShp6P9Zd7YncWk/JiXdqJZWLFA28Gt6QX
+wubKwVpRCPfwJobggR33Z9JjR+YI96M5PDTwmiVi2jYbqIlF1zKrw8Nk4cZm9gJ3HNeCp7WQmiz5
+7ERXN2vDeeK40cqKEy1Pgtvz8TxLdQAPLHi7XHqB0dckHq2OBi4k7zuiGDDgOY/chdmaB+aEjlms
+gIkO6QDXiUi+tORzkkaXFY5pVchbMnA/VqYllvwL4zpOInK20rAkK1wNIov7ni+JAtlwg6U7pMOw
+EKDBTV6C7/OHBDDWGxwQaCDEHCNtw0yG+DQbQM2Sd4TxWe0EVvWaePAeGC2s7QCTENkDaPpbHr+p
+ycQ0nVA3vwNJrYMHlLTxWJuTpV24tZ2JAD2A1CfUiOINW535eO07ZzkomEHrb1ApmyzNE+l2F2sM
+7ApwZgJ5chrsL27YuWfkmWBT5Tm5XhUvSlUX0iVvc6zbctpgbzKbRPzqIYQ94zUOSHqOwjFImXkZ
+Dyp23QmnFw/dusCKdrtDfEq1VErCg7QcFF9OMApjfIY0JWh3hzIBT8fY23JxLmiGdRrfUuScxUIu
+otg2E0vfnVhvCRqztNklGwp0pn97BZM3i6R30zaKzseOn9aHlgR0Vm7ItyT0PARS7/K4JqGoJWgp
+WMKkYEDKNQXTNK2ZkadCT/O/qTqgAg0utKTHYPsoDUfJmwlL1viUFF4ySpRgsz4YSFtqEC/WWaVn
+p0CtXERwHOugJ6qI3H9K1MwAulMtPpcos4xMjEf9iCYpZ01Wk1loJElA7hEVshSJ/gAK7VXXbPYZ
+buHN4fes5Qej9Qa8hVgseHKpQZpjeyGcbkgU8VoFSkFDsO9A3a5qadD3mjZKy4RcsNBG5rqAYxwE
+JGlcx4lRT6U4LApJiFoj+AzZQ3rNASOGRe/isWkOS9NIZYxNzMBXAYkNakk2R/ZOvKhPK5pEW6Ep
+qRqwA28DliT5p2NKzmL6pMZ2LfzP8zbGfMf3uaR8bNhGdsMu7XOKAz3u9KjZKkv95LJdLBZud6RL
+oiKLtMyrk45W8b5tiGcihR/J6C14ZnQIwOg0UzlBlwrxY08wYyTUTGnzSg9d6MP76N1mz+vxWywl
+yd+rd0mHfqveR926NUodKBqZbEC1BULkzQrtRLmOzakvN2tbx2XMITq6+R0QZdwGQmmQP/bRIBWE
+l6E+rKpa7CobIxcwUFIea7NSJCjbjKyuRX62RB6VgRrEbJemYi+Pv1+sz0IUbnTb5b6PFY0B1Uaq
+hhudU0YiF0iZMoNbn9sTE0uraLUWa3COIygB34vg25N0y75jN5s8meHqQtePH/DW/nlAiL8pBBm6
+s77ViJ0/EYJ77gCRjbOaGd/NDjOwLSW5zkOw8etNHLH/JGVKfTvUNQvlrwAtMr3Bh5Baa3xzsRMb
+iHQslOtMZYoyI1GDn2gjL0G0xO+VYZvTA1RuH8CmLvjWhImMPoB5bclACMdtpcH7dSKjbVvcFg2v
+gbY2kdDHQiD9Gh+gDMxxbSleLW7c8gVyVSWxqUeKWt4PsOa/WcJiAyKkBdEpiY4xonSTBtOcZ0DM
+qo6MXHJshGW8FEI4isvKNu0of2Cw1tY58X6rcLxwyZsvXMshMrulZ/aUR6fy4QWv04X0iZFb1K6q
+RemZLYVcDvQWHMmt2AVuYdfaMdJTLAmgAE6aaUiUYAXzAdziITnGpNebTW+S0eTBTNFU880wVfPD
+TyC7UgufNo34Nyt/TxmNzrWLj6mYcfcmIuqV1uRYgklrFZp6wibDQXUx9XQdHbtK53dxU9w0lz8u
+rxe4k3m4vD1+w+ZBGSM35yI/Xkf08uMnsxyFgGK/8CNNEWyorOnogJIrPwqsnOYHATE8C8jhpEYF
+s5Sm1YkYf5ZZLqwMS1i6XNi/CjjiJgJzHJSCOlbby3OLmhMtMwG2pzxc+PZqgOme+LtNSyudV2xX
+xtu4sbK6ZwNM4XMihB+Z/bPWydKJNO2KgdtkZ7HIaKqXULlt0TF8o9FbBh6xYLA7iTWuxM6GVefk
+179e720e3UHtntg9KkSM/XVKyueNdJaDLbMFmh5bHZWPHTWSECnXQuYy34dc6aeCgWW91u0BpIdj
+iPkqJI9WmY1pw0/7wvFFsVdZV6ilx3mv2KF2qxk+pelNP8l7fUaaqr0yQMqqI76erGKOD0hVmhjL
+HgqadrgqTjFczD7e30jypv767SIdE6JYyuMnf5aUljMt0aPZ2UAomwSwOWqF3HXY7iwmaNWm0wyl
++rc1K8xGnUloWJ02qHf1GwAtuwk0xQlKIueNFn6TV3V9151MQ1zV3izOoYZSl8SaWW9gotuF9SZK
+Pdpflj9f3y/fX6/3FvvptKjaVPN4NGLDuo/uzo2sVBHfn9++WXKnsq18lIKnjmGfdgqRVsFb8M86
+zwCgs6Px2FRnUrdxga8OZQLHS0MriUH58nB6fL2YNttjWtNYfqK0A5KJgPra8N5usAMLIRb3IoWq
+SsVu/oX/eHu/PN9ULzfsz8fv/wq+Cu8f/xADKdGUgp6frt8EzK/YPH66ubXQkl+/Xr8+3F+f5160
+8krT5Fz/unm9XN7uv4pxfHt9zW7nMvksqfJq+u/FeS4Dg5NkKsOd3+SP7xfFrv96fAI3qGMjmR5r
+sxaH2JKP4sdg9M5hLPfnS5AVuv3r65NoK70x+8Jkj70tsl7dguOCrG9OnYWp0MmykPPj0+PL33Mt
+ZWNHv5c/1aGmvTTcjmya9HYouX+82V5Fwpcr/raeEtvtYx+YRMxSypklml1RIphkxZoWk2FEEsCe
+hcfHGRocafI6nn1brA/ZMdVrbsQqmD5SP29Mz3CUM2SQ/v1+f33p5wQzG5W4ixPW0TC/A3GuXeyh
+rIc3PBbS8cLA6eFmD44HoJ6/CmdYOIk9sRlSniIZnJDQHT9YLm2E52Et2QnXHIdjIvKtBPWR1uO6
+eDrAbRkQs6Meb9potfRiA+dFEGCbsB4+9MFQbQQzT2cwCUGSiJZFIdZCvKsFjRMw7oYow1hWIGfS
+YDusGfJOWMfWVph6mSC47i8EsRB4oiohsIdW2B4uZTviCALg3peyxdQYWPVfItJM7xhJZakcBvSY
+xMVJ+Glw3vhDg605TlUbBuRPKb2iLdUArTB0zolvvR7QlUgVSA7o1kVM4miJZ+KoUz0b7wBGMl8X
+THRq/WYLo3oeiNFyyhZRZOY0oTR9EpNoqkns4Q0oiLwJ3ucqYKUB+GZic855tArdeGPD6GcgnFQK
+eepRVcbKUbJn9aeBitUN9vdnnqy0R1qAgqgeypn9vndIJJSCeS6NoRQvfTzp9QDNaAC1uEjxMgxp
+XpGPPWEJYBUEjnZc36M6gCt5ZqI7BQQIiQGD2CdQaygAiFNX3u4jD5tnALCOg/83zfBOWmXAnTF2
+fxwny8XKaQKCOK5Pn1dkZC7dUNMxXznas5YeO+YUz/6Svh8ujOcuUweGcSPkbjyMCK3NDmLZC7Xn
+qKNVIy5n4Fmr+hKvm6BOjwO7ieeVS/mVv6LPOFRGnKz8kLyfyfOiGMd0BNFjcTYxmCswxpgjepCj
+geCEi0JJvIJ5aVtTNC9dmi4tj6nY3MKutU0ZOXXdZUJKQF1idyaW+vjOi2Sp/LxqWMtcf+loAAnm
+AgCWmBSA2g1EIOLwEgCH+ElWSEQBF59RAkC8ocLRJ9HaK1gthIozBXysuw3AirwCauQQ1UqFn6Sf
+XqRl98XRG6So3dBdUayMD0ti268kL/1HlBuUY6zikRJvSpIBNaouM9+Q+HEGFzD2yFeCr1Otxlz+
+zHDEoUfX4W0hOhBN3IrfCk0frSxiETnMxEgsyh7z+QLrmSrYcR3sj7sHFxF3FkYWjhtx4t+wh0OH
+GhJKWGSAPQoobLnCwq3CIs/XP4pHYaRXiqtQRQbqOamOFkJ414a9gNuc+YFPG6DlzF34uOrKUy4E
+OWAEDQHVOs1xEzpaxzxmNai3gbY2wfvj37MC//c2Q5vX68u72JM/4MsOISo0KZyTpZY80Rv9Kcn3
+J7HZ1ZauyMPz+q5gvhuQzKa3/g+WQg5dY3/SUoj9eXl+vAf7Hun2EGfZ5jEE4e7FJzSrSyL9UhnM
+ukiJEYZ61uVNidELZ8aJ/4wsvqWyS13w5QIbnHGWeAtNwFEYKUxBuiUAVDtrMtjSbWsslfGaG49a
+hhLSMzx+ieR6OTW+3qo2iXPQA9O0KswUH5JdLiTcuNxOgWd2jw+DE0swKmLX5+frC3IzNEnEamel
+ObSj9LR3Gj/Onj+uYsHH2qnWG00NOSsy1NWI9RPh1Mkkr4eS9K+QWzteo0aEz9Caakqg9AKmEyoj
+Y/Jaq1XfzpEurHH9b9ob46mhJ0bhVzVd2EdwsAiJvBqQQNDwTIW+wHcd+uyH2jMR6oJg5UJoKZ4a
+qAZ4GrCg9Qpdv9Fl1oDczKpnM80q1M3xgmUQaM8RfQ4d7dnXnmm5y+WC1l4XjT1quBpRhz7gII34
+/KyrVkO47+ONhRDzHLIfA7kvxDJBEboeeY7PgUPFwCByqQTnL/G9LwArlwoD4DApcmlAQQUHwdLR
+sSXZjPdYiDdqaoFVn4qMQD/ou+Oofvjr+flHfw5Mh6iMidSlR3KvLMeKOrwdYibNMIamjJFgPFci
+UwmpkIoz93r5r78uL/c/RkPWf0K0viThv9Z5PtxuqAtTeYf49f36+mvy+Pb++vg/lF1Zc9s6sv4r
+Lj/dW5VMtNt+OA8QSUmMuAUgZdkvLMVWYtV4Ky9zTu6vv90ASXUDoJOpSsXC1w0QOxpLd39/R0Ve
+pjtrfBhYF6098Yyd8Lvd6/5zAmz725Pk6en55H/gu/978qPL1yvJF/3WYsKMOGtAt2/39f827Tbe
+b+qETV4/f708vd48Pe9PXh1BQZ+DDfjkhBBzHtBCMxsa8VluKxXzS6uRyZRJFcvhzAnbUobG2AS0
+2Ao1gt0WPzZqMfs4qcP7jpOWVzJnp0lpUY0HNKMN4F1ETGzUZ/GT8B3qB2R05miTy2XjFsgZvW7j
+GUFhv7t/uyPLcYu+vJ1I44b+8fDG23oRTSZsAtUAdTYttuOBvadFZMRkCN9HCJHmy+Tq/eFwe3j7
+5el+6WhMNz/hqqRT3Qp3WHQ3DMCIqYmRNl1VaRwyD3+rUo3o1GzCvEkbjHeUsqLRVHzGTtYwPGJt
+5RTQzK4wo7yhi9GH/e71/WX/sId9xjtUmDP+2GFxA81c6GzqQFxij62xFXvGVuwZW7k6PxsMXMQe
+Vw3Kz1DT7YwdzGzqOEgn3NUURa0hRSlcKgMKjMKZHoX8IT8h2Gm1BJ+Al6h0FqptH+4d6y3tg/Tq
+eMzW3Q/anSaALcit1FL0uDga76iHn3dvnvHT6JXQfvEVRgQTGERY4dkV7U/JmI0iCMP0Q49ki1Bd
+sLNhjVywTqnOxiP6nflqyOwcYJj2zyAFfqo3jAB7MJiOmfPtAF10T3l4Rk/B6ZZKv0XGF16kfZfF
+SBQDej5jECjrYECvu76pGUwCrCK7XYRKYE2jx3qcQp3daGRIhT96hcFsvh5xnuWvSgxHVLSThRww
+r93d3tF2gF5K7p57A208oQaaYDKfcOtdDUK2GlkuuBp0XqARNZJuARnUvtvZFDkc0rxgeEKnzHI9
+ZgYgYPRUm1iNph7I2rV3MBuCZaDGE/qUUwP0+q6tpxIahXma0sC5DdCdBgJnNC0AJlOq7F2p6fB8
+RC1fB1nC69YgzLBGlOrjMRuhr0s3yWxIB8011P/IXF12EwyfDIyh4t3Px/2buZTxTBPr8wtqoUCH
+6WKyHlywM+XmYjEVy8wLeq8hNYFfd4nleNizXCN3VOZpVEaSi2JpMJ6O6FPXZrrV6fvlqjZPH5E9
+YlenzZcGU/YowSJYPdIisiK3RJmOmSDFcX+CDY2ldyVSsRLwR03HTObwtrjpC+/3b4fn+/0/bDOi
+z3YqdtLFGBuR5eb+8NjXjejxUhYkceZpPcJjbvRrmZftkzWyRHq+Q3OK71Fr/finu91vnYOffEZb
+O4+3sKN93PPyraR55+t9NIBXRlJWRdnzpgDXD9Tg95O1HorvRM2frWbRfgRRWTvI2j3+fL+H389P
+rwdtWcqpXL0GTeoi968SQaVgsHSqj9ky4jPC77/EtoTPT28glRw8TyWmIzrxhWhjmV9YTSf2eQgz
+BmIAekISFBO2fiIwHFtHJlMbGDIJpSwSexvSUxRvMaFlqNSdpMXFcODfb/EoZv//sn9FQc4zsc6L
+wWyQkoer87QYcaEcw/Z8qTFHpGxFmbmQ9Ol4soI1gj6RK9S4Z1ItJFOhXxW07eKgGFq7uyIZ0u2X
+CVvvGAzG5/UiGfOIasqvMXXYSshgPCHAxmfWSCvtYlDUK6QbCpcPpmyruypGgxmJeF0IED1nDsCT
+b0HL4pjTH44i+iOaAHO7iRpfjNl1kcvc9LSnfw4PuJPEoXx7eDV3QE6CbU9J1/NCC5Bxyna+WhDl
+0mAcosZsXEb1hg7f+ZCJ4AUzxSgXaMSOys9KLuiBgdpecLFue8HsUCM7NWcIIhF3g7ZJpuNk0G69
+SA1/WA//tWE3fiiFht744P9NWmb92T884xGhdyLQs/dAoNYs9cGGx8kX53z+jNO6XEUyzYO8YpYy
+qWMylkqabC8GMyrsGoTdXaew0ZlZ4TMWHtJz6xIWtMHQClOBFk9+hudTZsHQVwXdxqEkO1kIoGY8
+B2KqoYtAVCyOtr8QUJdxGaxK+uQSYeyURU47JqJlnicWH1PKaPJgqbbomFJkilth2KRRo9Wn2xqC
+J/OXw+1PzzteZA3ExTDYUreAiJaw7aHuNxFbiHXEUn3avdz6Eo2RG/bLU8rd95YYeSvm+Z3pakHA
+VpxFyLIagZAoU5QnkiAM3CQMsaSvUBEOZGAD1jtZ/bFLC0B3covS+kTjI21pw2Y4cTApxhdUSDeY
+Ui7C9cePqKOFi6TWDSKBCmjfGb2b0RWKD004VF4mDtCYqjDitPx2cnN3eHb9xQAF9b7IrASVQz1D
+oadAKWrjvOooN9sJdukVIlhzvVTzuKLUPiDYRgTvvyFCHpT0HhyW0Kj0mlUyFNNSy8u/qC9STUmD
+VVGjHb2t10Wo5im1gZjg+Fi+WF2dqPfvr1rT4FgvraYLN3F1BOs0RvMnjIyPuFGNkIHIG4jMjPUg
+QsskpGqCtF7nmcCoI188rboDM4yU7L0/JYa90VQM+wzRQxPJJuckHBdxuj1Pv1kmtHRpt/jMzS0z
+EoutqEfnWVqvFO05jIQFtHKin+u5XxJFscqzqE7DdMbObpGaB1GS4w25DKlRGiTpZ1zYBKt+gp29
+1paJmzt8Vd9YYSVoN0vgU4F53keM0pRLEayPdXFQaYS5JW2MdYgi8VrJQALBwiRqVLuJSF5S9TIM
+QT0TXbuUzqGpMa/PAWOvwQyN/Qt6JdYSz4O5YCETyLF0H7B1g4/5LBeqDpgjWAPY6wI0wYSHWv3F
++lIym/eattYmP/gqayKlooV7jIdmocypTmkD1PMYjZ9xeyGcRpc2K1Zrru30++Hxdv/y6e7v5sd/
+Hm/Nr9P+73WeLP9iD8W4SdNQkANb+BwHsk1KnVrqoL0aNyA+flShoJqJaA5AFXWESpVOKtKkbC7V
+Lk/eXnY3egthry6KLrMQMIY/8PlIHPgIkLu65ATrch8hlVcyiLQ6R84sKxxpq0jIch6J0ktdwGQc
+OMOrXLmIzwAMoNwMUAcvvUkoLwoTj+9zpS/ddlwc7/ncOm8jobYPXc21rnWBfcqaUxySFkuOdK02
+lC5lx2htbG16sCk8xOYZpT8mDI+JfQfY0lIRrLb5yEM11iedgixkFF1HDrXJQIHj0Wx0pJWebWgk
+X/jxVo/KReoFdd9MUSxKD8XOKCP2fbsWi8qDZmiZrzF8JII64/oVHRvrzAvFA3UWaeWnOmOuAJCS
+CoXHq1xBjRCYwRyCC1VE1F4akhRTLdbIPLKscQKYU4sBZdRtXeCnT5OUwt1qhha4oL23x9tLctDs
+qrymFT5BXp5djKh3SQOq4YSeHyDKawORxtKC71jbyRwszHlBDY/F9PINQ7VrTFUlccpNvgBg5Jug
+lJbROBnYxr0chz7DwQS9qITUodvxdDqgEidsmDQrs3F7NBsBezMQLYuycqWWbxE9QWCuNbX1XS2Z
+hamFcus9GlJaPfd4Tsq3pOaB1uF+f2LELKrvG8BcEtWXOb7xDgJ2pLcReCBVwpqgUMGGbWUBinPm
+gzbalqOarp8NUG/RQpsLF7mKof8EiUtSUVBJdlYGlLGd+Lg/lXFvKhM7lUl/KpMPUrHEMY0dhSzy
+ia/zcMRDdlz4SDrXzUBEjChWKECx3HYgsFLd5A7XNh7ijM4XJCG7ISjJUwGU7FbCVytvX/2JfO2N
+bFWCZsQ7KFXG9Dp8a30Hw43xknoz4fi3Kqcqa1t/lhCmp0oYzjPt0VcFks7WhIJ2n2JzpUSIl0Jm
+Xtfa27aAnr02iOh8nDSAtluDRvjDhAz4PLDZW6TOR3TD0sGdQn0dJJVic1rHgzXtJKkzjMvTmtkM
+pESaj3lp988W8dV6R9N9V09/S94pOg5ZZbD5hKF0ZY8lw2L1HAMKBcUufalFi3oTSWYRLYsTu1YX
+I6swGsB68rHZQ6mFPQVvSe4o0BRTHe4ntH0Yj3GyNjm0wokXKl5icp37wIkXXAUufK3K0JuspHuK
+6zyL7FpTfJ/VN7fi+OUTsUGMi2tY/mmaMWzmm8FBlj3YF6KS2VUPfYHeorVvKF5FFAbxeKn6aLEZ
++TrMeLA3sXZsIc/E3hDmVQzyVoaqtZlAQYB91TbYF9pAbADrNHkhbL4WaVZyPGtPY91HyPesWVIH
+0T+AtsCjJZwF2wAWEsCGDSc8VssGtsptwFJGJJVvixQm7KENjKxYAbXvLKoyXyi+YhuM9zmoFgYE
+FdXAaEwosSkUmiURVz0YTBlhLGHg1SF11+JjEMmlgG35Ik+YvWLCiocWWy8ljaC4edG5MQ92N3fU
+ShE0yXGtI3OXgfkEvlCW/NAAHV+3MrWEFSy0+VKK1LNCtTzHrbVFyOc4L9XocsgTXfPgoKRN0mFu
+qoTmzRXRuNM1ZGor/Czz9Eu4CbVg68i1scovZrMBl1HyJKZ2y6+BidKrcFEvmDWfnq+Y5wu5+rIQ
+5Zdoi/9npT8fC2sBSRXEY8jGZsFwayEMHWcUArbCk/GZjx7naH5LQalOD69P5+fTi8/DUx9jVS6Y
+2Rr7owbxJPv+9uO8SzErrbGnAWv4a0xesv3IR3VlzlNf9++3Tyc/fHWoxVp2T4bA2tJgRGyT9oLt
+S6ewore2mgEvPei8o0GsddhbgRhCFTCNFbVVnISSKtyYGKgnKIOVHnSVnd2gqLR+K9uLriOZ0YJZ
+J5BlWjhB33pqCJZMsqqWMKnPaQINpMtGumSELjYCGQnuKhX/WM0Nw3QjpDVIPE3XJR2rQK/Pxkg4
+nW6lyJa29CBCP2B6U4st7EzpJdoPQeGUsnxXrqz4EC6SyhJl7axpwJY8ndqx90S2lNkiTUoDB9dn
+97YpnyMVKI4wa6iqSlMhHdjtFh3u3a21+wPPlg1JROrEN8dcsDAs1+y1vMGYPGog/QjQAat5nNGl
+ofmqNpqYgbTpWW0oC4gqeZNtbxIqvo68+zXKtBCbvJKQZc/HIH9WG7cI+ldBG2ihqSMPA6uEDuXV
+dYSZAG5ggVXmCgRdHKuhO9xtzGOmq3IVZbDjFlxKDmAJ5ha9MWyEc8vIuCakNLfqWyXUik1rDWJE
+9VZU6Wqfk41o5an8jg0Pq9MCWrNRynYTajj0Kae3wb2cKC/DNP3Rp6067nDejB3M9lwEzT3o9tqX
+rvLVbD1Z43I213aPryMPQ5TOozCMfHEXUixTaPS6kRAxgXEnjNjnLWmcwSzBBOXUnj8LC/iWbScu
+NPND1pwqneQNgpbv0crZlemEtNVtBuiM3jZ3EspLn81ZwwYT3JwbEra9BZhwJzKt0VopenBSfw0H
+o8nAZUvwKLWdQZ10oFN8RJx8SFwF/eTzyaifiP2rn9pLsEvT1gJtFk+5WjZv83iK+of8pPR/EoNW
+yJ/wszryRfBXWlcnp7f7H/e7t/2pw2jd0TY4N7LbgPa1bANLei8NQtaGL072YmVmffuBgDsKI2lv
+slukj9M55W9x3/FPS/Ocrbeka/ruajPPt2rBNx5ReZnLtV+4zOxdCp7EjKzw2A7zTGpswsPqkl54
+GA5qN6xB6HOZrF3WYNefV6VFsacYzZ3ALskXo/1erdXzcQoX5qAqrMM8FSA5nf57//K4v//X08vP
+UydWGsPGmi/zDa1tBnRBT02oyTwv68yuSOesAUE8gjGm/eowsyLY20OEYqWtYVdh4TnhaGoRtksi
+rFE0Z7SQh6BhnYYL7dYNfc0b2u0b6gawIN1EnqYIaxWo2EtoW9BL1CXTx2y1UoFL7GuMpdR27kD4
+z6mHXhTIrKDTbaHg/lq2TdN0NQ85c3xJqyqT9K2PCddLujw0GK6xwUpkGbOgbWh8DAECBcZE6rWc
+Tx3utqPEma6XCA9o0a2M+02rlzXotpBlLZkt1iAqVvy40ABWr25Q3/zVkvqaKohZ8nF7XjeyQLQU
+fnksWmca83gyhlyXkUAvD/UKxDffaRvyVEUgEisH9oysMV0aC7Nq7ojZ+TV3QHiAUq+jK7uIYV8+
+1GXWQ0jnjbRvEdzGQFQyz9BBHgp+VmCfHbhFE760O74aWoFZ27ooWII6aEXWmK+PGIK7wGVUwRgC
+RynBPb9DcnsAWE+oCg6jnPVTqP4oo5xTHXCLMuql9KfWl4PzWe93qEECi9KbA6ohbFEmvZTeXFPD
+RhbloodyMe6Lc9FboxfjvvIwo6A8B2dWeWKVY++gr1FYhOGo9/tAsqpaqCCO/ekP/fDID4/9cE/e
+p3545ofP/PBFT757sjLsycvQysw6j89r6cEqjqUiwB0idXPawkGUlPTp5hGH1b6i2oIdReYgkXnT
+upJxkvhSW4rIj8soWrtwDLlitvs7QlbFZU/ZvFkqK7mO1YoT+LUCe7kAAefRchYH7AFdA9QZKhEn
+8bURaMnz3oYvzutLpmPBHjMZU3b7m/cXVEZ7ekaNWnJ9wNcqDIFk+a1C5WVrNkdnDjHsJbIS2WSc
+0dvhuZNUKfF9RWihzRWyg6O71nBV5/ARYZ2cIknf3DYHcUz7vZExwjRSWlGjlDFdMN0lpouC+zwt
+Pa3yfO1Jc+H7TrOx8lBiCGbxnPUmO1q9XVDVnY5cCM9D3y0pRqJStJdd4IFTLcJQ/jWbTsezlqw9
+sGkPhxlULN6D49Vp62uF2SS2mT4g1QtIgDuDd3lwDlUFHRELEKTxlt28mCalxQ1ZoGPiSbIjQPvI
+pmZOv7x+Pzx+eX/dvzw83e4/3+3vn8kT+K4aYWTAuN16Krih1HMQktAYtq8RWp5GqP6II9I2nz/g
+EJvAvoR2ePTbFhhq+H4dHxNW0fHGw2FWcQidVUu5MNQg3YuPWEcKnb4eDzBH05nLnrKW5Tg+Mc6W
+lbeImo737HHCnk9ZHKIooiw0bzoSXz2UeZpf5b0E1N7ULzWKEiYNdLY4GkzOP2SuwrhE55n6iLGP
+M0/jkrwCS3LUUuvPRbf/6B6pRGXJLsy6GFBiAX3Xl1hL0g34Ozo5Luzls/dzfobm3Zev9i1GcxEY
+fcjp05I5bvKgHos466dAI8LMEPjGFRoI8fUjsUDFu9g3oeqtfA5bJ5gZf0OuIyETMs/pJ1SaiPfL
+MNPqbOkLNLq77GHrnuZ5z0R7ImlqiFdJsIzzqE7OYQHhx16ex4AddHwy5SMKdZWiO1eYVvlie2Qh
+i7RkvfrI0vnlc3iwZesqWsS9yeshSQjM60sqoNsJhYOrCGQdh1sYuJSKjScr81Lm6CBPq2SlmCvf
+hSeSs2XHYcdU8fJ3sdsriy6J08PD7vPj8cyQMunxqlZiaH/IZoAp2NtjfLzT4ejPeC+LP2ZV6fg3
+5dVT0+nr3W7ISqqPw2EPD2L1FW88cwDpIcCMIUVMX5lpFB9/fMSup9iPU9SiKbqTW8QyvRQS1zcq
+hXp519EW7VX/nlGb5v+jJE0eP+L0SBqMDt+C2JzYPxiB2Irc5tliqUd+c1PXrEwwRcM0kmche+mA
+ceeJ9oytSn/Sehxvp9SGGsKItALY/u3my7/3v16//IMgDIh/USVEVrImYyAMl/7B3j8tARPsPKrI
+TNm6Dj0szYIMEyUWua20OTv/0h27OR1dWd4vo03KAjWeBNYLVVV0qUFCtC2laOQZfV6orIhh6MU9
+FYpwf4Xu//PAKrQdkx7RthviLg/m0zsbOKxGuPkz3nb9/zPuUASeeQZX6dP73eMtGir+hP/dPv39
++OnX7mEHod3t8+Hx0+vuxx6iHG4/HR7f9j9xt/rpdX9/eHz/59Prww7ivT09PP16+rR7ft7BRuDl
+0/fnH6dme7vWNzsnd7uX2702SXPc5hrtrT3w/zo5PB7QquXh/3bcojL2VZTXUbDNme8xJOiX0LAm
+93g5NRyoQ8gZjspc/o+35P68d+bi7c17+/EtOvJGaYEe7KqrLLAVNjWWRmlAN3wG3TLfChoqvtkI
+jOxwBrNfkLPXLbCRRwHePDl9+fX89nRy8/SyP3l6OTF7NGruB5nxSTnzt8vgkYvDEuMFXVa1DuJi
+RUV5i+BG4cI4AV1WSefMI+ZldOX3NuO9ORF9mV8Xhcu9pup/bQp4se6ypiITS0+6De5G4I/oOXc3
+o1qKJw3XcjEcnadV4hCyKvGD7ucLS6GggfUfT0/QD7QCB+d7lLYfxKmbQuds0Dyzff9+f7j5DPPy
+yY3uzj9fds93v5xeLJVwUgrdrhQFbtaiwMsYelKMAumDVepWG0y+m2g0nQ4v2qKI97c7NAJ3s3vb
+355Ej7o8aEvv78Pb3Yl4fX26OWhSuHvbOQUMgtRtXg8WrAT8Gw1AHrriNle7sbqM1ZAamG1LEX2L
+nbkEirwSMKNu2lLMtWF7PPR5dfM4d2s3WMxdrHQ7dODpvlHgxk3o09oGyz3fKHyZ2Xo+AtLMpRTu
+8M1W/VUYxiL7/8qerDlunMe/kpqn3ardWbfjOM5WzYPObk2rpY6kPpwXlSdfT8Y14yTlY8v77xcH
+JQEk1Mk+pOIGIIqkSBAAcXS7cPLR03ScqdXd019zE7WJws6tLODRGsaeKYekhKen5/ANTfL20vga
+BPZrRUukDYXpLC0+cjyaHBuk23V2GX4UhoffAN7RLS5SWdF0WOJm+7NfZpNeGTCDroBlTUlwwjlq
+NqnKeD5sD1YpA+Dlu2sL/G5hHIir6G0I3BgwjEWK6/CAI/VyPN/vv/91egxXV5SFMwywvjNOeQBX
+xcx6iKpdXBhNNUk4ySDzHPLCXAqMCHw3hk8fbbKyLEKmmkR43zH3UNuFHxWh4bdIjdnI7TNtvYo+
+GdLNwFINjpmF1HBab1V+Jw3v2za77N/dGItmE05rl4UT0x1qc6YdfG7OBjS/mhfQt4fvmHVSSd7j
+tOWljq9w/Ff6AjvYzVW41pUn8QRbhfvNuQxz+kVQSL49vKleHv44PQ7lU6zuRVVb9MnWEgLTJqYS
+hTsbY7JZxlishjDWgYWIAPh70XUZpvdq1EWOkOR6S9geEHYXRuysQD1SWPMhkbBH9uFRN1KYwv2I
+zSoSNesYvUCNpeFdrwjpfYjxl2rJP/d/PN6BEvb47eX5/qtxSGK9AouVEdziQVTggE+YIbvbORoT
+x3v97ONMYqNGoe98C1I2DNEWx0L4cOqBsItXSItzJOdeP3t6TqM7Iz8i0cyxtwpFM8xBs408+3mI
+Mz+0xLfGjCN+man7eYFZFXnVv//w7ngea24ZpOA8lYUhRE1YS52YsDhLF1d2v5Mk3IYO3qfhHkRU
+uz37FP+cb5STrZn4j1F4XDk4KFE3H969zowTCZK3x6M9x4S9vpxHXp17cnjxPhQK1avP4eHlM+hk
+lZVtYU8XB2Db3yDKs2NiyEo8zSqCXK6HTVkvi6RfHu0nBT5wAVSm2R59SU3kdheXjqbdxbNkmETQ
+pCFLaJI1zqkjCxLobNdJe4MRa3vEYhs+xdC29eT74T5zBkup+eHhCe6M1tuM3dEpinCK++KTBEvi
+/EkK9dObPzFT4f2Xr5xI+PNfp89/33/9IjJCjVcJ9J5fPsPDT/+FTwBZ//fpf3/9fnqYPBjIRX/e
+/h/i299+8Z9mY7WY1OD5gIK9A64uPkj3AL5A+GFnztwpBBR0KuNfYa+bbF/zPDOB34jAD8Oe4s9/
+4osMzcVFhaOidA35b2NJojmpgA2e0hA6QPo4qxIQ66QTEKbCiJqegnZlOFDkZd2IC1C1YG3Jq7Eh
+MyxoYVWCTjcN5RyVi1aSlFk1g60yjGMvpK/FgMqLKsUrM/gUcaG8hJtUJTZtMIay2m3iTF5psEeW
+zLQ7prNNCj/R1YDywHT7B+ugz1HTcgnWCjkOosBICeAfIHFXruaGOkQSYHsg9CrQ4lpThLo9dKbb
+9fopbXtAo0PoV+fgwOmy+BZNWJPrucRcmTcjjiRqDt5Vs0cBH8TyW2+SayVzagk0eS8XXxzaXxJh
+cfPNJuwnE8hssHrTemNOhB0kh1AOENVwjPZEGVxrdJ9Y2PSgdlwfQq2W7UC/uQg/pDb7Z0f1Edii
+P37qVe46/t0fpVbtYJSYdxvSFpH8mg4YSV/ACdatYP8FCExOHbYbJ78HMP3ppgH1SxU1JhAxIC5N
+TPlJemwIhAzHVfT1DPzKhOsA3oF1GH6LIOukPWiCtTI2SCh6lt7MoOCNcyh4SjIQ/zGJixOxiTo4
+TNsMeZYF69cyjYaAxxsTnEsvpljnBqJoqH1UeimDjlHTRLfMSaXw1dZJAYxzn/VEMKGQ+QJTlol9
+GUTZ4hSzRriKCsI8yCrrVEXzxAg4klT6WsIhAh1WUU3PdEMwrWVEEZ6rTCcnbw9F3ZWxJk/8jmyz
+Bo6oAcF26dOfdy//PGPBi+f7Ly/fXp7ePPCt693j6e4NVpb9b6HykyPQp6zfcETyRYBo0VrLSMn1
+JRqj4THIcDnD3FVThZ0ITxNFR+sgQNeKEqRTjGj87UbOA1pJPPldgfvWw+D3MKSXdlnylhMHCOVd
+M5zLku0OU+D1dZ7TfbnC9I1aRelHKTGUdax/GedMVeqgrLLZ+U7oSfmp7yJZcbL5iDYG8arNttD5
+BsJhpMVGkcCPXJb2wIzamEi37aQrzS7BVCKdFnbJ93rgXPu0FQxwgC7RZXST1Xkq96N8ppfiiEJQ
+VgspBOU1mnX9eEWE+kQ3rzcBRPIzAl2/yqJHBHr/KsNCCLRFhxyjwQgkyMqAY16E/urVeNmFB1pc
+vC78p9tdZfQUoIvLV1mFnMDAHBfXr2998LXsU4sp82WplSERUbI+RKXcCghKs610JWK/EFJhQFwG
+ifVyctMG4U0tefSUkb7wdfx7tJSaES0eM0N7oIuMbZbpJpcZftpqgcdWnU7ZiUcfkkENJej3x/uv
+z39z/aGH09OXMPiD1KF1r7PNOCCGJHoO+sma4uydo570lko4Wh+9r0v0jh99IN7PUnzcYbqx0U97
+0NiDFkYKcgdznUsxfFjs59sq2hRBmKsCez4xoGXE6MXXZ00DVJI5EDX8A00trltVpW52Sscrjvt/
+Tv/5fP/gVNAnIv3M8EfxAYQHFb4NTdZWrrkGekZ5BbVPOyyjLSwETMovI/vRI5Os5pGUJ1YZurhj
+sj34hJJRulOCk2hiNqpN1CXaPV1hqCOY8/XWb4PdnPNdlbjEkcBy++srmdubRrKtC51Her/hoAV9
+cIg2Ob43a1wxikn3/9mpprmmu537z8M+SU9/vHz5gr5Wxden58cXLG8s03lHaB5rb9tG6P8COPp5
+8R3Fb8DCLCouU2O34ErYtBhpVSWZsIuEqWQHiIuI5k/orR+XNYAINpise8ZbT7U0kzOKTjSWYpep
++IThr35VV/XO+aBp8w2h3SgTP5UHIT0noglG2WWUN6fAERNwZ/Av+0W+uLj4RZHhwJiBdMrRgpBr
+NYI0PvMlEbvObqkEkX4G/uxg0WKqpi5q8fJtBXr0eCiMlg52YvUtrAN2F7eRy+SLEqDamISTH5mJ
+cUCWiJiIBmP4+GnrNTUDxZ08g2pXRd75wLTY95+ypvbhuwoYT7LSXrbDi2t/XDDX5MziDW4Ucs3E
+YvNzRbZcnrCHiT381IbXG4wjNvxthzn6hlPWOXKOjYlzFE8uUOeySqcc5jYQ6wnYHmK47Qw8B6nh
++lApGzYZtuuirXW22alNTOvsw5s6jbrIsw6Mq5FpDkf/KQkZjX6dlyWSfnvHqwMGF0HcLKdInQMb
+moHG50oT1jgqnzvbsg7e1Lgm2dFZOYfn/GdhLQRN5X3JkZ+05S4eSGWYFIK9u2xiwG5Rgr5ewhHo
+v+1HcHT2JZmXTfyL64uLixlKmuiHGeTo0ZwHC2qkwaTDfZtEwbpnyXnXqnyaLahzqUNhgKCXrd9b
+kXsYxdLz3x8wIYR81bS+OKKa2ABul3kZLYPVYr3V71jRdLsoYBczYJgqzMWtYyLcfmXZBiWgoB9r
+1NjRFhaoLqz/tYLCyUuGIPUzNKtiufJMQ+MapG+FqZlzlcb5LNKdSesIGXfoHsBY3IyoDlX1xNrT
+1Kv/OwkjOUlK01Fs/h7iiL3ocoeLMDfUaFEDmfrCo4CjaWROl+/eBW2T1ZIre+O+ELYjR6KCJP0Q
+gOnk8CZxxUUSnS0LiN7U374//ceb8tvnv1++s2S7uvv6RapuMGUJikq1MswpsAsrXmgk2SJ23dR1
+lN52yKs7GLeKX63zbhY5RjhJMnrDz9D4XcPIcu9VXjFUg8J6kSCb7YxP43eG2+9XWOAPRDzFZV2w
+3IAaZ3MxmQXEi0ay+b5oEr8rh4+gdYHulUr/TFqAPAAp9JxfOZwHAlSlf72gfmRIMcya/dBiAuqy
+KQSbkqcPYSpG23qd41yts8xVaOYrWHTwnsSzf3v6fv8Vnb5hCA8vz6fXE/xxev7866+//rsofk5h
+ttjkkswpvjVs2wBHCoseMLiJDtxABbPoxbOi0bOLAh6N9vFdlx2zgEO3MBbtbuQYvk1+ODAGjv36
+oLM+uDcdWpWrj6HstKQlSE42uw0AnB5g8c4Hk2d967DXPpbPY2fdIZIP50imPASLq+BFBQhSZdS4
+UD6mugwHpDrvwtW7Gs01bZmFuKH+C7kmOvmw9b4dsAS083pC7jTpgVjZJrn/0GSQ+3+szHFj0uwA
+M/fECg3vq03hDy98ZrK3iaGgAQYWAqhc6A4MG5NvbYMjn8+wGTCoByC4tWPYC/MNzo745l93z3dv
+UEf6jI4UshYWf4YiFMu3FrANNBPO4aKEc5aGe9JMQH/A4mGFDp472zfdftJkLsa+HUYGK9FU15gR
+JLuAN4AKoAdjLymkA4m3tODzT2CxnbmnUAQk89x4oFwuVKt6ISAo+yjLRQxl4NWIPe7z0QmAzWRO
+UwRcXgb0WPQTM90SoJcrOLlKlvwoxy1VWxYbEaBVctvJ/Cjk1Cvsx2G6xXrLI1SpavbCpHgeu2yi
+7cqmGWzAfopYA9kfim6F9z6BLmaQuRonaCX3yR3ZhjRFipqUJiQiwaIK9LGRkqyiQSOc9EQDE9ca
+N+3xl4ayoHjD5K4k+oyiSwg/j362x4ABpFeHIn5gXBFc2D6YY9GUsyrqFJZbUNU3sKubj/ZYg/cN
+Vgb/RY7QuPryRoyiFd2aBU3PLqYfrKO5JfTj1fPzC2fsAjAidEH0L16CTsGMgkydB3CW14KtcIB9
+GUDrtqoxZD+Ya7ShWA9gnUpvEtzQ3IL2zzzY9hUotqs6XKwDYtSA9cKJ4WTDhBE8HUF6lgHuHMUw
+AQA9kLUG28JU8Oj5WtT+9lhDO3HGa7+dAeMJVfnD3tkPxts8gA2LwIfPt+Bej2p1U6ThZM9wFo1F
+VzpVCtVtIKX9t7cVLEm/D1hoCOiL5VKd1tw88wm/fPi0uS0XA8klDPTQcFSSjwJ+2GBUPFj8b9d4
+dd1sAmf5uryxOjHf2jKp9+Pq8nf8sNgDQXJAdBEc/lvvfJ84689QkHIXbifZe7sRSTEWJyVOmGZl
+J8uoj9vYM/4JZk0XrB5aLBZk097r5Z4x0GpN+UomSl+w0Pt6lRSLtx+48Lq2lrHtpvUBfbQ7pkW7
+VdfBDiXWaytGIZF8nTyDZAcqHxfI1gOcxh++aN1k3QxqdQCulUVr2jfhg1TbOICmcQBrMCk+HPJF
+ZjTDv/Lw7QlX+a2bsF9FClpyMMIwN5VDbIs0TwNomyXo6Bd+FjxdAuhuVYRN7PMCQ2qBdW+6LvwU
+Ap1uf4Tu83DiBEVcJ6twjmDEDToDxViprsnD5bc3YJzAcZMVASY05UgEa8wTTpic92jPL9zFrSpc
+QgkvHYWQDuoAQwrR6821pRB5+mkgY4X6a0jD153OP2PXShfWm+ve+VKQdCbzCsqnZtpK4+XMA1QB
++pjKoHXMRrZddl4hM2d+KuO83ElXaBKqJ244jWmqVQt9R4fVFNmuY/tWIq3accyL482FfF4gMrvw
+ykixo//O08xc2Tv1jRxk0Koonea3QQVKpvb0C6ejb4rZ27di0xg4niDyK9hKfZrs4GjQ8d++qw60
+mQKXkFGH1YtUOjh1p6dnNMagVTP59j+nx7svJ5HKdqdODDbFBzeQVhpDhmVHx6AMHClr2uQ02DPQ
+g6hurHK0241NJCTwnESR+fbE67IOGdUPqEY9YrZT88Vzo6JsS+lbiRC+UPaMj14bRjZZenQTrbMh
+m7CHKurR0KEROZrq5t8Uuse4pypjNLC1E+v9uklhmPBzmrqLqhY0C5AKncggYyZA0CZVk03JXiB4
+uU475e/dclXQvtXMFeGY2HeVRVsPbFCmxV4GEzixQ9aEFsrEZHKBjevLi+Ro7gOlA7yXZlo6ons4
+dzeu5UU2515fGVxDppXSGBrjKjtqBs6Twd6TnBq4DZGtSm/FQX4A7uqjBx2jwFQDSVT5MN+/k51N
+VJ44Ah09X3sChreiBG7QeO5dLvOgVZQOgUCG97vueZjyolpvplkfOo7Xghq43/A21lAyztHm9ZrY
+5j4EA/pWNXk37CccRZfBC03Njq5KXbJGf8K9wqLQBDC2MvX5eJNxKmk7AS01YqI4ONFEiHA9P1nU
+JqXC1tZzeJXhvx7dNyzaIWbORPK8ez6sbhVPt9d68tebOvVAMy4HzE+yTRLBcvHXpOeQPLwU71aK
+gCdlGwNKme62OlkwI+T5TxAyO7qPF4q+Y8AfvEfPTwBY3cKO3w9sVsoKZwWDIMUeu0f/H7BqYbed
+JAQA
+--===============2407980494801279391==--
 
