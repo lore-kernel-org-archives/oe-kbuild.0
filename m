@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============3704677524275768750=="
+Content-Type: multipart/mixed; boundary="===============0444086110382115779=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sat, 04 Sep 2021 21:22:24 +0800
-Message-ID: <20210904132224.GA109983@23464b5f6056>
+Date: Sat, 04 Sep 2021 21:22:19 +0800
+Message-ID: <20210904132219.GA109492@23464b5f6056>
 In-Reply-To: <202109042126.8QUDTtdE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3704677524275768750==
+--===============0444086110382115779==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,16 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Felipe Balbi <balbi@kernel.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: linux-usb(a)vger.kernel.org
+CC: Ferruh Yigit <fery@cypress.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/usb/phy/phy-generic.c:300:8-33: WARNING: Threaded IRQ with no prima=
-ry handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/input/touchscreen/cyttsp4_core.c:2093:6-26: WARNING: Threaded IRQ w=
+ith no primary handler requested without IRQF_ONESHOT (unless it is nested =
+IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,20 +51,23 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- phy-generic.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ cyttsp4_core.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
---- a/drivers/usb/phy/phy-generic.c
-+++ b/drivers/usb/phy/phy-generic.c
-@@ -300,7 +300,8 @@ static int usb_phy_generic_probe(struct
- 		err =3D devm_request_threaded_irq(&pdev->dev,
- 						gpiod_to_irq(nop->gpiod_vbus),
- 						NULL, nop_gpio_vbus_thread,
--						VBUS_IRQ_FLAGS, "vbus_detect",
-+						VBUS_IRQ_FLAGS | IRQF_ONESHOT,
-+						"vbus_detect",
- 						nop);
- 		if (err) {
- 			dev_err(&pdev->dev, "can't request irq %i, err: %d\n",
---===============3704677524275768750==--
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -2090,8 +2090,9 @@ struct cyttsp4 *cyttsp4_probe(const stru
+ 		/* use edge triggered interrupts */
+ 		irq_flags =3D IRQF_TRIGGER_FALLING | IRQF_ONESHOT;
+ =
+
+-	rc =3D request_threaded_irq(cd->irq, NULL, cyttsp4_irq, irq_flags,
+-		dev_name(dev), cd);
++	rc =3D request_threaded_irq(cd->irq, NULL, cyttsp4_irq,
++				  irq_flags | IRQF_ONESHOT,
++				  dev_name(dev), cd);
+ 	if (rc < 0) {
+ 		dev_err(dev, "%s: Error, could not request irq\n", __func__);
+ 		goto error_request_irq;
+--===============0444086110382115779==--
 
