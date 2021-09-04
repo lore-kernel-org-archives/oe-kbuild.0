@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============8389503624686167015=="
+Content-Type: multipart/mixed; boundary="===============3511306779933643908=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sat, 04 Sep 2021 21:22:33 +0800
-Message-ID: <20210904132233.GA110965@23464b5f6056>
+Date: Sat, 04 Sep 2021 21:22:28 +0800
+Message-ID: <20210904132228.GA110474@23464b5f6056>
 In-Reply-To: <202109042126.8QUDTtdE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8389503624686167015==
+--===============3511306779933643908==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,17 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
+CC: Chanwoo Choi <cw00.choi@samsung.com>
+CC: Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>
 CC: Alessandro Zummo <a.zummo@towertech.it>
 CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: linux-rtc(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
+CC: linux-rtc(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/rtc/rtc-rk808.c:441:7-32: WARNING: Threaded IRQ with no primary han=
-dler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/rtc/rtc-max77686.c:779:7-27: WARNING: Threaded IRQ with no primary =
+handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,20 +52,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rtc-rk808.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ rtc-max77686.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/rtc/rtc-rk808.c
-+++ b/drivers/rtc/rtc-rk808.c
-@@ -439,7 +439,7 @@ static int rk808_rtc_probe(struct platfo
+--- a/drivers/rtc/rtc-max77686.c
++++ b/drivers/rtc/rtc-max77686.c
+@@ -776,7 +776,8 @@ static int max77686_rtc_probe(struct pla
+ 		goto err_rtc;
+ 	}
  =
 
- 	/* request alarm irq of rk808 */
- 	ret =3D devm_request_threaded_irq(&pdev->dev, rk808_rtc->irq, NULL,
--					rk808_alarm_irq, 0,
-+					rk808_alarm_irq, IRQF_ONESHOT,
- 					"RTC alarm", rk808_rtc);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to request alarm IRQ %d: %d\n",
---===============8389503624686167015==--
+-	ret =3D request_threaded_irq(info->virq, NULL, max77686_rtc_alarm_irq, 0,
++	ret =3D request_threaded_irq(info->virq, NULL, max77686_rtc_alarm_irq,
++				   IRQF_ONESHOT,
+ 				   "rtc-alarm1", info);
+ 	if (ret < 0) {
+ 		dev_err(&pdev->dev, "Failed to request alarm IRQ: %d: %d\n",
+--===============3511306779933643908==--
 
