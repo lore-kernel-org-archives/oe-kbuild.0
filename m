@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8049934537288428385=="
+Content-Type: multipart/mixed; boundary="===============1168768795136936666=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [zen-kernel-zen-kernel:5.14/futex2 4/8] kernel/futex2.c:1024:2-11: second lock on line 1024
-Date: Wed, 08 Sep 2021 01:42:14 +0800
-Message-ID: <202109080105.zgwhKp18-lkp@intel.com>
+Subject: [zen-kernel-zen-kernel:5.14/futex2 1/8] kernel/futex2.c:65:21-28: WARNING use flexible-array member instead (https://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and-one-element-arrays)
+Date: Wed, 08 Sep 2021 00:05:37 +0800
+Message-ID: <202109080031.id7YM5PR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8049934537288428385==
+--===============1168768795136936666==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,8 +17,8 @@ TO: steven(a)liquorix.net
 
 tree:   https://github.com/zen-kernel/zen-kernel 5.14/futex2
 head:   fa99bbb4cf0a5c6ed18cf58ecca678e82e008cb9
-commit: a7c335592ec4a038fc93fc43ca489071a2cfc33a [4/8] futex2: Implement re=
-queue operation
+commit: cc20b5f100d4f345e0b090a7a76daea256e6097d [1/8] futex2: Implement wa=
+it and wake functions
 :::::: branch date: 4 days ago
 :::::: commit date: 4 days ago
 config: i386-randconfig-c021-20210906 (attached as .config)
@@ -30,184 +30,23 @@ Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
 cocci warnings: (new ones prefixed by >>)
->> kernel/futex2.c:1024:2-11: second lock on line 1024
-   kernel/futex2.c:1028:2-11: second lock on line 1028
---
->> kernel/futex2.c:1009:3-9: preceding lock on line 1024
-   kernel/futex2.c:1009:3-9: preceding lock on line 1028
-   kernel/futex2.c:1015:3-9: preceding lock on line 1024
-   kernel/futex2.c:1015:3-9: preceding lock on line 1028
+>> kernel/futex2.c:65:21-28: WARNING use flexible-array member instead (htt=
+ps://www.kernel.org/doc/html/latest/process/deprecated.html#zero-length-and=
+-one-element-arrays)
 
-vim +1024 kernel/futex2.c
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   984  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   985  static inline int __fu=
-tex_requeue(struct futex_requeue rq1,
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   986  				  struct futex_req=
-ueue rq2, unsigned int nr_wake,
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   987  				  unsigned int nr_=
-requeue, unsigned int cmpval,
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   988  				  bool shared1, bo=
-ol shared2)
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   989  {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   990  	struct futex_waiter w=
-1, w2, *aux, *tmp;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   991  	bool retry =3D false;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   992  	struct futex_bucket *=
-b1, *b2;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   993  	DEFINE_WAKE_Q(wake_q);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   994  	u32 uval;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   995  	int ret;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   996  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   997  	b1 =3D futex_get_buck=
-et(rq1.uaddr, &w1.key, shared1);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   998  	if (IS_ERR(b1))
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05   999  		return PTR_ERR(b1);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1000  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1001  	b2 =3D futex_get_buck=
-et(rq2.uaddr, &w2.key, shared2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1002  	if (IS_ERR(b2))
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1003  		return PTR_ERR(b2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1004  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1005  retry:
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1006  	if (shared1 && retry)=
- {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1007  		b1 =3D futex_get_buc=
-ket(rq1.uaddr, &w1.key, shared1);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1008  		if (IS_ERR(b1))
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05 @1009  			return PTR_ERR(b1);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1010  	}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1011  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1012  	if (shared2 && retry)=
- {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1013  		b2 =3D futex_get_buc=
-ket(rq2.uaddr, &w2.key, shared2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1014  		if (IS_ERR(b2))
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1015  			return PTR_ERR(b2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1016  	}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1017  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1018  	bucket_inc_waiters(b2=
-);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1019  	/*
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1020  	 * To ensure the lock=
-s are taken in the same order for all threads (and
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1021  	 * thus avoiding dead=
-locks), take the "smaller" one first
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1022  	 */
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1023  	if (b1 <=3D b2) {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05 @1024  		spin_lock(&b1->lock);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1025  		if (b1 < b2)
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1026  			spin_lock_nested(&b=
-2->lock, SINGLE_DEPTH_NESTING);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1027  	} else {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1028  		spin_lock(&b2->lock);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1029  		spin_lock_nested(&b1=
-->lock, SINGLE_DEPTH_NESTING);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1030  	}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1031  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1032  	ret =3D futex_get_use=
-r(&uval, rq1.uaddr);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1033  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1034  	if (unlikely(ret)) {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1035  		futex_double_unlock(=
-b1, b2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1036  		if (__get_user(uval,=
- (u32 __user *)rq1.uaddr))
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1037  			return -EFAULT;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1038  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1039  		bucket_dec_waiters(b=
-2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1040  		retry =3D true;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1041  		goto retry;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1042  	}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1043  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1044  	if (uval !=3D cmpval)=
- {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1045  		futex_double_unlock(=
-b1, b2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1046  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1047  		bucket_dec_waiters(b=
-2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1048  		return -EAGAIN;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1049  	}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1050  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1051  	list_for_each_entry_s=
-afe(aux, tmp, &b1->list, list) {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1052  		if (futex_match(w1.k=
-ey, aux->key)) {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1053  			if (ret < nr_wake) {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1054  				futex_mark_wake(au=
-x, b1, &wake_q);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1055  				ret++;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1056  				continue;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1057  			}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1058  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1059  			if (ret >=3D nr_wak=
-e + nr_requeue)
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1060  				break;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1061  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1062  			aux->key.pointer =
-=3D w2.key.pointer;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1063  			aux->key.index =3D =
-w2.key.index;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1064  			aux->key.offset =3D=
- w2.key.offset;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1065  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1066  			if (b1 !=3D b2) {
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1067  				list_del_init_care=
-ful(&aux->list);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1068  				bucket_dec_waiters=
-(b1);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1069  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1070  				list_add_tail(&aux=
-->list, &b2->list);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1071  				bucket_inc_waiters=
-(b2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1072  			}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1073  			ret++;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1074  		}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1075  	}
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1076  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1077  	futex_double_unlock(b=
-1, b2);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1078  	wake_up_q(&wake_q);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1079  	bucket_dec_waiters(b2=
-);
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1080  =
-
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1081  	return ret;
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1082  }
-a7c335592ec4a03 Andr=C3=A9 Almeida 2021-02-05  1083  =
-
+Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============8049934537288428385==
+--===============1168768795136936666==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICMOXN2EAAy5jb25maWcAjFxJdxw3Dr7nV/RzLskhjhZL47x5OrCrWN1MVxXLJKsXXfhkue3R
+H4sICKCFN2EAAy5jb25maWcAjFxJdxw3Dr7nV/RzLskhjhZL47x5OrCrWN1MVxXLJKsXXfhkue3R
 iyxltEzifz8AWQvJRrWTg6MiwB0EPoBg//jDjzP2+vL49ebl7vbm/v7b7Mv+Yf9087L/NPt8d7//
 9yyXs1qaGc+FeQvM5d3D69+/3p2/v5xdvD199/Zktto/PezvZ9njw+e7L69Q9e7x4Ycff8hkXYiF
 zTK75koLWVvDt+bqzZfb219+m/2U7z/e3TzMfnt7/vbkl7Ozn/1fb4JqQttFll1964sWY1NXv52c
@@ -815,5 +654,5 @@ vE1vs6HItWIZgoFlbrluVbCl9chywl47apOJ59y1JkWFzoPGG25So+xLhidsEvH1esprtppZ7PDJ
 Rek5cR/x68wJ2ViDg+aPfWab9Y4ynkFiwi5F1YFN8AwB81YDDLZzqUJma3FSZWDkzwykOr5t5nv8
 yRz9cqRaeu/5TIqFyCwUsAJnm0GHjefkiqGReQIqqKYDAXyLHISTs5rJuuoPs+UUM13jwkRc6Ia9
 e3sQ6/iZlU9OQbdKF/o/ppmD/wwkAgA=
---===============8049934537288428385==--
+--===============1168768795136936666==--
 
