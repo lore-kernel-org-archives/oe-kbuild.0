@@ -1,1485 +1,5353 @@
-Content-Type: multipart/mixed; boundary="===============2268028400267742645=="
+Content-Type: multipart/mixed; boundary="===============7750057681963441778=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:pending-fixes 241/297] sound/core/oss/mixer_oss.c:300:1-11: second lock on line 316
-Date: Sun, 24 Oct 2021 22:51:40 +0800
-Message-ID: <202110242235.ntoJxPL9-lkp@intel.com>
+Subject: [vgupta-arc:topic-zol-remove 70/187] arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initializer (different address spaces)
+Date: Sun, 24 Oct 2021 18:03:19 +0800
+Message-ID: <202110241811.suBINOtO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2268028400267742645==
+--===============7750057681963441778==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Takashi Iwai <tiwai@suse.de>
-CC: Jaroslav Kysela <perex@perex.cz>
+CC: linux-kernel(a)vger.kernel.org
+TO: Vineet Gupta <vgupta@synopsys.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- pending-fixes
-head:   9344874edebc5f4360a045cdef5e4ab3cf42e5bd
-commit: 411cef6adfb38a5bb6bd9af3941b28198e7fb680 [241/297] ALSA: mixer: oss=
-: Fix racy access to slots
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: arm-allyesconfig (attached as .config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git topi=
+c-zol-remove
+head:   f2709e461ce51e131e57d07a45a634f3b79b5298
+commit: 0ce72856d001ca4a343064d9d909d454aba4a597 [70/187] ARCv3: 64-bit io =
+accesses
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: arc-randconfig-s032-20211019 (attached as .config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/vgupta/arc.git/co=
+mmit/?id=3D0ce72856d001ca4a343064d9d909d454aba4a597
+        git remote add vgupta-arc https://git.kernel.org/pub/scm/linux/kern=
+el/git/vgupta/arc.git
+        git fetch --no-tags vgupta-arc topic-zol-remove
+        git checkout 0ce72856d001ca4a343064d9d909d454aba4a597
+        # save the attached .config to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' ARCH=3Darc =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> sound/core/oss/mixer_oss.c:300:1-11: second lock on line 316
+sparse warnings: (new ones prefixed by >>)
+   drivers/video/fbdev/goldfishfb.c: note: in included file (through includ=
+e/linux/scatterlist.h, include/linux/dma-mapping.h):
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+   drivers/video/fbdev/goldfishfb.c:275:34: sparse: sparse: cast removes ad=
+dress space '__iomem' of expression
+   drivers/video/fbdev/goldfishfb.c:295:51: sparse: sparse: cast removes ad=
+dress space '__iomem' of expression
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/video/fbdev/gxt4500.c: note: in included file (through include/l=
+inux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/video/fbdev/s1d13xxxfb.c: note: in included file (through includ=
+e/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/video/fbdev/ocfb.c:327:24: sparse: sparse: incorrect type in ass=
+ignment (different address spaces) @@     expected void [noderef] __iomem *=
+fb_virt @@     got void * @@
+   drivers/video/fbdev/ocfb.c:327:24: sparse:     expected void [noderef] _=
+_iomem *fb_virt
+   drivers/video/fbdev/ocfb.c:327:24: sparse:     got void *
+   drivers/video/fbdev/ocfb.c:367:64: sparse: sparse: incorrect type in arg=
+ument 3 (different address spaces) @@     expected void *cpu_addr @@     go=
+t void [noderef] __iomem *fb_virt @@
+   drivers/video/fbdev/ocfb.c:367:64: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/ocfb.c:367:64: sparse:     got void [noderef] __iome=
+m *fb_virt
+   drivers/video/fbdev/ocfb.c:380:32: sparse: sparse: incorrect type in arg=
+ument 3 (different address spaces) @@     expected void *cpu_addr @@     go=
+t void [noderef] __iomem *fb_virt @@
+   drivers/video/fbdev/ocfb.c:380:32: sparse:     expected void *cpu_addr
+   drivers/video/fbdev/ocfb.c:380:32: sparse:     got void [noderef] __iome=
+m *fb_virt
+   drivers/video/fbdev/ocfb.c: note: in included file (through include/linu=
+x/scatterlist.h, include/linux/dma-mapping.h):
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+--
+   drivers/video/fbdev/sm501fb.c: note: in included file (through include/l=
+inux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+   arch/arc/include/asm/io.h:176:43: sparse: sparse: too many warnings
+--
+   drivers/i2c/busses/i2c-designware-common.c: note: in included file (thro=
+ugh include/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h,=
+ ...):
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:67:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned short const vola=
+tile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr=
+ @@
+   arch/arc/include/asm/io.h:67:43: sparse:     expected unsigned short con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:67:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:67:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned short const vola=
+tile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr=
+ @@
+   arch/arc/include/asm/io.h:67:43: sparse:     expected unsigned short con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:67:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:67:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned short const vola=
+tile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr=
+ @@
+   arch/arc/include/asm/io.h:67:43: sparse:     expected unsigned short con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:67:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:67:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned short const vola=
+tile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr=
+ @@
+   arch/arc/include/asm/io.h:67:43: sparse:     expected unsigned short con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:67:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+--
+   drivers/i2c/busses/i2c-designware-platdrv.c: note: in included file (thr=
+ough include/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h=
+, ...):
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/i2c/busses/i2c-rk3x.c: note: in included file (through include/l=
+inux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/i2c/busses/i2c-simtec.c: note: in included file (through include=
+/linux/io.h):
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+--
+   drivers/i2c/busses/i2c-xiic.c: note: in included file (through include/l=
+inux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:52:42: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned char const volat=
+ile [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr =
+@@
+   arch/arc/include/asm/io.h:52:42: sparse:     expected unsigned char cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:52:42: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:152:42: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned char const vola=
+tile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:152:42: sparse:     expected unsigned char con=
+st volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:152:42: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:164:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned short const vol=
+atile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:164:43: sparse:     expected unsigned short co=
+nst volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:164:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+   arch/arc/include/asm/io.h:82:43: sparse: sparse: too many warnings
+--
+   drivers/i2c/busses/i2c-brcmstb.c: note: in included file (through includ=
+e/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: incorrect=
+ type in argument 1 (different base types) @@     expected unsigned long wo=
+rd @@     got restricted __le32 [usertype] @@
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     expected unsi=
+gned long word
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     got restricte=
+d __le32 [usertype]
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: cast to r=
+estricted __le32
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: incorrect=
+ type in argument 1 (different base types) @@     expected unsigned long wo=
+rd @@     got restricted __le32 [usertype] @@
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     expected unsi=
+gned long word
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     got restricte=
+d __le32 [usertype]
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: cast to r=
+estricted __le32
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: incorrect=
+ type in argument 1 (different base types) @@     expected unsigned long wo=
+rd @@     got restricted __le32 [usertype] @@
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     expected unsi=
+gned long word
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     got restricte=
+d __le32 [usertype]
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: cast to r=
+estricted __le32
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: incorrect=
+ type in argument 1 (different base types) @@     expected unsigned long wo=
+rd @@     got restricted __le32 [usertype] @@
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     expected unsi=
+gned long word
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     got restricte=
+d __le32 [usertype]
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: cast to r=
+estricted __le32
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: incorrect=
+ type in argument 1 (different base types) @@     expected unsigned long wo=
+rd @@     got restricted __le32 [usertype] @@
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     expected unsi=
+gned long word
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     got restricte=
+d __le32 [usertype]
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: cast to r=
+estricted __le32
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: incorrect=
+ type in argument 1 (different base types) @@     expected unsigned long wo=
+rd @@     got restricted __le32 [usertype] @@
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     expected unsi=
+gned long word
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse:     got restricte=
+d __le32 [usertype]
+   drivers/video/fbdev/core/cfbfillrect.c:359:32: sparse: sparse: cast to r=
+estricted __le32
+   drivers/video/fbdev/core/cfbfillrect.c: note: in included file (through =
+include/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...=
+):
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/video/fbdev/core/cfbcopyarea.c: note: in included file (through =
+include/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...=
+):
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+--
+   drivers/video/fbdev/core/cfbimgblt.c: note: in included file (through in=
+clude/linux/io.h, include/linux/irq.h, include/asm-generic/hardirq.h, ...):
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
+>> arch/arc/include/asm/io.h:82:43: sparse: sparse: incorrect type in initi=
+alizer (different address spaces) @@     expected unsigned int const volati=
+le [usertype] *ptr @@     got void const volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:82:43: sparse:     expected unsigned int const=
+ volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:82:43: sparse:     got void const volatile [no=
+deref] __iomem *addr
+>> arch/arc/include/asm/io.h:176:43: sparse: sparse: incorrect type in init=
+ializer (different address spaces) @@     expected unsigned int const volat=
+ile [usertype] *ptr @@     got void volatile [noderef] __iomem *addr @@
+   arch/arc/include/asm/io.h:176:43: sparse:     expected unsigned int cons=
+t volatile [usertype] *ptr
+   arch/arc/include/asm/io.h:176:43: sparse:     got void volatile [noderef=
+] __iomem *addr
 
-vim +300 sound/core/oss/mixer_oss.c
+vim +82 arch/arc/include/asm/io.h
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  290  =
+1162b0701b14ba Vineet Gupta 2013-01-18   48  =
 
-f956b4a3ae790e Takashi Iwai   2005-11-17  291  static int snd_mixer_oss_set=
-_volume(struct snd_mixer_oss_file *fmixer,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  292  				    int slot, int volume)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  293  {
-f956b4a3ae790e Takashi Iwai   2005-11-17  294  	struct snd_mixer_oss *mixer=
- =3D fmixer->mixer;
-f956b4a3ae790e Takashi Iwai   2005-11-17  295  	struct snd_mixer_oss_slot *=
-pslot;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  296  	int result =3D 0, left =3D =
-volume & 0xff, right =3D (volume >> 8) & 0xff;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  297  =
+1162b0701b14ba Vineet Gupta 2013-01-18   49  #define __raw_readb __raw_readb
+1162b0701b14ba Vineet Gupta 2013-01-18   50  static inline u8 __raw_readb(c=
+onst volatile void __iomem *addr)
+1162b0701b14ba Vineet Gupta 2013-01-18   51  {
+0ce72856d001ca Vineet Gupta 2020-06-29  @52  	const volatile u8 __force *pt=
+r =3D addr;
+1162b0701b14ba Vineet Gupta 2013-01-18   53  	u8 b;
+1162b0701b14ba Vineet Gupta 2013-01-18   54  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  298  	if (mixer =3D=3D NULL || sl=
-ot > 30)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  299  		return -EIO;
-411cef6adfb38a Takashi Iwai   2021-10-20 @300  	mutex_lock(&mixer->reg_mute=
-x);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  301  	pslot =3D &mixer->slots[slo=
-t];
-^1da177e4c3f41 Linus Torvalds 2005-04-16  302  	if (left > 100)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  303  		left =3D 100;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  304  	if (right > 100)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  305  		right =3D 100;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  306  	if (!pslot->stereo)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  307  		right =3D left;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  308  	if (pslot->put_volume)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  309  		result =3D pslot->put_volu=
-me(fmixer, pslot, left, right);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  310  	if (result < 0)
-411cef6adfb38a Takashi Iwai   2021-10-20  311  		goto unlock;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  312  	pslot->volume[0] =3D left;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  313  	pslot->volume[1] =3D right;
-411cef6adfb38a Takashi Iwai   2021-10-20  314  	result =3D (left & 0xff) | =
-((right & 0xff) << 8);
-411cef6adfb38a Takashi Iwai   2021-10-20  315   unlock:
-411cef6adfb38a Takashi Iwai   2021-10-20 @316  	mutex_lock(&mixer->reg_mute=
-x);
-411cef6adfb38a Takashi Iwai   2021-10-20  317  	return result;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  318  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  319  =
+1162b0701b14ba Vineet Gupta 2013-01-18   55  	__asm__ __volatile__(
+1162b0701b14ba Vineet Gupta 2013-01-18   56  	"	ldb%U1 %0, %1	\n"
+1162b0701b14ba Vineet Gupta 2013-01-18   57  	: "=3Dr" (b)
+0ce72856d001ca Vineet Gupta 2020-06-29   58  	: "m" (*ptr)
+1162b0701b14ba Vineet Gupta 2013-01-18   59  	: "memory");
+1162b0701b14ba Vineet Gupta 2013-01-18   60  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18   61  	return b;
+1162b0701b14ba Vineet Gupta 2013-01-18   62  }
+1162b0701b14ba Vineet Gupta 2013-01-18   63  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18   64  #define __raw_readw __raw_readw
+1162b0701b14ba Vineet Gupta 2013-01-18   65  static inline u16 __raw_readw(=
+const volatile void __iomem *addr)
+1162b0701b14ba Vineet Gupta 2013-01-18   66  {
+0ce72856d001ca Vineet Gupta 2020-06-29  @67  	const volatile u16 __force *p=
+tr =3D addr;
+1162b0701b14ba Vineet Gupta 2013-01-18   68  	u16 s;
+1162b0701b14ba Vineet Gupta 2013-01-18   69  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18   70  	__asm__ __volatile__(
+d0b43ecbbd1ef0 Vineet Gupta 2020-06-25   71  	"	ldh%U1 %0, %1	\n"
+1162b0701b14ba Vineet Gupta 2013-01-18   72  	: "=3Dr" (s)
+0ce72856d001ca Vineet Gupta 2020-06-29   73  	: "m" (*ptr)
+1162b0701b14ba Vineet Gupta 2013-01-18   74  	: "memory");
+1162b0701b14ba Vineet Gupta 2013-01-18   75  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18   76  	return s;
+1162b0701b14ba Vineet Gupta 2013-01-18   77  }
+1162b0701b14ba Vineet Gupta 2013-01-18   78  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18   79  #define __raw_readl __raw_readl
+1162b0701b14ba Vineet Gupta 2013-01-18   80  static inline u32 __raw_readl(=
+const volatile void __iomem *addr)
+1162b0701b14ba Vineet Gupta 2013-01-18   81  {
+0ce72856d001ca Vineet Gupta 2020-06-29  @82  	const volatile u32 __force *p=
+tr =3D addr;
+1162b0701b14ba Vineet Gupta 2013-01-18   83  	u32 w;
+1162b0701b14ba Vineet Gupta 2013-01-18   84  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18   85  	__asm__ __volatile__(
+1162b0701b14ba Vineet Gupta 2013-01-18   86  	"	ld%U1 %0, %1	\n"
+1162b0701b14ba Vineet Gupta 2013-01-18   87  	: "=3Dr" (w)
+0ce72856d001ca Vineet Gupta 2020-06-29   88  	: "m" (*ptr)
+1162b0701b14ba Vineet Gupta 2013-01-18   89  	: "memory");
+1162b0701b14ba Vineet Gupta 2013-01-18   90  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18   91  	return w;
+1162b0701b14ba Vineet Gupta 2013-01-18   92  }
+1162b0701b14ba Vineet Gupta 2013-01-18   93  =
+
+0ce72856d001ca Vineet Gupta 2020-06-29   94  #ifdef CONFIG_64BIT
+0ce72856d001ca Vineet Gupta 2020-06-29   95  =
+
+0ce72856d001ca Vineet Gupta 2020-06-29   96  #define __raw_readq __raw_readq
+0ce72856d001ca Vineet Gupta 2020-06-29   97  static inline u32 __raw_readq(=
+const volatile void __iomem *addr)
+0ce72856d001ca Vineet Gupta 2020-06-29   98  {
+0ce72856d001ca Vineet Gupta 2020-06-29   99  	const volatile u64 __force *p=
+tr =3D addr;
+0ce72856d001ca Vineet Gupta 2020-06-29  100  	u64 q;
+0ce72856d001ca Vineet Gupta 2020-06-29  101  =
+
+0ce72856d001ca Vineet Gupta 2020-06-29  102  	__asm__ __volatile__(
+0ce72856d001ca Vineet Gupta 2020-06-29  103  	"	ldl%U1 %0, %1	\n"
+0ce72856d001ca Vineet Gupta 2020-06-29  104  	: "=3Dr" (q)
+0ce72856d001ca Vineet Gupta 2020-06-29  105  	: "m" (*ptr)
+0ce72856d001ca Vineet Gupta 2020-06-29  106  	: "memory");
+0ce72856d001ca Vineet Gupta 2020-06-29  107  =
+
+0ce72856d001ca Vineet Gupta 2020-06-29  108  	return q;
+0ce72856d001ca Vineet Gupta 2020-06-29  109  }
+0ce72856d001ca Vineet Gupta 2020-06-29  110  =
+
+0ce72856d001ca Vineet Gupta 2020-06-29  111  #endif
+0ce72856d001ca Vineet Gupta 2020-06-29  112  =
+
+10d443431dc2bb Jose Abreu   2018-11-30  113  /*
+10d443431dc2bb Jose Abreu   2018-11-30  114   * {read,write}s{b,w,l}() repe=
+atedly access the same IO address in
+10d443431dc2bb Jose Abreu   2018-11-30  115   * native endianness in 8-, 16=
+-, 32-bit chunks {into,from} memory,
+10d443431dc2bb Jose Abreu   2018-11-30  116   * @count times
+10d443431dc2bb Jose Abreu   2018-11-30  117   */
+10d443431dc2bb Jose Abreu   2018-11-30  118  #define __raw_readsx(t,f) \
+10d443431dc2bb Jose Abreu   2018-11-30  119  static inline void __raw_reads=
+##f(const volatile void __iomem *addr,	\
+10d443431dc2bb Jose Abreu   2018-11-30  120  				  void *ptr, unsigned int =
+count)	\
+10d443431dc2bb Jose Abreu   2018-11-30  121  {									\
+10d443431dc2bb Jose Abreu   2018-11-30  122  	bool is_aligned =3D ((unsigne=
+d long)ptr % ((t) / 8)) =3D=3D 0;	\
+10d443431dc2bb Jose Abreu   2018-11-30  123  	u##t *buf =3D ptr;						\
+10d443431dc2bb Jose Abreu   2018-11-30  124  									\
+10d443431dc2bb Jose Abreu   2018-11-30  125  	if (!count)							\
+10d443431dc2bb Jose Abreu   2018-11-30  126  		return;							\
+10d443431dc2bb Jose Abreu   2018-11-30  127  									\
+10d443431dc2bb Jose Abreu   2018-11-30  128  	/* Some ARC CPU's don't suppo=
+rt unaligned accesses */		\
+10d443431dc2bb Jose Abreu   2018-11-30  129  	if (is_aligned) {						\
+10d443431dc2bb Jose Abreu   2018-11-30  130  		do {							\
+10d443431dc2bb Jose Abreu   2018-11-30  131  			u##t x =3D __raw_read##f(ad=
+dr);			\
+10d443431dc2bb Jose Abreu   2018-11-30  132  			*buf++ =3D x;					\
+10d443431dc2bb Jose Abreu   2018-11-30  133  		} while (--count);					\
+10d443431dc2bb Jose Abreu   2018-11-30  134  	} else {							\
+10d443431dc2bb Jose Abreu   2018-11-30  135  		do {							\
+10d443431dc2bb Jose Abreu   2018-11-30  136  			u##t x =3D __raw_read##f(ad=
+dr);			\
+10d443431dc2bb Jose Abreu   2018-11-30  137  			put_unaligned(x, buf++);			\
+10d443431dc2bb Jose Abreu   2018-11-30  138  		} while (--count);					\
+10d443431dc2bb Jose Abreu   2018-11-30  139  	}								\
+10d443431dc2bb Jose Abreu   2018-11-30  140  }
+10d443431dc2bb Jose Abreu   2018-11-30  141  =
+
+10d443431dc2bb Jose Abreu   2018-11-30  142  #define __raw_readsb __raw_rea=
+dsb
+10d443431dc2bb Jose Abreu   2018-11-30  143  __raw_readsx(8, b)
+10d443431dc2bb Jose Abreu   2018-11-30  144  #define __raw_readsw __raw_rea=
+dsw
+10d443431dc2bb Jose Abreu   2018-11-30  145  __raw_readsx(16, w)
+10d443431dc2bb Jose Abreu   2018-11-30  146  #define __raw_readsl __raw_rea=
+dsl
+10d443431dc2bb Jose Abreu   2018-11-30  147  __raw_readsx(32, l)
+10d443431dc2bb Jose Abreu   2018-11-30  148  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18  149  #define __raw_writeb __raw_wri=
+teb
+1162b0701b14ba Vineet Gupta 2013-01-18  150  static inline void __raw_write=
+b(u8 b, volatile void __iomem *addr)
+1162b0701b14ba Vineet Gupta 2013-01-18  151  {
+0ce72856d001ca Vineet Gupta 2020-06-29 @152  	const volatile u8 __force *pt=
+r =3D addr;
+0ce72856d001ca Vineet Gupta 2020-06-29  153  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18  154  	__asm__ __volatile__(
+1162b0701b14ba Vineet Gupta 2013-01-18  155  	"	stb%U1 %0, %1	\n"
+1162b0701b14ba Vineet Gupta 2013-01-18  156  	:
+0ce72856d001ca Vineet Gupta 2020-06-29  157  	: "r" (b), "m" (*ptr)
+1162b0701b14ba Vineet Gupta 2013-01-18  158  	: "memory");
+1162b0701b14ba Vineet Gupta 2013-01-18  159  }
+1162b0701b14ba Vineet Gupta 2013-01-18  160  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18  161  #define __raw_writew __raw_wri=
+tew
+1162b0701b14ba Vineet Gupta 2013-01-18  162  static inline void __raw_write=
+w(u16 s, volatile void __iomem *addr)
+1162b0701b14ba Vineet Gupta 2013-01-18  163  {
+0ce72856d001ca Vineet Gupta 2020-06-29 @164  	const volatile u16 __force *p=
+tr =3D addr;
+0ce72856d001ca Vineet Gupta 2020-06-29  165  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18  166  	__asm__ __volatile__(
+1162b0701b14ba Vineet Gupta 2013-01-18  167  	"	stw%U1 %0, %1	\n"
+1162b0701b14ba Vineet Gupta 2013-01-18  168  	:
+0ce72856d001ca Vineet Gupta 2020-06-29  169  	: "r" (s), "m" (*ptr)
+1162b0701b14ba Vineet Gupta 2013-01-18  170  	: "memory");
+1162b0701b14ba Vineet Gupta 2013-01-18  171  }
+1162b0701b14ba Vineet Gupta 2013-01-18  172  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18  173  #define __raw_writel __raw_wri=
+tel
+1162b0701b14ba Vineet Gupta 2013-01-18  174  static inline void __raw_write=
+l(u32 w, volatile void __iomem *addr)
+1162b0701b14ba Vineet Gupta 2013-01-18  175  {
+0ce72856d001ca Vineet Gupta 2020-06-29 @176  	const volatile u32 __force *p=
+tr =3D addr;
+0ce72856d001ca Vineet Gupta 2020-06-29  177  =
+
+1162b0701b14ba Vineet Gupta 2013-01-18  178  	__asm__ __volatile__(
+1162b0701b14ba Vineet Gupta 2013-01-18  179  	"	st%U1 %0, %1	\n"
+1162b0701b14ba Vineet Gupta 2013-01-18  180  	:
+0ce72856d001ca Vineet Gupta 2020-06-29  181  	: "r" (w), "m" (*ptr)
+1162b0701b14ba Vineet Gupta 2013-01-18  182  	: "memory");
+1162b0701b14ba Vineet Gupta 2013-01-18  183  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============2268028400267742645==
+--===============7750057681963441778==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
---===============2268028400267742645==--
+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
++55bB1n/DxdkmGbrYQIA
+--===============7750057681963441778==--
 
