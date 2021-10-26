@@ -1,30 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============0482042155263246370=="
+Content-Type: multipart/mixed; boundary="===============4290862916977545223=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/opp/core.c:1025:45: warning: Possible null pointer dereference: opp [nullPointer]
-Date: Tue, 26 Oct 2021 21:09:13 +0800
-Message-ID: <202110262154.nlxpVbkv-lkp@intel.com>
+Subject: drivers/media/i2c/ccs/ccs-core.c:2073:0: warning: syntax error [syntaxError]
+Date: Tue, 26 Oct 2021 20:37:14 +0800
+Message-ID: <202110262007.iwMQUM7n-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0482042155263246370==
+--===============4290862916977545223==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Viresh Kumar <viresh.kumar@linaro.org>
+TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3906fe9bb7f1a2c8667ae54e967dc8690824f4ea
-commit: f0b88fa45595254fa51427bd8ca321732e2eb73d opp: Allow _set_opp() to w=
-ork for non-freq devices
-date:   9 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 9 months ago
-compiler: h8300-linux-gcc (GCC) 11.2.0
+commit: b24cc2a18c50e4e315abc76a86b26b4c49652f79 media: smiapp: Rename as "=
+ccs"
+date:   11 months ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 11 months ago
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -32,247 +34,355 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> drivers/opp/core.c:1025:45: warning: Possible null pointer dereference: =
-opp [nullPointer]
-     __func__, old_freq, freq, old_opp->level, opp->level,
-                                               ^
-   drivers/opp/core.c:1089:27: note: Assignment 'opp=3DNULL', assigned valu=
-e is 0
-    struct dev_pm_opp *opp =3D NULL;
-                             ^
-   drivers/opp/core.c:1130:33: note: Calling function '_set_opp', 3rd argum=
-ent 'opp' value is 0
-    ret =3D _set_opp(dev, opp_table, opp, freq);
-                                   ^
-   drivers/opp/core.c:1025:45: note: Null pointer dereference
-     __func__, old_freq, freq, old_opp->level, opp->level,
-                                               ^
-   drivers/opp/core.c:1027:3: warning: Possible null pointer dereference: o=
-pp [nullPointer]
-     opp->bandwidth ? opp->bandwidth[0].peak : 0);
-     ^
-   drivers/opp/core.c:1089:27: note: Assignment 'opp=3DNULL', assigned valu=
-e is 0
-    struct dev_pm_opp *opp =3D NULL;
-                             ^
-   drivers/opp/core.c:1130:33: note: Calling function '_set_opp', 3rd argum=
-ent 'opp' value is 0
-    ret =3D _set_opp(dev, opp_table, opp, freq);
-                                   ^
-   drivers/opp/core.c:1027:3: note: Null pointer dereference
-     opp->bandwidth ? opp->bandwidth[0].peak : 0);
-     ^
->> drivers/opp/core.c:1590:20: warning: Possible null pointer dereference: =
-opp2 [nullPointer]
-    if (opp1->rate !=3D opp2->rate)
-                      ^
-   drivers/opp/core.c:1089:27: note: Assignment 'opp=3DNULL', assigned valu=
-e is 0
-    struct dev_pm_opp *opp =3D NULL;
-                             ^
-   drivers/opp/core.c:1130:33: note: Calling function '_set_opp', 3rd argum=
-ent 'opp' value is 0
-    ret =3D _set_opp(dev, opp_table, opp, freq);
-                                   ^
-   drivers/opp/core.c:1029:43: note: Calling function '_opp_compare_key', 2=
-nd argument 'opp' value is 0
-    scaling_down =3D _opp_compare_key(old_opp, opp);
-                                             ^
-   drivers/opp/core.c:1590:20: note: Null pointer dereference
-    if (opp1->rate !=3D opp2->rate)
-                      ^
-   drivers/opp/core.c:1595:21: warning: Possible null pointer dereference: =
-opp2 [nullPointer]
-    if (opp1->level !=3D opp2->level)
-                       ^
-   drivers/opp/core.c:1089:27: note: Assignment 'opp=3DNULL', assigned valu=
-e is 0
-    struct dev_pm_opp *opp =3D NULL;
-                             ^
-   drivers/opp/core.c:1130:33: note: Calling function '_set_opp', 3rd argum=
-ent 'opp' value is 0
-    ret =3D _set_opp(dev, opp_table, opp, freq);
-                                   ^
-   drivers/opp/core.c:1029:43: note: Calling function '_opp_compare_key', 2=
-nd argument 'opp' value is 0
-    scaling_down =3D _opp_compare_key(old_opp, opp);
-                                             ^
-   drivers/opp/core.c:1595:21: note: Null pointer dereference
-    if (opp1->level !=3D opp2->level)
-                       ^
-   drivers/opp/core.c:1618:4: warning: Address of local auto-variable assig=
-ned to a function parameter. [autoVariables]
-      *head =3D &opp->node;
-      ^
+>> drivers/media/i2c/ccs/ccs-core.c:2073:0: warning: syntax error [syntaxEr=
+ror]
+   =
 
-vim +1025 drivers/opp/core.c
+   ^
 
-f3364e17d5716a drivers/opp/core.c            Viresh Kumar    2020-08-13  10=
-00  =
+vim +2073 drivers/media/i2c/ccs/ccs-core.c
 
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-01  static int _set_opp(struct device *dev, struct opp_table *opp_table,
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-02  		    struct dev_pm_opp *opp, unsigned long freq)
-6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar    2016-02-09  10=
-03  {
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-04  	struct dev_pm_opp *old_opp;
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-05  	unsigned long old_freq;
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-06  	int scaling_down, ret;
-6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar    2016-02-09  10=
-07  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2003  =
 
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-08  	if (unlikely(!opp))
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-09  		return _disable_opp_table(dev, opp_table);
-aca48b61f96386 drivers/opp/core.c            Rajendra Nayak  2020-04-08  10=
-10  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2004  /*
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2005   * Calculate best scaling ratio and mode for given output resol=
+ution.
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2006   *
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2007   * Try all of these: horizontal ratio, vertical ratio and small=
+est
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2008   * size possible (horizontally).
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2009   *
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2010   * Also try whether horizontal scaler or full scaler gives a be=
+tter
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2011   * result.
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2012   */
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2013  static void ccs_set_compose_scaler(struct v4l2_subdev *subdev,
+f7234138f14c22 drivers/media/i2c/smiapp/smiapp-core.c   Hans Verkuil 2015-0=
+3-04  2014  				   struct v4l2_subdev_pad_config *cfg,
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2015  				   struct v4l2_subdev_selection *sel,
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2016  				   struct v4l2_rect **crops,
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2017  				   struct v4l2_rect *comp)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2018  {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2019  	struct i2c_client *client =3D v4l2_get_subdevdata(subdev);
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2020  	struct ccs_sensor *sensor =3D to_ccs_sensor(subdev);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2021  	u32 min, max, a, b, max_m;
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2022  	u32 scale_m =3D CCS_LIM(sensor, SCALER_N_MIN);
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-11  2023  	int mode =3D CCS_SCALING_MODE_HORIZONTAL;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2024  	u32 try[4];
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2025  	u32 ntry =3D 0;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2026  	unsigned int i;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2027  	int best =3D INT_MIN;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2028  =
 
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-11  	/* Find the currently set OPP if we don't know already */
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-12  	if (unlikely(!opp_table->current_opp))
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-13  		_find_current_opp(dev, opp_table);
-6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar    2016-02-09  10=
-14  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2029  	sel->r.width =3D min_t(unsigned int, sel->r.width,
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2030  			     crops[CCS_PAD_SINK]->width);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2031  	sel->r.height =3D min_t(unsigned int, sel->r.height,
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2032  			      crops[CCS_PAD_SINK]->height);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2033  =
 
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-15  	old_opp =3D opp_table->current_opp;
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-16  	old_freq =3D old_opp->rate;
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-17  =
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2034  	a =3D crops[CCS_PAD_SINK]->width
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2035  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.width;
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2036  	b =3D crops[CCS_PAD_SINK]->height
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2037  		* CCS_LIM(sensor, SCALER_N_MIN) / sel->r.height;
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2038  	max_m =3D crops[CCS_PAD_SINK]->width
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2039  		* CCS_LIM(sensor, SCALER_N_MIN)
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2040  		/ CCS_LIM(sensor, MIN_X_OUTPUT_SIZE);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2041  =
 
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-18  	/* Return early if nothing to do */
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-19  	if (opp_table->enabled && old_opp =3D=3D opp) {
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-20  		dev_dbg(dev, "%s: OPPs are same, nothing to do\n", __func__);
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-21  		return 0;
-6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar    2016-02-09  10=
-22  	}
-6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar    2016-02-09  10=
-23  =
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2042  	a =3D clamp(a, CCS_LIM(sensor, SCALER_M_MIN),
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2043  		  CCS_LIM(sensor, SCALER_M_MAX));
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2044  	b =3D clamp(b, CCS_LIM(sensor, SCALER_M_MIN),
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2045  		  CCS_LIM(sensor, SCALER_M_MAX));
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2046  	max_m =3D clamp(max_m, CCS_LIM(sensor, SCALER_M_MIN),
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2047  		      CCS_LIM(sensor, SCALER_M_MAX));
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2048  =
 
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-24  	dev_dbg(dev, "%s: switching OPP: Freq %lu -> %lu Hz, Level %u -> %u, B=
-w %u -> %u\n",
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21 @10=
-25  		__func__, old_freq, freq, old_opp->level, opp->level,
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-26  		old_opp->bandwidth ? old_opp->bandwidth[0].peak : 0,
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-27  		opp->bandwidth ? opp->bandwidth[0].peak : 0);
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-28  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2049  	dev_dbg(&client->dev, "scaling: a %d b %d max_m %d\n", a, b, m=
+ax_m);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2050  =
 
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-29  	scaling_down =3D _opp_compare_key(old_opp, opp);
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-30  	if (scaling_down =3D=3D -1)
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-31  		scaling_down =3D 0;
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  10=
-32  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2051  	min =3D min(max_m, min(a, b));
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2052  	max =3D min(max_m, max(a, b));
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2053  =
 
-ca1b5d77b1c69d drivers/opp/core.c            Viresh Kumar    2018-06-14  10=
-33  	/* Scaling up? Configure required OPPs before frequency */
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-34  	if (!scaling_down) {
-2c59138c22f17c drivers/opp/core.c            Stephan Gerhold 2020-07-30  10=
-35  		ret =3D _set_required_opps(dev, opp_table, opp, true);
-ca1b5d77b1c69d drivers/opp/core.c            Viresh Kumar    2018-06-14  10=
-36  		if (ret)
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-37  			return ret;
-ca1b5d77b1c69d drivers/opp/core.c            Viresh Kumar    2018-06-14  10=
-38  	}
-ca1b5d77b1c69d drivers/opp/core.c            Viresh Kumar    2018-06-14  10=
-39  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2054  	try[ntry] =3D min;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2055  	ntry++;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2056  	if (min !=3D max) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2057  		try[ntry] =3D max;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2058  		ntry++;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2059  	}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2060  	if (max !=3D max_m) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2061  		try[ntry] =3D min + 1;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2062  		ntry++;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2063  		if (min !=3D max) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2064  			try[ntry] =3D max + 1;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2065  			ntry++;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2066  		}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2067  	}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2068  =
 
-7e535993fa4f67 drivers/opp/core.c            Viresh Kumar    2018-06-12  10=
-40  	if (opp_table->set_opp) {
-7e535993fa4f67 drivers/opp/core.c            Viresh Kumar    2018-06-12  10=
-41  		ret =3D _set_opp_custom(opp_table, dev, old_freq, freq,
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-42  				      old_opp->supplies, opp->supplies);
-7e535993fa4f67 drivers/opp/core.c            Viresh Kumar    2018-06-12  10=
-43  	} else if (opp_table->regulators) {
-c74b32fadc00f2 drivers/base/power/opp/core.c Viresh Kumar    2017-05-23  10=
-44  		ret =3D _generic_set_opp_regulator(opp_table, dev, old_freq, freq,
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-45  						 old_opp->supplies,
-c74b32fadc00f2 drivers/base/power/opp/core.c Viresh Kumar    2017-05-23  10=
-46  						 opp->supplies);
-c74b32fadc00f2 drivers/base/power/opp/core.c Viresh Kumar    2017-05-23  10=
-47  	} else {
-947355850fcb3b drivers/base/power/opp/core.c Viresh Kumar    2016-12-01  10=
-48  		/* Only frequency scaling */
-1d3c42cabbd351 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-49  		ret =3D _generic_set_opp_clk_only(dev, opp_table->clk, freq);
-c74b32fadc00f2 drivers/base/power/opp/core.c Viresh Kumar    2017-05-23  10=
-50  	}
-6a0712f6f199e7 drivers/base/power/opp/core.c Viresh Kumar    2016-02-09  10=
-51  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2069  	for (i =3D 0; i < ntry; i++) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2070  		int this =3D scaling_goodness(
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2071  			subdev,
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2072  			crops[CCS_PAD_SINK]->width
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10 @2073  			/ try[i] * CCS_LIM(sensor, SCALER_N_MIN),
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2074  			sel->r.width,
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2075  			crops[CCS_PAD_SINK]->height,
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2076  			sel->r.height,
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2077  			sel->flags);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2078  =
 
-ca1b5d77b1c69d drivers/opp/core.c            Viresh Kumar    2018-06-14  10=
-52  	/* Scaling down? Configure required OPPs after frequency */
-f0b88fa4559525 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-53  	if (!ret && scaling_down) {
-2c59138c22f17c drivers/opp/core.c            Stephan Gerhold 2020-07-30  10=
-54  		ret =3D _set_required_opps(dev, opp_table, opp, false);
-ca1b5d77b1c69d drivers/opp/core.c            Viresh Kumar    2018-06-14  10=
-55  		if (ret)
-ca1b5d77b1c69d drivers/opp/core.c            Viresh Kumar    2018-06-14  10=
-56  			dev_err(dev, "Failed to set required opps: %d\n", ret);
-c74b32fadc00f2 drivers/base/power/opp/core.c Viresh Kumar    2017-05-23  10=
-57  	}
-052c6f19141dd1 drivers/base/power/opp/core.c Viresh Kumar    2017-01-23  10=
-58  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2079  		dev_dbg(&client->dev, "trying factor %d (%d)\n", try[i], i);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2080  =
 
-72f80ce4ef9b75 drivers/opp/core.c            Viresh Kumar    2020-08-13  10=
-59  	if (!ret) {
-b00e667a6d8b2b drivers/opp/core.c            Viresh Kumar    2020-05-27  10=
-60  		ret =3D _set_opp_bw(opp_table, opp, dev, false);
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-61  		if (!ret) {
-72f80ce4ef9b75 drivers/opp/core.c            Viresh Kumar    2020-08-13  10=
-62  			opp_table->enabled =3D true;
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-63  			dev_pm_opp_put(old_opp);
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-64  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2081  		if (this > best) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2082  			scale_m =3D try[i];
+42aab58f456a28 drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-11  2083  			mode =3D CCS_SCALING_MODE_HORIZONTAL;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2084  			best =3D this;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2085  		}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2086  =
 
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-65  			/* Make sure current_opp doesn't get freed */
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-66  			dev_pm_opp_get(opp);
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-67  			opp_table->current_opp =3D opp;
-81c4d8a3c41488 drivers/opp/core.c            Viresh Kumar    2021-01-20  10=
-68  		}
-72f80ce4ef9b75 drivers/opp/core.c            Viresh Kumar    2020-08-13  10=
-69  	}
-fe2af40250bfc3 drivers/opp/core.c            Georgi Djakov   2020-05-12  10=
-70  =
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2087  		if (CCS_LIM(sensor, SCALING_CAPABILITY)
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2088  		    =3D=3D CCS_SCALING_CAPABILITY_HORIZONTAL)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2089  			continue;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2090  =
 
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-71  	return ret;
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-72  }
-386ba854d9f316 drivers/opp/core.c            Viresh Kumar    2021-01-21  10=
-73  =
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2091  		this =3D scaling_goodness(
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2092  			subdev, crops[CCS_PAD_SINK]->width
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2093  			/ try[i]
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2094  			* CCS_LIM(sensor, SCALER_N_MIN),
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2095  			sel->r.width,
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2096  			crops[CCS_PAD_SINK]->height
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2097  			/ try[i]
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2098  			* CCS_LIM(sensor, SCALER_N_MIN),
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2099  			sel->r.height,
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2100  			sel->flags);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2101  =
 
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2102  		if (this > best) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2103  			scale_m =3D try[i];
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2104  			mode =3D SMIAPP_SCALING_MODE_BOTH;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2105  			best =3D this;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2106  		}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2107  	}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2108  =
+
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2109  	sel->r.width =3D
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2110  		(crops[CCS_PAD_SINK]->width
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2111  		 / scale_m
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2112  		 * CCS_LIM(sensor, SCALER_N_MIN)) & ~1;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2113  	if (mode =3D=3D SMIAPP_SCALING_MODE_BOTH)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2114  		sel->r.height =3D
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2115  			(crops[CCS_PAD_SINK]->height
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2116  			 / scale_m
+3e158e1f1ec2ac drivers/media/i2c/smiapp/smiapp-core.c   Sakari Ailus 2020-0=
+2-10  2117  			 * CCS_LIM(sensor, SCALER_N_MIN))
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2118  			& ~1;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2119  	else
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2120  		sel->r.height =3D crops[CCS_PAD_SINK]->height;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2121  =
+
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2122  	if (sel->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE) {
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2123  		sensor->scale_m =3D scale_m;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2124  		sensor->scaling_mode =3D mode;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2125  	}
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2126  }
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2127  /* We're only called on source pads. This function sets scaling=
+. */
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2128  static int ccs_set_compose(struct v4l2_subdev *subdev,
+f7234138f14c22 drivers/media/i2c/smiapp/smiapp-core.c   Hans Verkuil 2015-0=
+3-04  2129  			   struct v4l2_subdev_pad_config *cfg,
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2130  			   struct v4l2_subdev_selection *sel)
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2131  {
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2132  	struct ccs_sensor *sensor =3D to_ccs_sensor(subdev);
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2133  	struct ccs_subdev *ssd =3D to_ccs_subdev(subdev);
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2134  	struct v4l2_rect *comp, *crops[CCS_PADS];
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2135  =
+
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2136  	ccs_get_crop_compose(subdev, cfg, crops, &comp, sel->which);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2137  =
+
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2138  	sel->r.top =3D 0;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2139  	sel->r.left =3D 0;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2140  =
+
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2141  	if (ssd =3D=3D sensor->binner)
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2142  		ccs_set_compose_binner(subdev, cfg, sel, crops, comp);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2143  	else
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2144  		ccs_set_compose_scaler(subdev, cfg, sel, crops, comp);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2145  =
+
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2146  	*comp =3D sel->r;
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2147  	ccs_propagate(subdev, cfg, sel->which, V4L2_SEL_TGT_COMPOSE);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2148  =
+
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2149  	if (sel->which =3D=3D V4L2_SUBDEV_FORMAT_ACTIVE)
+161cc847370a92 drivers/media/i2c/smiapp/ccs-core.c      Sakari Ailus 2020-0=
+2-11  2150  		return ccs_pll_blanking_update(sensor);
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2151  =
+
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2152  	return 0;
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2153  }
+ccfc97bdb5ae8b drivers/media/video/smiapp/smiapp-core.c Sakari Ailus 2012-0=
+3-03  2154  =
+
+
+:::::: The code at line 2073 was first introduced by commit
+:::::: 3e158e1f1ec2aca4287bc12323c7e88d4e3b4f38 media: smiapp: Switch to CC=
+S limits
+
+:::::: TO: Sakari Ailus <sakari.ailus@linux.intel.com>
+:::::: CC: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0482042155263246370==--
+--===============4290862916977545223==--
 
