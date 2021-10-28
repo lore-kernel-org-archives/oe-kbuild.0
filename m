@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6987834926238440325=="
+Content-Type: multipart/mixed; boundary="===============5957192677021299542=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [osandov:btrfs-send-encoded 9/14] fs/btrfs/ioctl.c:4959:15: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Fri, 29 Oct 2021 12:11:19 +0800
-Message-ID: <202110291210.vdIJspdr-lkp@intel.com>
+Subject: [osandov:btrfs-send-encoded 8/14] fs/btrfs/inode.c:10743:15: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Fri, 29 Oct 2021 06:11:19 +0800
+Message-ID: <202110290614.RhLynMka-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6987834926238440325==
+--===============5957192677021299542==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -20,8 +20,8 @@ TO: Omar Sandoval <osandov@fb.com>
 
 tree:   https://github.com/osandov/linux.git btrfs-send-encoded
 head:   b460af84b8ddd4fd78e02fec6272b70326b87861
-commit: 0aea17a6398e5a7ecab69537ff062b00f6b9c20f [9/14] btrfs: add BTRFS_IO=
-C_ENCODED_WRITE
+commit: d38f9ac9a40338488424fe7e8058dfb2542ca2ef [8/14] btrfs: add BTRFS_IO=
+C_ENCODED_READ
 :::::: branch date: 7 days ago
 :::::: commit date: 7 days ago
 config: x86_64-randconfig-c007-20211027 (attached as .config)
@@ -31,11 +31,11 @@ reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/osandov/linux/commit/0aea17a6398e5a7ecab69537f=
-f062b00f6b9c20f
+        # https://github.com/osandov/linux/commit/d38f9ac9a40338488424fe7e8=
+058dfb2542ca2ef
         git remote add osandov https://github.com/osandov/linux.git
         git fetch --no-tags osandov btrfs-send-encoded
-        git checkout 0aea17a6398e5a7ecab69537ff062b00f6b9c20f
+        git checkout d38f9ac9a40338488424fe7e8058dfb2542ca2ef
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -46,58 +46,14 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/hid/hid-lg4ff.c:98:8: warning: Excessive padding in 'struct lg4f=
-f_wheel' (8 padding bytes, where 0 is optimal). =
-
-   Optimal fields order: =
-
-   ff_effects, =
-
-   set_range, =
-
-   product_id, =
-
-   min_range, =
-
-   max_range, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct lg4ff_wheel {
-   ~~~~~~~^~~~~~~~~~~~~
-   drivers/hid/hid-lg4ff.c:98:8: note: Excessive padding in 'struct lg4ff_w=
-heel' (8 padding bytes, where 0 is optimal). Optimal fields order: ff_effec=
-ts, set_range, product_id, min_range, max_range, consider reordering the fi=
-elds or adding explicit padding members
-   struct lg4ff_wheel {
-   ~~~~~~~^~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    9 warnings generated.
-   drivers/hid/hid-lg-g15.c:366:3: warning: Value stored to 'ret' is never =
+   fs/btrfs/disk-io.c:3328:3: warning: Value stored to 'features' is never =
 read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D (ret < 0) ? ret : -EIO;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-lg-g15.c:366:3: note: Value stored to 'ret' is never read
-                   ret =3D (ret < 0) ? ret : -EIO;
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~
+                   features |=3D BTRFS_FEATURE_INCOMPAT_BIG_METADATA;
+                   ^
+   fs/btrfs/disk-io.c:3328:3: note: Value stored to 'features' is never read
    Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
@@ -105,355 +61,345 @@ se -system-headers to display errors from system headers as well.
    Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   fs/btrfs/ioctl.c:2080:3: warning: Value stored to 'i' is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-                   i =3D nritems;
-                   ^   ~~~~~~~
-   fs/btrfs/ioctl.c:2080:3: note: Value stored to 'i' is never read
-                   i =3D nritems;
-                   ^   ~~~~~~~
-   fs/btrfs/ioctl.c:2394:3: warning: Value stored to 'dirid' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                   dirid =3D key.objectid;
-                   ^       ~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:2394:3: note: Value stored to 'dirid' is never read
-                   dirid =3D key.objectid;
-                   ^       ~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4631:2: warning: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(super_block->label, label);
-           ^~~~~~
-   fs/btrfs/ioctl.c:4631:2: note: Call to function 'strcpy' is insecure as =
-it does not provide bounding of the memory buffer. Replace unbounded copy f=
-unctions with analogous functions that support length arguments such as 'st=
-rlcpy'. CWE-119
-           strcpy(super_block->label, label);
-           ^~~~~~
->> fs/btrfs/ioctl.c:4959:15: warning: Assigned value is garbage or undefine=
-d [clang-analyzer-core.uninitialized.Assign]
-                   args.iovcnt =3D args.iovcnt;
+   21 warnings generated.
+   fs/btrfs/inode.c:5063:3: warning: Value stored to 'ret' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   ret =3D btrfs_readpage(NULL, page);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:5063:3: note: Value stored to 'ret' is never read
+                   ret =3D btrfs_readpage(NULL, page);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:5981:20: warning: The left operand of '=3D=3D' is a gar=
+bage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (location.type =3D=3D BTRFS_INODE_ITEM_KEY) {
+                             ^
+   fs/btrfs/inode.c:6047:24: note: Calling 'btrfs_lookup_dentry'
+           struct inode *inode =3D btrfs_lookup_dentry(dir, dentry);
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:5974:6: note: Assuming field 'len' is <=3D BTRFS_NAME_L=
+EN
+           if (dentry->d_name.len > BTRFS_NAME_LEN)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:5974:2: note: Taking false branch
+           if (dentry->d_name.len > BTRFS_NAME_LEN)
+           ^
+   fs/btrfs/inode.c:5977:8: note: Calling 'btrfs_inode_by_name'
+           ret =3D btrfs_inode_by_name(dir, dentry, &location, &di_type);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:5684:6: note: Assuming 'path' is non-null
+           if (!path)
+               ^~~~~
+   fs/btrfs/inode.c:5684:2: note: Taking false branch
+           if (!path)
+           ^
+   fs/btrfs/inode.c:5689:2: note: Taking true branch
+           if (IS_ERR_OR_NULL(di)) {
+           ^
+   fs/btrfs/inode.c:5690:9: note: 'di' is non-null
+                   ret =3D di ? PTR_ERR(di) : -ENOENT;
+                         ^~
+   fs/btrfs/inode.c:5690:9: note: '?' condition is true
+   fs/btrfs/inode.c:5691:3: note: Control jumps to line 5706
+                   goto out;
+                   ^
+   fs/btrfs/inode.c:5707:2: note: Returning without writing to 'location->t=
+ype'
+           return ret;
+           ^
+   fs/btrfs/inode.c:5977:8: note: Returning from 'btrfs_inode_by_name'
+           ret =3D btrfs_inode_by_name(dir, dentry, &location, &di_type);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:5978:6: note: Assuming 'ret' is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   fs/btrfs/inode.c:5978:2: note: Taking false branch
+           if (ret < 0)
+           ^
+   fs/btrfs/inode.c:5981:20: note: The left operand of '=3D=3D' is a garbag=
+e value
+           if (location.type =3D=3D BTRFS_INODE_ITEM_KEY) {
+               ~~~~~~~~~~~~~ ^
+   fs/btrfs/inode.c:7226:2: warning: Value stored to 'ret' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   fs/btrfs/inode.c:7226:2: note: Value stored to 'ret' is never read
+           ret =3D 0;
+           ^     ~
+   fs/btrfs/inode.c:7804:12: warning: Although the value stored to 'em' is =
+used in the enclosing expression, the value is never actually read from 'em=
+' [clang-analyzer-deadcode.DeadStores]
+                                   *map =3D em =3D em2;
+                                          ^    ~~~
+   fs/btrfs/inode.c:7804:12: note: Although the value stored to 'em' is use=
+d in the enclosing expression, the value is never actually read from 'em'
+                                   *map =3D em =3D em2;
+                                          ^    ~~~
+   fs/btrfs/inode.c:9542:4: warning: Value stored to 'root_log_pinned' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                           root_log_pinned =3D false;
+                           ^                 ~~~~~
+   fs/btrfs/inode.c:9542:4: note: Value stored to 'root_log_pinned' is neve=
+r read
+                           root_log_pinned =3D false;
+                           ^                 ~~~~~
+   fs/btrfs/inode.c:9546:4: warning: Value stored to 'dest_log_pinned' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                           dest_log_pinned =3D false;
+                           ^                 ~~~~~
+   fs/btrfs/inode.c:9546:4: note: Value stored to 'dest_log_pinned' is neve=
+r read
+                           dest_log_pinned =3D false;
+                           ^                 ~~~~~
+   fs/btrfs/inode.c:9662:2: warning: Value stored to 'ret' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   fs/btrfs/inode.c:9662:2: note: Value stored to 'ret' is never read
+           ret =3D 0;
+           ^     ~
+   fs/btrfs/inode.c:9833:3: warning: Value stored to 'log_pinned' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   log_pinned =3D false;
+                   ^            ~~~~~
+   fs/btrfs/inode.c:9833:3: note: Value stored to 'log_pinned' is never read
+                   log_pinned =3D false;
+                   ^            ~~~~~
+>> fs/btrfs/inode.c:10743:15: warning: Assigned value is garbage or undefin=
+ed [clang-analyzer-core.uninitialized.Assign]
+                   remaining =3D min(geom.len, disk_io_size - cur);
                                ^
-   fs/btrfs/ioctl.c:5191:2: note: 'Default' branch taken. Execution continu=
-es on line 5197
-           switch (cmd) {
-           ^
-   fs/btrfs/ioctl.c:5197:9: note: Calling 'btrfs_ioctl'
-           return btrfs_ioctl(file, cmd, (unsigned long) compat_ptr(arg));
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:5033:2: note: Control jumps to 'case 1079546944:'  at l=
-ine 5176
-           switch (cmd) {
-           ^
-   fs/btrfs/ioctl.c:5177:10: note: Calling 'btrfs_ioctl_encoded_write'
-                   return btrfs_ioctl_encoded_write(file, argp, true);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4940:6: note: Assuming the condition is false
-           if (!capable(CAP_SYS_ADMIN)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4940:2: note: Taking false branch
-           if (!capable(CAP_SYS_ADMIN)) {
-           ^
-   fs/btrfs/ioctl.c:4945:6: note: Assuming the condition is false
-           if (!(file->f_mode & FMODE_WRITE)) {
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:31:3: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                   ^
+   fs/btrfs/inode.c:10867:6: note: Assuming field 'ki_pos' is < field 'i_si=
+ze'
+           if (iocb->ki_pos >=3D inode->i_size) {
                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4945:2: note: Taking false branch
-           if (!(file->f_mode & FMODE_WRITE)) {
+   fs/btrfs/inode.c:10867:2: note: Taking false branch
+           if (iocb->ki_pos >=3D inode->i_size) {
            ^
-   fs/btrfs/ioctl.c:4950:6: note: 'compat' is true
-           if (compat) {
-               ^~~~~~
-   fs/btrfs/ioctl.c:4950:2: note: Taking true branch
-           if (compat) {
+   fs/btrfs/inode.c:10878:2: note: Loop condition is true.  Entering loop b=
+ody
+           for (;;) {
            ^
-   fs/btrfs/ioctl.c:4954:7: note: Calling 'copy_from_user'
-                   if (copy_from_user(&args32, argp, sizeof(args32))) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:193:2: note: Returning value (loaded from 'n'), =
-which participates in a condition later
-           return n;
-           ^~~~~~~~
-   fs/btrfs/ioctl.c:4954:7: note: Returning from 'copy_from_user'
-                   if (copy_from_user(&args32, argp, sizeof(args32))) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4954:7: note: Assuming the condition is false
-                   if (copy_from_user(&args32, argp, sizeof(args32))) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ioctl.c:4954:3: note: Taking false branch
-                   if (copy_from_user(&args32, argp, sizeof(args32))) {
+   fs/btrfs/inode.c:10883:7: note: Assuming 'ret' is 0
+                   if (ret)
+                       ^~~
+   fs/btrfs/inode.c:10883:3: note: Taking false branch
+                   if (ret)
                    ^
-   fs/btrfs/ioctl.c:4959:15: note: Assigned value is garbage or undefined
-                   args.iovcnt =3D args.iovcnt;
-                               ^ ~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/clk/clk-cdce706.c:355:22: warning: Division by zero [clang-analy=
-zer-core.DivideZero]
-           return *parent_rate / div;
-                  ~~~~~~~~~~~~~^~~~~
-   drivers/clk/clk-cdce706.c:293:32: note: Left side of '&&' is false
-           struct cdce706_hw_data *hwd =3D to_hw_data(hw);
-                                         ^
-   drivers/clk/clk-cdce706.c:65:26: note: expanded from macro 'to_hw_data'
-   #define to_hw_data(phw) (container_of((phw), struct cdce706_hw_data, hw))
-                            ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/clk/clk-cdce706.c:293:32: note: Taking false branch
-           struct cdce706_hw_data *hwd =3D to_hw_data(hw);
-                                         ^
-   drivers/clk/clk-cdce706.c:65:26: note: expanded from macro 'to_hw_data'
-   #define to_hw_data(phw) (container_of((phw), struct cdce706_hw_data, hw))
-                            ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   fs/btrfs/inode.c:10888:7: note: Assuming 'ordered' is null
+                   if (!ordered)
+                       ^~~~~~~~
+   fs/btrfs/inode.c:10888:3: note: Taking true branch
+                   if (!ordered)
                    ^
-   drivers/clk/clk-cdce706.c:293:32: note: Loop condition is false.  Exitin=
-g loop
-           struct cdce706_hw_data *hwd =3D to_hw_data(hw);
-                                         ^
-   drivers/clk/clk-cdce706.c:65:26: note: expanded from macro 'to_hw_data'
-   #define to_hw_data(phw) (container_of((phw), struct cdce706_hw_data, hw))
-                            ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+   fs/btrfs/inode.c:10889:4: note:  Execution continues on line 10895
+                           break;
+                           ^
+   fs/btrfs/inode.c:10897:2: note: Taking false branch
+           if (IS_ERR(em)) {
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+   fs/btrfs/inode.c:10902:6: note: Assuming the condition is false
+           if (em->block_start =3D=3D EXTENT_MAP_INLINE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:10902:2: note: Taking false branch
+           if (em->block_start =3D=3D EXTENT_MAP_INLINE) {
+           ^
+   fs/btrfs/inode.c:10921:18: note: '__UNIQUE_ID___x2405' is >=3D '__UNIQUE=
+_ID___y2406'
+           encoded->len =3D (min_t(u64, extent_map_end(em), inode->i_size) -
+                           ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~
+   fs/btrfs/inode.c:10921:18: note: '?' condition is false
+           encoded->len =3D (min_t(u64, extent_map_end(em), inode->i_size) -
+                           ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/btrfs/inode.c:10923:6: note: Assuming the condition is false
+           if (em->block_start =3D=3D EXTENT_MAP_HOLE ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:10923:6: note: Left side of '||' is false
+   fs/btrfs/inode.c:10924:6: note: Assuming the condition is false
+               test_bit(EXTENT_FLAG_PREALLOC, &em->flags)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:10923:2: note: Taking false branch
+           if (em->block_start =3D=3D EXTENT_MAP_HOLE ||
+           ^
+   fs/btrfs/inode.c:10928:13: note: Assuming the condition is true
+           } else if (test_bit(EXTENT_FLAG_COMPRESSED, &em->flags)) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:10928:9: note: Taking true branch
+           } else if (test_bit(EXTENT_FLAG_COMPRESSED, &em->flags)) {
+                  ^
+   fs/btrfs/inode.c:10934:7: note: Assuming 'count' is >=3D field 'block_le=
+n'
+                   if (em->block_len > count) {
+                       ^~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/inode.c:10934:3: note: Taking false branch
+                   if (em->block_len > count) {
+                   ^
+   fs/btrfs/inode.c:10943:7: note: 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~
+   fs/btrfs/inode.c:10943:3: note: Taking false branch
 
-vim +4959 fs/btrfs/ioctl.c
+vim +10743 fs/btrfs/inode.c
 
-d38f9ac9a40338 Omar Sandoval 2019-10-09  4928  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10705  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4929  static int btrfs_ioctl_encod=
-ed_write(struct file *file, void __user *argp,
-0aea17a6398e5a Omar Sandoval 2019-08-13  4930  				     bool compat)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4931  {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4932  	struct btrfs_ioctl_encoded_=
-io_args args;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4933  	struct iovec iovstack[UIO_F=
-ASTIOV];
-0aea17a6398e5a Omar Sandoval 2019-08-13  4934  	struct iovec *iov =3D iovst=
-ack;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4935  	struct iov_iter iter;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4936  	loff_t pos;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4937  	struct kiocb kiocb;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4938  	ssize_t ret;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4939  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10706  static int btrfs_encoded_r=
+ead_regular_fill_pages(struct inode *inode, u64 offset,
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10707  						 u64 disk_io_size, s=
+truct page **pages)
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10708  {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10709  	struct btrfs_fs_info *fs_=
+info =3D btrfs_sb(inode->i_sb);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10710  	struct btrfs_encoded_read=
+_private priv =3D {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10711  		.inode =3D inode,
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10712  		.pending =3D ATOMIC_INIT=
+(1),
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10713  		.skip_csum =3D BTRFS_I(i=
+node)->flags & BTRFS_INODE_NODATASUM,
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10714  	};
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10715  	unsigned long i =3D 0;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10716  	u64 cur =3D 0;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10717  	int ret;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10718  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4940  	if (!capable(CAP_SYS_ADMIN)=
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10719  	init_waitqueue_head(&priv=
+.wait);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10720  	/*
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10721  	 * Submit bios for the ex=
+tent, splitting due to bio or stripe limits as
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10722  	 * necessary.
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10723  	 */
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10724  	while (cur < disk_io_size=
 ) {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4941  		ret =3D -EPERM;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4942  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4943  	}
-0aea17a6398e5a Omar Sandoval 2019-08-13  4944  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10725  		struct extent_map *em;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10726  		struct btrfs_io_geometry=
+ geom;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10727  		struct bio *bio =3D NULL;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10728  		u64 remaining;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10729  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4945  	if (!(file->f_mode & FMODE_=
-WRITE)) {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4946  		ret =3D -EBADF;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4947  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4948  	}
-0aea17a6398e5a Omar Sandoval 2019-08-13  4949  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10730  		em =3D btrfs_get_chunk_m=
+ap(fs_info, offset + cur,
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10731  					 disk_io_size - cur);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10732  		if (IS_ERR(em)) {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10733  			ret =3D PTR_ERR(em);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10734  		} else {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10735  			ret =3D btrfs_get_io_ge=
+ometry(fs_info, em, BTRFS_MAP_READ,
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10736  						    offset + cur, &g=
+eom);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10737  			free_extent_map(em);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10738  		}
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10739  		if (ret) {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10740  			WRITE_ONCE(priv.status,=
+ errno_to_blk_status(ret));
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10741  			break;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10742  		}
+d38f9ac9a403384 Omar Sandoval 2019-10-09 @10743  		remaining =3D min(geom.l=
+en, disk_io_size - cur);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10744  		while (bio || remaining)=
+ {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10745  			size_t bytes =3D min_t(=
+u64, remaining, PAGE_SIZE);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10746  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4950  	if (compat) {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4951  #if defined(CONFIG_64BIT) &&=
- defined(CONFIG_COMPAT)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4952  		struct btrfs_ioctl_encoded=
-_io_args_32 args32;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4953  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10747  			if (!bio) {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10748  				bio =3D btrfs_bio_allo=
+c(offset + cur);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10749  				bio->bi_end_io =3D btr=
+fs_encoded_read_endio;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10750  				bio->bi_private =3D &p=
+riv;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10751  				bio->bi_opf =3D REQ_OP=
+_READ;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10752  			}
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10753  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4954  		if (copy_from_user(&args32=
-, argp, sizeof(args32))) {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4955  			ret =3D -EFAULT;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4956  			goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4957  		}
-0aea17a6398e5a Omar Sandoval 2019-08-13  4958  		args.iov =3D compat_ptr(ar=
-gs32.iov);
-0aea17a6398e5a Omar Sandoval 2019-08-13 @4959  		args.iovcnt =3D args.iovcn=
-t;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4960  		memcpy(&args.offset, &args=
-32.offset,
-0aea17a6398e5a Omar Sandoval 2019-08-13  4961  		       sizeof(args) -
-0aea17a6398e5a Omar Sandoval 2019-08-13  4962  		       offsetof(struct btr=
-fs_ioctl_encoded_io_args, offset));
-0aea17a6398e5a Omar Sandoval 2019-08-13  4963  #else
-0aea17a6398e5a Omar Sandoval 2019-08-13  4964  		return -ENOTTY;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4965  #endif
-0aea17a6398e5a Omar Sandoval 2019-08-13  4966  	} else {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4967  		if (copy_from_user(&args, =
-argp, sizeof(args))) {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4968  			ret =3D -EFAULT;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4969  			goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4970  		}
-0aea17a6398e5a Omar Sandoval 2019-08-13  4971  	}
-0aea17a6398e5a Omar Sandoval 2019-08-13  4972  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10754  			if (!bytes ||
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10755  			    bio_add_page(bio, p=
+ages[i], bytes, 0) < bytes) {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10756  				blk_status_t status;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10757  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4973  	ret =3D -EINVAL;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4974  	if (args.flags !=3D 0)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4975  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4976  	if (memchr_inv(args.reserve=
-d, 0, sizeof(args.reserved)))
-0aea17a6398e5a Omar Sandoval 2019-08-13  4977  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4978  	if (args.compression =3D=3D=
- BTRFS_ENCODED_IO_COMPRESSION_NONE &&
-0aea17a6398e5a Omar Sandoval 2019-08-13  4979  	    args.encryption =3D=3D =
-BTRFS_ENCODED_IO_ENCRYPTION_NONE)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4980  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4981  	if (args.compression >=3D B=
-TRFS_ENCODED_IO_COMPRESSION_TYPES ||
-0aea17a6398e5a Omar Sandoval 2019-08-13  4982  	    args.encryption >=3D BT=
-RFS_ENCODED_IO_ENCRYPTION_TYPES)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4983  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4984  	if (args.unencoded_offset >=
- args.unencoded_len)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4985  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4986  	if (args.len > args.unencod=
-ed_len - args.unencoded_offset)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4987  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4988  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10758  				status =3D submit_enco=
+ded_read_bio(inode, bio, 0,
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10759  								 0);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10760  				if (status) {
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10761  					WRITE_ONCE(priv.statu=
+s, status);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10762  					bio_put(bio);
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10763  					goto out;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10764  				}
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10765  				bio =3D NULL;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10766  				continue;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10767  			}
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10768  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4989  	ret =3D import_iovec(WRITE,=
- args.iov, args.iovcnt, ARRAY_SIZE(iovstack),
-0aea17a6398e5a Omar Sandoval 2019-08-13  4990  			   &iov, &iter);
-0aea17a6398e5a Omar Sandoval 2019-08-13  4991  	if (ret < 0)
-0aea17a6398e5a Omar Sandoval 2019-08-13  4992  		goto out_acct;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4993  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10769  			i++;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10770  			cur +=3D bytes;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10771  			remaining -=3D bytes;
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10772  		}
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10773  	}
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10774  =
 
-0aea17a6398e5a Omar Sandoval 2019-08-13  4994  	file_start_write(file);
-0aea17a6398e5a Omar Sandoval 2019-08-13  4995  =
-
-0aea17a6398e5a Omar Sandoval 2019-08-13  4996  	if (iov_iter_count(&iter) =
-=3D=3D 0) {
-0aea17a6398e5a Omar Sandoval 2019-08-13  4997  		ret =3D 0;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4998  		goto out_end_write;
-0aea17a6398e5a Omar Sandoval 2019-08-13  4999  	}
-0aea17a6398e5a Omar Sandoval 2019-08-13  5000  	pos =3D args.offset;
-0aea17a6398e5a Omar Sandoval 2019-08-13  5001  	ret =3D rw_verify_area(WRIT=
-E, file, &pos, args.len);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5002  	if (ret < 0)
-0aea17a6398e5a Omar Sandoval 2019-08-13  5003  		goto out_end_write;
-0aea17a6398e5a Omar Sandoval 2019-08-13  5004  =
-
-0aea17a6398e5a Omar Sandoval 2019-08-13  5005  	init_sync_kiocb(&kiocb, fil=
-e);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5006  	ret =3D kiocb_set_rw_flags(=
-&kiocb, 0);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5007  	if (ret)
-0aea17a6398e5a Omar Sandoval 2019-08-13  5008  		goto out_end_write;
-0aea17a6398e5a Omar Sandoval 2019-08-13  5009  	kiocb.ki_pos =3D pos;
-0aea17a6398e5a Omar Sandoval 2019-08-13  5010  =
-
-0aea17a6398e5a Omar Sandoval 2019-08-13  5011  	ret =3D btrfs_do_write_iter=
-(&kiocb, &iter, &args);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5012  	if (ret > 0)
-0aea17a6398e5a Omar Sandoval 2019-08-13  5013  		fsnotify_modify(file);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5014  =
-
-0aea17a6398e5a Omar Sandoval 2019-08-13  5015  out_end_write:
-0aea17a6398e5a Omar Sandoval 2019-08-13  5016  	file_end_write(file);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5017  	kfree(iov);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5018  out_acct:
-0aea17a6398e5a Omar Sandoval 2019-08-13  5019  	if (ret > 0)
-0aea17a6398e5a Omar Sandoval 2019-08-13  5020  		add_wchar(current, ret);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5021  	inc_syscw(current);
-0aea17a6398e5a Omar Sandoval 2019-08-13  5022  	return ret;
-0aea17a6398e5a Omar Sandoval 2019-08-13  5023  }
-0aea17a6398e5a Omar Sandoval 2019-08-13  5024  =
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10775  out:
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10776  	if (atomic_dec_return(&pr=
+iv.pending))
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10777  		io_wait_event(priv.wait,=
+ !atomic_read(&priv.pending));
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10778  	/* See btrfs_encoded_read=
+_endio() for ordering. */
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10779  	return blk_status_to_errn=
+o(READ_ONCE(priv.status));
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10780  }
+d38f9ac9a403384 Omar Sandoval 2019-10-09  10781  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============6987834926238440325==
+--===============5957192677021299542==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICDVee2EAAy5jb25maWcAlDxdd+Smku/5FX0mL8lDMv4ax7t7/IAkpCYtCQ2gdrdfdHrs9sR7
+H4sICJUEe2EAAy5jb25maWcAlDxdd+Smku/5FX0mL8lDMv4ax7t7/IAkpCYtCQ2gdrdfdHrs9sR7
 Pfbctp078++3CpAECHmyeZi4qQIKqG8K/fzTzwvy+vL0Zfdyf7N7ePi++Lx/3B92L/vbxd39w/5/
 Fhlf1FwtaMbU74Bc3j++fnv/7eK8Oz9bfPj9+Oz3o98ON38sVvvD4/5hkT493t1/foUB7p8ef/r5
 p5TXOSu6NO3WVEjG607Rjbp8d/Owe/y8+Ht/eAa8BY7y+9Hil8/3L//9/j38++X+cHg6vH94+PtL
@@ -1143,5 +1089,5 @@ R5EbLpxuCcw65Ssa84NOqYhmi5Y5HzzKM0IHtqF2eSKfHNqR2feO7cS3C3U2OBeZ2zkOgRhYLGtE
 O0MKI186u1Qj1yTnSr3yom76ptBv7EIgH6zkzmminufaSvErgOEfjCuilX9X3TkjJ4+zRdP/GUPx
 wgyCgRxLNw7lFOEQFkxhl3gP4r67FR7mlxAVbO9QDtD4eJVOiAuLh1UqSSAmhrTY8Ujpin4gAQNB
 pBTWcEjk5uIJD0E977UFXZwUTvaOUW5cjuVjuDzw8pjIpEndG6sbISmEw6Ft/wPKEaPBbXMCAA==
---===============6987834926238440325==--
+--===============5957192677021299542==--
 
