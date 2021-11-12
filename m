@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============1628422464023029941=="
+Content-Type: multipart/mixed; boundary="===============7508157978734117299=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Fri, 12 Nov 2021 21:27:00 +0800
-Message-ID: <20211112132700.GA61259@a78ca601fa50>
+Date: Fri, 12 Nov 2021 21:26:54 +0800
+Message-ID: <20211112132654.GA60300@a78ca601fa50>
 In-Reply-To: <202111122139.5EvsRsN8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1628422464023029941==
+--===============7508157978734117299==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -24,8 +24,8 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/rtc/rtc-rk808.c:441:7-32: WARNING: Threaded IRQ with no primary han=
-dler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/rtc/rtc-lp8788.c:277:8-33: WARNING: Threaded IRQ with no primary ha=
+ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,20 +50,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rtc-rk808.c |    2 +-
+ rtc-lp8788.c |    2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
---- a/drivers/rtc/rtc-rk808.c
-+++ b/drivers/rtc/rtc-rk808.c
-@@ -439,7 +439,7 @@ static int rk808_rtc_probe(struct platfo
+--- a/drivers/rtc/rtc-lp8788.c
++++ b/drivers/rtc/rtc-lp8788.c
+@@ -276,7 +276,7 @@ static int lp8788_alarm_irq_register(str
  =
 
- 	/* request alarm irq of rk808 */
- 	ret =3D devm_request_threaded_irq(&pdev->dev, rk808_rtc->irq, NULL,
--					rk808_alarm_irq, 0,
-+					rk808_alarm_irq, IRQF_ONESHOT,
- 					"RTC alarm", rk808_rtc);
- 	if (ret) {
- 		dev_err(&pdev->dev, "Failed to request alarm IRQ %d: %d\n",
---===============1628422464023029941==--
+ 	return devm_request_threaded_irq(&pdev->dev, rtc->irq, NULL,
+ 				lp8788_alarm_irq_handler,
+-				0, LP8788_ALM_IRQ, rtc);
++				IRQF_ONESHOT, LP8788_ALM_IRQ, rtc);
+ }
+ =
+
+ static int lp8788_rtc_probe(struct platform_device *pdev)
+--===============7508157978734117299==--
 
