@@ -1,14 +1,14 @@
-Content-Type: multipart/mixed; boundary="===============7508157978734117299=="
+Content-Type: multipart/mixed; boundary="===============7885414690052194424=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Fri, 12 Nov 2021 21:26:54 +0800
-Message-ID: <20211112132654.GA60300@a78ca601fa50>
+Date: Fri, 12 Nov 2021 21:26:48 +0800
+Message-ID: <20211112132648.GA59341@a78ca601fa50>
 In-Reply-To: <202111122139.5EvsRsN8-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7508157978734117299==
+--===============7885414690052194424==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -17,15 +17,17 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Alessandro Zummo <a.zummo@towertech.it>
-CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
-CC: linux-rtc(a)vger.kernel.org
+CC: Liam Girdwood <lgirdwood@gmail.com>
+CC: Mark Brown <broonie@kernel.org>
+CC: Matthias Brugger <matthias.bgg@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
+CC: linux-arm-kernel(a)lists.infradead.org
+CC: linux-mediatek(a)lists.infradead.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/rtc/rtc-lp8788.c:277:8-33: WARNING: Threaded IRQ with no primary ha=
-ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/regulator/mt6360-regulator.c:386:8-33: WARNING: Threaded IRQ with n=
+o primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -50,21 +52,23 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- rtc-lp8788.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ mt6360-regulator.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/rtc/rtc-lp8788.c
-+++ b/drivers/rtc/rtc-lp8788.c
-@@ -276,7 +276,7 @@ static int lp8788_alarm_irq_register(str
+--- a/drivers/regulator/mt6360-regulator.c
++++ b/drivers/regulator/mt6360-regulator.c
+@@ -383,7 +383,8 @@ static int mt6360_regulator_irq_register
+ 		if (irq < 0)
+ 			return irq;
  =
 
- 	return devm_request_threaded_irq(&pdev->dev, rtc->irq, NULL,
- 				lp8788_alarm_irq_handler,
--				0, LP8788_ALM_IRQ, rtc);
-+				IRQF_ONESHOT, LP8788_ALM_IRQ, rtc);
- }
- =
-
- static int lp8788_rtc_probe(struct platform_device *pdev)
---===============7508157978734117299==--
+-		ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, irq_desc->handl=
+er, 0,
++		ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, irq_desc->handl=
+er,
++						IRQF_ONESHOT,
+ 						irq_desc->name, rdev);
+ 		if (ret) {
+ 			dev_err(&pdev->dev, "Fail to request %s irq\n", irq_desc->name);
+--===============7885414690052194424==--
 
