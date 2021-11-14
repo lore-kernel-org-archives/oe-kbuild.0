@@ -1,77 +1,123 @@
-Content-Type: multipart/mixed; boundary="===============6349317768042545122=="
+Content-Type: multipart/mixed; boundary="===============4220355287880490071=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [driver-core:debugfs_cleanup 1/1] fs/d_path.c:20:20: warning: Unsigned variable '.' can't be negative so it is unnecessary to test it. [unsignedPositive]
-Date: Mon, 15 Nov 2021 00:20:12 +0800
-Message-ID: <202111150057.2Z3oqaBC-lkp@intel.com>
+Subject: fs/io_uring.c:1407:2: warning: Assignment of function parameter has no effect outside the function. Did you forget dereferencing it? [uselessAssignmentPtrArg]
+Date: Sun, 14 Nov 2021 17:54:03 +0800
+Message-ID: <202111141738.gZi0bfKc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6349317768042545122==
+--===============4220355287880490071==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: devel(a)driverdev.osuosl.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
+TO: Pavel Begunkov <asml.silence@gmail.com>
+CC: Jens Axboe <axboe@kernel.dk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.=
-git debugfs_cleanup
-head:   8247270bcf99bc7bf661ae2a3f2ee6e64c7f957d
-commit: 8247270bcf99bc7bf661ae2a3f2ee6e64c7f957d [1/1] fs: make d_path-like=
- functions all have unsigned size
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 hours ago
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c8c109546a19613d323a319d0c921cb1f317e629
+commit: f237c30a5610d35a584f3296d397b93d80ce374e io_uring: batch task work =
+locking
+date:   3 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 months ago
+compiler: mips64el-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
+cppcheck warnings: (new ones prefixed by >>)
+>> fs/io_uring.c:6064:2: warning: Redundant assignment of 'req' to itself. =
+[selfAssignment]
+    io_for_each_link(req, req)
+    ^
+
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> fs/d_path.c:20:20: warning: Unsigned variable '.' can't be negative so i=
-t is unnecessary to test it. [unsignedPositive]
-    if (likely(p->len >=3D 0))
-                      ^
+>> fs/io_uring.c:1407:2: warning: Assignment of function parameter has no e=
+ffect outside the function. Did you forget dereferencing it? [uselessAssign=
+mentPtrArg]
+    locked =3D NULL;
+    ^
+>> fs/io_uring.c:5373:19: warning: Uninitialized variable: req [uninitvar]
+     if (sqe_addr !=3D req->user_data)
+                     ^
+   fs/io_uring.c:5377:10: warning: Uninitialized variable: req [uninitvar]
+     return req;
+            ^
+   fs/io_uring.c:9563:46: warning: Uninitialized variable: req [uninitvar]
+      seq_printf(m, "  op=3D%d, task_works=3D%dn", req->opcode,
+                                                ^
+   fs/io_uring.c:9564:6: warning: Uninitialized variable: req [uninitvar]
+        req->task->task_works !=3D NULL);
+        ^
 
-vim +20 fs/d_path.c
+vim +1407 fs/io_uring.c
 
-7a5cf791a74764 Al Viro            2018-03-05  10  =
+54a91f3bb9b96e Jens Axboe     2019-09-10  1399  =
 
-ad08ae586586ea Al Viro            2021-05-12  11  struct prepend_buffer {
-ad08ae586586ea Al Viro            2021-05-12  12  	char *buf;
-8247270bcf99bc Greg Kroah-Hartman 2021-07-27  13  	unsigned int len;
-ad08ae586586ea Al Viro            2021-05-12  14  };
-ad08ae586586ea Al Viro            2021-05-12  15  #define DECLARE_BUFFER(__=
-name, __buf, __len) \
-ad08ae586586ea Al Viro            2021-05-12  16  	struct prepend_buffer __=
-name =3D {.buf =3D __buf + __len, .len =3D __len}
-ad08ae586586ea Al Viro            2021-05-12  17  =
+f237c30a5610d3 Pavel Begunkov 2021-08-18  1400  static void io_queue_async_=
+work(struct io_kiocb *req, bool *locked)
+561fb04a6a2257 Jens Axboe     2019-10-24  1401  {
+a197f664a0db8a Jackie Liu     2019-11-08  1402  	struct io_ring_ctx *ctx =
+=3D req->ctx;
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1403  	struct io_kiocb *link =3D =
+io_prep_linked_timeout(req);
+5aa75ed5b93f08 Jens Axboe     2021-02-16  1404  	struct io_uring_task *tctx=
+ =3D req->task->io_uring;
+561fb04a6a2257 Jens Axboe     2019-10-24  1405  =
 
-ad08ae586586ea Al Viro            2021-05-12  18  static char *extract_stri=
-ng(struct prepend_buffer *p)
-7a5cf791a74764 Al Viro            2018-03-05  19  {
-ad08ae586586ea Al Viro            2021-05-12 @20  	if (likely(p->len >=3D 0=
-))
-ad08ae586586ea Al Viro            2021-05-12  21  		return p->buf;
-ad08ae586586ea Al Viro            2021-05-12  22  	return ERR_PTR(-ENAMETOO=
-LONG);
-ad08ae586586ea Al Viro            2021-05-12  23  }
-ad08ae586586ea Al Viro            2021-05-12  24  =
+f237c30a5610d3 Pavel Begunkov 2021-08-18  1406  	/* must not take the lock,=
+ NULL it as a precaution */
+f237c30a5610d3 Pavel Begunkov 2021-08-18 @1407  	locked =3D NULL;
+f237c30a5610d3 Pavel Begunkov 2021-08-18  1408  =
 
+3bfe6106693b6b Jens Axboe     2021-02-16  1409  	BUG_ON(!tctx);
+3bfe6106693b6b Jens Axboe     2021-02-16  1410  	BUG_ON(!tctx->io_wq);
+561fb04a6a2257 Jens Axboe     2019-10-24  1411  =
 
-:::::: The code at line 20 was first introduced by commit
-:::::: ad08ae586586ea9e2c0228a3d5a083500ea54202 d_path: introduce struct pr=
-epend_buffer
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1412  	/* init ->work of the whol=
+e link before punting */
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1413  	io_prep_async_link(req);
+991468dcf198bb Jens Axboe     2021-07-23  1414  =
 
-:::::: TO: Al Viro <viro@zeniv.linux.org.uk>
-:::::: CC: Al Viro <viro@zeniv.linux.org.uk>
+991468dcf198bb Jens Axboe     2021-07-23  1415  	/*
+991468dcf198bb Jens Axboe     2021-07-23  1416  	 * Not expected to happen,=
+ but if we do have a bug where this _can_
+991468dcf198bb Jens Axboe     2021-07-23  1417  	 * happen, catch it here a=
+nd ensure the request is marked as
+991468dcf198bb Jens Axboe     2021-07-23  1418  	 * canceled. That will mak=
+e io-wq go through the usual work cancel
+991468dcf198bb Jens Axboe     2021-07-23  1419  	 * procedure rather than a=
+ttempt to run this request (or create a new
+991468dcf198bb Jens Axboe     2021-07-23  1420  	 * worker for it).
+991468dcf198bb Jens Axboe     2021-07-23  1421  	 */
+991468dcf198bb Jens Axboe     2021-07-23  1422  	if (WARN_ON_ONCE(!same_thr=
+ead_group(req->task, current)))
+991468dcf198bb Jens Axboe     2021-07-23  1423  		req->work.flags |=3D IO_W=
+Q_WORK_CANCEL;
+991468dcf198bb Jens Axboe     2021-07-23  1424  =
+
+d07f1e8a42614c Pavel Begunkov 2021-03-22  1425  	trace_io_uring_queue_async=
+_work(ctx, io_wq_is_hashed(&req->work), req,
+d07f1e8a42614c Pavel Begunkov 2021-03-22  1426  					&req->work, req->flags=
+);
+ebf936670721be Pavel Begunkov 2021-03-01  1427  	io_wq_enqueue(tctx->io_wq,=
+ &req->work);
+7271ef3a93a832 Jens Axboe     2020-08-10  1428  	if (link)
+7271ef3a93a832 Jens Axboe     2020-08-10  1429  		io_queue_linked_timeout(l=
+ink);
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1430  }
+cbdcb4357c0008 Pavel Begunkov 2020-06-29  1431  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6349317768042545122==--
+--===============4220355287880490071==--
 
