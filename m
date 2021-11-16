@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8526396702690362340=="
+Content-Type: multipart/mixed; boundary="===============4281490557452769835=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/xtensa/kernel/process.c:224:2: sparse: sparse: Unsupported Xtensa ABI
-Date: Wed, 17 Nov 2021 05:42:57 +0800
-Message-ID: <202111170545.ZZQUrqc6-lkp@intel.com>
+Subject: arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported xtensa ABI
+Date: Wed, 17 Nov 2021 04:27:37 +0800
+Message-ID: <202111170422.h6N7qs4p-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8526396702690362340==
+--===============4281490557452769835==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -19,8 +19,8 @@ TO: Max Filippov <jcmvbkbc@gmail.com>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   8ab774587903771821b59471cc723bba6d893942
-commit: 0b5372570b1f3fcb35255d28e707846e613c27f2 xtensa: implement call0 AB=
-I support in assembly
+commit: 5cce39b6aaa02da77e071b2b0880bedfb903330f xtensa: definitions for ca=
+ll0 ABI
 date:   4 weeks ago
 :::::: branch date: 2 days ago
 :::::: commit date: 4 weeks ago
@@ -33,224 +33,447 @@ make.cross -O ~/bin/make.cross
         # apt-get install sparse
         # sparse version: v0.6.4-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D0b5372570b1f3fcb35255d28e707846e613c27f2
+t/commit/?id=3D5cce39b6aaa02da77e071b2b0880bedfb903330f
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 0b5372570b1f3fcb35255d28e707846e613c27f2
+        git checkout 5cce39b6aaa02da77e071b2b0880bedfb903330f
         # save the attached .config to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
  C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dx=
-tensa SHELL=3D/bin/bash arch/xtensa/kernel/
+tensa SHELL=3D/bin/bash arch/xtensa/kernel/ drivers/video/backlight/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
 sparse warnings: (new ones prefixed by >>)
+   arch/xtensa/kernel/platform.c: note: in included file (through arch/xten=
+sa/include/asm/timex.h):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/s32c1i_selftest.c: note: in included file (through ar=
+ch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kerne=
+l.h):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/xtensa_ksyms.c: note: in included file (through arch/=
+xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h=
+, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/stacktrace.c: note: in included file (through arch/xt=
+ensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/=
+linux/sched.h):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+   arch/xtensa/kernel/stacktrace.c:72:30: sparse: sparse: undefined identif=
+ier 'MAKE_PC_FROM_RA'
+   arch/xtensa/kernel/stacktrace.c:96:22: sparse: sparse: undefined identif=
+ier 'MAKE_PC_FROM_RA'
+   arch/xtensa/kernel/stacktrace.c:159:22: sparse: sparse: undefined identi=
+fier 'MAKE_PC_FROM_RA'
+   arch/xtensa/kernel/stacktrace.c:191:28: sparse: sparse: undefined identi=
+fier 'MAKE_PC_FROM_RA'
+--
+   arch/xtensa/kernel/time.c: note: in included file (through arch/xtensa/i=
+nclude/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/pci-dma.c: note: in included file (through arch/xtens=
+a/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/lin=
+ux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/module.c: note: in included file (through arch/xtensa=
+/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/setup.c: note: in included file (through arch/xtensa/=
+include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/hw_breakpoint.c: note: in included file (through arch=
+/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, inclu=
+de/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/irq.c: note: in included file (through arch/xtensa/in=
+clude/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/traps.c: note: in included file (through arch/xtensa/=
+include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/syscall.c: note: in included file (through arch/xtens=
+a/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/lin=
+ux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   arch/xtensa/kernel/signal.c: note: in included file (through arch/xtensa=
+/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
    arch/xtensa/kernel/process.c: note: in included file (through arch/xtens=
 a/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/lin=
 ux/sched.h):
-   arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
 tensa ABI
-   arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
 tensa ABI
->> arch/xtensa/kernel/process.c:224:2: sparse: sparse: Unsupported Xtensa A=
-BI
-   arch/xtensa/kernel/process.c:299:2: sparse: sparse: Unsupported Xtensa A=
-BI
-   arch/xtensa/kernel/process.c:232:32: sparse: sparse: undefined identifie=
+   arch/xtensa/kernel/process.c:225:32: sparse: sparse: undefined identifie=
 r 'MAKE_RA_FOR_CALL'
-   arch/xtensa/kernel/process.c:279:32: sparse: sparse: undefined identifie=
+   arch/xtensa/kernel/process.c:272:32: sparse: sparse: undefined identifie=
 r 'MAKE_RA_FOR_CALL'
-   arch/xtensa/kernel/process.c:332:14: sparse: sparse: undefined identifie=
+   arch/xtensa/kernel/process.c:311:14: sparse: sparse: undefined identifie=
 r 'MAKE_PC_FROM_RA'
-   arch/xtensa/kernel/process.c:344:22: sparse: sparse: undefined identifie=
+   arch/xtensa/kernel/process.c:323:22: sparse: sparse: undefined identifie=
 r 'MAKE_PC_FROM_RA'
+--
+   arch/xtensa/kernel/ptrace.c: note: in included file (through arch/xtensa=
+/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include/linu=
+x/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/da903x_bl.c: note: in included file (through arc=
+h/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel=
+.h):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/ltv350qv.c: note: in included file (through arch=
+/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.=
+h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/lms283gf05.c: note: in included file (through ar=
+ch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, inc=
+lude/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/lcd.c: note: in included file (through arch/xten=
+sa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h, ..=
+.):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/platform_lcd.c: note: in included file (through =
+arch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/ker=
+nel.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/otm3225a.c: note: in included file (through arch=
+/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.=
+h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/bd6107.c: note: in included file (through arch/x=
+tensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, include=
+/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/ili922x.c: note: in included file (through arch/=
+xtensa/include/asm/atomic.h, include/linux/atomic.h, include/linux/refcount=
+.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/tdo24m.c: note: in included file (through arch/x=
+tensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h,=
+ ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/da9052_bl.c: note: in included file (through arc=
+h/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, incl=
+ude/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/ili9320.c: note: in included file (through arch/=
+xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h=
+, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/hx8357.c: note: in included file (through arch/x=
+tensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel.h,=
+ ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/backlight.c: note: in included file (through arc=
+h/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel=
+.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/adp8870_bl.c: note: in included file (through ar=
+ch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kerne=
+l.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/88pm860x_bl.c: note: in included file (through a=
+rch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kern=
+el.h):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/vgg2432a4.c: note: in included file (through arc=
+h/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel=
+.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/lm3533_bl.c: note: in included file (through arc=
+h/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel=
+.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/l4f00242t03.c: note: in included file (through a=
+rch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, in=
+clude/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/lm3639_bl.c: note: in included file (through arc=
+h/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kernel=
+.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/ktd253-backlight.c: note: in included file (thro=
+ugh arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.=
+h, include/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/arcxcnn_bl.c: note: in included file (through ar=
+ch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/current.h, inc=
+lude/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/adp8860_bl.c: note: in included file (through ar=
+ch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kerne=
+l.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/sky81452-backlight.c: note: in included file (th=
+rough arch/xtensa/include/asm/thread_info.h, arch/xtensa/include/asm/curren=
+t.h, include/linux/sched.h, ...):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
+--
+   drivers/video/backlight/max8925_bl.c: note: in included file (through ar=
+ch/xtensa/include/asm/bitops.h, include/linux/bitops.h, include/linux/kerne=
+l.h):
+>> arch/xtensa/include/asm/processor.h:107:2: sparse: sparse: Unsupported x=
+tensa ABI
+>> arch/xtensa/include/asm/processor.h:137:2: sparse: sparse: Unsupported X=
+tensa ABI
 
-vim +224 arch/xtensa/kernel/process.c
+vim +107 arch/xtensa/include/asm/processor.h
 
-39070cb8a39a84 Chris Zankel     2012-10-17  213  =
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 101  =
 
-0b5372570b1f3f Max Filippov     2021-05-01  214  #if defined(__XTENSA_WINDO=
-WED_ABI__)
-5a0015d62668e6 Chris Zankel     2005-06-23  215  	/* Create a call4 dummy-f=
-rame: a0 =3D 0, a1 =3D childregs. */
-062b1c19b879e7 Max Filippov     2015-01-27  216  	SPILL_SLOT(childregs, 1) =
-=3D (unsigned long)childregs;
-062b1c19b879e7 Max Filippov     2015-01-27  217  	SPILL_SLOT(childregs, 0) =
-=3D 0;
-5a0015d62668e6 Chris Zankel     2005-06-23  218  =
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 102  #if defined(__XTENSA_WINDOWED_ABI__)
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 103  #define KERNEL_PS_WOE_MASK PS_WOE_MASK
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 104  #elif defined(__XTENSA_CALL0_ABI__)
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 105  #define KERNEL_PS_WOE_MASK 0
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 106  #else
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+@107  #error Unsupported xtensa ABI
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 108  #endif
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 109  =
 
-5a0015d62668e6 Chris Zankel     2005-06-23  219  	p->thread.sp =3D (unsigne=
-d long)childregs;
-0b5372570b1f3f Max Filippov     2021-05-01  220  #elif defined(__XTENSA_CAL=
-L0_ABI__)
-0b5372570b1f3f Max Filippov     2021-05-01  221  	/* Reserve 16 bytes for t=
-he _switch_to stack frame. */
-0b5372570b1f3f Max Filippov     2021-05-01  222  	p->thread.sp =3D (unsigne=
-d long)childregs - 16;
-0b5372570b1f3f Max Filippov     2021-05-01  223  #else
-0b5372570b1f3f Max Filippov     2021-05-01 @224  #error Unsupported Xtensa =
-ABI
-0b5372570b1f3f Max Filippov     2021-05-01  225  #endif
-c658eac628aa8d Chris Zankel     2008-02-12  226  =
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 110  #ifndef __ASSEMBLY__
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 111  =
 
-4727dc20e04222 Jens Axboe       2021-02-17  227  	if (!(p->flags & (PF_KTHR=
-EAD | PF_IO_WORKER))) {
-3306a72669a2af Max Filippov     2012-10-25  228  		struct pt_regs *regs =3D=
- current_pt_regs();
-3306a72669a2af Max Filippov     2012-10-25  229  		unsigned long usp =3D us=
-p_thread_fn ?
-3306a72669a2af Max Filippov     2012-10-25  230  			usp_thread_fn : regs->a=
-reg[1];
-5a0015d62668e6 Chris Zankel     2005-06-23  231  =
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 112  #if defined(__XTENSA_WINDOWED_ABI__)
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 113  =
 
-3306a72669a2af Max Filippov     2012-10-25  232  		p->thread.ra =3D MAKE_RA=
-_FOR_CALL(
-3306a72669a2af Max Filippov     2012-10-25  233  				(unsigned long)ret_fro=
-m_fork, 0x1);
-3306a72669a2af Max Filippov     2012-10-25  234  =
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 114  /* Build a valid return address for the specified call winsize.
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 115   * winsize must be 1 (call4), 2 (call8), or 3 (call12)
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 116   */
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 117  #define MAKE_RA_FOR_CALL(ra,ws)   (((ra) & 0x3fffffff) | (ws) << 30)
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 118  =
 
-3306a72669a2af Max Filippov     2012-10-25  235  		/* This does not copy al=
-l the regs.
-3306a72669a2af Max Filippov     2012-10-25  236  		 * In a bout of brillian=
-ce or madness,
-3306a72669a2af Max Filippov     2012-10-25  237  		 * ARs beyond a0-a15 exi=
-st past the end of the struct.
-3306a72669a2af Max Filippov     2012-10-25  238  		 */
-3306a72669a2af Max Filippov     2012-10-25  239  		*childregs =3D *regs;
-5a0015d62668e6 Chris Zankel     2005-06-23  240  		childregs->areg[1] =3D u=
-sp;
-3306a72669a2af Max Filippov     2012-10-25  241  		childregs->areg[2] =3D 0;
-6ebe7da25b7879 Chris Zankel     2012-10-24  242  =
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 119  /* Convert return address to a valid pc
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 120   * Note: We assume that the stack pointer is in the same 1GB ranges a=
+s the ra
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 121   */
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 122  #define MAKE_PC_FROM_RA(ra,sp)    (((ra) & 0x3fffffff) | ((sp) & 0xc0=
+000000))
+9a8fd558990215 include/asm-xtensa/processor.h      Chris Zankel 2005-06-23 =
+ 123  =
 
-6ebe7da25b7879 Chris Zankel     2012-10-24  243  		/* When sharing memory w=
-ith the parent thread, the child
-6ebe7da25b7879 Chris Zankel     2012-10-24  244  		   usually starts on a p=
-ristine stack, so we have to reset
-6ebe7da25b7879 Chris Zankel     2012-10-24  245  		   windowbase, windowsta=
-rt and wmask.
-6ebe7da25b7879 Chris Zankel     2012-10-24  246  		   (Note that such a new=
- thread is required to always create
-6ebe7da25b7879 Chris Zankel     2012-10-24  247  		   an initial call4 fram=
-e)
-6ebe7da25b7879 Chris Zankel     2012-10-24  248  		   The exception is vfor=
-k, where the new thread continues to
-6ebe7da25b7879 Chris Zankel     2012-10-24  249  		   run on the parent's s=
-tack until it calls execve. This could
-6ebe7da25b7879 Chris Zankel     2012-10-24  250  		   be a call8 or call12,=
- which requires a legal stack frame
-6ebe7da25b7879 Chris Zankel     2012-10-24  251  		   of the previous calle=
-r for the overflow handlers to work.
-6ebe7da25b7879 Chris Zankel     2012-10-24  252  		   (Note that it's alway=
-s legal to overflow live registers).
-6ebe7da25b7879 Chris Zankel     2012-10-24  253  		   In this case, ensure =
-to spill at least the stack pointer
-6ebe7da25b7879 Chris Zankel     2012-10-24  254  		   of that frame. */
-6ebe7da25b7879 Chris Zankel     2012-10-24  255  =
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 124  #elif defined(__XTENSA_CALL0_ABI__)
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 125  =
 
-84ed30538b5d9a Marc Gauthier    2012-10-15  256  		if (clone_flags & CLONE_=
-VM) {
-6ebe7da25b7879 Chris Zankel     2012-10-24  257  			/* check that caller wi=
-ndow is live and same stack */
-6ebe7da25b7879 Chris Zankel     2012-10-24  258  			int len =3D childregs->=
-wmask & ~0xf;
-6ebe7da25b7879 Chris Zankel     2012-10-24  259  			if (regs->areg[1] =3D=
-=3D usp && len !=3D 0) {
-6ebe7da25b7879 Chris Zankel     2012-10-24  260  				int callinc =3D (regs-=
->areg[0] >> 30) & 3;
-6ebe7da25b7879 Chris Zankel     2012-10-24  261  				int caller_ars =3D XCH=
-AL_NUM_AREGS - callinc * 4;
-6ebe7da25b7879 Chris Zankel     2012-10-24  262  				put_user(regs->areg[ca=
-ller_ars+1],
-6ebe7da25b7879 Chris Zankel     2012-10-24  263  					 (unsigned __user*)(u=
-sp - 12));
-6ebe7da25b7879 Chris Zankel     2012-10-24  264  			}
-6ebe7da25b7879 Chris Zankel     2012-10-24  265  			childregs->wmask =3D 1;
-6ebe7da25b7879 Chris Zankel     2012-10-24  266  			childregs->windowstart =
-=3D 1;
-6ebe7da25b7879 Chris Zankel     2012-10-24  267  			childregs->windowbase =
-=3D 0;
-84ed30538b5d9a Marc Gauthier    2012-10-15  268  		} else {
-84ed30538b5d9a Marc Gauthier    2012-10-15  269  			int len =3D childregs->=
-wmask & ~0xf;
-5a0015d62668e6 Chris Zankel     2005-06-23  270  			memcpy(&childregs->areg=
-[XCHAL_NUM_AREGS - len/4],
-5a0015d62668e6 Chris Zankel     2005-06-23  271  			       &regs->areg[XCHA=
-L_NUM_AREGS - len/4], len);
-84ed30538b5d9a Marc Gauthier    2012-10-15  272  		}
-c50842df47970e Chris Zankel     2013-02-23  273  =
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 126  /* Build a valid return address for the specified call winsize.
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 127   * winsize must be 1 (call4), 2 (call8), or 3 (call12)
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 128   */
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 129  #define MAKE_RA_FOR_CALL(ra, ws)   (ra)
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 130  =
 
-ba9c1d65991a8b Max Filippov     2019-11-25  274  		childregs->syscall =3D r=
-egs->syscall;
-ba9c1d65991a8b Max Filippov     2019-11-25  275  =
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 131  /* Convert return address to a valid pc
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 132   * Note: We assume that the stack pointer is in the same 1GB ranges a=
+s the ra
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 133   */
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 134  #define MAKE_PC_FROM_RA(ra, sp)    (ra)
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 135  =
 
-5a0015d62668e6 Chris Zankel     2005-06-23  276  		if (clone_flags & CLONE_=
-SETTLS)
-c346b94f8c5d1b Amanieu d'Antras 2020-01-02  277  			childregs->threadptr =
-=3D tls;
-5a0015d62668e6 Chris Zankel     2005-06-23  278  	} else {
-3306a72669a2af Max Filippov     2012-10-25  279  		p->thread.ra =3D MAKE_RA=
-_FOR_CALL(
-3306a72669a2af Max Filippov     2012-10-25  280  				(unsigned long)ret_fro=
-m_kernel_thread, 1);
-3306a72669a2af Max Filippov     2012-10-25  281  =
-
-0b5372570b1f3f Max Filippov     2021-05-01  282  		/* pass parameters to re=
-t_from_kernel_thread: */
-0b5372570b1f3f Max Filippov     2021-05-01  283  #if defined(__XTENSA_WINDO=
-WED_ABI__)
-0b5372570b1f3f Max Filippov     2021-05-01  284  		/*
-0b5372570b1f3f Max Filippov     2021-05-01  285  		 * a2 =3D thread_fn, a3 =
-=3D thread_fn arg.
-0b5372570b1f3f Max Filippov     2021-05-01  286  		 * Window underflow will=
- load registers from the
-0b5372570b1f3f Max Filippov     2021-05-01  287  		 * spill slots on the st=
-ack on return from _switch_to.
-3306a72669a2af Max Filippov     2012-10-25  288  		 */
-062b1c19b879e7 Max Filippov     2015-01-27  289  		SPILL_SLOT(childregs, 2)=
- =3D usp_thread_fn;
-0b5372570b1f3f Max Filippov     2021-05-01  290  		SPILL_SLOT(childregs, 3)=
- =3D thread_fn_arg;
-0b5372570b1f3f Max Filippov     2021-05-01  291  #elif defined(__XTENSA_CAL=
-L0_ABI__)
-0b5372570b1f3f Max Filippov     2021-05-01  292  		/*
-0b5372570b1f3f Max Filippov     2021-05-01  293  		 * a12 =3D thread_fn, a1=
-3 =3D thread_fn arg.
-0b5372570b1f3f Max Filippov     2021-05-01  294  		 * _switch_to epilogue w=
-ill load registers from the stack.
-0b5372570b1f3f Max Filippov     2021-05-01  295  		 */
-0b5372570b1f3f Max Filippov     2021-05-01  296  		((unsigned long *)p->thr=
-ead.sp)[0] =3D usp_thread_fn;
-0b5372570b1f3f Max Filippov     2021-05-01  297  		((unsigned long *)p->thr=
-ead.sp)[1] =3D thread_fn_arg;
-0b5372570b1f3f Max Filippov     2021-05-01  298  #else
-0b5372570b1f3f Max Filippov     2021-05-01  299  #error Unsupported Xtensa =
-ABI
-0b5372570b1f3f Max Filippov     2021-05-01  300  #endif
-3306a72669a2af Max Filippov     2012-10-25  301  =
-
-3306a72669a2af Max Filippov     2012-10-25  302  		/* Childregs are only us=
-ed when we're going to userspace
-3306a72669a2af Max Filippov     2012-10-25  303  		 * in which case start_t=
-hread will set them up.
-3306a72669a2af Max Filippov     2012-10-25  304  		 */
-5a0015d62668e6 Chris Zankel     2005-06-23  305  	}
-c658eac628aa8d Chris Zankel     2008-02-12  306  =
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 136  #else
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+@137  #error Unsupported Xtensa ABI
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 138  #endif
+5cce39b6aaa02d arch/xtensa/include/asm/processor.h Max Filippov 2021-05-01 =
+ 139  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
 
---===============8526396702690362340==
+--===============4281490557452769835==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICPAhlGEAAy5jb25maWcAnDzbbuO4ku/zFUIaWMwAm2lfcmss8kBTtMWxJKpFyZe8CG7H3W1M
+H4sICEYOlGEAAy5jb25maWcAnDzbbuO4ku/zFUIaWMwAm2lfcmss8kBTtMWxJKpFyZe8CG7H3W1M
 Ege2M6f777eK1IWUqPTsDjBn4qpikSzWndT58NsHj7ydD8+b8367eXr66X3bveyOm/Pu0fu6f9r9
 j+cLLxaZx3ye/QnE4f7l7cfHH+fdy2njXf85vP5zcHnc3njz3fFl9+TRw8vX/bc3YLA/vPz24Tcq
 4imfFZQWC5ZKLuIiY6vs/kIzuHxCbpfftlvv9xmlf3jD4Z+jPwcXxjAuC8Dc/6xAs4bV/XA4GA0G
@@ -696,5 +919,5 @@ Iu7o9qVUBR+ZaEE5E70PqOaM5G6SQ5ARiZzXNVXWv/dYl2r0cyu6hk9EO0V2u7HZAU0+3aHTDoMZ
 +WMX3QJfMxunS4JS9bYbLGgfTBpBNYAZgNsIdcxvGp53muBN03BAuIx9CoHxAFLMhMpgAQ2CV9sG
 2Wo9VDQFiXwIOv7G2IPC+IWni/zhpWkL2XJpnqEHDmPrChY/Oz4UmtFlOGOsQqUcMwRn1jq5DPBh
 FaiSns+JIBPEVFkm1E7bOYcnu1nWa7ya0rRWr5/edV72OKWneHvyD4cziBFVhAEA
---===============8526396702690362340==--
+--===============4281490557452769835==--
 
