@@ -1,29 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============0054711070994701103=="
+Content-Type: multipart/mixed; boundary="===============9083955117015325892=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/futex/pi.c:1089 futex_lock_pi() warn: bitwise AND condition is false here
-Date: Thu, 18 Nov 2021 09:13:54 +0800
-Message-ID: <202111180945.bMDaUQcp-lkp@intel.com>
+Subject: drivers/net/wireless/ath/ath11k/qmi.c:2031 ath11k_qmi_load_file_target_mem() error: uninitialized symbol 'ret'.
+Date: Thu, 18 Nov 2021 07:02:44 +0800
+Message-ID: <202111180735.QwMcKVIv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0054711070994701103==
+--===============9083955117015325892==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Peter Zijlstra <peterz@infradead.org>
-CC: "Andr=C3=A9 Almeida" <andrealmeid@collabora.com>
+TO: Anilkumar Kolli <akolli@codeaurora.org>
+CC: Kalle Valo <kvalo@codeaurora.org>
+CC: Jouni Malinen <jouni@codeaurora.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   ee1703cda8dc777e937dec172da55beaf1a74919
-commit: 85dc28fa4ec058645c29bda952d901b29dfaa0b0 futex: Split out PI futex
-date:   6 weeks ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 weeks ago
+commit: 336e7b53c82fc74d261024773a0fab43623a94fb ath11k: clean up BDF downl=
+oad functions
+date:   7 weeks ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 7 weeks ago
 config: arm-randconfig-m031-20211104 (attached as .config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
@@ -32,287 +34,204 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-kernel/futex/pi.c:1089 futex_lock_pi() warn: bitwise AND condition is false=
- here
+drivers/net/wireless/ath/ath11k/qmi.c:2031 ath11k_qmi_load_file_target_mem(=
+) error: uninitialized symbol 'ret'.
 
-vim +1089 kernel/futex/pi.c
+vim +/ret +2031 drivers/net/wireless/ath/ath11k/qmi.c
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   920  =
+d5c65159f28953 Kalle Valo      2019-11-23  1919  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   921  /*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   922   * Userspace tried a 0 -> T=
-ID atomic transition of the futex value
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   923   * and failed. The kernel s=
-ide here does the whole locking operation:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   924   * if there are waiters the=
-n it will block as a consequence of relying
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   925   * on rt-mutexes, it does P=
-I, etc. (Due to races the kernel might see
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   926   * a 0 value of the futex t=
-oo.).
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   927   *
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   928   * Also serves as futex try=
-lock_pi()'ing, and due semantics.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   929   */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   930  int futex_lock_pi(u32 __use=
-r *uaddr, unsigned int flags, ktime_t *time, int trylock)
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   931  {
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   932  	struct hrtimer_sleeper tim=
-eout, *to;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   933  	struct task_struct *exitin=
-g =3D NULL;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   934  	struct rt_mutex_waiter rt_=
-waiter;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   935  	struct futex_hash_bucket *=
-hb;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   936  	struct futex_q q =3D futex=
-_q_init;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   937  	int res, ret;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   938  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1920  static int ath11k_qmi_load=
+_file_target_mem(struct ath11k_base *ab,
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1921  					   const u8 *data, u3=
+2 len, u8 type)
+d5c65159f28953 Kalle Valo      2019-11-23  1922  {
+d5c65159f28953 Kalle Valo      2019-11-23  1923  	struct qmi_wlanfw_bdf_dow=
+nload_req_msg_v01 *req;
+d5c65159f28953 Kalle Valo      2019-11-23  1924  	struct qmi_wlanfw_bdf_dow=
+nload_resp_msg_v01 resp;
+d5c65159f28953 Kalle Valo      2019-11-23  1925  	struct qmi_txn txn =3D {};
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1926  	const u8 *temp =3D data;
+d5c65159f28953 Kalle Valo      2019-11-23  1927  	void __iomem *bdf_addr =
+=3D NULL;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1928  	int ret;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1929  	u32 remaining =3D len;
+d5c65159f28953 Kalle Valo      2019-11-23  1930  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   939  	if (!IS_ENABLED(CONFIG_FUT=
-EX_PI))
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   940  		return -ENOSYS;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   941  =
+d5c65159f28953 Kalle Valo      2019-11-23  1931  	req =3D kzalloc(sizeof(*r=
+eq), GFP_KERNEL);
+d5c65159f28953 Kalle Valo      2019-11-23  1932  	if (!req)
+d5c65159f28953 Kalle Valo      2019-11-23  1933  		return -ENOMEM;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1934  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   942  	if (refill_pi_state_cache(=
-))
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   943  		return -ENOMEM;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   944  =
+d5c65159f28953 Kalle Valo      2019-11-23  1935  	memset(&resp, 0, sizeof(r=
+esp));
+d5c65159f28953 Kalle Valo      2019-11-23  1936  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   945  	to =3D futex_setup_timer(t=
-ime, &timeout, flags, 0);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   946  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1937  	if (ab->bus_params.fixed_=
+bdf_addr) {
+c72aa32d6d1c04 Anilkumar Kolli 2021-09-28  1938  		bdf_addr =3D ioremap(ab-=
+>hw_params.bdf_addr, ab->hw_params.fw.board_size);
+d5c65159f28953 Kalle Valo      2019-11-23  1939  		if (!bdf_addr) {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1940  			ath11k_warn(ab, "qmi io=
+remap error for bdf_addr\n");
+d5c65159f28953 Kalle Valo      2019-11-23  1941  			ret =3D -EIO;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1942  			goto err_free_req;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1943  		}
+d5c65159f28953 Kalle Valo      2019-11-23  1944  	}
+d5c65159f28953 Kalle Valo      2019-11-23  1945  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   947  retry:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   948  	ret =3D get_futex_key(uadd=
-r, flags & FLAGS_SHARED, &q.key, FUTEX_WRITE);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   949  	if (unlikely(ret !=3D 0))
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   950  		goto out;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   951  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1946  	while (remaining) {
+d5c65159f28953 Kalle Valo      2019-11-23  1947  		req->valid =3D 1;
+d5c65159f28953 Kalle Valo      2019-11-23  1948  		req->file_id_valid =3D 1;
+d5c65159f28953 Kalle Valo      2019-11-23  1949  		req->file_id =3D ab->qmi=
+.target.board_id;
+d5c65159f28953 Kalle Valo      2019-11-23  1950  		req->total_size_valid =
+=3D 1;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1951  		req->total_size =3D rema=
+ining;
+d5c65159f28953 Kalle Valo      2019-11-23  1952  		req->seg_id_valid =3D 1;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1953  		req->data_valid =3D 1;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1954  		req->bdf_type =3D type;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1955  		req->bdf_type_valid =3D =
+1;
+d5c65159f28953 Kalle Valo      2019-11-23  1956  		req->end_valid =3D 1;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1957  		req->end =3D 0;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1958  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   952  retry_private:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   953  	hb =3D futex_q_lock(&q);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   954  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1959  		if (remaining > QMI_WLAN=
+FW_MAX_DATA_SIZE_V01) {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1960  			req->data_len =3D QMI_W=
+LANFW_MAX_DATA_SIZE_V01;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1961  		} else {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1962  			req->data_len =3D remai=
+ning;
+d5c65159f28953 Kalle Valo      2019-11-23  1963  			req->end =3D 1;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1964  		}
+d5c65159f28953 Kalle Valo      2019-11-23  1965  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   955  	ret =3D futex_lock_pi_atom=
-ic(uaddr, hb, &q.key, &q.pi_state, current,
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   956  				   &exiting, 0);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   957  	if (unlikely(ret)) {
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   958  		/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   959  		 * Atomic work succeeded =
-and we got the lock,
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   960  		 * or failed. Either way,=
- we do _not_ block.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   961  		 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   962  		switch (ret) {
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   963  		case 1:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   964  			/* We got the lock. */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   965  			ret =3D 0;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   966  			goto out_unlock_put_key;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   967  		case -EFAULT:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   968  			goto uaddr_faulted;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   969  		case -EBUSY:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   970  		case -EAGAIN:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   971  			/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   972  			 * Two reasons for this:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   973  			 * - EBUSY: Task is exit=
-ing and we just wait for the
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   974  			 *   exit to complete.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   975  			 * - EAGAIN: The user sp=
-ace value changed.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   976  			 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   977  			futex_q_unlock(hb);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   978  			/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   979  			 * Handle the case where=
- the owner is in the middle of
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   980  			 * exiting. Wait for the=
- exit to complete otherwise
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   981  			 * this task might loop =
-forever, aka. live lock.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   982  			 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   983  			wait_for_owner_exiting(r=
-et, exiting);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   984  			cond_resched();
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   985  			goto retry;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   986  		default:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   987  			goto out_unlock_put_key;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   988  		}
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   989  	}
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   990  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1966  		if (ab->bus_params.fixed=
+_bdf_addr) {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1967  			req->data_valid =3D 0;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1968  			req->end =3D 1;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1969  			req->data_len =3D ATH11=
+K_QMI_MAX_BDF_FILE_NAME_SIZE;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1970  		} else {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1971  			memcpy(req->data, temp,=
+ req->data_len);
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1972  		}
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1973  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   991  	WARN_ON(!q.pi_state);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   992  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1974  		if (ab->bus_params.fixed=
+_bdf_addr) {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1975  			if (type =3D=3D ATH11K_=
+QMI_FILE_TYPE_CALDATA)
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1976  				bdf_addr +=3D ab->hw_p=
+arams.fw.cal_offset;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1977  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   993  	/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   994  	 * Only actually queue now=
- that the atomic ops are done:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   995  	 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   996  	__futex_queue(&q, hb);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   997  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1978  			memcpy_toio(bdf_addr, t=
+emp, len);
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1979  		}
+d5c65159f28953 Kalle Valo      2019-11-23  1980  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   998  	if (trylock) {
-85dc28fa4ec058 Peter Zijlstra 2021-09-23   999  		ret =3D rt_mutex_futex_tr=
-ylock(&q.pi_state->pi_mutex);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1000  		/* Fixup the trylock retu=
-rn value: */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1001  		ret =3D ret ? 0 : -EWOULD=
-BLOCK;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1002  		goto no_block;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1003  	}
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1004  =
+d5c65159f28953 Kalle Valo      2019-11-23  1981  		ret =3D qmi_txn_init(&ab=
+->qmi.handle, &txn,
+d5c65159f28953 Kalle Valo      2019-11-23  1982  				   qmi_wlanfw_bdf_down=
+load_resp_msg_v01_ei,
+d5c65159f28953 Kalle Valo      2019-11-23  1983  				   &resp);
+d5c65159f28953 Kalle Valo      2019-11-23  1984  		if (ret < 0)
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1985  			goto err_iounmap;
+d5c65159f28953 Kalle Valo      2019-11-23  1986  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1005  	rt_mutex_init_waiter(&rt_w=
-aiter);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1006  =
+bf458d79cfc46f Kalle Valo      2021-02-22  1987  		ath11k_dbg(ab, ATH11K_DB=
+G_QMI, "qmi bdf download req fixed addr type %d\n",
+bf458d79cfc46f Kalle Valo      2021-02-22  1988  			   type);
+bf458d79cfc46f Kalle Valo      2021-02-22  1989  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1007  	/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1008  	 * On PREEMPT_RT_FULL, whe=
-n hb->lock becomes an rt_mutex, we must not
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1009  	 * hold it while doing rt_=
-mutex_start_proxy(), because then it will
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1010  	 * include hb->lock in the=
- blocking chain, even through we'll not in
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1011  	 * fact hold it while bloc=
-king. This will lead it to report -EDEADLK
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1012  	 * and BUG when futex_unlo=
-ck_pi() interleaves with this.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1013  	 *
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1014  	 * Therefore acquire wait_=
-lock while holding hb->lock, but drop the
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1015  	 * latter before calling _=
-_rt_mutex_start_proxy_lock(). This
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1016  	 * interleaves with futex_=
-unlock_pi() -- which does a similar lock
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1017  	 * handoff -- such that th=
-e latter can observe the futex_q::pi_state
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1018  	 * before __rt_mutex_start=
-_proxy_lock() is done.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1019  	 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1020  	raw_spin_lock_irq(&q.pi_st=
-ate->pi_mutex.wait_lock);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1021  	spin_unlock(q.lock_ptr);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1022  	/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1023  	 * __rt_mutex_start_proxy_=
-lock() unconditionally enqueues the @rt_waiter
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1024  	 * such that futex_unlock_=
-pi() is guaranteed to observe the waiter when
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1025  	 * it sees the futex_q::pi=
-_state.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1026  	 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1027  	ret =3D __rt_mutex_start_p=
-roxy_lock(&q.pi_state->pi_mutex, &rt_waiter, current);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1028  	raw_spin_unlock_irq(&q.pi_=
-state->pi_mutex.wait_lock);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1029  =
+d5c65159f28953 Kalle Valo      2019-11-23  1990  		ret =3D qmi_send_request=
+(&ab->qmi.handle, NULL, &txn,
+d5c65159f28953 Kalle Valo      2019-11-23  1991  				       QMI_WLANFW_BDF_=
+DOWNLOAD_REQ_V01,
+d5c65159f28953 Kalle Valo      2019-11-23  1992  				       QMI_WLANFW_BDF_=
+DOWNLOAD_REQ_MSG_V01_MAX_LEN,
+d5c65159f28953 Kalle Valo      2019-11-23  1993  				       qmi_wlanfw_bdf_=
+download_req_msg_v01_ei, req);
+d5c65159f28953 Kalle Valo      2019-11-23  1994  		if (ret < 0) {
+d5c65159f28953 Kalle Valo      2019-11-23  1995  			qmi_txn_cancel(&txn);
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  1996  			goto err_iounmap;
+d5c65159f28953 Kalle Valo      2019-11-23  1997  		}
+d5c65159f28953 Kalle Valo      2019-11-23  1998  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1030  	if (ret) {
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1031  		if (ret =3D=3D 1)
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1032  			ret =3D 0;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1033  		goto cleanup;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1034  	}
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1035  =
+d5c65159f28953 Kalle Valo      2019-11-23  1999  		ret =3D qmi_txn_wait(&tx=
+n, msecs_to_jiffies(ATH11K_QMI_WLANFW_TIMEOUT_MS));
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2000  		if (ret < 0) {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2001  			ath11k_warn(ab, "failed=
+ to wait board file download request: %d\n",
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2002  				    ret);
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2003  			goto err_iounmap;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2004  		}
+d5c65159f28953 Kalle Valo      2019-11-23  2005  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1036  	if (unlikely(to))
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1037  		hrtimer_sleeper_start_exp=
-ires(to, HRTIMER_MODE_ABS);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1038  =
+d5c65159f28953 Kalle Valo      2019-11-23  2006  		if (resp.resp.result !=
+=3D QMI_RESULT_SUCCESS_V01) {
+097e9f0714555e Kalle Valo      2021-02-22  2007  			ath11k_warn(ab, "board =
+file download request failed: %d %d\n",
+d5c65159f28953 Kalle Valo      2019-11-23  2008  				    resp.resp.result, =
+resp.resp.error);
+d5c65159f28953 Kalle Valo      2019-11-23  2009  			ret =3D -EINVAL;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2010  			goto err_iounmap;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2011  		}
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2012  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1039  	ret =3D rt_mutex_wait_prox=
-y_lock(&q.pi_state->pi_mutex, to, &rt_waiter);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1040  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2013  		if (ab->bus_params.fixed=
+_bdf_addr) {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2014  			remaining =3D 0;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2015  		} else {
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2016  			remaining -=3D req->dat=
+a_len;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2017  			temp +=3D req->data_len;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2018  			req->seg_id++;
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2019  			ath11k_dbg(ab, ATH11K_D=
+BG_QMI, "qmi bdf download request remaining %i\n",
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2020  				   remaining);
+d5c65159f28953 Kalle Valo      2019-11-23  2021  		}
+d5c65159f28953 Kalle Valo      2019-11-23  2022  	}
+d5c65159f28953 Kalle Valo      2019-11-23  2023  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1041  cleanup:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1042  	spin_lock(q.lock_ptr);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1043  	/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1044  	 * If we failed to acquire=
- the lock (deadlock/signal/timeout), we must
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1045  	 * first acquire the hb->l=
-ock before removing the lock from the
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1046  	 * rt_mutex waitqueue, suc=
-h that we can keep the hb and rt_mutex wait
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1047  	 * lists consistent.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1048  	 *
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1049  	 * In particular; it is im=
-portant that futex_unlock_pi() can not
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1050  	 * observe this inconsiste=
-ncy.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1051  	 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1052  	if (ret && !rt_mutex_clean=
-up_proxy_lock(&q.pi_state->pi_mutex, &rt_waiter))
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1053  		ret =3D 0;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1054  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2024  err_iounmap:
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2025  	if (ab->bus_params.fixed_=
+bdf_addr)
+d5c65159f28953 Kalle Valo      2019-11-23  2026  		iounmap(bdf_addr);
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2027  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1055  no_block:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1056  	/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1057  	 * Fixup the pi_state owne=
-r and possibly acquire the lock if we
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1058  	 * haven't already.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1059  	 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1060  	res =3D fixup_pi_owner(uad=
-dr, &q, !ret);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1061  	/*
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1062  	 * If fixup_pi_owner() ret=
-urned an error, propagate that.  If it acquired
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1063  	 * the lock, clear our -ET=
-IMEDOUT or -EINTR.
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1064  	 */
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1065  	if (res)
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1066  		ret =3D (res < 0) ? res :=
- 0;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1067  =
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2028  err_free_req:
+d5c65159f28953 Kalle Valo      2019-11-23  2029  	kfree(req);
+336e7b53c82fc7 Anilkumar Kolli 2021-09-28  2030  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1068  	futex_unqueue_pi(&q);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1069  	spin_unlock(q.lock_ptr);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1070  	goto out;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1071  =
+d5c65159f28953 Kalle Valo      2019-11-23 @2031  	return ret;
+d5c65159f28953 Kalle Valo      2019-11-23  2032  }
+d5c65159f28953 Kalle Valo      2019-11-23  2033  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1072  out_unlock_put_key:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1073  	futex_q_unlock(hb);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1074  =
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1075  out:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1076  	if (to) {
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1077  		hrtimer_cancel(&to->timer=
-);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1078  		destroy_hrtimer_on_stack(=
-&to->timer);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1079  	}
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1080  	return ret !=3D -EINTR ? r=
-et : -ERESTARTNOINTR;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1081  =
+:::::: The code at line 2031 was first introduced by commit
+:::::: d5c65159f2895379e11ca13f62feabe93278985d ath11k: driver for Qualcomm=
+ IEEE 802.11ax devices
 
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1082  uaddr_faulted:
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1083  	futex_q_unlock(hb);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1084  =
-
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1085  	ret =3D fault_in_user_writ=
-eable(uaddr);
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1086  	if (ret)
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1087  		goto out;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1088  =
-
-85dc28fa4ec058 Peter Zijlstra 2021-09-23 @1089  	if (!(flags & FLAGS_SHARED=
-))
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1090  		goto retry_private;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1091  =
-
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1092  	goto retry;
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1093  }
-85dc28fa4ec058 Peter Zijlstra 2021-09-23  1094  =
-
+:::::: TO: Kalle Valo <kvalo@codeaurora.org>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============0054711070994701103==
+--===============9083955117015325892==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICP6hlWEAAy5jb25maWcAnDxdc9u2su/9FZz05ZyHpLYcu8nc8QNIghKOSAIGQEn2C0dxmNRT
+H4sICD54lWEAAy5jb25maWcAnDxdc9u2su/9FZz05ZyHpLYcu8nc8QNIghKOSAIGQEn2C0dxmNRT
 y8qR5LT593cX/AJIUM29menU3F0svhb7hYV+/eXXgLye9rvt6elx+/z8I/havVSH7an6HHx5eq7+
 J4h5kHMd0Jjpd0CcPr28/v3b9rALrt9dXr+7eHt4vAyW1eGleg6i/cuXp6+v0Ppp//LLr79EPE/Y
 vIyickWlYjwvNd3o2zfQ+u0z8nn79eW12n56evv18TH41zyK/h1cXr6bvbt4Y7VlqgTM7Y8WNO/5
@@ -958,5 +877,5 @@ J8M1YJfF1lyTAMUB6Xep8Pb6VzBxlNPUW/8KK+e+u4lpilZg4lVEXsIM+UOdzo13mZQmMuvJ13IB
 hUsMOdmpECIffNBeYEj7cpPD3oeAxUngqIEodahzLied4jonBbdckD+wfdOuC04R7dmaehFv72+v
 eb73FHZQ0wGsBFRjPwUgPS29QVLhixmOLKoraLUTqhhfv+BcYW8qPcC1oSfnraUjwOm8wkqjnO+g
 YvsgrLSIVawGlFY5nTvG/wOCivkVIUcCAA==
---===============0054711070994701103==--
+--===============9083955117015325892==--
 
