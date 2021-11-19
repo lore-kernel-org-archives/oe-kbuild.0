@@ -1,32 +1,30 @@
-Content-Type: multipart/mixed; boundary="===============3378745866549804722=="
+Content-Type: multipart/mixed; boundary="===============3663773989994499095=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH v4 net-next 04/23] net: dsa: ocelot: felix: switch to mdio-mscc-miim driver for indirect mdio access
-Date: Fri, 19 Nov 2021 17:32:46 +0800
-Message-ID: <202111191708.GIZgb13h-lkp@intel.com>
+Subject: [linux-next:master 1524/2290] drivers/net/ethernet/cadence/macb_main.c:540 macb_validate() error: uninitialized symbol 'have_1g'.
+Date: Fri, 19 Nov 2021 16:40:00 +0800
+Message-ID: <202111191641.q4c76Zbi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3378745866549804722==
+--===============3663773989994499095==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211116062328.1949151-5-colin.foster@in-advantage.com>
-References: <20211116062328.1949151-5-colin.foster@in-advantage.com>
-TO: Colin Foster <colin.foster@in-advantage.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Sean Anderson <sean.anderson@seco.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Parshuram Thombare <pthombar@cadence.com>
+CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-Hi Colin,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Colin-Foster/add-support-f=
-or-VSC75XX-control-over-SPI/20211116-143245
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-3ad4b7c81a992463c29ae130332c217607fe4452
-:::::: branch date: 3 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   5191249f880367a4cd675825cd721a8d78f26a45
+commit: 3ad4b7c81a992463c29ae130332c217607fe4452 [1524/2290] net: macb: Fix=
+ several edge cases in validate
+:::::: branch date: 28 hours ago
 :::::: commit date: 3 days ago
 config: arm-randconfig-m031-20211116 (attached as .config)
 compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
@@ -35,135 +33,262 @@ If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/mdio/mdio-mscc-miim.c:235 mscc_miim_probe() error: potentially =
-dereferencing uninitialized 'dev'.
-drivers/net/mdio/mdio-mscc-miim.c:244 mscc_miim_probe() warn: passing zero =
-to 'PTR_ERR'
+New smatch warnings:
+drivers/net/ethernet/cadence/macb_main.c:540 macb_validate() error: uniniti=
+alized symbol 'have_1g'.
+drivers/net/ethernet/cadence/macb_main.c:546 macb_validate() error: uniniti=
+alized symbol 'have_sgmii'.
+drivers/net/ethernet/cadence/macb_main.c:552 macb_validate() error: uniniti=
+alized symbol 'have_10g'.
 
-vim +/dev +235 drivers/net/mdio/mdio-mscc-miim.c
+Old smatch warnings:
+drivers/net/ethernet/cadence/macb_main.c:569 macb_validate() error: uniniti=
+alized symbol 'have_10g'.
+drivers/net/ethernet/cadence/macb_main.c:579 macb_validate() error: uniniti=
+alized symbol 'have_sgmii'.
+drivers/net/ethernet/cadence/macb_main.c:588 macb_validate() error: uniniti=
+alized symbol 'have_1g'.
 
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  211  =
+vim +/have_1g +540 drivers/net/ethernet/cadence/macb_main.c
 
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  212  static int mscc_miim_probe(struct platform_device *pdev)
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  213  {
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  214  	struct regmap *mii_regmap, *phy_regmap;
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  215  	void __iomem *regs, *phy_regs;
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  216  	struct mscc_miim_dev *dev;
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  217  	struct mii_bus *bus;
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  218  	int ret;
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  219  =
+e1824dfe0d8e6ba drivers/net/ethernet/cadence/macb.c      Soren Brinkmann   =
+    2013-12-10  508  =
 
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  220  	regs =3D devm_platform_get_and_ioremap_resource(pdev, 0, NULL);
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  221  	if (IS_ERR(regs)) {
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  222  		dev_err(&pdev->dev, "Unable to map MIIM registers\n");
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  223  		return PTR_ERR(regs);
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  224  	}
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  225  =
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  509  static void macb_validate(struct phylink_config *confi=
+g,
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  510  			  unsigned long *supported,
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  511  			  struct phylink_link_state *state)
+6c36a7074436e18 drivers/net/macb.c                       frederic RODO     =
+    2007-07-12  512  {
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  513  	struct net_device *ndev =3D to_net_dev(config->dev);
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  514  	__ETHTOOL_DECLARE_LINK_MODE_MASK(mask) =3D { 0, };
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  515  	struct macb *bp =3D netdev_priv(ndev);
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  516  	bool have_1g, have_sgmii, have_10g;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  517  =
 
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  226  	mii_regmap =3D devm_regmap_init_mmio(&pdev->dev, regs,
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  227  					   &mscc_miim_regmap_config);
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  228  =
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  518  	/* Determine what modes are supported */
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  519  	if (macb_is_gem(bp) &&
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  520  	    (bp->caps & MACB_CAPS_GIGABIT_MODE_AVAILABLE)) {
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  521  		have_1g =3D true;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  522  		if (bp->caps & MACB_CAPS_PCS)
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  523  			have_sgmii =3D true;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  524  		if (bp->caps & MACB_CAPS_HIGH_SPEED)
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  525  			have_10g =3D true;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  526  	}
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  527  =
 
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  229  	if (IS_ERR(mii_regmap)) {
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  230  		dev_err(&pdev->dev, "Unable to create MIIM regmap\n");
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  231  		return PTR_ERR(mii_regmap);
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  232  	}
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  233  =
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  528  	/* Eliminate unsupported modes */
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  529  	switch (state->interface) {
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  530  	case PHY_INTERFACE_MODE_NA:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  531  	case PHY_INTERFACE_MODE_MII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  532  	case PHY_INTERFACE_MODE_RMII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  533  		break;
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  534  =
 
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  234  	phy_regs =3D devm_platform_ioremap_resource(pdev, 1);
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14 @235  	if (IS_ERR(dev->phy_regs)) {
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  236  		dev_err(&pdev->dev, "Unable to map internal phy registers\n");
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  237  		return PTR_ERR(dev->phy_regs);
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  238  	}
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  239  =
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  535  	case PHY_INTERFACE_MODE_GMII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  536  	case PHY_INTERFACE_MODE_RGMII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  537  	case PHY_INTERFACE_MODE_RGMII_ID:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  538  	case PHY_INTERFACE_MODE_RGMII_RXID:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  539  	case PHY_INTERFACE_MODE_RGMII_TXID:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12 @540  		if (have_1g)
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  541  			break;
+4973056cceacc70 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-10-22  542  		linkmode_zero(supported);
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  543  		return;
+89e5785fc8a6b9e drivers/net/macb.c                       Haavard Skinnemoen=
+    2006-11-09  544  =
 
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  240  	phy_regmap =3D devm_regmap_init_mmio(&pdev->dev, phy_regs,
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  241  					   &mscc_miim_regmap_config);
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  242  	if (IS_ERR(phy_regmap)) {
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  243  		dev_err(&pdev->dev, "Unable to create phy register regmap\n");
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15 @244  		return PTR_ERR(dev->phy_regs);
-c6995117b60ef3 drivers/net/mdio/mdio-mscc-miim.c Horatiu Vultur    2021-09-=
-28  245  	}
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  246  =
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  545  	case PHY_INTERFACE_MODE_SGMII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12 @546  		if (have_sgmii)
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  547  			break;
+4973056cceacc70 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-10-22  548  		linkmode_zero(supported);
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  549  		return;
+89e5785fc8a6b9e drivers/net/macb.c                       Haavard Skinnemoen=
+    2006-11-09  550  =
 
-3844fce844e141 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  247  	mscc_miim_setup(&pdev->dev, &bus, mii_regmap, 0, phy_regmap, 0);
-5f5682772ede09 drivers/net/mdio/mdio-mscc-miim.c Colin Foster      2021-11-=
-15  248  =
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  551  	case PHY_INTERFACE_MODE_10GBASER:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12 @552  		if (have_10g)
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  553  			break;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  554  		fallthrough;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  555  =
 
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  249  	ret =3D of_mdiobus_register(bus, pdev->dev.of_node);
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  250  	if (ret < 0) {
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  251  		dev_err(&pdev->dev, "Cannot register MDIO bus (%d)\n", ret);
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  252  		return ret;
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  253  	}
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  254  =
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  556  	default:
+4973056cceacc70 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-10-22  557  		linkmode_zero(supported);
+e4e143e26ce8f5f drivers/net/ethernet/cadence/macb_main.c Parshuram Thombare=
+    2020-10-29  558  		return;
+e4e143e26ce8f5f drivers/net/ethernet/cadence/macb_main.c Parshuram Thombare=
+    2020-10-29  559  	}
+e4e143e26ce8f5f drivers/net/ethernet/cadence/macb_main.c Parshuram Thombare=
+    2020-10-29  560  =
 
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  255  	platform_set_drvdata(pdev, bus);
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  256  =
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  561  	phylink_set_port_modes(mask);
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  562  	phylink_set(mask, Autoneg);
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  563  	phylink_set(mask, Asym_Pause);
+6c36a7074436e18 drivers/net/macb.c                       frederic RODO     =
+    2007-07-12  564  =
 
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  257  	return 0;
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  258  }
-542671fe4d86ad drivers/net/phy/mdio-mscc-miim.c  Alexandre Belloni 2018-05-=
-14  259  =
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  565  	/* And set the appropriate mask */
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  566  	switch (state->interface) {
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  567  	case PHY_INTERFACE_MODE_NA:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  568  	case PHY_INTERFACE_MODE_10GBASER:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  569  		if (have_10g) {
+14ad41c74f6be0b drivers/net/ethernet/cadence/macb_main.c Russell King (Orac=
+le  2021-10-04  570) 			phylink_set_10g_modes(mask);
+e4e143e26ce8f5f drivers/net/ethernet/cadence/macb_main.c Parshuram Thombare=
+    2020-10-29  571  			phylink_set(mask, 10000baseKR_Full);
+e4e143e26ce8f5f drivers/net/ethernet/cadence/macb_main.c Parshuram Thombare=
+    2020-10-29  572  		}
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  573  		if (state->interface !=3D PHY_INTERFACE_MODE_NA)
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  574  			break;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  575  		fallthrough;
+e4e143e26ce8f5f drivers/net/ethernet/cadence/macb_main.c Parshuram Thombare=
+    2020-10-29  576  =
+
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  577  	/* FIXME: Do we actually support 10/100 for SGMII? Ha=
+lf duplex? */
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  578  	case PHY_INTERFACE_MODE_SGMII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  579  		if (!have_sgmii && state->interface !=3D PHY_INTERFA=
+CE_MODE_NA)
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  580  			break;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  581  		fallthrough;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  582  =
+
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  583  	case PHY_INTERFACE_MODE_GMII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  584  	case PHY_INTERFACE_MODE_RGMII:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  585  	case PHY_INTERFACE_MODE_RGMII_ID:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  586  	case PHY_INTERFACE_MODE_RGMII_RXID:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  587  	case PHY_INTERFACE_MODE_RGMII_TXID:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  588  		if (have_1g) {
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  589  			phylink_set(mask, 1000baseT_Full);
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  590  			phylink_set(mask, 1000baseX_Full);
+6c36a7074436e18 drivers/net/macb.c                       frederic RODO     =
+    2007-07-12  591  =
+
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  592  			if (!(bp->caps & MACB_CAPS_NO_GIGABIT_HALF))
+7897b071ac3b45a drivers/net/ethernet/cadence/macb_main.c Antoine Tenart    =
+    2019-11-13  593  				phylink_set(mask, 1000baseT_Half);
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  594  		} else if (state->interface !=3D PHY_INTERFACE_MODE_=
+NA) {
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  595  			break;
+6c36a7074436e18 drivers/net/macb.c                       frederic RODO     =
+    2007-07-12  596  		}
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  597  		fallthrough;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  598  =
+
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  599  	default:
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  600  		phylink_set(mask, 10baseT_Half);
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  601  		phylink_set(mask, 10baseT_Full);
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  602  		phylink_set(mask, 100baseT_Half);
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  603  		phylink_set(mask, 100baseT_Full);
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  604  		break;
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  605  	}
+3ad4b7c81a99246 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-11-12  606  =
+
+4973056cceacc70 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-10-22  607  	linkmode_and(supported, supported, mask);
+4973056cceacc70 drivers/net/ethernet/cadence/macb_main.c Sean Anderson     =
+    2021-10-22  608  	linkmode_and(state->advertising, state->advertising, =
+mask);
+89e5785fc8a6b9e drivers/net/macb.c                       Haavard Skinnemoen=
+    2006-11-09  609  }
+89e5785fc8a6b9e drivers/net/macb.c                       Haavard Skinnemoen=
+    2006-11-09  610  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============3378745866549804722==
+--===============3663773989994499095==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-H4sICKpql2EAAy5jb25maWcAlDzbcts4su/7FarMy+7DzOriW84pP0AkKCEiCQQgJdkvLMVRMq6x
+H4sICJRdl2EAAy5jb25maWcAlDzbcts4su/7FarMy+7DzOriW84pP0AkKCEiCQQgJdkvLMVRMq6x
 rawsz878/ekGeAFAUM7Z2qqxuhtAo9HoG5r55R+/jMjb6fC8Oz0+7J6e/h5937/sj7vT/uvo2+PT
 /n9HMR/lvBjRmBW/AXH6+PL21793x+fR5W+Ty9/Go9X++LJ/GkWHl2+P399g5OPh5R+//CPiecIW
 VRRVayoV43lV0G1x+wFG/vqEc/z6/eVtv/vy+Ov3h4fRPxdR9K/RZPLb9LfxB2ssUxVgbv9uQItu
@@ -817,5 +942,5 @@ YrB2giCY+BrvGVp663CLDticEg42TmOPh90Jm8ypMyonYFrncIqWbs+HUASGU2MLKyiL1SrnGFrq
 QEec2FDlsShlkcciDHM5BxflMaLt78y2NsGTpbZTY6vMZY7mcxxKzTOoIsJlqOAdtVqdUCRo2dzm
 oZmUzP9Sb1XDru5DyccQnzlcww00poNP3JHQIHbzmNspnCuWPG0aXGdxGXV5UAlXtzGrVElZPpmi
 8+j+f1DQkAeKYwIA
---===============3378745866549804722==--
+--===============3663773989994499095==--
 
