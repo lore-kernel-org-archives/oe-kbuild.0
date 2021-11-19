@@ -1,6942 +1,836 @@
-Content-Type: multipart/mixed; boundary="===============1410657216147999073=="
+Content-Type: multipart/mixed; boundary="===============6587087162584690631=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/host1x/intr.c:29:2: warning: Attempt to free released memory [clang-analyzer-unix.Malloc]
-Date: Fri, 19 Nov 2021 09:56:17 +0800
-Message-ID: <202111190906.JwwSV8tP-lkp@intel.com>
+Subject: drivers/xen/swiotlb-xen.c:206 xen_swiotlb_init() error: uninitialized symbol 'start'.
+Date: Fri, 19 Nov 2021 09:56:08 +0800
+Message-ID: <202111190956.AXXwpcVR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1410657216147999073==
+--===============6587087162584690631==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Nick Desaulniers <ndesaulniers@google.com>
-CC: Masahiro Yamada <masahiroy@kernel.org>
-CC: Nathan Chancellor <nathan@kernel.org>
-
-Hi Nick,
-
-First bad commit (maybe !=3D root cause):
+TO: Christoph Hellwig <hch@lst.de>
+CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   8d0112ac6fd001f95aabb084ec2ccaa3637bc344
-commit: f12b034afeb3a977bbb1c6584dedc0f3dc666f14 scripts/Makefile.clang: de=
-fault to LLVM_IAS=3D1
-date:   3 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-config: arm-randconfig-c002-20211118 (attached as .config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c46bec=
-f500df2a7fb4b4fce16178a036c344315a)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df12b034afeb3a977bbb1c6584dedc0f3dc666f14
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout f12b034afeb3a977bbb1c6584dedc0f3dc666f14
-        # save the attached .config to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+head:   e26dd976580a6a427c69e6116508dd3d412742e5
+commit: cbce99527ca7c4e98db9890651d5e9dfc2fb89ac xen-swiotlb: remove xen_io=
+_tlb_start and xen_io_tlb_nslabs
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: arm-randconfig-m031-20211116 (attached as .config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/xen/swiotlb-xen.c:206 xen_swiotlb_init() error: uninitialized symbo=
+l 'start'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   kernel/locking/rtmutex.c:235:6: note: Access to field 'prio' results in =
-a dereference of a null pointer (loaded from variable 'left')
-           if (left->prio < right->prio)
-               ^~~~
-   kernel/locking/rtmutex.c:285:6: warning: Access to field '__rb_parent_co=
-lor' results in a dereference of a null pointer [clang-analyzer-core.NullDe=
-reference]
-           if (RB_EMPTY_NODE(&waiter->tree_entry))
-               ^
-   include/linux/rbtree.h:44:3: note: expanded from macro 'RB_EMPTY_NODE'
-           ((node)->__rb_parent_color =3D=3D (unsigned long)(node))
-            ^
-   kernel/locking/rtmutex.c:1764:6: note: Assuming the condition is true
-           if (rt_mutex_owner(lock) !=3D current) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1764:2: note: Taking true branch
-           if (rt_mutex_owner(lock) !=3D current) {
-           ^
-   kernel/locking/rtmutex.c:1765:23: note: Passing value via 2nd parameter =
-'waiter'
-                   remove_waiter(lock, waiter);
-                                       ^~~~~~
-   kernel/locking/rtmutex.c:1765:3: note: Calling 'remove_waiter'
-                   remove_waiter(lock, waiter);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1042:24: note: Assuming pointer value is null
-           bool is_top_waiter =3D (waiter =3D=3D rt_mutex_top_waiter(lock));
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:1046:2: note: 'debug_locks' is 0
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:310:11: note: expanded from macro 'lockdep_asser=
-t_held'
-                   WARN_ON(debug_locks &&                                  \
-                           ^~~~~~~~~~~
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   kernel/locking/rtmutex.c:1046:2: note: Left side of '&&' is false
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:310:23: note: expanded from macro 'lockdep_asser=
-t_held'
-                   WARN_ON(debug_locks &&                                  \
-                                       ^
-   kernel/locking/rtmutex.c:1046:2: note: Taking false branch
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:310:3: note: expanded from macro 'lockdep_assert=
-_held'
-                   WARN_ON(debug_locks &&                                  \
-                   ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   kernel/locking/rtmutex.c:1046:2: note: Loop condition is false.  Exiting=
- loop
-           lockdep_assert_held(&lock->wait_lock);
-           ^
-   include/linux/lockdep.h:309:32: note: expanded from macro 'lockdep_asser=
-t_held'
-   #define lockdep_assert_held(l)  do {                                    \
-                                   ^
-   kernel/locking/rtmutex.c:1049:25: note: Passing null pointer value via 2=
-nd parameter 'waiter'
-           rt_mutex_dequeue(lock, waiter);
-                                  ^~~~~~
-   kernel/locking/rtmutex.c:1049:2: note: Calling 'rt_mutex_dequeue'
-           rt_mutex_dequeue(lock, waiter);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/locking/rtmutex.c:285:6: note: Access to field '__rb_parent_color=
-' results in a dereference of a null pointer
-           if (RB_EMPTY_NODE(&waiter->tree_entry))
-               ^
-   include/linux/rbtree.h:44:3: note: expanded from macro 'RB_EMPTY_NODE'
-           ((node)->__rb_parent_color =3D=3D (unsigned long)(node))
-            ^~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/gpu/host1x/intr.c:29:2: warning: Attempt to free released memory=
- [clang-analyzer-unix.Malloc]
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^
-   drivers/gpu/host1x/intr.c:257:6: note: Assuming the condition is true
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:257:2: note: Taking true branch
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-           ^
-   drivers/gpu/host1x/intr.c:260:3: note: Calling 'kref_put'
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/host1x/intr.c:29:8: note: Loop condition is false.  Exiting =
-loop
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/host1x/intr.c:29:2: note: Memory is released
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:260:3: note: Returning; memory was released
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:264:6: note: Assuming 'flush' is false
-           if (flush) {
-               ^~~~~
-   drivers/gpu/host1x/intr.c:264:2: note: Taking false branch
-           if (flush) {
-           ^
-   drivers/gpu/host1x/intr.c:270:2: note: Calling 'kref_put'
-           kref_put(&waiter->refcount, waiter_release);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
---
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:444:7: note: Assuming 'div' is >=3D 'min_div'
-           if ((div < min_div) || (div > max_div))
-                ^~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:444:6: note: Left side of '||' is false
-           if ((div < min_div) || (div > max_div))
-               ^
-   drivers/spi/spi-stm32.c:444:26: note: Assuming 'div' is <=3D 'max_div'
-           if ((div < min_div) || (div > max_div))
-                                   ^~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:444:2: note: Taking false branch
-           if ((div < min_div) || (div > max_div))
-           ^
-   drivers/spi/spi-stm32.c:448:6: note: Assuming the condition is false
-           if (div & (div - 1))
-               ^~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:448:2: note: Taking false branch
-           if (div & (div - 1))
-           ^
-   drivers/spi/spi-stm32.c:451:3: note: The value 4294967295 is assigned to=
- 'mbrdiv'
-                   mbrdiv =3D fls(div) - 1;
-                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:453:38: note: The result of the left shift is un=
-defined due to shifting by '4294967295', which is greater or equal to the w=
-idth of type 'int'
-           spi->cur_speed =3D spi->clk_rate / (1 << mbrdiv);
-                                               ^  ~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/misc/kgdbts.c:709:2: warning: Call to function 'strcat' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(get_buf, buf);
-           ^~~~~~
-   drivers/misc/kgdbts.c:709:2: note: Call to function 'strcat' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcat'. CWE-119
-           strcat(get_buf, buf);
-           ^~~~~~
-   drivers/misc/kgdbts.c:714:2: warning: Call to function 'strcat' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(get_buf, "#");
-           ^~~~~~
-   drivers/misc/kgdbts.c:714:2: note: Call to function 'strcat' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcat'. CWE-119
-           strcat(get_buf, "#");
-           ^~~~~~
-   drivers/misc/kgdbts.c:1075:2: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(config, opt);
-           ^~~~~~
-   drivers/misc/kgdbts.c:1075:2: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-           strcpy(config, opt);
-           ^~~~~~
-   drivers/misc/kgdbts.c:1146:3: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(config, kmessage);
-                   ^~~~~~
-   drivers/misc/kgdbts.c:1146:3: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-                   strcpy(config, kmessage);
-                   ^~~~~~
-   drivers/misc/kgdbts.c:1155:2: warning: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(config, kmessage);
-           ^~~~~~
-   drivers/misc/kgdbts.c:1155:2: note: Call to function 'strcpy' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcpy'. CWE-119
-           strcpy(config, kmessage);
-           ^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   lib/asn1_encoder.c:167:2: warning: Value stored to 'ret' is never read [=
-clang-analyzer-deadcode.DeadStores]
-           ret =3D 0;
-           ^     ~
-   lib/asn1_encoder.c:167:2: note: Value stored to 'ret' is never read
-           ret =3D 0;
-           ^     ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   lib/oid_registry.c:149:3: warning: Value stored to 'num' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                   num =3D 0;
-                   ^     ~
-   lib/oid_registry.c:149:3: note: Value stored to 'num' is never read
-                   num =3D 0;
-                   ^     ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/soc/ixp4xx/ixp4xx-npe.c:684:22: warning: Value stored to 'np' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node *np =3D dev->of_node;
-                               ^~   ~~~~~~~~~~~~
-   drivers/soc/ixp4xx/ixp4xx-npe.c:684:22: note: Value stored to 'np' durin=
-g its initialization is never read
-           struct device_node *np =3D dev->of_node;
-                               ^~   ~~~~~~~~~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/regulator/qcom_spmi-regulator.c:401:8: warning: Excessive paddin=
-g in 'struct spmi_regulator_data' (4 padding bytes, where 0 is optimal). =
+vim +/start +206 drivers/xen/swiotlb-xen.c
 
-   Optimal fields order: =
+4035b43da6daa51 Christoph Hellwig     2021-03-01  158  =
 
-   name, =
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  159  int __ref xen_swiotl=
+b_init(int verbose, bool early)
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  160  {
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  161  	unsigned long bytes=
+, order;
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  162  	int rc =3D -ENOMEM;
+5bab7864b1167f9 Konrad Rzeszutek Wilk 2012-08-23  163  	enum xen_swiotlb_er=
+r m_ret =3D XEN_SWIOTLB_UNKNOWN;
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  164  	unsigned int repeat=
+ =3D 3;
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  165  	char *start;
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  166  	unsigned long nslab=
+s;
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  167  =
 
-   supply, =
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  168  	nslabs =3D swiotlb_=
+nr_tbl();
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  169  retry:
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  170  	if (!nslabs)
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  171  		nslabs =3D DEFAULT=
+_NSLABS;
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  172  	bytes =3D nslabs <<=
+ IO_TLB_SHIFT;
+4035b43da6daa51 Christoph Hellwig     2021-03-01  173  	order =3D get_order=
+(bytes);
+4e7372e0dc5d7d2 Stefano Stabellini    2019-05-28  174  =
 
-   ocp, =
+4e7372e0dc5d7d2 Stefano Stabellini    2019-05-28  175  	/*
+4e7372e0dc5d7d2 Stefano Stabellini    2019-05-28  176  	 * IO TLB memory al=
+ready allocated. Just use it.
+4e7372e0dc5d7d2 Stefano Stabellini    2019-05-28  177  	 */
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  178  	if (io_tlb_start !=
+=3D 0)
+4e7372e0dc5d7d2 Stefano Stabellini    2019-05-28  179  		goto end;
+4e7372e0dc5d7d2 Stefano Stabellini    2019-05-28  180  =
 
-   base, =
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  181  	/*
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  182  	 * Get IO TLB memor=
+y from any location.
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  183  	 */
+8a7f97b902f4fb0 Mike Rapoport         2019-03-11  184  	if (early) {
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  185  		start =3D memblock=
+_alloc(PAGE_ALIGN(bytes),
+15c3c114ed144e5 Mike Rapoport         2018-10-30  186  						  PAGE_SIZE);
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  187  		if (!start)
+8a7f97b902f4fb0 Mike Rapoport         2019-03-11  188  			panic("%s: Failed=
+ to allocate %lu bytes align=3D0x%lx\n",
+8a7f97b902f4fb0 Mike Rapoport         2019-03-11  189  			      __func__, P=
+AGE_ALIGN(bytes), PAGE_SIZE);
+8a7f97b902f4fb0 Mike Rapoport         2019-03-11  190  	} else {
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  191  #define SLABS_PER_PA=
+GE (1 << (PAGE_SHIFT - IO_TLB_SHIFT))
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  192  #define IO_TLB_MIN_S=
+LABS ((1<<20) >> IO_TLB_SHIFT)
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  193  		while ((SLABS_PER_=
+PAGE << order) > IO_TLB_MIN_SLABS) {
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  194  			start =3D (void *=
+)xen_get_swiotlb_free_pages(order);
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  195  			if (start)
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  196  				break;
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  197  			order--;
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  198  		}
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  199  		if (order !=3D get=
+_order(bytes)) {
+283c0972d53769e Joe Perches           2013-06-28  200  			pr_warn("Warning:=
+ only able to allocate %ld MB for software IO TLB\n",
+283c0972d53769e Joe Perches           2013-06-28  201  				(PAGE_SIZE << or=
+der) >> 20);
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  202  			nslabs =3D SLABS_=
+PER_PAGE << order;
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  203  			bytes =3D nslabs =
+<< IO_TLB_SHIFT;
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  204  		}
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  205  	}
+cbce99527ca7c4e Christoph Hellwig     2021-03-01 @206  	if (!start) {
+5bab7864b1167f9 Konrad Rzeszutek Wilk 2012-08-23  207  		m_ret =3D XEN_SWIO=
+TLB_ENOMEM;
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  208  		goto error;
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  209  	}
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  210  	/*
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  211  	 * And replace that=
+ memory with pages under 4GB.
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  212  	 */
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  213  	rc =3D xen_swiotlb_=
+fixup(start,
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  214  			       bytes,
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  215  			       nslabs);
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  216  	if (rc) {
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  217  		if (early)
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  218  			memblock_free(__p=
+a(start),
+2013288f7238878 Mike Rapoport         2018-10-30  219  				      PAGE_ALIGN=
+(bytes));
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  220  		else {
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  221  			free_pages((unsig=
+ned long)start, order);
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  222  			start =3D NULL;
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  223  		}
+5bab7864b1167f9 Konrad Rzeszutek Wilk 2012-08-23  224  		m_ret =3D XEN_SWIO=
+TLB_EFIXUP;
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  225  		goto error;
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  226  	}
+c468bdee28a1cb6 Konrad Rzeszutek Wilk 2012-09-17  227  	if (early) {
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  228  		if (swiotlb_init_w=
+ith_tbl(start, nslabs,
+ac2cbab21f318e1 Yinghai Lu            2013-01-24  229  			 verbose))
+ac2cbab21f318e1 Yinghai Lu            2013-01-24  230  			panic("Cannot all=
+ocate SWIOTLB buffer");
+c468bdee28a1cb6 Konrad Rzeszutek Wilk 2012-09-17  231  		rc =3D 0;
+c468bdee28a1cb6 Konrad Rzeszutek Wilk 2012-09-17  232  	} else
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  233  		rc =3D swiotlb_lat=
+e_init_with_tbl(start, nslabs);
+7453c549f5f6485 Konrad Rzeszutek Wilk 2016-12-20  234  =
 
-   force_type, =
+4e7372e0dc5d7d2 Stefano Stabellini    2019-05-28  235  end:
+7453c549f5f6485 Konrad Rzeszutek Wilk 2016-12-20  236  	if (!rc)
+7453c549f5f6485 Konrad Rzeszutek Wilk 2016-12-20  237  		swiotlb_set_max_se=
+gment(PAGE_SIZE);
+7453c549f5f6485 Konrad Rzeszutek Wilk 2016-12-20  238  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct spmi_regulator_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/qcom_spmi-regulator.c:401:8: note: Excessive padding i=
-n 'struct spmi_regulator_data' (4 padding bytes, where 0 is optimal). Optim=
-al fields order: name, supply, ocp, base, force_type, consider reordering t=
-he fields or adding explicit padding members
-   struct spmi_regulator_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/qcom_spmi-regulator.c:1159:2: warning: Value stored to=
- 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D spmi_vreg_update_bits(vreg, SPMI_COMMON_REG_ENABLE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/qcom_spmi-regulator.c:1159:2: note: Value stored to 'r=
-et' is never read
-           ret =3D spmi_vreg_update_bits(vreg, SPMI_COMMON_REG_ENABLE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   include/linux/log2.h:57:13: warning: The result of the left shift is und=
-efined due to shifting by '32', which is greater or equal to the width of t=
-ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return 1UL << fls_long(n - 1);
-                      ^
-   lib/rhashtable.c:1090:8: note: Calling 'rhashtable_init'
-           err =3D rhashtable_init(&hlt->ht, params);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/rhashtable.c:1021:7: note: Assuming field 'key_len' is not equal to 0
-           if ((!params->key_len && !params->obj_hashfn) ||
-                ^~~~~~~~~~~~~~~~
-   lib/rhashtable.c:1021:24: note: Left side of '&&' is false
-           if ((!params->key_len && !params->obj_hashfn) ||
-                                 ^
-   lib/rhashtable.c:1022:7: note: Assuming field 'obj_hashfn' is null
---
-                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:176:3: note: expanded from macro 'raw_local_irq=
-_restore'
-                   raw_check_bogus_irq_restore();          \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/irqflags.h:156:16: note: expanded from macro 'raw_check_bo=
-gus_irq_restore'
-                   if (unlikely(!arch_irqs_disabled()))    \
-                                ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/input/joystick/cobra.c:72:2: note: Taking false branch
-           local_irq_restore(flags);
-           ^
-   include/linux/irqflags.h:238:39: note: expanded from macro 'local_irq_re=
-store'
-   #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } wh=
-ile (0)
-                                         ^
-   include/linux/irqflags.h:176:3: note: expanded from macro 'raw_local_irq=
-_restore'
-                   raw_check_bogus_irq_restore();          \
-                   ^
-   include/linux/irqflags.h:156:3: note: expanded from macro 'raw_check_bog=
-us_irq_restore'
-                   if (unlikely(!arch_irqs_disabled()))    \
-                   ^
-   drivers/input/joystick/cobra.c:72:2: note: Loop condition is false.  Exi=
-ting loop
-           local_irq_restore(flags);
-           ^
-   include/linux/irqflags.h:238:39: note: expanded from macro 'local_irq_re=
-store'
-   #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } wh=
-ile (0)
-                                         ^
-   include/linux/irqflags.h:176:3: note: expanded from macro 'raw_local_irq=
-_restore'
-                   raw_check_bogus_irq_restore();          \
-                   ^
-   include/linux/irqflags.h:155:2: note: expanded from macro 'raw_check_bog=
-us_irq_restore'
-           do {                                            \
-           ^
-   drivers/input/joystick/cobra.c:72:2: note: Loop condition is false.  Exi=
-ting loop
-           local_irq_restore(flags);
-           ^
-   include/linux/irqflags.h:238:39: note: expanded from macro 'local_irq_re=
-store'
-   #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } wh=
-ile (0)
-                                         ^
-   include/linux/irqflags.h:174:2: note: expanded from macro 'raw_local_irq=
-_restore'
-           do {                                            \
-           ^
-   drivers/input/joystick/cobra.c:72:2: note: Loop condition is false.  Exi=
-ting loop
-           local_irq_restore(flags);
-           ^
-   include/linux/irqflags.h:238:34: note: expanded from macro 'local_irq_re=
-store'
-   #define local_irq_restore(flags) do { raw_local_irq_restore(flags); } wh=
-ile (0)
-                                    ^
-   drivers/input/joystick/cobra.c:76:2: note: Loop condition is true.  Ente=
-ring loop body
-           for (i =3D 0; i < 2; i++) {
-           ^
-   drivers/input/joystick/cobra.c:78:3: note: Taking true branch
-                   if (r[i] !=3D COBRA_LENGTH) continue;
-                   ^
-   drivers/input/joystick/cobra.c:78:29: note:  Execution continues on line=
- 76
-                   if (r[i] !=3D COBRA_LENGTH) continue;
-                                             ^
-   drivers/input/joystick/cobra.c:76:2: note: Loop condition is true.  Ente=
-ring loop body
-           for (i =3D 0; i < 2; i++) {
-           ^
-   drivers/input/joystick/cobra.c:78:3: note: Taking true branch
-                   if (r[i] !=3D COBRA_LENGTH) continue;
-                   ^
-   drivers/input/joystick/cobra.c:78:29: note:  Execution continues on line=
- 76
-                   if (r[i] !=3D COBRA_LENGTH) continue;
-                                             ^
-   drivers/input/joystick/cobra.c:76:2: note: Loop condition is false. Exec=
-ution continues on line 91
-           for (i =3D 0; i < 2; i++) {
-           ^
-   drivers/input/joystick/cobra.c:91:2: note: Returning without writing to =
-'*data'
-           return ret;
-           ^
-   drivers/input/joystick/cobra.c:159:18: note: Returning from 'cobra_read_=
-packet'
-           cobra->exists =3D cobra_read_packet(gameport, data);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/joystick/cobra.c:161:7: note: The value 0 is assigned to '=
-i'
-           for (i =3D 0; i < 2; i++)
-                ^~~~~
-   drivers/input/joystick/cobra.c:161:2: note: Loop condition is true.  Ent=
-ering loop body
-           for (i =3D 0; i < 2; i++)
-           ^
-   drivers/input/joystick/cobra.c:162:28: note: The right operand of '&' is=
- a garbage value
-                   if ((cobra->exists >> i) & data[i] & 1) {
-                                            ^ ~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> arch/arm/mach-rpc/ecard.c:640:5: warning: Call to function 'strcpy' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                                   strcpy((char *)ec->card_desc, incd.d.str=
-ing);
-                                   ^~~~~~
-   arch/arm/mach-rpc/ecard.c:640:5: note: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119
-                                   strcpy((char *)ec->card_desc, incd.d.str=
-ing);
-                                   ^~~~~~
-   Suppressed 11 warnings (8 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   arch/arm/include/asm/atomic.h:224:1: warning: Use of memory after it is =
-freed [clang-analyzer-unix.Malloc]
-   ATOMIC_OPS(sub, -=3D, sub)
-   ^
-   arch/arm/include/asm/atomic.h:221:2: note: expanded from macro 'ATOMIC_O=
-PS'
-           ATOMIC_FETCH_OP(op, c_op, asm_op)
-           ^
-   arch/arm/include/asm/atomic.h:193:8: note: expanded from macro 'ATOMIC_F=
-ETCH_OP'
-           val =3D v->counter;                                             =
-  \
-                 ^
-   drivers/usb/class/usbtmc.c:2479:2: note: Loop condition is false. Execut=
-ion continues on line 2488
-           list_for_each(elem, &data->file_list) {
-           ^
-   include/linux/list.h:571:2: note: expanded from macro 'list_for_each'
-           for (pos =3D (head)->next; pos !=3D (head); pos =3D pos->next)
-           ^
-   drivers/usb/class/usbtmc.c:2489:2: note: Calling 'usbtmc_free_int'
-           usbtmc_free_int(data);
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/class/usbtmc.c:2340:6: note: Assuming field 'iin_ep_present'=
- is not equal to 0
-           if (!data->iin_ep_present || !data->iin_urb)
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/class/usbtmc.c:2340:6: note: Left side of '||' is false
-   drivers/usb/class/usbtmc.c:2340:31: note: Assuming field 'iin_urb' is no=
-n-null
-           if (!data->iin_ep_present || !data->iin_urb)
-                                        ^~~~~~~~~~~~~~
-   drivers/usb/class/usbtmc.c:2340:2: note: Taking false branch
-           if (!data->iin_ep_present || !data->iin_urb)
-           ^
-   drivers/usb/class/usbtmc.c:2347:2: note: Calling 'kref_put'
-           kref_put(&data->kref, usbtmc_delete);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'usbtmc_delete'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/usb/class/usbtmc.c:157:36: note: Left side of '&&' is false
-           struct usbtmc_device_data *data =3D to_usbtmc_data(kref);
-                                             ^
-   drivers/usb/class/usbtmc.c:114:27: note: expanded from macro 'to_usbtmc_=
-data'
-   #define to_usbtmc_data(d) container_of(d, struct usbtmc_device_data, kre=
-f)
-                             ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/usb/class/usbtmc.c:157:36: note: Taking false branch
-           struct usbtmc_device_data *data =3D to_usbtmc_data(kref);
-                                             ^
-   drivers/usb/class/usbtmc.c:114:27: note: expanded from macro 'to_usbtmc_=
-data'
-   #define to_usbtmc_data(d) container_of(d, struct usbtmc_device_data, kre=
-f)
-                             ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
---
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/usb/gadget/configfs.c:890:2: note: 'gi' initialized to a null po=
-inter value
-           struct gadget_info *gi =3D container_of(to_config_group(os_desc_=
-ci),
-           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/configfs.c:892:2: note: 'cdev' initialized to a null =
-pointer value
-           struct usb_composite_dev *cdev =3D &gi->cdev;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/gadget/configfs.c:894:3: note: Left side of '&&' is false
-                   container_of(to_config_group(usb_cfg_ci),
-                   ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/usb/gadget/configfs.c:894:3: note: Taking false branch
-                   container_of(to_config_group(usb_cfg_ci),
-                   ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/usb/gadget/configfs.c:894:3: note: Loop condition is false.  Exi=
-ting loop
-                   container_of(to_config_group(usb_cfg_ci),
-                   ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/usb/gadget/configfs.c:900:2: note: Access to field 'next' result=
-s in a dereference of a null pointer
-           list_for_each_entry(c, &cdev->configs, list) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kernel.h:494:25: note: expanded from macro 'container_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   arch/arm/kernel/atags_compat.c:200:2: warning: Call to function 'strcpy'=
- is insecure as it does not provide bounding of the memory buffer. Replace =
-unbounded copy functions with analogous functions that support length argum=
-ents such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(tag->u.cmdline.cmdline, params->commandline);
-           ^~~~~~
-   arch/arm/kernel/atags_compat.c:200:2: note: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119
-           strcpy(tag->u.cmdline.cmdline, params->commandline);
-           ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/gpio/gpiolib.c:550:8: warning: Null pointer passed as 1st argume=
-nt to string comparison function [clang-analyzer-unix.cstring.NullArg]
-                   if (!strcmp(gc->label, hog->chip_label))
-                        ^
-   drivers/gpio/gpiolib.c:574:33: note: Assuming field 'parent' is null
-           struct fwnode_handle *fwnode =3D gc->parent ? dev_fwnode(gc->par=
-ent) : NULL;
-                                          ^~~~~~~~~~
-   drivers/gpio/gpiolib.c:574:33: note: '?' condition is false
-   drivers/gpio/gpiolib.c:586:6: note: Assuming 'gdev' is non-null
-           if (!gdev)
-               ^~~~~
-   drivers/gpio/gpiolib.c:586:2: note: Taking false branch
-           if (!gdev)
-           ^
-   drivers/gpio/gpiolib.c:593:2: note: Calling 'of_gpio_dev_init'
-           of_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.h:40:1: note: Returning without writing to 'gc->=
-label'
-   }
-   ^
-   drivers/gpio/gpiolib.c:593:2: note: Returning from 'of_gpio_dev_init'
-           of_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:594:2: note: Calling 'acpi_gpio_dev_init'
-           acpi_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-acpi.h:63:89: note: Returning without writing to 'g=
-c->label'
-   static inline void acpi_gpio_dev_init(struct gpio_chip *gc, struct gpio_=
-device *gdev) { }
-                                                                           =
-                ^
-   drivers/gpio/gpiolib.c:594:2: note: Returning from 'acpi_gpio_dev_init'
-           acpi_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:600:21: note: Value assigned to field 'label'
-           gdev->dev.fwnode =3D dev_fwnode(&gdev->dev) ?: fwnode;
-                              ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:600:21: note: '?' condition is true
-   drivers/gpio/gpiolib.c:603:6: note: Assuming field 'id' is >=3D 0
-           if (gdev->id < 0) {
-               ^~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:603:2: note: Taking false branch
-           if (gdev->id < 0) {
-           ^
-   drivers/gpio/gpiolib.c:609:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpio/gpiolib.c:609:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpio/gpiolib.c:613:6: note: Assuming field 'parent' is null
-           if (gc->parent && gc->parent->driver)
-               ^~~~~~~~~~
-   drivers/gpio/gpiolib.c:613:17: note: Left side of '&&' is false
-           if (gc->parent && gc->parent->driver)
-                          ^
-   drivers/gpio/gpiolib.c:615:11: note: Assuming field 'owner' is null
-           else if (gc->owner)
-                    ^~~~~~~~~
-   drivers/gpio/gpiolib.c:615:7: note: Taking false branch
-           else if (gc->owner)
-                ^
-   drivers/gpio/gpiolib.c:622:6: note: Assuming field 'descs' is non-null
-           if (!gdev->descs) {
-               ^~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:622:2: note: Taking false branch
-           if (!gdev->descs) {
-           ^
-   drivers/gpio/gpiolib.c:627:6: note: Assuming field 'ngpio' is not equal =
-to 0
-           if (gc->ngpio =3D=3D 0) {
-               ^~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:627:2: note: Taking false branch
-           if (gc->ngpio =3D=3D 0) {
-           ^
-   drivers/gpio/gpiolib.c:633:6: note: Assuming field 'ngpio' is <=3D FASTP=
-ATH_NGPIO
-           if (gc->ngpio > FASTPATH_NGPIO)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:633:2: note: Taking false branch
-           if (gc->ngpio > FASTPATH_NGPIO)
-           ^
-   drivers/gpio/gpiolib.c:637:30: note: Assuming pointer value is null
-           gdev->label =3D kstrdup_const(gc->label ?: "unknown", GFP_KERNEL=
-);
-                                       ^~~~~~~~~
-   drivers/gpio/gpiolib.c:637:30: note: '?' condition is false
-   drivers/gpio/gpiolib.c:638:6: note: Assuming field 'label' is non-null
-           if (!gdev->label) {
-               ^~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:638:2: note: Taking false branch
-           if (!gdev->label) {
-           ^
-   drivers/gpio/gpiolib.c:646:2: note: Loop condition is false.  Exiting lo=
-op
-           spin_lock_irqsave(&gpio_lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/gpio/gpiolib.c:646:2: note: Loop condition is false.  Exiting lo=
-op
-           spin_lock_irqsave(&gpio_lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
---
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   drivers/spi/spi-bcm-qspi.c:727:2: note: Loop condition is false. Executi=
-on continues on line 749
-           for (slot =3D 0; slot < slots; slot++) {
-           ^
-   drivers/spi/spi-bcm-qspi.c:749:2: note: The value of 'tp' is assigned to=
- field 'trans_pos'
-           qspi->trans_pos =3D tp;
-           ^~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-bcm-qspi.c:970:3: note: Returning from 'read_from_hw'
-                   read_from_hw(qspi, slots);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-bcm-qspi.c:961:9: note: Assuming field 'byte' is < field=
- 'len'
-           while (qspi->trans_pos.byte < trans->len) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-bcm-qspi.c:961:2: note: Loop condition is true.  Enterin=
-g loop body
-           while (qspi->trans_pos.byte < trans->len) {
-           ^
-   drivers/spi/spi-bcm-qspi.c:964:11: note: Calling 'write_to_hw'
-                   slots =3D write_to_hw(qspi, spi);
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-bcm-qspi.c:790:2: note: Null pointer value stored to 'tp=
-.trans'
-           tp =3D qspi->trans_pos;
-           ^~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-bcm-qspi.c:791:35: note: Passing null pointer value via =
-3rd parameter 'trans'
-           bcm_qspi_update_parms(qspi, spi, tp.trans);
-                                            ^~~~~~~~
-   drivers/spi/spi-bcm-qspi.c:791:2: note: Calling 'bcm_qspi_update_parms'
-           bcm_qspi_update_parms(qspi, spi, tp.trans);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-bcm-qspi.c:618:16: note: Access to field 'speed_hz' resu=
-lts in a dereference of a null pointer (loaded from variable 'trans')
-           xp.speed_hz =3D trans->speed_hz;
-                         ^~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/usb/serial/oti6858.c:410:2: warning: Value stored to 'divisor' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-           divisor =3D priv->pending_setup.divisor;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/serial/oti6858.c:410:2: note: Value stored to 'divisor' is n=
-ever read
-           divisor =3D priv->pending_setup.divisor;
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/host1x/cdma.c:558:15: warning: Value stored to 'space' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned int space =3D cdma->slots_free;
-                        ^~~~~   ~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/cdma.c:558:15: note: Value stored to 'space' during i=
-ts initialization is never read
-           unsigned int space =3D cdma->slots_free;
-                        ^~~~~   ~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/gpu/host1x/job.c:185:35: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   job->addr_phys[job->num_unpins] =3D phys_addr;
-                                                   ^
-   drivers/gpu/host1x/job.c:599:8: note: Calling 'pin_job'
-           err =3D pin_job(host, job);
-                 ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:14: note: Assuming 'i' is < field 'num_relo=
-cs'
-           for (i =3D 0; i < job->num_relocs; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < job->num_relocs; i++) {
-           ^
-   drivers/gpu/host1x/job.c:121:14: note: 'phys_addr' declared without an i=
-nitial value
-                   dma_addr_t phys_addr, *phys;
-                              ^~~~~~~~~
-   drivers/gpu/host1x/job.c:125:7: note: Assuming field 'bo' is non-null
-                   if (!reloc->target.bo) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:125:3: note: Taking false branch
-                   if (!reloc->target.bo) {
-                   ^
-   drivers/gpu/host1x/job.c:142:7: note: Assuming 'domain' is non-null
-                   if (!domain || client->group)
-                       ^~~~~~~
-   drivers/gpu/host1x/job.c:142:7: note: Left side of '||' is false
-   drivers/gpu/host1x/job.c:142:18: note: Assuming field 'group' is null
-                   if (!domain || client->group)
-                                  ^~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:142:3: note: Taking false branch
-                   if (!domain || client->group)
-                   ^
-   drivers/gpu/host1x/job.c:148:7: note: Calling 'IS_ERR'
-                   if (IS_ERR(sgt)) {
-                       ^~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:148:7: note: Returning from 'IS_ERR'
-                   if (IS_ERR(sgt)) {
-                       ^~~~~~~~~~~
-   drivers/gpu/host1x/job.c:148:3: note: Taking false branch
-                   if (IS_ERR(sgt)) {
-                   ^
-   drivers/gpu/host1x/job.c:153:7: note: Assuming 'sgt' is null
-                   if (sgt) {
-                       ^~~
-   drivers/gpu/host1x/job.c:153:3: note: Taking false branch
-                   if (sgt) {
-                   ^
-   drivers/gpu/host1x/job.c:185:35: note: Assigned value is garbage or unde=
-fined
-                   job->addr_phys[job->num_unpins] =3D phys_addr;
-                                                   ^ ~~~~~~~~~
-   drivers/gpu/host1x/job.c:265:35: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   job->addr_phys[job->num_unpins] =3D phys_addr;
-                                                   ^
-   drivers/gpu/host1x/job.c:599:8: note: Calling 'pin_job'
-           err =3D pin_job(host, job);
-                 ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:14: note: Assuming 'i' is >=3D field 'num_r=
-elocs'
-           for (i =3D 0; i < job->num_relocs; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:2: note: Loop condition is false. Execution=
- continues on line 195
-           for (i =3D 0; i < job->num_relocs; i++) {
-           ^
-   drivers/gpu/host1x/job.c:195:2: note: Taking false branch
-           if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
-           ^
-   drivers/gpu/host1x/job.c:198:14: note: Assuming 'i' is < field 'num_gath=
-ers'
-           for (i =3D 0; i < job->num_gathers; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:198:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < job->num_gathers; i++) {
-           ^
-   drivers/gpu/host1x/job.c:202:3: note: 'phys_addr' declared without an in=
-itial value
-                   dma_addr_t phys_addr;
-                   ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:210:7: note: Assuming field 'bo' is non-null
-                   if (!g->bo) {
-                       ^~~~~~
-   drivers/gpu/host1x/job.c:210:3: note: Taking false branch
-                   if (!g->bo) {
-                   ^
-   drivers/gpu/host1x/job.c:220:7: note: Assuming the condition is false
-                   if (!iommu_get_domain_for_dev(host->dev))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:220:3: note: Taking false branch
-                   if (!iommu_get_domain_for_dev(host->dev))
-                   ^
-   drivers/gpu/host1x/job.c:226:7: note: Calling 'IS_ERR'
-                   if (IS_ERR(sgt)) {
-                       ^~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
---
-   fs/overlayfs/export.c:813:2: note: Taking false branch
-           if (err)
-           ^
-   fs/overlayfs/export.c:817:12: note: Assuming the condition is false
-           dentry =3D (flags & OVL_FH_FLAG_PATH_UPPER) ?
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:817:11: note: '?' condition is false
-           dentry =3D (flags & OVL_FH_FLAG_PATH_UPPER) ?
-                    ^
-   fs/overlayfs/export.c:819:4: note: Calling 'ovl_lower_fh_to_d'
-                    ovl_lower_fh_to_d(sb, fh);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:708:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   fs/overlayfs/export.c:708:2: note: Taking false branch
-           if (err)
-           ^
-   fs/overlayfs/export.c:711:6: note: Left side of '||' is false
-           if (!d_is_dir(origin.dentry) ||
-               ^
-   fs/overlayfs/export.c:712:6: note: Assuming the condition is false
-               !(origin.dentry->d_flags & DCACHE_DISCONNECTED)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:711:2: note: Taking false branch
-           if (!d_is_dir(origin.dentry) ||
-           ^
-   fs/overlayfs/export.c:726:6: note: Assuming field 'indexdir' is null
-           if (ofs->indexdir) {
-               ^~~~~~~~~~~~~
-   fs/overlayfs/export.c:726:2: note: Taking false branch
-           if (ofs->indexdir) {
-           ^
-   fs/overlayfs/export.c:736:6: note: 'index' is null
-           if (index && d_is_dir(index)) {
-               ^~~~~
-   fs/overlayfs/export.c:736:12: note: Left side of '&&' is false
-           if (index && d_is_dir(index)) {
-                     ^
-   fs/overlayfs/export.c:749:2: note: Taking true branch
-           if (d_is_dir(origin.dentry)) {
-           ^
-   fs/overlayfs/export.c:753:7: note: Assuming 'err' is 0
-                   if (err)
-                       ^~~
-   fs/overlayfs/export.c:753:3: note: Taking false branch
-                   if (err)
-                   ^
-   fs/overlayfs/export.c:756:6: note: 'index' is null
-           if (index) {
-               ^~~~~
-   fs/overlayfs/export.c:756:2: note: Taking false branch
-           if (index) {
-           ^
-   fs/overlayfs/export.c:763:11: note: Calling 'ovl_get_dentry'
-           dentry =3D ovl_get_dentry(sb, NULL, &origin, index);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:654:34: note: 'upper' is null
-           const struct ovl_layer *layer =3D upper ? &ofs->layers[0] : lowe=
-rpath->layer;
-                                           ^~~~~
-   fs/overlayfs/export.c:654:34: note: '?' condition is false
-   fs/overlayfs/export.c:655:24: note: '?' condition is false
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-                                 ^
-   fs/overlayfs/export.c:655:34: note: '?' condition is false
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-                                           ^
-   fs/overlayfs/export.c:655:2: note: 'real' initialized to a null pointer =
-value
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-           ^~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:661:16: note: Passing null pointer value via 1st p=
-arameter 'dentry'
-           if (!d_is_dir(real))
-                         ^~~~
-   fs/overlayfs/export.c:661:7: note: Calling 'd_is_dir'
-           if (!d_is_dir(real))
-                ^~~~~~~~~~~~~~
-   include/linux/dcache.h:420:22: note: Passing null pointer value via 1st =
-parameter 'dentry'
-           return d_can_lookup(dentry) || d_is_autodir(dentry);
-                               ^~~~~~
-   include/linux/dcache.h:420:9: note: Calling 'd_can_lookup'
-           return d_can_lookup(dentry) || d_is_autodir(dentry);
-                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dcache.h:410:24: note: Passing null pointer value via 1st =
-parameter 'dentry'
-           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
-                                 ^~~~~~
-   include/linux/dcache.h:410:9: note: Calling '__d_entry_type'
-           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dcache.h:395:9: note: Access to field 'd_flags' results in=
- a dereference of a null pointer (loaded from variable 'dentry')
-           return dentry->d_flags & DCACHE_ENTRY_TYPE;
-                  ^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (8 in non-user code, 9 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/media/rc/sunxi-cir.c:143:9: warning: Division by zero [clang-ana=
-lyzer-core.DivideZero]
-           return DIV_ROUND_CLOSEST(USEC_PER_SEC * (ithr + 1),
-                  ^
-   include/linux/math.h:92:26: note: expanded from macro 'DIV_ROUND_CLOSEST'
-                   (((__x) + ((__d) / 2)) / (__d)) :       \
-                                          ^
-   drivers/media/rc/sunxi-cir.c:246:9: note: Calling 'sunxi_ir_hw_init'
-           return sunxi_ir_hw_init(dev);
-                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:179:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/rc/sunxi-cir.c:179:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/rc/sunxi-cir.c:183:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/media/rc/sunxi-cir.c:183:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/media/rc/sunxi-cir.c:189:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/media/rc/sunxi-cir.c:189:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/media/rc/sunxi-cir.c:195:2: note: Loop condition is false.  Exit=
-ing loop
-           writel(REG_CTL_MD, ir->base + SUNXI_IR_CTL_REG);
-           ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/media/rc/sunxi-cir.c:198:2: note: Calling 'sunxi_ir_set_timeout'
-           sunxi_ir_set_timeout(ir->rc, ir->rc->timeout);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:157:26: note: Calling 'clk_get_rate'
-           unsigned int base_clk =3D clk_get_rate(ir->clk);
-                                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:882:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/media/rc/sunxi-cir.c:157:26: note: Returning from 'clk_get_rate'
-           unsigned int base_clk =3D clk_get_rate(ir->clk);
-                                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:157:2: note: 'base_clk' initialized to 0
-           unsigned int base_clk =3D clk_get_rate(ir->clk);
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:161:2: note: Taking false branch
-           dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", it=
-hr);
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/media/rc/sunxi-cir.c:161:2: note: Loop condition is false.  Exit=
-ing loop
-           dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", it=
-hr);
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   drivers/media/rc/sunxi-cir.c:164:2: note: Loop condition is false.  Exit=
-ing loop
-           writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
-           ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/media/rc/sunxi-cir.c:167:39: note: Passing the value 0 via 1st p=
-arameter 'base_clk'
-           rc_dev->timeout =3D sunxi_ithr_to_usec(base_clk, ithr);
-                                                ^~~~~~~~
-   drivers/media/rc/sunxi-cir.c:167:20: note: Calling 'sunxi_ithr_to_usec'
-           rc_dev->timeout =3D sunxi_ithr_to_usec(base_clk, ithr);
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:143:9: note: '__d' initialized to 0
-           return DIV_ROUND_CLOSEST(USEC_PER_SEC * (ithr + 1),
-                  ^
-   include/linux/math.h:88:2: note: expanded from macro 'DIV_ROUND_CLOSEST'
-           typeof(divisor) __d =3D divisor;                  \
---
-   drivers/spi/spi-imx.c:623:23: note: Assigned value is garbage or undefin=
-ed
-           spi_imx->spi_bus_clk =3D clk;
-                                ^ ~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   mm/mmap.c:2006:2: warning: Value stored to 'gap_end' is never read [clan=
-g-analyzer-deadcode.DeadStores]
-           gap_end =3D ULONG_MAX;  /* Only for VM_BUG_ON below */
-           ^
-   mm/mmap.c:2006:2: note: Value stored to 'gap_end' is never read
-   mm/mmap.c:3276:3: warning: Value stored to 'faulted_in_anon_vma' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   faulted_in_anon_vma =3D false;
-                   ^                     ~~~~~
-   mm/mmap.c:3276:3: note: Value stored to 'faulted_in_anon_vma' is never r=
-ead
-                   faulted_in_anon_vma =3D false;
-                   ^                     ~~~~~
-   mm/mmap.c:3718:2: warning: Value stored to 'ret' is never read [clang-an=
-alyzer-deadcode.DeadStores]
-           ret =3D percpu_counter_init(&vm_committed_as, 0, GFP_KERNEL);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mmap.c:3718:2: note: Value stored to 'ret' is never read
-           ret =3D percpu_counter_init(&vm_committed_as, 0, GFP_KERNEL);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   mm/mmu_gather.c:85:3: warning: Value stored to 'batch' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                   batch =3D tlb->active;
-                   ^       ~~~~~~~~~~~
-   mm/mmu_gather.c:85:3: note: Value stored to 'batch' is never read
-                   batch =3D tlb->active;
-                   ^       ~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/iommu/iova.c:64:29: warning: The result of the left shift is und=
-efined due to shifting by '32', which is greater or equal to the width of t=
-ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           iovad->dma_32bit_pfn =3D 1UL << (32 - iova_shift(iovad));
-                                      ^  ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:56:10: note: Assuming the condition is false
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-                   ^
-   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/iommu/iova.c:56:9: note: Left side of '||' is false
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-                  ^
-   drivers/iommu/iova.c:56:2: note: Taking false branch
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-           ^
-   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   drivers/iommu/iova.c:56:2: note: Loop condition is false.  Exiting loop
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-           ^
-   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   drivers/iommu/iova.c:58:2: note: Loop condition is false.  Exiting loop
-           spin_lock_init(&iovad->iova_rbtree_lock);
-           ^
-   include/linux/spinlock.h:334:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/iommu/iova.c:64:29: note: The result of the left shift is undefi=
-ned due to shifting by '32', which is greater or equal to the width of type=
- 'unsigned long'
-           iovad->dma_32bit_pfn =3D 1UL << (32 - iova_shift(iovad));
-                                      ^  ~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/iova.c:247:14: warning: Assigned value is garbage or undef=
-ined [clang-analyzer-core.uninitialized.Assign]
-                   align_mask <<=3D fls_long(size - 1);
-                              ^
-   drivers/iommu/iova.c:503:6: note: 'iova_pfn' is 0
-           if (iova_pfn)
-               ^~~~~~~~
-   drivers/iommu/iova.c:503:2: note: Taking false branch
-           if (iova_pfn)
-           ^
-   drivers/iommu/iova.c:507:13: note: Calling 'alloc_iova'
-           new_iova =3D alloc_iova(iovad, size, limit_pfn, true);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:379:6: note: Assuming 'new_iova' is non-null
-           if (!new_iova)
-               ^~~~~~~~~
-   drivers/iommu/iova.c:379:2: note: Taking false branch
-           if (!new_iova)
-           ^
-   drivers/iommu/iova.c:382:8: note: Calling '__alloc_and_insert_iova_range'
-           ret =3D __alloc_and_insert_iova_range(iovad, size, limit_pfn + 1,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:246:6: note: 'size_aligned' is true
-           if (size_aligned)
-               ^~~~~~~~~~~~
-   drivers/iommu/iova.c:246:2: note: Taking true branch
-           if (size_aligned)
-           ^
-   drivers/iommu/iova.c:247:18: note: Calling 'fls_long'
-                   align_mask <<=3D fls_long(size - 1);
-                                  ^~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:187:2: note: Taking true branch
-           if (sizeof(l) =3D=3D 4)
-           ^
-   include/linux/bitops.h:188:10: note: Calling 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/linux/bitops.h:188:10: note: Returning from 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/linux/bitops.h:188:3: note: Returning the value 32
-                   return fls(l);
-                   ^~~~~~~~~~~~~
-   drivers/iommu/iova.c:247:18: note: Returning from 'fls_long'
-                   align_mask <<=3D fls_long(size - 1);
-                                  ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:247:14: note: Assigned value is garbage or undefined
-                   align_mask <<=3D fls_long(size - 1);
-                              ^   ~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/base/regmap/regmap-mmio.c:52:3: warning: Value stored to 'min_st=
-ride' is never read [clang-analyzer-deadcode.DeadStores]
-                   min_stride =3D 0;
-                   ^            ~
-   drivers/base/regmap/regmap-mmio.c:52:3: note: Value stored to 'min_strid=
-e' is never read
-                   min_stride =3D 0;
---
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/usb/serial/garmin_gps.c:934:2: note: Loop condition is false.  E=
-xiting loop
-           dev_dbg(&port->dev, "%s - mode=3D%d state=3D%d flags=3D0x%X\n",
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   drivers/usb/serial/garmin_gps.c:938:2: note: Calling 'garmin_clear'
-           garmin_clear(garmin_data_p);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/serial/garmin_gps.c:856:2: note: Calling 'pkt_clear'
-           pkt_clear(garmin_data_p);
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/serial/garmin_gps.c:321:2: note: Loop condition is false.  E=
-xiting loop
-           spin_lock_irqsave(&garmin_data_p->lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/usb/serial/garmin_gps.c:321:2: note: Loop condition is false.  E=
-xiting loop
-           spin_lock_irqsave(&garmin_data_p->lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/usb/serial/garmin_gps.c:322:2: note: Loop condition is true.  En=
-tering loop body
-           while (!list_empty(&garmin_data_p->pktlist)) {
-           ^
-   drivers/usb/serial/garmin_gps.c:325:3: note: Memory is released
-                   kfree(result);
-                   ^~~~~~~~~~~~~
-   drivers/usb/serial/garmin_gps.c:322:2: note: Loop condition is true.  En=
-tering loop body
-           while (!list_empty(&garmin_data_p->pktlist)) {
-           ^
-   drivers/usb/serial/garmin_gps.c:324:3: note: Calling 'list_del'
-                   list_del(&result->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:147:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   Suppressed 16 warnings (8 in non-user code, 8 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/w1/masters/mxc_w1.c:117:10: warning: Division by zero [clang-ana=
-lyzer-core.DivideZero]
-           clkrate /=3D clkdiv;
-           ~~~~~~~~^~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:100:6: note: Assuming 'mdev' is non-null
-           if (!mdev)
-               ^~~~~
-   drivers/w1/masters/mxc_w1.c:100:2: note: Taking false branch
-           if (!mdev)
-           ^
-   drivers/w1/masters/mxc_w1.c:104:6: note: Calling 'IS_ERR'
-           if (IS_ERR(mdev->clk))
-               ^~~~~~~~~~~~~~~~~
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:104:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(mdev->clk))
-               ^~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:104:2: note: Taking false branch
-           if (IS_ERR(mdev->clk))
-           ^
-   drivers/w1/masters/mxc_w1.c:107:8: note: Calling 'clk_prepare_enable'
-           err =3D clk_prepare_enable(mdev->clk);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:950:8: note: Calling 'clk_prepare'
-           ret =3D clk_prepare(clk);
-                 ^~~~~~~~~~~~~~~~
-   include/linux/clk.h:273:2: note: Loop condition is false.  Exiting loop
-           might_sleep();
-           ^
-   include/linux/kernel.h:132:2: note: expanded from macro 'might_sleep'
-           do { __might_sleep(__FILE__, __LINE__, 0); might_resched(); } wh=
-ile (0)
-           ^
-   include/linux/clk.h:274:2: note: Returning zero, which participates in a=
- condition later
-           return 0;
-           ^~~~~~~~
-   include/linux/clk.h:950:8: note: Returning from 'clk_prepare'
-           ret =3D clk_prepare(clk);
-                 ^~~~~~~~~~~~~~~~
-   include/linux/clk.h:951:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   include/linux/clk.h:951:2: note: Taking false branch
-           if (ret)
-           ^
-   include/linux/clk.h:953:8: note: Calling 'clk_enable'
-           ret =3D clk_enable(clk);
-                 ^~~~~~~~~~~~~~~
-   include/linux/clk.h:865:2: note: Returning zero, which participates in a=
- condition later
-           return 0;
-           ^~~~~~~~
-   include/linux/clk.h:953:8: note: Returning from 'clk_enable'
-           ret =3D clk_enable(clk);
-                 ^~~~~~~~~~~~~~~
-   include/linux/clk.h:954:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   include/linux/clk.h:954:2: note: Taking false branch
-           if (ret)
-           ^
-   include/linux/clk.h:957:2: note: Returning zero (loaded from 'ret'), whi=
-ch participates in a condition later
-           return ret;
-           ^~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:107:8: note: Returning from 'clk_prepare_ena=
-ble'
-           err =3D clk_prepare_enable(mdev->clk);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:108:6: note: 'err' is 0
-           if (err)
-               ^~~
-   drivers/w1/masters/mxc_w1.c:108:2: note: Taking false branch
-           if (err)
-           ^
-   drivers/w1/masters/mxc_w1.c:112:6: note: 'clkrate' is < 10000000
-           if (clkrate < 10000000)
-               ^~~~~~~
-   drivers/w1/masters/mxc_w1.c:112:2: note: Taking true branch
-           if (clkrate < 10000000)
-           ^
-   drivers/w1/masters/mxc_w1.c:116:11: note: Left side of '||' is true
-           clkdiv =3D DIV_ROUND_CLOSEST(clkrate, 1000000);
-                    ^
-   include/linux/math.h:89:23: note: expanded from macro 'DIV_ROUND_CLOSEST'
-           (((typeof(x))-1) > 0 ||                         \
-                                ^
-   drivers/w1/masters/mxc_w1.c:116:2: note: The value 0 is assigned to 'clk=
-div'
-           clkdiv =3D DIV_ROUND_CLOSEST(clkrate, 1000000);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:117:10: note: Division by zero
-           clkrate /=3D clkdiv;
-           ~~~~~~~~^~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (4 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2788:7: note: Assuming the condition =
-is false
-                   if (!the_hcd_pdev[i]) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2788:3: note: Taking false branch
-                   if (!the_hcd_pdev[i]) {
-                   ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2786:14: note: Assuming 'i' is >=3D f=
-ield 'num'
-           for (i =3D 0; i < mod_data.num; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2786:2: note: Loop condition is false=
-. Execution continues on line 2795
-           for (i =3D 0; i < mod_data.num; i++) {
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2795:14: note: Assuming 'i' is >=3D f=
-ield 'num'
-           for (i =3D 0; i < mod_data.num; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2795:2: note: Loop condition is false=
-. Execution continues on line 2804
-           for (i =3D 0; i < mod_data.num; i++) {
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2804:2: note: Loop condition is false=
-. Execution continues on line 2820
-           for (i =3D 0; i < mod_data.num; i++) {
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2821:6: note: Assuming 'retval' is >=
-=3D 0
-           if (retval < 0)
-               ^~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2821:2: note: Taking false branch
-           if (retval < 0)
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2824:6: note: Assuming 'retval' is >=
-=3D 0
-           if (retval < 0)
-               ^~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2824:2: note: Taking false branch
-           if (retval < 0)
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2827:14: note: Assuming 'i' is < fiel=
-d 'num'
-           for (i =3D 0; i < mod_data.num; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2827:2: note: Loop condition is true.=
-  Entering loop body
-           for (i =3D 0; i < mod_data.num; i++) {
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2829:7: note: Assuming 'retval' is >=
-=3D 0
-                   if (retval < 0) {
-                       ^~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2829:3: note: Taking false branch
-                   if (retval < 0) {
-                   ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2827:14: note: Assuming 'i' is >=3D f=
-ield 'num'
-           for (i =3D 0; i < mod_data.num; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2827:2: note: Loop condition is false=
-. Execution continues on line 2836
-           for (i =3D 0; i < mod_data.num; i++) {
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2836:7: note: The value 0 is assigned=
- to 'i'
-           for (i =3D 0; i < mod_data.num; i++) {
-                ^~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2836:14: note: Assuming 'i' is < fiel=
-d 'num'
-           for (i =3D 0; i < mod_data.num; i++) {
-                       ^~~~~~~~~~~~~~~~
-   drivers/usb/gadget/udc/dummy_hcd.c:2836:2: note: Loop condition is true.=
-  Entering loop body
-           for (i =3D 0; i < mod_data.num; i++) {
-           ^
-   drivers/usb/gadget/udc/dummy_hcd.c:2837:8: note: Access to field 'hs_hcd=
-' results in a dereference of a null pointer
-                   if (!dum[i]->hs_hcd ||
-                        ^~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/leds/uleds.c:150:4: warning: Value stored to 'retval' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/uleds.c:150:4: note: Value stored to 'retval' is never read
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/firmware/arm_scpi.c:943:23: warning: Value stored to 'cl' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   struct mbox_client *cl =3D &pchan->cl;
-                                       ^~   ~~~~~~~~~~
-   drivers/firmware/arm_scpi.c:943:23: note: Value stored to 'cl' during it=
-s initialization is never read
-                   struct mbox_client *cl =3D &pchan->cl;
-                                       ^~   ~~~~~~~~~~
->> drivers/firmware/arm_scpi.c:944:23: warning: Value stored to 'shmem' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-                   struct device_node *shmem =3D of_parse_phandle(np, "shme=
-m", idx);
-                                       ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/firmware/arm_scpi.c:944:23: note: Value stored to 'shmem' during=
- its initialization is never read
-                   struct device_node *shmem =3D of_parse_phandle(np, "shme=
-m", idx);
-                                       ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/hid/hid-picolcd_fb.c:152:14: warning: The left expression of the=
- compound assignment is an uninitialized value. The computed value will als=
-o be garbage [clang-analyzer-core.uninitialized.Assign]
-                                   tdata[i] <<=3D 1;
-                                            ^
-   drivers/hid/hid-picolcd_fb.c:437:2: note: Calling 'picolcd_fb_update'
-           picolcd_fb_update(info);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-picolcd_fb.c:234:2: note: Loop condition is false.  Exit=
-ing loop
-           spin_lock_irqsave(&fbdata->lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/hid/hid-picolcd_fb.c:234:2: note: Loop condition is false.  Exit=
-ing loop
-           spin_lock_irqsave(&fbdata->lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/hid/hid-picolcd_fb.c:235:6: note: Assuming field 'ready' is not =
-equal to 0
-           if (!fbdata->ready && fbdata->picolcd)
-               ^~~~~~~~~~~~~~
-   drivers/hid/hid-picolcd_fb.c:235:21: note: Left side of '&&' is false
-           if (!fbdata->ready && fbdata->picolcd)
-                              ^
-   drivers/hid/hid-picolcd_fb.c:247:2: note: Loop condition is true.  Enter=
-ing loop body
-           for (chip =3D 0; chip < 4; chip++)
-           ^
-   drivers/hid/hid-picolcd_fb.c:248:3: note: Loop condition is true.  Enter=
-ing loop body
-                   for (tile =3D 0; tile < 8; tile++) {
-                   ^
-   drivers/hid/hid-picolcd_fb.c:249:8: note: Assuming field 'force' is 0
-                           if (!fbdata->force && !picolcd_fb_update_tile(
-                               ^~~~~~~~~~~~~~
-   drivers/hid/hid-picolcd_fb.c:249:8: note: Left side of '&&' is true
-   drivers/hid/hid-picolcd_fb.c:249:27: note: Calling 'picolcd_fb_update_ti=
-le'
-                           if (!fbdata->force && !picolcd_fb_update_tile(
-                                                  ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-picolcd_fb.c:148:6: note: Assuming 'bpp' is equal to 1
-           if (bpp =3D=3D 1) {
-               ^~~~~~~~
-   drivers/hid/hid-picolcd_fb.c:148:2: note: Taking true branch
-           if (bpp =3D=3D 1) {
-           ^
-   drivers/hid/hid-picolcd_fb.c:149:3: note: Loop condition is true.  Enter=
-ing loop body
-                   for (b =3D 7; b >=3D 0; b--) {
-                   ^
-   drivers/hid/hid-picolcd_fb.c:151:9: note: The value 0 is assigned to 'i'
-                           for (i =3D 0; i < 64; i++) {
-                                ^~~~~
-   drivers/hid/hid-picolcd_fb.c:151:4: note: Loop condition is true.  Enter=
-ing loop body
-                           for (i =3D 0; i < 64; i++) {
-                           ^
-   drivers/hid/hid-picolcd_fb.c:152:14: note: The left expression of the co=
-mpound assignment is an uninitialized value. The computed value will also b=
-e garbage
-                                   tdata[i] <<=3D 1;
-                                   ~~~~~~~~ ^
-   drivers/hid/hid-picolcd_fb.c:160:14: warning: The left expression of the=
- compound assignment is an uninitialized value. The computed value will als=
-o be garbage [clang-analyzer-core.uninitialized.Assign]
-                                   tdata[i] <<=3D 1;
-                                            ^
-   drivers/hid/hid-picolcd_fb.c:437:2: note: Calling 'picolcd_fb_update'
-           picolcd_fb_update(info);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-picolcd_fb.c:234:2: note: Loop condition is false.  Exit=
-ing loop
-           spin_lock_irqsave(&fbdata->lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/hid/hid-picolcd_fb.c:234:2: note: Loop condition is false.  Exit=
-ing loop
-           spin_lock_irqsave(&fbdata->lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/hid/hid-picolcd_fb.c:235:6: note: Assuming field 'ready' is not =
-equal to 0
-           if (!fbdata->ready && fbdata->picolcd)
-               ^~~~~~~~~~~~~~
-   drivers/hid/hid-picolcd_fb.c:235:21: note: Left side of '&&' is false
---
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1627:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(cell))
-               ^~~~~~~~~~~~
-   drivers/nvmem/core.c:1627:2: note: Taking false branch
-           if (IS_ERR(cell))
-           ^
-   drivers/nvmem/core.c:1631:8: note: Calling 'nvmem_cell_read'
-           buf =3D nvmem_cell_read(cell, len);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1423:6: note: Assuming 'nvmem' is non-null
-           if (!nvmem)
-               ^~~~~~
-   drivers/nvmem/core.c:1423:2: note: Taking false branch
-           if (!nvmem)
-           ^
-   drivers/nvmem/core.c:1427:6: note: Assuming 'buf' is non-null
-           if (!buf)
-               ^~~~
-   drivers/nvmem/core.c:1427:2: note: Taking false branch
-           if (!buf)
-           ^
-   drivers/nvmem/core.c:1430:7: note: Calling '__nvmem_cell_read'
-           rc =3D __nvmem_cell_read(nvmem, cell, buf, len);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1394:6: note: Assuming 'rc' is not equal to 0
-           if (rc)
-               ^~
-   drivers/nvmem/core.c:1394:2: note: Taking true branch
-           if (rc)
-           ^
-   drivers/nvmem/core.c:1430:7: note: Returning from '__nvmem_cell_read'
-           rc =3D __nvmem_cell_read(nvmem, cell, buf, len);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1431:6: note: 'rc' is not equal to 0
-           if (rc) {
-               ^~
-   drivers/nvmem/core.c:1431:2: note: Taking true branch
-           if (rc) {
-           ^
-   drivers/nvmem/core.c:1631:8: note: Returning from 'nvmem_cell_read'
-           buf =3D nvmem_cell_read(cell, len);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1633:6: note: Calling 'IS_ERR'
-           if (IS_ERR(buf))
-               ^~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvmem/core.c:1633:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(buf))
-               ^~~~~~~~~~~
-   drivers/nvmem/core.c:1633:2: note: Taking false branch
-           if (IS_ERR(buf))
-           ^
-   drivers/nvmem/core.c:1640:6: note: Assuming 'nbits' is 0
-           if (nbits)
-               ^~~~~
-   drivers/nvmem/core.c:1640:2: note: Taking false branch
-           if (nbits)
-           ^
-   drivers/nvmem/core.c:1643:11: note: The left operand of '>' is a garbage=
- value
-           if (*len > max_len) {
-               ~~~~ ^
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/iommu/mtk_iommu_v1.c:384:3: warning: Value stored to 'fwspec' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   fwspec =3D dev_iommu_fwspec_get(dev);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/mtk_iommu_v1.c:384:3: note: Value stored to 'fwspec' is ne=
-ver read
-                   fwspec =3D dev_iommu_fwspec_get(dev);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/input/rmi4/rmi_f11.c:1129:2: warning: Value stored to 'query_off=
-set' is never read [clang-analyzer-deadcode.DeadStores]
-           query_offset +=3D rc;
-           ^               ~~
-   drivers/input/rmi4/rmi_f11.c:1129:2: note: Value stored to 'query_offset=
-' is never read
-           query_offset +=3D rc;
-           ^               ~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/input/rmi4/rmi_f12.c:133:3: warning: Value stored to 'offset' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   offset +=3D 1;
-                   ^         ~
-   drivers/input/rmi4/rmi_f12.c:133:3: note: Value stored to 'offset' is ne=
-ver read
-                   offset +=3D 1;
-                   ^         ~
-   drivers/input/rmi4/rmi_f12.c:401:2: warning: Value stored to 'query_addr=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           query_addr +=3D 3;
-           ^             ~
-   drivers/input/rmi4/rmi_f12.c:401:2: note: Value stored to 'query_addr' i=
-s never read
-           query_addr +=3D 3;
-           ^             ~
-   drivers/input/rmi4/rmi_f12.c:520:3: warning: Value stored to 'data_offse=
-t' is never read [clang-analyzer-deadcode.DeadStores]
-                   data_offset +=3D item->reg_size;
-                   ^              ~~~~~~~~~~~~~~
-   drivers/input/rmi4/rmi_f12.c:520:3: note: Value stored to 'data_offset' =
-is never read
-                   data_offset +=3D item->reg_size;
-                   ^              ~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/i2c/busses/i2c-riic.c:359:38: warning: Division by zero [clang-a=
-nalyzer-core.DivideZero]
-           brl -=3D t->scl_fall_ns / (1000000000 / rate);
-                                    ~~~~~~~~~~~^~~~~~
-   drivers/i2c/busses/i2c-riic.c:297:6: note: Assuming field 'bus_freq_hz' =
-is <=3D I2C_MAX_FAST_MODE_FREQ
-           if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:297:2: note: Taking false branch
-           if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:305:9: note: Calling 'clk_get_rate'
-           rate =3D clk_get_rate(riic->clk);
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:882:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:305:9: note: Returning from 'clk_get_rate'
-           rate =3D clk_get_rate(riic->clk);
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:305:2: note: The value 0 is assigned to 'r=
-ate'
-           rate =3D clk_get_rate(riic->clk);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:324:2: note: Loop condition is true.  Ente=
-ring loop body
-           for (cks =3D 0; cks < 7; cks++) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:330:7: note: Assuming the condition is true
-                   if (brl <=3D (0x1F + 3))
-                       ^~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:330:3: note: Taking true branch
-                   if (brl <=3D (0x1F + 3))
-                   ^
-   drivers/i2c/busses/i2c-riic.c:331:4: note:  Execution continues on line =
-337
-                           break;
-                           ^
-   drivers/i2c/busses/i2c-riic.c:337:2: note: Taking false branch
-           if (brl > (0x1F + 3)) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:347:6: note: 'cks' is equal to 0
-           if (cks =3D=3D 0) {
-               ^~~
-   drivers/i2c/busses/i2c-riic.c:347:2: note: Taking true branch
-           if (cks =3D=3D 0) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:359:38: note: Division by zero
-           brl -=3D t->scl_fall_ns / (1000000000 / rate);
-                                    ~~~~~~~~~~~^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-                   ^
-   drivers/staging/emxx_udc/emxx_udc.c:2689:7: note: Loop condition is fals=
-e.  Exiting loop
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2692:6: note: Assuming 'udc' is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2692:6: note: Assuming pointer value=
- is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2692:2: note: Taking true branch
-           if (!udc) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2693:11: note: Access to field 'dev'=
- results in a dereference of a null pointer (loaded from field 'udc')
-                   dev_err(ep->udc->dev, " *** %s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   drivers/staging/emxx_udc/emxx_udc.c:2741:11: warning: Access to field 'd=
-ev' results in a dereference of a null pointer (loaded from field 'udc') [c=
-lang-analyzer-core.NullDereference]
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   drivers/staging/emxx_udc/emxx_udc.c:2732:6: note: Assuming '_ep' is non-=
-null
-           if (!_ep) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2732:2: note: Taking false branch
-           if (!_ep) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2737:7: note: Left side of '&&' is f=
-alse
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/staging/emxx_udc/emxx_udc.c:2737:7: note: Taking false branch
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/staging/emxx_udc/emxx_udc.c:2737:7: note: Loop condition is fals=
-e.  Exiting loop
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2740:6: note: Assuming 'udc' is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2740:2: note: Taking true branch
-           if (!udc) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2741:11: note: Access to field 'dev'=
- results in a dereference of a null pointer (loaded from field 'udc')
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
->> drivers/staging/emxx_udc/emxx_udc.c:2754:3: warning: Value stored to 'da=
-ta' is never read [clang-analyzer-deadcode.DeadStores]
-                   data =3D _nbu2ss_readl(&preg->EP0_LENGTH) & EP0_LDATA;
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2754:3: note: Value stored to 'data'=
- is never read
-                   data =3D _nbu2ss_readl(&preg->EP0_LENGTH) & EP0_LDATA;
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2757:3: warning: Value stored to 'da=
-ta' is never read [clang-analyzer-deadcode.DeadStores]
-                   data =3D _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_=
-LEN_DCNT)
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2757:3: note: Value stored to 'data'=
- is never read
-                   data =3D _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_=
-LEN_DCNT)
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2783:11: warning: Access to field 'd=
-ev' results in a dereference of a null pointer (loaded from field 'udc') [c=
-lang-analyzer-core.NullDereference]
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   drivers/staging/emxx_udc/emxx_udc.c:2774:6: note: Assuming '_ep' is non-=
-null
-           if (!_ep) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2774:2: note: Taking false branch
-           if (!_ep) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2779:7: note: Left side of '&&' is f=
-alse
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/staging/emxx_udc/emxx_udc.c:2779:7: note: Taking false branch
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/staging/emxx_udc/emxx_udc.c:2779:7: note: Loop condition is fals=
-e.  Exiting loop
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2782:6: note: Assuming 'udc' is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2782:2: note: Taking true branch
-           if (!udc) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2783:11: note: Access to field 'dev'=
- results in a dereference of a null pointer (loaded from field 'udc')
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   lib/vsprintf.c:358:22: warning: The left operand of '=3D=3D' is a garbag=
-e value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           else while (buf[-1] =3D=3D '0')
-                               ^
-   lib/vsprintf.c:379:6: note: Assuming 'num' is > 9
-           if (num <=3D 9) {
-               ^~~~~~~~
-   lib/vsprintf.c:379:2: note: Taking false branch
-           if (num <=3D 9) {
-           ^
-   lib/vsprintf.c:383:9: note: Calling 'put_dec'
-                   len =3D put_dec(tmp, num) - tmp;
-                         ^~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:335:6: note: Assuming the condition is false
-           if (n < 100*1000*1000)
---
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/usb/misc/ftdi-elan.c:565:3: warning: Value stored to 'work_delay=
-_in_msec' is never read [clang-analyzer-deadcode.DeadStores]
-                   work_delay_in_msec =3D 10;
-                   ^                    ~~
-   drivers/usb/misc/ftdi-elan.c:565:3: note: Value stored to 'work_delay_in=
-_msec' is never read
-                   work_delay_in_msec =3D 10;
-                   ^                    ~~
-   Suppressed 6 warnings (4 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/usb/misc/iowarrior.c:508:2: warning: Value stored to 'io_res' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           io_res =3D 0;
-           ^        ~
-   drivers/usb/misc/iowarrior.c:508:2: note: Value stored to 'io_res' is ne=
-ver read
-           io_res =3D 0;
-           ^        ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   fs/binfmt_elf_fdpic.c:333:2: warning: Value stored to 'retval' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           retval =3D -ENOEXEC;
-           ^        ~~~~~~~~
-   fs/binfmt_elf_fdpic.c:333:2: note: Value stored to 'retval' is never read
-           retval =3D -ENOEXEC;
-           ^        ~~~~~~~~
->> fs/binfmt_elf_fdpic.c:335:3: warning: Value stored to 'stack_size' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   stack_size =3D 131072UL; /* same as exec.c's default com=
-mit */
-                   ^            ~~~~~~~~
-   fs/binfmt_elf_fdpic.c:335:3: note: Value stored to 'stack_size' is never=
- read
-                   stack_size =3D 131072UL; /* same as exec.c's default com=
-mit */
-                   ^            ~~~~~~~~
-   fs/binfmt_elf_fdpic.c:772:2: warning: Value stored to 'load_addr' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           load_addr =3D params->load_addr;
-           ^           ~~~~~~~~~~~~~~~~~
-   fs/binfmt_elf_fdpic.c:772:2: note: Value stored to 'load_addr' is never =
-read
-           load_addr =3D params->load_addr;
-           ^           ~~~~~~~~~~~~~~~~~
-   fs/binfmt_elf_fdpic.c:773:2: warning: Value stored to 'seg' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           seg =3D loadmap->segs;
-           ^     ~~~~~~~~~~~~~
-   fs/binfmt_elf_fdpic.c:773:2: note: Value stored to 'seg' is never read
-           seg =3D loadmap->segs;
-           ^     ~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-   drivers/rtc/rtc-abx80x.c:534:3: warning: Value stored to 'status' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                   status &=3D ~ABX8XX_STATUS_BLF;
-                   ^         ~~~~~~~~~~~~~~~~~~
-   drivers/rtc/rtc-abx80x.c:534:3: note: Value stored to 'status' is never =
-read
-                   status &=3D ~ABX8XX_STATUS_BLF;
-                   ^         ~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   fs/locks.c:2589:3: warning: Value stored to 'cmd' is never read [clang-a=
-nalyzer-deadcode.DeadStores]
-                   cmd =3D F_GETLK64;
-                   ^
-   fs/locks.c:2589:3: note: Value stored to 'cmd' is never read
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/mmc/host/vub300.c:1610:4: warning: Value stored to 'result' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                           result =3D usb_reset_device(vub300->udev);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mmc/host/vub300.c:1610:4: note: Value stored to 'result' is neve=
-r read
-                           result =3D usb_reset_device(vub300->udev);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/spi/spi-lantiq-ssc.c:284:17: warning: Division by zero [clang-an=
-alyzer-core.DivideZero]
-                   brt =3D spi_clk / max_speed_hz - 1;
-                                 ^
-   drivers/spi/spi-lantiq-ssc.c:816:2: note: Calling 'hw_setup_transfer'
-           hw_setup_transfer(spi, spidev, t);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-lantiq-ssc.c:433:2: note: 'speed_hz' initialized here
-           unsigned int speed_hz =3D t->speed_hz;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-lantiq-ssc.c:437:6: note: Assuming 'bits_per_word' is no=
-t equal to field 'bits_per_word'
-           if (bits_per_word !=3D spi->bits_per_word ||
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-lantiq-ssc.c:437:42: note: Left side of '||' is true
-           if (bits_per_word !=3D spi->bits_per_word ||
-                                                   ^
-   drivers/spi/spi-lantiq-ssc.c:440:26: note: Passing value via 2nd paramet=
-er 'max_speed_hz'
-                   hw_setup_speed_hz(spi, speed_hz);
-                                          ^~~~~~~~
-   drivers/spi/spi-lantiq-ssc.c:440:3: note: Calling 'hw_setup_speed_hz'
-                   hw_setup_speed_hz(spi, speed_hz);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-lantiq-ssc.c:281:6: note: Assuming 'max_speed_hz' is <=
-=3D 'spi_clk'
-           if (max_speed_hz > spi_clk)
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-lantiq-ssc.c:281:2: note: Taking false branch
-           if (max_speed_hz > spi_clk)
-           ^
-   drivers/spi/spi-lantiq-ssc.c:284:17: note: Division by zero
-                   brt =3D spi_clk / max_speed_hz - 1;
-                         ~~~~~~~~^~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   lib/xarray.c:2029:18: warning: Value stored to 'node' during its initial=
-ization is never read [clang-analyzer-deadcode.DeadStores]
-           struct xa_node *node =3D xas->xa_node;
-                           ^~~~   ~~~~~~~~~~~~
-   lib/xarray.c:2029:18: note: Value stored to 'node' during its initializa=
-tion is never read
-           struct xa_node *node =3D xas->xa_node;
-                           ^~~~   ~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/hid/hid-kye.c:684:6: warning: Access to field 'maxfield' results=
- in a dereference of an undefined pointer value (loaded from variable 'repo=
-rt') [clang-analyzer-core.NullDereference]
-           if (report->maxfield < 1 || report->field[0]->report_count < 7) {
---
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/regulator/helpers.c:963:6: warning: Assigned value is garbage or=
- undefined [clang-analyzer-core.uninitialized.Assign]
-           sel <<=3D ffs(rdev->desc->ramp_mask) - 1;
-               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/helpers.c:951:14: note: Assuming field 'n_ramp_values'=
- is not equal to 0
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-                       ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/regulator/helpers.c:951:14: note: Left side of '||' is false
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-                       ^
-   drivers/regulator/helpers.c:951:44: note: Assuming field 'ramp_delay_tab=
-le' is non-null
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-                                                     ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/regulator/helpers.c:951:6: note: Taking false branch
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   drivers/regulator/helpers.c:951:2: note: Taking false branch
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-           ^
-   drivers/regulator/helpers.c:957:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/regulator/helpers.c:957:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/regulator/helpers.c:963:6: note: Assigned value is garbage or un=
-defined
-           sel <<=3D ffs(rdev->desc->ramp_mask) - 1;
-               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   fs/autofs/dev-ioctl.c:519:34: warning: Although the value stored to 'dev=
-id' is used in the enclosing expression, the value is never actually read f=
-rom 'devid' [clang-analyzer-deadcode.DeadStores]
-           param->ismountpoint.out.devid =3D devid =3D 0;
-                                           ^       ~
-   fs/autofs/dev-ioctl.c:519:34: note: Although the value stored to 'devid'=
- is used in the enclosing expression, the value is never actually read from=
- 'devid'
-           param->ismountpoint.out.devid =3D devid =3D 0;
-                                           ^       ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   fs/overlayfs/super.c:1809:2: warning: Value stored to 'err' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           err =3D -EINVAL;
-           ^     ~~~~~~~
-   fs/overlayfs/super.c:1809:2: note: Value stored to 'err' is never read
-           err =3D -EINVAL;
-           ^     ~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   fs/overlayfs/namei.c:55:2: warning: Call to function 'strcat' is insecur=
-e as it does not provide bounding of the memory buffer. Replace unbounded c=
-opy functions with analogous functions that support length arguments such a=
-s 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(buf, post);
-           ^~~~~~
-   fs/overlayfs/namei.c:55:2: note: Call to function 'strcat' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcat'. CWE-119
-           strcat(buf, post);
-           ^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   fs/configfs/symlink.c:70:3: warning: Call to function 'strcpy' is insecu=
-re as it does not provide bounding of the memory buffer. Replace unbounded =
-copy functions with analogous functions that support length arguments such =
-as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(s,"../");
-                   ^~~~~~
-   fs/configfs/symlink.c:70:3: note: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119
-                   strcpy(s,"../");
-                   ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
->> drivers/gpu/host1x/intr.c:29:2: warning: Attempt to free released memory=
- [clang-analyzer-unix.Malloc]
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^
-   drivers/gpu/host1x/intr.c:257:6: note: Assuming the condition is true
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:257:2: note: Taking true branch
-           if (atomic_cmpxchg(&waiter->state, WLS_CANCELLED, WLS_HANDLED) =
-=3D=3D
-           ^
-   drivers/gpu/host1x/intr.c:260:3: note: Calling 'kref_put'
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/host1x/intr.c:29:8: note: Loop condition is false.  Exiting =
-loop
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/host1x/intr.c:29:2: note: Memory is released
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:260:3: note: Returning; memory was released
-                   kref_put(&waiter->refcount, waiter_release);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:264:6: note: Assuming 'flush' is false
-           if (flush) {
-               ^~~~~
-   drivers/gpu/host1x/intr.c:264:2: note: Taking false branch
-           if (flush) {
-           ^
-   drivers/gpu/host1x/intr.c:270:2: note: Calling 'kref_put'
-           kref_put(&waiter->refcount, waiter_release);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:2: note: Taking true branch
-           if (refcount_dec_and_test(&kref->refcount)) {
-           ^
-   include/linux/kref.h:65:3: note: Calling 'waiter_release'
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/gpu/host1x/intr.c:29:8: note: Left side of '&&' is false
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/host1x/intr.c:29:8: note: Taking false branch
-           kfree(container_of(kref, struct host1x_waitlist, refcount));
-                 ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
---
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   drivers/spi/spi-stm32.c:449:12: note: Returning from 'fls'
-                   mbrdiv =3D fls(div);
-                            ^~~~~~~~
-   drivers/spi/spi-stm32.c:449:3: note: The value 32 is assigned to 'mbrdiv'
-                   mbrdiv =3D fls(div);
-                   ^~~~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:453:38: note: The result of the left shift is un=
-defined due to shifting by '32', which is greater or equal to the width of =
-type 'int'
-           spi->cur_speed =3D spi->clk_rate / (1 << mbrdiv);
-                                               ^  ~~~~~~
-   drivers/spi/spi-stm32.c:453:38: warning: The result of the left shift is=
- undefined due to shifting by '4294967295', which is greater or equal to th=
-e width of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           spi->cur_speed =3D spi->clk_rate / (1 << mbrdiv);
-                                               ^
-   drivers/spi/spi-stm32.c:1649:6: note: Assuming field 'len' is not equal =
-to 0
-           if (transfer->len =3D=3D 0)
-               ^~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:1649:2: note: Taking false branch
-           if (transfer->len =3D=3D 0)
-           ^
-   drivers/spi/spi-stm32.c:1654:16: note: Assuming field 'tx_buf' is null
-           spi->tx_len =3D spi->tx_buf ? transfer->len : 0;
-                         ^~~~~~~~~~~
-   drivers/spi/spi-stm32.c:1654:16: note: '?' condition is false
-   drivers/spi/spi-stm32.c:1655:16: note: Assuming field 'rx_buf' is null
-           spi->rx_len =3D spi->rx_buf ? transfer->len : 0;
-                         ^~~~~~~~~~~
-   drivers/spi/spi-stm32.c:1655:16: note: '?' condition is false
-   drivers/spi/spi-stm32.c:1657:21: note: Assuming field 'can_dma' is null
-           spi->cur_usedma =3D (master->can_dma &&
-                              ^~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:1657:37: note: Left side of '&&' is false
-           spi->cur_usedma =3D (master->can_dma &&
-                                              ^
-   drivers/spi/spi-stm32.c:1660:8: note: Calling 'stm32_spi_transfer_one_se=
-tup'
-           ret =3D stm32_spi_transfer_one_setup(spi, spi_dev, transfer);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:1573:2: note: Loop condition is false.  Exiting =
-loop
-           spin_lock_irqsave(&spi->lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/spi/spi-stm32.c:1573:2: note: Loop condition is false.  Exiting =
-loop
-           spin_lock_irqsave(&spi->lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/spi/spi-stm32.c:1581:8: note: Calling 'stm32_spi_prepare_mbr'
-           mbr =3D stm32_spi_prepare_mbr(spi, transfer->speed_hz,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:444:7: note: Assuming 'div' is >=3D 'min_div'
-           if ((div < min_div) || (div > max_div))
-                ^~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:444:6: note: Left side of '||' is false
-           if ((div < min_div) || (div > max_div))
-               ^
-   drivers/spi/spi-stm32.c:444:26: note: Assuming 'div' is <=3D 'max_div'
-           if ((div < min_div) || (div > max_div))
-                                   ^~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:444:2: note: Taking false branch
-           if ((div < min_div) || (div > max_div))
-           ^
-   drivers/spi/spi-stm32.c:448:6: note: Assuming the condition is false
-           if (div & (div - 1))
-               ^~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:448:2: note: Taking false branch
-           if (div & (div - 1))
-           ^
-   drivers/spi/spi-stm32.c:451:3: note: The value 4294967295 is assigned to=
- 'mbrdiv'
-                   mbrdiv =3D fls(div) - 1;
-                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-stm32.c:453:38: note: The result of the left shift is un=
-defined due to shifting by '4294967295', which is greater or equal to the w=
-idth of type 'int'
-           spi->cur_speed =3D spi->clk_rate / (1 << mbrdiv);
-                                               ^  ~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
->> arch/arm/mach-rpc/ecard.c:640:5: warning: Call to function 'strcpy' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                                   strcpy((char *)ec->card_desc, incd.d.str=
-ing);
-                                   ^~~~~~
-   arch/arm/mach-rpc/ecard.c:640:5: note: Call to function 'strcpy' is inse=
-cure as it does not provide bounding of the memory buffer. Replace unbounde=
-d copy functions with analogous functions that support length arguments suc=
-h as 'strlcpy'. CWE-119
-                                   strcpy((char *)ec->card_desc, incd.d.str=
-ing);
-                                   ^~~~~~
-   Suppressed 11 warnings (8 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   24 warnings generated.
-   drivers/gpu/drm/virtio/virtgpu_vq.c:180:6: warning: Access to field 'res=
-p_size' results in a dereference of a null pointer (loaded from variable 'v=
-buf') [clang-analyzer-core.NullDereference]
-           if (vbuf->resp_size > MAX_INLINE_RESP_SIZE)
-               ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:1122:10: note: Calling 'virtio_gpu_a=
-lloc_cursor'
-           cur_p =3D virtio_gpu_alloc_cursor(vgdev, &vbuf);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:132:6: note: Calling 'IS_ERR'
-           if (IS_ERR(vbuf)) {
-               ^~~~~~~~~~~~
-   include/linux/err.h:36:2: note: Returning the value 1, which participate=
-s in a condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:132:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(vbuf)) {
-               ^~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:132:2: note: Taking true branch
-           if (IS_ERR(vbuf)) {
-           ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:133:3: note: Null pointer value stor=
-ed to 'vbuf'
-                   *vbuffer_p =3D NULL;
-                   ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:1122:10: note: Returning from 'virti=
-o_gpu_alloc_cursor'
-           cur_p =3D virtio_gpu_alloc_cursor(vgdev, &vbuf);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:1124:33: note: Passing null pointer =
-value via 2nd parameter 'vbuf'
-           virtio_gpu_queue_cursor(vgdev, vbuf);
-                                          ^~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:1124:2: note: Calling 'virtio_gpu_qu=
-eue_cursor'
-           virtio_gpu_queue_cursor(vgdev, vbuf);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:463:6: note: Assuming the condition =
-is true
-           if (!drm_dev_enter(vgdev->ddev, &idx)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:463:2: note: Taking true branch
-           if (!drm_dev_enter(vgdev->ddev, &idx)) {
-           ^
-   drivers/gpu/drm/virtio/virtgpu_vq.c:464:20: note: Passing null pointer v=
-alue via 2nd parameter 'vbuf'
-                   free_vbuf(vgdev, vbuf);
-                                    ^~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:464:3: note: Calling 'free_vbuf'
-                   free_vbuf(vgdev, vbuf);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/virtio/virtgpu_vq.c:180:6: note: Access to field 'resp_s=
-ize' results in a dereference of a null pointer (loaded from variable 'vbuf=
-')
-           if (vbuf->resp_size > MAX_INLINE_RESP_SIZE)
---
-                   ^
-   drivers/mfd/wm831x-irq.c:531:21: note: The result of the left shift is u=
-ndefined due to shifting by '4294967295', which is greater or equal to the =
-width of type 'int'
-                           while (!(ret & 1 << (i - WM831X_IRQ_GPIO_1))) {
-                                            ^  ~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/video/fbdev/core/fbcvt.c:261:4: warning: Value stored to 'cnt' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                           cnt -=3D read;
-                           ^      ~~~~
-   drivers/video/fbdev/core/fbcvt.c:261:4: note: Value stored to 'cnt' is n=
-ever read
-                           cnt -=3D read;
-                           ^      ~~~~
-   drivers/video/fbdev/core/fbcvt.c:262:4: warning: Value stored to 'offset=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                           offset +=3D read;
-                           ^         ~~~~
-   drivers/video/fbdev/core/fbcvt.c:262:4: note: Value stored to 'offset' i=
-s never read
-                           offset +=3D read;
-                           ^         ~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   Suppressed 14 warnings (8 in non-user code, 6 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> drivers/gpio/gpiolib.c:550:8: warning: Null pointer passed as 1st argume=
-nt to string comparison function [clang-analyzer-unix.cstring.NullArg]
-                   if (!strcmp(gc->label, hog->chip_label))
-                        ^
-   drivers/gpio/gpiolib.c:574:33: note: Assuming field 'parent' is null
-           struct fwnode_handle *fwnode =3D gc->parent ? dev_fwnode(gc->par=
-ent) : NULL;
-                                          ^~~~~~~~~~
-   drivers/gpio/gpiolib.c:574:33: note: '?' condition is false
-   drivers/gpio/gpiolib.c:586:6: note: Assuming 'gdev' is non-null
-           if (!gdev)
-               ^~~~~
-   drivers/gpio/gpiolib.c:586:2: note: Taking false branch
-           if (!gdev)
-           ^
-   drivers/gpio/gpiolib.c:593:2: note: Calling 'of_gpio_dev_init'
-           of_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-of.h:40:1: note: Returning without writing to 'gc->=
-label'
-   }
-   ^
-   drivers/gpio/gpiolib.c:593:2: note: Returning from 'of_gpio_dev_init'
-           of_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:594:2: note: Calling 'acpi_gpio_dev_init'
-           acpi_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib-acpi.h:63:89: note: Returning without writing to 'g=
-c->label'
-   static inline void acpi_gpio_dev_init(struct gpio_chip *gc, struct gpio_=
-device *gdev) { }
-                                                                           =
-                ^
-   drivers/gpio/gpiolib.c:594:2: note: Returning from 'acpi_gpio_dev_init'
-           acpi_gpio_dev_init(gc, gdev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:600:21: note: Value assigned to field 'label'
-           gdev->dev.fwnode =3D dev_fwnode(&gdev->dev) ?: fwnode;
-                              ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:600:21: note: '?' condition is true
-   drivers/gpio/gpiolib.c:603:6: note: Assuming field 'id' is >=3D 0
-           if (gdev->id < 0) {
-               ^~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:603:2: note: Taking false branch
-           if (gdev->id < 0) {
-           ^
-   drivers/gpio/gpiolib.c:609:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpio/gpiolib.c:609:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpio/gpiolib.c:613:6: note: Assuming field 'parent' is null
-           if (gc->parent && gc->parent->driver)
-               ^~~~~~~~~~
-   drivers/gpio/gpiolib.c:613:17: note: Left side of '&&' is false
-           if (gc->parent && gc->parent->driver)
-                          ^
-   drivers/gpio/gpiolib.c:615:11: note: Assuming field 'owner' is null
-           else if (gc->owner)
-                    ^~~~~~~~~
-   drivers/gpio/gpiolib.c:615:7: note: Taking false branch
-           else if (gc->owner)
-                ^
-   drivers/gpio/gpiolib.c:622:6: note: Assuming field 'descs' is non-null
-           if (!gdev->descs) {
-               ^~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:622:2: note: Taking false branch
-           if (!gdev->descs) {
-           ^
-   drivers/gpio/gpiolib.c:627:6: note: Assuming field 'ngpio' is not equal =
-to 0
-           if (gc->ngpio =3D=3D 0) {
-               ^~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:627:2: note: Taking false branch
-           if (gc->ngpio =3D=3D 0) {
-           ^
-   drivers/gpio/gpiolib.c:633:6: note: Assuming field 'ngpio' is <=3D FASTP=
-ATH_NGPIO
-           if (gc->ngpio > FASTPATH_NGPIO)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:633:2: note: Taking false branch
-           if (gc->ngpio > FASTPATH_NGPIO)
-           ^
-   drivers/gpio/gpiolib.c:637:30: note: Assuming pointer value is null
-           gdev->label =3D kstrdup_const(gc->label ?: "unknown", GFP_KERNEL=
-);
-                                       ^~~~~~~~~
-   drivers/gpio/gpiolib.c:637:30: note: '?' condition is false
-   drivers/gpio/gpiolib.c:638:6: note: Assuming field 'label' is non-null
-           if (!gdev->label) {
-               ^~~~~~~~~~~~
-   drivers/gpio/gpiolib.c:638:2: note: Taking false branch
-           if (!gdev->label) {
-           ^
-   drivers/gpio/gpiolib.c:646:2: note: Loop condition is false.  Exiting lo=
-op
-           spin_lock_irqsave(&gpio_lock, flags);
-           ^
-   include/linux/spinlock.h:384:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:250:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/gpio/gpiolib.c:646:2: note: Loop condition is false.  Exiting lo=
-op
-           spin_lock_irqsave(&gpio_lock, flags);
-           ^
-   include/linux/spinlock.h:382:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
---
-                         ^
-   drivers/video/fbdev/smscufx.c:1112:2: note: Taking false branch
-           if (dev->urbs.count > 0)
-           ^
-   drivers/video/fbdev/smscufx.c:1115:2: note: Taking false branch
-           pr_debug("freeing ufx_data %p", dev);
-           ^
-   include/linux/printk.h:471:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_=
-pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/video/fbdev/smscufx.c:1115:2: note: Loop condition is false.  Ex=
-iting loop
-           pr_debug("freeing ufx_data %p", dev);
-           ^
-   include/linux/printk.h:471:2: note: expanded from macro 'pr_debug'
-           dynamic_pr_debug(fmt, ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_=
-pr_debug'
-           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   drivers/video/fbdev/smscufx.c:1117:2: note: Memory is released
-           kfree(dev);
-           ^~~~~~~~~~
-   include/linux/kref.h:65:3: note: Returning; memory was released
-                   release(kref);
-                   ^~~~~~~~~~~~~
-   drivers/video/fbdev/smscufx.c:1731:2: note: Returning; memory was releas=
-ed
-           kref_put(&dev->kref, ufx_free); /* ref for framebuffer */
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/smscufx.c:1732:2: note: Calling 'kref_put'
-           kref_put(&dev->kref, ufx_free); /* last ref from kref_init */
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/kref.h:64:6: note: Calling 'refcount_dec_and_test'
-           if (refcount_dec_and_test(&kref->refcount)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/refcount.h:333:9: note: Calling '__refcount_dec_and_test'
-           return __refcount_dec_and_test(r, NULL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/refcount.h:315:9: note: Calling '__refcount_sub_and_test'
-           return __refcount_sub_and_test(1, r, oldp);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/refcount.h:272:12: note: Calling 'atomic_fetch_sub_release'
-           int old =3D atomic_fetch_sub_release(i, &r->refs);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/atomic-instrumented.h:168:9: note: Calling 'arch_ato=
-mic_fetch_sub'
-           return arch_atomic_fetch_sub_release(i, v);
-                  ^
-   include/linux/atomic-arch-fallback.h:296:39: note: expanded from macro '=
-arch_atomic_fetch_sub_release'
-   #define arch_atomic_fetch_sub_release arch_atomic_fetch_sub
-                                         ^
-   arch/arm/include/asm/atomic.h:224:1: note: Loop condition is false.  Exi=
-ting loop
-   ATOMIC_OPS(sub, -=3D, sub)
-   ^
-   arch/arm/include/asm/atomic.h:221:2: note: expanded from macro 'ATOMIC_O=
-PS'
-           ATOMIC_FETCH_OP(op, c_op, asm_op)
-           ^
-   arch/arm/include/asm/atomic.h:192:2: note: expanded from macro 'ATOMIC_F=
-ETCH_OP'
-           raw_local_irq_save(flags);                                      \
-           ^
-   include/linux/irqflags.h:169:2: note: expanded from macro 'raw_local_irq=
-_save'
-           do {                                            \
-           ^
-   arch/arm/include/asm/atomic.h:224:1: note: Use of memory after it is fre=
-ed
-   ATOMIC_OPS(sub, -=3D, sub)
-   ^
-   arch/arm/include/asm/atomic.h:221:2: note: expanded from macro 'ATOMIC_O=
-PS'
-           ATOMIC_FETCH_OP(op, c_op, asm_op)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/arm/include/asm/atomic.h:193:8: note: expanded from macro 'ATOMIC_F=
-ETCH_OP'
-           val =3D v->counter;                                             =
-  \
-                 ^~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/host1x/cdma.c:558:15: warning: Value stored to 'space' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned int space =3D cdma->slots_free;
-                        ^~~~~   ~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/cdma.c:558:15: note: Value stored to 'space' during i=
-ts initialization is never read
-           unsigned int space =3D cdma->slots_free;
-                        ^~~~~   ~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/gpu/host1x/job.c:185:35: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   job->addr_phys[job->num_unpins] =3D phys_addr;
-                                                   ^
-   drivers/gpu/host1x/job.c:599:8: note: Calling 'pin_job'
-           err =3D pin_job(host, job);
-                 ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:14: note: Assuming 'i' is < field 'num_relo=
-cs'
-           for (i =3D 0; i < job->num_relocs; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < job->num_relocs; i++) {
-           ^
-   drivers/gpu/host1x/job.c:121:14: note: 'phys_addr' declared without an i=
-nitial value
-                   dma_addr_t phys_addr, *phys;
-                              ^~~~~~~~~
-   drivers/gpu/host1x/job.c:125:7: note: Assuming field 'bo' is non-null
-                   if (!reloc->target.bo) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:125:3: note: Taking false branch
-                   if (!reloc->target.bo) {
-                   ^
-   drivers/gpu/host1x/job.c:142:7: note: Assuming 'domain' is non-null
-                   if (!domain || client->group)
-                       ^~~~~~~
-   drivers/gpu/host1x/job.c:142:7: note: Left side of '||' is false
-   drivers/gpu/host1x/job.c:142:18: note: Assuming field 'group' is null
-                   if (!domain || client->group)
-                                  ^~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:142:3: note: Taking false branch
-                   if (!domain || client->group)
-                   ^
-   drivers/gpu/host1x/job.c:148:7: note: Calling 'IS_ERR'
-                   if (IS_ERR(sgt)) {
-                       ^~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:148:7: note: Returning from 'IS_ERR'
-                   if (IS_ERR(sgt)) {
-                       ^~~~~~~~~~~
-   drivers/gpu/host1x/job.c:148:3: note: Taking false branch
-                   if (IS_ERR(sgt)) {
-                   ^
-   drivers/gpu/host1x/job.c:153:7: note: Assuming 'sgt' is null
-                   if (sgt) {
-                       ^~~
-   drivers/gpu/host1x/job.c:153:3: note: Taking false branch
-                   if (sgt) {
-                   ^
-   drivers/gpu/host1x/job.c:185:35: note: Assigned value is garbage or unde=
-fined
-                   job->addr_phys[job->num_unpins] =3D phys_addr;
-                                                   ^ ~~~~~~~~~
-   drivers/gpu/host1x/job.c:265:35: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   job->addr_phys[job->num_unpins] =3D phys_addr;
-                                                   ^
-   drivers/gpu/host1x/job.c:599:8: note: Calling 'pin_job'
-           err =3D pin_job(host, job);
-                 ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:14: note: Assuming 'i' is >=3D field 'num_r=
-elocs'
-           for (i =3D 0; i < job->num_relocs; i++) {
-                       ^~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:119:2: note: Loop condition is false. Execution=
- continues on line 195
-           for (i =3D 0; i < job->num_relocs; i++) {
-           ^
-   drivers/gpu/host1x/job.c:195:2: note: Taking false branch
-           if (IS_ENABLED(CONFIG_TEGRA_HOST1X_FIREWALL))
-           ^
-   drivers/gpu/host1x/job.c:198:14: note: Assuming 'i' is < field 'num_gath=
-ers'
-           for (i =3D 0; i < job->num_gathers; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:198:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < job->num_gathers; i++) {
-           ^
-   drivers/gpu/host1x/job.c:202:3: note: 'phys_addr' declared without an in=
-itial value
-                   dma_addr_t phys_addr;
-                   ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:210:7: note: Assuming field 'bo' is non-null
-                   if (!g->bo) {
-                       ^~~~~~
-   drivers/gpu/host1x/job.c:210:3: note: Taking false branch
-                   if (!g->bo) {
-                   ^
-   drivers/gpu/host1x/job.c:220:7: note: Assuming the condition is false
-                   if (!iommu_get_domain_for_dev(host->dev))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/host1x/job.c:220:3: note: Taking false branch
-                   if (!iommu_get_domain_for_dev(host->dev))
-                   ^
-   drivers/gpu/host1x/job.c:226:7: note: Calling 'IS_ERR'
-                   if (IS_ERR(sgt)) {
-                       ^~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
---
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   crypto/testmgr.c:607:3: note: Loop condition is false. Execution continu=
-es on line 614
-                   while (offset + partitions[i].length + TESTMGR_POISON_LE=
-N >
-                   ^
-   crypto/testmgr.c:617:7: note: 'out_divs' is null
-                   if (out_divs)
-                       ^~~~~~~~
-   crypto/testmgr.c:617:3: note: Taking false branch
-                   if (out_divs)
-                   ^
-   crypto/testmgr.c:620:7: note: 'data' is non-null
-                   if (data) {
-                       ^~~~
-   crypto/testmgr.c:620:3: note: Taking true branch
-                   if (data) {
-                   ^
-   crypto/testmgr.c:623:15: note: Assuming '__UNIQUE_ID___x247' is >=3D '__=
-UNIQUE_ID___y248'
-                           copy_len =3D min(partitions[i].length, data->cou=
-nt);
-                                      ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   crypto/testmgr.c:623:15: note: '?' condition is false
-                           copy_len =3D min(partitions[i].length, data->cou=
-nt);
-                                      ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   crypto/testmgr.c:625:16: note: Assuming 'copied' is equal to 'copy_len'
-                           if (WARN_ON(copied !=3D copy_len))
-                                       ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   crypto/testmgr.c:625:8: note: Taking false branch
-                           if (WARN_ON(copied !=3D copy_len))
-                               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   crypto/testmgr.c:625:4: note: Taking false branch
-                           if (WARN_ON(copied !=3D copy_len))
-                           ^
-   crypto/testmgr.c:600:14: note: Assuming 'i' is < field 'nents'
-           for (i =3D 0; i < tsgl->nents; i++) {
-                       ^~~~~~~~~~~~~~~
-   crypto/testmgr.c:600:2: note: Loop condition is true.  Entering loop body
-           for (i =3D 0; i < tsgl->nents; i++) {
-           ^
-   crypto/testmgr.c:601:25: note: Access to field 'offset' results in a der=
-eference of an undefined pointer value (loaded from field 'div')
-                   unsigned int offset =3D partitions[i].div->offset;
-                                         ^             ~~~
-   crypto/testmgr.c:1056:3: warning: Value stored to 'p' is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-                   p +=3D scnprintf(p, end - p, " key_offset=3D%u", cfg->ke=
-y_offset);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   crypto/testmgr.c:1056:3: note: Value stored to 'p' is never read
-                   p +=3D scnprintf(p, end - p, " key_offset=3D%u", cfg->ke=
-y_offset);
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/soc/ixp4xx/ixp4xx-npe.c:684:22: warning: Value stored to 'np' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node *np =3D dev->of_node;
-                               ^~   ~~~~~~~~~~~~
-   drivers/soc/ixp4xx/ixp4xx-npe.c:684:22: note: Value stored to 'np' durin=
-g its initialization is never read
-           struct device_node *np =3D dev->of_node;
-                               ^~   ~~~~~~~~~~~~
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/regulator/bcm590xx-regulator.c:140:8: warning: Excessive padding=
- in 'struct bcm590xx_info' (6 padding bytes, where 2 is optimal). =
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  239  	return rc;
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  240  error:
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  241  	if (repeat--) {
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  242  		nslabs =3D max(102=
+4UL, /* Min is 2MB */
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  243  					(nslabs >> 1));
+283c0972d53769e Joe Perches           2013-06-28  244  		pr_info("Lowering =
+to %luMB\n",
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  245  			(nslabs << IO_TLB=
+_SHIFT) >> 20);
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  246  		goto retry;
+f4b2f07b2ed9b46 Konrad Rzeszutek Wilk 2011-07-22  247  	}
+283c0972d53769e Joe Perches           2013-06-28  248  	pr_err("%s (rc:%d)\=
+n", xen_swiotlb_error(m_ret), rc);
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  249  	if (early)
+5bab7864b1167f9 Konrad Rzeszutek Wilk 2012-08-23  250  		panic("%s (rc:%d)"=
+, xen_swiotlb_error(m_ret), rc);
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  251  	else
+cbce99527ca7c4e Christoph Hellwig     2021-03-01  252  		free_pages((unsign=
+ed long)start, order);
+b82776005369899 Konrad Rzeszutek Wilk 2012-08-23  253  	return rc;
+b097186fd29d5bc Konrad Rzeszutek Wilk 2010-05-11  254  }
+dceb1a6819ab2c8 Christoph Hellwig     2017-05-21  255  =
 
-   Optimal fields order: =
-
-   name, =
-
-   vin_name, =
-
-   volt_table, =
-
-   linear_ranges, =
-
-   n_voltages, =
-
-   n_linear_ranges, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct bcm590xx_info {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   drivers/regulator/bcm590xx-regulator.c:140:8: note: Excessive padding in=
- 'struct bcm590xx_info' (6 padding bytes, where 2 is optimal). Optimal fiel=
-ds order: name, vin_name, volt_table, linear_ranges, n_voltages, n_linear_r=
-anges, consider reordering the fields or adding explicit padding members
-   struct bcm590xx_info {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
---
-                   async =3D list_first_entry_or_null(&map->async_free,
-                           ^
-   include/linux/list.h:546:20: note: expanded from macro 'list_first_entry=
-_or_null'
-           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
-                             ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/base/regmap/regmap.c:1499:11: note: Taking false branch
-                   async =3D list_first_entry_or_null(&map->async_free,
-                           ^
-   include/linux/list.h:546:20: note: expanded from macro 'list_first_entry=
-_or_null'
-           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
-                             ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/base/regmap/regmap.c:1499:11: note: Loop condition is false.  Ex=
-iting loop
-                   async =3D list_first_entry_or_null(&map->async_free,
-                           ^
-   include/linux/list.h:546:20: note: expanded from macro 'list_first_entry=
-_or_null'
-           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
-                             ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/base/regmap/regmap.c:1502:3: note: Calling 'list_del'
-                   list_del(&async->list);
-                   ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:147:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/iommu/iova.c:64:29: warning: The result of the left shift is und=
-efined due to shifting by '32', which is greater or equal to the width of t=
-ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           iovad->dma_32bit_pfn =3D 1UL << (32 - iova_shift(iovad));
-                                      ^  ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:56:10: note: Assuming the condition is false
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-                   ^
-   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   drivers/iommu/iova.c:56:9: note: Left side of '||' is false
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-                  ^
-   drivers/iommu/iova.c:56:2: note: Taking false branch
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-           ^
-   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   drivers/iommu/iova.c:56:2: note: Loop condition is false.  Exiting loop
-           BUG_ON((granule > PAGE_SIZE) || !is_power_of_2(granule));
-           ^
-   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   drivers/iommu/iova.c:58:2: note: Loop condition is false.  Exiting loop
-           spin_lock_init(&iovad->iova_rbtree_lock);
-           ^
-   include/linux/spinlock.h:334:35: note: expanded from macro 'spin_lock_in=
-it'
-   # define spin_lock_init(lock)                                   \
-                                                                   ^
-   drivers/iommu/iova.c:64:29: note: The result of the left shift is undefi=
-ned due to shifting by '32', which is greater or equal to the width of type=
- 'unsigned long'
-           iovad->dma_32bit_pfn =3D 1UL << (32 - iova_shift(iovad));
-                                      ^  ~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/iommu/iova.c:247:14: warning: Assigned value is garbage or undef=
-ined [clang-analyzer-core.uninitialized.Assign]
-                   align_mask <<=3D fls_long(size - 1);
-                              ^
-   drivers/iommu/iova.c:503:6: note: 'iova_pfn' is 0
-           if (iova_pfn)
-               ^~~~~~~~
-   drivers/iommu/iova.c:503:2: note: Taking false branch
-           if (iova_pfn)
-           ^
-   drivers/iommu/iova.c:507:13: note: Calling 'alloc_iova'
-           new_iova =3D alloc_iova(iovad, size, limit_pfn, true);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:379:6: note: Assuming 'new_iova' is non-null
-           if (!new_iova)
-               ^~~~~~~~~
-   drivers/iommu/iova.c:379:2: note: Taking false branch
-           if (!new_iova)
-           ^
-   drivers/iommu/iova.c:382:8: note: Calling '__alloc_and_insert_iova_range'
-           ret =3D __alloc_and_insert_iova_range(iovad, size, limit_pfn + 1,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:246:6: note: 'size_aligned' is true
-           if (size_aligned)
-               ^~~~~~~~~~~~
-   drivers/iommu/iova.c:246:2: note: Taking true branch
-           if (size_aligned)
-           ^
-   drivers/iommu/iova.c:247:18: note: Calling 'fls_long'
-                   align_mask <<=3D fls_long(size - 1);
-                                  ^~~~~~~~~~~~~~~~~~
-   include/linux/bitops.h:187:2: note: Taking true branch
-           if (sizeof(l) =3D=3D 4)
-           ^
-   include/linux/bitops.h:188:10: note: Calling 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/linux/bitops.h:188:10: note: Returning from 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/linux/bitops.h:188:3: note: Returning the value 32
-                   return fls(l);
-                   ^~~~~~~~~~~~~
-   drivers/iommu/iova.c:247:18: note: Returning from 'fls_long'
-                   align_mask <<=3D fls_long(size - 1);
-                                  ^~~~~~~~~~~~~~~~~~
-   drivers/iommu/iova.c:247:14: note: Assigned value is garbage or undefined
-                   align_mask <<=3D fls_long(size - 1);
-                              ^   ~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   mm/memory.c:297:2: warning: Value stored to 'pud' is never read [clang-a=
-nalyzer-deadcode.DeadStores]
-           pud =3D pud_offset(p4d, start);
---
-   5 warnings generated.
-   drivers/tty/serial/uartlite.c:368:2: warning: Value stored to 'ret' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           ret =3D uart_in32(ULITE_CONTROL, port);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/uartlite.c:368:2: note: Value stored to 'ret' is neve=
-r read
-           ret =3D uart_in32(ULITE_CONTROL, port);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/tty/serial/mxs-auart.c:1134:3: warning: Value stored to 'istat' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                   istat &=3D ~AUART_INTR_TXIS;
-                   ^        ~~~~~~~~~~~~~~~~
-   drivers/tty/serial/mxs-auart.c:1134:3: note: Value stored to 'istat' is =
-never read
-                   istat &=3D ~AUART_INTR_TXIS;
-                   ^        ~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/media/rc/sunxi-cir.c:143:9: warning: Division by zero [clang-ana=
-lyzer-core.DivideZero]
-           return DIV_ROUND_CLOSEST(USEC_PER_SEC * (ithr + 1),
-                  ^
-   include/linux/math.h:92:26: note: expanded from macro 'DIV_ROUND_CLOSEST'
-                   (((__x) + ((__d) / 2)) / (__d)) :       \
-                                          ^
-   drivers/media/rc/sunxi-cir.c:246:9: note: Calling 'sunxi_ir_hw_init'
-           return sunxi_ir_hw_init(dev);
-                  ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:179:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/rc/sunxi-cir.c:179:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/rc/sunxi-cir.c:183:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/media/rc/sunxi-cir.c:183:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/media/rc/sunxi-cir.c:189:6: note: 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/media/rc/sunxi-cir.c:189:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/media/rc/sunxi-cir.c:195:2: note: Loop condition is false.  Exit=
-ing loop
-           writel(REG_CTL_MD, ir->base + SUNXI_IR_CTL_REG);
-           ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/media/rc/sunxi-cir.c:198:2: note: Calling 'sunxi_ir_set_timeout'
-           sunxi_ir_set_timeout(ir->rc, ir->rc->timeout);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:157:26: note: Calling 'clk_get_rate'
-           unsigned int base_clk =3D clk_get_rate(ir->clk);
-                                   ^~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:882:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/media/rc/sunxi-cir.c:157:26: note: Returning from 'clk_get_rate'
-           unsigned int base_clk =3D clk_get_rate(ir->clk);
-                                   ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:157:2: note: 'base_clk' initialized to 0
-           unsigned int base_clk =3D clk_get_rate(ir->clk);
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:161:2: note: Taking false branch
-           dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", it=
-hr);
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/media/rc/sunxi-cir.c:161:2: note: Loop condition is false.  Exit=
-ing loop
-           dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", it=
-hr);
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   drivers/media/rc/sunxi-cir.c:164:2: note: Loop condition is false.  Exit=
-ing loop
-           writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
-           ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/media/rc/sunxi-cir.c:167:39: note: Passing the value 0 via 1st p=
-arameter 'base_clk'
-           rc_dev->timeout =3D sunxi_ithr_to_usec(base_clk, ithr);
-                                                ^~~~~~~~
-   drivers/media/rc/sunxi-cir.c:167:20: note: Calling 'sunxi_ithr_to_usec'
-           rc_dev->timeout =3D sunxi_ithr_to_usec(base_clk, ithr);
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/rc/sunxi-cir.c:143:9: note: '__d' initialized to 0
-           return DIV_ROUND_CLOSEST(USEC_PER_SEC * (ithr + 1),
-                  ^
-   include/linux/math.h:88:2: note: expanded from macro 'DIV_ROUND_CLOSEST'
-           typeof(divisor) __d =3D divisor;                  \
---
-   fs/overlayfs/export.c:817:12: note: Assuming the condition is false
-           dentry =3D (flags & OVL_FH_FLAG_PATH_UPPER) ?
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:817:11: note: '?' condition is false
-           dentry =3D (flags & OVL_FH_FLAG_PATH_UPPER) ?
-                    ^
-   fs/overlayfs/export.c:819:4: note: Calling 'ovl_lower_fh_to_d'
-                    ovl_lower_fh_to_d(sb, fh);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:708:6: note: Assuming 'err' is 0
-           if (err)
-               ^~~
-   fs/overlayfs/export.c:708:2: note: Taking false branch
-           if (err)
-           ^
-   fs/overlayfs/export.c:711:6: note: Left side of '||' is false
-           if (!d_is_dir(origin.dentry) ||
-               ^
-   fs/overlayfs/export.c:712:6: note: Assuming the condition is false
-               !(origin.dentry->d_flags & DCACHE_DISCONNECTED)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:711:2: note: Taking false branch
-           if (!d_is_dir(origin.dentry) ||
-           ^
-   fs/overlayfs/export.c:726:6: note: Assuming field 'indexdir' is null
-           if (ofs->indexdir) {
-               ^~~~~~~~~~~~~
-   fs/overlayfs/export.c:726:2: note: Taking false branch
-           if (ofs->indexdir) {
-           ^
-   fs/overlayfs/export.c:736:6: note: 'index' is null
-           if (index && d_is_dir(index)) {
-               ^~~~~
-   fs/overlayfs/export.c:736:12: note: Left side of '&&' is false
-           if (index && d_is_dir(index)) {
-                     ^
-   fs/overlayfs/export.c:749:2: note: Taking true branch
-           if (d_is_dir(origin.dentry)) {
-           ^
-   fs/overlayfs/export.c:753:7: note: Assuming 'err' is 0
-                   if (err)
-                       ^~~
-   fs/overlayfs/export.c:753:3: note: Taking false branch
-                   if (err)
-                   ^
-   fs/overlayfs/export.c:756:6: note: 'index' is null
-           if (index) {
-               ^~~~~
-   fs/overlayfs/export.c:756:2: note: Taking false branch
-           if (index) {
-           ^
-   fs/overlayfs/export.c:763:11: note: Calling 'ovl_get_dentry'
-           dentry =3D ovl_get_dentry(sb, NULL, &origin, index);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:654:34: note: 'upper' is null
-           const struct ovl_layer *layer =3D upper ? &ofs->layers[0] : lowe=
-rpath->layer;
-                                           ^~~~~
-   fs/overlayfs/export.c:654:34: note: '?' condition is false
-   fs/overlayfs/export.c:655:24: note: '?' condition is false
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-                                 ^
-   fs/overlayfs/export.c:655:34: note: '?' condition is false
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-                                           ^
-   fs/overlayfs/export.c:655:2: note: 'real' initialized to a null pointer =
-value
-           struct dentry *real =3D upper ?: (index ?: lowerpath->dentry);
-           ^~~~~~~~~~~~~~~~~~~
-   fs/overlayfs/export.c:661:16: note: Passing null pointer value via 1st p=
-arameter 'dentry'
-           if (!d_is_dir(real))
-                         ^~~~
-   fs/overlayfs/export.c:661:7: note: Calling 'd_is_dir'
-           if (!d_is_dir(real))
-                ^~~~~~~~~~~~~~
-   include/linux/dcache.h:420:22: note: Passing null pointer value via 1st =
-parameter 'dentry'
-           return d_can_lookup(dentry) || d_is_autodir(dentry);
-                               ^~~~~~
-   include/linux/dcache.h:420:9: note: Calling 'd_can_lookup'
-           return d_can_lookup(dentry) || d_is_autodir(dentry);
-                  ^~~~~~~~~~~~~~~~~~~~
-   include/linux/dcache.h:410:24: note: Passing null pointer value via 1st =
-parameter 'dentry'
-           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
-                                 ^~~~~~
-   include/linux/dcache.h:410:9: note: Calling '__d_entry_type'
-           return __d_entry_type(dentry) =3D=3D DCACHE_DIRECTORY_TYPE;
-                  ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/dcache.h:395:9: note: Access to field 'd_flags' results in=
- a dereference of a null pointer (loaded from variable 'dentry')
-           return dentry->d_flags & DCACHE_ENTRY_TYPE;
-                  ^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/w1/masters/mxc_w1.c:117:10: warning: Division by zero [clang-ana=
-lyzer-core.DivideZero]
-           clkrate /=3D clkdiv;
-           ~~~~~~~~^~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:100:6: note: Assuming 'mdev' is non-null
-           if (!mdev)
-               ^~~~~
-   drivers/w1/masters/mxc_w1.c:100:2: note: Taking false branch
-           if (!mdev)
-           ^
-   drivers/w1/masters/mxc_w1.c:104:6: note: Calling 'IS_ERR'
-           if (IS_ERR(mdev->clk))
-               ^~~~~~~~~~~~~~~~~
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:104:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(mdev->clk))
-               ^~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:104:2: note: Taking false branch
-           if (IS_ERR(mdev->clk))
-           ^
-   drivers/w1/masters/mxc_w1.c:107:8: note: Calling 'clk_prepare_enable'
-           err =3D clk_prepare_enable(mdev->clk);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:950:8: note: Calling 'clk_prepare'
-           ret =3D clk_prepare(clk);
-                 ^~~~~~~~~~~~~~~~
-   include/linux/clk.h:273:2: note: Loop condition is false.  Exiting loop
-           might_sleep();
-           ^
-   include/linux/kernel.h:132:2: note: expanded from macro 'might_sleep'
-           do { __might_sleep(__FILE__, __LINE__, 0); might_resched(); } wh=
-ile (0)
-           ^
-   include/linux/clk.h:274:2: note: Returning zero, which participates in a=
- condition later
-           return 0;
-           ^~~~~~~~
-   include/linux/clk.h:950:8: note: Returning from 'clk_prepare'
-           ret =3D clk_prepare(clk);
-                 ^~~~~~~~~~~~~~~~
-   include/linux/clk.h:951:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   include/linux/clk.h:951:2: note: Taking false branch
-           if (ret)
-           ^
-   include/linux/clk.h:953:8: note: Calling 'clk_enable'
-           ret =3D clk_enable(clk);
-                 ^~~~~~~~~~~~~~~
-   include/linux/clk.h:865:2: note: Returning zero, which participates in a=
- condition later
-           return 0;
-           ^~~~~~~~
-   include/linux/clk.h:953:8: note: Returning from 'clk_enable'
-           ret =3D clk_enable(clk);
-                 ^~~~~~~~~~~~~~~
-   include/linux/clk.h:954:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   include/linux/clk.h:954:2: note: Taking false branch
-           if (ret)
-           ^
-   include/linux/clk.h:957:2: note: Returning zero (loaded from 'ret'), whi=
-ch participates in a condition later
-           return ret;
-           ^~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:107:8: note: Returning from 'clk_prepare_ena=
-ble'
-           err =3D clk_prepare_enable(mdev->clk);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:108:6: note: 'err' is 0
-           if (err)
-               ^~~
-   drivers/w1/masters/mxc_w1.c:108:2: note: Taking false branch
-           if (err)
-           ^
-   drivers/w1/masters/mxc_w1.c:112:6: note: 'clkrate' is < 10000000
-           if (clkrate < 10000000)
-               ^~~~~~~
-   drivers/w1/masters/mxc_w1.c:112:2: note: Taking true branch
-           if (clkrate < 10000000)
-           ^
-   drivers/w1/masters/mxc_w1.c:116:11: note: Left side of '||' is true
-           clkdiv =3D DIV_ROUND_CLOSEST(clkrate, 1000000);
-                    ^
-   include/linux/math.h:89:23: note: expanded from macro 'DIV_ROUND_CLOSEST'
-           (((typeof(x))-1) > 0 ||                         \
-                                ^
-   drivers/w1/masters/mxc_w1.c:116:2: note: The value 0 is assigned to 'clk=
-div'
-           clkdiv =3D DIV_ROUND_CLOSEST(clkrate, 1000000);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/w1/masters/mxc_w1.c:117:10: note: Division by zero
-           clkrate /=3D clkdiv;
-           ~~~~~~~~^~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-   drivers/hwmon/lm73.c:72:2: note: Taking false branch
-           if (status < 0)
-           ^
-   drivers/hwmon/lm73.c:76:10: note: Assuming '__UNIQUE_ID___x278' is <=3D =
-'__UNIQUE_ID___y279'
-           value =3D clamp_val(temp / 250, LM73_TEMP_MIN, LM73_TEMP_MAX) <<=
- 5;
-                   ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/minmax.h:104:48: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
-                   typeof(x) unique_x =3D (x);               \
-                                         ^
-   drivers/hwmon/lm73.c:76:10: note: '?' condition is false
-           value =3D clamp_val(temp / 250, LM73_TEMP_MIN, LM73_TEMP_MAX) <<=
- 5;
-                   ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:124:48: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                                  ^
-   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
-   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/hwmon/lm73.c:76:10: note: '__UNIQUE_ID___x280' is < '__UNIQUE_ID=
-___y281'
-           value =3D clamp_val(temp / 250, LM73_TEMP_MIN, LM73_TEMP_MAX) <<=
- 5;
-                   ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~
-   drivers/hwmon/lm73.c:76:10: note: '?' condition is true
-           value =3D clamp_val(temp / 250, LM73_TEMP_MIN, LM73_TEMP_MAX) <<=
- 5;
-                   ^
-   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
-   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
-                                  ^
-   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
-   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
-                                      ^
-   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/hwmon/lm73.c:76:62: note: The result of the left shift is undefi=
-ned because the left operand is negative
-           value =3D clamp_val(temp / 250, LM73_TEMP_MIN, LM73_TEMP_MAX) <<=
- 5;
-                                                                       ^
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   fs/binfmt_elf_fdpic.c:333:2: warning: Value stored to 'retval' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           retval =3D -ENOEXEC;
-           ^        ~~~~~~~~
-   fs/binfmt_elf_fdpic.c:333:2: note: Value stored to 'retval' is never read
-           retval =3D -ENOEXEC;
-           ^        ~~~~~~~~
->> fs/binfmt_elf_fdpic.c:335:3: warning: Value stored to 'stack_size' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   stack_size =3D 131072UL; /* same as exec.c's default com=
-mit */
-                   ^            ~~~~~~~~
-   fs/binfmt_elf_fdpic.c:335:3: note: Value stored to 'stack_size' is never=
- read
-                   stack_size =3D 131072UL; /* same as exec.c's default com=
-mit */
-                   ^            ~~~~~~~~
-   fs/binfmt_elf_fdpic.c:772:2: warning: Value stored to 'load_addr' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           load_addr =3D params->load_addr;
-           ^           ~~~~~~~~~~~~~~~~~
-   fs/binfmt_elf_fdpic.c:772:2: note: Value stored to 'load_addr' is never =
-read
-           load_addr =3D params->load_addr;
-           ^           ~~~~~~~~~~~~~~~~~
-   fs/binfmt_elf_fdpic.c:773:2: warning: Value stored to 'seg' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           seg =3D loadmap->segs;
-           ^     ~~~~~~~~~~~~~
-   fs/binfmt_elf_fdpic.c:773:2: note: Value stored to 'seg' is never read
-           seg =3D loadmap->segs;
-           ^     ~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/leds/uleds.c:150:4: warning: Value stored to 'retval' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/uleds.c:150:4: note: Value stored to 'retval' is never read
-                           retval =3D copy_to_user(buffer, &udev->brightnes=
-s,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   include/linux/hid.h:1007:9: warning: Access to field 'name' results in a=
- dereference of a null pointer (loaded from variable 'input') [clang-analyz=
-er-core.NullDereference]
-                                       input->name, c, type);
-                                       ^
-   drivers/hid/hid-cherry.c:42:6: note: Assuming the condition is false
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hid/hid-cherry.c:42:2: note: Taking false branch
-           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER)
-           ^
-   drivers/hid/hid-cherry.c:45:2: note: Control jumps to 'case 771:'  at li=
-ne 48
-           switch (usage->hid & HID_USAGE) {
-           ^
-   drivers/hid/hid-cherry.c:48:14: note: Calling 'hid_map_usage_clear'
-           case 0x303: ch_map_key_clear(KEY_PROG3);        break;
-                       ^
-   drivers/hid/hid-cherry.c:36:29: note: expanded from macro 'ch_map_key_cl=
-ear'
-   #define ch_map_key_clear(c)     hid_map_usage_clear(hi, usage, bit, max,=
- \
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/hid.h:1035:2: note: Calling 'hid_map_usage'
-           hid_map_usage(hidinput, usage, bit, max, type, c);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:982:2: note: 'input' initialized here
-           struct input_dev *input =3D hidinput->input;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:986:2: note: Control jumps to 'case 1:'  at line 995
-           switch (type) {
-           ^
-   include/linux/hid.h:998:3: note:  Execution continues on line 1005
-                   break;
-                   ^
-   include/linux/hid.h:1005:15: note: 'c' is <=3D 'limit'
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:15: note: Left side of '||' is false
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/hid.h:1005:28: note: Assuming 'bmap' is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:28: note: Assuming pointer value is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:2: note: Taking true branch
-           if (unlikely(c > limit || !bmap)) {
-           ^
-   include/linux/hid.h:1006:3: note: Assuming the condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
---
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/hid.h:1035:2: note: Calling 'hid_map_usage'
-           hid_map_usage(hidinput, usage, bit, max, type, c);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:982:2: note: 'input' initialized here
-           struct input_dev *input =3D hidinput->input;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:986:2: note: Control jumps to 'case 1:'  at line 995
-           switch (type) {
-           ^
-   include/linux/hid.h:998:3: note:  Execution continues on line 1005
-                   break;
-                   ^
-   include/linux/hid.h:1005:15: note: 'c' is <=3D 'limit'
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:15: note: Left side of '||' is false
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/hid.h:1005:28: note: Assuming 'bmap' is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:28: note: Assuming pointer value is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:2: note: Taking true branch
-           if (unlikely(c > limit || !bmap)) {
-           ^
-   include/linux/hid.h:1006:3: note: Assuming the condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:557:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:540:6: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-               ^~~~~~~~~~~~~~~~~
-   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
-limit'
-   #define __ratelimit(state) ___ratelimit(state, __func__)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:1006:3: note: Taking true branch
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:557:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:540:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-           ^
-   include/linux/hid.h:1007:9: note: Access to field 'name' results in a de=
-reference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
-                                       ^
-   include/linux/printk.h:557:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                                          ^~~~~~~~~~~
-   include/linux/printk.h:541:17: note: expanded from macro 'printk_ratelim=
-ited'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                                 ^~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/hwmon/ltc2945.c:286:2: warning: Value stored to 'ret' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_update_bits(regmap, LTC2945_CONTROL, CONTROL_TEST=
-_MODE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/hwmon/ltc2945.c:286:2: note: Value stored to 'ret' is never read
-           ret =3D regmap_update_bits(regmap, LTC2945_CONTROL, CONTROL_TEST=
-_MODE,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/i2c/busses/i2c-riic.c:359:38: warning: Division by zero [clang-a=
-nalyzer-core.DivideZero]
-           brl -=3D t->scl_fall_ns / (1000000000 / rate);
-                                    ~~~~~~~~~~~^~~~~~
-   drivers/i2c/busses/i2c-riic.c:297:6: note: Assuming field 'bus_freq_hz' =
-is <=3D I2C_MAX_FAST_MODE_FREQ
-           if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:297:2: note: Taking false branch
-           if (t->bus_freq_hz > I2C_MAX_FAST_MODE_FREQ) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:305:9: note: Calling 'clk_get_rate'
-           rate =3D clk_get_rate(riic->clk);
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/clk.h:882:2: note: Returning zero
-           return 0;
-           ^~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:305:9: note: Returning from 'clk_get_rate'
-           rate =3D clk_get_rate(riic->clk);
-                  ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:305:2: note: The value 0 is assigned to 'r=
-ate'
-           rate =3D clk_get_rate(riic->clk);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:324:2: note: Loop condition is true.  Ente=
-ring loop body
-           for (cks =3D 0; cks < 7; cks++) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:330:7: note: Assuming the condition is true
-                   if (brl <=3D (0x1F + 3))
-                       ^~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-riic.c:330:3: note: Taking true branch
-                   if (brl <=3D (0x1F + 3))
-                   ^
-   drivers/i2c/busses/i2c-riic.c:331:4: note:  Execution continues on line =
-337
-                           break;
-                           ^
-   drivers/i2c/busses/i2c-riic.c:337:2: note: Taking false branch
-           if (brl > (0x1F + 3)) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:347:6: note: 'cks' is equal to 0
-           if (cks =3D=3D 0) {
-               ^~~
-   drivers/i2c/busses/i2c-riic.c:347:2: note: Taking true branch
-           if (cks =3D=3D 0) {
-           ^
-   drivers/i2c/busses/i2c-riic.c:359:38: note: Division by zero
-           brl -=3D t->scl_fall_ns / (1000000000 / rate);
-                                    ~~~~~~~~~~~^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   fs/autofs/root.c:562:2: warning: Call to function 'strcpy' is insecure a=
-s it does not provide bounding of the memory buffer. Replace unbounded copy=
- functions with analogous functions that support length arguments such as '=
-strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(cp, symname);
-           ^~~~~~
-   fs/autofs/root.c:562:2: note: Call to function 'strcpy' is insecure as i=
-t does not provide bounding of the memory buffer. Replace unbounded copy fu=
-nctions with analogous functions that support length arguments such as 'str=
-lcpy'. CWE-119
-           strcpy(cp, symname);
-           ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-           ^
-   drivers/hid/hid-samsung.c:105:2: note: Assuming 'hid_debug' is 0
-           dbg_hid("samsung wireless keyboard/mouse input mapping event [0x=
-%x]\n",
-           ^
-   include/linux/hid.h:1208:6: note: expanded from macro 'dbg_hid'
-           if (hid_debug)                                                  \
-               ^~~~~~~~~
-   drivers/hid/hid-samsung.c:105:2: note: Taking false branch
-           dbg_hid("samsung wireless keyboard/mouse input mapping event [0x=
-%x]\n",
-           ^
-   include/linux/hid.h:1208:2: note: expanded from macro 'dbg_hid'
-           if (hid_debug)                                                  \
-           ^
-   drivers/hid/hid-samsung.c:105:2: note: Loop condition is false.  Exiting=
- loop
-           dbg_hid("samsung wireless keyboard/mouse input mapping event [0x=
-%x]\n",
-           ^
-   include/linux/hid.h:1206:32: note: expanded from macro 'dbg_hid'
-   #define dbg_hid(fmt, ...)                                               \
-                                                                           ^
-   drivers/hid/hid-samsung.c:108:2: note: Control jumps to 'case 561:'  at =
-line 120
-           switch (usage->hid & HID_USAGE) {
-           ^
-   drivers/hid/hid-samsung.c:120:14: note: Calling 'hid_map_usage_clear'
-           case 0x231: samsung_kbd_mouse_map_key_clear(KEY_STOP); break;
-                       ^
-   drivers/hid/hid-samsung.c:93:2: note: expanded from macro 'samsung_kbd_m=
-ouse_map_key_clear'
-           hid_map_usage_clear(hi, usage, bit, max, EV_KEY, (c))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:1035:2: note: Calling 'hid_map_usage'
-           hid_map_usage(hidinput, usage, bit, max, type, c);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:982:2: note: 'input' initialized here
-           struct input_dev *input =3D hidinput->input;
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:986:2: note: Control jumps to 'case 1:'  at line 995
-           switch (type) {
-           ^
-   include/linux/hid.h:998:3: note:  Execution continues on line 1005
-                   break;
-                   ^
-   include/linux/hid.h:1005:15: note: 'c' is <=3D 'limit'
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:15: note: Left side of '||' is false
-           if (unlikely(c > limit || !bmap)) {
-                        ^
-   include/linux/hid.h:1005:28: note: Assuming 'bmap' is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:28: note: Assuming pointer value is null
-           if (unlikely(c > limit || !bmap)) {
-                                     ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/hid.h:1005:2: note: Taking true branch
-           if (unlikely(c > limit || !bmap)) {
-           ^
-   include/linux/hid.h:1006:3: note: Assuming the condition is true
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:557:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/printk.h:540:6: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-               ^~~~~~~~~~~~~~~~~
-   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
-limit'
-   #define __ratelimit(state) ___ratelimit(state, __func__)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/hid.h:1006:3: note: Taking true branch
-                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
-                   ^
-   include/linux/printk.h:557:2: note: expanded from macro 'pr_warn_ratelim=
-ited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:540:2: note: expanded from macro 'printk_ratelimi=
-ted'
-           if (__ratelimit(&_rs))                                          \
-           ^
-   include/linux/hid.h:1007:9: note: Access to field 'name' results in a de=
-reference of a null pointer (loaded from variable 'input')
-                                       input->name, c, type);
-                                       ^
-   include/linux/printk.h:557:49: note: expanded from macro 'pr_warn_rateli=
-mited'
-           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
-                                                          ^~~~~~~~~~~
-   include/linux/printk.h:541:17: note: expanded from macro 'printk_ratelim=
-ited'
-                   printk(fmt, ##__VA_ARGS__);                             \
-                                 ^~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/iommu/mtk_iommu_v1.c:384:3: warning: Value stored to 'fwspec' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   fwspec =3D dev_iommu_fwspec_get(dev);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iommu/mtk_iommu_v1.c:384:3: note: Value stored to 'fwspec' is ne=
-ver read
-                   fwspec =3D dev_iommu_fwspec_get(dev);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/bcma/driver_mips.c:129:12: warning: The result of the left shift=
- is undefined due to shifting by '63', which is greater or equal to the wid=
-th of type 'int' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                                   if ((1 << bcma_core_mips_irqflag(core)) =
-=3D=3D
-                                          ^
-   drivers/bcma/driver_mips.c:305:6: note: Assuming field 'setup_done' is 0
-           if (mcore->setup_done)
-               ^~~~~~~~~~~~~~~~~
-   drivers/bcma/driver_mips.c:305:2: note: Taking false branch
-           if (mcore->setup_done)
-           ^
-   drivers/bcma/driver_mips.c:308:2: note: Taking false branch
-           bcma_debug(bus, "Initializing MIPS core...\n");
-           ^
-   drivers/bcma/bcma_private.h:19:2: note: expanded from macro 'bcma_debug'
-           dev_dbg((bus)->dev, "bus%d: " fmt, (bus)->num, ##__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
-c_func_call'
-           if (DYNAMIC_DEBUG_BRANCH(id))                   \
-           ^
-   drivers/bcma/driver_mips.c:308:2: note: Loop condition is false.  Exitin=
-g loop
-           bcma_debug(bus, "Initializing MIPS core...\n");
-           ^
-   drivers/bcma/bcma_private.h:19:2: note: expanded from macro 'bcma_debug'
-           dev_dbg((bus)->dev, "bus%d: " fmt, (bus)->num, ##__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:123:2: note: expanded from macro 'dev_dbg'
-           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
-dev_dbg'
-           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
-           ^
-   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
-_func_call'
-           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
-_)
-           ^
-   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
-ic_func_call'
-   #define __dynamic_func_call(id, fmt, func, ...) do {    \
-                                                   ^
-   drivers/bcma/driver_mips.c:314:2: note: Control jumps to 'case 21248:'  =
-at line 339
-           switch (bus->chipinfo.id) {
-           ^
-   drivers/bcma/driver_mips.c:340:3: note: Calling 'bcma_core_mips_set_irq_=
-name'
-                   bcma_core_mips_set_irq_name(bus, 1, BCMA_CORE_PCIE, 0);
---
-                   ^
-   drivers/staging/emxx_udc/emxx_udc.c:2689:7: note: Loop condition is fals=
-e.  Exiting loop
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2692:6: note: Assuming 'udc' is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2692:6: note: Assuming pointer value=
- is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2692:2: note: Taking true branch
-           if (!udc) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2693:11: note: Access to field 'dev'=
- results in a dereference of a null pointer (loaded from field 'udc')
-                   dev_err(ep->udc->dev, " *** %s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   drivers/staging/emxx_udc/emxx_udc.c:2741:11: warning: Access to field 'd=
-ev' results in a dereference of a null pointer (loaded from field 'udc') [c=
-lang-analyzer-core.NullDereference]
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   drivers/staging/emxx_udc/emxx_udc.c:2732:6: note: Assuming '_ep' is non-=
-null
-           if (!_ep) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2732:2: note: Taking false branch
-           if (!_ep) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2737:7: note: Left side of '&&' is f=
-alse
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/staging/emxx_udc/emxx_udc.c:2737:7: note: Taking false branch
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/staging/emxx_udc/emxx_udc.c:2737:7: note: Loop condition is fals=
-e.  Exiting loop
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2740:6: note: Assuming 'udc' is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2740:2: note: Taking true branch
-           if (!udc) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2741:11: note: Access to field 'dev'=
- results in a dereference of a null pointer (loaded from field 'udc')
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
->> drivers/staging/emxx_udc/emxx_udc.c:2754:3: warning: Value stored to 'da=
-ta' is never read [clang-analyzer-deadcode.DeadStores]
-                   data =3D _nbu2ss_readl(&preg->EP0_LENGTH) & EP0_LDATA;
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2754:3: note: Value stored to 'data'=
- is never read
-                   data =3D _nbu2ss_readl(&preg->EP0_LENGTH) & EP0_LDATA;
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2757:3: warning: Value stored to 'da=
-ta' is never read [clang-analyzer-deadcode.DeadStores]
-                   data =3D _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_=
-LEN_DCNT)
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2757:3: note: Value stored to 'data'=
- is never read
-                   data =3D _nbu2ss_readl(&preg->EP_REGS[ep->epnum - 1].EP_=
-LEN_DCNT)
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2783:11: warning: Access to field 'd=
-ev' results in a dereference of a null pointer (loaded from field 'udc') [c=
-lang-analyzer-core.NullDereference]
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   drivers/staging/emxx_udc/emxx_udc.c:2774:6: note: Assuming '_ep' is non-=
-null
-           if (!_ep) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2774:2: note: Taking false branch
-           if (!_ep) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2779:7: note: Left side of '&&' is f=
-alse
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/staging/emxx_udc/emxx_udc.c:2779:7: note: Taking false branch
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/staging/emxx_udc/emxx_udc.c:2779:7: note: Loop condition is fals=
-e.  Exiting loop
-           ep =3D container_of(_ep, struct nbu2ss_ep, ep);
-                ^
-   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2782:6: note: Assuming 'udc' is null
-           if (!udc) {
-               ^~~~
-   drivers/staging/emxx_udc/emxx_udc.c:2782:2: note: Taking true branch
-           if (!udc) {
-           ^
-   drivers/staging/emxx_udc/emxx_udc.c:2783:11: note: Access to field 'dev'=
- results in a dereference of a null pointer (loaded from field 'udc')
-                   dev_err(ep->udc->dev, "%s, bad udc\n", __func__);
-                           ^
-   include/linux/dev_printk.h:112:11: note: expanded from macro 'dev_err'
-           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
-                    ^~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-
-vim +29 drivers/gpu/host1x/intr.c
-
-7ede0b0bf3e2595 Terje Bergstrom 2013-03-22  26  =
-
-7ede0b0bf3e2595 Terje Bergstrom 2013-03-22  27  static void waiter_release(=
-struct kref *kref)
-7ede0b0bf3e2595 Terje Bergstrom 2013-03-22  28  {
-7ede0b0bf3e2595 Terje Bergstrom 2013-03-22 @29  	kfree(container_of(kref, s=
-truct host1x_waitlist, refcount));
-7ede0b0bf3e2595 Terje Bergstrom 2013-03-22  30  }
-7ede0b0bf3e2595 Terje Bergstrom 2013-03-22  31  =
-
-
-:::::: The code at line 29 was first introduced by commit
-:::::: 7ede0b0bf3e2595d40d6195b6fe4c4dcef438830 gpu: host1x: Add syncpoint =
-wait and interrupts
-
-:::::: TO: Terje Bergstrom <tbergstrom@nvidia.com>
-:::::: CC: Thierry Reding <thierry.reding@avionic-design.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
 
---===============1410657216147999073==
+--===============6587087162584690631==
 Content-Type: application/gzip
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment; filename="config.gz"
 
-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
-dI8BAA==
---===============1410657216147999073==--
+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
+Fmn0g1/O/e7/A0ybC8BaUAIA
+--===============6587087162584690631==--
 
