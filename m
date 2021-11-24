@@ -1,90 +1,91 @@
-Content-Type: multipart/mixed; boundary="===============3373024441879876784=="
+Content-Type: multipart/mixed; boundary="===============4529226139101343166=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ambarus:spi-nor/next-clean-v4bis-sent 19/24] drivers/mtd/spi-nor/core.c:2720 spi_nor_init_params_deprecated() warn: should this be a bitwise op?
-Date: Thu, 25 Nov 2021 01:55:22 +0800
-Message-ID: <202111250118.loeFlVbe-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:525 dbgfs_init_regions_write() warn: passing a valid pointer to 'PTR_ERR'
+Date: Wed, 24 Nov 2021 23:12:01 +0800
+Message-ID: <202111242346.HYZ46afv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3373024441879876784==
+--===============4529226139101343166==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+TO: SeongJae Park <sj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://github.com/ambarus/linux-0day spi-nor/next-clean-v4bis-sent
-head:   088cf85cc4ef6d55a30cfab8ec33db3f1b15b777
-commit: 40e3789d75cb97ab687d84fe7190dab363a758a0 [19/24] mtd: spi-nor: core=
-: Init all flash parameters based on SFDP where possible
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   5d9f4cf36721aba199975a9be7863a3ff5cd4b59
+commit: 90bebce9fcd6488ba6b010af3a16a0a0d7e44cb6 mm/damon/dbgfs: allow user=
+s to set initial monitoring target regions
+date:   3 weeks ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 3 weeks ago
 config: nios2-randconfig-m031-20211123 (https://download.01.org/0day-ci/arc=
-hive/20211125/202111250118.loeFlVbe-lkp(a)intel.com/config)
+hive/20211124/202111242346.HYZ46afv-lkp(a)intel.com/config)
 compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/mtd/spi-nor/core.c:2720 spi_nor_init_params_deprecated() warn: shou=
-ld this be a bitwise op?
+smatch warnings:
+mm/damon/dbgfs.c:525 dbgfs_init_regions_write() warn: passing a valid point=
+er to 'PTR_ERR'
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:71 current_thread_info() error: uninit=
-ialized symbol 'sp'.
-drivers/mtd/spi-nor/core.c:1544 spi_nor_init_erase_cmd_list() warn: passing=
- a valid pointer to 'PTR_ERR'
-drivers/mtd/spi-nor/core.c:1558 spi_nor_init_erase_cmd_list() warn: passing=
- a valid pointer to 'PTR_ERR'
+vim +/PTR_ERR +525 mm/damon/dbgfs.c
 
-vim +2720 drivers/mtd/spi-nor/core.c
+90bebce9fcd648 SeongJae Park 2021-11-05  513  =
 
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2704  =
+90bebce9fcd648 SeongJae Park 2021-11-05  514  static ssize_t dbgfs_init_reg=
+ions_write(struct file *file,
+90bebce9fcd648 SeongJae Park 2021-11-05  515  					  const char __user *buf=
+, size_t count,
+90bebce9fcd648 SeongJae Park 2021-11-05  516  					  loff_t *ppos)
+90bebce9fcd648 SeongJae Park 2021-11-05  517  {
+90bebce9fcd648 SeongJae Park 2021-11-05  518  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+90bebce9fcd648 SeongJae Park 2021-11-05  519  	char *kbuf;
+90bebce9fcd648 SeongJae Park 2021-11-05  520  	ssize_t ret =3D count;
+90bebce9fcd648 SeongJae Park 2021-11-05  521  	int err;
+90bebce9fcd648 SeongJae Park 2021-11-05  522  =
 
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2705  /**
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2706   * spi_nor_init_params_depre=
-cated() - Deprecated way of initializing flash
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2707   * parameters and settings.
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2708   * @nor:	pointer to a 'struc=
-t spi_nor'.
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2709   *
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2710   * The method assumes that f=
-lash doesn't support SFDP so it initializes flash
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2711   * parameters in spi_nor_no_=
-sfdp_init_params() which later on can be overwritten
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2712   * when parsing SFDP, if sup=
-ported.
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2713   */
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2714  static void spi_nor_init_par=
-ams_deprecated(struct spi_nor *nor)
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2715  {
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2716  	spi_nor_no_sfdp_init_params=
-(nor);
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2717  =
+90bebce9fcd648 SeongJae Park 2021-11-05  523  	kbuf =3D user_input_str(buf,=
+ count, ppos);
+90bebce9fcd648 SeongJae Park 2021-11-05  524  	if (IS_ERR(kbuf))
+90bebce9fcd648 SeongJae Park 2021-11-05 @525  		return PTR_ERR(kbuf);
+90bebce9fcd648 SeongJae Park 2021-11-05  526  =
 
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2718  	spi_nor_manufacturer_init_p=
-arams(nor);
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2719  =
+90bebce9fcd648 SeongJae Park 2021-11-05  527  	mutex_lock(&ctx->kdamond_loc=
+k);
+90bebce9fcd648 SeongJae Park 2021-11-05  528  	if (ctx->kdamond) {
+90bebce9fcd648 SeongJae Park 2021-11-05  529  		ret =3D -EBUSY;
+90bebce9fcd648 SeongJae Park 2021-11-05  530  		goto unlock_out;
+90bebce9fcd648 SeongJae Park 2021-11-05  531  	}
+90bebce9fcd648 SeongJae Park 2021-11-05  532  =
 
-40e3789d75cb97 Tudor Ambarus 2021-10-29 @2720  	if ((SPI_NOR_DUAL_READ | SP=
-I_NOR_QUAD_READ | SPI_NOR_OCTAL_READ |
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2721  	     SPI_NOR_OCTAL_DTR_READ=
-) &&
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2722  	    !(nor->info->no_sfdp_fl=
-ags & SPI_NOR_SKIP_SFDP))
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2723  		spi_nor_sfdp_init_params_d=
-eprecated(nor);
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2724  }
-40e3789d75cb97 Tudor Ambarus 2021-10-29  2725  =
+90bebce9fcd648 SeongJae Park 2021-11-05  533  	err =3D set_init_regions(ctx=
+, kbuf, ret);
+90bebce9fcd648 SeongJae Park 2021-11-05  534  	if (err)
+90bebce9fcd648 SeongJae Park 2021-11-05  535  		ret =3D err;
+90bebce9fcd648 SeongJae Park 2021-11-05  536  =
+
+90bebce9fcd648 SeongJae Park 2021-11-05  537  unlock_out:
+90bebce9fcd648 SeongJae Park 2021-11-05  538  	mutex_unlock(&ctx->kdamond_l=
+ock);
+90bebce9fcd648 SeongJae Park 2021-11-05  539  	kfree(kbuf);
+90bebce9fcd648 SeongJae Park 2021-11-05  540  	return ret;
+90bebce9fcd648 SeongJae Park 2021-11-05  541  }
+90bebce9fcd648 SeongJae Park 2021-11-05  542  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3373024441879876784==--
+--===============4529226139101343166==--
 
