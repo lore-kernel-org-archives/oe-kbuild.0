@@ -1,105 +1,179 @@
-Content-Type: multipart/mixed; boundary="===============0256757463553459895=="
+Content-Type: multipart/mixed; boundary="===============8567248278661744200=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:374 opa_vnic_get_sc() warn: potential spectre issue 'info->vport.pcp_to_sc_mc' [r]
-Date: Thu, 25 Nov 2021 03:27:38 +0800
-Message-ID: <202111250317.6hp6SBin-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
+Date: Thu, 25 Nov 2021 02:26:14 +0800
+Message-ID: <202111250241.5OyL9552-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0256757463553459895==
+--===============8567248278661744200==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Matthew Auld <matthew.auld@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d9f4cf36721aba199975a9be7863a3ff5cd4b59
-commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
-.h: sparse can do constant folding of __builtin_bswap*()
-date:   7 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 7 months ago
-config: x86_64-randconfig-m001-20211122 (https://download.01.org/0day-ci/ar=
-chive/20211125/202111250317.6hp6SBin-lkp(a)intel.com/config)
+commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
+y_man
+date:   5 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-m021-20211124 (https://download.01.org/0day-ci/arch=
+ive/20211125/202111250241.5OyL9552-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:374 opa_vnic_get_sc() warn=
-: potential spectre issue 'info->vport.pcp_to_sc_mc' [r]
-drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:376 opa_vnic_get_sc() warn=
-: potential spectre issue 'info->vport.pcp_to_sc_uc' [r]
-drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:384 opa_vnic_get_sc() warn=
-: possible spectre second half.  'sc'
-drivers/infiniband/sw/siw/iwarp.h:114 __ddp_get_version() warn: mask and sh=
-ift to zero
+New smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
+ warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
 
-vim +374 drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c
+Old smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
+ warn: should 'bo->page_alignment << 12' be a 64 bit type?
 
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  361  =
+vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
 
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  362  /* opa_vnic_get_=
-sc - return the service class */
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  363  static u8 opa_vn=
-ic_get_sc(struct __opa_veswport_info *info,
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  364  			  struct sk_b=
-uff *skb)
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  365  {
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  366  	struct ethhdr *=
-mac_hdr =3D (struct ethhdr *)skb_mac_header(skb);
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  367  	u16 vlan_tci;
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  368  	u8 sc;
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  369  =
+88be9a0a06b73e Matthew Auld 2021-06-16   28  =
 
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  370  	if (!__vlan_get=
-_tag(skb, &vlan_tci)) {
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  371  		u8 pcp =3D OPA=
-_VNIC_VLAN_PCP(vlan_tci);
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  372  =
+88be9a0a06b73e Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man_=
+alloc(struct ttm_resource_manager *man,
+88be9a0a06b73e Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obje=
+ct *bo,
+88be9a0a06b73e Matthew Auld 2021-06-16   31  				    const struct ttm_place=
+ *place,
+88be9a0a06b73e Matthew Auld 2021-06-16   32  				    struct ttm_resource **=
+res)
+88be9a0a06b73e Matthew Auld 2021-06-16   33  {
+88be9a0a06b73e Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manager=
+ *bman =3D to_buddy_manager(man);
+88be9a0a06b73e Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resourc=
+e *bman_res;
+88be9a0a06b73e Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D =
+&bman->mm;
+88be9a0a06b73e Matthew Auld 2021-06-16   37  	unsigned long n_pages;
+88be9a0a06b73e Matthew Auld 2021-06-16   38  	unsigned int min_order;
+88be9a0a06b73e Matthew Auld 2021-06-16   39  	u64 min_page_size;
+88be9a0a06b73e Matthew Auld 2021-06-16   40  	u64 size;
+88be9a0a06b73e Matthew Auld 2021-06-16   41  	int err;
+88be9a0a06b73e Matthew Auld 2021-06-16   42  =
 
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  373  		if (is_multica=
-st_ether_addr(mac_hdr->h_dest))
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @374  			sc =3D info->=
-vport.pcp_to_sc_mc[pcp];
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  375  		else
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @376  			sc =3D info->=
-vport.pcp_to_sc_uc[pcp];
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  377  	} else {
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  378  		if (is_multica=
-st_ether_addr(mac_hdr->h_dest))
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  379  			sc =3D info->=
-vport.non_vlan_sc_mc;
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  380  		else
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  381  			sc =3D info->=
-vport.non_vlan_sc_uc;
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  382  	}
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  383  =
+88be9a0a06b73e Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pla=
+ce->lpfn);
+88be9a0a06b73e Matthew Auld 2021-06-16   44  =
 
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @384  	return sc;
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  385  }
-7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  386  =
+88be9a0a06b73e Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(*=
+bman_res), GFP_KERNEL);
+88be9a0a06b73e Matthew Auld 2021-06-16   46  	if (!bman_res)
+88be9a0a06b73e Matthew Auld 2021-06-16   47  		return -ENOMEM;
+88be9a0a06b73e Matthew Auld 2021-06-16   48  =
 
+88be9a0a06b73e Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place, =
+&bman_res->base);
+88be9a0a06b73e Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->blo=
+cks);
+88be9a0a06b73e Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
+88be9a0a06b73e Matthew Auld 2021-06-16   52  =
 
-:::::: The code at line 374 was first introduced by commit
-:::::: 7d6f728c677e9d01b42d3cc9eb9ef40a2de92ea3 IB/opa-vnic: Virtual Networ=
-k Interface Controller (VNIC) netdev
+88be9a0a06b73e Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.nu=
+m_pages);
+88be9a0a06b73e Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_p=
+ages << PAGE_SHIFT;
+88be9a0a06b73e Matthew Auld 2021-06-16   55  =
 
-:::::: TO: Vishwanathapura, Niranjana <niranjana.vishwanathapura@intel.co=
-m>
-:::::: CC: Doug Ledford <dledford@redhat.com>
+88be9a0a06b73e Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_al=
+ignment << PAGE_SHIFT;
+88be9a0a06b73e Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < mm=
+->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page_=
+size) - ilog2(mm->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FLA=
+G_CONTIGUOUS) {
+88be9a0a06b73e Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two(=
+size);
+88be9a0a06b73e Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) - =
+ilog2(mm->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   62  	}
+88be9a0a06b73e Matthew Auld 2021-06-16   63  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   64  	if (size > mm->size) {
+88be9a0a06b73e Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
+88be9a0a06b73e Matthew Auld 2021-06-16   66  		goto err_free_res;
+88be9a0a06b73e Matthew Auld 2021-06-16   67  	}
+88be9a0a06b73e Matthew Auld 2021-06-16   68  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm-=
+>chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   70  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   71  	do {
+88be9a0a06b73e Matthew Auld 2021-06-16   72  		struct i915_buddy_block *blo=
+ck;
+88be9a0a06b73e Matthew Auld 2021-06-16   73  		unsigned int order;
+88be9a0a06b73e Matthew Auld 2021-06-16   74  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
+88be9a0a06b73e Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_o=
+rder);
+88be9a0a06b73e Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_order=
+);
+88be9a0a06b73e Matthew Auld 2021-06-16   78  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   79  		do {
+88be9a0a06b73e Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc(=
+mm, order);
+88be9a0a06b73e Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
+88be9a0a06b73e Matthew Auld 2021-06-16   84  				break;
+88be9a0a06b73e Matthew Auld 2021-06-16   85  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_orde=
+r) {
+88be9a0a06b73e Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
+88be9a0a06b73e Matthew Auld 2021-06-16   88  				goto err_free_blocks;
+88be9a0a06b73e Matthew Auld 2021-06-16   89  			}
+88be9a0a06b73e Matthew Auld 2021-06-16   90  		} while (1);
+88be9a0a06b73e Matthew Auld 2021-06-16   91  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
+88be9a0a06b73e Matthew Auld 2021-06-16   93  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   94  		list_add_tail(&block->link, =
+&bman_res->blocks);
+88be9a0a06b73e Matthew Auld 2021-06-16   95  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   96  		if (!n_pages)
+88be9a0a06b73e Matthew Auld 2021-06-16   97  			break;
+88be9a0a06b73e Matthew Auld 2021-06-16   98  	} while (1);
+88be9a0a06b73e Matthew Auld 2021-06-16   99  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
+88be9a0a06b73e Matthew Auld 2021-06-16  101  	return 0;
+88be9a0a06b73e Matthew Auld 2021-06-16  102  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16  103  err_free_blocks:
+88be9a0a06b73e Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bma=
+n_res->blocks);
+88be9a0a06b73e Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16  107  err_free_res:
+88be9a0a06b73e Matthew Auld 2021-06-16  108  	kfree(bman_res);
+88be9a0a06b73e Matthew Auld 2021-06-16  109  	return err;
+88be9a0a06b73e Matthew Auld 2021-06-16  110  }
+88be9a0a06b73e Matthew Auld 2021-06-16  111  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0256757463553459895==--
+--===============8567248278661744200==--
 
