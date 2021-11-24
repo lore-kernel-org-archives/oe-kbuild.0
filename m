@@ -1,35 +1,33 @@
-Content-Type: multipart/mixed; boundary="===============4610041542877316820=="
+Content-Type: multipart/mixed; boundary="===============0256757463553459895=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/vdpa/vdpa.c:296 vdpa_mgmtdev_fill() warn: should '(((1))) << (mdev->id_table[i]->device)' be a 64 bit type?
-Date: Thu, 25 Nov 2021 03:58:14 +0800
-Message-ID: <202111250317.VUsGtdox-lkp@intel.com>
+Subject: drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:374 opa_vnic_get_sc() warn: potential spectre issue 'info->vport.pcp_to_sc_mc' [r]
+Date: Thu, 25 Nov 2021 03:27:38 +0800
+Message-ID: <202111250317.6hp6SBin-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4610041542877316820==
+--===============0256757463553459895==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Parav Pandit <parav@nvidia.com>
-CC: "Michael S. Tsirkin" <mst@redhat.com>
-CC: Eli Cohen <elic@nvidia.com>
-CC: Jason Wang <jasowang@redhat.com>
-CC: Eric Dumazet <edumazet@google.com>
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d9f4cf36721aba199975a9be7863a3ff5cd4b59
-commit: 33b347503f014ebf76257327cbc7001c6b721956 vdpa: Define vdpa mgmt dev=
-ice, ops and a netlink interface
-date:   9 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-m021-20211118 (https://download.01.org/0day-ci/arch=
-ive/20211125/202111250317.VUsGtdox-lkp(a)intel.com/config)
+commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
+.h: sparse can do constant folding of __builtin_bswap*()
+date:   7 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-m001-20211122 (https://download.01.org/0day-ci/ar=
+chive/20211125/202111250317.6hp6SBin-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -37,110 +35,71 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/vdpa/vdpa.c:296 vdpa_mgmtdev_fill() warn: should '(((1))) << (mdev-=
->id_table[i]->device)' be a 64 bit type?
-drivers/vdpa/vdpa.c:329 vdpa_nl_cmd_mgmtdev_get_doit() warn: passing a vali=
-d pointer to 'PTR_ERR'
+drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:374 opa_vnic_get_sc() warn=
+: potential spectre issue 'info->vport.pcp_to_sc_mc' [r]
+drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:376 opa_vnic_get_sc() warn=
+: potential spectre issue 'info->vport.pcp_to_sc_uc' [r]
+drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c:384 opa_vnic_get_sc() warn=
+: possible spectre second half.  'sc'
+drivers/infiniband/sw/siw/iwarp.h:114 __ddp_get_version() warn: mask and sh=
+ift to zero
 
-vim +296 drivers/vdpa/vdpa.c
+vim +374 drivers/infiniband/ulp/opa_vnic/opa_vnic_encap.c
 
-33b347503f014eb Parav Pandit 2021-01-05  279  =
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  361  =
 
-33b347503f014eb Parav Pandit 2021-01-05  280  static int vdpa_mgmtdev_fill(=
-const struct vdpa_mgmt_dev *mdev, struct sk_buff *msg,
-33b347503f014eb Parav Pandit 2021-01-05  281  			     u32 portid, u32 seq, =
-int flags)
-33b347503f014eb Parav Pandit 2021-01-05  282  {
-33b347503f014eb Parav Pandit 2021-01-05  283  	u64 supported_classes =3D 0;
-33b347503f014eb Parav Pandit 2021-01-05  284  	void *hdr;
-33b347503f014eb Parav Pandit 2021-01-05  285  	int i =3D 0;
-33b347503f014eb Parav Pandit 2021-01-05  286  	int err;
-33b347503f014eb Parav Pandit 2021-01-05  287  =
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  362  /* opa_vnic_get_=
+sc - return the service class */
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  363  static u8 opa_vn=
+ic_get_sc(struct __opa_veswport_info *info,
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  364  			  struct sk_b=
+uff *skb)
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  365  {
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  366  	struct ethhdr *=
+mac_hdr =3D (struct ethhdr *)skb_mac_header(skb);
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  367  	u16 vlan_tci;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  368  	u8 sc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  369  =
 
-33b347503f014eb Parav Pandit 2021-01-05  288  	hdr =3D genlmsg_put(msg, por=
-tid, seq, &vdpa_nl_family, flags, VDPA_CMD_MGMTDEV_NEW);
-33b347503f014eb Parav Pandit 2021-01-05  289  	if (!hdr)
-33b347503f014eb Parav Pandit 2021-01-05  290  		return -EMSGSIZE;
-33b347503f014eb Parav Pandit 2021-01-05  291  	err =3D vdpa_nl_mgmtdev_hand=
-le_fill(msg, mdev);
-33b347503f014eb Parav Pandit 2021-01-05  292  	if (err)
-33b347503f014eb Parav Pandit 2021-01-05  293  		goto msg_err;
-33b347503f014eb Parav Pandit 2021-01-05  294  =
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  370  	if (!__vlan_get=
+_tag(skb, &vlan_tci)) {
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  371  		u8 pcp =3D OPA=
+_VNIC_VLAN_PCP(vlan_tci);
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  372  =
 
-33b347503f014eb Parav Pandit 2021-01-05  295  	while (mdev->id_table[i].dev=
-ice) {
-33b347503f014eb Parav Pandit 2021-01-05 @296  		supported_classes |=3D BIT(=
-mdev->id_table[i].device);
-33b347503f014eb Parav Pandit 2021-01-05  297  		i++;
-33b347503f014eb Parav Pandit 2021-01-05  298  	}
-33b347503f014eb Parav Pandit 2021-01-05  299  =
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  373  		if (is_multica=
+st_ether_addr(mac_hdr->h_dest))
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @374  			sc =3D info->=
+vport.pcp_to_sc_mc[pcp];
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  375  		else
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @376  			sc =3D info->=
+vport.pcp_to_sc_uc[pcp];
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  377  	} else {
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  378  		if (is_multica=
+st_ether_addr(mac_hdr->h_dest))
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  379  			sc =3D info->=
+vport.non_vlan_sc_mc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  380  		else
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  381  			sc =3D info->=
+vport.non_vlan_sc_uc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  382  	}
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  383  =
 
-33b347503f014eb Parav Pandit 2021-01-05  300  	if (nla_put_u64_64bit(msg, V=
-DPA_ATTR_MGMTDEV_SUPPORTED_CLASSES,
-33b347503f014eb Parav Pandit 2021-01-05  301  			      supported_classes, V=
-DPA_ATTR_UNSPEC)) {
-33b347503f014eb Parav Pandit 2021-01-05  302  		err =3D -EMSGSIZE;
-33b347503f014eb Parav Pandit 2021-01-05  303  		goto msg_err;
-33b347503f014eb Parav Pandit 2021-01-05  304  	}
-33b347503f014eb Parav Pandit 2021-01-05  305  =
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12 @384  	return sc;
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  385  }
+7d6f728c677e9d Vishwanathapura, Niranjana 2017-04-12  386  =
 
-33b347503f014eb Parav Pandit 2021-01-05  306  	genlmsg_end(msg, hdr);
-33b347503f014eb Parav Pandit 2021-01-05  307  	return 0;
-33b347503f014eb Parav Pandit 2021-01-05  308  =
 
-33b347503f014eb Parav Pandit 2021-01-05  309  msg_err:
-33b347503f014eb Parav Pandit 2021-01-05  310  	genlmsg_cancel(msg, hdr);
-33b347503f014eb Parav Pandit 2021-01-05  311  	return err;
-33b347503f014eb Parav Pandit 2021-01-05  312  }
-33b347503f014eb Parav Pandit 2021-01-05  313  =
+:::::: The code at line 374 was first introduced by commit
+:::::: 7d6f728c677e9d01b42d3cc9eb9ef40a2de92ea3 IB/opa-vnic: Virtual Networ=
+k Interface Controller (VNIC) netdev
 
-33b347503f014eb Parav Pandit 2021-01-05  314  static int vdpa_nl_cmd_mgmtde=
-v_get_doit(struct sk_buff *skb, struct genl_info *info)
-33b347503f014eb Parav Pandit 2021-01-05  315  {
-33b347503f014eb Parav Pandit 2021-01-05  316  	struct vdpa_mgmt_dev *mdev;
-33b347503f014eb Parav Pandit 2021-01-05  317  	struct sk_buff *msg;
-33b347503f014eb Parav Pandit 2021-01-05  318  	int err;
-33b347503f014eb Parav Pandit 2021-01-05  319  =
-
-33b347503f014eb Parav Pandit 2021-01-05  320  	msg =3D nlmsg_new(NLMSG_DEFA=
-ULT_SIZE, GFP_KERNEL);
-33b347503f014eb Parav Pandit 2021-01-05  321  	if (!msg)
-33b347503f014eb Parav Pandit 2021-01-05  322  		return -ENOMEM;
-33b347503f014eb Parav Pandit 2021-01-05  323  =
-
-33b347503f014eb Parav Pandit 2021-01-05  324  	mutex_lock(&vdpa_dev_mutex);
-33b347503f014eb Parav Pandit 2021-01-05  325  	mdev =3D vdpa_mgmtdev_get_fr=
-om_attr(info->attrs);
-33b347503f014eb Parav Pandit 2021-01-05  326  	if (IS_ERR(mdev)) {
-33b347503f014eb Parav Pandit 2021-01-05  327  		mutex_unlock(&vdpa_dev_mute=
-x);
-33b347503f014eb Parav Pandit 2021-01-05  328  		NL_SET_ERR_MSG_MOD(info->ex=
-tack, "Fail to find the specified mgmt device");
-33b347503f014eb Parav Pandit 2021-01-05 @329  		err =3D PTR_ERR(mdev);
-33b347503f014eb Parav Pandit 2021-01-05  330  		goto out;
-33b347503f014eb Parav Pandit 2021-01-05  331  	}
-33b347503f014eb Parav Pandit 2021-01-05  332  =
-
-33b347503f014eb Parav Pandit 2021-01-05  333  	err =3D vdpa_mgmtdev_fill(md=
-ev, msg, info->snd_portid, info->snd_seq, 0);
-33b347503f014eb Parav Pandit 2021-01-05  334  	mutex_unlock(&vdpa_dev_mutex=
-);
-33b347503f014eb Parav Pandit 2021-01-05  335  	if (err)
-33b347503f014eb Parav Pandit 2021-01-05  336  		goto out;
-33b347503f014eb Parav Pandit 2021-01-05  337  	err =3D genlmsg_reply(msg, i=
-nfo);
-33b347503f014eb Parav Pandit 2021-01-05  338  	return err;
-33b347503f014eb Parav Pandit 2021-01-05  339  =
-
-33b347503f014eb Parav Pandit 2021-01-05  340  out:
-33b347503f014eb Parav Pandit 2021-01-05  341  	nlmsg_free(msg);
-33b347503f014eb Parav Pandit 2021-01-05  342  	return err;
-33b347503f014eb Parav Pandit 2021-01-05  343  }
-33b347503f014eb Parav Pandit 2021-01-05  344  =
-
+:::::: TO: Vishwanathapura, Niranjana <niranjana.vishwanathapura@intel.co=
+m>
+:::::: CC: Doug Ledford <dledford@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4610041542877316820==--
+--===============0256757463553459895==--
 
