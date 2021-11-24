@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0288608924276911032=="
+Content-Type: multipart/mixed; boundary="===============1869832460479480762=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer to 'PTR_ERR'
-Date: Wed, 24 Nov 2021 18:57:06 +0800
-Message-ID: <202111241830.QLGgkn9L-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'PTR_ERR'
+Date: Wed, 24 Nov 2021 17:03:37 +0800
+Message-ID: <202111241705.MxwRmAdL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0288608924276911032==
+--===============1869832460479480762==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,6 +15,7 @@ Content-Transfer-Encoding: quoted-printable
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: SeongJae Park <sjpark@amazon.de>
+CC: Leonard Foerster <foersleo@amazon.de>
 CC: Fernand Sieber <sieberf@amazon.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
@@ -22,13 +23,13 @@ CC: Linux Memory Management List <linux-mm@kvack.org>
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d9f4cf36721aba199975a9be7863a3ff5cd4b59
-commit: 75c1c2b53c78bf3b3188ebb7b3508dadbf98bba1 mm/damon/dbgfs: support mu=
-ltiple contexts
+commit: 4bc05954d0076655cfaf6f0135585bdc20cd6b11 mm/damon: implement a debu=
+gfs-based user space interface
 date:   3 months ago
-:::::: branch date: 13 hours ago
+:::::: branch date: 11 hours ago
 :::::: commit date: 3 months ago
 config: nios2-randconfig-m031-20211123 (https://download.01.org/0day-ci/arc=
-hive/20211124/202111241830.QLGgkn9L-lkp(a)intel.com/config)
+hive/20211124/202111241705.MxwRmAdL-lkp(a)intel.com/config)
 compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -36,194 +37,269 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer=
+mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'P=
+TR_ERR'
+mm/damon/dbgfs.c:196 dbgfs_target_ids_write() warn: passing a valid pointer=
  to 'PTR_ERR'
-mm/damon/dbgfs.c:487 dbgfs_rm_context_write() warn: passing a valid pointer=
+mm/damon/dbgfs.c:319 dbgfs_monitor_on_write() warn: passing a valid pointer=
  to 'PTR_ERR'
 
-vim +/PTR_ERR +396 mm/damon/dbgfs.c
+vim +/PTR_ERR +76 mm/damon/dbgfs.c
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  385  =
+4bc05954d00766 SeongJae Park 2021-09-07   64  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  386  static ssize_t dbgfs_mk_conte=
-xt_write(struct file *file,
-75c1c2b53c78bf SeongJae Park 2021-09-07  387  		const char __user *buf, siz=
+4bc05954d00766 SeongJae Park 2021-09-07   65  static ssize_t dbgfs_attrs_wr=
+ite(struct file *file,
+4bc05954d00766 SeongJae Park 2021-09-07   66  		const char __user *buf, siz=
 e_t count, loff_t *ppos)
-75c1c2b53c78bf SeongJae Park 2021-09-07  388  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  389  	char *kbuf;
-75c1c2b53c78bf SeongJae Park 2021-09-07  390  	char *ctx_name;
-75c1c2b53c78bf SeongJae Park 2021-09-07  391  	ssize_t ret =3D count;
-75c1c2b53c78bf SeongJae Park 2021-09-07  392  	int err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  393  =
+4bc05954d00766 SeongJae Park 2021-09-07   67  {
+4bc05954d00766 SeongJae Park 2021-09-07   68  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+4bc05954d00766 SeongJae Park 2021-09-07   69  	unsigned long s, a, r, minr,=
+ maxr;
+4bc05954d00766 SeongJae Park 2021-09-07   70  	char *kbuf;
+4bc05954d00766 SeongJae Park 2021-09-07   71  	ssize_t ret =3D count;
+4bc05954d00766 SeongJae Park 2021-09-07   72  	int err;
+4bc05954d00766 SeongJae Park 2021-09-07   73  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  394  	kbuf =3D user_input_str(buf,=
+4bc05954d00766 SeongJae Park 2021-09-07   74  	kbuf =3D user_input_str(buf,=
  count, ppos);
-75c1c2b53c78bf SeongJae Park 2021-09-07  395  	if (IS_ERR(kbuf))
-75c1c2b53c78bf SeongJae Park 2021-09-07 @396  		return PTR_ERR(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  397  	ctx_name =3D kmalloc(count +=
- 1, GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  398  	if (!ctx_name) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  399  		kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  400  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  401  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  402  =
+4bc05954d00766 SeongJae Park 2021-09-07   75  	if (IS_ERR(kbuf))
+4bc05954d00766 SeongJae Park 2021-09-07  @76  		return PTR_ERR(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07   77  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  403  	/* Trim white space */
-75c1c2b53c78bf SeongJae Park 2021-09-07  404  	if (sscanf(kbuf, "%s", ctx_n=
-ame) !=3D 1) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  405  		ret =3D -EINVAL;
-75c1c2b53c78bf SeongJae Park 2021-09-07  406  		goto out;
-75c1c2b53c78bf SeongJae Park 2021-09-07  407  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  408  =
+4bc05954d00766 SeongJae Park 2021-09-07   78  	if (sscanf(kbuf, "%lu %lu %l=
+u %lu %lu",
+4bc05954d00766 SeongJae Park 2021-09-07   79  				&s, &a, &r, &minr, &maxr)=
+ !=3D 5) {
+4bc05954d00766 SeongJae Park 2021-09-07   80  		ret =3D -EINVAL;
+4bc05954d00766 SeongJae Park 2021-09-07   81  		goto out;
+4bc05954d00766 SeongJae Park 2021-09-07   82  	}
+4bc05954d00766 SeongJae Park 2021-09-07   83  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  409  	mutex_lock(&damon_dbgfs_lock=
-);
-75c1c2b53c78bf SeongJae Park 2021-09-07  410  	err =3D dbgfs_mk_context(ctx=
-_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  411  	if (err)
-75c1c2b53c78bf SeongJae Park 2021-09-07  412  		ret =3D err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  413  	mutex_unlock(&damon_dbgfs_lo=
-ck);
-75c1c2b53c78bf SeongJae Park 2021-09-07  414  =
+4bc05954d00766 SeongJae Park 2021-09-07   84  	mutex_lock(&ctx->kdamond_loc=
+k);
+4bc05954d00766 SeongJae Park 2021-09-07   85  	if (ctx->kdamond) {
+4bc05954d00766 SeongJae Park 2021-09-07   86  		ret =3D -EBUSY;
+4bc05954d00766 SeongJae Park 2021-09-07   87  		goto unlock_out;
+4bc05954d00766 SeongJae Park 2021-09-07   88  	}
+4bc05954d00766 SeongJae Park 2021-09-07   89  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  415  out:
-75c1c2b53c78bf SeongJae Park 2021-09-07  416  	kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  417  	kfree(ctx_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  418  	return ret;
-75c1c2b53c78bf SeongJae Park 2021-09-07  419  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  420  =
+4bc05954d00766 SeongJae Park 2021-09-07   90  	err =3D damon_set_attrs(ctx,=
+ s, a, r, minr, maxr);
+4bc05954d00766 SeongJae Park 2021-09-07   91  	if (err)
+4bc05954d00766 SeongJae Park 2021-09-07   92  		ret =3D err;
+4bc05954d00766 SeongJae Park 2021-09-07   93  unlock_out:
+4bc05954d00766 SeongJae Park 2021-09-07   94  	mutex_unlock(&ctx->kdamond_l=
+ock);
+4bc05954d00766 SeongJae Park 2021-09-07   95  out:
+4bc05954d00766 SeongJae Park 2021-09-07   96  	kfree(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07   97  	return ret;
+4bc05954d00766 SeongJae Park 2021-09-07   98  }
+4bc05954d00766 SeongJae Park 2021-09-07   99  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  421  /*
-75c1c2b53c78bf SeongJae Park 2021-09-07  422   * Remove a context of @name =
-and its debugfs directory.
-75c1c2b53c78bf SeongJae Park 2021-09-07  423   *
-75c1c2b53c78bf SeongJae Park 2021-09-07  424   * This function should be ca=
-lled while holding damon_dbgfs_lock.
-75c1c2b53c78bf SeongJae Park 2021-09-07  425   *
-75c1c2b53c78bf SeongJae Park 2021-09-07  426   * Return 0 on success, negat=
-ive error code otherwise.
-75c1c2b53c78bf SeongJae Park 2021-09-07  427   */
-75c1c2b53c78bf SeongJae Park 2021-09-07  428  static int dbgfs_rm_context(c=
-har *name)
-75c1c2b53c78bf SeongJae Park 2021-09-07  429  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  430  	struct dentry *root, *dir, *=
-*new_dirs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  431  	struct damon_ctx **new_ctxs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  432  	int i, j;
-75c1c2b53c78bf SeongJae Park 2021-09-07  433  =
+4bc05954d00766 SeongJae Park 2021-09-07  100  static inline bool targetid_i=
+s_pid(const struct damon_ctx *ctx)
+4bc05954d00766 SeongJae Park 2021-09-07  101  {
+4bc05954d00766 SeongJae Park 2021-09-07  102  	return ctx->primitive.target=
+_valid =3D=3D damon_va_target_valid;
+4bc05954d00766 SeongJae Park 2021-09-07  103  }
+4bc05954d00766 SeongJae Park 2021-09-07  104  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  434  	if (damon_nr_running_ctxs())
-75c1c2b53c78bf SeongJae Park 2021-09-07  435  		return -EBUSY;
-75c1c2b53c78bf SeongJae Park 2021-09-07  436  =
+4bc05954d00766 SeongJae Park 2021-09-07  105  static ssize_t sprint_target_=
+ids(struct damon_ctx *ctx, char *buf, ssize_t len)
+4bc05954d00766 SeongJae Park 2021-09-07  106  {
+4bc05954d00766 SeongJae Park 2021-09-07  107  	struct damon_target *t;
+4bc05954d00766 SeongJae Park 2021-09-07  108  	unsigned long id;
+4bc05954d00766 SeongJae Park 2021-09-07  109  	int written =3D 0;
+4bc05954d00766 SeongJae Park 2021-09-07  110  	int rc;
+4bc05954d00766 SeongJae Park 2021-09-07  111  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  437  	root =3D dbgfs_dirs[0];
-75c1c2b53c78bf SeongJae Park 2021-09-07  438  	if (!root)
-75c1c2b53c78bf SeongJae Park 2021-09-07  439  		return -ENOENT;
-75c1c2b53c78bf SeongJae Park 2021-09-07  440  =
+4bc05954d00766 SeongJae Park 2021-09-07  112  	damon_for_each_target(t, ctx=
+) {
+4bc05954d00766 SeongJae Park 2021-09-07  113  		id =3D t->id;
+4bc05954d00766 SeongJae Park 2021-09-07  114  		if (targetid_is_pid(ctx))
+4bc05954d00766 SeongJae Park 2021-09-07  115  			/* Show pid numbers to deb=
+ugfs users */
+4bc05954d00766 SeongJae Park 2021-09-07  116  			id =3D (unsigned long)pid_=
+vnr((struct pid *)id);
+4bc05954d00766 SeongJae Park 2021-09-07  117  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  441  	dir =3D debugfs_lookup(name,=
- root);
-75c1c2b53c78bf SeongJae Park 2021-09-07  442  	if (!dir)
-75c1c2b53c78bf SeongJae Park 2021-09-07  443  		return -ENOENT;
-75c1c2b53c78bf SeongJae Park 2021-09-07  444  =
+4bc05954d00766 SeongJae Park 2021-09-07  118  		rc =3D scnprintf(&buf[writt=
+en], len - written, "%lu ", id);
+4bc05954d00766 SeongJae Park 2021-09-07  119  		if (!rc)
+4bc05954d00766 SeongJae Park 2021-09-07  120  			return -ENOMEM;
+4bc05954d00766 SeongJae Park 2021-09-07  121  		written +=3D rc;
+4bc05954d00766 SeongJae Park 2021-09-07  122  	}
+4bc05954d00766 SeongJae Park 2021-09-07  123  	if (written)
+4bc05954d00766 SeongJae Park 2021-09-07  124  		written -=3D 1;
+4bc05954d00766 SeongJae Park 2021-09-07  125  	written +=3D scnprintf(&buf[=
+written], len - written, "\n");
+4bc05954d00766 SeongJae Park 2021-09-07  126  	return written;
+4bc05954d00766 SeongJae Park 2021-09-07  127  }
+4bc05954d00766 SeongJae Park 2021-09-07  128  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  445  	new_dirs =3D kmalloc_array(d=
-bgfs_nr_ctxs - 1, sizeof(*dbgfs_dirs),
-75c1c2b53c78bf SeongJae Park 2021-09-07  446  			GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  447  	if (!new_dirs)
-75c1c2b53c78bf SeongJae Park 2021-09-07  448  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  449  =
+4bc05954d00766 SeongJae Park 2021-09-07  129  static ssize_t dbgfs_target_i=
+ds_read(struct file *file,
+4bc05954d00766 SeongJae Park 2021-09-07  130  		char __user *buf, size_t co=
+unt, loff_t *ppos)
+4bc05954d00766 SeongJae Park 2021-09-07  131  {
+4bc05954d00766 SeongJae Park 2021-09-07  132  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+4bc05954d00766 SeongJae Park 2021-09-07  133  	ssize_t len;
+4bc05954d00766 SeongJae Park 2021-09-07  134  	char ids_buf[320];
+4bc05954d00766 SeongJae Park 2021-09-07  135  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  450  	new_ctxs =3D kmalloc_array(d=
-bgfs_nr_ctxs - 1, sizeof(*dbgfs_ctxs),
-75c1c2b53c78bf SeongJae Park 2021-09-07  451  			GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  452  	if (!new_ctxs) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  453  		kfree(new_dirs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  454  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  455  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  456  =
+4bc05954d00766 SeongJae Park 2021-09-07  136  	mutex_lock(&ctx->kdamond_loc=
+k);
+4bc05954d00766 SeongJae Park 2021-09-07  137  	len =3D sprint_target_ids(ct=
+x, ids_buf, 320);
+4bc05954d00766 SeongJae Park 2021-09-07  138  	mutex_unlock(&ctx->kdamond_l=
+ock);
+4bc05954d00766 SeongJae Park 2021-09-07  139  	if (len < 0)
+4bc05954d00766 SeongJae Park 2021-09-07  140  		return len;
+4bc05954d00766 SeongJae Park 2021-09-07  141  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  457  	for (i =3D 0, j =3D 0; i < d=
-bgfs_nr_ctxs; i++) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  458  		if (dbgfs_dirs[i] =3D=3D di=
-r) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  459  			debugfs_remove(dbgfs_dirs[=
-i]);
-75c1c2b53c78bf SeongJae Park 2021-09-07  460  			dbgfs_destroy_ctx(dbgfs_ct=
-xs[i]);
-75c1c2b53c78bf SeongJae Park 2021-09-07  461  			continue;
-75c1c2b53c78bf SeongJae Park 2021-09-07  462  		}
-75c1c2b53c78bf SeongJae Park 2021-09-07  463  		new_dirs[j] =3D dbgfs_dirs[=
-i];
-75c1c2b53c78bf SeongJae Park 2021-09-07  464  		new_ctxs[j++] =3D dbgfs_ctx=
-s[i];
-75c1c2b53c78bf SeongJae Park 2021-09-07  465  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  466  =
+4bc05954d00766 SeongJae Park 2021-09-07  142  	return simple_read_from_buff=
+er(buf, count, ppos, ids_buf, len);
+4bc05954d00766 SeongJae Park 2021-09-07  143  }
+4bc05954d00766 SeongJae Park 2021-09-07  144  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  467  	kfree(dbgfs_dirs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  468  	kfree(dbgfs_ctxs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  469  =
+4bc05954d00766 SeongJae Park 2021-09-07  145  /*
+4bc05954d00766 SeongJae Park 2021-09-07  146   * Converts a string into an =
+array of unsigned long integers
+4bc05954d00766 SeongJae Park 2021-09-07  147   *
+4bc05954d00766 SeongJae Park 2021-09-07  148   * Returns an array of unsign=
+ed long integers if the conversion success, or
+4bc05954d00766 SeongJae Park 2021-09-07  149   * NULL otherwise.
+4bc05954d00766 SeongJae Park 2021-09-07  150   */
+4bc05954d00766 SeongJae Park 2021-09-07  151  static unsigned long *str_to_=
+target_ids(const char *str, ssize_t len,
+4bc05954d00766 SeongJae Park 2021-09-07  152  					ssize_t *nr_ids)
+4bc05954d00766 SeongJae Park 2021-09-07  153  {
+4bc05954d00766 SeongJae Park 2021-09-07  154  	unsigned long *ids;
+4bc05954d00766 SeongJae Park 2021-09-07  155  	const int max_nr_ids =3D 32;
+4bc05954d00766 SeongJae Park 2021-09-07  156  	unsigned long id;
+4bc05954d00766 SeongJae Park 2021-09-07  157  	int pos =3D 0, parsed, ret;
+4bc05954d00766 SeongJae Park 2021-09-07  158  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  470  	dbgfs_dirs =3D new_dirs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  471  	dbgfs_ctxs =3D new_ctxs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  472  	dbgfs_nr_ctxs--;
-75c1c2b53c78bf SeongJae Park 2021-09-07  473  =
+4bc05954d00766 SeongJae Park 2021-09-07  159  	*nr_ids =3D 0;
+4bc05954d00766 SeongJae Park 2021-09-07  160  	ids =3D kmalloc_array(max_nr=
+_ids, sizeof(id), GFP_KERNEL);
+4bc05954d00766 SeongJae Park 2021-09-07  161  	if (!ids)
+4bc05954d00766 SeongJae Park 2021-09-07  162  		return NULL;
+4bc05954d00766 SeongJae Park 2021-09-07  163  	while (*nr_ids < max_nr_ids =
+&& pos < len) {
+4bc05954d00766 SeongJae Park 2021-09-07  164  		ret =3D sscanf(&str[pos], "=
+%lu%n", &id, &parsed);
+4bc05954d00766 SeongJae Park 2021-09-07  165  		pos +=3D parsed;
+4bc05954d00766 SeongJae Park 2021-09-07  166  		if (ret !=3D 1)
+4bc05954d00766 SeongJae Park 2021-09-07  167  			break;
+4bc05954d00766 SeongJae Park 2021-09-07  168  		ids[*nr_ids] =3D id;
+4bc05954d00766 SeongJae Park 2021-09-07  169  		*nr_ids +=3D 1;
+4bc05954d00766 SeongJae Park 2021-09-07  170  	}
+4bc05954d00766 SeongJae Park 2021-09-07  171  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  474  	return 0;
-75c1c2b53c78bf SeongJae Park 2021-09-07  475  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  476  =
+4bc05954d00766 SeongJae Park 2021-09-07  172  	return ids;
+4bc05954d00766 SeongJae Park 2021-09-07  173  }
+4bc05954d00766 SeongJae Park 2021-09-07  174  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  477  static ssize_t dbgfs_rm_conte=
-xt_write(struct file *file,
-75c1c2b53c78bf SeongJae Park 2021-09-07  478  		const char __user *buf, siz=
+4bc05954d00766 SeongJae Park 2021-09-07  175  static void dbgfs_put_pids(un=
+signed long *ids, int nr_ids)
+4bc05954d00766 SeongJae Park 2021-09-07  176  {
+4bc05954d00766 SeongJae Park 2021-09-07  177  	int i;
+4bc05954d00766 SeongJae Park 2021-09-07  178  =
+
+4bc05954d00766 SeongJae Park 2021-09-07  179  	for (i =3D 0; i < nr_ids; i+=
++)
+4bc05954d00766 SeongJae Park 2021-09-07  180  		put_pid((struct pid *)ids[i=
+]);
+4bc05954d00766 SeongJae Park 2021-09-07  181  }
+4bc05954d00766 SeongJae Park 2021-09-07  182  =
+
+4bc05954d00766 SeongJae Park 2021-09-07  183  static ssize_t dbgfs_target_i=
+ds_write(struct file *file,
+4bc05954d00766 SeongJae Park 2021-09-07  184  		const char __user *buf, siz=
 e_t count, loff_t *ppos)
-75c1c2b53c78bf SeongJae Park 2021-09-07  479  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  480  	char *kbuf;
-75c1c2b53c78bf SeongJae Park 2021-09-07  481  	ssize_t ret =3D count;
-75c1c2b53c78bf SeongJae Park 2021-09-07  482  	int err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  483  	char *ctx_name;
-75c1c2b53c78bf SeongJae Park 2021-09-07  484  =
+4bc05954d00766 SeongJae Park 2021-09-07  185  {
+4bc05954d00766 SeongJae Park 2021-09-07  186  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+4bc05954d00766 SeongJae Park 2021-09-07  187  	char *kbuf, *nrs;
+4bc05954d00766 SeongJae Park 2021-09-07  188  	unsigned long *targets;
+4bc05954d00766 SeongJae Park 2021-09-07  189  	ssize_t nr_targets;
+4bc05954d00766 SeongJae Park 2021-09-07  190  	ssize_t ret =3D count;
+4bc05954d00766 SeongJae Park 2021-09-07  191  	int i;
+4bc05954d00766 SeongJae Park 2021-09-07  192  	int err;
+4bc05954d00766 SeongJae Park 2021-09-07  193  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  485  	kbuf =3D user_input_str(buf,=
+4bc05954d00766 SeongJae Park 2021-09-07  194  	kbuf =3D user_input_str(buf,=
  count, ppos);
-75c1c2b53c78bf SeongJae Park 2021-09-07  486  	if (IS_ERR(kbuf))
-75c1c2b53c78bf SeongJae Park 2021-09-07 @487  		return PTR_ERR(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  488  	ctx_name =3D kmalloc(count +=
- 1, GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  489  	if (!ctx_name) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  490  		kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  491  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  492  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  493  =
+4bc05954d00766 SeongJae Park 2021-09-07  195  	if (IS_ERR(kbuf))
+4bc05954d00766 SeongJae Park 2021-09-07 @196  		return PTR_ERR(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07  197  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  494  	/* Trim white space */
-75c1c2b53c78bf SeongJae Park 2021-09-07  495  	if (sscanf(kbuf, "%s", ctx_n=
-ame) !=3D 1) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  496  		ret =3D -EINVAL;
-75c1c2b53c78bf SeongJae Park 2021-09-07  497  		goto out;
-75c1c2b53c78bf SeongJae Park 2021-09-07  498  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  499  =
+4bc05954d00766 SeongJae Park 2021-09-07  198  	nrs =3D kbuf;
+4bc05954d00766 SeongJae Park 2021-09-07  199  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  500  	mutex_lock(&damon_dbgfs_lock=
+4bc05954d00766 SeongJae Park 2021-09-07  200  	targets =3D str_to_target_id=
+s(nrs, ret, &nr_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  201  	if (!targets) {
+4bc05954d00766 SeongJae Park 2021-09-07  202  		ret =3D -ENOMEM;
+4bc05954d00766 SeongJae Park 2021-09-07  203  		goto out;
+4bc05954d00766 SeongJae Park 2021-09-07  204  	}
+4bc05954d00766 SeongJae Park 2021-09-07  205  =
+
+4bc05954d00766 SeongJae Park 2021-09-07  206  	if (targetid_is_pid(ctx)) {
+4bc05954d00766 SeongJae Park 2021-09-07  207  		for (i =3D 0; i < nr_target=
+s; i++) {
+4bc05954d00766 SeongJae Park 2021-09-07  208  			targets[i] =3D (unsigned l=
+ong)find_get_pid(
+4bc05954d00766 SeongJae Park 2021-09-07  209  					(int)targets[i]);
+4bc05954d00766 SeongJae Park 2021-09-07  210  			if (!targets[i]) {
+4bc05954d00766 SeongJae Park 2021-09-07  211  				dbgfs_put_pids(targets, i=
 );
-75c1c2b53c78bf SeongJae Park 2021-09-07  501  	err =3D dbgfs_rm_context(ctx=
-_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  502  	if (err)
-75c1c2b53c78bf SeongJae Park 2021-09-07  503  		ret =3D err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  504  	mutex_unlock(&damon_dbgfs_lo=
-ck);
-75c1c2b53c78bf SeongJae Park 2021-09-07  505  =
+4bc05954d00766 SeongJae Park 2021-09-07  212  				ret =3D -EINVAL;
+4bc05954d00766 SeongJae Park 2021-09-07  213  				goto free_targets_out;
+4bc05954d00766 SeongJae Park 2021-09-07  214  			}
+4bc05954d00766 SeongJae Park 2021-09-07  215  		}
+4bc05954d00766 SeongJae Park 2021-09-07  216  	}
+4bc05954d00766 SeongJae Park 2021-09-07  217  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  506  out:
-75c1c2b53c78bf SeongJae Park 2021-09-07  507  	kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  508  	kfree(ctx_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  509  	return ret;
-75c1c2b53c78bf SeongJae Park 2021-09-07  510  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  511  =
+4bc05954d00766 SeongJae Park 2021-09-07  218  	mutex_lock(&ctx->kdamond_loc=
+k);
+4bc05954d00766 SeongJae Park 2021-09-07  219  	if (ctx->kdamond) {
+4bc05954d00766 SeongJae Park 2021-09-07  220  		if (targetid_is_pid(ctx))
+4bc05954d00766 SeongJae Park 2021-09-07  221  			dbgfs_put_pids(targets, nr=
+_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  222  		ret =3D -EBUSY;
+4bc05954d00766 SeongJae Park 2021-09-07  223  		goto unlock_out;
+4bc05954d00766 SeongJae Park 2021-09-07  224  	}
+4bc05954d00766 SeongJae Park 2021-09-07  225  =
+
+4bc05954d00766 SeongJae Park 2021-09-07  226  	err =3D damon_set_targets(ct=
+x, targets, nr_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  227  	if (err) {
+4bc05954d00766 SeongJae Park 2021-09-07  228  		if (targetid_is_pid(ctx))
+4bc05954d00766 SeongJae Park 2021-09-07  229  			dbgfs_put_pids(targets, nr=
+_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  230  		ret =3D err;
+4bc05954d00766 SeongJae Park 2021-09-07  231  	}
+4bc05954d00766 SeongJae Park 2021-09-07  232  =
+
+4bc05954d00766 SeongJae Park 2021-09-07  233  unlock_out:
+4bc05954d00766 SeongJae Park 2021-09-07  234  	mutex_unlock(&ctx->kdamond_l=
+ock);
+4bc05954d00766 SeongJae Park 2021-09-07  235  free_targets_out:
+4bc05954d00766 SeongJae Park 2021-09-07  236  	kfree(targets);
+4bc05954d00766 SeongJae Park 2021-09-07  237  out:
+4bc05954d00766 SeongJae Park 2021-09-07  238  	kfree(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07  239  	return ret;
+4bc05954d00766 SeongJae Park 2021-09-07  240  }
+4bc05954d00766 SeongJae Park 2021-09-07  241  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============0288608924276911032==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============1869832460479480762==--
 
