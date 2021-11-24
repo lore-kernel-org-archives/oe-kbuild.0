@@ -1,366 +1,102 @@
-Content-Type: multipart/mixed; boundary="===============2447899720754873587=="
+Content-Type: multipart/mixed; boundary="===============3682720286945121553=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/amba/bus.c:377:22: warning: Value stored to 'node' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 24 Nov 2021 21:09:27 +0800
-Message-ID: <202111242156.mC9wrRLR-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:227 dbgfs_schemes_write() warn: passing a valid pointer to 'PTR_ERR'
+Date: Wed, 24 Nov 2021 21:09:24 +0800
+Message-ID: <202111242159.C8ouoTFG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2447899720754873587==
+--===============3682720286945121553==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Wang Kefeng <wangkefeng.wang@huawei.com>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Rob Herring <robh@kernel.org>
+TO: SeongJae Park <sj@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d9f4cf36721aba199975a9be7863a3ff5cd4b59
-commit: 854f695c3d41853eb7efcd436023c5ab92a257eb ARM: 9119/1: amba: Properl=
-y handle device probe without IRQ domain
-date:   5 weeks ago
+commit: af122dd8f3c0099349bc98ff69f0d90efd8b149f mm/damon/dbgfs: support DA=
+MON-based Operation Schemes
+date:   3 weeks ago
 :::::: branch date: 15 hours ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20211123 (https://download.01.org/0day-ci/archi=
-ve/20211124/202111242156.mC9wrRLR-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 49e383=
-8145dff1ec91c2e67a2cb562775c8d2a08)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D854f695c3d41853eb7efcd436023c5ab92a257eb
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 854f695c3d41853eb7efcd436023c5ab92a257eb
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+:::::: commit date: 3 weeks ago
+config: nios2-randconfig-m031-20211123 (https://download.01.org/0day-ci/arc=
+hive/20211124/202111242159.C8ouoTFG-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/damon/dbgfs.c:227 dbgfs_schemes_write() warn: passing a valid pointer to=
+ 'PTR_ERR'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                                 ^
-   security/integrity/ima/ima_api.c:325:6: note: Assuming the condition is =
-false
-           if (iint->measured_pcrs & (0x1 << pcr) && !modsig)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_api.c:325:41: note: Left side of '&&' is false
-           if (iint->measured_pcrs & (0x1 << pcr) && !modsig)
-                                                  ^
-   security/integrity/ima/ima_api.c:328:11: note: Calling 'ima_alloc_init_t=
-emplate'
-           result =3D ima_alloc_init_template(&event_data, &entry, template=
-_desc);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   security/integrity/ima/ima_api.c:45:6: note: Assuming 'desc' is non-null
-           if (desc)
-               ^~~~
-   security/integrity/ima/ima_api.c:45:2: note: Taking true branch
-           if (desc)
-           ^
-   security/integrity/ima/ima_api.c:52:6: note: Assuming the condition is f=
-alse
-           if (!*entry)
-               ^~~~~~~
-   security/integrity/ima/ima_api.c:52:2: note: Taking false branch
-           if (!*entry)
-           ^
-   security/integrity/ima/ima_api.c:55:29: note: Assuming 'ima_tpm_chip' is=
- equal to null
-           digests =3D kcalloc(NR_BANKS(ima_tpm_chip) + ima_extra_slots,
-                                      ^
-   security/integrity/ima/ima.h:44:26: note: expanded from macro 'NR_BANKS'
-   #define NR_BANKS(chip) ((chip !=3D NULL) ? chip->nr_allocated_banks : 0)
-                            ^~~~~~~~~~~~
-   security/integrity/ima/ima_api.c:55:20: note: '?' condition is false
-           digests =3D kcalloc(NR_BANKS(ima_tpm_chip) + ima_extra_slots,
-                             ^
-   security/integrity/ima/ima.h:44:25: note: expanded from macro 'NR_BANKS'
-   #define NR_BANKS(chip) ((chip !=3D NULL) ? chip->nr_allocated_banks : 0)
-                           ^
-   security/integrity/ima/ima_api.c:57:6: note: Assuming 'digests' is non-n=
-ull
-           if (!digests) {
-               ^~~~~~~~
-   security/integrity/ima/ima_api.c:57:2: note: Taking false branch
-           if (!digests) {
-           ^
-   security/integrity/ima/ima_api.c:65:14: note: Assuming 'i' is < field 'n=
-um_fields'
-           for (i =3D 0; i < template_desc->num_fields; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   security/integrity/ima/ima_api.c:65:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < template_desc->num_fields; i++) {
-           ^
-   security/integrity/ima/ima_api.c:72:7: note: Assuming 'result' is not eq=
-ual to 0
-                   if (result !=3D 0)
-                       ^~~~~~~~~~~
-   security/integrity/ima/ima_api.c:72:3: note: Taking true branch
-                   if (result !=3D 0)
-                   ^
-   security/integrity/ima/ima_api.c:73:4: note: Control jumps to line 81
-                           goto out;
-                           ^
-   security/integrity/ima/ima_api.c:82:2: note: Null pointer value stored t=
-o 'entry'
-           *entry =3D NULL;
-           ^~~~~~~~~~~~~
-   security/integrity/ima/ima_api.c:328:11: note: Returning from 'ima_alloc=
-_init_template'
-           result =3D ima_alloc_init_template(&event_data, &entry, template=
-_desc);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   security/integrity/ima/ima_api.c:329:6: note: Assuming 'result' is >=3D 0
-           if (result < 0) {
-               ^~~~~~~~~~
-   security/integrity/ima/ima_api.c:329:2: note: Taking false branch
-           if (result < 0) {
-           ^
-   security/integrity/ima/ima_api.c:335:30: note: Passing null pointer valu=
-e via 1st parameter 'entry'
-           result =3D ima_store_template(entry, violation, inode, filename,=
- pcr);
-                                       ^~~~~
-   security/integrity/ima/ima_api.c:335:11: note: Calling 'ima_store_templa=
-te'
-           result =3D ima_store_template(entry, violation, inode, filename,=
- pcr);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   security/integrity/ima/ima_api.c:108:24: note: Access to field 'template=
-_desc' results in a dereference of a null pointer (loaded from variable 'en=
-try')
-           char *template_name =3D entry->template_desc->name;
-                                 ^~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/amba/bus.c:377:22: warning: Value stored to 'node' during its in=
-itialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node *node =3D dev->dev.of_node;
-                               ^~~~   ~~~~~~~~~~~~~~~~
-   drivers/amba/bus.c:377:22: note: Value stored to 'node' during its initi=
-alization is never read
-           struct device_node *node =3D dev->dev.of_node;
-                               ^~~~   ~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/tty/serial/8250/8250_early.c:46:10: warning: Dereference of null=
- pointer [clang-analyzer-core.NullDereference]
-                   return readw(port->membase + offset);
-                          ^
-   arch/arm/include/asm/io.h:302:32: note: expanded from macro 'readw'
-   #define readw(c)                ({ u16 __v =3D readw_relaxed(c); __iormb=
-(); __v; })
-                                                ^
-   arch/arm/include/asm/io.h:293:6: note: expanded from macro 'readw_relaxe=
-d'
-                                           __raw_readw(c)); __r; })
-                                           ^
-   arch/arm/include/asm/io.h:59:50: note: expanded from macro '__raw_readw'
-   #define __raw_readw(a)         (__chk_io_ptr(a), *(volatile unsigned sho=
-rt __force *)(a))
-                                                    ^
-   drivers/tty/serial/8250/8250_early.c:160:8: note: Assuming field 'membas=
-e' is null
-           if (!(device->port.membase || device->port.iobase))
-                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:160:8: note: Left side of '||' is f=
-alse
-   drivers/tty/serial/8250/8250_early.c:160:6: note: Assuming the condition=
- is false
-           if (!(device->port.membase || device->port.iobase))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:160:2: note: Taking false branch
-           if (!(device->port.membase || device->port.iobase))
-           ^
-   drivers/tty/serial/8250/8250_early.c:163:6: note: Assuming field 'baud' =
-is 0
-           if (!device->baud) {
-               ^~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:163:2: note: Taking true branch
-           if (!device->baud) {
-           ^
-   drivers/tty/serial/8250/8250_early.c:168:9: note: Calling 'serial8250_ea=
-rly_in'
-                   ier =3D serial8250_early_in(port, UART_IER);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:42:2: note: Control jumps to 'case =
-7:'  at line 45
-           switch (port->iotype) {
-           ^
-   drivers/tty/serial/8250/8250_early.c:46:10: note: Dereference of null po=
-inter
-                   return readw(port->membase + offset);
-                          ^
-   arch/arm/include/asm/io.h:302:32: note: expanded from macro 'readw'
-   #define readw(c)                ({ u16 __v =3D readw_relaxed(c); __iormb=
-(); __v; })
-                                                ^~~~~~~~~~~~~~~~
-   arch/arm/include/asm/io.h:293:6: note: expanded from macro 'readw_relaxe=
-d'
-                                           __raw_readw(c)); __r; })
-   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-   arch/arm/include/asm/io.h:59:50: note: expanded from macro '__raw_readw'
-   #define __raw_readw(a)         (__chk_io_ptr(a), *(volatile unsigned sho=
-rt __force *)(a))
-                                                    ^
-   include/uapi/linux/byteorder/little_endian.h:36:51: note: expanded from =
-macro '__le16_to_cpu'
-   #define __le16_to_cpu(x) ((__force __u16)(__le16)(x))
-                                                     ^
-   drivers/tty/serial/8250/8250_early.c:70:3: warning: Dereference of null =
-pointer [clang-analyzer-core.NullDereference]
-                   writew(value, port->membase + offset);
-                   ^
-   arch/arm/include/asm/io.h:306:36: note: expanded from macro 'writew'
-   #define writew(v,c)             ({ __iowmb(); writew_relaxed(v,c); })
-                                                 ^
-   arch/arm/include/asm/io.h:298:29: note: expanded from macro 'writew_rela=
-xed'
-   #define writew_relaxed(v,c)     __raw_writew((__force u16) cpu_to_le16(v=
-),c)
-                                   ^
-   arch/arm/include/asm/io.h:60:97: note: expanded from macro '__raw_writew'
-   #define __raw_writew(v,a)      ((void)(__chk_io_ptr(a), *(volatile unsig=
-ned short __force *)(a) =3D (v)))
-                                                                           =
-                        ^
-   drivers/tty/serial/8250/8250_early.c:160:8: note: Assuming field 'membas=
-e' is null
-           if (!(device->port.membase || device->port.iobase))
-                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:160:8: note: Left side of '||' is f=
-alse
-   drivers/tty/serial/8250/8250_early.c:160:6: note: Assuming the condition=
- is false
-           if (!(device->port.membase || device->port.iobase))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:160:2: note: Taking false branch
-           if (!(device->port.membase || device->port.iobase))
-           ^
-   drivers/tty/serial/8250/8250_early.c:163:6: note: Assuming field 'baud' =
-is not equal to 0
-           if (!device->baud) {
-               ^~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:163:2: note: Taking false branch
-           if (!device->baud) {
-           ^
-   drivers/tty/serial/8250/8250_early.c:171:3: note: Calling 'init_port'
-                   init_port(device);
-                   ^~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:141:2: note: Calling 'serial8250_ea=
-rly_out'
-           serial8250_early_out(port, UART_LCR, 0x3);      /* 8n1 */
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/8250/8250_early.c:65:2: note: Control jumps to 'case =
-7:'  at line 69
-           switch (port->iotype) {
-           ^
+vim +/PTR_ERR +227 mm/damon/dbgfs.c
 
-vim +/node +377 drivers/amba/bus.c
+af122dd8f3c009 SeongJae Park 2021-11-05  215  =
 
-^1da177e4c3f41 arch/arm/common/amba.c Linus Torvalds 2005-04-16  374  =
+af122dd8f3c009 SeongJae Park 2021-11-05  216  static ssize_t dbgfs_schemes_=
+write(struct file *file, const char __user *buf,
+af122dd8f3c009 SeongJae Park 2021-11-05  217  		size_t count, loff_t *ppos)
+af122dd8f3c009 SeongJae Park 2021-11-05  218  {
+af122dd8f3c009 SeongJae Park 2021-11-05  219  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+af122dd8f3c009 SeongJae Park 2021-11-05  220  	char *kbuf;
+af122dd8f3c009 SeongJae Park 2021-11-05  221  	struct damos **schemes;
+af122dd8f3c009 SeongJae Park 2021-11-05  222  	ssize_t nr_schemes =3D 0, re=
+t =3D count;
+af122dd8f3c009 SeongJae Park 2021-11-05  223  	int err;
+af122dd8f3c009 SeongJae Park 2021-11-05  224  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  375  stati=
-c int of_amba_device_decode_irq(struct amba_device *dev)
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  376  {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23 @377  	stru=
-ct device_node *node =3D dev->dev.of_node;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  378  	int =
-i, irq =3D 0;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  379  =
+af122dd8f3c009 SeongJae Park 2021-11-05  225  	kbuf =3D user_input_str(buf,=
+ count, ppos);
+af122dd8f3c009 SeongJae Park 2021-11-05  226  	if (IS_ERR(kbuf))
+af122dd8f3c009 SeongJae Park 2021-11-05 @227  		return PTR_ERR(kbuf);
+af122dd8f3c009 SeongJae Park 2021-11-05  228  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  380  	if (=
-IS_ENABLED(CONFIG_OF_IRQ) && node) {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  381  		/* =
-Decode the IRQs and address ranges */
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  382  		for=
- (i =3D 0; i < AMBA_NR_IRQS; i++) {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  383  			ir=
-q =3D of_irq_get(node, i);
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  384  			if=
- (irq < 0) {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  385  				i=
-f (irq =3D=3D -EPROBE_DEFER)
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  386  					=
-return irq;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  387  				i=
-rq =3D 0;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  388  			}
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  389  =
+af122dd8f3c009 SeongJae Park 2021-11-05  229  	schemes =3D str_to_schemes(k=
+buf, ret, &nr_schemes);
+af122dd8f3c009 SeongJae Park 2021-11-05  230  	if (!schemes) {
+af122dd8f3c009 SeongJae Park 2021-11-05  231  		ret =3D -EINVAL;
+af122dd8f3c009 SeongJae Park 2021-11-05  232  		goto out;
+af122dd8f3c009 SeongJae Park 2021-11-05  233  	}
+af122dd8f3c009 SeongJae Park 2021-11-05  234  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  390  			de=
-v->irq[i] =3D irq;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  391  		}
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  392  	}
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  393  =
+af122dd8f3c009 SeongJae Park 2021-11-05  235  	mutex_lock(&ctx->kdamond_loc=
+k);
+af122dd8f3c009 SeongJae Park 2021-11-05  236  	if (ctx->kdamond) {
+af122dd8f3c009 SeongJae Park 2021-11-05  237  		ret =3D -EBUSY;
+af122dd8f3c009 SeongJae Park 2021-11-05  238  		goto unlock_out;
+af122dd8f3c009 SeongJae Park 2021-11-05  239  	}
+af122dd8f3c009 SeongJae Park 2021-11-05  240  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  394  	retu=
-rn 0;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  395  }
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  396  =
+af122dd8f3c009 SeongJae Park 2021-11-05  241  	err =3D damon_set_schemes(ct=
+x, schemes, nr_schemes);
+af122dd8f3c009 SeongJae Park 2021-11-05  242  	if (err)
+af122dd8f3c009 SeongJae Park 2021-11-05  243  		ret =3D err;
+af122dd8f3c009 SeongJae Park 2021-11-05  244  	else
+af122dd8f3c009 SeongJae Park 2021-11-05  245  		nr_schemes =3D 0;
+af122dd8f3c009 SeongJae Park 2021-11-05  246  unlock_out:
+af122dd8f3c009 SeongJae Park 2021-11-05  247  	mutex_unlock(&ctx->kdamond_l=
+ock);
+af122dd8f3c009 SeongJae Park 2021-11-05  248  	free_schemes_arr(schemes, nr=
+_schemes);
+af122dd8f3c009 SeongJae Park 2021-11-05  249  out:
+af122dd8f3c009 SeongJae Park 2021-11-05  250  	kfree(kbuf);
+af122dd8f3c009 SeongJae Park 2021-11-05  251  	return ret;
+af122dd8f3c009 SeongJae Park 2021-11-05  252  }
+af122dd8f3c009 SeongJae Park 2021-11-05  253  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2447899720754873587==--
+--===============3682720286945121553==--
 
