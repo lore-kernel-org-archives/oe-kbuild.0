@@ -1,305 +1,274 @@
-Content-Type: multipart/mixed; boundary="===============1869832460479480762=="
+Content-Type: multipart/mixed; boundary="===============4341541787693033730=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'PTR_ERR'
-Date: Wed, 24 Nov 2021 17:03:37 +0800
-Message-ID: <202111241705.MxwRmAdL-lkp@intel.com>
+Subject: drivers/mtd/ftl.c:220 build_maps() warn: should '(i + __builtin_bswap16(((part->header.FirstPhysicalEUN)))) << part->header.EraseUnitSize' be a 64 bit type?
+Date: Wed, 24 Nov 2021 09:34:56 +0800
+Message-ID: <202111240919.sziVw7Sv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1869832460479480762==
+--===============4341541787693033730==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sjpark@amazon.de>
-CC: Leonard Foerster <foersleo@amazon.de>
-CC: Fernand Sieber <sieberf@amazon.com>
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5d9f4cf36721aba199975a9be7863a3ff5cd4b59
-commit: 4bc05954d0076655cfaf6f0135585bdc20cd6b11 mm/damon: implement a debu=
-gfs-based user space interface
-date:   3 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 3 months ago
-config: nios2-randconfig-m031-20211123 (https://download.01.org/0day-ci/arc=
-hive/20211124/202111241705.MxwRmAdL-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
+.h: sparse can do constant folding of __builtin_bswap*()
+date:   7 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 7 months ago
+config: s390-randconfig-m031-20211123 (https://download.01.org/0day-ci/arch=
+ive/20211124/202111240919.sziVw7Sv-lkp(a)intel.com/config.gz)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'P=
-TR_ERR'
-mm/damon/dbgfs.c:196 dbgfs_target_ids_write() warn: passing a valid pointer=
- to 'PTR_ERR'
-mm/damon/dbgfs.c:319 dbgfs_monitor_on_write() warn: passing a valid pointer=
- to 'PTR_ERR'
+New smatch warnings:
+drivers/mtd/ftl.c:220 build_maps() warn: should '(i + __builtin_bswap16(((p=
+art->header.FirstPhysicalEUN)))) << part->header.EraseUnitSize' be a 64 bit=
+ type?
 
-vim +/PTR_ERR +76 mm/damon/dbgfs.c
+Old smatch warnings:
+drivers/mtd/ftl.c:347 erase_xfer() warn: should '1 << part->header.EraseUni=
+tSize' be a 64 bit type?
+drivers/mtd/ftl.c:605 reclaim_block() warn: inconsistent indenting
 
-4bc05954d00766 SeongJae Park 2021-09-07   64  =
+vim +220 drivers/mtd/ftl.c
 
-4bc05954d00766 SeongJae Park 2021-09-07   65  static ssize_t dbgfs_attrs_wr=
-ite(struct file *file,
-4bc05954d00766 SeongJae Park 2021-09-07   66  		const char __user *buf, siz=
-e_t count, loff_t *ppos)
-4bc05954d00766 SeongJae Park 2021-09-07   67  {
-4bc05954d00766 SeongJae Park 2021-09-07   68  	struct damon_ctx *ctx =3D fi=
-le->private_data;
-4bc05954d00766 SeongJae Park 2021-09-07   69  	unsigned long s, a, r, minr,=
- maxr;
-4bc05954d00766 SeongJae Park 2021-09-07   70  	char *kbuf;
-4bc05954d00766 SeongJae Park 2021-09-07   71  	ssize_t ret =3D count;
-4bc05954d00766 SeongJae Park 2021-09-07   72  	int err;
-4bc05954d00766 SeongJae Park 2021-09-07   73  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  191  =
 
-4bc05954d00766 SeongJae Park 2021-09-07   74  	kbuf =3D user_input_str(buf,=
- count, ppos);
-4bc05954d00766 SeongJae Park 2021-09-07   75  	if (IS_ERR(kbuf))
-4bc05954d00766 SeongJae Park 2021-09-07  @76  		return PTR_ERR(kbuf);
-4bc05954d00766 SeongJae Park 2021-09-07   77  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  192  static int build_maps(part=
+ition_t *part)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  193  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  194      erase_unit_header_t he=
+ader;
+3854be7712f7b4 David Woodhouse  2008-12-10  195      uint16_t xvalid, xtran=
+s, i;
+3854be7712f7b4 David Woodhouse  2008-12-10  196      unsigned blocks, j;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  197      int hdr_ok, ret =3D -1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  198      ssize_t retval;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  199      loff_t offset;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  200  =
 
-4bc05954d00766 SeongJae Park 2021-09-07   78  	if (sscanf(kbuf, "%lu %lu %l=
-u %lu %lu",
-4bc05954d00766 SeongJae Park 2021-09-07   79  				&s, &a, &r, &minr, &maxr)=
- !=3D 5) {
-4bc05954d00766 SeongJae Park 2021-09-07   80  		ret =3D -EINVAL;
-4bc05954d00766 SeongJae Park 2021-09-07   81  		goto out;
-4bc05954d00766 SeongJae Park 2021-09-07   82  	}
-4bc05954d00766 SeongJae Park 2021-09-07   83  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  201      /* Set up erase unit m=
+aps */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  202      part->DataUnits =3D le=
+16_to_cpu(part->header.NumEraseUnits) -
+^1da177e4c3f41 Linus Torvalds   2005-04-16  203  	part->header.NumTransferU=
+nits;
+6da2ec56059c3c Kees Cook        2018-06-12  204      part->EUNInfo =3D kmal=
+loc_array(part->DataUnits, sizeof(struct eun_info_t),
+^1da177e4c3f41 Linus Torvalds   2005-04-16  205                            =
+        GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  206      if (!part->EUNInfo)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  207  	    goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  208      for (i =3D 0; i < part=
+->DataUnits; i++)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  209  	part->EUNInfo[i].Offset =
+=3D 0xffffffff;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  210      part->XferInfo =3D
+6da2ec56059c3c Kees Cook        2018-06-12  211  	kmalloc_array(part->heade=
+r.NumTransferUnits,
+6da2ec56059c3c Kees Cook        2018-06-12  212                        size=
+of(struct xfer_info_t),
+^1da177e4c3f41 Linus Torvalds   2005-04-16  213                        GFP_=
+KERNEL);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  214      if (!part->XferInfo)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  215  	    goto out_EUNInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  216  =
 
-4bc05954d00766 SeongJae Park 2021-09-07   84  	mutex_lock(&ctx->kdamond_loc=
-k);
-4bc05954d00766 SeongJae Park 2021-09-07   85  	if (ctx->kdamond) {
-4bc05954d00766 SeongJae Park 2021-09-07   86  		ret =3D -EBUSY;
-4bc05954d00766 SeongJae Park 2021-09-07   87  		goto unlock_out;
-4bc05954d00766 SeongJae Park 2021-09-07   88  	}
-4bc05954d00766 SeongJae Park 2021-09-07   89  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  217      xvalid =3D xtrans =3D =
+0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  218      for (i =3D 0; i < le16=
+_to_cpu(part->header.NumEraseUnits); i++) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  219  	offset =3D ((i + le16_to_=
+cpu(part->header.FirstPhysicalEUN))
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @220  		      << part->header.Er=
+aseUnitSize);
+329ad399a9b3ad Artem Bityutskiy 2011-12-23  221  	ret =3D mtd_read(part->mb=
+d.mtd, offset, sizeof(header), &retval,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  222                         (un=
+signed char *)&header);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  223  =
 
-4bc05954d00766 SeongJae Park 2021-09-07   90  	err =3D damon_set_attrs(ctx,=
- s, a, r, minr, maxr);
-4bc05954d00766 SeongJae Park 2021-09-07   91  	if (err)
-4bc05954d00766 SeongJae Park 2021-09-07   92  		ret =3D err;
-4bc05954d00766 SeongJae Park 2021-09-07   93  unlock_out:
-4bc05954d00766 SeongJae Park 2021-09-07   94  	mutex_unlock(&ctx->kdamond_l=
-ock);
-4bc05954d00766 SeongJae Park 2021-09-07   95  out:
-4bc05954d00766 SeongJae Park 2021-09-07   96  	kfree(kbuf);
-4bc05954d00766 SeongJae Park 2021-09-07   97  	return ret;
-4bc05954d00766 SeongJae Park 2021-09-07   98  }
-4bc05954d00766 SeongJae Park 2021-09-07   99  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  224  	if (ret)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  225  	    goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  226  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  100  static inline bool targetid_i=
-s_pid(const struct damon_ctx *ctx)
-4bc05954d00766 SeongJae Park 2021-09-07  101  {
-4bc05954d00766 SeongJae Park 2021-09-07  102  	return ctx->primitive.target=
-_valid =3D=3D damon_va_target_valid;
-4bc05954d00766 SeongJae Park 2021-09-07  103  }
-4bc05954d00766 SeongJae Park 2021-09-07  104  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  227  	ret =3D -1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  228  	/* Is this a transfer par=
+tition? */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  229  	hdr_ok =3D (strcmp(header=
+.DataOrgTuple+3, "FTL100") =3D=3D 0);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  230  	if (hdr_ok && (le16_to_cp=
+u(header.LogicalEUN) < part->DataUnits) &&
+^1da177e4c3f41 Linus Torvalds   2005-04-16  231  	    (part->EUNInfo[le16_t=
+o_cpu(header.LogicalEUN)].Offset =3D=3D 0xffffffff)) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  232  	    part->EUNInfo[le16_to=
+_cpu(header.LogicalEUN)].Offset =3D offset;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  233  	    part->EUNInfo[le16_to=
+_cpu(header.LogicalEUN)].EraseCount =3D
+^1da177e4c3f41 Linus Torvalds   2005-04-16  234  		le32_to_cpu(header.Erase=
+Count);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  235  	    xvalid++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  236  	} else {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  237  	    if (xtrans =3D=3D par=
+t->header.NumTransferUnits) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  238  		printk(KERN_NOTICE "ftl_=
+cs: format error: too many "
+^1da177e4c3f41 Linus Torvalds   2005-04-16  239  		       "transfer units!\=
+n");
+^1da177e4c3f41 Linus Torvalds   2005-04-16  240  		goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  241  	    }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  242  	    if (hdr_ok && (le16_t=
+o_cpu(header.LogicalEUN) =3D=3D 0xffff)) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  243  		part->XferInfo[xtrans].s=
+tate =3D XFER_PREPARED;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  244  		part->XferInfo[xtrans].E=
+raseCount =3D le32_to_cpu(header.EraseCount);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  245  	    } else {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  246  		part->XferInfo[xtrans].s=
+tate =3D XFER_UNKNOWN;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  247  		/* Pick anything reasona=
+ble for the erase count */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  248  		part->XferInfo[xtrans].E=
+raseCount =3D
+^1da177e4c3f41 Linus Torvalds   2005-04-16  249  		    le32_to_cpu(part->he=
+ader.EraseCount);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  250  	    }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  251  	    part->XferInfo[xtrans=
+].Offset =3D offset;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  252  	    xtrans++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  253  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  254      }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  255      /* Check for format tr=
+ouble */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  256      header =3D part->heade=
+r;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  257      if ((xtrans !=3D heade=
+r.NumTransferUnits) ||
+^1da177e4c3f41 Linus Torvalds   2005-04-16  258  	(xvalid+xtrans !=3D le16_=
+to_cpu(header.NumEraseUnits))) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  259  	printk(KERN_NOTICE "ftl_c=
+s: format error: erase units "
+^1da177e4c3f41 Linus Torvalds   2005-04-16  260  	       "don't add up!\n");
+^1da177e4c3f41 Linus Torvalds   2005-04-16  261  	goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  262      }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  263  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  105  static ssize_t sprint_target_=
-ids(struct damon_ctx *ctx, char *buf, ssize_t len)
-4bc05954d00766 SeongJae Park 2021-09-07  106  {
-4bc05954d00766 SeongJae Park 2021-09-07  107  	struct damon_target *t;
-4bc05954d00766 SeongJae Park 2021-09-07  108  	unsigned long id;
-4bc05954d00766 SeongJae Park 2021-09-07  109  	int written =3D 0;
-4bc05954d00766 SeongJae Park 2021-09-07  110  	int rc;
-4bc05954d00766 SeongJae Park 2021-09-07  111  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  264      /* Set up virtual page=
+ map */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  265      blocks =3D le32_to_cpu=
+(header.FormattedSize) >> header.BlockSize;
+42bc47b35320e0 Kees Cook        2018-06-12  266      part->VirtualBlockMap =
+=3D vmalloc(array_size(blocks, sizeof(uint32_t)));
+^1da177e4c3f41 Linus Torvalds   2005-04-16  267      if (!part->VirtualBloc=
+kMap)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  268  	    goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  269  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  112  	damon_for_each_target(t, ctx=
-) {
-4bc05954d00766 SeongJae Park 2021-09-07  113  		id =3D t->id;
-4bc05954d00766 SeongJae Park 2021-09-07  114  		if (targetid_is_pid(ctx))
-4bc05954d00766 SeongJae Park 2021-09-07  115  			/* Show pid numbers to deb=
-ugfs users */
-4bc05954d00766 SeongJae Park 2021-09-07  116  			id =3D (unsigned long)pid_=
-vnr((struct pid *)id);
-4bc05954d00766 SeongJae Park 2021-09-07  117  =
+3854be7712f7b4 David Woodhouse  2008-12-10  270      memset(part->VirtualBl=
+ockMap, 0xff, blocks * sizeof(uint32_t));
+^1da177e4c3f41 Linus Torvalds   2005-04-16  271      part->BlocksPerUnit =
+=3D (1 << header.EraseUnitSize) >> header.BlockSize;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  272  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  118  		rc =3D scnprintf(&buf[writt=
-en], len - written, "%lu ", id);
-4bc05954d00766 SeongJae Park 2021-09-07  119  		if (!rc)
-4bc05954d00766 SeongJae Park 2021-09-07  120  			return -ENOMEM;
-4bc05954d00766 SeongJae Park 2021-09-07  121  		written +=3D rc;
-4bc05954d00766 SeongJae Park 2021-09-07  122  	}
-4bc05954d00766 SeongJae Park 2021-09-07  123  	if (written)
-4bc05954d00766 SeongJae Park 2021-09-07  124  		written -=3D 1;
-4bc05954d00766 SeongJae Park 2021-09-07  125  	written +=3D scnprintf(&buf[=
-written], len - written, "\n");
-4bc05954d00766 SeongJae Park 2021-09-07  126  	return written;
-4bc05954d00766 SeongJae Park 2021-09-07  127  }
-4bc05954d00766 SeongJae Park 2021-09-07  128  =
+6da2ec56059c3c Kees Cook        2018-06-12  273      part->bam_cache =3D km=
+alloc_array(part->BlocksPerUnit, sizeof(uint32_t),
+^1da177e4c3f41 Linus Torvalds   2005-04-16  274                            =
+          GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  275      if (!part->bam_cache)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  276  	    goto out_VirtualBlock=
+Map;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  277  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  129  static ssize_t dbgfs_target_i=
-ds_read(struct file *file,
-4bc05954d00766 SeongJae Park 2021-09-07  130  		char __user *buf, size_t co=
-unt, loff_t *ppos)
-4bc05954d00766 SeongJae Park 2021-09-07  131  {
-4bc05954d00766 SeongJae Park 2021-09-07  132  	struct damon_ctx *ctx =3D fi=
-le->private_data;
-4bc05954d00766 SeongJae Park 2021-09-07  133  	ssize_t len;
-4bc05954d00766 SeongJae Park 2021-09-07  134  	char ids_buf[320];
-4bc05954d00766 SeongJae Park 2021-09-07  135  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  278      part->bam_index =3D 0x=
+ffff;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  279      part->FreeTotal =3D 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  280  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  136  	mutex_lock(&ctx->kdamond_loc=
-k);
-4bc05954d00766 SeongJae Park 2021-09-07  137  	len =3D sprint_target_ids(ct=
-x, ids_buf, 320);
-4bc05954d00766 SeongJae Park 2021-09-07  138  	mutex_unlock(&ctx->kdamond_l=
-ock);
-4bc05954d00766 SeongJae Park 2021-09-07  139  	if (len < 0)
-4bc05954d00766 SeongJae Park 2021-09-07  140  		return len;
-4bc05954d00766 SeongJae Park 2021-09-07  141  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  281      for (i =3D 0; i < part=
+->DataUnits; i++) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  282  	part->EUNInfo[i].Free =3D=
+ 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  283  	part->EUNInfo[i].Deleted =
+=3D 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  284  	offset =3D part->EUNInfo[=
+i].Offset + le32_to_cpu(header.BAMOffset);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  285  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  142  	return simple_read_from_buff=
-er(buf, count, ppos, ids_buf, len);
-4bc05954d00766 SeongJae Park 2021-09-07  143  }
-4bc05954d00766 SeongJae Park 2021-09-07  144  =
+329ad399a9b3ad Artem Bityutskiy 2011-12-23  286  	ret =3D mtd_read(part->mb=
+d.mtd, offset,
+3854be7712f7b4 David Woodhouse  2008-12-10  287                         par=
+t->BlocksPerUnit * sizeof(uint32_t), &retval,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  288                         (un=
+signed char *)part->bam_cache);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  289  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  145  /*
-4bc05954d00766 SeongJae Park 2021-09-07  146   * Converts a string into an =
-array of unsigned long integers
-4bc05954d00766 SeongJae Park 2021-09-07  147   *
-4bc05954d00766 SeongJae Park 2021-09-07  148   * Returns an array of unsign=
-ed long integers if the conversion success, or
-4bc05954d00766 SeongJae Park 2021-09-07  149   * NULL otherwise.
-4bc05954d00766 SeongJae Park 2021-09-07  150   */
-4bc05954d00766 SeongJae Park 2021-09-07  151  static unsigned long *str_to_=
-target_ids(const char *str, ssize_t len,
-4bc05954d00766 SeongJae Park 2021-09-07  152  					ssize_t *nr_ids)
-4bc05954d00766 SeongJae Park 2021-09-07  153  {
-4bc05954d00766 SeongJae Park 2021-09-07  154  	unsigned long *ids;
-4bc05954d00766 SeongJae Park 2021-09-07  155  	const int max_nr_ids =3D 32;
-4bc05954d00766 SeongJae Park 2021-09-07  156  	unsigned long id;
-4bc05954d00766 SeongJae Park 2021-09-07  157  	int pos =3D 0, parsed, ret;
-4bc05954d00766 SeongJae Park 2021-09-07  158  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  290  	if (ret)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  291  		goto out_bam_cache;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  292  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  159  	*nr_ids =3D 0;
-4bc05954d00766 SeongJae Park 2021-09-07  160  	ids =3D kmalloc_array(max_nr=
-_ids, sizeof(id), GFP_KERNEL);
-4bc05954d00766 SeongJae Park 2021-09-07  161  	if (!ids)
-4bc05954d00766 SeongJae Park 2021-09-07  162  		return NULL;
-4bc05954d00766 SeongJae Park 2021-09-07  163  	while (*nr_ids < max_nr_ids =
-&& pos < len) {
-4bc05954d00766 SeongJae Park 2021-09-07  164  		ret =3D sscanf(&str[pos], "=
-%lu%n", &id, &parsed);
-4bc05954d00766 SeongJae Park 2021-09-07  165  		pos +=3D parsed;
-4bc05954d00766 SeongJae Park 2021-09-07  166  		if (ret !=3D 1)
-4bc05954d00766 SeongJae Park 2021-09-07  167  			break;
-4bc05954d00766 SeongJae Park 2021-09-07  168  		ids[*nr_ids] =3D id;
-4bc05954d00766 SeongJae Park 2021-09-07  169  		*nr_ids +=3D 1;
-4bc05954d00766 SeongJae Park 2021-09-07  170  	}
-4bc05954d00766 SeongJae Park 2021-09-07  171  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  293  	for (j =3D 0; j < part->B=
+locksPerUnit; j++) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  294  	    if (BLOCK_FREE(le32_t=
+o_cpu(part->bam_cache[j]))) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  295  		part->EUNInfo[i].Free++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  296  		part->FreeTotal++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  297  	    } else if ((BLOCK_TYP=
+E(le32_to_cpu(part->bam_cache[j])) =3D=3D BLOCK_DATA) &&
+^1da177e4c3f41 Linus Torvalds   2005-04-16  298  		     (BLOCK_NUMBER(le32_=
+to_cpu(part->bam_cache[j])) < blocks))
+^1da177e4c3f41 Linus Torvalds   2005-04-16  299  		part->VirtualBlockMap[BL=
+OCK_NUMBER(le32_to_cpu(part->bam_cache[j]))] =3D
+^1da177e4c3f41 Linus Torvalds   2005-04-16  300  		    (i << header.EraseUn=
+itSize) + (j << header.BlockSize);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  301  	    else if (BLOCK_DELETE=
+D(le32_to_cpu(part->bam_cache[j])))
+^1da177e4c3f41 Linus Torvalds   2005-04-16  302  		part->EUNInfo[i].Deleted=
+++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  303  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  304      }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  305  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  172  	return ids;
-4bc05954d00766 SeongJae Park 2021-09-07  173  }
-4bc05954d00766 SeongJae Park 2021-09-07  174  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  306      ret =3D 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  307      goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  308  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  175  static void dbgfs_put_pids(un=
-signed long *ids, int nr_ids)
-4bc05954d00766 SeongJae Park 2021-09-07  176  {
-4bc05954d00766 SeongJae Park 2021-09-07  177  	int i;
-4bc05954d00766 SeongJae Park 2021-09-07  178  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  309  out_bam_cache:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  310      kfree(part->bam_cache);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  311  out_VirtualBlockMap:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  312      vfree(part->VirtualBlo=
+ckMap);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  313  out_XferInfo:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  314      kfree(part->XferInfo);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  315  out_EUNInfo:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  316      kfree(part->EUNInfo);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  317  out:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  318      return ret;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  319  } /* build_maps */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  320  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  179  	for (i =3D 0; i < nr_ids; i+=
-+)
-4bc05954d00766 SeongJae Park 2021-09-07  180  		put_pid((struct pid *)ids[i=
-]);
-4bc05954d00766 SeongJae Park 2021-09-07  181  }
-4bc05954d00766 SeongJae Park 2021-09-07  182  =
 
-4bc05954d00766 SeongJae Park 2021-09-07  183  static ssize_t dbgfs_target_i=
-ds_write(struct file *file,
-4bc05954d00766 SeongJae Park 2021-09-07  184  		const char __user *buf, siz=
-e_t count, loff_t *ppos)
-4bc05954d00766 SeongJae Park 2021-09-07  185  {
-4bc05954d00766 SeongJae Park 2021-09-07  186  	struct damon_ctx *ctx =3D fi=
-le->private_data;
-4bc05954d00766 SeongJae Park 2021-09-07  187  	char *kbuf, *nrs;
-4bc05954d00766 SeongJae Park 2021-09-07  188  	unsigned long *targets;
-4bc05954d00766 SeongJae Park 2021-09-07  189  	ssize_t nr_targets;
-4bc05954d00766 SeongJae Park 2021-09-07  190  	ssize_t ret =3D count;
-4bc05954d00766 SeongJae Park 2021-09-07  191  	int i;
-4bc05954d00766 SeongJae Park 2021-09-07  192  	int err;
-4bc05954d00766 SeongJae Park 2021-09-07  193  =
+:::::: The code at line 220 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-4bc05954d00766 SeongJae Park 2021-09-07  194  	kbuf =3D user_input_str(buf,=
- count, ppos);
-4bc05954d00766 SeongJae Park 2021-09-07  195  	if (IS_ERR(kbuf))
-4bc05954d00766 SeongJae Park 2021-09-07 @196  		return PTR_ERR(kbuf);
-4bc05954d00766 SeongJae Park 2021-09-07  197  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  198  	nrs =3D kbuf;
-4bc05954d00766 SeongJae Park 2021-09-07  199  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  200  	targets =3D str_to_target_id=
-s(nrs, ret, &nr_targets);
-4bc05954d00766 SeongJae Park 2021-09-07  201  	if (!targets) {
-4bc05954d00766 SeongJae Park 2021-09-07  202  		ret =3D -ENOMEM;
-4bc05954d00766 SeongJae Park 2021-09-07  203  		goto out;
-4bc05954d00766 SeongJae Park 2021-09-07  204  	}
-4bc05954d00766 SeongJae Park 2021-09-07  205  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  206  	if (targetid_is_pid(ctx)) {
-4bc05954d00766 SeongJae Park 2021-09-07  207  		for (i =3D 0; i < nr_target=
-s; i++) {
-4bc05954d00766 SeongJae Park 2021-09-07  208  			targets[i] =3D (unsigned l=
-ong)find_get_pid(
-4bc05954d00766 SeongJae Park 2021-09-07  209  					(int)targets[i]);
-4bc05954d00766 SeongJae Park 2021-09-07  210  			if (!targets[i]) {
-4bc05954d00766 SeongJae Park 2021-09-07  211  				dbgfs_put_pids(targets, i=
-);
-4bc05954d00766 SeongJae Park 2021-09-07  212  				ret =3D -EINVAL;
-4bc05954d00766 SeongJae Park 2021-09-07  213  				goto free_targets_out;
-4bc05954d00766 SeongJae Park 2021-09-07  214  			}
-4bc05954d00766 SeongJae Park 2021-09-07  215  		}
-4bc05954d00766 SeongJae Park 2021-09-07  216  	}
-4bc05954d00766 SeongJae Park 2021-09-07  217  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  218  	mutex_lock(&ctx->kdamond_loc=
-k);
-4bc05954d00766 SeongJae Park 2021-09-07  219  	if (ctx->kdamond) {
-4bc05954d00766 SeongJae Park 2021-09-07  220  		if (targetid_is_pid(ctx))
-4bc05954d00766 SeongJae Park 2021-09-07  221  			dbgfs_put_pids(targets, nr=
-_targets);
-4bc05954d00766 SeongJae Park 2021-09-07  222  		ret =3D -EBUSY;
-4bc05954d00766 SeongJae Park 2021-09-07  223  		goto unlock_out;
-4bc05954d00766 SeongJae Park 2021-09-07  224  	}
-4bc05954d00766 SeongJae Park 2021-09-07  225  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  226  	err =3D damon_set_targets(ct=
-x, targets, nr_targets);
-4bc05954d00766 SeongJae Park 2021-09-07  227  	if (err) {
-4bc05954d00766 SeongJae Park 2021-09-07  228  		if (targetid_is_pid(ctx))
-4bc05954d00766 SeongJae Park 2021-09-07  229  			dbgfs_put_pids(targets, nr=
-_targets);
-4bc05954d00766 SeongJae Park 2021-09-07  230  		ret =3D err;
-4bc05954d00766 SeongJae Park 2021-09-07  231  	}
-4bc05954d00766 SeongJae Park 2021-09-07  232  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  233  unlock_out:
-4bc05954d00766 SeongJae Park 2021-09-07  234  	mutex_unlock(&ctx->kdamond_l=
-ock);
-4bc05954d00766 SeongJae Park 2021-09-07  235  free_targets_out:
-4bc05954d00766 SeongJae Park 2021-09-07  236  	kfree(targets);
-4bc05954d00766 SeongJae Park 2021-09-07  237  out:
-4bc05954d00766 SeongJae Park 2021-09-07  238  	kfree(kbuf);
-4bc05954d00766 SeongJae Park 2021-09-07  239  	return ret;
-4bc05954d00766 SeongJae Park 2021-09-07  240  }
-4bc05954d00766 SeongJae Park 2021-09-07  241  =
-
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1869832460479480762==--
+--===============4341541787693033730==--
 
