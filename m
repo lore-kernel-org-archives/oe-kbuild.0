@@ -1,82 +1,56 @@
-Content-Type: multipart/mixed; boundary="===============8758321862123068948=="
+Content-Type: multipart/mixed; boundary="===============1104975497822527028=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/qca8k.c:293:46: warning: Uninitialized variable: val [uninitvar]
-Date: Thu, 25 Nov 2021 06:31:46 +0800
-Message-ID: <202111250606.jHNZO27D-lkp@intel.com>
+Subject: net/mctp/test/utils.c:15 mctp_test_dev_tx() error: use kfree_skb() here instead of kfree(skb)
+Date: Thu, 25 Nov 2021 06:21:27 +0800
+Message-ID: <202111250652.KJ5iJFpx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8758321862123068948==
+--===============1104975497822527028==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Yang Yingliang <yangyingliang@huawei.com>
-CC: Jakub Kicinski <kuba@kernel.org>
+TO: Jeremy Kerr <jk@codeconstruct.com.au>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
-commit: 7c9896e37807862e276064dd9331860f5d27affc net: dsa: qca8k: check ret=
-urn value of read functions correctly
-date:   6 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 6 months ago
-compiler: mips-linux-gcc (GCC) 11.2.0
+commit: ded21b72299529cc143a4213ea0ec4b0c620b8eb mctp: Add test utils
+date:   7 weeks ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 7 weeks ago
+config: x86_64-randconfig-m001-20211122 (https://download.01.org/0day-ci/ar=
+chive/20211125/202111250652.KJ5iJFpx-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+net/mctp/test/utils.c:15 mctp_test_dev_tx() error: use kfree_skb() here ins=
+tead of kfree(skb)
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+vim +15 net/mctp/test/utils.c
 
->> drivers/net/dsa/qca8k.c:293:46: warning: Uninitialized variable: val [un=
-initvar]
-    ret =3D read_poll_timeout(qca8k_read, ret1, !(val & mask),
-                                                ^
-   drivers/net/dsa/qca8k.c:632:52: warning: Uninitialized variable: val [un=
-initvar]
-    ret =3D read_poll_timeout(qca8k_mii_read32, ret1, !(val & mask), 0,
-                                                      ^
+ded21b72299529c Jeremy Kerr 2021-10-03  11  =
 
-vim +293 drivers/net/dsa/qca8k.c
-
-6b93fb46480a9c John Crispin   2016-09-15  286  =
-
-6b93fb46480a9c John Crispin   2016-09-15  287  static int
-6b93fb46480a9c John Crispin   2016-09-15  288  qca8k_busy_wait(struct qca8k=
-_priv *priv, u32 reg, u32 mask)
-6b93fb46480a9c John Crispin   2016-09-15  289  {
-7c9896e3780786 Yang Yingliang 2021-05-29  290  	int ret, ret1;
-2ad255f2faaffb Ansuel Smith   2021-05-14  291  	u32 val;
-6b93fb46480a9c John Crispin   2016-09-15  292  =
-
-7c9896e3780786 Yang Yingliang 2021-05-29 @293  	ret =3D read_poll_timeout(q=
-ca8k_read, ret1, !(val & mask),
-2ad255f2faaffb Ansuel Smith   2021-05-14  294  				0, QCA8K_BUSY_WAIT_TIMEO=
-UT * USEC_PER_MSEC, false,
-7c9896e3780786 Yang Yingliang 2021-05-29  295  				priv, reg, &val);
-6b93fb46480a9c John Crispin   2016-09-15  296  =
-
-2ad255f2faaffb Ansuel Smith   2021-05-14  297  	/* Check if qca8k_read has =
-failed for a different reason
-2ad255f2faaffb Ansuel Smith   2021-05-14  298  	 * before returning -ETIMED=
-OUT
-2ad255f2faaffb Ansuel Smith   2021-05-14  299  	 */
-7c9896e3780786 Yang Yingliang 2021-05-29  300  	if (ret < 0 && ret1 < 0)
-7c9896e3780786 Yang Yingliang 2021-05-29  301  		return ret1;
-6b93fb46480a9c John Crispin   2016-09-15  302  =
-
-2ad255f2faaffb Ansuel Smith   2021-05-14  303  	return ret;
-6b93fb46480a9c John Crispin   2016-09-15  304  }
-6b93fb46480a9c John Crispin   2016-09-15  305  =
+ded21b72299529c Jeremy Kerr 2021-10-03  12  static netdev_tx_t mctp_test_de=
+v_tx(struct sk_buff *skb,
+ded21b72299529c Jeremy Kerr 2021-10-03  13  				    struct net_device *ndev)
+ded21b72299529c Jeremy Kerr 2021-10-03  14  {
+ded21b72299529c Jeremy Kerr 2021-10-03 @15  	kfree(skb);
+ded21b72299529c Jeremy Kerr 2021-10-03  16  	return NETDEV_TX_OK;
+ded21b72299529c Jeremy Kerr 2021-10-03  17  }
+ded21b72299529c Jeremy Kerr 2021-10-03  18  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============8758321862123068948==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============1104975497822527028==--
 
