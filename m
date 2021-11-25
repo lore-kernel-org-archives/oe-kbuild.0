@@ -1,108 +1,226 @@
-Content-Type: multipart/mixed; boundary="===============5794986600378050305=="
+Content-Type: multipart/mixed; boundary="===============4898051252698734163=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [jpirko-mlxsw:petrm_soft_counters 7/8] net/core/dev.c:8395 netdev_offload_xstats_hw_stats_enable() error: uninitialized symbol 'stats'.
-Date: Fri, 26 Nov 2021 02:02:25 +0800
-Message-ID: <202111260203.hEYHxybc-lkp@intel.com>
+Subject: [broonie-sound:for-next 26/50] drivers/firmware/cirrus/cs_dsp.c:761 cs_dsp_coeff_write_ctrl() warn: variable dereferenced before check 'ctl' (see line 759)
+Date: Fri, 26 Nov 2021 01:38:56 +0800
+Message-ID: <202111260147.g6ZphXY3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5794986600378050305==
+--===============4898051252698734163==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Petr Machata <petrm@nvidia.com>
+TO: Charles Keepax <ckeepax@opensource.cirrus.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://github.com/jpirko/linux_mlxsw petrm_soft_counters
-head:   59d158395664dab1c1164364d6ee57aaaad44b96
-commit: d35d00a6d28ff7a34145438df3a2b39abd00edc3 [7/8] wip
-:::::: branch date: =
-
-:::::: commit date: 13 days ago
-config: x86_64-randconfig-m001-20211117 (https://download.01.org/0day-ci/ar=
-chive/20211126/202111260203.hEYHxybc-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/sound.git f=
+or-next
+head:   2b9c8d2b3c89708d53b6124dc49c212dc5341840
+commit: 86c6080407740937ed2ba0ccd181e947f77e2154 [26/50] firmware: cs_dsp: =
+Perform NULL check in cs_dsp_coeff_write/read_ctrl
+:::::: branch date: 6 hours ago
+:::::: commit date: 8 days ago
+config: openrisc-randconfig-m031-20211122 (https://download.01.org/0day-ci/=
+archive/20211126/202111260147.g6ZphXY3-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-net/core/dev.c:8395 netdev_offload_xstats_hw_stats_enable() error: uninitia=
-lized symbol 'stats'.
+drivers/firmware/cirrus/cs_dsp.c:761 cs_dsp_coeff_write_ctrl() warn: variab=
+le dereferenced before check 'ctl' (see line 759)
+drivers/firmware/cirrus/cs_dsp.c:823 cs_dsp_coeff_read_ctrl() warn: variabl=
+e dereferenced before check 'ctl' (see line 821)
 
 Old smatch warnings:
-net/core/dev.c:6922 napi_disable() error: uninitialized symbol 'new'.
+drivers/firmware/cirrus/cs_dsp.c:1647 cs_dsp_create_regions() warn: passing=
+ a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1683 cs_dsp_adsp1_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1689 cs_dsp_adsp1_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1713 cs_dsp_adsp1_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1735 cs_dsp_adsp1_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1788 cs_dsp_adsp2_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1794 cs_dsp_adsp2_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1800 cs_dsp_adsp2_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1826 cs_dsp_adsp2_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1848 cs_dsp_adsp2_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
+drivers/firmware/cirrus/cs_dsp.c:1870 cs_dsp_adsp2_setup_algs() warn: passi=
+ng a valid pointer to 'PTR_ERR'
 
-vim +/stats +8395 net/core/dev.c
+vim +/ctl +761 drivers/firmware/cirrus/cs_dsp.c
 
-61bd3857ff2c7da Moni Shoua   2015-02-03  8362  =
+f6bc909e7673c30 Simon Trimmer  2021-09-13  744  =
 
-453f3cd9e64f05f Petr Machata 2021-10-29  8363  int netdev_offload_xstats_hw=
-_stats_enable(struct net_device *dev,
-453f3cd9e64f05f Petr Machata 2021-10-29  8364  					  u32 req_hw_stats,
-a8a72b09197b260 Petr Machata 2021-10-22  8365  					  struct netlink_ext_ac=
-k *extack)
-a8a72b09197b260 Petr Machata 2021-10-22  8366  {
-a8a72b09197b260 Petr Machata 2021-10-22  8367  	struct netdev_notifier_offl=
-oad_xstats_info info =3D {
-a8a72b09197b260 Petr Machata 2021-10-22  8368  		.info.dev =3D dev,
-a8a72b09197b260 Petr Machata 2021-10-22  8369  		.info.extack =3D extack,
-453f3cd9e64f05f Petr Machata 2021-10-29  8370  		.cmd =3D NETDEV_OFFLOAD_XS=
-TATS_CMD_ENABLE,
-7f3ca7ed5c4b775 Petr Machata 2021-11-03  8371  		.hw_stats =3D req_hw_stats,
-a8a72b09197b260 Petr Machata 2021-10-22  8372  	};
-453f3cd9e64f05f Petr Machata 2021-10-29  8373  	struct rtnl_link_stats64 *s=
-tats;
-a8a72b09197b260 Petr Machata 2021-10-22  8374  	int err;
-a8a72b09197b260 Petr Machata 2021-10-22  8375  	int rc;
-a8a72b09197b260 Petr Machata 2021-10-22  8376  =
+f6bc909e7673c30 Simon Trimmer  2021-09-13  745  /**
+f6bc909e7673c30 Simon Trimmer  2021-09-13  746   * cs_dsp_coeff_write_ctrl(=
+) - Writes the given buffer to the given coefficient control
+f6bc909e7673c30 Simon Trimmer  2021-09-13  747   * @ctl: pointer to coeffic=
+ient control
+f6bc909e7673c30 Simon Trimmer  2021-09-13  748   * @buf: the buffer to writ=
+e to the given control
+f6bc909e7673c30 Simon Trimmer  2021-09-13  749   * @len: the length of the =
+buffer
+f6bc909e7673c30 Simon Trimmer  2021-09-13  750   *
+f6bc909e7673c30 Simon Trimmer  2021-09-13  751   * Must be called with pwr_=
+lock held.
+f6bc909e7673c30 Simon Trimmer  2021-09-13  752   *
+f6bc909e7673c30 Simon Trimmer  2021-09-13  753   * Return: Zero for success=
+, a negative number on error.
+f6bc909e7673c30 Simon Trimmer  2021-09-13  754   */
+f6bc909e7673c30 Simon Trimmer  2021-09-13  755  int cs_dsp_coeff_write_ctrl=
+(struct cs_dsp_coeff_ctl *ctl, const void *buf, size_t len)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  756  {
+f6bc909e7673c30 Simon Trimmer  2021-09-13  757  	int ret =3D 0;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  758  =
 
-d35d00a6d28ff7a Petr Machata 2021-11-12  8377  	if (!dev->offload_hw_stats)=
- {
-d35d00a6d28ff7a Petr Machata 2021-11-12  8378  		dev->offload_hw_stats =3D =
-kzalloc(sizeof(*dev->offload_hw_stats),
-d35d00a6d28ff7a Petr Machata 2021-11-12  8379  						GFP_KERNEL);
-d35d00a6d28ff7a Petr Machata 2021-11-12  8380  		if (!dev->offload_hw_stats)
-453f3cd9e64f05f Petr Machata 2021-10-29  8381  			return -ENOMEM;
-d35d00a6d28ff7a Petr Machata 2021-11-12  8382  	}
-453f3cd9e64f05f Petr Machata 2021-10-29  8383  =
+5065cfabec21a4a Charles Keepax 2021-11-17 @759  	lockdep_assert_held(&ctl->=
+dsp->pwr_lock);
+5065cfabec21a4a Charles Keepax 2021-11-17  760  =
 
-453f3cd9e64f05f Petr Machata 2021-10-29  8384  	rc =3D call_netdevice_notif=
-iers_info(NETDEV_OFFLOAD_XSTATS_CMD,
-a8a72b09197b260 Petr Machata 2021-10-22  8385  					   &info.info);
-a8a72b09197b260 Petr Machata 2021-10-22  8386  	err =3D notifier_to_errno(r=
-c);
-453f3cd9e64f05f Petr Machata 2021-10-29  8387  	if (err)
-453f3cd9e64f05f Petr Machata 2021-10-29  8388  		// xxx note we need a way =
-to roll back if the notifier chain
-453f3cd9e64f05f Petr Machata 2021-10-29  8389  		// fails midway through
-453f3cd9e64f05f Petr Machata 2021-10-29  8390  		goto free_stats;
-453f3cd9e64f05f Petr Machata 2021-10-29  8391  =
+86c608040774093 Charles Keepax 2021-11-17 @761  	if (!ctl)
+86c608040774093 Charles Keepax 2021-11-17  762  		return -ENOENT;
+86c608040774093 Charles Keepax 2021-11-17  763  =
 
-453f3cd9e64f05f Petr Machata 2021-10-29  8392  	return 0;
-453f3cd9e64f05f Petr Machata 2021-10-29  8393  =
+f6bc909e7673c30 Simon Trimmer  2021-09-13  764  	if (ctl->flags & WMFW_CTL_=
+FLAG_VOLATILE)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  765  		ret =3D -EPERM;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  766  	else if (buf !=3D ctl->cac=
+he)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  767  		memcpy(ctl->cache, buf, l=
+en);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  768  =
 
-453f3cd9e64f05f Petr Machata 2021-10-29  8394  free_stats:
-453f3cd9e64f05f Petr Machata 2021-10-29 @8395  	kfree(stats);
-a8a72b09197b260 Petr Machata 2021-10-22  8396  	return err;
-a8a72b09197b260 Petr Machata 2021-10-22  8397  }
-453f3cd9e64f05f Petr Machata 2021-10-29  8398  EXPORT_SYMBOL(netdev_offload=
-_xstats_hw_stats_enable);
-a8a72b09197b260 Petr Machata 2021-10-22  8399  =
+f6bc909e7673c30 Simon Trimmer  2021-09-13  769  	ctl->set =3D 1;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  770  	if (ctl->enabled && ctl->d=
+sp->running)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  771  		ret =3D cs_dsp_coeff_writ=
+e_ctrl_raw(ctl, buf, len);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  772  =
 
+f6bc909e7673c30 Simon Trimmer  2021-09-13  773  	return ret;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  774  }
+f6bc909e7673c30 Simon Trimmer  2021-09-13  775  EXPORT_SYMBOL_GPL(cs_dsp_co=
+eff_write_ctrl);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  776  =
 
-:::::: The code at line 8395 was first introduced by commit
-:::::: 453f3cd9e64f05fe295e3807e7e9d7bda5d6a9c0 wip
+f6bc909e7673c30 Simon Trimmer  2021-09-13  777  static int cs_dsp_coeff_rea=
+d_ctrl_raw(struct cs_dsp_coeff_ctl *ctl, void *buf, size_t len)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  778  {
+f6bc909e7673c30 Simon Trimmer  2021-09-13  779  	struct cs_dsp *dsp =3D ctl=
+->dsp;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  780  	void *scratch;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  781  	int ret;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  782  	unsigned int reg;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  783  =
 
-:::::: TO: Petr Machata <petrm@nvidia.com>
-:::::: CC: Petr Machata <petrm@nvidia.com>
+f6bc909e7673c30 Simon Trimmer  2021-09-13  784  	ret =3D cs_dsp_coeff_base_=
+reg(ctl, &reg);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  785  	if (ret)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  786  		return ret;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  787  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  788  	scratch =3D kmalloc(len, G=
+FP_KERNEL | GFP_DMA);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  789  	if (!scratch)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  790  		return -ENOMEM;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  791  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  792  	ret =3D regmap_raw_read(ds=
+p->regmap, reg, scratch, len);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  793  	if (ret) {
+f6bc909e7673c30 Simon Trimmer  2021-09-13  794  		cs_dsp_err(dsp, "Failed t=
+o read %zu bytes from %x: %d\n",
+f6bc909e7673c30 Simon Trimmer  2021-09-13  795  			   len, reg, ret);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  796  		kfree(scratch);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  797  		return ret;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  798  	}
+f6bc909e7673c30 Simon Trimmer  2021-09-13  799  	cs_dsp_dbg(dsp, "Read %zu =
+bytes from %x\n", len, reg);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  800  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  801  	memcpy(buf, scratch, len);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  802  	kfree(scratch);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  803  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  804  	return 0;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  805  }
+f6bc909e7673c30 Simon Trimmer  2021-09-13  806  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  807  /**
+f6bc909e7673c30 Simon Trimmer  2021-09-13  808   * cs_dsp_coeff_read_ctrl()=
+ - Reads the given coefficient control into the given buffer
+f6bc909e7673c30 Simon Trimmer  2021-09-13  809   * @ctl: pointer to coeffic=
+ient control
+f6bc909e7673c30 Simon Trimmer  2021-09-13  810   * @buf: the buffer to stor=
+e to the given control
+f6bc909e7673c30 Simon Trimmer  2021-09-13  811   * @len: the length of the =
+buffer
+f6bc909e7673c30 Simon Trimmer  2021-09-13  812   *
+f6bc909e7673c30 Simon Trimmer  2021-09-13  813   * Must be called with pwr_=
+lock held.
+f6bc909e7673c30 Simon Trimmer  2021-09-13  814   *
+f6bc909e7673c30 Simon Trimmer  2021-09-13  815   * Return: Zero for success=
+, a negative number on error.
+f6bc909e7673c30 Simon Trimmer  2021-09-13  816   */
+f6bc909e7673c30 Simon Trimmer  2021-09-13  817  int cs_dsp_coeff_read_ctrl(=
+struct cs_dsp_coeff_ctl *ctl, void *buf, size_t len)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  818  {
+f6bc909e7673c30 Simon Trimmer  2021-09-13  819  	int ret =3D 0;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  820  =
+
+5065cfabec21a4a Charles Keepax 2021-11-17 @821  	lockdep_assert_held(&ctl->=
+dsp->pwr_lock);
+5065cfabec21a4a Charles Keepax 2021-11-17  822  =
+
+86c608040774093 Charles Keepax 2021-11-17 @823  	if (!ctl)
+86c608040774093 Charles Keepax 2021-11-17  824  		return -ENOENT;
+86c608040774093 Charles Keepax 2021-11-17  825  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  826  	if (ctl->flags & WMFW_CTL_=
+FLAG_VOLATILE) {
+f6bc909e7673c30 Simon Trimmer  2021-09-13  827  		if (ctl->enabled && ctl->=
+dsp->running)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  828  			return cs_dsp_coeff_read=
+_ctrl_raw(ctl, buf, len);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  829  		else
+f6bc909e7673c30 Simon Trimmer  2021-09-13  830  			return -EPERM;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  831  	} else {
+f6bc909e7673c30 Simon Trimmer  2021-09-13  832  		if (!ctl->flags && ctl->e=
+nabled && ctl->dsp->running)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  833  			ret =3D cs_dsp_coeff_rea=
+d_ctrl_raw(ctl, ctl->cache, ctl->len);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  834  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  835  		if (buf !=3D ctl->cache)
+f6bc909e7673c30 Simon Trimmer  2021-09-13  836  			memcpy(buf, ctl->cache, =
+len);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  837  	}
+f6bc909e7673c30 Simon Trimmer  2021-09-13  838  =
+
+f6bc909e7673c30 Simon Trimmer  2021-09-13  839  	return ret;
+f6bc909e7673c30 Simon Trimmer  2021-09-13  840  }
+f6bc909e7673c30 Simon Trimmer  2021-09-13  841  EXPORT_SYMBOL_GPL(cs_dsp_co=
+eff_read_ctrl);
+f6bc909e7673c30 Simon Trimmer  2021-09-13  842  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5794986600378050305==--
+--===============4898051252698734163==--
 
