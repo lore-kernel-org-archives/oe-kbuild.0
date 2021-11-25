@@ -1,47 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============0670398126033305131=="
+Content-Type: multipart/mixed; boundary="===============4426045769658852843=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mel:sched-sisdepth-v1r3 3/3] kernel/sched/fair.c:6287:4: warning: Value stored to 'nr' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 25 Nov 2021 18:40:54 +0800
-Message-ID: <202111251837.B12qrT0B-lkp@intel.com>
+Subject: [linux-next:master 2052/3632] drivers/pinctrl/pinctrl-rockchip.c:912:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 25 Nov 2021 16:07:30 +0800
+Message-ID: <202111251514.XKLa1xWr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0670398126033305131==
+--===============4426045769658852843==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Mel Gorman <mgorman@suse.de>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Heiko Stuebner <heiko@sntech.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mel/linux.git sched=
--sisdepth-v1r3
-head:   29b51054eca8c8c58122830b8a747df1a4605045
-commit: 29b51054eca8c8c58122830b8a747df1a4605045 [3/3] SIS_DEPTH
-:::::: branch date: 5 weeks ago
-:::::: commit date: 5 weeks ago
-config: riscv-randconfig-c006-20211027 (https://download.01.org/0day-ci/arc=
-hive/20211125/202111251837.B12qrT0B-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5db756=
-8a6a1fcb408eb8988abdaff2a225a8eb72)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   f81e94e91878bded599cc60f2881cfd50991aeb9
+commit: e4dd7fd5ff0acb3f3ed290f52afe20fd840d22b0 [2052/3632] pinctrl/rockch=
+ip: Use temporary variable for struct device
+:::::: branch date: 3 hours ago
+:::::: commit date: 7 days ago
+config: arm-randconfig-c002-20211119 (https://download.01.org/0day-ci/archi=
+ve/20211125/202111251514.XKLa1xWr-lkp(a)intel.com/config)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/mel/linux.git/com=
-mit/?id=3D29b51054eca8c8c58122830b8a747df1a4605045
-        git remote add mel https://git.kernel.org/pub/scm/linux/kernel/git/=
-mel/linux.git
-        git fetch --no-tags mel sched-sisdepth-v1r3
-        git checkout 29b51054eca8c8c58122830b8a747df1a4605045
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3De4dd7fd5ff0acb3f3ed290f52afe20fd840d22b0
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout e4dd7fd5ff0acb3f3ed290f52afe20fd840d22b0
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,379 +49,382 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+   ipc/sem.c:1426:35: note: 'cmd' is equal to SETALL
+           if (ipcperms(ns, &sma->sem_perm, cmd =3D=3D SETALL ? S_IWUGO : S=
+_IRUGO))
+                                            ^~~
+   ipc/sem.c:1426:35: note: '?' condition is true
+   ipc/sem.c:1426:6: note: Assuming the condition is false
+           if (ipcperms(ns, &sma->sem_perm, cmd =3D=3D SETALL ? S_IWUGO : S=
+_IRUGO))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   ipc/sem.c:1426:2: note: Taking false branch
+           if (ipcperms(ns, &sma->sem_perm, cmd =3D=3D SETALL ? S_IWUGO : S=
+_IRUGO))
            ^
-   net/sched/sch_fq.c:314:7: note: Assuming 'sk' is equal to field 'sk'
-                   if (f->sk =3D=3D sk) {
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/sched/sch_fq.c:314:3: note: '?' condition is false
-                   if (f->sk =3D=3D sk) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/sched/sch_fq.c:314:16: note: 'sk' is equal to field 'sk'
-                   if (f->sk =3D=3D sk) {
-                                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   net/sched/sch_fq.c:314:3: note: '?' condition is true
-                   if (f->sk =3D=3D sk) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   ipc/sem.c:1430:6: note: Assuming 'err' is 0
+           if (err)
+               ^~~
+   ipc/sem.c:1430:2: note: Taking false branch
+           if (err)
            ^
-   net/sched/sch_fq.c:314:3: note: Taking true branch
-                   if (f->sk =3D=3D sk) {
+   ipc/sem.c:1434:2: note: Control jumps to 'case 17:'  at line 1475
+           switch (cmd) {
+           ^
+   ipc/sem.c:1480:7: note: Assuming the condition is false
+                   if (!ipc_rcu_getref(&sma->sem_perm)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ipc/sem.c:1480:3: note: Taking false branch
+                   if (!ipc_rcu_getref(&sma->sem_perm)) {
                    ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/sched/sch_fq.c:320:17: note: Assuming 'sk' is equal to field 'sk'
-                           if (unlikely(skb->sk =3D=3D sk &&
-                                        ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/sched/sch_fq.c:320:17: note: Left side of '&&' is true
-                           if (unlikely(skb->sk =3D=3D sk &&
-                                        ^
-   net/sched/sch_fq.c:321:28: note: Dereference of null pointer
-                                        f->socket_hash !=3D sk->sk_hash)) {
-                                                          ^
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   Suppressed 14 warnings (14 in non-user code).
+   ipc/sem.c:1486:7: note: Assuming 'nsems' is <=3D SEMMSL_FAST
+                   if (nsems > SEMMSL_FAST) {
+                       ^~~~~~~~~~~~~~~~~~~
+   ipc/sem.c:1486:3: note: Taking false branch
+                   if (nsems > SEMMSL_FAST) {
+                   ^
+   ipc/sem.c:1495:7: note: Calling 'copy_from_user'
+                   if (copy_from_user(sem_io, p, nsems*sizeof(ushort))) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:13: note: Calling 'check_copy_size'
+           if (likely(check_copy_size(to, n, false)))
+                      ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   include/linux/thread_info.h:207:15: note: Assuming 'sz' is >=3D 0
+           if (unlikely(sz >=3D 0 && sz < bytes)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/thread_info.h:207:15: note: Left side of '&&' is true
+           if (unlikely(sz >=3D 0 && sz < bytes)) {
+                        ^
+   include/linux/thread_info.h:207:26: note: Assuming 'sz' is < 'bytes', wh=
+ich participates in a condition later
+           if (unlikely(sz >=3D 0 && sz < bytes)) {
+                                   ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/thread_info.h:207:2: note: Taking true branch
+           if (unlikely(sz >=3D 0 && sz < bytes)) {
+           ^
+   include/linux/thread_info.h:208:3: note: Taking true branch
+                   if (!__builtin_constant_p(bytes))
+                   ^
+   include/linux/uaccess.h:191:13: note: Returning from 'check_copy_size'
+           if (likely(check_copy_size(to, n, false)))
+                      ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   include/linux/uaccess.h:191:2: note: Taking false branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
+           ^
+   include/linux/uaccess.h:193:2: note: Returning value (loaded from 'n'), =
+which participates in a condition later
+           return n;
+           ^~~~~~~~
+   ipc/sem.c:1495:7: note: Returning from 'copy_from_user'
+                   if (copy_from_user(sem_io, p, nsems*sizeof(ushort))) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ipc/sem.c:1495:7: note: Assuming the condition is false
+                   if (copy_from_user(sem_io, p, nsems*sizeof(ushort))) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   ipc/sem.c:1495:3: note: Taking false branch
+                   if (copy_from_user(sem_io, p, nsems*sizeof(ushort))) {
+                   ^
+   ipc/sem.c:1501:8: note: The value 0 is assigned to 'i'
+                   for (i =3D 0; i < nsems; i++) {
+                        ^~~~~
+   ipc/sem.c:1501:15: note: Assuming 'i' is < 'nsems'
+                   for (i =3D 0; i < nsems; i++) {
+                               ^~~~~~~~~
+   ipc/sem.c:1501:3: note: Loop condition is true.  Entering loop body
+                   for (i =3D 0; i < nsems; i++) {
+                   ^
+   ipc/sem.c:1502:18: note: The left operand of '>' is a garbage value
+                           if (sem_io[i] > SEMVMX) {
+                               ~~~~~~~~~ ^
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   kernel/sched/cputime.c:570:3: warning: Value stored to 'utime' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   utime =3D rtime;
-                   ^       ~~~~~
-   kernel/sched/cputime.c:570:3: note: Value stored to 'utime' is never read
-                   utime =3D rtime;
-                   ^       ~~~~~
-   Suppressed 16 warnings (15 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   22 warnings generated.
->> kernel/sched/fair.c:6287:4: warning: Value stored to 'nr' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                           nr *=3D sched_smt_weight;
-                           ^
-   kernel/sched/fair.c:6287:4: note: Value stored to 'nr' is never read
-   kernel/sched/fair.c:6390:6: warning: 1st function call argument is an un=
-initialized value [clang-analyzer-core.CallAndMessage]
-               asym_fits_capacity(task_util, target))
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/sched/fair.c:6372:2: note: 'task_util' declared without an initia=
-l value
-           unsigned long task_util;
+   7 warnings generated.
+>> drivers/pinctrl/pinctrl-rockchip.c:912:17: warning: Value stored to 'dev=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           struct device *dev =3D info->dev;
+                          ^~~   ~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:912:17: note: Value stored to 'dev' d=
+uring its initialization is never read
+           struct device *dev =3D info->dev;
+                          ^~~   ~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:1965:17: warning: Value stored to 'de=
+v' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           struct device *dev =3D info->dev;
+                          ^~~   ~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:1965:17: note: Value stored to 'dev' =
+during its initialization is never read
+           struct device *dev =3D info->dev;
+                          ^~~   ~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:2031:17: warning: Value stored to 'de=
+v' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
+res]
+           struct device *dev =3D info->dev;
+                          ^~~   ~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:2031:17: note: Value stored to 'dev' =
+during its initialization is never read
+           struct device *dev =3D info->dev;
+                          ^~~   ~~~~~~~~~
+   include/linux/list.h:137:13: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           __list_del(entry->prev, entry->next);
+                      ^
+   drivers/pinctrl/pinctrl-rockchip.c:2759:14: note: Assuming 'i' is < fiel=
+d 'nr_banks'
+           for (i =3D 0; i < info->ctrl->nr_banks; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:2759:2: note: Loop condition is true.=
+  Entering loop body
+           for (i =3D 0; i < info->ctrl->nr_banks; i++) {
+           ^
+   drivers/pinctrl/pinctrl-rockchip.c:2763:3: note: Loop condition is true.=
+  Entering loop body
+                   while (!list_empty(&bank->deferred_output)) {
+                   ^
+   drivers/pinctrl/pinctrl-rockchip.c:2767:4: note: Memory is released
+                           kfree(cfg);
+                           ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:2763:3: note: Loop condition is true.=
+  Entering loop body
+                   while (!list_empty(&bank->deferred_output)) {
+                   ^
+   drivers/pinctrl/pinctrl-rockchip.c:2766:4: note: Calling 'list_del'
+                           list_del(&cfg->head);
+                           ^~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:148:2: note: Calling '__list_del_entry'
+           __list_del_entry(entry);
            ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/fair.c:6379:6: note: Left side of '&&' is false
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
-               ^
-   include/linux/jump_label.h:508:52: note: expanded from macro 'static_bra=
-nch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enab=
-led(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:416:67: note: expanded from macro 'static_key=
-_enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
- &&     \
-                                                                           =
- ^
-   kernel/sched/fair.c:6379:6: note: '?' condition is true
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
-               ^
-   include/linux/jump_label.h:508:52: note: expanded from macro 'static_bra=
-nch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enab=
-led(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:416:2: note: expanded from macro 'static_key_=
-enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
- &&     \
+   include/linux/list.h:134:6: note: Assuming the condition is false
+           if (!__list_del_entry_valid(entry))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:134:2: note: Taking false branch
+           if (!__list_del_entry_valid(entry))
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/sched/fair.c:6379:6: note: Left side of '&&' is false
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
-               ^
-   include/linux/jump_label.h:508:52: note: expanded from macro 'static_bra=
-nch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enab=
-led(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:416:67: note: expanded from macro 'static_key=
-_enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
- &&     \
-                                                                           =
- ^
-   kernel/sched/fair.c:6379:6: note: Taking false branch
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
-               ^
-   include/linux/jump_label.h:508:52: note: expanded from macro 'static_bra=
-nch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enab=
-led(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:416:2: note: expanded from macro 'static_key_=
-enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
- &&     \
+   include/linux/list.h:137:13: note: Use of memory after it is freed
+           __list_del(entry->prev, entry->next);
+                      ^~~~~~~~~~~
+   include/linux/list.h:149:14: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           entry->next =3D LIST_POISON1;
+                       ^
+   drivers/pinctrl/pinctrl-rockchip.c:2759:14: note: Assuming 'i' is < fiel=
+d 'nr_banks'
+           for (i =3D 0; i < info->ctrl->nr_banks; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:2759:2: note: Loop condition is true.=
+  Entering loop body
+           for (i =3D 0; i < info->ctrl->nr_banks; i++) {
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   kernel/sched/fair.c:6379:6: note: Assuming the condition is false
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
-               ^
-   include/linux/jump_label.h:508:52: note: expanded from macro 'static_bra=
-nch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enab=
-led(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:420:2: note: expanded from macro 'static_key_=
-enabled'
-           static_key_count((struct static_key *)x) > 0;                   =
-        \
+   drivers/pinctrl/pinctrl-rockchip.c:2763:3: note: Loop condition is true.=
+  Entering loop body
+                   while (!list_empty(&bank->deferred_output)) {
+                   ^
+   drivers/pinctrl/pinctrl-rockchip.c:2767:4: note: Memory is released
+                           kfree(cfg);
+                           ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-rockchip.c:2763:3: note: Loop condition is true.=
+  Entering loop body
+                   while (!list_empty(&bank->deferred_output)) {
+                   ^
+   drivers/pinctrl/pinctrl-rockchip.c:2766:4: note: Calling 'list_del'
+                           list_del(&cfg->head);
+                           ^~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:149:14: note: Use of memory after it is freed
+           entry->next =3D LIST_POISON1;
+           ~~~~~~~~~~~ ^
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   arch/arm/kernel/devtree.c:232:6: warning: Access to field 'dt_fixup' res=
+ults in a dereference of a null pointer (loaded from variable 'mdesc') [cla=
+ng-analyzer-core.NullDereference]
+           if (mdesc->dt_fixup)
+               ^~~~~
+   arch/arm/kernel/devtree.c:206:6: note: Assuming 'dt_virt' is non-null
+           if (!dt_virt || !early_init_dt_verify(dt_virt))
+               ^~~~~~~~
+   arch/arm/kernel/devtree.c:206:6: note: Left side of '||' is false
+   arch/arm/kernel/devtree.c:206:18: note: Assuming the condition is false
+           if (!dt_virt || !early_init_dt_verify(dt_virt))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/devtree.c:206:2: note: Taking false branch
+           if (!dt_virt || !early_init_dt_verify(dt_virt))
            ^
-   include/linux/compiler.h:21:49: note: expanded from macro 'unlikely_notr=
-ace'
-   #define unlikely_notrace(x)     __builtin_expect(!!(x), 0)
-                                                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   kernel/sched/fair.c:6379:2: note: '?' condition is false
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
+   arch/arm/kernel/devtree.c:209:2: note: Value assigned to 'mdesc'
+           mdesc =3D of_flat_dt_match_machine(mdesc_best, arch_get_next_mac=
+h);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/arm/kernel/devtree.c:211:6: note: Assuming 'mdesc' is null
+           if (!mdesc) {
+               ^~~~~~
+   arch/arm/kernel/devtree.c:211:2: note: Taking true branch
+           if (!mdesc) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   kernel/sched/fair.c:6379:6: note: Left side of '&&' is false
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
-               ^
-   include/linux/jump_label.h:508:52: note: expanded from macro 'static_bra=
-nch_unlikely'
-   #define static_branch_unlikely(x)       unlikely_notrace(static_key_enab=
-led(&(x)->key))
-                                                            ^
-   include/linux/jump_label.h:416:67: note: expanded from macro 'static_key=
-_enabled'
-           if (!__builtin_types_compatible_p(typeof(*x), struct static_key)=
- &&     \
-                                                                           =
- ^
-   kernel/sched/fair.c:6379:6: note: '?' condition is true
-           if (static_branch_unlikely(&sched_asym_cpucapacity)) {
-               ^
-   include/linux/jump_label.h:508:52: note: expanded from macro 'static_bra=
-nch_unlikely'
+   arch/arm/kernel/devtree.c:221:10: note: Assuming 'size' is <=3D 0
 
-vim +/nr +6287 kernel/sched/fair.c
+vim +/dev +912 drivers/pinctrl/pinctrl-rockchip.c
 
-8335aa1277b644 Mel Gorman        2021-06-17  6265  =
+05709c3e88f5f0 John Keeping    2017-03-23  895  =
 
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6266  /*
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6267   * Scan the LLC domain f=
-or idle CPUs; this is dynamically regulated by
-29b51054eca8c8 Mel Gorman        2021-10-11  6268   * the success or failur=
-e of previous scans;
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6269   */
-c722f35b513f80 Rik van Riel      2021-03-26  6270  static int select_idle_c=
-pu(struct task_struct *p, struct sched_domain *sd, bool has_idle_core, int =
-target)
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6271  {
-60588bfa223ff6 Cheng Jian        2019-12-13  6272  	struct cpumask *cpus =
-=3D this_cpu_cpumask_var_ptr(select_idle_mask);
-9fe1f127b91331 Mel Gorman        2021-01-27  6273  	int i, cpu, idle_cpu =
-=3D -1, nr =3D INT_MAX;
-9cfb38a7ba5a9c Wanpeng Li        2016-10-09  6274  	struct sched_domain *th=
-is_sd;
-29b51054eca8c8 Mel Gorman        2021-10-11  6275  	int depth =3D 0;
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6276  =
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  896  /*
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  897   * Set a new mux funct=
+ion for a pin.
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  898   *
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  899   * The register is div=
+ided into the upper and lower 16 bit. When changing
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  900   * a value, the previo=
+us register value is not read and changed. Instead
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  901   * it seems the change=
+d bits are marked in the upper 16 bit, while the
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  902   * changed value gets =
+set in the same offset in the lower 16 bit.
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  903   * All pin settings se=
+em to be 2 bit wide in both the upper and lower
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  904   * parts.
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  905   * @bank: pin bank to =
+change
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  906   * @pin: pin to change
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  907   * @mux: new mux funct=
+ion to set
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  908   */
+14797189b35e9e Heiko St=C3=BCbner   2014-03-26  909  static int rockchip_se=
+t_mux(struct rockchip_pin_bank *bank, int pin, int mux)
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  910  {
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  911  	struct rockchip_pinct=
+rl *info =3D bank->drvdata;
+e4dd7fd5ff0acb Andy Shevchenko 2021-11-05 @912  	struct device *dev =3D inf=
+o->dev;
+fc72c923e50d5c Heiko St=C3=BCbner   2014-06-16  913  	int iomux_num =3D (pi=
+n / 8);
+95ec8ae4498e99 Heiko St=C3=BCbner   2014-06-16  914  	struct regmap *regmap;
+ea262ad6e4019f david.wu        2017-02-10  915  	int reg, ret, mask, mux_ty=
+pe;
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  916  	u8 bit;
+51ff47aa4c933f Heiko Stuebner  2018-11-11  917  	u32 data, rmask, route_loc=
+ation, route_reg, route_val;
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  918  =
 
-9cfb38a7ba5a9c Wanpeng Li        2016-10-09  6277  	this_sd =3D rcu_derefer=
-ence(*this_cpu_ptr(&sd_llc));
-9cfb38a7ba5a9c Wanpeng Li        2016-10-09  6278  	if (!this_sd)
-9cfb38a7ba5a9c Wanpeng Li        2016-10-09  6279  		return -1;
-9cfb38a7ba5a9c Wanpeng Li        2016-10-09  6280  =
+05709c3e88f5f0 John Keeping    2017-03-23  919  	ret =3D rockchip_verify_mu=
+x(bank, pin, mux);
+05709c3e88f5f0 John Keeping    2017-03-23  920  	if (ret < 0)
+05709c3e88f5f0 John Keeping    2017-03-23  921  		return ret;
+62f49226b03b64 Heiko St=C3=BCbner   2014-06-16  922  =
 
-bae4ec13640b09 Mel Gorman        2021-01-25  6281  	cpumask_and(cpus, sched=
-_domain_span(sd), p->cpus_ptr);
-bae4ec13640b09 Mel Gorman        2021-01-25  6282  =
+05709c3e88f5f0 John Keeping    2017-03-23  923  	if (bank->iomux[iomux_num]=
+.type & IOMUX_GPIO_ONLY)
+c4a532dee6b6e4 Heiko St=C3=BCbner   2014-03-26  924  		return 0;
+c4a532dee6b6e4 Heiko St=C3=BCbner   2014-03-26  925  =
 
-29b51054eca8c8 Mel Gorman        2021-10-11  6283  	if (sched_feat(SIS_DEPT=
-H)) {
-29b51054eca8c8 Mel Gorman        2021-10-11  6284  		depth =3D min_t(int, t=
-his_sd->sis_scan_depth, nr);
-1ad3aaf3fcd244 Peter Zijlstra    2017-05-17  6285  =
+e4dd7fd5ff0acb Andy Shevchenko 2021-11-05  926  	dev_dbg(dev, "setting mux =
+of GPIO%d-%d to %d\n", bank->bank_num, pin, mux);
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  927  =
 
-b1168d8cf90943 Mel Gorman        2021-06-18  6286  		if (!has_idle_core)
-8335aa1277b644 Mel Gorman        2021-06-17 @6287  			nr *=3D sched_smt_wei=
-ght;
-29b51054eca8c8 Mel Gorman        2021-10-11  6288  		nr =3D depth;
-bae4ec13640b09 Mel Gorman        2021-01-25  6289  	}
-60588bfa223ff6 Cheng Jian        2019-12-13  6290  =
+95ec8ae4498e99 Heiko St=C3=BCbner   2014-06-16  928  	regmap =3D (bank->iom=
+ux[iomux_num].type & IOMUX_SOURCE_PMU)
+95ec8ae4498e99 Heiko St=C3=BCbner   2014-06-16  929  				? info->regmap_pmu=
+ : info->regmap_base;
+95ec8ae4498e99 Heiko St=C3=BCbner   2014-06-16  930  =
 
-29b51054eca8c8 Mel Gorman        2021-10-11  6291  	cpumask_and(cpus, sched=
-_domain_span(sd), p->cpus_ptr);
-29b51054eca8c8 Mel Gorman        2021-10-11  6292  =
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  931  	/* get basic quadrupe=
+l of mux registers and the correct reg inside */
+ea262ad6e4019f david.wu        2017-02-10  932  	mux_type =3D bank->iomux[i=
+omux_num].type;
+6bc0d121a95b31 Heiko St=C3=BCbner   2014-06-16  933  	reg =3D bank->iomux[i=
+omux_num].offset;
+ea262ad6e4019f david.wu        2017-02-10  934  	if (mux_type & IOMUX_WIDTH=
+_4BIT) {
+03716e1dd01b0e Heiko St=C3=BCbner   2014-06-16  935  		if ((pin % 8) >=3D 4)
+03716e1dd01b0e Heiko St=C3=BCbner   2014-06-16  936  			reg +=3D 0x4;
+03716e1dd01b0e Heiko St=C3=BCbner   2014-06-16  937  		bit =3D (pin % 4) * =
+4;
+8b6c6f930da9d2 david.wu        2017-02-10  938  		mask =3D 0xf;
+ea262ad6e4019f david.wu        2017-02-10  939  	} else if (mux_type & IOMU=
+X_WIDTH_3BIT) {
+8b6c6f930da9d2 david.wu        2017-02-10  940  		if ((pin % 8) >=3D 5)
+8b6c6f930da9d2 david.wu        2017-02-10  941  			reg +=3D 0x4;
+8b6c6f930da9d2 david.wu        2017-02-10  942  		bit =3D (pin % 8 % 5) * 3;
+8b6c6f930da9d2 david.wu        2017-02-10  943  		mask =3D 0x7;
+03716e1dd01b0e Heiko St=C3=BCbner   2014-06-16  944  	} else {
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  945  		bit =3D (pin % 8) * =
+2;
+8b6c6f930da9d2 david.wu        2017-02-10  946  		mask =3D 0x3;
+03716e1dd01b0e Heiko St=C3=BCbner   2014-06-16  947  	}
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  948  =
 
-56498cfb045d71 Mel Gorman        2021-08-04  6293  	for_each_cpu_wrap(cpu, =
-cpus, target + 1) {
-29b51054eca8c8 Mel Gorman        2021-10-11  6294  		if (--nr < 0) {
-29b51054eca8c8 Mel Gorman        2021-10-11  6295  			depth =3D clamp(depth=
- - 1, 1, sis_min_cores * sched_smt_weight);
-b1168d8cf90943 Mel Gorman        2021-06-18  6296  			break;
-29b51054eca8c8 Mel Gorman        2021-10-11  6297  		}
-b1168d8cf90943 Mel Gorman        2021-06-18  6298  =
+c04c3fa65ac5c6 David Wu        2017-07-21  949  	if (bank->recalced_mask & =
+BIT(pin))
+c04c3fa65ac5c6 David Wu        2017-07-21  950  		rockchip_get_recalced_mux=
+(bank, pin, &reg, &bit, &mask);
+ea262ad6e4019f david.wu        2017-02-10  951  =
 
-c722f35b513f80 Rik van Riel      2021-03-26  6299  		if (has_idle_core) {
-9fe1f127b91331 Mel Gorman        2021-01-27  6300  			i =3D select_idle_cor=
-e(p, cpu, cpus, &idle_cpu);
-9fe1f127b91331 Mel Gorman        2021-01-27  6301  			if ((unsigned int)i <=
- nr_cpumask_bits)
-b1168d8cf90943 Mel Gorman        2021-06-18  6302  				break;
-9fe1f127b91331 Mel Gorman        2021-01-27  6303  		} else {
-97886d9dcd8682 Aubrey Li         2021-03-24  6304  			idle_cpu =3D __select=
-_idle_cpu(cpu, p);
-9fe1f127b91331 Mel Gorman        2021-01-27  6305  			if ((unsigned int)idl=
-e_cpu < nr_cpumask_bits)
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6306  				break;
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6307  		}
-9fe1f127b91331 Mel Gorman        2021-01-27  6308  	}
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6309  =
+bd35b9bf828433 David Wu        2017-05-26  952  	if (bank->route_mask & BIT=
+(pin)) {
+51ff47aa4c933f Heiko Stuebner  2018-11-11  953  		if (rockchip_get_mux_rout=
+e(bank, pin, mux, &route_location,
+51ff47aa4c933f Heiko Stuebner  2018-11-11  954  					   &route_reg, &route_=
+val)) {
+51ff47aa4c933f Heiko Stuebner  2018-11-11  955  			struct regmap *route_reg=
+map =3D regmap;
+51ff47aa4c933f Heiko Stuebner  2018-11-11  956  =
 
-29b51054eca8c8 Mel Gorman        2021-10-11  6310  	if ((unsigned int)idle_=
-cpu < nr_cpumask_bits && has_idle_core)
-02dbb7246c5bbb Gautham R. Shenoy 2021-05-11  6311  		set_idle_cores(target,=
- false);
-9fe1f127b91331 Mel Gorman        2021-01-27  6312  =
+51ff47aa4c933f Heiko Stuebner  2018-11-11  957  			/* handle special locati=
+ons */
+51ff47aa4c933f Heiko Stuebner  2018-11-11  958  			switch (route_location) {
+51ff47aa4c933f Heiko Stuebner  2018-11-11  959  			case ROCKCHIP_ROUTE_PMU:
+51ff47aa4c933f Heiko Stuebner  2018-11-11  960  				route_regmap =3D info->=
+regmap_pmu;
+51ff47aa4c933f Heiko Stuebner  2018-11-11  961  				break;
+51ff47aa4c933f Heiko Stuebner  2018-11-11  962  			case ROCKCHIP_ROUTE_GRF:
+51ff47aa4c933f Heiko Stuebner  2018-11-11  963  				route_regmap =3D info->=
+regmap_base;
+51ff47aa4c933f Heiko Stuebner  2018-11-11  964  				break;
+51ff47aa4c933f Heiko Stuebner  2018-11-11  965  			}
+51ff47aa4c933f Heiko Stuebner  2018-11-11  966  =
 
-29b51054eca8c8 Mel Gorman        2021-10-11  6313  	if (sched_feat(SIS_DEPT=
-H)) {
-29b51054eca8c8 Mel Gorman        2021-10-11  6314  		if (idle_cpu)
-29b51054eca8c8 Mel Gorman        2021-10-11  6315  			depth =3D min_t(int, =
-depth + 1, sd->span_weight / sched_smt_weight);
-29b51054eca8c8 Mel Gorman        2021-10-11  6316  		if (this_sd->sis_scan_=
-depth !=3D depth)
-29b51054eca8c8 Mel Gorman        2021-10-11  6317  			this_sd->sis_scan_dep=
-th =3D depth;
-b1168d8cf90943 Mel Gorman        2021-06-18  6318  	}
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6319  =
+51ff47aa4c933f Heiko Stuebner  2018-11-11  967  			ret =3D regmap_write(rou=
+te_regmap, route_reg, route_val);
+bd35b9bf828433 David Wu        2017-05-26  968  			if (ret)
+bd35b9bf828433 David Wu        2017-05-26  969  				return ret;
+bd35b9bf828433 David Wu        2017-05-26  970  		}
+bd35b9bf828433 David Wu        2017-05-26  971  	}
+bd35b9bf828433 David Wu        2017-05-26  972  =
 
-9fe1f127b91331 Mel Gorman        2021-01-27  6320  	return idle_cpu;
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6321  }
-10e2f1acd0106c Peter Zijlstra    2016-05-09  6322  =
+03716e1dd01b0e Heiko St=C3=BCbner   2014-06-16  973  	data =3D (mask << (bi=
+t + 16));
+99e872d953fb44 Sonny Rao       2014-07-31  974  	rmask =3D data | (data >> =
+16);
+03716e1dd01b0e Heiko St=C3=BCbner   2014-06-16  975  	data |=3D (mux & mask=
+) << bit;
+99e872d953fb44 Sonny Rao       2014-07-31  976  	ret =3D regmap_update_bits=
+(regmap, reg, rmask, data);
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  977  =
 
+751a99aba47e9b Heiko St=C3=BCbner   2014-05-05  978  	return ret;
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  979  }
+d3e5116119bd02 Heiko St=C3=BCbner   2013-06-10  980  =
 
-:::::: The code at line 6287 was first introduced by commit
-:::::: 8335aa1277b644c3a94dd911e475d1b06c6aa5ee sched/fair: Make select_idl=
-e_cpu() proportional to cores
-
-:::::: TO: Mel Gorman <mgorman@techsingularity.net>
-:::::: CC: Mel Gorman <mgorman@techsingularity.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0670398126033305131==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============4426045769658852843==--
 
