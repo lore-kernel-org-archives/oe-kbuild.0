@@ -1,118 +1,397 @@
-Content-Type: multipart/mixed; boundary="===============8526330006771720746=="
+Content-Type: multipart/mixed; boundary="===============6177218013159236603=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/platform/surface/surface_hotplug.c:163 shps_setup_irq() warn: should '(((1))) << dsm' be a 64 bit type?
-Date: Fri, 26 Nov 2021 02:47:20 +0800
-Message-ID: <202111260207.ALyuXIPy-lkp@intel.com>
+Subject: [djwong-xfs:log-recovery-defer-capture 45/87] fs/xfs/libxfs/xfs_bmap_btree.c:646:9: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Fri, 26 Nov 2021 02:44:28 +0800
+Message-ID: <202111260249.1FeI4KCG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8526330006771720746==
+--===============6177218013159236603==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Maximilian Luz <luzmaximilian@gmail.com>
-CC: Hans de Goede <hdegoede@redhat.com>
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
-commit: bd69bcce4aa089435e2891222236b1cb20395bec platform/surface: Add Surf=
-ace Hot-Plug driver
-date:   10 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 10 months ago
-config: i386-randconfig-m021-20211116 (https://download.01.org/0day-ci/arch=
-ive/20211126/202111260207.ALyuXIPy-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t log-recovery-defer-capture
+head:   a9ba97129f384fff0a4ac1ff3e2c4b455ea77c88
+commit: ebbf385a912f3d1e5c13d7e33101e8aefb300f15 [45/87] xfs: repair inode =
+block maps
+:::::: branch date: 5 weeks ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20211031 (https://download.01.org/0day-ci/archi=
+ve/20211126/202111260249.1FeI4KCG-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d32154=
+8c3ce987f4f21350ba1c81fdb5d4354224)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
+git/commit/?id=3Debbf385a912f3d1e5c13d7e33101e8aefb300f15
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
+el/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs log-recovery-defer-capture
+        git checkout ebbf385a912f3d1e5c13d7e33101e8aefb300f15
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/platform/surface/surface_hotplug.c:163 shps_setup_irq() warn: shoul=
-d '(((1))) << dsm' be a 64 bit type?
 
-vim +163 drivers/platform/surface/surface_hotplug.c
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   drivers/media/tuners/xc5000.c:37:2: note: expanded from macro 'dprintk'
+           printk(KERN_INFO "%s: " fmt, "xc5000", ## arg)
+           ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/media/tuners/xc5000.c:674:54: note: The left operand of '/' is a=
+ garbage value
+           dprintk(1, "*** Total gain =3D %d.%d dB\n", totalgain / 256,
+                                                               ^
+   drivers/media/tuners/xc5000.c:37:44: note: expanded from macro 'dprintk'
+           printk(KERN_INFO "%s: " fmt, "xc5000", ## arg)
+                                                     ^~~
+   include/linux/printk.h:446:60: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                                                              ^~~~~~~~~~~
+   include/linux/printk.h:418:19: note: expanded from macro 'printk_index_w=
+rap'
+                   _p_func(_fmt, ##__VA_ARGS__);                           \
+                                   ^~~~~~~~~~~
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/mtd/devices/phram.c:231:2: warning: Call to function 'strcpy' is=
+ insecure as it does not provide bounding of the memory buffer. Replace unb=
+ounded copy functions with analogous functions that support length argument=
+s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(str, val);
+           ^~~~~~
+   drivers/mtd/devices/phram.c:231:2: note: Call to function 'strcpy' is in=
+secure as it does not provide bounding of the memory buffer. Replace unboun=
+ded copy functions with analogous functions that support length arguments s=
+uch as 'strlcpy'. CWE-119
+           strcpy(str, val);
+           ^~~~~~
+   drivers/mtd/devices/phram.c:315:2: warning: Call to function 'strcpy' is=
+ insecure as it does not provide bounding of the memory buffer. Replace unb=
+ounded copy functions with analogous functions that support length argument=
+s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(phram_paramline, val);
+           ^~~~~~
+   drivers/mtd/devices/phram.c:315:2: note: Call to function 'strcpy' is in=
+secure as it does not provide bounding of the memory buffer. Replace unboun=
+ded copy functions with analogous functions that support length arguments s=
+uch as 'strlcpy'. CWE-119
+           strcpy(phram_paramline, val);
+           ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/mtd/devices/block2mtd.c:395:2: warning: Call to function 'strcpy=
+' is insecure as it does not provide bounding of the memory buffer. Replace=
+ unbounded copy functions with analogous functions that support length argu=
+ments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcp=
+y]
+           strcpy(str, val);
+           ^~~~~~
+   drivers/mtd/devices/block2mtd.c:395:2: note: Call to function 'strcpy' i=
+s insecure as it does not provide bounding of the memory buffer. Replace un=
+bounded copy functions with analogous functions that support length argumen=
+ts such as 'strlcpy'. CWE-119
+           strcpy(str, val);
+           ^~~~~~
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   fs/xfs/libxfs/xfs_attr_leaf.c:2253:29: warning: Value stored to 'drop_le=
+af' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct xfs_attr_leafblock *drop_leaf =3D drop_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_attr_leaf.c:2253:29: note: Value stored to 'drop_leaf'=
+ during its initialization is never read
+           struct xfs_attr_leafblock *drop_leaf =3D drop_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_attr_leaf.c:2254:29: warning: Value stored to 'save_le=
+af' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct xfs_attr_leafblock *save_leaf =3D save_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_attr_leaf.c:2254:29: note: Value stored to 'save_leaf'=
+ during its initialization is never read
+           struct xfs_attr_leafblock *save_leaf =3D save_blk->bp->b_addr;
+                                      ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   fs/xfs/libxfs/xfs_bmap.c:850:2: warning: Value stored to 'error' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+           error =3D 0;
+           ^       ~
+   fs/xfs/libxfs/xfs_bmap.c:850:2: note: Value stored to 'error' is never r=
+ead
+           error =3D 0;
+           ^       ~
+   fs/xfs/libxfs/xfs_bmap.c:5082:2: warning: Value stored to 'qfield' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           qfield =3D 0;
+           ^        ~
+   fs/xfs/libxfs/xfs_bmap.c:5082:2: note: Value stored to 'qfield' is never=
+ read
+           qfield =3D 0;
+           ^        ~
+   Suppressed 19 warnings (18 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+>> fs/xfs/libxfs/xfs_bmap_btree.c:646:9: warning: Assigned value is garbage=
+ or undefined [clang-analyzer-core.uninitialized.Assign]
+                   flags |=3D extflag[whichfork];
+                         ^  ~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_bmap_btree.c:632:2: note: Assuming the condition is fa=
+lse
+           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
+           ^
+   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^~~~~~~~~~~~
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^~~~
+   fs/xfs/libxfs/xfs_bmap_btree.c:632:2: note: '?' condition is true
+           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
+           ^
+   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:633:9: note: Assuming 'whichfork' is equa=
+l to 2
+           ASSERT(whichfork !=3D XFS_COW_FORK);
+                  ^
+   fs/xfs/xfs_linux.h:214:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ~~~~~~~^~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:633:2: note: '?' condition is false
+           ASSERT(whichfork !=3D XFS_COW_FORK);
+           ^
+   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:640:8: note: 'whichfork' is not equal to 0
+           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
+                 ^
+   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
+K_PTR'
+           ((w) =3D=3D XFS_DATA_FORK ? \
+            ^~~
+   fs/xfs/libxfs/xfs_bmap_btree.c:640:8: note: '?' condition is false
+           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
+                 ^
+   fs/xfs/libxfs/xfs_inode_fork.h:98:3: note: expanded from macro 'XFS_IFOR=
+K_PTR'
+           ((w) =3D=3D XFS_DATA_FORK ? \
+            ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:640:8: note: 'whichfork' is not equal to 1
+           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
+                 ^
+   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
+RK_PTR'
+                   ((w) =3D=3D XFS_ATTR_FORK ? \
+                    ^~~
+   fs/xfs/libxfs/xfs_bmap_btree.c:640:8: note: '?' condition is false
+           ifp =3D XFS_IFORK_PTR(cur->bc_ino.ip, whichfork);
+                 ^
+   fs/xfs/libxfs/xfs_inode_fork.h:100:4: note: expanded from macro 'XFS_IFO=
+RK_PTR'
+                   ((w) =3D=3D XFS_ATTR_FORK ? \
+                    ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:644:2: note: Control jumps to 'case XFS_D=
+INODE_FMT_EXTENTS:'  at line 645
+           switch (ifp->if_format) {
+           ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:646:9: note: Assigned value is garbage or=
+ undefined
+                   flags |=3D extflag[whichfork];
+                         ^  ~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_bmap_btree.c:649:9: warning: Assigned value is garbage=
+ or undefined [clang-analyzer-core.uninitialized.Assign]
+                   flags |=3D brootflag[whichfork];
+                         ^  ~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/libxfs/xfs_bmap_btree.c:632:2: note: Assuming the condition is fa=
+lse
+           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
+           ^
+   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^~~~~~~~~~~~
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^~~~
+   fs/xfs/libxfs/xfs_bmap_btree.c:632:2: note: '?' condition is true
+           ASSERT(cur->bc_flags & XFS_BTREE_STAGING);
+           ^
+   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:633:9: note: Assuming 'whichfork' is equa=
+l to 2
+           ASSERT(whichfork !=3D XFS_COW_FORK);
+                  ^
+   fs/xfs/xfs_linux.h:214:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ~~~~~~~^~~~~
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                               ^
+   fs/xfs/libxfs/xfs_bmap_btree.c:633:2: note: '?' condition is false
+           ASSERT(whichfork !=3D XFS_COW_FORK);
 
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  147  =
+vim +646 fs/xfs/libxfs/xfs_bmap_btree.c
 
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  148  static int shps_setup_irq(s=
-truct platform_device *pdev, enum shps_irq_type type)
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  149  {
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  150  	unsigned long flags =3D IR=
-QF_ONESHOT | IRQF_TRIGGER_FALLING | IRQF_TRIGGER_RISING;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  151  	struct shps_device *sdev =
-=3D platform_get_drvdata(pdev);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  152  	struct gpio_desc *gpiod;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  153  	acpi_handle handle =3D ACP=
-I_HANDLE(&pdev->dev);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  154  	const char *irq_name;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  155  	const int dsm =3D shps_dsm=
-_fn_for_irq(type);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  156  	int status, irq;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  157  =
+ebbf385a912f3d Darrick J. Wong 2021-09-01  613  =
 
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  158  	/*
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  159  	 * Only set up interrupts =
-that we actually need: The Surface Book 3
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  160  	 * does not have a DSM for=
- base presence, so don't set up an interrupt
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  161  	 * for that.
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  162  	 */
-bd69bcce4aa0894 Maximilian Luz 2021-02-05 @163  	if (!acpi_check_dsm(handle=
-, &shps_dsm_guid, SHPS_DSM_REVISION, BIT(dsm))) {
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  164  		dev_dbg(&pdev->dev, "IRQ =
-notification via DSM not present (irq=3D%d)\n", type);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  165  		return 0;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  166  	}
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  167  =
+ebbf385a912f3d Darrick J. Wong 2021-09-01  614  /*
+ebbf385a912f3d Darrick J. Wong 2021-09-01  615   * Swap in the new inode fo=
+rk root.  Once we pass this point the newly rebuilt
+ebbf385a912f3d Darrick J. Wong 2021-09-01  616   * mappings are in place an=
+d we have to kill off any old btree blocks.
+ebbf385a912f3d Darrick J. Wong 2021-09-01  617   */
+ebbf385a912f3d Darrick J. Wong 2021-09-01  618  void
+ebbf385a912f3d Darrick J. Wong 2021-09-01  619  xfs_bmbt_commit_staged_btre=
+e(
+ebbf385a912f3d Darrick J. Wong 2021-09-01  620  	struct xfs_btree_cur	*cur,
+ebbf385a912f3d Darrick J. Wong 2021-09-01  621  	struct xfs_trans	*tp,
+ebbf385a912f3d Darrick J. Wong 2021-09-01  622  	int			whichfork)
+ebbf385a912f3d Darrick J. Wong 2021-09-01  623  {
+ebbf385a912f3d Darrick J. Wong 2021-09-01  624  	struct xbtree_ifakeroot	*i=
+fake =3D cur->bc_ino.ifake;
+ebbf385a912f3d Darrick J. Wong 2021-09-01  625  	struct xfs_ifork	*ifp;
+ebbf385a912f3d Darrick J. Wong 2021-09-01  626  	static const short	brootfl=
+ag[2] =3D
+ebbf385a912f3d Darrick J. Wong 2021-09-01  627  		{ XFS_ILOG_DBROOT, XFS_IL=
+OG_ABROOT };
+ebbf385a912f3d Darrick J. Wong 2021-09-01  628  	static const short	extflag=
+[2] =3D
+ebbf385a912f3d Darrick J. Wong 2021-09-01  629  		{ XFS_ILOG_DEXT, XFS_ILOG=
+_AEXT };
+ebbf385a912f3d Darrick J. Wong 2021-09-01  630  	int			flags =3D XFS_ILOG_C=
+ORE;
+ebbf385a912f3d Darrick J. Wong 2021-09-01  631  =
 
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  168  	gpiod =3D devm_gpiod_get(&=
-pdev->dev, shps_gpio_names[type], GPIOD_ASIS);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  169  	if (IS_ERR(gpiod))
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  170  		return PTR_ERR(gpiod);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  171  =
+ebbf385a912f3d Darrick J. Wong 2021-09-01  632  	ASSERT(cur->bc_flags & XFS=
+_BTREE_STAGING);
+ebbf385a912f3d Darrick J. Wong 2021-09-01  633  	ASSERT(whichfork !=3D XFS_=
+COW_FORK);
+ebbf385a912f3d Darrick J. Wong 2021-09-01  634  =
 
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  172  	irq =3D gpiod_to_irq(gpiod=
-);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  173  	if (irq < 0)
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  174  		return irq;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  175  =
+ebbf385a912f3d Darrick J. Wong 2021-09-01  635  	/*
+ebbf385a912f3d Darrick J. Wong 2021-09-01  636  	 * Free any resources hang=
+ing off the real fork, then shallow-copy the
+ebbf385a912f3d Darrick J. Wong 2021-09-01  637  	 * staging fork's contents=
+ into the real fork to transfer everything
+ebbf385a912f3d Darrick J. Wong 2021-09-01  638  	 * we just built.
+ebbf385a912f3d Darrick J. Wong 2021-09-01  639  	 */
+ebbf385a912f3d Darrick J. Wong 2021-09-01  640  	ifp =3D XFS_IFORK_PTR(cur-=
+>bc_ino.ip, whichfork);
+ebbf385a912f3d Darrick J. Wong 2021-09-01  641  	xfs_idestroy_fork(ifp);
+ebbf385a912f3d Darrick J. Wong 2021-09-01  642  	memcpy(ifp, ifake->if_fork=
+, sizeof(struct xfs_ifork));
+ebbf385a912f3d Darrick J. Wong 2021-09-01  643  =
 
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  176  	irq_name =3D devm_kasprint=
-f(&pdev->dev, GFP_KERNEL, "shps-irq-%d", type);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  177  	if (!irq_name)
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  178  		return -ENOMEM;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  179  =
-
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  180  	status =3D devm_request_th=
-readed_irq(&pdev->dev, irq, NULL, shps_handle_irq,
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  181  					   flags, irq_name, pd=
-ev);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  182  	if (status)
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  183  		return status;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  184  =
-
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  185  	dev_dbg(&pdev->dev, "set u=
-p irq %d as type %d\n", irq, type);
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  186  =
-
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  187  	sdev->gpio[type] =3D gpiod;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  188  	sdev->irq[type] =3D irq;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  189  =
-
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  190  	return 0;
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  191  }
-bd69bcce4aa0894 Maximilian Luz 2021-02-05  192  =
+ebbf385a912f3d Darrick J. Wong 2021-09-01  644  	switch (ifp->if_format) {
+ebbf385a912f3d Darrick J. Wong 2021-09-01  645  	case XFS_DINODE_FMT_EXTENT=
+S:
+ebbf385a912f3d Darrick J. Wong 2021-09-01 @646  		flags |=3D extflag[whichf=
+ork];
+ebbf385a912f3d Darrick J. Wong 2021-09-01  647  		break;
+ebbf385a912f3d Darrick J. Wong 2021-09-01  648  	case XFS_DINODE_FMT_BTREE:
+ebbf385a912f3d Darrick J. Wong 2021-09-01  649  		flags |=3D brootflag[whic=
+hfork];
+ebbf385a912f3d Darrick J. Wong 2021-09-01  650  		break;
+ebbf385a912f3d Darrick J. Wong 2021-09-01  651  	default:
+ebbf385a912f3d Darrick J. Wong 2021-09-01  652  		ASSERT(0);
+ebbf385a912f3d Darrick J. Wong 2021-09-01  653  		break;
+ebbf385a912f3d Darrick J. Wong 2021-09-01  654  	}
+ebbf385a912f3d Darrick J. Wong 2021-09-01  655  	xfs_trans_log_inode(tp, cu=
+r->bc_ino.ip, flags);
+ebbf385a912f3d Darrick J. Wong 2021-09-01  656  	xfs_btree_commit_ifakeroot=
+(cur, tp, whichfork, &xfs_bmbt_ops);
+ebbf385a912f3d Darrick J. Wong 2021-09-01  657  }
+ebbf385a912f3d Darrick J. Wong 2021-09-01  658  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8526330006771720746==--
+--===============6177218013159236603==--
 
