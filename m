@@ -1,112 +1,108 @@
-Content-Type: multipart/mixed; boundary="===============2419197980195833986=="
+Content-Type: multipart/mixed; boundary="===============5794986600378050305=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/ceph/messenger_v1.c:403 prepare_write_connect() error: uninitialized symbol 'proto'.
-Date: Fri, 26 Nov 2021 02:33:02 +0800
-Message-ID: <202111260246.eVZNBVEh-lkp@intel.com>
+Subject: [jpirko-mlxsw:petrm_soft_counters 7/8] net/core/dev.c:8395 netdev_offload_xstats_hw_stats_enable() error: uninitialized symbol 'stats'.
+Date: Fri, 26 Nov 2021 02:02:25 +0800
+Message-ID: <202111260203.hEYHxybc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2419197980195833986==
+--===============5794986600378050305==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ilya Dryomov <idryomov@gmail.com>
+TO: Petr Machata <petrm@nvidia.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
-commit: 2f713615ddd9d805b6c5e79c52e0e11af99d2bf1 libceph: move msgr1 protoc=
-ol implementation to its own file
-date:   12 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 12 months ago
-config: ia64-randconfig-m031-20211122 (https://download.01.org/0day-ci/arch=
-ive/20211126/202111260246.eVZNBVEh-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/jpirko/linux_mlxsw petrm_soft_counters
+head:   59d158395664dab1c1164364d6ee57aaaad44b96
+commit: d35d00a6d28ff7a34145438df3a2b39abd00edc3 [7/8] wip
+:::::: branch date: =
+
+:::::: commit date: 13 days ago
+config: x86_64-randconfig-m001-20211117 (https://download.01.org/0day-ci/ar=
+chive/20211126/202111260203.hEYHxybc-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-net/ceph/messenger_v1.c:403 prepare_write_connect() error: uninitialized sy=
-mbol 'proto'.
+net/core/dev.c:8395 netdev_offload_xstats_hw_stats_enable() error: uninitia=
+lized symbol 'stats'.
 
 Old smatch warnings:
-net/ceph/messenger_v1.c:1111 read_partial_message() error: we previously as=
-sumed 'con->in_msg' could be null (see line 1090)
+net/core/dev.c:6922 napi_disable() error: uninitialized symbol 'new'.
 
-vim +/proto +403 net/ceph/messenger_v1.c
+vim +/stats +8395 net/core/dev.c
 
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  374  =
+61bd3857ff2c7da Moni Shoua   2015-02-03  8362  =
 
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  375  static int prepare_write_conn=
-ect(struct ceph_connection *con)
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  376  {
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  377  	unsigned int global_seq =3D =
-ceph_get_global_seq(con->msgr, 0);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  378  	int proto;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  379  	int ret;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  380  =
+453f3cd9e64f05f Petr Machata 2021-10-29  8363  int netdev_offload_xstats_hw=
+_stats_enable(struct net_device *dev,
+453f3cd9e64f05f Petr Machata 2021-10-29  8364  					  u32 req_hw_stats,
+a8a72b09197b260 Petr Machata 2021-10-22  8365  					  struct netlink_ext_ac=
+k *extack)
+a8a72b09197b260 Petr Machata 2021-10-22  8366  {
+a8a72b09197b260 Petr Machata 2021-10-22  8367  	struct netdev_notifier_offl=
+oad_xstats_info info =3D {
+a8a72b09197b260 Petr Machata 2021-10-22  8368  		.info.dev =3D dev,
+a8a72b09197b260 Petr Machata 2021-10-22  8369  		.info.extack =3D extack,
+453f3cd9e64f05f Petr Machata 2021-10-29  8370  		.cmd =3D NETDEV_OFFLOAD_XS=
+TATS_CMD_ENABLE,
+7f3ca7ed5c4b775 Petr Machata 2021-11-03  8371  		.hw_stats =3D req_hw_stats,
+a8a72b09197b260 Petr Machata 2021-10-22  8372  	};
+453f3cd9e64f05f Petr Machata 2021-10-29  8373  	struct rtnl_link_stats64 *s=
+tats;
+a8a72b09197b260 Petr Machata 2021-10-22  8374  	int err;
+a8a72b09197b260 Petr Machata 2021-10-22  8375  	int rc;
+a8a72b09197b260 Petr Machata 2021-10-22  8376  =
 
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  381  	switch (con->peer_name.type)=
+d35d00a6d28ff7a Petr Machata 2021-11-12  8377  	if (!dev->offload_hw_stats)=
  {
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  382  	case CEPH_ENTITY_TYPE_MON:
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  383  		proto =3D CEPH_MONC_PROTOCO=
-L;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  384  		break;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  385  	case CEPH_ENTITY_TYPE_OSD:
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  386  		proto =3D CEPH_OSDC_PROTOCO=
-L;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  387  		break;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  388  	case CEPH_ENTITY_TYPE_MDS:
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  389  		proto =3D CEPH_MDSC_PROTOCO=
-L;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  390  		break;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  391  	default:
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  392  		BUG();
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  393  	}
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  394  =
+d35d00a6d28ff7a Petr Machata 2021-11-12  8378  		dev->offload_hw_stats =3D =
+kzalloc(sizeof(*dev->offload_hw_stats),
+d35d00a6d28ff7a Petr Machata 2021-11-12  8379  						GFP_KERNEL);
+d35d00a6d28ff7a Petr Machata 2021-11-12  8380  		if (!dev->offload_hw_stats)
+453f3cd9e64f05f Petr Machata 2021-10-29  8381  			return -ENOMEM;
+d35d00a6d28ff7a Petr Machata 2021-11-12  8382  	}
+453f3cd9e64f05f Petr Machata 2021-10-29  8383  =
 
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  395  	dout("prepare_write_connect =
-%p cseq=3D%d gseq=3D%d proto=3D%d\n", con,
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  396  	     con->connect_seq, globa=
-l_seq, proto);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  397  =
+453f3cd9e64f05f Petr Machata 2021-10-29  8384  	rc =3D call_netdevice_notif=
+iers_info(NETDEV_OFFLOAD_XSTATS_CMD,
+a8a72b09197b260 Petr Machata 2021-10-22  8385  					   &info.info);
+a8a72b09197b260 Petr Machata 2021-10-22  8386  	err =3D notifier_to_errno(r=
+c);
+453f3cd9e64f05f Petr Machata 2021-10-29  8387  	if (err)
+453f3cd9e64f05f Petr Machata 2021-10-29  8388  		// xxx note we need a way =
+to roll back if the notifier chain
+453f3cd9e64f05f Petr Machata 2021-10-29  8389  		// fails midway through
+453f3cd9e64f05f Petr Machata 2021-10-29  8390  		goto free_stats;
+453f3cd9e64f05f Petr Machata 2021-10-29  8391  =
 
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  398  	con->out_connect.features =
-=3D
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  399  	    cpu_to_le64(from_msgr(co=
-n->msgr)->supported_features);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  400  	con->out_connect.host_type =
-=3D cpu_to_le32(CEPH_ENTITY_TYPE_CLIENT);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  401  	con->out_connect.connect_seq=
- =3D cpu_to_le32(con->connect_seq);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  402  	con->out_connect.global_seq =
-=3D cpu_to_le32(global_seq);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12 @403  	con->out_connect.protocol_ve=
-rsion =3D cpu_to_le32(proto);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  404  	con->out_connect.flags =3D 0;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  405  =
+453f3cd9e64f05f Petr Machata 2021-10-29  8392  	return 0;
+453f3cd9e64f05f Petr Machata 2021-10-29  8393  =
 
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  406  	ret =3D get_connect_authoriz=
-er(con);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  407  	if (ret)
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  408  		return ret;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  409  =
+453f3cd9e64f05f Petr Machata 2021-10-29  8394  free_stats:
+453f3cd9e64f05f Petr Machata 2021-10-29 @8395  	kfree(stats);
+a8a72b09197b260 Petr Machata 2021-10-22  8396  	return err;
+a8a72b09197b260 Petr Machata 2021-10-22  8397  }
+453f3cd9e64f05f Petr Machata 2021-10-29  8398  EXPORT_SYMBOL(netdev_offload=
+_xstats_hw_stats_enable);
+a8a72b09197b260 Petr Machata 2021-10-22  8399  =
 
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  410  	__prepare_write_connect(con);
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  411  	return 0;
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  412  }
-2f713615ddd9d80 Ilya Dryomov 2020-11-12  413  =
 
+:::::: The code at line 8395 was first introduced by commit
+:::::: 453f3cd9e64f05fe295e3807e7e9d7bda5d6a9c0 wip
+
+:::::: TO: Petr Machata <petrm@nvidia.com>
+:::::: CC: Petr Machata <petrm@nvidia.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2419197980195833986==--
+--===============5794986600378050305==--
 
