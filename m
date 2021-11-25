@@ -1,120 +1,113 @@
-Content-Type: multipart/mixed; boundary="===============0591977837335055714=="
+Content-Type: multipart/mixed; boundary="===============9123457164836964584=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/dsa/mt7530.c:908 mt7530_set_ageing_time() error: uninitialized symbol 'age_count'.
-Date: Thu, 25 Nov 2021 22:55:02 +0800
-Message-ID: <202111252238.BmosAAYv-lkp@intel.com>
+Subject: [arm:zii 70/161] drivers/net/phy/phylink.c:1287 phylink_set_pcs() error: we previously assumed 'pcs' could be null (see line 1283)
+Date: Thu, 25 Nov 2021 22:24:08 +0800
+Message-ID: <202111252259.X7Tr9l1K-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0591977837335055714==
+--===============9123457164836964584==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: DENG Qingfang <dqfext@gmail.com>
-CC: Andrew Lunn <andrew@lunn.ch>
-CC: Vladimir Oltean <olteanv@gmail.com>
-CC: Florian Fainelli <f.fainelli@gmail.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
-commit: ea6d5c924e391872d402acac38461a5f8261e57f net: dsa: mt7530: support =
-setting ageing time
-date:   12 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 12 months ago
-config: ia64-randconfig-m031-20211122 (https://download.01.org/0day-ci/arch=
-ive/20211125/202111252238.BmosAAYv-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git zii
+head:   1c86335a03ee0102daaefede1fb25cdbb367b14c
+commit: 8eca4525ad01e4504dba39f4783f9d5885243941 [70/161] net: phylink: add=
+ mac_select_pcs() method to phylink_mac_ops
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: s390-randconfig-m031-20211124 (https://download.01.org/0day-ci/arch=
+ive/20211125/202111252259.X7Tr9l1K-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/dsa/mt7530.c:908 mt7530_set_ageing_time() error: uninitialized =
-symbol 'age_count'.
-drivers/net/dsa/mt7530.c:908 mt7530_set_ageing_time() error: uninitialized =
-symbol 'age_unit'.
+drivers/net/phy/phylink.c:1287 phylink_set_pcs() error: we previously assum=
+ed 'pcs' could be null (see line 1283)
 
 Old smatch warnings:
-drivers/net/dsa/mt7530.c:469 mt7530_pad_clk_setup() error: uninitialized sy=
-mbol 'ncpo1'.
+drivers/net/phy/phylink.c:850 phylink_change_inband_advert() error: we prev=
+iously assumed 'pl->pcs_ops' could be null (see line 833)
 
-vim +/age_count +908 drivers/net/dsa/mt7530.c
+vim +/pcs +1287 drivers/net/phy/phylink.c
 
-b8f126a8d54318b Sean Wang     2017-04-07  872  =
+9525ae83959b60 Russell King          2017-07-25  1255  =
 
-ea6d5c924e39187 DENG Qingfang 2020-12-08  873  static int
-ea6d5c924e39187 DENG Qingfang 2020-12-08  874  mt7530_set_ageing_time(struc=
-t dsa_switch *ds, unsigned int msecs)
-ea6d5c924e39187 DENG Qingfang 2020-12-08  875  {
-ea6d5c924e39187 DENG Qingfang 2020-12-08  876  	struct mt7530_priv *priv =
-=3D ds->priv;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  877  	unsigned int secs =3D msecs=
- / 1000;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  878  	unsigned int tmp_age_count;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  879  	unsigned int error =3D -1;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  880  	unsigned int age_count;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  881  	unsigned int age_unit;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  882  =
+7137e18f6f889a Russell King          2020-07-21  1256  /**
+7137e18f6f889a Russell King          2020-07-21  1257   * phylink_set_pcs()=
+ - set the current PCS for phylink to use
+7137e18f6f889a Russell King          2020-07-21  1258   * @pl: a pointer to=
+ a &struct phylink returned from phylink_create()
+7137e18f6f889a Russell King          2020-07-21  1259   * @pcs: a pointer t=
+o the &struct phylink_pcs
+7137e18f6f889a Russell King          2020-07-21  1260   *
+7137e18f6f889a Russell King          2020-07-21  1261   * Bind the MAC PCS =
+to phylink.  This may be called after phylink_create(),
+7137e18f6f889a Russell King          2020-07-21  1262   * in mac_prepare() =
+or mac_config() methods if it is desired to dynamically
+7137e18f6f889a Russell King          2020-07-21  1263   * change the PCS.
+7137e18f6f889a Russell King          2020-07-21  1264   *
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1265)  * Please note that =
+for legacy phylink users, there are behavioural changes
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1266)  * with the mac_conf=
+ig() callback if a PCS is present (denoting a newer setup)
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1267)  * so removing a PCS=
+ is not supported. If a PCS is going to be used, it must
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1268)  * be registered by =
+calling phylink_set_pcs() at the latest in the first
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1269)  * mac_config() call.
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1270)  *
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1271)  * For modern driver=
+s, this may be called with a NULL pcs argument to
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1272)  * disconnect the PC=
+S from phylink.
+7137e18f6f889a Russell King          2020-07-21  1273   */
+7137e18f6f889a Russell King          2020-07-21  1274  void phylink_set_pcs=
+(struct phylink *pl, struct phylink_pcs *pcs)
+4c0d6d3a7a81fc Russell King          2020-03-30  1275  {
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1276) 	if (pl->config->leg=
+acy_pre_march2020 && pl->pcs && !pcs) {
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1277) 		phylink_warn(pl,
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1278) 			     "Removing PC=
+S is not supported in a legacy driver");
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1279) 		return;
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1280) 	}
+b01e3d443ba5bd Russell King (Oracle  2021-11-22  1281) =
 
-ea6d5c924e39187 DENG Qingfang 2020-12-08  883  	/* Applied timer is (AGE_CN=
-T + 1) * (AGE_UNIT + 1) seconds */
-ea6d5c924e39187 DENG Qingfang 2020-12-08  884  	if (secs < 1 || secs > (AGE=
-_CNT_MAX + 1) * (AGE_UNIT_MAX + 1))
-ea6d5c924e39187 DENG Qingfang 2020-12-08  885  		return -ERANGE;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  886  =
+7137e18f6f889a Russell King          2020-07-21  1282  	pl->pcs =3D pcs;
+b01e3d443ba5bd Russell King (Oracle  2021-11-22 @1283) 	pl->pcs_ops =3D pcs=
+ ? pcs->ops : NULL;
+8eca4525ad01e4 Russell King (Oracle  2021-10-07  1284) =
 
-ea6d5c924e39187 DENG Qingfang 2020-12-08  887  	/* iterate through all poss=
-ible age_count to find the closest pair */
-ea6d5c924e39187 DENG Qingfang 2020-12-08  888  	for (tmp_age_count =3D 0; t=
-mp_age_count <=3D AGE_CNT_MAX; ++tmp_age_count) {
-ea6d5c924e39187 DENG Qingfang 2020-12-08  889  		unsigned int tmp_age_unit =
-=3D secs / (tmp_age_count + 1) - 1;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  890  =
-
-ea6d5c924e39187 DENG Qingfang 2020-12-08  891  		if (tmp_age_unit <=3D AGE_=
-UNIT_MAX) {
-ea6d5c924e39187 DENG Qingfang 2020-12-08  892  			unsigned int tmp_error =
-=3D secs -
-ea6d5c924e39187 DENG Qingfang 2020-12-08  893  				(tmp_age_count + 1) * (t=
-mp_age_unit + 1);
-ea6d5c924e39187 DENG Qingfang 2020-12-08  894  =
-
-ea6d5c924e39187 DENG Qingfang 2020-12-08  895  			/* found a closer pair */
-ea6d5c924e39187 DENG Qingfang 2020-12-08  896  			if (error > tmp_error) {
-ea6d5c924e39187 DENG Qingfang 2020-12-08  897  				error =3D tmp_error;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  898  				age_count =3D tmp_age_co=
-unt;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  899  				age_unit =3D tmp_age_uni=
-t;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  900  			}
-ea6d5c924e39187 DENG Qingfang 2020-12-08  901  =
-
-ea6d5c924e39187 DENG Qingfang 2020-12-08  902  			/* found the exact match,=
- so break the loop */
-ea6d5c924e39187 DENG Qingfang 2020-12-08  903  			if (!error)
-ea6d5c924e39187 DENG Qingfang 2020-12-08  904  				break;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  905  		}
-ea6d5c924e39187 DENG Qingfang 2020-12-08  906  	}
-ea6d5c924e39187 DENG Qingfang 2020-12-08  907  =
-
-ea6d5c924e39187 DENG Qingfang 2020-12-08 @908  	mt7530_write(priv, MT7530_A=
-AC, AGE_CNT(age_count) | AGE_UNIT(age_unit));
-ea6d5c924e39187 DENG Qingfang 2020-12-08  909  =
-
-ea6d5c924e39187 DENG Qingfang 2020-12-08  910  	return 0;
-ea6d5c924e39187 DENG Qingfang 2020-12-08  911  }
-ea6d5c924e39187 DENG Qingfang 2020-12-08  912  =
+8eca4525ad01e4 Russell King (Oracle  2021-10-07  1285) 	if (!pl->phylink_di=
+sable_state &&
+8eca4525ad01e4 Russell King (Oracle  2021-10-07  1286) 	    pl->cfg_link_an=
+_mode =3D=3D MLO_AN_INBAND) {
+8eca4525ad01e4 Russell King (Oracle  2021-10-07 @1287) 		if (pl->config->pc=
+s_poll || pcs->poll)
+8eca4525ad01e4 Russell King (Oracle  2021-10-07  1288) 			mod_timer(&pl->li=
+nk_poll, jiffies + HZ);
+8eca4525ad01e4 Russell King (Oracle  2021-10-07  1289) 		else
+8eca4525ad01e4 Russell King (Oracle  2021-10-07  1290) 			del_timer(&pl->li=
+nk_poll);
+8eca4525ad01e4 Russell King (Oracle  2021-10-07  1291) 	}
+4c0d6d3a7a81fc Russell King          2020-03-30  1292  }
+7137e18f6f889a Russell King          2020-07-21  1293  EXPORT_SYMBOL_GPL(ph=
+ylink_set_pcs);
+4c0d6d3a7a81fc Russell King          2020-03-30  1294  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0591977837335055714==--
+--===============9123457164836964584==--
 
