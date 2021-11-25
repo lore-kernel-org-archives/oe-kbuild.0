@@ -1,300 +1,399 @@
-Content-Type: multipart/mixed; boundary="===============5963817572719700987=="
+Content-Type: multipart/mixed; boundary="===============7327541011646214741=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 295/339] fs/xfs/xfs_reflink.c:169 xfs_reflink_find_shared() warn: variable dereferenced before check 'agbp' (see line 161)
-Date: Fri, 26 Nov 2021 04:40:01 +0800
-Message-ID: <202111260402.tSONRvED-lkp@intel.com>
+Subject: mm/filemap.c:2371:7: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Fri, 26 Nov 2021 04:29:42 +0800
+Message-ID: <202111260432.WwFGTv63-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5963817572719700987==
+--===============7327541011646214741==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
+TO: "Matthew Wilcox (Oracle)" <willy@infradead.org>
+CC: Kent Overstreet <kmo@daterainc.com>
+CC: Christoph Hellwig <hch@lst.de>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t vectorized-scrub
-head:   6ae796646175258770822ebb4b83b6657f88bc55
-commit: fbfc85d7ac10b107405f2fbe4b1f1967e9abba10 [295/339] xfs: wire up rea=
-ltime refcount btree cursors
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021-20211124 (https://download.01.org/0day-ci/arch=
-ive/20211126/202111260402.tSONRvED-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
+commit: aa1ec2f69780c5b9590143162101b6dc3dc1de5f mm/filemap: don't relock t=
+he page after calling readpage
+date:   9 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20211011 (https://download.01.org/0day-ci/archi=
+ve/20211126/202111260432.WwFGTv63-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 903b30=
+fea21f99d8f48fde4defcc838970e30ee1)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Daa1ec2f69780c5b9590143162101b6dc3dc1de5f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout aa1ec2f69780c5b9590143162101b6dc3dc1de5f
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/xfs/xfs_reflink.c:169 xfs_reflink_find_shared() warn: variable dereferen=
-ced before check 'agbp' (see line 161)
 
-Old smatch warnings:
-fs/xfs/xfs_reflink.c:652 xfs_reflink_end_cow_extent() warn: missing error c=
-ode 'error'
+clang-analyzer warnings: (new ones prefixed by >>)
+             ^
+   drivers/gpio/gpiolib-cdev.c:202:13: note: '?' condition is true
+           if (cmd =3D=3D GPIOHANDLE_GET_LINE_VALUES_IOCTL) {
+                      ^
+   include/uapi/linux/gpio.h:523:42: note: expanded from macro 'GPIOHANDLE_=
+GET_LINE_VALUES_IOCTL'
+   #define GPIOHANDLE_GET_LINE_VALUES_IOCTL _IOWR(0xB4, 0x08, struct gpioha=
+ndle_data)
+                                            ^
+   include/uapi/asm-generic/ioctl.h:88:68: note: expanded from macro '_IOWR'
+   #define _IOWR(type,nr,size)     _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_=
+IOC_TYPECHECK(size)))
+                                                                          ^
+   include/asm-generic/ioctl.h:13:3: note: expanded from macro '_IOC_TYPECH=
+ECK'
+           ((sizeof(t) =3D=3D sizeof(t[1]) && \
+            ^
+   drivers/gpio/gpiolib-cdev.c:202:6: note: Assuming the condition is false
+           if (cmd =3D=3D GPIOHANDLE_GET_LINE_VALUES_IOCTL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-cdev.c:202:2: note: Taking false branch
+           if (cmd =3D=3D GPIOHANDLE_GET_LINE_VALUES_IOCTL) {
+           ^
+   drivers/gpio/gpiolib-cdev.c:221:20: note: Left side of '&&' is true
+           } else if (cmd =3D=3D GPIOHANDLE_SET_LINE_VALUES_IOCTL) {
+                             ^
+   include/uapi/linux/gpio.h:524:42: note: expanded from macro 'GPIOHANDLE_=
+SET_LINE_VALUES_IOCTL'
+   #define GPIOHANDLE_SET_LINE_VALUES_IOCTL _IOWR(0xB4, 0x09, struct gpioha=
+ndle_data)
+                                            ^
+   include/uapi/asm-generic/ioctl.h:88:68: note: expanded from macro '_IOWR'
+   #define _IOWR(type,nr,size)     _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_=
+IOC_TYPECHECK(size)))
+                                                                          ^
+   include/asm-generic/ioctl.h:13:4: note: expanded from macro '_IOC_TYPECH=
+ECK'
+           ((sizeof(t) =3D=3D sizeof(t[1]) && \
+             ^
+   drivers/gpio/gpiolib-cdev.c:221:20: note: '?' condition is true
+           } else if (cmd =3D=3D GPIOHANDLE_SET_LINE_VALUES_IOCTL) {
+                             ^
+   include/uapi/linux/gpio.h:524:42: note: expanded from macro 'GPIOHANDLE_=
+SET_LINE_VALUES_IOCTL'
+   #define GPIOHANDLE_SET_LINE_VALUES_IOCTL _IOWR(0xB4, 0x09, struct gpioha=
+ndle_data)
+                                            ^
+   include/uapi/asm-generic/ioctl.h:88:68: note: expanded from macro '_IOWR'
+   #define _IOWR(type,nr,size)     _IOC(_IOC_READ|_IOC_WRITE,(type),(nr),(_=
+IOC_TYPECHECK(size)))
+                                                                          ^
+   include/asm-generic/ioctl.h:13:3: note: expanded from macro '_IOC_TYPECH=
+ECK'
+           ((sizeof(t) =3D=3D sizeof(t[1]) && \
+            ^
+   drivers/gpio/gpiolib-cdev.c:221:13: note: Assuming the condition is true
+           } else if (cmd =3D=3D GPIOHANDLE_SET_LINE_VALUES_IOCTL) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-cdev.c:221:9: note: Taking true branch
+           } else if (cmd =3D=3D GPIOHANDLE_SET_LINE_VALUES_IOCTL) {
+                  ^
+   drivers/gpio/gpiolib-cdev.c:226:7: note: Assuming the condition is false
+                   if (!test_bit(FLAG_IS_OUT, &lh->descs[0]->flags))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-cdev.c:226:3: note: Taking false branch
+                   if (!test_bit(FLAG_IS_OUT, &lh->descs[0]->flags))
+                   ^
+   drivers/gpio/gpiolib-cdev.c:229:3: note: Taking false branch
+                   if (copy_from_user(&ghd, ip, sizeof(ghd)))
+                   ^
+   drivers/gpio/gpiolib-cdev.c:233:15: note: Assuming 'i' is < field 'num_d=
+escs'
+                   for (i =3D 0; i < lh->num_descs; i++)
+                               ^~~~~~~~~~~~~~~~~
+   drivers/gpio/gpiolib-cdev.c:233:3: note: Loop condition is true.  Enteri=
+ng loop body
+                   for (i =3D 0; i < lh->num_descs; i++)
+                   ^
+   drivers/gpio/gpiolib-cdev.c:234:4: note: Calling '__assign_bit'
+                           __assign_bit(i, vals, ghd.values[i]);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:250:6: note: Assuming 'value' is false
+           if (value)
+               ^~~~~
+   include/linux/bitops.h:250:2: note: Taking false branch
+           if (value)
+           ^
+   include/linux/bitops.h:253:3: note: Calling '__clear_bit'
+                   __clear_bit(nr, addr);
+                   ^~~~~~~~~~~~~~~~~~~~~
+   include/asm-generic/bitops/non-atomic.h:29:5: note: The left expression =
+of the compound assignment is an uninitialized value. The computed value wi=
+ll also be garbage
+           *p &=3D ~mask;
+           ~~ ^
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> mm/filemap.c:2371:7: warning: Assigned value is garbage or undefined [cl=
+ang-analyzer-core.uninitialized.Assign]
+           page =3D pvec->pages[pagevec_count(pvec) - 1];
+                ^
+   mm/filemap.c:2548:6: note: Assuming 'count' is not equal to 0
+           if (!count)
+               ^~~~~~
+   mm/filemap.c:2548:2: note: Taking false branch
+           if (!count)
+           ^
+   mm/filemap.c:2551:6: note: Assuming the condition is false
+           if (iocb->ki_flags & IOCB_DIRECT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2551:2: note: Taking false branch
+           if (iocb->ki_flags & IOCB_DIRECT) {
+           ^
+   mm/filemap.c:2594:11: note: Calling 'generic_file_buffered_read'
+           retval =3D generic_file_buffered_read(iocb, iter, retval);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2424:15: note: Assuming field 'ki_pos' is < field 's_maxbyt=
+es'
+           if (unlikely(iocb->ki_pos >=3D inode->i_sb->s_maxbytes))
+                        ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   mm/filemap.c:2424:21: note: Field 'ki_pos' is < field 's_maxbytes'
+           if (unlikely(iocb->ki_pos >=3D inode->i_sb->s_maxbytes))
+                              ^
+   mm/filemap.c:2424:2: note: Taking false branch
+           if (unlikely(iocb->ki_pos >=3D inode->i_sb->s_maxbytes))
+           ^
+   mm/filemap.c:2426:2: note: Taking false branch
+           if (unlikely(!iov_iter_count(iter)))
+           ^
+   mm/filemap.c:2430:2: note: Calling 'pagevec_init'
+           pagevec_init(&pvec);
+           ^~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2430:2: note: Returning from 'pagevec_init'
+           pagevec_init(&pvec);
+           ^~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2440:8: note: Assuming the condition is false
+                   if ((iocb->ki_flags & IOCB_WAITQ) && written)
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2440:37: note: Left side of '&&' is false
+                   if ((iocb->ki_flags & IOCB_WAITQ) && written)
+                                                     ^
+   mm/filemap.c:2443:11: note: Calling 'filemap_get_pages'
+                   error =3D filemap_get_pages(iocb, iter, &pvec);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2350:6: note: Calling 'fatal_signal_pending'
+           if (fatal_signal_pending(current))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/sched/signal.h:381:28: note: Left side of '&&' is false
+           return task_sigpending(p) && __fatal_signal_pending(p);
+                                     ^
+   include/linux/sched/signal.h:381:2: note: Returning zero, which particip=
+ates in a condition later
+           return task_sigpending(p) && __fatal_signal_pending(p);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2350:6: note: Returning from 'fatal_signal_pending'
+           if (fatal_signal_pending(current))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2350:2: note: Taking false branch
+           if (fatal_signal_pending(current))
+           ^
+   mm/filemap.c:2353:2: note: Calling 'filemap_get_read_batch'
+           filemap_get_read_batch(mapping, index, last_index, pvec);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2173:2: note: Loop condition is true.  Entering loop body
+           for (head =3D xas_load(&xas); head; head =3D xas_next(&xas)) {
+           ^
+   mm/filemap.c:2174:3: note: Taking false branch
+                   if (xas_retry(&xas, head))
+                   ^
+   mm/filemap.c:2176:7: note: Assuming 'max' is >=3D field 'xa_index'
+                   if (xas.xa_index > max || xa_is_value(head))
+                       ^~~~~~~~~~~~~~~~~~
+   mm/filemap.c:2176:7: note: Left side of '||' is false
+   mm/filemap.c:2176:29: note: Assuming the condition is false
+                   if (xas.xa_index > max || xa_is_value(head))
+                                             ^~~~~~~~~~~~~~~~~
+   mm/filemap.c:2176:3: note: Taking false branch
+                   if (xas.xa_index > max || xa_is_value(head))
+                   ^
+   mm/filemap.c:2178:3: note: Taking false branch
+                   if (!page_cache_get_speculative(head))
+                   ^
+   mm/filemap.c:2182:16: note: Assuming the condition is false
+                   if (unlikely(head !=3D xas_reload(&xas)))
+                                ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   mm/filemap.c:2182:16: note: Assuming the condition is false
+                   if (unlikely(head !=3D xas_reload(&xas)))
+                                ^
+   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
 
-vim +/agbp +169 fs/xfs/xfs_reflink.c
+vim +2371 mm/filemap.c
 
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   34  =
+5963fe031638bb Matthew Wilcox (Oracle  2021-02-24  2336) =
 
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   35  /*
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   36   * Copy on Write of Shared=
- Blocks
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   37   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   38   * XFS must preserve "the =
-usual" file semantics even when two files share
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   39   * the same physical block=
-s.  This means that a write to one file must not
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   40   * alter the blocks in a d=
-ifferent file; the way that we'll do that is
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   41   * through the use of a co=
-py-on-write mechanism.  At a high level, that
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   42   * means that when we want=
- to write to a shared block, we allocate a new
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   43   * block, write the data t=
-o the new block, and if that succeeds we map the
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   44   * new block into the file.
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   45   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   46   * XFS provides a "delayed=
- allocation" mechanism that defers the allocation
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   47   * of disk blocks to dirty=
--but-not-yet-mapped file blocks as long as
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   48   * possible.  This reduces=
- fragmentation by enabling the filesystem to ask
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   49   * for bigger chunks less =
-often, which is exactly what we want for CoW.
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   50   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   51   * The delalloc mechanism =
-begins when the kernel wants to make a block
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   52   * writable (write_begin o=
-r page_mkwrite).  If the offset is not mapped, we
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   53   * create a delalloc mappi=
-ng, which is a regular in-core extent, but without
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   54   * a real startblock.  (Fo=
-r delalloc mappings, the startblock encodes both
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   55   * a flag that this is a d=
-elalloc mapping, and a worst-case estimate of how
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   56   * many blocks might be re=
-quired to put the mapping into the BMBT.)  delalloc
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   57   * mappings are a reservat=
-ion against the free space in the filesystem;
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   58   * adjacent mappings can a=
-lso be combined into fewer larger mappings.
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   59   *
-5eda43000064a69 Darrick J. Wong 2017-02-02   60   * As an optimization, the=
- CoW extent size hint (cowextsz) creates
-5eda43000064a69 Darrick J. Wong 2017-02-02   61   * outsized aligned delall=
-oc reservations in the hope of landing out of
-5eda43000064a69 Darrick J. Wong 2017-02-02   62   * order nearby CoW writes=
- in a single extent on disk, thereby reducing
-5eda43000064a69 Darrick J. Wong 2017-02-02   63   * fragmentation and impro=
-ving future performance.
-5eda43000064a69 Darrick J. Wong 2017-02-02   64   *
-5eda43000064a69 Darrick J. Wong 2017-02-02   65   * D: --RRRRRRSSSRRRRRRRR-=
--- (data fork)
-5eda43000064a69 Darrick J. Wong 2017-02-02   66   * C: ------DDDDDDD-------=
--- (CoW fork)
-5eda43000064a69 Darrick J. Wong 2017-02-02   67   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   68   * When dirty pages are be=
-ing written out (typically in writepage), the
-5eda43000064a69 Darrick J. Wong 2017-02-02   69   * delalloc reservations a=
-re converted into unwritten mappings by
-5eda43000064a69 Darrick J. Wong 2017-02-02   70   * allocating blocks and r=
-eplacing the delalloc mapping with real ones.
-5eda43000064a69 Darrick J. Wong 2017-02-02   71   * A delalloc mapping can =
-be replaced by several unwritten ones if the
-5eda43000064a69 Darrick J. Wong 2017-02-02   72   * free space is fragmente=
-d.
-5eda43000064a69 Darrick J. Wong 2017-02-02   73   *
-5eda43000064a69 Darrick J. Wong 2017-02-02   74   * D: --RRRRRRSSSRRRRRRRR-=
---
-5eda43000064a69 Darrick J. Wong 2017-02-02   75   * C: ------UUUUUUU-------=
---
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   76   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   77   * We want to adapt the de=
-lalloc mechanism for copy-on-write, since the
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   78   * write paths are similar=
-.  The first two steps (creating the reservation
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   79   * and allocating the bloc=
-ks) are exactly the same as delalloc except that
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   80   * the mappings must be st=
-ored in a separate CoW fork because we do not want
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   81   * to disturb the mapping =
-in the data fork until we're sure that the write
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   82   * succeeded.  IO completi=
-on in this case is the process of removing the old
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   83   * mapping from the data f=
-ork and moving the new mapping from the CoW fork to
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   84   * the data fork.  This wi=
-ll be discussed shortly.
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   85   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   86   * For now, unaligned dire=
-ctio writes will be bounced back to the page cache.
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   87   * Block-aligned directio =
-writes will use the same mechanism as buffered
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   88   * writes.
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   89   *
-5eda43000064a69 Darrick J. Wong 2017-02-02   90   * Just prior to submittin=
-g the actual disk write requests, we convert
-5eda43000064a69 Darrick J. Wong 2017-02-02   91   * the extents representin=
-g the range of the file actually being written
-5eda43000064a69 Darrick J. Wong 2017-02-02   92   * (as opposed to extra pi=
-eces created for the cowextsize hint) to real
-5eda43000064a69 Darrick J. Wong 2017-02-02   93   * extents.  This will bec=
-ome important in the next step:
-5eda43000064a69 Darrick J. Wong 2017-02-02   94   *
-5eda43000064a69 Darrick J. Wong 2017-02-02   95   * D: --RRRRRRSSSRRRRRRRR-=
---
-5eda43000064a69 Darrick J. Wong 2017-02-02   96   * C: ------UUrrUUU-------=
---
-5eda43000064a69 Darrick J. Wong 2017-02-02   97   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   98   * CoW remapping must be d=
-one after the data block write completes,
-3993baeb3c52f49 Darrick J. Wong 2016-10-03   99   * because we don't want t=
-o destroy the old data fork map until we're sure
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  100   * the new block has been =
-written.  Since the new mappings are kept in a
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  101   * separate fork, we can s=
-imply iterate these mappings to find the ones
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  102   * that cover the file blo=
-cks that we just CoW'd.  For each extent, simply
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  103   * unmap the corresponding=
- range in the data fork, map the new range into
-5eda43000064a69 Darrick J. Wong 2017-02-02  104   * the data fork, and remo=
-ve the extent from the CoW fork.  Because of
-5eda43000064a69 Darrick J. Wong 2017-02-02  105   * the presence of the cow=
-extsize hint, however, we must be careful
-5eda43000064a69 Darrick J. Wong 2017-02-02  106   * only to remap the block=
-s that we've actually written out --  we must
-5eda43000064a69 Darrick J. Wong 2017-02-02  107   * never remap delalloc re=
-servations nor CoW staging blocks that have
-5eda43000064a69 Darrick J. Wong 2017-02-02  108   * yet to be written.  Thi=
-s corresponds exactly to the real extents in
-5eda43000064a69 Darrick J. Wong 2017-02-02  109   * the CoW fork:
-5eda43000064a69 Darrick J. Wong 2017-02-02  110   *
-5eda43000064a69 Darrick J. Wong 2017-02-02  111   * D: --RRRRRRrrSRRRRRRRR-=
---
-5eda43000064a69 Darrick J. Wong 2017-02-02  112   * C: ------UU--UUU-------=
---
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  113   *
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  114   * Since the remapping ope=
-ration can be applied to an arbitrary file
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  115   * range, we record the ne=
-ed for the remap step as a flag in the ioend
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  116   * instead of declaring a =
-new IO type.  This is required for direct io
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  117   * because we only have io=
-end for the whole dio, and we have to be able to
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  118   * remember the presence o=
-f unwritten blocks and CoW blocks with a single
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  119   * ioend structure.  Bette=
-r yet, the more ground we can cover with one
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  120   * ioend, the better.
-3993baeb3c52f49 Darrick J. Wong 2016-10-03  121   */
-2a06705cd595403 Darrick J. Wong 2016-10-03  122  =
+3a6bae48390d25 Matthew Wilcox (Oracle  2021-02-24  2337) static int filemap=
+_get_pages(struct kiocb *iocb, struct iov_iter *iter,
+ff993ba130009b Matthew Wilcox (Oracle  2021-02-24  2338) 		struct pagevec *=
+pvec)
+06c0444290cecf Kent Overstreet         2020-12-14  2339  {
+06c0444290cecf Kent Overstreet         2020-12-14  2340  	struct file *filp=
+ =3D iocb->ki_filp;
+06c0444290cecf Kent Overstreet         2020-12-14  2341  	struct address_sp=
+ace *mapping =3D filp->f_mapping;
+06c0444290cecf Kent Overstreet         2020-12-14  2342  	struct file_ra_st=
+ate *ra =3D &filp->f_ra;
+06c0444290cecf Kent Overstreet         2020-12-14  2343  	pgoff_t index =3D=
+ iocb->ki_pos >> PAGE_SHIFT;
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2344) 	pgoff_t last_inde=
+x;
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2345) 	struct page *page;
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2346) 	int err =3D 0;
+06c0444290cecf Kent Overstreet         2020-12-14  2347  =
 
-2a06705cd595403 Darrick J. Wong 2016-10-03  123  /*
-48baf97f741d909 Darrick J. Wong 2021-09-01  124   * Given an AG extent, fin=
-d the lowest-numbered run of shared blocks within
-48baf97f741d909 Darrick J. Wong 2021-09-01  125   * that range and return t=
-he range in fbno/flen.  If find_end_of_shared is
-48baf97f741d909 Darrick J. Wong 2021-09-01  126   * true, return the longes=
-t contiguous extent of shared blocks.  If there are
-48baf97f741d909 Darrick J. Wong 2021-09-01  127   * no shared extents, fbno=
- and flen will be set to NULLFSBLOCK and 0,
-48baf97f741d909 Darrick J. Wong 2021-09-01  128   * respectively.
-2a06705cd595403 Darrick J. Wong 2016-10-03  129   */
-48baf97f741d909 Darrick J. Wong 2021-09-01  130  STATIC int
-2a06705cd595403 Darrick J. Wong 2016-10-03  131  xfs_reflink_find_shared(
-48baf97f741d909 Darrick J. Wong 2021-09-01  132  	struct xfs_inode	*ip,
-92ff7285f1df559 Darrick J. Wong 2017-06-16  133  	struct xfs_trans	*tp,
-48baf97f741d909 Darrick J. Wong 2021-09-01  134  	struct xfs_bmbt_irec	*ire=
-c,
-48baf97f741d909 Darrick J. Wong 2021-09-01  135  	xfs_fsblock_t		*fbno,
-48baf97f741d909 Darrick J. Wong 2021-09-01  136  	xfs_filblks_t		*flen,
-2a06705cd595403 Darrick J. Wong 2016-10-03  137  	bool			find_end_of_shared)
-2a06705cd595403 Darrick J. Wong 2016-10-03  138  {
-48baf97f741d909 Darrick J. Wong 2021-09-01  139  	struct xfs_mount	*mp =3D =
-ip->i_mount;
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  140  	struct xfs_buf		*agbp =3D=
- NULL;
-2a06705cd595403 Darrick J. Wong 2016-10-03  141  	struct xfs_btree_cur	*cur;
-48baf97f741d909 Darrick J. Wong 2021-09-01  142  	xfs_agnumber_t		agno;
-017e98e665e8f4a Darrick J. Wong 2021-09-01  143  	xfs_fsblock_t		agbno;
-017e98e665e8f4a Darrick J. Wong 2021-09-01  144  	xfs_fsblock_t		shared_bno;
-017e98e665e8f4a Darrick J. Wong 2021-09-01  145  	xfs_filblks_t		shared_len;
-2a06705cd595403 Darrick J. Wong 2016-10-03  146  	int			error;
-2a06705cd595403 Darrick J. Wong 2016-10-03  147  =
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2348) 	last_index =3D DI=
+V_ROUND_UP(iocb->ki_pos + iter->count, PAGE_SIZE);
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2349) retry:
+06c0444290cecf Kent Overstreet         2020-12-14  2350  	if (fatal_signal_=
+pending(current))
+06c0444290cecf Kent Overstreet         2020-12-14  2351  		return -EINTR;
+06c0444290cecf Kent Overstreet         2020-12-14  2352  =
 
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  148  	if (XFS_IS_REALTIME_INODE=
-(ip)) {
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  149  		agno =3D NULLAGNUMBER;
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  150  		agbno =3D irec->br_start=
-block;
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  151  		xfs_rtlock(NULL, mp, XFS=
-_RTLOCK_REFCOUNT);
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  152  		cur =3D xfs_rtrefcountbt=
-_init_cursor(mp, tp, mp->m_rrefcountip);
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  153  	} else {
-48baf97f741d909 Darrick J. Wong 2021-09-01  154  		agno =3D XFS_FSB_TO_AGNO=
-(mp, irec->br_startblock);
-48baf97f741d909 Darrick J. Wong 2021-09-01  155  		agbno =3D XFS_FSB_TO_AGB=
-NO(mp, irec->br_startblock);
-48baf97f741d909 Darrick J. Wong 2021-09-01  156  =
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2353) 	filemap_get_read_=
+batch(mapping, index, last_index, pvec);
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2354) 	if (!pagevec_coun=
+t(pvec)) {
+06c0444290cecf Kent Overstreet         2020-12-14  2355  		if (iocb->ki_fla=
+gs & IOCB_NOIO)
+06c0444290cecf Kent Overstreet         2020-12-14  2356  			return -EAGAIN;
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2357) 		page_cache_sync_=
+readahead(mapping, ra, filp, index,
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2358) 				last_index - i=
+ndex);
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2359) 		filemap_get_read=
+_batch(mapping, index, last_index, pvec);
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2360) 	}
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2361) 	if (!pagevec_coun=
+t(pvec)) {
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2362) 		if (iocb->ki_fla=
+gs & (IOCB_NOWAIT | IOCB_WAITQ))
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2363) 			return -EAGAIN;
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2364) 		err =3D filemap_=
+create_page(filp, mapping,
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2365) 				iocb->ki_pos >=
+> PAGE_SHIFT, pvec);
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2366) 		if (err =3D=3D A=
+OP_TRUNCATED_PAGE)
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2367) 			goto retry;
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2368) 		return err;
+f253e1854ce844 Matthew Wilcox (Oracle  2021-02-24  2369) 	}
+06c0444290cecf Kent Overstreet         2020-12-14  2370  =
 
-92ff7285f1df559 Darrick J. Wong 2017-06-16  157  		error =3D xfs_alloc_read=
-_agf(mp, tp, agno, 0, &agbp);
-2a06705cd595403 Darrick J. Wong 2016-10-03  158  		if (error)
-2a06705cd595403 Darrick J. Wong 2016-10-03  159  			return error;
-2a06705cd595403 Darrick J. Wong 2016-10-03  160  =
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24 @2371) 	page =3D pvec->pa=
+ges[pagevec_count(pvec) - 1];
+06c0444290cecf Kent Overstreet         2020-12-14  2372  	if (PageReadahead=
+(page)) {
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2373) 		err =3D filemap_=
+readahead(iocb, filp, mapping, page, last_index);
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2374) 		if (err)
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2375) 			goto err;
+06c0444290cecf Kent Overstreet         2020-12-14  2376  	}
+06c0444290cecf Kent Overstreet         2020-12-14  2377  	if (!PageUptodate=
+(page)) {
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2378) 		if ((iocb->ki_fl=
+ags & IOCB_WAITQ) && pagevec_count(pvec) > 1)
+87d1d7b688319a Matthew Wilcox (Oracle  2021-02-24  2379) 			iocb->ki_flags =
+|=3D IOCB_NOWAIT;
+fce70da3a80fcd Matthew Wilcox (Oracle  2021-02-24  2380) 		err =3D filemap_=
+update_page(iocb, mapping, iter, page);
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2381) 		if (err)
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2382) 			goto err;
+06c0444290cecf Kent Overstreet         2020-12-14  2383  	}
+06c0444290cecf Kent Overstreet         2020-12-14  2384  =
 
-a81a06211fb43d8 Dave Chinner    2021-06-02 @161  		cur =3D xfs_refcountbt_i=
-nit_cursor(mp, tp, agbp, agbp->b_pag);
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  162  	}
-2a06705cd595403 Darrick J. Wong 2016-10-03  163  =
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2385) 	return 0;
+cbd59c48ae2bca Matthew Wilcox (Oracle  2021-02-24  2386) err:
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2387) 	if (err < 0)
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2388) 		put_page(page);
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2389) 	if (likely(--pvec=
+->nr))
+ff993ba130009b Matthew Wilcox (Oracle  2021-02-24  2390) 		return 0;
+4612aeef09ec49 Matthew Wilcox (Oracle  2021-02-24  2391) 	if (err =3D=3D AO=
+P_TRUNCATED_PAGE)
+2642fca6472572 Matthew Wilcox (Oracle  2021-02-24  2392) 		goto retry;
+06c0444290cecf Kent Overstreet         2020-12-14  2393  	return err;
+06c0444290cecf Kent Overstreet         2020-12-14  2394  }
+06c0444290cecf Kent Overstreet         2020-12-14  2395  =
 
-48baf97f741d909 Darrick J. Wong 2021-09-01  164  	error =3D xfs_refcount_fi=
-nd_shared(cur, agbno, irec->br_blockcount,
-48baf97f741d909 Darrick J. Wong 2021-09-01  165  			&shared_bno, &shared_le=
-n, find_end_of_shared);
-2a06705cd595403 Darrick J. Wong 2016-10-03  166  =
 
-0b04b6b875b32f2 Darrick J. Wong 2018-07-19  167  	xfs_btree_del_cursor(cur,=
- error);
-2a06705cd595403 Darrick J. Wong 2016-10-03  168  =
+:::::: The code at line 2371 was first introduced by commit
+:::::: 2642fca647257210bf6127297748d472c22702cd mm/filemap: restructure fil=
+emap_get_pages
 
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01 @169  	if (agbp)
-92ff7285f1df559 Darrick J. Wong 2017-06-16  170  		xfs_trans_brelse(tp, agb=
-p);
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  171  	else
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  172  		xfs_rtunlock(mp, XFS_RTL=
-OCK_REFCOUNT);
-48baf97f741d909 Darrick J. Wong 2021-09-01  173  =
-
-017e98e665e8f4a Darrick J. Wong 2021-09-01  174  	if (shared_bno =3D=3D NUL=
-LFSBLOCK)
-48baf97f741d909 Darrick J. Wong 2021-09-01  175  		*fbno =3D NULLFSBLOCK;
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  176  	else if (XFS_IS_REALTIME_=
-INODE(ip))
-fbfc85d7ac10b10 Darrick J. Wong 2021-09-01  177  		*fbno =3D shared_bno;
-48baf97f741d909 Darrick J. Wong 2021-09-01  178  	else
-48baf97f741d909 Darrick J. Wong 2021-09-01  179  		*fbno =3D XFS_AGB_TO_FSB=
-(mp, agno, shared_bno);
-48baf97f741d909 Darrick J. Wong 2021-09-01  180  	*flen =3D shared_len;
-2a06705cd595403 Darrick J. Wong 2016-10-03  181  	return error;
-2a06705cd595403 Darrick J. Wong 2016-10-03  182  }
-2a06705cd595403 Darrick J. Wong 2016-10-03  183  =
-
+:::::: TO: Matthew Wilcox (Oracle) <willy@infradead.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5963817572719700987==--
+--===============7327541011646214741==--
 
