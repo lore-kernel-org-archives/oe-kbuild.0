@@ -1,103 +1,120 @@
-Content-Type: multipart/mixed; boundary="===============7594440879536477681=="
+Content-Type: multipart/mixed; boundary="===============0591977837335055714=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v3 net-next 12/13] af_unix: Replace the big lock with small locks.
-Date: Thu, 25 Nov 2021 22:55:05 +0800
-Message-ID: <202111252239.o3Nemms9-lkp@intel.com>
+Subject: drivers/net/dsa/mt7530.c:908 mt7530_set_ageing_time() error: uninitialized symbol 'age_count'.
+Date: Thu, 25 Nov 2021 22:55:02 +0800
+Message-ID: <202111252238.BmosAAYv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7594440879536477681==
+--===============0591977837335055714==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211124021431.48956-13-kuniyu@amazon.co.jp>
-References: <20211124021431.48956-13-kuniyu@amazon.co.jp>
-TO: Kuniyuki Iwashima <kuniyu@amazon.co.jp>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev(a)vger.kernel.org
-TO: Jakub Kicinski <kuba@kernel.org>
-CC: Al Viro <viro@zeniv.linux.org.uk>
-CC: Eric Dumazet <eric.dumazet@gmail.com>
-CC: Kuniyuki Iwashima <kuniyu@amazon.co.jp>
-CC: Benjamin Herrenschmidt <benh@amazon.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: DENG Qingfang <dqfext@gmail.com>
+CC: Andrew Lunn <andrew@lunn.ch>
+CC: Vladimir Oltean <olteanv@gmail.com>
+CC: Florian Fainelli <f.fainelli@gmail.com>
 
-Hi Kuniyuki,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Kuniyuki-Iwashima/af_unix-=
-Replace-unix_table_lock-with-per-hash-locks/20211124-102129
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-2106efda785b55a8957efed9a52dfa28ee0d7280
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-c001-20211125 (https://download.01.org/0day-ci/arch=
-ive/20211125/202111252239.o3Nemms9-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
+commit: ea6d5c924e391872d402acac38461a5f8261e57f net: dsa: mt7530: support =
+setting ageing time
+date:   12 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 12 months ago
+config: ia64-randconfig-m031-20211122 (https://download.01.org/0day-ci/arch=
+ive/20211125/202111252238.BmosAAYv-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/net/dsa/mt7530.c:908 mt7530_set_ageing_time() error: uninitialized =
+symbol 'age_count'.
+drivers/net/dsa/mt7530.c:908 mt7530_set_ageing_time() error: uninitialized =
+symbol 'age_unit'.
 
-cocci warnings: (new ones prefixed by >>)
->> net/unix/af_unix.c:3258:2-11: second lock on line 3258
+Old smatch warnings:
+drivers/net/dsa/mt7530.c:469 mt7530_pad_clk_setup() error: uninitialized sy=
+mbol 'ncpo1'.
 
-vim +3258 net/unix/af_unix.c
+vim +/age_count +908 drivers/net/dsa/mt7530.c
 
-7123aaa3a141652 Eric Dumazet      2012-06-08  3242  =
+b8f126a8d54318b Sean Wang     2017-04-07  872  =
 
-7123aaa3a141652 Eric Dumazet      2012-06-08  3243  static struct sock *uni=
-x_next_socket(struct seq_file *seq,
-7123aaa3a141652 Eric Dumazet      2012-06-08  3244  				     struct sock *s=
-k,
-7123aaa3a141652 Eric Dumazet      2012-06-08  3245  				     loff_t *pos)
-7123aaa3a141652 Eric Dumazet      2012-06-08  3246  {
-657190b06338092 Kuniyuki Iwashima 2021-11-24  3247  	unsigned long bucket =
-=3D get_bucket(*pos);
-7123aaa3a141652 Eric Dumazet      2012-06-08  3248  =
+ea6d5c924e39187 DENG Qingfang 2020-12-08  873  static int
+ea6d5c924e39187 DENG Qingfang 2020-12-08  874  mt7530_set_ageing_time(struc=
+t dsa_switch *ds, unsigned int msecs)
+ea6d5c924e39187 DENG Qingfang 2020-12-08  875  {
+ea6d5c924e39187 DENG Qingfang 2020-12-08  876  	struct mt7530_priv *priv =
+=3D ds->priv;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  877  	unsigned int secs =3D msecs=
+ / 1000;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  878  	unsigned int tmp_age_count;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  879  	unsigned int error =3D -1;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  880  	unsigned int age_count;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  881  	unsigned int age_unit;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  882  =
 
-7123aaa3a141652 Eric Dumazet      2012-06-08  3249  	while (sk > (struct so=
-ck *)SEQ_START_TOKEN) {
-7123aaa3a141652 Eric Dumazet      2012-06-08  3250  		sk =3D sk_next(sk);
-7123aaa3a141652 Eric Dumazet      2012-06-08  3251  		if (!sk)
-7123aaa3a141652 Eric Dumazet      2012-06-08  3252  			goto next_bucket;
-7123aaa3a141652 Eric Dumazet      2012-06-08  3253  		if (sock_net(sk) =3D=
-=3D seq_file_net(seq))
-7123aaa3a141652 Eric Dumazet      2012-06-08  3254  			return sk;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  3255  	}
-7123aaa3a141652 Eric Dumazet      2012-06-08  3256  =
+ea6d5c924e39187 DENG Qingfang 2020-12-08  883  	/* Applied timer is (AGE_CN=
+T + 1) * (AGE_UNIT + 1) seconds */
+ea6d5c924e39187 DENG Qingfang 2020-12-08  884  	if (secs < 1 || secs > (AGE=
+_CNT_MAX + 1) * (AGE_UNIT_MAX + 1))
+ea6d5c924e39187 DENG Qingfang 2020-12-08  885  		return -ERANGE;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  886  =
 
-7123aaa3a141652 Eric Dumazet      2012-06-08  3257  	do {
-657190b06338092 Kuniyuki Iwashima 2021-11-24 @3258  		spin_lock(&unix_table=
-_locks[bucket]);
-7123aaa3a141652 Eric Dumazet      2012-06-08  3259  		sk =3D unix_from_buck=
-et(seq, pos);
-7123aaa3a141652 Eric Dumazet      2012-06-08  3260  		if (sk)
-7123aaa3a141652 Eric Dumazet      2012-06-08  3261  			return sk;
-7123aaa3a141652 Eric Dumazet      2012-06-08  3262  =
+ea6d5c924e39187 DENG Qingfang 2020-12-08  887  	/* iterate through all poss=
+ible age_count to find the closest pair */
+ea6d5c924e39187 DENG Qingfang 2020-12-08  888  	for (tmp_age_count =3D 0; t=
+mp_age_count <=3D AGE_CNT_MAX; ++tmp_age_count) {
+ea6d5c924e39187 DENG Qingfang 2020-12-08  889  		unsigned int tmp_age_unit =
+=3D secs / (tmp_age_count + 1) - 1;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  890  =
 
-7123aaa3a141652 Eric Dumazet      2012-06-08  3263  next_bucket:
-657190b06338092 Kuniyuki Iwashima 2021-11-24  3264  		spin_unlock(&unix_tab=
-le_locks[bucket++]);
-7123aaa3a141652 Eric Dumazet      2012-06-08  3265  		*pos =3D set_bucket_o=
-ffset(bucket, 1);
-7123aaa3a141652 Eric Dumazet      2012-06-08  3266  	} while (bucket < ARRA=
-Y_SIZE(unix_socket_table));
-7123aaa3a141652 Eric Dumazet      2012-06-08  3267  =
+ea6d5c924e39187 DENG Qingfang 2020-12-08  891  		if (tmp_age_unit <=3D AGE_=
+UNIT_MAX) {
+ea6d5c924e39187 DENG Qingfang 2020-12-08  892  			unsigned int tmp_error =
+=3D secs -
+ea6d5c924e39187 DENG Qingfang 2020-12-08  893  				(tmp_age_count + 1) * (t=
+mp_age_unit + 1);
+ea6d5c924e39187 DENG Qingfang 2020-12-08  894  =
 
-^1da177e4c3f415 Linus Torvalds    2005-04-16  3268  	return NULL;
-^1da177e4c3f415 Linus Torvalds    2005-04-16  3269  }
-^1da177e4c3f415 Linus Torvalds    2005-04-16  3270  =
+ea6d5c924e39187 DENG Qingfang 2020-12-08  895  			/* found a closer pair */
+ea6d5c924e39187 DENG Qingfang 2020-12-08  896  			if (error > tmp_error) {
+ea6d5c924e39187 DENG Qingfang 2020-12-08  897  				error =3D tmp_error;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  898  				age_count =3D tmp_age_co=
+unt;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  899  				age_unit =3D tmp_age_uni=
+t;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  900  			}
+ea6d5c924e39187 DENG Qingfang 2020-12-08  901  =
+
+ea6d5c924e39187 DENG Qingfang 2020-12-08  902  			/* found the exact match,=
+ so break the loop */
+ea6d5c924e39187 DENG Qingfang 2020-12-08  903  			if (!error)
+ea6d5c924e39187 DENG Qingfang 2020-12-08  904  				break;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  905  		}
+ea6d5c924e39187 DENG Qingfang 2020-12-08  906  	}
+ea6d5c924e39187 DENG Qingfang 2020-12-08  907  =
+
+ea6d5c924e39187 DENG Qingfang 2020-12-08 @908  	mt7530_write(priv, MT7530_A=
+AC, AGE_CNT(age_count) | AGE_UNIT(age_unit));
+ea6d5c924e39187 DENG Qingfang 2020-12-08  909  =
+
+ea6d5c924e39187 DENG Qingfang 2020-12-08  910  	return 0;
+ea6d5c924e39187 DENG Qingfang 2020-12-08  911  }
+ea6d5c924e39187 DENG Qingfang 2020-12-08  912  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7594440879536477681==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============0591977837335055714==--
 
