@@ -1,113 +1,122 @@
-Content-Type: multipart/mixed; boundary="===============9123457164836964584=="
+Content-Type: multipart/mixed; boundary="===============8196906341680614623=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [arm:zii 70/161] drivers/net/phy/phylink.c:1287 phylink_set_pcs() error: we previously assumed 'pcs' could be null (see line 1283)
-Date: Thu, 25 Nov 2021 22:24:08 +0800
-Message-ID: <202111252259.X7Tr9l1K-lkp@intel.com>
+Subject: sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p' large enough for 'struct gpr_pkt'? s32min
+Date: Thu, 25 Nov 2021 22:03:17 +0800
+Message-ID: <202111252106.YdRVfIXR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9123457164836964584==
+--===============8196906341680614623==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: linux-kernel(a)vger.kernel.org
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
-tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git zii
-head:   1c86335a03ee0102daaefede1fb25cdbb367b14c
-commit: 8eca4525ad01e4504dba39f4783f9d5885243941 [70/161] net: phylink: add=
- mac_select_pcs() method to phylink_mac_ops
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: s390-randconfig-m031-20211124 (https://download.01.org/0day-ci/arch=
-ive/20211125/202111252259.X7Tr9l1K-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
+commit: cf989b68fcadbeeea1446e50fd8b2f24a0f1275c ASoC: qdsp6: audioreach: a=
+dd Kconfig and Makefile
+date:   4 weeks ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 4 weeks ago
+config: openrisc-randconfig-m031-20211122 (https://download.01.org/0day-ci/=
+archive/20211125/202111252106.YdRVfIXR-lkp(a)intel.com/config)
+compiler: or1k-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/phy/phylink.c:1287 phylink_set_pcs() error: we previously assum=
-ed 'pcs' could be null (see line 1283)
+smatch warnings:
+sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p'=
+ large enough for 'struct gpr_pkt'? s32min
+sound/soc/qcom/qdsp6/audioreach.c:228 __audioreach_alloc_pkt() warn: is 'p'=
+ large enough for 'struct apm_cmd_header'? 0
 
-Old smatch warnings:
-drivers/net/phy/phylink.c:850 phylink_change_inband_advert() error: we prev=
-iously assumed 'pl->pcs_ops' could be null (see line 833)
+vim +212 sound/soc/qcom/qdsp6/audioreach.c
 
-vim +/pcs +1287 drivers/net/phy/phylink.c
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  196  =
 
-9525ae83959b60 Russell King          2017-07-25  1255  =
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  197  static void *__audiore=
+ach_alloc_pkt(int payload_size, uint32_t opcode, uint32_t token,
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  198  				    uint32_t src_p=
+ort, uint32_t dest_port, bool has_cmd_hdr)
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  199  {
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  200  	struct gpr_pkt *pkt;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  201  	void *p;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  202  	int pkt_size =3D GPR_=
+HDR_SIZE + payload_size;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  203  =
 
-7137e18f6f889a Russell King          2020-07-21  1256  /**
-7137e18f6f889a Russell King          2020-07-21  1257   * phylink_set_pcs()=
- - set the current PCS for phylink to use
-7137e18f6f889a Russell King          2020-07-21  1258   * @pl: a pointer to=
- a &struct phylink returned from phylink_create()
-7137e18f6f889a Russell King          2020-07-21  1259   * @pcs: a pointer t=
-o the &struct phylink_pcs
-7137e18f6f889a Russell King          2020-07-21  1260   *
-7137e18f6f889a Russell King          2020-07-21  1261   * Bind the MAC PCS =
-to phylink.  This may be called after phylink_create(),
-7137e18f6f889a Russell King          2020-07-21  1262   * in mac_prepare() =
-or mac_config() methods if it is desired to dynamically
-7137e18f6f889a Russell King          2020-07-21  1263   * change the PCS.
-7137e18f6f889a Russell King          2020-07-21  1264   *
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1265)  * Please note that =
-for legacy phylink users, there are behavioural changes
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1266)  * with the mac_conf=
-ig() callback if a PCS is present (denoting a newer setup)
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1267)  * so removing a PCS=
- is not supported. If a PCS is going to be used, it must
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1268)  * be registered by =
-calling phylink_set_pcs() at the latest in the first
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1269)  * mac_config() call.
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1270)  *
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1271)  * For modern driver=
-s, this may be called with a NULL pcs argument to
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1272)  * disconnect the PC=
-S from phylink.
-7137e18f6f889a Russell King          2020-07-21  1273   */
-7137e18f6f889a Russell King          2020-07-21  1274  void phylink_set_pcs=
-(struct phylink *pl, struct phylink_pcs *pcs)
-4c0d6d3a7a81fc Russell King          2020-03-30  1275  {
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1276) 	if (pl->config->leg=
-acy_pre_march2020 && pl->pcs && !pcs) {
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1277) 		phylink_warn(pl,
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1278) 			     "Removing PC=
-S is not supported in a legacy driver");
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1279) 		return;
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1280) 	}
-b01e3d443ba5bd Russell King (Oracle  2021-11-22  1281) =
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  204  	if (has_cmd_hdr)
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  205  		pkt_size +=3D APM_CM=
+D_HDR_SIZE;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  206  =
 
-7137e18f6f889a Russell King          2020-07-21  1282  	pl->pcs =3D pcs;
-b01e3d443ba5bd Russell King (Oracle  2021-11-22 @1283) 	pl->pcs_ops =3D pcs=
- ? pcs->ops : NULL;
-8eca4525ad01e4 Russell King (Oracle  2021-10-07  1284) =
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  207  	p =3D kzalloc(pkt_siz=
+e, GFP_KERNEL);
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  208  	if (!p)
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  209  		return ERR_PTR(-ENOM=
+EM);
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  210  =
 
-8eca4525ad01e4 Russell King (Oracle  2021-10-07  1285) 	if (!pl->phylink_di=
-sable_state &&
-8eca4525ad01e4 Russell King (Oracle  2021-10-07  1286) 	    pl->cfg_link_an=
-_mode =3D=3D MLO_AN_INBAND) {
-8eca4525ad01e4 Russell King (Oracle  2021-10-07 @1287) 		if (pl->config->pc=
-s_poll || pcs->poll)
-8eca4525ad01e4 Russell King (Oracle  2021-10-07  1288) 			mod_timer(&pl->li=
-nk_poll, jiffies + HZ);
-8eca4525ad01e4 Russell King (Oracle  2021-10-07  1289) 		else
-8eca4525ad01e4 Russell King (Oracle  2021-10-07  1290) 			del_timer(&pl->li=
-nk_poll);
-8eca4525ad01e4 Russell King (Oracle  2021-10-07  1291) 	}
-4c0d6d3a7a81fc Russell King          2020-03-30  1292  }
-7137e18f6f889a Russell King          2020-07-21  1293  EXPORT_SYMBOL_GPL(ph=
-ylink_set_pcs);
-4c0d6d3a7a81fc Russell King          2020-03-30  1294  =
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  211  	pkt =3D p;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26 @212  	pkt->hdr.version =3D =
+GPR_PKT_VER;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  213  	pkt->hdr.hdr_size =3D=
+ GPR_PKT_HEADER_WORD_SIZE;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  214  	pkt->hdr.pkt_size =3D=
+ pkt_size;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  215  	pkt->hdr.dest_port =
+=3D dest_port;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  216  	pkt->hdr.src_port =3D=
+ src_port;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  217  =
 
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  218  	pkt->hdr.dest_domain =
+=3D GPR_DOMAIN_ID_ADSP;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  219  	pkt->hdr.src_domain =
+=3D GPR_DOMAIN_ID_APPS;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  220  	pkt->hdr.token =3D to=
+ken;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  221  	pkt->hdr.opcode =3D o=
+pcode;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  222  =
+
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  223  	if (has_cmd_hdr) {
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  224  		struct apm_cmd_heade=
+r *cmd_header;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  225  =
+
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  226  		p =3D p + GPR_HDR_SI=
+ZE;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  227  		cmd_header =3D p;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26 @228  		cmd_header->payload_=
+size =3D payload_size;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  229  	}
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  230  =
+
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  231  	return pkt;
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  232  }
+44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  233  =
+
+
+:::::: The code at line 212 was first introduced by commit
+:::::: 44c28dbdb6195b2a92e1fcb2946d1e987658f8b5 ASoC: qdsp6: audioreach: ad=
+d basic pkt alloc support
+
+:::::: TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9123457164836964584==--
+--===============8196906341680614623==--
 
