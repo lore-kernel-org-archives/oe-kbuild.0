@@ -1,161 +1,208 @@
-Content-Type: multipart/mixed; boundary="===============9064132402277043745=="
+Content-Type: multipart/mixed; boundary="===============8523456772354588057=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 23/23] cxl/mem: Disable switch hierarchies for now
-Date: Fri, 26 Nov 2021 07:55:31 +0800
-Message-ID: <202111260754.Oy5s01Gl-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized symbol 'rq'.
+Date: Fri, 26 Nov 2021 07:45:11 +0800
+Message-ID: <202111260712.wpRC6Dh0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9064132402277043745==
+--===============8523456772354588057==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211120000250.1663391-24-ben.widawsky@intel.com>
-References: <20211120000250.1663391-24-ben.widawsky@intel.com>
-TO: Ben Widawsky <ben.widawsky@intel.com>
-TO: linux-cxl(a)vger.kernel.org
-TO: linux-pci(a)vger.kernel.org
-CC: Ben Widawsky <ben.widawsky@intel.com>
-CC: Alison Schofield <alison.schofield@intel.com>
-CC: Dan Williams <dan.j.williams@intel.com>
-CC: Ira Weiny <ira.weiny@intel.com>
-CC: Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-CC: Vishal Verma <vishal.l.verma@intel.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Chris Wilson <chris@chris-wilson.co.uk>
+CC: Matthew Auld <matthew.auld@intel.com>
+CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
 
-Hi Ben,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on 53989fad1286e652ea3655ae3367ba698da8d2ff]
-
-url:    https://github.com/0day-ci/linux/commits/Ben-Widawsky/Add-drivers-f=
-or-CXL-ports-and-mem-devices/20211120-080513
-base:   53989fad1286e652ea3655ae3367ba698da8d2ff
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-m001-20211118 (https://download.01.org/0day-ci/ar=
-chive/20211126/202111260754.Oy5s01Gl-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   8ced7ca3570333998ad2088d5a6275701970e28e
+commit: cf586021642d8017cde111b7dd1ba86224e9da51 drm/i915/gt: Pipelined pag=
+e migration
+date:   5 months ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 5 months ago
+config: i386-randconfig-m021-20211116 (https://download.01.org/0day-ci/arch=
+ive/20211126/202111260712.wpRC6Dh0-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/cxl/mem.c:164 cxl_mem_probe() warn: ignoring unreachable code.
+New smatch warnings:
+drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized =
+symbol 'rq'.
+drivers/gpu/drm/i915/gt/selftest_migrate.c:113 copy() error: uninitialized =
+symbol 'vaddr'.
 
-vim +164 drivers/cxl/mem.c
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:182 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 171)
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  117  =
+vim +/rq +102 drivers/gpu/drm/i915/gt/selftest_migrate.c
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  118  static int cxl_mem_probe(struc=
-t device *dev)
-c1dc1914d16616 Ben Widawsky 2021-11-19  119  {
-c1dc1914d16616 Ben Widawsky 2021-11-19  120  	struct cxl_memdev *cxlmd =3D =
-to_cxl_memdev(dev);
-c1dc1914d16616 Ben Widawsky 2021-11-19  121  	struct cxl_port *hostbridge, =
-*parent_port;
-c1dc1914d16616 Ben Widawsky 2021-11-19  122  	struct walk_ctx ctx =3D { NUL=
-L, false };
-c1dc1914d16616 Ben Widawsky 2021-11-19  123  	struct cxl_dport *dport;
-c1dc1914d16616 Ben Widawsky 2021-11-19  124  	int rc;
-c1dc1914d16616 Ben Widawsky 2021-11-19  125  =
+cf586021642d801 Chris Wilson 2021-06-17   31  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  126  	rc =3D wait_for_media(cxlmd);
-c1dc1914d16616 Ben Widawsky 2021-11-19  127  	if (rc) {
-c1dc1914d16616 Ben Widawsky 2021-11-19  128  		dev_err(dev, "Media not acti=
-ve (%d)\n", rc);
-c1dc1914d16616 Ben Widawsky 2021-11-19  129  		return rc;
-c1dc1914d16616 Ben Widawsky 2021-11-19  130  	}
-c1dc1914d16616 Ben Widawsky 2021-11-19  131  =
+cf586021642d801 Chris Wilson 2021-06-17   32  static int copy(struct intel_=
+migrate *migrate,
+cf586021642d801 Chris Wilson 2021-06-17   33  		int (*fn)(struct intel_migr=
+ate *migrate,
+cf586021642d801 Chris Wilson 2021-06-17   34  			  struct i915_gem_ww_ctx *=
+ww,
+cf586021642d801 Chris Wilson 2021-06-17   35  			  struct drm_i915_gem_obje=
+ct *src,
+cf586021642d801 Chris Wilson 2021-06-17   36  			  struct drm_i915_gem_obje=
+ct *dst,
+cf586021642d801 Chris Wilson 2021-06-17   37  			  struct i915_request **ou=
+t),
+cf586021642d801 Chris Wilson 2021-06-17   38  		u32 sz, struct rnd_state *p=
+rng)
+cf586021642d801 Chris Wilson 2021-06-17   39  {
+cf586021642d801 Chris Wilson 2021-06-17   40  	struct drm_i915_private *i91=
+5 =3D migrate->context->engine->i915;
+cf586021642d801 Chris Wilson 2021-06-17   41  	struct drm_i915_gem_object *=
+src, *dst;
+cf586021642d801 Chris Wilson 2021-06-17   42  	struct i915_request *rq;
+cf586021642d801 Chris Wilson 2021-06-17   43  	struct i915_gem_ww_ctx ww;
+cf586021642d801 Chris Wilson 2021-06-17   44  	u32 *vaddr;
+cf586021642d801 Chris Wilson 2021-06-17   45  	int err =3D 0;
+cf586021642d801 Chris Wilson 2021-06-17   46  	int i;
+cf586021642d801 Chris Wilson 2021-06-17   47  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  132  	walk_to_root_port(dev, &ctx);
-c1dc1914d16616 Ben Widawsky 2021-11-19  133  =
+cf586021642d801 Chris Wilson 2021-06-17   48  	src =3D create_lmem_or_inter=
+nal(i915, sz);
+cf586021642d801 Chris Wilson 2021-06-17   49  	if (IS_ERR(src))
+cf586021642d801 Chris Wilson 2021-06-17   50  		return 0;
+cf586021642d801 Chris Wilson 2021-06-17   51  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  134  	/*
-c1dc1914d16616 Ben Widawsky 2021-11-19  135  	 * Couldn't find a CXL capabl=
-e root port. This may happen even with a
-c1dc1914d16616 Ben Widawsky 2021-11-19  136  	 * CXL capable topology if cx=
-l_acpi hasn't completed yet. A rescan will
-c1dc1914d16616 Ben Widawsky 2021-11-19  137  	 * occur.
-c1dc1914d16616 Ben Widawsky 2021-11-19  138  	 */
-c1dc1914d16616 Ben Widawsky 2021-11-19  139  	if (!ctx.root_port)
-c1dc1914d16616 Ben Widawsky 2021-11-19  140  		return -ENODEV;
-c1dc1914d16616 Ben Widawsky 2021-11-19  141  =
+cf586021642d801 Chris Wilson 2021-06-17   52  	dst =3D i915_gem_object_crea=
+te_internal(i915, sz);
+cf586021642d801 Chris Wilson 2021-06-17   53  	if (IS_ERR(dst))
+cf586021642d801 Chris Wilson 2021-06-17   54  		goto err_free_src;
+cf586021642d801 Chris Wilson 2021-06-17   55  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  142  	hostbridge =3D ctx.root_port-=
->port;
-c1dc1914d16616 Ben Widawsky 2021-11-19  143  	device_lock(&hostbridge->dev);
-c1dc1914d16616 Ben Widawsky 2021-11-19  144  =
+cf586021642d801 Chris Wilson 2021-06-17   56  	for_i915_gem_ww(&ww, err, tr=
+ue) {
+cf586021642d801 Chris Wilson 2021-06-17   57  		err =3D i915_gem_object_loc=
+k(src, &ww);
+cf586021642d801 Chris Wilson 2021-06-17   58  		if (err)
+cf586021642d801 Chris Wilson 2021-06-17   59  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   60  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  145  	/* hostbridge has no port dri=
-ver, the topology isn't enabled yet */
-c1dc1914d16616 Ben Widawsky 2021-11-19  146  	if (!hostbridge->dev.driver) {
-c1dc1914d16616 Ben Widawsky 2021-11-19  147  		device_unlock(&hostbridge->d=
-ev);
-c1dc1914d16616 Ben Widawsky 2021-11-19  148  		return -ENODEV;
-c1dc1914d16616 Ben Widawsky 2021-11-19  149  	}
-c1dc1914d16616 Ben Widawsky 2021-11-19  150  =
+cf586021642d801 Chris Wilson 2021-06-17   61  		err =3D i915_gem_object_loc=
+k(dst, &ww);
+cf586021642d801 Chris Wilson 2021-06-17   62  		if (err)
+cf586021642d801 Chris Wilson 2021-06-17   63  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   64  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  151  	/* No switch + found root por=
-t means we're done */
-c1dc1914d16616 Ben Widawsky 2021-11-19  152  	if (!ctx.has_switch) {
-c1dc1914d16616 Ben Widawsky 2021-11-19  153  		parent_port =3D to_cxl_port(=
-&hostbridge->dev);
-c1dc1914d16616 Ben Widawsky 2021-11-19  154  		dport =3D ctx.root_port;
-c1dc1914d16616 Ben Widawsky 2021-11-19  155  		goto out;
-c1dc1914d16616 Ben Widawsky 2021-11-19  156  	}
-c1dc1914d16616 Ben Widawsky 2021-11-19  157  =
+cf586021642d801 Chris Wilson 2021-06-17   65  		vaddr =3D i915_gem_object_p=
+in_map(src, I915_MAP_WC);
+cf586021642d801 Chris Wilson 2021-06-17   66  		if (IS_ERR(vaddr)) {
+cf586021642d801 Chris Wilson 2021-06-17   67  			err =3D PTR_ERR(vaddr);
+cf586021642d801 Chris Wilson 2021-06-17   68  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   69  		}
+cf586021642d801 Chris Wilson 2021-06-17   70  =
 
-3a5b49dc14175d Ben Widawsky 2021-11-19  158  	/* FIXME: Add true switch sup=
-port */
-3a5b49dc14175d Ben Widawsky 2021-11-19  159  	dev_err(dev, "Devices behind =
-switches are currently unsupported\n");
-3a5b49dc14175d Ben Widawsky 2021-11-19  160  	rc =3D -ENODEV;
-3a5b49dc14175d Ben Widawsky 2021-11-19  161  	goto err_out;
-3a5b49dc14175d Ben Widawsky 2021-11-19  162  =
+cf586021642d801 Chris Wilson 2021-06-17   71  		for (i =3D 0; i < sz / size=
+of(u32); i++)
+cf586021642d801 Chris Wilson 2021-06-17   72  			vaddr[i] =3D i;
+cf586021642d801 Chris Wilson 2021-06-17   73  		i915_gem_object_flush_map(s=
+rc);
+cf586021642d801 Chris Wilson 2021-06-17   74  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  163  	/* Walk down from the root po=
-rt and add all switches */
-c1dc1914d16616 Ben Widawsky 2021-11-19 @164  	cxl_scan_ports(ctx.root_port);
-c1dc1914d16616 Ben Widawsky 2021-11-19  165  =
+cf586021642d801 Chris Wilson 2021-06-17   75  		vaddr =3D i915_gem_object_p=
+in_map(dst, I915_MAP_WC);
+cf586021642d801 Chris Wilson 2021-06-17   76  		if (IS_ERR(vaddr)) {
+cf586021642d801 Chris Wilson 2021-06-17   77  			err =3D PTR_ERR(vaddr);
+cf586021642d801 Chris Wilson 2021-06-17   78  			goto unpin_src;
+cf586021642d801 Chris Wilson 2021-06-17   79  		}
+cf586021642d801 Chris Wilson 2021-06-17   80  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  166  	/* If parent is a dport the e=
-ndpoint is good to go. */
-c1dc1914d16616 Ben Widawsky 2021-11-19  167  	parent_port =3D to_cxl_port(d=
-ev->parent->parent);
-c1dc1914d16616 Ben Widawsky 2021-11-19  168  	dport =3D cxl_find_dport_by_d=
-ev(parent_port, dev->parent);
-c1dc1914d16616 Ben Widawsky 2021-11-19  169  	if (!dport) {
-c1dc1914d16616 Ben Widawsky 2021-11-19  170  		rc =3D -ENODEV;
-c1dc1914d16616 Ben Widawsky 2021-11-19  171  		goto err_out;
-c1dc1914d16616 Ben Widawsky 2021-11-19  172  	}
-c1dc1914d16616 Ben Widawsky 2021-11-19  173  =
+cf586021642d801 Chris Wilson 2021-06-17   81  		for (i =3D 0; i < sz / size=
+of(u32); i++)
+cf586021642d801 Chris Wilson 2021-06-17   82  			vaddr[i] =3D ~i;
+cf586021642d801 Chris Wilson 2021-06-17   83  		i915_gem_object_flush_map(d=
+st);
+cf586021642d801 Chris Wilson 2021-06-17   84  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  174  out:
-c1dc1914d16616 Ben Widawsky 2021-11-19  175  	rc =3D create_endpoint(dev, p=
-arent_port, dport);
-c1dc1914d16616 Ben Widawsky 2021-11-19  176  	if (rc)
-c1dc1914d16616 Ben Widawsky 2021-11-19  177  		goto err_out;
-c1dc1914d16616 Ben Widawsky 2021-11-19  178  =
+cf586021642d801 Chris Wilson 2021-06-17   85  		err =3D fn(migrate, &ww, sr=
+c, dst, &rq);
+cf586021642d801 Chris Wilson 2021-06-17   86  		if (!err)
+cf586021642d801 Chris Wilson 2021-06-17   87  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   88  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  179  	cxlmd->root_port =3D ctx.root=
-_port;
-c1dc1914d16616 Ben Widawsky 2021-11-19  180  =
+cf586021642d801 Chris Wilson 2021-06-17   89  		if (err !=3D -EDEADLK && er=
+r !=3D -EINTR && err !=3D -ERESTARTSYS)
+cf586021642d801 Chris Wilson 2021-06-17   90  			pr_err("%ps failed, size: =
+%u\n", fn, sz);
+cf586021642d801 Chris Wilson 2021-06-17   91  		if (rq) {
+cf586021642d801 Chris Wilson 2021-06-17   92  			i915_request_wait(rq, 0, H=
+Z);
+cf586021642d801 Chris Wilson 2021-06-17   93  			i915_request_put(rq);
+cf586021642d801 Chris Wilson 2021-06-17   94  		}
+cf586021642d801 Chris Wilson 2021-06-17   95  		i915_gem_object_unpin_map(d=
+st);
+cf586021642d801 Chris Wilson 2021-06-17   96  unpin_src:
+cf586021642d801 Chris Wilson 2021-06-17   97  		i915_gem_object_unpin_map(s=
+rc);
+cf586021642d801 Chris Wilson 2021-06-17   98  	}
+cf586021642d801 Chris Wilson 2021-06-17   99  	if (err)
+cf586021642d801 Chris Wilson 2021-06-17  100  		goto err_out;
+cf586021642d801 Chris Wilson 2021-06-17  101  =
 
-c1dc1914d16616 Ben Widawsky 2021-11-19  181  err_out:
-c1dc1914d16616 Ben Widawsky 2021-11-19  182  	device_unlock(&hostbridge->de=
-v);
-c1dc1914d16616 Ben Widawsky 2021-11-19  183  	return rc;
-c1dc1914d16616 Ben Widawsky 2021-11-19  184  }
-c1dc1914d16616 Ben Widawsky 2021-11-19  185  =
+cf586021642d801 Chris Wilson 2021-06-17 @102  	if (rq) {
+cf586021642d801 Chris Wilson 2021-06-17  103  		if (i915_request_wait(rq, 0=
+, HZ) < 0) {
+cf586021642d801 Chris Wilson 2021-06-17  104  			pr_err("%ps timed out, siz=
+e: %u\n", fn, sz);
+cf586021642d801 Chris Wilson 2021-06-17  105  			err =3D -ETIME;
+cf586021642d801 Chris Wilson 2021-06-17  106  		}
+cf586021642d801 Chris Wilson 2021-06-17  107  		i915_request_put(rq);
+cf586021642d801 Chris Wilson 2021-06-17  108  	}
+cf586021642d801 Chris Wilson 2021-06-17  109  =
+
+cf586021642d801 Chris Wilson 2021-06-17  110  	for (i =3D 0; !err && i < sz=
+ / PAGE_SIZE; i++) {
+cf586021642d801 Chris Wilson 2021-06-17  111  		int x =3D i * 1024 + i915_p=
+random_u32_max_state(1024, prng);
+cf586021642d801 Chris Wilson 2021-06-17  112  =
+
+cf586021642d801 Chris Wilson 2021-06-17 @113  		if (vaddr[x] !=3D x) {
+cf586021642d801 Chris Wilson 2021-06-17  114  			pr_err("%ps failed, size: =
+%u, offset: %zu\n",
+cf586021642d801 Chris Wilson 2021-06-17  115  			       fn, sz, x * sizeof(=
+u32));
+cf586021642d801 Chris Wilson 2021-06-17  116  			igt_hexdump(vaddr + i * 10=
+24, 4096);
+cf586021642d801 Chris Wilson 2021-06-17  117  			err =3D -EINVAL;
+cf586021642d801 Chris Wilson 2021-06-17  118  		}
+cf586021642d801 Chris Wilson 2021-06-17  119  	}
+cf586021642d801 Chris Wilson 2021-06-17  120  =
+
+cf586021642d801 Chris Wilson 2021-06-17  121  	i915_gem_object_unpin_map(ds=
+t);
+cf586021642d801 Chris Wilson 2021-06-17  122  	i915_gem_object_unpin_map(sr=
+c);
+cf586021642d801 Chris Wilson 2021-06-17  123  =
+
+cf586021642d801 Chris Wilson 2021-06-17  124  err_out:
+cf586021642d801 Chris Wilson 2021-06-17  125  	i915_gem_object_put(dst);
+cf586021642d801 Chris Wilson 2021-06-17  126  err_free_src:
+cf586021642d801 Chris Wilson 2021-06-17  127  	i915_gem_object_put(src);
+cf586021642d801 Chris Wilson 2021-06-17  128  =
+
+cf586021642d801 Chris Wilson 2021-06-17  129  	return err;
+cf586021642d801 Chris Wilson 2021-06-17  130  }
+cf586021642d801 Chris Wilson 2021-06-17  131  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9064132402277043745==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============8523456772354588057==--
 
