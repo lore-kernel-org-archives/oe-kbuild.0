@@ -1,122 +1,191 @@
-Content-Type: multipart/mixed; boundary="===============8196906341680614623=="
+Content-Type: multipart/mixed; boundary="===============5086336815189900797=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p' large enough for 'struct gpr_pkt'? s32min
-Date: Thu, 25 Nov 2021 22:03:17 +0800
-Message-ID: <202111252106.YdRVfIXR-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() warn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __builtin_clzll((~0))):((4 <= 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a 64 bit type?
+Date: Thu, 25 Nov 2021 21:42:39 +0800
+Message-ID: <202111252109.OMkj8JcV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8196906341680614623==
+--===============5086336815189900797==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-CC: Mark Brown <broonie@kernel.org>
-CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
+TO: Jakub Jelinek <jakub@redhat.com>
+CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   5f53fa508db098c9d372423a6dac31c8a5679cdf
-commit: cf989b68fcadbeeea1446e50fd8b2f24a0f1275c ASoC: qdsp6: audioreach: a=
-dd Kconfig and Makefile
-date:   4 weeks ago
+commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
+onstant arguments
+date:   11 months ago
 :::::: branch date: 20 hours ago
-:::::: commit date: 4 weeks ago
-config: openrisc-randconfig-m031-20211122 (https://download.01.org/0day-ci/=
-archive/20211125/202111252106.YdRVfIXR-lkp(a)intel.com/config)
-compiler: or1k-linux-gcc (GCC) 11.2.0
+:::::: commit date: 11 months ago
+config: i386-randconfig-m021-20211116 (https://download.01.org/0day-ci/arch=
+ive/20211125/202111252109.OMkj8JcV-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p'=
- large enough for 'struct gpr_pkt'? s32min
-sound/soc/qcom/qdsp6/audioreach.c:228 __audioreach_alloc_pkt() warn: is 'p'=
- large enough for 'struct apm_cmd_header'? 0
+New smatch warnings:
+drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() w=
+arn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __bu=
+iltin_clzll((~0))):((4 <=3D 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a=
+ 64 bit type?
 
-vim +212 sound/soc/qcom/qdsp6/audioreach.c
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 119)
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  196  =
+vim +187 drivers/gpu/drm/i915/gem/selftests/huge_pages.c
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  197  static void *__audiore=
-ach_alloc_pkt(int payload_size, uint32_t opcode, uint32_t token,
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  198  				    uint32_t src_p=
-ort, uint32_t dest_port, bool has_cmd_hdr)
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  199  {
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  200  	struct gpr_pkt *pkt;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  201  	void *p;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  202  	int pkt_size =3D GPR_=
-HDR_SIZE + payload_size;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  203  =
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  183  =
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  204  	if (has_cmd_hdr)
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  205  		pkt_size +=3D APM_CM=
-D_HDR_SIZE;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  206  =
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  184  static int fake_get_huge_pages(struct drm_i915_gem_object *o=
+bj)
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  185  {
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  186  	struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06 @187  	const u64 max_len =3D rounddown_pow_of_two(UINT_MAX);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  188  	struct sg_table *st;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  189  	struct scatterlist *sg;
+84e8978e62fea66 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-09  190  	unsigned int sg_page_sizes;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  191  	u64 rem;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  192  =
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  207  	p =3D kzalloc(pkt_siz=
-e, GFP_KERNEL);
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  208  	if (!p)
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  209  		return ERR_PTR(-ENOM=
-EM);
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  210  =
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  193  	st =3D kmalloc(sizeof(*st), GFP);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  194  	if (!st)
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  195  		return -ENOMEM;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  196  =
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  211  	pkt =3D p;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26 @212  	pkt->hdr.version =3D =
-GPR_PKT_VER;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  213  	pkt->hdr.hdr_size =3D=
- GPR_PKT_HEADER_WORD_SIZE;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  214  	pkt->hdr.pkt_size =3D=
- pkt_size;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  215  	pkt->hdr.dest_port =
-=3D dest_port;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  216  	pkt->hdr.src_port =3D=
- src_port;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  217  =
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  197  	if (sg_alloc_table(st, obj->base.size >> PAGE_SHIFT, GFP)) {
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  198  		kfree(st);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  199  		return -ENOMEM;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  200  	}
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  201  =
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  218  	pkt->hdr.dest_domain =
-=3D GPR_DOMAIN_ID_ADSP;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  219  	pkt->hdr.src_domain =
-=3D GPR_DOMAIN_ID_APPS;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  220  	pkt->hdr.token =3D to=
-ken;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  221  	pkt->hdr.opcode =3D o=
-pcode;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  222  =
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  202  	/* Use optimal page sized chunks to fill in the sg table */
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  203  	rem =3D obj->base.size;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  204  	sg =3D st->sgl;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  205  	st->nents =3D 0;
+84e8978e62fea66 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-09  206  	sg_page_sizes =3D 0;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  207  	do {
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  208  		unsigned int page_size =3D get_largest_page_size(i915, rem=
+);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  209  		unsigned int len =3D min(page_size * div_u64(rem, page_siz=
+e),
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  210  				       max_len);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  211  =
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  223  	if (has_cmd_hdr) {
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  224  		struct apm_cmd_heade=
-r *cmd_header;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  225  =
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  212  		GEM_BUG_ON(!page_size);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  213  =
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  226  		p =3D p + GPR_HDR_SI=
-ZE;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  227  		cmd_header =3D p;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26 @228  		cmd_header->payload_=
-size =3D payload_size;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  229  	}
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  230  =
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  214  		sg->offset =3D 0;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  215  		sg->length =3D len;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  216  		sg_dma_len(sg) =3D len;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  217  		sg_dma_address(sg) =3D page_size;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  218  =
 
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  231  	return pkt;
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  232  }
-44c28dbdb6195b2 Srinivas Kandagatla 2021-10-26  233  =
+84e8978e62fea66 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-09  219  		sg_page_sizes |=3D len;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  220  =
+
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  221  		st->nents++;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  222  =
+
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  223  		rem -=3D len;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  224  		if (!rem) {
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  225  			sg_mark_end(sg);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  226  			break;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  227  		}
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  228  =
+
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  229  		sg =3D sg_next(sg);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  230  	} while (1);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  231  =
+
+c6d22ab61bfdeb9 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+18-09-20  232  	i915_sg_trim(st);
+c6d22ab61bfdeb9 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+18-09-20  233  =
+
+84e8978e62fea66 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-09  234  	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  235  =
+
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  236  	return 0;
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  237  }
+4049866f0913110 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 20=
+17-10-06  238  =
 
 
-:::::: The code at line 212 was first introduced by commit
-:::::: 44c28dbdb6195b2a92e1fcb2946d1e987658f8b5 ASoC: qdsp6: audioreach: ad=
-d basic pkt alloc support
+:::::: The code at line 187 was first introduced by commit
+:::::: 4049866f0913110bf7de597c1177de7a1cc459cb drm/i915/selftests: huge pa=
+ge tests
 
-:::::: TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Matthew Auld <matthew.auld@intel.com>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8196906341680614623==--
+--===============5086336815189900797==--
 
