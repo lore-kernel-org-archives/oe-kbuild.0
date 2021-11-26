@@ -1,47 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============8961053708263647937=="
+Content-Type: multipart/mixed; boundary="===============4145913838823708555=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:direct-xfile-mapped-buffers 103/333] fs/xfs/xfs_rtalloc.c:1439:17: warning: Value stored to 'off' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 26 Nov 2021 09:55:22 +0800
-Message-ID: <202111260911.JKJz6fEX-lkp@intel.com>
+Subject: [linux-next:master 271/3632] drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c:205:2: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 26 Nov 2021 09:45:03 +0800
+Message-ID: <202111260949.8O2BD0Ga-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8961053708263647937==
+--===============4145913838823708555==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
-CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: AngeloGioacchino Del Regno <angelogioacchino.delregno@somainline.org>
+CC: Sam Ravnborg <sam@ravnborg.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t direct-xfile-mapped-buffers
-head:   014cdddffcddd5b13402721de744b9ea76961d74
-commit: bd7fa0e8c47bcda25664e1b2572d33a8d61d29c3 [103/333] xfs: make atomic=
- extent swapping support realtime files
-:::::: branch date: 5 weeks ago
-:::::: commit date: 5 weeks ago
-config: i386-randconfig-c001-20211031 (https://download.01.org/0day-ci/arch=
-ive/20211126/202111260911.JKJz6fEX-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d32154=
-8c3ce987f4f21350ba1c81fdb5d4354224)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   f81e94e91878bded599cc60f2881cfd50991aeb9
+commit: a19125a281128c836faae249c1001eb8d7a18b48 [271/3632] drm/panel: Add =
+BOE BF060Y8M-AJ0 5.99" AMOLED panel driver
+:::::: branch date: 21 hours ago
+:::::: commit date: 6 weeks ago
+config: arm-randconfig-c002-20211119 (https://download.01.org/0day-ci/archi=
+ve/20211126/202111260949.8O2BD0Ga-lkp(a)intel.com/config)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3Dbd7fa0e8c47bcda25664e1b2572d33a8d61d29c3
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
-el/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs direct-xfile-mapped-buffers
-        git checkout bd7fa0e8c47bcda25664e1b2572d33a8d61d29c3
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Da19125a281128c836faae249c1001eb8d7a18b48
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout a19125a281128c836faae249c1001eb8d7a18b48
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,295 +49,305 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   fs/xfs/xfs_rtalloc.c:286:26: note: Left side of '&&' is false
-                           if (thislen >=3D minlen && thislen > bestlen) {
-                                                 ^
-   fs/xfs/xfs_rtalloc.c:294:7: note: Assuming 'next' is < 'end'
-                   if (next < end) {
-                       ^~~~~~~~~~
-   fs/xfs/xfs_rtalloc.c:294:3: note: Taking true branch
-                   if (next < end) {
-                   ^
-   fs/xfs/xfs_rtalloc.c:296:8: note: Assuming 'error' is 0
-                           if (error) {
-                               ^~~~~
-   fs/xfs/xfs_rtalloc.c:296:4: note: Taking false branch
-                           if (error) {
-                           ^
-   fs/xfs/xfs_rtalloc.c:250:7: note: Assuming 'i' is <=3D 'end'
-                i <=3D end;
-                ^~~~~~~~
-   fs/xfs/xfs_rtalloc.c:248:2: note: Loop condition is true.  Entering loop=
- body
-           for (i =3D XFS_BLOCKTOBIT(mp, bbno), besti =3D -1, bestlen =3D 0,
+   drivers/pinctrl/pinctrl-single.c:1830:6: note: 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/pinctrl/pinctrl-single.c:1830:2: note: Taking false branch
+           if (ret) {
            ^
-   fs/xfs/xfs_rtalloc.c:253:12: note: Assuming '__UNIQUE_ID___x1506' is >=
-=3D '__UNIQUE_ID___y1507'
-                   maxlen =3D min(mp->m_sb.sb_rextents, i + maxlen) - i;
-                            ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   fs/xfs/xfs_rtalloc.c:253:12: note: '?' condition is false
-                   maxlen =3D min(mp->m_sb.sb_rextents, i + maxlen) - i;
-                            ^
-   include/linux/minmax.h:45:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   fs/xfs/xfs_rtalloc.c:260:7: note: Assuming 'error' is 0
-                   if (error) {
-                       ^~~~~
-   fs/xfs/xfs_rtalloc.c:260:3: note: Taking false branch
-                   if (error) {
-                   ^
-   fs/xfs/xfs_rtalloc.c:263:7: note: Assuming 'stat' is not equal to 0
-                   if (stat) {
-                       ^~~~
-   fs/xfs/xfs_rtalloc.c:263:3: note: Taking true branch
-                   if (stat) {
-                   ^
-   fs/xfs/xfs_rtalloc.c:269:8: note: Assuming 'error' is 0
-                           if (error) {
-                               ^~~~~
-   fs/xfs/xfs_rtalloc.c:269:4: note: Taking false branch
-                           if (error) {
-                           ^
-   fs/xfs/xfs_rtalloc.c:274:4: note: Returning without writing to '*nextp'
-                           return 0;
-                           ^
-   fs/xfs/xfs_rtalloc.c:274:4: note: Returning zero, which participates in =
-a condition later
-                           return 0;
-                           ^~~~~~~~
-   fs/xfs/xfs_rtalloc.c:735:12: note: Returning from 'xfs_rtallocate_extent=
-_block'
-                           error =3D xfs_rtallocate_extent_block(mp, tp, i,
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/xfs_rtalloc.c:739:8: note: 'error' is 0
-                           if (error) {
-                               ^~~~~
-   fs/xfs/xfs_rtalloc.c:739:4: note: Taking false branch
-                           if (error) {
-                           ^
-   fs/xfs/xfs_rtalloc.c:745:8: note: Assuming the condition is false
-                           if (r !=3D NULLRTBLOCK) {
-                               ^~~~~~~~~~~~~~~~
-   fs/xfs/xfs_rtalloc.c:745:4: note: Taking false branch
-                           if (r !=3D NULLRTBLOCK) {
-                           ^
-   fs/xfs/xfs_rtalloc.c:754:8: note: The left operand of '>>' is a garbage =
-value
-                           if (XFS_BITTOBLOCK(mp, n) > i + 1)
-                               ^
-   fs/xfs/libxfs/xfs_format.h:1055:37: note: expanded from macro 'XFS_BITTO=
-BLOCK'
-   #define XFS_BITTOBLOCK(mp,bi)   ((bi) >> (mp)->m_blkbit_log)
-                                     ~~  ^
-   fs/xfs/xfs_rtalloc.c:983:2: warning: Value stored to 'nrsumsize' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           nrsumsize =3D XFS_FSB_TO_B(mp, nrsumblocks);
+   drivers/pinctrl/pinctrl-single.c:1837:6: note: Assuming 'res' is non-null
+           if (!res) {
+               ^~~~
+   drivers/pinctrl/pinctrl-single.c:1837:2: note: Taking false branch
+           if (!res) {
            ^
-   fs/xfs/xfs_rtalloc.c:983:2: note: Value stored to 'nrsumsize' is never r=
-ead
->> fs/xfs/xfs_rtalloc.c:1439:17: warning: Value stored to 'off' during its =
-initialization is never read [clang-analyzer-deadcode.DeadStores]
-           xfs_fileoff_t           off =3D XFS_B_TO_FSBT(mp, pos);
-                                   ^~~
-   fs/xfs/xfs_rtalloc.c:1439:17: note: Value stored to 'off' during its ini=
-tialization is never read
-           xfs_fileoff_t           off =3D XFS_B_TO_FSBT(mp, pos);
-                                   ^~~
-   Suppressed 5 warnings (5 in non-user code).
+   drivers/pinctrl/pinctrl-single.c:1844:6: note: Assuming field 'res' is n=
+on-null
+           if (!pcs->res) {
+               ^~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1844:2: note: Taking false branch
+           if (!pcs->res) {
+           ^
+   drivers/pinctrl/pinctrl-single.c:1851:6: note: Assuming field 'base' is =
+non-null
+           if (!pcs->base) {
+               ^~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1851:2: note: Taking false branch
+           if (!pcs->base) {
+           ^
+   drivers/pinctrl/pinctrl-single.c:1856:2: note: Calling 'platform_set_drv=
+data'
+           platform_set_drvdata(pdev, pcs);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:243:2: note: Calling 'dev_set_drvdata'
+           dev_set_drvdata(&pdev->dev, data);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:692:1: note: Returning without writing to 'data->=
+bits_per_mux', which participates in a condition later
+   }
+   ^
+   include/linux/device.h:692:1: note: Returning without writing to 'data->=
+bits_per_pin'
+   include/linux/platform_device.h:243:2: note: Returning from 'dev_set_drv=
+data'
+           dev_set_drvdata(&pdev->dev, data);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/platform_device.h:244:1: note: Returning without writing t=
+o 'data->bits_per_mux', which participates in a condition later
+   }
+   ^
+   include/linux/platform_device.h:244:1: note: Returning without writing t=
+o 'data->bits_per_pin'
+   drivers/pinctrl/pinctrl-single.c:1856:2: note: Returning from 'platform_=
+set_drvdata'
+           platform_set_drvdata(pdev, pcs);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1858:2: note: Control jumps to the 'def=
+ault' case at line 1871
+           switch (pcs->width) {
+           ^
+   drivers/pinctrl/pinctrl-single.c:1872:3: note:  Execution continues on l=
+ine 1875
+                   break;
+                   ^
+   drivers/pinctrl/pinctrl-single.c:1878:6: note: Assuming the condition is=
+ false
+           if (PCS_HAS_PINCONF)
+               ^
+   drivers/pinctrl/pinctrl-single.c:212:27: note: expanded from macro 'PCS_=
+HAS_PINCONF'
+   #define PCS_HAS_PINCONF         (pcs->flags & PCS_FEAT_PINCONF)
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1878:2: note: Taking false branch
+           if (PCS_HAS_PINCONF)
+           ^
+   drivers/pinctrl/pinctrl-single.c:1882:8: note: Calling 'pcs_allocate_pin=
+_table'
+           ret =3D pcs_allocate_pin_table(pcs);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:730:11: note: Field 'bits_per_mux' is t=
+rue
+           if (pcs->bits_per_mux) {
+                    ^
+   drivers/pinctrl/pinctrl-single.c:730:2: note: Taking true branch
+           if (pcs->bits_per_mux) {
+           ^
+   drivers/pinctrl/pinctrl-single.c:731:23: note: Calling 'fls'
+                   pcs->bits_per_pin =3D fls(pcs->fmask);
+                                       ^~~~~~~~~~~~~~~
+   include/asm-generic/bitops/builtin-fls.h:14:9: note: Assuming 'x' is 0
+           return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
+                  ^
+   include/asm-generic/bitops/builtin-fls.h:14:9: note: '?' condition is fa=
+lse
+   include/asm-generic/bitops/builtin-fls.h:14:2: note: Returning zero
+           return x ? sizeof(x) * 8 - __builtin_clz(x) : 0;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:731:23: note: Returning from 'fls'
+                   pcs->bits_per_pin =3D fls(pcs->fmask);
+                                       ^~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:731:3: note: The value 0 is assigned to=
+ field 'bits_per_pin'
+                   pcs->bits_per_pin =3D fls(pcs->fmask);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:732:41: note: Division by zero
+                   nr_pins =3D (pcs->size * BITS_PER_BYTE) / pcs->bits_per_=
+pin;
+                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1417:3: warning: Value stored to 'mask'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   mask =3D pcs->read(pcswi->reg);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/pinctrl-single.c:1417:3: note: Value stored to 'mask' is=
+ never read
+                   mask =3D pcs->read(pcswi->reg);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/md/md-autodetect.c:178:2: warning: Value stored to 'err' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           err =3D -EIO;
-           ^     ~~~~
-   drivers/md/md-autodetect.c:178:2: note: Value stored to 'err' is never r=
-ead
-           err =3D -EIO;
-           ^     ~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   2 warnings generated.
+>> drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c:205:2: warning: Value sto=
+red to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D regulator_bulk_disable(ARRAY_SIZE(boe->vregs), boe->vreg=
+s);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c:205:2: note: Value stored=
+ to 'ret' is never read
+           ret =3D regulator_bulk_disable(ARRAY_SIZE(boe->vregs), boe->vreg=
+s);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/isdn/mISDN/core.c:89:2: warning: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(buf, dev_name(dev));
-           ^~~~~~
-   drivers/isdn/mISDN/core.c:89:2: note: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119
-           strcpy(buf, dev_name(dev));
-           ^~~~~~
-   Suppressed 4 warnings (4 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/gpu/drm/panel/panel-elida-kd35t133.c:65:17: warning: Value store=
+d to 'dev' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct device *dev =3D ctx->dev;
+                          ^~~   ~~~~~~~~
+   drivers/gpu/drm/panel/panel-elida-kd35t133.c:65:17: note: Value stored t=
+o 'dev' during its initialization is never read
+           struct device *dev =3D ctx->dev;
+                          ^~~   ~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/net/phy/micrel.c:1072:2: warning: Value stored to 'regval' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/phy/micrel.c:1072:2: note: Value stored to 'regval' is never=
- read
-           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   net/rfkill/core.c:978:2: warning: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(rfkill->name, name);
-           ^~~~~~
-   net/rfkill/core.c:978:2: note: Call to function 'strcpy' is insecure as =
-it does not provide bounding of the memory buffer. Replace unbounded copy f=
-unctions with analogous functions that support length arguments such as 'st=
-rlcpy'. CWE-119
-           strcpy(rfkill->name, name);
-           ^~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   include/linux/dcache.h:526:9: warning: Access to field 'd_inode' results=
+ in a dereference of a null pointer (loaded from variable 'dentry') [clang-=
+analyzer-core.NullDereference]
+           return dentry->d_inode;
+                  ^
+   fs/overlayfs/inode.c:1099:28: note: Assuming 'upperdentry' is null
+           struct inode *realinode =3D upperdentry ? d_inode(upperdentry) :=
+ NULL;
+                                     ^~~~~~~~~~~
+   fs/overlayfs/inode.c:1099:28: note: '?' condition is false
+   fs/overlayfs/inode.c:1101:31: note: Assuming 'lowerpath' is null
+           struct dentry *lowerdentry =3D lowerpath ? lowerpath->dentry : N=
+ULL;
+                                        ^~~~~~~~~
+   fs/overlayfs/inode.c:1101:31: note: '?' condition is false
+   fs/overlayfs/inode.c:1101:2: note: 'lowerdentry' initialized to a null p=
+ointer value
+           struct dentry *lowerdentry =3D lowerpath ? lowerpath->dentry : N=
+ULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/overlayfs/inode.c:1104:13: note: 'bylower' is false
+           int fsid =3D bylower ? lowerpath->layer->fsid : 0;
+                      ^~~~~~~
+   fs/overlayfs/inode.c:1104:13: note: '?' condition is false
+   fs/overlayfs/inode.c:1107:12: note: Assuming field 'newinode' is null
+           int err =3D oip->newinode ? -EEXIST : -ENOMEM;
+                     ^~~~~~~~~~~~~
+   fs/overlayfs/inode.c:1107:12: note: '?' condition is false
+   fs/overlayfs/inode.c:1109:7: note: 'realinode' is null
+           if (!realinode)
+                ^~~~~~~~~
+   fs/overlayfs/inode.c:1109:2: note: Taking true branch
+           if (!realinode)
+           ^
+   fs/overlayfs/inode.c:1110:23: note: Passing null pointer value via 1st p=
+arameter 'dentry'
+                   realinode =3D d_inode(lowerdentry);
+                                       ^~~~~~~~~~~
+   fs/overlayfs/inode.c:1110:15: note: Calling 'd_inode'
+                   realinode =3D d_inode(lowerdentry);
+                               ^~~~~~~~~~~~~~~~~~~~
+   include/linux/dcache.h:526:9: note: Access to field 'd_inode' results in=
+ a dereference of a null pointer (loaded from variable 'dentry')
+           return dentry->d_inode;
+                  ^~~~~~
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
    Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   20 warnings generated.
-   net/9p/client.c:543:3: warning: Value stored to 'err' is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
-ode);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   net/9p/client.c:543:3: note: Value stored to 'err' is never read
-                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
-ode);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   net/9p/client.c:630:3: warning: Value stored to 'err' is never read [cla=
-ng-analyzer-deadcode.DeadStores]
-                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
-ode);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   net/9p/client.c:630:3: note: Value stored to 'err' is never read
-                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
-ode);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   net/9p/client.c:1010:2: warning: Value stored to 'err' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-           err =3D 0;
-           ^     ~
-   net/9p/client.c:1010:2: note: Value stored to 'err' is never read
-           err =3D 0;
-           ^     ~
-   net/9p/client.c:1177:2: warning: Value stored to 'err' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-           err =3D 0;
-           ^     ~
-   net/9p/client.c:1177:2: note: Value stored to 'err' is never read
-           err =3D 0;
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/overlayfs/export.c:498:17: warning: Value stored to 'ancestor' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct dentry *ancestor =3D ERR_PTR(-EIO);
+                          ^~~~~~~~   ~~~~~~~~~~~~~
+   fs/overlayfs/export.c:498:17: note: Value stored to 'ancestor' during it=
+s initialization is never read
+           struct dentry *ancestor =3D ERR_PTR(-EIO);
+                          ^~~~~~~~   ~~~~~~~~~~~~~
+   include/linux/dcache.h:395:9: warning: Access to field 'd_flags' results=
+ in a dereference of a null pointer (loaded from variable 'dentry') [clang-=
+analyzer-core.NullDereference]
 
-vim +/off +1439 fs/xfs/xfs_rtalloc.c
+vim +/ret +205 drivers/gpu/drm/panel/panel-boe-bf060y8m-aj0.c
 
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1422  =
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  190  =
 
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1423  /*
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1424   * For all realtime exten=
-ts backing the given range of a file, search for
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1425   * unwritten mappings tha=
-t are do not cover a full rt extent and convert them
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1426   * to zeroed written mapp=
-ings.  The goal is to end up with one mapping per rt
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1427   * extent so that we can =
-perform a remapping operation.  Callers must ensure
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1428   * that there are no dirt=
-y pages in the given range.
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1429   */
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1430  int
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1431  xfs_rtfile_convert_unwrit=
-ten(
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1432  	struct xfs_inode	*ip,
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1433  	loff_t			pos,
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1434  	uint64_t		len)
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1435  {
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1436  	struct xfs_bmbt_irec	ire=
-c;
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1437  	struct xfs_trans	*tp;
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1438  	struct xfs_mount	*mp =3D=
- ip->i_mount;
-bd7fa0e8c47bcda Darrick J. Wong 2021-09-01 @1439  	xfs_fileoff_t		off =3D X=
-FS_B_TO_FSBT(mp, pos);
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  191  static int boe_b=
+f060y8m_aj0_unprepare(struct drm_panel *panel)
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  192  {
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  193  	struct boe_bf06=
+0y8m_aj0 *boe =3D to_boe_bf060y8m_aj0(panel);
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  194  	struct device *=
+dev =3D &boe->dsi->dev;
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  195  	int ret;
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  196  =
+
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  197  	if (!boe->prepa=
+red)
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  198  		return 0;
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  199  =
+
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  200  	ret =3D boe_bf0=
+60y8m_aj0_off(boe);
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  201  	if (ret < 0)
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  202  		dev_err(dev, "=
+Failed to un-initialize panel: %d\n", ret);
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  203  =
+
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  204  	gpiod_set_value=
+_cansleep(boe->reset_gpio, 1);
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01 @205  	ret =3D regulat=
+or_bulk_disable(ARRAY_SIZE(boe->vregs), boe->vregs);
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  206  =
+
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  207  	boe->prepared =
+=3D false;
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  208  	return 0;
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  209  }
+a19125a281128c AngeloGioacchino Del Regno 2021-09-01  210  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8961053708263647937==--
+--===============4145913838823708555==--
 
