@@ -1,139 +1,343 @@
-Content-Type: multipart/mixed; boundary="===============3825507869027531496=="
+Content-Type: multipart/mixed; boundary="===============8961053708263647937=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mmc/host/sdhci-of-aspeed.c:247 aspeed_sdhci_set_clock() error: uninitialized symbol 'bus'.
-Date: Fri, 26 Nov 2021 10:18:22 +0800
-Message-ID: <202111261031.rcI6URj1-lkp@intel.com>
+Subject: [djwong-xfs:direct-xfile-mapped-buffers 103/333] fs/xfs/xfs_rtalloc.c:1439:17: warning: Value stored to 'off' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 26 Nov 2021 09:55:22 +0800
+Message-ID: <202111260911.JKJz6fEX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3825507869027531496==
+--===============8961053708263647937==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Andrew Jeffery <andrew@aj.id.au>
-CC: Ulf Hansson <ulf.hansson@linaro.org>
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   8ced7ca3570333998ad2088d5a6275701970e28e
-commit: 0c53dc321a507c78fdd15a682f42175a131b1763 mmc: sdhci-of-aspeed: Add =
-AST2600 bus clock support
-date:   10 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 10 months ago
-config: ia64-randconfig-m031-20211122 (https://download.01.org/0day-ci/arch=
-ive/20211126/202111261031.rcI6URj1-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t direct-xfile-mapped-buffers
+head:   014cdddffcddd5b13402721de744b9ea76961d74
+commit: bd7fa0e8c47bcda25664e1b2572d33a8d61d29c3 [103/333] xfs: make atomic=
+ extent swapping support realtime files
+:::::: branch date: 5 weeks ago
+:::::: commit date: 5 weeks ago
+config: i386-randconfig-c001-20211031 (https://download.01.org/0day-ci/arch=
+ive/20211126/202111260911.JKJz6fEX-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d32154=
+8c3ce987f4f21350ba1c81fdb5d4354224)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
+git/commit/?id=3Dbd7fa0e8c47bcda25664e1b2572d33a8d61d29c3
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
+el/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs direct-xfile-mapped-buffers
+        git checkout bd7fa0e8c47bcda25664e1b2572d33a8d61d29c3
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/mmc/host/sdhci-of-aspeed.c:247 aspeed_sdhci_set_clock() error: unin=
-itialized symbol 'bus'.
-
-vim +/bus +247 drivers/mmc/host/sdhci-of-aspeed.c
-
-2fc88f92359df75 Andrew Jeffery 2021-01-14  199  =
-
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  200  static void aspeed_sdhci_se=
-t_clock(struct sdhci_host *host, unsigned int clock)
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  201  {
-0a0e8d7501cda79 Andrew Jeffery 2019-09-02  202  	struct sdhci_pltfm_host *p=
-ltfm_host;
-2fc88f92359df75 Andrew Jeffery 2021-01-14  203  	unsigned long parent, bus;
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  204  	struct aspeed_sdhci *sdhci;
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  205  	int div;
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  206  	u16 clk;
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  207  =
-
-0a0e8d7501cda79 Andrew Jeffery 2019-09-02  208  	pltfm_host =3D sdhci_priv(=
-host);
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  209  	sdhci =3D sdhci_pltfm_priv=
-(pltfm_host);
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  210  =
-
-0a0e8d7501cda79 Andrew Jeffery 2019-09-02  211  	parent =3D clk_get_rate(pl=
-tfm_host->clk);
-0a0e8d7501cda79 Andrew Jeffery 2019-09-02  212  =
-
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  213  	sdhci_writew(host, 0, SDHC=
-I_CLOCK_CONTROL);
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  214  =
-
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  215  	if (clock =3D=3D 0)
-bf290432a4d7d79 Andrew Jeffery 2019-09-02  216  		return;
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  217  =
-
-0a0e8d7501cda79 Andrew Jeffery 2019-09-02  218  	if (WARN_ON(clock > host->=
-max_clk))
-0a0e8d7501cda79 Andrew Jeffery 2019-09-02  219  		clock =3D host->max_clk;
-0a0e8d7501cda79 Andrew Jeffery 2019-09-02  220  =
-
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  221  	/*
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  222  	 * Regarding the AST2600:
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  223  	 *
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  224  	 * If (EMMC12C[7:6], EMMC1=
-2C[15:8] =3D=3D 0) then
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  225  	 *   period of SDCLK =3D p=
-eriod of SDMCLK.
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  226  	 *
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  227  	 * If (EMMC12C[7:6], EMMC1=
-2C[15:8] !=3D 0) then
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  228  	 *   period of SDCLK =3D p=
-eriod of SDMCLK * 2 * (EMMC12C[7:6], EMMC[15:8])
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  229  	 *
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  230  	 * If you keep EMMC12C[7:6=
-] =3D 0 and EMMC12C[15:8] as one-hot,
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  231  	 * 0x1/0x2/0x4/etc, you wi=
-ll find it is compatible to AST2400 or AST2500
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  232  	 *
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  233  	 * Keep the one-hot behavi=
-our for backwards compatibility except for
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  234  	 * supporting the value 0 =
-in (EMMC12C[7:6], EMMC12C[15:8]), and capture
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  235  	 * the 0-value capability =
-in clk_div_start.
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  236  	 */
-0c53dc321a507c7 Andrew Jeffery 2021-01-14  237  	for (div =3D sdhci->pdata-=
->clk_div_start; div < 256; div *=3D 2) {
-2fc88f92359df75 Andrew Jeffery 2021-01-14  238  		bus =3D parent / div;
-2fc88f92359df75 Andrew Jeffery 2021-01-14  239  		if (bus <=3D clock)
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  240  			break;
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  241  	}
-2fc88f92359df75 Andrew Jeffery 2021-01-14  242  =
-
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  243  	div >>=3D 1;
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  244  =
-
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  245  	clk =3D div << SDHCI_DIVID=
-ER_SHIFT;
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  246  =
-
-2fc88f92359df75 Andrew Jeffery 2021-01-14 @247  	aspeed_sdhci_configure_pha=
-se(host, bus);
-2fc88f92359df75 Andrew Jeffery 2021-01-14  248  =
-
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  249  	sdhci_enable_clk(host, clk=
-);
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  250  }
-bb7b8ec62dfb9b2 Andrew Jeffery 2019-08-07  251  =
 
 
-:::::: The code@line 247 was first introduced by commit
-:::::: 2fc88f92359df753fc892f3b3d0e1d69ef6c620c mmc: sdhci-of-aspeed: Expos=
-e clock phase controls
+clang-analyzer warnings: (new ones prefixed by >>)
+   fs/xfs/xfs_rtalloc.c:286:26: note: Left side of '&&' is false
+                           if (thislen >=3D minlen && thislen > bestlen) {
+                                                 ^
+   fs/xfs/xfs_rtalloc.c:294:7: note: Assuming 'next' is < 'end'
+                   if (next < end) {
+                       ^~~~~~~~~~
+   fs/xfs/xfs_rtalloc.c:294:3: note: Taking true branch
+                   if (next < end) {
+                   ^
+   fs/xfs/xfs_rtalloc.c:296:8: note: Assuming 'error' is 0
+                           if (error) {
+                               ^~~~~
+   fs/xfs/xfs_rtalloc.c:296:4: note: Taking false branch
+                           if (error) {
+                           ^
+   fs/xfs/xfs_rtalloc.c:250:7: note: Assuming 'i' is <=3D 'end'
+                i <=3D end;
+                ^~~~~~~~
+   fs/xfs/xfs_rtalloc.c:248:2: note: Loop condition is true.  Entering loop=
+ body
+           for (i =3D XFS_BLOCKTOBIT(mp, bbno), besti =3D -1, bestlen =3D 0,
+           ^
+   fs/xfs/xfs_rtalloc.c:253:12: note: Assuming '__UNIQUE_ID___x1506' is >=
+=3D '__UNIQUE_ID___y1507'
+                   maxlen =3D min(mp->m_sb.sb_rextents, i + maxlen) - i;
+                            ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   fs/xfs/xfs_rtalloc.c:253:12: note: '?' condition is false
+                   maxlen =3D min(mp->m_sb.sb_rextents, i + maxlen) - i;
+                            ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   fs/xfs/xfs_rtalloc.c:260:7: note: Assuming 'error' is 0
+                   if (error) {
+                       ^~~~~
+   fs/xfs/xfs_rtalloc.c:260:3: note: Taking false branch
+                   if (error) {
+                   ^
+   fs/xfs/xfs_rtalloc.c:263:7: note: Assuming 'stat' is not equal to 0
+                   if (stat) {
+                       ^~~~
+   fs/xfs/xfs_rtalloc.c:263:3: note: Taking true branch
+                   if (stat) {
+                   ^
+   fs/xfs/xfs_rtalloc.c:269:8: note: Assuming 'error' is 0
+                           if (error) {
+                               ^~~~~
+   fs/xfs/xfs_rtalloc.c:269:4: note: Taking false branch
+                           if (error) {
+                           ^
+   fs/xfs/xfs_rtalloc.c:274:4: note: Returning without writing to '*nextp'
+                           return 0;
+                           ^
+   fs/xfs/xfs_rtalloc.c:274:4: note: Returning zero, which participates in =
+a condition later
+                           return 0;
+                           ^~~~~~~~
+   fs/xfs/xfs_rtalloc.c:735:12: note: Returning from 'xfs_rtallocate_extent=
+_block'
+                           error =3D xfs_rtallocate_extent_block(mp, tp, i,
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_rtalloc.c:739:8: note: 'error' is 0
+                           if (error) {
+                               ^~~~~
+   fs/xfs/xfs_rtalloc.c:739:4: note: Taking false branch
+                           if (error) {
+                           ^
+   fs/xfs/xfs_rtalloc.c:745:8: note: Assuming the condition is false
+                           if (r !=3D NULLRTBLOCK) {
+                               ^~~~~~~~~~~~~~~~
+   fs/xfs/xfs_rtalloc.c:745:4: note: Taking false branch
+                           if (r !=3D NULLRTBLOCK) {
+                           ^
+   fs/xfs/xfs_rtalloc.c:754:8: note: The left operand of '>>' is a garbage =
+value
+                           if (XFS_BITTOBLOCK(mp, n) > i + 1)
+                               ^
+   fs/xfs/libxfs/xfs_format.h:1055:37: note: expanded from macro 'XFS_BITTO=
+BLOCK'
+   #define XFS_BITTOBLOCK(mp,bi)   ((bi) >> (mp)->m_blkbit_log)
+                                     ~~  ^
+   fs/xfs/xfs_rtalloc.c:983:2: warning: Value stored to 'nrsumsize' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+           nrsumsize =3D XFS_FSB_TO_B(mp, nrsumblocks);
+           ^
+   fs/xfs/xfs_rtalloc.c:983:2: note: Value stored to 'nrsumsize' is never r=
+ead
+>> fs/xfs/xfs_rtalloc.c:1439:17: warning: Value stored to 'off' during its =
+initialization is never read [clang-analyzer-deadcode.DeadStores]
+           xfs_fileoff_t           off =3D XFS_B_TO_FSBT(mp, pos);
+                                   ^~~
+   fs/xfs/xfs_rtalloc.c:1439:17: note: Value stored to 'off' during its ini=
+tialization is never read
+           xfs_fileoff_t           off =3D XFS_B_TO_FSBT(mp, pos);
+                                   ^~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/md/md-autodetect.c:178:2: warning: Value stored to 'err' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+           err =3D -EIO;
+           ^     ~~~~
+   drivers/md/md-autodetect.c:178:2: note: Value stored to 'err' is never r=
+ead
+           err =3D -EIO;
+           ^     ~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/isdn/mISDN/core.c:89:2: warning: Call to function 'strcpy' is in=
+secure as it does not provide bounding of the memory buffer. Replace unboun=
+ded copy functions with analogous functions that support length arguments s=
+uch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(buf, dev_name(dev));
+           ^~~~~~
+   drivers/isdn/mISDN/core.c:89:2: note: Call to function 'strcpy' is insec=
+ure as it does not provide bounding of the memory buffer. Replace unbounded=
+ copy functions with analogous functions that support length arguments such=
+ as 'strlcpy'. CWE-119
+           strcpy(buf, dev_name(dev));
+           ^~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/net/phy/micrel.c:1072:2: warning: Value stored to 'regval' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/phy/micrel.c:1072:2: note: Value stored to 'regval' is never=
+ read
+           regval =3D phy_read(phydev, KSZ8873MLL_GLOBAL_CONTROL_4);
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   net/rfkill/core.c:978:2: warning: Call to function 'strcpy' is insecure =
+as it does not provide bounding of the memory buffer. Replace unbounded cop=
+y functions with analogous functions that support length arguments such as =
+'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(rfkill->name, name);
+           ^~~~~~
+   net/rfkill/core.c:978:2: note: Call to function 'strcpy' is insecure as =
+it does not provide bounding of the memory buffer. Replace unbounded copy f=
+unctions with analogous functions that support length arguments such as 'st=
+rlcpy'. CWE-119
+           strcpy(rfkill->name, name);
+           ^~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   net/9p/client.c:543:3: warning: Value stored to 'err' is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
+ode);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   net/9p/client.c:543:3: note: Value stored to 'err' is never read
+                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
+ode);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   net/9p/client.c:630:3: warning: Value stored to 'err' is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
+ode);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   net/9p/client.c:630:3: note: Value stored to 'err' is never read
+                   err =3D p9pdu_readf(&req->rc, c->proto_version, "d", &ec=
+ode);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   net/9p/client.c:1010:2: warning: Value stored to 'err' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   net/9p/client.c:1010:2: note: Value stored to 'err' is never read
+           err =3D 0;
+           ^     ~
+   net/9p/client.c:1177:2: warning: Value stored to 'err' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   net/9p/client.c:1177:2: note: Value stored to 'err' is never read
+           err =3D 0;
 
-:::::: TO: Andrew Jeffery <andrew@aj.id.au>
-:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
+vim +/off +1439 fs/xfs/xfs_rtalloc.c
+
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1422  =
+
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1423  /*
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1424   * For all realtime exten=
+ts backing the given range of a file, search for
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1425   * unwritten mappings tha=
+t are do not cover a full rt extent and convert them
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1426   * to zeroed written mapp=
+ings.  The goal is to end up with one mapping per rt
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1427   * extent so that we can =
+perform a remapping operation.  Callers must ensure
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1428   * that there are no dirt=
+y pages in the given range.
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1429   */
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1430  int
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1431  xfs_rtfile_convert_unwrit=
+ten(
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1432  	struct xfs_inode	*ip,
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1433  	loff_t			pos,
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1434  	uint64_t		len)
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1435  {
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1436  	struct xfs_bmbt_irec	ire=
+c;
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1437  	struct xfs_trans	*tp;
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01  1438  	struct xfs_mount	*mp =3D=
+ ip->i_mount;
+bd7fa0e8c47bcda Darrick J. Wong 2021-09-01 @1439  	xfs_fileoff_t		off =3D X=
+FS_B_TO_FSBT(mp, pos);
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3825507869027531496==--
+--===============8961053708263647937==--
 
