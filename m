@@ -1,351 +1,192 @@
-Content-Type: multipart/mixed; boundary="===============4408937502345868622=="
+Content-Type: multipart/mixed; boundary="===============2709681689275266753=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:log-recovery-defer-capture 54/87] fs/xfs/xfs_inode.c:3817:20: warning: Value stored to 'ifp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 26 Nov 2021 13:32:24 +0800
-Message-ID: <202111261319.9plS3tAW-lkp@intel.com>
+Subject: kernel/locking/rtmutex.c:1375 rt_mutex_slowunlock() warn: inconsistent returns '&lock->wait_lock'.
+Date: Fri, 26 Nov 2021 13:22:05 +0800
+Message-ID: <202111261328.OIntL6AN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4408937502345868622==
+--===============2709681689275266753==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
+TO: Thomas Gleixner <tglx@linutronix.de>
+CC: Ingo Molnar <mingo@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t log-recovery-defer-capture
-head:   a9ba97129f384fff0a4ac1ff3e2c4b455ea77c88
-commit: 5b92b6afccb0b8ef73bda8fd5720bfdbd7b3153f [54/87] xfs: implement liv=
-e quotacheck inode scan
-:::::: branch date: 5 weeks ago
-:::::: commit date: 5 weeks ago
-config: arm-randconfig-c002-20211031 (https://download.01.org/0day-ci/archi=
-ve/20211126/202111261319.9plS3tAW-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d32154=
-8c3ce987f4f21350ba1c81fdb5d4354224)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3D5b92b6afccb0b8ef73bda8fd5720bfdbd7b3153f
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
-el/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs log-recovery-defer-capture
-        git checkout 5b92b6afccb0b8ef73bda8fd5720bfdbd7b3153f
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a4849f6000e29235a2707f22e39da6b897bb9543
+commit: 70c80103aafdeae99126694bc1cd54de016bc258 locking/rtmutex: Consolida=
+te the fast/slowpath invocation
+date:   8 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 8 months ago
+config: ia64-randconfig-m031-20211122 (https://download.01.org/0day-ci/arch=
+ive/20211126/202111261328.OIntL6AN-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+kernel/locking/rtmutex.c:1375 rt_mutex_slowunlock() warn: inconsistent retu=
+rns '&lock->wait_lock'.
+kernel/locking/rtmutex.c:1375 rt_mutex_slowunlock() warn: inconsistent retu=
+rns 'flags'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   drivers/mfd/tps65010.c:650:5: warning: Value stored to 'status' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                                   status =3D 0;
-                                   ^        ~
-   drivers/mfd/tps65010.c:650:5: note: Value stored to 'status' is never re=
-ad
-                                   status =3D 0;
-                                   ^        ~
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/input/touchscreen/cyttsp4_core.c:806:17: warning: Value stored t=
-o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
-adStores]
-           struct device *dev =3D &md->input->dev;
-                          ^~~   ~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp4_core.c:806:17: note: Value stored to '=
-dev' during its initialization is never read
-           struct device *dev =3D &md->input->dev;
-                          ^~~   ~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp4_core.c:990:2: warning: Value stored to=
- 'hst_mode' is never read [clang-analyzer-deadcode.DeadStores]
-           hst_mode =3D si->xy_mode[CY_REG_BASE];
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/cyttsp4_core.c:990:2: note: Value stored to 'h=
-st_mode' is never read
-           hst_mode =3D si->xy_mode[CY_REG_BASE];
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   drivers/mtd/nftlcore.c:334:30: warning: The left operand of '!=3D' is a =
-garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                           if (BlockLastState[block] !=3D SECTOR_FREE &&
-                               ~~~~~~~~~~~~~~~~~~~~~ ^
-   drivers/mtd/nftlcore.c:250:6: note: Assuming 'thisEUN' is not equal to B=
-LOCK_NIL
-           if (thisEUN =3D=3D BLOCK_NIL) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nftlcore.c:250:2: note: Taking false branch
-           if (thisEUN =3D=3D BLOCK_NIL) {
-           ^
-   drivers/mtd/nftlcore.c:261:9: note: Assuming 'thisEUN' is > field 'lastE=
-UN'
-           while (thisEUN <=3D nftl->lastEUN ) {
-                  ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nftlcore.c:261:2: note: Loop condition is false. Execution c=
-ontinues on line 325
-           while (thisEUN <=3D nftl->lastEUN ) {
-           ^
-   drivers/mtd/nftlcore.c:325:6: note: 'inplace' is 1
-           if (inplace) {
-               ^~~~~~~
-   drivers/mtd/nftlcore.c:325:2: note: Taking true branch
-           if (inplace) {
-           ^
-   drivers/mtd/nftlcore.c:333:8: note: The value 0 is assigned to 'block'
-                   for (block =3D 0; block < nftl->EraseSize / 512 ; block+=
-+) {
-                        ^~~~~~~~~
-   drivers/mtd/nftlcore.c:333:19: note: Assuming the condition is true
-                   for (block =3D 0; block < nftl->EraseSize / 512 ; block+=
-+) {
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/nftlcore.c:333:3: note: Loop condition is true.  Entering lo=
-op body
-                   for (block =3D 0; block < nftl->EraseSize / 512 ; block+=
-+) {
-                   ^
-   drivers/mtd/nftlcore.c:334:30: note: The left operand of '!=3D' is a gar=
-bage value
-                           if (BlockLastState[block] !=3D SECTOR_FREE &&
-                               ~~~~~~~~~~~~~~~~~~~~~ ^
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/mtd/inftlcore.c:537:4: warning: Value stored to 'thisEUN' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                           thisEUN =3D INFTL_makefreeblock(inftl, block);
-                           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/inftlcore.c:537:4: note: Value stored to 'thisEUN' is never =
-read
-                           thisEUN =3D INFTL_makefreeblock(inftl, block);
-                           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
->> fs/xfs/xfs_inode.c:3817:20: warning: Value stored to 'ifp' during its in=
-itialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(ip, XFS_DATA_FORK=
-);
-                                    ^~~
-   fs/xfs/xfs_inode.c:3817:20: note: Value stored to 'ifp' during its initi=
-alization is never read
-           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(ip, XFS_DATA_FORK=
-);
-                                    ^~~
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   Suppressed 18 warnings (18 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   drivers/input/touchscreen/surface3_spi.c:28:8: warning: Excessive paddin=
-g in 'struct surface3_ts_data' (96 padding bytes, where 32 is optimal). =
+vim +1375 kernel/locking/rtmutex.c
 
-   Optimal fields order: =
+70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
+26  1311  =
 
-   rd_buf, =
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1312  /*
+802ab58da74bb49 kernel/locking/rtmutex.c Sebastian Andrzej Siewior 2015-06-=
+17  1313   * Slow path to release a rt-mutex.
+aa2bfe55366552c kernel/locking/rtmutex.c Peter Zijlstra            2017-03-=
+23  1314   *
+aa2bfe55366552c kernel/locking/rtmutex.c Peter Zijlstra            2017-03-=
+23  1315   * Return whether the current task needs to call rt_mutex_postunl=
+ock().
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1316   */
+70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
+26  1317  static void __sched rt_mutex_slowunlock(struct rt_mutex *lock)
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1318  {
+70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
+26  1319  	DEFINE_WAKE_Q(wake_q);
+b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
+13  1320  	unsigned long flags;
+b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
+13  1321  =
 
-   spi, =
+b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
+13  1322  	/* irqsave required to support early boot calls */
+b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
+13  1323  	raw_spin_lock_irqsave(&lock->wait_lock, flags);
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1324  =
 
-   input_dev, =
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1325  	debug_rt_mutex_unlock(lock);
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1326  =
 
-   pen_input_dev, =
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1327  	/*
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1328  	 * We must be careful here if the fast path is enabled. If we
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1329  	 * have no waiters queued we cannot set owner to NULL here
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1330  	 * because of:
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1331  	 *
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1332  	 * foo->lock->owner =3D NULL;
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1333  	 *			rtmutex_lock(foo->lock);   <- fast path
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1334  	 *			free =3D atomic_dec_and_test(foo->refcnt);
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1335  	 *			rtmutex_unlock(foo->lock); <- fast path
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1336  	 *			if (free)
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1337  	 *				kfree(foo);
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1338  	 * raw_spin_unlock(foo->lock->wait_lock);
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1339  	 *
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1340  	 * So for the fastpath enabled kernel:
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1341  	 *
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1342  	 * Nothing can set the waiters bit as long as we hold
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1343  	 * lock->wait_lock. So we do the following sequence:
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1344  	 *
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1345  	 *	owner =3D rt_mutex_owner(lock);
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1346  	 *	clear_rt_mutex_waiters(lock);
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1347  	 *	raw_spin_unlock(&lock->wait_lock);
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1348  	 *	if (cmpxchg(&lock->owner, owner, 0) =3D=3D owner)
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1349  	 *		return;
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1350  	 *	goto retry;
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1351  	 *
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1352  	 * The fastpath disabled variant is simple as all access to
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1353  	 * lock->owner is serialized by lock->wait_lock:
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1354  	 *
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1355  	 *	lock->owner =3D NULL;
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1356  	 *	raw_spin_unlock(&lock->wait_lock);
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1357  	 */
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1358  	while (!rt_mutex_has_waiters(lock)) {
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1359  		/* Drops lock->wait_lock ! */
+b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
+13  1360  		if (unlock_rt_mutex_safe(lock, flags) =3D=3D true)
+70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
+26  1361  			return;
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1362  		/* Relock the rtmutex and try again */
+b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
+13  1363  		raw_spin_lock_irqsave(&lock->wait_lock, flags);
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1364  	}
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1365  =
 
-   pen_tool, =
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1366  	/*
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1367  	 * The wakeup next waiter path does not suffer from the above
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1368  	 * race. See the comments there.
+45ab4effc3bee6f kernel/locking/rtmutex.c Davidlohr Bueso           2015-05-=
+19  1369  	 *
+45ab4effc3bee6f kernel/locking/rtmutex.c Davidlohr Bueso           2015-05-=
+19  1370  	 * Queue the next waiter for wakeup once we release the wait_loc=
+k.
+27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
+11  1371  	 */
+70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
+26  1372  	mark_wakeup_next_waiter(&wake_q, lock);
+b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
+13  1373  	raw_spin_unlock_irqrestore(&lock->wait_lock, flags);
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1374  =
 
-   gpiod_rst, =
+70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
+26 @1375  	rt_mutex_postunlock(&wake_q);
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1376  }
+23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
+27  1377  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct surface3_ts_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/surface3_spi.c:28:8: note: Excessive padding i=
-n 'struct surface3_ts_data' (96 padding bytes, where 32 is optimal). Optima=
-l fields order: rd_buf, spi, input_dev, pen_input_dev, pen_tool, gpiod_rst,=
- consider reordering the fields or adding explicit padding members
-   struct surface3_ts_data {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~
-   Suppressed 17 warnings (17 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/input/touchscreen/ti_am335x_tsc.c:158:2: warning: Value stored t=
-o 'config' is never read [clang-analyzer-deadcode.DeadStores]
-           config =3D 0;
-           ^        ~
-   drivers/input/touchscreen/ti_am335x_tsc.c:158:2: note: Value stored to '=
-config' is never read
-           config =3D 0;
-           ^        ~
-   drivers/input/touchscreen/ti_am335x_tsc.c:251:8: warning: Division by ze=
-ro [clang-analyzer-core.DivideZero]
-                   ysum /=3D creads;
-                        ^
-   drivers/input/touchscreen/ti_am335x_tsc.c:277:11: note: Calling 'titsc_r=
-eadl'
-           status =3D titsc_readl(ts_dev, REG_RAWIRQSTATUS);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:65:2: note: Returning without =
-writing to 'ts->coordinate_readouts'
-           return readl(ts->mfd_tscadc->tscadc_base + reg);
-           ^
-   drivers/input/touchscreen/ti_am335x_tsc.c:277:11: note: Returning from '=
-titsc_readl'
-           status =3D titsc_readl(ts_dev, REG_RAWIRQSTATUS);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:278:6: note: Assuming the cond=
-ition is false
-           if (status & IRQENB_HW_PEN) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:278:2: note: Taking false bran=
-ch
-           if (status & IRQENB_HW_PEN) {
-           ^
-   drivers/input/touchscreen/ti_am335x_tsc.c:284:6: note: Assuming the cond=
-ition is false
-           if (status & IRQENB_PENUP) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:284:2: note: Taking false bran=
-ch
-           if (status & IRQENB_PENUP) {
-           ^
-   drivers/input/touchscreen/ti_am335x_tsc.c:298:6: note: Assuming the cond=
-ition is false
-           if (status & IRQENB_EOS)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:298:2: note: Taking false bran=
-ch
-           if (status & IRQENB_EOS)
-           ^
-   drivers/input/touchscreen/ti_am335x_tsc.c:305:6: note: Assuming the cond=
-ition is true
-           if (status & IRQENB_FIFO0THRES) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:305:2: note: Taking true branch
-           if (status & IRQENB_FIFO0THRES) {
-           ^
-   drivers/input/touchscreen/ti_am335x_tsc.c:307:3: note: Calling 'titsc_re=
-ad_coordinates'
-                   titsc_read_coordinates(ts_dev, &x, &y, &z1, &z2);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:222:2: note: 'creads' initiali=
-zed here
-           unsigned int creads =3D ts_dev->coordinate_readouts;
-           ^~~~~~~~~~~~~~~~~~~
-   drivers/input/touchscreen/ti_am335x_tsc.c:224:14: note: Assuming 'i' is =
->=3D 'creads'
-           for (i =3D 0; i < creads; i++) {
-                       ^~~~~~~~~~
-
-vim +/ifp +3817 fs/xfs/xfs_inode.c
-
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3808  =
-
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3809  /* Compute the number of d=
-ata and realtime blocks used by a file. */
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3810  void
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3811  xfs_inode_count_blocks(
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3812  	struct xfs_trans	*tp,
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3813  	struct xfs_inode	*ip,
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3814  	xfs_filblks_t		*dblocks,
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3815  	xfs_filblks_t		*rblocks)
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3816  {
-5b92b6afccb0b8 Darrick J. Wong 2021-09-01 @3817  	struct xfs_ifork	*ifp =3D=
- XFS_IFORK_PTR(ip, XFS_DATA_FORK);
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============4408937502345868622==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2709681689275266753==--
 
