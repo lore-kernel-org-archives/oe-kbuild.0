@@ -1,336 +1,173 @@
-Content-Type: multipart/mixed; boundary="===============5897164286936315687=="
+Content-Type: multipart/mixed; boundary="===============4850765907266474064=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/skmsg.h:315:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Fri, 26 Nov 2021 21:10:32 +0800
-Message-ID: <202111262146.PP6CxPqw-lkp@intel.com>
+Subject: drivers/vdpa/mlx5/net/mlx5_vnet.c:2063 mlx5_vdpa_dev_add() error: uninitialized symbol 'pfmdev'.
+Date: Fri, 26 Nov 2021 20:18:15 +0800
+Message-ID: <202111262052.K4MjKwss-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5897164286936315687==
+--===============4850765907266474064==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Cong Wang <cong.wang@bytedance.com>
-CC: Alexei Starovoitov <ast@kernel.org>
+TO: Eli Cohen <elic@nvidia.com>
+CC: Saeed Mahameed <saeedm@nvidia.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   a4849f6000e29235a2707f22e39da6b897bb9543
-commit: 17edea21b38d047a10c189296c58aea9875d0d0a sock_map: Relax config dep=
-endency to CONFIG_NET
-date:   4 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 months ago
-config: arm-randconfig-c002-20211114 (https://download.01.org/0day-ci/archi=
-ve/20211126/202111262146.PP6CxPqw-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c3ddde=
-eafb529e769cde87bd29ef6271ac6bfa5c)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D17edea21b38d047a10c189296c58aea9875d0d0a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 17edea21b38d047a10c189296c58aea9875d0d0a
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+commit: 7c9f131f366ab414691907fa0407124ea2b2f3bc {net,vdpa}/mlx5: Configure=
+ interface MAC into mpfs L2 table
+date:   6 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 6 months ago
+config: ia64-randconfig-m031-20211122 (https://download.01.org/0day-ci/arch=
+ive/20211126/202111262052.K4MjKwss-lkp(a)intel.com/config)
+compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/vdpa/mlx5/net/mlx5_vnet.c:2063 mlx5_vdpa_dev_add() error: uninitial=
+ized symbol 'pfmdev'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   net/nfc/llcp_commands.c:422:13: note: Returning from 'nfc_llcp_build_tlv'
-           miux_tlv =3D nfc_llcp_build_tlv(LLCP_TLV_MIUX, (u8 *)&miux, 0,
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/nfc/llcp_commands.c:424:7: note: 'miux_tlv' is non-null
-           if (!miux_tlv) {
-                ^~~~~~~~
-   net/nfc/llcp_commands.c:424:2: note: Taking false branch
-           if (!miux_tlv) {
-           ^
-   net/nfc/llcp_commands.c:430:11: note: Calling 'nfc_llcp_build_tlv'
-           rw_tlv =3D nfc_llcp_build_tlv(LLCP_TLV_RW, &rw, 0, &rw_tlv_lengt=
-h);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/nfc/llcp_commands.c:83:2: note: Taking false branch
-           pr_debug("type %d\n", type);
-           ^
-   include/linux/printk.h:477:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:140:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   net/nfc/llcp_commands.c:85:6: note: 'type' is < LLCP_TLV_MAX
-           if (type >=3D LLCP_TLV_MAX)
-               ^~~~
-   net/nfc/llcp_commands.c:85:2: note: Taking false branch
-           if (type >=3D LLCP_TLV_MAX)
-           ^
-   net/nfc/llcp_commands.c:89:6: note: Assuming 'length' is not equal to 0
-           if (length =3D=3D 0 && value_length =3D=3D 0)
-               ^~~~~~~~~~~
-   net/nfc/llcp_commands.c:89:18: note: Left side of '&&' is false
-           if (length =3D=3D 0 && value_length =3D=3D 0)
-                           ^
-   net/nfc/llcp_commands.c:91:11: note: 'length' is not equal to 0
-           else if (length =3D=3D 0)
-                    ^~~~~~
-   net/nfc/llcp_commands.c:91:7: note: Taking false branch
-           else if (length =3D=3D 0)
-                ^
-   net/nfc/llcp_commands.c:95:8: note: Calling 'kzalloc'
-           tlv =3D kzalloc(2 + length, GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:579:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:596:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/nfc/llcp_commands.c:95:8: note: Returning from 'kzalloc'
-           tlv =3D kzalloc(2 + length, GFP_KERNEL);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/nfc/llcp_commands.c:96:6: note: Assuming 'tlv' is not equal to NULL,=
- which participates in a condition later
-           if (tlv =3D=3D NULL)
-               ^~~~~~~~~~~
-   net/nfc/llcp_commands.c:96:2: note: Taking false branch
-           if (tlv =3D=3D NULL)
-           ^
-   net/nfc/llcp_commands.c:101:2: note: Assigning value, which participates=
- in a condition later
-           memcpy(tlv + 2, value, length);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/nfc/llcp_commands.c:103:2: note: Returning pointer (loaded from 'tlv=
-'), which participates in a condition later
-           return tlv;
-           ^~~~~~~~~~
-   net/nfc/llcp_commands.c:430:11: note: Returning from 'nfc_llcp_build_tlv'
-           rw_tlv =3D nfc_llcp_build_tlv(LLCP_TLV_RW, &rw, 0, &rw_tlv_lengt=
-h);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/nfc/llcp_commands.c:431:7: note: 'rw_tlv' is non-null
-           if (!rw_tlv) {
-                ^~~~~~
-   net/nfc/llcp_commands.c:431:2: note: Taking false branch
-           if (!rw_tlv) {
-           ^
-   net/nfc/llcp_commands.c:437:2: note: Taking false branch
-           pr_debug("SKB size %d SN length %zu\n", size, sock->service_name=
-_len);
-           ^
-   include/linux/printk.h:477:2: note: expanded from macro 'pr_debug'
-           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:140:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
-           ^
-   net/nfc/llcp_commands.c:440:6: note: 'skb' is not equal to NULL
-           if (skb =3D=3D NULL) {
-               ^~~
-   net/nfc/llcp_commands.c:440:2: note: Taking false branch
-           if (skb =3D=3D NULL) {
-           ^
-   net/nfc/llcp_commands.c:445:2: note: 3rd function call argument is an un=
-initialized value
-           llcp_add_tlv(skb, service_name_tlv, service_name_tlv_length);
-           ^                                   ~~~~~~~~~~~~~~~~~~~~~~~
-   1 warning generated.
->> include/linux/skmsg.h:315:2: warning: Use of memory after it is freed [c=
-lang-analyzer-unix.Malloc]
-           return msg;
-           ^
-   net/core/skmsg.c:411:11: note: Calling 'sk_psock_peek_msg'
-           msg_rx =3D sk_psock_peek_msg(psock);
-                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skmsg.h:313:8: note: Left side of '||' is false
-           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
-msg, list);
-                 ^
-   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
-_or_null'
-           struct list_head *pos__ =3D READ_ONCE(head__->next); \
-                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   include/linux/skmsg.h:313:8: note: Left side of '||' is false
-           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
-msg, list);
-                 ^
-   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
-_or_null'
-           struct list_head *pos__ =3D READ_ONCE(head__->next); \
-                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   include/linux/skmsg.h:313:8: note: Left side of '||' is true
-           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
-msg, list);
-                 ^
-   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
-_or_null'
-           struct list_head *pos__ =3D READ_ONCE(head__->next); \
-                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
-ve_word'
-            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
-                                     ^
-   include/linux/skmsg.h:313:8: note: Taking false branch
-           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
-msg, list);
-                 ^
-   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
-_or_null'
-           struct list_head *pos__ =3D READ_ONCE(head__->next); \
-                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/skmsg.h:313:8: note: Loop condition is false.  Exiting loop
-           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
-msg, list);
-                 ^
-   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
-_or_null'
-           struct list_head *pos__ =3D READ_ONCE(head__->next); \
-                                     ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   include/linux/skmsg.h:313:8: note: Assuming 'pos__' is not equal to 'hea=
-d__'
-           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
-msg, list);
-                 ^
-   include/linux/list.h:546:2: note: expanded from macro 'list_first_entry_=
-or_null'
-           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
-           ^~~~~~~~~~~~~~~
-   include/linux/skmsg.h:313:8: note: '?' condition is true
-           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
-msg, list);
+Old smatch warnings:
+drivers/vdpa/mlx5/net/mlx5_vnet.c:638 umem_size() error: uninitialized symb=
+ol 'p_a'.
+drivers/vdpa/mlx5/net/mlx5_vnet.c:638 umem_size() error: uninitialized symb=
+ol 'p_b'.
+drivers/vdpa/mlx5/net/mlx5_vnet.c:720 umem_destroy() error: potentially der=
+eferencing uninitialized 'umem'.
 
-vim +315 include/linux/skmsg.h
+vim +/pfmdev +2063 drivers/vdpa/mlx5/net/mlx5_vnet.c
 
-b01fd6e802b6d0 Cong Wang 2021-03-30  307  =
+58926c8aab104da Eli Cohen       2021-04-08  1994  =
 
-b01fd6e802b6d0 Cong Wang 2021-03-30  308  static inline struct sk_msg *sk_p=
-sock_peek_msg(struct sk_psock *psock)
-b01fd6e802b6d0 Cong Wang 2021-03-30  309  {
-b01fd6e802b6d0 Cong Wang 2021-03-30  310  	struct sk_msg *msg;
-b01fd6e802b6d0 Cong Wang 2021-03-30  311  =
+58926c8aab104da Eli Cohen       2021-04-08  1995  static int mlx5_vdpa_dev_=
+add(struct vdpa_mgmt_dev *v_mdev, const char *name)
+1a86b377aa2147a Eli Cohen       2020-08-04  1996  {
+58926c8aab104da Eli Cohen       2021-04-08  1997  	struct mlx5_vdpa_mgmtdev=
+ *mgtdev =3D container_of(v_mdev, struct mlx5_vdpa_mgmtdev, mgtdev);
+1a86b377aa2147a Eli Cohen       2020-08-04  1998  	struct virtio_net_config=
+ *config;
+7c9f131f366ab41 Eli Cohen       2021-04-22  1999  	struct mlx5_core_dev *pf=
+mdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2000  	struct mlx5_vdpa_dev *mv=
+dev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2001  	struct mlx5_vdpa_net *nd=
+ev;
+58926c8aab104da Eli Cohen       2021-04-08  2002  	struct mlx5_core_dev *md=
+ev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2003  	u32 max_vqs;
+1a86b377aa2147a Eli Cohen       2020-08-04  2004  	int err;
+1a86b377aa2147a Eli Cohen       2020-08-04  2005  =
 
-b01fd6e802b6d0 Cong Wang 2021-03-30  312  	spin_lock_bh(&psock->ingress_loc=
+58926c8aab104da Eli Cohen       2021-04-08  2006  	if (mgtdev->ndev)
+58926c8aab104da Eli Cohen       2021-04-08  2007  		return -ENOSPC;
+58926c8aab104da Eli Cohen       2021-04-08  2008  =
+
+58926c8aab104da Eli Cohen       2021-04-08  2009  	mdev =3D mgtdev->madev->=
+mdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2010  	/* we save one virtqueue=
+ for control virtqueue should we require it */
+1a86b377aa2147a Eli Cohen       2020-08-04  2011  	max_vqs =3D MLX5_CAP_DEV=
+_VDPA_EMULATION(mdev, max_num_virtio_queues);
+1a86b377aa2147a Eli Cohen       2020-08-04  2012  	max_vqs =3D min_t(u32, m=
+ax_vqs, MLX5_MAX_SUPPORTED_VQS);
+1a86b377aa2147a Eli Cohen       2020-08-04  2013  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2014  	ndev =3D vdpa_alloc_devi=
+ce(struct mlx5_vdpa_net, mvdev.vdev, mdev->device, &mlx5_vdpa_ops,
+58926c8aab104da Eli Cohen       2021-04-08  2015  				 name);
+1a86b377aa2147a Eli Cohen       2020-08-04  2016  	if (IS_ERR(ndev))
+74c9729dd892a1b Leon Romanovsky 2020-10-04  2017  		return PTR_ERR(ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2018  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2019  	ndev->mvdev.max_vqs =3D =
+max_vqs;
+1a86b377aa2147a Eli Cohen       2020-08-04  2020  	mvdev =3D &ndev->mvdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2021  	mvdev->mdev =3D mdev;
+1a86b377aa2147a Eli Cohen       2020-08-04  2022  	init_mvqs(ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2023  	mutex_init(&ndev->resloc=
 k);
-b01fd6e802b6d0 Cong Wang 2021-03-30  313  	msg =3D list_first_entry_or_null=
-(&psock->ingress_msg, struct sk_msg, list);
-b01fd6e802b6d0 Cong Wang 2021-03-30  314  	spin_unlock_bh(&psock->ingress_l=
-ock);
-b01fd6e802b6d0 Cong Wang 2021-03-30 @315  	return msg;
-b01fd6e802b6d0 Cong Wang 2021-03-30  316  }
-b01fd6e802b6d0 Cong Wang 2021-03-30  317  =
+1a86b377aa2147a Eli Cohen       2020-08-04  2024  	config =3D &ndev->config;
+d084d996aaf53c0 Si-Wei Liu      2021-04-08  2025  	err =3D query_mtu(mdev, =
+&ndev->mtu);
+1a86b377aa2147a Eli Cohen       2020-08-04  2026  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2027  		goto err_mtu;
+1a86b377aa2147a Eli Cohen       2020-08-04  2028  =
 
+1a86b377aa2147a Eli Cohen       2020-08-04  2029  	err =3D mlx5_query_nic_v=
+port_mac_address(mdev, 0, 0, config->mac);
+1a86b377aa2147a Eli Cohen       2020-08-04  2030  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2031  		goto err_mtu;
+1a86b377aa2147a Eli Cohen       2020-08-04  2032  =
 
-:::::: The code at line 315 was first introduced by commit
-:::::: b01fd6e802b6d0a635176f943315670b679d8d7b skmsg: Introduce a spinlock=
- to protect ingress_msg
+7c9f131f366ab41 Eli Cohen       2021-04-22  2033  	if (!is_zero_ether_addr(=
+config->mac)) {
+7c9f131f366ab41 Eli Cohen       2021-04-22  2034  		pfmdev =3D pci_get_drvd=
+ata(pci_physfn(mdev->pdev));
+7c9f131f366ab41 Eli Cohen       2021-04-22  2035  		err =3D mlx5_mpfs_add_m=
+ac(pfmdev, config->mac);
+7c9f131f366ab41 Eli Cohen       2021-04-22  2036  		if (err)
+7c9f131f366ab41 Eli Cohen       2021-04-22  2037  			goto err_mtu;
+7c9f131f366ab41 Eli Cohen       2021-04-22  2038  	}
+7c9f131f366ab41 Eli Cohen       2021-04-22  2039  =
 
-:::::: TO: Cong Wang <cong.wang@bytedance.com>
-:::::: CC: Alexei Starovoitov <ast@kernel.org>
+1a86b377aa2147a Eli Cohen       2020-08-04  2040  	mvdev->vdev.dma_dev =3D =
+mdev->device;
+1a86b377aa2147a Eli Cohen       2020-08-04  2041  	err =3D mlx5_vdpa_alloc_=
+resources(&ndev->mvdev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2042  	if (err)
+7c9f131f366ab41 Eli Cohen       2021-04-22  2043  		goto err_mpfs;
+1a86b377aa2147a Eli Cohen       2020-08-04  2044  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2045  	err =3D alloc_resources(=
+ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2046  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2047  		goto err_res;
+1a86b377aa2147a Eli Cohen       2020-08-04  2048  =
+
+58926c8aab104da Eli Cohen       2021-04-08  2049  	mvdev->vdev.mdev =3D &mg=
+tdev->mgtdev;
+58926c8aab104da Eli Cohen       2021-04-08  2050  	err =3D _vdpa_register_d=
+evice(&mvdev->vdev, 2 * mlx5_vdpa_max_qps(max_vqs));
+1a86b377aa2147a Eli Cohen       2020-08-04  2051  	if (err)
+1a86b377aa2147a Eli Cohen       2020-08-04  2052  		goto err_reg;
+1a86b377aa2147a Eli Cohen       2020-08-04  2053  =
+
+58926c8aab104da Eli Cohen       2021-04-08  2054  	mgtdev->ndev =3D ndev;
+74c9729dd892a1b Leon Romanovsky 2020-10-04  2055  	return 0;
+1a86b377aa2147a Eli Cohen       2020-08-04  2056  =
+
+1a86b377aa2147a Eli Cohen       2020-08-04  2057  err_reg:
+1a86b377aa2147a Eli Cohen       2020-08-04  2058  	free_resources(ndev);
+1a86b377aa2147a Eli Cohen       2020-08-04  2059  err_res:
+1a86b377aa2147a Eli Cohen       2020-08-04  2060  	mlx5_vdpa_free_resources=
+(&ndev->mvdev);
+7c9f131f366ab41 Eli Cohen       2021-04-22  2061  err_mpfs:
+7c9f131f366ab41 Eli Cohen       2021-04-22  2062  	if (!is_zero_ether_addr(=
+config->mac))
+7c9f131f366ab41 Eli Cohen       2021-04-22 @2063  		mlx5_mpfs_del_mac(pfmde=
+v, config->mac);
+1a86b377aa2147a Eli Cohen       2020-08-04  2064  err_mtu:
+1a86b377aa2147a Eli Cohen       2020-08-04  2065  	mutex_destroy(&ndev->res=
+lock);
+1a86b377aa2147a Eli Cohen       2020-08-04  2066  	put_device(&mvdev->vdev.=
+dev);
+74c9729dd892a1b Leon Romanovsky 2020-10-04  2067  	return err;
+1a86b377aa2147a Eli Cohen       2020-08-04  2068  }
+1a86b377aa2147a Eli Cohen       2020-08-04  2069  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5897164286936315687==--
+--===============4850765907266474064==--
 
