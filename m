@@ -1,193 +1,351 @@
-Content-Type: multipart/mixed; boundary="===============1633893462970538955=="
+Content-Type: multipart/mixed; boundary="===============4408937502345868622=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH V1 1/2] mm/damon/dbgfs: Modify Damon dbfs interface dependency in Kconfig
-Date: Fri, 26 Nov 2021 13:32:27 +0800
-Message-ID: <202111261310.jsnbkhsX-lkp@intel.com>
+Subject: [djwong-xfs:log-recovery-defer-capture 54/87] fs/xfs/xfs_inode.c:3817:20: warning: Value stored to 'ifp' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 26 Nov 2021 13:32:24 +0800
+Message-ID: <202111261319.9plS3tAW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1633893462970538955==
+--===============4408937502345868622==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <fbf27c39e8f23d12d5474b9b659d3d45f8dd38ca.1637429074.git.xhao(=
-a)linux.alibaba.com>
-References: <fbf27c39e8f23d12d5474b9b659d3d45f8dd38ca.1637429074.git.xhao(a=
-)linux.alibaba.com>
-TO: Xin Hao <xhao@linux.alibaba.com>
-TO: sj(a)kernel.org
-CC: xhao(a)linux.alibaba.com
-CC: akpm(a)linux-foundation.org
-CC: linux-mm(a)kvack.org
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-Hi Xin,
-
-Thank you for the patch! Yet something to improve:
-
-[auto build test ERROR on hnaz-mm/master]
-
-url:    https://github.com/0day-ci/linux/commits/Xin-Hao/mm-damon-dbgfs-Mod=
-ify-Damon-dbfs-interface-dependency-in-Kconfig/20211121-012819
-base:   https://github.com/hnaz/linux-mm master
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: powerpc-randconfig-c024-20211123 (https://download.01.org/0day-ci/a=
-rchive/20211126/202111261310.jsnbkhsX-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t log-recovery-defer-capture
+head:   a9ba97129f384fff0a4ac1ff3e2c4b455ea77c88
+commit: 5b92b6afccb0b8ef73bda8fd5720bfdbd7b3153f [54/87] xfs: implement liv=
+e quotacheck inode scan
+:::::: branch date: 5 weeks ago
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20211031 (https://download.01.org/0day-ci/archi=
+ve/20211126/202111261319.9plS3tAW-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d32154=
+8c3ce987f4f21350ba1c81fdb5d4354224)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/496f4e2cc535ba7b71a6ff2b8=
-2840693d413ae02
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Xin-Hao/mm-damon-dbgfs-Modify-Damo=
-n-dbfs-interface-dependency-in-Kconfig/20211121-012819
-        git checkout 496f4e2cc535ba7b71a6ff2b82840693d413ae02
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
+git/commit/?id=3D5b92b6afccb0b8ef73bda8fd5720bfdbd7b3153f
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
+el/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs log-recovery-defer-capture
+        git checkout 5b92b6afccb0b8ef73bda8fd5720bfdbd7b3153f
         # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- ARCH=3Dpowerpc =
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
-All errors (new ones prefixed by >>):
 
-   mm/damon/dbgfs.c: In function 'dbgfs_target_ids_write':
->> mm/damon/dbgfs.c:409:17: error: implicit declaration of function 'damon_=
-pa_set_primitives'; did you mean 'damon_va_set_primitives'? [-Werror=3Dimpl=
-icit-function-declaration]
-     409 |                 damon_pa_set_primitives(ctx);
-         |                 ^~~~~~~~~~~~~~~~~~~~~~~
-         |                 damon_va_set_primitives
-   cc1: some warnings being treated as errors
-
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for HOTPLUG_CPU
-   Depends on SMP && (PPC_PSERIES || PPC_PMAC || PPC_POWERNV || FSL_SOC_BOO=
-KE
-   Selected by
-   - PM_SLEEP_SMP && SMP && (ARCH_SUSPEND_POSSIBLE || ARCH_HIBERNATION_POSS=
-IBLE && PM_SLEEP
-
-
-vim +409 mm/damon/dbgfs.c
-
-4bc05954d00766 SeongJae Park 2021-09-07  353  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  354  static ssize_t dbgfs_target_i=
-ds_write(struct file *file,
-4bc05954d00766 SeongJae Park 2021-09-07  355  		const char __user *buf, siz=
-e_t count, loff_t *ppos)
-4bc05954d00766 SeongJae Park 2021-09-07  356  {
-4bc05954d00766 SeongJae Park 2021-09-07  357  	struct damon_ctx *ctx =3D fi=
-le->private_data;
-2ba00bca84ef3f SeongJae Park 2021-10-28  358  	bool id_is_pid =3D true;
-4bc05954d00766 SeongJae Park 2021-09-07  359  	char *kbuf, *nrs;
-4bc05954d00766 SeongJae Park 2021-09-07  360  	unsigned long *targets;
-4bc05954d00766 SeongJae Park 2021-09-07  361  	ssize_t nr_targets;
-4f521143b7d82a Rongwei Wang  2021-10-28  362  	ssize_t ret;
-4bc05954d00766 SeongJae Park 2021-09-07  363  	int i;
-4bc05954d00766 SeongJae Park 2021-09-07  364  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  365  	kbuf =3D user_input_str(buf,=
- count, ppos);
-4bc05954d00766 SeongJae Park 2021-09-07  366  	if (IS_ERR(kbuf))
-4bc05954d00766 SeongJae Park 2021-09-07  367  		return PTR_ERR(kbuf);
-4bc05954d00766 SeongJae Park 2021-09-07  368  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  369  	nrs =3D kbuf;
-2ba00bca84ef3f SeongJae Park 2021-10-28  370  	if (!strncmp(kbuf, "paddr\n"=
-, count)) {
-2ba00bca84ef3f SeongJae Park 2021-10-28  371  		id_is_pid =3D false;
-2ba00bca84ef3f SeongJae Park 2021-10-28  372  		/* target id is meaningless=
- here, but we set it just for fun */
-2ba00bca84ef3f SeongJae Park 2021-10-28  373  		scnprintf(kbuf, count, "42 =
-   ");
-2ba00bca84ef3f SeongJae Park 2021-10-28  374  	}
-4bc05954d00766 SeongJae Park 2021-09-07  375  =
-
-4f521143b7d82a Rongwei Wang  2021-10-28  376  	targets =3D str_to_target_id=
-s(nrs, count, &nr_targets);
-4bc05954d00766 SeongJae Park 2021-09-07  377  	if (!targets) {
-4bc05954d00766 SeongJae Park 2021-09-07  378  		ret =3D -ENOMEM;
-4bc05954d00766 SeongJae Park 2021-09-07  379  		goto out;
-4bc05954d00766 SeongJae Park 2021-09-07  380  	}
-4bc05954d00766 SeongJae Park 2021-09-07  381  =
-
-2ba00bca84ef3f SeongJae Park 2021-10-28  382  	if (id_is_pid) {
-4bc05954d00766 SeongJae Park 2021-09-07  383  		for (i =3D 0; i < nr_target=
-s; i++) {
-4bc05954d00766 SeongJae Park 2021-09-07  384  			targets[i] =3D (unsigned l=
-ong)find_get_pid(
-4bc05954d00766 SeongJae Park 2021-09-07  385  					(int)targets[i]);
-4bc05954d00766 SeongJae Park 2021-09-07  386  			if (!targets[i]) {
-4bc05954d00766 SeongJae Park 2021-09-07  387  				dbgfs_put_pids(targets, i=
+clang-analyzer warnings: (new ones prefixed by >>)
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/mfd/tps65010.c:650:5: warning: Value stored to 'status' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                                   status =3D 0;
+                                   ^        ~
+   drivers/mfd/tps65010.c:650:5: note: Value stored to 'status' is never re=
+ad
+                                   status =3D 0;
+                                   ^        ~
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/input/touchscreen/cyttsp4_core.c:806:17: warning: Value stored t=
+o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct device *dev =3D &md->input->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:806:17: note: Value stored to '=
+dev' during its initialization is never read
+           struct device *dev =3D &md->input->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:990:2: warning: Value stored to=
+ 'hst_mode' is never read [clang-analyzer-deadcode.DeadStores]
+           hst_mode =3D si->xy_mode[CY_REG_BASE];
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/cyttsp4_core.c:990:2: note: Value stored to 'h=
+st_mode' is never read
+           hst_mode =3D si->xy_mode[CY_REG_BASE];
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/mtd/nftlcore.c:334:30: warning: The left operand of '!=3D' is a =
+garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                           if (BlockLastState[block] !=3D SECTOR_FREE &&
+                               ~~~~~~~~~~~~~~~~~~~~~ ^
+   drivers/mtd/nftlcore.c:250:6: note: Assuming 'thisEUN' is not equal to B=
+LOCK_NIL
+           if (thisEUN =3D=3D BLOCK_NIL) {
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nftlcore.c:250:2: note: Taking false branch
+           if (thisEUN =3D=3D BLOCK_NIL) {
+           ^
+   drivers/mtd/nftlcore.c:261:9: note: Assuming 'thisEUN' is > field 'lastE=
+UN'
+           while (thisEUN <=3D nftl->lastEUN ) {
+                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nftlcore.c:261:2: note: Loop condition is false. Execution c=
+ontinues on line 325
+           while (thisEUN <=3D nftl->lastEUN ) {
+           ^
+   drivers/mtd/nftlcore.c:325:6: note: 'inplace' is 1
+           if (inplace) {
+               ^~~~~~~
+   drivers/mtd/nftlcore.c:325:2: note: Taking true branch
+           if (inplace) {
+           ^
+   drivers/mtd/nftlcore.c:333:8: note: The value 0 is assigned to 'block'
+                   for (block =3D 0; block < nftl->EraseSize / 512 ; block+=
++) {
+                        ^~~~~~~~~
+   drivers/mtd/nftlcore.c:333:19: note: Assuming the condition is true
+                   for (block =3D 0; block < nftl->EraseSize / 512 ; block+=
++) {
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nftlcore.c:333:3: note: Loop condition is true.  Entering lo=
+op body
+                   for (block =3D 0; block < nftl->EraseSize / 512 ; block+=
++) {
+                   ^
+   drivers/mtd/nftlcore.c:334:30: note: The left operand of '!=3D' is a gar=
+bage value
+                           if (BlockLastState[block] !=3D SECTOR_FREE &&
+                               ~~~~~~~~~~~~~~~~~~~~~ ^
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/mtd/inftlcore.c:537:4: warning: Value stored to 'thisEUN' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                           thisEUN =3D INFTL_makefreeblock(inftl, block);
+                           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/inftlcore.c:537:4: note: Value stored to 'thisEUN' is never =
+read
+                           thisEUN =3D INFTL_makefreeblock(inftl, block);
+                           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+>> fs/xfs/xfs_inode.c:3817:20: warning: Value stored to 'ifp' during its in=
+itialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(ip, XFS_DATA_FORK=
 );
-4bc05954d00766 SeongJae Park 2021-09-07  388  				ret =3D -EINVAL;
-4bc05954d00766 SeongJae Park 2021-09-07  389  				goto free_targets_out;
-4bc05954d00766 SeongJae Park 2021-09-07  390  			}
-4bc05954d00766 SeongJae Park 2021-09-07  391  		}
-4bc05954d00766 SeongJae Park 2021-09-07  392  	}
-4bc05954d00766 SeongJae Park 2021-09-07  393  =
-
-4bc05954d00766 SeongJae Park 2021-09-07  394  	mutex_lock(&ctx->kdamond_loc=
-k);
-4bc05954d00766 SeongJae Park 2021-09-07  395  	if (ctx->kdamond) {
-2ba00bca84ef3f SeongJae Park 2021-10-28  396  		if (id_is_pid)
-4bc05954d00766 SeongJae Park 2021-09-07  397  			dbgfs_put_pids(targets, nr=
-_targets);
-4bc05954d00766 SeongJae Park 2021-09-07  398  		ret =3D -EBUSY;
-4bc05954d00766 SeongJae Park 2021-09-07  399  		goto unlock_out;
-4bc05954d00766 SeongJae Park 2021-09-07  400  	}
-4bc05954d00766 SeongJae Park 2021-09-07  401  =
-
-2ba00bca84ef3f SeongJae Park 2021-10-28  402  	/* remove targets with previ=
-ously-set primitive */
-2ba00bca84ef3f SeongJae Park 2021-10-28  403  	damon_set_targets(ctx, NULL,=
- 0);
-2ba00bca84ef3f SeongJae Park 2021-10-28  404  =
-
-2ba00bca84ef3f SeongJae Park 2021-10-28  405  	/* Configure the context for=
- the address space type */
-2ba00bca84ef3f SeongJae Park 2021-10-28  406  	if (id_is_pid)
-2ba00bca84ef3f SeongJae Park 2021-10-28  407  		damon_va_set_primitives(ctx=
+                                    ^~~
+   fs/xfs/xfs_inode.c:3817:20: note: Value stored to 'ifp' during its initi=
+alization is never read
+           struct xfs_ifork        *ifp =3D XFS_IFORK_PTR(ip, XFS_DATA_FORK=
 );
-2ba00bca84ef3f SeongJae Park 2021-10-28  408  	else
-2ba00bca84ef3f SeongJae Park 2021-10-28 @409  		damon_pa_set_primitives(ctx=
-);
-2ba00bca84ef3f SeongJae Park 2021-10-28  410  =
+                                    ^~~
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (18 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   drivers/input/touchscreen/surface3_spi.c:28:8: warning: Excessive paddin=
+g in 'struct surface3_ts_data' (96 padding bytes, where 32 is optimal). =
 
-4f521143b7d82a Rongwei Wang  2021-10-28  411  	ret =3D damon_set_targets(ct=
-x, targets, nr_targets);
-4f521143b7d82a Rongwei Wang  2021-10-28  412  	if (ret) {
-2ba00bca84ef3f SeongJae Park 2021-10-28  413  		if (id_is_pid)
-4bc05954d00766 SeongJae Park 2021-09-07  414  			dbgfs_put_pids(targets, nr=
-_targets);
-4f521143b7d82a Rongwei Wang  2021-10-28  415  	} else {
-4f521143b7d82a Rongwei Wang  2021-10-28  416  		ret =3D count;
-4bc05954d00766 SeongJae Park 2021-09-07  417  	}
-4bc05954d00766 SeongJae Park 2021-09-07  418  =
+   Optimal fields order: =
 
-4bc05954d00766 SeongJae Park 2021-09-07  419  unlock_out:
-4bc05954d00766 SeongJae Park 2021-09-07  420  	mutex_unlock(&ctx->kdamond_l=
-ock);
-4bc05954d00766 SeongJae Park 2021-09-07  421  free_targets_out:
-4bc05954d00766 SeongJae Park 2021-09-07  422  	kfree(targets);
-4bc05954d00766 SeongJae Park 2021-09-07  423  out:
-4bc05954d00766 SeongJae Park 2021-09-07  424  	kfree(kbuf);
-4bc05954d00766 SeongJae Park 2021-09-07  425  	return ret;
-4bc05954d00766 SeongJae Park 2021-09-07  426  }
-4bc05954d00766 SeongJae Park 2021-09-07  427  =
+   rd_buf, =
 
+   spi, =
+
+   input_dev, =
+
+   pen_input_dev, =
+
+   pen_tool, =
+
+   gpiod_rst, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct surface3_ts_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/surface3_spi.c:28:8: note: Excessive padding i=
+n 'struct surface3_ts_data' (96 padding bytes, where 32 is optimal). Optima=
+l fields order: rd_buf, spi, input_dev, pen_input_dev, pen_tool, gpiod_rst,=
+ consider reordering the fields or adding explicit padding members
+   struct surface3_ts_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~
+   Suppressed 17 warnings (17 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/input/touchscreen/ti_am335x_tsc.c:158:2: warning: Value stored t=
+o 'config' is never read [clang-analyzer-deadcode.DeadStores]
+           config =3D 0;
+           ^        ~
+   drivers/input/touchscreen/ti_am335x_tsc.c:158:2: note: Value stored to '=
+config' is never read
+           config =3D 0;
+           ^        ~
+   drivers/input/touchscreen/ti_am335x_tsc.c:251:8: warning: Division by ze=
+ro [clang-analyzer-core.DivideZero]
+                   ysum /=3D creads;
+                        ^
+   drivers/input/touchscreen/ti_am335x_tsc.c:277:11: note: Calling 'titsc_r=
+eadl'
+           status =3D titsc_readl(ts_dev, REG_RAWIRQSTATUS);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:65:2: note: Returning without =
+writing to 'ts->coordinate_readouts'
+           return readl(ts->mfd_tscadc->tscadc_base + reg);
+           ^
+   drivers/input/touchscreen/ti_am335x_tsc.c:277:11: note: Returning from '=
+titsc_readl'
+           status =3D titsc_readl(ts_dev, REG_RAWIRQSTATUS);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:278:6: note: Assuming the cond=
+ition is false
+           if (status & IRQENB_HW_PEN) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:278:2: note: Taking false bran=
+ch
+           if (status & IRQENB_HW_PEN) {
+           ^
+   drivers/input/touchscreen/ti_am335x_tsc.c:284:6: note: Assuming the cond=
+ition is false
+           if (status & IRQENB_PENUP) {
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:284:2: note: Taking false bran=
+ch
+           if (status & IRQENB_PENUP) {
+           ^
+   drivers/input/touchscreen/ti_am335x_tsc.c:298:6: note: Assuming the cond=
+ition is false
+           if (status & IRQENB_EOS)
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:298:2: note: Taking false bran=
+ch
+           if (status & IRQENB_EOS)
+           ^
+   drivers/input/touchscreen/ti_am335x_tsc.c:305:6: note: Assuming the cond=
+ition is true
+           if (status & IRQENB_FIFO0THRES) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:305:2: note: Taking true branch
+           if (status & IRQENB_FIFO0THRES) {
+           ^
+   drivers/input/touchscreen/ti_am335x_tsc.c:307:3: note: Calling 'titsc_re=
+ad_coordinates'
+                   titsc_read_coordinates(ts_dev, &x, &y, &z1, &z2);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:222:2: note: 'creads' initiali=
+zed here
+           unsigned int creads =3D ts_dev->coordinate_readouts;
+           ^~~~~~~~~~~~~~~~~~~
+   drivers/input/touchscreen/ti_am335x_tsc.c:224:14: note: Assuming 'i' is =
+>=3D 'creads'
+           for (i =3D 0; i < creads; i++) {
+                       ^~~~~~~~~~
+
+vim +/ifp +3817 fs/xfs/xfs_inode.c
+
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3808  =
+
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3809  /* Compute the number of d=
+ata and realtime blocks used by a file. */
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3810  void
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3811  xfs_inode_count_blocks(
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3812  	struct xfs_trans	*tp,
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3813  	struct xfs_inode	*ip,
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3814  	xfs_filblks_t		*dblocks,
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3815  	xfs_filblks_t		*rblocks)
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01  3816  {
+5b92b6afccb0b8 Darrick J. Wong 2021-09-01 @3817  	struct xfs_ifork	*ifp =3D=
+ XFS_IFORK_PTR(ip, XFS_DATA_FORK);
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1633893462970538955==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============4408937502345868622==--
 
