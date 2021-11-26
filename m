@@ -1,171 +1,336 @@
-Content-Type: multipart/mixed; boundary="===============7789815017059879983=="
+Content-Type: multipart/mixed; boundary="===============5897164286936315687=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/xdp/xskmap.c:176 xsk_map_update_elem() warn: passing a valid pointer to 'PTR_ERR'
-Date: Fri, 26 Nov 2021 22:06:46 +0800
-Message-ID: <202111262153.8OyYbLF7-lkp@intel.com>
+Subject: include/linux/skmsg.h:315:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Fri, 26 Nov 2021 21:10:32 +0800
+Message-ID: <202111262146.PP6CxPqw-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7789815017059879983==
+--===============5897164286936315687==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Zhu Yanjun <zyjzyj2000@gmail.com>
-CC: Daniel Borkmann <daniel@iogearbox.net>
+TO: Cong Wang <cong.wang@bytedance.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   a4849f6000e29235a2707f22e39da6b897bb9543
-commit: bb1b25cab04324d0749f7ae22653aff58157bf83 xdp: Remove the functions =
-xsk_map_inc and xsk_map_put
-date:   12 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 months ago
-config: mips-randconfig-m031-20211123 (https://download.01.org/0day-ci/arch=
-ive/20211126/202111262153.8OyYbLF7-lkp(a)intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.2.0
+commit: 17edea21b38d047a10c189296c58aea9875d0d0a sock_map: Relax config dep=
+endency to CONFIG_NET
+date:   4 months ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20211114 (https://download.01.org/0day-ci/archi=
+ve/20211126/202111262146.PP6CxPqw-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c3ddde=
+eafb529e769cde87bd29ef6271ac6bfa5c)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D17edea21b38d047a10c189296c58aea9875d0d0a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 17edea21b38d047a10c189296c58aea9875d0d0a
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-net/xdp/xskmap.c:176 xsk_map_update_elem() warn: passing a valid pointer to=
- 'PTR_ERR'
-
-vim +/PTR_ERR +176 net/xdp/xskmap.c
-
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  145  =
-
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  146  s=
-tatic int xsk_map_update_elem(struct bpf_map *map, void *key, void *value,
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  147  	=
-		       u64 map_flags)
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  148  {
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  149  	=
-struct xsk_map *m =3D container_of(map, struct xsk_map, map);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  150  	=
-struct xdp_sock *xs, *old_xs, **map_entry;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  151  	=
-u32 i =3D *(u32 *)key, fd =3D *(u32 *)value;
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  152  	=
-struct xsk_map_node *node;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  153  	=
-struct socket *sock;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  154  	=
-int err;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  155  =
-
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  156  	=
-if (unlikely(map_flags > BPF_EXIST))
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  157  	=
-	return -EINVAL;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  158  	=
-if (unlikely(i >=3D m->map.max_entries))
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  159  	=
-	return -E2BIG;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  160  =
-
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  161  	=
-sock =3D sockfd_lookup(fd, &err);
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  162  	=
-if (!sock)
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  163  	=
-	return err;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  164  =
-
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  165  	=
-if (sock->sk->sk_family !=3D PF_XDP) {
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  166  	=
-	sockfd_put(sock);
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  167  	=
-	return -EOPNOTSUPP;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  168  	}
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  169  =
-
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  170  	=
-xs =3D (struct xdp_sock *)sock->sk;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  171  =
-
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  172  	=
-map_entry =3D &m->xsk_map[i];
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  173  	=
-node =3D xsk_map_node_alloc(m, map_entry);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  174  	=
-if (IS_ERR(node)) {
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  175  	=
-	sockfd_put(sock);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15 @176  	=
-	return PTR_ERR(node);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  177  	}
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  178  =
-
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  179  	=
-spin_lock_bh(&m->lock);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  180  	=
-old_xs =3D READ_ONCE(*map_entry);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  181  	=
-if (old_xs =3D=3D xs) {
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  182  	=
-	err =3D 0;
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  183  	=
-	goto out;
-36cc34358caf63 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  184  	=
-} else if (old_xs && map_flags =3D=3D BPF_NOEXIST) {
-36cc34358caf63 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  185  	=
-	err =3D -EEXIST;
-36cc34358caf63 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  186  	=
-	goto out;
-36cc34358caf63 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  187  	=
-} else if (!old_xs && map_flags =3D=3D BPF_EXIST) {
-36cc34358caf63 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  188  	=
-	err =3D -ENOENT;
-36cc34358caf63 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  189  	=
-	goto out;
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  190  	}
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  191  	=
-xsk_map_sock_add(xs, node);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  192  	=
-WRITE_ONCE(*map_entry, xs);
-cee271678d0e31 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-10-08  193  	=
-if (old_xs)
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  194  	=
-	xsk_map_sock_delete(old_xs, map_entry);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  195  	=
-spin_unlock_bh(&m->lock);
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  196  	=
-sockfd_put(sock);
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  197  	=
-return 0;
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  198  =
-
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  199  o=
-ut:
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  200  	=
-spin_unlock_bh(&m->lock);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  201  	=
-sockfd_put(sock);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  202  	=
-xsk_map_node_free(node);
-0402acd683c678 kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2019-08-15  203  	=
-return err;
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  204  }
-fbfc504a24f53f kernel/bpf/xskmap.c Bj=C3=B6rn T=C3=B6pel 2018-05-02  205  =
 
 
-:::::: The code at line 176 was first introduced by commit
-:::::: 0402acd683c678874df6bdbc23530ca07ea19353 xsk: remove AF_XDP socket f=
-rom map when the socket is released
+clang-analyzer warnings: (new ones prefixed by >>)
+   net/nfc/llcp_commands.c:422:13: note: Returning from 'nfc_llcp_build_tlv'
+           miux_tlv =3D nfc_llcp_build_tlv(LLCP_TLV_MIUX, (u8 *)&miux, 0,
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/llcp_commands.c:424:7: note: 'miux_tlv' is non-null
+           if (!miux_tlv) {
+                ^~~~~~~~
+   net/nfc/llcp_commands.c:424:2: note: Taking false branch
+           if (!miux_tlv) {
+           ^
+   net/nfc/llcp_commands.c:430:11: note: Calling 'nfc_llcp_build_tlv'
+           rw_tlv =3D nfc_llcp_build_tlv(LLCP_TLV_RW, &rw, 0, &rw_tlv_lengt=
+h);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/llcp_commands.c:83:2: note: Taking false branch
+           pr_debug("type %d\n", type);
+           ^
+   include/linux/printk.h:477:2: note: expanded from macro 'pr_debug'
+           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:140:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/nfc/llcp_commands.c:85:6: note: 'type' is < LLCP_TLV_MAX
+           if (type >=3D LLCP_TLV_MAX)
+               ^~~~
+   net/nfc/llcp_commands.c:85:2: note: Taking false branch
+           if (type >=3D LLCP_TLV_MAX)
+           ^
+   net/nfc/llcp_commands.c:89:6: note: Assuming 'length' is not equal to 0
+           if (length =3D=3D 0 && value_length =3D=3D 0)
+               ^~~~~~~~~~~
+   net/nfc/llcp_commands.c:89:18: note: Left side of '&&' is false
+           if (length =3D=3D 0 && value_length =3D=3D 0)
+                           ^
+   net/nfc/llcp_commands.c:91:11: note: 'length' is not equal to 0
+           else if (length =3D=3D 0)
+                    ^~~~~~
+   net/nfc/llcp_commands.c:91:7: note: Taking false branch
+           else if (length =3D=3D 0)
+                ^
+   net/nfc/llcp_commands.c:95:8: note: Calling 'kzalloc'
+           tlv =3D kzalloc(2 + length, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:579:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:596:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/llcp_commands.c:95:8: note: Returning from 'kzalloc'
+           tlv =3D kzalloc(2 + length, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/llcp_commands.c:96:6: note: Assuming 'tlv' is not equal to NULL,=
+ which participates in a condition later
+           if (tlv =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/nfc/llcp_commands.c:96:2: note: Taking false branch
+           if (tlv =3D=3D NULL)
+           ^
+   net/nfc/llcp_commands.c:101:2: note: Assigning value, which participates=
+ in a condition later
+           memcpy(tlv + 2, value, length);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/llcp_commands.c:103:2: note: Returning pointer (loaded from 'tlv=
+'), which participates in a condition later
+           return tlv;
+           ^~~~~~~~~~
+   net/nfc/llcp_commands.c:430:11: note: Returning from 'nfc_llcp_build_tlv'
+           rw_tlv =3D nfc_llcp_build_tlv(LLCP_TLV_RW, &rw, 0, &rw_tlv_lengt=
+h);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/nfc/llcp_commands.c:431:7: note: 'rw_tlv' is non-null
+           if (!rw_tlv) {
+                ^~~~~~
+   net/nfc/llcp_commands.c:431:2: note: Taking false branch
+           if (!rw_tlv) {
+           ^
+   net/nfc/llcp_commands.c:437:2: note: Taking false branch
+           pr_debug("SKB size %d SN length %zu\n", size, sock->service_name=
+_len);
+           ^
+   include/linux/printk.h:477:2: note: expanded from macro 'pr_debug'
+           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:140:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   net/nfc/llcp_commands.c:440:6: note: 'skb' is not equal to NULL
+           if (skb =3D=3D NULL) {
+               ^~~
+   net/nfc/llcp_commands.c:440:2: note: Taking false branch
+           if (skb =3D=3D NULL) {
+           ^
+   net/nfc/llcp_commands.c:445:2: note: 3rd function call argument is an un=
+initialized value
+           llcp_add_tlv(skb, service_name_tlv, service_name_tlv_length);
+           ^                                   ~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+>> include/linux/skmsg.h:315:2: warning: Use of memory after it is freed [c=
+lang-analyzer-unix.Malloc]
+           return msg;
+           ^
+   net/core/skmsg.c:411:11: note: Calling 'sk_psock_peek_msg'
+           msg_rx =3D sk_psock_peek_msg(psock);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/skmsg.h:313:8: note: Left side of '||' is false
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/skmsg.h:313:8: note: Left side of '||' is false
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   include/linux/skmsg.h:313:8: note: Left side of '||' is true
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:291:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   include/linux/skmsg.h:313:8: note: Taking false branch
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/skmsg.h:313:8: note: Loop condition is false.  Exiting loop
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/skmsg.h:313:8: note: Assuming 'pos__' is not equal to 'hea=
+d__'
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
+                 ^
+   include/linux/list.h:546:2: note: expanded from macro 'list_first_entry_=
+or_null'
+           pos__ !=3D head__ ? list_entry(pos__, type, member) : NULL; \
+           ^~~~~~~~~~~~~~~
+   include/linux/skmsg.h:313:8: note: '?' condition is true
+           msg =3D list_first_entry_or_null(&psock->ingress_msg, struct sk_=
+msg, list);
 
-:::::: TO: Bj=C3=B6rn T=C3=B6pel <bjorn.topel@intel.com>
-:::::: CC: Daniel Borkmann <daniel@iogearbox.net>
+vim +315 include/linux/skmsg.h
+
+b01fd6e802b6d0 Cong Wang 2021-03-30  307  =
+
+b01fd6e802b6d0 Cong Wang 2021-03-30  308  static inline struct sk_msg *sk_p=
+sock_peek_msg(struct sk_psock *psock)
+b01fd6e802b6d0 Cong Wang 2021-03-30  309  {
+b01fd6e802b6d0 Cong Wang 2021-03-30  310  	struct sk_msg *msg;
+b01fd6e802b6d0 Cong Wang 2021-03-30  311  =
+
+b01fd6e802b6d0 Cong Wang 2021-03-30  312  	spin_lock_bh(&psock->ingress_loc=
+k);
+b01fd6e802b6d0 Cong Wang 2021-03-30  313  	msg =3D list_first_entry_or_null=
+(&psock->ingress_msg, struct sk_msg, list);
+b01fd6e802b6d0 Cong Wang 2021-03-30  314  	spin_unlock_bh(&psock->ingress_l=
+ock);
+b01fd6e802b6d0 Cong Wang 2021-03-30 @315  	return msg;
+b01fd6e802b6d0 Cong Wang 2021-03-30  316  }
+b01fd6e802b6d0 Cong Wang 2021-03-30  317  =
+
+
+:::::: The code at line 315 was first introduced by commit
+:::::: b01fd6e802b6d0a635176f943315670b679d8d7b skmsg: Introduce a spinlock=
+ to protect ingress_msg
+
+:::::: TO: Cong Wang <cong.wang@bytedance.com>
+:::::: CC: Alexei Starovoitov <ast@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7789815017059879983==--
+--===============5897164286936315687==--
 
