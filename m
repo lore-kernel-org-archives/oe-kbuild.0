@@ -1,192 +1,195 @@
-Content-Type: multipart/mixed; boundary="===============2709681689275266753=="
+Content-Type: multipart/mixed; boundary="===============8718805954419034408=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/locking/rtmutex.c:1375 rt_mutex_slowunlock() warn: inconsistent returns '&lock->wait_lock'.
-Date: Fri, 26 Nov 2021 13:22:05 +0800
-Message-ID: <202111261328.OIntL6AN-lkp@intel.com>
+Subject: fs/erofs/zdata.c:486 z_erofs_register_collection() warn: passing a valid pointer to 'PTR_ERR'
+Date: Fri, 26 Nov 2021 13:00:29 +0800
+Message-ID: <202111261247.8N45b4x5-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2709681689275266753==
+--===============8718805954419034408==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Gleixner <tglx@linutronix.de>
-CC: Ingo Molnar <mingo@kernel.org>
+TO: Gao Xiang <hsiangkao@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   a4849f6000e29235a2707f22e39da6b897bb9543
-commit: 70c80103aafdeae99126694bc1cd54de016bc258 locking/rtmutex: Consolida=
-te the fast/slowpath invocation
+head:   8ced7ca3570333998ad2088d5a6275701970e28e
+commit: 9f6cc76e6ff0631a99cd94eab8af137057633a52 erofs: introduce physical =
+cluster slab pools
 date:   8 months ago
-:::::: branch date: 3 hours ago
+:::::: branch date: 10 hours ago
 :::::: commit date: 8 months ago
-config: ia64-randconfig-m031-20211122 (https://download.01.org/0day-ci/arch=
-ive/20211126/202111261328.OIntL6AN-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
+config: i386-randconfig-m021-20211123 (https://download.01.org/0day-ci/arch=
+ive/20211126/202111261247.8N45b4x5-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/locking/rtmutex.c:1375 rt_mutex_slowunlock() warn: inconsistent retu=
-rns '&lock->wait_lock'.
-kernel/locking/rtmutex.c:1375 rt_mutex_slowunlock() warn: inconsistent retu=
-rns 'flags'.
+New smatch warnings:
+fs/erofs/zdata.c:486 z_erofs_register_collection() warn: passing a valid po=
+inter to 'PTR_ERR'
 
-vim +1375 kernel/locking/rtmutex.c
+Old smatch warnings:
+fs/erofs/zdata.c:760 z_erofs_do_read_page() error: we previously assumed 'c=
+lt->cl' could be null (see line 677)
+fs/erofs/zdata.c:1241 jobqueueset_init() warn: maybe use && instead of &
 
-70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
-26  1311  =
+vim +/PTR_ERR +486 fs/erofs/zdata.c
 
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1312  /*
-802ab58da74bb49 kernel/locking/rtmutex.c Sebastian Andrzej Siewior 2015-06-=
-17  1313   * Slow path to release a rt-mutex.
-aa2bfe55366552c kernel/locking/rtmutex.c Peter Zijlstra            2017-03-=
-23  1314   *
-aa2bfe55366552c kernel/locking/rtmutex.c Peter Zijlstra            2017-03-=
-23  1315   * Return whether the current task needs to call rt_mutex_postunl=
-ock().
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1316   */
-70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
-26  1317  static void __sched rt_mutex_slowunlock(struct rt_mutex *lock)
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1318  {
-70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
-26  1319  	DEFINE_WAKE_Q(wake_q);
-b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
-13  1320  	unsigned long flags;
-b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
-13  1321  =
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  473=
+  =
 
-b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
-13  1322  	/* irqsave required to support early boot calls */
-b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
-13  1323  	raw_spin_lock_irqsave(&lock->wait_lock, flags);
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1324  =
+9e579fc123a0c95 fs/erofs/zdata.c                  Gao Xiang 2019-10-08  474=
+  static int z_erofs_register_collection(struct z_erofs_collector *clt,
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  475=
+  				       struct inode *inode,
+ab47dd2b0819375 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-08-21  476=
+  				       struct erofs_map_blocks *map)
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  477=
+  {
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  478=
+  	struct z_erofs_pcluster *pcl;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  479=
+  	struct z_erofs_collection *cl;
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  480=
+  	struct erofs_workgroup *grp;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  481=
+  	int err;
+e5e3abbadf0dbd1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-09-19  482=
+  =
 
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1325  	debug_rt_mutex_unlock(lock);
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1326  =
+9f6cc76e6ff0631 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  483=
+  	/* no available pcluster, let's allocate one */
+9f6cc76e6ff0631 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  484=
+  	pcl =3D z_erofs_alloc_pcluster(map->m_plen >> PAGE_SHIFT);
+9f6cc76e6ff0631 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  485=
+  	if (IS_ERR(pcl))
+9f6cc76e6ff0631 fs/erofs/zdata.c                  Gao Xiang 2021-04-07 @486=
+  		return PTR_ERR(pcl);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  487=
+  =
 
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1327  	/*
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1328  	 * We must be careful here if the fast path is enabled. If we
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1329  	 * have no waiters queued we cannot set owner to NULL here
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1330  	 * because of:
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1331  	 *
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1332  	 * foo->lock->owner =3D NULL;
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1333  	 *			rtmutex_lock(foo->lock);   <- fast path
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1334  	 *			free =3D atomic_dec_and_test(foo->refcnt);
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1335  	 *			rtmutex_unlock(foo->lock); <- fast path
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1336  	 *			if (free)
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1337  	 *				kfree(foo);
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1338  	 * raw_spin_unlock(foo->lock->wait_lock);
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1339  	 *
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1340  	 * So for the fastpath enabled kernel:
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1341  	 *
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1342  	 * Nothing can set the waiters bit as long as we hold
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1343  	 * lock->wait_lock. So we do the following sequence:
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1344  	 *
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1345  	 *	owner =3D rt_mutex_owner(lock);
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1346  	 *	clear_rt_mutex_waiters(lock);
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1347  	 *	raw_spin_unlock(&lock->wait_lock);
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1348  	 *	if (cmpxchg(&lock->owner, owner, 0) =3D=3D owner)
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1349  	 *		return;
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1350  	 *	goto retry;
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1351  	 *
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1352  	 * The fastpath disabled variant is simple as all access to
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1353  	 * lock->owner is serialized by lock->wait_lock:
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1354  	 *
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1355  	 *	lock->owner =3D NULL;
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1356  	 *	raw_spin_unlock(&lock->wait_lock);
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1357  	 */
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1358  	while (!rt_mutex_has_waiters(lock)) {
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1359  		/* Drops lock->wait_lock ! */
-b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
-13  1360  		if (unlock_rt_mutex_safe(lock, flags) =3D=3D true)
-70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
-26  1361  			return;
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1362  		/* Relock the rtmutex and try again */
-b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
-13  1363  		raw_spin_lock_irqsave(&lock->wait_lock, flags);
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1364  	}
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1365  =
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  488=
+  	atomic_set(&pcl->obj.refcount, 1);
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  489=
+  	pcl->obj.index =3D map->m_pa >> PAGE_SHIFT;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  490=
+  =
 
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1366  	/*
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1367  	 * The wakeup next waiter path does not suffer from the above
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1368  	 * race. See the comments there.
-45ab4effc3bee6f kernel/locking/rtmutex.c Davidlohr Bueso           2015-05-=
-19  1369  	 *
-45ab4effc3bee6f kernel/locking/rtmutex.c Davidlohr Bueso           2015-05-=
-19  1370  	 * Queue the next waiter for wakeup once we release the wait_loc=
-k.
-27e35715df54cbc kernel/locking/rtmutex.c Thomas Gleixner           2014-06-=
-11  1371  	 */
-70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
-26  1372  	mark_wakeup_next_waiter(&wake_q, lock);
-b4abf91047cf054 kernel/locking/rtmutex.c Thomas Gleixner           2016-01-=
-13  1373  	raw_spin_unlock_irqrestore(&lock->wait_lock, flags);
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1374  =
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  491=
+  	pcl->length =3D (map->m_llen << Z_EROFS_PCLUSTER_LENGTH_BIT) |
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  492=
+  		(map->m_flags & EROFS_MAP_FULL_MAPPED ?
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  493=
+  			Z_EROFS_PCLUSTER_FULL_LENGTH : 0);
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  494=
+  =
 
-70c80103aafdeae kernel/locking/rtmutex.c Thomas Gleixner           2021-03-=
-26 @1375  	rt_mutex_postunlock(&wake_q);
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1376  }
-23f78d4a03c53cb kernel/rtmutex.c         Ingo Molnar               2006-06-=
-27  1377  =
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  495=
+  	if (map->m_flags & EROFS_MAP_ZIPPED)
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  496=
+  		pcl->algorithmformat =3D Z_EROFS_COMPRESSION_LZ4;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  497=
+  	else
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  498=
+  		pcl->algorithmformat =3D Z_EROFS_COMPRESSION_SHIFTED;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  499=
+  =
+
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  500=
+  	/* new pclusters should be claimed as type 1, primary and followed */
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  501=
+  	pcl->next =3D clt->owned_head;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  502=
+  	clt->mode =3D COLLECT_PRIMARY_FOLLOWED;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  503=
+  =
+
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  504=
+  	cl =3D z_erofs_primarycollection(pcl);
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  505=
+  	cl->pageofs =3D map->m_la & ~PAGE_MASK;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  506=
+  =
+
+23edf3abe7abb1d drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  507=
+  	/*
+23edf3abe7abb1d drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  508=
+  	 * lock all primary followed works before visible to others
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  509=
+  	 * and mutex_trylock *never* fails for a new pcluster.
+23edf3abe7abb1d drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  510=
+  	 */
+9f6cc76e6ff0631 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  511=
+  	mutex_init(&cl->lock);
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  512=
+  	DBG_BUGON(!mutex_trylock(&cl->lock));
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  513=
+  =
+
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  514=
+  	grp =3D erofs_insert_workgroup(inode->i_sb, &pcl->obj);
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  515=
+  	if (IS_ERR(grp)) {
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  516=
+  		err =3D PTR_ERR(grp);
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  517=
+  		goto err_out;
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  518=
+  	}
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  519=
+  =
+
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  520=
+  	if (grp !=3D &pcl->obj) {
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  521=
+  		clt->pcl =3D container_of(grp, struct z_erofs_pcluster, obj);
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  522=
+  		err =3D -EEXIST;
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  523=
+  		goto err_out;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  524=
+  	}
+bfc4ccb1584129d drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  525=
+  	/* used to check tail merging loop due to corrupted images */
+bfc4ccb1584129d drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  526=
+  	if (clt->owned_head =3D=3D Z_EROFS_PCLUSTER_TAIL)
+bfc4ccb1584129d drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  527=
+  		clt->tailpcl =3D pcl;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  528=
+  	clt->owned_head =3D &pcl->next;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  529=
+  	clt->pcl =3D pcl;
+97e86a858bc360c drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  530=
+  	clt->cl =3D cl;
+9e579fc123a0c95 fs/erofs/zdata.c                  Gao Xiang 2019-10-08  531=
+  	return 0;
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  532=
+  =
+
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  533=
+  err_out:
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  534=
+  	mutex_unlock(&cl->lock);
+9f6cc76e6ff0631 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  535=
+  	z_erofs_free_pcluster(pcl);
+64094a04414f0b2 fs/erofs/zdata.c                  Gao Xiang 2020-02-20  536=
+  	return err;
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  537=
+  }
+3883a79abd02272 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  538=
+  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2709681689275266753==--
+--===============8718805954419034408==--
 
