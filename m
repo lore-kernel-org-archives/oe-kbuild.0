@@ -1,44 +1,42 @@
-Content-Type: multipart/mixed; boundary="===============5624862269181911203=="
+Content-Type: multipart/mixed; boundary="===============4630147181587077365=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/intel/skylake/skl-topology.c:2578:38: sparse: sparse: incorrect type in assignment (different base types)
-Date: Sat, 27 Nov 2021 08:33:57 +0800
-Message-ID: <202111270849.KeW4CcjJ-lkp@intel.com>
+Subject: sound/soc/intel/skylake/skl-topology.c:2070:50: sparse: sparse: restricted __le32 degrades to integer
+Date: Sat, 27 Nov 2021 06:50:49 +0800
+Message-ID: <202111270657.QXpJYB4F-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5624862269181911203==
+--===============4630147181587077365==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kareem Shaik <kareem.m.shaik@intel.com>
+TO: Cezary Rojewski <cezary.rojewski@intel.com>
 CC: Mark Brown <broonie@kernel.org>
-CC: Gustaw Lewandowski <gustaw.lewandowski@linux.intel.com>
-CC: Cezary Rojewski <cezary.rojewski@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
-commit: a4ad42d28618eef83bee02e0a19af0d467bd9722 ASoC: Intel: Skylake: Supp=
-ort multiple format configs
-date:   3 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 months ago
+commit: 1b99d50b9709a2cddaba4a7faf1862b4f7bec865 ASoC: Intel: Skylake: Comp=
+ile when any configuration is selected
+date:   9 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 9 months ago
 config: i386-randconfig-s001-20211118 (https://download.01.org/0day-ci/arch=
-ive/20211127/202111270849.KeW4CcjJ-lkp(a)intel.com/config)
+ive/20211127/202111270657.QXpJYB4F-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 reproduce:
         # apt-get install sparse
         # sparse version: v0.6.4-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da4ad42d28618eef83bee02e0a19af0d467bd9722
+t/commit/?id=3D1b99d50b9709a2cddaba4a7faf1862b4f7bec865
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout a4ad42d28618eef83bee02e0a19af0d467bd9722
+        git checkout 1b99d50b9709a2cddaba4a7faf1862b4f7bec865
         # save the config file to linux build tree
         make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
 build_dir ARCH=3Di386 SHELL=3D/bin/bash sound/soc/intel/skylake/
@@ -48,801 +46,555 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 sparse warnings: (new ones prefixed by >>)
-   sound/soc/intel/skylake/skl-topology.c:2297:33: sparse:     got restrict=
+>> sound/soc/intel/skylake/skl-topology.c:2070:50: sparse: sparse: restrict=
+ed __le32 degrades to integer
+>> sound/soc/intel/skylake/skl-topology.c:2089:22: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] ppl_id @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2089:22: sparse:     expected uns=
+igned char [usertype] ppl_id
+   sound/soc/intel/skylake/skl-topology.c:2089:22: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2291:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2104:21: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2291:25: sparse: sparse: restrict=
+>> sound/soc/intel/skylake/skl-topology.c:2123:47: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected int module_id @=
+@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2123:47: sparse:     expected int=
+ module_id
+   sound/soc/intel/skylake/skl-topology.c:2123:47: sparse:     got restrict=
+ed __le32 [usertype] value
+>> sound/soc/intel/skylake/skl-topology.c:2127:49: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] instance_id @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2127:49: sparse:     expected uns=
+igned int [usertype] instance_id
+   sound/soc/intel/skylake/skl-topology.c:2127:49: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2121:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse: sparse: incorrec=
+   sound/soc/intel/skylake/skl-topology.c:2121:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2121:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+>> sound/soc/intel/skylake/skl-topology.c:2292:34: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned char [=
+usertype] pin_index @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2292:34: sparse:     expected uns=
+igned char [usertype] pin_index
+   sound/soc/intel/skylake/skl-topology.c:2292:34: sparse:     got restrict=
+ed __le32 [usertype] value
+>> sound/soc/intel/skylake/skl-topology.c:2296:33: sparse: sparse: incorrec=
+t type in assignment (different base types) @@     expected unsigned int [u=
+sertype] buf_size @@     got restricted __le32 [usertype] value @@
+   sound/soc/intel/skylake/skl-topology.c:2296:33: sparse:     expected uns=
+igned int [usertype] buf_size
+   sound/soc/intel/skylake/skl-topology.c:2296:33: sparse:     got restrict=
+ed __le32 [usertype] value
+   sound/soc/intel/skylake/skl-topology.c:2290:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2290:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+>> sound/soc/intel/skylake/skl-topology.c:2323:38: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] dma_buffer_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2323:38: sparse:     expected uns=
 igned int [usertype] dma_buffer_size
-   sound/soc/intel/skylake/skl-topology.c:2324:38: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2323:38: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2327:26: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] cpc @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2327:26: sparse:     expected uns=
 igned int [usertype] cpc
-   sound/soc/intel/skylake/skl-topology.c:2328:26: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2327:26: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2331:31: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] is_pages @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2331:31: sparse:     expected uns=
 igned int [usertype] is_pages
-   sound/soc/intel/skylake/skl-topology.c:2332:31: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2331:31: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2335:26: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] obs @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2335:26: sparse:     expected uns=
 igned int [usertype] obs
-   sound/soc/intel/skylake/skl-topology.c:2336:26: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2335:26: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2339:26: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] ibs @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2339:26: sparse:     expected uns=
 igned int [usertype] ibs
-   sound/soc/intel/skylake/skl-topology.c:2340:26: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2339:26: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2322:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2321:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2392:21: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2391:21: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2396:49: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] max_input_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2396:49: sparse:     expected uns=
 igned char [usertype] max_input_pins
-   sound/soc/intel/skylake/skl-topology.c:2397:49: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2396:49: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2400:50: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] max_output_pins @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2400:50: sparse:     expected uns=
 igned char [usertype] max_output_pins
-   sound/soc/intel/skylake/skl-topology.c:2401:50: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2400:50: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2413:55: sparse: sparse: incorrec=
 t type in argument 3 (different base types) @@     expected unsigned int [u=
 sertype] value @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2413:55: sparse:     expected uns=
 igned int [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2414:55: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2413:55: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse: sparse: incorrec=
+   sound/soc/intel/skylake/skl-topology.c:2426:55: sparse: sparse: incorrec=
 t type in argument 3 (different base types) @@     expected unsigned int [u=
 sertype] value @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2426:55: sparse:     expected uns=
 igned int [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2427:55: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2426:55: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2430:36: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] time_slot @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2430:36: sparse:     expected uns=
 igned char [usertype] time_slot
-   sound/soc/intel/skylake/skl-topology.c:2431:36: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2430:36: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2434:34: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] core_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2434:34: sparse:     expected uns=
 igned char [usertype] core_id
-   sound/soc/intel/skylake/skl-topology.c:2435:34: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2434:34: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2438:33: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int en=
 um skl_module_type m_type @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2438:33: sparse:     expected uns=
 igned int enum skl_module_type m_type
-   sound/soc/intel/skylake/skl-topology.c:2439:33: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2438:33: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2442:35: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] dev_type @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2442:35: sparse:     expected uns=
 igned char [usertype] dev_type
-   sound/soc/intel/skylake/skl-topology.c:2443:35: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2442:35: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2446:39: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int en=
 um skl_hw_conn_type hw_conn_type @@     got restricted __le32 [usertype] va=
 lue @@
-   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2446:39: sparse:     expected uns=
 igned int enum skl_hw_conn_type hw_conn_type
-   sound/soc/intel/skylake/skl-topology.c:2447:39: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2446:39: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse: sparse: incorrec=
+   sound/soc/intel/skylake/skl-topology.c:2450:41: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] instance_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2450:41: sparse:     expected uns=
 igned int [usertype] instance_id
-   sound/soc/intel/skylake/skl-topology.c:2451:41: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2450:41: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2465:34: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] vbus_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2465:34: sparse:     expected uns=
 igned int [usertype] vbus_id
-   sound/soc/intel/skylake/skl-topology.c:2466:34: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2465:34: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2469:39: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] params_fixup @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2469:39: sparse:     expected uns=
 igned int [usertype] params_fixup
-   sound/soc/intel/skylake/skl-topology.c:2470:39: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2469:39: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2473:36: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] converter @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2473:36: sparse:     expected uns=
 igned int [usertype] converter
-   sound/soc/intel/skylake/skl-topology.c:2474:36: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2473:36: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2477:36: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int en=
 um d0i3_capability d0i3_caps @@     got restricted __le32 [usertype] value =
 @@
-   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2477:36: sparse:     expected uns=
 igned int enum d0i3_capability d0i3_caps
-   sound/soc/intel/skylake/skl-topology.c:2478:36: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2477:36: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2495:26: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected int static conf=
 _idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse:     expected int=
+   sound/soc/intel/skylake/skl-topology.c:2495:26: sparse:     expected int=
  static conf_idx
-   sound/soc/intel/skylake/skl-topology.c:2496:26: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2495:26: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2506:49: sparse: sparse: incorrec=
 t type in argument 3 (different base types) @@     expected unsigned int [u=
 sertype] tkn @@     got restricted __le32 [usertype] token @@
-   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2506:49: sparse:     expected uns=
 igned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:2507:49: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2506:49: sparse:     got restrict=
 ed __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2506:66: sparse: sparse: incorrec=
 t type in argument 4 (different base types) @@     expected unsigned int [u=
 sertype] tkn_val @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2506:66: sparse:     expected uns=
 igned int [usertype] tkn_val
-   sound/soc/intel/skylake/skl-topology.c:2507:66: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2506:66: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse: sparse: incorrec=
+   sound/soc/intel/skylake/skl-topology.c:2519:49: sparse: sparse: incorrec=
 t type in argument 3 (different base types) @@     expected unsigned int [u=
 sertype] tkn @@     got restricted __le32 [usertype] token @@
-   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2519:49: sparse:     expected uns=
 igned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:2520:49: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2519:49: sparse:     got restrict=
 ed __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse: sparse: incorrec=
+   sound/soc/intel/skylake/skl-topology.c:2519:66: sparse: sparse: incorrec=
 t type in argument 4 (different base types) @@     expected unsigned int [u=
 sertype] tkn_val @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2519:66: sparse:     expected uns=
 igned int [usertype] tkn_val
-   sound/soc/intel/skylake/skl-topology.c:2520:66: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2519:66: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2527:52: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] res_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2527:52: sparse:     expected uns=
 igned char [usertype] res_idx
-   sound/soc/intel/skylake/skl-topology.c:2528:52: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2527:52: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2531:52: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] fmt_idx @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2531:52: sparse:     expected uns=
 igned char [usertype] fmt_idx
-   sound/soc/intel/skylake/skl-topology.c:2532:52: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2531:52: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2541:31: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2540:31: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2542:38: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2541:38: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse: sparse: incorrec=
+   sound/soc/intel/skylake/skl-topology.c:2554:68: sparse: sparse: incorrec=
 t type in argument 3 (different base types) @@     expected unsigned int [u=
 sertype] tkn @@     got restricted __le32 [usertype] token @@
-   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2554:68: sparse:     expected uns=
 igned int [usertype] tkn
-   sound/soc/intel/skylake/skl-topology.c:2555:68: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2554:68: sparse:     got restrict=
 ed __le32 [usertype] token
-   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2555:41: sparse: sparse: incorrec=
 t type in argument 4 (different base types) @@     expected unsigned int [u=
 sertype] val @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2555:41: sparse:     expected uns=
 igned int [usertype] val
-   sound/soc/intel/skylake/skl-topology.c:2556:41: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2555:41: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2575:29: sparse: sparse: restrict=
-ed __le32 degrades to integer
->> sound/soc/intel/skylake/skl-topology.c:2578:38: sparse: sparse: incorrec=
-t type in assignment (different base types) @@     expected int fmt_cfg_idx=
- @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2578:38: sparse:     expected int=
- fmt_cfg_idx
-   sound/soc/intel/skylake/skl-topology.c:2578:38: sparse:     got restrict=
-ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2574:51: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] caps_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2574:51: sparse:     expected uns=
 igned int [usertype] caps_size
-   sound/soc/intel/skylake/skl-topology.c:2582:73: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2574:51: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2580:52: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] set_params @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2580:52: sparse:     expected uns=
 igned int [usertype] set_params
-   sound/soc/intel/skylake/skl-topology.c:2588:74: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2580:52: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2585:50: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] param_id @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2585:50: sparse:     expected uns=
 igned int [usertype] param_id
-   sound/soc/intel/skylake/skl-topology.c:2593:72: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2585:50: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse: sparse: incorrec=
+>> sound/soc/intel/skylake/skl-topology.c:2590:33: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned char [=
 usertype] domain @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2590:33: sparse:     expected uns=
 igned char [usertype] domain
-   sound/soc/intel/skylake/skl-topology.c:2598:33: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2590:33: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse: sparse: incorrec=
+   sound/soc/intel/skylake/skl-topology.c:2596:42: sparse: sparse: incorrec=
 t type in assignment (different base types) @@     expected unsigned int [u=
 sertype] dma_buffer_size @@     got restricted __le32 [usertype] value @@
-   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse:     expected uns=
+   sound/soc/intel/skylake/skl-topology.c:2596:42: sparse:     expected uns=
 igned int [usertype] dma_buffer_size
-   sound/soc/intel/skylake/skl-topology.c:2604:42: sparse:     got restrict=
+   sound/soc/intel/skylake/skl-topology.c:2596:42: sparse:     got restrict=
 ed __le32 [usertype] value
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: restrict=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
 ed __le32 degrades to integer
-   sound/soc/intel/skylake/skl-topology.c:2395:25: sparse: sparse: too many=
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: restrict=
+ed __le32 degrades to integer
+   sound/soc/intel/skylake/skl-topology.c:2394:25: sparse: sparse: too many=
  warnings
 
-vim +2578 sound/soc/intel/skylake/skl-topology.c
+vim +2070 sound/soc/intel/skylake/skl-topology.c
 
-db6ed55de6da112 Shreyas NC          2017-08-23  2365  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2056  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2366  /*
-6277e83292a2d4d Shreyas NC          2016-08-12  2367   * Parse tokens to fi=
-ll up the module private data
-6277e83292a2d4d Shreyas NC          2016-08-12  2368   */
-6277e83292a2d4d Shreyas NC          2016-08-12  2369  static int skl_tplg_g=
-et_token(struct device *dev,
-6277e83292a2d4d Shreyas NC          2016-08-12  2370  		struct snd_soc_tplg=
-_vendor_value_elem *tkn_elem,
-bcc2a2dc3ba8c3a Cezary Rojewski     2019-07-23  2371  		struct skl_dev *skl=
-, struct skl_module_cfg *mconfig)
-6277e83292a2d4d Shreyas NC          2016-08-12  2372  {
-6277e83292a2d4d Shreyas NC          2016-08-12  2373  	int tkn_count =3D 0;
-6277e83292a2d4d Shreyas NC          2016-08-12  2374  	int ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2375  	static int is_pipe_e=
-xists;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2376  	static int pin_index=
-, dir, conf_idx;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2377  	struct skl_module_if=
-ace *iface =3D NULL;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2378  	struct skl_module_re=
-s *res =3D NULL;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2379  	int res_idx =3D mcon=
-fig->res_idx;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2380  	int fmt_idx =3D mcon=
-fig->fmt_idx;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2381  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2057  /*
+6277e83292a2d4d Shreyas NC        2016-08-12  2058   * Add pipeline by pars=
+ing the relevant tokens
+6277e83292a2d4d Shreyas NC        2016-08-12  2059   * Return an existing p=
+ipe if the pipe already exists.
+3af36706ff6c4ea Vinod Koul        2015-10-07  2060   */
+6277e83292a2d4d Shreyas NC        2016-08-12  2061  static int skl_tplg_add=
+_pipe(struct device *dev,
+bcc2a2dc3ba8c3a Cezary Rojewski   2019-07-23  2062  		struct skl_module_cfg=
+ *mconfig, struct skl_dev *skl,
+6277e83292a2d4d Shreyas NC        2016-08-12  2063  		struct snd_soc_tplg_v=
+endor_value_elem *tkn_elem)
+3af36706ff6c4ea Vinod Koul        2015-10-07  2064  {
+3af36706ff6c4ea Vinod Koul        2015-10-07  2065  	struct skl_pipeline *p=
+pl;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2066  	struct skl_pipe *pipe;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2067  	struct skl_pipe_params=
+ *params;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2068  =
 
-f6fa56e22559ade Ramesh Babu         2017-08-23  2382  	/*
-f6fa56e22559ade Ramesh Babu         2017-08-23  2383  	 * If the manifest s=
-tructure contains no modules, fill all
-f6fa56e22559ade Ramesh Babu         2017-08-23  2384  	 * the module data t=
-o 0th index.
-f6fa56e22559ade Ramesh Babu         2017-08-23  2385  	 * res_idx and fmt_i=
-dx are default set to 0.
-f6fa56e22559ade Ramesh Babu         2017-08-23  2386  	 */
-f6fa56e22559ade Ramesh Babu         2017-08-23  2387  	if (skl->nr_modules =
-=3D=3D 0) {
-f6fa56e22559ade Ramesh Babu         2017-08-23  2388  		res =3D &mconfig->m=
-odule->resources[res_idx];
-f6fa56e22559ade Ramesh Babu         2017-08-23  2389  		iface =3D &mconfig-=
->module->formats[fmt_idx];
-f6fa56e22559ade Ramesh Babu         2017-08-23  2390  	}
-6277e83292a2d4d Shreyas NC          2016-08-12  2391  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2069  	list_for_each_entry(pp=
+l, &skl->ppl_list, node) {
+6277e83292a2d4d Shreyas NC        2016-08-12 @2070  		if (ppl->pipe->ppl_id=
+ =3D=3D tkn_elem->value) {
+6277e83292a2d4d Shreyas NC        2016-08-12  2071  			mconfig->pipe =3D pp=
+l->pipe;
+081dc8ab46df853 Guneshwor Singh   2017-04-27  2072  			return -EEXIST;
+6277e83292a2d4d Shreyas NC        2016-08-12  2073  		}
+3af36706ff6c4ea Vinod Koul        2015-10-07  2074  	}
+3af36706ff6c4ea Vinod Koul        2015-10-07  2075  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2392  	if (tkn_elem->token =
-> SKL_TKN_MAX)
-6277e83292a2d4d Shreyas NC          2016-08-12  2393  		return -EINVAL;
-6277e83292a2d4d Shreyas NC          2016-08-12  2394  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2076  	ppl =3D devm_kzalloc(d=
+ev, sizeof(*ppl), GFP_KERNEL);
+3af36706ff6c4ea Vinod Koul        2015-10-07  2077  	if (!ppl)
+6277e83292a2d4d Shreyas NC        2016-08-12  2078  		return -ENOMEM;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2079  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2395  	switch (tkn_elem->to=
-ken) {
-6277e83292a2d4d Shreyas NC          2016-08-12  2396  	case SKL_TKN_U8_IN_Q=
-UEUE_COUNT:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2397  		mconfig->module->ma=
-x_input_pins =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2398  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2399  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2080  	pipe =3D devm_kzalloc(=
+dev, sizeof(*pipe), GFP_KERNEL);
+3af36706ff6c4ea Vinod Koul        2015-10-07  2081  	if (!pipe)
+6277e83292a2d4d Shreyas NC        2016-08-12  2082  		return -ENOMEM;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2083  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2400  	case SKL_TKN_U8_OUT_=
-QUEUE_COUNT:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2401  		mconfig->module->ma=
-x_output_pins =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2402  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2403  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2084  	params =3D devm_kzallo=
+c(dev, sizeof(*params), GFP_KERNEL);
+3af36706ff6c4ea Vinod Koul        2015-10-07  2085  	if (!params)
+6277e83292a2d4d Shreyas NC        2016-08-12  2086  		return -ENOMEM;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2087  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2404  	case SKL_TKN_U8_DYN_=
-IN_PIN:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2405  		if (!mconfig->m_in_=
-pin)
-a86854d0c599b32 Kees Cook           2018-06-12  2406  			mconfig->m_in_pin =
-=3D
-a86854d0c599b32 Kees Cook           2018-06-12  2407  				devm_kcalloc(dev,=
- MAX_IN_QUEUE,
-a86854d0c599b32 Kees Cook           2018-06-12  2408  					     sizeof(*mco=
-nfig->m_in_pin),
-a86854d0c599b32 Kees Cook           2018-06-12  2409  					     GFP_KERNEL);
-6277e83292a2d4d Shreyas NC          2016-08-12  2410  		if (!mconfig->m_in_=
-pin)
-6277e83292a2d4d Shreyas NC          2016-08-12  2411  			return -ENOMEM;
-6277e83292a2d4d Shreyas NC          2016-08-12  2412  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2088  	pipe->p_params =3D par=
+ams;
+6277e83292a2d4d Shreyas NC        2016-08-12 @2089  	pipe->ppl_id =3D tkn_e=
+lem->value;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2090  	INIT_LIST_HEAD(&pipe->=
+w_list);
+3af36706ff6c4ea Vinod Koul        2015-10-07  2091  =
 
-f6fa56e22559ade Ramesh Babu         2017-08-23  2413  		skl_tplg_fill_pin_d=
-ynamic_val(mconfig->m_in_pin, MAX_IN_QUEUE,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2414  					      tkn_elem->=
-value);
-6277e83292a2d4d Shreyas NC          2016-08-12  2415  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2416  =
+3af36706ff6c4ea Vinod Koul        2015-10-07  2092  	ppl->pipe =3D pipe;
+3af36706ff6c4ea Vinod Koul        2015-10-07  2093  	list_add(&ppl->node, &=
+skl->ppl_list);
+3af36706ff6c4ea Vinod Koul        2015-10-07  2094  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2417  	case SKL_TKN_U8_DYN_=
-OUT_PIN:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2418  		if (!mconfig->m_out=
-_pin)
-a86854d0c599b32 Kees Cook           2018-06-12  2419  			mconfig->m_out_pin=
- =3D
-a86854d0c599b32 Kees Cook           2018-06-12  2420  				devm_kcalloc(dev,=
- MAX_IN_QUEUE,
-a86854d0c599b32 Kees Cook           2018-06-12  2421  					     sizeof(*mco=
-nfig->m_in_pin),
-a86854d0c599b32 Kees Cook           2018-06-12  2422  					     GFP_KERNEL);
-6277e83292a2d4d Shreyas NC          2016-08-12  2423  		if (!mconfig->m_out=
-_pin)
-6277e83292a2d4d Shreyas NC          2016-08-12  2424  			return -ENOMEM;
-6277e83292a2d4d Shreyas NC          2016-08-12  2425  =
+6277e83292a2d4d Shreyas NC        2016-08-12  2095  	mconfig->pipe =3D pipe;
+6277e83292a2d4d Shreyas NC        2016-08-12  2096  	mconfig->pipe->state =
+=3D SKL_PIPE_INVALID;
+6277e83292a2d4d Shreyas NC        2016-08-12  2097  =
 
-f6fa56e22559ade Ramesh Babu         2017-08-23  2426  		skl_tplg_fill_pin_d=
-ynamic_val(mconfig->m_out_pin, MAX_OUT_QUEUE,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2427  					      tkn_elem->=
-value);
-6277e83292a2d4d Shreyas NC          2016-08-12  2428  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2429  =
+6277e83292a2d4d Shreyas NC        2016-08-12  2098  	return 0;
+6277e83292a2d4d Shreyas NC        2016-08-12  2099  }
+6277e83292a2d4d Shreyas NC        2016-08-12  2100  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2430  	case SKL_TKN_U8_TIME=
-_SLOT:
-6277e83292a2d4d Shreyas NC          2016-08-12  2431  		mconfig->time_slot =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2432  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2433  =
+9e0784d00e35e05 Andy Shevchenko   2019-06-19  2101  static int skl_tplg_get=
+_uuid(struct device *dev, guid_t *guid,
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2102  	      struct snd_soc_t=
+plg_vendor_uuid_elem *uuid_tkn)
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2103  {
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2104  	if (uuid_tkn->token =
+=3D=3D SKL_TKN_UUID) {
+cade2f59e7ae3d1 Andy Shevchenko   2020-04-22  2105  		import_guid(guid, uui=
+d_tkn->uuid);
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2106  		return 0;
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2107  	}
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2108  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2434  	case SKL_TKN_U8_CORE=
-_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2435  		mconfig->core_id =
-=3D tkn_elem->value;
-9c80c5a8831471e Takashi Iwai        2018-10-03  2436  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2437  =
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2109  	dev_err(dev, "Not an U=
+UID token %d\n", uuid_tkn->token);
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2110  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2438  	case SKL_TKN_U8_MOD_=
-TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2439  		mconfig->m_type =3D=
- tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2440  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2441  =
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2111  	return -EINVAL;
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2112  }
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2113  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2442  	case SKL_TKN_U8_DEV_=
-TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2443  		mconfig->dev_type =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2444  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2445  =
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2114  static int skl_tplg_fil=
+l_pin(struct device *dev,
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2115  			struct snd_soc_tplg_=
+vendor_value_elem *tkn_elem,
+6277e83292a2d4d Shreyas NC        2016-08-12  2116  			struct skl_module_pi=
+n *m_pin,
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2117  			int pin_index)
+6277e83292a2d4d Shreyas NC        2016-08-12  2118  {
+d956147473ec184 Sriram Periyasamy 2017-11-07  2119  	int ret;
+d956147473ec184 Sriram Periyasamy 2017-11-07  2120  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2446  	case SKL_TKN_U8_HW_C=
-ONN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2447  		mconfig->hw_conn_ty=
-pe =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2448  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2449  =
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2121  	switch (tkn_elem->toke=
+n) {
+6277e83292a2d4d Shreyas NC        2016-08-12  2122  	case SKL_TKN_U32_PIN_M=
+OD_ID:
+22ebd6666efd866 Sriram Periyasamy 2017-11-07 @2123  		m_pin[pin_index].id.m=
+odule_id =3D tkn_elem->value;
+6277e83292a2d4d Shreyas NC        2016-08-12  2124  		break;
+6277e83292a2d4d Shreyas NC        2016-08-12  2125  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2450  	case SKL_TKN_U16_MOD=
-_INST_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2451  		mconfig->id.instanc=
-e_id =3D
-6277e83292a2d4d Shreyas NC          2016-08-12  2452  		tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2453  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2454  =
+6277e83292a2d4d Shreyas NC        2016-08-12  2126  	case SKL_TKN_U32_PIN_I=
+NST_ID:
+22ebd6666efd866 Sriram Periyasamy 2017-11-07 @2127  		m_pin[pin_index].id.i=
+nstance_id =3D tkn_elem->value;
+6277e83292a2d4d Shreyas NC        2016-08-12  2128  		break;
+6277e83292a2d4d Shreyas NC        2016-08-12  2129  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2455  	case SKL_TKN_U32_MEM=
-_PAGES:
-6277e83292a2d4d Shreyas NC          2016-08-12  2456  	case SKL_TKN_U32_MAX=
-_MCPS:
-6277e83292a2d4d Shreyas NC          2016-08-12  2457  	case SKL_TKN_U32_OBS:
-6277e83292a2d4d Shreyas NC          2016-08-12  2458  	case SKL_TKN_U32_IBS:
-2b79b15c258a90c Colin Ian King      2017-09-20  2459  		ret =3D skl_tplg_fi=
-ll_res_tkn(dev, tkn_elem, res, pin_index, dir);
-f6fa56e22559ade Ramesh Babu         2017-08-23  2460  		if (ret < 0)
-f6fa56e22559ade Ramesh Babu         2017-08-23  2461  			return ret;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2462  =
+d956147473ec184 Sriram Periyasamy 2017-11-07  2130  	case SKL_TKN_UUID:
+9e0784d00e35e05 Andy Shevchenko   2019-06-19  2131  		ret =3D skl_tplg_get_=
+uuid(dev, &m_pin[pin_index].id.mod_uuid,
+d956147473ec184 Sriram Periyasamy 2017-11-07  2132  			(struct snd_soc_tplg=
+_vendor_uuid_elem *)tkn_elem);
+d956147473ec184 Sriram Periyasamy 2017-11-07  2133  		if (ret < 0)
+d956147473ec184 Sriram Periyasamy 2017-11-07  2134  			return ret;
+d956147473ec184 Sriram Periyasamy 2017-11-07  2135  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2463  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2464  =
+6277e83292a2d4d Shreyas NC        2016-08-12  2136  		break;
+6277e83292a2d4d Shreyas NC        2016-08-12  2137  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2465  	case SKL_TKN_U32_VBU=
-S_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2466  		mconfig->vbus_id =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2467  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2468  =
+6277e83292a2d4d Shreyas NC        2016-08-12  2138  	default:
+22ebd6666efd866 Sriram Periyasamy 2017-11-07  2139  		dev_err(dev, "%d Not =
+a pin token\n", tkn_elem->token);
+6277e83292a2d4d Shreyas NC        2016-08-12  2140  		return -EINVAL;
+6277e83292a2d4d Shreyas NC        2016-08-12  2141  	}
+6277e83292a2d4d Shreyas NC        2016-08-12  2142  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2469  	case SKL_TKN_U32_PAR=
-AMS_FIXUP:
-6277e83292a2d4d Shreyas NC          2016-08-12  2470  		mconfig->params_fix=
-up =3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2471  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2472  =
+6277e83292a2d4d Shreyas NC        2016-08-12  2143  	return 0;
+6277e83292a2d4d Shreyas NC        2016-08-12  2144  }
+6277e83292a2d4d Shreyas NC        2016-08-12  2145  =
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2473  	case SKL_TKN_U32_CON=
-VERTER:
-6277e83292a2d4d Shreyas NC          2016-08-12  2474  		mconfig->converter =
-=3D tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2475  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2476  =
 
-c0116be3d191393 Subhransu S. Prusty 2017-05-04  2477  	case SKL_TKN_U32_D0I=
-3_CAPS:
-6bd9dcf339ebb29 Vinod Koul          2016-11-03  2478  		mconfig->d0i3_caps =
-=3D tkn_elem->value;
-6bd9dcf339ebb29 Vinod Koul          2016-11-03  2479  		break;
-6bd9dcf339ebb29 Vinod Koul          2016-11-03  2480  =
+:::::: The code at line 2070 was first introduced by commit
+:::::: 6277e83292a2d4d88d150c0eb3004bd714ad8728 ASoC: Intel: Skylake: Parse=
+ vendor tokens to build module data
 
-6277e83292a2d4d Shreyas NC          2016-08-12  2481  	case SKL_TKN_U32_PIP=
-E_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2482  		ret =3D skl_tplg_ad=
-d_pipe(dev,
-6277e83292a2d4d Shreyas NC          2016-08-12  2483  				mconfig, skl, tkn=
-_elem);
-6277e83292a2d4d Shreyas NC          2016-08-12  2484  =
-
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2485  		if (ret < 0) {
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2486  			if (ret =3D=3D -EE=
-XIST) {
-6277e83292a2d4d Shreyas NC          2016-08-12  2487  				is_pipe_exists =
-=3D 1;
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2488  				break;
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2489  			}
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2490  			return is_pipe_exi=
-sts;
-081dc8ab46df853 Guneshwor Singh     2017-04-27  2491  		}
-6277e83292a2d4d Shreyas NC          2016-08-12  2492  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2493  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2494  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2495  	case SKL_TKN_U32_PIP=
-E_CONFIG_ID:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2496  		conf_idx =3D tkn_el=
-em->value;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2497  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2498  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2499  	case SKL_TKN_U32_PIP=
-E_CONN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2500  	case SKL_TKN_U32_PIP=
-E_PRIORITY:
-6277e83292a2d4d Shreyas NC          2016-08-12  2501  	case SKL_TKN_U32_PIP=
-E_MEM_PGS:
-8a0cb2360ddb941 Vinod Koul          2016-11-03  2502  	case SKL_TKN_U32_PMO=
-DE:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2503  	case SKL_TKN_U32_PIP=
-E_DIRECTION:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2504  	case SKL_TKN_U32_NUM=
-_CONFIGS:
-6277e83292a2d4d Shreyas NC          2016-08-12  2505  		if (is_pipe_exists)=
- {
-6277e83292a2d4d Shreyas NC          2016-08-12  2506  			ret =3D skl_tplg_f=
-ill_pipe_tkn(dev, mconfig->pipe,
-6277e83292a2d4d Shreyas NC          2016-08-12  2507  					tkn_elem->token,=
- tkn_elem->value);
-6277e83292a2d4d Shreyas NC          2016-08-12  2508  			if (ret < 0)
-6277e83292a2d4d Shreyas NC          2016-08-12  2509  				return ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2510  		}
-6277e83292a2d4d Shreyas NC          2016-08-12  2511  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2512  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2513  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2514  	case SKL_TKN_U32_PAT=
-H_MEM_PGS:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2515  	case SKL_TKN_U32_CFG=
-_FREQ:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2516  	case SKL_TKN_U8_CFG_=
-CHAN:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2517  	case SKL_TKN_U8_CFG_=
-BPS:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2518  		if (mconfig->pipe->=
-nr_cfgs) {
-f6fa56e22559ade Ramesh Babu         2017-08-23  2519  			ret =3D skl_tplg_f=
-ill_pipe_cfg(dev, mconfig->pipe,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2520  					tkn_elem->token,=
- tkn_elem->value,
-f6fa56e22559ade Ramesh Babu         2017-08-23  2521  					conf_idx, dir);
-f6fa56e22559ade Ramesh Babu         2017-08-23  2522  			if (ret < 0)
-f6fa56e22559ade Ramesh Babu         2017-08-23  2523  				return ret;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2524  		}
-f6fa56e22559ade Ramesh Babu         2017-08-23  2525  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2526  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2527  	case SKL_TKN_CFG_MOD=
-_RES_ID:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2528  		mconfig->mod_cfg[co=
-nf_idx].res_idx =3D tkn_elem->value;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2529  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2530  =
-
-f6fa56e22559ade Ramesh Babu         2017-08-23  2531  	case SKL_TKN_CFG_MOD=
-_FMT_ID:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2532  		mconfig->mod_cfg[co=
-nf_idx].fmt_idx =3D tkn_elem->value;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2533  		break;
-f6fa56e22559ade Ramesh Babu         2017-08-23  2534  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2535  	/*
-6277e83292a2d4d Shreyas NC          2016-08-12  2536  	 * SKL_TKN_U32_DIR_P=
-IN_COUNT token has the value for both
-6277e83292a2d4d Shreyas NC          2016-08-12  2537  	 * direction and the=
- pin count. The first four bits represent
-6277e83292a2d4d Shreyas NC          2016-08-12  2538  	 * direction and nex=
-t four the pin count.
-6277e83292a2d4d Shreyas NC          2016-08-12  2539  	 */
-6277e83292a2d4d Shreyas NC          2016-08-12  2540  	case SKL_TKN_U32_DIR=
-_PIN_COUNT:
-6277e83292a2d4d Shreyas NC          2016-08-12  2541  		dir =3D tkn_elem->v=
-alue & SKL_IN_DIR_BIT_MASK;
-6277e83292a2d4d Shreyas NC          2016-08-12  2542  		pin_index =3D (tkn_=
-elem->value &
-6277e83292a2d4d Shreyas NC          2016-08-12  2543  			SKL_PIN_COUNT_MASK=
-) >> 4;
-6277e83292a2d4d Shreyas NC          2016-08-12  2544  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2545  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2546  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2547  	case SKL_TKN_U32_FMT=
-_CH:
-6277e83292a2d4d Shreyas NC          2016-08-12  2548  	case SKL_TKN_U32_FMT=
-_FREQ:
-6277e83292a2d4d Shreyas NC          2016-08-12  2549  	case SKL_TKN_U32_FMT=
-_BIT_DEPTH:
-6277e83292a2d4d Shreyas NC          2016-08-12  2550  	case SKL_TKN_U32_FMT=
-_SAMPLE_SIZE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2551  	case SKL_TKN_U32_FMT=
-_CH_CONFIG:
-6277e83292a2d4d Shreyas NC          2016-08-12  2552  	case SKL_TKN_U32_FMT=
-_INTERLEAVE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2553  	case SKL_TKN_U32_FMT=
-_SAMPLE_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2554  	case SKL_TKN_U32_FMT=
-_CH_MAP:
-f6fa56e22559ade Ramesh Babu         2017-08-23  2555  		ret =3D skl_tplg_wi=
-dget_fill_fmt(dev, iface, tkn_elem->token,
-6277e83292a2d4d Shreyas NC          2016-08-12  2556  				tkn_elem->value, =
-dir, pin_index);
-6277e83292a2d4d Shreyas NC          2016-08-12  2557  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2558  		if (ret < 0)
-6277e83292a2d4d Shreyas NC          2016-08-12  2559  			return ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2560  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2561  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2562  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2563  	case SKL_TKN_U32_PIN=
-_MOD_ID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2564  	case SKL_TKN_U32_PIN=
-_INST_ID:
-d956147473ec184 Sriram Periyasamy   2017-11-07  2565  	case SKL_TKN_UUID:
-6277e83292a2d4d Shreyas NC          2016-08-12  2566  		ret =3D skl_tplg_fi=
-ll_pins_info(dev,
-6277e83292a2d4d Shreyas NC          2016-08-12  2567  				mconfig, tkn_elem=
-, dir,
-6277e83292a2d4d Shreyas NC          2016-08-12  2568  				pin_index);
-6277e83292a2d4d Shreyas NC          2016-08-12  2569  		if (ret < 0)
-6277e83292a2d4d Shreyas NC          2016-08-12  2570  			return ret;
-6277e83292a2d4d Shreyas NC          2016-08-12  2571  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2572  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2573  =
-
-a4ad42d28618eef Kareem Shaik        2021-08-18  2574  	case SKL_TKN_U32_FMT=
-_CFG_IDX:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2575  		if (tkn_elem->value=
- > SKL_MAX_PARAMS_TYPES)
-a4ad42d28618eef Kareem Shaik        2021-08-18  2576  			return -EINVAL;
-a4ad42d28618eef Kareem Shaik        2021-08-18  2577  =
-
-a4ad42d28618eef Kareem Shaik        2021-08-18 @2578  		mconfig->fmt_cfg_id=
-x =3D tkn_elem->value;
-a4ad42d28618eef Kareem Shaik        2021-08-18  2579  		break;
-a4ad42d28618eef Kareem Shaik        2021-08-18  2580  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2581  	case SKL_TKN_U32_CAP=
-S_SIZE:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2582  		mconfig->formats_co=
-nfig[mconfig->fmt_cfg_idx].caps_size =3D
-6277e83292a2d4d Shreyas NC          2016-08-12  2583  			tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2584  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2585  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2586  =
-
-133e6e5c27340fe Shreyas NC          2017-05-15  2587  	case SKL_TKN_U32_CAP=
-S_SET_PARAMS:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2588  		mconfig->formats_co=
-nfig[mconfig->fmt_cfg_idx].set_params =3D
-133e6e5c27340fe Shreyas NC          2017-05-15  2589  				tkn_elem->value;
-133e6e5c27340fe Shreyas NC          2017-05-15  2590  		break;
-133e6e5c27340fe Shreyas NC          2017-05-15  2591  =
-
-133e6e5c27340fe Shreyas NC          2017-05-15  2592  	case SKL_TKN_U32_CAP=
-S_PARAMS_ID:
-a4ad42d28618eef Kareem Shaik        2021-08-18  2593  		mconfig->formats_co=
-nfig[mconfig->fmt_cfg_idx].param_id =3D
-133e6e5c27340fe Shreyas NC          2017-05-15  2594  				tkn_elem->value;
-133e6e5c27340fe Shreyas NC          2017-05-15  2595  		break;
-133e6e5c27340fe Shreyas NC          2017-05-15  2596  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2597  	case SKL_TKN_U32_PRO=
-C_DOMAIN:
-6277e83292a2d4d Shreyas NC          2016-08-12  2598  		mconfig->domain =3D
-6277e83292a2d4d Shreyas NC          2016-08-12  2599  			tkn_elem->value;
-6277e83292a2d4d Shreyas NC          2016-08-12  2600  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2601  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2602  =
-
-939df3ada789ccd Ramesh Babu         2017-06-19  2603  	case SKL_TKN_U32_DMA=
-_BUF_SIZE:
-939df3ada789ccd Ramesh Babu         2017-06-19  2604  		mconfig->dma_buffer=
-_size =3D tkn_elem->value;
-939df3ada789ccd Ramesh Babu         2017-06-19  2605  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2606  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2607  	case SKL_TKN_U8_IN_P=
-IN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2608  	case SKL_TKN_U8_OUT_=
-PIN_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2609  	case SKL_TKN_U8_CONN=
-_TYPE:
-6277e83292a2d4d Shreyas NC          2016-08-12  2610  		break;
-6277e83292a2d4d Shreyas NC          2016-08-12  2611  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2612  	default:
-6277e83292a2d4d Shreyas NC          2016-08-12  2613  		dev_err(dev, "Token=
- %d not handled\n",
-6277e83292a2d4d Shreyas NC          2016-08-12  2614  				tkn_elem->token);
-6277e83292a2d4d Shreyas NC          2016-08-12  2615  		return -EINVAL;
-6277e83292a2d4d Shreyas NC          2016-08-12  2616  	}
-6277e83292a2d4d Shreyas NC          2016-08-12  2617  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2618  	tkn_count++;
-6277e83292a2d4d Shreyas NC          2016-08-12  2619  =
-
-6277e83292a2d4d Shreyas NC          2016-08-12  2620  	return tkn_count;
-6277e83292a2d4d Shreyas NC          2016-08-12  2621  }
-6277e83292a2d4d Shreyas NC          2016-08-12  2622  =
-
+:::::: TO: Shreyas NC <shreyas.nc@intel.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5624862269181911203==--
+--===============4630147181587077365==--
 
