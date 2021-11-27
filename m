@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3253805460743271998=="
+Content-Type: multipart/mixed; boundary="===============7777710523726251555=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: ipc/shm.c:52:8: warning: Excessive padding in 'struct shmid_kernel' (64 padding bytes, where 0 is optimal).
-Date: Sun, 28 Nov 2021 07:52:04 +0800
-Message-ID: <202111280718.YFPIcuuw-lkp@intel.com>
+Subject: drivers/clk/at91/clk-master.c:197:7: warning: Division by zero [clang-analyzer-core.DivideZero]
+Date: Sun, 28 Nov 2021 07:41:48 +0800
+Message-ID: <202111280723.1QYfzt93-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3253805460743271998==
+--===============7777710523726251555==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Alexander Mikhalitsyn <alexander.mikhalitsyn@virtuozzo.com>
-CC: Manfred Spraul <manfred@colorfullife.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Claudiu Beznea <claudiu.beznea@microchip.com>
+CC: Stephen Boyd <sboyd@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   4f0dda359c4563cbb1b0f97b0dbbcdc553156541
-commit: 85b6d24646e4125c591639841169baa98a2da503 shm: extend forced shm des=
-troy to support objects from several IPC nses
-date:   7 days ago
+commit: 7029db09b2025f863f191b3d5b1d7859a5e26a8d clk: at91: clk-master: add=
+ notifier for divider
+date:   5 weeks ago
 :::::: branch date: 3 hours ago
-:::::: commit date: 7 days ago
-config: riscv-randconfig-c006-20211126 (https://download.01.org/0day-ci/arc=
-hive/20211128/202111280718.YFPIcuuw-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
-58d8c0b542e752b037e72a69d5fd51eb1e)
+:::::: commit date: 5 weeks ago
+config: arm-randconfig-c002-20211114 (https://download.01.org/0day-ci/archi=
+ve/20211128/202111280723.1QYfzt93-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c3ddde=
+eafb529e769cde87bd29ef6271ac6bfa5c)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D85b6d24646e4125c591639841169baa98a2da503
+t/commit/?id=3D7029db09b2025f863f191b3d5b1d7859a5e26a8d
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 85b6d24646e4125c591639841169baa98a2da503
+        git checkout 7029db09b2025f863f191b3d5b1d7859a5e26a8d
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,334 +52,365 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   fs/ext4/readpage.c:339:7: note: 'first_hole' is equal to 'blocks_per_pag=
-e'
-                   if (first_hole !=3D blocks_per_page) {
-                       ^~~~~~~~~~
-   fs/ext4/readpage.c:339:3: note: Taking false branch
-                   if (first_hole !=3D blocks_per_page) {
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1465:7: note: Assuming the conditi=
+on is false
+                   if (hwlock_id =3D=3D -EPROBE_DEFER)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1465:3: note: Taking false branch
+                   if (hwlock_id =3D=3D -EPROBE_DEFER)
                    ^
-   fs/ext4/readpage.c:350:14: note: 'fully_mapped' is 1
-                   } else if (fully_mapped) {
-                              ^~~~~~~~~~~~
-   fs/ext4/readpage.c:350:10: note: Taking true branch
-                   } else if (fully_mapped) {
-                          ^
-   fs/ext4/readpage.c:353:7: note: 'fully_mapped' is 1
-                   if (fully_mapped && blocks_per_page =3D=3D 1 &&
-                       ^~~~~~~~~~~~
-   fs/ext4/readpage.c:353:7: note: Left side of '&&' is true
-   fs/ext4/readpage.c:353:23: note: 'blocks_per_page' is not equal to 1
-                   if (fully_mapped && blocks_per_page =3D=3D 1 &&
-                                       ^~~~~~~~~~~~~~~
-   fs/ext4/readpage.c:353:44: note: Left side of '&&' is false
-                   if (fully_mapped && blocks_per_page =3D=3D 1 &&
-                                                            ^
-   fs/ext4/readpage.c:363:7: note: 'bio' is null
-                   if (bio && (last_block_in_bio !=3D blocks[0] - 1 ||
-                       ^~~
-   fs/ext4/readpage.c:363:11: note: Left side of '&&' is false
-                   if (bio && (last_block_in_bio !=3D blocks[0] - 1 ||
-                           ^
-   fs/ext4/readpage.c:369:7: note: 'bio' is equal to NULL
-                   if (bio =3D=3D NULL) {
-                       ^~~
-   fs/ext4/readpage.c:369:3: note: Taking true branch
-                   if (bio =3D=3D NULL) {
-                   ^
-   fs/ext4/readpage.c:379:39: note: The left operand of '<<' is a garbage v=
-alue
-                           bio->bi_iter.bi_sector =3D blocks[0] << (blkbits=
- - 9);
-                                                    ~~~~~~~~~ ^
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> ipc/shm.c:52:8: warning: Excessive padding in 'struct shmid_kernel' (64 =
-padding bytes, where 0 is optimal). =
-
-   Optimal fields order: =
-
-   shm_perm, =
-
-   shm_atim, =
-
-   shm_dtim, =
-
-   shm_ctim, =
-
-   shm_file, =
-
-   shm_nattch, =
-
-   shm_segsz, =
-
-   shm_cprid, =
-
-   shm_lprid, =
-
-   mlock_ucounts, =
-
-   shm_creator, =
-
-   ns, =
-
-   shm_clist, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct shmid_kernel /* private to the kernel */
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   ipc/shm.c:52:8: note: Excessive padding in 'struct shmid_kernel' (64 pad=
-ding bytes, where 0 is optimal). Optimal fields order: shm_perm, shm_atim, =
-shm_dtim, shm_ctim, shm_file, shm_nattch, shm_segsz, shm_cprid, shm_lprid, =
-mlock_ucounts, shm_creator, ns, shm_clist, consider reordering the fields o=
-r adding explicit padding members
-   struct shmid_kernel /* private to the kernel */
-   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/base/bus.c:873:18: warning: Access to field 'drivers_kset' resul=
-ts in a dereference of a null pointer (loaded from field 'p') [clang-analyz=
-er-core.NullDereference]
-           kset_unregister(bus->p->drivers_kset);
-                           ^
-   drivers/base/bus.c:1139:9: note: Calling 'subsys_register'
-           return subsys_register(subsys, groups, &system_kset->kobj);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/base/bus.c:1083:8: note: Calling 'bus_register'
-           err =3D bus_register(subsys);
-                 ^~~~~~~~~~~~~~~~~~~~
-   drivers/base/bus.c:788:6: note: Assuming 'priv' is non-null
-           if (!priv)
-               ^~~~~
-   drivers/base/bus.c:788:2: note: Taking false branch
-           if (!priv)
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1471:2: note: Loop condition is fa=
+lse.  Exiting loop
+           spin_lock_init(&pctl->irqmux_lock);
            ^
-   drivers/base/bus.c:794:2: note: Loop condition is false.  Exiting loop
-           BLOCKING_INIT_NOTIFIER_HEAD(&priv->bus_notifier);
+   include/linux/spinlock.h:353:34: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(_lock)                  \
+                                                   ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1481:6: note: Assuming field 'pins=
+' is non-null
+           if (!pctl->pins)
+               ^~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1481:2: note: Taking false branch
+           if (!pctl->pins)
            ^
-   include/linux/notifier.h:85:3: note: expanded from macro 'BLOCKING_INIT_=
-NOTIFIER_HEAD'
-                   init_rwsem(&(name)->rwsem);     \
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1485:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1485:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1489:6: note: Assuming 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1489:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1494:6: note: Assuming field 'doma=
+in' is non-null
+           if (pctl->domain) {
+               ^~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1494:2: note: Taking true branch
+           if (pctl->domain) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1495:9: note: Calling 'stm32_pctrl=
+_dt_setup_irq'
+                   ret =3D stm32_pctrl_dt_setup_irq(pdev, pctl);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1333:6: note: Calling 'IS_ERR'
+           if (IS_ERR(pctl->regmap))
+               ^~~~~~~~~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1333:6: note: Returning from 'IS_E=
+RR'
+           if (IS_ERR(pctl->regmap))
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1333:2: note: Taking false branch
+           if (IS_ERR(pctl->regmap))
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1339:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1339:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1343:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1343:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1348:2: note: Loop condition is tr=
+ue.  Entering loop body
+           for (i =3D 0; i < STM32_GPIO_PINS_PER_BANK; i++) {
+           ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1349:3: note: 'mux' initialized he=
+re
+                   struct reg_field mux;
+                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1355:3: note: Loop condition is fa=
+lse.  Exiting loop
+                   dev_dbg(dev, "irqmux%d: reg:%#x, lsb:%d, msb:%d\n",
                    ^
-   include/linux/rwsem.h:106:30: note: expanded from macro 'init_rwsem'
-   #define init_rwsem(sem)                                         \
+   include/linux/dev_printk.h:158:2: note: expanded from macro 'dev_dbg'
+           dev_printk(KERN_DEBUG, dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dev_printk.h:128:3: note: expanded from macro 'dev_printk'
+                   dev_printk_index_emit(level, fmt);                      \
+                   ^
+   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
+index_emit'
+           printk_index_subsys_emit("%s %s: ", level, fmt)
+           ^
+   include/linux/printk.h:413:2: note: expanded from macro 'printk_index_su=
+bsys_emit'
+           __printk_index_emit(fmt, level, subsys_fmt_prefix)
+           ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/pinctrl/stm32/pinctrl-stm32.c:1358:21: note: Passed-by-value str=
+uct argument contains uninitialized data (e.g., field: 'id_size')
+                   pctl->irqmux[i] =3D devm_regmap_field_alloc(dev, rm, mux=
+);
+                                     ^                                ~~~
+   1 warning generated.
+>> drivers/clk/at91/clk-master.c:197:7: warning: Division by zero [clang-an=
+alyzer-core.DivideZero]
+           rate /=3D characteristics->divisors[div_index];
+                ^
+   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(master_div->lock, flags);
+           ^
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:278:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:237:36: note: expanded from macro 'local_irq_sa=
+ve'
+   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
+(0)
+                                        ^
+   include/linux/irqflags.h:169:2: note: expanded from macro 'raw_local_irq=
+_save'
+           do {                                            \
+           ^
+   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(master_div->lock, flags);
+           ^
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:278:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+          ^
+   include/linux/irqflags.h:237:31: note: expanded from macro 'local_irq_sa=
+ve'
+   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
+(0)
+                                   ^
+   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(master_div->lock, flags);
+           ^
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:278:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:31: note: expanded from macro '__LOCK=
+_IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+                                 ^
+   include/linux/spinlock_api_up.h:31:27: note: expanded from macro '__LOCK'
+     do { preempt_disable(); ___LOCK(lock); } while (0)
+                             ^
+   include/linux/spinlock_api_up.h:28:3: note: expanded from macro '___LOCK'
+     do { __acquire(lock); (void)(lock); } while (0)
+     ^
+   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(master_div->lock, flags);
+           ^
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:278:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:31: note: expanded from macro '__LOCK=
+_IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+                                 ^
+   include/linux/spinlock_api_up.h:31:3: note: expanded from macro '__LOCK'
+     do { preempt_disable(); ___LOCK(lock); } while (0)
+     ^
+   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(master_div->lock, flags);
+           ^
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ^
+   include/linux/spinlock.h:278:3: note: expanded from macro 'raw_spin_lock=
+_irqsave'
+                   _raw_spin_lock_irqsave(lock, flags);    \
+                   ^
+   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
+pin_lock_irqsave'
+   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
+gs)
+                                                   ^
+   include/linux/spinlock_api_up.h:40:3: note: expanded from macro '__LOCK_=
+IRQSAVE'
+     do { local_irq_save(flags); __LOCK(lock); } while (0)
+     ^
+   drivers/clk/at91/clk-master.c:260:2: note: Loop condition is false.  Exi=
+ting loop
+           spin_lock_irqsave(master_div->lock, flags);
+           ^
+   include/linux/spinlock.h:393:2: note: expanded from macro 'spin_lock_irq=
+save'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
 
-vim +52 ipc/shm.c
+vim +197 drivers/clk/at91/clk-master.c
 
-^1da177e4c3f41 Linus Torvalds        2005-04-16  51  =
+7a110b9107ed8f Claudiu Beznea 2020-11-19  160  =
 
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22 @52  struct shmid_kernel /*=
- private to the kernel */
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  53  {
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  54  	struct kern_ipc_perm	=
-shm_perm;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  55  	struct file		*shm_fil=
-e;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  56  	unsigned long		shm_na=
-ttch;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  57  	unsigned long		shm_se=
-gsz;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  58  	time64_t		shm_atim;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  59  	time64_t		shm_dtim;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  60  	time64_t		shm_ctim;
-98f929b1bd4d0b Eric W. Biederman     2018-03-23  61  	struct pid		*shm_cpri=
-d;
-98f929b1bd4d0b Eric W. Biederman     2018-03-23  62  	struct pid		*shm_lpri=
-d;
-d7c9e99aee48e6 Alexey Gladkov        2021-04-22  63  	struct ucounts		*mloc=
-k_ucounts;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  64  =
+7029db09b2025f Claudiu Beznea 2021-10-11  161  /* This function must be cal=
+led with lock acquired. */
+7029db09b2025f Claudiu Beznea 2021-10-11  162  static int clk_master_div_se=
+t(struct clk_master *master,
+7029db09b2025f Claudiu Beznea 2021-10-11  163  			      unsigned long paren=
+t_rate, int div)
+7a110b9107ed8f Claudiu Beznea 2020-11-19  164  {
+7a110b9107ed8f Claudiu Beznea 2020-11-19  165  	const struct clk_master_cha=
+racteristics *characteristics =3D
+7a110b9107ed8f Claudiu Beznea 2020-11-19  166  						master->characteristic=
+s;
+7029db09b2025f Claudiu Beznea 2021-10-11  167  	unsigned long rate =3D pare=
+nt_rate;
+7029db09b2025f Claudiu Beznea 2021-10-11  168  	unsigned int max_div =3D 0,=
+ div_index =3D 0, max_div_index =3D 0;
+7029db09b2025f Claudiu Beznea 2021-10-11  169  	unsigned int i, mckr, tmp;
+36971566ea7a51 Claudiu Beznea 2021-10-11  170  	int ret;
+7a110b9107ed8f Claudiu Beznea 2020-11-19  171  =
 
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  65  	/*
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  66  	 * The task created t=
-he shm object, for
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  67  	 * task_lock(shp->shm=
-_creator)
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  68  	 */
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  69  	struct task_struct	*s=
-hm_creator;
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  70  =
+7a110b9107ed8f Claudiu Beznea 2020-11-19  172  	for (i =3D 0; i < ARRAY_SIZ=
+E(characteristics->divisors); i++) {
+7a110b9107ed8f Claudiu Beznea 2020-11-19  173  		if (!characteristics->divi=
+sors[i])
+7a110b9107ed8f Claudiu Beznea 2020-11-19  174  			break;
+7a110b9107ed8f Claudiu Beznea 2020-11-19  175  =
 
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  71  	/*
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  72  	 * List by creator. t=
-ask_lock(->shm_creator) required for read/write.
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  73  	 * If list_empty(), t=
-hen the creator is dead already.
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  74  	 */
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  75  	struct list_head	shm_=
-clist;
-85b6d24646e412 Alexander Mikhalitsyn 2021-11-19  76  	struct ipc_namespace	=
-*ns;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  77  } __randomize_layout;
-a2e102cd3cdd8b Eric W. Biederman     2018-03-22  78  =
+7029db09b2025f Claudiu Beznea 2021-10-11  176  		if (div =3D=3D characteris=
+tics->divisors[i])
+7029db09b2025f Claudiu Beznea 2021-10-11  177  			div_index =3D i;
+7029db09b2025f Claudiu Beznea 2021-10-11  178  =
 
+7029db09b2025f Claudiu Beznea 2021-10-11  179  		if (max_div < characterist=
+ics->divisors[i]) {
+7029db09b2025f Claudiu Beznea 2021-10-11  180  			max_div =3D characteristi=
+cs->divisors[i];
+7029db09b2025f Claudiu Beznea 2021-10-11  181  			max_div_index =3D i;
+7a110b9107ed8f Claudiu Beznea 2020-11-19  182  		}
+7a110b9107ed8f Claudiu Beznea 2020-11-19  183  	}
+7a110b9107ed8f Claudiu Beznea 2020-11-19  184  =
 
-:::::: The code at line 52 was first introduced by commit
-:::::: a2e102cd3cdd8b7a14e08716510707b15802073f shm: Move struct shmid_kern=
-el into ipc/shm.c
+7029db09b2025f Claudiu Beznea 2021-10-11  185  	if (div > max_div)
+7029db09b2025f Claudiu Beznea 2021-10-11  186  		div_index =3D max_div_inde=
+x;
+7a110b9107ed8f Claudiu Beznea 2020-11-19  187  =
 
-:::::: TO: Eric W. Biederman <ebiederm@xmission.com>
-:::::: CC: Eric W. Biederman <ebiederm@xmission.com>
+36971566ea7a51 Claudiu Beznea 2021-10-11  188  	ret =3D regmap_read(master-=
+>regmap, master->layout->offset, &mckr);
+36971566ea7a51 Claudiu Beznea 2021-10-11  189  	if (ret)
+7029db09b2025f Claudiu Beznea 2021-10-11  190  		return ret;
+36971566ea7a51 Claudiu Beznea 2021-10-11  191  =
+
+a27748adeacab6 Claudiu Beznea 2021-10-11  192  	mckr &=3D master->layout->m=
+ask;
+a27748adeacab6 Claudiu Beznea 2021-10-11  193  	tmp =3D (mckr >> MASTER_DIV=
+_SHIFT) & MASTER_DIV_MASK;
+7029db09b2025f Claudiu Beznea 2021-10-11  194  	if (tmp =3D=3D div_index)
+7029db09b2025f Claudiu Beznea 2021-10-11  195  		return 0;
+7029db09b2025f Claudiu Beznea 2021-10-11  196  =
+
+7029db09b2025f Claudiu Beznea 2021-10-11 @197  	rate /=3D characteristics->=
+divisors[div_index];
+7029db09b2025f Claudiu Beznea 2021-10-11  198  	if (rate < characteristics-=
+>output.min)
+7029db09b2025f Claudiu Beznea 2021-10-11  199  		pr_warn("master clk div is=
+ underclocked");
+7029db09b2025f Claudiu Beznea 2021-10-11  200  	else if (rate > characteris=
+tics->output.max)
+7029db09b2025f Claudiu Beznea 2021-10-11  201  		pr_warn("master clk div is=
+ overclocked");
+36971566ea7a51 Claudiu Beznea 2021-10-11  202  =
+
+36971566ea7a51 Claudiu Beznea 2021-10-11  203  	mckr &=3D ~(MASTER_DIV_MASK=
+ << MASTER_DIV_SHIFT);
+7029db09b2025f Claudiu Beznea 2021-10-11  204  	mckr |=3D (div_index << MAS=
+TER_DIV_SHIFT);
+36971566ea7a51 Claudiu Beznea 2021-10-11  205  	ret =3D regmap_write(master=
+->regmap, master->layout->offset, mckr);
+36971566ea7a51 Claudiu Beznea 2021-10-11  206  	if (ret)
+7029db09b2025f Claudiu Beznea 2021-10-11  207  		return ret;
+36971566ea7a51 Claudiu Beznea 2021-10-11  208  =
+
+7a110b9107ed8f Claudiu Beznea 2020-11-19  209  	while (!clk_master_ready(ma=
+ster))
+7a110b9107ed8f Claudiu Beznea 2020-11-19  210  		cpu_relax();
+7029db09b2025f Claudiu Beznea 2021-10-11  211  =
+
+7029db09b2025f Claudiu Beznea 2021-10-11  212  	master->div =3D characteris=
+tics->divisors[div_index];
+7a110b9107ed8f Claudiu Beznea 2020-11-19  213  =
+
+7a110b9107ed8f Claudiu Beznea 2020-11-19  214  	return 0;
+7a110b9107ed8f Claudiu Beznea 2020-11-19  215  }
+7a110b9107ed8f Claudiu Beznea 2020-11-19  216  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3253805460743271998==--
+--===============7777710523726251555==--
 
