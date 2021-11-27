@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6423224034740145177=="
+Content-Type: multipart/mixed; boundary="===============5087614175291366447=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/amba/bus.c:377:22: warning: Value stored to 'node' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 27 Nov 2021 17:01:47 +0800
-Message-ID: <202111271637.C6cT64wS-lkp@intel.com>
+Subject: drivers/rtc/rtc-ab-eoz9.c:556:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 27 Nov 2021 15:29:24 +0800
+Message-ID: <202111271526.x3PNLdVl-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6423224034740145177==
+--===============5087614175291366447==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,22 +15,21 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Wang Kefeng <wangkefeng.wang@huawei.com>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Rob Herring <robh@kernel.org>
+TO: Liam Beguin <lvb@xiphos.com>
+CC: Alexandre Belloni <alexandre.belloni@bootlin.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
-commit: 854f695c3d41853eb7efcd436023c5ab92a257eb ARM: 9119/1: amba: Properl=
-y handle device probe without IRQ domain
-date:   6 weeks ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 weeks ago
-config: arm-randconfig-c002-20211123 (https://download.01.org/0day-ci/archi=
-ve/20211127/202111271637.C6cT64wS-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 49e383=
-8145dff1ec91c2e67a2cb562775c8d2a08)
+commit: e70e52e1bf1d6d0ea60e2f8294d5e76a8d8f5370 rtc: ab-eoz9: add alarm su=
+pport
+date:   7 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20211118 (https://download.01.org/0day-ci/archi=
+ve/20211127/202111271526.x3PNLdVl-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c46bec=
+f500df2a7fb4b4fce16178a036c344315a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -38,11 +37,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D854f695c3d41853eb7efcd436023c5ab92a257eb
+t/commit/?id=3De70e52e1bf1d6d0ea60e2f8294d5e76a8d8f5370
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 854f695c3d41853eb7efcd436023c5ab92a257eb
+        git checkout e70e52e1bf1d6d0ea60e2f8294d5e76a8d8f5370
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -53,306 +52,616 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                      ^~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12273:7: note: 'is_narrower_load' is true
-                   if (is_narrower_load) {
-                       ^~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12273:3: note: Taking true branch
-                   if (is_narrower_load) {
                    ^
-   kernel/bpf/verifier.c:12276:8: note: 'type' is not equal to BPF_WRITE
-                           if (type =3D=3D BPF_WRITE) {
-                               ^~~~
-   kernel/bpf/verifier.c:12276:4: note: Taking false branch
-                           if (type =3D=3D BPF_WRITE) {
+   include/linux/cpumask.h:208:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
+           ^
+   drivers/base/cacheinfo.c:275:8: note: 'sibling' is not equal to 'cpu'
+                           if (sibling =3D=3D cpu) /* skip itself */
+                               ^~~~~~~
+   drivers/base/cacheinfo.c:275:4: note: Taking false branch
+                           if (sibling =3D=3D cpu) /* skip itself */
                            ^
-   kernel/bpf/verifier.c:12282:8: note: 'ctx_field_size' is not equal to 4
-                           if (ctx_field_size =3D=3D 4)
-                               ^~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12282:4: note: Taking false branch
-                           if (ctx_field_size =3D=3D 4)
+   drivers/base/cacheinfo.c:279:8: note: Assuming field 'info_list' is null
+                           if (!sib_cpu_ci->info_list)
+                               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:279:4: note: Taking true branch
+                           if (!sib_cpu_ci->info_list)
                            ^
-   kernel/bpf/verifier.c:12284:13: note: 'ctx_field_size' is not equal to 8
-                           else if (ctx_field_size =3D=3D 8)
-                                    ^~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12284:9: note: Taking false branch
-                           else if (ctx_field_size =3D=3D 8)
-                                ^
-   kernel/bpf/verifier.c:12294:7: note: Assuming 'cnt' is not equal to 0
-                   if (cnt =3D=3D 0 || cnt >=3D ARRAY_SIZE(insn_buf) ||
-                       ^~~~~~~~
-   kernel/bpf/verifier.c:12294:7: note: Left side of '||' is false
-   kernel/bpf/verifier.c:12294:19: note: Assuming the condition is false
-                   if (cnt =3D=3D 0 || cnt >=3D ARRAY_SIZE(insn_buf) ||
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12294:7: note: Left side of '||' is false
-                   if (cnt =3D=3D 0 || cnt >=3D ARRAY_SIZE(insn_buf) ||
-                       ^
-   kernel/bpf/verifier.c:12295:8: note: 'ctx_field_size' is not equal to 0
-                       (ctx_field_size && !target_size)) {
-                        ^~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12295:8: note: Left side of '&&' is true
-   kernel/bpf/verifier.c:12295:26: note: Assuming 'target_size' is not equa=
-l to 0
-                       (ctx_field_size && !target_size)) {
-                                          ^~~~~~~~~~~~
-   kernel/bpf/verifier.c:12294:3: note: Taking false branch
-                   if (cnt =3D=3D 0 || cnt >=3D ARRAY_SIZE(insn_buf) ||
-                   ^
-   kernel/bpf/verifier.c:12300:7: note: 'is_narrower_load' is true
-                   if (is_narrower_load && size < target_size) {
-                       ^~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12300:7: note: Left side of '&&' is true
-   kernel/bpf/verifier.c:12300:27: note: Assuming 'size' is < 'target_size'
-                   if (is_narrower_load && size < target_size) {
-                                           ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12300:3: note: Taking true branch
-                   if (is_narrower_load && size < target_size) {
-                   ^
-   kernel/bpf/verifier.c:12303:8: note: Assuming 'shift' is 0
-                           if (shift && cnt + 1 >=3D ARRAY_SIZE(insn_buf)) {
-                               ^~~~~
-   kernel/bpf/verifier.c:12303:14: note: Left side of '&&' is false
-                           if (shift && cnt + 1 >=3D ARRAY_SIZE(insn_buf)) {
-                                     ^
-   kernel/bpf/verifier.c:12307:8: note: 'ctx_field_size' is > 4
-                           if (ctx_field_size <=3D 4) {
-                               ^~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:12307:4: note: Taking false branch
-                           if (ctx_field_size <=3D 4) {
-                           ^
-   kernel/bpf/verifier.c:12315:9: note: 'shift' is 0
-                                   if (shift)
-                                       ^~~~~
-   kernel/bpf/verifier.c:12315:5: note: Taking false branch
-                                   if (shift)
+   drivers/base/cacheinfo.c:280:5: note:  Execution continues on line 272
+                                   continue;
                                    ^
-   kernel/bpf/verifier.c:12320:15: note: The result of the left shift is un=
-defined due to shifting by '64', which is greater or equal to the width of =
-type 'unsigned long long'
-                                                                   (1ULL <<=
- size * 8) - 1);
-                                                                         ^
-   include/linux/filter.h:116:12: note: expanded from macro 'BPF_ALU64_IMM'
-                   .imm   =3D IMM })
-                            ^~~
-   Suppressed 9 warnings (9 in non-user code).
+   drivers/base/cacheinfo.c:272:3: note: Loop condition is false. Execution=
+ continues on line 286
+                   for_each_cpu(sibling, &this_leaf->shared_cpu_map) {
+                   ^
+   include/linux/cpumask.h:208:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
+           ^
+   drivers/base/cacheinfo.c:286:7: note: Calling 'of_have_populated_dt'
+                   if (of_have_populated_dt())
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:180:9: note: 'of_root' is not equal to NULL
+           return of_root !=3D NULL;
+                  ^~~~~~~
+   include/linux/of.h:180:2: note: Returning the value 1, which participate=
+s in a condition later
+           return of_root !=3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:286:7: note: Returning from 'of_have_populated_=
+dt'
+                   if (of_have_populated_dt())
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/base/cacheinfo.c:286:3: note: Taking true branch
+                   if (of_have_populated_dt())
+                   ^
+   drivers/base/cacheinfo.c:287:16: note: Access to field 'fw_token' result=
+s in a dereference of a null pointer (loaded from variable 'this_leaf')
+                           of_node_put(this_leaf->fw_token);
+                                       ^~~~~~~~~
+   16 warnings generated.
+   fs/sysfs/file.c:54:2: warning: Null pointer passed as 1st argument to me=
+mory set function [clang-analyzer-unix.cstring.NullArg]
+           memset(buf, 0, PAGE_SIZE);
+           ^      ~~~
+   fs/sysfs/file.c:49:10: note: Calling 'seq_get_buf'
+           count =3D seq_get_buf(sf, &buf);
+                   ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:65:9: note: Assuming field 'count' is <=3D fiel=
+d 'size'
+           BUG_ON(m->count > m->size);
+                  ^
+   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/seq_file.h:65:2: note: Taking false branch
+           BUG_ON(m->count > m->size);
+           ^
+   include/asm-generic/bug.h:63:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   include/linux/seq_file.h:65:2: note: Loop condition is false.  Exiting l=
+oop
+           BUG_ON(m->count > m->size);
+           ^
+   include/asm-generic/bug.h:63:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   include/linux/seq_file.h:66:6: note: Assuming field 'count' is >=3D fiel=
+d 'size'
+           if (m->count < m->size)
+               ^~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:66:2: note: Taking false branch
+           if (m->count < m->size)
+           ^
+   include/linux/seq_file.h:69:3: note: Null pointer value stored to 'buf'
+                   *bufp =3D NULL;
+                   ^~~~~~~~~~~~
+   fs/sysfs/file.c:49:10: note: Returning from 'seq_get_buf'
+           count =3D seq_get_buf(sf, &buf);
+                   ^~~~~~~~~~~~~~~~~~~~~
+   fs/sysfs/file.c:50:6: note: Assuming the condition is false
+           if (count < PAGE_SIZE) {
+               ^~~~~~~~~~~~~~~~~
+   fs/sysfs/file.c:50:2: note: Taking false branch
+           if (count < PAGE_SIZE) {
+           ^
+   fs/sysfs/file.c:54:2: note: Null pointer passed as 1st argument to memor=
+y set function
+           memset(buf, 0, PAGE_SIZE);
+           ^      ~~~
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   1 warning generated.
+   drivers/rtc/rtc-mc146818-lib.c:187:3: warning: Value stored to 'century'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   century =3D bin2bcd(century);
+                   ^
+   drivers/rtc/rtc-mc146818-lib.c:187:3: note: Value stored to 'century' is=
+ never read
+   1 warning generated.
+>> drivers/rtc/rtc-ab-eoz9.c:556:3: warning: Value stored to 'ret' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D device_init_wakeup(dev, true);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-ab-eoz9.c:556:3: note: Value stored to 'ret' is never re=
+ad
+                   ret =3D device_init_wakeup(dev, true);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/rtc/rtc-abx80x.c:534:3: warning: Value stored to 'status' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   status &=3D ~ABX8XX_STATUS_BLF;
+                   ^         ~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-abx80x.c:534:3: note: Value stored to 'status' is never =
+read
+                   status &=3D ~ABX8XX_STATUS_BLF;
+                   ^         ~~~~~~~~~~~~~~~~~~
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   include/linux/hid.h:999:9: warning: Access to field 'name' results in a =
+dereference of a null pointer (loaded from variable 'input') [clang-analyze=
+r-core.NullDereference]
+                                       input->name, c, type);
+                                       ^
+   drivers/hid/hid-belkin.c:32:6: note: Assuming the condition is false
+           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER ||
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-belkin.c:32:6: note: Left side of '||' is false
+   drivers/hid/hid-belkin.c:33:4: note: Assuming the condition is false
+                           !(quirks & BELKIN_WKBD))
+                           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-belkin.c:32:2: note: Taking false branch
+           if ((usage->hid & HID_USAGE_PAGE) !=3D HID_UP_CONSUMER ||
+           ^
+   drivers/hid/hid-belkin.c:36:2: note: Control jumps to 'case 60:'  at lin=
+e 39
+           switch (usage->hid & HID_USAGE) {
+           ^
+   drivers/hid/hid-belkin.c:39:14: note: Calling 'hid_map_usage_clear'
+           case 0x03c: belkin_map_key_clear(KEY_DOCUMENTS);        break;
+                       ^
+   drivers/hid/hid-belkin.c:24:33: note: expanded from macro 'belkin_map_ke=
+y_clear'
+   #define belkin_map_key_clear(c) hid_map_usage_clear(hi, usage, bit, max,=
+ \
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/hid.h:1027:2: note: Calling 'hid_map_usage'
+           hid_map_usage(hidinput, usage, bit, max, type, c);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:974:2: note: 'input' initialized here
+           struct input_dev *input =3D hidinput->input;
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:978:2: note: Control jumps to 'case 1:'  at line 987
+           switch (type) {
+           ^
+   include/linux/hid.h:990:3: note:  Execution continues on line 997
+                   break;
+                   ^
+   include/linux/hid.h:997:15: note: 'c' is <=3D 'limit'
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:997:15: note: Left side of '||' is false
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/hid.h:997:28: note: Assuming 'bmap' is null
+           if (unlikely(c > limit || !bmap)) {
+                                     ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:997:28: note: Assuming pointer value is null
+           if (unlikely(c > limit || !bmap)) {
+                                     ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:997:2: note: Taking true branch
+           if (unlikely(c > limit || !bmap)) {
+           ^
+   include/linux/hid.h:998:3: note: Assuming the condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/printk.h:511:6: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+               ^~~~~~~~~~~~~~~~~
+   include/linux/ratelimit_types.h:41:28: note: expanded from macro '__rate=
+limit'
+   #define __ratelimit(state) ___ratelimit(state, __func__)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:998:3: note: Taking true branch
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:528:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:511:2: note: expanded from macro 'printk_ratelimi=
+ted'
+           if (__ratelimit(&_rs))                                          \
+           ^
+   include/linux/hid.h:999:9: note: Access to field 'name' results in a der=
+eference of a null pointer (loaded from variable 'input')
+                                       input->name, c, type);
+                                       ^
+   include/linux/printk.h:528:49: note: expanded from macro 'pr_warn_rateli=
+mited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
+--
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/gpu/drm/drm_crtc_helper.c:635:2: warning: Value stored to 'count=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:635:2: note: Value stored to 'count' i=
+s never read
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:681:2: warning: Value stored to 'count=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           count =3D 0;
+           ^       ~
+   drivers/gpu/drm/drm_crtc_helper.c:681:2: note: Value stored to 'count' i=
+s never read
+           count =3D 0;
+           ^       ~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   drivers/w1/masters/ds1wm.c:567:2: warning: Value stored to 'inten' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           inten =3D ds1wm_read_register(ds1wm_data, DS1WM_INT_EN);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/w1/masters/ds1wm.c:567:2: note: Value stored to 'inten' is never=
+ read
+           inten =3D ds1wm_read_register(ds1wm_data, DS1WM_INT_EN);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/amba/bus.c:377:22: warning: Value stored to 'node' during its in=
-itialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node *node =3D dev->dev.of_node;
-                               ^~~~   ~~~~~~~~~~~~~~~~
-   drivers/amba/bus.c:377:22: note: Value stored to 'node' during its initi=
-alization is never read
-           struct device_node *node =3D dev->dev.of_node;
-                               ^~~~   ~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
+   17 warnings generated.
+   Suppressed 17 warnings (16 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   lib/glob.c:48:32: warning: Assigned value is garbage or undefined [clang=
+-analyzer-core.uninitialized.Assign]
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   lib/glob.c:48:32: note: Assigned value is garbage or undefined
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/mtd/mtdcore.c:660:3: warning: Value stored to 'error' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   error =3D 0;
-                   ^       ~
-   drivers/mtd/mtdcore.c:660:3: note: Value stored to 'error' is never read
-                   error =3D 0;
-                   ^       ~
-   Suppressed 9 warnings (9 in non-user code).
+   1 warning generated.
+   drivers/rtc/rtc-mc146818-lib.c:187:3: warning: Value stored to 'century'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   century =3D bin2bcd(century);
+                   ^
+   drivers/rtc/rtc-mc146818-lib.c:187:3: note: Value stored to 'century' is=
+ never read
+   1 warning generated.
+>> drivers/rtc/rtc-ab-eoz9.c:556:3: warning: Value stored to 'ret' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D device_init_wakeup(dev, true);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-ab-eoz9.c:556:3: note: Value stored to 'ret' is never re=
+ad
+                   ret =3D device_init_wakeup(dev, true);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/rtc/rtc-abx80x.c:534:3: warning: Value stored to 'status' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   status &=3D ~ABX8XX_STATUS_BLF;
+                   ^         ~~~~~~~~~~~~~~~~~~
+   drivers/rtc/rtc-abx80x.c:534:3: note: Value stored to 'status' is never =
+read
+                   status &=3D ~ABX8XX_STATUS_BLF;
+                   ^         ~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   drivers/leds/leds-pca9532.c:514:23: warning: Value stored to 'data' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct pca9532_data *data =3D i2c_get_clientdata(client);
+                                ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/leds-pca9532.c:514:23: note: Value stored to 'data' during =
+its initialization is never read
+           struct pca9532_data *data =3D i2c_get_clientdata(client);
+                                ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   16 warnings generated.
+   lib/scatterlist.c:109:10: warning: Access to field 'page_link' results i=
+n a dereference of a null pointer (loaded from variable 'ret') [clang-analy=
+zer-core.NullDereference]
+           BUG_ON(!sg_is_last(ret));
+                   ^
+   include/linux/scatterlist.h:67:26: note: expanded from macro 'sg_is_last'
+   #define sg_is_last(sg)          ((sg)->page_link & SG_END)
+                                    ^~~
+   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   lib/scatterlist.c:103:27: note: 'ret' initialized to a null pointer value
+           struct scatterlist *sg, *ret =3D NULL;
+                                    ^~~
+   lib/scatterlist.c:106:30: note: Assuming 'i' is >=3D 'nents'
+           for_each_sg(sgl, sg, nents, i)
+                                       ^
+   include/linux/scatterlist.h:146:31: note: expanded from macro 'for_each_=
+sg'
+           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
+xt(sg))
+                                        ^~~~~~~~~~
+   lib/scatterlist.c:106:2: note: Loop condition is false. Execution contin=
+ues on line 109
+           for_each_sg(sgl, sg, nents, i)
+           ^
+   include/linux/scatterlist.h:146:2: note: expanded from macro 'for_each_s=
+g'
+           for (__i =3D 0, sg =3D (sglist); __i < (nr); __i++, sg =3D sg_ne=
+xt(sg))
+           ^
+   lib/scatterlist.c:109:10: note: Access to field 'page_link' results in a=
+ dereference of a null pointer (loaded from variable 'ret')
+           BUG_ON(!sg_is_last(ret));
+                   ^
+   include/linux/scatterlist.h:67:26: note: expanded from macro 'sg_is_last'
+   #define sg_is_last(sg)          ((sg)->page_link & SG_END)
+                                    ^~~
+   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (15 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/mtd/devices/phram.c:231:2: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(str, val);
-           ^~~~~~
-   drivers/mtd/devices/phram.c:231:2: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-           strcpy(str, val);
-           ^~~~~~
-   drivers/mtd/devices/phram.c:315:2: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(phram_paramline, val);
-           ^~~~~~
-   drivers/mtd/devices/phram.c:315:2: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-           strcpy(phram_paramline, val);
-           ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/usb/gadget/udc/udc-xilinx.c:632:3: warning: Value stored to 'buf=
-ferspace' is never read [clang-analyzer-deadcode.DeadStores]
-                   bufferspace -=3D count;
-                   ^              ~~~~~
-   drivers/usb/gadget/udc/udc-xilinx.c:632:3: note: Value stored to 'buffer=
-space' is never read
-                   bufferspace -=3D count;
+   17 warnings generated.
+   drivers/video/fbdev/core/fbcvt.c:261:4: warning: Value stored to 'cnt' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           cnt -=3D read;
+                           ^      ~~~~
+   drivers/video/fbdev/core/fbcvt.c:261:4: note: Value stored to 'cnt' is n=
+ever read
+                           cnt -=3D read;
+                           ^      ~~~~
+   drivers/video/fbdev/core/fbcvt.c:262:4: warning: Value stored to 'offset=
+' is never read [clang-analyzer-deadcode.DeadStores]
+                           offset +=3D read;
+                           ^         ~~~~
+   drivers/video/fbdev/core/fbcvt.c:262:4: note: Value stored to 'offset' i=
+s never read
+                           offset +=3D read;
 
-vim +/node +377 drivers/amba/bus.c
+vim +/ret +556 drivers/rtc/rtc-ab-eoz9.c
 
-^1da177e4c3f41 arch/arm/common/amba.c Linus Torvalds 2005-04-16  374  =
+67075b63cce26c Artem Panfilov      2019-02-17  502  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  375  stati=
-c int of_amba_device_decode_irq(struct amba_device *dev)
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  376  {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23 @377  	stru=
-ct device_node *node =3D dev->dev.of_node;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  378  	int =
-i, irq =3D 0;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  379  =
+67075b63cce26c Artem Panfilov      2019-02-17  503  static int abeoz9_probe=
+(struct i2c_client *client,
+67075b63cce26c Artem Panfilov      2019-02-17  504  			const struct i2c_dev=
+ice_id *id)
+67075b63cce26c Artem Panfilov      2019-02-17  505  {
+67075b63cce26c Artem Panfilov      2019-02-17  506  	struct abeoz9_rtc_data=
+ *data =3D NULL;
+67075b63cce26c Artem Panfilov      2019-02-17  507  	struct device *dev =3D=
+ &client->dev;
+67075b63cce26c Artem Panfilov      2019-02-17  508  	struct regmap *regmap;
+67075b63cce26c Artem Panfilov      2019-02-17  509  	int ret;
+67075b63cce26c Artem Panfilov      2019-02-17  510  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  380  	if (=
-IS_ENABLED(CONFIG_OF_IRQ) && node) {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  381  		/* =
-Decode the IRQs and address ranges */
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  382  		for=
- (i =3D 0; i < AMBA_NR_IRQS; i++) {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  383  			ir=
-q =3D of_irq_get(node, i);
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  384  			if=
- (irq < 0) {
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  385  				i=
-f (irq =3D=3D -EPROBE_DEFER)
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  386  					=
-return irq;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  387  				i=
-rq =3D 0;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  388  			}
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  389  =
+67075b63cce26c Artem Panfilov      2019-02-17  511  	if (!i2c_check_functio=
+nality(client->adapter, I2C_FUNC_I2C |
+67075b63cce26c Artem Panfilov      2019-02-17  512  				     I2C_FUNC_SMBUS=
+_BYTE_DATA |
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  513  				     I2C_FUNC_SMBUS=
+_I2C_BLOCK))
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  514  		return -ENODEV;
+67075b63cce26c Artem Panfilov      2019-02-17  515  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  390  			de=
-v->irq[i] =3D irq;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  391  		}
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  392  	}
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  393  =
+67075b63cce26c Artem Panfilov      2019-02-17  516  	regmap =3D devm_regmap=
+_init_i2c(client, &abeoz9_rtc_regmap_config);
+67075b63cce26c Artem Panfilov      2019-02-17  517  	if (IS_ERR(regmap)) {
+67075b63cce26c Artem Panfilov      2019-02-17  518  		ret =3D PTR_ERR(regma=
+p);
+67075b63cce26c Artem Panfilov      2019-02-17  519  		dev_err(dev, "regmap =
+allocation failed: %d\n", ret);
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  520  		return ret;
+67075b63cce26c Artem Panfilov      2019-02-17  521  	}
+67075b63cce26c Artem Panfilov      2019-02-17  522  =
 
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  394  	retu=
-rn 0;
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  395  }
-854f695c3d4185 drivers/amba/bus.c     Wang Kefeng    2021-08-23  396  =
+67075b63cce26c Artem Panfilov      2019-02-17  523  	data =3D devm_kzalloc(=
+dev, sizeof(*data), GFP_KERNEL);
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  524  	if (!data)
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  525  		return -ENOMEM;
+67075b63cce26c Artem Panfilov      2019-02-17  526  =
+
+67075b63cce26c Artem Panfilov      2019-02-17  527  	data->regmap =3D regma=
+p;
+67075b63cce26c Artem Panfilov      2019-02-17  528  	dev_set_drvdata(dev, d=
+ata);
+67075b63cce26c Artem Panfilov      2019-02-17  529  =
+
+67075b63cce26c Artem Panfilov      2019-02-17  530  	ret =3D abeoz9_rtc_set=
+up(dev, client->dev.of_node);
+67075b63cce26c Artem Panfilov      2019-02-17  531  	if (ret)
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  532  		return ret;
+67075b63cce26c Artem Panfilov      2019-02-17  533  =
+
+67075b63cce26c Artem Panfilov      2019-02-17  534  	data->rtc =3D devm_rtc=
+_allocate_device(dev);
+67075b63cce26c Artem Panfilov      2019-02-17  535  	ret =3D PTR_ERR_OR_ZER=
+O(data->rtc);
+67075b63cce26c Artem Panfilov      2019-02-17  536  	if (ret)
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  537  		return ret;
+67075b63cce26c Artem Panfilov      2019-02-17  538  =
+
+67075b63cce26c Artem Panfilov      2019-02-17  539  	data->rtc->ops =3D &rt=
+c_ops;
+67075b63cce26c Artem Panfilov      2019-02-17  540  	data->rtc->range_min =
+=3D RTC_TIMESTAMP_BEGIN_2000;
+67075b63cce26c Artem Panfilov      2019-02-17  541  	data->rtc->range_max =
+=3D RTC_TIMESTAMP_END_2099;
+e70e52e1bf1d6d Liam Beguin         2021-04-07  542  	data->rtc->uie_unsuppo=
+rted =3D 1;
+e70e52e1bf1d6d Liam Beguin         2021-04-07  543  =
+
+e70e52e1bf1d6d Liam Beguin         2021-04-07  544  	if (client->irq > 0) {
+e70e52e1bf1d6d Liam Beguin         2021-04-07  545  		ret =3D devm_request_=
+threaded_irq(dev, client->irq, NULL,
+e70e52e1bf1d6d Liam Beguin         2021-04-07  546  						abeoz9_rtc_irq,
+e70e52e1bf1d6d Liam Beguin         2021-04-07  547  						IRQF_TRIGGER_LOW =
+| IRQF_ONESHOT,
+e70e52e1bf1d6d Liam Beguin         2021-04-07  548  						dev_name(dev), de=
+v);
+e70e52e1bf1d6d Liam Beguin         2021-04-07  549  		if (ret) {
+e70e52e1bf1d6d Liam Beguin         2021-04-07  550  			dev_err(dev, "failed=
+ to request alarm irq\n");
+e70e52e1bf1d6d Liam Beguin         2021-04-07  551  			return ret;
+e70e52e1bf1d6d Liam Beguin         2021-04-07  552  		}
+e70e52e1bf1d6d Liam Beguin         2021-04-07  553  	}
+e70e52e1bf1d6d Liam Beguin         2021-04-07  554  =
+
+e70e52e1bf1d6d Liam Beguin         2021-04-07  555  	if (client->irq > 0 ||=
+ device_property_read_bool(dev, "wakeup-source")) {
+e70e52e1bf1d6d Liam Beguin         2021-04-07 @556  		ret =3D device_init_w=
+akeup(dev, true);
+e70e52e1bf1d6d Liam Beguin         2021-04-07  557  		data->rtc->ops =3D &r=
+tc_alarm_ops;
+e70e52e1bf1d6d Liam Beguin         2021-04-07  558  	}
+67075b63cce26c Artem Panfilov      2019-02-17  559  =
+
+fdcfd854333be5 Bartosz Golaszewski 2020-11-09  560  	ret =3D devm_rtc_regis=
+ter_device(data->rtc);
+67075b63cce26c Artem Panfilov      2019-02-17  561  	if (ret)
+44c638ce4ec6fb Alexandre Belloni   2019-08-19  562  		return ret;
+67075b63cce26c Artem Panfilov      2019-02-17  563  =
+
+67075b63cce26c Artem Panfilov      2019-02-17  564  	abeoz9_hwmon_register(=
+dev, data);
+67075b63cce26c Artem Panfilov      2019-02-17  565  	return 0;
+67075b63cce26c Artem Panfilov      2019-02-17  566  }
+67075b63cce26c Artem Panfilov      2019-02-17  567  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6423224034740145177==--
+--===============5087614175291366447==--
 
