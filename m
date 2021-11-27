@@ -1,145 +1,189 @@
-Content-Type: multipart/mixed; boundary="===============1677040880413757736=="
+Content-Type: multipart/mixed; boundary="===============6565744015790086336=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/ksmbd/oplock.c:988 find_same_lease_key() warn: missing error code 'err'
-Date: Sun, 28 Nov 2021 04:27:43 +0800
-Message-ID: <202111280419.zYaoW47p-lkp@intel.com>
+Subject: arch/arm64/kernel/machine_kexec_file.c:152 load_other_segments() warn: missing error code 'ret'
+Date: Sun, 28 Nov 2021 04:07:22 +0800
+Message-ID: <202111280304.FL2314qf-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1677040880413757736==
+--===============6565744015790086336==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Namjae Jeon <namjae.jeon@samsung.com>
-CC: Christoph Hellwig <hch@lst.de>
-CC: Steve French <stfrench@microsoft.com>
+TO: Rob Herring <robh@kernel.org>
+CC: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
+CC: Thiago Jung Bauermann <bauerman@linux.ibm.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
-commit: 1a93084b9a89818aec0ac7b59a5a51f2112bf203 ksmbd: move fs/cifsd to fs=
-/ksmbd
-date:   5 months ago
+commit: ac10be5cdbfa852139658d52c2f1c608782ce992 arm64: Use common of_kexec=
+_alloc_and_setup_fdt()
+date:   9 months ago
 :::::: branch date: 23 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-m001-20211118 (https://download.01.org/0day-ci/ar=
-chive/20211128/202111280419.zYaoW47p-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+:::::: commit date: 9 months ago
+config: arm64-randconfig-m031-20211127 (https://download.01.org/0day-ci/arc=
+hive/20211128/202111280304.FL2314qf-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/ksmbd/oplock.c:988 find_same_lease_key() warn: missing error code 'err'
+arch/arm64/kernel/machine_kexec_file.c:152 load_other_segments() warn: miss=
+ing error code 'ret'
 
-vim +/err +988 fs/ksmbd/oplock.c
+vim +/ret +152 arch/arm64/kernel/machine_kexec_file.c
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   955  =
+3751e728cef290 AKASHI Takahiro         2019-12-16   75  =
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   956  int find_sam=
-e_lease_key(struct ksmbd_session *sess, struct ksmbd_inode *ci,
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   957  			struct le=
-ase_ctx_info *lctx)
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   958  {
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   959  	struct oplo=
-ck_info *opinfo;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   960  	int err =3D=
- 0;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   961  	struct leas=
-e_table *lb;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   962  =
+108aa503657ee2 Benjamin Gwin           2020-11-03   76  /*
+108aa503657ee2 Benjamin Gwin           2020-11-03   77   * Tries to add the=
+ initrd and DTB to the image. If it is not possible to find
+108aa503657ee2 Benjamin Gwin           2020-11-03   78   * valid locations,=
+ this function will undo changes to the image and return non
+108aa503657ee2 Benjamin Gwin           2020-11-03   79   * zero.
+108aa503657ee2 Benjamin Gwin           2020-11-03   80   */
+52b2a8af743604 AKASHI Takahiro         2018-11-15   81  int load_other_segm=
+ents(struct kimage *image,
+52b2a8af743604 AKASHI Takahiro         2018-11-15   82  			unsigned long ke=
+rnel_load_addr,
+52b2a8af743604 AKASHI Takahiro         2018-11-15   83  			unsigned long ke=
+rnel_size,
+52b2a8af743604 AKASHI Takahiro         2018-11-15   84  			char *initrd, un=
+signed long initrd_len,
+52b2a8af743604 AKASHI Takahiro         2018-11-15   85  			char *cmdline)
+52b2a8af743604 AKASHI Takahiro         2018-11-15   86  {
+52b2a8af743604 AKASHI Takahiro         2018-11-15   87  	struct kexec_buf k=
+buf;
+3751e728cef290 AKASHI Takahiro         2019-12-16   88  	void *headers, *dt=
+b =3D NULL;
+108aa503657ee2 Benjamin Gwin           2020-11-03   89  	unsigned long head=
+ers_sz, initrd_load_addr =3D 0, dtb_len,
+108aa503657ee2 Benjamin Gwin           2020-11-03   90  		      orig_segmen=
+ts =3D image->nr_segments;
+52b2a8af743604 AKASHI Takahiro         2018-11-15   91  	int ret =3D 0;
+52b2a8af743604 AKASHI Takahiro         2018-11-15   92  =
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   963  	if (!lctx)
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   964  		return err;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   965  =
+52b2a8af743604 AKASHI Takahiro         2018-11-15   93  	kbuf.image =3D ima=
+ge;
+52b2a8af743604 AKASHI Takahiro         2018-11-15   94  	/* not allocate an=
+ything below the kernel */
+52b2a8af743604 AKASHI Takahiro         2018-11-15   95  	kbuf.buf_min =3D k=
+ernel_load_addr + kernel_size;
+52b2a8af743604 AKASHI Takahiro         2018-11-15   96  =
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   966  	read_lock(&=
-lease_list_lock);
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   967  	if (list_em=
-pty(&lease_table_list)) {
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   968  		read_unloc=
-k(&lease_list_lock);
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   969  		return 0;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   970  	}
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   971  =
+3751e728cef290 AKASHI Takahiro         2019-12-16   97  	/* load elf core h=
+eader */
+3751e728cef290 AKASHI Takahiro         2019-12-16   98  	if (image->type =
+=3D=3D KEXEC_TYPE_CRASH) {
+3751e728cef290 AKASHI Takahiro         2019-12-16   99  		ret =3D prepare_e=
+lf_headers(&headers, &headers_sz);
+3751e728cef290 AKASHI Takahiro         2019-12-16  100  		if (ret) {
+3751e728cef290 AKASHI Takahiro         2019-12-16  101  			pr_err("Preparin=
+g elf core header failed\n");
+3751e728cef290 AKASHI Takahiro         2019-12-16  102  			goto out_err;
+3751e728cef290 AKASHI Takahiro         2019-12-16  103  		}
+3751e728cef290 AKASHI Takahiro         2019-12-16  104  =
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   972  	list_for_ea=
-ch_entry(lb, &lease_table_list, l_entry) {
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   973  		if (!memcm=
-p(lb->client_guid, sess->conn->ClientGUID,
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   974  			    SMB2_=
-CLIENT_GUID_SIZE))
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   975  			goto foun=
-d;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   976  	}
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   977  	read_unlock=
-(&lease_list_lock);
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   978  =
+3751e728cef290 AKASHI Takahiro         2019-12-16  105  		kbuf.buffer =3D h=
+eaders;
+3751e728cef290 AKASHI Takahiro         2019-12-16  106  		kbuf.bufsz =3D he=
+aders_sz;
+3751e728cef290 AKASHI Takahiro         2019-12-16  107  		kbuf.mem =3D KEXE=
+C_BUF_MEM_UNKNOWN;
+3751e728cef290 AKASHI Takahiro         2019-12-16  108  		kbuf.memsz =3D he=
+aders_sz;
+3751e728cef290 AKASHI Takahiro         2019-12-16  109  		kbuf.buf_align =
+=3D SZ_64K; /* largest supported page size */
+3751e728cef290 AKASHI Takahiro         2019-12-16  110  		kbuf.buf_max =3D =
+ULONG_MAX;
+3751e728cef290 AKASHI Takahiro         2019-12-16  111  		kbuf.top_down =3D=
+ true;
+3751e728cef290 AKASHI Takahiro         2019-12-16  112  =
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   979  	return 0;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   980  =
+3751e728cef290 AKASHI Takahiro         2019-12-16  113  		ret =3D kexec_add=
+_buffer(&kbuf);
+3751e728cef290 AKASHI Takahiro         2019-12-16  114  		if (ret) {
+3751e728cef290 AKASHI Takahiro         2019-12-16  115  			vfree(headers);
+3751e728cef290 AKASHI Takahiro         2019-12-16  116  			goto out_err;
+3751e728cef290 AKASHI Takahiro         2019-12-16  117  		}
+7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  118  		image->elf_header=
+s =3D headers;
+7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  119  		image->elf_load_a=
+ddr =3D kbuf.mem;
+7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  120  		image->elf_header=
+s_sz =3D headers_sz;
+3751e728cef290 AKASHI Takahiro         2019-12-16  121  =
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   981  found:
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   982  	rcu_read_lo=
-ck();
-070fb21e5912b6 fs/cifsd/oplock.c Namjae Jeon 2021-05-26   983  	list_for_ea=
-ch_entry_rcu(opinfo, &lb->lease_list, lease_entry) {
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   984  		if (!atomi=
-c_inc_not_zero(&opinfo->refcount))
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   985  			continue;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   986  		rcu_read_u=
-nlock();
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   987  		if (opinfo=
-->o_fp->f_ci =3D=3D ci)
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  @988  			goto op_n=
-ext;
-070fb21e5912b6 fs/cifsd/oplock.c Namjae Jeon 2021-05-26   989  		err =3D co=
-mpare_guid_key(opinfo, sess->conn->ClientGUID,
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   990  				       l=
-ctx->lease_key);
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   991  		if (err) {
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   992  			err =3D -=
-EINVAL;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   993  			ksmbd_deb=
-ug(OPLOCK,
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   994  				    "fou=
-nd same lease key is already used in other files\n");
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   995  			opinfo_pu=
-t(opinfo);
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   996  			goto out;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   997  		}
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   998  op_next:
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16   999  		opinfo_put=
-(opinfo);
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1000  		rcu_read_l=
-ock();
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1001  	}
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1002  	rcu_read_un=
-lock();
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1003  =
+3751e728cef290 AKASHI Takahiro         2019-12-16  122  		pr_debug("Loaded =
+elf core header at 0x%lx bufsz=3D0x%lx memsz=3D0x%lx\n",
+7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  123  			 image->elf_load=
+_addr, kbuf.bufsz, kbuf.memsz);
+3751e728cef290 AKASHI Takahiro         2019-12-16  124  	}
+3751e728cef290 AKASHI Takahiro         2019-12-16  125  =
 
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1004  out:
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1005  	read_unlock=
-(&lease_list_lock);
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1006  	return err;
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1007  }
-e2f34481b24db2 fs/cifsd/oplock.c Namjae Jeon 2021-03-16  1008  =
+52b2a8af743604 AKASHI Takahiro         2018-11-15  126  	/* load initrd */
+52b2a8af743604 AKASHI Takahiro         2018-11-15  127  	if (initrd) {
+52b2a8af743604 AKASHI Takahiro         2018-11-15  128  		kbuf.buffer =3D i=
+nitrd;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  129  		kbuf.bufsz =3D in=
+itrd_len;
+c19d050f808812 Bhupesh Sharma          2019-07-11  130  		kbuf.mem =3D KEXE=
+C_BUF_MEM_UNKNOWN;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  131  		kbuf.memsz =3D in=
+itrd_len;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  132  		kbuf.buf_align =
+=3D 0;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  133  		/* within 1GB-ali=
+gned window of up to 32GB in size */
+52b2a8af743604 AKASHI Takahiro         2018-11-15  134  		kbuf.buf_max =3D =
+round_down(kernel_load_addr, SZ_1G)
+52b2a8af743604 AKASHI Takahiro         2018-11-15  135  						+ (unsigned l=
+ong)SZ_1G * 32;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  136  		kbuf.top_down =3D=
+ false;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  137  =
 
+52b2a8af743604 AKASHI Takahiro         2018-11-15  138  		ret =3D kexec_add=
+_buffer(&kbuf);
+52b2a8af743604 AKASHI Takahiro         2018-11-15  139  		if (ret)
+52b2a8af743604 AKASHI Takahiro         2018-11-15  140  			goto out_err;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  141  		initrd_load_addr =
+=3D kbuf.mem;
+52b2a8af743604 AKASHI Takahiro         2018-11-15  142  =
 
-:::::: The code at line 988 was first introduced by commit
-:::::: e2f34481b24db2fd634b5edb0a5bd0e4d38cc6e9 cifsd: add server-side proc=
-edures for SMB3
+52b2a8af743604 AKASHI Takahiro         2018-11-15  143  		pr_debug("Loaded =
+initrd at 0x%lx bufsz=3D0x%lx memsz=3D0x%lx\n",
+51075e0cb759a7 =C5=81ukasz Stelmach         2020-04-30  144  				initrd_loa=
+d_addr, kbuf.bufsz, kbuf.memsz);
+52b2a8af743604 AKASHI Takahiro         2018-11-15  145  	}
+52b2a8af743604 AKASHI Takahiro         2018-11-15  146  =
 
-:::::: TO: Namjae Jeon <namjae.jeon@samsung.com>
-:::::: CC: Steve French <stfrench@microsoft.com>
+52b2a8af743604 AKASHI Takahiro         2018-11-15  147  	/* load dtb */
+ac10be5cdbfa85 Rob Herring             2021-02-21  148  	dtb =3D of_kexec_a=
+lloc_and_setup_fdt(image, initrd_load_addr,
+ac10be5cdbfa85 Rob Herring             2021-02-21  149  					   initrd_len,=
+ cmdline, 0);
+ac10be5cdbfa85 Rob Herring             2021-02-21  150  	if (!dtb) {
+52b2a8af743604 AKASHI Takahiro         2018-11-15  151  		pr_err("Preparing=
+ for new dtb failed\n");
+52b2a8af743604 AKASHI Takahiro         2018-11-15 @152  		goto out_err;
+
+:::::: The code at line 152 was first introduced by commit
+:::::: 52b2a8af7436044cfcb27e4b0f72c2ce1f3890da arm64: kexec_file: load ini=
+trd and device-tree
+
+:::::: TO: AKASHI Takahiro <takahiro.akashi@linaro.org>
+:::::: CC: Will Deacon <will.deacon@arm.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1677040880413757736==--
+--===============6565744015790086336==--
 
