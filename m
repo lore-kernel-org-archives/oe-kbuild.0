@@ -1,189 +1,169 @@
-Content-Type: multipart/mixed; boundary="===============6565744015790086336=="
+Content-Type: multipart/mixed; boundary="===============8152886337199543632=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm64/kernel/machine_kexec_file.c:152 load_other_segments() warn: missing error code 'ret'
-Date: Sun, 28 Nov 2021 04:07:22 +0800
-Message-ID: <202111280304.FL2314qf-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1562:12: warning: %d in format string (no. 1) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfArgType_sint]
+Date: Sun, 28 Nov 2021 03:57:03 +0800
+Message-ID: <202111280321.KwoBDEw9-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6565744015790086336==
+--===============8152886337199543632==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Rob Herring <robh@kernel.org>
-CC: Lakshmi Ramasubramanian <nramas@linux.microsoft.com>
-CC: Thiago Jung Bauermann <bauerman@linux.ibm.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
-commit: ac10be5cdbfa852139658d52c2f1c608782ce992 arm64: Use common of_kexec=
-_alloc_and_setup_fdt()
-date:   9 months ago
+commit: d5c7255dc7ff6e1239d794b9c53029d83ced04ca drm/amdgpu/pm: fix powerpl=
+ay OD interface
+date:   3 days ago
 :::::: branch date: 23 hours ago
-:::::: commit date: 9 months ago
-config: arm64-randconfig-m031-20211127 (https://download.01.org/0day-ci/arc=
-hive/20211128/202111280304.FL2314qf-lkp(a)intel.com/config)
-compiler: aarch64-linux-gcc (GCC) 11.2.0
+:::::: commit date: 3 days ago
+compiler: sparc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/arm64/kernel/machine_kexec_file.c:152 load_other_segments() warn: miss=
-ing error code 'ret'
 
-vim +/ret +152 arch/arm64/kernel/machine_kexec_file.c
+cppcheck warnings: (new ones prefixed by >>)
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
+mu8_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1562:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
+   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1574:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
 
-3751e728cef290 AKASHI Takahiro         2019-12-16   75  =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-108aa503657ee2 Benjamin Gwin           2020-11-03   76  /*
-108aa503657ee2 Benjamin Gwin           2020-11-03   77   * Tries to add the=
- initrd and DTB to the image. If it is not possible to find
-108aa503657ee2 Benjamin Gwin           2020-11-03   78   * valid locations,=
- this function will undo changes to the image and return non
-108aa503657ee2 Benjamin Gwin           2020-11-03   79   * zero.
-108aa503657ee2 Benjamin Gwin           2020-11-03   80   */
-52b2a8af743604 AKASHI Takahiro         2018-11-15   81  int load_other_segm=
-ents(struct kimage *image,
-52b2a8af743604 AKASHI Takahiro         2018-11-15   82  			unsigned long ke=
-rnel_load_addr,
-52b2a8af743604 AKASHI Takahiro         2018-11-15   83  			unsigned long ke=
-rnel_size,
-52b2a8af743604 AKASHI Takahiro         2018-11-15   84  			char *initrd, un=
-signed long initrd_len,
-52b2a8af743604 AKASHI Takahiro         2018-11-15   85  			char *cmdline)
-52b2a8af743604 AKASHI Takahiro         2018-11-15   86  {
-52b2a8af743604 AKASHI Takahiro         2018-11-15   87  	struct kexec_buf k=
-buf;
-3751e728cef290 AKASHI Takahiro         2019-12-16   88  	void *headers, *dt=
-b =3D NULL;
-108aa503657ee2 Benjamin Gwin           2020-11-03   89  	unsigned long head=
-ers_sz, initrd_load_addr =3D 0, dtb_len,
-108aa503657ee2 Benjamin Gwin           2020-11-03   90  		      orig_segmen=
-ts =3D image->nr_segments;
-52b2a8af743604 AKASHI Takahiro         2018-11-15   91  	int ret =3D 0;
-52b2a8af743604 AKASHI Takahiro         2018-11-15   92  =
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/s=
+mu8_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1562:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
+   drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c:1574:12: warning: %d=
+ in format string (no. 1) requires 'int' but the argument type is 'unsigned=
+ int'. [invalidPrintfArgType_sint]
+      size +=3D sprintf(buf + size, "%d: %uMhz %sn",
+              ^
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c:2931:0: warning: S=
+yntax error in #if [preprocessorErrorDirective]
+   #if 0
+   ^
+--
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/v=
+ega20_hwmgr.c:
 
-52b2a8af743604 AKASHI Takahiro         2018-11-15   93  	kbuf.image =3D ima=
-ge;
-52b2a8af743604 AKASHI Takahiro         2018-11-15   94  	/* not allocate an=
-ything below the kernel */
-52b2a8af743604 AKASHI Takahiro         2018-11-15   95  	kbuf.buf_min =3D k=
-ernel_load_addr + kernel_size;
-52b2a8af743604 AKASHI Takahiro         2018-11-15   96  =
+vim +1562 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c
 
-3751e728cef290 AKASHI Takahiro         2019-12-16   97  	/* load elf core h=
-eader */
-3751e728cef290 AKASHI Takahiro         2019-12-16   98  	if (image->type =
-=3D=3D KEXEC_TYPE_CRASH) {
-3751e728cef290 AKASHI Takahiro         2019-12-16   99  		ret =3D prepare_e=
-lf_headers(&headers, &headers_sz);
-3751e728cef290 AKASHI Takahiro         2019-12-16  100  		if (ret) {
-3751e728cef290 AKASHI Takahiro         2019-12-16  101  			pr_err("Preparin=
-g elf core header failed\n");
-3751e728cef290 AKASHI Takahiro         2019-12-16  102  			goto out_err;
-3751e728cef290 AKASHI Takahiro         2019-12-16  103  		}
-3751e728cef290 AKASHI Takahiro         2019-12-16  104  =
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1543  =
 
-3751e728cef290 AKASHI Takahiro         2019-12-16  105  		kbuf.buffer =3D h=
-eaders;
-3751e728cef290 AKASHI Takahiro         2019-12-16  106  		kbuf.bufsz =3D he=
-aders_sz;
-3751e728cef290 AKASHI Takahiro         2019-12-16  107  		kbuf.mem =3D KEXE=
-C_BUF_MEM_UNKNOWN;
-3751e728cef290 AKASHI Takahiro         2019-12-16  108  		kbuf.memsz =3D he=
-aders_sz;
-3751e728cef290 AKASHI Takahiro         2019-12-16  109  		kbuf.buf_align =
-=3D SZ_64K; /* largest supported page size */
-3751e728cef290 AKASHI Takahiro         2019-12-16  110  		kbuf.buf_max =3D =
-ULONG_MAX;
-3751e728cef290 AKASHI Takahiro         2019-12-16  111  		kbuf.top_down =3D=
- true;
-3751e728cef290 AKASHI Takahiro         2019-12-16  112  =
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1544  static int smu8_print_clock_levels(struct pp_hwmgr =
+*hwmgr,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1545  		enum pp_clock_type type, char *buf)
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1546  {
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1547  	struct smu8_hwmgr *data =3D hwmgr->backend;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1548  	struct phm_clock_voltage_dependency_table *sclk_ta=
+ble =3D
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1549  			hwmgr->dyn_state.vddc_dependency_on_sclk;
+6db0c87a0a8ee1 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Darren P=
+owell 2021-07-17  1550  	uint32_t i, now;
+6db0c87a0a8ee1 drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Darren P=
+owell 2021-07-17  1551  	int size =3D 0;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1552  =
 
-3751e728cef290 AKASHI Takahiro         2019-12-16  113  		ret =3D kexec_add=
-_buffer(&kbuf);
-3751e728cef290 AKASHI Takahiro         2019-12-16  114  		if (ret) {
-3751e728cef290 AKASHI Takahiro         2019-12-16  115  			vfree(headers);
-3751e728cef290 AKASHI Takahiro         2019-12-16  116  			goto out_err;
-3751e728cef290 AKASHI Takahiro         2019-12-16  117  		}
-7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  118  		image->elf_header=
-s =3D headers;
-7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  119  		image->elf_load_a=
-ddr =3D kbuf.mem;
-7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  120  		image->elf_header=
-s_sz =3D headers_sz;
-3751e728cef290 AKASHI Takahiro         2019-12-16  121  =
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1553  	switch (type) {
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1554  	case PP_SCLK:
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1555  		now =3D PHM_GET_FIELD(cgs_read_ind_register(hwmgr=
+->device,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1556  				CGS_IND_REG__SMC,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1557  				ixTARGET_AND_CURRENT_PROFILE_INDEX),
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1558  				TARGET_AND_CURRENT_PROFILE_INDEX,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1559  				CURR_SCLK_INDEX);
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1560  =
 
-3751e728cef290 AKASHI Takahiro         2019-12-16  122  		pr_debug("Loaded =
-elf core header at 0x%lx bufsz=3D0x%lx memsz=3D0x%lx\n",
-7b558cc3564e6c Lakshmi Ramasubramanian 2021-02-21  123  			 image->elf_load=
-_addr, kbuf.bufsz, kbuf.memsz);
-3751e728cef290 AKASHI Takahiro         2019-12-16  124  	}
-3751e728cef290 AKASHI Takahiro         2019-12-16  125  =
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1561  		for (i =3D 0; i < sclk_table->count; i++)
+d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Alex Deu=
+cher  2021-11-23 @1562  			size +=3D sprintf(buf + size, "%d: %uMhz %s\n",
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1563  					i, sclk_table->entries[i].clk / 100,
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1564  					(i =3D=3D now) ? "*" : "");
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1565  		break;
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1566  	case PP_MCLK:
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1567  		now =3D PHM_GET_FIELD(cgs_read_ind_register(hwmgr=
+->device,
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1568  				CGS_IND_REG__SMC,
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1569  				ixTARGET_AND_CURRENT_PROFILE_INDEX),
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1570  				TARGET_AND_CURRENT_PROFILE_INDEX,
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1571  				CURR_MCLK_INDEX);
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1572  =
 
-52b2a8af743604 AKASHI Takahiro         2018-11-15  126  	/* load initrd */
-52b2a8af743604 AKASHI Takahiro         2018-11-15  127  	if (initrd) {
-52b2a8af743604 AKASHI Takahiro         2018-11-15  128  		kbuf.buffer =3D i=
-nitrd;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  129  		kbuf.bufsz =3D in=
-itrd_len;
-c19d050f808812 Bhupesh Sharma          2019-07-11  130  		kbuf.mem =3D KEXE=
-C_BUF_MEM_UNKNOWN;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  131  		kbuf.memsz =3D in=
-itrd_len;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  132  		kbuf.buf_align =
-=3D 0;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  133  		/* within 1GB-ali=
-gned window of up to 32GB in size */
-52b2a8af743604 AKASHI Takahiro         2018-11-15  134  		kbuf.buf_max =3D =
-round_down(kernel_load_addr, SZ_1G)
-52b2a8af743604 AKASHI Takahiro         2018-11-15  135  						+ (unsigned l=
-ong)SZ_1G * 32;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  136  		kbuf.top_down =3D=
- false;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  137  =
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1573  		for (i =3D SMU8_NUM_NBPMEMORYCLOCK; i > 0; i--)
+d5c7255dc7ff6e drivers/gpu/drm/amd/pm/powerplay/hwmgr/smu8_hwmgr.c Alex Deu=
+cher  2021-11-23  1574  			size +=3D sprintf(buf + size, "%d: %uMhz %s\n",
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1575  					SMU8_NUM_NBPMEMORYCLOCK-i, data->sys_info.nbp_=
+memory_clock[i-1] / 100,
+47ce4a9f84d783 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-03-14  1576  					(SMU8_NUM_NBPMEMORYCLOCK-i =3D=3D now) ? "*" :=
+ "");
+039fdc94c15a52 drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Rex Zhu =
+      2018-01-08  1577  		break;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1578  	default:
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1579  		break;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1580  	}
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1581  	return size;
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1582  }
+d7341ef66870fc drivers/gpu/drm/amd/powerplay/hwmgr/cz_hwmgr.c      Eric Hua=
+ng    2016-01-22  1583  =
 
-52b2a8af743604 AKASHI Takahiro         2018-11-15  138  		ret =3D kexec_add=
-_buffer(&kbuf);
-52b2a8af743604 AKASHI Takahiro         2018-11-15  139  		if (ret)
-52b2a8af743604 AKASHI Takahiro         2018-11-15  140  			goto out_err;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  141  		initrd_load_addr =
-=3D kbuf.mem;
-52b2a8af743604 AKASHI Takahiro         2018-11-15  142  =
-
-52b2a8af743604 AKASHI Takahiro         2018-11-15  143  		pr_debug("Loaded =
-initrd at 0x%lx bufsz=3D0x%lx memsz=3D0x%lx\n",
-51075e0cb759a7 =C5=81ukasz Stelmach         2020-04-30  144  				initrd_loa=
-d_addr, kbuf.bufsz, kbuf.memsz);
-52b2a8af743604 AKASHI Takahiro         2018-11-15  145  	}
-52b2a8af743604 AKASHI Takahiro         2018-11-15  146  =
-
-52b2a8af743604 AKASHI Takahiro         2018-11-15  147  	/* load dtb */
-ac10be5cdbfa85 Rob Herring             2021-02-21  148  	dtb =3D of_kexec_a=
-lloc_and_setup_fdt(image, initrd_load_addr,
-ac10be5cdbfa85 Rob Herring             2021-02-21  149  					   initrd_len,=
- cmdline, 0);
-ac10be5cdbfa85 Rob Herring             2021-02-21  150  	if (!dtb) {
-52b2a8af743604 AKASHI Takahiro         2018-11-15  151  		pr_err("Preparing=
- for new dtb failed\n");
-52b2a8af743604 AKASHI Takahiro         2018-11-15 @152  		goto out_err;
-
-:::::: The code at line 152 was first introduced by commit
-:::::: 52b2a8af7436044cfcb27e4b0f72c2ce1f3890da arm64: kexec_file: load ini=
-trd and device-tree
-
-:::::: TO: AKASHI Takahiro <takahiro.akashi@linaro.org>
-:::::: CC: Will Deacon <will.deacon@arm.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6565744015790086336==--
+--===============8152886337199543632==--
 
