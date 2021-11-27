@@ -1,51 +1,53 @@
-Content-Type: multipart/mixed; boundary="===============8323834304408987596=="
+Content-Type: multipart/mixed; boundary="===============1238167432548906872=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH bpf-next v2 4/9] bpf: Replace PTR_TO_XXX_OR_NULL with PTR_TO_XXX | PTR_MAYBE_NULL
-Date: Fri, 03 Dec 2021 07:50:34 +0800
-Message-ID: <202112030712.qtXfXqLl-lkp@intel.com>
+Subject: drivers/soc/qcom/rpmh.c:100:3: warning: Argument to kfree() is the address of a local stack variable, which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
+Date: Sun, 28 Nov 2021 04:58:15 +0800
+Message-ID: <202111280421.Mw8bmSGX-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8323834304408987596==
+--===============1238167432548906872==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211130012948.380602-5-haoluo@google.com>
-References: <20211130012948.380602-5-haoluo@google.com>
-TO: Hao Luo <haoluo@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Hao,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Hao-Luo/Introduce-composab=
-le-bpf-types/20211130-093143
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
-chive/20211203/202112030712.qtXfXqLl-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
-97ef3ee4dc2119d5429adf3072e90fac38)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
+commit: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: swit=
+ch to static_assert
+date:   3 weeks ago
+:::::: branch date: 24 hours ago
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-c002-20211118 (https://download.01.org/0day-ci/archi=
+ve/20211128/202111280421.Mw8bmSGX-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c46bec=
+f500df2a7fb4b4fce16178a036c344315a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/9e92c0a723fc173ac102b3bb2=
-7df479a01f32896
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Hao-Luo/Introduce-composable-bpf-t=
-ypes/20211130-093143
-        git checkout 9e92c0a723fc173ac102b3bb27df479a01f32896
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De1edc277e6f6dfb372216522dfc57f9381c39e35
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e1edc277e6f6dfb372216522dfc57f9381c39e35
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -53,326 +55,520 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/rcupdate.h:390:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+                       ^~~~~~~~~~~
+   drivers/gpu/host1x/job.c:176:3: note: Taking false branch
+                   if (IS_ERR(sgt)) {
+                   ^
+   drivers/gpu/host1x/job.c:181:7: note: Assuming 'sgt' is null
+                   if (sgt) {
+                       ^~~
+   drivers/gpu/host1x/job.c:181:3: note: Taking false branch
+                   if (sgt) {
+                   ^
+   drivers/gpu/host1x/job.c:213:35: note: Assigned value is garbage or unde=
+fined
+                   job->addr_phys[job->num_unpins] =3D phys_addr;
+                                                   ^ ~~~~~~~~~
+   drivers/gpu/host1x/job.c:296:35: warning: Assigned value is garbage or u=
+ndefined [clang-analyzer-core.uninitialized.Assign]
+                   job->addr_phys[job->num_unpins] =3D phys_addr;
+                                                   ^
+   drivers/gpu/host1x/job.c:639:8: note: Calling 'pin_job'
+           err =3D pin_job(host, job);
+                 ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:148:14: note: Assuming 'i' is >=3D field 'num_r=
+elocs'
+           for (i =3D 0; i < job->num_relocs; i++) {
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:148:2: note: Loop condition is false. Execution=
+ continues on line 223
+           for (i =3D 0; i < job->num_relocs; i++) {
            ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
+   drivers/gpu/host1x/job.c:223:6: note: Assuming field 'enable_firewall' i=
+s false
+           if (job->enable_firewall)
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:223:2: note: Taking false branch
+           if (job->enable_firewall)
            ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
+   drivers/gpu/host1x/job.c:226:14: note: Assuming 'i' is < field 'num_cmds'
+           for (i =3D 0; i < job->num_cmds; i++) {
+                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:226:2: note: Loop condition is true.  Entering =
+loop body
+           for (i =3D 0; i < job->num_cmds; i++) {
            ^
-   drivers/pci/p2pdma.c:536:11: note: Dereference of null pointer
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:597:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:390:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   Suppressed 3 warnings (3 in non-user code).
+   drivers/gpu/host1x/job.c:229:3: note: 'phys_addr' declared without an in=
+itial value
+                   dma_addr_t phys_addr;
+                   ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:235:7: note: Assuming field 'is_wait' is false
+                   if (job->cmds[i].is_wait)
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:235:3: note: Taking false branch
+                   if (job->cmds[i].is_wait)
+                   ^
+   drivers/gpu/host1x/job.c:241:7: note: Assuming field 'bo' is non-null
+                   if (!g->bo) {
+                       ^~~~~~
+   drivers/gpu/host1x/job.c:241:3: note: Taking false branch
+                   if (!g->bo) {
+                   ^
+   drivers/gpu/host1x/job.c:251:7: note: Assuming the condition is false
+                   if (!iommu_get_domain_for_dev(host->dev))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:251:3: note: Taking false branch
+                   if (!iommu_get_domain_for_dev(host->dev))
+                   ^
+   drivers/gpu/host1x/job.c:257:7: note: Calling 'IS_ERR'
+                   if (IS_ERR(sgt)) {
+                       ^~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:257:7: note: Returning from 'IS_ERR'
+                   if (IS_ERR(sgt)) {
+                       ^~~~~~~~~~~
+   drivers/gpu/host1x/job.c:257:3: note: Taking false branch
+                   if (IS_ERR(sgt)) {
+                   ^
+   drivers/gpu/host1x/job.c:262:7: note: Assuming field 'domain' is null
+                   if (host->domain) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/host1x/job.c:262:3: note: Taking false branch
+                   if (host->domain) {
+                   ^
+   drivers/gpu/host1x/job.c:286:14: note: Assuming 'sgt' is null
+                   } else if (sgt) {
+                              ^~~
+   drivers/gpu/host1x/job.c:286:10: note: Taking false branch
+                   } else if (sgt) {
+                          ^
+   drivers/gpu/host1x/job.c:296:35: note: Assigned value is garbage or unde=
+fined
+                   job->addr_phys[job->num_unpins] =3D phys_addr;
+                                                   ^ ~~~~~~~~~
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   kernel/trace/trace.c:361:2: warning: Access to field 'next' results in a=
- dereference of a null pointer [clang-analyzer-core.NullDereference]
-           rcu_assign_pointer(*p, (*p)->next);
-           ^
-   include/linux/rcupdate.h:447:35: note: expanded from macro 'rcu_assign_p=
-ointer'
-           uintptr_t _r_a_p__v =3D (uintptr_t)(v);                         =
-        \
-                                            ^
-   kernel/trace/trace.c:404:2: note: Value assigned to 'ftrace_exports_list'
-           mutex_lock(&ftrace_export_lock);
-           ^
-   include/linux/mutex.h:187:26: note: expanded from macro 'mutex_lock'
-   #define mutex_lock(lock) mutex_lock_nested(lock, 0)
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:406:8: note: Calling 'rm_ftrace_export'
-           ret =3D rm_ftrace_export(&ftrace_exports_list, export);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:379:8: note: Calling 'rm_trace_export'
-           ret =3D rm_trace_export(list, export);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace.c:354:17: note: Assuming the condition is false
-           for (p =3D list; *p !=3D NULL; p =3D &(*p)->next)
-                          ^~~~~~~~~~
-   kernel/trace/trace.c:354:17: note: Assuming pointer value is null
-           for (p =3D list; *p !=3D NULL; p =3D &(*p)->next)
-                          ^~~~~~~~~~
-   kernel/trace/trace.c:354:2: note: Loop condition is false. Execution con=
-tinues on line 358
-           for (p =3D list; *p !=3D NULL; p =3D &(*p)->next)
-           ^
-   kernel/trace/trace.c:358:6: note: Assuming the condition is false
-           if (*p !=3D export)
-               ^~~~~~~~~~~~
-   kernel/trace/trace.c:358:2: note: Taking false branch
-           if (*p !=3D export)
-           ^
-   kernel/trace/trace.c:361:2: note: Access to field 'next' results in a de=
-reference of a null pointer
-           rcu_assign_pointer(*p, (*p)->next);
-           ^
-   include/linux/rcupdate.h:447:35: note: expanded from macro 'rcu_assign_p=
-ointer'
-           uintptr_t _r_a_p__v =3D (uintptr_t)(v);                         =
-        \
-                                            ^~~
-   kernel/trace/trace.c:2420:3: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(comm, "<idle>");
-                   ^~~~~~
-   kernel/trace/trace.c:2420:3: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-                   strcpy(comm, "<idle>");
-                   ^~~~~~
-   kernel/trace/trace.c:2425:3: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(comm, "<XXX>");
-                   ^~~~~~
-   kernel/trace/trace.c:2425:3: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-                   strcpy(comm, "<XXX>");
-                   ^~~~~~
-   kernel/trace/trace.c:2438:2: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(comm, "<...>");
-           ^~~~~~
-   kernel/trace/trace.c:2438:2: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-           strcpy(comm, "<...>");
-           ^~~~~~
-   kernel/trace/trace.c:3854:4: warning: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcpy(iter->fmt, "%s");
-                           ^~~~~~
-   kernel/trace/trace.c:3854:4: note: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119
-                           strcpy(iter->fmt, "%s");
-                           ^~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   13 warnings generated.
->> kernel/bpf/verifier.c:560:2: warning: Undefined or garbage value returne=
-d to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return str[BPF_BASE_TYPE(type)];
+   1 warning generated.
+>> drivers/soc/qcom/rpmh.c:100:3: warning: Argument to kfree() is the addre=
+ss of a local stack variable, which is not memory allocated by malloc() [cl=
+ang-analyzer-unix.Malloc]
+                   kfree(rpm_msg);
+                   ^
+   drivers/soc/qcom/rpmh.c:268:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/soc/qcom/rpmh.c:268:2: note: Taking false branch
+           if (ret)
            ^
-   kernel/bpf/verifier.c:11029:17: note: Assuming the condition is false
-           bool pop_log =3D !(env->log.level & BPF_LOG_LEVEL2);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11037:2: note: Loop condition is true.  Entering l=
+   drivers/soc/qcom/rpmh.c:271:8: note: Calling '__rpmh_write'
+           ret =3D __rpmh_write(dev, state, &rpm_msg);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh.c:185:14: note: 'i' is < field 'num_cmds'
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+                       ^
+   drivers/soc/qcom/rpmh.c:185:2: note: Loop condition is true.  Entering l=
 oop body
-           for (;;) {
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
            ^
-   kernel/bpf/verifier.c:11043:7: note: Assuming 'insn_cnt' is > field 'ins=
-n_idx'
-                   if (env->insn_idx >=3D insn_cnt) {
+   drivers/soc/qcom/rpmh.c:187:3: note: Taking false branch
+                   if (IS_ERR(req))
+                   ^
+   drivers/soc/qcom/rpmh.c:185:14: note: Assuming 'i' is < field 'num_cmds'
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
                        ^~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11043:3: note: Taking false branch
-                   if (env->insn_idx >=3D insn_cnt) {
-                   ^
-   kernel/bpf/verifier.c:11052:7: note: Assuming the condition is false
-                   if (++env->insn_processed > BPF_COMPLEXITY_LIMIT_INSNS) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11052:3: note: Taking false branch
-                   if (++env->insn_processed > BPF_COMPLEXITY_LIMIT_INSNS) {
-                   ^
-   kernel/bpf/verifier.c:11060:7: note: Assuming 'err' is >=3D 0
-                   if (err < 0)
-                       ^~~~~~~
-   kernel/bpf/verifier.c:11060:3: note: Taking false branch
-                   if (err < 0)
-                   ^
-   kernel/bpf/verifier.c:11062:7: note: Assuming 'err' is not equal to 1
-                   if (err =3D=3D 1) {
-                       ^~~~~~~~
-   kernel/bpf/verifier.c:11062:3: note: Taking false branch
-                   if (err =3D=3D 1) {
-                   ^
-   kernel/bpf/verifier.c:11076:7: note: Assuming the condition is false
-                   if (signal_pending(current))
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11076:3: note: Taking false branch
-                   if (signal_pending(current))
-                   ^
-   kernel/bpf/verifier.c:11079:7: note: Assuming the condition is false
-                   if (need_resched())
-                       ^~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11079:3: note: Taking false branch
-                   if (need_resched())
-                   ^
-   kernel/bpf/verifier.c:11082:7: note: Assuming the condition is false
-                   if (env->log.level & BPF_LOG_LEVEL2 ||
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11082:7: note: Left side of '||' is false
-   kernel/bpf/verifier.c:11083:8: note: Assuming the condition is false
-                       (env->log.level & BPF_LOG_LEVEL && do_print_state)) {
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11083:39: note: Left side of '&&' is false
-                       (env->log.level & BPF_LOG_LEVEL && do_print_state)) {
-                                                       ^
-   kernel/bpf/verifier.c:11095:3: note: Taking false branch
-                   if (env->log.level & BPF_LOG_LEVEL) {
-                   ^
-   kernel/bpf/verifier.c:11107:7: note: Assuming the condition is false
-                   if (bpf_prog_is_dev_bound(env->prog->aux)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11107:3: note: Taking false branch
-                   if (bpf_prog_is_dev_bound(env->prog->aux)) {
-                   ^
-   kernel/bpf/verifier.c:11118:7: note: Assuming 'class' is not equal to BP=
-F_ALU
-                   if (class =3D=3D BPF_ALU || class =3D=3D BPF_ALU64) {
-                       ^~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11118:7: note: Left side of '||' is false
-   kernel/bpf/verifier.c:11118:27: note: Assuming 'class' is equal to BPF_A=
-LU64
-                   if (class =3D=3D BPF_ALU || class =3D=3D BPF_ALU64) {
-                                           ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:11118:3: note: Taking true branch
-                   if (class =3D=3D BPF_ALU || class =3D=3D BPF_ALU64) {
-                   ^
-   kernel/bpf/verifier.c:11119:10: note: Calling 'check_alu_op'
-                           err =3D check_alu_op(env, insn);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:8174:6: note: Assuming 'opcode' is not equal to BP=
-F_END
-           if (opcode =3D=3D BPF_END || opcode =3D=3D BPF_NEG) {
-               ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:8174:6: note: Left side of '||' is false
-   kernel/bpf/verifier.c:8174:27: note: Assuming 'opcode' is not equal to B=
-PF_NEG
-           if (opcode =3D=3D BPF_END || opcode =3D=3D BPF_NEG) {
-                                    ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:8174:2: note: Taking false branch
-           if (opcode =3D=3D BPF_END || opcode =3D=3D BPF_NEG) {
+   drivers/soc/qcom/rpmh.c:185:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
            ^
-   kernel/bpf/verifier.c:8207:13: note: Assuming 'opcode' is not equal to B=
-PF_MOV
-           } else if (opcode =3D=3D BPF_MOV) {
-                      ^~~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:8207:9: note: Taking false branch
-           } else if (opcode =3D=3D BPF_MOV) {
-                  ^
-   kernel/bpf/verifier.c:8286:13: note: Assuming 'opcode' is <=3D BPF_END
-           } else if (opcode > BPF_END) {
-                      ^~~~~~~~~~~~~~~~
-   kernel/bpf/verifier.c:8286:9: note: Taking false branch
-           } else if (opcode > BPF_END) {
-                  ^
-   kernel/bpf/verifier.c:8292:7: note: Assuming the condition is false
-                   if (BPF_SRC(insn->code) =3D=3D BPF_X) {
+   drivers/soc/qcom/rpmh.c:187:3: note: Taking false branch
+                   if (IS_ERR(req))
+                   ^
+   drivers/soc/qcom/rpmh.c:185:14: note: Assuming 'i' is >=3D field 'num_cm=
+ds'
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh.c:185:2: note: Loop condition is false. Execution =
+continues on line 191
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+           ^
+   drivers/soc/qcom/rpmh.c:191:6: note: 'state' is not equal to RPMH_ACTIVE=
+_ONLY_STATE
+           if (state =3D=3D RPMH_ACTIVE_ONLY_STATE) {
+               ^~~~~
+   drivers/soc/qcom/rpmh.c:191:2: note: Taking false branch
+           if (state =3D=3D RPMH_ACTIVE_ONLY_STATE) {
+           ^
+   drivers/soc/qcom/rpmh.c:197:3: note: Calling 'rpmh_tx_done'
+                   rpmh_tx_done(&rpm_msg->msg, ret);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh.c:88:6: note: 'r' is 0
+           if (r)
+               ^
+   drivers/soc/qcom/rpmh.c:88:2: note: Taking false branch
+           if (r)
+           ^
+   drivers/soc/qcom/rpmh.c:92:6: note: Assuming 'compl' is null
+           if (!compl)
+               ^~~~~~
+   drivers/soc/qcom/rpmh.c:92:2: note: Taking true branch
+           if (!compl)
+           ^
+   drivers/soc/qcom/rpmh.c:93:3: note: Control jumps to line 99
+                   goto exit;
+                   ^
+   drivers/soc/qcom/rpmh.c:99:6: note: Assuming 'free' is true
+           if (free)
+               ^~~~
+   drivers/soc/qcom/rpmh.c:99:2: note: Taking true branch
+           if (free)
+           ^
+   drivers/soc/qcom/rpmh.c:100:3: note: Argument to kfree() is the address =
+of a local stack variable, which is not memory allocated by malloc()
+                   kfree(rpm_msg);
+                   ^     ~~~~~~~
+   1 warning generated.
+   lib/glob.c:48:32: warning: Assigned value is garbage or undefined [clang=
+-analyzer-core.uninitialized.Assign]
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   lib/glob.c:48:32: note: Assigned value is garbage or undefined
+           char const *back_pat =3D NULL, *back_str =3D back_str;
+                                         ^          ~~~~~~~~
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   drivers/slimbus/messaging.c:323:3: warning: Undefined or garbage value r=
+eturned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+                   return buf;
+                   ^      ~~~
+   drivers/slimbus/messaging.c:317:2: note: 'buf' declared without an initi=
+al value
+           u8 buf;
+           ^~~~~~
+   drivers/slimbus/messaging.c:319:8: note: Calling 'slim_read'
+           ret =3D slim_read(sdev, addr, 1, &buf);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/slimbus/messaging.c:300:2: note: Calling 'slim_fill_msg'
+           slim_fill_msg(&msg, addr, count, val, NULL);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/slimbus/messaging.c:282:1: note: Returning without writing to 'm=
+sg->rbuf'
+   }
+   ^
+--
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:1815:3: note: Taking true branch
+                   if (view->regsets[i].core_note_type !=3D 0)
+                   ^
+   fs/binfmt_elf.c:1814:14: note: Assuming 'i' is >=3D field 'n'
+           for (i =3D 0; i < view->n; ++i)
+                       ^~~~~~~~~~~
+   fs/binfmt_elf.c:1814:2: note: Loop condition is false. Execution continu=
+es on line 1822
+           for (i =3D 0; i < view->n; ++i)
+           ^
+   fs/binfmt_elf.c:1822:6: note: Left side of '||' is false
+           if (unlikely(info->thread_notes =3D=3D 0) ||
+               ^
+   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                           ^
+   fs/binfmt_elf.c:1823:15: note: Assuming field 'core_note_type' is equal =
+to 1
+               unlikely(view->regsets[0].core_note_type !=3D NT_PRSTATUS)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   fs/binfmt_elf.c:1822:2: note: Taking false branch
+           if (unlikely(info->thread_notes =3D=3D 0) ||
+           ^
+   fs/binfmt_elf.c:1837:2: note: Loop condition is false. Execution continu=
+es on line 1861
+           for (ct =3D &dump_task->mm->core_state->dumper; ct; ct =3D ct->n=
+ext) {
+           ^
+   fs/binfmt_elf.c:1861:2: note: Loop condition is false. Execution continu=
+es on line 1868
+           for (t =3D info->thread; t !=3D NULL; t =3D t->next)
+           ^
+   fs/binfmt_elf.c:1877:2: note: Taking false branch
+           if (fill_files_note(&info->files) =3D=3D 0)
+           ^
+   fs/binfmt_elf.c:2191:7: note: Returning from 'fill_note_info'
+           if (!fill_note_info(&elf, e_phnum, &info, cprm->siginfo, cprm->r=
+egs))
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   fs/binfmt_elf.c:2191:2: note: Taking false branch
+           if (!fill_note_info(&elf, e_phnum, &info, cprm->siginfo, cprm->r=
+egs))
+           ^
+   fs/binfmt_elf.c:2201:15: note: Calling 'get_note_info_size'
+                   size_t sz =3D get_note_info_size(&info);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:1885:2: note: Returning without writing to 'info->thread'
+           return info->size;
+           ^
+   fs/binfmt_elf.c:2201:15: note: Returning from 'get_note_info_size'
+                   size_t sz =3D get_note_info_size(&info);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:2207:7: note: Assuming 'phdr4note' is non-null
+                   if (!phdr4note)
+                       ^~~~~~~~~~
+   fs/binfmt_elf.c:2207:3: note: Taking false branch
+                   if (!phdr4note)
+                   ^
+   fs/binfmt_elf.c:2220:6: note: Assuming 'e_phnum' is not equal to PN_XNUM
+           if (e_phnum =3D=3D PN_XNUM) {
+               ^~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:2220:2: note: Taking false branch
+           if (e_phnum =3D=3D PN_XNUM) {
+           ^
+   fs/binfmt_elf.c:2229:6: note: Assuming the condition is false
+           if (!dump_emit(cprm, &elf, sizeof(elf)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:2229:2: note: Taking false branch
+           if (!dump_emit(cprm, &elf, sizeof(elf)))
+           ^
+   fs/binfmt_elf.c:2232:6: note: Assuming the condition is false
+           if (!dump_emit(cprm, phdr4note, sizeof(*phdr4note)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:2232:2: note: Taking false branch
+           if (!dump_emit(cprm, phdr4note, sizeof(*phdr4note)))
+           ^
+   fs/binfmt_elf.c:2236:14: note: Assuming 'i' is >=3D 'vma_count'
+           for (i =3D 0; i < vma_count; i++) {
+                       ^~~~~~~~~~~~~
+   fs/binfmt_elf.c:2236:2: note: Loop condition is false. Execution continu=
+es on line 2260
+           for (i =3D 0; i < vma_count; i++) {
+           ^
+   fs/binfmt_elf.c:2260:2: note: Taking false branch
+           if (!elf_core_write_extra_phdrs(cprm, offset))
+           ^
+   fs/binfmt_elf.c:2264:7: note: Calling 'write_note_info'
+           if (!write_note_info(&info, cprm))
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:1896:2: note: 't' initialized to a null pointer value
+           struct elf_thread_core_info *t =3D info->thread;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:1901:18: note: Passing null pointer value via 1st parame=
+ter 'men'
+                   if (!writenote(&t->notes[0], cprm))
+                                  ^~~~~~~~~~~~
+   fs/binfmt_elf.c:1901:8: note: Calling 'writenote'
+                   if (!writenote(&t->notes[0], cprm))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/binfmt_elf.c:1446:23: note: Access to field 'name' results in a deref=
+erence of a null pointer (loaded from variable 'men')
+           en.n_namesz =3D strlen(men->name) + 1;
+                                ^~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+>> drivers/soc/qcom/rpmh.c:100:3: warning: Argument to kfree() is the addre=
+ss of a local stack variable, which is not memory allocated by malloc() [cl=
+ang-analyzer-unix.Malloc]
+                   kfree(rpm_msg);
+                   ^
+   drivers/soc/qcom/rpmh.c:268:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/soc/qcom/rpmh.c:268:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/soc/qcom/rpmh.c:271:8: note: Calling '__rpmh_write'
+           ret =3D __rpmh_write(dev, state, &rpm_msg);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh.c:185:14: note: 'i' is < field 'num_cmds'
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+                       ^
+   drivers/soc/qcom/rpmh.c:185:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+           ^
+   drivers/soc/qcom/rpmh.c:187:3: note: Taking false branch
+                   if (IS_ERR(req))
+                   ^
+   drivers/soc/qcom/rpmh.c:185:14: note: Assuming 'i' is < field 'num_cmds'
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh.c:185:2: note: Loop condition is true.  Entering l=
+oop body
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+           ^
+   drivers/soc/qcom/rpmh.c:187:3: note: Taking false branch
+                   if (IS_ERR(req))
+                   ^
+   drivers/soc/qcom/rpmh.c:185:14: note: Assuming 'i' is >=3D field 'num_cm=
+ds'
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh.c:185:2: note: Loop condition is false. Execution =
+continues on line 191
+           for (i =3D 0; i < rpm_msg->msg.num_cmds; i++) {
+           ^
+   drivers/soc/qcom/rpmh.c:191:6: note: 'state' is not equal to RPMH_ACTIVE=
+_ONLY_STATE
+           if (state =3D=3D RPMH_ACTIVE_ONLY_STATE) {
+               ^~~~~
+   drivers/soc/qcom/rpmh.c:191:2: note: Taking false branch
+           if (state =3D=3D RPMH_ACTIVE_ONLY_STATE) {
+           ^
+   drivers/soc/qcom/rpmh.c:197:3: note: Calling 'rpmh_tx_done'
+                   rpmh_tx_done(&rpm_msg->msg, ret);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/soc/qcom/rpmh.c:88:6: note: 'r' is 0
+           if (r)
+               ^
+   drivers/soc/qcom/rpmh.c:88:2: note: Taking false branch
+           if (r)
+           ^
+   drivers/soc/qcom/rpmh.c:92:6: note: Assuming 'compl' is null
+           if (!compl)
+               ^~~~~~
+   drivers/soc/qcom/rpmh.c:92:2: note: Taking true branch
+           if (!compl)
+           ^
+   drivers/soc/qcom/rpmh.c:93:3: note: Control jumps to line 99
+                   goto exit;
+                   ^
+   drivers/soc/qcom/rpmh.c:99:6: note: Assuming 'free' is true
+           if (free)
+               ^~~~
+   drivers/soc/qcom/rpmh.c:99:2: note: Taking true branch
+           if (free)
+           ^
+   drivers/soc/qcom/rpmh.c:100:3: note: Argument to kfree() is the address =
+of a local stack variable, which is not memory allocated by malloc()
+                   kfree(rpm_msg);
+                   ^     ~~~~~~~
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   Suppressed 18 warnings (16 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   21 warnings generated.
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:794:42: warning: The result of the=
+ left shift is undefined due to shifting by '32', which is greater or equal=
+ to the width of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryO=
+peratorResult]
+                   domain->geometry.aperture_start =3D ~0UL << ias;
+                                                          ^
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1138:6: note: Assuming 'fwspec' is=
+ non-null
+           if (!fwspec || fwspec->ops !=3D &arm_smmu_ops) {
+               ^~~~~~~
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1138:6: note: Left side of '||' is=
+ false
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1138:17: note: Assuming the condit=
+ion is false
+           if (!fwspec || fwspec->ops !=3D &arm_smmu_ops) {
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1138:2: note: Taking false branch
+           if (!fwspec || fwspec->ops !=3D &arm_smmu_ops) {
+           ^
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1151:6: note: Assuming 'cfg' is no=
+n-null
+           if (!cfg)
+               ^~~~
+   drivers/iommu/arm/arm-smmu/arm-smmu.c:1151:2: note: Taking false branch
+           if (!cfg)
+           ^
 
-vim +560 kernel/bpf/verifier.c
+vim +100 drivers/soc/qcom/rpmh.c
 
-39491867ace594 Brendan Jackman    2021-03-04  531  =
+c1038456b02b86 Lina Iyer    2018-06-20   78  =
 
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  532  /* string representation=
- of 'enum bpf_reg_type' */
-9e92c0a723fc17 Hao Luo            2021-11-29  533  static const char * cons=
-t reg_type_str(enum bpf_reg_type type)
-9e92c0a723fc17 Hao Luo            2021-11-29  534  {
-9e92c0a723fc17 Hao Luo            2021-11-29  535  	static const char * con=
-st str[] =3D {
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  536  		[NOT_INIT]		=3D "?",
-f1174f77b50c94 Edward Cree        2017-08-07  537  		[SCALAR_VALUE]		=3D "i=
-nv",
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  538  		[PTR_TO_CTX]		=3D "ctx=
-",
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  539  		[CONST_PTR_TO_MAP]	=3D=
- "map_ptr",
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  540  		[PTR_TO_MAP_VALUE]	=3D=
- "map_value",
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  541  		[PTR_TO_STACK]		=3D "f=
-p",
-969bf05eb3cedd Alexei Starovoitov 2016-05-05  542  		[PTR_TO_PACKET]		=3D "=
-pkt",
-de8f3a83b0a0fd Daniel Borkmann    2017-09-25  543  		[PTR_TO_PACKET_META]	=
-=3D "pkt_meta",
-969bf05eb3cedd Alexei Starovoitov 2016-05-05  544  		[PTR_TO_PACKET_END]	=
-=3D "pkt_end",
-d58e468b1112dc Petar Penkov       2018-09-14  545  		[PTR_TO_FLOW_KEYS]	=3D=
- "flow_keys",
-c64b7983288e63 Joe Stringer       2018-10-02  546  		[PTR_TO_SOCKET]		=3D "=
-sock",
-46f8bc92758c62 Martin KaFai Lau   2019-02-09  547  		[PTR_TO_SOCK_COMMON]	=
-=3D "sock_common",
-655a51e536c09d Martin KaFai Lau   2019-02-09  548  		[PTR_TO_TCP_SOCK]	=3D =
-"tcp_sock",
-9df1c28bb75217 Matt Mullins       2019-04-26  549  		[PTR_TO_TP_BUFFER]	=3D=
- "tp_buffer",
-fada7fdc83c0bf Jonathan Lemon     2019-06-06  550  		[PTR_TO_XDP_SOCK]	=3D =
-"xdp_sock",
-9e15db66136a14 Alexei Starovoitov 2019-10-15  551  		[PTR_TO_BTF_ID]		=3D "=
-ptr_",
-eaa6bcb71ef6ed Hao Luo            2020-09-29  552  		[PTR_TO_PERCPU_BTF_ID]=
-	=3D "percpu_ptr_",
-457f44363a8894 Andrii Nakryiko    2020-05-29  553  		[PTR_TO_MEM]		=3D "mem=
-",
-afbf21dce668ef Yonghong Song      2020-07-23  554  		[PTR_TO_RDONLY_BUF]	=
-=3D "rdonly_buf",
-afbf21dce668ef Yonghong Song      2020-07-23  555  		[PTR_TO_RDWR_BUF]	=3D =
-"rdwr_buf",
-69c087ba6225b5 Yonghong Song      2021-02-26  556  		[PTR_TO_FUNC]		=3D "fu=
-nc",
-69c087ba6225b5 Yonghong Song      2021-02-26  557  		[PTR_TO_MAP_KEY]	=3D "=
-map_key",
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  558  	};
-17a5267067f3c3 Alexei Starovoitov 2014-09-26  559  =
+c1038456b02b86 Lina Iyer    2018-06-20   79  void rpmh_tx_done(const struct=
+ tcs_request *msg, int r)
+c1038456b02b86 Lina Iyer    2018-06-20   80  {
+c1038456b02b86 Lina Iyer    2018-06-20   81  	struct rpmh_request *rpm_msg =
+=3D container_of(msg, struct rpmh_request,
+c1038456b02b86 Lina Iyer    2018-06-20   82  						    msg);
+c1038456b02b86 Lina Iyer    2018-06-20   83  	struct completion *compl =3D =
+rpm_msg->completion;
+baef1c90aac7e5 Stephen Boyd 2019-01-15   84  	bool free =3D rpm_msg->needs_=
+free;
+c1038456b02b86 Lina Iyer    2018-06-20   85  =
 
-9e92c0a723fc17 Hao Luo            2021-11-29 @560  	return str[BPF_BASE_TYP=
-E(type)];
-9e92c0a723fc17 Hao Luo            2021-11-29  561  }
-9e92c0a723fc17 Hao Luo            2021-11-29  562  =
+c1038456b02b86 Lina Iyer    2018-06-20   86  	rpm_msg->err =3D r;
+c1038456b02b86 Lina Iyer    2018-06-20   87  =
 
+c1038456b02b86 Lina Iyer    2018-06-20   88  	if (r)
+c1038456b02b86 Lina Iyer    2018-06-20   89  		dev_err(rpm_msg->dev, "RPMH =
+TX fail in msg addr=3D%#x, err=3D%d\n",
+c1038456b02b86 Lina Iyer    2018-06-20   90  			rpm_msg->msg.cmds[0].addr, =
+r);
+c1038456b02b86 Lina Iyer    2018-06-20   91  =
+
+c8790cb6da58d3 Lina Iyer    2018-06-20   92  	if (!compl)
+c8790cb6da58d3 Lina Iyer    2018-06-20   93  		goto exit;
+c8790cb6da58d3 Lina Iyer    2018-06-20   94  =
+
+c1038456b02b86 Lina Iyer    2018-06-20   95  	/* Signal the blocking thread=
+ we are done */
+c1038456b02b86 Lina Iyer    2018-06-20   96  	complete(compl);
+564b5e24ccd4c8 Lina Iyer    2018-06-20   97  =
+
+c8790cb6da58d3 Lina Iyer    2018-06-20   98  exit:
+baef1c90aac7e5 Stephen Boyd 2019-01-15   99  	if (free)
+564b5e24ccd4c8 Lina Iyer    2018-06-20 @100  		kfree(rpm_msg);
+c1038456b02b86 Lina Iyer    2018-06-20  101  }
+c1038456b02b86 Lina Iyer    2018-06-20  102  =
+
+
+:::::: The code at line 100 was first introduced by commit
+:::::: 564b5e24ccd4c840a7f84dfd952e5715dd9b3966 drivers: qcom: rpmh: allow =
+requests to be sent asynchronously
+
+:::::: TO: Lina Iyer <ilina@codeaurora.org>
+:::::: CC: Andy Gross <andy.gross@linaro.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8323834304408987596==--
+--===============1238167432548906872==--
 
