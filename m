@@ -1,93 +1,190 @@
-Content-Type: multipart/mixed; boundary="===============1019777439473920080=="
+Content-Type: multipart/mixed; boundary="===============3158924222976110344=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 9/9] powerpc: Simplify and move arch_randomize_brk()
-Date: Sat, 27 Nov 2021 15:18:42 +0800
-Message-ID: <202111271503.Gh4zrHvS-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() warn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __builtin_clzll((~0))):((4 <= 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a 64 bit type?
+Date: Sat, 27 Nov 2021 12:04:55 +0800
+Message-ID: <202111271214.djaOQVT7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1019777439473920080==
+--===============3158924222976110344==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <4c5a2b18774552c2226573f7069ffeee71ad77cb.1637828367.git.chris=
-tophe.leroy@csgroup.eu>
-References: <4c5a2b18774552c2226573f7069ffeee71ad77cb.1637828367.git.christ=
-ophe.leroy@csgroup.eu>
-TO: Christophe Leroy <christophe.leroy@csgroup.eu>
-TO: Benjamin Herrenschmidt <benh@kernel.crashing.org>
-TO: Paul Mackerras <paulus@samba.org>
-TO: Michael Ellerman <mpe@ellerman.id.au>
-TO: alex(a)ghiti.fr
-CC: linux-mm(a)kvack.org
-CC: linuxppc-dev(a)lists.ozlabs.org
 CC: linux-kernel(a)vger.kernel.org
+TO: Jakub Jelinek <jakub@redhat.com>
+CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Christophe,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on powerpc/next]
-[also build test WARNING on hnaz-mm/master linus/master v5.16-rc2 next-2021=
-1126]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Christophe-Leroy/Convert-p=
-owerpc-to-default-topdown-mmap-layout/20211125-162916
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/powerpc/linux.git n=
-ext
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: powerpc64-randconfig-s032-20211126 (https://download.01.org/0day-ci=
-/archive/20211127/202111271503.Gh4zrHvS-lkp(a)intel.com/config)
-compiler: powerpc64-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/554c475dfb73dc352708dff35=
-89b55845b3dd751
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Christophe-Leroy/Convert-powerpc-t=
-o-default-topdown-mmap-layout/20211125-162916
-        git checkout 554c475dfb73dc352708dff3589b55845b3dd751
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
-owerpc SHELL=3D/bin/bash drivers/clk/ drivers/pci/controller/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
+commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
+onstant arguments
+date:   12 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-m021-20211116 (https://download.01.org/0day-ci/arch=
+ive/20211127/202111271214.djaOQVT7-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() w=
+arn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __bu=
+iltin_clzll((~0))):((4 <=3D 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a=
+ 64 bit type?
+
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 119)
+
+vim +187 drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  183  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  184  static int fake_get_huge_pages(struct drm_i915_gem_object *ob=
+j)
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  185  {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  186  	struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06 @187  	const u64 max_len =3D rounddown_pow_of_two(UINT_MAX);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  188  	struct sg_table *st;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  189  	struct scatterlist *sg;
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  190  	unsigned int sg_page_sizes;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  191  	u64 rem;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  192  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  193  	st =3D kmalloc(sizeof(*st), GFP);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  194  	if (!st)
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  195  		return -ENOMEM;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  196  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  197  	if (sg_alloc_table(st, obj->base.size >> PAGE_SHIFT, GFP)) {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  198  		kfree(st);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  199  		return -ENOMEM;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  200  	}
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  201  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  202  	/* Use optimal page sized chunks to fill in the sg table */
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  203  	rem =3D obj->base.size;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  204  	sg =3D st->sgl;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  205  	st->nents =3D 0;
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  206  	sg_page_sizes =3D 0;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  207  	do {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  208  		unsigned int page_size =3D get_largest_page_size(i915, rem);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  209  		unsigned int len =3D min(page_size * div_u64(rem, page_size=
+),
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  210  				       max_len);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  211  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  212  		GEM_BUG_ON(!page_size);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  213  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  214  		sg->offset =3D 0;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  215  		sg->length =3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  216  		sg_dma_len(sg) =3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  217  		sg_dma_address(sg) =3D page_size;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  218  =
+
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  219  		sg_page_sizes |=3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  220  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  221  		st->nents++;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  222  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  223  		rem -=3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  224  		if (!rem) {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  225  			sg_mark_end(sg);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  226  			break;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  227  		}
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  228  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  229  		sg =3D sg_next(sg);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  230  	} while (1);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  231  =
+
+c6d22ab61bfdeb drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+8-09-20  232  	i915_sg_trim(st);
+c6d22ab61bfdeb drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+8-09-20  233  =
+
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  234  	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  235  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  236  	return 0;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  237  }
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  238  =
 
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/pci/controller/pci-xgene.c:52:9: sparse: sparse: preprocessor to=
-ken SZ_1T redefined
-   drivers/pci/controller/pci-xgene.c: note: in included file (through arch=
-/powerpc/include/asm/book3s/64/pgtable.h, arch/powerpc/include/asm/book3s/6=
-4/mmu-hash.h, ...):
->> include/linux/sizes.h:51:9: sparse: this was the original definition
+:::::: The code at line 187 was first introduced by commit
+:::::: 4049866f0913110bf7de597c1177de7a1cc459cb drm/i915/selftests: huge pa=
+ge tests
 
-vim +51 include/linux/sizes.h
-
-554c475dfb73dc Christophe Leroy 2021-11-25  50  =
-
-554c475dfb73dc Christophe Leroy 2021-11-25 @51  #define SZ_1T				_AC(0x1000=
-0000000, ULL)
-8ff80fbe7e9870 Baoquan He       2019-05-24  52  #define SZ_64T				_AC(0x400=
-000000000, ULL)
-f2b9ba871beb92 Ard Biesheuvel   2018-03-06  53  =
-
+:::::: TO: Matthew Auld <matthew.auld@intel.com>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1019777439473920080==--
+--===============3158924222976110344==--
 
