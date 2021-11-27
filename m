@@ -1,219 +1,183 @@
-Content-Type: multipart/mixed; boundary="===============7525366799337060729=="
+Content-Type: multipart/mixed; boundary="===============5067757354580372586=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2790/4921] drivers/hwmon/asus_wmi_sensors.c:569 asus_wmi_configure_sensor_setup() error: buffer overflow 'hwmon_attributes' 8 <= 9
-Date: Thu, 02 Dec 2021 23:22:03 +0800
-Message-ID: <202112022332.tw3sZZuo-lkp@intel.com>
+Subject: fs/erofs/zdata.c:486 z_erofs_register_collection() warn: passing a valid pointer to 'PTR_ERR'
+Date: Sun, 28 Nov 2021 02:15:05 +0800
+Message-ID: <202111280242.BB9HChTW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7525366799337060729==
+--===============5067757354580372586==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Denis Pauk <pauk.denis@gmail.com>
-CC: Guenter Roeck <linux@roeck-us.net>
-CC: Ed Brindley <kernel@maidavale.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Gao Xiang <hsiangkao@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   9606f9efb1cec7f8f5912326f182fbfbcad34382
-commit: 9d7d41752e9e9794b1725f85252fc34ab302e679 [2790/4921] hwmon: (asus_w=
-mi_sensors) Support X370 Asus WMI.
-:::::: branch date: 9 hours ago
-:::::: commit date: 8 days ago
-config: x86_64-randconfig-m001-20211201 (https://download.01.org/0day-ci/ar=
-chive/20211202/202112022332.tw3sZZuo-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
+commit: 9f6cc76e6ff0631a99cd94eab8af137057633a52 erofs: introduce physical =
+cluster slab pools
+date:   8 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 8 months ago
+config: i386-randconfig-m021-20211123 (https://download.01.org/0day-ci/arch=
+ive/20211128/202111280242.BB9HChTW-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/hwmon/asus_wmi_sensors.c:569 asus_wmi_configure_sensor_setup() erro=
-r: buffer overflow 'hwmon_attributes' 8 <=3D 9
+New smatch warnings:
+fs/erofs/zdata.c:486 z_erofs_register_collection() warn: passing a valid po=
+inter to 'PTR_ERR'
 
-vim +/hwmon_attributes +569 drivers/hwmon/asus_wmi_sensors.c
+Old smatch warnings:
+fs/erofs/zdata.c:760 z_erofs_do_read_page() error: we previously assumed 'c=
+lt->cl' could be null (see line 677)
+fs/erofs/zdata.c:1241 jobqueueset_init() warn: maybe use && instead of &
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  502  =
+vim +/PTR_ERR +486 fs/erofs/zdata.c
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  503  static int asus_wmi_configure_se=
-nsor_setup(struct device *dev,
-9d7d41752e9e97 Denis Pauk 2021-11-16  504  					   struct asus_wmi_sensors =
-*sensor_data)
-9d7d41752e9e97 Denis Pauk 2021-11-16  505  {
-9d7d41752e9e97 Denis Pauk 2021-11-16  506  	const struct hwmon_channel_info=
- **ptr_asus_wmi_ci;
-9d7d41752e9e97 Denis Pauk 2021-11-16  507  	struct hwmon_channel_info *asus=
-_wmi_hwmon_chan;
-9d7d41752e9e97 Denis Pauk 2021-11-16  508  	int nr_count[hwmon_max] =3D {},=
- nr_types =3D 0;
-9d7d41752e9e97 Denis Pauk 2021-11-16  509  	struct asus_wmi_sensor_info *te=
-mp_sensor;
-9d7d41752e9e97 Denis Pauk 2021-11-16  510  	const struct hwmon_chip_info *c=
-hip_info;
-9d7d41752e9e97 Denis Pauk 2021-11-16  511  	enum hwmon_sensor_types type;
-9d7d41752e9e97 Denis Pauk 2021-11-16  512  	struct device *hwdev;
-9d7d41752e9e97 Denis Pauk 2021-11-16  513  	int i, idx;
-9d7d41752e9e97 Denis Pauk 2021-11-16  514  	int err;
-9d7d41752e9e97 Denis Pauk 2021-11-16  515  =
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  473  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  516  	temp_sensor =3D devm_kcalloc(de=
-v, 1, sizeof(*temp_sensor), GFP_KERNEL);
-9d7d41752e9e97 Denis Pauk 2021-11-16  517  	if (!temp_sensor)
-9d7d41752e9e97 Denis Pauk 2021-11-16  518  		return -ENOMEM;
-9d7d41752e9e97 Denis Pauk 2021-11-16  519  =
+9e579fc123a0c9 fs/erofs/zdata.c                  Gao Xiang 2019-10-08  474 =
+ static int z_erofs_register_collection(struct z_erofs_collector *clt,
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  475 =
+ 				       struct inode *inode,
+ab47dd2b081937 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-08-21  476 =
+ 				       struct erofs_map_blocks *map)
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  477 =
+ {
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  478 =
+ 	struct z_erofs_pcluster *pcl;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  479 =
+ 	struct z_erofs_collection *cl;
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  480 =
+ 	struct erofs_workgroup *grp;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  481 =
+ 	int err;
+e5e3abbadf0dbd drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-09-19  482  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  520  	for (i =3D 0; i < sensor_data->=
-wmi.sensor_count; i++) {
-9d7d41752e9e97 Denis Pauk 2021-11-16  521  		err =3D asus_wmi_sensor_info(i=
-, temp_sensor);
-9d7d41752e9e97 Denis Pauk 2021-11-16  522  		if (err)
-9d7d41752e9e97 Denis Pauk 2021-11-16  523  			return err;
-9d7d41752e9e97 Denis Pauk 2021-11-16  524  =
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  483 =
+ 	/* no available pcluster, let's allocate one */
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  484 =
+ 	pcl =3D z_erofs_alloc_pcluster(map->m_plen >> PAGE_SHIFT);
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  485 =
+ 	if (IS_ERR(pcl))
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07 @486 =
+ 		return PTR_ERR(pcl);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  487  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  525  		switch (temp_sensor->data_type=
-) {
-9d7d41752e9e97 Denis Pauk 2021-11-16  526  		case TEMPERATURE_C:
-9d7d41752e9e97 Denis Pauk 2021-11-16  527  		case VOLTAGE:
-9d7d41752e9e97 Denis Pauk 2021-11-16  528  		case CURRENT:
-9d7d41752e9e97 Denis Pauk 2021-11-16  529  		case FAN_RPM:
-9d7d41752e9e97 Denis Pauk 2021-11-16  530  		case WATER_FLOW:
-9d7d41752e9e97 Denis Pauk 2021-11-16  531  			type =3D asus_data_types[temp=
-_sensor->data_type];
-9d7d41752e9e97 Denis Pauk 2021-11-16  532  			if (!nr_count[type])
-9d7d41752e9e97 Denis Pauk 2021-11-16  533  				nr_types++;
-9d7d41752e9e97 Denis Pauk 2021-11-16  534  			nr_count[type]++;
-9d7d41752e9e97 Denis Pauk 2021-11-16  535  			break;
-9d7d41752e9e97 Denis Pauk 2021-11-16  536  		}
-9d7d41752e9e97 Denis Pauk 2021-11-16  537  	}
-9d7d41752e9e97 Denis Pauk 2021-11-16  538  =
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  488 =
+ 	atomic_set(&pcl->obj.refcount, 1);
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  489 =
+ 	pcl->obj.index =3D map->m_pa >> PAGE_SHIFT;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  490  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  539  	if (nr_count[hwmon_temp])
-9d7d41752e9e97 Denis Pauk 2021-11-16  540  		nr_count[hwmon_chip]++, nr_typ=
-es++;
-9d7d41752e9e97 Denis Pauk 2021-11-16  541  =
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  491 =
+ 	pcl->length =3D (map->m_llen << Z_EROFS_PCLUSTER_LENGTH_BIT) |
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  492 =
+ 		(map->m_flags & EROFS_MAP_FULL_MAPPED ?
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  493 =
+ 			Z_EROFS_PCLUSTER_FULL_LENGTH : 0);
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  494  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  542  	asus_wmi_hwmon_chan =3D devm_kc=
-alloc(dev, nr_types,
-9d7d41752e9e97 Denis Pauk 2021-11-16  543  					   sizeof(*asus_wmi_hwmon_c=
-han),
-9d7d41752e9e97 Denis Pauk 2021-11-16  544  					   GFP_KERNEL);
-9d7d41752e9e97 Denis Pauk 2021-11-16  545  	if (!asus_wmi_hwmon_chan)
-9d7d41752e9e97 Denis Pauk 2021-11-16  546  		return -ENOMEM;
-9d7d41752e9e97 Denis Pauk 2021-11-16  547  =
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  495 =
+ 	if (map->m_flags & EROFS_MAP_ZIPPED)
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  496 =
+ 		pcl->algorithmformat =3D Z_EROFS_COMPRESSION_LZ4;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  497 =
+ 	else
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  498 =
+ 		pcl->algorithmformat =3D Z_EROFS_COMPRESSION_SHIFTED;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  499  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  548  	ptr_asus_wmi_ci =3D devm_kcallo=
-c(dev, nr_types + 1,
-9d7d41752e9e97 Denis Pauk 2021-11-16  549  				       sizeof(*ptr_asus_wmi_=
-ci), GFP_KERNEL);
-9d7d41752e9e97 Denis Pauk 2021-11-16  550  	if (!ptr_asus_wmi_ci)
-9d7d41752e9e97 Denis Pauk 2021-11-16  551  		return -ENOMEM;
-9d7d41752e9e97 Denis Pauk 2021-11-16  552  =
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  500 =
+ 	/* new pclusters should be claimed as type 1, primary and followed */
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  501 =
+ 	pcl->next =3D clt->owned_head;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  502 =
+ 	clt->mode =3D COLLECT_PRIMARY_FOLLOWED;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  503  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  553  	asus_wmi_chip_info.info =3D ptr=
-_asus_wmi_ci;
-9d7d41752e9e97 Denis Pauk 2021-11-16  554  	chip_info =3D &asus_wmi_chip_in=
-fo;
-9d7d41752e9e97 Denis Pauk 2021-11-16  555  =
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  504 =
+ 	cl =3D z_erofs_primarycollection(pcl);
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  505 =
+ 	cl->pageofs =3D map->m_la & ~PAGE_MASK;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  506  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  556  	sensor_data->wmi.info_by_id =3D=
- devm_kcalloc(dev, sensor_data->wmi.sensor_count,
-9d7d41752e9e97 Denis Pauk 2021-11-16  557  						   sizeof(*sensor_data->wm=
-i.info_by_id),
-9d7d41752e9e97 Denis Pauk 2021-11-16  558  						   GFP_KERNEL);
-9d7d41752e9e97 Denis Pauk 2021-11-16  559  =
+23edf3abe7abb1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  507 =
+ 	/*
+23edf3abe7abb1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  508 =
+ 	 * lock all primary followed works before visible to others
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  509 =
+ 	 * and mutex_trylock *never* fails for a new pcluster.
+23edf3abe7abb1 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-11-23  510 =
+ 	 */
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  511 =
+ 	mutex_init(&cl->lock);
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  512 =
+ 	DBG_BUGON(!mutex_trylock(&cl->lock));
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  513  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  560  	if (!sensor_data->wmi.info_by_i=
-d)
-9d7d41752e9e97 Denis Pauk 2021-11-16  561  		return -ENOMEM;
-9d7d41752e9e97 Denis Pauk 2021-11-16  562  =
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  514 =
+ 	grp =3D erofs_insert_workgroup(inode->i_sb, &pcl->obj);
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  515 =
+ 	if (IS_ERR(grp)) {
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  516 =
+ 		err =3D PTR_ERR(grp);
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  517 =
+ 		goto err_out;
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  518 =
+ 	}
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  519  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  563  	for (type =3D 0; type < hwmon_m=
-ax; type++) {
-9d7d41752e9e97 Denis Pauk 2021-11-16  564  		if (!nr_count[type])
-9d7d41752e9e97 Denis Pauk 2021-11-16  565  			continue;
-9d7d41752e9e97 Denis Pauk 2021-11-16  566  =
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  520 =
+ 	if (grp !=3D &pcl->obj) {
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  521 =
+ 		clt->pcl =3D container_of(grp, struct z_erofs_pcluster, obj);
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  522 =
+ 		err =3D -EEXIST;
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  523 =
+ 		goto err_out;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  524 =
+ 	}
+bfc4ccb1584129 drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  525 =
+ 	/* used to check tail merging loop due to corrupted images */
+bfc4ccb1584129 drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  526 =
+ 	if (clt->owned_head =3D=3D Z_EROFS_PCLUSTER_TAIL)
+bfc4ccb1584129 drivers/staging/erofs/zdata.c     Gao Xiang 2019-08-21  527 =
+ 		clt->tailpcl =3D pcl;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  528 =
+ 	clt->owned_head =3D &pcl->next;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  529 =
+ 	clt->pcl =3D pcl;
+97e86a858bc360 drivers/staging/erofs/zdata.c     Gao Xiang 2019-07-31  530 =
+ 	clt->cl =3D cl;
+9e579fc123a0c9 fs/erofs/zdata.c                  Gao Xiang 2019-10-08  531 =
+ 	return 0;
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  532  =
 
-9d7d41752e9e97 Denis Pauk 2021-11-16  567  		err =3D asus_wmi_hwmon_add_cha=
-n_info(asus_wmi_hwmon_chan, dev,
-9d7d41752e9e97 Denis Pauk 2021-11-16  568  						   nr_count[type], type,
-9d7d41752e9e97 Denis Pauk 2021-11-16 @569  						   hwmon_attributes[type]);
-9d7d41752e9e97 Denis Pauk 2021-11-16  570  		if (err)
-9d7d41752e9e97 Denis Pauk 2021-11-16  571  			return err;
-9d7d41752e9e97 Denis Pauk 2021-11-16  572  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  573  		*ptr_asus_wmi_ci++ =3D asus_wm=
-i_hwmon_chan++;
-9d7d41752e9e97 Denis Pauk 2021-11-16  574  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  575  		sensor_data->wmi.info[type] =
-=3D devm_kcalloc(dev,
-9d7d41752e9e97 Denis Pauk 2021-11-16  576  							   nr_count[type],
-9d7d41752e9e97 Denis Pauk 2021-11-16  577  							   sizeof(*sensor_data->w=
-mi.info),
-9d7d41752e9e97 Denis Pauk 2021-11-16  578  							   GFP_KERNEL);
-9d7d41752e9e97 Denis Pauk 2021-11-16  579  		if (!sensor_data->wmi.info[typ=
-e])
-9d7d41752e9e97 Denis Pauk 2021-11-16  580  			return -ENOMEM;
-9d7d41752e9e97 Denis Pauk 2021-11-16  581  	}
-9d7d41752e9e97 Denis Pauk 2021-11-16  582  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  583  	for (i =3D sensor_data->wmi.sen=
-sor_count - 1; i >=3D 0; i--) {
-9d7d41752e9e97 Denis Pauk 2021-11-16  584  		temp_sensor =3D devm_kzalloc(d=
-ev, sizeof(*temp_sensor), GFP_KERNEL);
-9d7d41752e9e97 Denis Pauk 2021-11-16  585  		if (!temp_sensor)
-9d7d41752e9e97 Denis Pauk 2021-11-16  586  			return -ENOMEM;
-9d7d41752e9e97 Denis Pauk 2021-11-16  587  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  588  		err =3D asus_wmi_sensor_info(i=
-, temp_sensor);
-9d7d41752e9e97 Denis Pauk 2021-11-16  589  		if (err)
-9d7d41752e9e97 Denis Pauk 2021-11-16  590  			continue;
-9d7d41752e9e97 Denis Pauk 2021-11-16  591  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  592  		switch (temp_sensor->data_type=
-) {
-9d7d41752e9e97 Denis Pauk 2021-11-16  593  		case TEMPERATURE_C:
-9d7d41752e9e97 Denis Pauk 2021-11-16  594  		case VOLTAGE:
-9d7d41752e9e97 Denis Pauk 2021-11-16  595  		case CURRENT:
-9d7d41752e9e97 Denis Pauk 2021-11-16  596  		case FAN_RPM:
-9d7d41752e9e97 Denis Pauk 2021-11-16  597  		case WATER_FLOW:
-9d7d41752e9e97 Denis Pauk 2021-11-16  598  			type =3D asus_data_types[temp=
-_sensor->data_type];
-9d7d41752e9e97 Denis Pauk 2021-11-16  599  			idx =3D --nr_count[type];
-9d7d41752e9e97 Denis Pauk 2021-11-16  600  			*(sensor_data->wmi.info[type]=
- + idx) =3D temp_sensor;
-9d7d41752e9e97 Denis Pauk 2021-11-16  601  			sensor_data->wmi.info_by_id[i=
-] =3D temp_sensor;
-9d7d41752e9e97 Denis Pauk 2021-11-16  602  			break;
-9d7d41752e9e97 Denis Pauk 2021-11-16  603  		}
-9d7d41752e9e97 Denis Pauk 2021-11-16  604  	}
-9d7d41752e9e97 Denis Pauk 2021-11-16  605  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  606  	dev_dbg(dev, "board has %d sens=
-ors",
-9d7d41752e9e97 Denis Pauk 2021-11-16  607  		sensor_data->wmi.sensor_count);
-9d7d41752e9e97 Denis Pauk 2021-11-16  608  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  609  	hwdev =3D devm_hwmon_device_reg=
-ister_with_info(dev, "asus_wmi_sensors",
-9d7d41752e9e97 Denis Pauk 2021-11-16  610  						     sensor_data, chip_inf=
-o, NULL);
-9d7d41752e9e97 Denis Pauk 2021-11-16  611  =
-
-9d7d41752e9e97 Denis Pauk 2021-11-16  612  	return PTR_ERR_OR_ZERO(hwdev);
-9d7d41752e9e97 Denis Pauk 2021-11-16  613  }
-9d7d41752e9e97 Denis Pauk 2021-11-16  614  =
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  533 =
+ err_out:
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  534 =
+ 	mutex_unlock(&cl->lock);
+9f6cc76e6ff063 fs/erofs/zdata.c                  Gao Xiang 2021-04-07  535 =
+ 	z_erofs_free_pcluster(pcl);
+64094a04414f0b fs/erofs/zdata.c                  Gao Xiang 2020-02-20  536 =
+ 	return err;
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  537 =
+ }
+3883a79abd0227 drivers/staging/erofs/unzip_vle.c Gao Xiang 2018-07-26  538  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7525366799337060729==--
+--===============5067757354580372586==--
 
