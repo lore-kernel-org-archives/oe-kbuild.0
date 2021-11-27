@@ -1,169 +1,135 @@
-Content-Type: multipart/mixed; boundary="===============5309373160046515343=="
+Content-Type: multipart/mixed; boundary="===============5577658820341774006=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/of/unittest.c:2959 unittest_unflatten_overlay_base() warn: should '1 << (((__builtin_constant_p((((((7 * 4) + 4) + 4) + 4)) - 1)) ?((((((((7 * 4) + 4) + 4) + 4)) - 1) < 2) ?0:63 - __builtin_clzll((((((7 * 4) + 4) + 4) + 4)) - 1)):((4 <= 4)) ?__ilo...
-Date: Sat, 27 Nov 2021 22:38:56 +0800
-Message-ID: <202111272211.MQw54jB7-lkp@intel.com>
+Subject: Re: [PATCH 2/4] drm/etnaviv: add pci device driver support
+Date: Sat, 27 Nov 2021 21:37:26 +0800
+Message-ID: <202111272118.uTFLgQrD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5309373160046515343==
+--===============5577658820341774006==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20211120075926.2671-3-15330273260@189.cn>
+References: <20211120075926.2671-3-15330273260@189.cn>
+TO: Sui Jingfeng <15330273260@189.cn>
+TO: Lucas Stach <l.stach@pengutronix.de>
+TO: Russell King <linux+etnaviv@armlinux.org.uk>
+TO: Christian Gmeiner <christian.gmeiner@gmail.com>
+TO: David Airlie <airlied@linux.ie>
+TO: Daniel Vetter <daniel@ffwll.ch>
+TO: Rob Herring <robh+dt@kernel.org>
+TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+TO: Krzysztof Kozlowski <krzk@kernel.org>
+TO: Andrey Zhizhikin <andrey.zhizhikin@leica-geosystems.com>
+TO: Sam Ravnborg <sam@ravnborg.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 12 months ago
-config: microblaze-randconfig-m031-20211011 (https://download.01.org/0day-c=
-i/archive/20211127/202111272211.MQw54jB7-lkp(a)intel.com/config)
+Hi Sui,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on drm-intel/for-linux-next]
+[also build test WARNING on drm-tip/drm-tip linus/master v5.16-rc2 next-202=
+11126]
+[cannot apply to drm/drm-next robh/for-next]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Sui-Jingfeng/dt-bindings-l=
+s2k1000-add-gpu-device-node/20211120-165949
+base:   git://anongit.freedesktop.org/drm-intel for-linux-next
+:::::: branch date: 7 days ago
+:::::: commit date: 7 days ago
+config: microblaze-randconfig-s031-20211122 (https://download.01.org/0day-c=
+i/archive/20211127/202111272118.uTFLgQrD-lkp(a)intel.com/config)
 compiler: microblaze-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/0day-ci/linux/commit/85be7d6c6ecf8364546054827=
+b621699e9fb632b
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Sui-Jingfeng/dt-bindings-ls2k1000-=
+add-gpu-device-node/20211120-165949
+        git checkout 85be7d6c6ecf8364546054827b621699e9fb632b
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
+icroblaze SHELL=3D/bin/bash drivers/gpu/drm/etnaviv/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/of/unittest.c:2959 unittest_unflatten_overlay_base() warn: should '=
-1 << (((__builtin_constant_p((((((7 * 4) + 4) + 4) + 4)) - 1)) ?((((((((7 *=
- 4) + 4) + 4) + 4)) - 1) < 2) ?0:63 - __builtin_clzll((((((7 * 4) + 4) + 4)=
- + 4)) - 1)):((4 <=3D 4)) ?__ilog2_u32((((((7 * 4) + 4) + 4) + 4)) - 1):__i=
-log2_u64((((((7 * 4) + 4) + 4) + 4)) - 1)) + 1)' be a 64 bit type?
-
-Old smatch warnings:
-drivers/of/unittest.c:829 of_unittest_changeset() error: potential null der=
-eference 'n1'.  (__of_node_dup returns null)
-drivers/of/unittest.c:830 of_unittest_changeset() error: potential null der=
-eference 'n2'.  (__of_node_dup returns null)
-drivers/of/unittest.c:831 of_unittest_changeset() error: potential null der=
-eference 'n21'.  (__of_node_dup returns null)
-drivers/of/unittest.c:3122 of_unittest_overlay_high_level() error: potentia=
-lly dereferencing uninitialized 'overlay_base_symbols'.
-
-vim +2959 drivers/of/unittest.c
-
-0fa1c579349fdd9 Rob Herring  2018-01-05  2905  =
-
-81d0848fc8d2058 Frank Rowand 2017-04-25  2906  /*
-81d0848fc8d2058 Frank Rowand 2017-04-25  2907   * Create base device tree f=
-or the overlay unittest.
-81d0848fc8d2058 Frank Rowand 2017-04-25  2908   *
-81d0848fc8d2058 Frank Rowand 2017-04-25  2909   * This is called from very =
-early boot code.
-81d0848fc8d2058 Frank Rowand 2017-04-25  2910   *
-81d0848fc8d2058 Frank Rowand 2017-04-25  2911   * Do as much as possible th=
-e same way as done in __unflatten_device_tree
-81d0848fc8d2058 Frank Rowand 2017-04-25  2912   * and other early boot step=
-s for the normal FDT so that the overlay base
-81d0848fc8d2058 Frank Rowand 2017-04-25  2913   * unflattened tree will hav=
-e the same characteristics as the real tree
-81d0848fc8d2058 Frank Rowand 2017-04-25  2914   * (such as having memory al=
-located by the early allocator).  The goal
-81d0848fc8d2058 Frank Rowand 2017-04-25  2915   * is to test "the real thin=
-g" as much as possible, and test "test setup
-81d0848fc8d2058 Frank Rowand 2017-04-25  2916   * code" as little as possib=
-le.
-81d0848fc8d2058 Frank Rowand 2017-04-25  2917   *
-81d0848fc8d2058 Frank Rowand 2017-04-25  2918   * Have to stop before resol=
-ving phandles, because that uses kmalloc.
-81d0848fc8d2058 Frank Rowand 2017-04-25  2919   */
-81d0848fc8d2058 Frank Rowand 2017-04-25  2920  void __init unittest_unflatt=
-en_overlay_base(void)
-81d0848fc8d2058 Frank Rowand 2017-04-25  2921  {
-81d0848fc8d2058 Frank Rowand 2017-04-25  2922  	struct overlay_info *info;
-81d0848fc8d2058 Frank Rowand 2017-04-25  2923  	u32 data_size;
-39a751a4cb7e479 Frank Rowand 2018-02-12  2924  	void *new_fdt;
-81d0848fc8d2058 Frank Rowand 2017-04-25  2925  	u32 size;
-160b1d4e4127f0e Frank Rowand 2018-10-04  2926  	int found =3D 0;
-160b1d4e4127f0e Frank Rowand 2018-10-04  2927  	const char *overlay_name =
-=3D "overlay_base";
-160b1d4e4127f0e Frank Rowand 2018-10-04  2928  =
-
-160b1d4e4127f0e Frank Rowand 2018-10-04  2929  	for (info =3D overlays; inf=
-o && info->name; info++) {
-160b1d4e4127f0e Frank Rowand 2018-10-04  2930  		if (!strcmp(overlay_name, =
-info->name)) {
-160b1d4e4127f0e Frank Rowand 2018-10-04  2931  			found =3D 1;
-160b1d4e4127f0e Frank Rowand 2018-10-04  2932  			break;
-160b1d4e4127f0e Frank Rowand 2018-10-04  2933  		}
-160b1d4e4127f0e Frank Rowand 2018-10-04  2934  	}
-160b1d4e4127f0e Frank Rowand 2018-10-04  2935  	if (!found) {
-160b1d4e4127f0e Frank Rowand 2018-10-04  2936  		pr_err("no overlay data fo=
-r %s\n", overlay_name);
-160b1d4e4127f0e Frank Rowand 2018-10-04  2937  		return;
-160b1d4e4127f0e Frank Rowand 2018-10-04  2938  	}
-81d0848fc8d2058 Frank Rowand 2017-04-25  2939  =
-
-81d0848fc8d2058 Frank Rowand 2017-04-25  2940  	info =3D &overlays[0];
-81d0848fc8d2058 Frank Rowand 2017-04-25  2941  =
-
-81d0848fc8d2058 Frank Rowand 2017-04-25  2942  	if (info->expected_result !=
-=3D -9999) {
-81d0848fc8d2058 Frank Rowand 2017-04-25  2943  		pr_err("No dtb 'overlay_ba=
-se' to attach\n");
-81d0848fc8d2058 Frank Rowand 2017-04-25  2944  		return;
-81d0848fc8d2058 Frank Rowand 2017-04-25  2945  	}
-81d0848fc8d2058 Frank Rowand 2017-04-25  2946  =
-
-81d0848fc8d2058 Frank Rowand 2017-04-25  2947  	data_size =3D info->dtb_end=
- - info->dtb_begin;
-81d0848fc8d2058 Frank Rowand 2017-04-25  2948  	if (!data_size) {
-81d0848fc8d2058 Frank Rowand 2017-04-25  2949  		pr_err("No dtb 'overlay_ba=
-se' to attach\n");
-81d0848fc8d2058 Frank Rowand 2017-04-25  2950  		return;
-81d0848fc8d2058 Frank Rowand 2017-04-25  2951  	}
-81d0848fc8d2058 Frank Rowand 2017-04-25  2952  =
-
-81d0848fc8d2058 Frank Rowand 2017-04-25  2953  	size =3D fdt_totalsize(info=
-->dtb_begin);
-81d0848fc8d2058 Frank Rowand 2017-04-25  2954  	if (size !=3D data_size) {
-81d0848fc8d2058 Frank Rowand 2017-04-25  2955  		pr_err("dtb 'overlay_base'=
- header totalsize !=3D actual size");
-81d0848fc8d2058 Frank Rowand 2017-04-25  2956  		return;
-81d0848fc8d2058 Frank Rowand 2017-04-25  2957  	}
-81d0848fc8d2058 Frank Rowand 2017-04-25  2958  =
-
-39a751a4cb7e479 Frank Rowand 2018-02-12 @2959  	new_fdt =3D dt_alloc_memory=
-(size, roundup_pow_of_two(FDT_V17_SIZE));
-39a751a4cb7e479 Frank Rowand 2018-02-12  2960  	if (!new_fdt) {
-81d0848fc8d2058 Frank Rowand 2017-04-25  2961  		pr_err("alloc for dtb 'ove=
-rlay_base' failed");
-81d0848fc8d2058 Frank Rowand 2017-04-25  2962  		return;
-81d0848fc8d2058 Frank Rowand 2017-04-25  2963  	}
-81d0848fc8d2058 Frank Rowand 2017-04-25  2964  =
-
-39a751a4cb7e479 Frank Rowand 2018-02-12  2965  	memcpy(new_fdt, info->dtb_b=
-egin, size);
-81d0848fc8d2058 Frank Rowand 2017-04-25  2966  =
-
-39a751a4cb7e479 Frank Rowand 2018-02-12  2967  	__unflatten_device_tree(new=
-_fdt, NULL, &overlay_base_root,
-0fa1c579349fdd9 Rob Herring  2018-01-05  2968  				dt_alloc_memory, true);
-81d0848fc8d2058 Frank Rowand 2017-04-25  2969  }
-81d0848fc8d2058 Frank Rowand 2017-04-25  2970  =
 
 
-:::::: The code at line 2959 was first introduced by commit
-:::::: 39a751a4cb7e4798f0ce1169ec92de4a1aae39e3 of: change overlay apply in=
-put data from unflattened to FDT
+sparse warnings: (new ones prefixed by >>)
+>> drivers/gpu/drm/etnaviv/etnaviv_drv.c:741:1: sparse: sparse: unused labe=
+l 'unregister_platform_driver'
 
-:::::: TO: Frank Rowand <frank.rowand@sony.com>
-:::::: CC: Frank Rowand <frowand.list@gmail.com>
+vim +/unregister_platform_driver +741 drivers/gpu/drm/etnaviv/etnaviv_drv.c
+
+85be7d6c6ecf83 suijingfeng         2021-11-20  716  =
+
+246774d17fc05a Lucas Stach         2018-01-24  717  	/*
+246774d17fc05a Lucas Stach         2018-01-24  718  	 * If the DT contains =
+at least one available GPU device, instantiate
+246774d17fc05a Lucas Stach         2018-01-24  719  	 * the DRM platform de=
+vice.
+246774d17fc05a Lucas Stach         2018-01-24  720  	 */
+246774d17fc05a Lucas Stach         2018-01-24  721  	for_each_compatible_no=
+de(np, NULL, "vivante,gc") {
+246774d17fc05a Lucas Stach         2018-01-24  722  		if (!of_device_is_ava=
+ilable(np))
+246774d17fc05a Lucas Stach         2018-01-24  723  			continue;
+1a866306e0fbf3 Lucas Stach         2018-09-12  724  =
+
+85be7d6c6ecf83 suijingfeng         2021-11-20  725  		ret =3D etnaviv_creat=
+e_platform_device("etnaviv", np);
+1a866306e0fbf3 Lucas Stach         2018-09-12  726  =
+
+45a0faaba9c8c5 Fabio Estevam       2018-06-27  727  		of_node_put(np);
+1a866306e0fbf3 Lucas Stach         2018-09-12  728  =
+
+85be7d6c6ecf83 suijingfeng         2021-11-20  729  		if (ret)
+85be7d6c6ecf83 suijingfeng         2021-11-20  730  			goto unregister_pci_=
+driver;
+85be7d6c6ecf83 suijingfeng         2021-11-20  731  =
+
+246774d17fc05a Lucas Stach         2018-01-24  732  		break;
+246774d17fc05a Lucas Stach         2018-01-24  733  	}
+246774d17fc05a Lucas Stach         2018-01-24  734  =
+
+45a0faaba9c8c5 Fabio Estevam       2018-06-27  735  	return 0;
+45a0faaba9c8c5 Fabio Estevam       2018-06-27  736  =
+
+85be7d6c6ecf83 suijingfeng         2021-11-20  737  unregister_pci_driver:
+85be7d6c6ecf83 suijingfeng         2021-11-20  738  #ifdef CONFIG_DRM_ETNAV=
+IV_PCI_DRIVER
+85be7d6c6ecf83 suijingfeng         2021-11-20  739  	pci_unregister_driver(=
+&etnaviv_pci_driver);
+85be7d6c6ecf83 suijingfeng         2021-11-20  740  #endif
+45a0faaba9c8c5 Fabio Estevam       2018-06-27 @741  unregister_platform_dri=
+ver:
+45a0faaba9c8c5 Fabio Estevam       2018-06-27  742  	platform_driver_unregi=
+ster(&etnaviv_platform_driver);
+45a0faaba9c8c5 Fabio Estevam       2018-06-27  743  unregister_gpu_driver:
+45a0faaba9c8c5 Fabio Estevam       2018-06-27  744  	platform_driver_unregi=
+ster(&etnaviv_gpu_driver);
+a8c21a5451d831 The etnaviv authors 2015-12-03  745  	return ret;
+a8c21a5451d831 The etnaviv authors 2015-12-03  746  }
+a8c21a5451d831 The etnaviv authors 2015-12-03  747  module_init(etnaviv_ini=
+t);
+a8c21a5451d831 The etnaviv authors 2015-12-03  748  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5309373160046515343==--
+--===============5577658820341774006==--
 
