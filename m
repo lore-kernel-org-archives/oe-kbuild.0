@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7277368332569371609=="
+Content-Type: multipart/mixed; boundary="===============1678519591508119455=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/acpi/property.c:1093:24: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Sun, 28 Nov 2021 07:11:22 +0800
-Message-ID: <202111280726.dHgvPza1-lkp@intel.com>
+Subject: drivers/md/bcache/sysfs.c:1102:4: warning: Division by zero [clang-analyzer-core.DivideZero]
+Date: Sun, 28 Nov 2021 05:50:18 +0800
+Message-ID: <202111280556.6EQ23zfa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7277368332569371609==
+--===============1678519591508119455==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: "Rafael J. Wysocki" <rjw@rjwysocki.net>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+TO: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   86799cdfbcd2308cbad6c1dc983b81595b77b639
-commit: 9054fc6d57e80c27c0b0632966416144f2092c2b ACPI: Get acpi_device's pa=
-rent from the parent field
-date:   4 days ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 4 days ago
-config: x86_64-randconfig-c007-20211126 (https://download.01.org/0day-ci/ar=
-chive/20211128/202111280726.dHgvPza1-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
-58d8c0b542e752b037e72a69d5fd51eb1e)
+head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
+commit: a52f8a59aef46b59753e583bf4b28fccb069ce64 fortify: Explicitly disabl=
+e Clang support
+date:   9 weeks ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 9 weeks ago
+config: i386-randconfig-c001-20211115 (https://download.01.org/0day-ci/arch=
+ive/20211128/202111280556.6EQ23zfa-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project fbe72e=
+41b99dc7994daac300d208a955be3e4a0a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9054fc6d57e80c27c0b0632966416144f2092c2b
+t/commit/?id=3Da52f8a59aef46b59753e583bf4b28fccb069ce64
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 9054fc6d57e80c27c0b0632966416144f2092c2b
+        git checkout a52f8a59aef46b59753e583bf4b28fccb069ce64
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,293 +49,463 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/acpi/property.c:708:2: note: Taking false branch
-           if (obj->type !=3D ACPI_TYPE_PACKAGE)
            ^
-   drivers/acpi/property.c:710:6: note: Assuming 'index' is < field 'count'
-           if (index >=3D obj->package.count)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:710:2: note: Taking false branch
-           if (index >=3D obj->package.count)
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:740:2: warning: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(btree_cache_size,          bch_cache_size(c));
            ^
-   drivers/acpi/property.c:716:2: note: Loop condition is true.  Entering l=
-oop body
-           while (element < end) {
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:740:2: note: Call to function 'strcat' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcat'. CWE-119
+           sysfs_hprint(btree_cache_size,          bch_cache_size(c));
            ^
-   drivers/acpi/property.c:719:7: note: Assuming field 'type' is equal to A=
-CPI_TYPE_LOCAL_REFERENCE
-                   if (element->type =3D=3D ACPI_TYPE_LOCAL_REFERENCE) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:719:3: note: Taking true branch
-                   if (element->type =3D=3D ACPI_TYPE_LOCAL_REFERENCE) {
-                   ^
-   drivers/acpi/property.c:724:8: note: Assuming 'ret' is 0
-                           if (ret)
-                               ^~~
-   drivers/acpi/property.c:724:4: note: Taking false branch
-                           if (ret)
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:751:2: warning: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(average_key_size,  bch_average_key_size(c));
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:751:2: note: Call to function 'strcat' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcat'. CWE-119
+           sysfs_hprint(average_key_size,  bch_average_key_size(c));
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:778:2: warning: Call to function 'strcat' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(congested,
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:778:2: note: Call to function 'strcat' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcat'. CWE-119
+           sysfs_hprint(congested,
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1037:2: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(bucket_size,       bucket_bytes(ca));
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1037:2: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+           sysfs_hprint(bucket_size,       bucket_bytes(ca));
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1038:2: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(block_size,        block_bytes(ca));
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1038:2: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+           sysfs_hprint(block_size,        block_bytes(ca));
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1041:2: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(written, atomic_long_read(&ca->sectors_written) << =
+9);
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1041:2: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+           sysfs_hprint(written, atomic_long_read(&ca->sectors_written) << =
+9);
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1042:2: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(btree_written,
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1042:2: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+           sysfs_hprint(btree_written,
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1044:2: warning: Call to function 'strcat' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           sysfs_hprint(metadata_written,
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+   drivers/md/bcache/sysfs.c:1044:2: note: Call to function 'strcat' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcat'. CWE-119
+           sysfs_hprint(metadata_written,
+           ^
+   drivers/md/bcache/sysfs.h:67:3: note: expanded from macro 'sysfs_hprint'
+                   strcat(buf, "\n");                                      \
+                   ^~~~~~
+>> drivers/md/bcache/sysfs.c:1102:4: warning: Division by zero [clang-analy=
+zer-core.DivideZero]
+                           do_div(sum, n);
                            ^
-   drivers/acpi/property.c:735:9: note: Assuming 'element' is < 'end'
-                                element < end && element->type =3D=3D ACPI_=
-TYPE_STRING;
-                                ^~~~~~~~~~~~~
-   drivers/acpi/property.c:735:9: note: Left side of '&&' is true
-   drivers/acpi/property.c:735:26: note: Assuming field 'type' is equal to =
-ACPI_TYPE_STRING
-                                element < end && element->type =3D=3D ACPI_=
-TYPE_STRING;
-                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/acpi/property.c:734:4: note: Loop condition is true.  Entering l=
-oop body
-                           for (ref_fwnode =3D acpi_fwnode_handle(device);
-                           ^
-   drivers/acpi/property.c:737:18: note: Calling 'acpi_fwnode_get_named_chi=
-ld_node'
-                                   ref_fwnode =3D acpi_fwnode_get_named_chi=
-ld_node(
-                                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/acpi/property.c:614:2: note: Loop condition is true.  Entering l=
-oop body
-           fwnode_for_each_child_node(fwnode, child) {
+   arch/x86/include/asm/div64.h:33:21: note: expanded from macro 'do_div'
+                           __upper =3D __high % (__base);            \
+                                     ~~~~~~~^~~~~~~~~~
+   drivers/md/bcache/sysfs.c:1035:21: note: Left side of '&&' is false
+           struct cache *ca =3D container_of(kobj, struct cache, kobj);
+                              ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/md/bcache/sysfs.c:1035:21: note: '?' condition is true
+           struct cache *ca =3D container_of(kobj, struct cache, kobj);
+                              ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/property.h:101:2: note: expanded from macro 'fwnode_for_ea=
-ch_child_node'
-           for (child =3D fwnode_get_next_child_node(fwnode, NULL); child; =
-  \
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:317:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/acpi/property.c:615:7: note: Calling 'is_acpi_data_node'
-                   if (is_acpi_data_node(child)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1420:33: note: Left side of '&&' is false
-           return !IS_ERR_OR_NULL(fwnode) && fwnode->ops =3D=3D &acpi_data_=
-fwnode_ops;
-                                          ^
-   drivers/acpi/property.c:1420:2: note: Returning zero, which participates=
- in a condition later
-           return !IS_ERR_OR_NULL(fwnode) && fwnode->ops =3D=3D &acpi_data_=
-fwnode_ops;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/acpi/property.c:615:7: note: Returning from 'is_acpi_data_node'
-                   if (is_acpi_data_node(child)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:615:3: note: Taking false branch
-                   if (is_acpi_data_node(child)) {
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:297:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   drivers/acpi/property.c:621:32: note: '?' condition is false
-                   if (!strncmp(acpi_device_bid(to_acpi_device_node(child)),
-                                                ^
-   include/acpi/acpi_bus.h:418:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/md/bcache/sysfs.c:1035:21: note: Left side of '&&' is false
+           struct cache *ca =3D container_of(kobj, struct cache, kobj);
+                              ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/md/bcache/sysfs.c:1035:21: note: Taking false branch
+           struct cache *ca =3D container_of(kobj, struct cache, kobj);
+                              ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:317:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:305:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:297:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   drivers/acpi/property.c:621:8: note: Null pointer passed as 1st argument=
- to string comparison function
-                   if (!strncmp(acpi_device_bid(to_acpi_device_node(child)),
-                        ^
-   drivers/acpi/property.c:1091:10: warning: Access to field 'parent' resul=
-ts in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-                   return to_acpi_data_node(fwnode)->parent;
-                          ^
-   include/acpi/acpi_bus.h:425:2: note: expanded from macro 'to_acpi_data_n=
-ode'
-           ({                                                              \
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/md/bcache/sysfs.c:1035:21: note: Loop condition is false.  Exiti=
+ng loop
+           struct cache *ca =3D container_of(kobj, struct cache, kobj);
+                              ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   drivers/acpi/property.c:1358:9: note: Calling 'acpi_node_get_parent'
-           return acpi_node_get_parent(fwnode);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1089:6: note: Assuming the condition is true
-           if (is_acpi_data_node(fwnode)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1089:2: note: Taking true branch
-           if (is_acpi_data_node(fwnode)) {
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:317:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/acpi/property.c:1091:10: note: Assuming the condition is false
-                   return to_acpi_data_node(fwnode)->parent;
-                          ^
-   include/acpi/acpi_bus.h:428:3: note: expanded from macro 'to_acpi_data_n=
-ode'
-                   is_acpi_data_node(__to_acpi_data_node_fwnode) ?         \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1091:10: note: '?' condition is false
-                   return to_acpi_data_node(fwnode)->parent;
-                          ^
-   include/acpi/acpi_bus.h:428:3: note: expanded from macro 'to_acpi_data_n=
-ode'
-                   is_acpi_data_node(__to_acpi_data_node_fwnode) ?         \
-                   ^
-   drivers/acpi/property.c:1091:10: note: Access to field 'parent' results =
-in a dereference of a null pointer
-                   return to_acpi_data_node(fwnode)->parent;
-                          ^
-   include/acpi/acpi_bus.h:425:2: note: expanded from macro 'to_acpi_data_n=
-ode'
-           ({                                                              \
+   include/linux/compiler_types.h:305:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
->> drivers/acpi/property.c:1093:24: warning: Dereference of null pointer [c=
-lang-analyzer-core.NullDereference]
-                   struct device *dev =3D to_acpi_device_node(fwnode)->dev.=
-parent;
-                                        ^
-   include/acpi/acpi_bus.h:415:2: note: expanded from macro 'to_acpi_device=
-_node'
-           ({                                                              \
+   include/linux/compiler_types.h:295:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
            ^
-   drivers/acpi/property.c:1358:9: note: Calling 'acpi_node_get_parent'
-           return acpi_node_get_parent(fwnode);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1089:6: note: Assuming the condition is false
-           if (is_acpi_data_node(fwnode)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1089:2: note: Taking false branch
-           if (is_acpi_data_node(fwnode)) {
+   drivers/md/bcache/sysfs.c:1037:2: note: '?' condition is false
+           sysfs_hprint(bucket_size,       bucket_bytes(ca));
            ^
-   drivers/acpi/property.c:1092:13: note: Assuming the condition is true
-           } else if (is_acpi_device_node(fwnode)) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1092:9: note: Taking true branch
-           } else if (is_acpi_device_node(fwnode)) {
-                  ^
-   drivers/acpi/property.c:1093:24: note: Assuming the condition is false
-                   struct device *dev =3D to_acpi_device_node(fwnode)->dev.=
-parent;
-                                        ^
-   include/acpi/acpi_bus.h:418:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1093:24: note: '?' condition is false
-                   struct device *dev =3D to_acpi_device_node(fwnode)->dev.=
-parent;
-                                        ^
-   include/acpi/acpi_bus.h:418:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-                   ^
-   drivers/acpi/property.c:1093:24: note: Dereference of null pointer
-                   struct device *dev =3D to_acpi_device_node(fwnode)->dev.=
-parent;
-                                        ^
-   include/acpi/acpi_bus.h:415:2: note: expanded from macro 'to_acpi_device=
-_node'
-           ({                                                              \
+   drivers/md/bcache/sysfs.h:65:2: note: expanded from macro 'sysfs_hprint'
+           if (attr =3D=3D &sysfs_ ## file) {                              =
+    \
            ^
-   drivers/acpi/property.c:1115:9: warning: Access to field 'name' results =
-in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-           name =3D to_acpi_data_node(fwnode)->name;
-                  ^
-   include/acpi/acpi_bus.h:425:2: note: expanded from macro 'to_acpi_data_n=
-ode'
-           ({                                                              \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/md/bcache/sysfs.c:1037:2: note: Assuming the condition is false
+           sysfs_hprint(bucket_size,       bucket_bytes(ca));
            ^
-   drivers/acpi/property.c:1137:6: note: Assuming 'prev' is null
-           if (!prev) {
-               ^~~~~
-   drivers/acpi/property.c:1137:2: note: Taking true branch
-           if (!prev) {
-           ^
-   drivers/acpi/property.c:1147:8: note: Calling 'is_acpi_graph_node'
-                           if (is_acpi_graph_node(port, "port"))
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1112:7: note: 'len' is 4
-           if (!len || !is_acpi_data_node(fwnode))
-                ^~~
-   drivers/acpi/property.c:1112:6: note: Left side of '||' is false
-           if (!len || !is_acpi_data_node(fwnode))
-               ^
-   drivers/acpi/property.c:1112:14: note: Assuming the condition is false
-           if (!len || !is_acpi_data_node(fwnode))
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1112:2: note: Taking false branch
-           if (!len || !is_acpi_data_node(fwnode))
-           ^
-   drivers/acpi/property.c:1115:9: note: Assuming the condition is false
-           name =3D to_acpi_data_node(fwnode)->name;
-                  ^
-   include/acpi/acpi_bus.h:428:3: note: expanded from macro 'to_acpi_data_n=
-ode'
-                   is_acpi_data_node(__to_acpi_data_node_fwnode) ?         \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:1115:9: note: '?' condition is false
-           name =3D to_acpi_data_node(fwnode)->name;
-                  ^
-   include/acpi/acpi_bus.h:428:3: note: expanded from macro 'to_acpi_data_n=
-ode'
-                   is_acpi_data_node(__to_acpi_data_node_fwnode) ?         \
-                   ^
-   drivers/acpi/property.c:1115:9: note: Access to field 'name' results in =
-a dereference of a null pointer
-           name =3D to_acpi_data_node(fwnode)->name;
-                  ^
-   include/acpi/acpi_bus.h:425:2: note: expanded from macro 'to_acpi_data_n=
-ode'
-           ({                                                              \
-           ^
-   include/acpi/acpi_bus.h:444:12: warning: Access to field 'name' results =
-in a dereference of a null pointer [clang-analyzer-core.NullDereference]
-                   (!strcmp(to_acpi_data_node(fwnode)->name, name)) : false;
-                            ^
-   include/acpi/acpi_bus.h:425:2: note: expanded from macro 'to_acpi_data_n=
-ode'
-           ({                                                              \
-           ^
-   drivers/acpi/property.c:1305:9: note: Calling '__acpi_node_get_property_=
-reference'
-           return __acpi_node_get_property_reference(fwnode, prop, index,
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/property.c:675:7: note: 'data' is non-null
-           if (!data)
-                ^~~~
-   drivers/acpi/property.c:675:2: note: Taking false branch
-           if (!data)
-           ^
-   drivers/acpi/property.c:679:6: note: 'ret' is 0
-           if (ret)
+   drivers/md/bcache/sysfs.h:65:2: note: expanded from macro 'sysfs_hprint'
+           if (attr =3D=3D &sysfs_ ## file) {                              =
+    \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:56:44: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
 
-vim +1093 drivers/acpi/property.c
+vim +1102 drivers/md/bcache/sysfs.c
 
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1079  =
+58f913dce2814a Peter Foley     2017-10-13  1032  =
 
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1080  /**
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1081   * acpi_node_get_parent - =
-Return parent fwnode of this fwnode
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1082   * @fwnode: Firmware node =
-whose parent to get
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1083   *
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1084   * Returns parent node of =
-an ACPI device or data firmware node or %NULL if
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1085   * not available.
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1086   */
-37ba983cfb47cc Sakari Ailus    2017-07-21  1087  struct fwnode_handle *acpi=
-_node_get_parent(const struct fwnode_handle *fwnode)
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1088  {
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1089  	if (is_acpi_data_node(fwn=
-ode)) {
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1090  		/* All data nodes have p=
-arent pointer so just return that */
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28 @1091  		return to_acpi_data_node=
-(fwnode)->parent;
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1092  	} else if (is_acpi_device=
-_node(fwnode)) {
-9054fc6d57e80c Sakari Ailus    2021-11-17 @1093  		struct device *dev =3D t=
-o_acpi_device_node(fwnode)->dev.parent;
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1094  =
+cafe563591446c Kent Overstreet 2013-03-23  1033  SHOW(__bch_cache)
+cafe563591446c Kent Overstreet 2013-03-23  1034  {
+cafe563591446c Kent Overstreet 2013-03-23  1035  	struct cache *ca =3D cont=
+ainer_of(kobj, struct cache, kobj);
+cafe563591446c Kent Overstreet 2013-03-23  1036  =
 
-9054fc6d57e80c Sakari Ailus    2021-11-17  1095  		if (dev)
-9054fc6d57e80c Sakari Ailus    2021-11-17  1096  			return acpi_fwnode_hand=
-le(to_acpi_device(dev));
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1097  	}
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1098  =
+cafe563591446c Kent Overstreet 2013-03-23  1037  	sysfs_hprint(bucket_size,=
+	bucket_bytes(ca));
+cafe563591446c Kent Overstreet 2013-03-23  1038  	sysfs_hprint(block_size,	=
+block_bytes(ca));
+cafe563591446c Kent Overstreet 2013-03-23  1039  	sysfs_print(nbuckets,		ca=
+->sb.nbuckets);
+cafe563591446c Kent Overstreet 2013-03-23  1040  	sysfs_print(discard,		ca-=
+>discard);
+cafe563591446c Kent Overstreet 2013-03-23  1041  	sysfs_hprint(written, ato=
+mic_long_read(&ca->sectors_written) << 9);
+cafe563591446c Kent Overstreet 2013-03-23  1042  	sysfs_hprint(btree_writte=
+n,
+cafe563591446c Kent Overstreet 2013-03-23  1043  		     atomic_long_read(&c=
+a->btree_sectors_written) << 9);
+cafe563591446c Kent Overstreet 2013-03-23  1044  	sysfs_hprint(metadata_wri=
+tten,
+cafe563591446c Kent Overstreet 2013-03-23  1045  		     (atomic_long_read(&=
+ca->meta_sectors_written) +
+cafe563591446c Kent Overstreet 2013-03-23  1046  		      atomic_long_read(&=
+ca->btree_sectors_written)) << 9);
+cafe563591446c Kent Overstreet 2013-03-23  1047  =
 
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1099  	return NULL;
-dfa672fbc0d9e8 Mika Westerberg 2017-03-28  1100  }
-79389a83bc3888 Mika Westerberg 2017-03-28  1101  =
+cafe563591446c Kent Overstreet 2013-03-23  1048  	sysfs_print(io_errors,
+cafe563591446c Kent Overstreet 2013-03-23  1049  		    atomic_read(&ca->io_=
+errors) >> IO_ERROR_SHIFT);
+cafe563591446c Kent Overstreet 2013-03-23  1050  =
 
+cafe563591446c Kent Overstreet 2013-03-23  1051  	if (attr =3D=3D &sysfs_ca=
+che_replacement_policy)
+169ef1cf6171d3 Kent Overstreet 2013-03-28  1052  		return bch_snprint_strin=
+g_list(buf, PAGE_SIZE,
+cafe563591446c Kent Overstreet 2013-03-23  1053  					       cache_replacem=
+ent_policies,
+cafe563591446c Kent Overstreet 2013-03-23  1054  					       CACHE_REPLACEM=
+ENT(&ca->sb));
+cafe563591446c Kent Overstreet 2013-03-23  1055  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1056  	if (attr =3D=3D &sysfs_pr=
+iority_stats) {
+15754020524a56 Kent Overstreet 2014-02-25  1057  		struct bucket *b;
+15754020524a56 Kent Overstreet 2014-02-25  1058  		size_t n =3D ca->sb.nbuc=
+kets, i;
+15754020524a56 Kent Overstreet 2014-02-25  1059  		size_t unused =3D 0, ava=
+ilable =3D 0, dirty =3D 0, meta =3D 0;
+cafe563591446c Kent Overstreet 2013-03-23  1060  		uint64_t sum =3D 0;
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1061  		/* Compute 31 quantiles =
+*/
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1062  		uint16_t q[31], *p, *cac=
+hed;
+cafe563591446c Kent Overstreet 2013-03-23  1063  		ssize_t ret;
+cafe563591446c Kent Overstreet 2013-03-23  1064  =
+
+42bc47b35320e0 Kees Cook       2018-06-12  1065  		cached =3D p =3D vmalloc=
+(array_size(sizeof(uint16_t),
+42bc47b35320e0 Kees Cook       2018-06-12  1066  						ca->sb.nbuckets));
+cafe563591446c Kent Overstreet 2013-03-23  1067  		if (!p)
+cafe563591446c Kent Overstreet 2013-03-23  1068  			return -ENOMEM;
+cafe563591446c Kent Overstreet 2013-03-23  1069  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1070  		mutex_lock(&ca->set->buc=
+ket_lock);
+15754020524a56 Kent Overstreet 2014-02-25  1071  		for_each_bucket(b, ca) {
+15754020524a56 Kent Overstreet 2014-02-25  1072  			if (!GC_SECTORS_USED(b))
+15754020524a56 Kent Overstreet 2014-02-25  1073  				unused++;
+15754020524a56 Kent Overstreet 2014-02-25  1074  			if (GC_MARK(b) =3D=3D G=
+C_MARK_RECLAIMABLE)
+15754020524a56 Kent Overstreet 2014-02-25  1075  				available++;
+15754020524a56 Kent Overstreet 2014-02-25  1076  			if (GC_MARK(b) =3D=3D G=
+C_MARK_DIRTY)
+15754020524a56 Kent Overstreet 2014-02-25  1077  				dirty++;
+15754020524a56 Kent Overstreet 2014-02-25  1078  			if (GC_MARK(b) =3D=3D G=
+C_MARK_METADATA)
+15754020524a56 Kent Overstreet 2014-02-25  1079  				meta++;
+15754020524a56 Kent Overstreet 2014-02-25  1080  		}
+15754020524a56 Kent Overstreet 2014-02-25  1081  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1082  		for (i =3D ca->sb.first_=
+bucket; i < n; i++)
+cafe563591446c Kent Overstreet 2013-03-23  1083  			p[i] =3D ca->buckets[i]=
+.prio;
+cafe563591446c Kent Overstreet 2013-03-23  1084  		mutex_unlock(&ca->set->b=
+ucket_lock);
+cafe563591446c Kent Overstreet 2013-03-23  1085  =
+
+58f913dce2814a Peter Foley     2017-10-13  1086  		sort(p, n, sizeof(uint16=
+_t), __bch_cache_cmp, NULL);
+cafe563591446c Kent Overstreet 2013-03-23  1087  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1088  		while (n &&
+cafe563591446c Kent Overstreet 2013-03-23  1089  		       !cached[n - 1])
+cafe563591446c Kent Overstreet 2013-03-23  1090  			--n;
+cafe563591446c Kent Overstreet 2013-03-23  1091  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1092  		while (cached < p + n &&
+6751c1e3cff3aa Joe Perches     2021-02-10  1093  		       *cached =3D=3D BT=
+REE_PRIO) {
+6751c1e3cff3aa Joe Perches     2021-02-10  1094  			cached++;
+6751c1e3cff3aa Joe Perches     2021-02-10  1095  			n--;
+6751c1e3cff3aa Joe Perches     2021-02-10  1096  		}
+cafe563591446c Kent Overstreet 2013-03-23  1097  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1098  		for (i =3D 0; i < n; i++)
+cafe563591446c Kent Overstreet 2013-03-23  1099  			sum +=3D INITIAL_PRIO -=
+ cached[i];
+cafe563591446c Kent Overstreet 2013-03-23  1100  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1101  		if (n)
+cafe563591446c Kent Overstreet 2013-03-23 @1102  			do_div(sum, n);
+cafe563591446c Kent Overstreet 2013-03-23  1103  =
+
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1104  		for (i =3D 0; i < ARRAY_=
+SIZE(q); i++)
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1105  			q[i] =3D INITIAL_PRIO -=
+ cached[n * (i + 1) /
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1106  				(ARRAY_SIZE(q) + 1)];
+cafe563591446c Kent Overstreet 2013-03-23  1107  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1108  		vfree(p);
+cafe563591446c Kent Overstreet 2013-03-23  1109  =
+
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1110  		ret =3D scnprintf(buf, P=
+AGE_SIZE,
+cafe563591446c Kent Overstreet 2013-03-23  1111  				"Unused:		%zu%%\n"
+15754020524a56 Kent Overstreet 2014-02-25  1112  				"Clean:		%zu%%\n"
+15754020524a56 Kent Overstreet 2014-02-25  1113  				"Dirty:		%zu%%\n"
+cafe563591446c Kent Overstreet 2013-03-23  1114  				"Metadata:	%zu%%\n"
+cafe563591446c Kent Overstreet 2013-03-23  1115  				"Average:	%llu\n"
+cafe563591446c Kent Overstreet 2013-03-23  1116  				"Sectors per Q:	%zu\n"
+cafe563591446c Kent Overstreet 2013-03-23  1117  				"Quantiles:	[",
+cafe563591446c Kent Overstreet 2013-03-23  1118  				unused * 100 / (size_t=
+) ca->sb.nbuckets,
+15754020524a56 Kent Overstreet 2014-02-25  1119  				available * 100 / (siz=
+e_t) ca->sb.nbuckets,
+15754020524a56 Kent Overstreet 2014-02-25  1120  				dirty * 100 / (size_t)=
+ ca->sb.nbuckets,
+15754020524a56 Kent Overstreet 2014-02-25  1121  				meta * 100 / (size_t) =
+ca->sb.nbuckets, sum,
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1122  				n * ca->sb.bucket_size=
+ / (ARRAY_SIZE(q) + 1));
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1123  =
+
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1124  		for (i =3D 0; i < ARRAY_=
+SIZE(q); i++)
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1125  			ret +=3D scnprintf(buf =
++ ret, PAGE_SIZE - ret,
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1126  					 "%u ", q[i]);
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1127  		ret--;
+cafe563591446c Kent Overstreet 2013-03-23  1128  =
+
+bbc77aa7fb72e6 Kent Overstreet 2013-05-28  1129  		ret +=3D scnprintf(buf +=
+ ret, PAGE_SIZE - ret, "]\n");
+cafe563591446c Kent Overstreet 2013-03-23  1130  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1131  		return ret;
+cafe563591446c Kent Overstreet 2013-03-23  1132  	}
+cafe563591446c Kent Overstreet 2013-03-23  1133  =
+
+cafe563591446c Kent Overstreet 2013-03-23  1134  	return 0;
+cafe563591446c Kent Overstreet 2013-03-23  1135  }
+cafe563591446c Kent Overstreet 2013-03-23  1136  SHOW_LOCKED(bch_cache)
+cafe563591446c Kent Overstreet 2013-03-23  1137  =
+
+
+:::::: The code@line 1102 was first introduced by commit
+:::::: cafe563591446cf80bfbc2fe3bc72a2e36cf1060 bcache: A block layer cache
+
+:::::: TO: Kent Overstreet <koverstreet@google.com>
+:::::: CC: Kent Overstreet <koverstreet@google.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7277368332569371609==--
+--===============1678519591508119455==--
 
