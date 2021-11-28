@@ -1,77 +1,96 @@
-Content-Type: multipart/mixed; boundary="===============5164662499980213693=="
+Content-Type: multipart/mixed; boundary="===============0176945100447888491=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [t-kristo-pm:usi-5.16-rfc-v2-bpf 24/30] drivers/hid/hid-debug.c:1029:57: sparse: sparse: obsolete array initializer, use C99 syntax
-Date: Mon, 29 Nov 2021 03:07:25 +0800
-Message-ID: <202111290200.V12OhjgD-lkp@intel.com>
+Subject: drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
+Date: Mon, 29 Nov 2021 01:56:06 +0800
+Message-ID: <202111290130.I9NtLbiV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5164662499980213693==
+--===============0176945100447888491==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mika Westerberg <mika.westerberg@linux.intel.com>
-CC: Tero Kristo <tero.kristo@linux.intel.com>
+TO: Michael Zaidman <michael.zaidman@gmail.com>
+CC: Jiri Kosina <jkosina@suse.cz>
 
-tree:   https://github.com/t-kristo/linux-pm usi-5.16-rfc-v2-bpf
-head:   241207b4769fca049dfcc4dbde0bda92e4f67027
-commit: f6d52d17b96916ae3e76774b1aec80d638dbf46c [24/30] HID: debug: Add US=
-I usages
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: riscv-randconfig-s032-20211128 (https://download.01.org/0day-ci/arc=
-hive/20211129/202111290200.V12OhjgD-lkp(a)intel.com/config)
-compiler: riscv32-linux-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/t-kristo/linux-pm/commit/f6d52d17b96916ae3e767=
-74b1aec80d638dbf46c
-        git remote add t-kristo-pm https://github.com/t-kristo/linux-pm
-        git fetch --no-tags t-kristo-pm usi-5.16-rfc-v2-bpf
-        git checkout f6d52d17b96916ae3e76774b1aec80d638dbf46c
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dr=
-iscv SHELL=3D/bin/bash drivers/hid/
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3498e7f2bb415e447354a3debef6738d9655768c
+commit: 6a82582d9fa438045191074856f47165334f2777 HID: ft260: add usb hid to=
+ i2c host bridge driver
+date:   9 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 9 months ago
+compiler: mipsel-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/hid-debug.c:1029:57: sparse: sparse: obsolete array initiali=
-zer, use C99 syntax
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +1029 drivers/hid/hid-debug.c
+>> drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
+   =
 
-c080d89ad91e98 Jiri Kosina     2007-01-25  1025  =
+   ^
 
-0ce1ac3b3ca0f4 Joe Perches     2007-09-26  1026  static const char *misc[MS=
-C_MAX + 1] =3D {
-c080d89ad91e98 Jiri Kosina     2007-01-25  1027  	[MSC_SERIAL] =3D "Serial"=
-,	[MSC_PULSELED] =3D "Pulseled",
-f6d52d17b96916 Mika Westerberg 2021-01-22  1028  	[MSC_GESTURE] =3D "Gestur=
-e",	[MSC_RAW] =3D "RawData",
-f6d52d17b96916 Mika Westerberg 2021-01-22 @1029  	[MSC_PEN_ID] =3D "PenID",=
-		[MSC_PEN_COLOR] "PenColor",
-f6d52d17b96916 Mika Westerberg 2021-01-22  1030  	[MSC_PEN_LINE_WIDTH] =3D =
-"PenLineWidth",
-f6d52d17b96916 Mika Westerberg 2021-01-22  1031  	[MSC_PEN_LINE_STYLE] =3D =
-"PenLineStyle",
-c080d89ad91e98 Jiri Kosina     2007-01-25  1032  };
-c080d89ad91e98 Jiri Kosina     2007-01-25  1033  =
+vim +374 drivers/hid/hid-ft260.c
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  351  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  352  static int ft260_hid_output=
+_report_check_status(struct ft260_device *dev,
+6a82582d9fa438 Michael Zaidman 2021-02-19  353  						u8 *data, int len)
+6a82582d9fa438 Michael Zaidman 2021-02-19  354  {
+6a82582d9fa438 Michael Zaidman 2021-02-19  355  	int ret, usec, try =3D 3;
+6a82582d9fa438 Michael Zaidman 2021-02-19  356  	struct hid_device *hdev =
+=3D dev->hdev;
+6a82582d9fa438 Michael Zaidman 2021-02-19  357  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  358  	ret =3D ft260_hid_output_r=
+eport(hdev, data, len);
+6a82582d9fa438 Michael Zaidman 2021-02-19  359  	if (ret < 0) {
+6a82582d9fa438 Michael Zaidman 2021-02-19  360  		hid_err(hdev, "%s: failed=
+ to start transfer, ret %d\n",
+6a82582d9fa438 Michael Zaidman 2021-02-19  361  			__func__, ret);
+6a82582d9fa438 Michael Zaidman 2021-02-19  362  		ft260_i2c_reset(hdev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  363  		return ret;
+6a82582d9fa438 Michael Zaidman 2021-02-19  364  	}
+6a82582d9fa438 Michael Zaidman 2021-02-19  365  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  366  	/* transfer time =3D 1 / c=
+lock(KHz) * 10 bits * bytes */
+6a82582d9fa438 Michael Zaidman 2021-02-19  367  	usec =3D 10000 / dev->cloc=
+k * len;
+6a82582d9fa438 Michael Zaidman 2021-02-19  368  	usleep_range(usec, usec + =
+100);
+6a82582d9fa438 Michael Zaidman 2021-02-19  369  	ft260_dbg("wait %d usec, l=
+en %d\n", usec, len);
+6a82582d9fa438 Michael Zaidman 2021-02-19  370  	do {
+6a82582d9fa438 Michael Zaidman 2021-02-19  371  		ret =3D ft260_xfer_status=
+(dev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  372  		if (ret !=3D -EAGAIN)
+6a82582d9fa438 Michael Zaidman 2021-02-19  373  			break;
+6a82582d9fa438 Michael Zaidman 2021-02-19 @374  	} while (--try);
+6a82582d9fa438 Michael Zaidman 2021-02-19  375  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  376  	if (ret =3D=3D 0 || ret =
+=3D=3D -EBUSY)
+6a82582d9fa438 Michael Zaidman 2021-02-19  377  		return 0;
+6a82582d9fa438 Michael Zaidman 2021-02-19  378  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  379  	ft260_i2c_reset(hdev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  380  	return -EIO;
+6a82582d9fa438 Michael Zaidman 2021-02-19  381  }
+6a82582d9fa438 Michael Zaidman 2021-02-19  382  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5164662499980213693==--
+--===============0176945100447888491==--
 
