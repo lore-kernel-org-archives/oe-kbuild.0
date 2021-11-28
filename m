@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8039758407080275281=="
+Content-Type: multipart/mixed; boundary="===============0558412149446673872=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/endpoint/pci-epc-mem.c:29:7: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 28 Nov 2021 11:46:58 +0800
-Message-ID: <202111281158.rWWuYjqz-lkp@intel.com>
+Subject: drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointed to by '_x' [clang-analyzer-unix.Malloc]
+Date: Sun, 28 Nov 2021 11:36:36 +0800
+Message-ID: <202111281119.q1TJMWi7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8039758407080275281==
+--===============0558412149446673872==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alexandre Ghiti <alex@ghiti.fr>
+CC: Palmer Dabbelt <palmerdabbelt@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3498e7f2bb415e447354a3debef6738d9655768c
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
+commit: 0aba691a7443a7541c1dc56423e0c92cc6ea7164 riscv: Introduce va_kernel=
+_pa_offset for 32-bit kernel
+date:   4 months ago
 :::::: branch date: 5 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20211126 (https://download.01.org/0day-ci/archi=
-ve/20211128/202111281158.rWWuYjqz-lkp(a)intel.com/config)
+:::::: commit date: 4 months ago
+config: riscv-randconfig-c006-20211127 (https://download.01.org/0day-ci/arc=
+hive/20211128/202111281119.q1TJMWi7-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
 58d8c0b542e752b037e72a69d5fd51eb1e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
+t/commit/?id=3D0aba691a7443a7541c1dc56423e0c92cc6ea7164
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
+        git checkout 0aba691a7443a7541c1dc56423e0c92cc6ea7164
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,544 +52,630 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:293:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/drm/drm_file.c:593:7: note: 'e' is not equal to NULL
-                   if (e =3D=3D NULL) {
-                       ^
-   drivers/gpu/drm/drm_file.c:593:3: note: Taking false branch
-                   if (e =3D=3D NULL) {
                    ^
-   drivers/gpu/drm/drm_file.c:612:8: note: Assuming the condition is false
-                           if (length > count - ret) {
-                               ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_file.c:612:4: note: Taking false branch
-                           if (length > count - ret) {
-                           ^
-   drivers/gpu/drm/drm_file.c:623:8: note: Assuming the condition is false
-                           if (copy_to_user(buffer + ret, e->event, length)=
-) {
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_file.c:623:4: note: Taking false branch
-                           if (copy_to_user(buffer + ret, e->event, length)=
-) {
-                           ^
-   drivers/gpu/drm/drm_file.c:630:4: note: Memory is released
-                           kfree(e);
-                           ^~~~~~~~
-   drivers/gpu/drm/drm_file.c:581:2: note: Loop condition is true.  Enterin=
-g loop body
-           for (;;) {
-           ^
-   drivers/gpu/drm/drm_file.c:585:7: note: Assuming the condition is true
-                   if (!list_empty(&file_priv->event_list)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_file.c:585:3: note: Taking true branch
-                   if (!list_empty(&file_priv->event_list)) {
-                   ^
-   drivers/gpu/drm/drm_file.c:586:8: note: Left side of '&&' is false
-                           e =3D list_first_entry(&file_priv->event_list,
-                               ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:694:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/gpu/drm/drm_file.c:586:8: note: Taking false branch
-                           e =3D list_first_entry(&file_priv->event_list,
-                               ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/gpu/drm/drm_file.c:586:8: note: Loop condition is false.  Exitin=
-g loop
-                           e =3D list_first_entry(&file_priv->event_list,
-                               ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:293:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/gpu/drm/drm_file.c:588:30: note: Use of memory after it is freed
-                           file_priv->event_space +=3D e->event->length;
-                                                     ^~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/pci/endpoint/pci-epc-mem.c:29:7: warning: Assigned value is garb=
-age or undefined [clang-analyzer-core.uninitialized.Assign]
-           size >>=3D page_shift;
-                ^
-   drivers/pci/endpoint/pci-epc-mem.c:244:7: note: 'mem' is non-null
-           if (!mem) {
-                ^~~
-   drivers/pci/endpoint/pci-epc-mem.c:244:2: note: Taking false branch
-           if (!mem) {
-           ^
-   drivers/pci/endpoint/pci-epc-mem.c:250:15: note: '?' condition is false
-           page_shift =3D ilog2(page_size);
-                        ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/pci/endpoint/pci-epc-mem.c:250:15: note: '?' condition is true
-           page_shift =3D ilog2(page_size);
-                        ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/pci/endpoint/pci-epc-mem.c:254:10: note: Calling 'pci_epc_mem_ge=
-t_order'
-           order =3D pci_epc_mem_get_order(mem, size);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/pci-epc-mem.c:26:28: note: '?' condition is false
-           unsigned int page_shift =3D ilog2(mem->window.page_size);
-                                     ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/pci/endpoint/pci-epc-mem.c:26:28: note: '?' condition is true
-           unsigned int page_shift =3D ilog2(mem->window.page_size);
-                                     ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/pci/endpoint/pci-epc-mem.c:26:28: note: Calling '__ilog2_u32'
-           unsigned int page_shift =3D ilog2(mem->window.page_size);
-                                     ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   include/linux/log2.h:24:2: note: Returning the value -1
-           return fls(n) - 1;
-           ^~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/pci-epc-mem.c:26:28: note: Returning from '__ilog2_=
-u32'
-           unsigned int page_shift =3D ilog2(mem->window.page_size);
-                                     ^
-   include/linux/log2.h:162:2: note: expanded from macro 'ilog2'
-           __ilog2_u32(n) :                \
-           ^~~~~~~~~~~~~~
-   drivers/pci/endpoint/pci-epc-mem.c:26:2: note: 'page_shift' initialized =
-to 4294967295
-           unsigned int page_shift =3D ilog2(mem->window.page_size);
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/endpoint/pci-epc-mem.c:29:7: note: Assigned value is garbage=
- or undefined
-           size >>=3D page_shift;
-                ^   ~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/pci/endpoint/functions/pci-epf-test.c:758:17: warning: Access to=
- field 'msix_capable' results in a dereference of a null pointer (loaded fr=
-om variable 'epc_features') [clang-analyzer-core.NullDereference]
-           msix_capable =3D epc_features->msix_capable;
-                          ^
-   drivers/pci/endpoint/functions/pci-epf-test.c:829:19: note: Assuming 'ep=
-c' is non-null
-           if (WARN_ON_ONCE(!epc))
-                            ^
-   include/asm-generic/bug.h:145:27: note: expanded from macro 'WARN_ON_ONC=
-E'
-           int __ret_warn_once =3D !!(condition);                    \
-                                    ^~~~~~~~~
-   drivers/pci/endpoint/functions/pci-epf-test.c:829:6: note: '__ret_warn_o=
-nce' is 0
-           if (WARN_ON_ONCE(!epc))
-               ^
-   include/asm-generic/bug.h:147:15: note: expanded from macro 'WARN_ON_ONC=
-E'
-           if (unlikely(__ret_warn_once && !__warned)) {           \
-                        ^~~~~~~~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   drivers/pci/endpoint/functions/pci-epf-test.c:829:6: note: Left side of =
-'&&' is false
-           if (WARN_ON_ONCE(!epc))
-               ^
-   include/asm-generic/bug.h:147:31: note: expanded from macro 'WARN_ON_ONC=
-E'
-           if (unlikely(__ret_warn_once && !__warned)) {           \
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/kunit/test.h:405:31: note: Loop condition is false.  Exiting loop
+           struct kunit_resource *res =3D container_of(kref, struct kunit_r=
+esource,
                                         ^
-   drivers/pci/endpoint/functions/pci-epf-test.c:829:6: note: '__ret_warn_o=
-nce' is 0
-           if (WARN_ON_ONCE(!epc))
-               ^
-   include/asm-generic/bug.h:147:15: note: expanded from macro 'WARN_ON_ONC=
-E'
-           if (unlikely(__ret_warn_once && !__warned)) {           \
-                        ^~~~~~~~~~~~~~~
-   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                                                        ^
-   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
-k__'
-                                                expect, is_constant);      \
-                                                        ^~~~~~~~~~~
-   drivers/pci/endpoint/functions/pci-epf-test.c:829:6: note: Left side of =
-'&&' is false
-           if (WARN_ON_ONCE(!epc))
---
-                       ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1243:3: note: Taking false branch
-                   if (!ccb)
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1248:3: note: Loop condition is =
-true.  Entering loop body
-                   for (j =3D 0; j < BNAD_MAX_RXQ_PER_RXP; j++) {
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:8: note: Assuming 'rcb' is =
-non-null
-                           if (!rcb)
-                               ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:4: note: Taking false branch
-                           if (!rcb)
-                           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1253:4: note: Calling 'bnad_rxq_=
-alloc_init'
-                           bnad_rxq_alloc_init(bnad, rcb);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:266:10: note: Calling 'get_order'
-           order =3D get_order(rcb->rxq->buffer_size);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/getorder.h:31:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/asm-generic/getorder.h:44:9: note: Calling 'fls'
-           return fls(size);
-                  ^~~~~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/asm-generic/getorder.h:44:9: note: Returning from 'fls'
-           return fls(size);
-                  ^~~~~~~~~
-   include/asm-generic/getorder.h:44:2: note: Returning the value 32
-           return fls(size);
-           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:266:10: note: Returning from 'ge=
-t_order'
-           order =3D get_order(rcb->rxq->buffer_size);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:266:2: note: The value 32 is ass=
-igned to 'order'
-           order =3D get_order(rcb->rxq->buffer_size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:6: note: Assuming the condit=
-ion is true
-           if (bna_is_small_rxq(rcb->id)) {
-               ^
-   drivers/net/ethernet/brocade/bna/bna.h:23:32: note: expanded from macro =
-'bna_is_small_rxq'
-   #define bna_is_small_rxq(_id) ((_id) & 0x1)
-                                  ^~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:2: note: Taking true branch
-           if (bna_is_small_rxq(rcb->id)) {
-           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:286:20: note: The result of the =
-left shift is undefined due to shifting by '32', which is greater or equal =
-to the width of type 'unsigned long'
-           BUG_ON((PAGE_SIZE << order) % unmap_q->map_size);
-                             ^
-   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
->> drivers/net/ethernet/brocade/bna/bnad.c:286:30: warning: Division by zer=
-o [clang-analyzer-core.DivideZero]
-           BUG_ON((PAGE_SIZE << order) % unmap_q->map_size);
-                                       ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1240:2: note: Loop condition is =
-true.  Entering loop body
-           for (i =3D 0; i < BNAD_MAX_RXP_PER_RX; i++) {
-           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1243:7: note: Assuming 'ccb' is =
-non-null
-                   if (!ccb)
-                       ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1243:3: note: Taking false branch
-                   if (!ccb)
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1248:3: note: Loop condition is =
-true.  Entering loop body
-                   for (j =3D 0; j < BNAD_MAX_RXQ_PER_RXP; j++) {
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:8: note: Assuming 'rcb' is =
-non-null
-                           if (!rcb)
-                               ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:4: note: Taking false branch
-                           if (!rcb)
-                           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1253:4: note: Calling 'bnad_rxq_=
-alloc_init'
-                           bnad_rxq_alloc_init(bnad, rcb);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:6: note: Assuming the condit=
-ion is false
-           if (bna_is_small_rxq(rcb->id)) {
-               ^
-   drivers/net/ethernet/brocade/bna/bna.h:23:32: note: expanded from macro =
-'bna_is_small_rxq'
-   #define bna_is_small_rxq(_id) ((_id) & 0x1)
-                                  ^~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:2: note: Taking false branch
-           if (bna_is_small_rxq(rcb->id)) {
-           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:274:7: note: Assuming field 'mul=
-ti_buffer' is 0
-                   if (rcb->rxq->multi_buffer) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:274:3: note: Taking false branch
-                   if (rcb->rxq->multi_buffer) {
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:281:6: note: Assuming field 'buf=
-fer_size' is > 2048
-                                   (rcb->rxq->buffer_size > 2048) ?
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:281:5: note: '?' condition is tr=
-ue
-                                   (rcb->rxq->buffer_size > 2048) ?
-                                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:280:4: note: The value 0 is assi=
-gned to field 'map_size'
-                           unmap_q->map_size =3D
-                           ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:286:30: note: Division by zero
-           BUG_ON((PAGE_SIZE << order) % unmap_q->map_size);
-                                       ^
-   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   drivers/net/ethernet/brocade/bna/bnad.c:396:3: warning: Assigned value i=
-s garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   BNA_SET_DMA_ADDR(dma_addr, &rxent->host_addr);
-                   ^
-   drivers/net/ethernet/brocade/bna/bna.h:34:23: note: expanded from macro =
-'BNA_SET_DMA_ADDR'
-           (_bna_dma_addr)->lsb =3D ((struct bna_dma_addr *)&tmp_addr)->lsb=
-; \
-                                ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1860:3: note: Left side of '&&' =
-is false
-                   container_of(napi, struct bnad_rx_ctrl, napi);
-                   ^
-   include/linux/kernel.h:694:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1860:3: note: Taking false branch
-                   container_of(napi, struct bnad_rx_ctrl, napi);
-                   ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
            BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
    include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
 _MSG'
    #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
                                        ^
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
 letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1860:3: note: Loop condition is =
-false.  Exiting loop
-                   container_of(napi, struct bnad_rx_ctrl, napi);
-                   ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           do {                                                            \
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-
-vim +29 drivers/pci/endpoint/pci-epc-mem.c
-
-5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  14  =
-
-5e8cb4033807e3 Kishon Vijay Abraham I 2017-04-10  15  /**
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  16   * pci_epc_mem_get_or=
-der() - determine the allocation order of a memory size
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  17   * @mem: address spac=
-e of the endpoint controller
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  18   * @size: the size fo=
-r which to get the order
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  19   *
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  20   * Reimplement get_or=
-der() for mem->page_size since the generic get_order
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  21   * always gets order =
-with a constant PAGE_SIZE.
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  22   */
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  23  static int pci_epc_me=
-m_get_order(struct pci_epc_mem *mem, size_t size)
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  24  {
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  25  	int order;
-d45e3c1a5979ef Lad Prabhakar          2020-05-07  26  	unsigned int page_sh=
-ift =3D ilog2(mem->window.page_size);
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  27  =
-
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  28  	size--;
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18 @29  	size >>=3D page_shif=
-t;
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  30  #if BITS_PER_LONG =3D=
-=3D 32
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  31  	order =3D fls(size);
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  32  #else
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  33  	order =3D fls64(size=
+   include/kunit/test.h:409:2: note: Assuming field 'free' is non-null
+           if (res->free) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/kunit/test.h:409:2: note: '?' condition is false
+           if (res->free) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/kunit/test.h:409:11: note: Field 'free' is non-null
+           if (res->free) {
+                    ^
+   include/kunit/test.h:409:2: note: '?' condition is true
+           if (res->free) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   include/kunit/test.h:409:2: note: Taking true branch
+           if (res->free) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/kunit/test.h:411:3: note: Argument to kfree() is the address of =
+a local stack variable, which is not memory allocated by malloc()
+                   kfree(res);
+                   ^     ~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   kernel/sched/fair.c:644:15: warning: Value stored to 'nr_running' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           unsigned int nr_running =3D cfs_rq->nr_running;
+                        ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:644:15: note: Value stored to 'nr_running' during it=
+s initialization is never read
+           unsigned int nr_running =3D cfs_rq->nr_running;
+                        ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (4 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (4 in non-user code, 5 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (4 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointe=
+d to by '_x' [clang-analyzer-unix.Malloc]
+                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
 );
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  34  #endif
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  35  	return order;
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  36  }
-52c9285d47459c Kishon Vijay Abraham I 2017-08-18  37  =
+                           ^
+   drivers/nvme/host/core.c:845:10: note: Calling 'kzalloc'
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Memory is allocated
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:845:10: note: Returned allocated memory
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:846:6: note: Assuming 'range' is non-null
+           if (!range) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:846:7: note: 'range' is non-null
+           if (!range) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvme/host/core.c:846:2: note: Taking false branch
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/core.c:858:2: note: Assuming field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^~~~~~~~~~~~~~
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:858:2: note: Field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:11: note: expanded from macro '__rq_for_each_=
+bio'
+           if ((rq->bio))                  \
+                    ^
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+--
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:871:7: note: '_x' is >=3D -1073741824
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                       ^
+   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
+_page'
+   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
+_pfn'
+   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
+   #define __pa(x)         __virt_to_phys((unsigned long)(x))
+                           ^
+   note: (skipping 6 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:871:7: note: Left side of '&&' is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                       ^
+   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
+_page'
+   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
+_pfn'
+   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
+   #define __pa(x)         __virt_to_phys((unsigned long)(x))
+                           ^
+   arch/riscv/include/asm/page.h:138:27: note: expanded from macro '__virt_=
+to_phys'
+   #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
+                                   ^
+   arch/riscv/include/asm/page.h:130:2: note: expanded from macro '__va_to_=
+pa_nodebug'
+           is_linear_mapping(_x) ?                                         =
+        \
+           ^
+   arch/riscv/include/asm/page.h:109:3: note: expanded from macro 'is_linea=
+r_mapping'
+           ((x) >=3D PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < ker=
+nel_map.virt_addr))
+            ^
+   drivers/nvme/host/core.c:871:7: note: Left side of '||' is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                       ^
+   arch/riscv/include/asm/page.h:152:42: note: expanded from macro 'virt_to=
+_page'
+   #define virt_to_page(vaddr)     (pfn_to_page(virt_to_pfn(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:149:41: note: expanded from macro 'virt_to=
+_pfn'
+   #define virt_to_pfn(vaddr)      (phys_to_pfn(__pa(vaddr)))
+                                                ^
+   arch/riscv/include/asm/page.h:143:18: note: expanded from macro '__pa'
+   #define __pa(x)         __virt_to_phys((unsigned long)(x))
+                           ^
+   arch/riscv/include/asm/page.h:138:27: note: expanded from macro '__virt_=
+to_phys'
+   #define __virt_to_phys(x)       __va_to_pa_nodebug(x)
+                                   ^
+   arch/riscv/include/asm/page.h:130:2: note: expanded from macro '__va_to_=
+pa_nodebug'
+           is_linear_mapping(_x) ?                                         =
+        \
+           ^
+   arch/riscv/include/asm/page.h:109:52: note: expanded from macro 'is_line=
+ar_mapping'
+           ((x) >=3D PAGE_OFFSET && (!IS_ENABLED(CONFIG_64BIT) || (x) < ker=
+nel_map.virt_addr))
+                                                             ^
+   drivers/nvme/host/core.c:871:3: note: Assuming the condition is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                   ^
+   include/linux/compiler.h:56:44: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:871:3: note: '?' condition is true
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvme/host/core.c:871:3: note: Taking true branch
+                   if (virt_to_page(range) =3D=3D ns->ctrl->discard_page)
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/core.c:872:4: note: Potential leak of memory pointed t=
+o by '_x'
+                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
+);
+                           ^
+>> drivers/nvme/host/core.c:872:4: warning: Potential leak of memory pointe=
+d to by '_y' [clang-analyzer-unix.Malloc]
+                           clear_bit_unlock(0, &ns->ctrl->discard_page_busy=
+);
+                           ^
+   drivers/nvme/host/core.c:845:10: note: Calling 'kzalloc'
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Memory is allocated
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:845:10: note: Returned allocated memory
+           range =3D kzalloc(alloc_size, GFP_ATOMIC | __GFP_NOWARN);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/nvme/host/core.c:846:6: note: Assuming 'range' is non-null
+           if (!range) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:846:7: note: 'range' is non-null
+           if (!range) {
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/nvme/host/core.c:846:2: note: '?' condition is false
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/nvme/host/core.c:846:2: note: Taking false branch
+           if (!range) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/nvme/host/core.c:858:2: note: Assuming field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^~~~~~~~~~~~~~
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/nvme/host/core.c:858:2: note: Field 'bio' is null
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:11: note: expanded from macro '__rq_for_each_=
+bio'
+           if ((rq->bio))                  \
+                    ^
+   drivers/nvme/host/core.c:858:2: note: '?' condition is false
+           __rq_for_each_bio(bio, req) {
+           ^
+   include/linux/blkdev.h:848:2: note: expanded from macro '__rq_for_each_b=
+io'
+           if ((rq->bio))                  \
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+
+vim +/_x +872 drivers/nvme/host/core.c
+
+8093f7ca73c163 Ming Lin             2016-04-12  830  =
+
+fc17b6534eb839 Christoph Hellwig    2017-06-03  831  static blk_status_t nv=
+me_setup_discard(struct nvme_ns *ns, struct request *req,
+8093f7ca73c163 Ming Lin             2016-04-12  832  		struct nvme_command =
+*cmnd)
+8093f7ca73c163 Ming Lin             2016-04-12  833  {
+b35ba01ea69791 Christoph Hellwig    2017-02-08  834  	unsigned short segmen=
+ts =3D blk_rq_nr_discard_segments(req), n =3D 0;
+8093f7ca73c163 Ming Lin             2016-04-12  835  	struct nvme_dsm_range=
+ *range;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  836  	struct bio *bio;
+8093f7ca73c163 Ming Lin             2016-04-12  837  =
+
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  838  	/*
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  839  	 * Some devices do no=
+t consider the DSM 'Number of Ranges' field when
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  840  	 * determining how mu=
+ch data to DMA. Always allocate memory for maximum
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  841  	 * number of segments=
+ to prevent device reading beyond end of buffer.
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  842  	 */
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  843  	static const size_t a=
+lloc_size =3D sizeof(*range) * NVME_DSM_MAX_RANGES;
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  844  =
+
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  845  	range =3D kzalloc(all=
+oc_size, GFP_ATOMIC | __GFP_NOWARN);
+cb5b7262b011cf Jens Axboe           2018-12-12  846  	if (!range) {
+cb5b7262b011cf Jens Axboe           2018-12-12  847  		/*
+cb5b7262b011cf Jens Axboe           2018-12-12  848  		 * If we fail alloca=
+tion our range, fallback to the controller
+cb5b7262b011cf Jens Axboe           2018-12-12  849  		 * discard page. If =
+that's also busy, it's safe to return
+cb5b7262b011cf Jens Axboe           2018-12-12  850  		 * busy, as we know =
+we can make progress once that's freed.
+cb5b7262b011cf Jens Axboe           2018-12-12  851  		 */
+cb5b7262b011cf Jens Axboe           2018-12-12  852  		if (test_and_set_bit=
+_lock(0, &ns->ctrl->discard_page_busy))
+fc17b6534eb839 Christoph Hellwig    2017-06-03  853  			return BLK_STS_RESO=
+URCE;
+8093f7ca73c163 Ming Lin             2016-04-12  854  =
+
+cb5b7262b011cf Jens Axboe           2018-12-12  855  		range =3D page_addre=
+ss(ns->ctrl->discard_page);
+cb5b7262b011cf Jens Axboe           2018-12-12  856  	}
+cb5b7262b011cf Jens Axboe           2018-12-12  857  =
+
+b35ba01ea69791 Christoph Hellwig    2017-02-08  858  	__rq_for_each_bio(bio=
+, req) {
+314d48dd224897 Damien Le Moal       2019-10-21  859  		u64 slba =3D nvme_se=
+ct_to_lba(ns, bio->bi_iter.bi_sector);
+b35ba01ea69791 Christoph Hellwig    2017-02-08  860  		u32 nlb =3D bio->bi_=
+iter.bi_size >> ns->lba_shift;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  861  =
+
+8cb6af7b3a6d47 Keith Busch          2018-01-31  862  		if (n < segments) {
+b35ba01ea69791 Christoph Hellwig    2017-02-08  863  			range[n].cattr =3D =
+cpu_to_le32(0);
+b35ba01ea69791 Christoph Hellwig    2017-02-08  864  			range[n].nlb =3D cp=
+u_to_le32(nlb);
+b35ba01ea69791 Christoph Hellwig    2017-02-08  865  			range[n].slba =3D c=
+pu_to_le64(slba);
+8cb6af7b3a6d47 Keith Busch          2018-01-31  866  		}
+b35ba01ea69791 Christoph Hellwig    2017-02-08  867  		n++;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  868  	}
+b35ba01ea69791 Christoph Hellwig    2017-02-08  869  =
+
+b35ba01ea69791 Christoph Hellwig    2017-02-08  870  	if (WARN_ON_ONCE(n !=
+=3D segments)) {
+cb5b7262b011cf Jens Axboe           2018-12-12  871  		if (virt_to_page(ran=
+ge) =3D=3D ns->ctrl->discard_page)
+cb5b7262b011cf Jens Axboe           2018-12-12 @872  			clear_bit_unlock(0,=
+ &ns->ctrl->discard_page_busy);
+cb5b7262b011cf Jens Axboe           2018-12-12  873  		else
+b35ba01ea69791 Christoph Hellwig    2017-02-08  874  			kfree(range);
+fc17b6534eb839 Christoph Hellwig    2017-06-03  875  		return BLK_STS_IOERR;
+b35ba01ea69791 Christoph Hellwig    2017-02-08  876  	}
+8093f7ca73c163 Ming Lin             2016-04-12  877  =
+
+8093f7ca73c163 Ming Lin             2016-04-12  878  	cmnd->dsm.opcode =3D =
+nvme_cmd_dsm;
+ed754e5deeb17f Christoph Hellwig    2017-11-09  879  	cmnd->dsm.nsid =3D cp=
+u_to_le32(ns->head->ns_id);
+f1dd03a84dbf3e Christoph Hellwig    2017-03-31  880  	cmnd->dsm.nr =3D cpu_=
+to_le32(segments - 1);
+8093f7ca73c163 Ming Lin             2016-04-12  881  	cmnd->dsm.attributes =
+=3D cpu_to_le32(NVME_DSMGMT_AD);
+8093f7ca73c163 Ming Lin             2016-04-12  882  =
+
+f9d03f96b98800 Christoph Hellwig    2016-12-08  883  	req->special_vec.bv_p=
+age =3D virt_to_page(range);
+f9d03f96b98800 Christoph Hellwig    2016-12-08  884  	req->special_vec.bv_o=
+ffset =3D offset_in_page(range);
+530436c45ef2e4 Eduard Hasenleithner 2019-11-12  885  	req->special_vec.bv_l=
+en =3D alloc_size;
+f9d03f96b98800 Christoph Hellwig    2016-12-08  886  	req->rq_flags |=3D RQ=
+F_SPECIAL_PAYLOAD;
+8093f7ca73c163 Ming Lin             2016-04-12  887  =
+
+fc17b6534eb839 Christoph Hellwig    2017-06-03  888  	return BLK_STS_OK;
+8093f7ca73c163 Ming Lin             2016-04-12  889  }
+8093f7ca73c163 Ming Lin             2016-04-12  890  =
 
 
-:::::: The code at line 29 was first introduced by commit
-:::::: 52c9285d47459cf241e144c7d8ef15941ba1b181 PCI: endpoint: Add support =
-for configurable page size
+:::::: The code at line 872 was first introduced by commit
+:::::: cb5b7262b011cfb793519bf97e54dff5282da23c nvme: provide fallback for =
+discard alloc failure
 
-:::::: TO: Kishon Vijay Abraham I <kishon@ti.com>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+:::::: TO: Jens Axboe <axboe@kernel.dk>
+:::::: CC: Christoph Hellwig <hch@lst.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8039758407080275281==--
+--===============0558412149446673872==--
 
