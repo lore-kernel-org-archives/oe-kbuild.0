@@ -1,235 +1,427 @@
-Content-Type: multipart/mixed; boundary="===============4724968166369123511=="
+Content-Type: multipart/mixed; boundary="===============7429523230033238124=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 3421/3897] mm/vmalloc.c:3077 __vmalloc_node_range() warn: bitwise AND condition is false here
-Date: Sun, 28 Nov 2021 10:46:00 +0800
-Message-ID: <202111281011.FJm6wfvB-lkp@intel.com>
+Subject: [axboe-block:for-5.17/block 47/67] block/bfq-iosched.c:631:11: warning: Division by zero [clang-analyzer-core.DivideZero]
+Date: Sun, 28 Nov 2021 08:44:36 +0800
+Message-ID: <202111280850.yCY1JxwS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4724968166369123511==
+--===============7429523230033238124==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Kefeng Wang <wangkefeng.wang@huawei.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jan Kara <jack@suse.cz>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: "Michal Koutn=C3=BD" <mkoutny@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   f30a24ed97b401416118756fa35fbe5d28f999e3
-commit: f61bc9ffcab1688372969e3cbb36cab83f045c22 [3421/3897] mm: defer kmem=
-leak object creation of module_alloc()
-:::::: branch date: 2 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-m021-20211126 (https://download.01.org/0day-ci/arch=
-ive/20211128/202111281011.FJm6wfvB-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-5.17/block
+head:   a77f46727daa3febf99663ab1a43c86cf3c2b957
+commit: 3d7a7c45e29d5d1f5a9622557acb47443e8b6e28 [47/67] bfq: Limit number =
+of requests consumed by each cgroup
+:::::: branch date: 9 hours ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-c006-20211127 (https://download.01.org/0day-ci/arc=
+hive/20211128/202111280850.yCY1JxwS-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
+58d8c0b542e752b037e72a69d5fd51eb1e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
+.git/commit/?id=3D3d7a7c45e29d5d1f5a9622557acb47443e8b6e28
+        git remote add axboe-block https://git.kernel.org/pub/scm/linux/ker=
+nel/git/axboe/linux-block.git
+        git fetch --no-tags axboe-block for-5.17/block
+        git checkout 3d7a7c45e29d5d1f5a9622557acb47443e8b6e28
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/vmalloc.c:3077 __vmalloc_node_range() warn: bitwise AND condition is fal=
-se here
 
-vim +3077 mm/vmalloc.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                                 ^
+   net/decnet/dn_route.c:875:6: note: 'fi' is null
+           if (fi) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/decnet/dn_route.c:875:2: note: '?' condition is false
+           if (fi) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/decnet/dn_route.c:875:2: note: Taking false branch
+           if (fi) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/decnet/dn_route.c:883:6: note: Assuming 'dev' is equal to null
+           if (dev !=3D NULL && rt->n =3D=3D NULL) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/decnet/dn_route.c:883:18: note: Left side of '&&' is false
+           if (dev !=3D NULL && rt->n =3D=3D NULL) {
+                           ^
+   net/decnet/dn_route.c:883:2: note: '?' condition is false
+           if (dev !=3D NULL && rt->n =3D=3D NULL) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/decnet/dn_route.c:883:6: note: 'dev' is equal to null
+           if (dev !=3D NULL && rt->n =3D=3D NULL) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   net/decnet/dn_route.c:883:18: note: Left side of '&&' is false
+           if (dev !=3D NULL && rt->n =3D=3D NULL) {
+                           ^
+   net/decnet/dn_route.c:883:2: note: '?' condition is false
+           if (dev !=3D NULL && rt->n =3D=3D NULL) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/decnet/dn_route.c:883:2: note: Taking false branch
+           if (dev !=3D NULL && rt->n =3D=3D NULL) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/decnet/dn_route.c:890:39: note: Access to field 'mtu' results in a d=
+ereference of a null pointer (loaded from field 'dev')
+           if (dst_metric(&rt->dst, RTAX_MTU) > rt->dst.dev->mtu)
+                                                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> block/bfq-iosched.c:631:11: warning: Division by zero [clang-analyzer-co=
+re.DivideZero]
+                   limit =3D DIV_ROUND_CLOSEST(limit * entity->weight, wsum=
+);
+                           ^
+   include/linux/math.h:92:26: note: expanded from macro 'DIV_ROUND_CLOSEST'
+                   (((__x) + ((__d) / 2)) / (__d)) :       \
+                    ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+   block/bfq-iosched.c:583:6: note: Assuming field 'on_st_or_in_serv' is tr=
+ue
+           if (!entity->on_st_or_in_serv)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   block/bfq-iosched.c:583:2: note: '?' condition is false
+           if (!entity->on_st_or_in_serv)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   block/bfq-iosched.c:583:15: note: Field 'on_st_or_in_serv' is true
+           if (!entity->on_st_or_in_serv)
+                        ^
+   block/bfq-iosched.c:583:2: note: '?' condition is false
+           if (!entity->on_st_or_in_serv)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   block/bfq-iosched.c:583:2: note: Taking false branch
+           if (!entity->on_st_or_in_serv)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   block/bfq-iosched.c:588:6: note: Assuming 'depth' is <=3D 16
+           if (depth > BFQ_LIMIT_INLINE_DEPTH) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   block/bfq-iosched.c:588:2: note: '?' condition is false
+           if (depth > BFQ_LIMIT_INLINE_DEPTH) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   block/bfq-iosched.c:588:6: note: 'depth' is <=3D 16
+           if (depth > BFQ_LIMIT_INLINE_DEPTH) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   block/bfq-iosched.c:588:2: note: '?' condition is false
+           if (depth > BFQ_LIMIT_INLINE_DEPTH) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   block/bfq-iosched.c:588:2: note: Taking false branch
+           if (depth > BFQ_LIMIT_INLINE_DEPTH) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   block/bfq-iosched.c:598:2: note: Loop condition is true.  Entering loop =
+body
+           for_each_entity(entity) {
+           ^
+   block/bfq-iosched.h:1028:2: note: expanded from macro 'for_each_entity'
+           for (; entity ; entity =3D entity->parent)
+           ^
+   block/bfq-iosched.c:604:7: note: Assuming field 'on_st_or_in_serv' is tr=
+ue
+                   if (!entity->on_st_or_in_serv)
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2984  =
+vim +631 block/bfq-iosched.c
 
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2985  /**
-d0a21265dfb5fa David Rientjes          2011-01-13  2986   * __vmalloc_node_=
-range - allocate virtually contiguous memory
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2987   * @size:		  alloc=
-ation size
-2dca6999eed58d David Miller            2009-09-21  2988   * @align:		  desi=
-red alignment
-d0a21265dfb5fa David Rientjes          2011-01-13  2989   * @start:		  vm a=
-rea range start
-d0a21265dfb5fa David Rientjes          2011-01-13  2990   * @end:		  vm are=
-a range end
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2991   * @gfp_mask:		  f=
-lags for the page level allocator
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2992   * @prot:		  prote=
-ction mask for the allocated pages
-cb9e3c292d0115 Andrey Ryabinin         2015-02-13  2993   * @vm_flags:		  a=
-dditional vm area flags (e.g. %VM_NO_GUARD)
-00ef2d2f84babb David Rientjes          2013-02-22  2994   * @node:		  node =
-to use for allocation or NUMA_NO_NODE
-c85d194bfd2e36 Randy Dunlap            2008-05-01  2995   * @caller:		  cal=
-ler's return address
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2996   *
-^1da177e4c3f41 Linus Torvalds          2005-04-16  2997   * Allocate enough=
- pages to cover @size from the page level
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  2998   * allocator with =
-@gfp_mask flags. Please note that the full set of gfp
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  2999   * flags are not s=
-upported. GFP_KERNEL would be a preferred allocation mode
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3000   * but GFP_NOFS an=
-d GFP_NOIO are supported as well. Zone modifiers are not
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3001   * supported. From=
- the reclaim modifiers__GFP_DIRECT_RECLAIM is required (aka
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3002   * GFP_NOWAIT is n=
-ot supported) and only __GFP_NOFAIL is supported (aka
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3003   * __GFP_NORETRY a=
-nd __GFP_RETRY_MAYFAIL are not supported).
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3004   * __GFP_NOWARN ca=
-n be used to suppress error messages about failures.
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3005   *
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3006   * Map them into c=
-ontiguous kernel virtual space, using a pagetable
-b7d90e7a5ea8d6 Michal Hocko            2021-11-05  3007   * protection of @=
-prot.
-a862f68a8b3600 Mike Rapoport           2019-03-05  3008   *
-a862f68a8b3600 Mike Rapoport           2019-03-05  3009   * Return: the add=
-ress of the area or %NULL on failure
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3010   */
-d0a21265dfb5fa David Rientjes          2011-01-13  3011  void *__vmalloc_no=
-de_range(unsigned long size, unsigned long align,
-d0a21265dfb5fa David Rientjes          2011-01-13  3012  			unsigned long s=
-tart, unsigned long end, gfp_t gfp_mask,
-cb9e3c292d0115 Andrey Ryabinin         2015-02-13  3013  			pgprot_t prot, =
-unsigned long vm_flags, int node,
-cb9e3c292d0115 Andrey Ryabinin         2015-02-13  3014  			const void *cal=
-ler)
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3015  {
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3016  	struct vm_struct =
-*area;
-89219d37a2377c Catalin Marinas         2009-06-11  3017  	void *addr;
-89219d37a2377c Catalin Marinas         2009-06-11  3018  	unsigned long rea=
-l_size =3D size;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3019  	unsigned long rea=
-l_align =3D align;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3020  	unsigned int shif=
-t =3D PAGE_SHIFT;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3021  =
+3d7a7c45e29d5d Jan Kara 2021-11-25  569  =
 
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3022  	if (WARN_ON_ONCE(=
-!size))
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3023  		return NULL;
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3024  =
+3d7a7c45e29d5d Jan Kara 2021-11-25  570  #ifdef CONFIG_BFQ_GROUP_IOSCHED
+3d7a7c45e29d5d Jan Kara 2021-11-25  571  static bool bfqq_request_over_limi=
+t(struct bfq_queue *bfqq, int limit)
+3d7a7c45e29d5d Jan Kara 2021-11-25  572  {
+3d7a7c45e29d5d Jan Kara 2021-11-25  573  	struct bfq_data *bfqd =3D bfqq->b=
+fqd;
+3d7a7c45e29d5d Jan Kara 2021-11-25  574  	struct bfq_entity *entity =3D &bf=
+qq->entity;
+3d7a7c45e29d5d Jan Kara 2021-11-25  575  	struct bfq_entity *inline_entitie=
+s[BFQ_LIMIT_INLINE_DEPTH];
+3d7a7c45e29d5d Jan Kara 2021-11-25  576  	struct bfq_entity **entities =3D =
+inline_entities;
+3d7a7c45e29d5d Jan Kara 2021-11-25  577  	int depth, level;
+3d7a7c45e29d5d Jan Kara 2021-11-25  578  	int class_idx =3D bfqq->ioprio_cl=
+ass - 1;
+3d7a7c45e29d5d Jan Kara 2021-11-25  579  	struct bfq_sched_data *sched_data;
+3d7a7c45e29d5d Jan Kara 2021-11-25  580  	unsigned long wsum;
+3d7a7c45e29d5d Jan Kara 2021-11-25  581  	bool ret =3D false;
+3d7a7c45e29d5d Jan Kara 2021-11-25  582  =
 
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3025  	if ((size >> PAGE=
-_SHIFT) > totalram_pages()) {
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3026  		warn_alloc(gfp_m=
-ask, NULL,
-f4bdfeaf18a44b Uladzislau Rezki (Sony  2021-06-28  3027) 			"vmalloc error:=
- size %lu, exceeds total pages",
-f4bdfeaf18a44b Uladzislau Rezki (Sony  2021-06-28  3028) 			real_size);
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3029  		return NULL;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3030  	}
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3031  =
+3d7a7c45e29d5d Jan Kara 2021-11-25  583  	if (!entity->on_st_or_in_serv)
+3d7a7c45e29d5d Jan Kara 2021-11-25  584  		return false;
+3d7a7c45e29d5d Jan Kara 2021-11-25  585  =
 
-3382bbee0464bf Christophe Leroy        2021-06-30  3032  	if (vmap_allow_hu=
-ge && !(vm_flags & VM_NO_HUGE_VMAP)) {
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3033  		unsigned long si=
-ze_per_node;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3034  =
+3d7a7c45e29d5d Jan Kara 2021-11-25  586  	/* +1 for bfqq entity, root cgrou=
+p not included */
+3d7a7c45e29d5d Jan Kara 2021-11-25  587  	depth =3D bfqg_to_blkg(bfqq_group=
+(bfqq))->blkcg->css.cgroup->level + 1;
+3d7a7c45e29d5d Jan Kara 2021-11-25  588  	if (depth > BFQ_LIMIT_INLINE_DEPT=
+H) {
+3d7a7c45e29d5d Jan Kara 2021-11-25  589  		entities =3D kmalloc_array(depth=
+, sizeof(*entities), GFP_NOIO);
+3d7a7c45e29d5d Jan Kara 2021-11-25  590  		if (!entities)
+3d7a7c45e29d5d Jan Kara 2021-11-25  591  			return false;
+3d7a7c45e29d5d Jan Kara 2021-11-25  592  	}
+3d7a7c45e29d5d Jan Kara 2021-11-25  593  =
 
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3035  		/*
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3036  		 * Try huge page=
-s. Only try for PAGE_KERNEL allocations,
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3037  		 * others like m=
-odules don't yet expect huge pages in
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3038  		 * their allocat=
-ions due to apply_to_page_range not
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3039  		 * supporting th=
-em.
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3040  		 */
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3041  =
-
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3042  		size_per_node =
-=3D size;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3043  		if (node =3D=3D =
-NUMA_NO_NODE)
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3044  			size_per_node /=
-=3D num_online_nodes();
-3382bbee0464bf Christophe Leroy        2021-06-30  3045  		if (arch_vmap_pm=
-d_supported(prot) && size_per_node >=3D PMD_SIZE)
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3046  			shift =3D PMD_S=
-HIFT;
-3382bbee0464bf Christophe Leroy        2021-06-30  3047  		else
-3382bbee0464bf Christophe Leroy        2021-06-30  3048  			shift =3D arch_=
-vmap_pte_supported_shift(size_per_node);
-3382bbee0464bf Christophe Leroy        2021-06-30  3049  =
-
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3050  		align =3D max(re=
-al_align, 1UL << shift);
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3051  		size =3D ALIGN(r=
-eal_size, 1UL << shift);
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3052  	}
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3053  =
-
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3054  again:
-7ca3027b726be6 Daniel Axtens           2021-06-24  3055  	area =3D __get_vm=
-_area_node(real_size, align, shift, VM_ALLOC |
-7ca3027b726be6 Daniel Axtens           2021-06-24  3056  				  VM_UNINITIAL=
-IZED | vm_flags, start, end, node,
-7ca3027b726be6 Daniel Axtens           2021-06-24  3057  				  gfp_mask, ca=
-ller);
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3058  	if (!area) {
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3059  		warn_alloc(gfp_m=
-ask, NULL,
-f4bdfeaf18a44b Uladzislau Rezki (Sony  2021-06-28  3060) 			"vmalloc error:=
- size %lu, vm_struct allocation failed",
-f4bdfeaf18a44b Uladzislau Rezki (Sony  2021-06-28  3061) 			real_size);
-de7d2b567d040e Joe Perches             2011-10-31  3062  		goto fail;
-d70bec8cc95ad3 Nicholas Piggin         2021-04-29  3063  	}
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3064  =
-
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3065  	addr =3D __vmallo=
-c_area_node(area, gfp_mask, prot, shift, node);
-1368edf0647ac1 Mel Gorman              2011-12-08  3066  	if (!addr)
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3067  		goto fail;
-89219d37a2377c Catalin Marinas         2009-06-11  3068  =
-
-f5252e009d5b87 Mitsuo Hayasaka         2011-10-31  3069  	/*
-20fc02b477c526 Zhang Yanfei            2013-07-08  3070  	 * In this functi=
-on, newly allocated vm_struct has VM_UNINITIALIZED
-20fc02b477c526 Zhang Yanfei            2013-07-08  3071  	 * flag. It means=
- that vm_struct is not fully initialized.
-4341fa454796b8 Joonsoo Kim             2013-04-29  3072  	 * Now, it is ful=
-ly initialized, so remove this flag here.
-f5252e009d5b87 Mitsuo Hayasaka         2011-10-31  3073  	 */
-20fc02b477c526 Zhang Yanfei            2013-07-08  3074  	clear_vm_uninitia=
-lized_flag(area);
-f5252e009d5b87 Mitsuo Hayasaka         2011-10-31  3075  =
-
-7ca3027b726be6 Daniel Axtens           2021-06-24  3076  	size =3D PAGE_ALI=
-GN(size);
-f61bc9ffcab168 Kefeng Wang             2021-11-25 @3077  	if (!(vm_flags & =
-VM_DEFER_KMEMLEAK))
-94f4a1618b4c2b Catalin Marinas         2017-07-06  3078  		kmemleak_vmalloc=
-(area, size, gfp_mask);
-89219d37a2377c Catalin Marinas         2009-06-11  3079  =
-
-89219d37a2377c Catalin Marinas         2009-06-11  3080  	return addr;
-de7d2b567d040e Joe Perches             2011-10-31  3081  =
-
-de7d2b567d040e Joe Perches             2011-10-31  3082  fail:
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3083  	if (shift > PAGE_=
-SHIFT) {
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3084  		shift =3D PAGE_S=
-HIFT;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3085  		align =3D real_a=
-lign;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3086  		size =3D real_si=
-ze;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3087  		goto again;
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3088  	}
-121e6f3258fe39 Nicholas Piggin         2021-04-29  3089  =
-
-de7d2b567d040e Joe Perches             2011-10-31  3090  	return NULL;
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3091  }
-^1da177e4c3f41 Linus Torvalds          2005-04-16  3092  =
+3d7a7c45e29d5d Jan Kara 2021-11-25  594  	spin_lock_irq(&bfqd->lock);
+3d7a7c45e29d5d Jan Kara 2021-11-25  595  	sched_data =3D entity->sched_data;
+3d7a7c45e29d5d Jan Kara 2021-11-25  596  	/* Gather our ancestors as we nee=
+d to traverse them in reverse order */
+3d7a7c45e29d5d Jan Kara 2021-11-25  597  	level =3D 0;
+3d7a7c45e29d5d Jan Kara 2021-11-25  598  	for_each_entity(entity) {
+3d7a7c45e29d5d Jan Kara 2021-11-25  599  		/*
+3d7a7c45e29d5d Jan Kara 2021-11-25  600  		 * If at some level entity is no=
+t even active, allow request
+3d7a7c45e29d5d Jan Kara 2021-11-25  601  		 * queueing so that BFQ knows th=
+ere's work to do and activate
+3d7a7c45e29d5d Jan Kara 2021-11-25  602  		 * entities.
+3d7a7c45e29d5d Jan Kara 2021-11-25  603  		 */
+3d7a7c45e29d5d Jan Kara 2021-11-25  604  		if (!entity->on_st_or_in_serv)
+3d7a7c45e29d5d Jan Kara 2021-11-25  605  			goto out;
+3d7a7c45e29d5d Jan Kara 2021-11-25  606  		/* Uh, more parents than cgroup =
+subsystem thinks? */
+3d7a7c45e29d5d Jan Kara 2021-11-25  607  		if (WARN_ON_ONCE(level >=3D dept=
+h))
+3d7a7c45e29d5d Jan Kara 2021-11-25  608  			break;
+3d7a7c45e29d5d Jan Kara 2021-11-25  609  		entities[level++] =3D entity;
+3d7a7c45e29d5d Jan Kara 2021-11-25  610  	}
+3d7a7c45e29d5d Jan Kara 2021-11-25  611  	WARN_ON_ONCE(level !=3D depth);
+3d7a7c45e29d5d Jan Kara 2021-11-25  612  	for (level--; level >=3D 0; level=
+--) {
+3d7a7c45e29d5d Jan Kara 2021-11-25  613  		entity =3D entities[level];
+3d7a7c45e29d5d Jan Kara 2021-11-25  614  		if (level > 0) {
+3d7a7c45e29d5d Jan Kara 2021-11-25  615  			wsum =3D bfq_entity_service_tre=
+e(entity)->wsum;
+3d7a7c45e29d5d Jan Kara 2021-11-25  616  		} else {
+3d7a7c45e29d5d Jan Kara 2021-11-25  617  			int i;
+3d7a7c45e29d5d Jan Kara 2021-11-25  618  			/*
+3d7a7c45e29d5d Jan Kara 2021-11-25  619  			 * For bfqq itself we take into=
+ account service trees
+3d7a7c45e29d5d Jan Kara 2021-11-25  620  			 * of all higher priority class=
+es and multiply their
+3d7a7c45e29d5d Jan Kara 2021-11-25  621  			 * weights so that low prio que=
+ue from higher class
+3d7a7c45e29d5d Jan Kara 2021-11-25  622  			 * gets more requests than high=
+ prio queue from lower
+3d7a7c45e29d5d Jan Kara 2021-11-25  623  			 * class.
+3d7a7c45e29d5d Jan Kara 2021-11-25  624  			 */
+3d7a7c45e29d5d Jan Kara 2021-11-25  625  			wsum =3D 0;
+3d7a7c45e29d5d Jan Kara 2021-11-25  626  			for (i =3D 0; i <=3D class_idx;=
+ i++) {
+3d7a7c45e29d5d Jan Kara 2021-11-25  627  				wsum =3D wsum * IOPRIO_BE_NR +
+3d7a7c45e29d5d Jan Kara 2021-11-25  628  					sched_data->service_tree[i].w=
+sum;
+3d7a7c45e29d5d Jan Kara 2021-11-25  629  			}
+3d7a7c45e29d5d Jan Kara 2021-11-25  630  		}
+3d7a7c45e29d5d Jan Kara 2021-11-25 @631  		limit =3D DIV_ROUND_CLOSEST(limi=
+t * entity->weight, wsum);
+3d7a7c45e29d5d Jan Kara 2021-11-25  632  		if (entity->allocated >=3D limit=
+) {
+3d7a7c45e29d5d Jan Kara 2021-11-25  633  			bfq_log_bfqq(bfqq->bfqd, bfqq,
+3d7a7c45e29d5d Jan Kara 2021-11-25  634  				"too many requests: allocated =
+%d limit %d level %d",
+3d7a7c45e29d5d Jan Kara 2021-11-25  635  				entity->allocated, limit, leve=
+l);
+3d7a7c45e29d5d Jan Kara 2021-11-25  636  			ret =3D true;
+3d7a7c45e29d5d Jan Kara 2021-11-25  637  			break;
+3d7a7c45e29d5d Jan Kara 2021-11-25  638  		}
+3d7a7c45e29d5d Jan Kara 2021-11-25  639  	}
+3d7a7c45e29d5d Jan Kara 2021-11-25  640  out:
+3d7a7c45e29d5d Jan Kara 2021-11-25  641  	spin_unlock_irq(&bfqd->lock);
+3d7a7c45e29d5d Jan Kara 2021-11-25  642  	if (entities !=3D inline_entities)
+3d7a7c45e29d5d Jan Kara 2021-11-25  643  		kfree(entities);
+3d7a7c45e29d5d Jan Kara 2021-11-25  644  	return ret;
+3d7a7c45e29d5d Jan Kara 2021-11-25  645  }
+3d7a7c45e29d5d Jan Kara 2021-11-25  646  #else
+3d7a7c45e29d5d Jan Kara 2021-11-25  647  static bool bfqq_request_over_limi=
+t(struct bfq_queue *bfqq, int limit)
+3d7a7c45e29d5d Jan Kara 2021-11-25  648  {
+3d7a7c45e29d5d Jan Kara 2021-11-25  649  	return false;
+3d7a7c45e29d5d Jan Kara 2021-11-25  650  }
+3d7a7c45e29d5d Jan Kara 2021-11-25  651  #endif
+3d7a7c45e29d5d Jan Kara 2021-11-25  652  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4724968166369123511==--
+--===============7429523230033238124==--
 
