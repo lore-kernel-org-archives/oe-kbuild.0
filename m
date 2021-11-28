@@ -1,395 +1,374 @@
-Content-Type: multipart/mixed; boundary="===============6438929687736926277=="
+Content-Type: multipart/mixed; boundary="===============5098944437886921418=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwseq.c:765 dcn30_apply_idle_power_optimizations() error: we previously assumed 'stream' could be null (see line 749)
-Date: Sun, 28 Nov 2021 19:58:15 +0800
-Message-ID: <202111281952.f2nmRW94-lkp@intel.com>
+Subject: include/linux/seq_file.h:136:25: warning: Null pointer passed as 1st argument to string length function [clang-analyzer-unix.cstring.NullArg]
+Date: Sun, 28 Nov 2021 19:58:12 +0800
+Message-ID: <202111281932.BFFvMode-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6438929687736926277==
+--===============5098944437886921418==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Bhawanpreet Lakha <Bhawanpreet.Lakha@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Joshua Aberback <joshua.aberback@amd.com>
-CC: Nicholas Kazlauskas <nicholas.kazlauskas@amd.com>
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3498e7f2bb415e447354a3debef6738d9655768c
-commit: ea7154d8d9fb26129f51e4d763febe97a13228a5 drm/amd/display: Update dc=
-n30_apply_idle_power_optimizations() code
-date:   10 months ago
+commit: 372904c080be44629d84bb15ed5e12eed44b5f9f seq_file: move seq_escape(=
+) to a header
+date:   3 weeks ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-m001-20211116 (https://download.01.org/0day-ci/ar=
-chive/20211128/202111281952.f2nmRW94-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-c002-20211123 (https://download.01.org/0day-ci/archi=
+ve/20211128/202111281932.BFFvMode-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 49e383=
+8145dff1ec91c2e67a2cb562775c8d2a08)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D372904c080be44629d84bb15ed5e12eed44b5f9f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 372904c080be44629d84bb15ed5e12eed44b5f9f
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwseq.c:765 dcn30_appl=
-y_idle_power_optimizations() error: we previously assumed 'stream' could be=
- null (see line 749)
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwseq.c:767 dcn30_appl=
-y_idle_power_optimizations() error: we previously assumed 'plane' could be =
-null (see line 749)
 
-Old smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwseq.c:483 dcn30_init=
-_hw() warn: variable dereferenced before check 'res_pool->dccg' (see line 4=
-35)
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwseq.c:636 dcn30_init=
-_hw() error: we previously assumed 'dc->clk_mgr' could be null (see line 43=
-1)
+clang-analyzer warnings: (new ones prefixed by >>)
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/comedi/drivers/das08.c:181:2: warning: Value stored to 'range' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+           range =3D CR_RANGE(insn->chanspec);
+           ^
+   drivers/comedi/drivers/das08.c:181:2: note: Value stored to 'range' is n=
+ever read
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/clocksource/timer-ixp4xx.c:48:8: warning: Excessive padding in '=
+struct ixp4xx_timer' (48 padding bytes, where 16 is optimal). =
 
-vim +/stream +765 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn30/dcn30_hwse=
-q.c
+   Optimal fields order: =
 
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  709  =
+   clkevt, =
 
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  710  bool dcn30_apply_idle_pow=
-er_optimizations(struct dc *dc, bool enable)
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  711  {
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  712  	union dmub_rb_cmd cmd;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  713  	uint32_t tmr_delay =3D 0=
-, tmr_scale =3D 0;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  714  	struct dc_cursor_attribu=
-tes cursor_attr;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  715  	bool cursor_cache_enable=
- =3D false;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  716  	struct dc_stream_state *=
-stream =3D NULL;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  717  	struct dc_plane_state *p=
-lane =3D NULL;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  718  =
+   base, =
 
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  719  	if (!dc->ctx->dmub_srv)
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  720  		return false;
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  721  =
+   latch, =
 
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  722  	if (enable) {
-48e48e59847821 Zhan Liu          2020-08-28  723  		if (dc->current_state) {
-48e48e59847821 Zhan Liu          2020-08-28  724  			int i;
-48e48e59847821 Zhan Liu          2020-08-28  725  =
+   delay_timer, =
 
-48e48e59847821 Zhan Liu          2020-08-28  726  			/* First, check no-mem=
-ory-requests case */
-48e48e59847821 Zhan Liu          2020-08-28  727  			for (i =3D 0; i < dc->=
-current_state->stream_count; i++) {
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  728  				if (dc->current_state=
-->stream_status[i].plane_count)
-48e48e59847821 Zhan Liu          2020-08-28  729  					/* Fail eligibility =
-on a visible stream */
-48e48e59847821 Zhan Liu          2020-08-28  730  					break;
-48e48e59847821 Zhan Liu          2020-08-28  731  			}
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  732  =
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ixp4xx_timer {
+   ~~~~~~~^~~~~~~~~~~~~~
+   drivers/clocksource/timer-ixp4xx.c:48:8: note: Excessive padding in 'str=
+uct ixp4xx_timer' (48 padding bytes, where 16 is optimal). Optimal fields o=
+rder: clkevt, base, latch, delay_timer, consider reordering the fields or a=
+dding explicit padding members
+   struct ixp4xx_timer {
+   ~~~~~~~^~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/iio/gyro/itg3200_core.c:94:3: warning: Value stored to 'ret' is =
+never read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D itg3200_read_reg_s16(indio_dev, reg, val);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/gyro/itg3200_core.c:94:3: note: Value stored to 'ret' is nev=
+er read
+                   ret =3D itg3200_read_reg_s16(indio_dev, reg, val);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+>> include/linux/seq_file.h:136:25: warning: Null pointer passed as 1st arg=
+ument to string length function [clang-analyzer-unix.cstring.NullArg]
+           seq_escape_mem(m, src, strlen(src), flags, esc);
+                                  ^
+   security/selinux/hooks.c:1113:6: note: Assuming the condition is false
+           if (!(sbsec->flags & SE_SBINITIALIZED))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1113:2: note: Taking false branch
+           if (!(sbsec->flags & SE_SBINITIALIZED))
+           ^
+   security/selinux/hooks.c:1116:6: note: Assuming the condition is false
+           if (!selinux_initialized(&selinux_state))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1116:2: note: Taking false branch
+           if (!selinux_initialized(&selinux_state))
+           ^
+   security/selinux/hooks.c:1119:6: note: Assuming the condition is true
+           if (sbsec->flags & FSCONTEXT_MNT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1119:2: note: Taking true branch
+           if (sbsec->flags & FSCONTEXT_MNT) {
+           ^
+   security/selinux/hooks.c:1122:8: note: Calling 'show_sid'
+                   rc =3D show_sid(m, sbsec->sid);
+                        ^~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1092:7: note: Value assigned to 'context'
+           rc =3D security_sid_to_context(&selinux_state, sid,
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1094:6: note: Assuming 'rc' is 0
+           if (!rc) {
+               ^~~
+   security/selinux/hooks.c:1094:2: note: Taking true branch
+           if (!rc) {
+           ^
+   security/selinux/hooks.c:1095:20: note: Assuming 'context' is null
+                   bool has_comma =3D context && strchr(context, ',');
+                                    ^~~~~~~
+   security/selinux/hooks.c:1095:28: note: Left side of '&&' is false
+                   bool has_comma =3D context && strchr(context, ',');
+                                            ^
+   security/selinux/hooks.c:1098:7: note: 'has_comma' is false
+                   if (has_comma)
+                       ^~~~~~~~~
+   security/selinux/hooks.c:1098:3: note: Taking false branch
+                   if (has_comma)
+                   ^
+   security/selinux/hooks.c:1100:17: note: Passing null pointer value via 2=
+nd parameter 's'
+                   seq_escape(m, context, "\"\n\\");
+                                 ^~~~~~~
+   security/selinux/hooks.c:1100:3: note: Calling 'seq_escape'
+                   seq_escape(m, context, "\"\n\\");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:152:20: note: Passing null pointer value via 2n=
+d parameter 'src'
+           seq_escape_str(m, s, ESCAPE_OCTAL, esc);
+                             ^
+   include/linux/seq_file.h:152:2: note: Calling 'seq_escape_str'
+           seq_escape_str(m, s, ESCAPE_OCTAL, esc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:136:25: note: Null pointer passed as 1st argume=
+nt to string length function
+           seq_escape_mem(m, src, strlen(src), flags, esc);
+                                  ^      ~~~
+   security/selinux/hooks.c:6606:3: warning: Value stored to 'error' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   error =3D -EPERM;
+                   ^       ~~~~~~
+   security/selinux/hooks.c:6606:3: note: Value stored to 'error' is never =
+read
+                   error =3D -EPERM;
+                   ^       ~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  733  			if (i =3D=3D dc->curre=
-nt_state->stream_count) {
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  734  				/* Enable no-memory-r=
-equests case */
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  735  				memset(&cmd, 0, sizeo=
-f(cmd));
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  736  				cmd.mall.header.type =
-=3D DMUB_CMD__MALL;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  737  				cmd.mall.header.sub_t=
-ype =3D DMUB_CMD__MALL_ACTION_NO_DF_REQ;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  738  				cmd.mall.header.paylo=
-ad_bytes =3D sizeof(cmd.mall) - sizeof(cmd.mall.header);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  739  =
+vim +136 include/linux/seq_file.h
 
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  740  				dc_dmub_srv_cmd_queue=
-(dc->ctx->dmub_srv, &cmd);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  741  				dc_dmub_srv_cmd_execu=
-te(dc->ctx->dmub_srv);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  742  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  115  =
 
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  743  				return true;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  744  			}
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  745  =
+6798a8caaf64fa Joe Perches     2015-09-11  116  __printf(2, 0)
+6798a8caaf64fa Joe Perches     2015-09-11  117  void seq_vprintf(struct seq=
+_file *m, const char *fmt, va_list args);
+6798a8caaf64fa Joe Perches     2015-09-11  118  __printf(2, 3)
+6798a8caaf64fa Joe Perches     2015-09-11  119  void seq_printf(struct seq_=
+file *m, const char *fmt, ...);
+6798a8caaf64fa Joe Perches     2015-09-11  120  void seq_putc(struct seq_fi=
+le *m, char c);
+6798a8caaf64fa Joe Perches     2015-09-11  121  void seq_puts(struct seq_fi=
+le *m, const char *s);
+d1be35cb6f9697 Andrei Vagin    2018-04-10  122  void seq_put_decimal_ull_wi=
+dth(struct seq_file *m, const char *delimiter,
+d1be35cb6f9697 Andrei Vagin    2018-04-10  123  			       unsigned long lon=
+g num, unsigned int width);
+75ba1d07fd6a49 Joe Perches     2016-10-07  124  void seq_put_decimal_ull(st=
+ruct seq_file *m, const char *delimiter,
+6798a8caaf64fa Joe Perches     2015-09-11  125  			 unsigned long long num);
+75ba1d07fd6a49 Joe Perches     2016-10-07  126  void seq_put_decimal_ll(str=
+uct seq_file *m, const char *delimiter, long long num);
+0e3dc019143104 Andrei Vagin    2018-04-10  127  void seq_put_hex_ll(struct =
+seq_file *m, const char *delimiter,
+0e3dc019143104 Andrei Vagin    2018-04-10  128  		    unsigned long long v,=
+ unsigned int width);
+0e3dc019143104 Andrei Vagin    2018-04-10  129  =
 
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  746  			stream =3D dc->current=
-_state->streams[0];
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  747  			plane =3D (stream ? dc=
-->current_state->stream_status[0].plane_states[0] : NULL);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  748  =
+1d31aa172a4e67 Andy Shevchenko 2021-06-30  130  void seq_escape_mem(struct =
+seq_file *m, const char *src, size_t len,
+1d31aa172a4e67 Andy Shevchenko 2021-06-30  131  		    unsigned int flags, c=
+onst char *esc);
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  132  =
 
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19 @749  			if (stream && plane) {
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  750  				cursor_cache_enable =
-=3D stream->cursor_position.enable &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  751  						plane->address.grph=
-.cursor_cache_addr.quad_part;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  752  				cursor_attr =3D strea=
-m->cursor_attributes;
-a87a9a73d0e283 Alex Deucher      2020-10-26  753  			}
-a87a9a73d0e283 Alex Deucher      2020-10-26  754  =
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  133  static inline void seq_esca=
+pe_str(struct seq_file *m, const char *src,
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  134  				  unsigned int flags, c=
+onst char *esc)
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  135  {
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30 @136  	seq_escape_mem(m, src, str=
+len(src), flags, esc);
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  137  }
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  138  =
 
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  755  			/*
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  756  			 * Second, check MALL =
-eligibility
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  757  			 *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  758  			 * single display only=
-, single surface only, 8 and 16 bit formats only, no VM,
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  759  			 * do not use MALL for=
- displays that support PSR as they use D0i3.2 in DMCUB FW
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  760  			 *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  761  			 * TODO: When we imple=
-ment multi-display, PSR displays will be allowed if there is
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  762  			 * a non-PSR display p=
-resent, since in that case we can't do D0i3.2
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  763  			 */
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  764  			if (dc->current_state-=
->stream_count =3D=3D 1 &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19 @765  					stream->link->psr_se=
-ttings.psr_version =3D=3D DC_PSR_VERSION_UNSUPPORTED &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  766  					dc->current_state->s=
-tream_status[0].plane_count =3D=3D 1 &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19 @767  					plane->format <=3D S=
-URFACE_PIXEL_FORMAT_GRPH_ABGR16161616F &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  768  					plane->format >=3D S=
-URFACE_PIXEL_FORMAT_GRPH_ARGB8888 &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  769  					plane->address.page_=
-table_base.quad_part =3D=3D 0 &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  770  					dc->hwss.does_plane_=
-fit_in_mall &&
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  771  					dc->hwss.does_plane_=
-fit_in_mall(dc, plane,
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  772  							cursor_cache_enabl=
-e ? &cursor_attr : NULL)) {
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  773  				unsigned int v_total =
-=3D stream->adjust.v_total_max ?
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  774  						stream->adjust.v_to=
-tal_max : stream->timing.v_total;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  775  				unsigned int refresh_=
-hz =3D (unsigned long long) stream->timing.pix_clk_100hz *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  776  						100LL /	(v_total * =
-stream->timing.h_total);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  777  =
 
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  778  				/*
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  779  				 * one frame time in =
-microsec:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  780  				 * Delay_Us =3D 10000=
-00 / refresh
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  781  				 * dynamic_delay_us =
-=3D 1000000 / refresh + 2 * stutter_period
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  782  				 *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  783  				 * one frame time mod=
-ified by 'additional timer percent' (p):
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  784  				 * Delay_Us_modified =
-=3D dynamic_delay_us + dynamic_delay_us * p / 100
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  785  				 *                   =
-=3D dynamic_delay_us * (1 + p / 100)
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  786  				 *                   =
-=3D (1000000 / refresh + 2 * stutter_period) * (100 + p) / 100
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  787  				 *                   =
-=3D (1000000 + 2 * stutter_period * refresh) * (100 + p) / (100 * refresh)
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  788  				 *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  789  				 * formula for timer =
-duration based on parameters, from regspec:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  790  				 * dynamic_delay_us =
-=3D 65.28 * (64 + MallFrameCacheTmrDly) * 2^MallFrameCacheTmrScale
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  791  				 *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  792  				 * dynamic_delay_us /=
- 65.28 =3D (64 + MallFrameCacheTmrDly) * 2^MallFrameCacheTmrScale
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  793  				 * (dynamic_delay_us =
-/ 65.28) / 2^MallFrameCacheTmrScale =3D 64 + MallFrameCacheTmrDly
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  794  				 * MallFrameCacheTmrD=
-ly =3D ((dynamic_delay_us / 65.28) / 2^MallFrameCacheTmrScale) - 64
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  795  				 *                   =
-   =3D (1000000 + 2 * stutter_period * refresh) * (100 + p) / (100 * refres=
-h) / 65.28 / 2^MallFrameCacheTmrScale - 64
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  796  				 *                   =
-   =3D (1000000 + 2 * stutter_period * refresh) * (100 + p) / (refresh * 65=
-28 * 2^MallFrameCacheTmrScale) - 64
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  797  				 *
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  798  				 * need to round up t=
-he result of the division before the subtraction
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  799  				 */
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  800  				unsigned int denom =
-=3D refresh_hz * 6528;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  801  				unsigned int stutter_=
-period =3D dc->current_state->perf_params.stutter_period_us;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  802  =
+:::::: The code at line 136 was first introduced by commit
+:::::: e7ed4a3b922b04d2042cd2e19d1096fa457b6c11 seq_file: add seq_escape_st=
+r() as replica of string_escape_str()
 
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  803  				tmr_delay =3D (((1000=
-000LL + 2 * stutter_period * refresh_hz) *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  804  						(100LL + dc->debug.=
-mall_additional_timer_percent) + denom - 1) /
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  805  						denom) - 64LL;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  806  =
-
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  807  				/* scale should be in=
-creased until it fits into 6 bits */
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  808  				while (tmr_delay & ~0=
-x3F) {
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  809  					tmr_scale++;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  810  =
-
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  811  					if (tmr_scale > 3) {
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  812  						/* Delay exceeds ra=
-nge of hysteresis timer */
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  813  						ASSERT(false);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  814  						return false;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  815  					}
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  816  =
-
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  817  					denom *=3D 2;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  818  					tmr_delay =3D (((100=
-0000LL + 2 * stutter_period * refresh_hz) *
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  819  							(100LL + dc->debug=
-.mall_additional_timer_percent) + denom - 1) /
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  820  							denom) - 64LL;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  821  				}
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  822  =
-
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  823  				/* Copy HW cursor */
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  824  				if (cursor_cache_enab=
-le) {
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  825  					memset(&cmd, 0, size=
-of(cmd));
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  826  					cmd.mall.header.type=
- =3D DMUB_CMD__MALL;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  827  					cmd.mall.header.sub_=
-type =3D DMUB_CMD__MALL_ACTION_COPY_CURSOR;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  828  					cmd.mall.header.payl=
-oad_bytes =3D
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  829  							sizeof(cmd.mall) -=
- sizeof(cmd.mall.header);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  830  =
-
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  831  					switch (cursor_attr.=
-color_format) {
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  832  					case CURSOR_MODE_MON=
-O:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  833  						cmd.mall.cursor_bpp=
- =3D 2;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  834  						break;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  835  					case CURSOR_MODE_COL=
-OR_1BIT_AND:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  836  					case CURSOR_MODE_COL=
-OR_PRE_MULTIPLIED_ALPHA:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  837  					case CURSOR_MODE_COL=
-OR_UN_PRE_MULTIPLIED_ALPHA:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  838  						cmd.mall.cursor_bpp=
- =3D 32;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  839  						break;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  840  =
-
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  841  					case CURSOR_MODE_COL=
-OR_64BIT_FP_PRE_MULTIPLIED:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  842  					case CURSOR_MODE_COL=
-OR_64BIT_FP_UN_PRE_MULTIPLIED:
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  843  						cmd.mall.cursor_bpp=
- =3D 64;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  844  						break;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  845  					}
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  846  =
-
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  847  					cmd.mall.cursor_copy=
-_src.quad_part =3D cursor_attr.address.quad_part;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  848  					cmd.mall.cursor_copy=
-_dst.quad_part =3D
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  849  							plane->address.grp=
-h.cursor_cache_addr.quad_part;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  850  					cmd.mall.cursor_widt=
-h =3D cursor_attr.width;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  851  					cmd.mall.cursor_heig=
-ht =3D cursor_attr.height;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  852  					cmd.mall.cursor_pitc=
-h =3D cursor_attr.pitch;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  853  =
-
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  854  					dc_dmub_srv_cmd_queu=
-e(dc->ctx->dmub_srv, &cmd);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  855  					dc_dmub_srv_cmd_exec=
-ute(dc->ctx->dmub_srv);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  856  					dc_dmub_srv_wait_idl=
-e(dc->ctx->dmub_srv);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  857  =
-
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  858  					/* Use copied cursor=
-, and it's okay to not switch back */
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  859  					cursor_attr.address.=
-quad_part =3D
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  860  							plane->address.grp=
-h.cursor_cache_addr.quad_part;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  861  					dc_stream_set_cursor=
-_attributes(stream, &cursor_attr);
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  862  				}
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  863  =
-
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  864  				/* Enable MALL */
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  865  				memset(&cmd, 0, sizeo=
-f(cmd));
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  866  				cmd.mall.header.type =
-=3D DMUB_CMD__MALL;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  867  				cmd.mall.header.sub_t=
-ype =3D DMUB_CMD__MALL_ACTION_ALLOW;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  868  				cmd.mall.header.paylo=
-ad_bytes =3D sizeof(cmd.mall) - sizeof(cmd.mall.header);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  869  				cmd.mall.tmr_delay =
-=3D tmr_delay;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  870  				cmd.mall.tmr_scale =
-=3D tmr_scale;
-ea7154d8d9fb26 Bhawanpreet Lakha 2021-01-19  871  				cmd.mall.debug_bits =
-=3D dc->debug.mall_error_as_fatal;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  872  =
-
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  873  				dc_dmub_srv_cmd_queue=
-(dc->ctx->dmub_srv, &cmd);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  874  				dc_dmub_srv_cmd_execu=
-te(dc->ctx->dmub_srv);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  875  =
-
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  876  				return true;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  877  			}
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  878  		}
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  879  =
-
-48e48e59847821 Zhan Liu          2020-08-28  880  		/* No applicable optimi=
-zations */
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  881  		return false;
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  882  	}
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  883  =
-
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  884  	/* Disable MALL */
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  885  	memset(&cmd, 0, sizeof(c=
-md));
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  886  	cmd.mall.header.type =3D=
- DMUB_CMD__MALL;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  887  	cmd.mall.header.sub_type=
- =3D DMUB_CMD__MALL_ACTION_DISALLOW;
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  888  	cmd.mall.header.payload_=
-bytes =3D
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  889  		sizeof(cmd.mall) - size=
-of(cmd.mall.header);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  890  =
-
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  891  	dc_dmub_srv_cmd_queue(dc=
-->ctx->dmub_srv, &cmd);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  892  	dc_dmub_srv_cmd_execute(=
-dc->ctx->dmub_srv);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  893  	dc_dmub_srv_wait_idle(dc=
-->ctx->dmub_srv);
-52f2e83e2fe559 Bhawanpreet Lakha 2020-05-29  894  =
-
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  895  	return true;
-d99f13878d6f9c Bhawanpreet Lakha 2020-05-21  896  }
-3e19095534caec Joshua Aberback   2020-04-29  897  =
-
+:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6438929687736926277==--
+--===============5098944437886921418==--
 
