@@ -1,96 +1,168 @@
-Content-Type: multipart/mixed; boundary="===============0176945100447888491=="
+Content-Type: multipart/mixed; boundary="===============4256050901900514669=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
-Date: Mon, 29 Nov 2021 01:56:06 +0800
-Message-ID: <202111290130.I9NtLbiV-lkp@intel.com>
+Subject: [driver-core:driver-core-next 1/3] fs/kernfs/dir.c:1331 __kernfs_remove() warn: variable dereferenced before check 'kn' (see line 1324)
+Date: Mon, 29 Nov 2021 01:56:04 +0800
+Message-ID: <202111290125.Pssa2QMU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0176945100447888491==
+--===============4256050901900514669==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: devel(a)driverdev.osuosl.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Michael Zaidman <michael.zaidman@gmail.com>
-CC: Jiri Kosina <jkosina@suse.cz>
+TO: Minchan Kim <minchan@kernel.org>
+CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   3498e7f2bb415e447354a3debef6738d9655768c
-commit: 6a82582d9fa438045191074856f47165334f2777 HID: ft260: add usb hid to=
- i2c host bridge driver
-date:   9 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 9 months ago
-compiler: mipsel-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/driver-core.=
+git driver-core-next
+head:   2043727c2882928a10161ddee52b196b7db402fd
+commit: 393c3714081a53795bbff0e985d24146def6f57f [1/3] kernfs: switch globa=
+l kernfs_rwsem lock to per-fs lock
+:::::: branch date: 32 hours ago
+:::::: commit date: 4 days ago
+config: nios2-randconfig-m031-20211128 (https://download.01.org/0day-ci/arc=
+hive/20211129/202111290125.Pssa2QMU-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+fs/kernfs/dir.c:1331 __kernfs_remove() warn: variable dereferenced before c=
+heck 'kn' (see line 1324)
+
+Old smatch warnings:
+arch/nios2/include/asm/thread_info.h:71 current_thread_info() error: uninit=
+ialized symbol 'sp'.
+
+vim +/kn +1331 fs/kernfs/dir.c
+
+d35258ef702cca Tejun Heo          2014-02-03  1319  =
+
+988cd7afb3f375 Tejun Heo          2014-02-03  1320  static void __kernfs_re=
+move(struct kernfs_node *kn)
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1321  {
+35beab0635f3cd Tejun Heo          2014-02-03  1322  	struct kernfs_node *po=
+s;
+35beab0635f3cd Tejun Heo          2014-02-03  1323  =
+
+393c3714081a53 Minchan Kim        2021-11-18 @1324  	lockdep_assert_held_wr=
+ite(&kernfs_root(kn)->kernfs_rwsem);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1325  =
+
+6b0afc2a21726b Tejun Heo          2014-02-03  1326  	/*
+6b0afc2a21726b Tejun Heo          2014-02-03  1327  	 * Short-circuit if no=
+n-root @kn has already finished removal.
+6b0afc2a21726b Tejun Heo          2014-02-03  1328  	 * This is for kernfs_=
+remove_self() which plays with active ref
+6b0afc2a21726b Tejun Heo          2014-02-03  1329  	 * after removal.
+6b0afc2a21726b Tejun Heo          2014-02-03  1330  	 */
+6b0afc2a21726b Tejun Heo          2014-02-03 @1331  	if (!kn || (kn->parent=
+ && RB_EMPTY_NODE(&kn->rb)))
+ce9b499c9f58d7 Greg Kroah-Hartman 2014-01-13  1332  		return;
+ce9b499c9f58d7 Greg Kroah-Hartman 2014-01-13  1333  =
+
+c637b8acbe079e Tejun Heo          2013-12-11  1334  	pr_debug("kernfs %s: r=
+emoving\n", kn->name);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1335  =
+
+81c173cb5e87fb Tejun Heo          2014-02-03  1336  	/* prevent any new usa=
+ge under @kn by deactivating all nodes */
+35beab0635f3cd Tejun Heo          2014-02-03  1337  	pos =3D NULL;
+35beab0635f3cd Tejun Heo          2014-02-03  1338  	while ((pos =3D kernfs=
+_next_descendant_post(pos, kn)))
+81c173cb5e87fb Tejun Heo          2014-02-03  1339  		if (kernfs_active(pos=
+))
+81c173cb5e87fb Tejun Heo          2014-02-03  1340  			atomic_add(KN_DEACTI=
+VATED_BIAS, &pos->active);
+35beab0635f3cd Tejun Heo          2014-02-03  1341  =
+
+35beab0635f3cd Tejun Heo          2014-02-03  1342  	/* deactivate and unli=
+nk the subtree node-by-node */
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1343  	do {
+35beab0635f3cd Tejun Heo          2014-02-03  1344  		pos =3D kernfs_leftmo=
+st_descendant(kn);
+35beab0635f3cd Tejun Heo          2014-02-03  1345  =
+
+35beab0635f3cd Tejun Heo          2014-02-03  1346  		/*
+7ba0273b2f34a5 Ian Kent           2021-07-16  1347  		 * kernfs_drain() dro=
+ps kernfs_rwsem temporarily and @pos's
+81c173cb5e87fb Tejun Heo          2014-02-03  1348  		 * base ref could hav=
+e been put by someone else by the time
+81c173cb5e87fb Tejun Heo          2014-02-03  1349  		 * the function retur=
+ns.  Make sure it doesn't go away
+81c173cb5e87fb Tejun Heo          2014-02-03  1350  		 * underneath us.
+35beab0635f3cd Tejun Heo          2014-02-03  1351  		 */
+35beab0635f3cd Tejun Heo          2014-02-03  1352  		kernfs_get(pos);
+35beab0635f3cd Tejun Heo          2014-02-03  1353  =
+
+d35258ef702cca Tejun Heo          2014-02-03  1354  		/*
+d35258ef702cca Tejun Heo          2014-02-03  1355  		 * Drain iff @kn was =
+activated.  This avoids draining and
+d35258ef702cca Tejun Heo          2014-02-03  1356  		 * its lockdep annota=
+tions for nodes which have never been
+d35258ef702cca Tejun Heo          2014-02-03  1357  		 * activated and allo=
+ws embedding kernfs_remove() in create
+d35258ef702cca Tejun Heo          2014-02-03  1358  		 * error paths withou=
+t worrying about draining.
+d35258ef702cca Tejun Heo          2014-02-03  1359  		 */
+d35258ef702cca Tejun Heo          2014-02-03  1360  		if (kn->flags & KERNF=
+S_ACTIVATED)
+81c173cb5e87fb Tejun Heo          2014-02-03  1361  			kernfs_drain(pos);
+d35258ef702cca Tejun Heo          2014-02-03  1362  		else
+d35258ef702cca Tejun Heo          2014-02-03  1363  			WARN_ON_ONCE(atomic_=
+read(&kn->active) !=3D KN_DEACTIVATED_BIAS);
+35beab0635f3cd Tejun Heo          2014-02-03  1364  =
+
+35beab0635f3cd Tejun Heo          2014-02-03  1365  		/*
+35beab0635f3cd Tejun Heo          2014-02-03  1366  		 * kernfs_unlink_sibl=
+ing() succeeds once per node.  Use it
+35beab0635f3cd Tejun Heo          2014-02-03  1367  		 * to decide who's re=
+sponsible for cleanups.
+35beab0635f3cd Tejun Heo          2014-02-03  1368  		 */
+35beab0635f3cd Tejun Heo          2014-02-03  1369  		if (!pos->parent || k=
+ernfs_unlink_sibling(pos)) {
+35beab0635f3cd Tejun Heo          2014-02-03  1370  			struct kernfs_iattrs=
+ *ps_iattr =3D
+35beab0635f3cd Tejun Heo          2014-02-03  1371  				pos->parent ? pos->=
+parent->iattr : NULL;
+35beab0635f3cd Tejun Heo          2014-02-03  1372  =
+
+35beab0635f3cd Tejun Heo          2014-02-03  1373  			/* update timestamps=
+ on the parent */
+35beab0635f3cd Tejun Heo          2014-02-03  1374  			if (ps_iattr) {
+05895219627c41 Ondrej Mosnacek    2019-02-22  1375  				ktime_get_real_ts64=
+(&ps_iattr->ia_ctime);
+05895219627c41 Ondrej Mosnacek    2019-02-22  1376  				ps_iattr->ia_mtime =
+=3D ps_iattr->ia_ctime;
+35beab0635f3cd Tejun Heo          2014-02-03  1377  			}
+35beab0635f3cd Tejun Heo          2014-02-03  1378  =
+
+988cd7afb3f375 Tejun Heo          2014-02-03  1379  			kernfs_put(pos);
+35beab0635f3cd Tejun Heo          2014-02-03  1380  		}
+35beab0635f3cd Tejun Heo          2014-02-03  1381  =
+
+35beab0635f3cd Tejun Heo          2014-02-03  1382  		kernfs_put(pos);
+35beab0635f3cd Tejun Heo          2014-02-03  1383  	} while (pos !=3D kn);
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1384  }
+fd7b9f7b9776b1 Tejun Heo          2013-11-28  1385  =
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+:::::: The code at line 1331 was first introduced by commit
+:::::: 6b0afc2a21726b2d6b6aa441af40cafaf5405cc8 kernfs, sysfs, driver-core:=
+ implement kernfs_remove_self() and its wrappers
 
->> drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
-   =
-
-   ^
-
-vim +374 drivers/hid/hid-ft260.c
-
-6a82582d9fa438 Michael Zaidman 2021-02-19  351  =
-
-6a82582d9fa438 Michael Zaidman 2021-02-19  352  static int ft260_hid_output=
-_report_check_status(struct ft260_device *dev,
-6a82582d9fa438 Michael Zaidman 2021-02-19  353  						u8 *data, int len)
-6a82582d9fa438 Michael Zaidman 2021-02-19  354  {
-6a82582d9fa438 Michael Zaidman 2021-02-19  355  	int ret, usec, try =3D 3;
-6a82582d9fa438 Michael Zaidman 2021-02-19  356  	struct hid_device *hdev =
-=3D dev->hdev;
-6a82582d9fa438 Michael Zaidman 2021-02-19  357  =
-
-6a82582d9fa438 Michael Zaidman 2021-02-19  358  	ret =3D ft260_hid_output_r=
-eport(hdev, data, len);
-6a82582d9fa438 Michael Zaidman 2021-02-19  359  	if (ret < 0) {
-6a82582d9fa438 Michael Zaidman 2021-02-19  360  		hid_err(hdev, "%s: failed=
- to start transfer, ret %d\n",
-6a82582d9fa438 Michael Zaidman 2021-02-19  361  			__func__, ret);
-6a82582d9fa438 Michael Zaidman 2021-02-19  362  		ft260_i2c_reset(hdev);
-6a82582d9fa438 Michael Zaidman 2021-02-19  363  		return ret;
-6a82582d9fa438 Michael Zaidman 2021-02-19  364  	}
-6a82582d9fa438 Michael Zaidman 2021-02-19  365  =
-
-6a82582d9fa438 Michael Zaidman 2021-02-19  366  	/* transfer time =3D 1 / c=
-lock(KHz) * 10 bits * bytes */
-6a82582d9fa438 Michael Zaidman 2021-02-19  367  	usec =3D 10000 / dev->cloc=
-k * len;
-6a82582d9fa438 Michael Zaidman 2021-02-19  368  	usleep_range(usec, usec + =
-100);
-6a82582d9fa438 Michael Zaidman 2021-02-19  369  	ft260_dbg("wait %d usec, l=
-en %d\n", usec, len);
-6a82582d9fa438 Michael Zaidman 2021-02-19  370  	do {
-6a82582d9fa438 Michael Zaidman 2021-02-19  371  		ret =3D ft260_xfer_status=
-(dev);
-6a82582d9fa438 Michael Zaidman 2021-02-19  372  		if (ret !=3D -EAGAIN)
-6a82582d9fa438 Michael Zaidman 2021-02-19  373  			break;
-6a82582d9fa438 Michael Zaidman 2021-02-19 @374  	} while (--try);
-6a82582d9fa438 Michael Zaidman 2021-02-19  375  =
-
-6a82582d9fa438 Michael Zaidman 2021-02-19  376  	if (ret =3D=3D 0 || ret =
-=3D=3D -EBUSY)
-6a82582d9fa438 Michael Zaidman 2021-02-19  377  		return 0;
-6a82582d9fa438 Michael Zaidman 2021-02-19  378  =
-
-6a82582d9fa438 Michael Zaidman 2021-02-19  379  	ft260_i2c_reset(hdev);
-6a82582d9fa438 Michael Zaidman 2021-02-19  380  	return -EIO;
-6a82582d9fa438 Michael Zaidman 2021-02-19  381  }
-6a82582d9fa438 Michael Zaidman 2021-02-19  382  =
-
+:::::: TO: Tejun Heo <tj@kernel.org>
+:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0176945100447888491==--
+--===============4256050901900514669==--
 
