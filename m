@@ -1,145 +1,101 @@
-Content-Type: multipart/mixed; boundary="===============6070431373790828830=="
+Content-Type: multipart/mixed; boundary="===============2988882657980900703=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/phy/xilinx/phy-zynqmp.c:941 xpsgtr_get_ref_clocks() warn: 'clk' not released on lines: 941.
-Date: Fri, 03 Dec 2021 09:42:33 +0800
-Message-ID: <202112030907.dMJz5t75-lkp@intel.com>
+Subject: [android-common:android12-5.4 14396/19174] drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffer overflow 'pools' 3 <= 3 (assuming for loop doesn't break)
+Date: Sun, 28 Nov 2021 20:18:36 +0800
+Message-ID: <202111282034.ijpYWeg7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6070431373790828830==
+--===============2988882657980900703==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Manish Narani <manish.narani@xilinx.com>
-CC: Vinod Koul <vkoul@kernel.org>
-CC: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+TO: cros-kernel-buildreports(a)googlegroups.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5f58da2befa58edf3a70b91ed87ed9bf77f1e70e
-commit: 67097754afc90a5def9d54c599d0862fe992f5a0 phy: zynqmp: Handle the cl=
-ock enable/disable properly
-date:   8 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 8 months ago
-config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
-hive/20211203/202112030907.dMJz5t75-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+tree:   https://android.googlesource.com/kernel/common android12-5.4
+head:   0bbc71d87f4dfd294d50875fcc92469938718dbe
+commit: e3919bfeb0066ab9b5f9765e5610b95672990e64 [14396/19174] ANDROID: dma=
+-buf: system_heap: Add deferred freeing to the system heap
+:::::: branch date: 3 days ago
+:::::: commit date: 10 months ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20211128/202111282034.ijpYWeg7-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/phy/xilinx/phy-zynqmp.c:941 xpsgtr_get_ref_clocks() warn: 'clk' not=
- released on lines: 941.
+drivers/dma-buf/heaps/system_heap.c:351 system_heap_buf_free() error: buffe=
+r overflow 'pools' 3 <=3D 3 (assuming for loop doesn't break)
 
-vim +/clk +941 drivers/phy/xilinx/phy-zynqmp.c
+vim +351 drivers/dma-buf/heaps/system_heap.c
 
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  879  =
+44008f99d9ca07 John Stultz 2019-06-06  325  =
 
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  880  /*
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  881   * Probe & Platform Dr=
-iver
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  882   */
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  883  =
+e3919bfeb0066a John Stultz 2020-12-09  326  static void system_heap_buf_fre=
+e(struct deferred_freelist_item *item,
+e3919bfeb0066a John Stultz 2020-12-09  327  				 enum df_reason reason)
+fc004422dadc12 John Stultz 2020-09-25  328  {
+e3919bfeb0066a John Stultz 2020-12-09  329  	struct system_heap_buffer *buf=
+fer;
+fc004422dadc12 John Stultz 2020-09-25  330  	struct sg_table *table;
+fc004422dadc12 John Stultz 2020-09-25  331  	struct scatterlist *sg;
+44008f99d9ca07 John Stultz 2019-06-06  332  	int i, j;
+44008f99d9ca07 John Stultz 2019-06-06  333  =
 
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  884  static int xpsgtr_get_=
-ref_clocks(struct xpsgtr_dev *gtr_dev)
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  885  {
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  886  	unsigned int refclk;
-67097754afc90a Manish Narani        2021-03-24  887  	int ret;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  888  =
+e3919bfeb0066a John Stultz 2020-12-09  334  	buffer =3D container_of(item, =
+struct system_heap_buffer, deferred_free);
+44008f99d9ca07 John Stultz 2019-06-06  335  	/* Zero the buffer pages befor=
+e adding back to the pool */
+e3919bfeb0066a John Stultz 2020-12-09  336  	if (reason =3D=3D DF_NORMAL)
+e3919bfeb0066a John Stultz 2020-12-09  337  		if (system_heap_zero_buffer(b=
+uffer))
+e3919bfeb0066a John Stultz 2020-12-09  338  			reason =3D DF_UNDER_PRESSURE=
+; // On failure, just free
+fc004422dadc12 John Stultz 2020-09-25  339  =
 
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  889  	for (refclk =3D 0; re=
-fclk < ARRAY_SIZE(gtr_dev->refclk_sscs); ++refclk) {
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  890  		unsigned long rate;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  891  		unsigned int i;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  892  		struct clk *clk;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  893  		char name[8];
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  894  =
+fc004422dadc12 John Stultz 2020-09-25  340  	table =3D &buffer->sg_table;
+703f43c5810e08 John Stultz 2020-09-26  341  	for_each_sg(table->sgl, sg, ta=
+ble->nents, i) {
+703f43c5810e08 John Stultz 2020-09-26  342  		struct page *page =3D sg_page=
+(sg);
+703f43c5810e08 John Stultz 2020-09-26  343  =
 
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  895  		snprintf(name, sizeo=
-f(name), "ref%u", refclk);
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  896  		clk =3D devm_clk_get=
-_optional(gtr_dev->dev, name);
-67097754afc90a Manish Narani        2021-03-24  897  		if (IS_ERR(clk)) {
-67097754afc90a Manish Narani        2021-03-24  898  			ret =3D dev_err_pro=
-be(gtr_dev->dev, PTR_ERR(clk),
-3dbbc8e97cb267 Michal Simek         2021-02-04  899  					    "Failed to ge=
-t reference clock %u\n",
-3dbbc8e97cb267 Michal Simek         2021-02-04  900  					    refclk);
-67097754afc90a Manish Narani        2021-03-24  901  			goto err_clk_put;
-67097754afc90a Manish Narani        2021-03-24  902  		}
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  903  =
+e3919bfeb0066a John Stultz 2020-12-09  344  		if (reason =3D=3D DF_UNDER_PR=
+ESSURE) {
+e3919bfeb0066a John Stultz 2020-12-09  345  			__free_pages(page, compound_=
+order(page));
+e3919bfeb0066a John Stultz 2020-12-09  346  		} else {
+44008f99d9ca07 John Stultz 2019-06-06  347  			for (j =3D 0; j < NUM_ORDERS=
+; j++) {
+44008f99d9ca07 John Stultz 2019-06-06  348  				if (compound_order(page) =
+=3D=3D orders[j])
+44008f99d9ca07 John Stultz 2019-06-06  349  					break;
+44008f99d9ca07 John Stultz 2019-06-06  350  			}
+44008f99d9ca07 John Stultz 2019-06-06 @351  			dmabuf_page_pool_free(pools[=
+j], page);
+703f43c5810e08 John Stultz 2020-09-26  352  		}
+e3919bfeb0066a John Stultz 2020-12-09  353  	}
+fc004422dadc12 John Stultz 2020-09-25  354  	sg_free_table(table);
+c02e6ccc5a4aab John Stultz 2019-12-03  355  	kfree(buffer);
+c02e6ccc5a4aab John Stultz 2019-12-03  356  }
+c02e6ccc5a4aab John Stultz 2019-12-03  357  =
 
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  904  		if (!clk)
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  905  			continue;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  906  =
 
-67097754afc90a Manish Narani        2021-03-24  907  		ret =3D clk_prepare_=
-enable(clk);
-67097754afc90a Manish Narani        2021-03-24  908  		if (ret)
-67097754afc90a Manish Narani        2021-03-24  909  			goto err_clk_put;
-67097754afc90a Manish Narani        2021-03-24  910  =
+:::::: The code@line 351 was first introduced by commit
+:::::: 44008f99d9ca0793e2562967e1da01fa74ee4a41 ANDROID: dma-buf: system_he=
+ap: Add pagepool support to system heap
 
-67097754afc90a Manish Narani        2021-03-24  911  		gtr_dev->clk[refclk]=
- =3D clk;
-67097754afc90a Manish Narani        2021-03-24  912  =
-
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  913  		/*
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  914  		 * Get the spread sp=
-ectrum (SSC) settings for the reference
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  915  		 * clock rate.
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  916  		 */
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  917  		rate =3D clk_get_rat=
-e(clk);
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  918  =
-
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  919  		for (i =3D 0 ; i < A=
-RRAY_SIZE(ssc_lookup); i++) {
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  920  			if (rate =3D=3D ssc=
-_lookup[i].refclk_rate) {
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  921  				gtr_dev->refclk_ss=
-cs[refclk] =3D &ssc_lookup[i];
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  922  				break;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  923  			}
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  924  		}
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  925  =
-
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  926  		if (i =3D=3D ARRAY_S=
-IZE(ssc_lookup)) {
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  927  			dev_err(gtr_dev->de=
-v,
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  928  				"Invalid rate %lu =
-for reference clock %u\n",
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  929  				rate, refclk);
-67097754afc90a Manish Narani        2021-03-24  930  			ret =3D -EINVAL;
-67097754afc90a Manish Narani        2021-03-24  931  			goto err_clk_put;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  932  		}
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  933  	}
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  934  =
-
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  935  	return 0;
-67097754afc90a Manish Narani        2021-03-24  936  =
-
-67097754afc90a Manish Narani        2021-03-24  937  err_clk_put:
-67097754afc90a Manish Narani        2021-03-24  938  	while (refclk--)
-67097754afc90a Manish Narani        2021-03-24  939  		clk_disable_unprepar=
-e(gtr_dev->clk[refclk]);
-67097754afc90a Manish Narani        2021-03-24  940  =
-
-67097754afc90a Manish Narani        2021-03-24 @941  	return ret;
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  942  }
-4a33bea003144e Anurag Kumar Vulisha 2020-06-29  943  =
-
+:::::: TO: John Stultz <john.stultz@linaro.org>
+:::::: CC: John Stultz <john.stultz@linaro.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6070431373790828830==--
+--===============2988882657980900703==--
 
