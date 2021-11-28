@@ -1,439 +1,262 @@
-Content-Type: multipart/mixed; boundary="===============0504661783274678920=="
+Content-Type: multipart/mixed; boundary="===============5478233157837926061=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2016/3897] drivers/net/usb/lan78xx.c:3794:2: warning: Value stored to 'state' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 28 Nov 2021 13:08:25 +0800
-Message-ID: <202111281304.IyMicb1U-lkp@intel.com>
+Subject: fs/btrfs/zoned.c:1072 btrfs_load_block_group_zone_info() error: uninitialized symbol 'ret'.
+Date: Sun, 28 Nov 2021 12:27:41 +0800
+Message-ID: <202111281205.4YuM17PU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0504661783274678920==
+--===============5478233157837926061==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: John Efstathiades <john.efstathiades@pebblebay.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Naohiro Aota <naohiro.aota@wdc.com>
+CC: David Sterba <dsterba@suse.com>
+CC: Josef Bacik <josef@toxicpanda.com>
+CC: Anand Jain <anand.jain@oracle.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   f30a24ed97b401416118756fa35fbe5d28f999e3
-commit: c450a8eb187a4d7ebe92e0afec54ac31ce403e79 [2016/3897] lan78xx: Intro=
-duce Rx URB processing improvements
-:::::: branch date: 2 days ago
-:::::: commit date: 10 days ago
-config: riscv-randconfig-c006-20211122 (https://download.01.org/0day-ci/arc=
-hive/20211128/202111281304.IyMicb1U-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c133fb=
-321f7ca6083ce15b6aa5bf89de6600e649)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Dc450a8eb187a4d7ebe92e0afec54ac31ce403e79
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout c450a8eb187a4d7ebe92e0afec54ac31ce403e79
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   3498e7f2bb415e447354a3debef6738d9655768c
+commit: 08e11a3db098f4ba0cfee46d7ab449cba43dea1b btrfs: zoned: load zone's =
+allocation offset
+date:   10 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-m001-20211116 (https://download.01.org/0day-ci/ar=
+chive/20211128/202111281205.4YuM17PU-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/btrfs/zoned.c:1072 btrfs_load_block_group_zone_info() error: uninitializ=
+ed symbol 'ret'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                             ^
-   drivers/net/usb/lan78xx.c:2938:3: note: Taking false branch
-                   if (time_after(jiffies, timeout)) {
-                   ^
-   drivers/net/usb/lan78xx.c:2932:2: note: Loop condition is false.  Exitin=
-g loop
-           do {
-           ^
-   drivers/net/usb/lan78xx.c:2946:2: note: Calling 'lan78xx_init_mac_addres=
-s'
-           lan78xx_init_mac_address(dev);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:1941:15: note: 'addr_hi' declared without an i=
-nitial value
-           u32 addr_lo, addr_hi;
-                        ^~~~~~~
-   drivers/net/usb/lan78xx.c:1945:2: note: Calling 'lan78xx_read_reg'
-           lan78xx_read_reg(dev, RX_ADDRH, &addr_hi);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:612:2: note: Taking false branch
-           if (test_bit(EVENT_DEV_DISCONNECT, &dev->flags))
-           ^
-   drivers/net/usb/lan78xx.c:616:6: note: Assuming 'buf' is null
-           if (!buf)
-               ^~~~
-   drivers/net/usb/lan78xx.c:616:2: note: Taking true branch
-           if (!buf)
-           ^
-   drivers/net/usb/lan78xx.c:617:3: note: Returning without writing to '*da=
-ta'
-                   return -ENOMEM;
-                   ^
-   drivers/net/usb/lan78xx.c:1945:2: note: Returning from 'lan78xx_read_reg'
-           lan78xx_read_reg(dev, RX_ADDRH, &addr_hi);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:1951:20: note: The left operand of '&' is a ga=
-rbage value
-           addr[4] =3D addr_hi & 0xFF;
-                     ~~~~~~~ ^
-   drivers/net/usb/lan78xx.c:2008:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D lan78xx_write_reg(dev, MII_ACC, addr);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2008:2: note: Value stored to 'ret' is never r=
-ead
-           ret =3D lan78xx_write_reg(dev, MII_ACC, addr);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2014:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D lan78xx_read_reg(dev, MII_DATA, &val);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2014:2: note: Value stored to 'ret' is never r=
-ead
-           ret =3D lan78xx_read_reg(dev, MII_DATA, &val);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2044:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D lan78xx_write_reg(dev, MII_DATA, val);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2044:2: note: Value stored to 'ret' is never r=
-ead
-           ret =3D lan78xx_write_reg(dev, MII_DATA, val);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2048:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D lan78xx_write_reg(dev, MII_ACC, addr);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2048:2: note: Value stored to 'ret' is never r=
-ead
-           ret =3D lan78xx_write_reg(dev, MII_ACC, addr);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2136:3: warning: Value stored to 'temp' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                   temp =3D phy_read(phydev, LAN88XX_INT_STS);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2136:3: note: Value stored to 'temp' is never =
-read
-                   temp =3D phy_read(phydev, LAN88XX_INT_STS);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2326:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D lan78xx_write_reg(dev, MAC_RGMII_ID,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2326:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D lan78xx_write_reg(dev, MAC_RGMII_ID,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2328:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D lan78xx_write_reg(dev, RGMII_TX_BYP_DLL, 0x3D00);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2328:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D lan78xx_write_reg(dev, RGMII_TX_BYP_DLL, 0x3D00);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2329:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D lan78xx_read_reg(dev, HW_CFG, &buf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2329:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D lan78xx_read_reg(dev, HW_CFG, &buf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2332:3: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D lan78xx_write_reg(dev, HW_CFG, buf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2332:3: note: Value stored to 'ret' is never r=
-ead
-                   ret =3D lan78xx_write_reg(dev, HW_CFG, buf);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2692:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D lan78xx_read_reg(dev, USB_CFG1, &buf);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:2692:2: note: Value stored to 'ret' is never r=
-ead
-           ret =3D lan78xx_read_reg(dev, USB_CFG1, &buf);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:3610:3: warning: Value stored to 'rx_cmd_c' is=
- never read [clang-analyzer-deadcode.DeadStores]
-                   rx_cmd_c =3D get_unaligned_le16(skb->data);
-                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:3610:3: note: Value stored to 'rx_cmd_c' is ne=
-ver read
-                   rx_cmd_c =3D get_unaligned_le16(skb->data);
-                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/usb/lan78xx.c:3794:2: warning: Value stored to 'state' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-           state =3D defer_bh(dev, skb, &dev->rxq, state);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:3794:2: note: Value stored to 'state' is never=
- read
-           state =3D defer_bh(dev, skb, &dev->rxq, state);
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:4444:2: warning: Value stored to 'ret' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-           ret =3D device_set_wakeup_enable(&udev->dev, true);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/usb/lan78xx.c:4444:2: note: Value stored to 'ret' is never r=
-ead
-           ret =3D device_set_wakeup_enable(&udev->dev, true);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/tty/vt/vt.c:586:21: warning: Value stored to 'uniscr' during its=
- initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct uni_screen *uniscr =3D get_vc_uniscr(vc);
-                              ^~~~~~
-   drivers/tty/vt/vt.c:586:21: note: Value stored to 'uniscr' during its in=
-itialization is never read
-           struct uni_screen *uniscr =3D get_vc_uniscr(vc);
-                              ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/i2c/busses/i2c-rk3x.c:504:9: warning: Access to field 'flags' re=
-sults in a dereference of a null pointer (loaded from field 'msg') [clang-a=
-nalyzer-core.NullDereference]
-                   if (!(i2c->msg->flags & I2C_M_IGNORE_NAK))
-                         ^
-   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
-iting loop
-           spin_lock_irqsave(&i2c->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
-                   ^
-   include/linux/spinlock_api_up.h:68:45: note: expanded from macro '_raw_s=
-pin_lock_irqsave'
-   #define _raw_spin_lock_irqsave(lock, flags)     __LOCK_IRQSAVE(lock, fla=
-gs)
-                                                   ^
-   include/linux/spinlock_api_up.h:40:8: note: expanded from macro '__LOCK_=
-IRQSAVE'
-     do { local_irq_save(flags); __LOCK(lock); } while (0)
-          ^
-   include/linux/irqflags.h:237:36: note: expanded from macro 'local_irq_sa=
-ve'
-   #define local_irq_save(flags)   do { raw_local_irq_save(flags); } while =
-(0)
-                                        ^
-   include/linux/irqflags.h:169:2: note: expanded from macro 'raw_local_irq=
-_save'
-           do {                                            \
-           ^
-   drivers/i2c/busses/i2c-rk3x.c:1066:2: note: Loop condition is false.  Ex=
-iting loop
-           spin_lock_irqsave(&i2c->lock, flags);
-           ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:264:3: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-                   _raw_spin_lock_irqsave(lock, flags);    \
+Old smatch warnings:
+fs/btrfs/zoned.c:303 btrfs_get_dev_zone_info() warn: should 'zone_sectors <=
+< 9' be a 64 bit type?
+fs/btrfs/zoned.c:367 btrfs_get_dev_zone_info() warn: should 'sb_zone << (zo=
+ne_info->zone_size_shift - 9)' be a 64 bit type?
+fs/btrfs/zoned.c:683 btrfs_sb_log_location_bdev() warn: should 'sb_zone << =
+zone_sectors_shift' be a 64 bit type?
+fs/btrfs/zoned.c:788 btrfs_reset_sb_log_zones() warn: should 'sb_zone << zo=
+ne_sectors_shift' be a 64 bit type?
 
-vim +/state +3794 drivers/net/usb/lan78xx.c
+vim +/ret +1072 fs/btrfs/zoned.c
 
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3736  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   929  =
 
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3737  static void rx=
-_complete(struct urb *urb)
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3738  {
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3739  	struct sk_buf=
-f	*skb =3D (struct sk_buff *)urb->context;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3740  	struct skb_da=
-ta	*entry =3D (struct skb_data *)skb->cb;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3741  	struct lan78x=
-x_net *dev =3D entry->dev;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3742  	int urb_statu=
-s =3D urb->status;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3743  	enum skb_stat=
-e state;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3744  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   930  int btrfs_load_block_group_zo=
+ne_info(struct btrfs_block_group *cache)
+08e11a3db098f4 Naohiro Aota 2021-02-04   931  {
+08e11a3db098f4 Naohiro Aota 2021-02-04   932  	struct btrfs_fs_info *fs_inf=
+o =3D cache->fs_info;
+08e11a3db098f4 Naohiro Aota 2021-02-04   933  	struct extent_map_tree *em_t=
+ree =3D &fs_info->mapping_tree;
+08e11a3db098f4 Naohiro Aota 2021-02-04   934  	struct extent_map *em;
+08e11a3db098f4 Naohiro Aota 2021-02-04   935  	struct map_lookup *map;
+08e11a3db098f4 Naohiro Aota 2021-02-04   936  	struct btrfs_device *device;
+08e11a3db098f4 Naohiro Aota 2021-02-04   937  	u64 logical =3D cache->start;
+08e11a3db098f4 Naohiro Aota 2021-02-04   938  	u64 length =3D cache->length;
+08e11a3db098f4 Naohiro Aota 2021-02-04   939  	u64 physical =3D 0;
+08e11a3db098f4 Naohiro Aota 2021-02-04   940  	int ret;
+08e11a3db098f4 Naohiro Aota 2021-02-04   941  	int i;
+08e11a3db098f4 Naohiro Aota 2021-02-04   942  	unsigned int nofs_flag;
+08e11a3db098f4 Naohiro Aota 2021-02-04   943  	u64 *alloc_offsets =3D NULL;
+08e11a3db098f4 Naohiro Aota 2021-02-04   944  	u32 num_sequential =3D 0, nu=
+m_conventional =3D 0;
+08e11a3db098f4 Naohiro Aota 2021-02-04   945  =
 
-c450a8eb187a4d John Efstathiades         2021-11-18  3745  	netif_dbg(dev, =
-rx_status, dev->net,
-c450a8eb187a4d John Efstathiades         2021-11-18  3746  		  "rx done: st=
-atus %d", urb->status);
-c450a8eb187a4d John Efstathiades         2021-11-18  3747  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   946  	if (!btrfs_is_zoned(fs_info))
+08e11a3db098f4 Naohiro Aota 2021-02-04   947  		return 0;
+08e11a3db098f4 Naohiro Aota 2021-02-04   948  =
 
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3748  	skb_put(skb, =
-urb->actual_length);
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3749  	state =3D rx_=
-done;
-c450a8eb187a4d John Efstathiades         2021-11-18  3750  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   949  	/* Sanity check */
+08e11a3db098f4 Naohiro Aota 2021-02-04   950  	if (!IS_ALIGNED(length, fs_i=
+nfo->zone_size)) {
+08e11a3db098f4 Naohiro Aota 2021-02-04   951  		btrfs_err(fs_info,
+08e11a3db098f4 Naohiro Aota 2021-02-04   952  		"zoned: block group %llu le=
+n %llu unaligned to zone size %llu",
+08e11a3db098f4 Naohiro Aota 2021-02-04   953  			  logical, length, fs_info=
+->zone_size);
+08e11a3db098f4 Naohiro Aota 2021-02-04   954  		return -EIO;
+08e11a3db098f4 Naohiro Aota 2021-02-04   955  	}
+08e11a3db098f4 Naohiro Aota 2021-02-04   956  =
 
-c450a8eb187a4d John Efstathiades         2021-11-18  3751  	if (urb !=3D en=
-try->urb)
-c450a8eb187a4d John Efstathiades         2021-11-18  3752  		netif_warn(dev=
-, rx_err, dev->net, "URB pointer mismatch");
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3753  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   957  	/* Get the chunk mapping */
+08e11a3db098f4 Naohiro Aota 2021-02-04   958  	read_lock(&em_tree->lock);
+08e11a3db098f4 Naohiro Aota 2021-02-04   959  	em =3D lookup_extent_mapping=
+(em_tree, logical, length);
+08e11a3db098f4 Naohiro Aota 2021-02-04   960  	read_unlock(&em_tree->lock);
+08e11a3db098f4 Naohiro Aota 2021-02-04   961  =
 
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3754  	switch (urb_s=
-tatus) {
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3755  	case 0:
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3756  		if (skb->len=
- < dev->net->hard_header_len) {
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3757  			state =3D r=
-x_cleanup;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3758  			dev->net->s=
-tats.rx_errors++;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3759  			dev->net->s=
-tats.rx_length_errors++;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3760  			netif_dbg(d=
-ev, rx_err, dev->net,
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3761  				  "rx leng=
-th %d\n", skb->len);
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3762  		}
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3763  		usb_mark_las=
-t_busy(dev->udev);
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3764  		break;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3765  	case -EPIPE:
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3766  		dev->net->st=
-ats.rx_errors++;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3767  		lan78xx_defe=
-r_kevent(dev, EVENT_RX_HALT);
-df561f6688fef7 Gustavo A. R. Silva       2020-08-23  3768  		fallthrough;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3769  	case -ECONNRE=
-SET:				/* async unlink */
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3770  	case -ESHUTDO=
-WN:				/* hardware gone */
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3771  		netif_dbg(de=
-v, ifdown, dev->net,
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3772  			  "rx shutd=
-own, code %d\n", urb_status);
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3773  		state =3D rx=
-_cleanup;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3774  		break;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3775  	case -EPROTO:
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3776  	case -ETIME:
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3777  	case -EILSEQ:
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3778  		dev->net->st=
-ats.rx_errors++;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3779  		state =3D rx=
-_cleanup;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3780  		break;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3781  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   962  	if (!em)
+08e11a3db098f4 Naohiro Aota 2021-02-04   963  		return -EINVAL;
+08e11a3db098f4 Naohiro Aota 2021-02-04   964  =
 
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3782  	/* data overr=
-un ... flush fifo? */
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3783  	case -EOVERFL=
-OW:
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3784  		dev->net->st=
-ats.rx_over_errors++;
-df561f6688fef7 Gustavo A. R. Silva       2020-08-23  3785  		fallthrough;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3786  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   965  	map =3D em->map_lookup;
+08e11a3db098f4 Naohiro Aota 2021-02-04   966  =
 
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3787  	default:
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3788  		state =3D rx=
-_cleanup;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3789  		dev->net->st=
-ats.rx_errors++;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3790  		netif_dbg(de=
-v, rx_err, dev->net, "rx status %d\n", urb_status);
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3791  		break;
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3792  	}
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3793  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   967  	alloc_offsets =3D kcalloc(ma=
+p->num_stripes, sizeof(*alloc_offsets), GFP_NOFS);
+08e11a3db098f4 Naohiro Aota 2021-02-04   968  	if (!alloc_offsets) {
+08e11a3db098f4 Naohiro Aota 2021-02-04   969  		free_extent_map(em);
+08e11a3db098f4 Naohiro Aota 2021-02-04   970  		return -ENOMEM;
+08e11a3db098f4 Naohiro Aota 2021-02-04   971  	}
+08e11a3db098f4 Naohiro Aota 2021-02-04   972  =
 
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30 @3794  	state =3D def=
-er_bh(dev, skb, &dev->rxq, state);
-c450a8eb187a4d John Efstathiades         2021-11-18  3795  }
-55d7de9de6c30a Woojung.Huh(a)microchip.com 2015-07-30  3796  =
+08e11a3db098f4 Naohiro Aota 2021-02-04   973  	for (i =3D 0; i < map->num_s=
+tripes; i++) {
+08e11a3db098f4 Naohiro Aota 2021-02-04   974  		bool is_sequential;
+08e11a3db098f4 Naohiro Aota 2021-02-04   975  		struct blk_zone zone;
+08e11a3db098f4 Naohiro Aota 2021-02-04   976  =
 
+08e11a3db098f4 Naohiro Aota 2021-02-04   977  		device =3D map->stripes[i].=
+dev;
+08e11a3db098f4 Naohiro Aota 2021-02-04   978  		physical =3D map->stripes[i=
+].physical;
+08e11a3db098f4 Naohiro Aota 2021-02-04   979  =
 
-:::::: The code at line 3794 was first introduced by commit
-:::::: 55d7de9de6c30adce8d675c7ce513e283829c2ff Microchip's LAN7800 family =
-USB 2/3 to 10/100/1000 Ethernet device driver
+08e11a3db098f4 Naohiro Aota 2021-02-04   980  		if (device->bdev =3D=3D NUL=
+L) {
+08e11a3db098f4 Naohiro Aota 2021-02-04   981  			alloc_offsets[i] =3D WP_MI=
+SSING_DEV;
+08e11a3db098f4 Naohiro Aota 2021-02-04   982  			continue;
+08e11a3db098f4 Naohiro Aota 2021-02-04   983  		}
+08e11a3db098f4 Naohiro Aota 2021-02-04   984  =
 
-:::::: TO: Woojung.Huh(a)microchip.com <Woojung.Huh@microchip.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+08e11a3db098f4 Naohiro Aota 2021-02-04   985  		is_sequential =3D btrfs_dev=
+_is_sequential(device, physical);
+08e11a3db098f4 Naohiro Aota 2021-02-04   986  		if (is_sequential)
+08e11a3db098f4 Naohiro Aota 2021-02-04   987  			num_sequential++;
+08e11a3db098f4 Naohiro Aota 2021-02-04   988  		else
+08e11a3db098f4 Naohiro Aota 2021-02-04   989  			num_conventional++;
+08e11a3db098f4 Naohiro Aota 2021-02-04   990  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04   991  		if (!is_sequential) {
+08e11a3db098f4 Naohiro Aota 2021-02-04   992  			alloc_offsets[i] =3D WP_CO=
+NVENTIONAL;
+08e11a3db098f4 Naohiro Aota 2021-02-04   993  			continue;
+08e11a3db098f4 Naohiro Aota 2021-02-04   994  		}
+08e11a3db098f4 Naohiro Aota 2021-02-04   995  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04   996  		/*
+08e11a3db098f4 Naohiro Aota 2021-02-04   997  		 * This zone will be used f=
+or allocation, so mark this zone
+08e11a3db098f4 Naohiro Aota 2021-02-04   998  		 * non-empty.
+08e11a3db098f4 Naohiro Aota 2021-02-04   999  		 */
+08e11a3db098f4 Naohiro Aota 2021-02-04  1000  		btrfs_dev_clear_zone_empty(=
+device, physical);
+08e11a3db098f4 Naohiro Aota 2021-02-04  1001  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04  1002  		/*
+08e11a3db098f4 Naohiro Aota 2021-02-04  1003  		 * The group is mapped to a=
+ sequential zone. Get the zone write
+08e11a3db098f4 Naohiro Aota 2021-02-04  1004  		 * pointer to determine the=
+ allocation offset within the zone.
+08e11a3db098f4 Naohiro Aota 2021-02-04  1005  		 */
+08e11a3db098f4 Naohiro Aota 2021-02-04  1006  		WARN_ON(!IS_ALIGNED(physica=
+l, fs_info->zone_size));
+08e11a3db098f4 Naohiro Aota 2021-02-04  1007  		nofs_flag =3D memalloc_nofs=
+_save();
+08e11a3db098f4 Naohiro Aota 2021-02-04  1008  		ret =3D btrfs_get_dev_zone(=
+device, physical, &zone);
+08e11a3db098f4 Naohiro Aota 2021-02-04  1009  		memalloc_nofs_restore(nofs_=
+flag);
+08e11a3db098f4 Naohiro Aota 2021-02-04  1010  		if (ret =3D=3D -EIO || ret =
+=3D=3D -EOPNOTSUPP) {
+08e11a3db098f4 Naohiro Aota 2021-02-04  1011  			ret =3D 0;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1012  			alloc_offsets[i] =3D WP_MI=
+SSING_DEV;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1013  			continue;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1014  		} else if (ret) {
+08e11a3db098f4 Naohiro Aota 2021-02-04  1015  			goto out;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1016  		}
+08e11a3db098f4 Naohiro Aota 2021-02-04  1017  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04  1018  		switch (zone.cond) {
+08e11a3db098f4 Naohiro Aota 2021-02-04  1019  		case BLK_ZONE_COND_OFFLINE:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1020  		case BLK_ZONE_COND_READONLY:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1021  			btrfs_err(fs_info,
+08e11a3db098f4 Naohiro Aota 2021-02-04  1022  		"zoned: offline/readonly zo=
+ne %llu on device %s (devid %llu)",
+08e11a3db098f4 Naohiro Aota 2021-02-04  1023  				  physical >> device->zon=
+e_info->zone_size_shift,
+08e11a3db098f4 Naohiro Aota 2021-02-04  1024  				  rcu_str_deref(device->n=
+ame), device->devid);
+08e11a3db098f4 Naohiro Aota 2021-02-04  1025  			alloc_offsets[i] =3D WP_MI=
+SSING_DEV;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1026  			break;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1027  		case BLK_ZONE_COND_EMPTY:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1028  			alloc_offsets[i] =3D 0;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1029  			break;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1030  		case BLK_ZONE_COND_FULL:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1031  			alloc_offsets[i] =3D fs_in=
+fo->zone_size;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1032  			break;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1033  		default:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1034  			/* Partially used zone */
+08e11a3db098f4 Naohiro Aota 2021-02-04  1035  			alloc_offsets[i] =3D
+08e11a3db098f4 Naohiro Aota 2021-02-04  1036  					((zone.wp - zone.start) =
+<< SECTOR_SHIFT);
+08e11a3db098f4 Naohiro Aota 2021-02-04  1037  			break;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1038  		}
+08e11a3db098f4 Naohiro Aota 2021-02-04  1039  	}
+08e11a3db098f4 Naohiro Aota 2021-02-04  1040  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04  1041  	if (num_conventional > 0) {
+08e11a3db098f4 Naohiro Aota 2021-02-04  1042  		/*
+08e11a3db098f4 Naohiro Aota 2021-02-04  1043  		 * Since conventional zones=
+ do not have a write pointer, we
+08e11a3db098f4 Naohiro Aota 2021-02-04  1044  		 * cannot determine alloc_o=
+ffset from the pointer
+08e11a3db098f4 Naohiro Aota 2021-02-04  1045  		 */
+08e11a3db098f4 Naohiro Aota 2021-02-04  1046  		ret =3D -EINVAL;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1047  		goto out;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1048  	}
+08e11a3db098f4 Naohiro Aota 2021-02-04  1049  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04  1050  	switch (map->type & BTRFS_BL=
+OCK_GROUP_PROFILE_MASK) {
+08e11a3db098f4 Naohiro Aota 2021-02-04  1051  	case 0: /* single */
+08e11a3db098f4 Naohiro Aota 2021-02-04  1052  		cache->alloc_offset =3D all=
+oc_offsets[0];
+08e11a3db098f4 Naohiro Aota 2021-02-04  1053  		break;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1054  	case BTRFS_BLOCK_GROUP_DUP:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1055  	case BTRFS_BLOCK_GROUP_RAID1:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1056  	case BTRFS_BLOCK_GROUP_RAID0:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1057  	case BTRFS_BLOCK_GROUP_RAID1=
+0:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1058  	case BTRFS_BLOCK_GROUP_RAID5:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1059  	case BTRFS_BLOCK_GROUP_RAID6:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1060  		/* non-single profiles are =
+not supported yet */
+08e11a3db098f4 Naohiro Aota 2021-02-04  1061  	default:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1062  		btrfs_err(fs_info, "zoned: =
+profile %s not yet supported",
+08e11a3db098f4 Naohiro Aota 2021-02-04  1063  			  btrfs_bg_type_to_raid_na=
+me(map->type));
+08e11a3db098f4 Naohiro Aota 2021-02-04  1064  		ret =3D -EINVAL;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1065  		goto out;
+08e11a3db098f4 Naohiro Aota 2021-02-04  1066  	}
+08e11a3db098f4 Naohiro Aota 2021-02-04  1067  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04  1068  out:
+08e11a3db098f4 Naohiro Aota 2021-02-04  1069  	kfree(alloc_offsets);
+08e11a3db098f4 Naohiro Aota 2021-02-04  1070  	free_extent_map(em);
+08e11a3db098f4 Naohiro Aota 2021-02-04  1071  =
+
+08e11a3db098f4 Naohiro Aota 2021-02-04 @1072  	return ret;
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0504661783274678920==--
+--===============5478233157837926061==--
 
