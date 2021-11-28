@@ -1,103 +1,352 @@
-Content-Type: multipart/mixed; boundary="===============6270860589296009162=="
+Content-Type: multipart/mixed; boundary="===============1959999081053911852=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:192 gf100_fifo_recover() warn: should '(((1))) << engi' be a 64 bit type?
-Date: Sun, 28 Nov 2021 18:16:31 +0800
-Message-ID: <202111281840.D915HXvJ-lkp@intel.com>
+Subject: net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Sun, 28 Nov 2021 17:45:43 +0800
+Message-ID: <202111281744.pmYRdJOc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6270860589296009162==
+--===============1959999081053911852==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ben Skeggs <bskeggs@redhat.com>
-CC: Lyude Paul <lyude@redhat.com>
+TO: Chuck Lever <chuck.lever@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   3498e7f2bb415e447354a3debef6738d9655768c
-commit: c6198d3465a9ff5a67023cc1c497a273a913d46a drm/nouveau/fifo/gf100: us=
-e fifo engine id for engine recovery mask
-date:   10 months ago
+commit: 7954c8503b8709660d93505a40f1847634d9c3ba svcrdma: Remove chunk list=
+ pointers
+date:   12 months ago
 :::::: branch date: 11 hours ago
-:::::: commit date: 10 months ago
-config: mips-randconfig-m031-20211123 (https://download.01.org/0day-ci/arch=
-ive/20211128/202111281840.D915HXvJ-lkp(a)intel.com/config)
-compiler: mips-linux-gcc (GCC) 11.2.0
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-c007-20211124 (https://download.01.org/0day-ci/ar=
+chive/20211128/202111281744.pmYRdJOc-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 67a1c4=
+5def8a75061203461ab0060c75c864df1c)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D7954c8503b8709660d93505a40f1847634d9c3ba
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 7954c8503b8709660d93505a40f1847634d9c3ba
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c:192 gf100_fifo_recover() w=
-arn: should '(((1))) << engi' be a 64 bit type?
 
-vim +192 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c
+clang-analyzer warnings: (new ones prefixed by >>)
+           result_msg =3D p;
+           ^            ~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   net/ceph/auth_x.c:35:22: warning: Value stored to 'xi' during its initia=
+lization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ceph_x_info *xi =3D ac->private;
+                               ^~   ~~~~~~~~~~~
+   net/ceph/auth_x.c:35:22: note: Value stored to 'xi' during its initializ=
+ation is never read
+           struct ceph_x_info *xi =3D ac->private;
+                               ^~   ~~~~~~~~~~~
+   net/ceph/auth_x.c:591:2: warning: Value stored to 'result' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+           result =3D le32_to_cpu(head->result);
+           ^
+   net/ceph/auth_x.c:591:2: note: Value stored to 'result' is never read
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (3 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   lib/zstd/decompress.c:1557:4: warning: Value stored to 'remainingSize' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                           remainingSize -=3D 4;
+                           ^                ~
+   lib/zstd/decompress.c:1557:4: note: Value stored to 'remainingSize' is n=
+ever read
+                           remainingSize -=3D 4;
+                           ^                ~
+   Suppressed 8 warnings (3 in non-user code, 5 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:2: warning: Use of memory af=
+ter it is freed [clang-analyzer-unix.Malloc]
+           return list_first_entry_or_null(list, struct svc_rdma_recv_ctxt,
+           ^
+   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:377:17: note: Calling 'svc_rdma_=
+next_recv_ctxt'
+           while ((ctxt =3D svc_rdma_next_recv_ctxt(&rdma->sc_read_complete=
+_q))) {
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:9: note: Left side of '||' i=
+s false
+           return list_first_entry_or_null(list, struct svc_rdma_recv_ctxt,
+                  ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:277:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:9: note: Left side of '||' i=
+s false
+           return list_first_entry_or_null(list, struct svc_rdma_recv_ctxt,
+                  ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:277:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:9: note: Left side of '||' i=
+s false
+           return list_first_entry_or_null(list, struct svc_rdma_recv_ctxt,
+                  ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:277:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:9: note: Left side of '||' i=
+s true
+           return list_first_entry_or_null(list, struct svc_rdma_recv_ctxt,
+                  ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                                               ^
+   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:9: note: Taking false branch
+           return list_first_entry_or_null(list, struct svc_rdma_recv_ctxt,
+                  ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   net/sunrpc/xprtrdma/svc_rdma_recvfrom.c:117:9: note: Loop condition is f=
+alse.  Exiting loop
+           return list_first_entry_or_null(list, struct svc_rdma_recv_ctxt,
+                  ^
+   include/linux/list.h:545:28: note: expanded from macro 'list_first_entry=
+_or_null'
+           struct list_head *pos__ =3D READ_ONCE(head__->next); \
+                                     ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
 
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  173  =
+vim +117 net/sunrpc/xprtrdma/svc_rdma_recvfrom.c
 
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  174  static void
-6189f1b0938dc0 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  175  gf100_fifo_recover(struct gf100_fifo *fifo, struct nvkm_en=
-gine *engine,
-05c7145dae17a5 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-01-14  176  		   struct gf100_fifo_chan *chan)
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  177  {
-e5c5e4f5d31979 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  178  	struct nvkm_subdev *subdev =3D &fifo->base.engine.subdev;
-e5c5e4f5d31979 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  179  	struct nvkm_device *device =3D subdev->device;
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  180  	u32 chid =3D chan->base.chid;
-c6198d3465a9ff drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2021-02-06  181  	int engi =3D gf100_fifo_engine_id(&fifo->base, engine);
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  182  =
+ecf85b2384ea5f Chuck Lever 2018-05-07  113  =
 
-e5c5e4f5d31979 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  183  	nvkm_error(subdev, "%s engine fault on channel %d, recove=
-ring...\n",
-9c28abb7db540a drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2020-07-25  184  		   engine->subdev.name, chid);
-6ca307b0c9c787 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  185  	assert_spin_locked(&fifo->base.lock);
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  186  =
+ecf85b2384ea5f Chuck Lever 2018-05-07  114  static inline struct svc_rdma_r=
+ecv_ctxt *
+ecf85b2384ea5f Chuck Lever 2018-05-07  115  svc_rdma_next_recv_ctxt(struct =
+list_head *list)
+ecf85b2384ea5f Chuck Lever 2018-05-07  116  {
+ecf85b2384ea5f Chuck Lever 2018-05-07 @117  	return list_first_entry_or_nul=
+l(list, struct svc_rdma_recv_ctxt,
+ecf85b2384ea5f Chuck Lever 2018-05-07  118  					rc_list);
+ecf85b2384ea5f Chuck Lever 2018-05-07  119  }
+ecf85b2384ea5f Chuck Lever 2018-05-07  120  =
 
-8774440390cdfe drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  187  	nvkm_mask(device, 0x003004 + (chid * 0x08), 0x00000001, 0=
-x00000000);
-8f0649b5c6e70e drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  188  	list_del_init(&chan->head);
-8f0649b5c6e70e drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2015-08-20  189  	chan->killed =3D true;
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  190  =
 
-c6198d3465a9ff drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2021-02-06  191  	if (engi >=3D 0 && engi !=3D GF100_FIFO_ENGN_SW)
-c6198d3465a9ff drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2021-02-06 @192  		fifo->recover.mask |=3D BIT(engi);
-792662439cf241 drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2016-03-11  193  	schedule_work(&fifo->recover.work);
-ff9f29abf0ef4c drivers/gpu/drm/nouveau/nvkm/engine/fifo/gf100.c Ben Skeggs =
-2016-11-05  194  	nvkm_fifo_kevent(&fifo->base, chid);
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  195  }
-24e8341e4cd4c7 drivers/gpu/drm/nouveau/core/engine/fifo/nvc0.c  Ben Skeggs =
-2014-02-05  196  =
+:::::: The code at line 117 was first introduced by commit
+:::::: ecf85b2384ea5f7cb0577bf6143bc46d9ecfe4d3 svcrdma: Introduce svc_rdma=
+_recv_ctxt
 
+:::::: TO: Chuck Lever <chuck.lever@oracle.com>
+:::::: CC: J. Bruce Fields <bfields@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6270860589296009162==--
+--===============1959999081053911852==--
 
