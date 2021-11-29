@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============9110064179555422056=="
+Content-Type: multipart/mixed; boundary="===============3889019834094614195=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/compat.c:444:5: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Tue, 30 Nov 2021 04:32:54 +0800
-Message-ID: <202111300429.yXuxMpIr-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:124:2: warning: Value stored to 'speakers' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Tue, 30 Nov 2021 04:22:37 +0800
+Message-ID: <202111300439.S9nMj4kS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============9110064179555422056==
+--===============3889019834094614195==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,29 +15,32 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
-CC: Miguel Ojeda <ojeda@kernel.org>
+TO: Fangzhi Zuo <Jerry.Zuo@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d58071a8a76d779eedab38033ae4c821c30295a5
-commit: c80d92fbb67b2c80b8eeb8759ee79d676eb33520 compiler_types.h: Remove _=
-_compiletime_object_size()
-date:   9 weeks ago
+commit: 61452908a79ec936660494fb4b9f2a35ee42e6e0 drm/amd/display: Add DP 2.=
+0 Audio Package Generator
+date:   3 months ago
 :::::: branch date: 22 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-c007-20211118 (https://download.01.org/0day-ci/ar=
-chive/20211130/202111300429.yXuxMpIr-lkp(a)intel.com/config)
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-c007-20211128 (https://download.01.org/0day-ci/ar=
+chive/20211130/202111300439.S9nMj4kS-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
+58d8c0b542e752b037e72a69d5fd51eb1e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dc80d92fbb67b2c80b8eeb8759ee79d676eb33520
+t/commit/?id=3D61452908a79ec936660494fb4b9f2a35ee42e6e0
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout c80d92fbb67b2c80b8eeb8759ee79d676eb33520
+        git checkout 61452908a79ec936660494fb4b9f2a35ee42e6e0
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Dx86_64 clang-analyzer =
@@ -48,283 +51,339 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   fs/gfs2/dir.c:815:6: note: Assuming the condition is false
-           if (ip->i_diskflags & GFS2_DIF_EXHASH) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/dir.c:815:2: note: Taking false branch
-           if (ip->i_diskflags & GFS2_DIF_EXHASH) {
-           ^
-   fs/gfs2/dir.c:848:6: note: Assuming 'error' is not equal to 0
-           if (error)
-               ^~~~~
-   fs/gfs2/dir.c:848:2: note: Taking true branch
-           if (error)
-           ^
-   fs/gfs2/dir.c:849:3: note: Returning without writing to '*pbh'
-                   return ERR_PTR(error);
+                   ^~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1557:11: note: Returning from 'am=
+dgpu_vm_level_shift'
+                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1557:3: note: The value 429496729=
+5 is assigned to 'shift'
+                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1559:15: note: Field 'unlocked' i=
+s true
+                   if (params->unlocked) {
+                               ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1559:3: note: Taking true branch
+                   if (params->unlocked) {
                    ^
-   fs/gfs2/dir.c:2169:9: note: Returning from 'gfs2_dirent_search'
-           dent =3D gfs2_dirent_search(inode, name, gfs2_dirent_find_space,=
- &bh);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   fs/gfs2/dir.c:2170:6: note: Assuming 'dent' is non-null
-           if (!dent) {
-               ^~~~~
-   fs/gfs2/dir.c:2170:2: note: Taking false branch
-           if (!dent) {
-           ^
-   fs/gfs2/dir.c:2177:6: note: Calling 'IS_ERR'
-           if (IS_ERR(dent))
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1561:8: note: Assuming the condit=
+ion is false
+                           if (amdgpu_vm_pt_descendant(adev, &cursor))
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1561:4: note: Taking false branch
+                           if (amdgpu_vm_pt_descendant(adev, &cursor))
+                           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1588:7: note: Assuming 'pt' is no=
+n-null
+                   if (!pt) {
+                       ^~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1588:3: note: Taking false branch
+                   if (!pt) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1606:41: note: The result of the =
+left shift is undefined due to shifting by '4294967295', which is greater o=
+r equal to the width of type 'uint64_t'
+                   incr =3D (uint64_t)AMDGPU_GPU_PAGE_SIZE << shift;
+                                                         ^  ~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (9 in non-user code, 8 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2882:6: wa=
+rning: Access to field 'disable_edc_leakage_controller' results in a derefe=
+rence of a null pointer (loaded from variable 'data') [clang-analyzer-core.=
+NullDereference]
+           if (data->disable_edc_leakage_controller)
+               ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2914:6: no=
+te: Assuming 'data' is not equal to NULL
+           if (data =3D=3D NULL)
                ^~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2914:2: no=
+te: Taking false branch
+           if (data =3D=3D NULL)
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2918:2: no=
+te: Calling 'smu7_patch_voltage_workaround'
+           smu7_patch_voltage_workaround(hwmgr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2451:6: no=
+te: Assuming 'table_info' is equal to NULL
+           if (table_info !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2451:2: no=
+te: Taking false branch
+           if (table_info !=3D NULL) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2455:3: no=
+te: Returning without writing to 'hwmgr->backend'
+                   return 0;
+                   ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2918:2: no=
+te: Returning from 'smu7_patch_voltage_workaround'
+           smu7_patch_voltage_workaround(hwmgr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2922:2: no=
+te: Taking false branch
+           if (phm_cap_enabled(hwmgr->platform_descriptor.platformCaps,
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2933:6: no=
+te: Assuming field 'pp_table_version' is not equal to PP_TABLE_V1
+           if (hwmgr->pp_table_version =3D=3D PP_TABLE_V1) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2933:2: no=
+te: Taking false branch
+           if (hwmgr->pp_table_version =3D=3D PP_TABLE_V1) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2936:13: n=
+ote: Assuming field 'pp_table_version' is not equal to PP_TABLE_V0
+           } else if (hwmgr->pp_table_version =3D=3D PP_TABLE_V0) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2936:9: no=
+te: Taking false branch
+           } else if (hwmgr->pp_table_version =3D=3D PP_TABLE_V0) {
                   ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/dir.c:2177:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(dent))
-               ^~~~~~~~~~~~
-   fs/gfs2/dir.c:2177:2: note: Taking false branch
-           if (IS_ERR(dent))
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2944:6: no=
+te: Assuming 'result' is not equal to 0
+           if (0 =3D=3D result) {
+               ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2944:2: no=
+te: Taking false branch
+           if (0 =3D=3D result) {
            ^
-   fs/gfs2/dir.c:2180:6: note: Assuming field 'save_loc' is 0
-           if (da->save_loc) {
-               ^~~~~~~~~~~~
-   fs/gfs2/dir.c:2180:2: note: Taking false branch
-           if (da->save_loc) {
-           ^
-   fs/gfs2/dir.c:2184:3: note: 1st function call argument is an uninitializ=
-ed value
-                   brelse(bh);
-                   ^      ~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2968:3: no=
+te: Calling 'smu7_hwmgr_backend_fini'
+                   smu7_hwmgr_backend_fini(hwmgr);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2839:2: no=
+te: Null pointer value stored to field 'backend'
+           hwmgr->backend =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2968:3: no=
+te: Returning from 'smu7_hwmgr_backend_fini'
+                   smu7_hwmgr_backend_fini(hwmgr);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2971:11: n=
+ote: Calling 'smu7_update_edc_leakage_table'
+           result =3D smu7_update_edc_leakage_table(hwmgr);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2877:2: no=
+te: 'data' initialized to a null pointer value
+           struct smu7_hwmgr *data =3D (struct smu7_hwmgr *)(hwmgr->backend=
+);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2882:6: no=
+te: Access to field 'disable_edc_leakage_controller' results in a dereferen=
+ce of a null pointer (loaded from variable 'data')
+           if (data->disable_edc_leakage_controller)
+               ^~~~
+   Suppressed 11 warnings (10 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:124:2: warnin=
+g: Value stored to 'speakers' is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           speakers =3D audio_info->flags.info.ALLSPEAKERS;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:124:2: note: =
+Value stored to 'speakers' is never read
+           speakers =3D audio_info->flags.info.ALLSPEAKERS;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:125:2: warnin=
+g: Value stored to 'channels' is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           channels =3D speakers_to_channels(audio_info->flags.speaker_flag=
+s).all;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:125:2: note: =
+Value stored to 'channels' is never read
+           channels =3D speakers_to_channels(audio_info->flags.speaker_flag=
+s).all;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   Suppressed 5 warnings (3 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
    Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
    4 warnings generated.
-   net/core/net-sysfs.c:1719:2: warning: Value stored to 'txq' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           txq =3D real_tx;
-           ^     ~~~~~~~
-   net/core/net-sysfs.c:1719:2: note: Value stored to 'txq' is never read
-           txq =3D real_tx;
-           ^     ~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   37 warnings generated.
-   Suppressed 37 warnings (37 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> net/compat.c:444:5: warning: Assigned value is garbage or undefined [cla=
-ng-analyzer-core.uninitialized.Assign]
-           a0 =3D a[0];
-              ^
-   net/compat.c:424:1: note: Calling '__se_compat_sys_socketcall'
-   COMPAT_SYSCALL_DEFINE2(socketcall, int, call, u32 __user *, args)
-   ^
-   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_D=
-EFINE2'
-           COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:206:2: note: expanded from macro =
-'COMPAT_SYSCALL_DEFINEx'
-           __X32_COMPAT_SYS_STUBx(x, name, __VA_ARGS__)                    =
-        \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:172:2: note: expanded from macro =
-'__X32_COMPAT_SYS_STUBx'
-           __SYS_STUBx(x64, compat_sys##name,                              \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:79:10: note: expanded from macro =
-'__SYS_STUBx'
-                   return __se_##name(__VA_ARGS__);                        \
-                          ^~~~~~~~~~~~~~~~~~~~~~~~
-   note: expanded from here
-   net/compat.c:424:1: note: Calling '__do_compat_sys_socketcall'
-   COMPAT_SYSCALL_DEFINE2(socketcall, int, call, u32 __user *, args)
-   ^
-   include/linux/compat.h:55:2: note: expanded from macro 'COMPAT_SYSCALL_D=
-EFINE2'
-           COMPAT_SYSCALL_DEFINEx(2, _##name, __VA_ARGS__)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/syscall_wrapper.h:209:10: note: expanded from macro=
- 'COMPAT_SYSCALL_DEFINEx'
-                   return __do_compat_sys##name(__MAP(x,__SC_DELOUSE,__VA_A=
-RGS__));\
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   note: expanded from here
-   net/compat.c:431:6: note: Assuming 'call' is >=3D SYS_SOCKET
-           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
-               ^~~~~~~~~~~~~~~~~
-   net/compat.c:431:6: note: Left side of '||' is false
-   net/compat.c:431:27: note: Assuming 'call' is <=3D SYS_SENDMMSG
-           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
-                                    ^~~~~~~~~~~~~~~~~~~
-   net/compat.c:431:2: note: Taking false branch
-           if (call < SYS_SOCKET || call > SYS_SENDMMSG)
+   5 warnings generated.
+   fs/nfs/nfs4session.c:127:10: warning: The left operand of '=3D=3D' is a =
+garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   if (*p =3D=3D NULL) {
+                          ^
+   fs/nfs/nfs4session.c:405:2: note: Loop condition is true.  Entering loop=
+ body
+           for (;;) {
            ^
-   net/compat.c:434:6: note: Assuming the condition is false
-           if (len > sizeof(a))
-               ^~~~~~~~~~~~~~~
-   net/compat.c:434:2: note: Taking false branch
-           if (len > sizeof(a))
+   fs/nfs/nfs4session.c:406:8: note: Calling 'nfs41_try_wake_next_slot_tabl=
+e_entry'
+                   if (!nfs41_try_wake_next_slot_table_entry(tbl))
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:393:27: note: Calling 'nfs4_alloc_slot'
+           struct nfs4_slot *slot =3D nfs4_alloc_slot(tbl);
+                                    ^~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:247:2: note: Loop condition is false.  Exiting loop
+           dprintk("--> %s used_slots=3D%04lx highest_used=3D%u max_slots=
+=3D%u\n",
            ^
-   net/compat.c:437:6: note: Calling 'copy_from_user'
-           if (copy_from_user(a, args, len))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:13: note: Calling 'check_copy_size'
-           if (likely(check_copy_size(to, n, false)))
-                      ^
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   include/linux/thread_info.h:207:15: note: Assuming 'sz' is >=3D 0
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/thread_info.h:207:15: note: Left side of '&&' is true
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                        ^
-   include/linux/thread_info.h:207:26: note: Assuming 'sz' is < 'bytes', wh=
-ich participates in a condition later
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
-                                   ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/thread_info.h:207:2: note: Taking true branch
-           if (unlikely(sz >=3D 0 && sz < bytes)) {
+   include/linux/sunrpc/debug.h:25:2: note: expanded from macro 'dprintk'
+           dfprintk(FACILITY, fmt, ##__VA_ARGS__)
            ^
-   include/linux/thread_info.h:208:3: note: Taking true branch
-                   if (!__builtin_constant_p(bytes))
+   include/linux/sunrpc/debug.h:70:34: note: expanded from macro 'dfprintk'
+   # define dfprintk(fac, fmt, ...)        do {} while (0)
+                                           ^
+   fs/nfs/nfs4session.c:251:6: note: Assuming 'slotid' is <=3D field 'max_s=
+lotid'
+           if (slotid <=3D tbl->max_slotid) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:251:2: note: Taking true branch
+           if (slotid <=3D tbl->max_slotid) {
+           ^
+   fs/nfs/nfs4session.c:252:9: note: Calling 'nfs4_find_or_create_slot'
+                   ret =3D nfs4_find_or_create_slot(tbl, slotid, 1, GFP_NOW=
+AIT);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   fs/nfs/nfs4session.c:126:2: note: Loop condition is true.  Entering loop=
+ body
+           for (;;) {
+           ^
+   fs/nfs/nfs4session.c:127:7: note: Assuming the condition is true
+                   if (*p =3D=3D NULL) {
+                       ^~~~~~~~~~
+   fs/nfs/nfs4session.c:127:3: note: Taking true branch
+                   if (*p =3D=3D NULL) {
                    ^
-   include/linux/uaccess.h:191:13: note: Returning from 'check_copy_size'
-           if (likely(check_copy_size(to, n, false)))
-                      ^
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   include/linux/uaccess.h:191:2: note: Taking false branch
-           if (likely(check_copy_size(to, n, false)))
+   fs/nfs/nfs4session.c:128:9: note: Calling 'nfs4_new_slot'
+                           *p =3D nfs4_new_slot(tbl, tbl->max_slots,
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:109:9: note: Calling 'kzalloc'
+           slot =3D kzalloc(sizeof(*slot), gfp_mask);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:721:9: note: Uninitialized value stored to field 'n=
+ext'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:109:9: note: Returning from 'kzalloc'
+           slot =3D kzalloc(sizeof(*slot), gfp_mask);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:110:6: note: Assuming 'slot' is non-null
+           if (slot) {
+               ^~~~
+   fs/nfs/nfs4session.c:110:2: note: Taking true branch
+           if (slot) {
            ^
-   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
-           return n;
-           ^
-   include/linux/uaccess.h:193:2: note: Returning value (loaded from 'n'), =
-which participates in a condition later
-           return n;
-           ^~~~~~~~
-   net/compat.c:437:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(a, args, len))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/compat.c:437:6: note: Assuming the condition is false
-           if (copy_from_user(a, args, len))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/compat.c:437:2: note: Taking false branch
-           if (copy_from_user(a, args, len))
-           ^
-   net/compat.c:440:8: note: Calling 'audit_socketcall_compat'
-           ret =3D audit_socketcall_compat(len / sizeof(a[0]), a);
+   fs/nfs/nfs4session.c:128:9: note: Returning from 'nfs4_new_slot'
+                           *p =3D nfs4_new_slot(tbl, tbl->max_slots,
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:130:4: note: Taking false branch
+                           if (*p =3D=3D NULL)
+                           ^
+   fs/nfs/nfs4session.c:135:7: note: Assuming 'slotid' is not equal to fiel=
+d 'slot_nr'
+                   if (slot->slot_nr =3D=3D slotid)
+                       ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/nfs/nfs4session.c:135:3: note: Taking false branch
+                   if (slot->slot_nr =3D=3D slotid)
+                   ^
+   fs/nfs/nfs4session.c:126:2: note: Loop condition is true.  Entering loop=
+ body
+           for (;;) {
 
-vim +444 net/compat.c
+vim +/speakers +124 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_ap=
+g.c
 
-157b334aa84dc5 Dominik Brodowski  2018-03-16  423  =
+61452908a79ec9 Fangzhi Zuo 2021-06-09  108  =
 
-361d93c46f688d Heiko Carstens     2014-03-03  424  COMPAT_SYSCALL_DEFINE2(s=
-ocketcall, int, call, u32 __user *, args)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  425  {
-62bc306e208343 Richard Guy Briggs 2017-01-17  426  	u32 a[AUDITSC_ARGS];
-62bc306e208343 Richard Guy Briggs 2017-01-17  427  	unsigned int len;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  428  	u32 a0, a1;
-62bc306e208343 Richard Guy Briggs 2017-01-17  429  	int ret;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  430  =
+61452908a79ec9 Fangzhi Zuo 2021-06-09  109  static void apg31_se_audio_setu=
+p(
+61452908a79ec9 Fangzhi Zuo 2021-06-09  110  	struct apg *apg,
+61452908a79ec9 Fangzhi Zuo 2021-06-09  111  	unsigned int az_inst,
+61452908a79ec9 Fangzhi Zuo 2021-06-09  112  	struct audio_info *audio_info)
+61452908a79ec9 Fangzhi Zuo 2021-06-09  113  {
+61452908a79ec9 Fangzhi Zuo 2021-06-09  114  	struct dcn31_apg *apg31 =3D DC=
+N31_APG_FROM_APG(apg);
+61452908a79ec9 Fangzhi Zuo 2021-06-09  115  =
 
-228e548e602061 Anton Blanchard    2011-05-02  431  	if (call < SYS_SOCKET |=
-| call > SYS_SENDMMSG)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  432  		return -EINVAL;
-62bc306e208343 Richard Guy Briggs 2017-01-17  433  	len =3D nas[call];
-62bc306e208343 Richard Guy Briggs 2017-01-17  434  	if (len > sizeof(a))
-62bc306e208343 Richard Guy Briggs 2017-01-17  435  		return -EINVAL;
-62bc306e208343 Richard Guy Briggs 2017-01-17  436  =
+61452908a79ec9 Fangzhi Zuo 2021-06-09  116  	uint32_t speakers =3D 0;
+61452908a79ec9 Fangzhi Zuo 2021-06-09  117  	uint32_t channels =3D 0;
+61452908a79ec9 Fangzhi Zuo 2021-06-09  118  =
 
-62bc306e208343 Richard Guy Briggs 2017-01-17  437  	if (copy_from_user(a, a=
-rgs, len))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  438  		return -EFAULT;
-62bc306e208343 Richard Guy Briggs 2017-01-17  439  =
+61452908a79ec9 Fangzhi Zuo 2021-06-09  119  	ASSERT(audio_info);
+61452908a79ec9 Fangzhi Zuo 2021-06-09  120  	/* This should not happen.it d=
+oes so we don't get BSOD*/
+61452908a79ec9 Fangzhi Zuo 2021-06-09  121  	if (audio_info =3D=3D NULL)
+61452908a79ec9 Fangzhi Zuo 2021-06-09  122  		return;
+61452908a79ec9 Fangzhi Zuo 2021-06-09  123  =
 
-62bc306e208343 Richard Guy Briggs 2017-01-17  440  	ret =3D audit_socketcal=
-l_compat(len / sizeof(a[0]), a);
-62bc306e208343 Richard Guy Briggs 2017-01-17  441  	if (ret)
-62bc306e208343 Richard Guy Briggs 2017-01-17  442  		return ret;
-62bc306e208343 Richard Guy Briggs 2017-01-17  443  =
+61452908a79ec9 Fangzhi Zuo 2021-06-09 @124  	speakers =3D audio_info->flags=
+.info.ALLSPEAKERS;
+61452908a79ec9 Fangzhi Zuo 2021-06-09 @125  	channels =3D speakers_to_chann=
+els(audio_info->flags.speaker_flags).all;
+61452908a79ec9 Fangzhi Zuo 2021-06-09  126  =
 
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @444  	a0 =3D a[0];
+61452908a79ec9 Fangzhi Zuo 2021-06-09  127  	/* DisplayPort only allows for=
+ one audio stream with stream ID 0 */
+61452908a79ec9 Fangzhi Zuo 2021-06-09  128  	REG_UPDATE(APG_CONTROL2, APG_D=
+P_AUDIO_STREAM_ID, 0);
+61452908a79ec9 Fangzhi Zuo 2021-06-09  129  =
 
-:::::: The code at line 444 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+61452908a79ec9 Fangzhi Zuo 2021-06-09  130  	/* When running in "pair mode"=
+, pairs of audio channels have their own enable
+61452908a79ec9 Fangzhi Zuo 2021-06-09  131  	 * this is for really old audi=
+o drivers */
+61452908a79ec9 Fangzhi Zuo 2021-06-09  132  	REG_UPDATE(APG_DBG_GEN_CONTROL=
+, APG_DBG_AUDIO_CHANNEL_ENABLE, 0xF);
+61452908a79ec9 Fangzhi Zuo 2021-06-09  133  	// REG_UPDATE(APG_DBG_GEN_CONT=
+ROL, APG_DBG_AUDIO_CHANNEL_ENABLE, channels);
+61452908a79ec9 Fangzhi Zuo 2021-06-09  134  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+61452908a79ec9 Fangzhi Zuo 2021-06-09  135  	/* Disable forced mem power of=
+f */
+61452908a79ec9 Fangzhi Zuo 2021-06-09  136  	REG_UPDATE(APG_MEM_PWR, APG_ME=
+M_PWR_FORCE, 0);
+61452908a79ec9 Fangzhi Zuo 2021-06-09  137  =
+
+61452908a79ec9 Fangzhi Zuo 2021-06-09  138  	apg31_enable(apg);
+61452908a79ec9 Fangzhi Zuo 2021-06-09  139  }
+61452908a79ec9 Fangzhi Zuo 2021-06-09  140  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============9110064179555422056==--
+--===============3889019834094614195==--
 
