@@ -1,107 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============8380316082984320224=="
+Content-Type: multipart/mixed; boundary="===============0125316924520954117=="
 MIME-Version: 1.0
-From: Dan Carpenter <dan.carpenter@oracle.com>
-Subject: Re: [linux-next:master 4042/4626] net/ceph/messenger_v2.c:311 alloc_conn_buf() error: kvmalloc() only makes sense with GFP_KERNEL
-Date: Fri, 03 Dec 2021 11:20:01 +0300
-Message-ID: <20211203082001.GG9522@kadam>
-In-Reply-To: <202112012323.erLbOTLT-lkp@intel.com>
+From: kernel test robot <lkp@intel.com>
+Subject: drivers/gpu/drm/ttm/ttm_bo.c:553:35: warning: Uninitialized variable: evict_mem [uninitvar]
+Date: Mon, 29 Nov 2021 08:44:13 +0800
+Message-ID: <202111290811.tpWcPBq3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8380316082984320224==
+--===============0125316924520954117==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-The mm devs have modified vmalloc() to all GFP_NOIO.  It's only
-GFP_ATOMIC and GFP_SLEEP which aren't allowed now.  I have pushed an
-update for this.
+CC: kbuild-all(a)lists.01.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Andrey Grodzovsky <andrey.grodzovsky@amd.com>
+CC: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 
-regards,
-dan carpenter
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d58071a8a76d779eedab38033ae4c821c30295a5
+commit: 403797925768d9fa870f5b1ebcd20016b397083b drm/ttm: Fix multihop asse=
+rt on eviction.
+date:   5 months ago
+:::::: branch date: 2 hours ago
+:::::: commit date: 5 months ago
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
-On Wed, Dec 01, 2021 at 11:26:46PM +0800, kernel test robot wrote:
-> CC: kbuild-all(a)lists.01.org
-> CC: Linux Memory Management List <linux-mm@kvack.org>
-> TO: Michal Hocko <mhocko@suse.com>
-> CC: "Uladzislau Rezki (Sony)" <urezki@gmail.com>
-> CC: Andrew Morton <akpm@linux-foundation.org>
-> CC: Linux Memory Management List <linux-mm@kvack.org>
-> =
+If you fix the issue, kindly add following tag as appropriate
+Reported-by: kernel test robot <lkp@intel.com>
 
-> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it master
-> head:   048aeae86c3967f4c40666cd26f2c1eb73a4b805
-> commit: 232323e9a580d6b34f3a513602b21359a79a09dd [4042/4626] mm: allow !G=
-FP_KERNEL allocations for kvmalloc
-> :::::: branch date: 10 hours ago
-> :::::: commit date: 2 days ago
-> config: arm-randconfig-m031-20211128 (https://download.01.org/0day-ci/arc=
-hive/20211201/202112012323.erLbOTLT-lkp(a)intel.com/config)
-> compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
-> =
 
-> If you fix the issue, kindly add following tag as appropriate
-> Reported-by: kernel test robot <lkp@intel.com>
-> Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-> =
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-> New smatch warnings:
-> net/ceph/messenger_v2.c:311 alloc_conn_buf() error: kvmalloc() only makes=
- sense with GFP_KERNEL
-> net/ceph/osdmap.c:983 alloc_workspace() error: kvmalloc() only makes sens=
-e with GFP_KERNEL
-> net/ceph/osdmap.c:1193 osdmap_set_max_osd() error: kvmalloc() only makes =
-sense with GFP_KERNEL
-> net/ceph/osdmap.c:1506 set_primary_affinity() error: kvmalloc() only make=
-s sense with GFP_KERNEL
-> =
+>> drivers/gpu/drm/ttm/ttm_bo.c:553:35: warning: Uninitialized variable: ev=
+ict_mem [uninitvar]
+    ret =3D ttm_bo_handle_move_mem(bo, evict_mem, true, ctx, &hop);
+                                     ^
 
-> Old smatch warnings:
-> net/ceph/osdmap.c:1194 osdmap_set_max_osd() error: kvmalloc() only makes =
-sense with GFP_KERNEL
-> net/ceph/osdmap.c:1195 osdmap_set_max_osd() error: kvmalloc() only makes =
-sense with GFP_KERNEL
-> net/ceph/osdmap.c:1225 osdmap_set_max_osd() error: kvmalloc() only makes =
-sense with GFP_KERNEL
-> =
+vim +553 drivers/gpu/drm/ttm/ttm_bo.c
 
-> vim +311 net/ceph/messenger_v2.c
-> =
+403797925768d9 Andrey Grodzovsky 2021-06-22  512  =
 
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  301  =
+83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  513  static int ttm_bo_ev=
+ict(struct ttm_buffer_object *bo,
+83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  514  			struct ttm_operat=
+ion_ctx *ctx)
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  515  {
+8af8a109b34fa8 Christian K=C3=B6nig   2020-10-01  516  	struct ttm_device *=
+bdev =3D bo->bdev;
+bfa3357ef9abc9 Christian K=C3=B6nig   2021-04-15  517  	struct ttm_resource=
+ *evict_mem;
+ca262a9998d461 Jerome Glisse     2009-12-08  518  	struct ttm_placement pla=
+cement;
+ebdf565169af00 Dave Airlie       2020-10-29  519  	struct ttm_place hop;
+ca262a9998d461 Jerome Glisse     2009-12-08  520  	int ret =3D 0;
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  521  =
 
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  302  static void *alloc_conn_buf(=
-struct ceph_connection *con, int len)
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  303  {
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  304  	void *buf;
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  305  =
+ebdf565169af00 Dave Airlie       2020-10-29  522  	memset(&hop, 0, sizeof(h=
+op));
+ebdf565169af00 Dave Airlie       2020-10-29  523  =
 
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  306  	dout("%s con %p len %d\n", =
-__func__, con, len);
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  307  =
+52791eeec1d9f4 Christian K=C3=B6nig   2019-08-11  524  	dma_resv_assert_hel=
+d(bo->base.resv);
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  525  =
 
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  308  	if (WARN_ON(con->v2.conn_bu=
-f_cnt >=3D ARRAY_SIZE(con->v2.conn_bufs)))
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  309  		return NULL;
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  310  =
+5d95109815493e Christian K=C3=B6nig   2018-02-20  526  	placement.num_place=
+ment =3D 0;
+5d95109815493e Christian K=C3=B6nig   2018-02-20  527  	placement.num_busy_=
+placement =3D 0;
+8af8a109b34fa8 Christian K=C3=B6nig   2020-10-01  528  	bdev->funcs->evict_=
+flags(bo, &placement);
+5d95109815493e Christian K=C3=B6nig   2018-02-20  529  =
 
-> 232323e9a580d6 Michal Hocko 2021-11-30 @311  	buf =3D kvmalloc(len, GFP_N=
-OIO);
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  312  	if (!buf)
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  313  		return NULL;
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  314  =
+d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  530  	if (!placement.num_=
+placement && !placement.num_busy_placement) {
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  531  		ret =3D ttm_bo_wai=
+t(bo, true, false);
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  532  		if (ret)
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  533  			return ret;
+d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  534  =
 
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  315  	con->v2.conn_bufs[con->v2.c=
-onn_buf_cnt++] =3D buf;
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  316  	return buf;
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  317  }
-> cd1a677cad9940 Ilya Dryomov 2020-11-19  318  =
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  535  		/*
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  536  		 * Since we've alr=
+eady synced, this frees backing store
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  537  		 * immediately.
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  538  		 */
+a3be8cd70fec2a Thomas Hellstr=C3=B6m  2021-06-02  539  		return ttm_bo_pipe=
+line_gutting(bo);
+d59bc6324208e4 Christian K=C3=B6nig   2020-07-23  540  	}
+5d95109815493e Christian K=C3=B6nig   2018-02-20  541  =
 
-> =
+83876c1bed8c91 Christian K=C3=B6nig   2017-04-12  542  	ret =3D ttm_bo_mem_=
+space(bo, &placement, &evict_mem, ctx);
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  543  	if (ret) {
+fb53f8621a3fab Jerome Glisse     2009-12-09  544  		if (ret !=3D -ERESTARTS=
+YS) {
+25d0479a592556 Joe Perches       2012-03-16  545  			pr_err("Failed to find=
+ memory space for buffer 0x%p eviction\n",
+25d0479a592556 Joe Perches       2012-03-16  546  			       bo);
+fb53f8621a3fab Jerome Glisse     2009-12-09  547  			ttm_bo_mem_space_debug=
+(bo, &placement);
+fb53f8621a3fab Jerome Glisse     2009-12-09  548  		}
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  549  		goto out;
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  550  	}
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  551  =
 
-> ---
-> 0-DAY CI Kernel Test Service, Intel Corporation
-> https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8380316082984320224==--
+403797925768d9 Andrey Grodzovsky 2021-06-22  552  bounce:
+bfa3357ef9abc9 Christian K=C3=B6nig   2021-04-15 @553  	ret =3D ttm_bo_hand=
+le_move_mem(bo, evict_mem, true, ctx, &hop);
+403797925768d9 Andrey Grodzovsky 2021-06-22  554  	if (ret =3D=3D -EMULTIHO=
+P) {
+403797925768d9 Andrey Grodzovsky 2021-06-22  555  		ret =3D ttm_bo_bounce_t=
+emp_buffer(bo, &evict_mem, ctx, &hop);
+403797925768d9 Andrey Grodzovsky 2021-06-22  556  		if (ret) {
+25d0479a592556 Joe Perches       2012-03-16  557  			pr_err("Buffer evictio=
+n failed\n");
+b2458726b38cb6 Christian K=C3=B6nig   2020-08-03  558  			ttm_resource_free=
+(bo, &evict_mem);
+403797925768d9 Andrey Grodzovsky 2021-06-22  559  			goto out;
+403797925768d9 Andrey Grodzovsky 2021-06-22  560  		}
+403797925768d9 Andrey Grodzovsky 2021-06-22  561  		/* try and move to fina=
+l place now. */
+403797925768d9 Andrey Grodzovsky 2021-06-22  562  		goto bounce;
+ca262a9998d461 Jerome Glisse     2009-12-08  563  	}
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  564  out:
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  565  	return ret;
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  566  }
+ba4e7d973dd09b Thomas Hellstrom  2009-06-10  567  =
+
+
+:::::: The code at line 553 was first introduced by commit
+:::::: bfa3357ef9abc9d56a2910222d2deeb9f15c91ff drm/ttm: allocate resource =
+object instead of embedding it v2
+
+:::::: TO: Christian K=C3=B6nig <christian.koenig@amd.com>
+:::::: CC: Christian K=C3=B6nig <christian.koenig@amd.com>
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============0125316924520954117==--
 
