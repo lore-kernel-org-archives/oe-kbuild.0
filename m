@@ -1,91 +1,333 @@
-Content-Type: multipart/mixed; boundary="===============6507164874792718993=="
+Content-Type: multipart/mixed; boundary="===============5880647424192254835=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/adc/at91-sama5d2_adc.c:530:0: warning: syntax error [syntaxError]
-Date: Mon, 29 Nov 2021 10:56:15 +0800
-Message-ID: <202111291034.KPm6Fusi-lkp@intel.com>
+Subject: include/linux/sunrpc/svc_rdma_pcl.h:64:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Mon, 29 Nov 2021 10:35:52 +0800
+Message-ID: <202111291024.H7MLdYci-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6507164874792718993==
+--===============5880647424192254835==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Eugen Hristev <eugen.hristev@microchip.com>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Chuck Lever <chuck.lever@oracle.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   d58071a8a76d779eedab38033ae4c821c30295a5
-commit: 8940de2e48902e95b588b6244d5a1b61a4d75c4a iio: adc: at91-sama5d2_adc=
-: convert to platform specific data structures
-date:   3 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 3 months ago
-compiler: xtensa-linux-gcc (GCC) 11.2.0
+commit: 78147ca8b4a9b6cf0e597ddd6bf17959e08376c2 svcrdma: Add a "parsed chu=
+nk list" data structure
+date:   12 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-c007-20211124 (https://download.01.org/0day-ci/ar=
+chive/20211129/202111291024.H7MLdYci-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 67a1c4=
+5def8a75061203461ab0060c75c864df1c)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D78147ca8b4a9b6cf0e597ddd6bf17959e08376c2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 78147ca8b4a9b6cf0e597ddd6bf17959e08376c2
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+clang-analyzer warnings: (new ones prefixed by >>)
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/clk/clk-si5341.c:667:2: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           err =3D si5341_encode_44_32(synth->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:667:2: note: Value stored to 'err' is never read
+           err =3D si5341_encode_44_32(synth->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:827:23: warning: Division by zero [clang-analyz=
+er-core.DivideZero]
+                   rate =3D *parent_rate / (r << 1);
+                          ~~~~~~~~~~~~~^~~~~~~~~~
+   drivers/clk/clk-si5341.c:812:6: note: Assuming 'r' is 0
+           if (r && !(r % rate))
+               ^
+   drivers/clk/clk-si5341.c:812:8: note: Left side of '&&' is false
+           if (r && !(r % rate))
+                 ^
+   drivers/clk/clk-si5341.c:815:6: note: Assuming the condition is false
+           if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:815:2: note: Taking false branch
+           if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
+           ^
+   drivers/clk/clk-si5341.c:827:23: note: Division by zero
+                   rate =3D *parent_rate / (r << 1);
+                          ~~~~~~~~~~~~~^~~~~~~~~~
+   drivers/clk/clk-si5341.c:861:2: warning: Value stored to 'err' is never =
+read [clang-analyzer-deadcode.DeadStores]
+           err =3D regmap_bulk_write(output->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5341.c:861:2: note: Value stored to 'err' is never read
+           err =3D regmap_bulk_write(output->data->regmap,
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/dma/dmatest.c:939:3: warning: Value stored to 'ret' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                   ret =3D kthread_stop(thread->task);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/dmatest.c:939:3: note: Value stored to 'ret' is never read
+                   ret =3D kthread_stop(thread->task);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> include/linux/sunrpc/svc_rdma_pcl.h:64:2: warning: Use of memory after i=
+t is freed [clang-analyzer-unix.Malloc]
+           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
+           ^
+   net/sunrpc/xprtrdma/svc_rdma_pcl.c:19:2: note: Loop condition is true.  =
+Entering loop body
+           while (!list_empty(&pcl->cl_chunks)) {
+           ^
+   net/sunrpc/xprtrdma/svc_rdma_pcl.c:24:3: note: Memory is released
+                   kfree(chunk);
+                   ^~~~~~~~~~~~
+   net/sunrpc/xprtrdma/svc_rdma_pcl.c:19:2: note: Loop condition is true.  =
+Entering loop body
+           while (!list_empty(&pcl->cl_chunks)) {
+           ^
+   net/sunrpc/xprtrdma/svc_rdma_pcl.c:22:11: note: Calling 'pcl_first_chunk'
+                   chunk =3D pcl_first_chunk(pcl);
+                           ^~~~~~~~~~~~~~~~~~~~
+   include/linux/sunrpc/svc_rdma_pcl.h:62:6: note: Assuming the condition i=
+s false
+           if (pcl_is_empty(pcl))
+               ^~~~~~~~~~~~~~~~~
+   include/linux/sunrpc/svc_rdma_pcl.h:62:2: note: Taking false branch
+           if (pcl_is_empty(pcl))
+           ^
+   include/linux/sunrpc/svc_rdma_pcl.h:64:9: note: Left side of '&&' is fal=
+se
+           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
+                  ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:853:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   include/linux/sunrpc/svc_rdma_pcl.h:64:9: note: Taking false branch
+           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
+                  ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:853:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/sunrpc/svc_rdma_pcl.h:64:9: note: Loop condition is false.=
+  Exiting loop
+           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
+                  ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:853:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:293:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   include/linux/sunrpc/svc_rdma_pcl.h:64:2: note: Use of memory after it i=
+s freed
+           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
+           ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
 
->> drivers/iio/adc/at91-sama5d2_adc.c:530:0: warning: syntax error [syntaxE=
-rror]
-   =
+vim +64 include/linux/sunrpc/svc_rdma_pcl.h
 
-   ^
+78147ca8b4a9b6 Chuck Lever 2020-06-22  52  =
 
-vim +530 drivers/iio/adc/at91-sama5d2_adc.c
-
-8940de2e48902e Eugen Hristev 2021-09-01  524  =
-
-8940de2e48902e Eugen Hristev 2021-09-01  525  static const struct at91_adc_=
-platform sama5d2_platform =3D {
-8940de2e48902e Eugen Hristev 2021-09-01  526  	.layout =3D &sama5d2_layout,
-8940de2e48902e Eugen Hristev 2021-09-01  527  	.adc_channels =3D &at91_sama=
-5d2_adc_channels,
-8940de2e48902e Eugen Hristev 2021-09-01  528  #define AT91_SAMA5D2_SINGLE_C=
-HAN_CNT 12
-8940de2e48902e Eugen Hristev 2021-09-01  529  #define AT91_SAMA5D2_DIFF_CHA=
-N_CNT 6
-8940de2e48902e Eugen Hristev 2021-09-01 @530  	.nr_channels =3D AT91_SAMA5D=
-2_SINGLE_CHAN_CNT +
-8940de2e48902e Eugen Hristev 2021-09-01  531  		       AT91_SAMA5D2_DIFF_CH=
-AN_CNT,
-8940de2e48902e Eugen Hristev 2021-09-01  532  #define AT91_SAMA5D2_TOUCH_X_=
-CHAN_IDX	(AT91_SAMA5D2_SINGLE_CHAN_CNT + \
-8940de2e48902e Eugen Hristev 2021-09-01  533  					AT91_SAMA5D2_DIFF_CHAN_C=
-NT * 2)
-8940de2e48902e Eugen Hristev 2021-09-01  534  	.touch_chan_x =3D AT91_SAMA5=
-D2_TOUCH_X_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  535  #define AT91_SAMA5D2_TOUCH_Y_=
-CHAN_IDX	(AT91_SAMA5D2_TOUCH_X_CHAN_IDX + 1)
-8940de2e48902e Eugen Hristev 2021-09-01  536  	.touch_chan_y =3D AT91_SAMA5=
-D2_TOUCH_Y_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  537  #define AT91_SAMA5D2_TOUCH_P_=
-CHAN_IDX	(AT91_SAMA5D2_TOUCH_Y_CHAN_IDX + 1)
-8940de2e48902e Eugen Hristev 2021-09-01  538  	.touch_chan_p =3D AT91_SAMA5=
-D2_TOUCH_P_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  539  #define AT91_SAMA5D2_MAX_CHAN=
-_IDX	AT91_SAMA5D2_TOUCH_P_CHAN_IDX
-8940de2e48902e Eugen Hristev 2021-09-01  540  	.max_channels =3D ARRAY_SIZE=
-(at91_sama5d2_adc_channels),
-8940de2e48902e Eugen Hristev 2021-09-01  541  	.max_index =3D AT91_SAMA5D2_=
-MAX_CHAN_IDX,
-8940de2e48902e Eugen Hristev 2021-09-01  542  #define AT91_SAMA5D2_HW_TRIG_=
-CNT	3
-8940de2e48902e Eugen Hristev 2021-09-01  543  	.hw_trig_cnt =3D AT91_SAMA5D=
-2_HW_TRIG_CNT,
-5e1a1da0f8c914 Eugen Hristev 2017-06-15  544  };
-5e1a1da0f8c914 Eugen Hristev 2017-06-15  545  =
+78147ca8b4a9b6 Chuck Lever 2020-06-22  53  /**
+78147ca8b4a9b6 Chuck Lever 2020-06-22  54   * pcl_first_chunk - Return firs=
+t chunk in a parsed chunk list
+78147ca8b4a9b6 Chuck Lever 2020-06-22  55   * @pcl: parsed chunk list
+78147ca8b4a9b6 Chuck Lever 2020-06-22  56   *
+78147ca8b4a9b6 Chuck Lever 2020-06-22  57   * Returns the first chunk in th=
+e list, or NULL if the list is empty.
+78147ca8b4a9b6 Chuck Lever 2020-06-22  58   */
+78147ca8b4a9b6 Chuck Lever 2020-06-22  59  static inline struct svc_rdma_ch=
+unk *
+78147ca8b4a9b6 Chuck Lever 2020-06-22  60  pcl_first_chunk(const struct svc=
+_rdma_pcl *pcl)
+78147ca8b4a9b6 Chuck Lever 2020-06-22  61  {
+78147ca8b4a9b6 Chuck Lever 2020-06-22  62  	if (pcl_is_empty(pcl))
+78147ca8b4a9b6 Chuck Lever 2020-06-22  63  		return NULL;
+78147ca8b4a9b6 Chuck Lever 2020-06-22 @64  	return list_first_entry(&pcl->c=
+l_chunks, struct svc_rdma_chunk,
+78147ca8b4a9b6 Chuck Lever 2020-06-22  65  				ch_list);
+78147ca8b4a9b6 Chuck Lever 2020-06-22  66  }
+78147ca8b4a9b6 Chuck Lever 2020-06-22  67  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6507164874792718993==--
+--===============5880647424192254835==--
 
