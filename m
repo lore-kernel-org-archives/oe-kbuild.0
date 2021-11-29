@@ -1,333 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============5880647424192254835=="
+Content-Type: multipart/mixed; boundary="===============6145889391546160437=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/sunrpc/svc_rdma_pcl.h:64:2: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
-Date: Mon, 29 Nov 2021 10:35:52 +0800
-Message-ID: <202111291024.H7MLdYci-lkp@intel.com>
+Subject: [linux-next:master 3329/3897] drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c:267 amdgpu_ctx_do_set_pstate_profile() warn: variable dereferenced before check 'ctx' (see line 262)
+Date: Mon, 29 Nov 2021 10:35:49 +0800
+Message-ID: <202111291005.m0XHMUFG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5880647424192254835==
+--===============6145889391546160437==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Chuck Lever <chuck.lever@oracle.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Alex Deucher <alexander.deucher@amd.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d58071a8a76d779eedab38033ae4c821c30295a5
-commit: 78147ca8b4a9b6cf0e597ddd6bf17959e08376c2 svcrdma: Add a "parsed chu=
-nk list" data structure
-date:   12 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-c007-20211124 (https://download.01.org/0day-ci/ar=
-chive/20211129/202111291024.H7MLdYci-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 67a1c4=
-5def8a75061203461ab0060c75c864df1c)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D78147ca8b4a9b6cf0e597ddd6bf17959e08376c2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 78147ca8b4a9b6cf0e597ddd6bf17959e08376c2
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   f30a24ed97b401416118756fa35fbe5d28f999e3
+commit: c8d265840be604ebaa66a426913ecd4adb619311 [3329/3897] drm/amdgpu/UAP=
+I: add new CTX OP for setting profile modes
+:::::: branch date: 3 days ago
+:::::: commit date: 4 days ago
+config: i386-randconfig-m021-20211128 (https://download.01.org/0day-ci/arch=
+ive/20211129/202111291005.m0XHMUFG-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c:267 amdgpu_ctx_do_set_pstate_profil=
+e() warn: variable dereferenced before check 'ctx' (see line 262)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/clk/clk-si5341.c:667:2: warning: Value stored to 'err' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           err =3D si5341_encode_44_32(synth->data->regmap,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-si5341.c:667:2: note: Value stored to 'err' is never read
-           err =3D si5341_encode_44_32(synth->data->regmap,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-si5341.c:827:23: warning: Division by zero [clang-analyz=
-er-core.DivideZero]
-                   rate =3D *parent_rate / (r << 1);
-                          ~~~~~~~~~~~~~^~~~~~~~~~
-   drivers/clk/clk-si5341.c:812:6: note: Assuming 'r' is 0
-           if (r && !(r % rate))
-               ^
-   drivers/clk/clk-si5341.c:812:8: note: Left side of '&&' is false
-           if (r && !(r % rate))
-                 ^
-   drivers/clk/clk-si5341.c:815:6: note: Assuming the condition is false
-           if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-si5341.c:815:2: note: Taking false branch
-           if (clk_hw_get_flags(hw) & CLK_SET_RATE_PARENT) {
-           ^
-   drivers/clk/clk-si5341.c:827:23: note: Division by zero
-                   rate =3D *parent_rate / (r << 1);
-                          ~~~~~~~~~~~~~^~~~~~~~~~
-   drivers/clk/clk-si5341.c:861:2: warning: Value stored to 'err' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           err =3D regmap_bulk_write(output->data->regmap,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/clk/clk-si5341.c:861:2: note: Value stored to 'err' is never read
-           err =3D regmap_bulk_write(output->data->regmap,
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/dma/dmatest.c:939:3: warning: Value stored to 'ret' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                   ret =3D kthread_stop(thread->task);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/dma/dmatest.c:939:3: note: Value stored to 'ret' is never read
-                   ret =3D kthread_stop(thread->task);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> include/linux/sunrpc/svc_rdma_pcl.h:64:2: warning: Use of memory after i=
-t is freed [clang-analyzer-unix.Malloc]
-           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
-           ^
-   net/sunrpc/xprtrdma/svc_rdma_pcl.c:19:2: note: Loop condition is true.  =
-Entering loop body
-           while (!list_empty(&pcl->cl_chunks)) {
-           ^
-   net/sunrpc/xprtrdma/svc_rdma_pcl.c:24:3: note: Memory is released
-                   kfree(chunk);
-                   ^~~~~~~~~~~~
-   net/sunrpc/xprtrdma/svc_rdma_pcl.c:19:2: note: Loop condition is true.  =
-Entering loop body
-           while (!list_empty(&pcl->cl_chunks)) {
-           ^
-   net/sunrpc/xprtrdma/svc_rdma_pcl.c:22:11: note: Calling 'pcl_first_chunk'
-                   chunk =3D pcl_first_chunk(pcl);
-                           ^~~~~~~~~~~~~~~~~~~~
-   include/linux/sunrpc/svc_rdma_pcl.h:62:6: note: Assuming the condition i=
-s false
-           if (pcl_is_empty(pcl))
-               ^~~~~~~~~~~~~~~~~
-   include/linux/sunrpc/svc_rdma_pcl.h:62:2: note: Taking false branch
-           if (pcl_is_empty(pcl))
-           ^
-   include/linux/sunrpc/svc_rdma_pcl.h:64:9: note: Left side of '&&' is fal=
-se
-           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
-                  ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:853:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   include/linux/sunrpc/svc_rdma_pcl.h:64:9: note: Taking false branch
-           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
-                  ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:853:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/sunrpc/svc_rdma_pcl.h:64:9: note: Loop condition is false.=
-  Exiting loop
-           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
-                  ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:853:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:293:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   include/linux/sunrpc/svc_rdma_pcl.h:64:2: note: Use of memory after it i=
-s freed
-           return list_first_entry(&pcl->cl_chunks, struct svc_rdma_chunk,
-           ^
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
+vim +/ctx +267 drivers/gpu/drm/amd/amdgpu/amdgpu_ctx.c
 
-vim +64 include/linux/sunrpc/svc_rdma_pcl.h
+47f38501f11fa4 Christian K=C3=B6nig 2015-08-04  258  =
 
-78147ca8b4a9b6 Chuck Lever 2020-06-22  52  =
+c8d265840be604 Alex Deucher    2021-11-23  259  static int amdgpu_ctx_do_se=
+t_pstate_profile(struct amdgpu_ctx *ctx,
+c8d265840be604 Alex Deucher    2021-11-23  260  					    u32 pstate_profile)
+c8d265840be604 Alex Deucher    2021-11-23  261  {
+c8d265840be604 Alex Deucher    2021-11-23 @262  	struct amdgpu_device *adev=
+ =3D ctx->adev;
+c8d265840be604 Alex Deucher    2021-11-23  263  	const struct amd_pm_funcs =
+*pp_funcs =3D adev->powerplay.pp_funcs;
+c8d265840be604 Alex Deucher    2021-11-23  264  	enum amd_dpm_forced_level =
+level, current_level;
+c8d265840be604 Alex Deucher    2021-11-23  265  	int r =3D 0;
+c8d265840be604 Alex Deucher    2021-11-23  266  =
 
-78147ca8b4a9b6 Chuck Lever 2020-06-22  53  /**
-78147ca8b4a9b6 Chuck Lever 2020-06-22  54   * pcl_first_chunk - Return firs=
-t chunk in a parsed chunk list
-78147ca8b4a9b6 Chuck Lever 2020-06-22  55   * @pcl: parsed chunk list
-78147ca8b4a9b6 Chuck Lever 2020-06-22  56   *
-78147ca8b4a9b6 Chuck Lever 2020-06-22  57   * Returns the first chunk in th=
-e list, or NULL if the list is empty.
-78147ca8b4a9b6 Chuck Lever 2020-06-22  58   */
-78147ca8b4a9b6 Chuck Lever 2020-06-22  59  static inline struct svc_rdma_ch=
-unk *
-78147ca8b4a9b6 Chuck Lever 2020-06-22  60  pcl_first_chunk(const struct svc=
-_rdma_pcl *pcl)
-78147ca8b4a9b6 Chuck Lever 2020-06-22  61  {
-78147ca8b4a9b6 Chuck Lever 2020-06-22  62  	if (pcl_is_empty(pcl))
-78147ca8b4a9b6 Chuck Lever 2020-06-22  63  		return NULL;
-78147ca8b4a9b6 Chuck Lever 2020-06-22 @64  	return list_first_entry(&pcl->c=
-l_chunks, struct svc_rdma_chunk,
-78147ca8b4a9b6 Chuck Lever 2020-06-22  65  				ch_list);
-78147ca8b4a9b6 Chuck Lever 2020-06-22  66  }
-78147ca8b4a9b6 Chuck Lever 2020-06-22  67  =
+c8d265840be604 Alex Deucher    2021-11-23 @267  	if (!ctx)
+c8d265840be604 Alex Deucher    2021-11-23  268  		return -EINVAL;
+c8d265840be604 Alex Deucher    2021-11-23  269  =
+
+c8d265840be604 Alex Deucher    2021-11-23  270  	mutex_lock(&adev->pstate_p=
+rofile_ctx_lock);
+c8d265840be604 Alex Deucher    2021-11-23  271  	if (adev->pstate_profile_c=
+tx && adev->pstate_profile_ctx !=3D ctx) {
+c8d265840be604 Alex Deucher    2021-11-23  272  		r =3D -EBUSY;
+c8d265840be604 Alex Deucher    2021-11-23  273  		goto done;
+c8d265840be604 Alex Deucher    2021-11-23  274  	}
+c8d265840be604 Alex Deucher    2021-11-23  275  =
+
+c8d265840be604 Alex Deucher    2021-11-23  276  	switch (pstate_profile) {
+c8d265840be604 Alex Deucher    2021-11-23  277  	case AMDGPU_CTX_PSTATE_PRO=
+FILE_NONE:
+c8d265840be604 Alex Deucher    2021-11-23  278  		level =3D AMD_DPM_FORCED_=
+LEVEL_AUTO;
+c8d265840be604 Alex Deucher    2021-11-23  279  		break;
+c8d265840be604 Alex Deucher    2021-11-23  280  	case AMDGPU_CTX_PSTATE_PRO=
+FILE_STANDARD:
+c8d265840be604 Alex Deucher    2021-11-23  281  		level =3D AMD_DPM_FORCED_=
+LEVEL_PROFILE_STANDARD;
+c8d265840be604 Alex Deucher    2021-11-23  282  		break;
+c8d265840be604 Alex Deucher    2021-11-23  283  	case AMDGPU_CTX_PSTATE_PRO=
+FILE_MIN_SCLK:
+c8d265840be604 Alex Deucher    2021-11-23  284  		level =3D AMD_DPM_FORCED_=
+LEVEL_PROFILE_MIN_SCLK;
+c8d265840be604 Alex Deucher    2021-11-23  285  		break;
+c8d265840be604 Alex Deucher    2021-11-23  286  	case AMDGPU_CTX_PSTATE_PRO=
+FILE_MIN_MCLK:
+c8d265840be604 Alex Deucher    2021-11-23  287  		level =3D AMD_DPM_FORCED_=
+LEVEL_PROFILE_MIN_MCLK;
+c8d265840be604 Alex Deucher    2021-11-23  288  		break;
+c8d265840be604 Alex Deucher    2021-11-23  289  	case AMDGPU_CTX_PSTATE_PRO=
+FILE_PEAK:
+c8d265840be604 Alex Deucher    2021-11-23  290  		level =3D AMD_DPM_FORCED_=
+LEVEL_PROFILE_PEAK;
+c8d265840be604 Alex Deucher    2021-11-23  291  		break;
+c8d265840be604 Alex Deucher    2021-11-23  292  	default:
+c8d265840be604 Alex Deucher    2021-11-23  293  		r =3D -EINVAL;
+c8d265840be604 Alex Deucher    2021-11-23  294  		goto done;
+c8d265840be604 Alex Deucher    2021-11-23  295  	}
+c8d265840be604 Alex Deucher    2021-11-23  296  =
+
+c8d265840be604 Alex Deucher    2021-11-23  297  	if (pp_funcs->get_performa=
+nce_level)
+c8d265840be604 Alex Deucher    2021-11-23  298  		current_level =3D amdgpu_=
+dpm_get_performance_level(adev);
+c8d265840be604 Alex Deucher    2021-11-23  299  	else
+c8d265840be604 Alex Deucher    2021-11-23  300  		current_level =3D adev->p=
+m.dpm.forced_level;
+c8d265840be604 Alex Deucher    2021-11-23  301  =
+
+c8d265840be604 Alex Deucher    2021-11-23  302  	if ((current_level !=3D le=
+vel) && pp_funcs->force_performance_level) {
+c8d265840be604 Alex Deucher    2021-11-23  303  		mutex_lock(&adev->pm.mute=
+x);
+c8d265840be604 Alex Deucher    2021-11-23  304  		r =3D amdgpu_dpm_force_pe=
+rformance_level(adev, level);
+c8d265840be604 Alex Deucher    2021-11-23  305  		if (!r)
+c8d265840be604 Alex Deucher    2021-11-23  306  			adev->pm.dpm.forced_leve=
+l =3D level;
+c8d265840be604 Alex Deucher    2021-11-23  307  		mutex_unlock(&adev->pm.mu=
+tex);
+c8d265840be604 Alex Deucher    2021-11-23  308  	}
+c8d265840be604 Alex Deucher    2021-11-23  309  =
+
+c8d265840be604 Alex Deucher    2021-11-23  310  	if (level =3D=3D AMD_DPM_F=
+ORCED_LEVEL_AUTO)
+c8d265840be604 Alex Deucher    2021-11-23  311  		adev->pstate_profile_ctx =
+=3D NULL;
+c8d265840be604 Alex Deucher    2021-11-23  312  	else
+c8d265840be604 Alex Deucher    2021-11-23  313  		adev->pstate_profile_ctx =
+=3D ctx;
+c8d265840be604 Alex Deucher    2021-11-23  314  done:
+c8d265840be604 Alex Deucher    2021-11-23  315  	mutex_unlock(&adev->pstate=
+_profile_ctx_lock);
+c8d265840be604 Alex Deucher    2021-11-23  316  =
+
+c8d265840be604 Alex Deucher    2021-11-23  317  	return r;
+c8d265840be604 Alex Deucher    2021-11-23  318  }
+c8d265840be604 Alex Deucher    2021-11-23  319  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5880647424192254835==--
+--===============6145889391546160437==--
 
