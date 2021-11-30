@@ -1,56 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============6235524389912170584=="
+Content-Type: multipart/mixed; boundary="===============4545740821337615552=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC][PATCH v6 1/5] trace: Add trace any kernel object
-Date: Wed, 01 Dec 2021 03:50:09 +0800
-Message-ID: <202112010332.H8xSohUr-lkp@intel.com>
+Subject: drivers/net/ethernet/actions/owl-emac.c:210:16: warning: Access to field 'control' results in a dereference of an undefined pointer value (loaded from variable 'desc') [clang-analyzer-core.NullDereference]
+Date: Wed, 01 Dec 2021 02:28:19 +0800
+Message-ID: <202112010219.RWu2F2Ib-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6235524389912170584==
+--===============4545740821337615552==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211129164951.220511-2-xiehuan09@gmail.com>
-References: <20211129164951.220511-2-xiehuan09@gmail.com>
-TO: Jeff Xie <xiehuan09@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Cai Huoqing <caihuoqing@baidu.com>
 
-Hi Jeff,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on rostedt-trace/for-next]
-[also build test WARNING on linux/master linus/master v5.16-rc3 next-202111=
-30]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Jeff-Xie/trace-Introduce-o=
-bjtrace-trigger-to-trace-the-kernel-object/20211130-041958
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace=
-.git for-next
-:::::: branch date: 23 hours ago
-:::::: commit date: 23 hours ago
-config: x86_64-randconfig-c007-20211128 (https://download.01.org/0day-ci/ar=
-chive/20211201/202112010332.H8xSohUr-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 25eb7f=
-a01d7ebbe67648ea03841cda55b4239ab2)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d58071a8a76d779eedab38033ae4c821c30295a5
+commit: fbcf8a340150abd20bf44fc706362b0827157fe8 net: ethernet: actions: Ad=
+d helper dependency on COMPILE_TEST
+date:   3 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 3 months ago
+config: arm-randconfig-c002-20211001 (https://download.01.org/0day-ci/archi=
+ve/20211201/202112010219.RWu2F2Ib-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 962e50=
+3cc8bc411f7523cc393acae8aae425b1c4)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/88ea43d691b0980bf49b4e579=
-c39303cf3c9cd72
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jeff-Xie/trace-Introduce-objtrace-=
-trigger-to-trace-the-kernel-object/20211130-041958
-        git checkout 88ea43d691b0980bf49b4e579c39303cf3c9cd72
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dfbcf8a340150abd20bf44fc706362b0827157fe8
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout fbcf8a340150abd20bf44fc706362b0827157fe8
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -58,533 +51,350 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           if (function !=3D ACPI_READ && function !=3D ACPI_WRITE)
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:1283:6: note: Left side of '&&' is true
-   drivers/acpi/ec.c:1283:31: note: Assuming 'function' is equal to ACPI_WR=
-ITE
-           if (function !=3D ACPI_READ && function !=3D ACPI_WRITE)
-                                        ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:1283:2: note: Taking false branch
-           if (function !=3D ACPI_READ && function !=3D ACPI_WRITE)
-           ^
-   drivers/acpi/ec.c:1286:6: note: Assuming field 'busy_polling' is true
-           if (ec->busy_polling || bits > 8)
-               ^~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:1286:23: note: Left side of '||' is true
-           if (ec->busy_polling || bits > 8)
-                                ^
-   drivers/acpi/ec.c:1289:14: note: Assuming 'i' is < 'bytes'
-           for (i =3D 0; i < bytes; ++i, ++address, ++value)
-                       ^~~~~~~~~
-   drivers/acpi/ec.c:1289:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (i =3D 0; i < bytes; ++i, ++address, ++value)
-           ^
-   drivers/acpi/ec.c:1290:13: note: 'function' is not equal to ACPI_READ
-                   result =3D (function =3D=3D ACPI_READ) ?
-                             ^~~~~~~~
-   drivers/acpi/ec.c:1290:12: note: '?' condition is false
-                   result =3D (function =3D=3D ACPI_READ) ?
-                            ^
-   drivers/acpi/ec.c:1292:4: note: Calling 'acpi_ec_write'
-                           acpi_ec_write(ec, address, *value);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:872:9: note: Calling 'acpi_ec_transaction'
-           return acpi_ec_transaction(ec, &t);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:807:2: note: 'glk' declared without an initial value
-           u32 glk;
-           ^~~~~~~
-   drivers/acpi/ec.c:809:7: note: 'ec' is non-null
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-                ^~
-   drivers/acpi/ec.c:809:6: note: Left side of '||' is false
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-               ^
-   drivers/acpi/ec.c:809:15: note: 't' is non-null
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-                        ^
-   drivers/acpi/ec.c:809:6: note: Left side of '||' is false
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-               ^
-   drivers/acpi/ec.c:809:25: note: Field 'wlen' is 2
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-                                  ^
-   drivers/acpi/ec.c:809:22: note: Left side of '&&' is true
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-                               ^
-   drivers/acpi/ec.c:809:37: note: Field 'wdata' is non-null
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-                                              ^
-   drivers/acpi/ec.c:809:6: note: Left side of '||' is false
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-               ^
-   drivers/acpi/ec.c:809:51: note: Field 'rlen' is 0
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-                                                            ^
-   drivers/acpi/ec.c:809:56: note: Left side of '&&' is false
-           if (!ec || (!t) || (t->wlen && !t->wdata) || (t->rlen && !t->rda=
-ta))
-                                                                 ^
-   drivers/acpi/ec.c:811:9: note: Field 'rdata' is null
-           if (t->rdata)
-                  ^
-   drivers/acpi/ec.c:811:2: note: Taking false branch
-           if (t->rdata)
-           ^
-   drivers/acpi/ec.c:815:6: note: Assuming field 'global_lock' is false
-           if (ec->global_lock) {
-               ^~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:815:2: note: Taking false branch
-           if (ec->global_lock) {
-           ^
-   drivers/acpi/ec.c:825:6: note: Assuming field 'global_lock' is true
-           if (ec->global_lock)
-               ^~~~~~~~~~~~~~~
-   drivers/acpi/ec.c:825:2: note: Taking true branch
-           if (ec->global_lock)
-           ^
-   drivers/acpi/ec.c:826:3: note: 1st function call argument is an uninitia=
-lized value
-                   acpi_release_global_lock(glk);
-                   ^                        ~~~
-   drivers/acpi/ec.c:1576:2: warning: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_name(device), ACPI_EC_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/ec.c:1576:2: note: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119
-           strcpy(acpi_device_name(device), ACPI_EC_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/ec.c:1577:2: warning: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_class(device), ACPI_EC_CLASS);
-           ^~~~~~
-   drivers/acpi/ec.c:1577:2: note: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119
-           strcpy(acpi_device_class(device), ACPI_EC_CLASS);
-           ^~~~~~
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
    3 warnings generated.
->> kernel/trace/trace_object.c:99:2: warning: Use of memory after it is fre=
-ed [clang-analyzer-unix.Malloc]
-           list_for_each_entry_rcu(inst, head, active_list)
-           ^
-   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_=
-entry_rcu'
-                   pos =3D list_entry_rcu(pos->member.next, typeof(*pos), m=
-ember))
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/net/can/ti_hecc.c:783:3: warning: Value stored to 'int_status' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   int_status =3D hecc_read(priv, HECC_CANGIF1);
+                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/ti_hecc.c:783:3: note: Value stored to 'int_status' is n=
+ever read
+                   int_status =3D hecc_read(priv, HECC_CANGIF1);
+                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/ti_hecc.c:786:3: warning: Value stored to 'int_status' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   int_status =3D hecc_read(priv, HECC_CANGIF0);
+                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/ti_hecc.c:786:3: note: Value stored to 'int_status' is n=
+ever read
+                   int_status =3D hecc_read(priv, HECC_CANGIF0);
+                   ^            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/can/ti_hecc.c:861:22: warning: Value stored to 'np' during i=
+ts initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device_node *np =3D pdev->dev.of_node;
+                               ^~   ~~~~~~~~~~~~~~~~~
+   drivers/net/can/ti_hecc.c:861:22: note: Value stored to 'np' during its =
+initialization is never read
+           struct device_node *np =3D pdev->dev.of_node;
+                               ^~   ~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> drivers/net/ethernet/actions/owl-emac.c:210:16: warning: Access to field=
+ 'control' results in a dereference of an undefined pointer value (loaded f=
+rom variable 'desc') [clang-analyzer-core.NullDereference]
+           desc->control |=3D OWL_EMAC_BIT_RDES1_RER;
                          ^
-   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
-u'
-           container_of(READ_ONCE(ptr), type, member)
-                        ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
+   drivers/net/ethernet/actions/owl-emac.c:1420:2: note: '?' condition is f=
+alse
+           if (ret)
            ^
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^
-   kernel/trace/trace_object.c:298:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   kernel/trace/trace_object.c:298:2: note: Left side of '&&' is false
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                    ^
-   kernel/trace/trace_object.c:298:2: note: Taking false branch
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   kernel/trace/trace_object.c:298:2: note: Loop condition is false.  Exiti=
-ng loop
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-           ^
-   kernel/trace/trace_object.c:300:2: note: Loop condition is false. Execut=
-ion continues on line 307
-           list_for_each_entry(test, &file->triggers, list) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   kernel/trace/trace_object.c:307:6: note: Assuming field 'init' is null
-           if (data->ops->init) {
-               ^~~~~~~~~~~~~~~
-   kernel/trace/trace_object.c:307:2: note: Taking false branch
-           if (data->ops->init) {
-           ^
-   kernel/trace/trace_object.c:317:6: note: Assuming the condition is false
-           if (trace_event_trigger_enable_disable(file, 1) < 0) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_object.c:317:2: note: Taking false branch
-           if (trace_event_trigger_enable_disable(file, 1) < 0) {
-           ^
-   kernel/trace/trace_object.c:322:2: note: Calling 'init_trace_object'
-           init_trace_object();
-           ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_object.c:495:6: note: Assuming the condition is false
-           if (atomic_inc_return(&trace_object_ref) !=3D 1) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_object.c:495:2: note: Taking false branch
-           if (atomic_inc_return(&trace_object_ref) !=3D 1) {
-           ^
-   kernel/trace/trace_object.c:500:8: note: Calling 'init_object_pool'
-           ret =3D init_object_pool();
-                 ^~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_object.c:117:6: note: Assuming 'obj_pool' is non-null
-           if (!obj_pool) {
-               ^~~~~~~~~
-   kernel/trace/trace_object.c:117:2: note: Taking false branch
-           if (!obj_pool) {
-           ^
-   kernel/trace/trace_object.c:124:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for (i =3D 0; i < max_obj_pool; i++) {
-           ^
-   kernel/trace/trace_object.c:126:7: note: Assuming 'inst' is null
-                   if (!inst) {
-                       ^~~~~
-   kernel/trace/trace_object.c:126:3: note: Taking true branch
-                   if (!inst) {
---
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                               ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   kernel/trace/trace_object.c:99:2: note: Left side of '||' is false
-           list_for_each_entry_rcu(inst, head, active_list)
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/net/ethernet/actions/owl-emac.c:1420:6: note: 'ret' is 0
+           if (ret)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/net/ethernet/actions/owl-emac.c:1420:2: note: '?' condition is f=
+alse
+           if (ret)
            ^
-   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_=
-entry_rcu'
-                   pos =3D list_entry_rcu(pos->member.next, typeof(*pos), m=
-ember))
-                         ^
-   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
-u'
-           container_of(READ_ONCE(ptr), type, member)
-                        ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                               ^
-   include/linux/compiler_types.h:302:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   kernel/trace/trace_object.c:99:2: note: Left side of '||' is true
-           list_for_each_entry_rcu(inst, head, active_list)
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_=
-entry_rcu'
-                   pos =3D list_entry_rcu(pos->member.next, typeof(*pos), m=
-ember))
+   drivers/net/ethernet/actions/owl-emac.c:1420:2: note: Taking false branch
+           if (ret)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
-u'
-           container_of(READ_ONCE(ptr), type, member)
-                        ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   drivers/net/ethernet/actions/owl-emac.c:1423:2: note: Assuming the condi=
+tion is false
+           if (netif_running(netdev)) {
            ^
-   include/asm-generic/rwonce.h:36:38: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                                               ^
-   kernel/trace/trace_object.c:99:2: note: Taking false branch
-           list_for_each_entry_rcu(inst, head, active_list)
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/net/ethernet/actions/owl-emac.c:1423:2: note: '?' condition is f=
+alse
+           if (netif_running(netdev)) {
            ^
-   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_=
-entry_rcu'
-                   pos =3D list_entry_rcu(pos->member.next, typeof(*pos), m=
-ember))
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/net/ethernet/actions/owl-emac.c:1423:2: note: '?' condition is t=
+rue
+           if (netif_running(netdev)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/net/ethernet/actions/owl-emac.c:1423:2: note: Taking true branch
+           if (netif_running(netdev)) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
-u'
-           container_of(READ_ONCE(ptr), type, member)
-                        ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   drivers/net/ethernet/actions/owl-emac.c:1427:9: note: Calling 'owl_emac_=
+enable'
+                   ret =3D owl_emac_enable(netdev, true);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/actions/owl-emac.c:1042:8: note: Calling 'owl_emac_=
+ring_prepare_rx'
+           ret =3D owl_emac_ring_prepare_rx(priv);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/actions/owl-emac.c:184:2: note: 'desc' declared wit=
+hout an initial value
+           struct owl_emac_ring_desc *desc;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/actions/owl-emac.c:189:14: note: Assuming 'i' is >=
+=3D field 'size'
+           for (i =3D 0; i < ring->size; i++) {
+                       ^~~~~~~~~~~~~~
+   drivers/net/ethernet/actions/owl-emac.c:189:2: note: Loop condition is f=
+alse. Execution continues on line 210
+           for (i =3D 0; i < ring->size; i++) {
            ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   kernel/trace/trace_object.c:99:2: note: Loop condition is false.  Exitin=
-g loop
-           list_for_each_entry_rcu(inst, head, active_list)
-           ^
-   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_=
-entry_rcu'
-                   pos =3D list_entry_rcu(pos->member.next, typeof(*pos), m=
-ember))
+   drivers/net/ethernet/actions/owl-emac.c:210:16: note: Access to field 'c=
+ontrol' results in a dereference of an undefined pointer value (loaded from=
+ variable 'desc')
+           desc->control |=3D OWL_EMAC_BIT_RDES1_RER;
+           ~~~~          ^
+   drivers/net/ethernet/actions/owl-emac.c:233:16: warning: Access to field=
+ 'control' results in a dereference of an undefined pointer value (loaded f=
+rom variable 'desc') [clang-analyzer-core.NullDereference]
+           desc->control |=3D OWL_EMAC_BIT_TDES1_TER;
                          ^
-   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
-u'
-           container_of(READ_ONCE(ptr), type, member)
-                        ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   kernel/trace/trace_object.c:99:2: note: Use of memory after it is freed
-           list_for_each_entry_rcu(inst, head, active_list)
-           ^
-   include/linux/rculist.h:393:9: note: expanded from macro 'list_for_each_=
-entry_rcu'
-                   pos =3D list_entry_rcu(pos->member.next, typeof(*pos), m=
-ember))
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   include/linux/rculist.h:307:15: note: expanded from macro 'list_entry_rc=
-u'
-           container_of(READ_ONCE(ptr), type, member)
-           ~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^
-   include/linux/container_of.h:18:26: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                   ^~~
->> kernel/trace/trace_object.c:533:2: warning: Undefined or garbage value r=
-eturned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-           return ret;
-           ^
-   kernel/trace/trace_object.c:334:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   kernel/trace/trace_object.c:334:2: note: Left side of '&&' is false
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                    ^
-   kernel/trace/trace_object.c:334:2: note: Taking false branch
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   kernel/trace/trace_object.c:334:2: note: Loop condition is false.  Exiti=
-ng loop
-           lockdep_assert_held(&event_mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-           ^
-   kernel/trace/trace_object.c:336:2: note: Loop condition is true.  Enteri=
-ng loop body
-           list_for_each_entry(data, &file->triggers, list) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   kernel/trace/trace_object.c:337:7: note: Assuming 'data->cmd_ops->trigge=
-r_type' is equal to 'test->cmd_ops->trigger_type'
-                   if (data->cmd_ops->trigger_type =3D=3D test->cmd_ops->tr=
-igger_type) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   kernel/trace/trace_object.c:337:3: note: Taking true branch
-                   if (data->cmd_ops->trigger_type =3D=3D test->cmd_ops->tr=
-igger_type) {
-                   ^
-   kernel/trace/trace_object.c:342:4: note:  Execution continues on line 346
-                           break;
-                           ^
-   kernel/trace/trace_object.c:346:6: note: 'unregistered' is true
-           if (unregistered && data->ops->free) {
-               ^~~~~~~~~~~~
-   kernel/trace/trace_object.c:346:6: note: Left side of '&&' is true
-   kernel/trace/trace_object.c:346:22: note: Assuming field 'free' is non-n=
-ull
-           if (unregistered && data->ops->free) {
-                               ^~~~~~~~~~~~~~~
-   kernel/trace/trace_object.c:346:2: note: Taking true branch
-           if (unregistered && data->ops->free) {
-           ^
-   kernel/trace/trace_object.c:348:3: note: Calling 'exit_trace_object'
-                   exit_trace_object();
-                   ^~~~~~~~~~~~~~~~~~~
-   kernel/trace/trace_object.c:516:2: note: 'ret' declared without an initi=
-al value
-           int ret;
-           ^~~~~~~
-   kernel/trace/trace_object.c:518:19: note: Assuming the condition is true
-           if (WARN_ON_ONCE(atomic_read(&trace_object_ref) <=3D 0))
-                            ^
-   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
-E'
-           int __ret_warn_on =3D !!(condition);                      \
-                                  ^~~~~~~~~
-   kernel/trace/trace_object.c:518:6: note: Taking true branch
-           if (WARN_ON_ONCE(atomic_read(&trace_object_ref) <=3D 0))
-               ^
-   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
-           if (unlikely(__ret_warn_on))                            \
-           ^
-   kernel/trace/trace_object.c:518:6: note: Loop condition is false.  Exiti=
-ng loop
-           if (WARN_ON_ONCE(atomic_read(&trace_object_ref) <=3D 0))
-               ^
-   include/asm-generic/bug.h:106:3: note: expanded from macro 'WARN_ON_ONCE'
-                   __WARN_FLAGS(BUGFLAG_ONCE |                     \
-                   ^
-   arch/x86/include/asm/bug.h:79:2: note: expanded from macro '__WARN_FLAGS'
-           _BUG_FLAGS(ASM_UD2, BUGFLAG_WARNING|(flags));           \
-           ^
-   arch/x86/include/asm/bug.h:25:37: note: expanded from macro '_BUG_FLAGS'
-   #define _BUG_FLAGS(ins, flags)                                          \
-                                                                           ^
-   kernel/trace/trace_object.c:518:6: note: Loop condition is false.  Exiti=
-ng loop
+   drivers/net/ethernet/actions/owl-emac.c:1420:2: note: '?' condition is f=
+alse
+           if (ret)
 
-vim +99 kernel/trace/trace_object.c
+vim +210 drivers/net/ethernet/actions/owl-emac.c
 
-88ea43d691b0980 Jeff Xie 2021-11-30   94  =
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  178  =
 
-88ea43d691b0980 Jeff Xie 2021-11-30   95  static inline void free_active_li=
-st_objects(struct list_head *head)
-88ea43d691b0980 Jeff Xie 2021-11-30   96  {
-88ea43d691b0980 Jeff Xie 2021-11-30   97  	struct object_instance *inst;
-88ea43d691b0980 Jeff Xie 2021-11-30   98  =
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  179  static int owl_emac_ring=
+_prepare_rx(struct owl_emac_priv *priv)
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  180  {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  181  	struct owl_emac_ring *r=
+ing =3D &priv->rx_ring;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  182  	struct device *dev =3D =
+owl_emac_get_dev(priv);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  183  	struct net_device *netd=
+ev =3D priv->netdev;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  184  	struct owl_emac_ring_de=
+sc *desc;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  185  	struct sk_buff *skb;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  186  	dma_addr_t dma_addr;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  187  	int i;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  188  =
 
-88ea43d691b0980 Jeff Xie 2021-11-30  @99  	list_for_each_entry_rcu(inst, he=
-ad, active_list)
-88ea43d691b0980 Jeff Xie 2021-11-30  100  		kfree(inst);
-88ea43d691b0980 Jeff Xie 2021-11-30  101  }
-88ea43d691b0980 Jeff Xie 2021-11-30  102  =
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  189  	for (i =3D 0; i < ring-=
+>size; i++) {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  190  		skb =3D owl_emac_alloc=
+_skb(netdev);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  191  		if (!skb)
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  192  			return -ENOMEM;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  193  =
 
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  194  		dma_addr =3D owl_emac_=
+dma_map_rx(priv, skb);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  195  		if (dma_mapping_error(=
+dev, dma_addr)) {
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  196  			dev_kfree_skb(skb);
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  197  			return -ENOMEM;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  198  		}
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  199  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  200  		desc =3D &ring->descs[=
+i];
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  201  		desc->status =3D OWL_E=
+MAC_BIT_RDES0_OWN;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  202  		desc->control =3D skb_=
+tailroom(skb) & OWL_EMAC_MSK_RDES1_RBS1;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  203  		desc->buf_addr =3D dma=
+_addr;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  204  		desc->reserved =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  205  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  206  		ring->skbs[i] =3D skb;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  207  		ring->skbs_dma[i] =3D =
+dma_addr;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  208  	}
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  209  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22 @210  	desc->control |=3D OWL_=
+EMAC_BIT_RDES1_RER;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  211  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  212  	ring->head =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  213  	ring->tail =3D 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  214  =
+
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  215  	return 0;
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  216  }
+de6e0b19823985 Cristian Ciocaltea 2021-03-22  217  =
+
+
+:::::: The code at line 210 was first introduced by commit
+:::::: de6e0b198239857943db395377dc1d2ddd6c05df net: ethernet: actions: Add=
+ Actions Semi Owl Ethernet MAC driver
+
+:::::: TO: Cristian Ciocaltea <cristian.ciocaltea@gmail.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============6235524389912170584==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============4545740821337615552==--
 
