@@ -1,172 +1,220 @@
-Content-Type: multipart/mixed; boundary="===============7118542632321631719=="
+Content-Type: multipart/mixed; boundary="===============6978384691626150727=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2767/4301] drivers/net/dsa/qca8k.c:2315:44: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Wed, 01 Dec 2021 07:21:46 +0800
-Message-ID: <202112010705.Ktp6ZPt1-lkp@intel.com>
+Subject: [linux-next:master 1368/4301] net/core/gro.c:493:5-12: ERROR: PTR_ERR applied after initialization to constant on line 441
+Date: Wed, 01 Dec 2021 07:01:31 +0800
+Message-ID: <202112010622.NE8tV8Jc-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7118542632321631719==
+--===============6978384691626150727==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ansuel Smith <ansuelsmth@gmail.com>
+TO: Eric Dumazet <edumazet@google.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
  master
 head:   34f255a1e91ab44ff8926cf8294ff9144e62e861
-commit: def975307c01191b6f0170048c3724b0ed3348af [2767/4301] net: dsa: qca8=
-k: add LAG support
+commit: 587652bbdd06ab38a4c1b85e40f933d2cf4a1147 [1368/4301] net: gro: popu=
+late net/core/gro.c
 :::::: branch date: 15 hours ago
-:::::: commit date: 7 days ago
-compiler: mipsel-linux-gcc (GCC) 11.2.0
+:::::: commit date: 2 weeks ago
+config: x86_64-randconfig-c002-20211128 (https://download.01.org/0day-ci/ar=
+chive/20211201/202112010622.NE8tV8Jc-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+cocci warnings: (new ones prefixed by >>)
+>> net/core/gro.c:493:5-12: ERROR: PTR_ERR applied after initialization to =
+constant on line 441
 
->> drivers/net/dsa/qca8k.c:2315:44: warning: Boolean result is used in bitw=
-ise operation. Clarify expression with parentheses. [clarifyCondition]
-        !val << QCA8K_REG_GOL_TRUNK_SHIFT(id) |
-                                              ^
-   drivers/net/dsa/qca8k.c:2353:61: warning: Boolean result is used in bitw=
-ise operation. Clarify expression with parentheses. [clarifyCondition]
-         !delete << QCA8K_REG_GOL_TRUNK_ID_MEM_ID_SHIFT(id, i) |
-                                                               ^
->> drivers/net/dsa/qca8k.c:693:52: warning: Uninitialized variable: val [un=
-initvar]
-    ret =3D read_poll_timeout(qca8k_mii_read32, ret1, !(val & mask), 0,
-                                                      ^
->> drivers/net/usb/lan78xx.c:4752:3: warning: Variable 'mask_index' is modi=
-fied but its new value is never used. [unreadVariable]
-     mask_index++;
-     ^
+vim +493 net/core/gro.c
 
-vim +2315 drivers/net/dsa/qca8k.c
+587652bbdd06ab3 Eric Dumazet 2021-11-15  433  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2287  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  434  static enum gro_result dev_gr=
+o_receive(struct napi_struct *napi, struct sk_buff *skb)
+587652bbdd06ab3 Eric Dumazet 2021-11-15  435  {
+587652bbdd06ab3 Eric Dumazet 2021-11-15  436  	u32 bucket =3D skb_get_hash_=
+raw(skb) & (GRO_HASH_BUCKETS - 1);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  437  	struct gro_list *gro_list =
+=3D &napi->gro_hash[bucket];
+587652bbdd06ab3 Eric Dumazet 2021-11-15  438  	struct list_head *head =3D &=
+offload_base;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  439  	struct packet_offload *ptype;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  440  	__be16 type =3D skb->protoco=
+l;
+587652bbdd06ab3 Eric Dumazet 2021-11-15 @441  	struct sk_buff *pp =3D NULL;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  442  	enum gro_result ret;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  443  	int same_flow;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  444  	int grow;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  445  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2288  static int
-def975307c0119 Ansuel Smith 2021-11-23  2289  qca8k_lag_refresh_portmap(str=
-uct dsa_switch *ds, int port,
-def975307c0119 Ansuel Smith 2021-11-23  2290  			  struct net_device *lag, =
-bool delete)
-def975307c0119 Ansuel Smith 2021-11-23  2291  {
-def975307c0119 Ansuel Smith 2021-11-23  2292  	struct qca8k_priv *priv =3D =
-ds->priv;
-def975307c0119 Ansuel Smith 2021-11-23  2293  	int ret, id, i;
-def975307c0119 Ansuel Smith 2021-11-23  2294  	u32 val;
-def975307c0119 Ansuel Smith 2021-11-23  2295  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  446  	if (netif_elide_gro(skb->dev=
+))
+587652bbdd06ab3 Eric Dumazet 2021-11-15  447  		goto normal;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  448  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2296  	id =3D dsa_lag_id(ds->dst, l=
-ag);
-def975307c0119 Ansuel Smith 2021-11-23  2297  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  449  	gro_list_prepare(&gro_list->=
+list, skb);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  450  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2298  	/* Read current port member =
-*/
-def975307c0119 Ansuel Smith 2021-11-23  2299  	ret =3D regmap_read(priv->re=
-gmap, QCA8K_REG_GOL_TRUNK_CTRL0, &val);
-def975307c0119 Ansuel Smith 2021-11-23  2300  	if (ret)
-def975307c0119 Ansuel Smith 2021-11-23  2301  		return ret;
-def975307c0119 Ansuel Smith 2021-11-23  2302  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  451  	rcu_read_lock();
+587652bbdd06ab3 Eric Dumazet 2021-11-15  452  	list_for_each_entry_rcu(ptyp=
+e, head, list) {
+587652bbdd06ab3 Eric Dumazet 2021-11-15  453  		if (ptype->type !=3D type |=
+| !ptype->callbacks.gro_receive)
+587652bbdd06ab3 Eric Dumazet 2021-11-15  454  			continue;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  455  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2303  	/* Shift val to the correct =
-trunk */
-def975307c0119 Ansuel Smith 2021-11-23  2304  	val >>=3D QCA8K_REG_GOL_TRUN=
-K_SHIFT(id);
-def975307c0119 Ansuel Smith 2021-11-23  2305  	val &=3D QCA8K_REG_GOL_TRUNK=
-_MEMBER_MASK;
-def975307c0119 Ansuel Smith 2021-11-23  2306  	if (delete)
-def975307c0119 Ansuel Smith 2021-11-23  2307  		val &=3D ~BIT(port);
-def975307c0119 Ansuel Smith 2021-11-23  2308  	else
-def975307c0119 Ansuel Smith 2021-11-23  2309  		val |=3D BIT(port);
-def975307c0119 Ansuel Smith 2021-11-23  2310  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  456  		skb_set_network_header(skb,=
+ skb_gro_offset(skb));
+587652bbdd06ab3 Eric Dumazet 2021-11-15  457  		skb_reset_mac_len(skb);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  458  		NAPI_GRO_CB(skb)->same_flow=
+ =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  459  		NAPI_GRO_CB(skb)->flush =3D=
+ skb_is_gso(skb) || skb_has_frag_list(skb);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  460  		NAPI_GRO_CB(skb)->free =3D =
+0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  461  		NAPI_GRO_CB(skb)->encap_mar=
+k =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  462  		NAPI_GRO_CB(skb)->recursion=
+_counter =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  463  		NAPI_GRO_CB(skb)->is_fou =
+=3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  464  		NAPI_GRO_CB(skb)->is_atomic=
+ =3D 1;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  465  		NAPI_GRO_CB(skb)->gro_remcs=
+um_start =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  466  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2311  	/* Update port member. With =
-empty portmap disable trunk */
-def975307c0119 Ansuel Smith 2021-11-23  2312  	ret =3D regmap_update_bits(p=
-riv->regmap, QCA8K_REG_GOL_TRUNK_CTRL0,
-def975307c0119 Ansuel Smith 2021-11-23  2313  				 QCA8K_REG_GOL_TRUNK_MEMB=
-ER(id) |
-def975307c0119 Ansuel Smith 2021-11-23  2314  				 QCA8K_REG_GOL_TRUNK_EN(i=
-d),
-def975307c0119 Ansuel Smith 2021-11-23 @2315  				 !val << QCA8K_REG_GOL_TR=
-UNK_SHIFT(id) |
-def975307c0119 Ansuel Smith 2021-11-23  2316  				 val << QCA8K_REG_GOL_TRU=
-NK_SHIFT(id));
-def975307c0119 Ansuel Smith 2021-11-23  2317  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  467  		/* Setup for GRO checksum v=
+alidation */
+587652bbdd06ab3 Eric Dumazet 2021-11-15  468  		switch (skb->ip_summed) {
+587652bbdd06ab3 Eric Dumazet 2021-11-15  469  		case CHECKSUM_COMPLETE:
+587652bbdd06ab3 Eric Dumazet 2021-11-15  470  			NAPI_GRO_CB(skb)->csum =3D=
+ skb->csum;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  471  			NAPI_GRO_CB(skb)->csum_val=
+id =3D 1;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  472  			NAPI_GRO_CB(skb)->csum_cnt=
+ =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  473  			break;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  474  		case CHECKSUM_UNNECESSARY:
+587652bbdd06ab3 Eric Dumazet 2021-11-15  475  			NAPI_GRO_CB(skb)->csum_cnt=
+ =3D skb->csum_level + 1;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  476  			NAPI_GRO_CB(skb)->csum_val=
+id =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  477  			break;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  478  		default:
+587652bbdd06ab3 Eric Dumazet 2021-11-15  479  			NAPI_GRO_CB(skb)->csum_cnt=
+ =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  480  			NAPI_GRO_CB(skb)->csum_val=
+id =3D 0;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  481  		}
+587652bbdd06ab3 Eric Dumazet 2021-11-15  482  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2318  	/* Search empty member if ad=
-ding or port on deleting */
-def975307c0119 Ansuel Smith 2021-11-23  2319  	for (i =3D 0; i < QCA8K_NUM_=
-PORTS_FOR_LAG; i++) {
-def975307c0119 Ansuel Smith 2021-11-23  2320  		ret =3D regmap_read(priv->r=
-egmap, QCA8K_REG_GOL_TRUNK_CTRL(id), &val);
-def975307c0119 Ansuel Smith 2021-11-23  2321  		if (ret)
-def975307c0119 Ansuel Smith 2021-11-23  2322  			return ret;
-def975307c0119 Ansuel Smith 2021-11-23  2323  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  483  		pp =3D INDIRECT_CALL_INET(p=
+type->callbacks.gro_receive,
+587652bbdd06ab3 Eric Dumazet 2021-11-15  484  					ipv6_gro_receive, inet_g=
+ro_receive,
+587652bbdd06ab3 Eric Dumazet 2021-11-15  485  					&gro_list->list, skb);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  486  		break;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  487  	}
+587652bbdd06ab3 Eric Dumazet 2021-11-15  488  	rcu_read_unlock();
+587652bbdd06ab3 Eric Dumazet 2021-11-15  489  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2324  		val >>=3D QCA8K_REG_GOL_TRU=
-NK_ID_MEM_ID_SHIFT(id, i);
-def975307c0119 Ansuel Smith 2021-11-23  2325  		val &=3D QCA8K_REG_GOL_TRUN=
-K_ID_MEM_ID_MASK;
-def975307c0119 Ansuel Smith 2021-11-23  2326  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  490  	if (&ptype->list =3D=3D head)
+587652bbdd06ab3 Eric Dumazet 2021-11-15  491  		goto normal;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  492  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2327  		if (delete) {
-def975307c0119 Ansuel Smith 2021-11-23  2328  			/* If port flagged to be d=
-isabled assume this member is
-def975307c0119 Ansuel Smith 2021-11-23  2329  			 * empty
-def975307c0119 Ansuel Smith 2021-11-23  2330  			 */
-def975307c0119 Ansuel Smith 2021-11-23  2331  			if (val !=3D QCA8K_REG_GOL=
-_TRUNK_ID_MEM_ID_EN_MASK)
-def975307c0119 Ansuel Smith 2021-11-23  2332  				continue;
-def975307c0119 Ansuel Smith 2021-11-23  2333  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15 @493  	if (PTR_ERR(pp) =3D=3D -EINP=
+ROGRESS) {
+587652bbdd06ab3 Eric Dumazet 2021-11-15  494  		ret =3D GRO_CONSUMED;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  495  		goto ok;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  496  	}
+587652bbdd06ab3 Eric Dumazet 2021-11-15  497  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2334  			val &=3D QCA8K_REG_GOL_TRU=
-NK_ID_MEM_ID_PORT_MASK;
-def975307c0119 Ansuel Smith 2021-11-23  2335  			if (val !=3D port)
-def975307c0119 Ansuel Smith 2021-11-23  2336  				continue;
-def975307c0119 Ansuel Smith 2021-11-23  2337  		} else {
-def975307c0119 Ansuel Smith 2021-11-23  2338  			/* If port flagged to be e=
-nabled assume this member is
-def975307c0119 Ansuel Smith 2021-11-23  2339  			 * already set
-def975307c0119 Ansuel Smith 2021-11-23  2340  			 */
-def975307c0119 Ansuel Smith 2021-11-23  2341  			if (val =3D=3D QCA8K_REG_G=
-OL_TRUNK_ID_MEM_ID_EN_MASK)
-def975307c0119 Ansuel Smith 2021-11-23  2342  				continue;
-def975307c0119 Ansuel Smith 2021-11-23  2343  		}
-def975307c0119 Ansuel Smith 2021-11-23  2344  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  498  	same_flow =3D NAPI_GRO_CB(sk=
+b)->same_flow;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  499  	ret =3D NAPI_GRO_CB(skb)->fr=
+ee ? GRO_MERGED_FREE : GRO_MERGED;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  500  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2345  		/* We have found the member=
- to add/remove */
-def975307c0119 Ansuel Smith 2021-11-23  2346  		break;
-def975307c0119 Ansuel Smith 2021-11-23  2347  	}
-def975307c0119 Ansuel Smith 2021-11-23  2348  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  501  	if (pp) {
+587652bbdd06ab3 Eric Dumazet 2021-11-15  502  		skb_list_del_init(pp);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  503  		napi_gro_complete(napi, pp);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  504  		gro_list->count--;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  505  	}
+587652bbdd06ab3 Eric Dumazet 2021-11-15  506  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2349  	/* Set port in the correct p=
-ort mask or disable port if in delete mode */
-def975307c0119 Ansuel Smith 2021-11-23  2350  	return regmap_update_bits(pr=
-iv->regmap, QCA8K_REG_GOL_TRUNK_CTRL(id),
-def975307c0119 Ansuel Smith 2021-11-23  2351  				  QCA8K_REG_GOL_TRUNK_ID_=
-MEM_ID_EN(id, i) |
-def975307c0119 Ansuel Smith 2021-11-23  2352  				  QCA8K_REG_GOL_TRUNK_ID_=
-MEM_ID_PORT(id, i),
-def975307c0119 Ansuel Smith 2021-11-23  2353  				  !delete << QCA8K_REG_GO=
-L_TRUNK_ID_MEM_ID_SHIFT(id, i) |
-def975307c0119 Ansuel Smith 2021-11-23  2354  				  port << QCA8K_REG_GOL_T=
-RUNK_ID_MEM_ID_SHIFT(id, i));
-def975307c0119 Ansuel Smith 2021-11-23  2355  }
-def975307c0119 Ansuel Smith 2021-11-23  2356  =
+587652bbdd06ab3 Eric Dumazet 2021-11-15  507  	if (same_flow)
+587652bbdd06ab3 Eric Dumazet 2021-11-15  508  		goto ok;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  509  =
+
+587652bbdd06ab3 Eric Dumazet 2021-11-15  510  	if (NAPI_GRO_CB(skb)->flush)
+587652bbdd06ab3 Eric Dumazet 2021-11-15  511  		goto normal;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  512  =
+
+587652bbdd06ab3 Eric Dumazet 2021-11-15  513  	if (unlikely(gro_list->count=
+ >=3D MAX_GRO_SKBS))
+587652bbdd06ab3 Eric Dumazet 2021-11-15  514  		gro_flush_oldest(napi, &gro=
+_list->list);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  515  	else
+587652bbdd06ab3 Eric Dumazet 2021-11-15  516  		gro_list->count++;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  517  =
+
+587652bbdd06ab3 Eric Dumazet 2021-11-15  518  	NAPI_GRO_CB(skb)->count =3D =
+1;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  519  	NAPI_GRO_CB(skb)->age =3D ji=
+ffies;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  520  	NAPI_GRO_CB(skb)->last =3D s=
+kb;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  521  	skb_shinfo(skb)->gso_size =
+=3D skb_gro_len(skb);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  522  	list_add(&skb->list, &gro_li=
+st->list);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  523  	ret =3D GRO_HELD;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  524  =
+
+587652bbdd06ab3 Eric Dumazet 2021-11-15  525  pull:
+587652bbdd06ab3 Eric Dumazet 2021-11-15  526  	grow =3D skb_gro_offset(skb)=
+ - skb_headlen(skb);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  527  	if (grow > 0)
+587652bbdd06ab3 Eric Dumazet 2021-11-15  528  		gro_pull_from_frag0(skb, gr=
+ow);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  529  ok:
+587652bbdd06ab3 Eric Dumazet 2021-11-15  530  	if (gro_list->count) {
+587652bbdd06ab3 Eric Dumazet 2021-11-15  531  		if (!test_bit(bucket, &napi=
+->gro_bitmask))
+587652bbdd06ab3 Eric Dumazet 2021-11-15  532  			__set_bit(bucket, &napi->g=
+ro_bitmask);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  533  	} else if (test_bit(bucket, =
+&napi->gro_bitmask)) {
+587652bbdd06ab3 Eric Dumazet 2021-11-15  534  		__clear_bit(bucket, &napi->=
+gro_bitmask);
+587652bbdd06ab3 Eric Dumazet 2021-11-15  535  	}
+587652bbdd06ab3 Eric Dumazet 2021-11-15  536  =
+
+587652bbdd06ab3 Eric Dumazet 2021-11-15  537  	return ret;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  538  =
+
+587652bbdd06ab3 Eric Dumazet 2021-11-15  539  normal:
+587652bbdd06ab3 Eric Dumazet 2021-11-15  540  	ret =3D GRO_NORMAL;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  541  	goto pull;
+587652bbdd06ab3 Eric Dumazet 2021-11-15  542  }
+587652bbdd06ab3 Eric Dumazet 2021-11-15  543  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7118542632321631719==--
+--===============6978384691626150727==--
 
