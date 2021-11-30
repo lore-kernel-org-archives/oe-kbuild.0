@@ -1,536 +1,324 @@
-Content-Type: multipart/mixed; boundary="===============2577901560327909932=="
+Content-Type: multipart/mixed; boundary="===============6616042266992779292=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils.c:491:2: warning: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 01 Dec 2021 01:06:29 +0800
-Message-ID: <202112010129.KI0y5I8w-lkp@intel.com>
+Subject: [linux-next:master 3660/4301] fs/gfs2/inode.c:192 gfs2_inode_lookup() error: we previously assumed 'gl' could be null (see line 169)
+Date: Tue, 30 Nov 2021 18:28:07 +0800
+Message-ID: <202111301821.8ginBraG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2577901560327909932==
+--===============6616042266992779292==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: "L=C3=A9o Le Bouter" <lle-bout@zaclys.net>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Andreas Gruenbacher <agruenba@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d58071a8a76d779eedab38033ae4c821c30295a5
-commit: 9b22fece786ed641909988da4810bfa8e5d2e592 atlantic: remove architect=
-ure depends
-date:   11 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-c001-20211126 (https://download.01.org/0day-ci/arch=
-ive/20211201/202112010129.KI0y5I8w-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
-58d8c0b542e752b037e72a69d5fd51eb1e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9b22fece786ed641909988da4810bfa8e5d2e592
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9b22fece786ed641909988da4810bfa8e5d2e592
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   34f255a1e91ab44ff8926cf8294ff9144e62e861
+commit: cfdb9692082c42515edc5a921481826a1573d329 [3660/4301] gfs2: Rework g=
+fs2_inode_lookup
+:::::: branch date: 2 hours ago
+:::::: commit date: 22 hours ago
+config: powerpc64-randconfig-m031-20211129 (https://download.01.org/0day-ci=
+/archive/20211130/202111301821.8ginBraG-lkp(a)intel.com/config)
+compiler: powerpc64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/gfs2/inode.c:192 gfs2_inode_lookup() error: we previously assumed 'gl' c=
+ould be null (see line 169)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   fs/ntfs/runlist.c:1764:4: warning: Value stored to 'rl_end' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           rl_end =3D trl + (rl_end - runlist->rl);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/runlist.c:1764:4: note: Value stored to 'rl_end' is never read
-                           rl_end =3D trl + (rl_end - runlist->rl);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/runlist.c:1834:4: warning: Value stored to 'rl_end' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           rl_end =3D trl + (rl_end - runlist->rl);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/runlist.c:1834:4: note: Value stored to 'rl_end' is never read
-                           rl_end =3D trl + (rl_end - runlist->rl);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/runlist.c:1866:2: warning: Value stored to 'old_size' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           old_size +=3D 2;
-           ^           ~
-   fs/ntfs/runlist.c:1866:2: note: Value stored to 'old_size' is never read
-           old_size +=3D 2;
-           ^           ~
-   fs/ntfs/runlist.c:1869:3: warning: Value stored to 'rl_end' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                   rl_end =3D trl + (rl_end - runlist->rl);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ntfs/runlist.c:1869:3: note: Value stored to 'rl_end' is never read
-                   rl_end =3D trl + (rl_end - runlist->rl);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   fs/ntfs/super.c:775:2: warning: Value stored to 'nr_hidden_sects' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           nr_hidden_sects =3D le32_to_cpu(b->bpb.hidden_sectors);
-           ^
-   fs/ntfs/super.c:775:2: note: Value stored to 'nr_hidden_sects' is never =
-read
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   fs/ntfs/lcnalloc.c:735:4: warning: Value stored to 'need_writeback' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-                           need_writeback =3D 0;
-                           ^                ~
-   fs/ntfs/lcnalloc.c:735:4: note: Value stored to 'need_writeback' is neve=
-r read
-                           need_writeback =3D 0;
-                           ^                ~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils.c:491:2: warn=
-ing: Value stored to 'err' is never read [clang-analyzer-deadcode.DeadStore=
-s]
-           err =3D readx_poll_timeout_atomic(hw_atl_scrpad25_get,
-           ^
-   drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils.c:491:2: note=
-: Value stored to 'err' is never read
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils_fw2x.c:100:2:=
- warning: Value stored to 'err' is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           err =3D readx_poll_timeout_atomic(aq_fw2x_mbox_get,
-           ^
-   drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils_fw2x.c:100:2:=
- note: Value stored to 'err' is never read
-   drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils_fw2x.c:105:2:=
- warning: Value stored to 'err' is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           err =3D readx_poll_timeout_atomic(aq_fw2x_rpc_get,
-           ^
-   drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils_fw2x.c:105:2:=
- note: Value stored to 'err' is never read
-   drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils_fw2x.c:343:2:=
- warning: Value stored to 'err' is never read [clang-analyzer-deadcode.Dead=
-Stores]
-           err =3D readx_poll_timeout_atomic(aq_fw2x_state2_get, self, val,
-           ^
-   drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils_fw2x.c:343:2:=
- note: Value stored to 'err' is never read
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/scsi/scsi_transport_iscsi.c:3191:3: warning: Value stored to 'er=
-r' is never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D transport->get_chap(shost, ev->u.get_chap.chap_t=
-bl_idx,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/scsi/scsi_transport_iscsi.c:3191:3: note: Value stored to 'err' =
-is never read
-                   err =3D transport->get_chap(shost, ev->u.get_chap.chap_t=
-bl_idx,
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/scsi/libfc/fc_disc.c:111:3: warning: Value stored to 'ev_qual' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                   ev_qual &=3D ELS_RSCN_EV_QUAL_MASK;
-                   ^
-   drivers/scsi/libfc/fc_disc.c:111:3: note: Value stored to 'ev_qual' is n=
-ever read
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/net/ethernet/8390/pcnet_cs.c:311:5: warning: Value stored to 'j'=
- is never read [clang-analyzer-deadcode.DeadStores]
-       j =3D pcmcia_release_window(link, link->resource[2]);
-       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/8390/pcnet_cs.c:311:5: note: Value stored to 'j' is=
- never read
-       j =3D pcmcia_release_window(link, link->resource[2]);
-       ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/8390/pcnet_cs.c:1434:6: warning: Value stored to 'r=
-et' is never read [clang-analyzer-deadcode.DeadStores]
-               ret =3D -ENOMEM;
-               ^     ~~~~~~~
-   drivers/net/ethernet/8390/pcnet_cs.c:1434:6: note: Value stored to 'ret'=
- is never read
-               ret =3D -ENOMEM;
-               ^     ~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
->> drivers/net/ethernet/aquantia/atlantic/aq_vec.c:44:3: warning: Value sto=
-red to 'err' is never read [clang-analyzer-deadcode.DeadStores]
-                   err =3D -EINVAL;
-                   ^     ~~~~~~~
-   drivers/net/ethernet/aquantia/atlantic/aq_vec.c:44:3: note: Value stored=
- to 'err' is never read
-                   err =3D -EINVAL;
-                   ^     ~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:211:2: warning: Valu=
-e stored to 'data' is never read [clang-analyzer-deadcode.DeadStores]
-           data =3D aq_macsec_get_stats(aq_nic, data);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:211:2: note: Value s=
-tored to 'data' is never read
-           data =3D aq_macsec_get_stats(aq_nic, data);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:435:2: warning: Valu=
-e stored to 'cfg' is never read [clang-analyzer-deadcode.DeadStores]
-           cfg =3D aq_nic_get_cfg(aq_nic);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/aquantia/atlantic/aq_ethtool.c:435:2: note: Value s=
-tored to 'cfg' is never read
-           cfg =3D aq_nic_get_cfg(aq_nic);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/i3c/master.c:555:32: warning: Value stored to 'master' during it=
-s initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i3c_master_controller *master =3D i3c_bus_to_i3c_master(i=
-3cbus);
-                                         ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/i3c/master.c:555:32: note: Value stored to 'master' during its i=
-nitialization is never read
-           struct i3c_master_controller *master =3D i3c_bus_to_i3c_master(i=
-3cbus);
-                                         ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/i3c/master/i3c-master-cdns.c:1245:2: warning: Value stored to 'p=
-rescl1' is never read [clang-analyzer-deadcode.DeadStores]
-           prescl1 =3D PRESCL_CTRL1_OD_LOW(low);
-           ^
-   drivers/i3c/master/i3c-master-cdns.c:1245:2: note: Value stored to 'pres=
-cl1' is never read
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/ata/pata_legacy.c:283:3: warning: Value stored to 'rt' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   rt |=3D (1 + 3 * pio) << (3 * adev->devno);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_legacy.c:283:3: note: Value stored to 'rt' is never read
-                   rt |=3D (1 + 3 * pio) << (3 * adev->devno);
-                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_legacy.c:781:6: warning: Value stored to 'timing' durin=
-g its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           int timing =3D 0x88 + (ap->port_no * 4) + (adev->devno * 2);
-               ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/ata/pata_legacy.c:781:6: note: Value stored to 'timing' during i=
-ts initialization is never read
-           int timing =3D 0x88 + (ap->port_no * 4) + (adev->devno * 2);
-               ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/input/keyboard/samsung-keypad.c:88:23: warning: The result of th=
-e left shift is undefined because the left operand is negative [clang-analy=
-zer-core.UndefinedBinaryOperatorResult]
-                           val &=3D ~(1 << col) << 8;
-                                              ^
-   drivers/input/keyboard/samsung-keypad.c:158:3: note: Calling 'samsung_ke=
-ypad_scan'
-                   samsung_keypad_scan(keypad, row_state);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/samsung-keypad.c:85:16: note: Assuming 'col' is <=
- field 'cols'
-           for (col =3D 0; col < keypad->cols; col++) {
-                         ^~~~~~~~~~~~~~~~~~
-   drivers/input/keyboard/samsung-keypad.c:85:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (col =3D 0; col < keypad->cols; col++) {
-           ^
-   drivers/input/keyboard/samsung-keypad.c:86:7: note: Assuming field 'type=
-' is equal to KEYPAD_TYPE_S5PV210
+Old smatch warnings:
+fs/gfs2/inode.c:343 gfs2_lookupi() warn: passing zero to 'ERR_PTR'
 
-vim +/err +491 drivers/net/ethernet/aquantia/atlantic/hw_atl/hw_atl_utils.c
+vim +/gl +192 fs/gfs2/inode.c
 
-98c4c20142e985 David VomLehn  2017-01-23  472  =
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29   91  =
 
-98c4c20142e985 David VomLehn  2017-01-23  473  static int hw_atl_utils_init=
-_ucp(struct aq_hw_s *self,
-4cbc9f92f9a134 Igor Russkikh  2018-01-15  474  				 const struct aq_hw_caps=
-_s *aq_hw_caps)
-98c4c20142e985 David VomLehn  2017-01-23  475  {
-98c4c20142e985 David VomLehn  2017-01-23  476  	int err =3D 0;
-98c4c20142e985 David VomLehn  2017-01-23  477  =
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09   92  /**
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09   93   * =
+gfs2_inode_lookup - Lookup an inode
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09   94   * =
+@sb: The super block
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09   95   * =
+@type: The type of the inode
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14   96   * =
+@no_addr: The inode number
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14   97   * =
+@no_formal_ino: The inode generation number
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14   98   * =
+@blktype: Requested block type (GFS2_BLKST_DINODE or GFS2_BLKST_UNLINKED;
+61b91cfdc6c0c4 fs/gfs2/inode.c     Andreas Gruenbacher 2017-08-01   99   * =
+          GFS2_BLKST_FREE to indicate not to verify)
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  100   *
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  101   * =
+If @type is DT_UNKNOWN, the inode type is fetched from disk.
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  102   *
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  103   * =
+If @blktype is anything other than GFS2_BLKST_FREE (which is used as a
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  104   * =
+placeholder because it doesn't otherwise make sense), the on-disk block type
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  105   * =
+is verified to be @blktype.
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  106   *
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  107   * =
+When @no_formal_ino is non-zero, this function will return ERR_PTR(-ESTALE)
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  108   * =
+if it detects that @no_formal_ino doesn't match the actual inode generation
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  109   * =
+number.  However, it doesn't always know unless @type is DT_UNKNOWN.
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  110   *
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  111   * =
+Returns: A VFS inode, or an error
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  112   */
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  113  =
 
-98c4c20142e985 David VomLehn  2017-01-23  478  	if (!aq_hw_read_reg(self, 0=
-x370U)) {
-98c4c20142e985 David VomLehn  2017-01-23  479  		unsigned int rnd =3D 0U;
-98c4c20142e985 David VomLehn  2017-01-23  480  		unsigned int ucp_0x370 =3D=
- 0U;
-98c4c20142e985 David VomLehn  2017-01-23  481  =
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  114  str=
+uct inode *gfs2_inode_lookup(struct super_block *sb, unsigned int type,
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  115  			=
+	u64 no_addr, u64 no_formal_ino,
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  116  			=
+	unsigned int blktype)
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  117  {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  118  	st=
+ruct gfs2_sbd *sdp =3D sb->s_fs_info;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  119  	st=
+ruct gfs2_glock *gl =3D NULL;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  120  	st=
+ruct inode *inode;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  121  	st=
+ruct gfs2_inode *ip;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  122  	st=
+ruct gfs2_holder gh;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  123  	in=
+t error;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  124  =
 
-98c4c20142e985 David VomLehn  2017-01-23  482  		get_random_bytes(&rnd, siz=
-eof(unsigned int));
-98c4c20142e985 David VomLehn  2017-01-23  483  =
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  125  	gf=
+s2_holder_mark_uninitialized(&gh);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  126  	in=
+ode =3D ilookup5(sb, no_addr, iget_test, &no_addr);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  127  	if=
+ (!inode && (type =3D=3D DT_UNKNOWN || blktype !=3D GFS2_BLKST_FREE)) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  128  		e=
+rror =3D gfs2_glock_get(sdp, no_addr, &gfs2_inode_glops, CREATE, &gl);
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  129  		i=
+f (unlikely(error))
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  130  			=
+goto fail;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  131  =
 
-98c4c20142e985 David VomLehn  2017-01-23  484  		ucp_0x370 =3D 0x02020202U =
-| (0xFEFEFEFEU & rnd);
-98c4c20142e985 David VomLehn  2017-01-23  485  		aq_hw_write_reg(self, HW_A=
-TL_UCP_0X370_REG, ucp_0x370);
-98c4c20142e985 David VomLehn  2017-01-23  486  	}
-98c4c20142e985 David VomLehn  2017-01-23  487  =
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  132  		/*
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  133  		 =
+* The GL_SKIP flag indicates to skip reading the inode
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  134  		 =
+* block.  We read the inode when instantiating it
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  135  		 =
+* after possibly checking the block type.
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  136  		 =
+*/
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  137  		e=
+rror =3D gfs2_glock_nq_init(gl, LM_ST_EXCLUSIVE, GL_SKIP, &gh);
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  138  		i=
+f (error)
+40e7e86ef16550 fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-24  139  			=
+goto fail;
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  140  =
 
-8e1c072fcbeae2 Igor Russkikh  2018-01-15  488  	hw_atl_reg_glb_cpu_scratch_=
-scp_set(self, 0x00000000U, 25U);
-98c4c20142e985 David VomLehn  2017-01-23  489  =
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  141  		e=
+rror =3D -ESTALE;
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  142  		i=
+f (no_formal_ino &&
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  143  		 =
+   gfs2_inode_already_deleted(gl, no_formal_ino))
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  144  			=
+goto fail;
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  145  =
 
-98c4c20142e985 David VomLehn  2017-01-23  490  	/* check 10 times by 1ms */
-6a7f2277313b4a Nikita Danilov 2019-02-27 @491  	err =3D readx_poll_timeout_=
-atomic(hw_atl_scrpad25_get,
-6a7f2277313b4a Nikita Danilov 2019-02-27  492  					self, self->mbox_addr,
-6a7f2277313b4a Nikita Danilov 2019-02-27  493  					self->mbox_addr !=3D 0U,
-6a7f2277313b4a Nikita Danilov 2019-02-27  494  					1000U, 10000U);
-e7b5f97e6574dc Igor Russkikh  2020-02-14  495  	err =3D readx_poll_timeout_=
-atomic(aq_fw1x_rpc_get, self,
-e7b5f97e6574dc Igor Russkikh  2020-02-14  496  					self->rpc_addr,
-e7b5f97e6574dc Igor Russkikh  2020-02-14  497  					self->rpc_addr !=3D 0U,
-e7b5f97e6574dc Igor Russkikh  2020-02-14  498  					1000U, 100000U);
-98c4c20142e985 David VomLehn  2017-01-23  499  =
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  146  		i=
+f (blktype !=3D GFS2_BLKST_FREE) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  147  			=
+error =3D gfs2_check_blk_type(sdp, no_addr, blktype);
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  148  			=
+if (error)
+40e7e86ef16550 fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-24  149  			=
+	goto fail;
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  150  		}
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  151  	}
+3ce37b2cb49176 fs/gfs2/inode.c     Andreas Gruenbacher 2016-06-14  152  =
 
-98c4c20142e985 David VomLehn  2017-01-23  500  	return err;
-98c4c20142e985 David VomLehn  2017-01-23  501  }
-98c4c20142e985 David VomLehn  2017-01-23  502  =
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  153  	wh=
+ile (!inode) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  154  		i=
+node =3D iget5_locked(sb, no_addr, iget_test, iget_set, &no_addr);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  155  		e=
+rror =3D -ENOMEM;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  156  		i=
+f (!inode)
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  157  			=
+goto fail;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  158  		i=
+f (is_bad_inode(inode)) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  159  			=
+iput(inode);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  160  			=
+inode =3D NULL;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  161  		}
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  162  	}
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  163  =
 
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  164  	ip=
+ =3D GFS2_I(inode);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  165  =
 
-:::::: The code at line 491 was first introduced by commit
-:::::: 6a7f2277313b4a39645c13277efb9337ca441933 net: aquantia: replace AQ_H=
-W_WAIT_FOR with readx_poll_timeout_atomic
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  166  	if=
+ (inode->i_state & I_NEW) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  167  		s=
+truct gfs2_glock *io_gl;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  168  =
 
-:::::: TO: Nikita Danilov <nikita.danilov@aquantia.com>
-:::::: CC: David S. Miller <davem@davemloft.net>
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29 @169  		i=
+f (!gl) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  170  			=
+error =3D gfs2_glock_get(sdp, no_addr, &gfs2_inode_glops, CREATE, &gl);
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  171  			=
+if (unlikely(error))
+40e7e86ef16550 fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-24  172  			=
+	goto fail;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  173  		}
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  174  		f=
+lush_delayed_work(&gl->gl_work);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  175  		s=
+et_bit(GLF_INSTANTIATE_NEEDED, &gl->gl_flags);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  176  =
+
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  177  		e=
+rror =3D gfs2_glock_get(sdp, no_addr, &gfs2_iopen_glops, CREATE, &io_gl);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  178  		i=
+f (unlikely(error))
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  179  			=
+goto fail;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  180  		i=
+f (blktype !=3D GFS2_BLKST_UNLINKED)
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  181  			=
+gfs2_cancel_delete_work(io_gl);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  182  		e=
+rror =3D gfs2_glock_nq_init(io_gl, LM_ST_SHARED, GL_EXACT, &ip->i_iopen_gh);
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  183  		g=
+fs2_glock_put(io_gl);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  184  		i=
+f (unlikely(error))
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  185  			=
+goto fail;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  186  =
+
+2b0fb353c029de fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  187  		/=
+* Lowest possible timestamp; will be overwritten in gfs2_dinode_in. */
+2b0fb353c029de fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  188  		i=
+node->i_atime.tv_sec =3D 1LL << (8 * sizeof(inode->i_atime.tv_sec) - 1);
+2b0fb353c029de fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  189  		i=
+node->i_atime.tv_nsec =3D 0;
+2b0fb353c029de fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  190  =
+
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  191  		i=
+p->i_gl =3D gl;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29 @192  		g=
+lock_set_object(gl, ip);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  193  =
+
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  194  		i=
+f (type =3D=3D DT_UNKNOWN) {
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  195  			=
+/* Inode glock must be locked already */
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  196  			=
+error =3D gfs2_instantiate(&gh);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  197  			=
+if (error) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  198  			=
+	glock_clear_object(gl, ip);
+40e7e86ef16550 fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-24  199  			=
+	goto fail;
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  200  			}
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  201  		}=
+ else {
+2b0fb353c029de fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  202  			=
+ip->i_no_formal_ino =3D no_formal_ino;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  203  			=
+inode->i_mode =3D DT2IF(type);
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  204  		}
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  205  =
+
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  206  		i=
+f (gfs2_holder_initialized(&gh))
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  207  			=
+gfs2_glock_dq_uninit(&gh);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  208  		g=
+lock_set_object(io_gl, ip);
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  209  =
+
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  210  		g=
+fs2_set_iop(inode);
+a44a8c9c8df1fa fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  211  		u=
+nlock_new_inode(inode);
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  212  	}
+332f51d7db13ff fs/gfs2/inode.c     Andreas Gruenbacher 2016-09-26  213  =
+
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  214  	if=
+ (no_formal_ino && ip->i_no_formal_ino &&
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  215  	  =
+  no_formal_ino !=3D ip->i_no_formal_ino) {
+b66648ad6dcfef fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-15  216  		i=
+put(inode);
+a44a8c9c8df1fa fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  217  		r=
+eturn ERR_PTR(-ESTALE);
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  218  	}
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  219  =
+
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  220  	re=
+turn inode;
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  221  =
+
+40e7e86ef16550 fs/gfs2/inode.c     Andreas Gruenbacher 2020-01-24  222  fai=
+l:
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  223  	if=
+ (inode) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  224  		i=
+f (gfs2_holder_initialized(&ip->i_iopen_gh))
+763766c0571ea1 fs/gfs2/inode.c     Bob Peterson        2021-09-29  225  			=
+gfs2_glock_dq_uninit(&ip->i_iopen_gh);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  226  		i=
+f (inode->i_state & I_NEW) {
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  227  			=
+make_bad_inode(inode);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  228  			=
+unlock_new_inode(inode);
+763766c0571ea1 fs/gfs2/inode.c     Bob Peterson        2021-09-29  229  		}
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  230  		i=
+put(inode);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  231  	}
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  232  	if=
+ (gfs2_holder_initialized(&gh))
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  233  		g=
+fs2_glock_dq_uninit(&gh);
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  234  	if=
+ (gl)
+cfdb9692082c42 fs/gfs2/inode.c     Andreas Gruenbacher 2021-11-29  235  		g=
+fs2_glock_put(gl);
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  236  	re=
+turn ERR_PTR(error);
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  237  }
+194c011fc4650d fs/gfs2/ops_inode.c Steven Whitehouse   2011-05-09  238  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2577901560327909932==--
+--===============6616042266992779292==--
 
