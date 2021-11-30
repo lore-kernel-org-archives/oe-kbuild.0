@@ -1,276 +1,368 @@
-Content-Type: multipart/mixed; boundary="===============7143479464473801626=="
+Content-Type: multipart/mixed; boundary="===============1761298084287611738=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/5] tracing: Disable preemption when using the filter buffer
-Date: Tue, 30 Nov 2021 14:13:10 +0800
-Message-ID: <202111301454.dzbIJfyp-lkp@intel.com>
+Subject: drivers/media/pci/saa7134/saa7134-tvaudio.c:153:4: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Tue, 30 Nov 2021 10:09:06 +0800
+Message-ID: <202111301013.XRLbfOBt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7143479464473801626==
+--===============1761298084287611738==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211130024318.880190623@goodmis.org>
-References: <20211130024318.880190623@goodmis.org>
-TO: Steven Rostedt <rostedt@goodmis.org>
-TO: linux-kernel(a)vger.kernel.org
-CC: Ingo Molnar <mingo@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jakub Jelinek <jakub@redhat.com>
+CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Steven,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on rostedt-trace/for-next]
-[also build test WARNING on linux/master hnaz-mm/master linus/master v5.16-=
-rc3 next-20211129]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Steven-Rostedt/tracing-Var=
-ious-updates/20211130-104342
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace=
-.git for-next
-:::::: branch date: 3 hours ago
-:::::: commit date: 3 hours ago
-config: x86_64-randconfig-s032-20211128 (https://download.01.org/0day-ci/ar=
-chive/20211130/202111301454.dzbIJfyp-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/1ac91c8764ae50601cd41dceb=
-620205607ab59f6
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Steven-Rostedt/tracing-Various-upd=
-ates/20211130-104342
-        git checkout 1ac91c8764ae50601cd41dceb620205607ab59f6
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   d58071a8a76d779eedab38033ae4c821c30295a5
+commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
+onstant arguments
+date:   12 months ago
+:::::: branch date: 28 hours ago
+:::::: commit date: 12 months ago
+config: arm-randconfig-c002-20211124 (https://download.01.org/0day-ci/archi=
+ve/20211130/202111301013.XRLbfOBt-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 67a1c4=
+5def8a75061203461ab0060c75c864df1c)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
         # save the config file to linux build tree
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Dx86_64 SHELL=3D/bin/bash kernel/trace/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
-   kernel/trace/trace.c:5710:1: sparse: sparse: trying to concatenate 9583-=
-character string (8191 bytes max)
-   kernel/trace/trace.c:392:28: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected struct trace_export **list @@ =
-    got struct trace_export [noderef] __rcu ** @@
-   kernel/trace/trace.c:392:28: sparse:     expected struct trace_export **=
-list
-   kernel/trace/trace.c:392:28: sparse:     got struct trace_export [nodere=
-f] __rcu **
-   kernel/trace/trace.c:406:33: sparse: sparse: incorrect type in argument =
-1 (different address spaces) @@     expected struct trace_export **list @@ =
-    got struct trace_export [noderef] __rcu ** @@
-   kernel/trace/trace.c:406:33: sparse:     expected struct trace_export **=
-list
-   kernel/trace/trace.c:406:33: sparse:     got struct trace_export [nodere=
-f] __rcu **
->> kernel/trace/trace.c:2769:27: sparse: sparse: assignment expression in c=
-onditional
-   kernel/trace/trace.c:2843:38: sparse: sparse: incorrect type in argument=
- 1 (different address spaces) @@     expected struct event_filter *filter @=
-@     got struct event_filter [noderef] __rcu *filter @@
-   kernel/trace/trace.c:2843:38: sparse:     expected struct event_filter *=
-filter
-   kernel/trace/trace.c:2843:38: sparse:     got struct event_filter [noder=
-ef] __rcu *filter
-   kernel/trace/trace.c:3225:46: sparse: sparse: incorrect type in initiali=
-zer (different address spaces) @@     expected void const [noderef] __percp=
-u *__vpp_verify @@     got struct trace_buffer_struct * @@
-   kernel/trace/trace.c:3225:46: sparse:     expected void const [noderef] =
-__percpu *__vpp_verify
-   kernel/trace/trace.c:3225:46: sparse:     got struct trace_buffer_struct=
- *
-   kernel/trace/trace.c:3241:9: sparse: sparse: incorrect type in initializ=
-er (different address spaces) @@     expected void const [noderef] __percpu=
- *__vpp_verify @@     got int * @@
-   kernel/trace/trace.c:3241:9: sparse:     expected void const [noderef] _=
-_percpu *__vpp_verify
-   kernel/trace/trace.c:3241:9: sparse:     got int *
-   kernel/trace/trace.c:3251:17: sparse: sparse: incorrect type in assignme=
-nt (different address spaces) @@     expected struct trace_buffer_struct *b=
-uffers @@     got struct trace_buffer_struct [noderef] __percpu * @@
-   kernel/trace/trace.c:3251:17: sparse:     expected struct trace_buffer_s=
-truct *buffers
-   kernel/trace/trace.c:3251:17: sparse:     got struct trace_buffer_struct=
- [noderef] __percpu *
-   kernel/trace/trace.c:346:9: sparse: sparse: incompatible types in compar=
-ison expression (different address spaces):
-   kernel/trace/trace.c:346:9: sparse:    struct trace_export [noderef] __r=
-cu *
-   kernel/trace/trace.c:346:9: sparse:    struct trace_export *
-   kernel/trace/trace.c:361:9: sparse: sparse: incompatible types in compar=
-ison expression (different address spaces):
-   kernel/trace/trace.c:361:9: sparse:    struct trace_export [noderef] __r=
-cu *
-   kernel/trace/trace.c:361:9: sparse:    struct trace_export *
+clang-analyzer warnings: (new ones prefixed by >>)
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:277:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:298:21: warning: Value stored to 'client' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:298:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:391:21: warning: Value stored to 'client' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:391:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:406:21: warning: Value stored to 'client' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:406:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:415:21: warning: Value stored to 'client' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:415:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:426:21: warning: Value stored to 'client' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:426:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:440:21: warning: Value stored to 'client' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:440:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:470:21: warning: Value stored to 'client' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/tuners/fc2580.c:470:21: note: Value stored to 'client' dur=
+ing its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/media/pci/saa7134/saa7134-cards.c:7742:3: warning: Value stored =
+to 'tuner_t' is never read [clang-analyzer-deadcode.DeadStores]
+                   tuner_t =3D 0;
+                   ^         ~
+   drivers/media/pci/saa7134/saa7134-cards.c:7742:3: note: Value stored to =
+'tuner_t' is never read
+                   tuner_t =3D 0;
+                   ^         ~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:52:15: warning: Excessive pa=
+dding in 'struct mainscan' (8 padding bytes, where 0 is optimal). =
 
-vim +2769 kernel/trace/trace.c
+   Optimal fields order: =
 
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2736) =
+   std, =
 
-ccb469a198cffa Steven Rostedt            2012-08-02  2737  struct ring_buff=
-er_event *
-13292494379f92 Steven Rostedt (VMware    2019-12-13  2738) trace_event_buff=
-er_lock_reserve(struct trace_buffer **current_rb,
-7f1d2f8210195c Steven Rostedt (Red Hat   2015-05-05  2739) 			  struct trac=
-e_event_file *trace_file,
-ccb469a198cffa Steven Rostedt            2012-08-02  2740  			  int type, u=
-nsigned long len,
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  2741  			  unsigned in=
-t trace_ctx)
-ccb469a198cffa Steven Rostedt            2012-08-02  2742  {
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2743) 	struct ring_buf=
-fer_event *entry;
-b94bc80df64823 Steven Rostedt (VMware    2021-03-16  2744) 	struct trace_ar=
-ray *tr =3D trace_file->tr;
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2745) 	int val;
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2746) =
+   name, =
 
-b94bc80df64823 Steven Rostedt (VMware    2021-03-16  2747) 	*current_rb =3D=
- tr->array_buffer.buffer;
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2748) =
+   carr, =
 
-b94bc80df64823 Steven Rostedt (VMware    2021-03-16  2749) 	if (!tr->no_fil=
-ter_buffering_ref &&
-1ac91c8764ae50 Steven Rostedt (VMware    2021-11-29  2750) 	    (trace_file=
-->flags & (EVENT_FILE_FL_SOFT_DISABLED | EVENT_FILE_FL_FILTERED))) {
-1ac91c8764ae50 Steven Rostedt (VMware    2021-11-29  2751) 		preempt_disabl=
-e_notrace();
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2752) 		/*
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2753) 		 * Filtering i=
-s on, so try to use the per cpu buffer first.
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2754) 		 * This buffer=
- will simulate a ring_buffer_event,
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2755) 		 * where the t=
-ype_len is zero and the array[0] will
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2756) 		 * hold the fu=
-ll length.
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2757) 		 * (see includ=
-e/linux/ring-buffer.h for details on
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2758) 		 *  how the ri=
-ng_buffer_event is structured).
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2759) 		 *
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2760) 		 * Using a tem=
-p buffer during filtering and copying it
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2761) 		 * on a matche=
-d filter is quicker than writing directly
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2762) 		 * into the ri=
-ng buffer and then discarding it when
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2763) 		 * it doesn't =
-match. That is because the discard
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2764) 		 * requires se=
-veral atomic operations to get right.
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2765) 		 * Copying on =
-match and doing nothing on a failed match
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2766) 		 * is still qu=
-icker than no copy on match, but having
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2767) 		 * to discard =
-out of the ring buffer on a failed match.
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2768) 		 */
-1ac91c8764ae50 Steven Rostedt (VMware    2021-11-29 @2769) 		if (entry =3D =
-__this_cpu_read(trace_buffered_event)) {
-faa76a6c289f43 Steven Rostedt (VMware    2021-06-09  2770) 			int max_len =
-=3D PAGE_SIZE - struct_size(entry, array, 1);
-faa76a6c289f43 Steven Rostedt (VMware    2021-06-09  2771) =
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   static struct mainscan {
+          ~~~~~~~^~~~~~~~~~
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:52:15: note: Excessive paddi=
+ng in 'struct mainscan' (8 padding bytes, where 0 is optimal). Optimal fiel=
+ds order: std, name, carr, consider reordering the fields or adding explici=
+t padding members
+   static struct mainscan {
+          ~~~~~~~^~~~~~~~~~
+>> drivers/media/pci/saa7134/saa7134-tvaudio.c:153:4: warning: Assigned val=
+ue is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           a <<=3D 24;
+             ^
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:321:6: note: Assuming the co=
+ndition is false
+           if (!(dev->tvnorm->id & scan->std)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:321:2: note: Taking false br=
+anch
+           if (!(dev->tvnorm->id & scan->std)) {
+           ^
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:327:6: note: Assuming 'audio=
+_debug' is <=3D 1
+           if (audio_debug > 1) {
+               ^~~~~~~~~~~~~~~
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:327:2: note: Taking false br=
+anch
+           if (audio_debug > 1) {
+           ^
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:344:2: note: Calling 'tvaudi=
+o_setcarrier'
+           tvaudio_setcarrier(dev,scan->carr-90,scan->carr-90);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:161:6: note: Assuming the co=
+ndition is true
+           if (-1 =3D=3D secondary)
+               ^~~~~~~~~~~~~~~
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:161:2: note: Taking true bra=
+nch
+           if (-1 =3D=3D secondary)
+           ^
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:163:2: note: Loop condition =
+is false.  Exiting loop
+           saa_writel(SAA7134_CARRIER1_FREQ0 >> 2, tvaudio_carr2reg(primary=
+));
+           ^
+   drivers/media/pci/saa7134/saa7134.h:691:36: note: expanded from macro 's=
+aa_writel'
+   #define saa_writel(reg,value)      writel((value), dev->lmmio + (reg));
+                                      ^
+   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
+   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
+                                      ^
+   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
+   #define __iowmb()               do { } while (0)
+                                   ^
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:163:42: note: Calling 'tvaud=
+io_carr2reg'
+           saa_writel(SAA7134_CARRIER1_FREQ0 >> 2, tvaudio_carr2reg(primary=
+));
+                                                   ^
+   drivers/media/pci/saa7134/saa7134.h:691:44: note: expanded from macro 's=
+aa_writel'
+   #define saa_writel(reg,value)      writel((value), dev->lmmio + (reg));
+                                              ^~~~~
+   arch/arm/include/asm/io.h:307:51: note: expanded from macro 'writel'
+   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
+                                                                ^
+   arch/arm/include/asm/io.h:299:68: note: expanded from macro 'writel_rela=
+xed'
+   #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v=
+),c)
+                                                                          ^
+   include/uapi/linux/byteorder/little_endian.h:33:51: note: expanded from =
+macro '__cpu_to_le32'
+   #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
+                                                     ^
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:153:4: note: Assigned value =
+is garbage or undefined
+           a <<=3D 24;
+             ^   ~~
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:494:3: warning: Value stored=
+ to 'max1' is never read [clang-analyzer-deadcode.DeadStores]
+                   max1 =3D 0;
+                   ^      ~
+   drivers/media/pci/saa7134/saa7134-tvaudio.c:494:3: note: Value stored to=
+ 'max1' is never read
+                   max1 =3D 0;
+                   ^      ~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   drivers/media/i2c/ov2659.c:894:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:894:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:985:21: warning: Value stored to 'client' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:985:21: note: Value stored to 'client' during=
+ its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1001:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1001:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1027:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1027:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1150:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1150:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1159:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1159:21: note: Value stored to 'client' durin=
+g its initialization is never read
+           struct i2c_client *client =3D ov2659->client;
+                              ^~~~~~   ~~~~~~~~~~~~~~
+   drivers/media/i2c/ov2659.c:1303:21: warning: Value stored to 'client' du=
+ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
 
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2772) 			val =3D this_=
-cpu_inc_return(trace_buffered_event_cnt);
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2773) =
+vim +153 drivers/media/pci/saa7134/saa7134-tvaudio.c
 
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2774) 			/*
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2775) 			 * Preemption=
- is disabled, but interrupts and NMIs
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2776) 			 * can still =
-come in now. If that happens after
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2777) 			 * the above =
-increment, then it will have to go
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2778) 			 * back to th=
-e old method of allocating the event
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2779) 			 * on the rin=
-g buffer, and if the filter fails, it
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2780) 			 * will have =
-to call ring_buffer_discard_commit()
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2781) 			 * to remove =
-it.
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2782) 			 *
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2783) 			 * Need to al=
-so check the unlikely case that the
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2784) 			 * length is =
-bigger than the temp buffer size.
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2785) 			 * If that ha=
-ppens, then the reserve is pretty much
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2786) 			 * guaranteed=
- to fail, as the ring buffer currently
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2787) 			 * only allow=
-s events less than a page. But that may
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2788) 			 * change in =
-the future, so let the ring buffer reserve
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2789) 			 * handle the=
- failure in that case.
-8f0901cda14d3b Steven Rostedt (VMware    2021-06-09  2790) 			 */
-faa76a6c289f43 Steven Rostedt (VMware    2021-06-09  2791) 			if (val =3D=
-=3D 1 && likely(len <=3D max_len)) {
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  2792  				trace_event_=
-setup(entry, type, trace_ctx);
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2793) 				entry->array=
-[0] =3D len;
-1ac91c8764ae50 Steven Rostedt (VMware    2021-11-29  2794) 				/* Return wi=
-th preemption disabled */
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2795) 				return entry;
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2796) 			}
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2797) 			this_cpu_dec(=
-trace_buffered_event_cnt);
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2798) 		}
-1ac91c8764ae50 Steven Rostedt (VMware    2021-11-29  2799) 		/* __trace_buf=
-fer_lock_reserve() disables preemption */
-1ac91c8764ae50 Steven Rostedt (VMware    2021-11-29  2800) 		preempt_enable=
-_notrace();
-1ac91c8764ae50 Steven Rostedt (VMware    2021-11-29  2801) 	}
-0fc1b09ff1ff40 Steven Rostedt (Red Hat   2016-05-03  2802) =
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  148  =
 
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  2803  	entry =3D __tra=
-ce_buffer_lock_reserve(*current_rb, type, len,
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  2804  					    trace_c=
-tx);
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2805) 	/*
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2806) 	 * If tracing i=
-s off, but we have triggers enabled
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2807) 	 * we still nee=
-d to look at the event data. Use the temp_buffer
-906695e5932463 Qiujun Huang              2020-10-31  2808  	 * to store the=
- trace event for the trigger to use. It's recursive
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2809) 	 * safe and wil=
-l not be recorded anywhere.
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2810) 	 */
-5d6ad960a71f0b Steven Rostedt (Red Hat   2015-05-13  2811) 	if (!entry && t=
-race_file->flags & EVENT_FILE_FL_TRIGGER_COND) {
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2812) 		*current_rb =
-=3D temp_buffer;
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  2813  		entry =3D __tr=
-ace_buffer_lock_reserve(*current_rb, type, len,
-36590c50b2d072 Sebastian Andrzej Siewior 2021-01-25  2814  						    trace_=
-ctx);
-ccb469a198cffa Steven Rostedt            2012-08-02  2815  	}
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2816) 	return entry;
-2c4a33aba5f9ea Steven Rostedt (Red Hat   2014-03-25  2817) }
-ccb469a198cffa Steven Rostedt            2012-08-02  2818  EXPORT_SYMBOL_GP=
-L(trace_event_buffer_lock_reserve);
-ccb469a198cffa Steven Rostedt            2012-08-02  2819  =
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  149  static u32 tvaudio_carr2reg(u32 carrier)
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  150  {
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  151  	u64 a =3D carrier;
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  152  =
 
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16 @153  	a <<=3D 24;
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  154  	do_div(a,12288);
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  155  	return a;
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  156  }
+^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
+ 2005-04-16  157  =
+
+
+:::::: The code@line 153 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7143479464473801626==--
+--===============1761298084287611738==--
 
