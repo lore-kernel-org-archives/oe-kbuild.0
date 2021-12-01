@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6819247310247372314=="
+Content-Type: multipart/mixed; boundary="===============3772057717161128555=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/codecs/max98373-sdw.c:789:26: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Wed, 01 Dec 2021 22:05:28 +0800
-Message-ID: <202112012111.HwiCDMP2-lkp@intel.com>
+Subject: arch/riscv/include/asm/atomic.h:30:9: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Wed, 01 Dec 2021 20:03:56 +0800
+Message-ID: <202112012033.UvMtQN3d-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6819247310247372314==
+--===============3772057717161128555==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,21 +15,21 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Bard Liao <yung-chuan.liao@linux.intel.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Xie He <xie.he.0141@gmail.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   58e1100fdc5990b0cc0d4beaf2562a92e621ac7d
-commit: 349dd23931d1943b1083182e35715eba8b150fe1 ASoC: max98373: don't acce=
-ss volatile registers in bias level off
-date:   12 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20211118 (https://download.01.org/0day-ci/arc=
-hive/20211201/202112012111.HwiCDMP2-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c46bec=
-f500df2a7fb4b4fce16178a036c344315a)
+commit: b491e6a7391e3ecdebdd7a097550195cc878924a net: lapb: Add locking to =
+the lapb module
+date:   10 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 10 months ago
+config: riscv-randconfig-c006-20211128 (https://download.01.org/0day-ci/arc=
+hive/20211201/202112012033.UvMtQN3d-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
+58d8c0b542e752b037e72a69d5fd51eb1e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -37,11 +37,11 @@ make.cross -O ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D349dd23931d1943b1083182e35715eba8b150fe1
+t/commit/?id=3Db491e6a7391e3ecdebdd7a097550195cc878924a
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 349dd23931d1943b1083182e35715eba8b150fe1
+        git checkout b491e6a7391e3ecdebdd7a097550195cc878924a
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -52,608 +52,283 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
+   kernel/bpf/btf.c:4242:2: note: Taking false branch
+           if (err)
+           ^
+   kernel/bpf/btf.c:4248:6: note: 'err' is 0
+           if (err)
+               ^~~
+   kernel/bpf/btf.c:4248:2: note: Taking false branch
+           if (err)
+           ^
+   kernel/bpf/btf.c:4251:8: note: Calling 'btf_parse_type_sec'
+           err =3D btf_parse_type_sec(env);
+                 ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:4003:6: note: Assuming the condition is false
+           if (hdr->type_off & (sizeof(u32) - 1)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:4003:2: note: Taking false branch
+           if (hdr->type_off & (sizeof(u32) - 1)) {
+           ^
+   kernel/bpf/btf.c:4008:17: note: Field 'base_btf' is non-null
+           if (!env->btf->base_btf && !hdr->type_len) {
+                          ^
+   kernel/bpf/btf.c:4008:26: note: Left side of '&&' is false
+           if (!env->btf->base_btf && !hdr->type_len) {
+                                   ^
+   kernel/bpf/btf.c:4014:6: note: 'err' is 0
+           if (err)
+               ^~~
+   kernel/bpf/btf.c:4014:2: note: Taking false branch
+           if (err)
+           ^
+   kernel/bpf/btf.c:4017:9: note: Calling 'btf_check_all_types'
+           return btf_check_all_types(env);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:3965:6: note: 'err' is 0
+           if (err)
+               ^~~
+   kernel/bpf/btf.c:3965:2: note: Taking false branch
+           if (err)
+           ^
+   kernel/bpf/btf.c:3969:11: note: Assuming pointer value is null
+           for (i =3D btf->base_btf ? 0 : 1; i < btf->nr_types; i++) {
+                    ^~~~~~~~~~~~~
+   kernel/bpf/btf.c:3969:11: note: Assuming field 'base_btf' is null
+           for (i =3D btf->base_btf ? 0 : 1; i < btf->nr_types; i++) {
+                    ^~~~~~~~~~~~~
+   kernel/bpf/btf.c:3969:11: note: '?' condition is false
+   kernel/bpf/btf.c:3969:34: note: Assuming 'i' is < field 'nr_types'
+           for (i =3D btf->base_btf ? 0 : 1; i < btf->nr_types; i++) {
+                                           ^~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:3969:2: note: Loop condition is true.  Entering loop bo=
+dy
+           for (i =3D btf->base_btf ? 0 : 1; i < btf->nr_types; i++) {
+           ^
+   kernel/bpf/btf.c:3971:7: note: Calling 'btf_type_by_id'
+                   t =3D btf_type_by_id(btf, type_id);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:709:9: note: Assuming 'type_id' is < field 'start_id'
+           while (type_id < btf->start_id)
+                  ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:709:2: note: Loop condition is true.  Entering loop body
+           while (type_id < btf->start_id)
+           ^
+   kernel/bpf/btf.c:710:3: note: Null pointer value stored to 'btf'
+                   btf =3D btf->base_btf;
+                   ^~~~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:709:19: note: Access to field 'start_id' results in a d=
+ereference of a null pointer (loaded from variable 'btf')
+           while (type_id < btf->start_id)
+                            ^~~
+   kernel/bpf/btf.c:790:3: warning: Value stored to 'id' is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+                   id =3D t->type;
+                   ^    ~~~~~~~
+   kernel/bpf/btf.c:790:3: note: Value stored to 'id' is never read
+                   id =3D t->type;
+                   ^    ~~~~~~~
+   kernel/bpf/btf.c:817:25: warning: Value stored to 't' during its initial=
+ization is never read [clang-analyzer-deadcode.DeadStores]
+           const struct btf_type *t =3D show->state.type;
+                                  ^   ~~~~~~~~~~~~~~~~
+   kernel/bpf/btf.c:817:25: note: Value stored to 't' during its initializa=
+tion is never read
+           const struct btf_type *t =3D show->state.type;
+                                  ^   ~~~~~~~~~~~~~~~~
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    12 warnings generated.
-   lib/zstd/decompress.c:1557:4: warning: Value stored to 'remainingSize' i=
-s never read [clang-analyzer-deadcode.DeadStores]
-                           remainingSize -=3D 4;
-                           ^                ~
-   lib/zstd/decompress.c:1557:4: note: Value stored to 'remainingSize' is n=
-ever read
-                           remainingSize -=3D 4;
-                           ^                ~
-   Suppressed 11 warnings (6 in non-user code, 5 with check filters).
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   fs/hpfs/ea.c:260:3: warning: Call to function 'strcpy' is insecure as it=
- does not provide bounding of the memory buffer. Replace unbounded copy fun=
-ctions with analogous functions that support length arguments such as 'strl=
-cpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(ea->name, key);
-                   ^~~~~~
-   fs/hpfs/ea.c:260:3: note: Call to function 'strcpy' is insecure as it do=
-es not provide bounding of the memory buffer. Replace unbounded copy functi=
-ons with analogous functions that support length arguments such as 'strlcpy=
-'. CWE-119
-                   strcpy(ea->name, key);
-                   ^~~~~~
-   Suppressed 5 warnings (5 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   kernel/sched/core.c:4243:16: warning: Value stored to 'preempt_disable_i=
-p' during its initialization is never read [clang-analyzer-deadcode.DeadSto=
-res]
-           unsigned long preempt_disable_ip =3D get_preempt_disable_ip(curr=
-ent);
-                         ^~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   kernel/sched/core.c:4243:16: note: Value stored to 'preempt_disable_ip' =
-during its initialization is never read
-           unsigned long preempt_disable_ip =3D get_preempt_disable_ip(curr=
-ent);
-                         ^~~~~~~~~~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   kernel/sched/core.c:7096:3: warning: Value stored to 'ptr' is never read=
- [clang-analyzer-deadcode.DeadStores]
-                   ptr +=3D nr_cpu_ids * sizeof(void **);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/sched/core.c:7096:3: note: Value stored to 'ptr' is never read
-                   ptr +=3D nr_cpu_ids * sizeof(void **);
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 16 warnings (14 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> sound/soc/codecs/max98373-sdw.c:789:26: warning: Assigned value is garba=
-ge or undefined [clang-analyzer-core.uninitialized.Assign]
-                   max98373->cache[i].reg =3D max98373_sdw_cache_reg[i];
-                                          ^
-   sound/soc/codecs/max98373-sdw.c:854:2: note: Taking false branch
-           if (IS_ERR(regmap))
+   14 warnings generated.
+>> arch/riscv/include/asm/atomic.h:30:9: warning: Use of memory after it is=
+ freed [clang-analyzer-unix.Malloc]
+           return READ_ONCE(v->counter);
+                  ^
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
            ^
-   sound/soc/codecs/max98373-sdw.c:857:9: note: Calling 'max98373_init'
-           return max98373_init(slave, regmap);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:776:6: note: Assuming 'max98373' is non-=
-null
-           if (!max98373)
-               ^~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:776:2: note: Taking false branch
-           if (!max98373)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:39: note: The value 3 is assigned to=
- 'i'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                                                ^~~
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:789:26: note: Assigned value is garbage =
-or undefined
-                   max98373->cache[i].reg =3D max98373_sdw_cache_reg[i];
-                                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/fsi/fsi-core.c:719:4: warning: Value stored to 'rc' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           rc =3D -EFAULT;
-                           ^    ~~~~~~~
-   drivers/fsi/fsi-core.c:719:4: note: Value stored to 'rc' is never read
-                           rc =3D -EFAULT;
-                           ^    ~~~~~~~
-   drivers/fsi/fsi-core.c:724:2: warning: Value stored to 'rc' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           rc =3D count;
-           ^    ~~~~~
-   drivers/fsi/fsi-core.c:724:2: note: Value stored to 'rc' is never read
-           rc =3D count;
-           ^    ~~~~~
-   drivers/fsi/fsi-core.c:753:4: warning: Value stored to 'rc' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           rc =3D -EFAULT;
-                           ^    ~~~~~~~
-   drivers/fsi/fsi-core.c:753:4: note: Value stored to 'rc' is never read
-                           rc =3D -EFAULT;
-                           ^    ~~~~~~~
-   drivers/fsi/fsi-core.c:761:2: warning: Value stored to 'rc' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           rc =3D count;
-           ^    ~~~~~
-   drivers/fsi/fsi-core.c:761:2: note: Value stored to 'rc' is never read
-           rc =3D count;
-           ^    ~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
---
-                               ^~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/hwmon/adm9240.c:157:2: warning: Value stored to 'old' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-           old =3D (reg >> shift) & 3;
-           ^     ~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/adm9240.c:157:2: note: Value stored to 'old' is never read
-           old =3D (reg >> shift) & 3;
-           ^     ~~~~~~~~~~~~~~~~~~
-   drivers/hwmon/adm9240.c:510:21: warning: Value stored to 'client' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D data->client;
-                              ^~~~~~   ~~~~~~~~~~~~
-   drivers/hwmon/adm9240.c:510:21: note: Value stored to 'client' during it=
-s initialization is never read
-           struct i2c_client *client =3D data->client;
-                              ^~~~~~   ~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> sound/soc/codecs/max98373-sdw.c:789:26: warning: Assigned value is garba=
-ge or undefined [clang-analyzer-core.uninitialized.Assign]
-                   max98373->cache[i].reg =3D max98373_sdw_cache_reg[i];
-                                          ^
-   sound/soc/codecs/max98373-sdw.c:854:2: note: Taking false branch
-           if (IS_ERR(regmap))
-           ^
-   sound/soc/codecs/max98373-sdw.c:857:9: note: Calling 'max98373_init'
-           return max98373_init(slave, regmap);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:776:6: note: Assuming 'max98373' is non-=
-null
-           if (!max98373)
-               ^~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:776:2: note: Taking false branch
-           if (!max98373)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:788:39: note: The value 3 is assigned to=
- 'i'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                                                ^~~
-   sound/soc/codecs/max98373-sdw.c:788:14: note: Assuming 'i' is < field 'c=
-ache_num'
-           for (i =3D 0; i < max98373->cache_num; i++)
-                       ^~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/max98373-sdw.c:788:2: note: Loop condition is true.  En=
-tering loop body
-           for (i =3D 0; i < max98373->cache_num; i++)
-           ^
-   sound/soc/codecs/max98373-sdw.c:789:26: note: Assigned value is garbage =
-or undefined
-                   max98373->cache[i].reg =3D max98373_sdw_cache_reg[i];
-                                          ^ ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   fs/hfsplus/bnode.c:328:4: warning: Value stored to 'tmp' is never read [=
-clang-analyzer-deadcode.DeadStores]
-                           tmp =3D hfs_bnode_read_u16(node, key_off);
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
                            ^
-   fs/hfsplus/bnode.c:328:4: note: Value stored to 'tmp' is never read
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   fs/hfsplus/bfind.c:73:3: warning: Value stored to 'cur_cnid' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-                   cur_cnid =3D 0;   /* used-uninitialized warning */
-                   ^          ~
-   fs/hfsplus/bfind.c:73:3: note: Value stored to 'cur_cnid' is never read
-                   cur_cnid =3D 0;   /* used-uninitialized warning */
-                   ^          ~
-   fs/hfsplus/bfind.c:74:3: warning: Value stored to 'search_cnid' is never=
- read [clang-analyzer-deadcode.DeadStores]
-                   search_cnid =3D 0;
-                   ^             ~
-   fs/hfsplus/bfind.c:74:3: note: Value stored to 'search_cnid' is never re=
-ad
-                   search_cnid =3D 0;
-                   ^             ~
-   fs/hfsplus/bfind.c:180:2: warning: Value stored to 'res' is never read [=
-clang-analyzer-deadcode.DeadStores]
-           res =3D 0;
-           ^     ~
-   fs/hfsplus/bfind.c:180:2: note: Value stored to 'res' is never read
-           res =3D 0;
-           ^     ~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
+   net/lapb/lapb_iface.c:181:6: note: Assuming 'lapb' is non-null
+           if (!lapb)
+               ^~~~~
+   net/lapb/lapb_iface.c:181:2: note: Taking false branch
+           if (!lapb)
+           ^
+   net/lapb/lapb_iface.c:183:2: note: Calling 'lapb_put'
+           lapb_put(lapb);
+           ^~~~~~~~~~~~~~
+   net/lapb/lapb_iface.c:57:2: note: Taking true branch
+           if (refcount_dec_and_test(&lapb->refcnt))
+           ^
+   net/lapb/lapb_iface.c:58:3: note: Calling 'lapb_free_cb'
+                   lapb_free_cb(lapb);
+                   ^~~~~~~~~~~~~~~~~~
+   net/lapb/lapb_iface.c:47:2: note: Memory is released
+           kfree(lapb);
+           ^~~~~~~~~~~
+   net/lapb/lapb_iface.c:58:3: note: Returning; memory was released via 1st=
+ parameter
+                   lapb_free_cb(lapb);
+                   ^~~~~~~~~~~~~~~~~~
+   net/lapb/lapb_iface.c:183:2: note: Returning; memory was released via 1s=
+t parameter
+           lapb_put(lapb);
+           ^~~~~~~~~~~~~~
+   net/lapb/lapb_iface.c:186:9: note: Calling 'refcount_read'
+           while (refcount_read(&lapb->refcnt) > 2)
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/refcount.h:147:9: note: Calling 'atomic_read'
+           return atomic_read(&r->refs);
+                  ^~~~~~~~~~~~~~~~~~~~~
+   arch/riscv/include/asm/atomic.h:30:9: note: Left side of '||' is false
+           return READ_ONCE(v->counter);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/riscv/include/asm/atomic.h:30:9: note: Left side of '||' is false
+           return READ_ONCE(v->counter);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:282:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   arch/riscv/include/asm/atomic.h:30:9: note: Left side of '||' is true
+           return READ_ONCE(v->counter);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:283:28: note: expanded from macro '__nati=
+ve_word'
+            sizeof(t) =3D=3D sizeof(int) || sizeof(t) =3D=3D sizeof(long))
+                                     ^
+   arch/riscv/include/asm/atomic.h:30:9: note: Taking false branch
+           return READ_ONCE(v->counter);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   arch/riscv/include/asm/atomic.h:30:9: note: Loop condition is false.  Ex=
+iting loop
+           return READ_ONCE(v->counter);
+                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
 
-vim +789 sound/soc/codecs/max98373-sdw.c
+vim +30 arch/riscv/include/asm/atomic.h
 
-56a5b7910e965c Ryan Lee  2020-07-08  766  =
+fab957c11efe2f Palmer Dabbelt 2017-07-10  21  =
 
-56a5b7910e965c Ryan Lee  2020-07-08  767  static int max98373_init(struct s=
-dw_slave *slave, struct regmap *regmap)
-56a5b7910e965c Ryan Lee  2020-07-08  768  {
-56a5b7910e965c Ryan Lee  2020-07-08  769  	struct max98373_priv *max98373;
-56a5b7910e965c Ryan Lee  2020-07-08  770  	int ret;
-349dd23931d194 Bard Liao 2020-12-17  771  	int i;
-56a5b7910e965c Ryan Lee  2020-07-08  772  	struct device *dev =3D &slave->d=
-ev;
-56a5b7910e965c Ryan Lee  2020-07-08  773  =
+fd2efaa4eb5317 Mark Rutland   2018-07-16  22  #define __atomic_acquire_fenc=
+e()					\
+fd2efaa4eb5317 Mark Rutland   2018-07-16  23  	__asm__ __volatile__(RISCV_A=
+CQUIRE_BARRIER "" ::: "memory")
+fd2efaa4eb5317 Mark Rutland   2018-07-16  24  =
 
-56a5b7910e965c Ryan Lee  2020-07-08  774  	/*  Allocate and assign private =
-driver data structure  */
-56a5b7910e965c Ryan Lee  2020-07-08  775  	max98373 =3D devm_kzalloc(dev, s=
-izeof(*max98373), GFP_KERNEL);
-56a5b7910e965c Ryan Lee  2020-07-08  776  	if (!max98373)
-56a5b7910e965c Ryan Lee  2020-07-08  777  		return -ENOMEM;
-56a5b7910e965c Ryan Lee  2020-07-08  778  =
+fd2efaa4eb5317 Mark Rutland   2018-07-16  25  #define __atomic_release_fenc=
+e()					\
+fd2efaa4eb5317 Mark Rutland   2018-07-16  26  	__asm__ __volatile__(RISCV_R=
+ELEASE_BARRIER "" ::: "memory");
+5ce6c1f3535fa8 Andrea Parri   2018-03-09  27  =
 
-56a5b7910e965c Ryan Lee  2020-07-08  779  	dev_set_drvdata(dev, max98373);
-56a5b7910e965c Ryan Lee  2020-07-08  780  	max98373->regmap =3D regmap;
-56a5b7910e965c Ryan Lee  2020-07-08  781  	max98373->slave =3D slave;
-56a5b7910e965c Ryan Lee  2020-07-08  782  =
+fab957c11efe2f Palmer Dabbelt 2017-07-10  28  static __always_inline int at=
+omic_read(const atomic_t *v)
+fab957c11efe2f Palmer Dabbelt 2017-07-10  29  {
+fab957c11efe2f Palmer Dabbelt 2017-07-10 @30  	return READ_ONCE(v->counter);
+fab957c11efe2f Palmer Dabbelt 2017-07-10  31  }
+fab957c11efe2f Palmer Dabbelt 2017-07-10  32  static __always_inline void a=
+tomic_set(atomic_t *v, int i)
+fab957c11efe2f Palmer Dabbelt 2017-07-10  33  {
+fab957c11efe2f Palmer Dabbelt 2017-07-10  34  	WRITE_ONCE(v->counter, i);
+fab957c11efe2f Palmer Dabbelt 2017-07-10  35  }
+fab957c11efe2f Palmer Dabbelt 2017-07-10  36  =
 
-349dd23931d194 Bard Liao 2020-12-17  783  	max98373->cache_num =3D ARRAY_SI=
-ZE(max98373_sdw_cache_reg);
-349dd23931d194 Bard Liao 2020-12-17  784  	max98373->cache =3D devm_kcalloc=
-(dev, max98373->cache_num,
-349dd23931d194 Bard Liao 2020-12-17  785  				       sizeof(*max98373->cach=
-e),
-349dd23931d194 Bard Liao 2020-12-17  786  				       GFP_KERNEL);
-349dd23931d194 Bard Liao 2020-12-17  787  =
 
-349dd23931d194 Bard Liao 2020-12-17  788  	for (i =3D 0; i < max98373->cach=
-e_num; i++)
-349dd23931d194 Bard Liao 2020-12-17 @789  		max98373->cache[i].reg =3D max9=
-8373_sdw_cache_reg[i];
-349dd23931d194 Bard Liao 2020-12-17  790  =
+:::::: The code at line 30 was first introduced by commit
+:::::: fab957c11efe2f405e08b9f0d080524bc2631428 RISC-V: Atomic and Locking =
+Code
 
-56a5b7910e965c Ryan Lee  2020-07-08  791  	/* Read voltage and slot configu=
-ration */
-56a5b7910e965c Ryan Lee  2020-07-08  792  	max98373_slot_config(dev, max983=
-73);
-56a5b7910e965c Ryan Lee  2020-07-08  793  =
-
-56a5b7910e965c Ryan Lee  2020-07-08  794  	max98373->hw_init =3D false;
-56a5b7910e965c Ryan Lee  2020-07-08  795  	max98373->pm_init_once =3D false;
-56a5b7910e965c Ryan Lee  2020-07-08  796  =
-
-56a5b7910e965c Ryan Lee  2020-07-08  797  	/* codec registration  */
-56a5b7910e965c Ryan Lee  2020-07-08  798  	ret =3D devm_snd_soc_register_co=
-mponent(dev, &soc_codec_dev_max98373_sdw,
-56a5b7910e965c Ryan Lee  2020-07-08  799  					      max98373_sdw_dai,
-56a5b7910e965c Ryan Lee  2020-07-08  800  					      ARRAY_SIZE(max98373_sd=
-w_dai));
-56a5b7910e965c Ryan Lee  2020-07-08  801  	if (ret < 0)
-56a5b7910e965c Ryan Lee  2020-07-08  802  		dev_err(dev, "Failed to registe=
-r codec: %d\n", ret);
-56a5b7910e965c Ryan Lee  2020-07-08  803  =
-
-56a5b7910e965c Ryan Lee  2020-07-08  804  	return ret;
-56a5b7910e965c Ryan Lee  2020-07-08  805  }
-56a5b7910e965c Ryan Lee  2020-07-08  806  =
-
+:::::: TO: Palmer Dabbelt <palmer@dabbelt.com>
+:::::: CC: Palmer Dabbelt <palmer@dabbelt.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============6819247310247372314==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3772057717161128555==--
 
