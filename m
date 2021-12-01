@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1400269385690744294=="
+Content-Type: multipart/mixed; boundary="===============7079118745253549552=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/ath/ath11k/mac.c:1927:27: warning: Although the value stored to 'he_mcs' is used in the enclosing expression, the value is never actually read from 'he_mcs' [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 01 Dec 2021 18:52:30 +0800
-Message-ID: <202112011845.d9RZhEPc-lkp@intel.com>
+Subject: drivers/net/ethernet/intel/ice/ice_lag.c:65:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 01 Dec 2021 18:42:13 +0800
+Message-ID: <202112011827.5ZjEmHQJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1400269385690744294==
+--===============7079118745253549552==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,39 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Miles Hu <milehu@codeaurora.org>
-CC: Kalle Valo <kvalo@codeaurora.org>
-CC: Aloka Dixit <alokad@codeaurora.org>
-CC: Lavanya Suresh <lavaks@codeaurora.org>
-CC: Pradeep Chitrapu <pradeepc@codeaurora.org>
-CC: Venkateswara Naralasetty <vnaralas@codeaurora.org>
-CC: Jouni Malinen <jouni@codeaurora.org>
+TO: Dave Ertman <david.m.ertman@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   58e1100fdc5990b0cc0d4beaf2562a92e621ac7d
-commit: 61fe43e7216df6e9a912d831aafc7142fa20f280 ath11k: add support for se=
-tting fixed HE rate/gi/ltf
-date:   9 weeks ago
+commit: df006dd4b1dca8c486f73ae76fb77c06afae83f2 ice: Add initial support f=
+ramework for LAG
+date:   10 months ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 9 weeks ago
-config: i386-randconfig-c001-20211015 (https://download.01.org/0day-ci/arch=
-ive/20211201/202112011845.d9RZhEPc-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6069a6=
-a5049497a32a50a49661c2f4169078bdba)
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20211126 (https://download.01.org/0day-ci/archi=
+ve/20211201/202112011827.5ZjEmHQJ-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
+58d8c0b542e752b037e72a69d5fd51eb1e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D61fe43e7216df6e9a912d831aafc7142fa20f280
+t/commit/?id=3Ddf006dd4b1dca8c486f73ae76fb77c06afae83f2
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 61fe43e7216df6e9a912d831aafc7142fa20f280
+        git checkout df006dd4b1dca8c486f73ae76fb77c06afae83f2
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -55,623 +52,384 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                       ^~~~~~~~~~~~
-   drivers/spi/spi-amd.c:178:3: note: Taking false branch
-                   if (xfer->rx_buf)
-                   ^
-   drivers/spi/spi-amd.c:180:7: note: Assuming field 'tx_buf' is null
-                   if (xfer->tx_buf)
-                       ^~~~~~~~~~~~
-   drivers/spi/spi-amd.c:180:3: note: Taking false branch
-                   if (xfer->tx_buf)
-                   ^
-   drivers/spi/spi-amd.c:183:3: note: Taking false branch
-                   if (m_cmd & AMD_SPI_XFER_TX) {
-                   ^
-   drivers/spi/spi-amd.c:202:3: note: Taking true branch
-                   if (m_cmd & AMD_SPI_XFER_RX) {
-                   ^
-   drivers/spi/spi-amd.c:208:4: note: Null pointer value stored to 'buf'
-                           buf =3D (u8 *)xfer->rx_buf;
-                           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-amd.c:214:16: note: Assuming 'i' is < 'rx_len'
-                           for (i =3D 0; i < rx_len; i++)
-                                       ^~~~~~~~~~
-   drivers/spi/spi-amd.c:214:4: note: Loop condition is true.  Entering loo=
-p body
-                           for (i =3D 0; i < rx_len; i++)
                            ^
-   drivers/spi/spi-amd.c:215:12: note: Array access (from variable 'buf') r=
-esults in a null pointer dereference
-                                   buf[i] =3D amd_spi_readreg8(master,
-                                   ~~~    ^
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   17 warnings generated.
-   drivers/net/wireless/ath/ath11k/wmi.c:890:2: warning: Value stored to 'p=
-tr' is never read [clang-analyzer-deadcode.DeadStores]
-           ptr +=3D sizeof(*tlv);
-           ^      ~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:890:2: note: Value stored to 'ptr'=
- is never read
-           ptr +=3D sizeof(*tlv);
-           ^      ~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7111:22: warning: Assigned value i=
-s garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           conn_req.service_id =3D svc_id[pdev_idx];
-                               ^
-   drivers/net/wireless/ath/ath11k/wmi.c:7227:6: note: Assuming 'wmi_ep_cou=
-nt' is <=3D field 'max_radios'
-           if (wmi_ep_count > ab->hw_params.max_radios)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7227:2: note: Taking false branch
-           if (wmi_ep_count > ab->hw_params.max_radios)
-           ^
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:14: note: Assuming 'i' is < '=
-wmi_ep_count'
-           for (i =3D 0; i < wmi_ep_count; i++)
-                       ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (i =3D 0; i < wmi_ep_count; i++)
-           ^
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:14: note: Assuming 'i' is < '=
-wmi_ep_count'
-           for (i =3D 0; i < wmi_ep_count; i++)
-                       ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (i =3D 0; i < wmi_ep_count; i++)
-           ^
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:14: note: Assuming 'i' is < '=
-wmi_ep_count'
-           for (i =3D 0; i < wmi_ep_count; i++)
-                       ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (i =3D 0; i < wmi_ep_count; i++)
-           ^
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:32: note: The value 3 is assi=
-gned to 'i'
-           for (i =3D 0; i < wmi_ep_count; i++)
-                                         ^~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:14: note: Assuming 'i' is < '=
-wmi_ep_count'
-           for (i =3D 0; i < wmi_ep_count; i++)
-                       ^~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7230:2: note: Loop condition is tr=
-ue.  Entering loop body
-           for (i =3D 0; i < wmi_ep_count; i++)
-           ^
-   drivers/net/wireless/ath/ath11k/wmi.c:7231:39: note: Passing the value 3=
- via 2nd parameter 'pdev_idx'
-                   ath11k_connect_pdev_htc_service(ab, i);
-                                                       ^
-   drivers/net/wireless/ath/ath11k/wmi.c:7231:3: note: Calling 'ath11k_conn=
-ect_pdev_htc_service'
-                   ath11k_connect_pdev_htc_service(ab, i);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/wmi.c:7111:22: note: Assigned value is g=
-arbage or undefined
-           conn_req.service_id =3D svc_id[pdev_idx];
-                               ^ ~~~~~~~~~~~~~~~~
-   Suppressed 15 warnings (15 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   23 warnings generated.
-   drivers/net/wireless/ath/ath11k/mac.c:1661:27: warning: Although the val=
-ue stored to 'vht_mcs' is used in the enclosing expression, the value is ne=
-ver actually read from 'vht_mcs' [clang-analyzer-deadcode.DeadStores]
-           for (i =3D 0, max_nss =3D 0, vht_mcs =3D 0; i < NL80211_VHT_NSS_=
-MAX; i++) {
-                                    ^         ~
-   drivers/net/wireless/ath/ath11k/mac.c:1661:27: note: Although the value =
-stored to 'vht_mcs' is used in the enclosing expression, the value is never=
- actually read from 'vht_mcs'
-           for (i =3D 0, max_nss =3D 0, vht_mcs =3D 0; i < NL80211_VHT_NSS_=
-MAX; i++) {
-                                    ^         ~
->> drivers/net/wireless/ath/ath11k/mac.c:1927:27: warning: Although the val=
-ue stored to 'he_mcs' is used in the enclosing expression, the value is nev=
-er actually read from 'he_mcs' [clang-analyzer-deadcode.DeadStores]
-           for (i =3D 0, max_nss =3D 0, he_mcs =3D 0; i < NL80211_HE_NSS_MA=
-X; i++) {
-                                    ^        ~
-   drivers/net/wireless/ath/ath11k/mac.c:1927:27: note: Although the value =
-stored to 'he_mcs' is used in the enclosing expression, the value is never =
-actually read from 'he_mcs'
-           for (i =3D 0, max_nss =3D 0, he_mcs =3D 0; i < NL80211_HE_NSS_MA=
-X; i++) {
-                                    ^        ~
-   drivers/net/wireless/ath/ath11k/mac.c:3141:3: warning: 1st function call=
- argument is an uninitialized value [clang-analyzer-core.CallAndMessage]
-                   kfree(arg.extraie.ptr);
-                   ^     ~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:3078:2: note: Control jumps to 'ca=
-se ATH11K_SCAN_ABORTING:' @line 3089
-           switch (ar->scan.state) {
-           ^
-   drivers/net/wireless/ath/ath11k/mac.c:3091:3: note:  Execution continues=
- on line 3093
-                   break;
-                   ^
-   drivers/net/wireless/ath/ath11k/mac.c:3095:6: note: 'ret' is -16
+   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
+_to_cpu'
+   #define be32_to_cpu __be32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
+macro '__be32_to_cpu'
+   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
+                            ^
+   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
+           (__builtin_constant_p((__u32)(x)) ?     \
+            ^
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9673:11: note: '?' condition =
+is false
+                   acaps =3D be32_to_cpu(cmd.u.info32.acaps32);
+                           ^
+   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
+_to_cpu'
+   #define be32_to_cpu __be32_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
+macro '__be32_to_cpu'
+   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
+                            ^
+   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
+           (__builtin_constant_p((__u32)(x)) ?     \
+            ^
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9676:8: note: Calling 't4_all=
+oc_vi'
+           ret =3D t4_alloc_vi(pi->adapter, mbox, port, pf, vf, 1, mac, &rs=
+s_size,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7638:16: note: '?' condition =
+is false
+           c.op_to_vfn =3D cpu_to_be32(FW_CMD_OP_V(FW_VI_CMD) | FW_CMD_REQU=
+EST_F |
+                         ^
+   include/linux/byteorder/generic.h:94:21: note: expanded from macro 'cpu_=
+to_be32'
+   #define cpu_to_be32 __cpu_to_be32
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:39:43: note: expanded from =
+macro '__cpu_to_be32'
+   #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
+                                             ^
+   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
+           (__builtin_constant_p((__u32)(x)) ?     \
+            ^
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7641:21: note: '?' condition =
+is true
+           c.alloc_to_len16 =3D cpu_to_be32(FW_VI_CMD_ALLOC_F | FW_LEN16(c)=
+);
+                              ^
+   include/linux/byteorder/generic.h:94:21: note: expanded from macro 'cpu_=
+to_be32'
+   #define cpu_to_be32 __cpu_to_be32
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:39:43: note: expanded from =
+macro '__cpu_to_be32'
+   #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
+                                             ^
+   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
+           (__builtin_constant_p((__u32)(x)) ?     \
+            ^
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7646:6: note: Assuming 'ret' =
+is not equal to 0
            if (ret)
                ^~~
-   drivers/net/wireless/ath/ath11k/mac.c:3095:2: note: Taking true branch
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7646:2: note: Taking true bra=
+nch
            if (ret)
            ^
-   drivers/net/wireless/ath/ath11k/mac.c:3096:3: note: Control jumps to lin=
-e 3140
-                   goto exit;
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7647:3: note: Returning witho=
+ut writing to '*rss_size'
+                   return ret;
                    ^
-   drivers/net/wireless/ath/ath11k/mac.c:3140:6: note: Assuming field 'ie_l=
-en' is not equal to 0
-           if (req->ie_len)
-               ^~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:3140:2: note: Taking true branch
-           if (req->ie_len)
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9676:8: note: Returning from =
+'t4_alloc_vi'
+           ret =3D t4_alloc_vi(pi->adapter, mbox, port, pf, vf, 1, mac, &rs=
+s_size,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9678:6: note: Assuming 'ret' =
+is >=3D 0
+           if (ret < 0)
+               ^~~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9678:2: note: Taking false br=
+anch
+           if (ret < 0)
            ^
-   drivers/net/wireless/ath/ath11k/mac.c:3141:3: note: 1st function call ar=
-gument is an uninitialized value
-                   kfree(arg.extraie.ptr);
-                   ^     ~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:4091:3: warning: Value stored to '=
-bw' is never read [clang-analyzer-deadcode.DeadStores]
-                   bw =3D WMI_PEER_CHWIDTH_20MHZ;
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:4091:3: note: Value stored to 'bw'=
- is never read
-                   bw =3D WMI_PEER_CHWIDTH_20MHZ;
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:4120:3: warning: Value stored to '=
-smps' is never read [clang-analyzer-deadcode.DeadStores]
-                   smps =3D WMI_PEER_SMPS_PS_NONE;
-                   ^      ~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:4120:3: note: Value stored to 'smp=
-s' is never read
-                   smps =3D WMI_PEER_SMPS_PS_NONE;
-                   ^      ~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:5684:2: warning: Value stored to '=
-changed_flags' is never read [clang-analyzer-deadcode.DeadStores]
-           changed_flags &=3D SUPPORTED_FILTERS;
-           ^
-   drivers/net/wireless/ath/ath11k/mac.c:5684:2: note: Value stored to 'cha=
-nged_flags' is never read
-   drivers/net/wireless/ath/ath11k/mac.c:7312:22: warning: Value stored to =
-'ab' during its initialization is never read [clang-analyzer-deadcode.DeadS=
-tores]
-           struct ath11k_base *ab =3D ar->ab;
-                               ^~   ~~~~~~
-   drivers/net/wireless/ath/ath11k/mac.c:7312:22: note: Value stored to 'ab=
-' during its initialization is never read
-           struct ath11k_base *ab =3D ar->ab;
-                               ^~   ~~~~~~
-   Suppressed 16 warnings (15 in non-user code, 1 with check filters).
+   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9684:15: note: Assigned value=
+ is garbage or undefined
+           pi->rss_size =3D rss_size;
+                        ^ ~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/net/ethernet/intel/iavf/iavf_txrx.c:1816:3: warning: Value store=
+d to 'protocol' is never read [clang-analyzer-deadcode.DeadStores]
+                   protocol =3D vhdr->h_vlan_encapsulated_proto;
+                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/iavf/iavf_txrx.c:1816:3: note: Value stored t=
+o 'protocol' is never read
+                   protocol =3D vhdr->h_vlan_encapsulated_proto;
+                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    8 warnings generated.
-   drivers/input/touchscreen/elants_i2c.c:137:8: warning: Excessive padding=
- in 'struct elants_data' (40 padding bytes, where 8 is optimal). =
-
-   Optimal fields order: =
-
-   buf, =
-
-   test_version, =
-
-   fw_version, =
-
-   client, =
-
-   input, =
-
-   vcc33, =
-
-   vccio, =
-
-   reset_gpio, =
-
-   x_res, =
-
-   y_res, =
-
-   x_max, =
-
-   y_max, =
-
-   phy_x, =
-
-   phy_y, =
-
-   state, =
-
-   chip_id, =
-
-   iap_mode, =
-
-   prop, =
-
-   cmd_done, =
-
-   sysfs_mutex, =
-
-   hw_version, =
-
-   solution_version, =
-
-   bc_version, =
-
-   iap_version, =
-
-   major_res, =
-
-   wake_irq_enabled, =
-
-   keep_power_in_suspend, =
-
-   cmd_resp, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct elants_data {
-   ~~~~~~~^~~~~~~~~~~~~
-   drivers/input/touchscreen/elants_i2c.c:137:8: note: Excessive padding in=
- 'struct elants_data' (40 padding bytes, where 8 is optimal). Optimal field=
-s order: buf, test_version, fw_version, client, input, vcc33, vccio, reset_=
-gpio, x_res, y_res, x_max, y_max, phy_x, phy_y, state, chip_id, iap_mode, p=
-rop, cmd_done, sysfs_mutex, hw_version, solution_version, bc_version, iap_v=
-ersion, major_res, wake_irq_enabled, keep_power_in_suspend, cmd_resp, consi=
-der reordering the fields or adding explicit padding members
-   struct elants_data {
-   ~~~~~~~^~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: warning: Value st=
+ored to 'dev' during its initialization is never read [clang-analyzer-deadc=
+ode.DeadStores]
+           struct device *dev =3D ice_pf_to_dev(pf);
+                          ^~~
+   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: note: Value store=
+d to 'dev' during its initialization is never read
+           struct device *dev =3D ice_pf_to_dev(pf);
+                          ^~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+>> drivers/net/ethernet/intel/ice/ice_lag.c:65:17: warning: Value stored to=
+ 'dev' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           struct device *dev =3D &lag->pf->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:65:17: note: Value stored to 'd=
+ev' during its initialization is never read
+           struct device *dev =3D &lag->pf->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:67:2: warning: Value stored to =
+'name' is never read [clang-analyzer-deadcode.DeadStores]
+           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:67:2: note: Value stored to 'na=
+me' is never read
+           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:68:2: warning: Value stored to =
+'peer' is never read [clang-analyzer-deadcode.DeadStores]
+           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
+et";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:68:2: note: Value stored to 'pe=
+er' is never read
+           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
+et";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:69:2: warning: Value stored to =
+'upper' is never read [clang-analyzer-deadcode.DeadStores]
+           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
+unset";
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:69:2: note: Value stored to 'up=
+per' is never read
+           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
+unset";
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:70:2: warning: Value stored to =
+'master' is never read [clang-analyzer-deadcode.DeadStores]
+           master =3D lag->master ? "TRUE" : "FALSE";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:70:2: note: Value stored to 'ma=
+ster' is never read
+           master =3D lag->master ? "TRUE" : "FALSE";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:71:2: warning: Value stored to =
+'bonded' is never read [clang-analyzer-deadcode.DeadStores]
+           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:71:2: note: Value stored to 'bo=
+nded' is never read
+           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:75:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "NONE";
+                   ^      ~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:75:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "NONE";
+                   ^      ~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "PRIMARY";
+                   ^      ~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "PRIMARY";
+                   ^      ~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "BACKUP";
+                   ^      ~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "BACKUP";
+                   ^      ~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "UNSET";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "UNSET";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "ERROR";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "ERROR";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:356:17: warning: Value stored t=
+o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct device *dev =3D ice_pf_to_dev(lag->pf);
+                          ^~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:356:17: note: Value stored to '=
+dev' during its initialization is never read
+           struct device *dev =3D ice_pf_to_dev(lag->pf);
+                          ^~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:1579:4: warning: Valu=
+e stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+                           ret =3D kstrtouint(end, 10, &j);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:1579:4: note: Value s=
+tored to 'ret' is never read
+                           ret =3D kstrtouint(end, 10, &j);
+                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2216:9: warning: Arra=
+y subscript is undefined [clang-analyzer-core.uninitialized.ArraySubscript]
+                           if (!isxdigit(*p))
+                                ^
+   include/linux/ctype.h:35:23: note: expanded from macro 'isxdigit'
+   #define isxdigit(c)     ((__ismask(c)&(_D|_X)) !=3D 0)
+                             ^~~~~~~~~~~
+   include/linux/ctype.h:23:22: note: expanded from macro '__ismask'
+   #define __ismask(x) (_ctype[(int)(unsigned char)(x)])
+                        ^      ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2205:6: note: Assumin=
+g the condition is false
+           if (count > sizeof(s) - 1)
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2205:2: note: Taking =
+false branch
+           if (count > sizeof(s) - 1)
+           ^
+   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2207:6: note: Calling=
+ 'copy_from_user'
+           if (copy_from_user(s, buf, count))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:191:2: note: Taking true branch
+           if (likely(check_copy_size(to, n, false)))
+           ^
+   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+               ^
+   include/linux/uaccess.h:157:33: note: Assuming the condition is false
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                                          ^
+   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:23:50: note: expanded from macro '__branch_chec=
+k__'
+   #define __branch_check__(x, expect, is_constant) ({                     \
+                                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:2: note: Taking false branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
+               ^
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
 
-vim +1927 drivers/net/wireless/ath/ath11k/mac.c
+vim +/dev +65 drivers/net/ethernet/intel/ice/ice_lag.c
 
-61fe43e7216df6 Miles Hu            2021-09-24  1761  =
+df006dd4b1dca8 Dave Ertman 2020-11-20  57  =
 
-d5c65159f28953 Kalle Valo          2019-11-23  1762  static void ath11k_pee=
-r_assoc_h_he(struct ath11k *ar,
-d5c65159f28953 Kalle Valo          2019-11-23  1763  				   struct ieee8021=
-1_vif *vif,
-d5c65159f28953 Kalle Valo          2019-11-23  1764  				   struct ieee8021=
-1_sta *sta,
-d5c65159f28953 Kalle Valo          2019-11-23  1765  				   struct peer_ass=
-oc_params *arg)
-d5c65159f28953 Kalle Valo          2019-11-23  1766  {
-61fe43e7216df6 Miles Hu            2021-09-24  1767  	struct ath11k_vif *ar=
-vif =3D (void *)vif->drv_priv;
-61fe43e7216df6 Miles Hu            2021-09-24  1768  	struct cfg80211_chan_=
-def def;
-9f056ed8ee01ad John Crispin        2019-11-25  1769  	const struct ieee8021=
-1_sta_he_cap *he_cap =3D &sta->he_cap;
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1770  	u8 ampdu_factor;
-61fe43e7216df6 Miles Hu            2021-09-24  1771  	enum nl80211_band ban=
-d;
-61fe43e7216df6 Miles Hu            2021-09-24  1772  	u16 *he_mcs_mask;
-61fe43e7216df6 Miles Hu            2021-09-24  1773  	u8 max_nss, he_mcs;
-61fe43e7216df6 Miles Hu            2021-09-24  1774  	u16 he_tx_mcs =3D 0, =
-v =3D 0;
-61fe43e7216df6 Miles Hu            2021-09-24  1775  	int i, he_nss, nss_id=
-x;
-61fe43e7216df6 Miles Hu            2021-09-24  1776  	bool user_rate_valid =
-=3D true;
-61fe43e7216df6 Miles Hu            2021-09-24  1777  =
+df006dd4b1dca8 Dave Ertman 2020-11-20  58  /**
+df006dd4b1dca8 Dave Ertman 2020-11-20  59   * ice_display_lag_info - print =
+LAG info
+df006dd4b1dca8 Dave Ertman 2020-11-20  60   * @lag: LAG info struct
+df006dd4b1dca8 Dave Ertman 2020-11-20  61   */
+df006dd4b1dca8 Dave Ertman 2020-11-20  62  static void ice_display_lag_info=
+(struct ice_lag *lag)
+df006dd4b1dca8 Dave Ertman 2020-11-20  63  {
+df006dd4b1dca8 Dave Ertman 2020-11-20  64  	const char *name, *peer, *upper=
+, *role, *bonded, *master;
+df006dd4b1dca8 Dave Ertman 2020-11-20 @65  	struct device *dev =3D &lag->pf=
+->pdev->dev;
+df006dd4b1dca8 Dave Ertman 2020-11-20  66  =
 
-61fe43e7216df6 Miles Hu            2021-09-24  1778  	if (WARN_ON(ath11k_ma=
-c_vif_chan(vif, &def)))
-61fe43e7216df6 Miles Hu            2021-09-24  1779  		return;
-9f056ed8ee01ad John Crispin        2019-11-25  1780  =
+df006dd4b1dca8 Dave Ertman 2020-11-20 @67  	name =3D lag->netdev ? netdev_n=
+ame(lag->netdev) : "unset";
+df006dd4b1dca8 Dave Ertman 2020-11-20 @68  	peer =3D lag->peer_netdev ? net=
+dev_name(lag->peer_netdev) : "unset";
+df006dd4b1dca8 Dave Ertman 2020-11-20 @69  	upper =3D lag->upper_netdev ? n=
+etdev_name(lag->upper_netdev) : "unset";
+df006dd4b1dca8 Dave Ertman 2020-11-20 @70  	master =3D lag->master ? "TRUE"=
+ : "FALSE";
+df006dd4b1dca8 Dave Ertman 2020-11-20 @71  	bonded =3D lag->bonded ? "BONDE=
+D" : "UNBONDED";
+df006dd4b1dca8 Dave Ertman 2020-11-20  72  =
 
-9f056ed8ee01ad John Crispin        2019-11-25  1781  	if (!he_cap->has_he)
-9f056ed8ee01ad John Crispin        2019-11-25  1782  		return;
-9f056ed8ee01ad John Crispin        2019-11-25  1783  =
+df006dd4b1dca8 Dave Ertman 2020-11-20  73  	switch (lag->role) {
+df006dd4b1dca8 Dave Ertman 2020-11-20  74  	case ICE_LAG_NONE:
+df006dd4b1dca8 Dave Ertman 2020-11-20 @75  		role =3D "NONE";
+df006dd4b1dca8 Dave Ertman 2020-11-20  76  		break;
+df006dd4b1dca8 Dave Ertman 2020-11-20  77  	case ICE_LAG_PRIMARY:
+df006dd4b1dca8 Dave Ertman 2020-11-20  78  		role =3D "PRIMARY";
+df006dd4b1dca8 Dave Ertman 2020-11-20  79  		break;
+df006dd4b1dca8 Dave Ertman 2020-11-20  80  	case ICE_LAG_BACKUP:
+df006dd4b1dca8 Dave Ertman 2020-11-20  81  		role =3D "BACKUP";
+df006dd4b1dca8 Dave Ertman 2020-11-20  82  		break;
+df006dd4b1dca8 Dave Ertman 2020-11-20  83  	case ICE_LAG_UNSET:
+df006dd4b1dca8 Dave Ertman 2020-11-20  84  		role =3D "UNSET";
+df006dd4b1dca8 Dave Ertman 2020-11-20  85  		break;
+df006dd4b1dca8 Dave Ertman 2020-11-20  86  	default:
+df006dd4b1dca8 Dave Ertman 2020-11-20  87  		role =3D "ERROR";
+df006dd4b1dca8 Dave Ertman 2020-11-20  88  	}
+df006dd4b1dca8 Dave Ertman 2020-11-20  89  =
 
-61fe43e7216df6 Miles Hu            2021-09-24  1784  	band =3D def.chan->ba=
-nd;
-61fe43e7216df6 Miles Hu            2021-09-24  1785  	he_mcs_mask =3D arvif=
-->bitrate_mask.control[band].he_mcs;
-61fe43e7216df6 Miles Hu            2021-09-24  1786  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  1787  	if (ath11k_peer_assoc=
-_h_he_masked(he_mcs_mask))
-61fe43e7216df6 Miles Hu            2021-09-24  1788  		return;
-61fe43e7216df6 Miles Hu            2021-09-24  1789  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1790  	arg->he_flag =3D true;
-9f056ed8ee01ad John Crispin        2019-11-25  1791  =
-
-c8bcd82a4efd05 Kees Cook           2021-06-16  1792  	memcpy_and_pad(&arg->=
-peer_he_cap_macinfo,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1793  		       sizeof(arg->p=
-eer_he_cap_macinfo),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1794  		       he_cap->he_ca=
-p_elem.mac_cap_info,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1795  		       sizeof(he_cap=
-->he_cap_elem.mac_cap_info),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1796  		       0);
-c8bcd82a4efd05 Kees Cook           2021-06-16  1797  	memcpy_and_pad(&arg->=
-peer_he_cap_phyinfo,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1798  		       sizeof(arg->p=
-eer_he_cap_phyinfo),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1799  		       he_cap->he_ca=
-p_elem.phy_cap_info,
-c8bcd82a4efd05 Kees Cook           2021-06-16  1800  		       sizeof(he_cap=
-->he_cap_elem.phy_cap_info),
-c8bcd82a4efd05 Kees Cook           2021-06-16  1801  		       0);
-60689de46c7f6a Rajkumar Manoharan  2020-04-24  1802  	arg->peer_he_ops =3D =
-vif->bss_conf.he_oper.params;
-9f056ed8ee01ad John Crispin        2019-11-25  1803  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1804  	/* the top most byte =
-is used to indicate BSS color info */
-9f056ed8ee01ad John Crispin        2019-11-25  1805  	arg->peer_he_ops &=3D=
- 0xffffff;
-9f056ed8ee01ad John Crispin        2019-11-25  1806  =
-
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1807  	/* As per section 26.=
-6.1 11ax Draft5.0, if the Max AMPDU Exponent Extension
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1808  	 * in HE cap is zero,=
- use the arg->peer_max_mpdu as calculated while parsing
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1809  	 * VHT caps(if VHT ca=
-ps is present) or HT caps (if VHT caps is not present).
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1810  	 *
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1811  	 * For non-zero value=
- of Max AMPDU Extponent Extension in HE MAC caps,
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1812  	 * if a HE STA sends =
-VHT cap and HE cap IE in assoc request then, use
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1813  	 * MAX_AMPDU_LEN_FACT=
-OR as 20 to calculate max_ampdu length.
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1814  	 * If a HE STA that d=
-oes not send VHT cap, but HE and HT cap in assoc
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1815  	 * request, then use =
-MAX_AMPDU_LEN_FACTOR as 16 to calculate max_ampdu
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1816  	 * length.
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1817  	 */
-1f851b8dfd76a0 Johannes Berg       2021-04-09  1818  	ampdu_factor =3D u8_g=
-et_bits(he_cap->he_cap_elem.mac_cap_info[3],
-1f851b8dfd76a0 Johannes Berg       2021-04-09  1819  				   IEEE80211_HE_MA=
-C_CAP3_MAX_AMPDU_LEN_EXP_MASK);
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1820  =
-
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1821  	if (ampdu_factor) {
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1822  		if (sta->vht_cap.vht=
-_supported)
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1823  			arg->peer_max_mpdu =
-=3D (1 << (IEEE80211_HE_VHT_MAX_AMPDU_FACTOR +
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1824  						    ampdu_factor=
-)) - 1;
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1825  		else if (sta->ht_cap=
-.ht_supported)
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1826  			arg->peer_max_mpdu =
-=3D (1 << (IEEE80211_HE_HT_MAX_AMPDU_FACTOR +
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1827  						    ampdu_factor=
-)) - 1;
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1828  	}
-af6d39db1b046a Tamizh Chelvam      2020-09-08  1829  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1830  	if (he_cap->he_cap_el=
-em.phy_cap_info[6] &
-9f056ed8ee01ad John Crispin        2019-11-25  1831  	    IEEE80211_HE_PHY_=
-CAP6_PPE_THRESHOLD_PRESENT) {
-9f056ed8ee01ad John Crispin        2019-11-25  1832  		int bit =3D 7;
-9f056ed8ee01ad John Crispin        2019-11-25  1833  		int nss, ru;
-9f056ed8ee01ad John Crispin        2019-11-25  1834  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1835  		arg->peer_ppet.numss=
-_m1 =3D he_cap->ppe_thres[0] &
-9f056ed8ee01ad John Crispin        2019-11-25  1836  					  IEEE80211_PPE_T=
-HRES_NSS_MASK;
-9f056ed8ee01ad John Crispin        2019-11-25  1837  		arg->peer_ppet.ru_bi=
-t_mask =3D
-9f056ed8ee01ad John Crispin        2019-11-25  1838  			(he_cap->ppe_thres[=
-0] &
-9f056ed8ee01ad John Crispin        2019-11-25  1839  			 IEEE80211_PPE_THRE=
-S_RU_INDEX_BITMASK_MASK) >>
-9f056ed8ee01ad John Crispin        2019-11-25  1840  			IEEE80211_PPE_THRES=
-_RU_INDEX_BITMASK_POS;
-9f056ed8ee01ad John Crispin        2019-11-25  1841  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1842  		for (nss =3D 0; nss =
-<=3D arg->peer_ppet.numss_m1; nss++) {
-9f056ed8ee01ad John Crispin        2019-11-25  1843  			for (ru =3D 0; ru <=
- 4; ru++) {
-9f056ed8ee01ad John Crispin        2019-11-25  1844  				u32 val =3D 0;
-9f056ed8ee01ad John Crispin        2019-11-25  1845  				int i;
-9f056ed8ee01ad John Crispin        2019-11-25  1846  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1847  				if ((arg->peer_ppe=
-t.ru_bit_mask & BIT(ru)) =3D=3D 0)
-9f056ed8ee01ad John Crispin        2019-11-25  1848  					continue;
-9f056ed8ee01ad John Crispin        2019-11-25  1849  				for (i =3D 0; i < =
-6; i++) {
-9f056ed8ee01ad John Crispin        2019-11-25  1850  					val >>=3D 1;
-9f056ed8ee01ad John Crispin        2019-11-25  1851  					val |=3D ((he_cap=
-->ppe_thres[bit / 8] >>
-9f056ed8ee01ad John Crispin        2019-11-25  1852  						 (bit % 8)) & 0x=
-1) << 5;
-9f056ed8ee01ad John Crispin        2019-11-25  1853  					bit++;
-9f056ed8ee01ad John Crispin        2019-11-25  1854  				}
-9f056ed8ee01ad John Crispin        2019-11-25  1855  				arg->peer_ppet.ppe=
-t16_ppet8_ru3_ru0[nss] |=3D
-9f056ed8ee01ad John Crispin        2019-11-25  1856  								val << (ru * 6=
-);
-9f056ed8ee01ad John Crispin        2019-11-25  1857  			}
-9f056ed8ee01ad John Crispin        2019-11-25  1858  		}
-9f056ed8ee01ad John Crispin        2019-11-25  1859  	}
-9f056ed8ee01ad John Crispin        2019-11-25  1860  =
-
-6d293d447670da John Crispin        2019-11-25  1861  	if (he_cap->he_cap_el=
-em.mac_cap_info[0] & IEEE80211_HE_MAC_CAP0_TWT_RES)
-6d293d447670da John Crispin        2019-11-25  1862  		arg->twt_responder =
-=3D true;
-6d293d447670da John Crispin        2019-11-25  1863  	if (he_cap->he_cap_el=
-em.mac_cap_info[0] & IEEE80211_HE_MAC_CAP0_TWT_REQ)
-6d293d447670da John Crispin        2019-11-25  1864  		arg->twt_requester =
-=3D true;
-6d293d447670da John Crispin        2019-11-25  1865  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  1866  	he_nss =3D  ath11k_ma=
-c_max_he_nss(he_mcs_mask);
-61fe43e7216df6 Miles Hu            2021-09-24  1867  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  1868  	if (he_nss > sta->rx_=
-nss) {
-61fe43e7216df6 Miles Hu            2021-09-24  1869  		user_rate_valid =3D =
-false;
-61fe43e7216df6 Miles Hu            2021-09-24  1870  		for (nss_idx =3D sta=
-->rx_nss - 1; nss_idx >=3D 0; nss_idx--) {
-61fe43e7216df6 Miles Hu            2021-09-24  1871  			if (he_mcs_mask[nss=
-_idx]) {
-61fe43e7216df6 Miles Hu            2021-09-24  1872  				user_rate_valid =
-=3D true;
-61fe43e7216df6 Miles Hu            2021-09-24  1873  				break;
-61fe43e7216df6 Miles Hu            2021-09-24  1874  			}
-61fe43e7216df6 Miles Hu            2021-09-24  1875  		}
-61fe43e7216df6 Miles Hu            2021-09-24  1876  	}
-61fe43e7216df6 Miles Hu            2021-09-24  1877  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  1878  	if (!user_rate_valid)=
- {
-61fe43e7216df6 Miles Hu            2021-09-24  1879  		ath11k_dbg(ar->ab, A=
-TH11K_DBG_MAC, "mac setting he range mcs value to peer supported nss %d for=
- peer %pM\n",
-61fe43e7216df6 Miles Hu            2021-09-24  1880  			   sta->rx_nss, sta=
-->addr);
-61fe43e7216df6 Miles Hu            2021-09-24  1881  		he_mcs_mask[sta->rx_=
-nss - 1] =3D he_mcs_mask[he_nss - 1];
-61fe43e7216df6 Miles Hu            2021-09-24  1882  	}
-61fe43e7216df6 Miles Hu            2021-09-24  1883  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1884  	switch (sta->bandwidt=
-h) {
-9f056ed8ee01ad John Crispin        2019-11-25  1885  	case IEEE80211_STA_RX=
-_BW_160:
-9f056ed8ee01ad John Crispin        2019-11-25  1886  		if (he_cap->he_cap_e=
-lem.phy_cap_info[0] &
-9f056ed8ee01ad John Crispin        2019-11-25  1887  		    IEEE80211_HE_PHY=
-_CAP0_CHANNEL_WIDTH_SET_80PLUS80_MHZ_IN_5G) {
-9f056ed8ee01ad John Crispin        2019-11-25  1888  			v =3D le16_to_cpu(h=
-e_cap->he_mcs_nss_supp.rx_mcs_80p80);
-61fe43e7216df6 Miles Hu            2021-09-24  1889  			v =3D ath11k_peer_a=
-ssoc_h_he_limit(v, he_mcs_mask);
-9f056ed8ee01ad John Crispin        2019-11-25  1890  			arg->peer_he_rx_mcs=
-_set[WMI_HECAP_TXRX_MCS_NSS_IDX_80_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1891  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1892  			v =3D le16_to_cpu(h=
-e_cap->he_mcs_nss_supp.tx_mcs_80p80);
-9f056ed8ee01ad John Crispin        2019-11-25  1893  			arg->peer_he_tx_mcs=
-_set[WMI_HECAP_TXRX_MCS_NSS_IDX_80_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1894  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1895  			arg->peer_he_mcs_co=
-unt++;
-61fe43e7216df6 Miles Hu            2021-09-24  1896  			he_tx_mcs =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1897  		}
-9f056ed8ee01ad John Crispin        2019-11-25  1898  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.rx_mcs_160);
-9f056ed8ee01ad John Crispin        2019-11-25  1899  		arg->peer_he_rx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_160] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1900  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1901  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.tx_mcs_160);
-61fe43e7216df6 Miles Hu            2021-09-24  1902  		v =3D ath11k_peer_as=
-soc_h_he_limit(v, he_mcs_mask);
-9f056ed8ee01ad John Crispin        2019-11-25  1903  		arg->peer_he_tx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_160] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1904  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1905  		arg->peer_he_mcs_cou=
-nt++;
-61fe43e7216df6 Miles Hu            2021-09-24  1906  		if (!he_tx_mcs)
-61fe43e7216df6 Miles Hu            2021-09-24  1907  			he_tx_mcs =3D v;
-0b294aebb6a00b Gustavo A. R. Silva 2020-07-27  1908  		fallthrough;
-9f056ed8ee01ad John Crispin        2019-11-25  1909  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1910  	default:
-9f056ed8ee01ad John Crispin        2019-11-25  1911  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.rx_mcs_80);
-9f056ed8ee01ad John Crispin        2019-11-25  1912  		arg->peer_he_rx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1913  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1914  		v =3D le16_to_cpu(he=
-_cap->he_mcs_nss_supp.tx_mcs_80);
-61fe43e7216df6 Miles Hu            2021-09-24  1915  		v =3D ath11k_peer_as=
-soc_h_he_limit(v, he_mcs_mask);
-9f056ed8ee01ad John Crispin        2019-11-25  1916  		arg->peer_he_tx_mcs_=
-set[WMI_HECAP_TXRX_MCS_NSS_IDX_80] =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1917  =
-
-9f056ed8ee01ad John Crispin        2019-11-25  1918  		arg->peer_he_mcs_cou=
-nt++;
-61fe43e7216df6 Miles Hu            2021-09-24  1919  		if (!he_tx_mcs)
-61fe43e7216df6 Miles Hu            2021-09-24  1920  			he_tx_mcs =3D v;
-9f056ed8ee01ad John Crispin        2019-11-25  1921  		break;
-9f056ed8ee01ad John Crispin        2019-11-25  1922  	}
-61fe43e7216df6 Miles Hu            2021-09-24  1923  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  1924  	/* Calculate peer NSS=
- capability from HE capabilities if STA
-61fe43e7216df6 Miles Hu            2021-09-24  1925  	 * supports HE.
-61fe43e7216df6 Miles Hu            2021-09-24  1926  	 */
-61fe43e7216df6 Miles Hu            2021-09-24 @1927  	for (i =3D 0, max_nss=
- =3D 0, he_mcs =3D 0; i < NL80211_HE_NSS_MAX; i++) {
-61fe43e7216df6 Miles Hu            2021-09-24  1928  		he_mcs =3D he_tx_mcs=
- >> (2 * i) & 3;
-61fe43e7216df6 Miles Hu            2021-09-24  1929  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  1930  		/* In case of fixed =
-rates, MCS Range in he_tx_mcs might have
-61fe43e7216df6 Miles Hu            2021-09-24  1931  		 * unsupported range=
-, with he_mcs_mask set, so check either of them
-61fe43e7216df6 Miles Hu            2021-09-24  1932  		 * to find nss.
-61fe43e7216df6 Miles Hu            2021-09-24  1933  		 */
-61fe43e7216df6 Miles Hu            2021-09-24  1934  		if (he_mcs !=3D IEEE=
-80211_HE_MCS_NOT_SUPPORTED ||
-61fe43e7216df6 Miles Hu            2021-09-24  1935  		    he_mcs_mask[i])
-61fe43e7216df6 Miles Hu            2021-09-24  1936  			max_nss =3D i + 1;
-61fe43e7216df6 Miles Hu            2021-09-24  1937  	}
-61fe43e7216df6 Miles Hu            2021-09-24  1938  	arg->peer_nss =3D min=
-(sta->rx_nss, max_nss);
-61fe43e7216df6 Miles Hu            2021-09-24  1939  =
-
-61fe43e7216df6 Miles Hu            2021-09-24  1940  	ath11k_dbg(ar->ab, AT=
-H11K_DBG_MAC,
-61fe43e7216df6 Miles Hu            2021-09-24  1941  		   "mac he peer %pM =
-nss %d mcs cnt %d\n",
-61fe43e7216df6 Miles Hu            2021-09-24  1942  		   sta->addr, arg->p=
-eer_nss, arg->peer_he_mcs_count);
-d5c65159f28953 Kalle Valo          2019-11-23  1943  }
-d5c65159f28953 Kalle Valo          2019-11-23  1944  =
+df006dd4b1dca8 Dave Ertman 2020-11-20  90  	dev_dbg(dev, "%s %s, peer:%s, u=
+pper:%s, role:%s, master:%s\n", name,
+df006dd4b1dca8 Dave Ertman 2020-11-20  91  		bonded, peer, upper, role, mas=
+ter);
+df006dd4b1dca8 Dave Ertman 2020-11-20  92  }
+df006dd4b1dca8 Dave Ertman 2020-11-20  93  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1400269385690744294==--
+--===============7079118745253549552==--
 
