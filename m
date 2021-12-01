@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============7079118745253549552=="
+Content-Type: multipart/mixed; boundary="===============7266553932380107242=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/ice/ice_lag.c:65:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 01 Dec 2021 18:42:13 +0800
-Message-ID: <202112011827.5ZjEmHQJ-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encoder.c:446:3: warning: Value stored to 'sdp_stream_enable' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 01 Dec 2021 18:31:55 +0800
+Message-ID: <202112011804.OXORFy0x-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7079118745253549552==
+--===============7266553932380107242==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,36 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Dave Ertman <david.m.ertman@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
+TO: Fangzhi Zuo <Jerry.Zuo@amd.com>
+CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Nicholas Kazlauskas <Nicholas.Kazlauskas@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   58e1100fdc5990b0cc0d4beaf2562a92e621ac7d
-commit: df006dd4b1dca8c486f73ae76fb77c06afae83f2 ice: Add initial support f=
-ramework for LAG
-date:   10 months ago
+commit: 83228ebb82e4fe2e5513f35d9b0b0eded3c44cbc drm/amd/display: Add DP 2.=
+0 HPO Stream Encoder
+date:   3 months ago
 :::::: branch date: 13 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20211126 (https://download.01.org/0day-ci/archi=
-ve/20211201/202112011827.5ZjEmHQJ-lkp(a)intel.com/config)
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-c007-20211128 (https://download.01.org/0day-ci/ar=
+chive/20211201/202112011804.OXORFy0x-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
 58d8c0b542e752b037e72a69d5fd51eb1e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Ddf006dd4b1dca8c486f73ae76fb77c06afae83f2
+t/commit/?id=3D83228ebb82e4fe2e5513f35d9b0b0eded3c44cbc
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout df006dd4b1dca8c486f73ae76fb77c06afae83f2
+        git checkout 83228ebb82e4fe2e5513f35d9b0b0eded3c44cbc
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,384 +51,368 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                           ^
-   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
-_to_cpu'
-   #define be32_to_cpu __be32_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
-macro '__be32_to_cpu'
-   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-                            ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9673:11: note: '?' condition =
-is false
-                   acaps =3D be32_to_cpu(cmd.u.info32.acaps32);
-                           ^
-   include/linux/byteorder/generic.h:95:21: note: expanded from macro 'be32=
-_to_cpu'
-   #define be32_to_cpu __be32_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:40:26: note: expanded from =
-macro '__be32_to_cpu'
-   #define __be32_to_cpu(x) __swab32((__force __u32)(__be32)(x))
-                            ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9676:8: note: Calling 't4_all=
-oc_vi'
-           ret =3D t4_alloc_vi(pi->adapter, mbox, port, pf, vf, 1, mac, &rs=
-s_size,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7638:16: note: '?' condition =
-is false
-           c.op_to_vfn =3D cpu_to_be32(FW_CMD_OP_V(FW_VI_CMD) | FW_CMD_REQU=
-EST_F |
-                         ^
-   include/linux/byteorder/generic.h:94:21: note: expanded from macro 'cpu_=
-to_be32'
-   #define cpu_to_be32 __cpu_to_be32
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:39:43: note: expanded from =
-macro '__cpu_to_be32'
-   #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
-                                             ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7641:21: note: '?' condition =
-is true
-           c.alloc_to_len16 =3D cpu_to_be32(FW_VI_CMD_ALLOC_F | FW_LEN16(c)=
-);
-                              ^
-   include/linux/byteorder/generic.h:94:21: note: expanded from macro 'cpu_=
-to_be32'
-   #define cpu_to_be32 __cpu_to_be32
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:39:43: note: expanded from =
-macro '__cpu_to_be32'
-   #define __cpu_to_be32(x) ((__force __be32)__swab32((x)))
-                                             ^
-   include/uapi/linux/swab.h:118:3: note: expanded from macro '__swab32'
-           (__builtin_constant_p((__u32)(x)) ?     \
-            ^
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7646:6: note: Assuming 'ret' =
-is not equal to 0
-           if (ret)
+           ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:114:9: note: 2nd fun=
+ction call argument is an uninitialized value
+                   ret =3D cdns_mhdp_secure_mailbox_write(mhdp, header[i]);
+                         ^                                    ~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:426:2: warning: 4th =
+function call argument is an uninitialized value [clang-analyzer-core.CallA=
+ndMessage]
+           dev_err(mhdp->dev, "HDCP authentication failed (%d tries/%d)\n",
+           ^
+   include/linux/dev_printk.h:112:2: note: expanded from macro 'dev_err'
+           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:535:8: note: Calling=
+ '_cdns_mhdp_hdcp_enable'
+           ret =3D _cdns_mhdp_hdcp_enable(mhdp, content_type);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:406:6: note: 'ret' d=
+eclared without an initial value
+           int ret, tries =3D 3;
                ^~~
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7646:2: note: Taking true bra=
-nch
-           if (ret)
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is true.  Entering loop body
+           for (i =3D 0; i < tries; i++) {
            ^
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:7647:3: note: Returning witho=
-ut writing to '*rss_size'
-                   return ret;
-                   ^
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9676:8: note: Returning from =
-'t4_alloc_vi'
-           ret =3D t4_alloc_vi(pi->adapter, mbox, port, pf, vf, 1, mac, &rs=
-s_size,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9678:6: note: Assuming 'ret' =
-is >=3D 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9678:2: note: Taking false br=
-anch
-           if (ret < 0)
-           ^
-   drivers/net/ethernet/chelsio/cxgb4/t4_hw.c:9684:15: note: Assigned value=
- is garbage or undefined
-           pi->rss_size =3D rss_size;
-                        ^ ~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/net/ethernet/intel/iavf/iavf_txrx.c:1816:3: warning: Value store=
-d to 'protocol' is never read [clang-analyzer-deadcode.DeadStores]
-                   protocol =3D vhdr->h_vlan_encapsulated_proto;
-                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/iavf/iavf_txrx.c:1816:3: note: Value stored t=
-o 'protocol' is never read
-                   protocol =3D vhdr->h_vlan_encapsulated_proto;
-                   ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: warning: Value st=
-ored to 'dev' during its initialization is never read [clang-analyzer-deadc=
-ode.DeadStores]
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: note: Value store=
-d to 'dev' during its initialization is never read
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   20 warnings generated.
->> drivers/net/ethernet/intel/ice/ice_lag.c:65:17: warning: Value stored to=
- 'dev' during its initialization is never read [clang-analyzer-deadcode.Dea=
-dStores]
-           struct device *dev =3D &lag->pf->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:65:17: note: Value stored to 'd=
-ev' during its initialization is never read
-           struct device *dev =3D &lag->pf->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_lag.c:67:2: warning: Value stored to =
-'name' is never read [clang-analyzer-deadcode.DeadStores]
-           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:67:2: note: Value stored to 'na=
-me' is never read
-           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_lag.c:68:2: warning: Value stored to =
-'peer' is never read [clang-analyzer-deadcode.DeadStores]
-           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
-et";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:68:2: note: Value stored to 'pe=
-er' is never read
-           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
-et";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_lag.c:69:2: warning: Value stored to =
-'upper' is never read [clang-analyzer-deadcode.DeadStores]
-           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
-unset";
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:69:2: note: Value stored to 'up=
-per' is never read
-           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
-unset";
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
->> drivers/net/ethernet/intel/ice/ice_lag.c:70:2: warning: Value stored to =
-'master' is never read [clang-analyzer-deadcode.DeadStores]
-           master =3D lag->master ? "TRUE" : "FALSE";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:70:2: note: Value stored to 'ma=
-ster' is never read
-           master =3D lag->master ? "TRUE" : "FALSE";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_lag.c:71:2: warning: Value stored to =
-'bonded' is never read [clang-analyzer-deadcode.DeadStores]
-           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:71:2: note: Value stored to 'bo=
-nded' is never read
-           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/net/ethernet/intel/ice/ice_lag.c:75:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "NONE";
-                   ^      ~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:75:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "NONE";
-                   ^      ~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "PRIMARY";
-                   ^      ~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "PRIMARY";
-                   ^      ~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "BACKUP";
-                   ^      ~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "BACKUP";
-                   ^      ~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "UNSET";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "UNSET";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "ERROR";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "ERROR";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:356:17: warning: Value stored t=
-o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
-adStores]
-           struct device *dev =3D ice_pf_to_dev(lag->pf);
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:356:17: note: Value stored to '=
-dev' during its initialization is never read
-           struct device *dev =3D ice_pf_to_dev(lag->pf);
-                          ^~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:1579:4: warning: Valu=
-e stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                           ret =3D kstrtouint(end, 10, &j);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:1579:4: note: Value s=
-tored to 'ret' is never read
-                           ret =3D kstrtouint(end, 10, &j);
-                           ^     ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2216:9: warning: Arra=
-y subscript is undefined [clang-analyzer-core.uninitialized.ArraySubscript]
-                           if (!isxdigit(*p))
-                                ^
-   include/linux/ctype.h:35:23: note: expanded from macro 'isxdigit'
-   #define isxdigit(c)     ((__ismask(c)&(_D|_X)) !=3D 0)
-                             ^~~~~~~~~~~
-   include/linux/ctype.h:23:22: note: expanded from macro '__ismask'
-   #define __ismask(x) (_ctype[(int)(unsigned char)(x)])
-                        ^      ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2205:6: note: Assumin=
-g the condition is false
-           if (count > sizeof(s) - 1)
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2205:2: note: Taking =
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Assumin=
+g 'content_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Left si=
+de of '||' is false
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:411:7: note: Assumin=
+g 'content_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE1
+                       content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE1) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:3: note: Taking =
 false branch
-           if (count > sizeof(s) - 1)
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                   ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                   ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is true.  Entering loop body
+           for (i =3D 0; i < tries; i++) {
            ^
-   drivers/net/ethernet/chelsio/cxgb4/cxgb4_debugfs.c:2207:6: note: Calling=
- 'copy_from_user'
-           if (copy_from_user(s, buf, count))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Left si=
+de of '||' is false
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:411:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE1
+                       content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE1) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                   ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                   ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is true.  Entering loop body
+           for (i =3D 0; i < tries; i++) {
            ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:7: note: Left si=
+de of '||' is false
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:411:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE1
+                       content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE1) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:410:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0 ||
+                   ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:7: note: 'conten=
+t_type' is not equal to DRM_MODE_HDCP_CONTENT_TYPE0
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                       ^~~~~~~~~~~~
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:418:3: note: Taking =
+false branch
+                   if (content_type =3D=3D DRM_MODE_HDCP_CONTENT_TYPE0) {
+                   ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:409:2: note: Loop co=
+ndition is false. Execution continues on line 426
+           for (i =3D 0; i < tries; i++) {
+           ^
+   drivers/gpu/drm/bridge/cadence/cdns-mhdp8546-hdcp.c:426:2: note: 4th fun=
+ction call argument is an uninitialized value
+           dev_err(mhdp->dev, "HDCP authentication failed (%d tries/%d)\n",
+           ^
+   include/linux/dev_printk.h:112:2: note: expanded from macro 'dev_err'
+           _dev_err(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^                             ~~~~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:124:2: warnin=
+g: Value stored to 'speakers' is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           speakers =3D audio_info->flags.info.ALLSPEAKERS;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:124:2: note: =
+Value stored to 'speakers' is never read
+           speakers =3D audio_info->flags.info.ALLSPEAKERS;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:125:2: warnin=
+g: Value stored to 'channels' is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           channels =3D speakers_to_channels(audio_info->flags.speaker_flag=
+s).all;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_apg.c:125:2: note: =
+Value stored to 'channels' is never read
+           channels =3D speakers_to_channels(audio_info->flags.speaker_flag=
+s).all;
+           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   Suppressed 5 warnings (3 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encod=
+er.c:446:3: warning: Value stored to 'sdp_stream_enable' is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+                   sdp_stream_enable =3D true;
+                   ^                   ~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encod=
+er.c:446:3: note: Value stored to 'sdp_stream_enable' is never read
+                   sdp_stream_enable =3D true;
+                   ^                   ~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encod=
+er.c:453:3: warning: Value stored to 'sdp_stream_enable' is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+                   sdp_stream_enable =3D true;
+                   ^                   ~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encod=
+er.c:453:3: note: Value stored to 'sdp_stream_enable' is never read
+                   sdp_stream_enable =3D true;
+                   ^                   ~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encod=
+er.c:460:3: warning: Value stored to 'sdp_stream_enable' is never read [cla=
+ng-analyzer-deadcode.DeadStores]
+                   sdp_stream_enable =3D true;
+                   ^                   ~~~~
+   drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31/dcn31_hpo_dp_stream_encod=
+er.c:460:3: note: Value stored to 'sdp_stream_enable' is never read
+                   sdp_stream_enable =3D true;
+                   ^                   ~~~~
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   Suppressed 17 warnings (9 in non-user code, 8 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2882:6: wa=
+rning: Access to field 'disable_edc_leakage_controller' results in a derefe=
+rence of a null pointer (loaded from variable 'data') [clang-analyzer-core.=
+NullDereference]
+           if (data->disable_edc_leakage_controller)
                ^
-   include/linux/uaccess.h:157:33: note: Assuming the condition is false
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                                          ^
-   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:23:50: note: expanded from macro '__branch_chec=
-k__'
-   #define __branch_check__(x, expect, is_constant) ({                     \
-                                                    ^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:2: note: Taking false branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2914:6: no=
+te: Assuming 'data' is not equal to NULL
+           if (data =3D=3D NULL)
+               ^~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2914:2: no=
+te: Taking false branch
+           if (data =3D=3D NULL)
            ^
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2918:2: no=
+te: Calling 'smu7_patch_voltage_workaround'
+           smu7_patch_voltage_workaround(hwmgr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2451:6: no=
+te: Assuming 'table_info' is equal to NULL
+           if (table_info !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2451:2: no=
+te: Taking false branch
+           if (table_info !=3D NULL) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2455:3: no=
+te: Returning without writing to 'hwmgr->backend'
+                   return 0;
+                   ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2918:2: no=
+te: Returning from 'smu7_patch_voltage_workaround'
+           smu7_patch_voltage_workaround(hwmgr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2922:2: no=
+te: Taking false branch
+           if (phm_cap_enabled(hwmgr->platform_descriptor.platformCaps,
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2933:6: no=
+te: Assuming field 'pp_table_version' is not equal to PP_TABLE_V1
+           if (hwmgr->pp_table_version =3D=3D PP_TABLE_V1) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2933:2: no=
+te: Taking false branch
+           if (hwmgr->pp_table_version =3D=3D PP_TABLE_V1) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2936:13: n=
+ote: Assuming field 'pp_table_version' is not equal to PP_TABLE_V0
+           } else if (hwmgr->pp_table_version =3D=3D PP_TABLE_V0) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2936:9: no=
+te: Taking false branch
+           } else if (hwmgr->pp_table_version =3D=3D PP_TABLE_V0) {
+                  ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2944:6: no=
+te: Assuming 'result' is not equal to 0
+           if (0 =3D=3D result) {
+               ^~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2944:2: no=
+te: Taking false branch
+           if (0 =3D=3D result) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2968:3: no=
+te: Calling 'smu7_hwmgr_backend_fini'
+                   smu7_hwmgr_backend_fini(hwmgr);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2839:2: no=
+te: Null pointer value stored to field 'backend'
+           hwmgr->backend =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2968:3: no=
+te: Returning from 'smu7_hwmgr_backend_fini'
+                   smu7_hwmgr_backend_fini(hwmgr);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2971:11: n=
+ote: Calling 'smu7_update_edc_leakage_table'
+           result =3D smu7_update_edc_leakage_table(hwmgr);
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2877:2: no=
+te: 'data' initialized to a null pointer value
+           struct smu7_hwmgr *data =3D (struct smu7_hwmgr *)(hwmgr->backend=
+);
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/smu7_hwmgr.c:2882:6: no=
+te: Access to field 'disable_edc_leakage_controller' results in a dereferen=
+ce of a null pointer (loaded from variable 'data')
+           if (data->disable_edc_leakage_controller)
+               ^~~~
+   Suppressed 11 warnings (10 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +/dev +65 drivers/net/ethernet/intel/ice/ice_lag.c
+vim +/sdp_stream_enable +446 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn31=
+/dcn31_hpo_dp_stream_encoder.c
 
-df006dd4b1dca8 Dave Ertman 2020-11-20  57  =
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  432  =
 
-df006dd4b1dca8 Dave Ertman 2020-11-20  58  /**
-df006dd4b1dca8 Dave Ertman 2020-11-20  59   * ice_display_lag_info - print =
-LAG info
-df006dd4b1dca8 Dave Ertman 2020-11-20  60   * @lag: LAG info struct
-df006dd4b1dca8 Dave Ertman 2020-11-20  61   */
-df006dd4b1dca8 Dave Ertman 2020-11-20  62  static void ice_display_lag_info=
-(struct ice_lag *lag)
-df006dd4b1dca8 Dave Ertman 2020-11-20  63  {
-df006dd4b1dca8 Dave Ertman 2020-11-20  64  	const char *name, *peer, *upper=
-, *role, *bonded, *master;
-df006dd4b1dca8 Dave Ertman 2020-11-20 @65  	struct device *dev =3D &lag->pf=
-->pdev->dev;
-df006dd4b1dca8 Dave Ertman 2020-11-20  66  =
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  433  static void dcn31_hpo_dp_stream=
+_enc_update_dp_info_packets(
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  434  		struct hpo_dp_stream_encoder =
+*enc,
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  435  		const struct encoder_info_fra=
+me *info_frame)
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  436  {
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  437  	struct dcn31_hpo_dp_stream_enc=
+oder *enc3 =3D DCN3_1_HPO_DP_STREAM_ENC_FROM_HPO_STREAM_ENC(enc);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  438  	uint32_t dmdata_packet_enabled=
+ =3D 0;
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  439  	bool sdp_stream_enable =3D fal=
+se;
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  440  =
 
-df006dd4b1dca8 Dave Ertman 2020-11-20 @67  	name =3D lag->netdev ? netdev_n=
-ame(lag->netdev) : "unset";
-df006dd4b1dca8 Dave Ertman 2020-11-20 @68  	peer =3D lag->peer_netdev ? net=
-dev_name(lag->peer_netdev) : "unset";
-df006dd4b1dca8 Dave Ertman 2020-11-20 @69  	upper =3D lag->upper_netdev ? n=
-etdev_name(lag->upper_netdev) : "unset";
-df006dd4b1dca8 Dave Ertman 2020-11-20 @70  	master =3D lag->master ? "TRUE"=
- : "FALSE";
-df006dd4b1dca8 Dave Ertman 2020-11-20 @71  	bonded =3D lag->bonded ? "BONDE=
-D" : "UNBONDED";
-df006dd4b1dca8 Dave Ertman 2020-11-20  72  =
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  441  	if (info_frame->vsc.valid) {
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  442  		enc->vpg->funcs->update_gener=
+ic_info_packet(
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  443  				enc->vpg,
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  444  				0,  /* packetIndex */
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  445  				&info_frame->vsc);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09 @446  		sdp_stream_enable =3D true;
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  447  	}
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  448  	if (info_frame->spd.valid) {
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  449  		enc->vpg->funcs->update_gener=
+ic_info_packet(
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  450  				enc->vpg,
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  451  				2,  /* packetIndex */
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  452  				&info_frame->spd);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  453  		sdp_stream_enable =3D true;
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  454  	}
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  455  	if (info_frame->hdrsmd.valid) {
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  456  		enc->vpg->funcs->update_gener=
+ic_info_packet(
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  457  				enc->vpg,
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  458  				3,  /* packetIndex */
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  459  				&info_frame->hdrsmd);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  460  		sdp_stream_enable =3D true;
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  461  	}
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  462  	/* enable/disable transmission=
+ of packet(s).
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  463  	 * If enabled, packet transmis=
+sion begins on the next frame
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  464  	 */
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  465  	REG_UPDATE(DP_SYM32_ENC_SDP_GS=
+P_CONTROL0, GSP_VIDEO_CONTINUOUS_TRANSMISSION_ENABLE, info_frame->vsc.valid=
+);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  466  	REG_UPDATE(DP_SYM32_ENC_SDP_GS=
+P_CONTROL2, GSP_VIDEO_CONTINUOUS_TRANSMISSION_ENABLE, info_frame->spd.valid=
+);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  467  	REG_UPDATE(DP_SYM32_ENC_SDP_GS=
+P_CONTROL3, GSP_VIDEO_CONTINUOUS_TRANSMISSION_ENABLE, info_frame->hdrsmd.va=
+lid);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  468  =
 
-df006dd4b1dca8 Dave Ertman 2020-11-20  73  	switch (lag->role) {
-df006dd4b1dca8 Dave Ertman 2020-11-20  74  	case ICE_LAG_NONE:
-df006dd4b1dca8 Dave Ertman 2020-11-20 @75  		role =3D "NONE";
-df006dd4b1dca8 Dave Ertman 2020-11-20  76  		break;
-df006dd4b1dca8 Dave Ertman 2020-11-20  77  	case ICE_LAG_PRIMARY:
-df006dd4b1dca8 Dave Ertman 2020-11-20  78  		role =3D "PRIMARY";
-df006dd4b1dca8 Dave Ertman 2020-11-20  79  		break;
-df006dd4b1dca8 Dave Ertman 2020-11-20  80  	case ICE_LAG_BACKUP:
-df006dd4b1dca8 Dave Ertman 2020-11-20  81  		role =3D "BACKUP";
-df006dd4b1dca8 Dave Ertman 2020-11-20  82  		break;
-df006dd4b1dca8 Dave Ertman 2020-11-20  83  	case ICE_LAG_UNSET:
-df006dd4b1dca8 Dave Ertman 2020-11-20  84  		role =3D "UNSET";
-df006dd4b1dca8 Dave Ertman 2020-11-20  85  		break;
-df006dd4b1dca8 Dave Ertman 2020-11-20  86  	default:
-df006dd4b1dca8 Dave Ertman 2020-11-20  87  		role =3D "ERROR";
-df006dd4b1dca8 Dave Ertman 2020-11-20  88  	}
-df006dd4b1dca8 Dave Ertman 2020-11-20  89  =
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  469  	/* check if dynamic metadata p=
+acket transmission is enabled */
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  470  	REG_GET(DP_SYM32_ENC_SDP_METAD=
+ATA_PACKET_CONTROL,
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  471  			METADATA_PACKET_ENABLE, &dmd=
+ata_packet_enabled);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  472  =
 
-df006dd4b1dca8 Dave Ertman 2020-11-20  90  	dev_dbg(dev, "%s %s, peer:%s, u=
-pper:%s, role:%s, master:%s\n", name,
-df006dd4b1dca8 Dave Ertman 2020-11-20  91  		bonded, peer, upper, role, mas=
-ter);
-df006dd4b1dca8 Dave Ertman 2020-11-20  92  }
-df006dd4b1dca8 Dave Ertman 2020-11-20  93  =
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  473  	/* Enable secondary data path =
+*/
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  474  	REG_UPDATE(DP_SYM32_ENC_SDP_CO=
+NTROL,
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  475  			SDP_STREAM_ENABLE, 1);
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  476  }
+83228ebb82e4fe Fangzhi Zuo 2021-06-09  477  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7079118745253549552==--
+--===============7266553932380107242==--
 
