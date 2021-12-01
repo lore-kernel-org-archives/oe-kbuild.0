@@ -1,47 +1,66 @@
-Content-Type: multipart/mixed; boundary="===============2705132100494855000=="
+Content-Type: multipart/mixed; boundary="===============0200649689717062363=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4206/4626] drivers/gpu/drm/drm_mipi_dbi.c:212:6: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Thu, 02 Dec 2021 03:20:27 +0800
-Message-ID: <202112020332.7dlilGsy-lkp@intel.com>
+Subject: Re: [PATCH v9 3/3] media: i2c: isl7998x: Add driver for Intersil ISL7998x
+Date: Thu, 02 Dec 2021 02:49:48 +0800
+Message-ID: <202112020202.xy1qDFOU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2705132100494855000==
+--===============0200649689717062363==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+In-Reply-To: <20211129112708.3219754-4-m.tretter@pengutronix.de>
+References: <20211129112708.3219754-4-m.tretter@pengutronix.de>
+TO: Michael Tretter <m.tretter@pengutronix.de>
+TO: linux-media(a)vger.kernel.org
+TO: devicetree(a)vger.kernel.org
+TO: Marek Vasut <marex@denx.de>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: p.zabel(a)pengutronix.de
+CC: Ian Arkver <ian.arkver.dev@gmail.com>
+CC: kernel(a)pengutronix.de
+CC: Michael Tretter <m.tretter@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   048aeae86c3967f4c40666cd26f2c1eb73a4b805
-commit: c47160d8edcdb4d9fb2b333569a3fc13fca5db43 [4206/4626] drm/mipi-dbi: =
-Remove dependency on GEM CMA helper library
-:::::: branch date: 14 hours ago
-:::::: commit date: 33 hours ago
-config: x86_64-randconfig-c007-20211130 (https://download.01.org/0day-ci/ar=
-chive/20211202/202112020332.7dlilGsy-lkp(a)intel.com/config)
+Hi Michael,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v5.16-rc3 next-20211=
+201]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Michael-Tretter/media-i2c-=
+isl7998x-Add-driver-for-Intersil-ISL7998x/20211129-204304
+base:   git://linuxtv.org/media_tree.git master
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-c001-20211130 (https://download.01.org/0day-ci/arch=
+ive/20211202/202112020202.xy1qDFOU-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 25eb7f=
 a01d7ebbe67648ea03841cda55b4239ab2)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3Dc47160d8edcdb4d9fb2b333569a3fc13fca5db43
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout c47160d8edcdb4d9fb2b333569a3fc13fca5db43
+        # https://github.com/0day-ci/linux/commit/0cd375b25d1d515c40b89e8aa=
+ffd0456a19ecffb
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Michael-Tretter/media-i2c-isl7998x=
+-Add-driver-for-Intersil-ISL7998x/20211129-204304
+        git checkout 0cd375b25d1d515c40b89e8aaffd0456a19ecffb
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,382 +68,307 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^
-   arch/x86/include/asm/uaccess.h:155:25: note: expanded from macro 'get_us=
-er'
-   #define get_user(x,ptr) ({ might_fault(); do_get_user_call(get_user,x,pt=
-r); })
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/tty/vt/keyboard.c:2055:2: note: Taking false branch
-           if (get_user(kb_func, &user_kdgkb->kb_func))
-           ^
-   drivers/tty/vt/keyboard.c:2058:12: note: Taking false branch
-           kb_func =3D array_index_nospec(kb_func, MAX_NR_FUNC);
-                     ^
-   include/linux/nospec.h:57:2: note: expanded from macro 'array_index_nosp=
-ec'
-           BUILD_BUG_ON(sizeof(_i) > sizeof(long));                        \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
                    ^
-   drivers/tty/vt/keyboard.c:2058:12: note: Loop condition is false.  Exiti=
-ng loop
-           kb_func =3D array_index_nospec(kb_func, MAX_NR_FUNC);
-                     ^
-   include/linux/nospec.h:57:2: note: expanded from macro 'array_index_nosp=
-ec'
-           BUILD_BUG_ON(sizeof(_i) > sizeof(long));                        \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/tty/vt/keyboard.c:2058:12: note: Taking false branch
-           kb_func =3D array_index_nospec(kb_func, MAX_NR_FUNC);
-                     ^
-   include/linux/nospec.h:58:2: note: expanded from macro 'array_index_nosp=
-ec'
-           BUILD_BUG_ON(sizeof(_s) > sizeof(long));                        \
-           ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
+   include/linux/spinlock.h:333:2: note: expanded from macro 'spin_lock_ini=
+t'
+           __raw_spin_lock_init(spinlock_check(lock),              \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wan/pc300too.c:435:3: note: Loop condition is false.  Exitin=
+g loop
+                   spin_lock_init(&port->lock);
                    ^
-   drivers/tty/vt/keyboard.c:2058:12: note: Loop condition is false.  Exiti=
-ng loop
-           kb_func =3D array_index_nospec(kb_func, MAX_NR_FUNC);
-                     ^
-   include/linux/nospec.h:58:2: note: expanded from macro 'array_index_nosp=
-ec'
-           BUILD_BUG_ON(sizeof(_s) > sizeof(long));                        \
+   include/linux/spinlock.h:329:35: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   drivers/net/wan/pc300too.c:445:7: note: Assuming field 'type' is not equ=
+al to PC300_X21
+                   if (card->type =3D=3D PC300_X21)
+                       ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wan/pc300too.c:445:3: note: Taking false branch
+                   if (card->type =3D=3D PC300_X21)
+                   ^
+   drivers/net/wan/pc300too.c:450:3: note: Calling 'sca_init_port'
+                   sca_init_port(port);
+                   ^~~~~~~~~~~~~~~~~~~
+   drivers/net/wan/hd64572.c:123:16: note: Assuming field 'chan' is 0
+           u16 dmac_rx =3D get_dmac_rx(port), dmac_tx =3D get_dmac_tx(port);
+                         ^
+   drivers/net/wan/hd64572.c:45:28: note: expanded from macro 'get_dmac_rx'
+   #define get_dmac_rx(port) ((port)->chan ? DMAC1RX_OFFSET : DMAC0RX_OFFSE=
+T)
+                              ^~~~~~~~~~~~
+   drivers/net/wan/hd64572.c:123:16: note: '?' condition is false
+           u16 dmac_rx =3D get_dmac_rx(port), dmac_tx =3D get_dmac_tx(port);
+                         ^
+   drivers/net/wan/hd64572.c:45:28: note: expanded from macro 'get_dmac_rx'
+   #define get_dmac_rx(port) ((port)->chan ? DMAC1RX_OFFSET : DMAC0RX_OFFSE=
+T)
+                              ^
+   drivers/net/wan/hd64572.c:123:45: note: Field 'chan' is 0
+           u16 dmac_rx =3D get_dmac_rx(port), dmac_tx =3D get_dmac_tx(port);
+                                                      ^
+   drivers/net/wan/hd64572.c:46:36: note: expanded from macro 'get_dmac_tx'
+   #define get_dmac_tx(port) ((port)->chan ? DMAC1TX_OFFSET : DMAC0TX_OFFSE=
+T)
+                                      ^
+   drivers/net/wan/hd64572.c:123:45: note: '?' condition is false
+           u16 dmac_rx =3D get_dmac_rx(port), dmac_tx =3D get_dmac_tx(port);
+                                                      ^
+   drivers/net/wan/hd64572.c:46:28: note: expanded from macro 'get_dmac_tx'
+   #define get_dmac_tx(port) ((port)->chan ? DMAC1TX_OFFSET : DMAC0TX_OFFSE=
+T)
+                              ^
+   drivers/net/wan/hd64572.c:130:2: note: Loop condition is true.  Entering=
+ loop body
+           for (transmit =3D 0; transmit < 2; transmit++) {
            ^
-   include/linux/build_bug.h:50:2: note: expanded from macro 'BUILD_BUG_ON'
-           BUILD_BUG_ON_MSG(condition, "BUILD_BUG_ON failed: " #condition)
+   drivers/net/wan/hd64572.c:131:15: note: 'transmit' is 0
+                   u16 buffs =3D transmit ? card->tx_ring_buffers
+                               ^~~~~~~~
+   drivers/net/wan/hd64572.c:131:15: note: '?' condition is false
+   drivers/net/wan/hd64572.c:134:15: note: Assuming 'i' is >=3D 'buffs'
+                   for (i =3D 0; i < buffs; i++) {
+                               ^~~~~~~~~
+   drivers/net/wan/hd64572.c:134:3: note: Loop condition is false. Executio=
+n continues on line 130
+                   for (i =3D 0; i < buffs; i++) {
+                   ^
+   drivers/net/wan/hd64572.c:130:2: note: Loop condition is true.  Entering=
+ loop body
+           for (transmit =3D 0; transmit < 2; transmit++) {
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+   drivers/net/wan/hd64572.c:131:15: note: 'transmit' is 1
+                   u16 buffs =3D transmit ? card->tx_ring_buffers
+                               ^~~~~~~~
+   drivers/net/wan/hd64572.c:131:15: note: '?' condition is true
+   drivers/net/wan/hd64572.c:134:15: note: Assuming 'i' is >=3D 'buffs'
+                   for (i =3D 0; i < buffs; i++) {
+                               ^~~~~~~~~
+   drivers/net/wan/hd64572.c:134:3: note: Loop condition is false. Executio=
+n continues on line 130
+                   for (i =3D 0; i < buffs; i++) {
+                   ^
+   drivers/net/wan/hd64572.c:130:2: note: Loop condition is false. Executio=
+n continues on line 147
+           for (transmit =3D 0; transmit < 2; transmit++) {
            ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/tty/vt/keyboard.c:2060:2: note: 'Default' branch taken. Executio=
-n continues on line 2095
-           switch (cmd) {
-           ^
-   drivers/tty/vt/keyboard.c:2095:2: note: 1st function call argument is an=
- uninitialized value
-           kfree(kbs);
-           ^     ~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/gpu/drm/drm_mipi_dbi.c:212:6: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
-           src =3D data[0].vaddr; /* TODO: Use mapping abstraction properly=
- */
-               ^
-   drivers/gpu/drm/drm_mipi_dbi.c:359:6: note: Assuming the condition is fa=
-lse
-           if (!drm_dev_enter(&dbidev->drm, &idx))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mipi_dbi.c:359:2: note: Taking false branch
-           if (!drm_dev_enter(&dbidev->drm, &idx))
-           ^
-   drivers/gpu/drm/drm_mipi_dbi.c:362:2: note: Calling 'mipi_dbi_fb_dirty'
-           mipi_dbi_fb_dirty(fb, &rect);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mipi_dbi.c:272:15: note: 'fb' is non-null
-           if (WARN_ON(!fb))
-                        ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/gpu/drm/drm_mipi_dbi.c:272:6: note: Taking false branch
-           if (WARN_ON(!fb))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   drivers/gpu/drm/drm_mipi_dbi.c:272:2: note: Taking false branch
-           if (WARN_ON(!fb))
-           ^
-   drivers/gpu/drm/drm_mipi_dbi.c:275:6: note: Assuming the condition is fa=
-lse
-           if (!drm_dev_enter(fb->dev, &idx))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mipi_dbi.c:275:2: note: Taking false branch
-           if (!drm_dev_enter(fb->dev, &idx))
-           ^
-   drivers/gpu/drm/drm_mipi_dbi.c:279:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/drm_mipi_dbi.c:279:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/drm_mipi_dbi.c:282:9: note: Assuming 'width' is not equa=
-l to field 'width'
-           full =3D width =3D=3D fb->width && height =3D=3D fb->height;
-                  ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mipi_dbi.c:282:28: note: Left side of '&&' is false
-           full =3D width =3D=3D fb->width && height =3D=3D fb->height;
-                                     ^
-   drivers/gpu/drm/drm_mipi_dbi.c:286:6: note: Assuming field 'dc' is null
-           if (!dbi->dc || !full || swap ||
-               ^~~~~~~~
-   drivers/gpu/drm/drm_mipi_dbi.c:286:15: note: Left side of '||' is true
-           if (!dbi->dc || !full || swap ||
-                        ^
-   drivers/gpu/drm/drm_mipi_dbi.c:289:9: note: Calling 'mipi_dbi_buf_copy'
-                   ret =3D mipi_dbi_buf_copy(dbidev->tx_buf, fb, rect, swap=
-);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_mipi_dbi.c:210:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpu/drm/drm_mipi_dbi.c:210:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpu/drm/drm_mipi_dbi.c:212:6: note: Assigned value is garbage or=
- undefined
-           src =3D data[0].vaddr; /* TODO: Use mapping abstraction properly=
- */
-               ^ ~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
+   drivers/net/wan/hd64572.c:155:11: note: Calling 'desc_offset'
+           sca_outl(desc_offset(port, 0, 0), dmac_rx + CDAL, card);
+                    ^
+   drivers/net/wan/hd64572.c:53:45: note: expanded from macro 'sca_outl'
+   #define sca_outl(value, reg, card)   writel(value, (card)->scabase + (re=
+g))
+                                               ^~~~~
+   drivers/net/wan/hd64572.c:87:9: note: Calling 'desc_abs_number'
+           return desc_abs_number(port, desc, transmit) * sizeof(pkt_desc);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/wan/hd64572.c:77:2: note: 'rx_buffs' initialized to 0
+           u16 rx_buffs =3D port->card->rx_ring_buffers;
+           ^~~~~~~~~~~~
+   drivers/net/wan/hd64572.c:80:11: note: 'transmit' is 0
+           desc %=3D (transmit ? tx_buffs : rx_buffs); // called with "X + =
+1" etc.
+                    ^~~~~~~~
+   drivers/net/wan/hd64572.c:80:11: note: '?' condition is false
+   drivers/net/wan/hd64572.c:80:7: note: Division by zero
+           desc %=3D (transmit ? tx_buffs : rx_buffs); // called with "X + =
+1" etc.
+           ~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 11 warnings (11 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
    Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   9 warnings generated.
+>> drivers/media/i2c/isl7998x.c:642:17: warning: Value stored to 'dev' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D isl7998x->subdev.dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/isl7998x.c:642:17: note: Value stored to 'dev' during =
+its initialization is never read
+           struct device *dev =3D isl7998x->subdev.dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/isl7998x.c:863:17: warning: Value stored to 'dev' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   drivers/media/i2c/isl7998x.c:863:17: note: Value stored to 'dev' during =
+its initialization is never read
+           struct device *dev =3D &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
    Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/media/i2c/rdacm21.c:373:11: warning: The left operand of '=3D=3D=
+' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   if (val =3D=3D OV10640_ID_HIGH)
+                           ^
+   drivers/media/i2c/rdacm21.c:550:6: note: Assuming 'dev' is non-null
+           if (!dev)
+               ^~~~
+   drivers/media/i2c/rdacm21.c:550:2: note: Taking false branch
+           if (!dev)
+           ^
+   drivers/media/i2c/rdacm21.c:557:6: note: 'ret' is >=3D 0
+           if (ret < 0) {
+               ^~~
+   drivers/media/i2c/rdacm21.c:557:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   drivers/media/i2c/rdacm21.c:564:2: note: Taking false branch
+           if (IS_ERR(dev->isp))
+           ^
+   drivers/media/i2c/rdacm21.c:567:8: note: Calling 'rdacm21_initialize'
+           ret =3D rdacm21_initialize(dev);
+                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/rdacm21.c:481:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:481:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:489:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:489:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:493:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:493:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:501:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:501:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:505:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:505:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:510:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:510:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:514:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:514:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:520:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:520:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:526:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:526:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:530:8: note: Calling 'ov490_initialize'
+           ret =3D ov490_initialize(dev);
+                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/rdacm21.c:399:2: note: Loop condition is true.  Enteri=
+ng loop body
+           for (i =3D 0; i < OV490_PID_TIMEOUT; ++i) {
 
-vim +212 drivers/gpu/drm/drm_mipi_dbi.c
+vim +/dev +642 drivers/media/i2c/isl7998x.c
 
-a89bfc5d9a0732 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-19-02-22  189  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  629  =
 
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  190  /**
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  191   * mipi_dbi_buf_copy - Copy a framebuffer, transforming it if nec=
-essary
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  192   * @dst: The destination buffer
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  193   * @fb: The source framebuffer
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  194   * @clip: Clipping rectangle of the area to be copied
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  195   * @swap: When true, swap MSB/LSB of 16-bit values
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  196   *
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  197   * Returns:
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  198   * Zero on success, negative error code on failure.
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  199   */
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  200  int mipi_dbi_buf_copy(void *dst, struct drm_framebuffer *fb,
-b051b3459bbae9 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-19-01-15  201  		      struct drm_rect *clip, bool swap)
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  202  {
-7c9f1312cfca15 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-19-07-22  203  	struct drm_gem_object *gem =3D drm_gem_fb_get_obj(fb, 0);
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  204  	struct dma_buf_map map[DRM_FORMAT_MAX_PLANES];
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  205  	struct dma_buf_map data[DRM_FORMAT_MAX_PLANES];
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  206  	void *src;
-08971eea06db33 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-07=
--16  207  	int ret;
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  208  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  630  static int isl7998x_init(struct=
+ isl7998x *isl7998x)
+0cd375b25d1d51 Marek Vasut 2021-11-29  631  {
+0cd375b25d1d51 Marek Vasut 2021-11-29  632  	const unsigned int lanes =3D i=
+sl7998x->nr_mipi_lanes;
+0cd375b25d1d51 Marek Vasut 2021-11-29  633  	const u32 isl7998x_video_in_ch=
+an_map[] =3D { 0x00, 0x11, 0x02, 0x02 };
+0cd375b25d1d51 Marek Vasut 2021-11-29  634  	const struct reg_sequence isl7=
+998x_init_seq_custom[] =3D {
+0cd375b25d1d51 Marek Vasut 2021-11-29  635  		{ ISL7998x_REG_P0_VIDEO_IN_CH=
+AN_CTL,
+0cd375b25d1d51 Marek Vasut 2021-11-29  636  		  isl7998x_video_in_chan_map[=
+isl7998x->nr_inputs - 1] },
+0cd375b25d1d51 Marek Vasut 2021-11-29  637  		{ ISL7998x_REG_P0_CLK_CTL_4,
+0cd375b25d1d51 Marek Vasut 2021-11-29  638  		  (lanes =3D=3D 1) ? 0x40 : 0=
+x41 },
+0cd375b25d1d51 Marek Vasut 2021-11-29  639  		{ ISL7998x_REG_P5_LI_ENGINE_C=
+TL,
+0cd375b25d1d51 Marek Vasut 2021-11-29  640  		  (lanes =3D=3D 1) ? 0x01 : 0=
+x02 },
+0cd375b25d1d51 Marek Vasut 2021-11-29  641  	};
+0cd375b25d1d51 Marek Vasut 2021-11-29 @642  	struct device *dev =3D isl7998=
+x->subdev.dev;
+0cd375b25d1d51 Marek Vasut 2021-11-29  643  	struct regmap *regmap =3D isl7=
+998x->regmap;
+0cd375b25d1d51 Marek Vasut 2021-11-29  644  	int ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  645  =
 
-08971eea06db33 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-07=
--16  209  	ret =3D drm_gem_fb_begin_cpu_access(fb, DMA_FROM_DEVICE);
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  210  	if (ret)
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  211  		return ret;
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06 @212  	src =3D data[0].vaddr; /* TODO: Use mapping abstraction properly=
- */
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  213  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  646  	dev_dbg(dev, "configuring %d l=
+anes for %d inputs (norm 0x%llx)\n",
+0cd375b25d1d51 Marek Vasut 2021-11-29  647  		isl7998x->nr_mipi_lanes, isl7=
+998x->nr_inputs,
+0cd375b25d1d51 Marek Vasut 2021-11-29  648  		isl7998x->norm);
+0cd375b25d1d51 Marek Vasut 2021-11-29  649  =
 
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  214  	ret =3D drm_gem_fb_vmap(fb, map, data);
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  215  	if (ret)
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  216  		goto out_drm_gem_fb_end_cpu_access;
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  217  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  650  	ret =3D regmap_register_patch(=
+regmap, isl7998x_init_seq_1,
+0cd375b25d1d51 Marek Vasut 2021-11-29  651  				    ARRAY_SIZE(isl7998x_ini=
+t_seq_1));
+0cd375b25d1d51 Marek Vasut 2021-11-29  652  	if (ret)
+0cd375b25d1d51 Marek Vasut 2021-11-29  653  		return ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  654  =
 
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  218  	switch (fb->format->format) {
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  219  	case DRM_FORMAT_RGB565:
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  220  		if (swap)
-3e3543c8a19cad drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--10  221  			drm_fb_swab(dst, 0, src, fb, clip, !gem->import_attach);
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  222  		else
-27bd66dd6419c4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--10  223  			drm_fb_memcpy(dst, 0, src, fb, clip);
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  224  		break;
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  225  	case DRM_FORMAT_XRGB8888:
-53bc2098d2b6cc drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--10  226  		drm_fb_xrgb8888_to_rgb565(dst, 0, src, fb, clip, swap);
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  227  		break;
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  228  	default:
-92f1d09ca4ed4a drivers/gpu/drm/drm_mipi_dbi.c     Sakari Ailus      2021-02=
--16  229  		drm_err_once(fb->dev, "Format is not supported: %p4cc\n",
-92f1d09ca4ed4a drivers/gpu/drm/drm_mipi_dbi.c     Sakari Ailus      2021-02=
--16  230  			     &fb->format->format);
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  231  		ret =3D -EINVAL;
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  232  	}
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  233  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  655  	ret =3D isl7998x_set_standard(=
+isl7998x, isl7998x->norm);
+0cd375b25d1d51 Marek Vasut 2021-11-29  656  	if (ret)
+0cd375b25d1d51 Marek Vasut 2021-11-29  657  		return ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  658  =
 
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  234  	drm_gem_fb_vunmap(fb, map);
-c47160d8edcdb4 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-11=
--06  235  out_drm_gem_fb_end_cpu_access:
-08971eea06db33 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-07=
--16  236  	drm_gem_fb_end_cpu_access(fb, DMA_FROM_DEVICE);
-08971eea06db33 drivers/gpu/drm/drm_mipi_dbi.c     Thomas Zimmermann 2021-07=
--16  237  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  659  	ret =3D regmap_register_patch(=
+regmap, isl7998x_init_seq_custom,
+0cd375b25d1d51 Marek Vasut 2021-11-29  660  				    ARRAY_SIZE(isl7998x_ini=
+t_seq_custom));
+0cd375b25d1d51 Marek Vasut 2021-11-29  661  	if (ret)
+0cd375b25d1d51 Marek Vasut 2021-11-29  662  		return ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  663  =
 
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  238  	return ret;
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  239  }
-13deee8111ed60 drivers/gpu/drm/tinydrm/mipi-dbi.c David Lechner     2017-11=
--19  240  EXPORT_SYMBOL(mipi_dbi_buf_copy);
-02dd95fe316936 drivers/gpu/drm/tinydrm/mipi-dbi.c Noralf Tr=C3=B8nnes    20=
-17-01-22  241  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  664  	return regmap_register_patch(r=
+egmap, isl7998x_init_seq_2,
+0cd375b25d1d51 Marek Vasut 2021-11-29  665  				     ARRAY_SIZE(isl7998x_in=
+it_seq_2));
+0cd375b25d1d51 Marek Vasut 2021-11-29  666  }
+0cd375b25d1d51 Marek Vasut 2021-11-29  667  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2705132100494855000==--
+--===============0200649689717062363==--
 
