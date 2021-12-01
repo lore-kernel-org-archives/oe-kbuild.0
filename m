@@ -1,153 +1,399 @@
-Content-Type: multipart/mixed; boundary="===============8422603104031030851=="
+Content-Type: multipart/mixed; boundary="===============3422868618805118891=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v19 bpf-next 05/23] net: xdp: add xdp_update_skb_shared_info utility routine
-Date: Thu, 02 Dec 2021 02:39:32 +0800
-Message-ID: <202112020224.AtozUlej-lkp@intel.com>
+Subject: drivers/scsi/megaraid/megaraid_sas_base.c:3156:2: warning: Value stored to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 02 Dec 2021 01:48:43 +0800
+Message-ID: <202112020151.Y12EsJGV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8422603104031030851==
+--===============3422868618805118891==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <90a6c9dfd3877a44248daca8fe7cc33a8c0addf0.1638272238.git.loren=
-zo@kernel.org>
-References: <90a6c9dfd3877a44248daca8fe7cc33a8c0addf0.1638272238.git.lorenz=
-o@kernel.org>
-TO: Lorenzo Bianconi <lorenzo@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Kashyap Desai <kashyap.desai@broadcom.com>
+CC: "Martin K. Petersen" <martin.petersen@oracle.com>
+CC: Hannes Reinecke <hare@suse.de>
 
-Hi Lorenzo,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   58e1100fdc5990b0cc0d4beaf2562a92e621ac7d
+commit: 9e4bec5b2a230066a0dc9f79f24b4c1bcb668c5a scsi: megaraid_sas: mq_pol=
+l support
+date:   9 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 9 months ago
+config: i386-randconfig-c001-20211126 (https://download.01.org/0day-ci/arch=
+ive/20211202/202112020151.Y12EsJGV-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
+58d8c0b542e752b037e72a69d5fd51eb1e)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9e4bec5b2a230066a0dc9f79f24b4c1bcb668c5a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9e4bec5b2a230066a0dc9f79f24b4c1bcb668c5a
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on bpf-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Lorenzo-Bianconi/mvneta-in=
-troduce-XDP-multi-buffer-support/20211130-195834
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
-:::::: branch date: 31 hours ago
-:::::: commit date: 31 hours ago
-config: i386-randconfig-m021-20211130 (https://download.01.org/0day-ci/arch=
-ive/20211202/202112020224.AtozUlej-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/core/xdp.c:560 __xdp_build_skb_from_frame() error: uninitialized symbol=
- 'nr_frags'.
 
-vim +/nr_frags +560 net/core/xdp.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                       ^~~
+   fs/f2fs/compress.c:1062:3: note: Taking true branch
+                   if (ret)
+                   ^
+   fs/f2fs/compress.c:1063:4: note: Control jumps to line 1120
+                           goto release_pages;
+                           ^
+   fs/f2fs/compress.c:1122:2: note: Returning without writing to '*fsdata'
+           return ret;
+           ^
+   fs/f2fs/compress.c:1137:9: note: Returning from 'prepare_compress_overwr=
+ite'
+           return prepare_compress_overwrite(&cc, pagep, index, fsdata);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1137:2: note: Returning without writing to '*fsdata'
+           return prepare_compress_overwrite(&cc, pagep, index, fsdata);
+           ^
+   fs/f2fs/compress.c:1179:8: note: Returning from 'f2fs_prepare_compress_o=
+verwrite'
+           err =3D f2fs_prepare_compress_overwrite(inode, &pagep,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1183:32: note: 'err' is not equal to 0
+           f2fs_bug_on(F2FS_I_SB(inode), err =3D=3D 0);
+                                         ^
+   fs/f2fs/f2fs.h:32:44: note: expanded from macro 'f2fs_bug_on'
+   #define f2fs_bug_on(sbi, condition)     BUG_ON(condition)
+                                                  ^~~~~~~~~
+   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   fs/f2fs/compress.c:1183:32: note: 'err' is not equal to 0
+           f2fs_bug_on(F2FS_I_SB(inode), err =3D=3D 0);
+                                         ^
+   fs/f2fs/f2fs.h:32:44: note: expanded from macro 'f2fs_bug_on'
+   #define f2fs_bug_on(sbi, condition)     BUG_ON(condition)
+                                                  ^~~~~~~~~
+   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                                                        ^
+   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
+k__'
+                                                expect, is_constant);      \
+                                                        ^~~~~~~~~~~
+   fs/f2fs/compress.c:1183:2: note: Taking false branch
+           f2fs_bug_on(F2FS_I_SB(inode), err =3D=3D 0);
+           ^
+   fs/f2fs/f2fs.h:32:37: note: expanded from macro 'f2fs_bug_on'
+   #define f2fs_bug_on(sbi, condition)     BUG_ON(condition)
+                                           ^
+   include/asm-generic/bug.h:63:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   fs/f2fs/compress.c:1183:2: note: Loop condition is false.  Exiting loop
+           f2fs_bug_on(F2FS_I_SB(inode), err =3D=3D 0);
+           ^
+   fs/f2fs/f2fs.h:32:37: note: expanded from macro 'f2fs_bug_on'
+   #define f2fs_bug_on(sbi, condition)     BUG_ON(condition)
+                                           ^
+   include/asm-generic/bug.h:63:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   fs/f2fs/compress.c:1185:6: note: Assuming 'err' is > 0
+           if (err <=3D 0)
+               ^~~~~~~~
+   fs/f2fs/compress.c:1185:2: note: Taking false branch
+           if (err <=3D 0)
+           ^
+   fs/f2fs/compress.c:1188:6: note: 'err' is > 0
+           if (err > 0) {
+               ^~~
+   fs/f2fs/compress.c:1188:2: note: Taking true branch
+           if (err > 0) {
+           ^
+   fs/f2fs/compress.c:1189:3: note: 'rpages' initialized to a null pointer =
+value
+                   struct page **rpages =3D fsdata;
+                   ^~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1193:30: note: Assuming 'i' is >=3D 0
+                   for (i =3D cluster_size - 1; i >=3D 0; i--) {
+                                              ^~~~~~
+   fs/f2fs/compress.c:1193:3: note: Loop condition is true.  Entering loop =
+body
+                   for (i =3D cluster_size - 1; i >=3D 0; i--) {
+                   ^
+   fs/f2fs/compress.c:1194:19: note: Array access (from variable 'rpages') =
+results in a null pointer dereference
+                           loff_t start =3D rpages[i]->index << PAGE_SHIFT;
+                                          ^~~~~~
+   fs/f2fs/compress.c:1473:5: warning: Value stored to 'ret' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                                   ret =3D 0;
+                                   ^     ~
+   fs/f2fs/compress.c:1473:5: note: Value stored to 'ret' is never read
+                                   ret =3D 0;
+                                   ^     ~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+>> drivers/scsi/megaraid/megaraid_sas_base.c:3156:2: warning: Value stored =
+to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+           offset +=3D map->nr_queues;
+           ^         ~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:3156:2: note: Value stored to =
+'offset' is never read
+           offset +=3D map->nr_queues;
+           ^         ~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:3602:22: warning: Access to fi=
+eld 'result' results in a dereference of a null pointer (loaded from field =
+'scmd') [clang-analyzer-core.NullDereference]
+                           cmd->scmd->result =3D DID_OK << 16;
+                                             ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8815:3: note: Left side of '&&=
+' is false
+                   container_of(work, struct megasas_aen_event, hotplug_wor=
+k.work);
+                   ^
+   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8815:3: note: Taking false bra=
+nch
+                   container_of(work, struct megasas_aen_event, hotplug_wor=
+k.work);
+                   ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8815:3: note: Loop condition i=
+s false.  Exiting loop
+                   container_of(work, struct megasas_aen_event, hotplug_wor=
+k.work);
+                   ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8823:6: note: Assuming 'instan=
+ce' is non-null
+           if (!instance) {
+               ^~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:8823:2: note: Taking false bra=
+nch
+           if (!instance) {
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8833:6: note: Assuming field '=
+evt_detail' is non-null
+           if (instance->evt_detail) {
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:8833:2: note: Taking true bran=
+ch
+           if (instance->evt_detail) {
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8836:3: note: Control jumps to=
+ 'case 303:'  at line 8858
+                   switch (le32_to_cpu(instance->evt_detail->code)) {
+                   ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:8859:15: note: Calling 'megasa=
+s_get_ctrl_info'
+                           dcmd_ret =3D megasas_get_ctrl_info(instance);
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:5219:7: note: 'cmd' is non-null
+           if (!cmd) {
+                ^~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:5219:2: note: Taking false bra=
+nch
+           if (!cmd) {
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:5242:7: note: Assuming field '=
+adapter_type' is equal to MFI_SERIES
+           if ((instance->adapter_type !=3D MFI_SERIES) &&
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:5242:45: note: Left side of '&=
+&' is false
+           if ((instance->adapter_type !=3D MFI_SERIES) &&
+                                                      ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:5250:2: note: Control jumps to=
+ 'case DCMD_FAILED:'  at line 5332
+           switch (ret) {
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:5333:3: note: Calling 'megarai=
+d_sas_kill_hba'
+                   megaraid_sas_kill_hba(instance);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:2177:6: note: Assuming the con=
+dition is false
+           if (atomic_read(&instance->adprecovery) =3D=3D MEGASAS_HW_CRITIC=
+AL_ERROR) {
+               ^
+   include/asm-generic/atomic-instrumented.h:30:21: note: expanded from mac=
+ro 'atomic_read'
+   #define atomic_read atomic_read
+                       ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:2177:2: note: Taking false bra=
+nch
+           if (atomic_read(&instance->adprecovery) =3D=3D MEGASAS_HW_CRITIC=
+AL_ERROR) {
+           ^
+   drivers/scsi/megaraid/megaraid_sas_base.c:2187:7: note: Assuming field '=
+device' is not equal to PCI_DEVICE_ID_LSI_SAS0073SKINNY
+           if ((instance->pdev->device =3D=3D PCI_DEVICE_ID_LSI_SAS0073SKIN=
+NY) ||
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/megaraid/megaraid_sas_base.c:2187:6: note: Left side of '||=
+' is false
+           if ((instance->pdev->device =3D=3D PCI_DEVICE_ID_LSI_SAS0073SKIN=
+NY) ||
 
-65e6dcf73398dd Lorenzo Bianconi 2021-01-29  527  =
+vim +/offset +3156 drivers/scsi/megaraid/megaraid_sas_base.c
 
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  528  struct sk_buff *__xdp_buil=
-d_skb_from_frame(struct xdp_frame *xdpf,
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  529  					   struct sk_buff *sk=
-b,
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  530  					   struct net_device =
-*dev)
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  531  {
-72df9af110288c Lorenzo Bianconi 2021-11-30  532  	struct skb_shared_info *s=
-info =3D xdp_get_shared_info_from_frame(xdpf);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  533  	unsigned int headroom, fr=
-ame_size;
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  534  	void *hard_start;
-72df9af110288c Lorenzo Bianconi 2021-11-30  535  	u8 nr_frags;
-72df9af110288c Lorenzo Bianconi 2021-11-30  536  =
+cf62a0a543fbab drivers/scsi/megaraid/megaraid_sas.c      Sumant Patro      =
+ 2007-02-14  3136  =
 
-72df9af110288c Lorenzo Bianconi 2021-11-30  537  	/* xdp multi-buff frame */
-72df9af110288c Lorenzo Bianconi 2021-11-30  538  	if (unlikely(xdp_frame_is=
-_mb(xdpf)))
-72df9af110288c Lorenzo Bianconi 2021-11-30  539  		nr_frags =3D sinfo->nr_f=
-rags;
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  540  =
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3137  static int megasas_map_queues(struct Scsi_Host *shost)
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3138  {
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3139  	struct megasas_instance *instance;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3140  	int qoff =3D 0, offset;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3141  	struct blk_mq_queue_map *map;
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3142  =
 
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  541  	/* Part of headroom was r=
-eserved to xdpf */
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  542  	headroom =3D sizeof(*xdpf=
-) + xdpf->headroom;
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  543  =
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3143  	instance =3D (struct megasas_instance *)shost->hostdata;
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3144  =
 
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  544  	/* Memory size backing xd=
-p_frame data already have reserved
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  545  	 * room for build_skb to =
-place skb_shared_info in tailroom.
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  546  	 */
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  547  	frame_size =3D xdpf->fram=
-e_sz;
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  548  =
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3145  	if (shost->nr_hw_queues =3D=3D 1)
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3146  		return 0;
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3147  =
 
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  549  	hard_start =3D xdpf->data=
- - headroom;
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  550  	skb =3D build_skb_around(=
-skb, hard_start, frame_size);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  551  	if (unlikely(!skb))
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  552  		return NULL;
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  553  =
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3148  	offset =3D instance->low_latency_index_start;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3149  =
 
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  554  	skb_reserve(skb, headroom=
-);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  555  	__skb_put(skb, xdpf->len);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  556  	if (xdpf->metasize)
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  557  		skb_metadata_set(skb, xd=
-pf->metasize);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  558  =
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3150  	/* Setup Default hctx */
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3151  	map =3D &shost->tag_set.map[HCTX_TYPE_DEFAULT];
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3152  	map->nr_queues =3D instance->msix_vectors - offset;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3153  	map->queue_offset =3D 0;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3154  	blk_mq_pci_map_queues(map, instance->pdev, offset);
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3155  	qoff +=3D map->nr_queues;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15 @3156  	offset +=3D map->nr_queues;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3157  =
 
-72df9af110288c Lorenzo Bianconi 2021-11-30  559  	if (unlikely(xdp_frame_is=
-_mb(xdpf)))
-72df9af110288c Lorenzo Bianconi 2021-11-30 @560  		xdp_update_skb_shared_in=
-fo(skb, nr_frags,
-72df9af110288c Lorenzo Bianconi 2021-11-30  561  					   sinfo->xdp_frags_s=
-ize,
-72df9af110288c Lorenzo Bianconi 2021-11-30  562  					   nr_frags * xdpf->f=
-rame_sz,
-72df9af110288c Lorenzo Bianconi 2021-11-30  563  					   xdp_frame_is_frag_=
-pfmemalloc(xdpf));
-72df9af110288c Lorenzo Bianconi 2021-11-30  564  =
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3158  	/* Setup Poll hctx */
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3159  	map =3D &shost->tag_set.map[HCTX_TYPE_POLL];
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3160  	map->nr_queues =3D instance->iopoll_q_count;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3161  	if (map->nr_queues) {
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3162  		/*
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3163  		 * The poll queue(s) doesn't have an IRQ (and hence IRQ
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3164  		 * affinity), so use the regular blk-mq cpu mapping
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3165  		 */
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3166  		map->queue_offset =3D qoff;
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3167  		blk_mq_map_queues(map);
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3168  	}
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3169  =
 
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  565  	/* Essential SKB info: pr=
-otocol and skb->dev */
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  566  	skb->protocol =3D eth_typ=
-e_trans(skb, dev);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  567  =
-
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  568  	/* Optional SKB info, cur=
-rently missing:
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  569  	 * - HW checksum info		(s=
-kb->ip_summed)
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  570  	 * - HW RX hash			(skb_se=
-t_hash)
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  571  	 * - RX ring dev queue in=
-dex	(skb_record_rx_queue)
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  572  	 */
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  573  =
-
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  574  	/* Until page_pool get SK=
-B return path, release DMA here */
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  575  	xdp_release_frame(xdpf);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  576  =
-
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  577  	/* Allow SKB to reuse are=
-a used by xdp_frame */
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  578  	xdp_scrub_frame(xdpf);
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  579  =
-
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  580  	return skb;
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  581  }
-97a0e1ea7b41c2 Lorenzo Bianconi 2021-01-12  582  EXPORT_SYMBOL_GPL(__xdp_bu=
-ild_skb_from_frame);
-89f479f0eccfc8 Lorenzo Bianconi 2021-01-12  583  =
+9e4bec5b2a2300 drivers/scsi/megaraid/megaraid_sas_base.c Kashyap Desai     =
+ 2021-02-15  3170  	return 0;
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3171  }
+81e7eb5bf08f36 drivers/scsi/megaraid/megaraid_sas_base.c Martin K. Petersen=
+ 2020-12-16  3172  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8422603104031030851==--
+--===============3422868618805118891==--
 
