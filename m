@@ -1,165 +1,191 @@
-Content-Type: multipart/mixed; boundary="===============1824714103047081221=="
+Content-Type: multipart/mixed; boundary="===============2198543833607072886=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4657/5128] block/blk-mq.c:2796 blk_mq_submit_bio() warn: variable dereferenced before check 'bio' (see line 2777)
-Date: Sat, 04 Dec 2021 06:26:37 +0800
-Message-ID: <202112040656.USL56oYt-lkp@intel.com>
+Subject: drivers/net/can/usb/peak_usb/pcan_usb.c:523 pcan_usb_decode_error() error: we previously assumed 'cf' could be null (see line 503)
+Date: Thu, 02 Dec 2021 18:24:57 +0800
+Message-ID: <202112021833.wABxM5UN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1824714103047081221==
+--===============2198543833607072886==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Jens Axboe <axboe@kernel.dk>
+CC: linux-kernel(a)vger.kernel.org
+TO: Stephane Grosjean <s.grosjean@peak-system.com>
+CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   7afeac307a9561e3a93682c1e7eb22f918aa1187
-commit: f9786e04d49fd5c492152a4daf6b95a5da9973a2 [4657/5128] block: fix dou=
-ble bio queue when merging in cached request path
-:::::: branch date: 14 hours ago
-:::::: commit date: 27 hours ago
-config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
-hive/20211204/202112040656.USL56oYt-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   58e1100fdc5990b0cc0d4beaf2562a92e621ac7d
+commit: c11dcee758302702a83c6e85e4c4c3d9af42d2b3 can: peak_usb: pcan_usb_de=
+code_error(): upgrade handling of bus state changes
+date:   4 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 4 months ago
+config: x86_64-randconfig-m001-20211202 (https://download.01.org/0day-ci/ar=
+chive/20211202/202112021833.wABxM5UN-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-block/blk-mq.c:2796 blk_mq_submit_bio() warn: variable dereferenced before =
-check 'bio' (see line 2777)
+smatch warnings:
+drivers/net/can/usb/peak_usb/pcan_usb.c:523 pcan_usb_decode_error() error: =
+we previously assumed 'cf' could be null (see line 503)
 
-Old smatch warnings:
-arch/nios2/include/asm/thread_info.h:71 current_thread_info() error: uninit=
-ialized symbol 'sp'.
-block/blk-mq.c:2997 blk_rq_prep_clone() error: uninitialized symbol 'bio'.
+vim +/cf +523 drivers/net/can/usb/peak_usb/pcan_usb.c
 
-vim +/bio +2796 block/blk-mq.c
+46be265d338833 Stephane Grosjean 2012-03-02  449  =
 
-71539717c10521 Jens Axboe        2021-11-03  2761  =
+46be265d338833 Stephane Grosjean 2012-03-02  450  static int pcan_usb_decod=
+e_error(struct pcan_usb_msg_context *mc, u8 n,
+46be265d338833 Stephane Grosjean 2012-03-02  451  				 u8 status_len)
+46be265d338833 Stephane Grosjean 2012-03-02  452  {
+46be265d338833 Stephane Grosjean 2012-03-02  453  	struct sk_buff *skb;
+46be265d338833 Stephane Grosjean 2012-03-02  454  	struct can_frame *cf;
+c11dcee7583027 Stephane Grosjean 2021-07-15  455  	enum can_state new_state=
+ =3D CAN_STATE_ERROR_ACTIVE;
+46be265d338833 Stephane Grosjean 2012-03-02  456  =
 
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2762  /**
-c62b37d96b6eb3 Christoph Hellwig 2020-07-01  2763   * blk_mq_submit_bio - C=
-reate and send a request to block device.
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2764   * @bio: Bio pointe=
-r.
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2765   *
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2766   * Builds up a requ=
-est structure from @q and @bio and send to the device. The
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2767   * request may not =
-be queued directly to hardware if:
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2768   * * This request c=
-an be merged with another one
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2769   * * We want to pla=
-ce request at plug queue for possible future merging
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2770   * * There is an IO=
- scheduler active at this queue
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2771   *
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2772   * It will not queu=
-e the request if there is an error with the bio, or at the
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2773   * request creation.
-105663f73e71b5 Andr=C3=A9 Almeida     2020-01-06  2774   */
-3e08773c3841e9 Christoph Hellwig 2021-10-12  2775  void blk_mq_submit_bio(s=
-truct bio *bio)
-07068d5b8ed8fa Jens Axboe        2014-05-22  2776  {
-ed6cddefdfd361 Pavel Begunkov    2021-10-14 @2777  	struct request_queue *q=
- =3D bdev_get_queue(bio->bi_bdev);
-5b13bc8a3fd519 Christoph Hellwig 2021-11-24  2778  	struct blk_plug *plug =
-=3D blk_mq_plug(q, bio);
-ef295ecf090d3e Christoph Hellwig 2016-10-28  2779  	const int is_sync =3D o=
-p_is_sync(bio->bi_opf);
-07068d5b8ed8fa Jens Axboe        2014-05-22  2780  	struct request *rq;
-abd45c159df5fc Jens Axboe        2021-10-13  2781  	unsigned int nr_segs =
-=3D 1;
-a892c8d52c0228 Satya Tangirala   2020-05-14  2782  	blk_status_t ret;
-07068d5b8ed8fa Jens Axboe        2014-05-22  2783  =
+46be265d338833 Stephane Grosjean 2012-03-02  457  	/* ignore this error unt=
+il 1st ts received */
+46be265d338833 Stephane Grosjean 2012-03-02  458  	if (n =3D=3D PCAN_USB_ER=
+ROR_QOVR)
+46be265d338833 Stephane Grosjean 2012-03-02  459  		if (!mc->pdev->time_ref=
+.tick_count)
+46be265d338833 Stephane Grosjean 2012-03-02  460  			return 0;
+46be265d338833 Stephane Grosjean 2012-03-02  461  =
 
-900e080752025f Jens Axboe        2021-11-03  2784  	if (unlikely(!blk_crypt=
-o_bio_prep(&bio)))
-900e080752025f Jens Axboe        2021-11-03  2785  		return;
-900e080752025f Jens Axboe        2021-11-03  2786  =
+c11dcee7583027 Stephane Grosjean 2021-07-15  462  	/* allocate an skb to st=
+ore the error frame */
+c11dcee7583027 Stephane Grosjean 2021-07-15  463  	skb =3D alloc_can_err_sk=
+b(mc->netdev, &cf);
+46be265d338833 Stephane Grosjean 2012-03-02  464  =
 
-07068d5b8ed8fa Jens Axboe        2014-05-22  2787  	blk_queue_bounce(q, &bi=
-o);
-abd45c159df5fc Jens Axboe        2021-10-13  2788  	if (blk_may_split(q, bi=
-o))
-abd45c159df5fc Jens Axboe        2021-10-13  2789  		__blk_queue_split(q, &=
-bio, &nr_segs);
-f36ea50ca0043e Wen Xiong         2017-05-10  2790  =
+c11dcee7583027 Stephane Grosjean 2021-07-15  465  	if (n & PCAN_USB_ERROR_R=
+XQOVR) {
+c11dcee7583027 Stephane Grosjean 2021-07-15  466  		/* data overrun interru=
+pt */
+c11dcee7583027 Stephane Grosjean 2021-07-15  467  		netdev_dbg(mc->netdev, =
+"data overrun interrupt\n");
+c11dcee7583027 Stephane Grosjean 2021-07-15  468  		mc->netdev->stats.rx_ov=
+er_errors++;
+c11dcee7583027 Stephane Grosjean 2021-07-15  469  		mc->netdev->stats.rx_er=
+rors++;
+c11dcee7583027 Stephane Grosjean 2021-07-15  470  		if (cf) {
+c11dcee7583027 Stephane Grosjean 2021-07-15  471  			cf->can_id |=3D CAN_ER=
+R_CRTL;
+c11dcee7583027 Stephane Grosjean 2021-07-15  472  			cf->data[1] |=3D CAN_E=
+RR_CRTL_RX_OVERFLOW;
+46be265d338833 Stephane Grosjean 2012-03-02  473  		}
+46be265d338833 Stephane Grosjean 2012-03-02  474  	}
+46be265d338833 Stephane Grosjean 2012-03-02  475  =
 
-e23947bd76f007 Dmitry Monakhov   2017-06-29  2791  	if (!bio_integrity_prep=
-(bio))
-900e080752025f Jens Axboe        2021-11-03  2792  		return;
-87760e5eef3597 Jens Axboe        2016-11-09  2793  =
+c11dcee7583027 Stephane Grosjean 2021-07-15  476  	if (n & PCAN_USB_ERROR_T=
+XQFULL)
+c11dcee7583027 Stephane Grosjean 2021-07-15  477  		netdev_dbg(mc->netdev, =
+"device Tx queue full)\n");
+c11dcee7583027 Stephane Grosjean 2021-07-15  478  =
 
-f9786e04d49fd5 Jens Axboe        2021-12-02  2794  	rq =3D blk_mq_get_cache=
-d_request(q, plug, &bio, nr_segs);
-5b13bc8a3fd519 Christoph Hellwig 2021-11-24  2795  	if (!rq) {
-f9786e04d49fd5 Jens Axboe        2021-12-02 @2796  		if (!bio)
-f9786e04d49fd5 Jens Axboe        2021-12-02  2797  			return;
-5b13bc8a3fd519 Christoph Hellwig 2021-11-24  2798  		rq =3D blk_mq_get_new_=
-requests(q, plug, bio, nr_segs);
-71539717c10521 Jens Axboe        2021-11-03  2799  		if (unlikely(!rq))
-900e080752025f Jens Axboe        2021-11-03  2800  			return;
-5b13bc8a3fd519 Christoph Hellwig 2021-11-24  2801  	}
-87760e5eef3597 Jens Axboe        2016-11-09  2802  =
+46be265d338833 Stephane Grosjean 2012-03-02  479  	if (n & PCAN_USB_ERROR_B=
+US_OFF) {
+46be265d338833 Stephane Grosjean 2012-03-02  480  		new_state =3D CAN_STATE=
+_BUS_OFF;
+c11dcee7583027 Stephane Grosjean 2021-07-15  481  	} else if (n & PCAN_USB_=
+ERROR_BUS_HEAVY) {
+c11dcee7583027 Stephane Grosjean 2021-07-15  482  		new_state =3D ((mc->pde=
+v->bec.txerr >=3D 128) ||
+c11dcee7583027 Stephane Grosjean 2021-07-15  483  			     (mc->pdev->bec.rx=
+err >=3D 128)) ?
+c11dcee7583027 Stephane Grosjean 2021-07-15  484  				CAN_STATE_ERROR_PASSI=
+VE :
+c11dcee7583027 Stephane Grosjean 2021-07-15  485  				CAN_STATE_ERROR_WARNI=
+NG;
+c11dcee7583027 Stephane Grosjean 2021-07-15  486  	} else {
+c11dcee7583027 Stephane Grosjean 2021-07-15  487  		new_state =3D CAN_STATE=
+_ERROR_ACTIVE;
+46be265d338833 Stephane Grosjean 2012-03-02  488  	}
+46be265d338833 Stephane Grosjean 2012-03-02  489  =
 
-e8a676d61c07ec Christoph Hellwig 2020-12-03  2803  	trace_block_getrq(bio);
-d6f1dda2725190 Xiaoguang Wang    2018-10-23  2804  =
+c11dcee7583027 Stephane Grosjean 2021-07-15  490  	/* handle change of stat=
+e */
+c11dcee7583027 Stephane Grosjean 2021-07-15  491  	if (new_state !=3D mc->p=
+dev->dev.can.state) {
+c11dcee7583027 Stephane Grosjean 2021-07-15  492  		enum can_state tx_state=
+ =3D
+c11dcee7583027 Stephane Grosjean 2021-07-15  493  			(mc->pdev->bec.txerr >=
+=3D mc->pdev->bec.rxerr) ?
+c11dcee7583027 Stephane Grosjean 2021-07-15  494  				new_state : 0;
+c11dcee7583027 Stephane Grosjean 2021-07-15  495  		enum can_state rx_state=
+ =3D
+c11dcee7583027 Stephane Grosjean 2021-07-15  496  			(mc->pdev->bec.txerr <=
+=3D mc->pdev->bec.rxerr) ?
+c11dcee7583027 Stephane Grosjean 2021-07-15  497  				new_state : 0;
+46be265d338833 Stephane Grosjean 2012-03-02  498  =
 
-c1c80384c8f470 Josef Bacik       2018-07-03  2805  	rq_qos_track(q, rq, bio=
+c11dcee7583027 Stephane Grosjean 2021-07-15  499  		can_change_state(mc->ne=
+tdev, cf, tx_state, rx_state);
+46be265d338833 Stephane Grosjean 2012-03-02  500  =
+
+c11dcee7583027 Stephane Grosjean 2021-07-15  501  		if (new_state =3D=3D CA=
+N_STATE_BUS_OFF) {
+46be265d338833 Stephane Grosjean 2012-03-02  502  			can_bus_off(mc->netdev=
 );
-320ae51feed5c2 Jens Axboe        2013-10-24  2806  =
+c11dcee7583027 Stephane Grosjean 2021-07-15 @503  		} else if (cf && (cf->c=
+an_id & CAN_ERR_CRTL)) {
+c11dcee7583027 Stephane Grosjean 2021-07-15  504  			/* Supply TX/RX error =
+counters in case of
+c11dcee7583027 Stephane Grosjean 2021-07-15  505  			 * controller error.
+c11dcee7583027 Stephane Grosjean 2021-07-15  506  			 */
+ea8b33bde76c8f Stephane Grosjean 2019-12-06  507  			cf->data[6] =3D mc->pd=
+ev->bec.txerr;
+ea8b33bde76c8f Stephane Grosjean 2019-12-06  508  			cf->data[7] =3D mc->pd=
+ev->bec.rxerr;
+ea8b33bde76c8f Stephane Grosjean 2019-12-06  509  		}
+46be265d338833 Stephane Grosjean 2012-03-02  510  	}
+46be265d338833 Stephane Grosjean 2012-03-02  511  =
 
-14ccb66b3f585b Christoph Hellwig 2019-06-06  2807  	blk_mq_bio_to_request(r=
-q, bio, nr_segs);
-923218f6166a84 Ming Lei          2017-11-02  2808  =
+c11dcee7583027 Stephane Grosjean 2021-07-15  512  	if (!skb)
+c11dcee7583027 Stephane Grosjean 2021-07-15  513  		return -ENOMEM;
+46be265d338833 Stephane Grosjean 2012-03-02  514  =
 
-a892c8d52c0228 Satya Tangirala   2020-05-14  2809  	ret =3D blk_crypto_init=
-_request(rq);
-a892c8d52c0228 Satya Tangirala   2020-05-14  2810  	if (ret !=3D BLK_STS_OK=
-) {
-a892c8d52c0228 Satya Tangirala   2020-05-14  2811  		bio->bi_status =3D ret;
-a892c8d52c0228 Satya Tangirala   2020-05-14  2812  		bio_endio(bio);
-a892c8d52c0228 Satya Tangirala   2020-05-14  2813  		blk_mq_free_request(rq=
-);
-3e08773c3841e9 Christoph Hellwig 2021-10-12  2814  		return;
-a892c8d52c0228 Satya Tangirala   2020-05-14  2815  	}
-a892c8d52c0228 Satya Tangirala   2020-05-14  2816  =
+46be265d338833 Stephane Grosjean 2012-03-02  515  	if (status_len & PCAN_US=
+B_STATUSLEN_TIMESTAMP) {
+c9faaa09e2a133 Oliver Hartkopp   2012-11-21  516  		struct skb_shared_hwtst=
+amps *hwts =3D skb_hwtstamps(skb);
+c9faaa09e2a133 Oliver Hartkopp   2012-11-21  517  =
 
-2b504bd4841bcc Ming Lei          2021-11-18  2817  	if (op_is_flush(bio->bi=
-_opf)) {
-2b504bd4841bcc Ming Lei          2021-11-18  2818  		blk_insert_flush(rq);
-d92ca9d8348fb1 Christoph Hellwig 2021-10-19  2819  		return;
-2b504bd4841bcc Ming Lei          2021-11-18  2820  	}
-d92ca9d8348fb1 Christoph Hellwig 2021-10-19  2821  =
+d5888a1e75c799 Arnd Bergmann     2017-11-03  518  		peak_usb_get_ts_time(&m=
+c->pdev->time_ref, mc->ts16,
+d5888a1e75c799 Arnd Bergmann     2017-11-03  519  				     &hwts->hwtstamp);
+46be265d338833 Stephane Grosjean 2012-03-02  520  	}
+46be265d338833 Stephane Grosjean 2012-03-02  521  =
 
-1e9c23034d7b21 Christoph Hellwig 2021-11-23  2822  	if (plug)
-ce5b009cff1961 Jens Axboe        2018-11-27  2823  		blk_add_rq_to_plug(plu=
-g, rq);
-1e9c23034d7b21 Christoph Hellwig 2021-11-23  2824  	else if ((rq->rq_flags =
-& RQF_ELV) ||
-0c5bcc92d94a8f Christoph Hellwig 2021-11-23  2825  		 (rq->mq_hctx->dispatc=
-h_busy &&
-1e9c23034d7b21 Christoph Hellwig 2021-11-23  2826  		  (q->nr_hw_queues =3D=
-=3D 1 || !is_sync)))
-a12de1d42d74ef Ming Lei          2019-09-27  2827  		blk_mq_sched_insert_re=
-quest(rq, false, true, true);
-1e9c23034d7b21 Christoph Hellwig 2021-11-23  2828  	else
-0c5bcc92d94a8f Christoph Hellwig 2021-11-23  2829  		blk_mq_try_issue_direc=
-tly(rq->mq_hctx, rq);
-ab42f35d9cb5ac Ming Lei          2017-05-26  2830  }
-320ae51feed5c2 Jens Axboe        2013-10-24  2831  =
+46be265d338833 Stephane Grosjean 2012-03-02  522  	mc->netdev->stats.rx_pac=
+kets++;
+c7b74967799b1a Oliver Hartkopp   2020-11-20 @523  	mc->netdev->stats.rx_byt=
+es +=3D cf->len;
+1c0ee046957648 Marc Kleine-Budde 2015-07-11  524  	netif_rx(skb);
+46be265d338833 Stephane Grosjean 2012-03-02  525  =
 
+46be265d338833 Stephane Grosjean 2012-03-02  526  	return 0;
+46be265d338833 Stephane Grosjean 2012-03-02  527  }
+46be265d338833 Stephane Grosjean 2012-03-02  528  =
+
+
+:::::: The code at line 523 was first introduced by commit
+:::::: c7b74967799b1af52b3045d69d4c26836b2d41de can: replace can_dlc as var=
+iable/element for payload length
+
+:::::: TO: Oliver Hartkopp <socketcan@hartkopp.net>
+:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1824714103047081221==--
+--===============2198543833607072886==--
 
