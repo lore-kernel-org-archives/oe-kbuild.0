@@ -1,153 +1,219 @@
-Content-Type: multipart/mixed; boundary="===============0898833664653294321=="
+Content-Type: multipart/mixed; boundary="===============7525366799337060729=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:34 mlx5_dm_create() warn: should '(((1))) << (((((*((dev->caps.hca[15]->cur) + (($expr_0x7f03ab74d9f0(30)) / 32)))) >> (32 - 8 - (($expr_0x7f03ab74df90(30)) & 31))) & (((1 << 8) - 1))) - (((((*((dev->caps.h...
-Date: Sun, 28 Nov 2021 02:25:22 +0800
-Message-ID: <202111280225.L607YNp5-lkp@intel.com>
+Subject: [linux-next:master 2790/4921] drivers/hwmon/asus_wmi_sensors.c:569 asus_wmi_configure_sensor_setup() error: buffer overflow 'hwmon_attributes' 8 <= 9
+Date: Thu, 02 Dec 2021 23:22:03 +0800
+Message-ID: <202112022332.tw3sZZuo-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0898833664653294321==
+--===============7525366799337060729==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Parav Pandit <parav@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Shay Drory <shayd@nvidia.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Denis Pauk <pauk.denis@gmail.com>
+CC: Guenter Roeck <linux@roeck-us.net>
+CC: Ed Brindley <kernel@maidavale.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c5c17547b778975b3d83a73c8d84e8fb5ecf3ba5
-commit: 5958a6fad623ad3b67a9e4d8dbd5f1874cc7039e net/mlx5: Reorganize curre=
-nt and maximal capabilities to be per-type
-date:   4 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 4 months ago
-config: microblaze-randconfig-m031-20211011 (https://download.01.org/0day-c=
-i/archive/20211128/202111280225.L607YNp5-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   9606f9efb1cec7f8f5912326f182fbfbcad34382
+commit: 9d7d41752e9e9794b1725f85252fc34ab302e679 [2790/4921] hwmon: (asus_w=
+mi_sensors) Support X370 Asus WMI.
+:::::: branch date: 9 hours ago
+:::::: commit date: 8 days ago
+config: x86_64-randconfig-m001-20211201 (https://download.01.org/0day-ci/ar=
+chive/20211202/202112022332.tw3sZZuo-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:34 mlx5_dm_create() warn: =
-should '(((1))) << (((((*((dev->caps.hca[15]->cur) + (($expr_0x7f03ab74d9f0=
-(30)) / 32)))) >> (32 - 8 - (($expr_0x7f03ab74df90(30)) & 31))) & (((1 << 8=
-) - 1))) - (((((*((dev->caps.hca[15]->cur) + (($expr_0x7f03ab726c90(30)) / =
-32)))) >> (32 - 6 - (($expr_0x7f03ab727230(30)) & 31))) & (((1 << 6) - 1)))=
-))' be a 64 bit type?
+smatch warnings:
+drivers/hwmon/asus_wmi_sensors.c:569 asus_wmi_configure_sensor_setup() erro=
+r: buffer overflow 'hwmon_attributes' 8 <=3D 9
 
-Old smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:46 mlx5_dm_create() warn: =
-should '(((1))) << (((((*((dev->caps.hca[15]->cur) + (($expr_0x7f03ab7295d0=
-(30)) / 32)))) >> (32 - 8 - (($expr_0x7f03ab729b70(30)) & 31))) & (((1 << 8=
-) - 1))) - (((((*((dev->caps.hca[15]->cur) + (($expr_0x7f03ab72a840(30)) / =
-32)))) >> (32 - 6 - (($expr_0x7f03ab72ade0(30)) & 31))) & (((1 << 6) - 1)))=
-))' be a 64 bit type?
+vim +/hwmon_attributes +569 drivers/hwmon/asus_wmi_sensors.c
 
-vim +34 drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c
+9d7d41752e9e97 Denis Pauk 2021-11-16  502  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  16  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  503  static int asus_wmi_configure_se=
+nsor_setup(struct device *dev,
+9d7d41752e9e97 Denis Pauk 2021-11-16  504  					   struct asus_wmi_sensors =
+*sensor_data)
+9d7d41752e9e97 Denis Pauk 2021-11-16  505  {
+9d7d41752e9e97 Denis Pauk 2021-11-16  506  	const struct hwmon_channel_info=
+ **ptr_asus_wmi_ci;
+9d7d41752e9e97 Denis Pauk 2021-11-16  507  	struct hwmon_channel_info *asus=
+_wmi_hwmon_chan;
+9d7d41752e9e97 Denis Pauk 2021-11-16  508  	int nr_count[hwmon_max] =3D {},=
+ nr_types =3D 0;
+9d7d41752e9e97 Denis Pauk 2021-11-16  509  	struct asus_wmi_sensor_info *te=
+mp_sensor;
+9d7d41752e9e97 Denis Pauk 2021-11-16  510  	const struct hwmon_chip_info *c=
+hip_info;
+9d7d41752e9e97 Denis Pauk 2021-11-16  511  	enum hwmon_sensor_types type;
+9d7d41752e9e97 Denis Pauk 2021-11-16  512  	struct device *hwdev;
+9d7d41752e9e97 Denis Pauk 2021-11-16  513  	int i, idx;
+9d7d41752e9e97 Denis Pauk 2021-11-16  514  	int err;
+9d7d41752e9e97 Denis Pauk 2021-11-16  515  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  17  struct mlx5_dm *mlx5_dm_crea=
-te(struct mlx5_core_dev *dev)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  18  {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  19  	u64 header_modify_icm_block=
-s =3D 0;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  20  	u64 steering_icm_blocks =3D=
- 0;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  21  	struct mlx5_dm *dm;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  22  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  516  	temp_sensor =3D devm_kcalloc(de=
+v, 1, sizeof(*temp_sensor), GFP_KERNEL);
+9d7d41752e9e97 Denis Pauk 2021-11-16  517  	if (!temp_sensor)
+9d7d41752e9e97 Denis Pauk 2021-11-16  518  		return -ENOMEM;
+9d7d41752e9e97 Denis Pauk 2021-11-16  519  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  23  	if (!(MLX5_CAP_GEN_64(dev, =
-general_obj_types) & MLX5_GENERAL_OBJ_TYPES_CAP_SW_ICM))
-586ee9e8a3b007 Saeed Mahameed  2020-01-22  24  		return NULL;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  25  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  520  	for (i =3D 0; i < sensor_data->=
+wmi.sensor_count; i++) {
+9d7d41752e9e97 Denis Pauk 2021-11-16  521  		err =3D asus_wmi_sensor_info(i=
+, temp_sensor);
+9d7d41752e9e97 Denis Pauk 2021-11-16  522  		if (err)
+9d7d41752e9e97 Denis Pauk 2021-11-16  523  			return err;
+9d7d41752e9e97 Denis Pauk 2021-11-16  524  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  26  	dm =3D kzalloc(sizeof(*dm),=
- GFP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  27  	if (!dm)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  28  		return ERR_PTR(-ENOMEM);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  29  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  525  		switch (temp_sensor->data_type=
+) {
+9d7d41752e9e97 Denis Pauk 2021-11-16  526  		case TEMPERATURE_C:
+9d7d41752e9e97 Denis Pauk 2021-11-16  527  		case VOLTAGE:
+9d7d41752e9e97 Denis Pauk 2021-11-16  528  		case CURRENT:
+9d7d41752e9e97 Denis Pauk 2021-11-16  529  		case FAN_RPM:
+9d7d41752e9e97 Denis Pauk 2021-11-16  530  		case WATER_FLOW:
+9d7d41752e9e97 Denis Pauk 2021-11-16  531  			type =3D asus_data_types[temp=
+_sensor->data_type];
+9d7d41752e9e97 Denis Pauk 2021-11-16  532  			if (!nr_count[type])
+9d7d41752e9e97 Denis Pauk 2021-11-16  533  				nr_types++;
+9d7d41752e9e97 Denis Pauk 2021-11-16  534  			nr_count[type]++;
+9d7d41752e9e97 Denis Pauk 2021-11-16  535  			break;
+9d7d41752e9e97 Denis Pauk 2021-11-16  536  		}
+9d7d41752e9e97 Denis Pauk 2021-11-16  537  	}
+9d7d41752e9e97 Denis Pauk 2021-11-16  538  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  30  	spin_lock_init(&dm->lock);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  31  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  539  	if (nr_count[hwmon_temp])
+9d7d41752e9e97 Denis Pauk 2021-11-16  540  		nr_count[hwmon_chip]++, nr_typ=
+es++;
+9d7d41752e9e97 Denis Pauk 2021-11-16  541  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  32  	if (MLX5_CAP64_DEV_MEM(dev,=
- steering_sw_icm_start_address)) {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  33  		steering_icm_blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29 @34  			BIT(MLX5_CAP_DEV_MEM(dev,=
- log_steering_sw_icm_size) -
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  35  			    MLX5_LOG_SW_ICM_BLOCK=
-_SIZE(dev));
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  36  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  542  	asus_wmi_hwmon_chan =3D devm_kc=
+alloc(dev, nr_types,
+9d7d41752e9e97 Denis Pauk 2021-11-16  543  					   sizeof(*asus_wmi_hwmon_c=
+han),
+9d7d41752e9e97 Denis Pauk 2021-11-16  544  					   GFP_KERNEL);
+9d7d41752e9e97 Denis Pauk 2021-11-16  545  	if (!asus_wmi_hwmon_chan)
+9d7d41752e9e97 Denis Pauk 2021-11-16  546  		return -ENOMEM;
+9d7d41752e9e97 Denis Pauk 2021-11-16  547  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  37  		dm->steering_sw_icm_alloc_=
-blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  38  			kcalloc(BITS_TO_LONGS(ste=
-ering_icm_blocks),
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  39  				sizeof(unsigned long), G=
-FP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  40  		if (!dm->steering_sw_icm_a=
-lloc_blocks)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  41  			goto err_steering;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  42  	}
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  43  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  548  	ptr_asus_wmi_ci =3D devm_kcallo=
+c(dev, nr_types + 1,
+9d7d41752e9e97 Denis Pauk 2021-11-16  549  				       sizeof(*ptr_asus_wmi_=
+ci), GFP_KERNEL);
+9d7d41752e9e97 Denis Pauk 2021-11-16  550  	if (!ptr_asus_wmi_ci)
+9d7d41752e9e97 Denis Pauk 2021-11-16  551  		return -ENOMEM;
+9d7d41752e9e97 Denis Pauk 2021-11-16  552  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  44  	if (MLX5_CAP64_DEV_MEM(dev,=
- header_modify_sw_icm_start_address)) {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  45  		header_modify_icm_blocks =
-=3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  46  			BIT(MLX5_CAP_DEV_MEM(dev,=
- log_header_modify_sw_icm_size) -
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  47  			    MLX5_LOG_SW_ICM_BLOCK=
-_SIZE(dev));
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  48  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  553  	asus_wmi_chip_info.info =3D ptr=
+_asus_wmi_ci;
+9d7d41752e9e97 Denis Pauk 2021-11-16  554  	chip_info =3D &asus_wmi_chip_in=
+fo;
+9d7d41752e9e97 Denis Pauk 2021-11-16  555  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  49  		dm->header_modify_sw_icm_a=
-lloc_blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  50  			kcalloc(BITS_TO_LONGS(hea=
-der_modify_icm_blocks),
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  51  				sizeof(unsigned long), G=
-FP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  52  		if (!dm->header_modify_sw_=
-icm_alloc_blocks)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  53  			goto err_modify_hdr;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  54  	}
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  55  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  556  	sensor_data->wmi.info_by_id =3D=
+ devm_kcalloc(dev, sensor_data->wmi.sensor_count,
+9d7d41752e9e97 Denis Pauk 2021-11-16  557  						   sizeof(*sensor_data->wm=
+i.info_by_id),
+9d7d41752e9e97 Denis Pauk 2021-11-16  558  						   GFP_KERNEL);
+9d7d41752e9e97 Denis Pauk 2021-11-16  559  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  56  	return dm;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  57  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  560  	if (!sensor_data->wmi.info_by_i=
+d)
+9d7d41752e9e97 Denis Pauk 2021-11-16  561  		return -ENOMEM;
+9d7d41752e9e97 Denis Pauk 2021-11-16  562  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  58  err_modify_hdr:
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  59  	kfree(dm->steering_sw_icm_a=
-lloc_blocks);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  60  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  563  	for (type =3D 0; type < hwmon_m=
+ax; type++) {
+9d7d41752e9e97 Denis Pauk 2021-11-16  564  		if (!nr_count[type])
+9d7d41752e9e97 Denis Pauk 2021-11-16  565  			continue;
+9d7d41752e9e97 Denis Pauk 2021-11-16  566  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  61  err_steering:
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  62  	kfree(dm);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  63  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  567  		err =3D asus_wmi_hwmon_add_cha=
+n_info(asus_wmi_hwmon_chan, dev,
+9d7d41752e9e97 Denis Pauk 2021-11-16  568  						   nr_count[type], type,
+9d7d41752e9e97 Denis Pauk 2021-11-16 @569  						   hwmon_attributes[type]);
+9d7d41752e9e97 Denis Pauk 2021-11-16  570  		if (err)
+9d7d41752e9e97 Denis Pauk 2021-11-16  571  			return err;
+9d7d41752e9e97 Denis Pauk 2021-11-16  572  =
 
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  64  	return ERR_PTR(-ENOMEM);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  65  }
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  66  =
+9d7d41752e9e97 Denis Pauk 2021-11-16  573  		*ptr_asus_wmi_ci++ =3D asus_wm=
+i_hwmon_chan++;
+9d7d41752e9e97 Denis Pauk 2021-11-16  574  =
 
+9d7d41752e9e97 Denis Pauk 2021-11-16  575  		sensor_data->wmi.info[type] =
+=3D devm_kcalloc(dev,
+9d7d41752e9e97 Denis Pauk 2021-11-16  576  							   nr_count[type],
+9d7d41752e9e97 Denis Pauk 2021-11-16  577  							   sizeof(*sensor_data->w=
+mi.info),
+9d7d41752e9e97 Denis Pauk 2021-11-16  578  							   GFP_KERNEL);
+9d7d41752e9e97 Denis Pauk 2021-11-16  579  		if (!sensor_data->wmi.info[typ=
+e])
+9d7d41752e9e97 Denis Pauk 2021-11-16  580  			return -ENOMEM;
+9d7d41752e9e97 Denis Pauk 2021-11-16  581  	}
+9d7d41752e9e97 Denis Pauk 2021-11-16  582  =
 
-:::::: The code at line 34 was first introduced by commit
-:::::: c9b9dcb430b3cd0ad2b04c360c4e528d73430481 net/mlx5: Move device memor=
-y management to mlx5_core
+9d7d41752e9e97 Denis Pauk 2021-11-16  583  	for (i =3D sensor_data->wmi.sen=
+sor_count - 1; i >=3D 0; i--) {
+9d7d41752e9e97 Denis Pauk 2021-11-16  584  		temp_sensor =3D devm_kzalloc(d=
+ev, sizeof(*temp_sensor), GFP_KERNEL);
+9d7d41752e9e97 Denis Pauk 2021-11-16  585  		if (!temp_sensor)
+9d7d41752e9e97 Denis Pauk 2021-11-16  586  			return -ENOMEM;
+9d7d41752e9e97 Denis Pauk 2021-11-16  587  =
 
-:::::: TO: Ariel Levkovich <lariel@mellanox.com>
-:::::: CC: Saeed Mahameed <saeedm@mellanox.com>
+9d7d41752e9e97 Denis Pauk 2021-11-16  588  		err =3D asus_wmi_sensor_info(i=
+, temp_sensor);
+9d7d41752e9e97 Denis Pauk 2021-11-16  589  		if (err)
+9d7d41752e9e97 Denis Pauk 2021-11-16  590  			continue;
+9d7d41752e9e97 Denis Pauk 2021-11-16  591  =
+
+9d7d41752e9e97 Denis Pauk 2021-11-16  592  		switch (temp_sensor->data_type=
+) {
+9d7d41752e9e97 Denis Pauk 2021-11-16  593  		case TEMPERATURE_C:
+9d7d41752e9e97 Denis Pauk 2021-11-16  594  		case VOLTAGE:
+9d7d41752e9e97 Denis Pauk 2021-11-16  595  		case CURRENT:
+9d7d41752e9e97 Denis Pauk 2021-11-16  596  		case FAN_RPM:
+9d7d41752e9e97 Denis Pauk 2021-11-16  597  		case WATER_FLOW:
+9d7d41752e9e97 Denis Pauk 2021-11-16  598  			type =3D asus_data_types[temp=
+_sensor->data_type];
+9d7d41752e9e97 Denis Pauk 2021-11-16  599  			idx =3D --nr_count[type];
+9d7d41752e9e97 Denis Pauk 2021-11-16  600  			*(sensor_data->wmi.info[type]=
+ + idx) =3D temp_sensor;
+9d7d41752e9e97 Denis Pauk 2021-11-16  601  			sensor_data->wmi.info_by_id[i=
+] =3D temp_sensor;
+9d7d41752e9e97 Denis Pauk 2021-11-16  602  			break;
+9d7d41752e9e97 Denis Pauk 2021-11-16  603  		}
+9d7d41752e9e97 Denis Pauk 2021-11-16  604  	}
+9d7d41752e9e97 Denis Pauk 2021-11-16  605  =
+
+9d7d41752e9e97 Denis Pauk 2021-11-16  606  	dev_dbg(dev, "board has %d sens=
+ors",
+9d7d41752e9e97 Denis Pauk 2021-11-16  607  		sensor_data->wmi.sensor_count);
+9d7d41752e9e97 Denis Pauk 2021-11-16  608  =
+
+9d7d41752e9e97 Denis Pauk 2021-11-16  609  	hwdev =3D devm_hwmon_device_reg=
+ister_with_info(dev, "asus_wmi_sensors",
+9d7d41752e9e97 Denis Pauk 2021-11-16  610  						     sensor_data, chip_inf=
+o, NULL);
+9d7d41752e9e97 Denis Pauk 2021-11-16  611  =
+
+9d7d41752e9e97 Denis Pauk 2021-11-16  612  	return PTR_ERR_OR_ZERO(hwdev);
+9d7d41752e9e97 Denis Pauk 2021-11-16  613  }
+9d7d41752e9e97 Denis Pauk 2021-11-16  614  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0898833664653294321==--
+--===============7525366799337060729==--
 
