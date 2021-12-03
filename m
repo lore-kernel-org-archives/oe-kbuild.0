@@ -1,88 +1,97 @@
-Content-Type: multipart/mixed; boundary="===============2810573386629998796=="
+Content-Type: multipart/mixed; boundary="===============1496343629049036027=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 03/18] crypto: dh - optimize domain parameter serialization for well-known groups
-Date: Thu, 02 Dec 2021 11:48:45 +0800
-Message-ID: <202112021117.YbF1lcor-lkp@intel.com>
+Subject: drivers/mtd/parsers/ofpart_bcm4908.c:41 bcm4908_partitions_fw_offset() warn: should 'offset << 10' be a 64 bit type?
+Date: Sat, 04 Dec 2021 03:02:57 +0800
+Message-ID: <202112040342.AvFc4SDJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2810573386629998796==
+--===============1496343629049036027==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211201004858.19831-4-nstange@suse.de>
-References: <20211201004858.19831-4-nstange@suse.de>
-TO: Nicolai Stange <nstange@suse.de>
-TO: Herbert Xu <herbert@gondor.apana.org.au>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev(a)vger.kernel.org
-CC: "Stephan M=C3=BCller" <smueller@chronox.de>
-CC: Hannes Reinecke <hare@suse.de>
-CC: Torsten Duwe <duwe@suse.de>
-CC: Zaibo Xu <xuzaibo@huawei.com>
-CC: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-CC: David Howells <dhowells@redhat.com>
-CC: Jarkko Sakkinen <jarkko@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Rafa=C5=82 Mi=C5=82ecki" <rafal@milecki.pl>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
-Hi Nicolai,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master v5.16-rc=
-3 next-20211201]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Nicolai-Stange/crypto-dh-i=
-nfrastructure-for-NVM-in-band-auth-and-FIPS-conformance/20211201-085159
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
-.6.git master
-:::::: branch date: 27 hours ago
-:::::: commit date: 27 hours ago
-config: arm-randconfig-m031-20211128 (https://download.01.org/0day-ci/archi=
-ve/20211202/202112021117.YbF1lcor-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   5f58da2befa58edf3a70b91ed87ed9bf77f1e70e
+commit: bb17230c61a6424b622e92006ec52ba23aa5a967 mtd: parsers: ofpart: supp=
+ort BCM4908 fixed partitions
+date:   9 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 9 months ago
+config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
+hive/20211204/202112040342.AvFc4SDJ-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-crypto/dh_helper.c:32 get_safe_prime_group() warn: we never enter this loop
+drivers/mtd/parsers/ofpart_bcm4908.c:41 bcm4908_partitions_fw_offset() warn=
+: should 'offset << 10' be a 64 bit type?
 
-vim +32 crypto/dh_helper.c
+vim +41 drivers/mtd/parsers/ofpart_bcm4908.c
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01  26  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  16  =
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01  27  static inline const stru=
-ct safe_prime_group *
-3313d2f891c8a3 Nicolai Stange      2021-12-01  28  get_safe_prime_group(enu=
-m dh_group_id group_id)
-3313d2f891c8a3 Nicolai Stange      2021-12-01  29  {
-3313d2f891c8a3 Nicolai Stange      2021-12-01  30  	int i;
-3313d2f891c8a3 Nicolai Stange      2021-12-01  31  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  17  static long long bcm=
+4908_partitions_fw_offset(void)
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  18  {
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  19  	struct device_node =
+*root;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  20  	struct property *pr=
+op;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  21  	const char *s;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  22  =
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01 @32  	for (i =3D 0; i < ARRAY=
-_SIZE(safe_prime_groups); ++i) {
-3313d2f891c8a3 Nicolai Stange      2021-12-01  33  		if (safe_prime_groups[=
-i].group_id =3D=3D group_id)
-3313d2f891c8a3 Nicolai Stange      2021-12-01  34  			return &safe_prime_gr=
-oups[i];
-3313d2f891c8a3 Nicolai Stange      2021-12-01  35  	}
-3313d2f891c8a3 Nicolai Stange      2021-12-01  36  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  23  	root =3D of_find_no=
+de_by_path("/");
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  24  	if (!root)
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  25  		return -ENOENT;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  26  =
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01  37  	return NULL;
-3313d2f891c8a3 Nicolai Stange      2021-12-01  38  }
-802c7f1c84e4b5 Salvatore Benedetto 2016-06-22  39  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  27  	of_property_for_eac=
+h_string(root, "brcm_blparms", prop, s) {
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  28  		size_t len =3D str=
+len(BLPARAMS_FW_OFFSET);
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  29  		unsigned long offs=
+et;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  30  		int err;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  31  =
+
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  32  		if (strncmp(s, BLP=
+ARAMS_FW_OFFSET, len) || s[len] !=3D '=3D')
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  33  			continue;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  34  =
+
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  35  		err =3D kstrtoul(s=
+ + len + 1, 0, &offset);
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  36  		if (err) {
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  37  			pr_err("failed to=
+ parse %s\n", s + len + 1);
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  38  			return err;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  39  		}
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  40  =
+
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01 @41  		return offset << 1=
+0;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  42  	}
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  43  =
+
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  44  	return -ENOENT;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  45  }
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  46  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============2810573386629998796==--
+--===============1496343629049036027==--
 
