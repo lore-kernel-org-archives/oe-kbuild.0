@@ -1,368 +1,168 @@
-Content-Type: multipart/mixed; boundary="===============1761298084287611738=="
+Content-Type: multipart/mixed; boundary="===============4225344596475693237=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/pci/saa7134/saa7134-tvaudio.c:153:4: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Tue, 30 Nov 2021 10:09:06 +0800
-Message-ID: <202111301013.XRLbfOBt-lkp@intel.com>
+Subject: [pinchartl-media:drm/du/v3u/sn65dsi86 7/11] drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:223 rcar_mipi_dsi_parameters_calc() error: buffer overflow 'hsfreqrange_table' 64 <= 64
+Date: Fri, 03 Dec 2021 16:52:09 +0800
+Message-ID: <202112031631.Op5iw0OJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1761298084287611738==
+--===============4225344596475693237==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: LUU HOAI <hoai.luu.ub@renesas.com>
+CC: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+CC: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   d58071a8a76d779eedab38033ae4c821c30295a5
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20211124 (https://download.01.org/0day-ci/archi=
-ve/20211130/202111301013.XRLbfOBt-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 67a1c4=
-5def8a75061203461ab0060c75c864df1c)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   git://linuxtv.org/pinchartl/media.git drm/du/v3u/sn65dsi86
+head:   b24450a25b8c342e517f8c5804755b060cd6e7dc
+commit: 9315788ce032979d6b3affb603891ec69090be72 [7/11] drm: rcar-du: Add R=
+-Car DSI driver
+:::::: branch date: 35 hours ago
+:::::: commit date: 35 hours ago
+config: nios2-randconfig-m031-20211203 (https://download.01.org/0day-ci/arc=
+hive/20211203/202112031631.Op5iw0OJ-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:223 rcar_mipi_dsi_parameters_calc()=
+ error: buffer overflow 'hsfreqrange_table' 64 <=3D 64
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:277:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:298:21: warning: Value stored to 'client' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:298:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:391:21: warning: Value stored to 'client' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:391:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:406:21: warning: Value stored to 'client' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:406:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:415:21: warning: Value stored to 'client' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:415:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:426:21: warning: Value stored to 'client' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:426:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:440:21: warning: Value stored to 'client' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:440:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:470:21: warning: Value stored to 'client' =
-during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   drivers/media/tuners/fc2580.c:470:21: note: Value stored to 'client' dur=
-ing its initialization is never read
-           struct i2c_client *client =3D dev->client;
-                              ^~~~~~   ~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/media/pci/saa7134/saa7134-cards.c:7742:3: warning: Value stored =
-to 'tuner_t' is never read [clang-analyzer-deadcode.DeadStores]
-                   tuner_t =3D 0;
-                   ^         ~
-   drivers/media/pci/saa7134/saa7134-cards.c:7742:3: note: Value stored to =
-'tuner_t' is never read
-                   tuner_t =3D 0;
-                   ^         ~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:52:15: warning: Excessive pa=
-dding in 'struct mainscan' (8 padding bytes, where 0 is optimal). =
+Old smatch warnings:
+drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c:224 rcar_mipi_dsi_parameters_calc()=
+ error: buffer overflow 'hsfreqrange_table' 64 <=3D 64
 
-   Optimal fields order: =
+vim +/hsfreqrange_table +223 drivers/gpu/drm/rcar-du/rcar_mipi_dsi.c
 
-   std, =
+9315788ce03297 LUU HOAI 2020-02-25  183  =
 
-   name, =
+9315788ce03297 LUU HOAI 2020-02-25  184  	const struct vco_cntrl_value *vco=
+_cntrl;
+9315788ce03297 LUU HOAI 2020-02-25  185  	unsigned long fout_target;
+9315788ce03297 LUU HOAI 2020-02-25  186  	unsigned long fin, fout;
+9315788ce03297 LUU HOAI 2020-02-25  187  	unsigned long hsfreq;
+9315788ce03297 LUU HOAI 2020-02-25  188  	unsigned int best_err =3D -1;
+9315788ce03297 LUU HOAI 2020-02-25  189  	unsigned int divider;
+9315788ce03297 LUU HOAI 2020-02-25  190  	unsigned int n;
+9315788ce03297 LUU HOAI 2020-02-25  191  	unsigned int i;
+9315788ce03297 LUU HOAI 2020-02-25  192  	unsigned int err;
+9315788ce03297 LUU HOAI 2020-02-25  193  =
 
-   carr, =
+9315788ce03297 LUU HOAI 2020-02-25  194  	/*
+9315788ce03297 LUU HOAI 2020-02-25  195  	 * Calculate Fout =3D dot clock *=
+ ColorDepth / (2 * Lane Count)
+9315788ce03297 LUU HOAI 2020-02-25  196  	 * The range out Fout is [40 - 12=
+50] Mhz
+9315788ce03297 LUU HOAI 2020-02-25  197  	 */
+9315788ce03297 LUU HOAI 2020-02-25  198  	fout_target =3D target * mipi_dsi=
+_pixel_format_to_bpp(dsi->format)
+9315788ce03297 LUU HOAI 2020-02-25  199  		    / (2 * dsi->lanes);
+9315788ce03297 LUU HOAI 2020-02-25  200  	if (fout_target < 40000000 || fou=
+t_target > 1250000000)
+9315788ce03297 LUU HOAI 2020-02-25  201  		return;
+9315788ce03297 LUU HOAI 2020-02-25  202  =
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   static struct mainscan {
-          ~~~~~~~^~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:52:15: note: Excessive paddi=
-ng in 'struct mainscan' (8 padding bytes, where 0 is optimal). Optimal fiel=
-ds order: std, name, carr, consider reordering the fields or adding explici=
-t padding members
-   static struct mainscan {
-          ~~~~~~~^~~~~~~~~~
->> drivers/media/pci/saa7134/saa7134-tvaudio.c:153:4: warning: Assigned val=
-ue is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           a <<=3D 24;
-             ^
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:321:6: note: Assuming the co=
-ndition is false
-           if (!(dev->tvnorm->id & scan->std)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:321:2: note: Taking false br=
-anch
-           if (!(dev->tvnorm->id & scan->std)) {
-           ^
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:327:6: note: Assuming 'audio=
-_debug' is <=3D 1
-           if (audio_debug > 1) {
-               ^~~~~~~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:327:2: note: Taking false br=
-anch
-           if (audio_debug > 1) {
-           ^
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:344:2: note: Calling 'tvaudi=
-o_setcarrier'
-           tvaudio_setcarrier(dev,scan->carr-90,scan->carr-90);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:161:6: note: Assuming the co=
-ndition is true
-           if (-1 =3D=3D secondary)
-               ^~~~~~~~~~~~~~~
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:161:2: note: Taking true bra=
-nch
-           if (-1 =3D=3D secondary)
-           ^
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:163:2: note: Loop condition =
-is false.  Exiting loop
-           saa_writel(SAA7134_CARRIER1_FREQ0 >> 2, tvaudio_carr2reg(primary=
-));
-           ^
-   drivers/media/pci/saa7134/saa7134.h:691:36: note: expanded from macro 's=
-aa_writel'
-   #define saa_writel(reg,value)      writel((value), dev->lmmio + (reg));
-                                      ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:163:42: note: Calling 'tvaud=
-io_carr2reg'
-           saa_writel(SAA7134_CARRIER1_FREQ0 >> 2, tvaudio_carr2reg(primary=
-));
-                                                   ^
-   drivers/media/pci/saa7134/saa7134.h:691:44: note: expanded from macro 's=
-aa_writel'
-   #define saa_writel(reg,value)      writel((value), dev->lmmio + (reg));
-                                              ^~~~~
-   arch/arm/include/asm/io.h:307:51: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                                                ^
-   arch/arm/include/asm/io.h:299:68: note: expanded from macro 'writel_rela=
-xed'
-   #define writel_relaxed(v,c)     __raw_writel((__force u32) cpu_to_le32(v=
-),c)
-                                                                          ^
-   include/uapi/linux/byteorder/little_endian.h:33:51: note: expanded from =
-macro '__cpu_to_le32'
-   #define __cpu_to_le32(x) ((__force __le32)(__u32)(x))
-                                                     ^
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:153:4: note: Assigned value =
-is garbage or undefined
-           a <<=3D 24;
-             ^   ~~
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:494:3: warning: Value stored=
- to 'max1' is never read [clang-analyzer-deadcode.DeadStores]
-                   max1 =3D 0;
-                   ^      ~
-   drivers/media/pci/saa7134/saa7134-tvaudio.c:494:3: note: Value stored to=
- 'max1' is never read
-                   max1 =3D 0;
-                   ^      ~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/media/i2c/ov2659.c:894:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:894:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:985:21: warning: Value stored to 'client' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:985:21: note: Value stored to 'client' during=
- its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1001:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1001:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1027:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1027:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1150:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1150:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1159:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1159:21: note: Value stored to 'client' durin=
-g its initialization is never read
-           struct i2c_client *client =3D ov2659->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/media/i2c/ov2659.c:1303:21: warning: Value stored to 'client' du=
-ring its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct i2c_client *client =3D v4l2_get_subdevdata(sd);
+9315788ce03297 LUU HOAI 2020-02-25  203  	/* Find vco_cntrl */
+9315788ce03297 LUU HOAI 2020-02-25  204  	for (vco_cntrl =3D vco_cntrl_tabl=
+e; vco_cntrl->min_freq !=3D 0; vco_cntrl++) {
+9315788ce03297 LUU HOAI 2020-02-25  205  		if (fout_target > vco_cntrl->min=
+_freq &&
+9315788ce03297 LUU HOAI 2020-02-25  206  		    fout_target <=3D vco_cntrl->=
+max_freq) {
+9315788ce03297 LUU HOAI 2020-02-25  207  			setup_info->vco_cntrl =3D vco_c=
+ntrl->value;
+9315788ce03297 LUU HOAI 2020-02-25  208  			if (fout_target >=3D 1150000000)
+9315788ce03297 LUU HOAI 2020-02-25  209  				setup_info->prop_cntrl =3D 0x0=
+c;
+9315788ce03297 LUU HOAI 2020-02-25  210  			else
+9315788ce03297 LUU HOAI 2020-02-25  211  				setup_info->prop_cntrl =3D 0x0=
+b;
+9315788ce03297 LUU HOAI 2020-02-25  212  			break;
+9315788ce03297 LUU HOAI 2020-02-25  213  		}
+9315788ce03297 LUU HOAI 2020-02-25  214  	}
+9315788ce03297 LUU HOAI 2020-02-25  215  =
 
-vim +153 drivers/media/pci/saa7134/saa7134-tvaudio.c
+9315788ce03297 LUU HOAI 2020-02-25  216  	/* Add divider */
+9315788ce03297 LUU HOAI 2020-02-25  217  	setup_info->div =3D (setup_info->=
+vco_cntrl & 0x30) >> 4;
+9315788ce03297 LUU HOAI 2020-02-25  218  =
 
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  148  =
+9315788ce03297 LUU HOAI 2020-02-25  219  	/* Find hsfreqrange */
+9315788ce03297 LUU HOAI 2020-02-25  220  	hsfreq =3D fout_target * 2;
+9315788ce03297 LUU HOAI 2020-02-25  221  	for (i =3D 0; i < ARRAY_SIZE(hsfr=
+eqrange_table); i++) {
+9315788ce03297 LUU HOAI 2020-02-25  222  		if (hsfreq > hsfreqrange_table[i=
+][0] &&
+9315788ce03297 LUU HOAI 2020-02-25 @223  			hsfreq <=3D hsfreqrange_table[i=
++1][0]) {
+9315788ce03297 LUU HOAI 2020-02-25  224  			setup_info->hsfreqrange =3D hsf=
+reqrange_table[i+1][1];
+9315788ce03297 LUU HOAI 2020-02-25  225  			break;
+9315788ce03297 LUU HOAI 2020-02-25  226  		}
+9315788ce03297 LUU HOAI 2020-02-25  227  	}
+9315788ce03297 LUU HOAI 2020-02-25  228  =
 
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  149  static u32 tvaudio_carr2reg(u32 carrier)
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  150  {
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  151  	u64 a =3D carrier;
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  152  =
+9315788ce03297 LUU HOAI 2020-02-25  229  	/*
+9315788ce03297 LUU HOAI 2020-02-25  230  	 * Calculate n and m for PLL clock
+9315788ce03297 LUU HOAI 2020-02-25  231  	 * Following the HW manual the ra=
+nges of n and m are
+9315788ce03297 LUU HOAI 2020-02-25  232  	 * n =3D [3-8] and m =3D [64-625]
+9315788ce03297 LUU HOAI 2020-02-25  233  	 */
+9315788ce03297 LUU HOAI 2020-02-25  234  	fin =3D clk_get_rate(clk);
+9315788ce03297 LUU HOAI 2020-02-25  235  	divider =3D 1 << setup_info->div;
+9315788ce03297 LUU HOAI 2020-02-25  236  	for (n =3D 3; n < 9; n++) {
+9315788ce03297 LUU HOAI 2020-02-25  237  		unsigned long fpfd;
+9315788ce03297 LUU HOAI 2020-02-25  238  		unsigned int m;
+9315788ce03297 LUU HOAI 2020-02-25  239  =
 
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16 @153  	a <<=3D 24;
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  154  	do_div(a,12288);
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  155  	return a;
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  156  }
-^1da177e4c3f41 drivers/media/video/saa7134/saa7134-tvaudio.c Linus Torvalds=
- 2005-04-16  157  =
+9315788ce03297 LUU HOAI 2020-02-25  240  		fpfd =3D fin / n;
+9315788ce03297 LUU HOAI 2020-02-25  241  =
 
+9315788ce03297 LUU HOAI 2020-02-25  242  		for (m =3D 64; m < 626; m++) {
+9315788ce03297 LUU HOAI 2020-02-25  243  			fout =3D fpfd * m / divider;
+9315788ce03297 LUU HOAI 2020-02-25  244  			err =3D abs((long)(fout - fout_=
+target) * 10000 /
+9315788ce03297 LUU HOAI 2020-02-25  245  				  (long)fout_target);
+9315788ce03297 LUU HOAI 2020-02-25  246  			if (err < best_err) {
+9315788ce03297 LUU HOAI 2020-02-25  247  				setup_info->m =3D m - 2;
+9315788ce03297 LUU HOAI 2020-02-25  248  				setup_info->n =3D n - 1;
+9315788ce03297 LUU HOAI 2020-02-25  249  				setup_info->fout =3D fout;
+9315788ce03297 LUU HOAI 2020-02-25  250  				best_err =3D err;
+9315788ce03297 LUU HOAI 2020-02-25  251  				if (err =3D=3D 0)
+9315788ce03297 LUU HOAI 2020-02-25  252  					goto done;
+9315788ce03297 LUU HOAI 2020-02-25  253  			}
+9315788ce03297 LUU HOAI 2020-02-25  254  		}
+9315788ce03297 LUU HOAI 2020-02-25  255  	}
+9315788ce03297 LUU HOAI 2020-02-25  256  =
 
-:::::: The code@line 153 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+9315788ce03297 LUU HOAI 2020-02-25  257  done:
+9315788ce03297 LUU HOAI 2020-02-25  258  	dev_dbg(dsi->dev,
+9315788ce03297 LUU HOAI 2020-02-25  259  		"%pC %lu Hz -> Fout %lu Hz (targ=
+et %lu Hz, error %d.%02u%%), PLL M/N/DIV %u/%u/%u\n",
+9315788ce03297 LUU HOAI 2020-02-25  260  		clk, fin, setup_info->fout, fout=
+_target, best_err / 100,
+9315788ce03297 LUU HOAI 2020-02-25  261  		best_err % 100, setup_info->m, s=
+etup_info->n, setup_info->div);
+9315788ce03297 LUU HOAI 2020-02-25  262  	dev_dbg(dsi->dev,
+9315788ce03297 LUU HOAI 2020-02-25  263  		"vco_cntrl =3D 0x%x\tprop_cntrl =
+=3D 0x%x\thsfreqrange =3D 0x%x\n",
+9315788ce03297 LUU HOAI 2020-02-25  264  		setup_info->vco_cntrl, setup_inf=
+o->prop_cntrl,
+9315788ce03297 LUU HOAI 2020-02-25  265  		setup_info->hsfreqrange);
+9315788ce03297 LUU HOAI 2020-02-25  266  }
+9315788ce03297 LUU HOAI 2020-02-25  267  =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1761298084287611738==--
+--===============4225344596475693237==--
 
