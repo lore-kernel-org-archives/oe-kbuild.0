@@ -1,376 +1,203 @@
-Content-Type: multipart/mixed; boundary="===============3974081478219186545=="
+Content-Type: multipart/mixed; boundary="===============1205042694673697682=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/brocade/bna/bnad.c:286:30: warning: Division by zero [clang-analyzer-core.DivideZero]
-Date: Sun, 28 Nov 2021 16:03:53 +0800
-Message-ID: <202111281607.DK4Syj5Y-lkp@intel.com>
+Subject: net/sched/sch_cake.c:1094 cake_tcph_may_drop() warn: masked condition '(((tcph)->words[3]) & (__builtin_bswap32(((255787008))))) != 4096' is always true.
+Date: Sat, 04 Dec 2021 03:43:41 +0800
+Message-ID: <202112040327.ywgPBpDI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3974081478219186545==
+--===============1205042694673697682==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
 CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   3498e7f2bb415e447354a3debef6738d9655768c
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 12 months ago
-config: arm-randconfig-c002-20211126 (https://download.01.org/0day-ci/archi=
-ve/20211128/202111281607.DK4Syj5Y-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
-58d8c0b542e752b037e72a69d5fd51eb1e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+head:   5f58da2befa58edf3a70b91ed87ed9bf77f1e70e
+commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
+.h: sparse can do constant folding of __builtin_bswap*()
+date:   7 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-m001-20211203 (https://download.01.org/0day-ci/ar=
+chive/20211204/202112040327.ywgPBpDI-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+net/sched/sch_cake.c:1094 cake_tcph_may_drop() warn: masked condition '(((t=
+cph)->words[3]) & (__builtin_bswap32(((255787008))))) !=3D 4096' is always =
+true.
+
+Old smatch warnings:
+net/sched/sch_cake.c:776 cake_hash() error: buffer overflow 'q->flows' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:788 cake_hash() error: buffer overflow 'q->flows' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:811 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:814 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:834 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:837 cake_hash() error: buffer overflow 'q->hosts' 1024=
+ <=3D 1030
+net/sched/sch_cake.c:1353 cake_overhead() warn: should 'off << 16' be a 64 =
+bit type?
+
+vim +1094 net/sched/sch_cake.c
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1076  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1077  static bo=
+ol cake_tcph_may_drop(const struct tcphdr *tcph,
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1078  			      =
+ u32 tstamp_new, u32 tsecr_new)
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1079  {
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1080  	/* inspi=
+red by tcp_parse_options in tcp_input.c */
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1081  	int leng=
+th =3D __tcp_hdrlen(tcph) - sizeof(struct tcphdr);
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1082  	const u8=
+ *ptr =3D (const u8 *)(tcph + 1);
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1083  	u32 tsta=
+mp, tsecr;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1084  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1085  	/* 3 res=
+erved flags must be unset to avoid future breakage
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1086  	 * ACK m=
+ust be set
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1087  	 * ECE/C=
+WR are handled separately
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1088  	 * All o=
+ther flags URG/PSH/RST/SYN/FIN must be unset
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1089  	 * 0x0FF=
+F0000 =3D all TCP flags (confirm ACK=3D1, others zero)
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1090  	 * 0x00C=
+00000 =3D CWR/ECE (handled separately)
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1091  	 * 0x0F3=
+F0000 =3D 0x0FFF0000 & ~0x00C00000
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1092  	 */
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1093  	if (((tc=
+p_flag_word(tcph) &
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06 @1094  	      cp=
+u_to_be32(0x0F3F0000)) !=3D TCP_FLAG_ACK))
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1095  		return =
+false;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1096  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1097  	while (l=
+ength > 0) {
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1098  		int opc=
+ode =3D *ptr++;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1099  		int ops=
+ize;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1100  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1101  		if (opc=
+ode =3D=3D TCPOPT_EOL)
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1102  			break;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1103  		if (opc=
+ode =3D=3D TCPOPT_NOP) {
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1104  			length=
+--;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1105  			contin=
+ue;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1106  		}
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1107  		opsize =
+=3D *ptr++;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1108  		if (ops=
+ize < 2 || opsize > length)
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1109  			break;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1110  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1111  		switch =
+(opcode) {
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1112  		case TC=
+POPT_MD5SIG: /* doesn't influence state */
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1113  			break;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1114  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1115  		case TC=
+POPT_SACK: /* stricter checking performed later */
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1116  			if (op=
+size % 8 !=3D 2)
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1117  				retur=
+n false;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1118  			break;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1119  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1120  		case TC=
+POPT_TIMESTAMP:
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1121  			/* onl=
+y drop timestamps lower than new */
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1122  			if (op=
+size !=3D TCPOLEN_TIMESTAMP)
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1123  				retur=
+n false;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1124  			tstamp=
+ =3D get_unaligned_be32(ptr);
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1125  			tsecr =
+=3D get_unaligned_be32(ptr + 4);
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1126  			if (af=
+ter(tstamp, tstamp_new) ||
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1127  			    af=
+ter(tsecr, tsecr_new))
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1128  				retur=
+n false;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1129  			break;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1130  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1131  		case TC=
+POPT_MSS:  /* these should only be set on SYN */
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1132  		case TC=
+POPT_WINDOW:
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1133  		case TC=
+POPT_SACK_PERM:
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1134  		case TC=
+POPT_FASTOPEN:
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1135  		case TC=
+POPT_EXP:
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1136  		default=
+: /* don't drop if any unknown options are present */
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1137  			return=
+ false;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1138  		}
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1139  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1140  		ptr +=
+=3D opsize - 2;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1141  		length =
+-=3D opsize;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1142  	}
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1143  =
+
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1144  	return t=
+rue;
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1145  }
+8b7138814f2993 Toke H=C3=B8iland-J=C3=B8rgensen 2018-07-06  1146  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                       ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1243:3: note: Taking false branch
-                   if (!ccb)
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1248:3: note: Loop condition is =
-true.  Entering loop body
-                   for (j =3D 0; j < BNAD_MAX_RXQ_PER_RXP; j++) {
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:8: note: Assuming 'rcb' is =
-non-null
-                           if (!rcb)
-                               ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:4: note: Taking false branch
-                           if (!rcb)
-                           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1253:4: note: Calling 'bnad_rxq_=
-alloc_init'
-                           bnad_rxq_alloc_init(bnad, rcb);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:266:10: note: Calling 'get_order'
-           order =3D get_order(rcb->rxq->buffer_size);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/asm-generic/getorder.h:31:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/asm-generic/getorder.h:44:9: note: Calling 'fls'
-           return fls(size);
-                  ^~~~~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/asm-generic/getorder.h:44:9: note: Returning from 'fls'
-           return fls(size);
-                  ^~~~~~~~~
-   include/asm-generic/getorder.h:44:2: note: Returning the value 32
-           return fls(size);
-           ^~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:266:10: note: Returning from 'ge=
-t_order'
-           order =3D get_order(rcb->rxq->buffer_size);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:266:2: note: The value 32 is ass=
-igned to 'order'
-           order =3D get_order(rcb->rxq->buffer_size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:6: note: Assuming the condit=
-ion is true
-           if (bna_is_small_rxq(rcb->id)) {
-               ^
-   drivers/net/ethernet/brocade/bna/bna.h:23:32: note: expanded from macro =
-'bna_is_small_rxq'
-   #define bna_is_small_rxq(_id) ((_id) & 0x1)
-                                  ^~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:2: note: Taking true branch
-           if (bna_is_small_rxq(rcb->id)) {
-           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:286:20: note: The result of the =
-left shift is undefined due to shifting by '32', which is greater or equal =
-to the width of type 'unsigned long'
-           BUG_ON((PAGE_SIZE << order) % unmap_q->map_size);
-                             ^
-   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                               ^~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                                             ^
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
->> drivers/net/ethernet/brocade/bna/bnad.c:286:30: warning: Division by zer=
-o [clang-analyzer-core.DivideZero]
-           BUG_ON((PAGE_SIZE << order) % unmap_q->map_size);
-                                       ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1240:2: note: Loop condition is =
-true.  Entering loop body
-           for (i =3D 0; i < BNAD_MAX_RXP_PER_RX; i++) {
-           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1243:7: note: Assuming 'ccb' is =
-non-null
-                   if (!ccb)
-                       ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1243:3: note: Taking false branch
-                   if (!ccb)
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1248:3: note: Loop condition is =
-true.  Entering loop body
-                   for (j =3D 0; j < BNAD_MAX_RXQ_PER_RXP; j++) {
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:8: note: Assuming 'rcb' is =
-non-null
-                           if (!rcb)
-                               ^~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:1250:4: note: Taking false branch
-                           if (!rcb)
-                           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1253:4: note: Calling 'bnad_rxq_=
-alloc_init'
-                           bnad_rxq_alloc_init(bnad, rcb);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:6: note: Assuming the condit=
-ion is false
-           if (bna_is_small_rxq(rcb->id)) {
-               ^
-   drivers/net/ethernet/brocade/bna/bna.h:23:32: note: expanded from macro =
-'bna_is_small_rxq'
-   #define bna_is_small_rxq(_id) ((_id) & 0x1)
-                                  ^~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:270:2: note: Taking false branch
-           if (bna_is_small_rxq(rcb->id)) {
-           ^
-   drivers/net/ethernet/brocade/bna/bnad.c:274:7: note: Assuming field 'mul=
-ti_buffer' is 0
-                   if (rcb->rxq->multi_buffer) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:274:3: note: Taking false branch
-                   if (rcb->rxq->multi_buffer) {
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:281:6: note: Assuming field 'buf=
-fer_size' is > 2048
-                                   (rcb->rxq->buffer_size > 2048) ?
-                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:281:5: note: '?' condition is tr=
-ue
-                                   (rcb->rxq->buffer_size > 2048) ?
-                                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:280:4: note: The value 0 is assi=
-gned to field 'map_size'
-                           unmap_q->map_size =3D
-                           ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/brocade/bna/bnad.c:286:30: note: Division by zero
-           BUG_ON((PAGE_SIZE << order) % unmap_q->map_size);
-                                       ^
-   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ~~~~~~~~~^~~~~~~~~~
-   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
-  \
-                                                         ^
-   drivers/net/ethernet/brocade/bna/bnad.c:396:3: warning: Assigned value i=
-s garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   BNA_SET_DMA_ADDR(dma_addr, &rxent->host_addr);
-                   ^
-   drivers/net/ethernet/brocade/bna/bna.h:34:23: note: expanded from macro =
-'BNA_SET_DMA_ADDR'
-           (_bna_dma_addr)->lsb =3D ((struct bna_dma_addr *)&tmp_addr)->lsb=
-; \
-                                ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1860:3: note: Left side of '&&' =
-is false
-                   container_of(napi, struct bnad_rx_ctrl, napi);
-                   ^
-   include/linux/kernel.h:694:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1860:3: note: Taking false branch
-                   container_of(napi, struct bnad_rx_ctrl, napi);
-                   ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:303:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:295:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/net/ethernet/brocade/bna/bnad.c:1860:3: note: Loop condition is =
-false.  Exiting loop
-                   container_of(napi, struct bnad_rx_ctrl, napi);
-                   ^
-   include/linux/kernel.h:694:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:315:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+:::::: The code at line 1094 was first introduced by commit
+:::::: 8b7138814f29933898ecd31dfc83e35a30ee69f5 sch_cake: Add optional ACK =
+filter
 
-vim +286 drivers/net/ethernet/brocade/bna/bnad.c
-
-5216562a2ccd03 Rasesh Mody 2012-12-11  256  =
-
-30f9fc947938d4 Rasesh Mody 2012-12-11  257  /* Default is page-based alloca=
-tion. Multi-buffer support - TBD */
-30f9fc947938d4 Rasesh Mody 2012-12-11  258  static int
-30f9fc947938d4 Rasesh Mody 2012-12-11  259  bnad_rxq_alloc_init(struct bnad=
- *bnad, struct bna_rcb *rcb)
-30f9fc947938d4 Rasesh Mody 2012-12-11  260  {
-30f9fc947938d4 Rasesh Mody 2012-12-11  261  	struct bnad_rx_unmap_q *unmap_=
-q =3D rcb->unmap_q;
-e29aa33912dd71 Rasesh Mody 2013-12-17  262  	int order;
-5216562a2ccd03 Rasesh Mody 2012-12-11  263  =
-
-30f9fc947938d4 Rasesh Mody 2012-12-11  264  	bnad_rxq_alloc_uninit(bnad, rc=
-b);
-30f9fc947938d4 Rasesh Mody 2012-12-11  265  =
-
-e29aa33912dd71 Rasesh Mody 2013-12-17  266  	order =3D get_order(rcb->rxq->=
-buffer_size);
-e29aa33912dd71 Rasesh Mody 2013-12-17  267  =
-
-e29aa33912dd71 Rasesh Mody 2013-12-17  268  	unmap_q->type =3D BNAD_RXBUF_P=
-AGE;
-30f9fc947938d4 Rasesh Mody 2012-12-11  269  =
-
-30f9fc947938d4 Rasesh Mody 2012-12-11  270  	if (bna_is_small_rxq(rcb->id))=
- {
-30f9fc947938d4 Rasesh Mody 2012-12-11  271  		unmap_q->alloc_order =3D 0;
-30f9fc947938d4 Rasesh Mody 2012-12-11  272  		unmap_q->map_size =3D rcb->rx=
-q->buffer_size;
-e29aa33912dd71 Rasesh Mody 2013-12-17  273  	} else {
-e29aa33912dd71 Rasesh Mody 2013-12-17  274  		if (rcb->rxq->multi_buffer) {
-e29aa33912dd71 Rasesh Mody 2013-12-17  275  			unmap_q->alloc_order =3D 0;
-e29aa33912dd71 Rasesh Mody 2013-12-17  276  			unmap_q->map_size =3D rcb->r=
-xq->buffer_size;
-e29aa33912dd71 Rasesh Mody 2013-12-17  277  			unmap_q->type =3D BNAD_RXBUF=
-_MULTI_BUFF;
-30f9fc947938d4 Rasesh Mody 2012-12-11  278  		} else {
-30f9fc947938d4 Rasesh Mody 2012-12-11  279  			unmap_q->alloc_order =3D ord=
-er;
-30f9fc947938d4 Rasesh Mody 2012-12-11  280  			unmap_q->map_size =3D
-30f9fc947938d4 Rasesh Mody 2012-12-11  281  				(rcb->rxq->buffer_size > 20=
-48) ?
-30f9fc947938d4 Rasesh Mody 2012-12-11  282  				PAGE_SIZE << order : 2048;
-30f9fc947938d4 Rasesh Mody 2012-12-11  283  		}
-e29aa33912dd71 Rasesh Mody 2013-12-17  284  	}
-30f9fc947938d4 Rasesh Mody 2012-12-11  285  =
-
-ebb56d37abab04 Ivan Vecera 2015-06-17 @286  	BUG_ON((PAGE_SIZE << order) % =
-unmap_q->map_size);
-30f9fc947938d4 Rasesh Mody 2012-12-11  287  =
-
-30f9fc947938d4 Rasesh Mody 2012-12-11  288  	return 0;
-30f9fc947938d4 Rasesh Mody 2012-12-11  289  }
-30f9fc947938d4 Rasesh Mody 2012-12-11  290  =
-
-
-:::::: The code at line 286 was first introduced by commit
-:::::: ebb56d37abab0465a95710d32263c9b3e0b1f6c5 bna: remove superfluous par=
-entheses
-
-:::::: TO: Ivan Vecera <ivecera@redhat.com>
+:::::: TO: Toke H=C3=B8iland-J=C3=B8rgensen <toke@toke.dk>
 :::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3974081478219186545==--
+--===============1205042694673697682==--
 
