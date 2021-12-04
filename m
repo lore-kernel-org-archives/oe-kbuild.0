@@ -1,52 +1,66 @@
-Content-Type: multipart/mixed; boundary="===============3986803546873690634=="
+Content-Type: multipart/mixed; boundary="===============1979466958203609343=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResult]
-Date: Sat, 04 Dec 2021 14:24:38 +0800
-Message-ID: <202112041446.zgvkGxJ5-lkp@intel.com>
+Subject: Re: [PATCH v9 3/3] media: i2c: isl7998x: Add driver for Intersil ISL7998x
+Date: Sat, 04 Dec 2021 13:12:31 +0800
+Message-ID: <202112041345.avl2qjN6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3986803546873690634==
+--===============1979466958203609343==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20211129112708.3219754-4-m.tretter@pengutronix.de>
+References: <20211129112708.3219754-4-m.tretter@pengutronix.de>
+TO: Michael Tretter <m.tretter@pengutronix.de>
+TO: linux-media(a)vger.kernel.org
+TO: devicetree(a)vger.kernel.org
+TO: Marek Vasut <marex@denx.de>
+CC: Rob Herring <robh+dt@kernel.org>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: Sakari Ailus <sakari.ailus@linux.intel.com>
+CC: p.zabel(a)pengutronix.de
+CC: Ian Arkver <ian.arkver.dev@gmail.com>
+CC: kernel(a)pengutronix.de
+CC: Michael Tretter <m.tretter@pengutronix.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   12119cfa1052d512a92524e90ebee85029a918f8
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20211128 (https://download.01.org/0day-ci/arc=
-hive/20211204/202112041446.zgvkGxJ5-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
-97ef3ee4dc2119d5429adf3072e90fac38)
+Hi Michael,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on media-tree/master]
+[also build test WARNING on robh/for-next linus/master v5.16-rc3 next-20211=
+203]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Michael-Tretter/media-i2c-=
+isl7998x-Add-driver-for-Intersil-ISL7998x/20211129-204304
+base:   git://linuxtv.org/media_tree.git master
+:::::: branch date: 5 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-c001-20211130 (https://download.01.org/0day-ci/arch=
+ive/20211204/202112041345.avl2qjN6-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 25eb7f=
+a01d7ebbe67648ea03841cda55b4239ab2)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
+        # https://github.com/0day-ci/linux/commit/0cd375b25d1d515c40b89e8aa=
+ffd0456a19ecffb
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Michael-Tretter/media-i2c-isl7998x=
+-Add-driver-for-Intersil-ISL7998x/20211129-204304
+        git checkout 0cd375b25d1d515c40b89e8aaffd0456a19ecffb
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,311 +68,310 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:6: note: Left side of '&&' i=
-s true
-           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
+                         ^
+   mm/mmap.c:3132:6: note: Assuming the condition is false
+           if (unlikely(mm_is_oom_victim(mm))) {
                ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:2: note: Taking false branch
-           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
+   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/mmap.c:3132:2: note: Taking false branch
+           if (unlikely(mm_is_oom_victim(mm))) {
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:6: note: Assuming 'r' is 0
-           if (r)
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:2: note: Taking false branch
-           if (r)
+   mm/mmap.c:3156:6: note: Assuming field 'locked_vm' is 0
+           if (mm->locked_vm)
+               ^~~~~~~~~~~~~
+   mm/mmap.c:3156:2: note: Taking false branch
+           if (mm->locked_vm)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:7: note: 'nodes' is null
-                   if (nodes) {
-                       ^~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:3: note: Taking false branch
-                   if (nodes) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:7: note: 'pages_addr' is null
-                   if (pages_addr) {
-                       ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:3: note: Taking false branch
-                   if (pages_addr) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1691:10: note: Taking true branch
-                   } else if (flags & (AMDGPU_PTE_VALID | AMDGPU_PTE_PRT)) {
-                          ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1697:7: note: Calling 'amdgpu_vm_=
-update_ptes'
-                   r =3D amdgpu_vm_update_ptes(&params, start, tmp, addr, f=
-lags);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Calling 'amdgpu_vm_=
-fragment'
-           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
-end);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:6: note: Assuming field 'asi=
-c_type' is >=3D CHIP_VEGA10
-           if (params->adev->asic_type < CHIP_VEGA10)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:2: note: Taking false branch
-           if (params->adev->asic_type < CHIP_VEGA10)
+   mm/mmap.c:3159:2: note: Calling 'arch_exit_mmap'
+           arch_exit_mmap(mm);
+           ^~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/mmu_context.h:176:2: note: Calling 'paravirt_arch_e=
+xit_mmap'
+           paravirt_arch_exit_mmap(mm);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt.h:97:2: note: Assigned value is garbage or=
+ undefined
+           PVOP_VCALL1(mmu.exit_mmap, mm);
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:6: note: Assuming field 'pag=
-es_addr' is non-null
-           if (params->pages_addr) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:2: note: Taking true branch
-           if (params->pages_addr) {
+   arch/x86/include/asm/paravirt_types.h:531:2: note: expanded from macro '=
+PVOP_VCALL1'
+           __PVOP_VCALL(op, PVOP_CALL_ARG1(arg1))
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
+__PVOP_VCALL'
+           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
+____PVOP_CALL'
+                   PVOP_CALL_ARGS;                                         \
+                   ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
+'PVOP_CALL_ARGS'
+           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
+                         ^       ~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   arch/x86/include/asm/paravirt.h:55:2: warning: Assigned value is garbage=
+ or undefined [clang-analyzer-core.uninitialized.Assign]
+           PVOP_VCALL0(cpu.io_delay);
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1404:3: note: Returning without w=
-riting to 'params->unlocked', which participates in a condition later
-                   return;
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Returning from 'amd=
-gpu_vm_fragment'
-           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
-end);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:9: note: Assuming 'end' is >=
- field 'pfn'
-           while (cursor.pfn < end) {
-                  ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:2: note: Loop condition is t=
-rue.  Entering loop body
-           while (cursor.pfn < end) {
+   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
+PVOP_VCALL0'
+           __PVOP_VCALL(op)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:7: note: Assuming field 'unl=
-ocked' is true
-                   if (!params->unlocked) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:3: note: Taking false branch
-                   if (!params->unlocked) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Calling 'amdgpu_vm=
-_level_shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:125:2: note: Control jumps to the=
- 'default' case at line 133
-           switch (level) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:134:3: note: Returning the value =
-4294967295
-                   return ~0;
-                   ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Returning from 'am=
-dgpu_vm_level_shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:3: note: The value 429496729=
-5 is assigned to 'shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:15: note: Field 'unlocked' i=
-s true
-                   if (params->unlocked) {
-                               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:3: note: Taking true branch
-                   if (params->unlocked) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:8: note: Assuming the condit=
-ion is false
-                           if (amdgpu_vm_pt_descendant(adev, &cursor))
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:4: note: Taking false branch
-                           if (amdgpu_vm_pt_descendant(adev, &cursor))
-                           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:7: note: Assuming 'pt' is no=
-n-null
-                   if (!pt) {
-                       ^~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:3: note: Taking false branch
-                   if (!pt) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1510:41: note: The result of the =
-left shift is undefined due to shifting by '4294967295', which is greater o=
-r equal to the width of type 'uint64_t'
-                   incr =3D (uint64_t)AMDGPU_GPU_PAGE_SIZE << shift;
-                                                         ^  ~~~~~
->> include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>=
-' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResul=
-t]
-           __u32 h =3D x >> 32;
-                       ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:6: note: Assuming the condit=
-ion is true
-           if (amdgpu_vm_size !=3D -1) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:2: note: Taking true branch
-           if (amdgpu_vm_size !=3D -1) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:7: note: Assuming 'vm_size' =
-is <=3D 'max_size'
-                   if (vm_size > max_size) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:3: note: Taking false branch
-                   if (vm_size > max_size) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2712:8: note: '?' condition is fa=
-lse
-           tmp =3D roundup_pow_of_two(adev->vm_manager.max_pfn);
+   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
+__PVOP_VCALL'
+           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
                  ^
-   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __builtin_constant_p(n) ? (             \
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:6: note: Assuming the condit=
-ion is false
-           if (amdgpu_vm_block_size !=3D -1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:2: note: Taking false branch
-           if (amdgpu_vm_block_size !=3D -1)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: Assuming '__UNIQUE=
-_ID___x451' is >=3D '__UNIQUE_ID___y452'
-           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
-                                        ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: '?' condition is f=
-alse
-           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
-                                        ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
+____PVOP_CALL'
+                   PVOP_CALL_ARGS;                                         \
                    ^
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2717:2: note: Control jumps to th=
-e 'default' case@line 2727
-           switch (adev->vm_manager.num_level) {
+   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
+'PVOP_CALL_ARGS'
+           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
+                         ^
+   drivers/watchdog/advantechwdt.c:295:2: note: Calling 'advwdt_disable'
+           advwdt_disable();
+           ^~~~~~~~~~~~~~~~
+   drivers/watchdog/advantechwdt.c:94:2: note: Calling 'inb_p'
+           inb_p(wdt_stop);
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:6: note: Assuming the condit=
-ion is false
-           if (amdgpu_vm_block_size !=3D -1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:2: note: Taking false branch
-           if (amdgpu_vm_block_size !=3D -1)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:11: note: Assuming field 'nu=
-m_level' is <=3D 1
-           else if (adev->vm_manager.num_level > 1)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:7: note: Taking false branch
-           else if (adev->vm_manager.num_level > 1)
-                ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2739:33: note: Calling 'amdgpu_vm=
-_get_block_size'
-                   adev->vm_manager.block_size =3D amdgpu_vm_get_block_size=
-(tmp);
-                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
-alse
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
-alse
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: Calling '__ilog2_u=
-64'
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:163:2: note: expanded from macro 'ilog2'
-           __ilog2_u64(n)                  \
+   arch/x86/include/asm/io.h:341:15: note: expanded from macro 'inb_p'
+   #define inb_p inb_p
+                 ^
+   arch/x86/include/asm/io.h:334:1: note: Calling 'slow_down_io'
+   BUILDIO(b, b, char)
+   ^
+   arch/x86/include/asm/io.h:298:2: note: expanded from macro 'BUILDIO'
+           slow_down_io();                                                 \
            ^~~~~~~~~~~~~~
-   include/linux/log2.h:32:9: note: Calling 'fls64'
-           return fls64(n) - 1;
-                  ^~~~~~~~
-   include/asm-generic/bitops/fls64.h:21:14: note: The result of the '>>' e=
-xpression is undefined
-           __u32 h =3D x >> 32;
-                     ~~^~~~~
-   include/linux/log2.h:57:13: warning: The result of the left shift is und=
-efined due to shifting by '32', which is greater or equal to the width of t=
-ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return 1UL << fls_long(n - 1);
+   arch/x86/include/asm/paravirt.h:55:2: note: Assigned value is garbage or=
+ undefined
+           PVOP_VCALL0(cpu.io_delay);
+           ^
+   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
+PVOP_VCALL0'
+           __PVOP_VCALL(op)
+           ^~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
+__PVOP_VCALL'
+           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
+____PVOP_CALL'
+                   PVOP_CALL_ARGS;                                         \
+                   ^~~~~~~~~~~~~~
+   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
+'PVOP_CALL_ARGS'
+           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
+                         ^       ~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> drivers/media/i2c/isl7998x.c:642:17: warning: Value stored to 'dev' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D isl7998x->subdev.dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/isl7998x.c:642:17: note: Value stored to 'dev' during =
+its initialization is never read
+           struct device *dev =3D isl7998x->subdev.dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/isl7998x.c:863:17: warning: Value stored to 'dev' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   drivers/media/i2c/isl7998x.c:863:17: note: Value stored to 'dev' during =
+its initialization is never read
+           struct device *dev =3D &client->dev;
+                          ^~~   ~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/media/i2c/rdacm21.c:373:11: warning: The left operand of '=3D=3D=
+' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   if (val =3D=3D OV10640_ID_HIGH)
+                           ^
+   drivers/media/i2c/rdacm21.c:550:6: note: Assuming 'dev' is non-null
+           if (!dev)
+               ^~~~
+   drivers/media/i2c/rdacm21.c:550:2: note: Taking false branch
+           if (!dev)
+           ^
+   drivers/media/i2c/rdacm21.c:557:6: note: 'ret' is >=3D 0
+           if (ret < 0) {
+               ^~~
+   drivers/media/i2c/rdacm21.c:557:2: note: Taking false branch
+           if (ret < 0) {
+           ^
+   drivers/media/i2c/rdacm21.c:564:2: note: Taking false branch
+           if (IS_ERR(dev->isp))
+           ^
+   drivers/media/i2c/rdacm21.c:567:8: note: Calling 'rdacm21_initialize'
+           ret =3D rdacm21_initialize(dev);
+                 ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/rdacm21.c:481:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:481:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:489:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:489:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:493:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:493:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:501:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:501:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:505:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:505:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:510:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:510:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:514:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:514:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:520:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:520:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:526:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/media/i2c/rdacm21.c:526:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/media/i2c/rdacm21.c:530:8: note: Calling 'ov490_initialize'
+           ret =3D ov490_initialize(dev);
+                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/rdacm21.c:399:2: note: Loop condition is true.  Enteri=
+ng loop body
+           for (i =3D 0; i < OV490_PID_TIMEOUT; ++i) {
 
-vim +21 include/asm-generic/bitops/fls64.h
+vim +/dev +642 drivers/media/i2c/isl7998x.c
 
-a54baa1487c51c Akinobu Mita           2006-03-26   6  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  629  =
 
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   7  /**
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   8   * fls64 - find last =
-set bit in a 64-bit word
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   9   * @x: the word to se=
-arch
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  10   *
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  11   * This is defined in=
- a similar way as the libc and compiler builtin
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  12   * ffsll, but returns=
- the position of the most significant set bit.
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  13   *
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  14   * fls64(value) retur=
-ns 0 if value is 0 or the position of the last
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  15   * set bit if value i=
-s nonzero. The last (most significant) bit is
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  16   *@position 64.
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  17   */
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  18  #if BITS_PER_LONG =3D=
-=3D 32
-c8399943bdb70f Andi Kleen             2009-01-12  19  static __always_inlin=
-e int fls64(__u64 x)
-2dfc383ad587bb Akinobu Mita           2006-03-26  20  {
-2dfc383ad587bb Akinobu Mita           2006-03-26 @21  	__u32 h =3D x >> 32;
-2dfc383ad587bb Akinobu Mita           2006-03-26  22  	if (h)
-2dfc383ad587bb Akinobu Mita           2006-03-26  23  		return fls(h) + 32;
-2dfc383ad587bb Akinobu Mita           2006-03-26  24  	return fls(x);
-2dfc383ad587bb Akinobu Mita           2006-03-26  25  }
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  26  #elif BITS_PER_LONG =
-=3D=3D 64
-c8399943bdb70f Andi Kleen             2009-01-12  27  static __always_inlin=
-e int fls64(__u64 x)
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  28  {
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  29  	if (x =3D=3D 0)
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  30  		return 0;
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  31  	return __fls(x) + 1;
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  32  }
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  33  #else
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  34  #error BITS_PER_LONG =
-not 32 or 64
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  35  #endif
-2dfc383ad587bb Akinobu Mita           2006-03-26  36  =
+0cd375b25d1d51 Marek Vasut 2021-11-29  630  static int isl7998x_init(struct=
+ isl7998x *isl7998x)
+0cd375b25d1d51 Marek Vasut 2021-11-29  631  {
+0cd375b25d1d51 Marek Vasut 2021-11-29  632  	const unsigned int lanes =3D i=
+sl7998x->nr_mipi_lanes;
+0cd375b25d1d51 Marek Vasut 2021-11-29  633  	const u32 isl7998x_video_in_ch=
+an_map[] =3D { 0x00, 0x11, 0x02, 0x02 };
+0cd375b25d1d51 Marek Vasut 2021-11-29  634  	const struct reg_sequence isl7=
+998x_init_seq_custom[] =3D {
+0cd375b25d1d51 Marek Vasut 2021-11-29  635  		{ ISL7998x_REG_P0_VIDEO_IN_CH=
+AN_CTL,
+0cd375b25d1d51 Marek Vasut 2021-11-29  636  		  isl7998x_video_in_chan_map[=
+isl7998x->nr_inputs - 1] },
+0cd375b25d1d51 Marek Vasut 2021-11-29  637  		{ ISL7998x_REG_P0_CLK_CTL_4,
+0cd375b25d1d51 Marek Vasut 2021-11-29  638  		  (lanes =3D=3D 1) ? 0x40 : 0=
+x41 },
+0cd375b25d1d51 Marek Vasut 2021-11-29  639  		{ ISL7998x_REG_P5_LI_ENGINE_C=
+TL,
+0cd375b25d1d51 Marek Vasut 2021-11-29  640  		  (lanes =3D=3D 1) ? 0x01 : 0=
+x02 },
+0cd375b25d1d51 Marek Vasut 2021-11-29  641  	};
+0cd375b25d1d51 Marek Vasut 2021-11-29 @642  	struct device *dev =3D isl7998=
+x->subdev.dev;
+0cd375b25d1d51 Marek Vasut 2021-11-29  643  	struct regmap *regmap =3D isl7=
+998x->regmap;
+0cd375b25d1d51 Marek Vasut 2021-11-29  644  	int ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  645  =
 
+0cd375b25d1d51 Marek Vasut 2021-11-29  646  	dev_dbg(dev, "configuring %d l=
+anes for %d inputs (norm 0x%llx)\n",
+0cd375b25d1d51 Marek Vasut 2021-11-29  647  		isl7998x->nr_mipi_lanes, isl7=
+998x->nr_inputs,
+0cd375b25d1d51 Marek Vasut 2021-11-29  648  		isl7998x->norm);
+0cd375b25d1d51 Marek Vasut 2021-11-29  649  =
 
-:::::: The code at line 21 was first introduced by commit
-:::::: 2dfc383ad587bbead84739a9ff9273df3eda983d [PATCH] bitops: generic fls=
-64()
+0cd375b25d1d51 Marek Vasut 2021-11-29  650  	ret =3D regmap_register_patch(=
+regmap, isl7998x_init_seq_1,
+0cd375b25d1d51 Marek Vasut 2021-11-29  651  				    ARRAY_SIZE(isl7998x_ini=
+t_seq_1));
+0cd375b25d1d51 Marek Vasut 2021-11-29  652  	if (ret)
+0cd375b25d1d51 Marek Vasut 2021-11-29  653  		return ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  654  =
 
-:::::: TO: Akinobu Mita <mita@miraclelinux.com>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+0cd375b25d1d51 Marek Vasut 2021-11-29  655  	ret =3D isl7998x_set_standard(=
+isl7998x, isl7998x->norm);
+0cd375b25d1d51 Marek Vasut 2021-11-29  656  	if (ret)
+0cd375b25d1d51 Marek Vasut 2021-11-29  657  		return ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  658  =
+
+0cd375b25d1d51 Marek Vasut 2021-11-29  659  	ret =3D regmap_register_patch(=
+regmap, isl7998x_init_seq_custom,
+0cd375b25d1d51 Marek Vasut 2021-11-29  660  				    ARRAY_SIZE(isl7998x_ini=
+t_seq_custom));
+0cd375b25d1d51 Marek Vasut 2021-11-29  661  	if (ret)
+0cd375b25d1d51 Marek Vasut 2021-11-29  662  		return ret;
+0cd375b25d1d51 Marek Vasut 2021-11-29  663  =
+
+0cd375b25d1d51 Marek Vasut 2021-11-29  664  	return regmap_register_patch(r=
+egmap, isl7998x_init_seq_2,
+0cd375b25d1d51 Marek Vasut 2021-11-29  665  				     ARRAY_SIZE(isl7998x_in=
+it_seq_2));
+0cd375b25d1d51 Marek Vasut 2021-11-29  666  }
+0cd375b25d1d51 Marek Vasut 2021-11-29  667  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3986803546873690634==--
+--===============1979466958203609343==--
 
