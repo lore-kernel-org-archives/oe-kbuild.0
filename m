@@ -1,377 +1,456 @@
-Content-Type: multipart/mixed; boundary="===============1979466958203609343=="
+Content-Type: multipart/mixed; boundary="===============3935852370789702419=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v9 3/3] media: i2c: isl7998x: Add driver for Intersil ISL7998x
-Date: Sat, 04 Dec 2021 13:12:31 +0800
-Message-ID: <202112041345.avl2qjN6-lkp@intel.com>
+Subject: Re: [PATCH 25/36] xfs: combine __xfs_alloc_vextent_this_ag and xfs_alloc_ag_vextent
+Date: Sat, 04 Dec 2021 12:41:45 +0800
+Message-ID: <202112041242.73kkIRHp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1979466958203609343==
+--===============3935852370789702419==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211129112708.3219754-4-m.tretter@pengutronix.de>
-References: <20211129112708.3219754-4-m.tretter@pengutronix.de>
-TO: Michael Tretter <m.tretter@pengutronix.de>
-TO: linux-media(a)vger.kernel.org
-TO: devicetree(a)vger.kernel.org
-TO: Marek Vasut <marex@denx.de>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: p.zabel(a)pengutronix.de
-CC: Ian Arkver <ian.arkver.dev@gmail.com>
-CC: kernel(a)pengutronix.de
-CC: Michael Tretter <m.tretter@pengutronix.de>
+In-Reply-To: <20211203000111.2800982-26-david@fromorbit.com>
+References: <20211203000111.2800982-26-david@fromorbit.com>
+TO: Dave Chinner <david@fromorbit.com>
+TO: linux-xfs(a)vger.kernel.org
 
-Hi Michael,
+Hi Dave,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on media-tree/master]
-[also build test WARNING on robh/for-next linus/master v5.16-rc3 next-20211=
-203]
+[auto build test WARNING on xfs-linux/for-next]
+[also build test WARNING on v5.16-rc3 next-20211203]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Michael-Tretter/media-i2c-=
-isl7998x-Add-driver-for-Intersil-ISL7998x/20211129-204304
-base:   git://linuxtv.org/media_tree.git master
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-c001-20211130 (https://download.01.org/0day-ci/arch=
-ive/20211204/202112041345.avl2qjN6-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 25eb7f=
-a01d7ebbe67648ea03841cda55b4239ab2)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/0cd375b25d1d515c40b89e8aa=
-ffd0456a19ecffb
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Michael-Tretter/media-i2c-isl7998x=
--Add-driver-for-Intersil-ISL7998x/20211129-204304
-        git checkout 0cd375b25d1d515c40b89e8aaffd0456a19ecffb
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+url:    https://github.com/0day-ci/linux/commits/Dave-Chinner/xfs-more-work=
+-towards-shrinking/20211203-080331
+base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+:::::: branch date: 29 hours ago
+:::::: commit date: 29 hours ago
+config: x86_64-randconfig-m001-20211203 (https://download.01.org/0day-ci/ar=
+chive/20211204/202112041242.73kkIRHp-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/xfs/libxfs/xfs_alloc.c:2746 xfs_alloc_fix_freelist() error: we previousl=
+y assumed 'agbp' could be null (see line 2640)
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                         ^
-   mm/mmap.c:3132:6: note: Assuming the condition is false
-           if (unlikely(mm_is_oom_victim(mm))) {
-               ^
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   mm/mmap.c:3132:2: note: Taking false branch
-           if (unlikely(mm_is_oom_victim(mm))) {
-           ^
-   mm/mmap.c:3156:6: note: Assuming field 'locked_vm' is 0
-           if (mm->locked_vm)
-               ^~~~~~~~~~~~~
-   mm/mmap.c:3156:2: note: Taking false branch
-           if (mm->locked_vm)
-           ^
-   mm/mmap.c:3159:2: note: Calling 'arch_exit_mmap'
-           arch_exit_mmap(mm);
-           ^~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/mmu_context.h:176:2: note: Calling 'paravirt_arch_e=
-xit_mmap'
-           paravirt_arch_exit_mmap(mm);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:97:2: note: Assigned value is garbage or=
- undefined
-           PVOP_VCALL1(mmu.exit_mmap, mm);
-           ^
-   arch/x86/include/asm/paravirt_types.h:531:2: note: expanded from macro '=
-PVOP_VCALL1'
-           __PVOP_VCALL(op, PVOP_CALL_ARG1(arg1))
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
-                         ^       ~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   arch/x86/include/asm/paravirt.h:55:2: warning: Assigned value is garbage=
- or undefined [clang-analyzer-core.uninitialized.Assign]
-           PVOP_VCALL0(cpu.io_delay);
-           ^
-   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
-PVOP_VCALL0'
-           __PVOP_VCALL(op)
-           ^
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^
-   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
-                         ^
-   drivers/watchdog/advantechwdt.c:295:2: note: Calling 'advwdt_disable'
-           advwdt_disable();
-           ^~~~~~~~~~~~~~~~
-   drivers/watchdog/advantechwdt.c:94:2: note: Calling 'inb_p'
-           inb_p(wdt_stop);
-           ^
-   arch/x86/include/asm/io.h:341:15: note: expanded from macro 'inb_p'
-   #define inb_p inb_p
-                 ^
-   arch/x86/include/asm/io.h:334:1: note: Calling 'slow_down_io'
-   BUILDIO(b, b, char)
-   ^
-   arch/x86/include/asm/io.h:298:2: note: expanded from macro 'BUILDIO'
-           slow_down_io();                                                 \
-           ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt.h:55:2: note: Assigned value is garbage or=
- undefined
-           PVOP_VCALL0(cpu.io_delay);
-           ^
-   arch/x86/include/asm/paravirt_types.h:512:2: note: expanded from macro '=
-PVOP_VCALL0'
-           __PVOP_VCALL(op)
-           ^~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:492:8: note: expanded from macro '=
-__PVOP_VCALL'
-           (void)____PVOP_CALL(, op, CLBR_ANY, PVOP_VCALL_CLOBBERS,        \
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:447:3: note: expanded from macro '=
-____PVOP_CALL'
-                   PVOP_CALL_ARGS;                                         \
-                   ^~~~~~~~~~~~~~
-   arch/x86/include/asm/paravirt_types.h:387:16: note: expanded from macro =
-'PVOP_CALL_ARGS'
-           unsigned long __eax =3D __eax, __edx =3D __edx, __ecx =3D __ecx;
-                         ^       ~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/media/i2c/isl7998x.c:642:17: warning: Value stored to 'dev' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D isl7998x->subdev.dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/isl7998x.c:642:17: note: Value stored to 'dev' during =
-its initialization is never read
-           struct device *dev =3D isl7998x->subdev.dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/isl7998x.c:863:17: warning: Value stored to 'dev' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   drivers/media/i2c/isl7998x.c:863:17: note: Value stored to 'dev' during =
-its initialization is never read
-           struct device *dev =3D &client->dev;
-                          ^~~   ~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/media/i2c/rdacm21.c:373:11: warning: The left operand of '=3D=3D=
-' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-                   if (val =3D=3D OV10640_ID_HIGH)
-                           ^
-   drivers/media/i2c/rdacm21.c:550:6: note: Assuming 'dev' is non-null
-           if (!dev)
-               ^~~~
-   drivers/media/i2c/rdacm21.c:550:2: note: Taking false branch
-           if (!dev)
-           ^
-   drivers/media/i2c/rdacm21.c:557:6: note: 'ret' is >=3D 0
-           if (ret < 0) {
-               ^~~
-   drivers/media/i2c/rdacm21.c:557:2: note: Taking false branch
-           if (ret < 0) {
-           ^
-   drivers/media/i2c/rdacm21.c:564:2: note: Taking false branch
-           if (IS_ERR(dev->isp))
-           ^
-   drivers/media/i2c/rdacm21.c:567:8: note: Calling 'rdacm21_initialize'
-           ret =3D rdacm21_initialize(dev);
-                 ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/rdacm21.c:481:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:481:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:489:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:489:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:493:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:493:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:501:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:501:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:505:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:505:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:510:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:510:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:514:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:514:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:520:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:520:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:526:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/media/i2c/rdacm21.c:526:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/media/i2c/rdacm21.c:530:8: note: Calling 'ov490_initialize'
-           ret =3D ov490_initialize(dev);
-                 ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/i2c/rdacm21.c:399:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for (i =3D 0; i < OV490_PID_TIMEOUT; ++i) {
+Old smatch warnings:
+fs/xfs/libxfs/xfs_alloc.c:2737 xfs_alloc_fix_freelist() warn: missing error=
+ code 'error'
 
-vim +/dev +642 drivers/media/i2c/isl7998x.c
+vim +/agbp +2746 fs/xfs/libxfs/xfs_alloc.c
 
-0cd375b25d1d51 Marek Vasut 2021-11-29  629  =
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2586=
+  =
 
-0cd375b25d1d51 Marek Vasut 2021-11-29  630  static int isl7998x_init(struct=
- isl7998x *isl7998x)
-0cd375b25d1d51 Marek Vasut 2021-11-29  631  {
-0cd375b25d1d51 Marek Vasut 2021-11-29  632  	const unsigned int lanes =3D i=
-sl7998x->nr_mipi_lanes;
-0cd375b25d1d51 Marek Vasut 2021-11-29  633  	const u32 isl7998x_video_in_ch=
-an_map[] =3D { 0x00, 0x11, 0x02, 0x02 };
-0cd375b25d1d51 Marek Vasut 2021-11-29  634  	const struct reg_sequence isl7=
-998x_init_seq_custom[] =3D {
-0cd375b25d1d51 Marek Vasut 2021-11-29  635  		{ ISL7998x_REG_P0_VIDEO_IN_CH=
-AN_CTL,
-0cd375b25d1d51 Marek Vasut 2021-11-29  636  		  isl7998x_video_in_chan_map[=
-isl7998x->nr_inputs - 1] },
-0cd375b25d1d51 Marek Vasut 2021-11-29  637  		{ ISL7998x_REG_P0_CLK_CTL_4,
-0cd375b25d1d51 Marek Vasut 2021-11-29  638  		  (lanes =3D=3D 1) ? 0x40 : 0=
-x41 },
-0cd375b25d1d51 Marek Vasut 2021-11-29  639  		{ ISL7998x_REG_P5_LI_ENGINE_C=
-TL,
-0cd375b25d1d51 Marek Vasut 2021-11-29  640  		  (lanes =3D=3D 1) ? 0x01 : 0=
-x02 },
-0cd375b25d1d51 Marek Vasut 2021-11-29  641  	};
-0cd375b25d1d51 Marek Vasut 2021-11-29 @642  	struct device *dev =3D isl7998=
-x->subdev.dev;
-0cd375b25d1d51 Marek Vasut 2021-11-29  643  	struct regmap *regmap =3D isl7=
-998x->regmap;
-0cd375b25d1d51 Marek Vasut 2021-11-29  644  	int ret;
-0cd375b25d1d51 Marek Vasut 2021-11-29  645  =
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2587=
+  /*
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2588=
+   * Decide whether to use this allocation group for this allocation.
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2589=
+   * If so, fix up the btree freelist's size.
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2590=
+   */
+2e9101da604779 fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-01-04  2591=
+  int			/* error */
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2592=
+  xfs_alloc_fix_freelist(
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2593=
+  	struct xfs_alloc_arg	*args,	/* allocation argument structure */
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2594=
+  	int			flags)	/* XFS_ALLOC_FLAG_... */
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2595=
+  {
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2596=
+  	struct xfs_mount	*mp =3D args->mp;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2597=
+  	struct xfs_perag	*pag =3D args->pag;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2598=
+  	struct xfs_trans	*tp =3D args->tp;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2599=
+  	struct xfs_buf		*agbp =3D NULL;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2600=
+  	struct xfs_buf		*agflbp =3D NULL;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2601=
+  	struct xfs_alloc_arg	targs;	/* local allocation arguments */
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2602=
+  	xfs_agblock_t		bno;	/* freelist block */
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2603=
+  	xfs_extlen_t		need;	/* total blocks needed in freelist */
+c184f855c48342 fs/xfs/libxfs/xfs_alloc.c Jan Kara          2015-08-25  2604=
+  	int			error =3D 0;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2605=
+  =
 
-0cd375b25d1d51 Marek Vasut 2021-11-29  646  	dev_dbg(dev, "configuring %d l=
-anes for %d inputs (norm 0x%llx)\n",
-0cd375b25d1d51 Marek Vasut 2021-11-29  647  		isl7998x->nr_mipi_lanes, isl7=
-998x->nr_inputs,
-0cd375b25d1d51 Marek Vasut 2021-11-29  648  		isl7998x->norm);
-0cd375b25d1d51 Marek Vasut 2021-11-29  649  =
+362f5e745ae2ee fs/xfs/libxfs/xfs_alloc.c Brian Foster      2019-04-23  2606=
+  	/* deferred ops (AGFL block frees) require permanent transactions */
+362f5e745ae2ee fs/xfs/libxfs/xfs_alloc.c Brian Foster      2019-04-23  2607=
+  	ASSERT(tp->t_flags & XFS_TRANS_PERM_LOG_RES);
+362f5e745ae2ee fs/xfs/libxfs/xfs_alloc.c Brian Foster      2019-04-23  2608=
+  =
 
-0cd375b25d1d51 Marek Vasut 2021-11-29  650  	ret =3D regmap_register_patch(=
-regmap, isl7998x_init_seq_1,
-0cd375b25d1d51 Marek Vasut 2021-11-29  651  				    ARRAY_SIZE(isl7998x_ini=
-t_seq_1));
-0cd375b25d1d51 Marek Vasut 2021-11-29  652  	if (ret)
-0cd375b25d1d51 Marek Vasut 2021-11-29  653  		return ret;
-0cd375b25d1d51 Marek Vasut 2021-11-29  654  =
+26473009ed961c fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2609=
+  	if (!xfs_perag_initialised_agf(pag)) {
+bf14ac7fff281f fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2610=
+  		error =3D xfs_alloc_read_agf(pag, tp, flags, &agbp);
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2611=
+  		if (error) {
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2612=
+  			/* Couldn't lock the AGF so skip this AG. */
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2613=
+  			if (error =3D=3D -EAGAIN)
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2614=
+  				error =3D 0;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2615=
+  			goto out_no_agbp;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2616=
+  		}
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2617=
+  	}
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2618=
+  =
 
-0cd375b25d1d51 Marek Vasut 2021-11-29  655  	ret =3D isl7998x_set_standard(=
-isl7998x, isl7998x->norm);
-0cd375b25d1d51 Marek Vasut 2021-11-29  656  	if (ret)
-0cd375b25d1d51 Marek Vasut 2021-11-29  657  		return ret;
-0cd375b25d1d51 Marek Vasut 2021-11-29  658  =
+0e1edbd9999427 fs/xfs/xfs_alloc.c        Nathan Scott      2006-08-10  2619=
+  	/*
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2620=
+  	 * If this is a metadata preferred pag and we are user data then try
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2621=
+  	 * somewhere else if we are not being asked to try harder at this
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2622=
+  	 * point
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2623=
+  	 */
+26473009ed961c fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2624=
+  	if (xfs_perag_prefers_metadata(pag) &&
+26473009ed961c fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2625=
+  	    (args->datatype & XFS_ALLOC_USERDATA) &&
+0e1edbd9999427 fs/xfs/xfs_alloc.c        Nathan Scott      2006-08-10  2626=
+  	    (flags & XFS_ALLOC_FLAG_TRYLOCK)) {
+0e1edbd9999427 fs/xfs/xfs_alloc.c        Nathan Scott      2006-08-10  2627=
+  		ASSERT(!(flags & XFS_ALLOC_FLAG_FREEING));
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2628=
+  		goto out_agbp_relse;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2629=
+  	}
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2630=
+  =
 
-0cd375b25d1d51 Marek Vasut 2021-11-29  659  	ret =3D regmap_register_patch(=
-regmap, isl7998x_init_seq_custom,
-0cd375b25d1d51 Marek Vasut 2021-11-29  660  				    ARRAY_SIZE(isl7998x_ini=
-t_seq_custom));
-0cd375b25d1d51 Marek Vasut 2021-11-29  661  	if (ret)
-0cd375b25d1d51 Marek Vasut 2021-11-29  662  		return ret;
-0cd375b25d1d51 Marek Vasut 2021-11-29  663  =
+496817b4befced fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2631=
+  	need =3D xfs_alloc_min_freelist(mp, pag);
+54fee133ad59c8 fs/xfs/libxfs/xfs_alloc.c Christoph Hellwig 2017-01-09  2632=
+  	if (!xfs_alloc_space_available(args, need, flags |
+54fee133ad59c8 fs/xfs/libxfs/xfs_alloc.c Christoph Hellwig 2017-01-09  2633=
+  			XFS_ALLOC_FLAG_CHECK))
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2634=
+  		goto out_agbp_relse;
+0e1edbd9999427 fs/xfs/xfs_alloc.c        Nathan Scott      2006-08-10  2635=
+  =
 
-0cd375b25d1d51 Marek Vasut 2021-11-29  664  	return regmap_register_patch(r=
-egmap, isl7998x_init_seq_2,
-0cd375b25d1d51 Marek Vasut 2021-11-29  665  				     ARRAY_SIZE(isl7998x_in=
-it_seq_2));
-0cd375b25d1d51 Marek Vasut 2021-11-29  666  }
-0cd375b25d1d51 Marek Vasut 2021-11-29  667  =
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2636=
+  	/*
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2637=
+  	 * Get the a.g. freespace buffer.
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2638=
+  	 * Can fail if we're not blocking on locks, and it's held.
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2639=
+  	 */
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22 @2640=
+  	if (!agbp) {
+bf14ac7fff281f fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2641=
+  		error =3D xfs_alloc_read_agf(pag, tp, flags, &agbp);
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2642=
+  		if (error) {
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2643=
+  			/* Couldn't lock the AGF so skip this AG. */
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2644=
+  			if (error =3D=3D -EAGAIN)
+f48e2df8a877ca fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2020-01-23  2645=
+  				error =3D 0;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2646=
+  			goto out_no_agbp;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2647=
+  		}
+0e1edbd9999427 fs/xfs/xfs_alloc.c        Nathan Scott      2006-08-10  2648=
+  	}
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2649=
+  =
+
+a27ba2607e6031 fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-03-15  2650=
+  	/* reset a padding mismatched agfl before final free space check */
+26473009ed961c fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2651=
+  	if (xfs_perag_agfl_needs_reset(pag))
+a27ba2607e6031 fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-03-15  2652=
+  		xfs_agfl_reset(tp, agbp, pag);
+a27ba2607e6031 fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-03-15  2653=
+  =
+
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2654=
+  	/* If there isn't enough total space or single-extent, reject it. */
+496817b4befced fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2655=
+  	need =3D xfs_alloc_min_freelist(mp, pag);
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2656=
+  	if (!xfs_alloc_space_available(args, need, flags))
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2657=
+  		goto out_agbp_relse;
+72d552854b96b3 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2658=
+  =
+
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2659=
+  #ifdef DEBUG
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2660=
+  	if (args->alloc_minlen_only) {
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2661=
+  		int stat;
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2662=
+  =
+
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2663=
+  		error =3D xfs_exact_minlen_extent_available(args, agbp, &stat);
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2664=
+  		if (error || !stat)
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2665=
+  			goto out_agbp_relse;
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2666=
+  	}
+301519674699aa fs/xfs/libxfs/xfs_alloc.c Chandan Babu R    2021-01-22  2667=
+  #endif
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2668=
+  	/*
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2669=
+  	 * Make the freelist shorter if it's too long.
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2670=
+  	 *
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2671=
+  	 * Note that from this point onwards, we will always release the agf and
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2672=
+  	 * agfl buffers on error. This handles the case where we error out and
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2673=
+  	 * the buffers are clean or may not have been joined to the transaction
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2674=
+  	 * and hence need to be released manually. If they have been joined to
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2675=
+  	 * the transaction, then xfs_trans_brelse() will handle them
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2676=
+  	 * appropriately based on the recursion count and dirty state of the
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2677=
+  	 * buffer.
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2678=
+  	 *
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2679=
+  	 * XXX (dgc): When we have lots of free space, does this buy us
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2680=
+  	 * anything other than extra overhead when we need to put more blocks
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2681=
+  	 * back on the free list? Maybe we should only do this when space is
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2682=
+  	 * getting low or the AGFL is more than half full?
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2683=
+  	 *
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2684=
+  	 * The NOSHRINK flag prevents the AGFL from being shrunk if it's too
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2685=
+  	 * big; the NORMAP flag prevents AGFL expand/shrink operations from
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2686=
+  	 * updating the rmapbt.  Both flags are used in xfs_repair while we're
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2687=
+  	 * rebuilding the rmapbt, and neither are used by the kernel.  They're
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2688=
+  	 * both required to ensure that rmaps are correctly recorded for the
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2689=
+  	 * regenerated AGFL, bnobt, and cntbt.  See repair/phase5.c and
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2690=
+  	 * repair/rmap.c in xfsprogs for details.
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2691=
+  	 */
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2692=
+  	memset(&targs, 0, sizeof(targs));
+7280fedaf3a0f9 fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2018-12-12  2693=
+  	/* struct copy below */
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2694=
+  	if (flags & XFS_ALLOC_FLAG_NORMAP)
+7280fedaf3a0f9 fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2018-12-12  2695=
+  		targs.oinfo =3D XFS_RMAP_OINFO_SKIP_UPDATE;
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2696=
+  	else
+7280fedaf3a0f9 fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2018-12-12  2697=
+  		targs.oinfo =3D XFS_RMAP_OINFO_AG;
+04f130605ff6fb fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-08-03  2698=
+  	while (!(flags & XFS_ALLOC_FLAG_NOSHRINK) && pag->pagf_flcount > need) {
+7b2d9261752e37 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2699=
+  		error =3D xfs_alloc_get_freelist(pag, tp, agbp, &bno, 0);
+92821e2ba4ae26 fs/xfs/xfs_alloc.c        David Chinner     2007-05-24  2700=
+  		if (error)
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2701=
+  			goto out_agbp_relse;
+4223f659dd3edd fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-05-07  2702=
+  =
+
+c03edc9e49b6a3 fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-08-01  2703=
+  		/* defer agfl frees */
+0f37d1780c3d86 fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-08-01  2704=
+  		xfs_defer_agfl_block(tp, args->agno, bno, &targs.oinfo);
+f8f2835a9cf300 fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-05-07  2705=
+  	}
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2706=
+  =
+
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2707=
+  	targs.tp =3D tp;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2708=
+  	targs.mp =3D mp;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2709=
+  	targs.agbp =3D agbp;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2710=
+  	targs.agno =3D args->agno;
+3fd129b63fd062 fs/xfs/libxfs/xfs_alloc.c Darrick J. Wong   2016-09-19  2711=
+  	targs.alignment =3D targs.minlen =3D targs.prod =3D 1;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2712=
+  	targs.type =3D XFS_ALLOCTYPE_THIS_AG;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2713=
+  	targs.pag =3D pag;
+b2da748aa3281d fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2714=
+  	error =3D xfs_alloc_read_agfl(pag, tp, &agflbp);
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2715=
+  	if (error)
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2716=
+  		goto out_agbp_relse;
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2717=
+  =
+
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2718=
+  	/* Make the freelist longer if it's too short. */
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2719=
+  	while (pag->pagf_flcount < need) {
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2720=
+  		targs.agbno =3D 0;
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2721=
+  		targs.maxlen =3D need - pag->pagf_flcount;
+0ab32086d0bece fs/xfs/libxfs/xfs_alloc.c Brian Foster      2018-03-09  2722=
+  		targs.resv =3D XFS_AG_RESV_AGFL;
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2723=
+  =
+
+50adbcb4c4e6c9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2724=
+  		/* Allocate as many blocks as possible at once. */
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2725=
+  		error =3D xfs_alloc_ag_vextent_size(&targs);
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2726=
+  		if (error)
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2727=
+  			goto out_agflbp_relse;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2728=
+  =
+
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2729=
+  		/*
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2730=
+  		 * Stop if we run out.  Won't happen if callers are obeying
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2731=
+  		 * the restrictions correctly.  Can happen for free calls
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2732=
+  		 * on a completely full ag.
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2733=
+  		 */
+d210a28cd85108 fs/xfs/xfs_alloc.c        Yingping Lu       2006-06-09  2734=
+  		if (targs.agbno =3D=3D NULLAGBLOCK) {
+0e1edbd9999427 fs/xfs/xfs_alloc.c        Nathan Scott      2006-08-10  2735=
+  			if (flags & XFS_ALLOC_FLAG_FREEING)
+0e1edbd9999427 fs/xfs/xfs_alloc.c        Nathan Scott      2006-08-10  2736=
+  				break;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2737=
+  			goto out_agflbp_relse;
+d210a28cd85108 fs/xfs/xfs_alloc.c        Yingping Lu       2006-06-09  2738=
+  		}
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2739=
+  =
+
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2740=
+  		if (!xfs_rmap_should_skip_owner_update(&targs.oinfo)) {
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2741=
+  			error =3D xfs_rmap_alloc(tp, agbp, pag,
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2742=
+  				       targs.agbno, targs.len, &targs.oinfo);
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2743=
+  			if (error)
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2744=
+  				goto out_agflbp_relse;
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2745=
+  		}
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03 @2746=
+  		error =3D xfs_alloc_update_counters(tp, agbp,
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2747=
+  						  -((long)(targs.len)));
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2748=
+  		if (error)
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2749=
+  			goto out_agflbp_relse;
+8a78d222858874 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2750=
+  =
+
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2751=
+  		/*
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2752=
+  		 * Put each allocated block on the list.
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2753=
+  		 */
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2754=
+  		for (bno =3D targs.agbno; bno < targs.agbno + targs.len; bno++) {
+dc38193218d34d fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2021-12-03  2755=
+  			error =3D xfs_alloc_put_freelist(pag, tp, agbp,
+92821e2ba4ae26 fs/xfs/xfs_alloc.c        David Chinner     2007-05-24  2756=
+  							agflbp, bno, 0);
+92821e2ba4ae26 fs/xfs/xfs_alloc.c        David Chinner     2007-05-24  2757=
+  			if (error)
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2758=
+  				goto out_agflbp_relse;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2759=
+  		}
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2760=
+  	}
+e63a3690013a47 fs/xfs/xfs_alloc.c        Nathan Scott      2006-05-08  2761=
+  	xfs_trans_brelse(tp, agflbp);
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2762=
+  	args->agbp =3D agbp;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2763=
+  	return 0;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2764=
+  =
+
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2765=
+  out_agflbp_relse:
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2766=
+  	xfs_trans_brelse(tp, agflbp);
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2767=
+  out_agbp_relse:
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2768=
+  	if (agbp)
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2769=
+  		xfs_trans_brelse(tp, agbp);
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2770=
+  out_no_agbp:
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2771=
+  	args->agbp =3D NULL;
+396503fc8397e9 fs/xfs/libxfs/xfs_alloc.c Dave Chinner      2015-06-22  2772=
+  	return error;
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2773=
+  }
+^1da177e4c3f41 fs/xfs/xfs_alloc.c        Linus Torvalds    2005-04-16  2774=
+  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1979466958203609343==--
+--===============3935852370789702419==--
 
