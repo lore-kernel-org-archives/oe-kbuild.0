@@ -1,89 +1,74 @@
-Content-Type: multipart/mixed; boundary="===============1371063447679171060=="
+Content-Type: multipart/mixed; boundary="===============8668304421091825659=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/i915_gem.c:981 i915_gem_object_ggtt_pin() error: uninitialized symbol 'ret'.
-Date: Sun, 05 Dec 2021 03:02:19 +0800
-Message-ID: <202112050224.6NiVq5ST-lkp@intel.com>
+Subject: [t-kristo-pm:usi-5.16-rfc-v3-bpf 22/24] drivers/hid/hid-debug.c:1029:57: sparse: sparse: obsolete array initializer, use C99 syntax
+Date: Sun, 05 Dec 2021 00:39:20 +0800
+Message-ID: <202112050025.GsWXdL79-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1371063447679171060==
+--===============8668304421091825659==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: 0day robot <lkp@intel.com>
+TO: Mika Westerberg <mika.westerberg@linux.intel.com>
+CC: Tero Kristo <tero.kristo@linux.intel.com>
 
-tree:   https://github.com/0day-ci/linux/commits/UPDATE-20211130-172226/Maa=
-rten-Lankhorst/drm-i915-Remove-short-term-pins-from-execbuf/20211129-220021
-head:   006b42c124c6625d90b1486a86ec53034166062d
-commit: c997bd02c543622b260cd09a63cc9f300870e8a0 drm/i915: Force ww lock fo=
-r i915_gem_object_ggtt_pin_ww, v2.
-date:   4 days ago
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-m021-20211203 (https://download.01.org/0day-ci/arch=
-ive/20211205/202112050224.6NiVq5ST-lkp(a)intel.com/config)
+tree:   https://github.com/t-kristo/linux-pm usi-5.16-rfc-v3-bpf
+head:   d0f251812c57f49830816624bec858500e4e14c2
+commit: 36d39063386a91ddea88dcd8378b00c7e167d23d [22/24] HID: debug: Add US=
+I usages
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-s002-20211203 (https://download.01.org/0day-ci/arch=
+ive/20211205/202112050025.GsWXdL79-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/t-kristo/linux-pm/commit/36d39063386a91ddea88d=
+cd8378b00c7e167d23d
+        git remote add t-kristo-pm https://github.com/t-kristo/linux-pm
+        git fetch --no-tags t-kristo-pm usi-5.16-rfc-v3-bpf
+        git checkout 36d39063386a91ddea88dcd8378b00c7e167d23d
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Di386 SHELL=3D/bin/bash drivers/hid/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_gem.c:981 i915_gem_object_ggtt_pin() error: unini=
-tialized symbol 'ret'.
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:194 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 183)
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-debug.c:1029:57: sparse: sparse: obsolete array initiali=
+zer, use C99 syntax
 
-vim +/ret +981 drivers/gpu/drm/i915/i915_gem.c
+vim +1029 drivers/hid/hid-debug.c
 
-673a394b1e3b69 Eric Anholt       2008-07-30  960  =
+c080d89ad91e98 Jiri Kosina     2007-01-25  1025  =
 
-c997bd02c54362 Maarten Lankhorst 2021-11-30  961  struct i915_vma * __must_=
-check
-c997bd02c54362 Maarten Lankhorst 2021-11-30  962  i915_gem_object_ggtt_pin(=
-struct drm_i915_gem_object *obj,
-c997bd02c54362 Maarten Lankhorst 2021-11-30  963  			 const struct i915_ggt=
-t_view *view,
-c997bd02c54362 Maarten Lankhorst 2021-11-30  964  			 u64 size, u64 alignme=
-nt, u64 flags)
-c997bd02c54362 Maarten Lankhorst 2021-11-30  965  {
-c997bd02c54362 Maarten Lankhorst 2021-11-30  966  	struct i915_gem_ww_ctx w=
-w;
-c997bd02c54362 Maarten Lankhorst 2021-11-30  967  	struct i915_vma *ret;
-c997bd02c54362 Maarten Lankhorst 2021-11-30  968  	int err;
-c997bd02c54362 Maarten Lankhorst 2021-11-30  969  =
-
-c997bd02c54362 Maarten Lankhorst 2021-11-30  970  	for_i915_gem_ww(&ww, err=
-, true) {
-c997bd02c54362 Maarten Lankhorst 2021-11-30  971  		err =3D i915_gem_object=
-_lock(obj, &ww);
-c997bd02c54362 Maarten Lankhorst 2021-11-30  972  		if (err)
-c997bd02c54362 Maarten Lankhorst 2021-11-30  973  			continue;
-c997bd02c54362 Maarten Lankhorst 2021-11-30  974  =
-
-c997bd02c54362 Maarten Lankhorst 2021-11-30  975  		ret =3D i915_gem_object=
-_ggtt_pin_ww(obj, &ww, view, size,
-c997bd02c54362 Maarten Lankhorst 2021-11-30  976  						  alignment, flags);
-c997bd02c54362 Maarten Lankhorst 2021-11-30  977  		if (IS_ERR(ret))
-c997bd02c54362 Maarten Lankhorst 2021-11-30  978  			err =3D PTR_ERR(ret);
-c997bd02c54362 Maarten Lankhorst 2021-11-30  979  	}
-c997bd02c54362 Maarten Lankhorst 2021-11-30  980  =
-
-c997bd02c54362 Maarten Lankhorst 2021-11-30 @981  	return err ? ERR_PTR(err=
-) : ret;
-c997bd02c54362 Maarten Lankhorst 2021-11-30  982  }
-c997bd02c54362 Maarten Lankhorst 2021-11-30  983  =
+0ce1ac3b3ca0f4 Joe Perches     2007-09-26  1026  static const char *misc[MS=
+C_MAX + 1] =3D {
+c080d89ad91e98 Jiri Kosina     2007-01-25  1027  	[MSC_SERIAL] =3D "Serial"=
+,	[MSC_PULSELED] =3D "Pulseled",
+36d39063386a91 Mika Westerberg 2021-01-22  1028  	[MSC_GESTURE] =3D "Gestur=
+e",	[MSC_RAW] =3D "RawData",
+36d39063386a91 Mika Westerberg 2021-01-22 @1029  	[MSC_PEN_ID] =3D "PenID",=
+		[MSC_PEN_COLOR] "PenColor",
+36d39063386a91 Mika Westerberg 2021-01-22  1030  	[MSC_PEN_LINE_WIDTH] =3D =
+"PenLineWidth",
+36d39063386a91 Mika Westerberg 2021-01-22  1031  	[MSC_PEN_LINE_STYLE] =3D =
+"PenLineStyle",
+c080d89ad91e98 Jiri Kosina     2007-01-25  1032  };
+c080d89ad91e98 Jiri Kosina     2007-01-25  1033  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1371063447679171060==--
+--===============8668304421091825659==--
 
