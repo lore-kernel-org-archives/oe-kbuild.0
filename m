@@ -1,196 +1,325 @@
-Content-Type: multipart/mixed; boundary="===============2250203496479830760=="
+Content-Type: multipart/mixed; boundary="===============2739243857298024918=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v7 1/2] bluetooth: Handle MSFT Monitor Device Event
-Date: Sun, 05 Dec 2021 04:35:32 +0800
-Message-ID: <202112050416.RYsEcWkk-lkp@intel.com>
+Subject: include/linux/math64.h:92:15: warning: The result of the '>>' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResult]
+Date: Sun, 05 Dec 2021 04:05:04 +0800
+Message-ID: <202112050326.2sOqU8Gi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2250203496479830760==
+--===============2739243857298024918==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211202231123.v7.1.Ic0a40b84dee3825302890aaea690e73165c71820=
-@changeid>
-References: <20211202231123.v7.1.Ic0a40b84dee3825302890aaea690e73165c71820(=
-a)changeid>
-TO: Manish Mandlik <mmandlik@google.com>
-TO: marcel(a)holtmann.org
-TO: luiz.dentz(a)gmail.com
-CC: linux-bluetooth(a)vger.kernel.org
-CC: chromeos-bluetooth-upstreaming(a)chromium.org
-CC: Manish Mandlik <mmandlik@google.com>
-CC: "Miao-chen Chou" <mcchou@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Johan Hedberg <johan.hedberg@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
-CC: netdev(a)vger.kernel.org
+TO: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+CC: Miguel Ojeda <ojeda@kernel.org>
+CC: Nick Desaulniers <ndesaulniers@google.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Manish,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   12119cfa1052d512a92524e90ebee85029a918f8
+commit: e1edc277e6f6dfb372216522dfc57f9381c39e35 linux/container_of.h: swit=
+ch to static_assert
+date:   4 weeks ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 4 weeks ago
+config: riscv-randconfig-c006-20211128 (https://download.01.org/0day-ci/arc=
+hive/20211205/202112050326.2sOqU8Gi-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
+97ef3ee4dc2119d5429adf3072e90fac38)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De1edc277e6f6dfb372216522dfc57f9381c39e35
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e1edc277e6f6dfb372216522dfc57f9381c39e35
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on next-20211203]
-[cannot apply to bluetooth/master v5.16-rc3]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Manish-Mandlik/bluetooth-H=
-andle-MSFT-Monitor-Device-Event/20211203-151659
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
--next.git master
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-m001-20211203 (https://download.01.org/0day-ci/ar=
-chive/20211205/202112050416.RYsEcWkk-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/bluetooth/msft.c:312 msft_le_cancel_monitor_advertisement_cb() error: d=
-ereferencing freed memory 'handle_data'
 
-vim +/handle_data +312 net/bluetooth/msft.c
+clang-analyzer warnings: (new ones prefixed by >>)
+                                      ^
+   drivers/pci/setup-bus.c:1923:2: note: Calling 'adjust_bridge_window'
+           adjust_bridge_window(bridge, io_res, add_list, resource_size(&io=
+));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/pci/setup-bus.c:1867:6: note: Assuming field 'parent' is null
+           if (res->parent)
+               ^~~~~~~~~~~
+   drivers/pci/setup-bus.c:1867:2: note: Taking false branch
+           if (res->parent)
+           ^
+   drivers/pci/setup-bus.c:1870:6: note: Assuming 'new_size' is not equal t=
+o 0
+           if (!new_size)
+               ^~~~~~~~~
+   drivers/pci/setup-bus.c:1870:2: note: Taking false branch
+           if (!new_size)
+           ^
+   drivers/pci/setup-bus.c:1873:6: note: Assuming 'new_size' is <=3D 'size'
+           if (new_size > size) {
+               ^~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1873:2: note: Taking false branch
+           if (new_size > size) {
+           ^
+   drivers/pci/setup-bus.c:1877:13: note: Assuming 'new_size' is >=3D 'size'
+           } else if (new_size < size) {
+                      ^~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1877:9: note: Taking false branch
+           } else if (new_size < size) {
+                  ^
+   drivers/pci/setup-bus.c:1884:2: note: Calling 'remove_from_list'
+           remove_from_list(add_list, res);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:87:2: note: Loop condition is true.  Entering lo=
+op body
+           list_for_each_entry_safe(dev_res, tmp, head, list) {
+           ^
+   include/linux/list.h:717:2: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
+  \
+           ^
+   drivers/pci/setup-bus.c:88:7: note: Assuming 'res' is equal to field 're=
+s'
+                   if (dev_res->res =3D=3D res) {
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:88:3: note: Taking true branch
+                   if (dev_res->res =3D=3D res) {
+                   ^
+   drivers/pci/setup-bus.c:90:4: note: Memory is released
+                           kfree(dev_res);
+                           ^~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:91:4: note:  Execution continues on line 90
+                           break;
+                           ^
+   drivers/pci/setup-bus.c:1884:2: note: Returning; memory was released
+           remove_from_list(add_list, res);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1923:2: note: Returning; memory was released
+           adjust_bridge_window(bridge, io_res, add_list, resource_size(&io=
+));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/pci/setup-bus.c:1924:2: note: Calling 'adjust_bridge_window'
+           adjust_bridge_window(bridge, mmio_res, add_list, resource_size(&=
+mmio));
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/pci/setup-bus.c:1867:6: note: Assuming field 'parent' is null
+           if (res->parent)
+               ^~~~~~~~~~~
+   drivers/pci/setup-bus.c:1867:2: note: Taking false branch
+           if (res->parent)
+           ^
+   drivers/pci/setup-bus.c:1870:6: note: Assuming 'new_size' is not equal t=
+o 0
+           if (!new_size)
+               ^~~~~~~~~
+   drivers/pci/setup-bus.c:1870:2: note: Taking false branch
+           if (!new_size)
+           ^
+   drivers/pci/setup-bus.c:1873:6: note: Assuming 'new_size' is <=3D 'size'
+           if (new_size > size) {
+               ^~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1873:2: note: Taking false branch
+           if (new_size > size) {
+           ^
+   drivers/pci/setup-bus.c:1877:13: note: Assuming 'new_size' is >=3D 'size'
+           } else if (new_size < size) {
+                      ^~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1877:9: note: Taking false branch
+           } else if (new_size < size) {
+                  ^
+   drivers/pci/setup-bus.c:1884:2: note: Calling 'remove_from_list'
+           remove_from_list(add_list, res);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:87:2: note: Use of memory after it is freed
+           list_for_each_entry_safe(dev_res, tmp, head, list) {
+           ^
+   include/linux/list.h:718:7: note: expanded from macro 'list_for_each_ent=
+ry_safe'
+                   n =3D list_next_entry(pos, member);                     =
+  \
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
+           list_entry((pos)->member.next, typeof(*(pos)), member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/container_of.h:18:25: note: expanded from macro 'container=
+_of'
+           void *__mptr =3D (void *)(ptr);                                 =
+  \
+                                  ^~~~~
+>> include/linux/math64.h:92:15: warning: The result of the '>>' expression=
+ is undefined [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           *remainder =3D do_div(dividend, divisor);
+                        ^
+   include/asm-generic/div64.h:234:25: note: expanded from macro 'do_div'
+           } else if (likely(((n) >> 32) =3D=3D 0)) {          \
+                                  ^
+   drivers/pci/setup-bus.c:2069:2: note: Calling 'pci_bridge_distribute_ava=
+ilable_resources'
+           pci_bridge_distribute_available_resources(bridge, &add_list);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:2036:6: note: Assuming field 'is_hotplug_bridge'=
+ is not equal to 0
+           if (!bridge->is_hotplug_bridge)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:2036:2: note: Taking false branch
+           if (!bridge->is_hotplug_bridge)
+           ^
+   drivers/pci/setup-bus.c:2044:2: note: Calling 'pci_bus_distribute_availa=
+ble_resources'
+           pci_bus_distribute_available_resources(bridge->subordinate,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1907:6: note: Assuming field 'parent' is non-null
+           if (!io_res->parent && align)
+               ^~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1907:22: note: Left side of '&&' is false
+           if (!io_res->parent && align)
+                               ^
+   drivers/pci/setup-bus.c:1911:6: note: Assuming field 'parent' is non-null
+           if (!mmio_res->parent && align)
+               ^~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1911:24: note: Left side of '&&' is false
+           if (!mmio_res->parent && align)
+                                 ^
+   drivers/pci/setup-bus.c:1915:6: note: Assuming field 'parent' is non-null
+           if (!mmio_pref_res->parent && align)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1915:29: note: Left side of '&&' is false
+           if (!mmio_pref_res->parent && align)
+                                      ^
+   drivers/pci/setup-bus.c:1933:2: note: Loop condition is true.  Entering =
+loop body
+           for_each_pci_bridge(dev, bus) {
+           ^
+   include/linux/pci.h:693:2: note: expanded from macro 'for_each_pci_bridg=
+e'
+           list_for_each_entry(dev, &bus->devices, bus_list)       \
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/pci/setup-bus.c:1933:2: note: Taking false branch
+           for_each_pci_bridge(dev, bus) {
+           ^
+   include/linux/pci.h:694:3: note: expanded from macro 'for_each_pci_bridg=
+e'
+                   if (!pci_is_bridge(dev)) {} else
+                   ^
+   drivers/pci/setup-bus.c:1934:7: note: Assuming field 'is_hotplug_bridge'=
+ is 0
+                   if (dev->is_hotplug_bridge)
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1934:3: note: Taking false branch
+                   if (dev->is_hotplug_bridge)
+                   ^
+   drivers/pci/setup-bus.c:1933:2: note: Loop condition is true.  Entering =
+loop body
+           for_each_pci_bridge(dev, bus) {
+           ^
+   include/linux/pci.h:693:2: note: expanded from macro 'for_each_pci_bridg=
+e'
+           list_for_each_entry(dev, &bus->devices, bus_list)       \
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/pci/setup-bus.c:1933:2: note: Taking false branch
+           for_each_pci_bridge(dev, bus) {
+           ^
+   include/linux/pci.h:694:3: note: expanded from macro 'for_each_pci_bridg=
+e'
+                   if (!pci_is_bridge(dev)) {} else
+                   ^
+   drivers/pci/setup-bus.c:1934:7: note: Assuming field 'is_hotplug_bridge'=
+ is not equal to 0
+                   if (dev->is_hotplug_bridge)
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1934:3: note: Taking true branch
+                   if (dev->is_hotplug_bridge)
+                   ^
+   drivers/pci/setup-bus.c:1933:2: note: Loop condition is false. Execution=
+ continues on line 1945
+           for_each_pci_bridge(dev, bus) {
+           ^
+   include/linux/pci.h:693:2: note: expanded from macro 'for_each_pci_bridg=
+e'
+           list_for_each_entry(dev, &bus->devices, bus_list)       \
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/pci/setup-bus.c:1945:2: note: Taking false branch
+           if (hotplug_bridges + normal_bridges =3D=3D 1) {
+           ^
+   drivers/pci/setup-bus.c:1953:6: note: 'hotplug_bridges' is not equal to 0
+           if (hotplug_bridges =3D=3D 0)
+               ^~~~~~~~~~~~~~~
+   drivers/pci/setup-bus.c:1953:2: note: Taking false branch
+           if (hotplug_bridges =3D=3D 0)
+           ^
+   drivers/pci/setup-bus.c:1962:2: note: Loop condition is false. Execution=
+ continues on line 1997
+           for_each_pci_bridge(dev, bus) {
+           ^
+   include/linux/pci.h:693:2: note: expanded from macro 'for_each_pci_bridg=
+e'
+           list_for_each_entry(dev, &bus->devices, bus_list)       \
 
-ce81843be24e9d Manish Mandlik         2021-09-21  265  =
+vim +92 include/linux/math64.h
 
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  266  static void msft_le_=
-cancel_monitor_advertisement_cb(struct hci_dev *hdev,
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  267  						    u8 status,=
- u16 opcode,
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  268  						    struct sk_=
-buff *skb)
-ce81843be24e9d Manish Mandlik         2021-09-21  269  {
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  270  	struct msft_cp_le_c=
-ancel_monitor_advertisement *cp;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  271  	struct msft_rp_le_c=
-ancel_monitor_advertisement *rp;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  272  	struct adv_monitor =
-*monitor;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  273  	struct msft_monitor=
-_advertisement_handle_data *handle_data;
-ce81843be24e9d Manish Mandlik         2021-09-21  274  	struct msft_data *m=
-sft =3D hdev->msft_data;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  275  	int err;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  276  	bool pending;
-eb96f195e598b7 Manish Mandlik         2021-12-02  277  	struct monitored_de=
-vice *dev, *tmp;
-ce81843be24e9d Manish Mandlik         2021-09-21  278  =
+f910381a55cdaa Sasha Levin  2012-03-15  88  =
 
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  279  	if (status)
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  280  		goto done;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  281  =
+2418f4f28f8467 Roman Zippel 2008-05-01  89  #ifndef div_u64_rem
+2418f4f28f8467 Roman Zippel 2008-05-01  90  static inline u64 div_u64_rem(u=
+64 dividend, u32 divisor, u32 *remainder)
+2418f4f28f8467 Roman Zippel 2008-05-01  91  {
+2418f4f28f8467 Roman Zippel 2008-05-01 @92  	*remainder =3D do_div(dividend=
+, divisor);
+2418f4f28f8467 Roman Zippel 2008-05-01  93  	return dividend;
+2418f4f28f8467 Roman Zippel 2008-05-01  94  }
+2418f4f28f8467 Roman Zippel 2008-05-01  95  #endif
+2418f4f28f8467 Roman Zippel 2008-05-01  96  =
 
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  282  	rp =3D (struct msft=
-_rp_le_cancel_monitor_advertisement *)skb->data;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  283  	if (skb->len < size=
-of(*rp)) {
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  284  		status =3D HCI_ERR=
-OR_UNSPECIFIED;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  285  		goto done;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  286  	}
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  287  =
 
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  288  	hci_dev_lock(hdev);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  289  =
+:::::: The code at line 92 was first introduced by commit
+:::::: 2418f4f28f8467b92a6177af32d05737ebf6206c introduce explicit signed/u=
+nsigned 64bit divide
 
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  290  	cp =3D hci_sent_cmd=
-_data(hdev, hdev->msft_opcode);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  291  	handle_data =3D msf=
-t_find_handle_data(hdev, cp->handle, false);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  292  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  293  	if (handle_data) {
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  294  		monitor =3D idr_fi=
-nd(&hdev->adv_monitors_idr,
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  295  				   handle_data->=
-mgmt_handle);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  296  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  297  		if (monitor && mon=
-itor->state =3D=3D ADV_MONITOR_STATE_OFFLOADED)
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  298  			monitor->state =
-=3D ADV_MONITOR_STATE_REGISTERED;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  299  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  300  		/* Do not free the=
- monitor if it is being removed due to
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  301  		 * suspend. It wil=
-l be re-monitored on resume.
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  302  		 */
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  303  		if (monitor && !ms=
-ft->suspending)
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  304  			hci_free_adv_moni=
-tor(hdev, monitor);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  305  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  306  		list_del(&handle_d=
-ata->list);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  307  		kfree(handle_data);
-eb96f195e598b7 Manish Mandlik         2021-12-02  308  =
-
-eb96f195e598b7 Manish Mandlik         2021-12-02  309  		/* Clear any monit=
-ored devices by this Adv Monitor */
-eb96f195e598b7 Manish Mandlik         2021-12-02  310  		list_for_each_entr=
-y_safe(dev, tmp, &hdev->monitored_devices,
-eb96f195e598b7 Manish Mandlik         2021-12-02  311  					 list) {
-eb96f195e598b7 Manish Mandlik         2021-12-02 @312  			if (dev->handle =
-=3D=3D handle_data->mgmt_handle) {
-eb96f195e598b7 Manish Mandlik         2021-12-02  313  				list_del(&dev->l=
-ist);
-eb96f195e598b7 Manish Mandlik         2021-12-02  314  				kfree(dev);
-eb96f195e598b7 Manish Mandlik         2021-12-02  315  			}
-eb96f195e598b7 Manish Mandlik         2021-12-02  316  		}
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  317  	}
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  318  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  319  	/* If remove all mo=
-nitors is required, we need to continue the process
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  320  	 * here because the=
- earlier it was paused when waiting for the
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  321  	 * response from co=
-ntroller.
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  322  	 */
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  323  	if (msft->pending_r=
-emove_handle =3D=3D 0) {
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  324  		pending =3D hci_re=
-move_all_adv_monitor(hdev, &err);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  325  		if (pending) {
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  326  			hci_dev_unlock(hd=
-ev);
-ce81843be24e9d Manish Mandlik         2021-09-21  327  			return;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  328  		}
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  329  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  330  		if (err)
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  331  			status =3D HCI_ER=
-ROR_UNSPECIFIED;
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  332  	}
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  333  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  334  	hci_dev_unlock(hdev=
-);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  335  =
-
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  336  done:
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  337  	if (!msft->suspendi=
-ng)
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  338  		hci_remove_adv_mon=
-itor_complete(hdev, status);
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  339  }
-182ee45da083db Luiz Augusto von Dentz 2021-10-27  340  =
-
+:::::: TO: Roman Zippel <zippel@linux-m68k.org>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2250203496479830760==--
+--===============2739243857298024918==--
 
