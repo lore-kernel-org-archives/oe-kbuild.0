@@ -1,56 +1,57 @@
-Content-Type: multipart/mixed; boundary="===============7985482143001274610=="
+Content-Type: multipart/mixed; boundary="===============0755374146625737261=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 1/3] drm/ast: Handle failed I2C initialization gracefully
-Date: Sat, 04 Dec 2021 22:06:37 +0800
-Message-ID: <202112042208.O5p0dLkU-lkp@intel.com>
+Subject: Re: [PATCH v3 4/5] io_uring: add fsetxattr and setxattr support
+Date: Sat, 04 Dec 2021 21:56:04 +0800
+Message-ID: <202112042139.bHHzzWrL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7985482143001274610==
+--===============0755374146625737261==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211201153100.403-2-tzimmermann@suse.de>
-References: <20211201153100.403-2-tzimmermann@suse.de>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: airlied(a)redhat.com
-TO: daniel(a)ffwll.ch
-TO: sam(a)ravnborg.org
-CC: Thomas Zimmermann <tzimmermann@suse.de>
-CC: dri-devel(a)lists.freedesktop.org
+In-Reply-To: <20211203191516.1327214-5-shr@fb.com>
+References: <20211203191516.1327214-5-shr@fb.com>
+TO: Stefan Roesch <shr@fb.com>
+TO: io-uring(a)vger.kernel.org
+TO: linux-fsdevel(a)vger.kernel.org
+TO: kernel-team(a)fb.com
+CC: shr(a)fb.com
 
-Hi Thomas,
+Hi Stefan,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on 6a8f90ec433e2f5de5fc16d7a4839771b7027cc0]
+[auto build test WARNING on c2b8fe96d041238d18228b8384e094cc959497ed]
 
-url:    https://github.com/0day-ci/linux/commits/Thomas-Zimmermann/ast-Fix-=
-I2C-corner-cases-wrt-init-cleanup/20211201-233308
-base:   6a8f90ec433e2f5de5fc16d7a4839771b7027cc0
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-c001-20211203 (https://download.01.org/0day-ci/arch=
-ive/20211204/202112042208.O5p0dLkU-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5f1d18=
-54eb1450d352663ee732235893c5782237)
+url:    https://github.com/0day-ci/linux/commits/Stefan-Roesch/io_uring-add=
+-xattr-support/20211204-031657
+base:   c2b8fe96d041238d18228b8384e094cc959497ed
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: mips-randconfig-c004-20211203 (https://download.01.org/0day-ci/arch=
+ive/20211204/202112042139.bHHzzWrL-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project d30fca=
+df07ee552f20156ea90be2fdb54cb9cb08)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/75bd8f71712a8abb6c51caf5b=
-003e836e60c53bc
+        # install mips cross compiling tool for clang build
+        # apt-get install binutils-mips-linux-gnu
+        # https://github.com/0day-ci/linux/commit/6d1076ace03a9946908f90650=
+8f9fe32043b81c1
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Thomas-Zimmermann/ast-Fix-I2C-corn=
-er-cases-wrt-init-cleanup/20211201-233308
-        git checkout 75bd8f71712a8abb6c51caf5b003e836e60c53bc
+        git fetch --no-tags linux-review Stefan-Roesch/io_uring-add-xattr-s=
+upport/20211204-031657
+        git checkout 6d1076ace03a9946908f906508f9fe32043b81c1
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Dmips clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -58,346 +59,317 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/io_uring.c:4322:2: note: Loop condition is true.  Entering loop body
-           while (!list_empty(&buf->list)) {
-           ^
-   fs/io_uring.c:4327:3: note: Memory is released
-                   kfree(nxt);
-                   ^~~~~~~~~~
-   fs/io_uring.c:4328:3: note: Taking false branch
-                   if (++i =3D=3D nbufs)
-                   ^
-   fs/io_uring.c:4322:2: note: Loop condition is true.  Entering loop body
-           while (!list_empty(&buf->list)) {
-           ^
-   fs/io_uring.c:4326:3: note: Calling 'list_del'
-                   list_del(&nxt->list);
-                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:149:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   include/linux/skbuff.h:2085:2: warning: 2nd function call argument is an=
- uninitialized value [clang-analyzer-core.CallAndMessage]
-           __skb_insert(newsk, next->prev, next, list);
-           ^
-   fs/io_uring.c:8150:2: note: Calling '__skb_queue_head_init'
-           __skb_queue_head_init(&list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:8150:2: note: Returning from '__skb_queue_head_init'
-           __skb_queue_head_init(&list);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:8157:2: note: Loop condition is true.  Entering loop body
-           while (skb) {
-           ^
-   fs/io_uring.c:8161:15: note: Assuming 'i' is >=3D field 'count'
-                   for (i =3D 0; i < fp->count; i++) {
-                               ^~~~~~~~~~~~~
-   fs/io_uring.c:8161:3: note: Loop condition is false. Execution continues=
- on line 8185
-                   for (i =3D 0; i < fp->count; i++) {
-                   ^
-   fs/io_uring.c:8185:7: note: Assuming 'file' is non-null
-                   if (!file)
-                       ^~~~~
-   fs/io_uring.c:8185:3: note: Taking false branch
-                   if (!file)
-                   ^
-   fs/io_uring.c:8188:3: note: Calling '__skb_queue_tail'
-                   __skb_queue_tail(&list, skb);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2118:2: note: Calling '__skb_queue_before'
-           __skb_queue_before(list, (struct sk_buff *)list, newsk);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/skbuff.h:2085:2: note: 2nd function call argument is an un=
-initialized value
-           __skb_insert(newsk, next->prev, next, list);
-           ^                   ~~~~~~~~~~
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/gpu/drm/ast/ast_mode.c:291:2: warning: Value stored to 'jreg' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:291:2: note: Value stored to 'jreg' is ne=
-ver read
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:300:2: warning: Value stored to 'jreg' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:300:2: note: Value stored to 'jreg' is ne=
-ver read
-           jreg =3D ast_io_read8(ast, AST_IO_INPUT_STATUS1_READ);
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/gpu/drm/ast/ast_mode.c:1231:6: warning: Branch condition evaluat=
-es to a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (edid) {
-               ^~~~
-   drivers/gpu/drm/ast/ast_mode.c:1213:2: note: 'edid' declared without an =
-initial value
-           struct edid *edid;
-           ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1217:6: note: Assuming field 'tx_chip_typ=
-e' is not equal to AST_TX_DP501
-           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1217:2: note: Taking false branch
-           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
-           ^
-   drivers/gpu/drm/ast/ast_mode.c:1229:7: note: 'flags' is false
-           if (!flags && ast_connector->i2c)
-                ^~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:6: note: Left side of '&&' is true
-           if (!flags && ast_connector->i2c)
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
+ participates in a condition later
+   static inline bool should_fail_usercopy(void) { return false; }
+                                                   ^~~~~~~~~~~~
+   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
+y'
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
                ^
-   drivers/gpu/drm/ast/ast_mode.c:1229:16: note: Assuming field 'i2c' is nu=
-ll
-           if (!flags && ast_connector->i2c)
-                         ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:2: note: Taking false branch
-           if (!flags && ast_connector->i2c)
+   include/linux/uaccess.h:157:40: note: Assuming the condition is false
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                                                 ^
+   arch/mips/include/asm/uaccess.h:88:2: note: expanded from macro 'access_=
+ok'
+           likely(__access_ok((addr), (size)))
            ^
-   drivers/gpu/drm/ast/ast_mode.c:1231:6: note: Branch condition evaluates =
-to a garbage value
-           if (edid) {
-               ^~~~
->> drivers/gpu/drm/ast/ast_mode.c:1232:3: warning: Use of memory after it i=
-s freed [clang-analyzer-unix.Malloc]
-                   drm_connector_update_edid_property(&ast_connector->base,=
- edid);
-                   ^                                                       =
- ~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1217:6: note: Assuming field 'tx_chip_typ=
-e' is equal to AST_TX_DP501
-           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1217:2: note: Taking true branch
-           if (ast->tx_chip_type =3D=3D AST_TX_DP501) {
+   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ^
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^
+   include/linux/compiler.h:45:39: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   include/linux/uaccess.h:157:40: note: Assuming the condition is false
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                                                 ^
+   arch/mips/include/asm/uaccess.h:88:2: note: expanded from macro 'access_=
+ok'
+           likely(__access_ok((addr), (size)))
            ^
-   drivers/gpu/drm/ast/ast_mode.c:1220:7: note: Assuming 'edid' is non-null
-                   if (!edid)
-                       ^~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1220:3: note: Taking false branch
-                   if (!edid)
-                   ^
-   drivers/gpu/drm/ast/ast_mode.c:1224:7: note: Assuming 'flags' is false
-                   if (flags)
-                       ^~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1224:3: note: Taking false branch
-                   if (flags)
-                   ^
-   drivers/gpu/drm/ast/ast_mode.c:1227:4: note: Memory is released
-                           kfree(edid);
-                           ^~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:7: note: 'flags' is false
-           if (!flags && ast_connector->i2c)
-                ^~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:6: note: Left side of '&&' is true
-           if (!flags && ast_connector->i2c)
+   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ^
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^
+   include/linux/compiler.h:45:66: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                            ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
+k__'
+                                                expect, is_constant);      \
+                                                        ^~~~~~~~~~~
+   include/linux/uaccess.h:157:2: note: Taking true branch
+           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+           ^
+   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/mips/include/asm/uaccess.h:455:2: note: Returning without writing t=
+o '*to'
+           return __cu_len_r;
+           ^
+   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
+                   res =3D raw_copy_from_user(to, from, n);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
+ates in a condition later
+           if (unlikely(res))
                ^
-   drivers/gpu/drm/ast/ast_mode.c:1229:16: note: Assuming field 'i2c' is nu=
-ll
-           if (!flags && ast_connector->i2c)
-                         ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/ast/ast_mode.c:1229:2: note: Taking false branch
-           if (!flags && ast_connector->i2c)
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                       ^~~~
+   include/linux/uaccess.h:161:2: note: Taking false branch
+           if (unlikely(res))
            ^
-   drivers/gpu/drm/ast/ast_mode.c:1231:6: note: 'edid' is non-null
-           if (edid) {
-               ^~~~
-   drivers/gpu/drm/ast/ast_mode.c:1231:2: note: Taking true branch
-           if (edid) {
+   include/linux/uaccess.h:163:2: note: Returning without writing to '*to'
+           return res;
            ^
-   drivers/gpu/drm/ast/ast_mode.c:1232:3: note: Use of memory after it is f=
-reed
-                   drm_connector_update_edid_property(&ast_connector->base,=
- edid);
-                   ^                                                       =
- ~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/gpio/gpio-pcf857x.c:237:23: warning: Value stored to 'np' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-pcf857x.c:237:23: note: Value stored to 'np' during it=
-s initialization is never read
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/gpu/drm/drm_dp_mst_topology.c:2584:30: warning: The left operand=
- of '>>' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorRes=
-ult]
-                   int port_num =3D (rad[i / 2] >> shift) & 0xf;
-                                              ^
-   drivers/gpu/drm/drm_dp_mst_topology.c:4201:6: note: Assuming 'sc' is equ=
-al to field 'sink_count'
-           if (sc !=3D mgr->sink_count) {
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/drm_dp_mst_topology.c:4201:2: note: Taking false branch
-           if (sc !=3D mgr->sink_count) {
+   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
+ which participates in a condition later
+           return res;
+           ^~~~~~~~~~
+   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
+                   n =3D _copy_from_user(to, from, n);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/uaccess.h:193:2: note: Returning without writing to '*to'
+           return n;
            ^
-   drivers/gpu/drm/drm_dp_mst_topology.c:4206:6: note: Assuming the conditi=
-on is true
-           if (esi[1] & DP_DOWN_REP_MSG_RDY) {
+   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
+hich participates in a condition later
+           return n;
+           ^~~~~~~~
+   fs/io_uring.c:11017:6: note: Returning from 'copy_from_user'
+           if (copy_from_user(new_count, arg, sizeof(new_count)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/io_uring.c:11017:2: note: Taking false branch
+           if (copy_from_user(new_count, arg, sizeof(new_count)))
+           ^
+   fs/io_uring.c:11019:7: note: The value 0 is assigned to 'i'
+           for (i =3D 0; i < ARRAY_SIZE(new_count); i++)
+                ^~~~~
+   fs/io_uring.c:11019:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < ARRAY_SIZE(new_count); i++)
+           ^
+   fs/io_uring.c:11020:20: note: The left operand of '>' is a garbage value
+                   if (new_count[i] > INT_MAX)
+                       ~~~~~~~~~~~~ ^
+>> include/linux/fs.h:2725:21: warning: Dereference of null pointer [clang-=
+analyzer-core.NullDereference]
+           return mnt_user_ns(file->f_path.mnt);
+                              ^
+   fs/io_uring.c:7331:25: note: Left side of '||' is true
+           req->opcode =3D opcode =3D READ_ONCE(sqe->opcode);
+                                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:302:29: note: expanded from macro '__nati=
+ve_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+                                      ^
+   fs/io_uring.c:7331:25: note: Taking false branch
+           req->opcode =3D opcode =3D READ_ONCE(sqe->opcode);
+                                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   fs/io_uring.c:7331:25: note: Loop condition is false.  Exiting loop
+           req->opcode =3D opcode =3D READ_ONCE(sqe->opcode);
+                                  ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/io_uring.c:7333:27: note: Left side of '||' is true
+           req->flags =3D sqe_flags =3D READ_ONCE(sqe->flags);
+                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:302:29: note: expanded from macro '__nati=
+ve_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+                                      ^
+   fs/io_uring.c:7333:27: note: Taking false branch
+           req->flags =3D sqe_flags =3D READ_ONCE(sqe->flags);
+                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:315:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   fs/io_uring.c:7333:27: note: Loop condition is false.  Exiting loop
+           req->flags =3D sqe_flags =3D READ_ONCE(sqe->flags);
+                                    ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
+e_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+           ^
+   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/io_uring.c:7334:19: note: Left side of '||' is false
+           req->user_data =3D READ_ONCE(sqe->user_data);
 
-vim +1231 drivers/gpu/drm/ast/ast_mode.c
+vim +2725 include/linux/fs.h
 
-312fec1405dd54 Dave Airlie       2012-02-29  1204  =
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2722  =
 
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1205  /*
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1206   * Connector
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1207   */
-4961eb60f14553 Thomas Zimmermann 2019-11-07  1208  =
-
-312fec1405dd54 Dave Airlie       2012-02-29  1209  static int ast_get_modes=
-(struct drm_connector *connector)
-312fec1405dd54 Dave Airlie       2012-02-29  1210  {
-312fec1405dd54 Dave Airlie       2012-02-29  1211  	struct ast_connector *a=
-st_connector =3D to_ast_connector(connector);
-fa7dbd7688849d Thomas Zimmermann 2020-06-17  1212  	struct ast_private *ast=
- =3D to_ast_private(connector->dev);
-312fec1405dd54 Dave Airlie       2012-02-29  1213  	struct edid *edid;
-312fec1405dd54 Dave Airlie       2012-02-29  1214  	int ret;
-83c6620bae3f14 Dave Airlie       2014-03-28  1215  	bool flags =3D false;
-6c9bd4432b2527 Gregory Williams  2021-07-30  1216  =
-
-83c6620bae3f14 Dave Airlie       2014-03-28  1217  	if (ast->tx_chip_type =
-=3D=3D AST_TX_DP501) {
-83c6620bae3f14 Dave Airlie       2014-03-28  1218  		ast->dp501_maxclk =3D =
-0xff;
-83c6620bae3f14 Dave Airlie       2014-03-28  1219  		edid =3D kmalloc(128, =
-GFP_KERNEL);
-83c6620bae3f14 Dave Airlie       2014-03-28  1220  		if (!edid)
-83c6620bae3f14 Dave Airlie       2014-03-28  1221  			return -ENOMEM;
-312fec1405dd54 Dave Airlie       2012-02-29  1222  =
-
-83c6620bae3f14 Dave Airlie       2014-03-28  1223  		flags =3D ast_dp501_re=
-ad_edid(connector->dev, (u8 *)edid);
-83c6620bae3f14 Dave Airlie       2014-03-28  1224  		if (flags)
-83c6620bae3f14 Dave Airlie       2014-03-28  1225  			ast->dp501_maxclk =3D=
- ast_get_dp501_max_clk(connector->dev);
-83c6620bae3f14 Dave Airlie       2014-03-28  1226  		else
-83c6620bae3f14 Dave Airlie       2014-03-28  1227  			kfree(edid);
-83c6620bae3f14 Dave Airlie       2014-03-28  1228  	}
-75bd8f71712a8a Thomas Zimmermann 2021-12-01  1229  	if (!flags && ast_conne=
-ctor->i2c)
-312fec1405dd54 Dave Airlie       2012-02-29  1230  		edid =3D drm_get_edid(=
-connector, &ast_connector->i2c->adapter);
-312fec1405dd54 Dave Airlie       2012-02-29 @1231  	if (edid) {
-c555f02371c338 Daniel Vetter     2018-07-09 @1232  		drm_connector_update_e=
-did_property(&ast_connector->base, edid);
-312fec1405dd54 Dave Airlie       2012-02-29  1233  		ret =3D drm_add_edid_m=
-odes(connector, edid);
-993dcb05e47e35 Jani Nikula       2012-08-15  1234  		kfree(edid);
-312fec1405dd54 Dave Airlie       2012-02-29  1235  		return ret;
-6c9bd4432b2527 Gregory Williams  2021-07-30  1236  	}
-c555f02371c338 Daniel Vetter     2018-07-09  1237  	drm_connector_update_ed=
-id_property(&ast_connector->base, NULL);
-312fec1405dd54 Dave Airlie       2012-02-29  1238  	return 0;
-312fec1405dd54 Dave Airlie       2012-02-29  1239  }
-312fec1405dd54 Dave Airlie       2012-02-29  1240  =
+a6435940b62f81 Christian Brauner 2021-01-21  2723  static inline struct use=
+r_namespace *file_mnt_user_ns(struct file *file)
+a6435940b62f81 Christian Brauner 2021-01-21  2724  {
+a6435940b62f81 Christian Brauner 2021-01-21 @2725  	return mnt_user_ns(file=
+->f_path.mnt);
+a6435940b62f81 Christian Brauner 2021-01-21  2726  }
+7df818b2370a9a Al Viro           2016-03-25  2727  extern long vfs_truncate=
+(const struct path *, loff_t);
+643fe55a0679ae Christian Brauner 2021-01-21  2728  int do_truncate(struct u=
+ser_namespace *, struct dentry *, loff_t start,
+643fe55a0679ae Christian Brauner 2021-01-21  2729  		unsigned int time_attr=
+s, struct file *filp);
+72c72bdf7bf533 Anna Schumaker    2014-11-07  2730  extern int vfs_fallocate=
+(struct file *file, int mode, loff_t offset,
+3e63cbb1efca7d Ankit Jain        2009-06-19  2731  			loff_t len);
+8e8a1407ac23b4 Jason Uhlenkott   2007-10-20  2732  extern long do_sys_open(=
+int dfd, const char __user *filename, int flags,
+a218d0fdc5f900 Al Viro           2011-11-21  2733  			umode_t mode);
+669abf4e5539c8 Jeff Layton       2012-10-10  2734  extern struct file *file=
+_open_name(struct filename *, int, umode_t);
+a218d0fdc5f900 Al Viro           2011-11-21  2735  extern struct file *filp=
+_open(const char *, int, umode_t);
+ffb37ca3bd16ce Al Viro           2021-04-01  2736  extern struct file *file=
+_open_root(const struct path *,
+378c6520e7d292 Jann Horn         2016-03-22  2737  				   const char *, int=
+, umode_t);
+ffb37ca3bd16ce Al Viro           2021-04-01  2738  static inline struct fil=
+e *file_open_root_mnt(struct vfsmount *mnt,
+ffb37ca3bd16ce Al Viro           2021-04-01  2739  				   const char *name,=
+ int flags, umode_t mode)
+ffb37ca3bd16ce Al Viro           2021-04-01  2740  {
+ffb37ca3bd16ce Al Viro           2021-04-01  2741  	return file_open_root(&=
+(struct path){.mnt =3D mnt, .dentry =3D mnt->mnt_root},
+ffb37ca3bd16ce Al Viro           2021-04-01  2742  			      name, flags, mo=
+de);
+ffb37ca3bd16ce Al Viro           2021-04-01  2743  }
+765927b2d50871 Al Viro           2012-06-26  2744  extern struct file * den=
+try_open(const struct path *, int, const struct cred *);
+2abc77af89e175 Al Viro           2018-07-12  2745  extern struct file * ope=
+n_with_fake_path(const struct path *, int,
+2abc77af89e175 Al Viro           2018-07-12  2746  					 struct inode*, con=
+st struct cred *);
+19f391eb05b8b0 Al Viro           2018-06-08  2747  static inline struct fil=
+e *file_clone_open(struct file *file)
+19f391eb05b8b0 Al Viro           2018-06-08  2748  {
+19f391eb05b8b0 Al Viro           2018-06-08  2749  	return dentry_open(&fil=
+e->f_path, file->f_flags, file->f_cred);
+19f391eb05b8b0 Al Viro           2018-06-08  2750  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  2751  extern int filp_close(st=
+ruct file *, fl_owner_t id);
+91a27b2a756784 Jeff Layton       2012-10-10  2752  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7985482143001274610==--
+--===============0755374146625737261==--
 
