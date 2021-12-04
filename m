@@ -1,179 +1,107 @@
-Content-Type: multipart/mixed; boundary="===============8645731499704994400=="
+Content-Type: multipart/mixed; boundary="===============6124373072738048210=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
-Date: Thu, 09 Dec 2021 21:09:04 +0800
-Message-ID: <202112092127.ZWUiCnER-lkp@intel.com>
+Subject: drivers/net/ethernet/asix/ax88796c_main.c:50:5: warning: Uninitialized variable: ret [uninitvar]
+Date: Sat, 04 Dec 2021 15:27:46 +0800
+Message-ID: <202112041549.FF9xdlFs-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8645731499704994400==
+--===============6124373072738048210==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
+TO: "=C5=81ukasz Stelmach" <l.stelmach@samsung.com>
+CC: Jakub Kicinski <kuba@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
-commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
-y_man
-date:   6 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211209/202112092127.ZWUiCnER-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+head:   12119cfa1052d512a92524e90ebee85029a918f8
+commit: a97c69ba4f30e46abb9cc7be8b98227cb468fdf9 net: ax88796c: ASIX AX8879=
+6C SPI Ethernet Adapter Driver
+date:   6 weeks ago
+:::::: branch date: 11 hours ago
+:::::: commit date: 6 weeks ago
+compiler: alpha-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
- warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
- warn: should 'bo->page_alignment << 12' be a 64 bit type?
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+>> drivers/net/ethernet/asix/ax88796c_main.c:50:5: warning: Uninitialized v=
+ariable: ret [uninitvar]
+       (ret & PSR_DEV_READY),
+       ^
+   drivers/net/ethernet/asix/ax88796c_main.c:79:5: warning: Uninitialized v=
+ariable: ret [uninitvar]
+       (ret & PSR_DEV_READY),
+       ^
 
-88be9a0a06b73e Matthew Auld 2021-06-16   28  =
+vim +50 drivers/net/ethernet/asix/ax88796c_main.c
 
-88be9a0a06b73e Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man_=
-alloc(struct ttm_resource_manager *man,
-88be9a0a06b73e Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obje=
-ct *bo,
-88be9a0a06b73e Matthew Auld 2021-06-16   31  				    const struct ttm_place=
- *place,
-88be9a0a06b73e Matthew Auld 2021-06-16   32  				    struct ttm_resource **=
-res)
-88be9a0a06b73e Matthew Auld 2021-06-16   33  {
-88be9a0a06b73e Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manager=
- *bman =3D to_buddy_manager(man);
-88be9a0a06b73e Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resourc=
-e *bman_res;
-88be9a0a06b73e Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D =
-&bman->mm;
-88be9a0a06b73e Matthew Auld 2021-06-16   37  	unsigned long n_pages;
-88be9a0a06b73e Matthew Auld 2021-06-16   38  	unsigned int min_order;
-88be9a0a06b73e Matthew Auld 2021-06-16   39  	u64 min_page_size;
-88be9a0a06b73e Matthew Auld 2021-06-16   40  	u64 size;
-88be9a0a06b73e Matthew Auld 2021-06-16   41  	int err;
-88be9a0a06b73e Matthew Auld 2021-06-16   42  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  38  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pla=
-ce->lpfn);
-88be9a0a06b73e Matthew Auld 2021-06-16   44  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  39  static int ax88796c_sof=
+t_reset(struct ax88796c_device *ax_local)
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  40  {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  41  	u16 temp;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  42  	int ret;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  43  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(*=
-bman_res), GFP_KERNEL);
-88be9a0a06b73e Matthew Auld 2021-06-16   46  	if (!bman_res)
-88be9a0a06b73e Matthew Auld 2021-06-16   47  		return -ENOMEM;
-88be9a0a06b73e Matthew Auld 2021-06-16   48  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  44  	lockdep_assert_held(&a=
+x_local->spi_lock);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  45  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place, =
-&bman_res->base);
-88be9a0a06b73e Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->blo=
-cks);
-88be9a0a06b73e Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
-88be9a0a06b73e Matthew Auld 2021-06-16   52  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  46  	AX_WRITE(&ax_local->ax=
+_spi, PSR_RESET, P0_PSR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  47  	AX_WRITE(&ax_local->ax=
+_spi, PSR_RESET_CLR, P0_PSR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  48  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.nu=
-m_pages);
-88be9a0a06b73e Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_p=
-ages << PAGE_SHIFT;
-88be9a0a06b73e Matthew Auld 2021-06-16   55  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  49  	ret =3D read_poll_time=
+out(AX_READ, ret,
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20 @50  				(ret & PSR_DEV_READ=
+Y),
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  51  				0, jiffies_to_usecs=
+(160 * HZ / 1000), false,
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  52  				&ax_local->ax_spi, =
+P0_PSR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  53  	if (ret)
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  54  		return ret;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  55  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_al=
-ignment << PAGE_SHIFT;
-88be9a0a06b73e Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < mm=
-->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page_=
-size) - ilog2(mm->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FLA=
-G_CONTIGUOUS) {
-88be9a0a06b73e Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two(=
-size);
-88be9a0a06b73e Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) - =
-ilog2(mm->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   62  	}
-88be9a0a06b73e Matthew Auld 2021-06-16   63  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  56  	temp =3D AX_READ(&ax_l=
+ocal->ax_spi, P4_SPICR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  57  	if (ax_local->priv_fla=
+gs & AX_CAP_COMP) {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  58  		AX_WRITE(&ax_local->a=
+x_spi,
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  59  			 (temp | SPICR_RCEN =
+| SPICR_QCEN), P4_SPICR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  60  		ax_local->ax_spi.comp=
+ =3D 1;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  61  	} else {
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  62  		AX_WRITE(&ax_local->a=
+x_spi,
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  63  			 (temp & ~(SPICR_RCE=
+N | SPICR_QCEN)), P4_SPICR);
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  64  		ax_local->ax_spi.comp=
+ =3D 0;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  65  	}
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  66  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   64  	if (size > mm->size) {
-88be9a0a06b73e Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
-88be9a0a06b73e Matthew Auld 2021-06-16   66  		goto err_free_res;
-88be9a0a06b73e Matthew Auld 2021-06-16   67  	}
-88be9a0a06b73e Matthew Auld 2021-06-16   68  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm-=
->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   70  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   71  	do {
-88be9a0a06b73e Matthew Auld 2021-06-16   72  		struct i915_buddy_block *blo=
-ck;
-88be9a0a06b73e Matthew Auld 2021-06-16   73  		unsigned int order;
-88be9a0a06b73e Matthew Auld 2021-06-16   74  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
-88be9a0a06b73e Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_o=
-rder);
-88be9a0a06b73e Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_order=
-);
-88be9a0a06b73e Matthew Auld 2021-06-16   78  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   79  		do {
-88be9a0a06b73e Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc(=
-mm, order);
-88be9a0a06b73e Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
-88be9a0a06b73e Matthew Auld 2021-06-16   84  				break;
-88be9a0a06b73e Matthew Auld 2021-06-16   85  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_orde=
-r) {
-88be9a0a06b73e Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
-88be9a0a06b73e Matthew Auld 2021-06-16   88  				goto err_free_blocks;
-88be9a0a06b73e Matthew Auld 2021-06-16   89  			}
-88be9a0a06b73e Matthew Auld 2021-06-16   90  		} while (1);
-88be9a0a06b73e Matthew Auld 2021-06-16   91  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
-88be9a0a06b73e Matthew Auld 2021-06-16   93  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   94  		list_add_tail(&block->link, =
-&bman_res->blocks);
-88be9a0a06b73e Matthew Auld 2021-06-16   95  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16   96  		if (!n_pages)
-88be9a0a06b73e Matthew Auld 2021-06-16   97  			break;
-88be9a0a06b73e Matthew Auld 2021-06-16   98  	} while (1);
-88be9a0a06b73e Matthew Auld 2021-06-16   99  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
-88be9a0a06b73e Matthew Auld 2021-06-16  101  	return 0;
-88be9a0a06b73e Matthew Auld 2021-06-16  102  =
-
-88be9a0a06b73e Matthew Auld 2021-06-16  103  err_free_blocks:
-88be9a0a06b73e Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bma=
-n_res->blocks);
-88be9a0a06b73e Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16  107  err_free_res:
-88be9a0a06b73e Matthew Auld 2021-06-16  108  	kfree(bman_res);
-88be9a0a06b73e Matthew Auld 2021-06-16  109  	return err;
-88be9a0a06b73e Matthew Auld 2021-06-16  110  }
-88be9a0a06b73e Matthew Auld 2021-06-16  111  =
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  67  	return 0;
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  68  }
+a97c69ba4f30e4 =C5=81ukasz Stelmach 2021-10-20  69  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8645731499704994400==--
+--===============6124373072738048210==--
 
