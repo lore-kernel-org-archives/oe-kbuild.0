@@ -1,247 +1,406 @@
-Content-Type: multipart/mixed; boundary="===============8921787290750259770=="
+Content-Type: multipart/mixed; boundary="===============5725672226914386123=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/usb/cdns3/cdnsp-pci.c:181 cdnsp_pci_probe() warn: possible memory leak of 'cdnsp'
-Date: Thu, 09 Dec 2021 21:50:59 +0800
-Message-ID: <202112092103.65goOmME-lkp@intel.com>
+Subject: drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse: sparse: incorrect type in argument 1 (different address spaces)
+Date: Sun, 05 Dec 2021 14:08:39 +0800
+Message-ID: <202112051415.EJvS4Mh4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8921787290750259770==
+--===============5725672226914386123==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Randy Dunlap <rdunlap@infradead.org>
-CC: Peter Chen <peter.chen@nxp.com>
+TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+CC: Rob Clark <robdclark@gmail.com>
+
+Hi Christian,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
-commit: 28a25ba3e59263a66b2a2cd3e153351b2db2a6b6 usb: cdns3: fix build when=
- PM_SLEEP is not set
-date:   12 months ago
-:::::: branch date: 2 days ago
-:::::: commit date: 12 months ago
-config: x86_64-randconfig-m031-20211206 (https://download.01.org/0day-ci/ar=
-chive/20211209/202112092103.65goOmME-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+head:   79a72162048e42a677bc7336a9f5d86fc3ff9558
+commit: b3ed524f84f573ece1aa2f26e9db3c34a593e0d1 drm/msm: allow compile_tes=
+t on !ARM
+date:   10 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 10 weeks ago
+config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20211205=
+/202112051415.EJvS4Mh4-lkp(a)intel.com/config)
+compiler: m68k-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Db3ed524f84f573ece1aa2f26e9db3c34a593e0d1
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout b3ed524f84f573ece1aa2f26e9db3c34a593e0d1
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
+68k SHELL=3D/bin/bash drivers/gpu/drm/msm/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/usb/cdns3/cdnsp-pci.c:181 cdnsp_pci_probe() warn: possible memory l=
-eak of 'cdnsp'
 
-vim +/cdnsp +181 drivers/usb/cdns3/cdnsp-pci.c
+sparse warnings: (new ones prefixed by >>)
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:362:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:362:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:387:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:387:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:460:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:460:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:467:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:467:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:493:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:493:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1412:31: sparse: sparse: incorrect=
+ type in return expression (different address spaces) @@     expected void =
+[noderef] __iomem * @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1412:31: sparse:     expected void=
+ [noderef] __iomem *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1412:31: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse: sparse: incorrect=
+ type in return expression (different address spaces) @@     expected void =
+[noderef] __iomem * @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse:     expected void=
+ [noderef] __iomem *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:858:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:858:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:860:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:860:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1066:23: sparse: sparse: dereferen=
+ce of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1066:23: sparse: sparse: dereferen=
+ce of noderef expression
+>> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse: sparse: incorrect=
+ type in argument 1 (different address spaces) @@     expected void [nodere=
+f] __iomem *addr @@     got void *[noderef] mmio @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse:     expected void=
+ [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse:     got void *[no=
+deref] mmio
+>> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1460:28: sparse: sparse: incorrect=
+ type in argument 1 (different address spaces) @@     expected void [nodere=
+f] __iomem *addr @@     got void *[noderef] rscc @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1460:28: sparse:     expected void=
+ [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1460:28: sparse:     got void *[no=
+deref] rscc
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1560:19: sparse: sparse: incorrect=
+ type in assignment (different address spaces) @@     expected void *[noder=
+ef] mmio @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1560:19: sparse:     expected void=
+ *[noderef] mmio
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1560:19: sparse:     got void [nod=
+eref] __iomem *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1567:27: sparse: sparse: incorrect=
+ type in assignment (different address spaces) @@     expected void *[noder=
+ef] rscc @@     got void [noderef] __iomem * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1567:27: sparse:     expected void=
+ *[noderef] rscc
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1567:27: sparse:     got void [nod=
+eref] __iomem *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1598:20: sparse: sparse: incorrect=
+ type in argument 1 (different address spaces) @@     expected void [nodere=
+f] __iomem *addr @@     got void *[noderef] mmio @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1598:20: sparse:     expected void=
+ [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1598:20: sparse:     got void *[no=
+deref] mmio
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1600:28: sparse: sparse: incorrect=
+ type in argument 1 (different address spaces) @@     expected void [nodere=
+f] __iomem *addr @@     got void *[noderef] rscc @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1600:28: sparse:     expected void=
+ [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1600:28: sparse:     got void *[no=
+deref] rscc
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c: note: in included file (through d=
+rivers/gpu/drm/msm/adreno/a6xx_gpu.h):
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
+onst [noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
+ype in argument 2 (different address spaces) @@     expected void [noderef]=
+ __iomem *addr @@     got void * @@
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
+noderef] __iomem *addr
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
+ of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
+e of noderef expression
+   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
+ype in argument 1 (different address spaces) @@     expected void const [no=
+deref] __iomem *addr @@     got void * @@
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07   57  =
+vim +1458 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07   58  static int cdnsp_pci_probe(s=
-truct pci_dev *pdev,
-3d82904559f4f5 Pawel Laszczak 2020-12-07   59  			   const struct pci_devic=
-e_id *id)
-3d82904559f4f5 Pawel Laszczak 2020-12-07   60  {
-3d82904559f4f5 Pawel Laszczak 2020-12-07   61  	struct device *dev =3D &pde=
-v->dev;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   62  	struct pci_dev *func;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   63  	struct resource *res;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   64  	struct cdns *cdnsp;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   65  	int ret;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   66  =
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1442  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07   67  	/*
-3d82904559f4f5 Pawel Laszczak 2020-12-07   68  	 * For GADGET/HOST PCI (dev=
-fn) function number is 0,
-3d82904559f4f5 Pawel Laszczak 2020-12-07   69  	 * for OTG PCI (devfn) func=
-tion number is 1.
-3d82904559f4f5 Pawel Laszczak 2020-12-07   70  	 */
-3d82904559f4f5 Pawel Laszczak 2020-12-07   71  	if (!id || (pdev->devfn !=
-=3D PCI_DEV_FN_HOST_DEVICE &&
-3d82904559f4f5 Pawel Laszczak 2020-12-07   72  		    pdev->devfn !=3D PCI_D=
-EV_FN_OTG))
-3d82904559f4f5 Pawel Laszczak 2020-12-07   73  		return -EINVAL;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   74  =
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1443  void a6xx_gmu_remove(struct=
+ a6xx_gpu *a6xx_gpu)
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1444  {
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1445  	struct a6xx_gmu *gmu =3D &=
+a6xx_gpu->gmu;
+02ef80c54e7cd7 Jonathan Marek 2020-04-23  1446  	struct platform_device *pd=
+ev =3D to_platform_device(gmu->dev);
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1447  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07   75  	func =3D cdnsp_get_second_f=
-un(pdev);
-3d82904559f4f5 Pawel Laszczak 2020-12-07   76  	if (!func)
-3d82904559f4f5 Pawel Laszczak 2020-12-07   77  		return -EINVAL;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   78  =
+606ec90fc22662 Sean Paul      2019-05-23  1448  	if (!gmu->initialized)
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1449  		return;
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1450  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07   79  	if (func->class =3D=3D PCI_=
-CLASS_SERIAL_USB_XHCI ||
-3d82904559f4f5 Pawel Laszczak 2020-12-07   80  	    pdev->class =3D=3D PCI_=
-CLASS_SERIAL_USB_XHCI) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07   81  		ret =3D -EINVAL;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   82  		goto put_pci;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   83  	}
-3d82904559f4f5 Pawel Laszczak 2020-12-07   84  =
+03b7af1ef4992b Jordan Crouse  2019-05-07  1451  	pm_runtime_force_suspend(g=
+mu->dev);
+9325d4266afd4e Jordan Crouse  2019-02-04  1452  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07   85  	ret =3D pcim_enable_device(=
-pdev);
-3d82904559f4f5 Pawel Laszczak 2020-12-07   86  	if (ret) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07   87  		dev_err(&pdev->dev, "Enabl=
-ing PCI device has failed %d\n", ret);
-3d82904559f4f5 Pawel Laszczak 2020-12-07   88  		goto put_pci;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   89  	}
-3d82904559f4f5 Pawel Laszczak 2020-12-07   90  =
+2b117451277140 Sean Paul      2019-05-15  1453  	if (!IS_ERR_OR_NULL(gmu->g=
+xpd)) {
+9325d4266afd4e Jordan Crouse  2019-02-04  1454  		pm_runtime_disable(gmu->g=
+xpd);
+9325d4266afd4e Jordan Crouse  2019-02-04  1455  		dev_pm_domain_detach(gmu-=
+>gxpd, false);
+9325d4266afd4e Jordan Crouse  2019-02-04  1456  	}
+9325d4266afd4e Jordan Crouse  2019-02-04  1457  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07   91  	pci_set_master(pdev);
-3d82904559f4f5 Pawel Laszczak 2020-12-07   92  	if (pci_is_enabled(func)) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07   93  		cdnsp =3D pci_get_drvdata(=
-func);
-3d82904559f4f5 Pawel Laszczak 2020-12-07   94  	} else {
-3d82904559f4f5 Pawel Laszczak 2020-12-07   95  		cdnsp =3D kzalloc(sizeof(*=
-cdnsp), GFP_KERNEL);
-3d82904559f4f5 Pawel Laszczak 2020-12-07   96  		if (!cdnsp) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07   97  			ret =3D -ENOMEM;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   98  			goto disable_pci;
-3d82904559f4f5 Pawel Laszczak 2020-12-07   99  		}
-3d82904559f4f5 Pawel Laszczak 2020-12-07  100  	}
-3d82904559f4f5 Pawel Laszczak 2020-12-07  101  =
+a62fb211ad0c9e Sean Paul      2019-05-23 @1458  	iounmap(gmu->mmio);
+02ef80c54e7cd7 Jonathan Marek 2020-04-23  1459  	if (platform_get_resource_=
+byname(pdev, IORESOURCE_MEM, "rscc"))
+02ef80c54e7cd7 Jonathan Marek 2020-04-23 @1460  		iounmap(gmu->rscc);
+a62fb211ad0c9e Sean Paul      2019-05-23  1461  	gmu->mmio =3D NULL;
+02ef80c54e7cd7 Jonathan Marek 2020-04-23  1462  	gmu->rscc =3D NULL;
+a62fb211ad0c9e Sean Paul      2019-05-23  1463  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07  102  	/* For GADGET device functi=
-on number is 0. */
-3d82904559f4f5 Pawel Laszczak 2020-12-07  103  	if (pdev->devfn =3D=3D 0) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07  104  		resource_size_t rsrc_start=
-, rsrc_len;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  105  =
+29ac8979cdf720 Jonathan Marek 2020-04-23  1464  	a6xx_gmu_memory_free(gmu);
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1465  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07  106  		/* Function 0: host(BAR_0)=
- + device(BAR_1).*/
-3d82904559f4f5 Pawel Laszczak 2020-12-07  107  		dev_dbg(dev, "Initialize r=
-esources\n");
-3d82904559f4f5 Pawel Laszczak 2020-12-07  108  		rsrc_start =3D pci_resourc=
-e_start(pdev, PCI_BAR_DEV);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  109  		rsrc_len =3D pci_resource_=
-len(pdev, PCI_BAR_DEV);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  110  		res =3D devm_request_mem_r=
-egion(dev, rsrc_start, rsrc_len, "dev");
-3d82904559f4f5 Pawel Laszczak 2020-12-07  111  		if (!res) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07  112  			dev_dbg(dev, "controller =
-already in use\n");
-3d82904559f4f5 Pawel Laszczak 2020-12-07  113  			ret =3D -EBUSY;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  114  			goto free_cdnsp;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  115  		}
-3d82904559f4f5 Pawel Laszczak 2020-12-07  116  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  117  		cdnsp->dev_regs =3D devm_i=
-oremap(dev, rsrc_start, rsrc_len);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  118  		if (!cdnsp->dev_regs) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07  119  			dev_dbg(dev, "error mappi=
-ng memory\n");
-3d82904559f4f5 Pawel Laszczak 2020-12-07  120  			ret =3D -EFAULT;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  121  			goto free_cdnsp;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  122  		}
-3d82904559f4f5 Pawel Laszczak 2020-12-07  123  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  124  		cdnsp->dev_irq =3D pdev->i=
-rq;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  125  		dev_dbg(dev, "USBSS-DEV ph=
-ysical base addr: %pa\n",
-3d82904559f4f5 Pawel Laszczak 2020-12-07  126  			&rsrc_start);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  127  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  128  		res =3D &cdnsp->xhci_res[0=
-];
-3d82904559f4f5 Pawel Laszczak 2020-12-07  129  		res->start =3D pci_resourc=
-e_start(pdev, PCI_BAR_HOST);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  130  		res->end =3D pci_resource_=
-end(pdev, PCI_BAR_HOST);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  131  		res->name =3D "xhci";
-3d82904559f4f5 Pawel Laszczak 2020-12-07  132  		res->flags =3D IORESOURCE_=
-MEM;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  133  		dev_dbg(dev, "USBSS-XHCI p=
-hysical base addr: %pa\n",
-3d82904559f4f5 Pawel Laszczak 2020-12-07  134  			&res->start);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  135  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  136  		/* Interrupt for XHCI, */
-3d82904559f4f5 Pawel Laszczak 2020-12-07  137  		res =3D &cdnsp->xhci_res[1=
-];
-3d82904559f4f5 Pawel Laszczak 2020-12-07  138  		res->start =3D pdev->irq;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  139  		res->name =3D "host";
-3d82904559f4f5 Pawel Laszczak 2020-12-07  140  		res->flags =3D IORESOURCE_=
-IRQ;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  141  	} else {
-3d82904559f4f5 Pawel Laszczak 2020-12-07  142  		res =3D &cdnsp->otg_res;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  143  		res->start =3D pci_resourc=
-e_start(pdev, PCI_BAR_OTG);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  144  		res->end =3D   pci_resourc=
-e_end(pdev, PCI_BAR_OTG);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  145  		res->name =3D "otg";
-3d82904559f4f5 Pawel Laszczak 2020-12-07  146  		res->flags =3D IORESOURCE_=
-MEM;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  147  		dev_dbg(dev, "CDNSP-DRD ph=
-ysical base addr: %pa\n",
-3d82904559f4f5 Pawel Laszczak 2020-12-07  148  			&res->start);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  149  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  150  		/* Interrupt for OTG/DRD. =
-*/
-3d82904559f4f5 Pawel Laszczak 2020-12-07  151  		cdnsp->otg_irq =3D pdev->i=
-rq;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  152  	}
-3d82904559f4f5 Pawel Laszczak 2020-12-07  153  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  154  	if (pci_is_enabled(func)) {
-3d82904559f4f5 Pawel Laszczak 2020-12-07  155  		cdnsp->dev =3D dev;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  156  		cdnsp->gadget_init =3D cdn=
-sp_gadget_init;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  157  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  158  		ret =3D cdns_init(cdnsp);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  159  		if (ret)
-3d82904559f4f5 Pawel Laszczak 2020-12-07  160  			goto free_cdnsp;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  161  	}
-3d82904559f4f5 Pawel Laszczak 2020-12-07  162  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  163  	pci_set_drvdata(pdev, cdnsp=
+a62fb211ad0c9e Sean Paul      2019-05-23  1466  	free_irq(gmu->gmu_irq, gmu=
 );
-3d82904559f4f5 Pawel Laszczak 2020-12-07  164  =
+a62fb211ad0c9e Sean Paul      2019-05-23  1467  	free_irq(gmu->hfi_irq, gmu=
+);
+a62fb211ad0c9e Sean Paul      2019-05-23  1468  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07  165  	device_wakeup_enable(&pdev-=
->dev);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  166  	if (pci_dev_run_wake(pdev))
-3d82904559f4f5 Pawel Laszczak 2020-12-07  167  		pm_runtime_put_noidle(&pde=
-v->dev);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  168  =
+998efc74672c2d Sean Paul      2019-05-23  1469  	/* Drop reference taken in=
+ of_find_device_by_node */
+998efc74672c2d Sean Paul      2019-05-23  1470  	put_device(gmu->dev);
+998efc74672c2d Sean Paul      2019-05-23  1471  =
 
-3d82904559f4f5 Pawel Laszczak 2020-12-07  169  	return 0;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  170  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  171  free_cdnsp:
-3d82904559f4f5 Pawel Laszczak 2020-12-07  172  	if (!pci_is_enabled(func))
-3d82904559f4f5 Pawel Laszczak 2020-12-07  173  		kfree(cdnsp);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  174  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  175  disable_pci:
-3d82904559f4f5 Pawel Laszczak 2020-12-07  176  	pci_disable_device(pdev);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  177  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07  178  put_pci:
-3d82904559f4f5 Pawel Laszczak 2020-12-07  179  	pci_dev_put(func);
-3d82904559f4f5 Pawel Laszczak 2020-12-07  180  =
-
-3d82904559f4f5 Pawel Laszczak 2020-12-07 @181  	return ret;
-3d82904559f4f5 Pawel Laszczak 2020-12-07  182  }
-3d82904559f4f5 Pawel Laszczak 2020-12-07  183  =
+606ec90fc22662 Sean Paul      2019-05-23  1472  	gmu->initialized =3D false;
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1473  }
+4b565ca5a2cbbb Jordan Crouse  2018-08-06  1474  =
 
 
-:::::: The code at line 181 was first introduced by commit
-:::::: 3d82904559f4f5a2622db1b21de3edf2eded7664 usb: cdnsp: cdns3 Add main =
-part of Cadence USBSSP DRD Driver
+:::::: The code at line 1458 was first introduced by commit
+:::::: a62fb211ad0c9e13e79d350905a704f46447b8cf drm/msm/a6xx: Remove devm c=
+alls from gmu driver
 
-:::::: TO: Pawel Laszczak <pawell@cadence.com>
-:::::: CC: Peter Chen <peter.chen@nxp.com>
+:::::: TO: Sean Paul <seanpaul@chromium.org>
+:::::: CC: Sean Paul <seanpaul@chromium.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8921787290750259770==--
+--===============5725672226914386123==--
 
