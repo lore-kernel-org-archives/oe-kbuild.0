@@ -1,229 +1,381 @@
-Content-Type: multipart/mixed; boundary="===============8580366772183718780=="
+Content-Type: multipart/mixed; boundary="===============4698115363971946591=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer to 'PTR_ERR'
-Date: Sun, 05 Dec 2021 10:33:56 +0800
-Message-ID: <202112051012.gkhSfyxT-lkp@intel.com>
+Subject: Re: [RFC Patch v2 1/3] i2c debug counters as sysfs attributes
+Date: Sun, 05 Dec 2021 09:43:19 +0800
+Message-ID: <202112050932.BQQ8v5Zy-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8580366772183718780==
+--===============4698115363971946591==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sjpark@amazon.de>
-CC: Fernand Sieber <sieberf@amazon.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+In-Reply-To: <20211203023728.3699610-2-suichen@google.com>
+References: <20211203023728.3699610-2-suichen@google.com>
+TO: Sui Chen <suichen@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   79a72162048e42a677bc7336a9f5d86fc3ff9558
-commit: 75c1c2b53c78bf3b3188ebb7b3508dadbf98bba1 mm/damon/dbgfs: support mu=
-ltiple contexts
-date:   3 months ago
-:::::: branch date: 65 minutes ago
-:::::: commit date: 3 months ago
-config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
-hive/20211205/202112051012.gkhSfyxT-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+Hi Sui,
+
+[FYI, it's a private test report for your RFC patch.]
+[auto build test WARNING on wsa/i2c/for-next]
+[also build test WARNING on linux/master linus/master v5.16-rc3 next-202112=
+03]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Sui-Chen/I2C-statistics-as=
+-sysfs-attributes/20211203-103913
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/wsa/linux.git i2c/f=
+or-next
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-c002-20211203 (https://download.01.org/0day-ci/archi=
+ve/20211205/202112050932.BQQ8v5Zy-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 1e328b=
+06c15273edf4a40a27ca24931b5efb3a87)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/0day-ci/linux/commit/16ccbe6d6d8b9a6e81ba9f40b=
+70d3af92d04776e
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Sui-Chen/I2C-statistics-as-sysfs-a=
+ttributes/20211203-103913
+        git checkout 16ccbe6d6d8b9a6e81ba9f40b70d3af92d04776e
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-mm/damon/dbgfs.c:396 dbgfs_mk_context_write() warn: passing a valid pointer=
- to 'PTR_ERR'
-mm/damon/dbgfs.c:487 dbgfs_rm_context_write() warn: passing a valid pointer=
- to 'PTR_ERR'
 
-vim +/PTR_ERR +396 mm/damon/dbgfs.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   24 warnings generated.
+   kernel/sched/fair.c:7052:37: warning: Access to field 'vruntime' results=
+ in a dereference of a null pointer (loaded from variable 'se') [clang-anal=
+yzer-core.NullDereference]
+           s64 gran, vdiff =3D curr->vruntime - se->vruntime;
+                                              ^
+   kernel/sched/fair.c:7371:9: note: Calling 'pick_next_task_fair'
+           return pick_next_task_fair(rq, NULL, NULL);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:7234:7: note: Calling 'sched_fair_runnable'
+           if (!sched_fair_runnable(rq))
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/sched.h:2221:9: note: Assuming field 'nr_running' is > 0
+           return rq->cfs.nr_running > 0;
+                  ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/sched.h:2221:2: note: Returning without writing to 'rq->cfs=
+.tasks_timeline.rb_leftmost', which participates in a condition later
+           return rq->cfs.nr_running > 0;
+           ^
+   kernel/sched/sched.h:2221:2: note: Returning without writing to 'rq->cfs=
+.next', which participates in a condition later
+   kernel/sched/fair.c:7234:7: note: Returning from 'sched_fair_runnable'
+           if (!sched_fair_runnable(rq))
+                ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:7234:2: note: Taking false branch
+           if (!sched_fair_runnable(rq))
+           ^
+   kernel/sched/fair.c:7315:6: note: 'prev' is null
+           if (prev)
+               ^~~~
+   kernel/sched/fair.c:7315:2: note: Taking false branch
+           if (prev)
+           ^
+   kernel/sched/fair.c:7319:33: note: Passing null pointer value via 2nd pa=
+rameter 'curr'
+                   se =3D pick_next_entity(cfs_rq, NULL);
+                                                 ^
+   include/linux/stddef.h:8:14: note: expanded from macro 'NULL'
+   #define NULL ((void *)0)
+                ^~~~~~~~~~~
+   kernel/sched/fair.c:7319:8: note: Calling 'pick_next_entity'
+                   se =3D pick_next_entity(cfs_rq, NULL);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:4474:30: note: Calling '__pick_first_entity'
+           struct sched_entity *left =3D __pick_first_entity(cfs_rq);
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:600:6: note: Assuming 'left' is null
+           if (!left)
+               ^~~~~
+   kernel/sched/fair.c:600:2: note: Taking true branch
+           if (!left)
+           ^
+   kernel/sched/fair.c:601:3: note: Returning without writing to 'cfs_rq->n=
+ext', which participates in a condition later
+                   return NULL;
+                   ^
+   kernel/sched/fair.c:601:3: note: Returning null pointer, which participa=
+tes in a condition later
+                   return NULL;
+                   ^~~~~~~~~~~
+   kernel/sched/fair.c:4474:30: note: Returning from '__pick_first_entity'
+           struct sched_entity *left =3D __pick_first_entity(cfs_rq);
+                                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:4481:7: note: 'left' is null
+           if (!left || (curr && entity_before(curr, left)))
+                ^~~~
+   kernel/sched/fair.c:4481:12: note: Left side of '||' is true
+           if (!left || (curr && entity_before(curr, left)))
+                     ^
+   kernel/sched/fair.c:4482:3: note: Null pointer value stored to 'left'
+                   left =3D curr;
+                   ^~~~~~~~~~~
+   kernel/sched/fair.c:4490:6: note: Assuming field 'skip' is null
+           if (cfs_rq->skip && cfs_rq->skip =3D=3D se) {
+               ^~~~~~~~~~~~
+   kernel/sched/fair.c:4490:19: note: Left side of '&&' is false
+           if (cfs_rq->skip && cfs_rq->skip =3D=3D se) {
+                            ^
+   kernel/sched/fair.c:4505:6: note: Assuming field 'next' is non-null
+           if (cfs_rq->next && wakeup_preempt_entity(cfs_rq->next, left) < =
+1) {
+               ^~~~~~~~~~~~
+   kernel/sched/fair.c:4505:6: note: Left side of '&&' is true
+   kernel/sched/fair.c:4505:58: note: Passing null pointer value via 2nd pa=
+rameter 'se'
+           if (cfs_rq->next && wakeup_preempt_entity(cfs_rq->next, left) < =
+1) {
+                                                                   ^~~~
+   kernel/sched/fair.c:4505:22: note: Calling 'wakeup_preempt_entity'
+           if (cfs_rq->next && wakeup_preempt_entity(cfs_rq->next, left) < =
+1) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/fair.c:7052:37: note: Access to field 'vruntime' results in=
+ a dereference of a null pointer (loaded from variable 'se')
+           s64 gran, vdiff =3D curr->vruntime - se->vruntime;
+                                              ^~
+   Suppressed 23 warnings (4 in non-user code, 19 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/i2c/i2c-dev.c:866:6: warning: Branch condition evaluates to a ga=
+rbage value [clang-analyzer-core.uninitialized.Branch]
+           if (ret) {
+               ^~~
+   drivers/i2c/i2c-dev.c:838:2: note: 'ret' declared without an initial val=
+ue
+           int ret;
+           ^~~~~~~
+   drivers/i2c/i2c-dev.c:839:6: note: Assuming field 'stats' is not equal t=
+o NULL
+           if (adapter->stats =3D=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:839:2: note: Taking false branch
+           if (adapter->stats =3D=3D NULL) {
+           ^
+   drivers/i2c/i2c-dev.c:843:6: note: Assuming the condition is false
+           if (!strcmp(counter_name, "ber_cnt")) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:843:2: note: Taking false branch
+           if (!strcmp(counter_name, "ber_cnt")) {
+           ^
+   drivers/i2c/i2c-dev.c:846:13: note: Assuming the condition is false
+           } else if (!strcmp(counter_name, "nack_cnt")) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:846:9: note: Taking false branch
+           } else if (!strcmp(counter_name, "nack_cnt")) {
+                  ^
+   drivers/i2c/i2c-dev.c:849:13: note: Assuming the condition is false
+           } else if (!strcmp(counter_name, "rec_succ_cnt")) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:849:9: note: Taking false branch
+           } else if (!strcmp(counter_name, "rec_succ_cnt")) {
+                  ^
+   drivers/i2c/i2c-dev.c:852:13: note: Assuming the condition is false
+           } else if (!strcmp(counter_name, "rec_fail_cnt")) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:852:9: note: Taking false branch
+           } else if (!strcmp(counter_name, "rec_fail_cnt")) {
+                  ^
+   drivers/i2c/i2c-dev.c:855:13: note: Assuming the condition is false
+           } else if (!strcmp(counter_name, "timeout_cnt")) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:855:9: note: Taking false branch
+           } else if (!strcmp(counter_name, "timeout_cnt")) {
+                  ^
+   drivers/i2c/i2c-dev.c:858:13: note: Assuming the condition is false
+           } else if (!strcmp(counter_name, "i2c_speed")) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:858:9: note: Taking false branch
+           } else if (!strcmp(counter_name, "i2c_speed")) {
+                  ^
+   drivers/i2c/i2c-dev.c:861:13: note: Assuming the condition is false
+           } else if (!strcmp(counter_name, "tx_complete_cnt")) {
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/i2c/i2c-dev.c:861:9: note: Taking false branch
+           } else if (!strcmp(counter_name, "tx_complete_cnt")) {
+                  ^
+   drivers/i2c/i2c-dev.c:866:6: note: Branch condition evaluates to a garba=
+ge value
+           if (ret) {
+               ^~~
+   Suppressed 9 warnings (2 in non-user code, 7 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/media/dvb-frontends/rtl2832.c:145:21: warning: Value stored to '=
+client' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:145:21: note: Value stored to 'cli=
+ent' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:175:21: warning: Value stored to '=
+client' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:175:21: note: Value stored to 'cli=
+ent' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:214:21: warning: Value stored to '=
+client' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:214:21: note: Value stored to 'cli=
+ent' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:248:21: warning: Value stored to '=
+client' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:248:21: note: Value stored to 'cli=
+ent' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:372:21: warning: Value stored to '=
+client' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:372:21: note: Value stored to 'cli=
+ent' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:394:21: warning: Value stored to '=
+client' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:394:21: note: Value stored to 'cli=
+ent' during its initialization is never read
+           struct i2c_client *client =3D dev->client;
+                              ^~~~~~   ~~~~~~~~~~~
+   drivers/media/dvb-frontends/rtl2832.c:528:21: warning: Value stored to '=
+client' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct i2c_client *client =3D dev->client;
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  385  =
+vim +866 drivers/i2c/i2c-dev.c
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  386  static ssize_t dbgfs_mk_conte=
-xt_write(struct file *file,
-75c1c2b53c78bf SeongJae Park 2021-09-07  387  		const char __user *buf, siz=
-e_t count, loff_t *ppos)
-75c1c2b53c78bf SeongJae Park 2021-09-07  388  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  389  	char *kbuf;
-75c1c2b53c78bf SeongJae Park 2021-09-07  390  	char *ctx_name;
-75c1c2b53c78bf SeongJae Park 2021-09-07  391  	ssize_t ret =3D count;
-75c1c2b53c78bf SeongJae Park 2021-09-07  392  	int err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  393  =
+16ccbe6d6d8b9a Sui Chen 2021-12-02  835  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  394  	kbuf =3D user_input_str(buf,=
- count, ppos);
-75c1c2b53c78bf SeongJae Park 2021-09-07  395  	if (IS_ERR(kbuf))
-75c1c2b53c78bf SeongJae Park 2021-09-07 @396  		return PTR_ERR(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  397  	ctx_name =3D kmalloc(count +=
- 1, GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  398  	if (!ctx_name) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  399  		kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  400  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  401  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  402  =
+16ccbe6d6d8b9a Sui Chen 2021-12-02  836  void i2c_adapter_stats_register_co=
+unter(struct i2c_adapter* adapter,
+16ccbe6d6d8b9a Sui Chen 2021-12-02  837  	const char* counter_name, void* d=
+ata_source) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  838  	int ret;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  839  	if (adapter->stats =3D=3D NULL) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  840  		i2c_adapter_create_stats_folder(=
+adapter);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  841  	}
+16ccbe6d6d8b9a Sui Chen 2021-12-02  842  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  403  	/* Trim white space */
-75c1c2b53c78bf SeongJae Park 2021-09-07  404  	if (sscanf(kbuf, "%s", ctx_n=
-ame) !=3D 1) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  405  		ret =3D -EINVAL;
-75c1c2b53c78bf SeongJae Park 2021-09-07  406  		goto out;
-75c1c2b53c78bf SeongJae Park 2021-09-07  407  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  408  =
+16ccbe6d6d8b9a Sui Chen 2021-12-02  843  	if (!strcmp(counter_name, "ber_cn=
+t")) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  844  		adapter->stats->ber_cnt =3D data=
+_source;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  845  		ret =3D sysfs_create_file(adapte=
+r->stats->kobj, &dev_attr_ber_cnt.attr);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  846  	} else if (!strcmp(counter_name, =
+"nack_cnt")) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  847  		adapter->stats->nack_cnt =3D dat=
+a_source;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  848  		ret =3D sysfs_create_file(adapte=
+r->stats->kobj, &dev_attr_nack_cnt.attr);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  849  	} else if (!strcmp(counter_name, =
+"rec_succ_cnt")) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  850  		adapter->stats->rec_succ_cnt =3D=
+ data_source;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  851  		ret =3D sysfs_create_file(adapte=
+r->stats->kobj, &dev_attr_rec_succ_cnt.attr);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  852  	} else if (!strcmp(counter_name, =
+"rec_fail_cnt")) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  853  		adapter->stats->rec_fail_cnt =3D=
+ data_source;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  854  		ret =3D sysfs_create_file(adapte=
+r->stats->kobj, &dev_attr_rec_fail_cnt.attr);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  855  	} else if (!strcmp(counter_name, =
+"timeout_cnt")) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  856  		adapter->stats->timeout_cnt =3D =
+data_source;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  857  		ret =3D sysfs_create_file(adapte=
+r->stats->kobj, &dev_attr_timeout_cnt.attr);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  858  	} else if (!strcmp(counter_name, =
+"i2c_speed")) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  859  		adapter->stats->i2c_speed =3D da=
+ta_source;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  860  		ret =3D sysfs_create_file(adapte=
+r->stats->kobj, &dev_attr_i2c_speed.attr);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  861  	} else if (!strcmp(counter_name, =
+"tx_complete_cnt")) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  862  		adapter->stats->tx_complete_cnt =
+=3D data_source;
+16ccbe6d6d8b9a Sui Chen 2021-12-02  863  		ret =3D sysfs_create_file(adapte=
+r->stats->kobj, &dev_attr_tx_complete_cnt.attr);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  864  	}
+16ccbe6d6d8b9a Sui Chen 2021-12-02  865  =
 
-75c1c2b53c78bf SeongJae Park 2021-09-07  409  	mutex_lock(&damon_dbgfs_lock=
-);
-75c1c2b53c78bf SeongJae Park 2021-09-07  410  	err =3D dbgfs_mk_context(ctx=
-_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  411  	if (err)
-75c1c2b53c78bf SeongJae Park 2021-09-07  412  		ret =3D err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  413  	mutex_unlock(&damon_dbgfs_lo=
-ck);
-75c1c2b53c78bf SeongJae Park 2021-09-07  414  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  415  out:
-75c1c2b53c78bf SeongJae Park 2021-09-07  416  	kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  417  	kfree(ctx_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  418  	return ret;
-75c1c2b53c78bf SeongJae Park 2021-09-07  419  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  420  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  421  /*
-75c1c2b53c78bf SeongJae Park 2021-09-07  422   * Remove a context of @name =
-and its debugfs directory.
-75c1c2b53c78bf SeongJae Park 2021-09-07  423   *
-75c1c2b53c78bf SeongJae Park 2021-09-07  424   * This function should be ca=
-lled while holding damon_dbgfs_lock.
-75c1c2b53c78bf SeongJae Park 2021-09-07  425   *
-75c1c2b53c78bf SeongJae Park 2021-09-07  426   * Return 0 on success, negat=
-ive error code otherwise.
-75c1c2b53c78bf SeongJae Park 2021-09-07  427   */
-75c1c2b53c78bf SeongJae Park 2021-09-07  428  static int dbgfs_rm_context(c=
-har *name)
-75c1c2b53c78bf SeongJae Park 2021-09-07  429  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  430  	struct dentry *root, *dir, *=
-*new_dirs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  431  	struct damon_ctx **new_ctxs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  432  	int i, j;
-75c1c2b53c78bf SeongJae Park 2021-09-07  433  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  434  	if (damon_nr_running_ctxs())
-75c1c2b53c78bf SeongJae Park 2021-09-07  435  		return -EBUSY;
-75c1c2b53c78bf SeongJae Park 2021-09-07  436  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  437  	root =3D dbgfs_dirs[0];
-75c1c2b53c78bf SeongJae Park 2021-09-07  438  	if (!root)
-75c1c2b53c78bf SeongJae Park 2021-09-07  439  		return -ENOENT;
-75c1c2b53c78bf SeongJae Park 2021-09-07  440  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  441  	dir =3D debugfs_lookup(name,=
- root);
-75c1c2b53c78bf SeongJae Park 2021-09-07  442  	if (!dir)
-75c1c2b53c78bf SeongJae Park 2021-09-07  443  		return -ENOENT;
-75c1c2b53c78bf SeongJae Park 2021-09-07  444  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  445  	new_dirs =3D kmalloc_array(d=
-bgfs_nr_ctxs - 1, sizeof(*dbgfs_dirs),
-75c1c2b53c78bf SeongJae Park 2021-09-07  446  			GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  447  	if (!new_dirs)
-75c1c2b53c78bf SeongJae Park 2021-09-07  448  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  449  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  450  	new_ctxs =3D kmalloc_array(d=
-bgfs_nr_ctxs - 1, sizeof(*dbgfs_ctxs),
-75c1c2b53c78bf SeongJae Park 2021-09-07  451  			GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  452  	if (!new_ctxs) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  453  		kfree(new_dirs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  454  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  455  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  456  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  457  	for (i =3D 0, j =3D 0; i < d=
-bgfs_nr_ctxs; i++) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  458  		if (dbgfs_dirs[i] =3D=3D di=
-r) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  459  			debugfs_remove(dbgfs_dirs[=
-i]);
-75c1c2b53c78bf SeongJae Park 2021-09-07  460  			dbgfs_destroy_ctx(dbgfs_ct=
-xs[i]);
-75c1c2b53c78bf SeongJae Park 2021-09-07  461  			continue;
-75c1c2b53c78bf SeongJae Park 2021-09-07  462  		}
-75c1c2b53c78bf SeongJae Park 2021-09-07  463  		new_dirs[j] =3D dbgfs_dirs[=
-i];
-75c1c2b53c78bf SeongJae Park 2021-09-07  464  		new_ctxs[j++] =3D dbgfs_ctx=
-s[i];
-75c1c2b53c78bf SeongJae Park 2021-09-07  465  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  466  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  467  	kfree(dbgfs_dirs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  468  	kfree(dbgfs_ctxs);
-75c1c2b53c78bf SeongJae Park 2021-09-07  469  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  470  	dbgfs_dirs =3D new_dirs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  471  	dbgfs_ctxs =3D new_ctxs;
-75c1c2b53c78bf SeongJae Park 2021-09-07  472  	dbgfs_nr_ctxs--;
-75c1c2b53c78bf SeongJae Park 2021-09-07  473  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  474  	return 0;
-75c1c2b53c78bf SeongJae Park 2021-09-07  475  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  476  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  477  static ssize_t dbgfs_rm_conte=
-xt_write(struct file *file,
-75c1c2b53c78bf SeongJae Park 2021-09-07  478  		const char __user *buf, siz=
-e_t count, loff_t *ppos)
-75c1c2b53c78bf SeongJae Park 2021-09-07  479  {
-75c1c2b53c78bf SeongJae Park 2021-09-07  480  	char *kbuf;
-75c1c2b53c78bf SeongJae Park 2021-09-07  481  	ssize_t ret =3D count;
-75c1c2b53c78bf SeongJae Park 2021-09-07  482  	int err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  483  	char *ctx_name;
-75c1c2b53c78bf SeongJae Park 2021-09-07  484  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  485  	kbuf =3D user_input_str(buf,=
- count, ppos);
-75c1c2b53c78bf SeongJae Park 2021-09-07  486  	if (IS_ERR(kbuf))
-75c1c2b53c78bf SeongJae Park 2021-09-07 @487  		return PTR_ERR(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  488  	ctx_name =3D kmalloc(count +=
- 1, GFP_KERNEL);
-75c1c2b53c78bf SeongJae Park 2021-09-07  489  	if (!ctx_name) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  490  		kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  491  		return -ENOMEM;
-75c1c2b53c78bf SeongJae Park 2021-09-07  492  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  493  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  494  	/* Trim white space */
-75c1c2b53c78bf SeongJae Park 2021-09-07  495  	if (sscanf(kbuf, "%s", ctx_n=
-ame) !=3D 1) {
-75c1c2b53c78bf SeongJae Park 2021-09-07  496  		ret =3D -EINVAL;
-75c1c2b53c78bf SeongJae Park 2021-09-07  497  		goto out;
-75c1c2b53c78bf SeongJae Park 2021-09-07  498  	}
-75c1c2b53c78bf SeongJae Park 2021-09-07  499  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  500  	mutex_lock(&damon_dbgfs_lock=
-);
-75c1c2b53c78bf SeongJae Park 2021-09-07  501  	err =3D dbgfs_rm_context(ctx=
-_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  502  	if (err)
-75c1c2b53c78bf SeongJae Park 2021-09-07  503  		ret =3D err;
-75c1c2b53c78bf SeongJae Park 2021-09-07  504  	mutex_unlock(&damon_dbgfs_lo=
-ck);
-75c1c2b53c78bf SeongJae Park 2021-09-07  505  =
-
-75c1c2b53c78bf SeongJae Park 2021-09-07  506  out:
-75c1c2b53c78bf SeongJae Park 2021-09-07  507  	kfree(kbuf);
-75c1c2b53c78bf SeongJae Park 2021-09-07  508  	kfree(ctx_name);
-75c1c2b53c78bf SeongJae Park 2021-09-07  509  	return ret;
-75c1c2b53c78bf SeongJae Park 2021-09-07  510  }
-75c1c2b53c78bf SeongJae Park 2021-09-07  511  =
+16ccbe6d6d8b9a Sui Chen 2021-12-02 @866  	if (ret) {
+16ccbe6d6d8b9a Sui Chen 2021-12-02  867  		printk("Failed to create sysfs f=
+ile for %s", counter_name);
+16ccbe6d6d8b9a Sui Chen 2021-12-02  868  	}
+16ccbe6d6d8b9a Sui Chen 2021-12-02  869  }
+16ccbe6d6d8b9a Sui Chen 2021-12-02  870  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============8580366772183718780==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============4698115363971946591==--
 
