@@ -1,406 +1,381 @@
-Content-Type: multipart/mixed; boundary="===============5725672226914386123=="
+Content-Type: multipart/mixed; boundary="===============7348938917823269824=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse: sparse: incorrect type in argument 1 (different address spaces)
-Date: Sun, 05 Dec 2021 14:08:39 +0800
-Message-ID: <202112051415.EJvS4Mh4-lkp@intel.com>
+Subject: drivers/platform/chrome/chromeos_laptop.c:861:25: warning: Use of memory after it is freed [clang-analyzer-unix.Malloc]
+Date: Sun, 05 Dec 2021 13:48:16 +0800
+Message-ID: <202112051300.QbMVIO9i-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5725672226914386123==
+--===============7348938917823269824==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Rob Clark <robdclark@gmail.com>
-
-Hi Christian,
-
-First bad commit (maybe !=3D root cause):
+TO: Nick Desaulniers <ndesaulniers@google.com>
+CC: Masahiro Yamada <masahiroy@kernel.org>
+CC: Nathan Chancellor <nathan@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   79a72162048e42a677bc7336a9f5d86fc3ff9558
-commit: b3ed524f84f573ece1aa2f26e9db3c34a593e0d1 drm/msm: allow compile_tes=
-t on !ARM
-date:   10 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 10 weeks ago
-config: m68k-allmodconfig (https://download.01.org/0day-ci/archive/20211205=
-/202112051415.EJvS4Mh4-lkp(a)intel.com/config)
-compiler: m68k-linux-gcc (GCC) 11.2.0
-reproduce:
+commit: f12b034afeb3a977bbb1c6584dedc0f3dc666f14 scripts/Makefile.clang: de=
+fault to LLVM_IAS=3D1
+date:   4 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-c001-20211128 (https://download.01.org/0day-ci/arch=
+ive/20211205/202112051300.QbMVIO9i-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
+58d8c0b542e752b037e72a69d5fd51eb1e)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Db3ed524f84f573ece1aa2f26e9db3c34a593e0d1
+t/commit/?id=3Df12b034afeb3a977bbb1c6584dedc0f3dc666f14
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout b3ed524f84f573ece1aa2f26e9db3c34a593e0d1
+        git checkout f12b034afeb3a977bbb1c6584dedc0f3dc666f14
         # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dm=
-68k SHELL=3D/bin/bash drivers/gpu/drm/msm/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-sparse warnings: (new ones prefixed by >>)
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:362:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:362:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:387:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:387:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:460:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:460:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:467:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:467:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:493:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:493:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1412:31: sparse: sparse: incorrect=
- type in return expression (different address spaces) @@     expected void =
-[noderef] __iomem * @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1412:31: sparse:     expected void=
- [noderef] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1412:31: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse: sparse: incorrect=
- type in return expression (different address spaces) @@     expected void =
-[noderef] __iomem * @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse:     expected void=
- [noderef] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1418:31: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:858:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:858:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:860:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:860:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:862:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:864:9: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1066:23: sparse: sparse: dereferen=
-ce of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1066:23: sparse: sparse: dereferen=
-ce of noderef expression
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void [nodere=
-f] __iomem *addr @@     got void *[noderef] mmio @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse:     expected void=
- [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1458:20: sparse:     got void *[no=
-deref] mmio
->> drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1460:28: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void [nodere=
-f] __iomem *addr @@     got void *[noderef] rscc @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1460:28: sparse:     expected void=
- [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1460:28: sparse:     got void *[no=
-deref] rscc
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1560:19: sparse: sparse: incorrect=
- type in assignment (different address spaces) @@     expected void *[noder=
-ef] mmio @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1560:19: sparse:     expected void=
- *[noderef] mmio
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1560:19: sparse:     got void [nod=
-eref] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1567:27: sparse: sparse: incorrect=
- type in assignment (different address spaces) @@     expected void *[noder=
-ef] rscc @@     got void [noderef] __iomem * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1567:27: sparse:     expected void=
- *[noderef] rscc
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1567:27: sparse:     got void [nod=
-eref] __iomem *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1598:20: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void [nodere=
-f] __iomem *addr @@     got void *[noderef] mmio @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1598:20: sparse:     expected void=
- [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1598:20: sparse:     got void *[no=
-deref] mmio
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1600:28: sparse: sparse: incorrect=
- type in argument 1 (different address spaces) @@     expected void [nodere=
-f] __iomem *addr @@     got void *[noderef] rscc @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1600:28: sparse:     expected void=
- [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:1600:28: sparse:     got void *[no=
-deref] rscc
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c: note: in included file (through d=
-rivers/gpu/drm/msm/adreno/a6xx_gpu.h):
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     expected void c=
-onst [noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:26: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:224:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:240:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse: sparse: incorrect t=
-ype in argument 2 (different address spaces) @@     expected void [noderef]=
- __iomem *addr @@     got void * @@
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     expected void [=
-noderef] __iomem *addr
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:44: sparse:     got void *
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:98:34: sparse: sparse: dereference=
- of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.c:320:15: sparse: sparse: dereferenc=
-e of noderef expression
-   drivers/gpu/drm/msm/adreno/a6xx_gmu.h:93:36: sparse: sparse: incorrect t=
-ype in argument 1 (different address spaces) @@     expected void const [no=
-deref] __iomem *addr @@     got void * @@
+clang-analyzer warnings: (new ones prefixed by >>)
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> drivers/platform/chrome/chromeos_laptop.c:861:25: warning: Use of memory=
+ after it is freed [clang-analyzer-unix.Malloc]
+                   i2c_unregister_device(i2c_dev->client);
+                                         ^
+   drivers/platform/chrome/chromeos_laptop.c:953:13: note: Calling 'chromeo=
+s_laptop_init'
+   module_init(chromeos_laptop_init);
+               ^
+   include/linux/module.h:88:35: note: expanded from macro 'module_init'
+   #define module_init(x)  __initcall(x);
+                           ~~~~~~~~~~~^~
+   include/linux/init.h:296:40: note: expanded from macro '__initcall'
+   #define __initcall(fn) device_initcall(fn)
+                          ~~~~~~~~~~~~~~~~^~~
+   include/linux/init.h:291:48: note: expanded from macro 'device_initcall'
+   #define device_initcall(fn)             __define_initcall(fn, 6)
+                                           ~~~~~~~~~~~~~~~~~~^~~~~~
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/init.h:254:22: note: expanded from macro '__unique_initcal=
+l'
+           ____define_initcall(fn,                                 \
+           ~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/init.h:241:33: note: expanded from macro '____define_initc=
+all'
+           __define_initcall_stub(__stub, fn)                      \
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^~~
+   include/linux/init.h:226:10: note: expanded from macro '__define_initcal=
+l_stub'
+                   return fn();                                    \
+                          ^~~~
+   drivers/platform/chrome/chromeos_laptop.c:907:6: note: Assuming 'dmi_id'=
+ is non-null
+           if (!dmi_id) {
+               ^~~~~~~
+   drivers/platform/chrome/chromeos_laptop.c:907:2: note: Taking false bran=
+ch
+           if (!dmi_id) {
+           ^
+   drivers/platform/chrome/chromeos_laptop.c:912:2: note: Taking false bran=
+ch
+           pr_debug("DMI Matched %s\n", dmi_id->ident);
+           ^
+   include/linux/printk.h:471:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_=
+pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   drivers/platform/chrome/chromeos_laptop.c:912:2: note: Loop condition is=
+ false.  Exiting loop
+           pr_debug("DMI Matched %s\n", dmi_id->ident);
+           ^
+   include/linux/printk.h:471:2: note: expanded from macro 'pr_debug'
+           dynamic_pr_debug(fmt, ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:162:2: note: expanded from macro 'dynamic_=
+pr_debug'
+           _dynamic_func_call(fmt, __dynamic_pr_debug,             \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
+ic_func_call'
+   #define __dynamic_func_call(id, fmt, func, ...) do {    \
+                                                   ^
+   drivers/platform/chrome/chromeos_laptop.c:914:16: note: Calling 'chromeo=
+s_laptop_prepare'
+           cros_laptop =3D chromeos_laptop_prepare((void *)dmi_id->driver_d=
+ata);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/platform/chrome/chromeos_laptop.c:885:6: note: Assuming 'cros_la=
+ptop' is non-null
+           if (!cros_laptop)
+               ^~~~~~~~~~~~
+   drivers/platform/chrome/chromeos_laptop.c:885:2: note: Taking false bran=
+ch
+           if (!cros_laptop)
+           ^
+   drivers/platform/chrome/chromeos_laptop.c:888:10: note: Calling 'chromeo=
+s_laptop_prepare_i2c_peripherals'
+           error =3D chromeos_laptop_prepare_i2c_peripherals(cros_laptop, s=
+rc);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/chromeos_laptop.c:748:6: note: Assuming field 'n=
+um_i2c_peripherals' is not equal to 0
+           if (!src->num_i2c_peripherals)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/chromeos_laptop.c:748:2: note: Taking false bran=
+ch
+           if (!src->num_i2c_peripherals)
+           ^
+   drivers/platform/chrome/chromeos_laptop.c:755:6: note: Assuming field 'i=
+2c_peripherals' is non-null
+           if (!cros_laptop->i2c_peripherals)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/chromeos_laptop.c:755:2: note: Taking false bran=
+ch
+           if (!cros_laptop->i2c_peripherals)
+           ^
+   drivers/platform/chrome/chromeos_laptop.c:760:14: note: 'i' is < field '=
+num_i2c_peripherals'
+           for (i =3D 0; i < cros_laptop->num_i2c_peripherals; i++) {
+                       ^
+   drivers/platform/chrome/chromeos_laptop.c:760:2: note: Loop condition is=
+ true.  Entering loop body
+           for (i =3D 0; i < cros_laptop->num_i2c_peripherals; i++) {
+           ^
+   drivers/platform/chrome/chromeos_laptop.c:765:7: note: 'error' is 0
+                   if (error)
+                       ^~~~~
+   drivers/platform/chrome/chromeos_laptop.c:765:3: note: Taking false bran=
+ch
+                   if (error)
+                   ^
+   drivers/platform/chrome/chromeos_laptop.c:769:7: note: Assuming field 'p=
+roperties' is non-null
+                   if (i2c_dev->properties) {
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/platform/chrome/chromeos_laptop.c:769:3: note: Taking true branch
 
-vim +1458 drivers/gpu/drm/msm/adreno/a6xx_gmu.c
+vim +861 drivers/platform/chrome/chromeos_laptop.c
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1442  =
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  852  =
 
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1443  void a6xx_gmu_remove(struct=
- a6xx_gpu *a6xx_gpu)
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1444  {
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1445  	struct a6xx_gmu *gmu =3D &=
-a6xx_gpu->gmu;
-02ef80c54e7cd7 Jonathan Marek 2020-04-23  1446  	struct platform_device *pd=
-ev =3D to_platform_device(gmu->dev);
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1447  =
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  853  static void chromeos_laptop=
+_destroy(const struct chromeos_laptop *cros_laptop)
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  854  {
+5020cd29d8bfcb Dmitry Torokhov 2018-05-03  855  	const struct acpi_peripher=
+al *acpi_dev;
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  856  	struct i2c_peripheral *i2c=
+_dev;
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  857  	int i;
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  858  =
 
-606ec90fc22662 Sean Paul      2019-05-23  1448  	if (!gmu->initialized)
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1449  		return;
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1450  =
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  859  	for (i =3D 0; i < cros_lap=
+top->num_i2c_peripherals; i++) {
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  860  		i2c_dev =3D &cros_laptop-=
+>i2c_peripherals[i];
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20 @861  		i2c_unregister_device(i2c=
+_dev->client);
+65582920d72d25 Dmitry Torokhov 2018-03-20  862  	}
+65582920d72d25 Dmitry Torokhov 2018-03-20  863  =
 
-03b7af1ef4992b Jordan Crouse  2019-05-07  1451  	pm_runtime_force_suspend(g=
-mu->dev);
-9325d4266afd4e Jordan Crouse  2019-02-04  1452  =
+5020cd29d8bfcb Dmitry Torokhov 2018-05-03  864  	for (i =3D 0; i < cros_lap=
+top->num_acpi_peripherals; i++) {
+5020cd29d8bfcb Dmitry Torokhov 2018-05-03  865  		acpi_dev =3D &cros_laptop=
+->acpi_peripherals[i];
+5020cd29d8bfcb Dmitry Torokhov 2018-05-03  866  =
 
-2b117451277140 Sean Paul      2019-05-15  1453  	if (!IS_ERR_OR_NULL(gmu->g=
-xpd)) {
-9325d4266afd4e Jordan Crouse  2019-02-04  1454  		pm_runtime_disable(gmu->g=
-xpd);
-9325d4266afd4e Jordan Crouse  2019-02-04  1455  		dev_pm_domain_detach(gmu-=
->gxpd, false);
-9325d4266afd4e Jordan Crouse  2019-02-04  1456  	}
-9325d4266afd4e Jordan Crouse  2019-02-04  1457  =
+2c02f659851a96 Heikki Krogerus 2021-03-29  867  		if (acpi_dev->client)
+2c02f659851a96 Heikki Krogerus 2021-03-29  868  			device_remove_software_n=
+ode(&acpi_dev->client->dev);
+2c02f659851a96 Heikki Krogerus 2021-03-29  869  =
 
-a62fb211ad0c9e Sean Paul      2019-05-23 @1458  	iounmap(gmu->mmio);
-02ef80c54e7cd7 Jonathan Marek 2020-04-23  1459  	if (platform_get_resource_=
-byname(pdev, IORESOURCE_MEM, "rscc"))
-02ef80c54e7cd7 Jonathan Marek 2020-04-23 @1460  		iounmap(gmu->rscc);
-a62fb211ad0c9e Sean Paul      2019-05-23  1461  	gmu->mmio =3D NULL;
-02ef80c54e7cd7 Jonathan Marek 2020-04-23  1462  	gmu->rscc =3D NULL;
-a62fb211ad0c9e Sean Paul      2019-05-23  1463  =
+2c02f659851a96 Heikki Krogerus 2021-03-29  870  		property_entries_free(acp=
+i_dev->swnode.properties);
+5020cd29d8bfcb Dmitry Torokhov 2018-05-03  871  	}
+5020cd29d8bfcb Dmitry Torokhov 2018-05-03  872  =
 
-29ac8979cdf720 Jonathan Marek 2020-04-23  1464  	a6xx_gmu_memory_free(gmu);
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1465  =
-
-a62fb211ad0c9e Sean Paul      2019-05-23  1466  	free_irq(gmu->gmu_irq, gmu=
-);
-a62fb211ad0c9e Sean Paul      2019-05-23  1467  	free_irq(gmu->hfi_irq, gmu=
-);
-a62fb211ad0c9e Sean Paul      2019-05-23  1468  =
-
-998efc74672c2d Sean Paul      2019-05-23  1469  	/* Drop reference taken in=
- of_find_device_by_node */
-998efc74672c2d Sean Paul      2019-05-23  1470  	put_device(gmu->dev);
-998efc74672c2d Sean Paul      2019-05-23  1471  =
-
-606ec90fc22662 Sean Paul      2019-05-23  1472  	gmu->initialized =3D false;
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1473  }
-4b565ca5a2cbbb Jordan Crouse  2018-08-06  1474  =
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  873  	kfree(cros_laptop->i2c_per=
+ipherals);
+5020cd29d8bfcb Dmitry Torokhov 2018-05-03  874  	kfree(cros_laptop->acpi_pe=
+ripherals);
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  875  	kfree(cros_laptop);
+c0bb0608ec79f8 Dmitry Torokhov 2018-03-20  876  }
+65582920d72d25 Dmitry Torokhov 2018-03-20  877  =
 
 
-:::::: The code at line 1458 was first introduced by commit
-:::::: a62fb211ad0c9e13e79d350905a704f46447b8cf drm/msm/a6xx: Remove devm c=
-alls from gmu driver
+:::::: The code at line 861 was first introduced by commit
+:::::: c0bb0608ec79f8480432e169ccc3857dc7f7c205 platform/chrome: chromeos_l=
+aptop - discard data for unneeded boards
 
-:::::: TO: Sean Paul <seanpaul@chromium.org>
-:::::: CC: Sean Paul <seanpaul@chromium.org>
+:::::: TO: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+:::::: CC: Benson Leung <bleung@chromium.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5725672226914386123==--
+--===============7348938917823269824==--
 
