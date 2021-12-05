@@ -1,102 +1,133 @@
-Content-Type: multipart/mixed; boundary="===============4589149208612120765=="
+Content-Type: multipart/mixed; boundary="===============8585467829070225398=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/damon/dbgfs.c:227 dbgfs_schemes_write() warn: passing a valid pointer to 'PTR_ERR'
-Date: Sun, 05 Dec 2021 12:05:36 +0800
-Message-ID: <202112051142.Duifl7H9-lkp@intel.com>
+Subject: [intel-lts:5.10/android-civ 21886/23680] net/core/rtnetlink.c:1500 rtnl_xdp_fill() warn: missing error code 'err'
+Date: Sun, 05 Dec 2021 11:14:39 +0800
+Message-ID: <202112051144.uTumJc4P-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4589149208612120765==
+--===============8585467829070225398==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: SeongJae Park <sj@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Muhammad Husaini Zulkifli <muhammad.husaini.zulkifli@intel.com>
+CC: Zhou Furong <furong.zhou@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   79a72162048e42a677bc7336a9f5d86fc3ff9558
-commit: af122dd8f3c0099349bc98ff69f0d90efd8b149f mm/damon/dbgfs: support DA=
-MON-based Operation Schemes
-date:   4 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 4 weeks ago
-config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
-hive/20211205/202112051142.Duifl7H9-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/android-civ
+head:   0e493748b235bf61d817dabdad2832ac4e932217
+commit: 1be929fc6b6c1e732163f5c3ab53d055a3429bca [21886/23680] rtnetlink: F=
+ix unchecked return value of dev_xdp_query_md_btf()
+:::::: branch date: 10 days ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-m001-20211203 (https://download.01.org/0day-ci/ar=
+chive/20211205/202112051144.uTumJc4P-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-mm/damon/dbgfs.c:227 dbgfs_schemes_write() warn: passing a valid pointer to=
- 'PTR_ERR'
+net/core/rtnetlink.c:1500 rtnl_xdp_fill() warn: missing error code 'err'
 
-vim +/PTR_ERR +227 mm/damon/dbgfs.c
+vim +/err +1500 net/core/rtnetlink.c
 
-af122dd8f3c009 SeongJae Park 2021-11-05  215  =
+d67b9cd28c1d7f Daniel Borkmann           2017-05-12  1460  =
 
-af122dd8f3c009 SeongJae Park 2021-11-05  216  static ssize_t dbgfs_schemes_=
-write(struct file *file, const char __user *buf,
-af122dd8f3c009 SeongJae Park 2021-11-05  217  		size_t count, loff_t *ppos)
-af122dd8f3c009 SeongJae Park 2021-11-05  218  {
-af122dd8f3c009 SeongJae Park 2021-11-05  219  	struct damon_ctx *ctx =3D fi=
-le->private_data;
-af122dd8f3c009 SeongJae Park 2021-11-05  220  	char *kbuf;
-af122dd8f3c009 SeongJae Park 2021-11-05  221  	struct damos **schemes;
-af122dd8f3c009 SeongJae Park 2021-11-05  222  	ssize_t nr_schemes =3D 0, re=
-t =3D count;
-af122dd8f3c009 SeongJae Park 2021-11-05  223  	int err;
-af122dd8f3c009 SeongJae Park 2021-11-05  224  =
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1461  static int rtnl_=
+xdp_fill(struct sk_buff *skb, struct net_device *dev)
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1462  {
+26ce18bde6b36f Muhammad Husaini Zulkifli 2021-06-14  1463  	u32 prog_id, md=
+_btf_id;
+26ce18bde6b36f Muhammad Husaini Zulkifli 2021-06-14  1464  	u8 md_btf_enabl=
+ed =3D 0;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1465  	struct nlattr *=
+xdp;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1466  	int err;
+4f91da26c81145 Jakub Kicinski            2018-07-11  1467  	u8 mode;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1468  =
 
-af122dd8f3c009 SeongJae Park 2021-11-05  225  	kbuf =3D user_input_str(buf,=
- count, ppos);
-af122dd8f3c009 SeongJae Park 2021-11-05  226  	if (IS_ERR(kbuf))
-af122dd8f3c009 SeongJae Park 2021-11-05 @227  		return PTR_ERR(kbuf);
-af122dd8f3c009 SeongJae Park 2021-11-05  228  =
+ae0be8de9a53cd Michal Kubecek            2019-04-26  1469  	xdp =3D nla_nes=
+t_start_noflag(skb, IFLA_XDP);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1470  	if (!xdp)
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1471  		return -EMSGSI=
+ZE;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1472  =
 
-af122dd8f3c009 SeongJae Park 2021-11-05  229  	schemes =3D str_to_schemes(k=
-buf, ret, &nr_schemes);
-af122dd8f3c009 SeongJae Park 2021-11-05  230  	if (!schemes) {
-af122dd8f3c009 SeongJae Park 2021-11-05  231  		ret =3D -EINVAL;
-af122dd8f3c009 SeongJae Park 2021-11-05  232  		goto out;
-af122dd8f3c009 SeongJae Park 2021-11-05  233  	}
-af122dd8f3c009 SeongJae Park 2021-11-05  234  =
+a25717d2b60434 Jakub Kicinski            2018-07-11  1473  	prog_id =3D 0;
+a25717d2b60434 Jakub Kicinski            2018-07-11  1474  	mode =3D XDP_AT=
+TACHED_NONE;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1475  	err =3D rtnl_xd=
+p_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_SKB,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1476  				  IFLA_XDP_S=
+KB_PROG_ID, rtnl_xdp_prog_skb);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1477  	if (err)
+b5cdae3291f7be David S. Miller           2017-04-18  1478  		goto err_cance=
+l;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1479  	err =3D rtnl_xd=
+p_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_DRV,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1480  				  IFLA_XDP_D=
+RV_PROG_ID, rtnl_xdp_prog_drv);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1481  	if (err)
+a25717d2b60434 Jakub Kicinski            2018-07-11  1482  		goto err_cance=
+l;
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1483  	err =3D rtnl_xd=
+p_report_one(skb, dev, &prog_id, &mode, XDP_ATTACHED_HW,
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1484  				  IFLA_XDP_H=
+W_PROG_ID, rtnl_xdp_prog_hw);
+202aabe84a8fd8 Jakub Kicinski            2018-07-16  1485  	if (err)
+58038695e62b44 Martin KaFai Lau          2017-06-15  1486  		goto err_cance=
+l;
+4f91da26c81145 Jakub Kicinski            2018-07-11  1487  =
 
-af122dd8f3c009 SeongJae Park 2021-11-05  235  	mutex_lock(&ctx->kdamond_loc=
-k);
-af122dd8f3c009 SeongJae Park 2021-11-05  236  	if (ctx->kdamond) {
-af122dd8f3c009 SeongJae Park 2021-11-05  237  		ret =3D -EBUSY;
-af122dd8f3c009 SeongJae Park 2021-11-05  238  		goto unlock_out;
-af122dd8f3c009 SeongJae Park 2021-11-05  239  	}
-af122dd8f3c009 SeongJae Park 2021-11-05  240  =
+a25717d2b60434 Jakub Kicinski            2018-07-11  1488  	err =3D nla_put=
+_u8(skb, IFLA_XDP_ATTACHED, mode);
+b5cdae3291f7be David S. Miller           2017-04-18  1489  	if (err)
+b5cdae3291f7be David S. Miller           2017-04-18  1490  		goto err_cance=
+l;
+d67b9cd28c1d7f Daniel Borkmann           2017-05-12  1491  =
 
-af122dd8f3c009 SeongJae Park 2021-11-05  241  	err =3D damon_set_schemes(ct=
-x, schemes, nr_schemes);
-af122dd8f3c009 SeongJae Park 2021-11-05  242  	if (err)
-af122dd8f3c009 SeongJae Park 2021-11-05  243  		ret =3D err;
-af122dd8f3c009 SeongJae Park 2021-11-05  244  	else
-af122dd8f3c009 SeongJae Park 2021-11-05  245  		nr_schemes =3D 0;
-af122dd8f3c009 SeongJae Park 2021-11-05  246  unlock_out:
-af122dd8f3c009 SeongJae Park 2021-11-05  247  	mutex_unlock(&ctx->kdamond_l=
-ock);
-af122dd8f3c009 SeongJae Park 2021-11-05  248  	free_schemes_arr(schemes, nr=
-_schemes);
-af122dd8f3c009 SeongJae Park 2021-11-05  249  out:
-af122dd8f3c009 SeongJae Park 2021-11-05  250  	kfree(kbuf);
-af122dd8f3c009 SeongJae Park 2021-11-05  251  	return ret;
-af122dd8f3c009 SeongJae Park 2021-11-05  252  }
-af122dd8f3c009 SeongJae Park 2021-11-05  253  =
+a25717d2b60434 Jakub Kicinski            2018-07-11  1492  	if (prog_id && =
+mode !=3D XDP_ATTACHED_MULTI) {
+58038695e62b44 Martin KaFai Lau          2017-06-15  1493  		err =3D nla_pu=
+t_u32(skb, IFLA_XDP_PROG_ID, prog_id);
+58038695e62b44 Martin KaFai Lau          2017-06-15  1494  		if (err)
+58038695e62b44 Martin KaFai Lau          2017-06-15  1495  			goto err_canc=
+el;
+58038695e62b44 Martin KaFai Lau          2017-06-15  1496  	}
+58038695e62b44 Martin KaFai Lau          2017-06-15  1497  =
+
+26ce18bde6b36f Muhammad Husaini Zulkifli 2021-06-14  1498  	md_btf_id =3D d=
+ev_xdp_query_md_btf(dev, &md_btf_enabled);
+1be929fc6b6c1e Muhammad Husaini Zulkifli 2021-07-30  1499  	if (!md_btf_id)
+1be929fc6b6c1e Muhammad Husaini Zulkifli 2021-07-30 @1500  		goto err_cance=
+l;
+1be929fc6b6c1e Muhammad Husaini Zulkifli 2021-07-30  1501  =
+
+26ce18bde6b36f Muhammad Husaini Zulkifli 2021-06-14  1502  	nla_put_u32(skb=
+, IFLA_XDP_MD_BTF_ID, md_btf_id);
+26ce18bde6b36f Muhammad Husaini Zulkifli 2021-06-14  1503  	nla_put_u8(skb,=
+ IFLA_XDP_MD_BTF_STATE, md_btf_enabled);
+26ce18bde6b36f Muhammad Husaini Zulkifli 2021-06-14  1504  =
+
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1505  	nla_nest_end(sk=
+b, xdp);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1506  	return 0;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1507  =
+
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1508  err_cancel:
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1509  	nla_nest_cancel=
+(skb, xdp);
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1510  	return err;
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1511  }
+d1fdd9138682e0 Brenden Blanco            2016-07-19  1512  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4589149208612120765==--
+--===============8585467829070225398==--
 
