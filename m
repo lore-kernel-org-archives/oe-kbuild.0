@@ -1,662 +1,305 @@
-Content-Type: multipart/mixed; boundary="===============6519140085131020410=="
+Content-Type: multipart/mixed; boundary="===============6578399998712618604=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/virt/nitro_enclaves/ne_misc_dev.c:878:5: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 05 Dec 2021 09:01:59 +0800
-Message-ID: <202112050806.U6x6yhzT-lkp@intel.com>
+Subject: mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'PTR_ERR'
+Date: Sun, 05 Dec 2021 08:50:50 +0800
+Message-ID: <202112050835.m79siExT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6519140085131020410==
+--===============6578399998712618604==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: SeongJae Park <sjpark@amazon.de>
+CC: Leonard Foerster <foersleo@amazon.de>
+CC: Fernand Sieber <sieberf@amazon.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   bbef3c7a63d2a4cb0f3f839db9e767f168c5e348
-commit: a52f8a59aef46b59753e583bf4b28fccb069ce64 fortify: Explicitly disabl=
-e Clang support
-date:   2 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 2 months ago
-config: x86_64-randconfig-c007-20211127 (https://download.01.org/0day-ci/ar=
-chive/20211205/202112050806.U6x6yhzT-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
-58d8c0b542e752b037e72a69d5fd51eb1e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da52f8a59aef46b59753e583bf4b28fccb069ce64
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a52f8a59aef46b59753e583bf4b28fccb069ce64
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+head:   23b55d673d7527b093cd97b7c217c82e70cd1af0
+commit: 4bc05954d0076655cfaf6f0135585bdc20cd6b11 mm/damon: implement a debu=
+gfs-based user space interface
+date:   3 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 months ago
+config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
+hive/20211205/202112050835.m79siExT-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+mm/damon/dbgfs.c:76 dbgfs_attrs_write() warn: passing a valid pointer to 'P=
+TR_ERR'
+mm/damon/dbgfs.c:196 dbgfs_target_ids_write() warn: passing a valid pointer=
+ to 'PTR_ERR'
+mm/damon/dbgfs.c:319 dbgfs_monitor_on_write() warn: passing a valid pointer=
+ to 'PTR_ERR'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/usb/misc/usbtest.c:2364:3: warning: Value stored to 'retval' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   retval =3D 0;
-                   ^        ~
-   drivers/usb/misc/usbtest.c:2364:3: note: Value stored to 'retval' is nev=
-er read
-                   retval =3D 0;
-                   ^        ~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/usb/misc/usbsevseg.c:255:4: warning: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(buf, " [");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:255:4: note: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119
-                           strcat(buf, " [");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:256:4: warning: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(buf, display_textmodes[i]);
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:256:4: note: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119
-                           strcat(buf, display_textmodes[i]);
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:257:4: warning: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(buf, "] ");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:257:4: note: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119
-                           strcat(buf, "] ");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:259:4: warning: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(buf, " ");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:259:4: note: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119
-                           strcat(buf, " ");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:260:4: warning: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(buf, display_textmodes[i]);
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:260:4: note: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119
-                           strcat(buf, display_textmodes[i]);
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:261:4: warning: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(buf, " ");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:261:4: note: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119
-                           strcat(buf, " ");
-                           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:264:2: warning: Call to function 'strcat' i=
-s insecure as it does not provide bounding of the memory buffer. Replace un=
-bounded copy functions with analogous functions that support length argumen=
-ts such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(buf, "\n");
-           ^~~~~~
-   drivers/usb/misc/usbsevseg.c:264:2: note: Call to function 'strcat' is i=
-nsecure as it does not provide bounding of the memory buffer. Replace unbou=
-nded copy functions with analogous functions that support length arguments =
-such as 'strlcat'. CWE-119
-           strcat(buf, "\n");
-           ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/virt/nitro_enclaves/ne_misc_dev.c:878:5: warning: Assigned value=
- is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   i =3D ne_mem_region->nr_pages;
-                     ^ ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:852:6: note: Assuming 'rc' is =
->=3D 0
-           if (rc < 0)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:852:2: note: '?' condition is =
-false
-           if (rc < 0)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:852:6: note: 'rc' is >=3D 0
-           if (rc < 0)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:852:6: note: 'rc' is >=3D 0
-           if (rc < 0)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:852:2: note: '?' condition is =
-false
-           if (rc < 0)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:852:2: note: Taking false bran=
-ch
-           if (rc < 0)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:855:18: note: Calling 'kzalloc'
-           ne_mem_region =3D kzalloc(sizeof(*ne_mem_region), GFP_KERNEL);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Uninitialized value stored to field 'n=
-r_pages'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:855:18: note: Returning from '=
-kzalloc'
-           ne_mem_region =3D kzalloc(sizeof(*ne_mem_region), GFP_KERNEL);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:856:6: note: Assuming 'ne_mem_=
-region' is non-null
-           if (!ne_mem_region)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:856:2: note: '?' condition is =
-false
-           if (!ne_mem_region)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/virt/nitro_enclaves/ne_misc_dev.c:856:7: note: 'ne_mem_region' i=
-s non-null
-           if (!ne_mem_region)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+vim +/PTR_ERR +76 mm/damon/dbgfs.c
 
-vim +878 drivers/virt/nitro_enclaves/ne_misc_dev.c
+4bc05954d00766 SeongJae Park 2021-09-07   64  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   826  =
+4bc05954d00766 SeongJae Park 2021-09-07   65  static ssize_t dbgfs_attrs_wr=
+ite(struct file *file,
+4bc05954d00766 SeongJae Park 2021-09-07   66  		const char __user *buf, siz=
+e_t count, loff_t *ppos)
+4bc05954d00766 SeongJae Park 2021-09-07   67  {
+4bc05954d00766 SeongJae Park 2021-09-07   68  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+4bc05954d00766 SeongJae Park 2021-09-07   69  	unsigned long s, a, r, minr,=
+ maxr;
+4bc05954d00766 SeongJae Park 2021-09-07   70  	char *kbuf;
+4bc05954d00766 SeongJae Park 2021-09-07   71  	ssize_t ret =3D count;
+4bc05954d00766 SeongJae Park 2021-09-07   72  	int err;
+4bc05954d00766 SeongJae Park 2021-09-07   73  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   827  /**
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   828   * ne_set_user_memory_regi=
-on_ioctl() - Add user space memory region to the slot
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   829   *				       associated wi=
-th the current enclave.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   830   * @ne_enclave :	Private d=
-ata associated with the current enclave.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   831   * @mem_region :	User spac=
-e memory region to be associated with the given slot.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   832   *
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   833   * Context: Process contex=
-t. This function is called with the ne_enclave mutex held.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   834   * Return:
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   835   * * 0 on success.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   836   * * Negative return value=
- on failure.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   837   */
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   838  static int ne_set_user_mem=
-ory_region_ioctl(struct ne_enclave *ne_enclave,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   839  	struct ne_user_memory_reg=
-ion mem_region)
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   840  {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   841  	long gup_rc =3D 0;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   842  	unsigned long i =3D 0;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   843  	unsigned long max_nr_page=
-s =3D 0;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   844  	unsigned long memory_size=
- =3D 0;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   845  	struct ne_mem_region *ne_=
-mem_region =3D NULL;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   846  	unsigned long nr_phys_con=
-tig_mem_regions =3D 0;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   847  	struct pci_dev *pdev =3D =
-ne_devs.ne_pci_dev->pdev;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   848  	struct page **phys_contig=
-_mem_regions =3D NULL;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   849  	int rc =3D -EINVAL;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   850  =
+4bc05954d00766 SeongJae Park 2021-09-07   74  	kbuf =3D user_input_str(buf,=
+ count, ppos);
+4bc05954d00766 SeongJae Park 2021-09-07   75  	if (IS_ERR(kbuf))
+4bc05954d00766 SeongJae Park 2021-09-07  @76  		return PTR_ERR(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07   77  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   851  	rc =3D ne_sanity_check_us=
-er_mem_region(ne_enclave, mem_region);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   852  	if (rc < 0)
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   853  		return rc;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   854  =
+4bc05954d00766 SeongJae Park 2021-09-07   78  	if (sscanf(kbuf, "%lu %lu %l=
+u %lu %lu",
+4bc05954d00766 SeongJae Park 2021-09-07   79  				&s, &a, &r, &minr, &maxr)=
+ !=3D 5) {
+4bc05954d00766 SeongJae Park 2021-09-07   80  		ret =3D -EINVAL;
+4bc05954d00766 SeongJae Park 2021-09-07   81  		goto out;
+4bc05954d00766 SeongJae Park 2021-09-07   82  	}
+4bc05954d00766 SeongJae Park 2021-09-07   83  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   855  	ne_mem_region =3D kzalloc=
-(sizeof(*ne_mem_region), GFP_KERNEL);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   856  	if (!ne_mem_region)
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   857  		return -ENOMEM;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   858  =
+4bc05954d00766 SeongJae Park 2021-09-07   84  	mutex_lock(&ctx->kdamond_loc=
+k);
+4bc05954d00766 SeongJae Park 2021-09-07   85  	if (ctx->kdamond) {
+4bc05954d00766 SeongJae Park 2021-09-07   86  		ret =3D -EBUSY;
+4bc05954d00766 SeongJae Park 2021-09-07   87  		goto unlock_out;
+4bc05954d00766 SeongJae Park 2021-09-07   88  	}
+4bc05954d00766 SeongJae Park 2021-09-07   89  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   859  	max_nr_pages =3D mem_regi=
-on.memory_size / NE_MIN_MEM_REGION_SIZE;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   860  =
+4bc05954d00766 SeongJae Park 2021-09-07   90  	err =3D damon_set_attrs(ctx,=
+ s, a, r, minr, maxr);
+4bc05954d00766 SeongJae Park 2021-09-07   91  	if (err)
+4bc05954d00766 SeongJae Park 2021-09-07   92  		ret =3D err;
+4bc05954d00766 SeongJae Park 2021-09-07   93  unlock_out:
+4bc05954d00766 SeongJae Park 2021-09-07   94  	mutex_unlock(&ctx->kdamond_l=
+ock);
+4bc05954d00766 SeongJae Park 2021-09-07   95  out:
+4bc05954d00766 SeongJae Park 2021-09-07   96  	kfree(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07   97  	return ret;
+4bc05954d00766 SeongJae Park 2021-09-07   98  }
+4bc05954d00766 SeongJae Park 2021-09-07   99  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   861  	ne_mem_region->pages =3D =
-kcalloc(max_nr_pages, sizeof(*ne_mem_region->pages),
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   862  				       GFP_KERNEL);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   863  	if (!ne_mem_region->pages=
+4bc05954d00766 SeongJae Park 2021-09-07  100  static inline bool targetid_i=
+s_pid(const struct damon_ctx *ctx)
+4bc05954d00766 SeongJae Park 2021-09-07  101  {
+4bc05954d00766 SeongJae Park 2021-09-07  102  	return ctx->primitive.target=
+_valid =3D=3D damon_va_target_valid;
+4bc05954d00766 SeongJae Park 2021-09-07  103  }
+4bc05954d00766 SeongJae Park 2021-09-07  104  =
+
+4bc05954d00766 SeongJae Park 2021-09-07  105  static ssize_t sprint_target_=
+ids(struct damon_ctx *ctx, char *buf, ssize_t len)
+4bc05954d00766 SeongJae Park 2021-09-07  106  {
+4bc05954d00766 SeongJae Park 2021-09-07  107  	struct damon_target *t;
+4bc05954d00766 SeongJae Park 2021-09-07  108  	unsigned long id;
+4bc05954d00766 SeongJae Park 2021-09-07  109  	int written =3D 0;
+4bc05954d00766 SeongJae Park 2021-09-07  110  	int rc;
+4bc05954d00766 SeongJae Park 2021-09-07  111  =
+
+4bc05954d00766 SeongJae Park 2021-09-07  112  	damon_for_each_target(t, ctx=
 ) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   864  		rc =3D -ENOMEM;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   865  =
+4bc05954d00766 SeongJae Park 2021-09-07  113  		id =3D t->id;
+4bc05954d00766 SeongJae Park 2021-09-07  114  		if (targetid_is_pid(ctx))
+4bc05954d00766 SeongJae Park 2021-09-07  115  			/* Show pid numbers to deb=
+ugfs users */
+4bc05954d00766 SeongJae Park 2021-09-07  116  			id =3D (unsigned long)pid_=
+vnr((struct pid *)id);
+4bc05954d00766 SeongJae Park 2021-09-07  117  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   866  		goto free_mem_region;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   867  	}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   868  =
+4bc05954d00766 SeongJae Park 2021-09-07  118  		rc =3D scnprintf(&buf[writt=
+en], len - written, "%lu ", id);
+4bc05954d00766 SeongJae Park 2021-09-07  119  		if (!rc)
+4bc05954d00766 SeongJae Park 2021-09-07  120  			return -ENOMEM;
+4bc05954d00766 SeongJae Park 2021-09-07  121  		written +=3D rc;
+4bc05954d00766 SeongJae Park 2021-09-07  122  	}
+4bc05954d00766 SeongJae Park 2021-09-07  123  	if (written)
+4bc05954d00766 SeongJae Park 2021-09-07  124  		written -=3D 1;
+4bc05954d00766 SeongJae Park 2021-09-07  125  	written +=3D scnprintf(&buf[=
+written], len - written, "\n");
+4bc05954d00766 SeongJae Park 2021-09-07  126  	return written;
+4bc05954d00766 SeongJae Park 2021-09-07  127  }
+4bc05954d00766 SeongJae Park 2021-09-07  128  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   869  	phys_contig_mem_regions =
-=3D kcalloc(max_nr_pages, sizeof(*phys_contig_mem_regions),
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   870  					  GFP_KERNEL);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   871  	if (!phys_contig_mem_regi=
-ons) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   872  		rc =3D -ENOMEM;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   873  =
+4bc05954d00766 SeongJae Park 2021-09-07  129  static ssize_t dbgfs_target_i=
+ds_read(struct file *file,
+4bc05954d00766 SeongJae Park 2021-09-07  130  		char __user *buf, size_t co=
+unt, loff_t *ppos)
+4bc05954d00766 SeongJae Park 2021-09-07  131  {
+4bc05954d00766 SeongJae Park 2021-09-07  132  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+4bc05954d00766 SeongJae Park 2021-09-07  133  	ssize_t len;
+4bc05954d00766 SeongJae Park 2021-09-07  134  	char ids_buf[320];
+4bc05954d00766 SeongJae Park 2021-09-07  135  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   874  		goto free_mem_region;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   875  	}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   876  =
+4bc05954d00766 SeongJae Park 2021-09-07  136  	mutex_lock(&ctx->kdamond_loc=
+k);
+4bc05954d00766 SeongJae Park 2021-09-07  137  	len =3D sprint_target_ids(ct=
+x, ids_buf, 320);
+4bc05954d00766 SeongJae Park 2021-09-07  138  	mutex_unlock(&ctx->kdamond_l=
+ock);
+4bc05954d00766 SeongJae Park 2021-09-07  139  	if (len < 0)
+4bc05954d00766 SeongJae Park 2021-09-07  140  		return len;
+4bc05954d00766 SeongJae Park 2021-09-07  141  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   877  	do {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21  @878  		i =3D ne_mem_region->nr_=
-pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   879  =
+4bc05954d00766 SeongJae Park 2021-09-07  142  	return simple_read_from_buff=
+er(buf, count, ppos, ids_buf, len);
+4bc05954d00766 SeongJae Park 2021-09-07  143  }
+4bc05954d00766 SeongJae Park 2021-09-07  144  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   880  		if (i =3D=3D max_nr_page=
-s) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   881  			dev_err_ratelimited(ne_=
-misc_dev.this_device,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   882  					    "Reached max nr o=
-f pages in the pages data struct\n");
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   883  =
+4bc05954d00766 SeongJae Park 2021-09-07  145  /*
+4bc05954d00766 SeongJae Park 2021-09-07  146   * Converts a string into an =
+array of unsigned long integers
+4bc05954d00766 SeongJae Park 2021-09-07  147   *
+4bc05954d00766 SeongJae Park 2021-09-07  148   * Returns an array of unsign=
+ed long integers if the conversion success, or
+4bc05954d00766 SeongJae Park 2021-09-07  149   * NULL otherwise.
+4bc05954d00766 SeongJae Park 2021-09-07  150   */
+4bc05954d00766 SeongJae Park 2021-09-07  151  static unsigned long *str_to_=
+target_ids(const char *str, ssize_t len,
+4bc05954d00766 SeongJae Park 2021-09-07  152  					ssize_t *nr_ids)
+4bc05954d00766 SeongJae Park 2021-09-07  153  {
+4bc05954d00766 SeongJae Park 2021-09-07  154  	unsigned long *ids;
+4bc05954d00766 SeongJae Park 2021-09-07  155  	const int max_nr_ids =3D 32;
+4bc05954d00766 SeongJae Park 2021-09-07  156  	unsigned long id;
+4bc05954d00766 SeongJae Park 2021-09-07  157  	int pos =3D 0, parsed, ret;
+4bc05954d00766 SeongJae Park 2021-09-07  158  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   884  			rc =3D -ENOMEM;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   885  =
+4bc05954d00766 SeongJae Park 2021-09-07  159  	*nr_ids =3D 0;
+4bc05954d00766 SeongJae Park 2021-09-07  160  	ids =3D kmalloc_array(max_nr=
+_ids, sizeof(id), GFP_KERNEL);
+4bc05954d00766 SeongJae Park 2021-09-07  161  	if (!ids)
+4bc05954d00766 SeongJae Park 2021-09-07  162  		return NULL;
+4bc05954d00766 SeongJae Park 2021-09-07  163  	while (*nr_ids < max_nr_ids =
+&& pos < len) {
+4bc05954d00766 SeongJae Park 2021-09-07  164  		ret =3D sscanf(&str[pos], "=
+%lu%n", &id, &parsed);
+4bc05954d00766 SeongJae Park 2021-09-07  165  		pos +=3D parsed;
+4bc05954d00766 SeongJae Park 2021-09-07  166  		if (ret !=3D 1)
+4bc05954d00766 SeongJae Park 2021-09-07  167  			break;
+4bc05954d00766 SeongJae Park 2021-09-07  168  		ids[*nr_ids] =3D id;
+4bc05954d00766 SeongJae Park 2021-09-07  169  		*nr_ids +=3D 1;
+4bc05954d00766 SeongJae Park 2021-09-07  170  	}
+4bc05954d00766 SeongJae Park 2021-09-07  171  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   886  			goto put_pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   887  		}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   888  =
+4bc05954d00766 SeongJae Park 2021-09-07  172  	return ids;
+4bc05954d00766 SeongJae Park 2021-09-07  173  }
+4bc05954d00766 SeongJae Park 2021-09-07  174  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   889  		gup_rc =3D get_user_page=
-s(mem_region.userspace_addr + memory_size, 1, FOLL_GET,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   890  					ne_mem_region->pages =
-+ i, NULL);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   891  		if (gup_rc < 0) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   892  			rc =3D gup_rc;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   893  =
+4bc05954d00766 SeongJae Park 2021-09-07  175  static void dbgfs_put_pids(un=
+signed long *ids, int nr_ids)
+4bc05954d00766 SeongJae Park 2021-09-07  176  {
+4bc05954d00766 SeongJae Park 2021-09-07  177  	int i;
+4bc05954d00766 SeongJae Park 2021-09-07  178  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   894  			dev_err_ratelimited(ne_=
-misc_dev.this_device,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   895  					    "Error in get use=
-r pages [rc=3D%d]\n", rc);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   896  =
+4bc05954d00766 SeongJae Park 2021-09-07  179  	for (i =3D 0; i < nr_ids; i+=
++)
+4bc05954d00766 SeongJae Park 2021-09-07  180  		put_pid((struct pid *)ids[i=
+]);
+4bc05954d00766 SeongJae Park 2021-09-07  181  }
+4bc05954d00766 SeongJae Park 2021-09-07  182  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   897  			goto put_pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   898  		}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   899  =
+4bc05954d00766 SeongJae Park 2021-09-07  183  static ssize_t dbgfs_target_i=
+ds_write(struct file *file,
+4bc05954d00766 SeongJae Park 2021-09-07  184  		const char __user *buf, siz=
+e_t count, loff_t *ppos)
+4bc05954d00766 SeongJae Park 2021-09-07  185  {
+4bc05954d00766 SeongJae Park 2021-09-07  186  	struct damon_ctx *ctx =3D fi=
+le->private_data;
+4bc05954d00766 SeongJae Park 2021-09-07  187  	char *kbuf, *nrs;
+4bc05954d00766 SeongJae Park 2021-09-07  188  	unsigned long *targets;
+4bc05954d00766 SeongJae Park 2021-09-07  189  	ssize_t nr_targets;
+4bc05954d00766 SeongJae Park 2021-09-07  190  	ssize_t ret =3D count;
+4bc05954d00766 SeongJae Park 2021-09-07  191  	int i;
+4bc05954d00766 SeongJae Park 2021-09-07  192  	int err;
+4bc05954d00766 SeongJae Park 2021-09-07  193  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   900  		rc =3D ne_sanity_check_u=
-ser_mem_region_page(ne_enclave, ne_mem_region->pages[i]);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   901  		if (rc < 0)
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   902  			goto put_pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   903  =
+4bc05954d00766 SeongJae Park 2021-09-07  194  	kbuf =3D user_input_str(buf,=
+ count, ppos);
+4bc05954d00766 SeongJae Park 2021-09-07  195  	if (IS_ERR(kbuf))
+4bc05954d00766 SeongJae Park 2021-09-07 @196  		return PTR_ERR(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07  197  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   904  		/*
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   905  		 * TODO: Update once han=
-dled non-contiguous memory regions
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   906  		 * received from user sp=
-ace or contiguous physical memory regions
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   907  		 * larger than 2 MiB e.g=
-. 8 MiB.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   908  		 */
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   909  		phys_contig_mem_regions[=
-i] =3D ne_mem_region->pages[i];
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   910  =
+4bc05954d00766 SeongJae Park 2021-09-07  198  	nrs =3D kbuf;
+4bc05954d00766 SeongJae Park 2021-09-07  199  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   911  		memory_size +=3D page_si=
-ze(ne_mem_region->pages[i]);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   912  =
+4bc05954d00766 SeongJae Park 2021-09-07  200  	targets =3D str_to_target_id=
+s(nrs, ret, &nr_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  201  	if (!targets) {
+4bc05954d00766 SeongJae Park 2021-09-07  202  		ret =3D -ENOMEM;
+4bc05954d00766 SeongJae Park 2021-09-07  203  		goto out;
+4bc05954d00766 SeongJae Park 2021-09-07  204  	}
+4bc05954d00766 SeongJae Park 2021-09-07  205  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   913  		ne_mem_region->nr_pages+=
-+;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   914  	} while (memory_size < me=
-m_region.memory_size);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   915  =
+4bc05954d00766 SeongJae Park 2021-09-07  206  	if (targetid_is_pid(ctx)) {
+4bc05954d00766 SeongJae Park 2021-09-07  207  		for (i =3D 0; i < nr_target=
+s; i++) {
+4bc05954d00766 SeongJae Park 2021-09-07  208  			targets[i] =3D (unsigned l=
+ong)find_get_pid(
+4bc05954d00766 SeongJae Park 2021-09-07  209  					(int)targets[i]);
+4bc05954d00766 SeongJae Park 2021-09-07  210  			if (!targets[i]) {
+4bc05954d00766 SeongJae Park 2021-09-07  211  				dbgfs_put_pids(targets, i=
+);
+4bc05954d00766 SeongJae Park 2021-09-07  212  				ret =3D -EINVAL;
+4bc05954d00766 SeongJae Park 2021-09-07  213  				goto free_targets_out;
+4bc05954d00766 SeongJae Park 2021-09-07  214  			}
+4bc05954d00766 SeongJae Park 2021-09-07  215  		}
+4bc05954d00766 SeongJae Park 2021-09-07  216  	}
+4bc05954d00766 SeongJae Park 2021-09-07  217  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   916  	/*
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   917  	 * TODO: Update once hand=
-led non-contiguous memory regions received
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   918  	 * from user space or con=
-tiguous physical memory regions larger than
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   919  	 * 2 MiB e.g. 8 MiB.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   920  	 */
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   921  	nr_phys_contig_mem_region=
-s =3D ne_mem_region->nr_pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   922  =
+4bc05954d00766 SeongJae Park 2021-09-07  218  	mutex_lock(&ctx->kdamond_loc=
+k);
+4bc05954d00766 SeongJae Park 2021-09-07  219  	if (ctx->kdamond) {
+4bc05954d00766 SeongJae Park 2021-09-07  220  		if (targetid_is_pid(ctx))
+4bc05954d00766 SeongJae Park 2021-09-07  221  			dbgfs_put_pids(targets, nr=
+_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  222  		ret =3D -EBUSY;
+4bc05954d00766 SeongJae Park 2021-09-07  223  		goto unlock_out;
+4bc05954d00766 SeongJae Park 2021-09-07  224  	}
+4bc05954d00766 SeongJae Park 2021-09-07  225  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   923  	if ((ne_enclave->nr_mem_r=
-egions + nr_phys_contig_mem_regions) >
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   924  	    ne_enclave->max_mem_r=
-egions) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   925  		dev_err_ratelimited(ne_m=
-isc_dev.this_device,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   926  				    "Reached max memor=
-y regions %lld\n",
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   927  				    ne_enclave->max_me=
-m_regions);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   928  =
+4bc05954d00766 SeongJae Park 2021-09-07  226  	err =3D damon_set_targets(ct=
+x, targets, nr_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  227  	if (err) {
+4bc05954d00766 SeongJae Park 2021-09-07  228  		if (targetid_is_pid(ctx))
+4bc05954d00766 SeongJae Park 2021-09-07  229  			dbgfs_put_pids(targets, nr=
+_targets);
+4bc05954d00766 SeongJae Park 2021-09-07  230  		ret =3D err;
+4bc05954d00766 SeongJae Park 2021-09-07  231  	}
+4bc05954d00766 SeongJae Park 2021-09-07  232  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   929  		rc =3D -NE_ERR_MEM_MAX_R=
-EGIONS;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   930  =
+4bc05954d00766 SeongJae Park 2021-09-07  233  unlock_out:
+4bc05954d00766 SeongJae Park 2021-09-07  234  	mutex_unlock(&ctx->kdamond_l=
+ock);
+4bc05954d00766 SeongJae Park 2021-09-07  235  free_targets_out:
+4bc05954d00766 SeongJae Park 2021-09-07  236  	kfree(targets);
+4bc05954d00766 SeongJae Park 2021-09-07  237  out:
+4bc05954d00766 SeongJae Park 2021-09-07  238  	kfree(kbuf);
+4bc05954d00766 SeongJae Park 2021-09-07  239  	return ret;
+4bc05954d00766 SeongJae Park 2021-09-07  240  }
+4bc05954d00766 SeongJae Park 2021-09-07  241  =
 
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   931  		goto put_pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   932  	}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   933  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   934  	for (i =3D 0; i < nr_phys=
-_contig_mem_regions; i++) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   935  		u64 phys_region_addr =3D=
- page_to_phys(phys_contig_mem_regions[i]);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   936  		u64 phys_region_size =3D=
- page_size(phys_contig_mem_regions[i]);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   937  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   938  		if (phys_region_size & (=
-NE_MIN_MEM_REGION_SIZE - 1)) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   939  			dev_err_ratelimited(ne_=
-misc_dev.this_device,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   940  					    "Physical mem reg=
-ion size is not multiple of 2 MiB\n");
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   941  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   942  			rc =3D -EINVAL;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   943  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   944  			goto put_pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   945  		}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   946  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   947  		if (!IS_ALIGNED(phys_reg=
-ion_addr, NE_MIN_MEM_REGION_SIZE)) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   948  			dev_err_ratelimited(ne_=
-misc_dev.this_device,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   949  					    "Physical mem reg=
-ion address is not 2 MiB aligned\n");
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   950  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   951  			rc =3D -EINVAL;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   952  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   953  			goto put_pages;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   954  		}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   955  	}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   956  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   957  	ne_mem_region->memory_siz=
-e =3D mem_region.memory_size;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   958  	ne_mem_region->userspace_=
-addr =3D mem_region.userspace_addr;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   959  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   960  	list_add(&ne_mem_region->=
-mem_region_list_entry, &ne_enclave->mem_regions_list);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   961  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   962  	for (i =3D 0; i < nr_phys=
-_contig_mem_regions; i++) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   963  		struct ne_pci_dev_cmd_re=
-ply cmd_reply =3D {};
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   964  		struct slot_add_mem_req =
-slot_add_mem_req =3D {};
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   965  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   966  		slot_add_mem_req.slot_ui=
-d =3D ne_enclave->slot_uid;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   967  		slot_add_mem_req.paddr =
-=3D page_to_phys(phys_contig_mem_regions[i]);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   968  		slot_add_mem_req.size =
-=3D page_size(phys_contig_mem_regions[i]);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   969  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   970  		rc =3D ne_do_request(pde=
-v, SLOT_ADD_MEM,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   971  				   &slot_add_mem_req, =
-sizeof(slot_add_mem_req),
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   972  				   &cmd_reply, sizeof(=
-cmd_reply));
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   973  		if (rc < 0) {
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   974  			dev_err_ratelimited(ne_=
-misc_dev.this_device,
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   975  					    "Error in slot ad=
-d mem [rc=3D%d]\n", rc);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   976  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   977  			kfree(phys_contig_mem_r=
-egions);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   978  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   979  			/*
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   980  			 * Exit here without pu=
-t pages as memory regions may
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   981  			 * already been added.
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   982  			 */
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   983  			return rc;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   984  		}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   985  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   986  		ne_enclave->mem_size +=
-=3D slot_add_mem_req.size;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   987  		ne_enclave->nr_mem_regio=
-ns++;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   988  	}
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   989  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   990  	kfree(phys_contig_mem_reg=
-ions);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   991  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   992  	return 0;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   993  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   994  put_pages:
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   995  	for (i =3D 0; i < ne_mem_=
-region->nr_pages; i++)
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   996  		put_page(ne_mem_region->=
-pages[i]);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   997  free_mem_region:
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   998  	kfree(phys_contig_mem_reg=
-ions);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21   999  	kfree(ne_mem_region->page=
-s);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21  1000  	kfree(ne_mem_region);
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21  1001  =
-
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21  1002  	return rc;
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21  1003  }
-7dc9d4309fdb77 Andra Paraschiv 2020-09-21  1004  =
-
-
-:::::: The code at line 878 was first introduced by commit
-:::::: 7dc9d4309fdb7773df13a17e203c16966676f21a nitro_enclaves: Add logic f=
-or setting an enclave memory region
-
-:::::: TO: Andra Paraschiv <andraprs@amazon.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6519140085131020410==--
+--===============6578399998712618604==--
 
