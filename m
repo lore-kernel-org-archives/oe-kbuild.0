@@ -1,127 +1,93 @@
-Content-Type: multipart/mixed; boundary="===============5782385528669230522=="
+Content-Type: multipart/mixed; boundary="===============3843044691373246933=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/events/intel/uncore.c:847:4: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
-Date: Tue, 07 Dec 2021 03:01:53 +0800
-Message-ID: <202112070211.60wvT1BD-lkp@intel.com>
+Subject: drivers/regulator/core.c:915 bypass_show() error: uninitialized symbol 'bypass'.
+Date: Tue, 07 Dec 2021 02:10:37 +0800
+Message-ID: <202112070226.lmm37w25-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5782385528669230522==
+--===============3843044691373246933==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kan Liang <kan.liang@linux.intel.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: YueHaibing <yuehaibing@huawei.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
-commit: d6c754130435ab786711bed75d04a2388a6b4da8 perf/x86/intel/uncore: Gen=
-eric support for the MSR type of uncore blocks
-date:   8 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 8 months ago
+commit: a277a2622ca9609de09c18f660f0d10f1ddbb379 regulator: core: Use DEVIC=
+E_ATTR_RO macro
+date:   6 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-m001-20211206 (https://download.01.org/0day-ci/ar=
+chive/20211207/202112070226.lmm37w25-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/regulator/core.c:915 bypass_show() error: uninitialized symbol 'byp=
+ass'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/regulator/core.c:129 regulator_ops_is_valid() error: we previously =
+assumed 'rdev->constraints' could be null (see line 128)
+drivers/regulator/core.c:4159 regulator_get_voltage_rdev() error: uninitial=
+ized symbol 'bypassed'.
 
-   In file included from arch/x86/events/intel/uncore.c:
-   arch/x86/events/perf_event.h:87:2: warning: Non-boolean value returned f=
-rom function returning bool [returnNonBoolInBooleanFunction]
-    return event->hw.flags & PERF_X86_EVENT_TOPDOWN;
-    ^
-   arch/x86/events/perf_event.h:987:2: warning: Non-boolean value returned =
-from function returning bool [returnNonBoolInBooleanFunction]
-    return hwc->flags & PERF_X86_EVENT_PAIR;
-    ^
->> arch/x86/events/intel/uncore.c:847:4: warning: %u in format string (no. =
-1) requires 'unsigned int' but the argument type is 'signed int'. [invalidP=
-rintfArgType_uint]
-      sprintf(pmu->name, "uncore_type_%u", type->type_id);
-      ^
-   arch/x86/events/intel/uncore.c:849:4: warning: %u in format string (no. =
-1) requires 'unsigned int' but the argument type is 'signed int'. [invalidP=
-rintfArgType_uint]
-      sprintf(pmu->name, "uncore_type_%u_%d",
-      ^
->> arch/x86/events/intel/uncore.c:849:4: warning: %d in format string (no. =
-2) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfAr=
-gType_sint]
-      sprintf(pmu->name, "uncore_type_%u_%d",
-      ^
+vim +/bypass +915 drivers/regulator/core.c
 
-vim +847 arch/x86/events/intel/uncore.c
+7ad68e2f970fd8 David Brownell 2008-11-11  902  =
 
-314d9f63f38509 arch/x86/kernel/cpu/perf_event_intel_uncore.c Yan, Zheng 201=
-2-09-10  836  =
+a277a2622ca960 YueHaibing     2021-05-29  903  static ssize_t bypass_show(s=
+truct device *dev,
+f59c8f9fe68979 Mark Brown     2012-08-31  904  			   struct device_attribut=
+e *attr, char *buf)
+f59c8f9fe68979 Mark Brown     2012-08-31  905  {
+f59c8f9fe68979 Mark Brown     2012-08-31  906  	struct regulator_dev *rdev =
+=3D dev_get_drvdata(dev);
+f59c8f9fe68979 Mark Brown     2012-08-31  907  	const char *report;
+f59c8f9fe68979 Mark Brown     2012-08-31  908  	bool bypass;
+f59c8f9fe68979 Mark Brown     2012-08-31  909  	int ret;
+f59c8f9fe68979 Mark Brown     2012-08-31  910  =
 
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  837  static void uncore_get_pmu_name(struct intel_uncore_pmu *pmu)
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  838  {
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  839  	struct intel_uncore_type *type =3D pmu->type;
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  840  =
+f59c8f9fe68979 Mark Brown     2012-08-31  911  	ret =3D rdev->desc->ops->ge=
+t_bypass(rdev, &bypass);
+f59c8f9fe68979 Mark Brown     2012-08-31  912  =
 
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  841  	/*
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  842  	 * No uncore block name in discovery table.
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  843  	 * Use uncore_type_&typeid_&boxid as name.
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  844  	 */
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  845  	if (!type->name) {
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  846  		if (type->num_boxes =3D=3D 1)
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17 @847  			sprintf(pmu->name, "uncore_type_%u", type->type_id);
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  848  		else {
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17 @849  			sprintf(pmu->name, "uncore_type_%u_%d",
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  850  				type->type_id, type->box_ids[pmu->pmu_idx]);
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  851  		}
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  852  		return;
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  853  	}
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  854  =
+f59c8f9fe68979 Mark Brown     2012-08-31  913  	if (ret !=3D 0)
+f59c8f9fe68979 Mark Brown     2012-08-31  914  		report =3D "unknown";
+f59c8f9fe68979 Mark Brown     2012-08-31 @915  	else if (bypass)
+f59c8f9fe68979 Mark Brown     2012-08-31  916  		report =3D "enabled";
+f59c8f9fe68979 Mark Brown     2012-08-31  917  	else
+f59c8f9fe68979 Mark Brown     2012-08-31  918  		report =3D "disabled";
+f59c8f9fe68979 Mark Brown     2012-08-31  919  =
 
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  855  	if (type->num_boxes =3D=3D 1) {
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  856  		if (strlen(type->name) > 0)
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  857  			sprintf(pmu->name, "uncore_%s", type->name);
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  858  		else
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  859  			sprintf(pmu->name, "uncore");
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  860  	} else
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  861  		sprintf(pmu->name, "uncore_%s_%d", type->name, pmu->pmu_idx=
+f59c8f9fe68979 Mark Brown     2012-08-31  920  	return sprintf(buf, "%s\n",=
+ report);
+f59c8f9fe68979 Mark Brown     2012-08-31  921  }
+a277a2622ca960 YueHaibing     2021-05-29  922  static DEVICE_ATTR_RO(bypass=
 );
-d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
-1-03-17  862  =
+bc558a60b58f63 Mark Brown     2008-10-10  923  =
 
+
+:::::: The code at line 915 was first introduced by commit
+:::::: f59c8f9fe689790248ae7aa7426579982050638c regulator: core: Support by=
+pass mode
+
+:::::: TO: Mark Brown <broonie@opensource.wolfsonmicro.com>
+:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5782385528669230522==--
+--===============3843044691373246933==--
 
