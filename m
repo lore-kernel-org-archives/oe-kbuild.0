@@ -1,29 +1,35 @@
-Content-Type: multipart/mixed; boundary="===============2338401343100977888=="
+Content-Type: multipart/mixed; boundary="===============8233725649613114263=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ambarus:spi-nor/next-clean-v5 20/25] drivers/mtd/spi-nor/core.c:2720 spi_nor_init_params_deprecated() warn: should this be a bitwise op?
-Date: Mon, 06 Dec 2021 23:16:02 +0800
-Message-ID: <202112062341.u7kBv9Hp-lkp@intel.com>
+Subject: drivers/pinctrl/pinmux.c:737 pinmux_select() error: uninitialized symbol 'groups'.
+Date: Mon, 06 Dec 2021 22:35:15 +0800
+Message-ID: <202112062208.dPBd7oKd-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2338401343100977888==
+--===============8233725649613114263==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Tudor Ambarus <tudor.ambarus@microchip.com>
+TO: Drew Fustini <drew@beagleboard.org>
+CC: Linus Walleij <linus.walleij@linaro.org>
+CC: Andy Shevchenko <andy.shevchenko@gmail.com>
+CC: Tony Lindgren <tony@atomide.com>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
-tree:   https://github.com/ambarus/linux-0day spi-nor/next-clean-v5
-head:   d643e0f7de527f4ccf909025478949a961440ac8
-commit: d3c97258de8777fd69e982ff804b97a4fc3372a9 [20/25] mtd: spi-nor: core=
-: Init all flash parameters based on SFDP where possible
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-m021-20211206 (https://download.01.org/0day-ci/arch=
-ive/20211206/202112062341.u7kBv9Hp-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
+commit: 6199f6becc869d30ca9394ca0f7a484bf9d598eb pinctrl: pinmux: Add pinmu=
+x-select debugfs file
+date:   9 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-m001-20211206 (https://download.01.org/0day-ci/ar=
+chive/20211206/202112062208.dPBd7oKd-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -31,58 +37,152 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/mtd/spi-nor/core.c:2720 spi_nor_init_params_deprecated() warn: shou=
-ld this be a bitwise op?
+drivers/pinctrl/pinmux.c:737 pinmux_select() error: uninitialized symbol 'g=
+roups'.
+drivers/pinctrl/pinmux.c:737 pinmux_select() error: uninitialized symbol 'n=
+um_groups'.
 
 Old smatch warnings:
-drivers/mtd/spi-nor/core.c:1544 spi_nor_init_erase_cmd_list() warn: passing=
- a valid pointer to 'PTR_ERR'
-drivers/mtd/spi-nor/core.c:1558 spi_nor_init_erase_cmd_list() warn: passing=
- a valid pointer to 'PTR_ERR'
+drivers/pinctrl/pinmux.c:370 pinmux_map_to_setting() error: uninitialized s=
+ymbol 'num_groups'.
+drivers/pinctrl/pinmux.c:378 pinmux_map_to_setting() error: uninitialized s=
+ymbol 'groups'.
+drivers/pinctrl/pinmux.c:386 pinmux_map_to_setting() error: uninitialized s=
+ymbol 'groups'.
+drivers/pinctrl/pinmux.c:569 pinmux_functions_show() error: uninitialized s=
+ymbol 'num_groups'.
+drivers/pinctrl/pinmux.c:570 pinmux_functions_show() error: uninitialized s=
+ymbol 'groups'.
 
-vim +2720 drivers/mtd/spi-nor/core.c
+vim +/groups +737 drivers/pinctrl/pinmux.c
 
-d3c97258de8777 Tudor Ambarus 2021-11-22  2704  =
+2744e8afb3b763 Linus Walleij 2011-05-02  676  =
 
-d3c97258de8777 Tudor Ambarus 2021-11-22  2705  /**
-d3c97258de8777 Tudor Ambarus 2021-11-22  2706   * spi_nor_init_params_depre=
-cated() - Deprecated way of initializing flash
-d3c97258de8777 Tudor Ambarus 2021-11-22  2707   * parameters and settings.
-d3c97258de8777 Tudor Ambarus 2021-11-22  2708   * @nor:	pointer to a 'struc=
-t spi_nor'.
-d3c97258de8777 Tudor Ambarus 2021-11-22  2709   *
-d3c97258de8777 Tudor Ambarus 2021-11-22  2710   * The method assumes that f=
-lash doesn't support SFDP so it initializes flash
-d3c97258de8777 Tudor Ambarus 2021-11-22  2711   * parameters in spi_nor_no_=
-sfdp_init_params() which later on can be overwritten
-d3c97258de8777 Tudor Ambarus 2021-11-22  2712   * when parsing SFDP, if sup=
-ported.
-d3c97258de8777 Tudor Ambarus 2021-11-22  2713   */
-d3c97258de8777 Tudor Ambarus 2021-11-22  2714  static void spi_nor_init_par=
-ams_deprecated(struct spi_nor *nor)
-d3c97258de8777 Tudor Ambarus 2021-11-22  2715  {
-d3c97258de8777 Tudor Ambarus 2021-11-22  2716  	spi_nor_no_sfdp_init_params=
-(nor);
-d3c97258de8777 Tudor Ambarus 2021-11-22  2717  =
+6199f6becc869d Drew Fustini  2021-03-01  677  #define PINMUX_SELECT_MAX 128
+6199f6becc869d Drew Fustini  2021-03-01  678  static ssize_t pinmux_select(=
+struct file *file, const char __user *user_buf,
+6199f6becc869d Drew Fustini  2021-03-01  679  				   size_t len, loff_t *pp=
+os)
+6199f6becc869d Drew Fustini  2021-03-01  680  {
+6199f6becc869d Drew Fustini  2021-03-01  681  	struct seq_file *sfile =3D f=
+ile->private_data;
+6199f6becc869d Drew Fustini  2021-03-01  682  	struct pinctrl_dev *pctldev =
+=3D sfile->private;
+6199f6becc869d Drew Fustini  2021-03-01  683  	const struct pinmux_ops *pmx=
+ops =3D pctldev->desc->pmxops;
+6199f6becc869d Drew Fustini  2021-03-01  684  	const char *const *groups;
+6199f6becc869d Drew Fustini  2021-03-01  685  	char *buf, *gname, *fname;
+6199f6becc869d Drew Fustini  2021-03-01  686  	unsigned int num_groups;
+6199f6becc869d Drew Fustini  2021-03-01  687  	int fsel, gsel, ret;
+6199f6becc869d Drew Fustini  2021-03-01  688  =
 
-d3c97258de8777 Tudor Ambarus 2021-11-22  2718  	spi_nor_manufacturer_init_p=
-arams(nor);
-d3c97258de8777 Tudor Ambarus 2021-11-22  2719  =
+6199f6becc869d Drew Fustini  2021-03-01  689  	if (len > PINMUX_SELECT_MAX)
+6199f6becc869d Drew Fustini  2021-03-01  690  		return -ENOMEM;
+6199f6becc869d Drew Fustini  2021-03-01  691  =
 
-d3c97258de8777 Tudor Ambarus 2021-11-22 @2720  	if ((SPI_NOR_DUAL_READ | SP=
-I_NOR_QUAD_READ | SPI_NOR_OCTAL_READ |
-d3c97258de8777 Tudor Ambarus 2021-11-22  2721  	     SPI_NOR_OCTAL_DTR_READ=
-) &&
-d3c97258de8777 Tudor Ambarus 2021-11-22  2722  	    !(nor->info->no_sfdp_fl=
-ags & SPI_NOR_SKIP_SFDP))
-d3c97258de8777 Tudor Ambarus 2021-11-22  2723  		spi_nor_sfdp_init_params_d=
-eprecated(nor);
-d3c97258de8777 Tudor Ambarus 2021-11-22  2724  }
-d3c97258de8777 Tudor Ambarus 2021-11-22  2725  =
+6199f6becc869d Drew Fustini  2021-03-01  692  	buf =3D kzalloc(PINMUX_SELEC=
+T_MAX, GFP_KERNEL);
+6199f6becc869d Drew Fustini  2021-03-01  693  	if (!buf)
+6199f6becc869d Drew Fustini  2021-03-01  694  		return -ENOMEM;
+6199f6becc869d Drew Fustini  2021-03-01  695  =
+
+6199f6becc869d Drew Fustini  2021-03-01  696  	ret =3D strncpy_from_user(bu=
+f, user_buf, PINMUX_SELECT_MAX);
+6199f6becc869d Drew Fustini  2021-03-01  697  	if (ret < 0)
+6199f6becc869d Drew Fustini  2021-03-01  698  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  699  	buf[len-1] =3D '\0';
+6199f6becc869d Drew Fustini  2021-03-01  700  =
+
+6199f6becc869d Drew Fustini  2021-03-01  701  	/* remove leading and traili=
+ng spaces of input buffer */
+6199f6becc869d Drew Fustini  2021-03-01  702  	gname =3D strstrip(buf);
+6199f6becc869d Drew Fustini  2021-03-01  703  	if (*gname =3D=3D '\0') {
+6199f6becc869d Drew Fustini  2021-03-01  704  		ret =3D -EINVAL;
+6199f6becc869d Drew Fustini  2021-03-01  705  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  706  	}
+6199f6becc869d Drew Fustini  2021-03-01  707  =
+
+6199f6becc869d Drew Fustini  2021-03-01  708  	/* find a separator which is=
+ a spacelike character */
+6199f6becc869d Drew Fustini  2021-03-01  709  	for (fname =3D gname; !isspa=
+ce(*fname); fname++) {
+6199f6becc869d Drew Fustini  2021-03-01  710  		if (*fname =3D=3D '\0') {
+6199f6becc869d Drew Fustini  2021-03-01  711  			ret =3D -EINVAL;
+6199f6becc869d Drew Fustini  2021-03-01  712  			goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  713  		}
+6199f6becc869d Drew Fustini  2021-03-01  714  	}
+6199f6becc869d Drew Fustini  2021-03-01  715  	*fname =3D '\0';
+6199f6becc869d Drew Fustini  2021-03-01  716  =
+
+6199f6becc869d Drew Fustini  2021-03-01  717  	/* drop extra spaces between=
+ function and group names */
+6199f6becc869d Drew Fustini  2021-03-01  718  	fname =3D skip_spaces(fname =
++ 1);
+6199f6becc869d Drew Fustini  2021-03-01  719  	if (*fname =3D=3D '\0') {
+6199f6becc869d Drew Fustini  2021-03-01  720  		ret =3D -EINVAL;
+6199f6becc869d Drew Fustini  2021-03-01  721  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  722  	}
+6199f6becc869d Drew Fustini  2021-03-01  723  =
+
+6199f6becc869d Drew Fustini  2021-03-01  724  	ret =3D pinmux_func_name_to_=
+selector(pctldev, fname);
+6199f6becc869d Drew Fustini  2021-03-01  725  	if (ret < 0) {
+6199f6becc869d Drew Fustini  2021-03-01  726  		dev_err(pctldev->dev, "inva=
+lid function %s in map table\n", fname);
+6199f6becc869d Drew Fustini  2021-03-01  727  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  728  	}
+6199f6becc869d Drew Fustini  2021-03-01  729  	fsel =3D ret;
+6199f6becc869d Drew Fustini  2021-03-01  730  =
+
+6199f6becc869d Drew Fustini  2021-03-01  731  	ret =3D pmxops->get_function=
+_groups(pctldev, fsel, &groups, &num_groups);
+6199f6becc869d Drew Fustini  2021-03-01  732  	if (ret) {
+6199f6becc869d Drew Fustini  2021-03-01  733  		dev_err(pctldev->dev, "no g=
+roups for function %d (%s)", fsel, fname);
+6199f6becc869d Drew Fustini  2021-03-01  734  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  735  	}
+6199f6becc869d Drew Fustini  2021-03-01  736  =
+
+6199f6becc869d Drew Fustini  2021-03-01 @737  	ret =3D match_string(groups,=
+ num_groups, gname);
+6199f6becc869d Drew Fustini  2021-03-01  738  	if (ret < 0) {
+6199f6becc869d Drew Fustini  2021-03-01  739  		dev_err(pctldev->dev, "inva=
+lid group %s", gname);
+6199f6becc869d Drew Fustini  2021-03-01  740  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  741  	}
+6199f6becc869d Drew Fustini  2021-03-01  742  =
+
+6199f6becc869d Drew Fustini  2021-03-01  743  	ret =3D pinctrl_get_group_se=
+lector(pctldev, gname);
+6199f6becc869d Drew Fustini  2021-03-01  744  	if (ret < 0) {
+6199f6becc869d Drew Fustini  2021-03-01  745  		dev_err(pctldev->dev, "fail=
+ed to get group selector for %s", gname);
+6199f6becc869d Drew Fustini  2021-03-01  746  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  747  	}
+6199f6becc869d Drew Fustini  2021-03-01  748  	gsel =3D ret;
+6199f6becc869d Drew Fustini  2021-03-01  749  =
+
+6199f6becc869d Drew Fustini  2021-03-01  750  	ret =3D pmxops->set_mux(pctl=
+dev, fsel, gsel);
+6199f6becc869d Drew Fustini  2021-03-01  751  	if (ret) {
+6199f6becc869d Drew Fustini  2021-03-01  752  		dev_err(pctldev->dev, "set_=
+mux() failed: %d", ret);
+6199f6becc869d Drew Fustini  2021-03-01  753  		goto exit_free_buf;
+6199f6becc869d Drew Fustini  2021-03-01  754  	}
+6199f6becc869d Drew Fustini  2021-03-01  755  	ret =3D len;
+6199f6becc869d Drew Fustini  2021-03-01  756  =
+
+6199f6becc869d Drew Fustini  2021-03-01  757  exit_free_buf:
+6199f6becc869d Drew Fustini  2021-03-01  758  	kfree(buf);
+6199f6becc869d Drew Fustini  2021-03-01  759  =
+
+6199f6becc869d Drew Fustini  2021-03-01  760  	return ret;
+6199f6becc869d Drew Fustini  2021-03-01  761  }
+6199f6becc869d Drew Fustini  2021-03-01  762  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2338401343100977888==--
+--===============8233725649613114263==--
 
