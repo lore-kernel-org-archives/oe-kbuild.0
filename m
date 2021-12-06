@@ -1,30 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============6982932443219870327=="
+Content-Type: multipart/mixed; boundary="===============2749409654614306908=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.10 99/235] drivers/usb/typec/port-mapper.c:168 typec_link_port() warn: missing error code 'ret'
-Date: Tue, 07 Dec 2021 05:03:57 +0800
-Message-ID: <202112070413.0XcllZat-lkp@intel.com>
+Subject: kernel/rcu/rcutorture.c:941 rcu_torture_boost_failed() error: uninitialized symbol 'cpu'.
+Date: Tue, 07 Dec 2021 04:33:31 +0800
+Message-ID: <202112070433.ZcTtoVRi-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6982932443219870327==
+--===============2749409654614306908==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.10
-head:   055c73913dc220e483790c1ebf78b39f97220dac
-commit: 98e43a40b551c910efd7c6afaa32b66c67d22dc4 [99/235] UPSTREAM: usb: ty=
-pec: Port mapping utility
-:::::: branch date: 11 days ago
-:::::: commit date: 2 weeks ago
-config: x86_64-randconfig-m031-20211203 (https://download.01.org/0day-ci/ar=
-chive/20211207/202112070413.0XcllZat-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
+commit: 0260b92e1c39412b1e345e202355c43169c16274 rcutorture: Forgive RCU bo=
+ost failures when CPUs don't pass through QS
+date:   7 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 7 months ago
+config: x86_64-randconfig-m001-20211206 (https://download.01.org/0day-ci/ar=
+chive/20211207/202112070433.ZcTtoVRi-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -32,70 +33,91 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/usb/typec/port-mapper.c:168 typec_link_port() warn: missing error c=
-ode 'ret'
+kernel/rcu/rcutorture.c:941 rcu_torture_boost_failed() error: uninitialized=
+ symbol 'cpu'.
 
-vim +/ret +168 drivers/usb/typec/port-mapper.c
+vim +/cpu +941 kernel/rcu/rcutorture.c
 
-98e43a40b551c9 Heikki Krogerus 2021-04-07  146  =
+450efca7182a51 Joel Fernandes (Google  2018-06-10  920) =
 
-98e43a40b551c9 Heikki Krogerus 2021-04-07  147  /**
-98e43a40b551c9 Heikki Krogerus 2021-04-07  148   * typec_link_port - Link a=
- port to its connector
-98e43a40b551c9 Heikki Krogerus 2021-04-07  149   * @port: The port device
-98e43a40b551c9 Heikki Krogerus 2021-04-07  150   *
-98e43a40b551c9 Heikki Krogerus 2021-04-07  151   * Find the connector of @p=
-ort and create symlink named "connector" for it.
-98e43a40b551c9 Heikki Krogerus 2021-04-07  152   * Returns 0 on success, or=
- errno in case of a failure.
-98e43a40b551c9 Heikki Krogerus 2021-04-07  153   *
-98e43a40b551c9 Heikki Krogerus 2021-04-07  154   * NOTE. The function incre=
-ments the reference count of @port on success.
-98e43a40b551c9 Heikki Krogerus 2021-04-07  155   */
-98e43a40b551c9 Heikki Krogerus 2021-04-07  156  int typec_link_port(struct =
-device *port)
-98e43a40b551c9 Heikki Krogerus 2021-04-07  157  {
-98e43a40b551c9 Heikki Krogerus 2021-04-07  158  	struct device *connector;
-98e43a40b551c9 Heikki Krogerus 2021-04-07  159  	struct port_node *node;
-98e43a40b551c9 Heikki Krogerus 2021-04-07  160  	int ret =3D 0;
-98e43a40b551c9 Heikki Krogerus 2021-04-07  161  =
+ea6d962e80b619 Paul E. McKenney        2021-03-30  921  static bool rcu_tor=
+ture_boost_failed(unsigned long gp_state, unsigned long start, unsigned lon=
+g end)
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  922) {
+0260b92e1c3941 Paul E. McKenney        2021-04-08  923  	int cpu;
+5e59fba573e64c Paul E. McKenney        2021-01-15  924  	static int dbg_don=
+e;
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  925  	bool gp_done;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  926  	unsigned long j;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  927  	static unsigned lo=
+ng last_persist;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  928  	unsigned long lp;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  929  	unsigned long mini=
+nterval =3D test_boost_duration * HZ - HZ / 2;
+5e59fba573e64c Paul E. McKenney        2021-01-15  930  =
 
-98e43a40b551c9 Heikki Krogerus 2021-04-07  162  	node =3D create_port_node(=
-port);
-98e43a40b551c9 Heikki Krogerus 2021-04-07  163  	if (IS_ERR(node))
-98e43a40b551c9 Heikki Krogerus 2021-04-07  164  		return PTR_ERR(node);
-98e43a40b551c9 Heikki Krogerus 2021-04-07  165  =
+0260b92e1c3941 Paul E. McKenney        2021-04-08  931  	if (end - start > =
+mininterval) {
+7b9dad7abad707 Paul E. McKenney        2021-04-07  932  		// Recheck after =
+checking time to avoid false positives.
+7b9dad7abad707 Paul E. McKenney        2021-04-07  933  		smp_mb(); // Time=
+ check before grace-period check.
+7b9dad7abad707 Paul E. McKenney        2021-04-07  934  		if (cur_ops->poll=
+_gp_state(gp_state))
+7b9dad7abad707 Paul E. McKenney        2021-04-07  935  			return false; //=
+ passed, though perhaps just barely
+0260b92e1c3941 Paul E. McKenney        2021-04-08  936  		if (cur_ops->chec=
+k_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
+0260b92e1c3941 Paul E. McKenney        2021-04-08  937  			// At most one p=
+ersisted message per boost test.
+0260b92e1c3941 Paul E. McKenney        2021-04-08  938  			j =3D jiffies;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  939  			lp =3D READ_ONCE=
+(last_persist);
+0260b92e1c3941 Paul E. McKenney        2021-04-08  940  			if (time_after(j=
+, lp + mininterval) && cmpxchg(&last_persist, lp, j) =3D=3D lp)
+0260b92e1c3941 Paul E. McKenney        2021-04-08 @941  				pr_info("Boost =
+inversion persisted: No QS from CPU %d\n", cpu);
+0260b92e1c3941 Paul E. McKenney        2021-04-08  942  			return false; //=
+ passed on a technicality
+0260b92e1c3941 Paul E. McKenney        2021-04-08  943  		}
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  944) 		VERBOSE_TOROUT_ST=
+RING("rcu_torture_boost boosting failed");
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  945) 		n_rcu_torture_boo=
+st_failure++;
+ea6d962e80b619 Paul E. McKenney        2021-03-30  946  		if (!xchg(&dbg_do=
+ne, 1) && cur_ops->gp_kthread_dbg) {
+ea6d962e80b619 Paul E. McKenney        2021-03-30  947  			pr_info("Boost i=
+nversion thread ->rt_priority %u gp_state %lu jiffies %lu\n",
+ea6d962e80b619 Paul E. McKenney        2021-03-30  948  				current->rt_pri=
+ority, gp_state, end - start);
+5e59fba573e64c Paul E. McKenney        2021-01-15  949  			cur_ops->gp_kthr=
+ead_dbg();
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  950  			// Recheck after=
+ print to flag grace period ending during splat.
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  951  			gp_done =3D cur_=
+ops->poll_gp_state(gp_state);
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  952  			pr_info("Boost i=
+nversion: GP %lu %s.\n", gp_state,
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  953  				gp_done ? "ende=
+d already" : "still pending");
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  954  =
 
-98e43a40b551c9 Heikki Krogerus 2021-04-07  166  	connector =3D find_connect=
-or(node);
-98e43a40b551c9 Heikki Krogerus 2021-04-07  167  	if (!connector)
-98e43a40b551c9 Heikki Krogerus 2021-04-07 @168  		goto remove_node;
-98e43a40b551c9 Heikki Krogerus 2021-04-07  169  =
+ea6d962e80b619 Paul E. McKenney        2021-03-30  955  		}
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  956) =
 
-98e43a40b551c9 Heikki Krogerus 2021-04-07  170  	ret =3D link_port(to_typec=
-_port(connector), node);
-98e43a40b551c9 Heikki Krogerus 2021-04-07  171  	if (ret)
-98e43a40b551c9 Heikki Krogerus 2021-04-07  172  		goto put_connector;
-98e43a40b551c9 Heikki Krogerus 2021-04-07  173  =
+7b9dad7abad707 Paul E. McKenney        2021-04-07  957  		return true; // f=
+ailed
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  958) 	}
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  959) =
 
-98e43a40b551c9 Heikki Krogerus 2021-04-07  174  	return 0;
-98e43a40b551c9 Heikki Krogerus 2021-04-07  175  =
-
-98e43a40b551c9 Heikki Krogerus 2021-04-07  176  put_connector:
-98e43a40b551c9 Heikki Krogerus 2021-04-07  177  	put_device(connector);
-98e43a40b551c9 Heikki Krogerus 2021-04-07  178  remove_node:
-98e43a40b551c9 Heikki Krogerus 2021-04-07  179  	remove_port_node(node);
-98e43a40b551c9 Heikki Krogerus 2021-04-07  180  =
-
-98e43a40b551c9 Heikki Krogerus 2021-04-07  181  	return ret;
-98e43a40b551c9 Heikki Krogerus 2021-04-07  182  }
-98e43a40b551c9 Heikki Krogerus 2021-04-07  183  EXPORT_SYMBOL_GPL(typec_lin=
-k_port);
-98e43a40b551c9 Heikki Krogerus 2021-04-07  184  =
+7b9dad7abad707 Paul E. McKenney        2021-04-07  960  	return false; // p=
+assed
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  961) }
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  962) =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6982932443219870327==--
+--===============2749409654614306908==--
 
