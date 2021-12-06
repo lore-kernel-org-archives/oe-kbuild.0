@@ -1,121 +1,173 @@
-Content-Type: multipart/mixed; boundary="===============5053375860806843950=="
+Content-Type: multipart/mixed; boundary="===============0206467240737955456=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [melver:kasan/dev 1/4] lib/test_kasan.c:718 kasan_global_oob_right() error: buffer overflow 'array' 10 <= 13
-Date: Mon, 06 Dec 2021 22:24:55 +0800
-Message-ID: <202112062202.wUxap8sZ-lkp@intel.com>
+Subject: drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn: potential spectre issue 'Ivec' [w] (local cap)
+Date: Mon, 06 Dec 2021 20:53:17 +0800
+Message-ID: <202112062004.cAa7stPr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5053375860806843950==
+--===============0206467240737955456==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: elver(a)google.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Arnd Bergmann <arnd@arndb.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/melver/linux.git ka=
-san/dev
-head:   96d518f350d75d04aa5cf44b01bcfeecadb7685c
-commit: af20ac667de8a9cd873664238ead275e63f3a0c8 [1/4] kasan: test: add glo=
-bals left-out-of-bounds test
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-m031-20211206 (https://download.01.org/0day-ci/archi=
-ve/20211206/202112062202.wUxap8sZ-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
+commit: 25ec92fbdd23a0a2bfd2bdf489e60ea4f0ae46d1 hamradio: use ndo_siocdevp=
+rivate
+date:   4 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 4 months ago
+config: i386-randconfig-m021-20211205 (https://download.01.org/0day-ci/arch=
+ive/20211206/202112062004.cAa7stPr-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-lib/test_kasan.c:718 kasan_global_oob_right() error: buffer overflow 'array=
-' 10 <=3D 13
+drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn: potential sp=
+ectre issue 'Ivec' [w] (local cap)
 
 Old smatch warnings:
-lib/test_kasan.c:139 kmalloc_oob_right() error: buffer overflow 'ptr' 115 <=
-=3D 120
-lib/test_kasan.c:142 kmalloc_oob_right() error: buffer overflow 'ptr' 115 <=
-=3D 128
-lib/test_kasan.c:168 kmalloc_node_oob_right() error: buffer overflow 'ptr' =
-4096 <=3D 4096
-lib/test_kasan.c:295 krealloc_more_oob_helper() warn: potentially one past =
-the end of array 'ptr2[size2]'
-lib/test_kasan.c:295 krealloc_more_oob_helper() warn: potentially one past =
-the end of array 'ptr2[size2]'
-lib/test_kasan.c:324 krealloc_less_oob_helper() warn: potentially one past =
-the end of array 'ptr2[size2]'
-lib/test_kasan.c:324 krealloc_less_oob_helper() warn: potentially one past =
-the end of array 'ptr2[size2]'
-lib/test_kasan.c:338 krealloc_less_oob_helper() warn: potentially one past =
-the end of array 'ptr2[middle]'
-lib/test_kasan.c:338 krealloc_less_oob_helper() warn: potentially one past =
-the end of array 'ptr2[middle]'
-lib/test_kasan.c:387 krealloc_uaf() warn: passing freed memory 'ptr1'
-lib/test_kasan.c:425 kmalloc_uaf_16() error: dereferencing freed memory 'pt=
-r2'
-lib/test_kasan.c:566 kmalloc_uaf_memset() warn: passing freed memory 'ptr'
-lib/test_kasan.c:751 ksize_unpoisons_memory() error: buffer overflow 'ptr' =
-123 <=3D 123
-lib/test_kasan.c:772 ksize_uaf() warn: passing freed memory 'ptr'
-lib/test_kasan.c:836 kmem_cache_double_free() error: double free of 'p'
+drivers/net/hamradio/scc.c:2042 scc_net_seq_show() warn: argument 8 to %2.2=
+x specifier has type 'char'
 
-vim +/array +718 lib/test_kasan.c
+vim +/Ivec +1748 drivers/net/hamradio/scc.c
 
-3f15801cdc2379 Andrey Ryabinin     2015-02-13  702  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1695  =
 
-af20ac667de8a9 Marco Elver         2021-11-16  703  static void kasan_globa=
-l_oob_right(struct kunit *test)
-3f15801cdc2379 Andrey Ryabinin     2015-02-13  704  {
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  705  	/*
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  706  	 * Deliberate out-of-b=
-ounds access. To prevent CONFIG_UBSAN_LOCAL_BOUNDS
-53b0fe36ab7c6e Zhen Lei            2021-07-07  707  	 * from failing here a=
-nd panicking the kernel, access the array via a
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  708  	 * volatile pointer, w=
-hich will prevent the compiler from being able to
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  709  	 * determine the array=
- bounds.
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  710  	 *
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  711  	 * This access uses a =
-volatile pointer to char (char *volatile) rather
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  712  	 * than the more conve=
-ntional pointer to volatile char (volatile char *)
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  713  	 * because we want to =
-prevent the compiler from making inferences about
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  714  	 * the pointer itself =
-(i.e. its array bounds), not the data that it
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  715  	 * refers to.
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  716  	 */
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14  717  	char *volatile array =
-=3D global_array;
-f649dc0e0d7b50 Peter Collingbourne 2021-05-14 @718  	char *p =3D &array[ARR=
-AY_SIZE(global_array) + 3];
-3f15801cdc2379 Andrey Ryabinin     2015-02-13  719  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1696  /*
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1697   * SIOCSCCCFG		- config=
+ure driver	arg: (struct scc_hw_config *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1698   * SIOCSCCINI		- initia=
+lize driver	arg: ---
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1699   * SIOCSCCCHANINI	- ini=
+tialize channel	arg: (struct scc_modem *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1700   * SIOCSCCSMEM		- set m=
+emory		arg: (struct scc_mem_config *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1701   * SIOCSCCGKISS		- get =
+level 1 parameter	arg: (struct scc_kiss_cmd *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1702   * SIOCSCCSKISS		- set =
+level 1 parameter arg: (struct scc_kiss_cmd *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1703   * SIOCSCCGSTAT		- get =
+driver status	arg: (struct scc_stat *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1704   * SIOCSCCCAL		- send c=
+alib. pattern	arg: (struct scc_calibrate *) arg
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1705   */
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1706  =
 
-58b999d7a22c59 Andrey Konovalov    2020-11-01  720  	/* Only generic mode i=
-nstruments globals. */
-da17e377723f50 Andrey Konovalov    2021-02-24  721  	KASAN_TEST_NEEDS_CONFI=
-G_ON(test, CONFIG_KASAN_GENERIC);
-58b999d7a22c59 Andrey Konovalov    2020-11-01  722  =
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1707  static int scc_net_sioc=
+devprivate(struct net_device *dev,
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1708  				  struct ifreq *ifr=
+, void __user *arg, int cmd)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1709  {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1710  	struct scc_kiss_cmd ki=
+ss_cmd;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1711  	struct scc_mem_config =
+memcfg;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1712  	struct scc_hw_config h=
+wcfg;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1713  	struct scc_calibrate c=
+al;
+f4bdd264b43cc6 Wang Chen          2008-11-20  1714  	struct scc_channel *sc=
+c =3D (struct scc_channel *) dev->ml_priv;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1715  	int chan;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1716  	unsigned char device_n=
+ame[IFNAMSIZ];
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1717  	=
 
-73228c7ecc5e40 Patricia Alfonso    2020-10-13  723  	KUNIT_EXPECT_KASAN_FAI=
-L(test, *(volatile char *)p);
-3f15801cdc2379 Andrey Ryabinin     2015-02-13  724  }
-3f15801cdc2379 Andrey Ryabinin     2015-02-13  725  =
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1718  	if (!Driver_Initialize=
+d)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1719  	{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1720  		if (cmd =3D=3D SIOCSC=
+CCFG)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1721  		{
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1722  			int found =3D 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1723  =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1724  			if (!capable(CAP_SYS=
+_RAWIO)) return -EPERM;
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1725  			if (in_compat_syscal=
+l())
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1726  				return -EOPNOTSUPP;
+25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1727  =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1728  			if (!arg) return -EF=
+AULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1729  =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1730  			if (Nchips >=3D SCC_=
+MAXCHIPS) =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1731  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1732  =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1733  			if (copy_from_user(&=
+hwcfg, arg, sizeof(hwcfg)))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1734  				return -EFAULT;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1735  =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1736  			if (hwcfg.irq =3D=3D=
+ 2) hwcfg.irq =3D 9;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1737  =
+
+60e4ad7a72fd7c Yinghai Lu         2008-08-19  1738  			if (hwcfg.irq < 0 ||=
+ hwcfg.irq >=3D nr_irqs)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1739  				return -EINVAL;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1740  				=
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1741  			if (!Ivec[hwcfg.irq]=
+.used && hwcfg.irq)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1742  			{
+1b36efe07f83ec Jeff Garzik        2007-10-29  1743  				if (request_irq(hwc=
+fg.irq, scc_isr,
+9714481e677562 Michael Opdenacker 2013-10-05  1744  						0, "AX.25 SCC",
+1b36efe07f83ec Jeff Garzik        2007-10-29  1745  						(void *)(long) hw=
+cfg.irq))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1746  					printk(KERN_WARNIN=
+G "z8530drv: warning, cannot get IRQ %d\n", hwcfg.irq);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1747  				else
+^1da177e4c3f41 Linus Torvalds     2005-04-16 @1748  					Ivec[hwcfg.irq].us=
+ed =3D 1;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1749  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1750  =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1751  			if (hwcfg.vector_lat=
+ch && !Vector_Latch) {
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1752  				if (!request_region=
+(hwcfg.vector_latch, 1, "scc vector latch"))
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1753  					printk(KERN_WARNIN=
+G "z8530drv: warning, cannot reserve vector latch port 0x%lx\n, disabled.",=
+ hwcfg.vector_latch);
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1754  				else
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1755  					Vector_Latch =3D h=
+wcfg.vector_latch;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1756  			}
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1757  =
+
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1758  			if (hwcfg.clock =3D=
+=3D 0)
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1759  				hwcfg.clock =3D SCC=
+_DEFAULT_CLOCK;
+^1da177e4c3f41 Linus Torvalds     2005-04-16  1760  =
 
 
-:::::: The code@line 718 was first introduced by commit
-:::::: f649dc0e0d7b509c75570ee403723660f5b72ec7 kasan: fix unit tests with =
-CONFIG_UBSAN_LOCAL_BOUNDS enabled
+:::::: The code at line 1748 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Peter Collingbourne <pcc@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5053375860806843950==--
+--===============0206467240737955456==--
 
