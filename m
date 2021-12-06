@@ -1,173 +1,372 @@
-Content-Type: multipart/mixed; boundary="===============0206467240737955456=="
+Content-Type: multipart/mixed; boundary="===============2030355128462877767=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn: potential spectre issue 'Ivec' [w] (local cap)
-Date: Mon, 06 Dec 2021 20:53:17 +0800
-Message-ID: <202112062004.cAa7stPr-lkp@intel.com>
+Subject: drivers/iio/temperature/max31865.c:51:8: warning: Excessive padding in 'struct max31865_data' (44 padding bytes, where 12 is optimal).
+Date: Mon, 06 Dec 2021 12:45:54 +0800
+Message-ID: <202112061253.yg8joErb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0206467240737955456==
+--===============2030355128462877767==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Arnd Bergmann <arnd@arndb.de>
+TO: Navin Sankar Velliangiri <navin@linumiz.com>
+CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
-commit: 25ec92fbdd23a0a2bfd2bdf489e60ea4f0ae46d1 hamradio: use ndo_siocdevp=
-rivate
-date:   4 months ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-m021-20211205 (https://download.01.org/0day-ci/arch=
-ive/20211206/202112062004.cAa7stPr-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+commit: e112dc4e18eafc5ee9d5700e3c059ac9897ae2a1 iio: temperature: Add MAX3=
+1865 RTD Support
+date:   3 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-c001-20211015 (https://download.01.org/0day-ci/arch=
+ive/20211206/202112061253.yg8joErb-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 6069a6=
+a5049497a32a50a49661c2f4169078bdba)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De112dc4e18eafc5ee9d5700e3c059ac9897ae2a1
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e112dc4e18eafc5ee9d5700e3c059ac9897ae2a1
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/net/hamradio/scc.c:1748 scc_net_siocdevprivate() warn: potential sp=
-ectre issue 'Ivec' [w] (local cap)
-
-Old smatch warnings:
-drivers/net/hamradio/scc.c:2042 scc_net_seq_show() warn: argument 8 to %2.2=
-x specifier has type 'char'
-
-vim +/Ivec +1748 drivers/net/hamradio/scc.c
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1695  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1696  /*
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1697   * SIOCSCCCFG		- config=
-ure driver	arg: (struct scc_hw_config *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1698   * SIOCSCCINI		- initia=
-lize driver	arg: ---
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1699   * SIOCSCCCHANINI	- ini=
-tialize channel	arg: (struct scc_modem *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1700   * SIOCSCCSMEM		- set m=
-emory		arg: (struct scc_mem_config *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1701   * SIOCSCCGKISS		- get =
-level 1 parameter	arg: (struct scc_kiss_cmd *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1702   * SIOCSCCSKISS		- set =
-level 1 parameter arg: (struct scc_kiss_cmd *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1703   * SIOCSCCGSTAT		- get =
-driver status	arg: (struct scc_stat *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1704   * SIOCSCCCAL		- send c=
-alib. pattern	arg: (struct scc_calibrate *) arg
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1705   */
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1706  =
-
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1707  static int scc_net_sioc=
-devprivate(struct net_device *dev,
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1708  				  struct ifreq *ifr=
-, void __user *arg, int cmd)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1709  {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1710  	struct scc_kiss_cmd ki=
-ss_cmd;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1711  	struct scc_mem_config =
-memcfg;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1712  	struct scc_hw_config h=
-wcfg;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1713  	struct scc_calibrate c=
-al;
-f4bdd264b43cc6 Wang Chen          2008-11-20  1714  	struct scc_channel *sc=
-c =3D (struct scc_channel *) dev->ml_priv;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1715  	int chan;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1716  	unsigned char device_n=
-ame[IFNAMSIZ];
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1717  	=
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1718  	if (!Driver_Initialize=
-d)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1719  	{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1720  		if (cmd =3D=3D SIOCSC=
-CCFG)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1721  		{
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1722  			int found =3D 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1723  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1724  			if (!capable(CAP_SYS=
-_RAWIO)) return -EPERM;
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1725  			if (in_compat_syscal=
-l())
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1726  				return -EOPNOTSUPP;
-25ec92fbdd23a0 Arnd Bergmann      2021-07-27  1727  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1728  			if (!arg) return -EF=
-AULT;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1729  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1730  			if (Nchips >=3D SCC_=
-MAXCHIPS) =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1731  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1732  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1733  			if (copy_from_user(&=
-hwcfg, arg, sizeof(hwcfg)))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1734  				return -EFAULT;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1735  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1736  			if (hwcfg.irq =3D=3D=
- 2) hwcfg.irq =3D 9;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1737  =
-
-60e4ad7a72fd7c Yinghai Lu         2008-08-19  1738  			if (hwcfg.irq < 0 ||=
- hwcfg.irq >=3D nr_irqs)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1739  				return -EINVAL;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1740  				=
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1741  			if (!Ivec[hwcfg.irq]=
-.used && hwcfg.irq)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1742  			{
-1b36efe07f83ec Jeff Garzik        2007-10-29  1743  				if (request_irq(hwc=
-fg.irq, scc_isr,
-9714481e677562 Michael Opdenacker 2013-10-05  1744  						0, "AX.25 SCC",
-1b36efe07f83ec Jeff Garzik        2007-10-29  1745  						(void *)(long) hw=
-cfg.irq))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1746  					printk(KERN_WARNIN=
-G "z8530drv: warning, cannot get IRQ %d\n", hwcfg.irq);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1747  				else
-^1da177e4c3f41 Linus Torvalds     2005-04-16 @1748  					Ivec[hwcfg.irq].us=
-ed =3D 1;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1749  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1750  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1751  			if (hwcfg.vector_lat=
-ch && !Vector_Latch) {
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1752  				if (!request_region=
-(hwcfg.vector_latch, 1, "scc vector latch"))
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1753  					printk(KERN_WARNIN=
-G "z8530drv: warning, cannot reserve vector latch port 0x%lx\n, disabled.",=
- hwcfg.vector_latch);
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1754  				else
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1755  					Vector_Latch =3D h=
-wcfg.vector_latch;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1756  			}
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1757  =
-
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1758  			if (hwcfg.clock =3D=
-=3D 0)
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1759  				hwcfg.clock =3D SCC=
-_DEFAULT_CLOCK;
-^1da177e4c3f41 Linus Torvalds     2005-04-16  1760  =
 
 
-:::::: The code at line 1748 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/netlink.h:119:6: note: expanded from macro 'NL_SET_ERR_MSG=
+_ATTR_POL'
+           if (__extack) {                                         \
+               ^~~~~~~~
+   include/net/netlink.h:1208:3: note: Taking false branch
+                   NL_SET_ERR_MSG_ATTR(extack, nla, "NLA_F_NESTED is missin=
+g");
+                   ^
+   include/linux/netlink.h:127:2: note: expanded from macro 'NL_SET_ERR_MSG=
+_ATTR'
+           NL_SET_ERR_MSG_ATTR_POL(extack, attr, NULL, msg)
+           ^
+   include/linux/netlink.h:119:2: note: expanded from macro 'NL_SET_ERR_MSG=
+_ATTR_POL'
+           if (__extack) {                                         \
+           ^
+   include/net/netlink.h:1208:3: note: Loop condition is false.  Exiting lo=
+op
+                   NL_SET_ERR_MSG_ATTR(extack, nla, "NLA_F_NESTED is missin=
+g");
+                   ^
+   include/linux/netlink.h:127:2: note: expanded from macro 'NL_SET_ERR_MSG=
+_ATTR'
+           NL_SET_ERR_MSG_ATTR_POL(extack, attr, NULL, msg)
+           ^
+   include/linux/netlink.h:113:57: note: expanded from macro 'NL_SET_ERR_MS=
+G_ATTR_POL'
+   #define NL_SET_ERR_MSG_ATTR_POL(extack, attr, pol, msg) do {    \
+                                                           ^
+   net/wireless/nl80211.c:15066:2: note: Returning from 'nla_parse_nested'
+           nla_parse_nested(tb, NL80211_SAR_ATTR_MAX,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/wireless/nl80211.c:15070:6: note: Branch condition evaluates to a ga=
+rbage value
+           if (!tb[NL80211_SAR_ATTR_TYPE] || !tb[NL80211_SAR_ATTR_SPECS])
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/iio/resolver/ad2s90.c:24:8: warning: Excessive padding in 'struc=
+t ad2s90_state' (46 padding bytes, where 14 is optimal). =
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+   Optimal fields order: =
+
+   rx, =
+
+   sdev, =
+
+   lock, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ad2s90_state {
+   ~~~~~~~^~~~~~~~~~~~~~
+   drivers/iio/resolver/ad2s90.c:24:8: note: Excessive padding in 'struct a=
+d2s90_state' (46 padding bytes, where 14 is optimal). Optimal fields order:=
+ rx, sdev, lock, consider reordering the fields or adding explicit padding =
+members
+   struct ad2s90_state {
+   ~~~~~~~^~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/iio/resolver/ad2s1200.c:39:8: warning: Excessive padding in 'str=
+uct ad2s1200_state' (38 padding bytes, where 6 is optimal). =
+
+   Optimal fields order: =
+
+   rx, =
+
+   sdev, =
+
+   sample, =
+
+   rdvel, =
+
+   lock, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ad2s1200_state {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   drivers/iio/resolver/ad2s1200.c:39:8: note: Excessive padding in 'struct=
+ ad2s1200_state' (38 padding bytes, where 6 is optimal). Optimal fields ord=
+er: rx, sdev, sample, rdvel, lock, consider reordering the fields or adding=
+ explicit padding members
+   struct ad2s1200_state {
+   ~~~~~~~^~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/iio/temperature/maxim_thermocouple.c:122:8: warning: Excessive p=
+adding in 'struct maxim_thermocouple_data' (39 padding bytes, where 7 is op=
+timal). =
+
+   Optimal fields order: =
+
+   buffer, =
+
+   spi, =
+
+   chip, =
+
+   tc_type, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct maxim_thermocouple_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/temperature/maxim_thermocouple.c:122:8: note: Excessive padd=
+ing in 'struct maxim_thermocouple_data' (39 padding bytes, where 7 is optim=
+al). Optimal fields order: buffer, spi, chip, tc_type, consider reordering =
+the fields or adding explicit padding members
+   struct maxim_thermocouple_data {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/iio/temperature/max31865.c:51:8: warning: Excessive padding in '=
+struct max31865_data' (44 padding bytes, where 12 is optimal). =
+
+   Optimal fields order: =
+
+   buf, =
+
+   filter_50hz, =
+
+   three_wire, =
+
+   spi, =
+
+   lock, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct max31865_data {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   drivers/iio/temperature/max31865.c:51:8: note: Excessive padding in 'str=
+uct max31865_data' (44 padding bytes, where 12 is optimal). Optimal fields =
+order: buf, filter_50hz, three_wire, spi, lock, consider reordering the fie=
+lds or adding explicit padding members
+   struct max31865_data {
+   ~~~~~~~^~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+
+vim +51 drivers/iio/temperature/max31865.c
+
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  50  =
+
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24 @51  struct max31865_dat=
+a {
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  52  	struct spi_device =
+*spi;
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  53  	struct mutex lock;
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  54  	bool filter_50hz;
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  55  	bool three_wire;
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  56  	u8 buf[2] ____cach=
+eline_aligned;
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  57  };
+e112dc4e18eafc Navin Sankar Velliangiri 2021-08-24  58  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0206467240737955456==--
+--===============2030355128462877767==--
 
