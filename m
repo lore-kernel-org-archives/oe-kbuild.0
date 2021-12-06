@@ -1,143 +1,88 @@
-Content-Type: multipart/mixed; boundary="===============0180551531874239123=="
+Content-Type: multipart/mixed; boundary="===============2338401343100977888=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/x86/events/intel/ds.c:54:16: warning: union member 'intel_x86_pebs_dse::ld_reserved3' is never used. [unusedStructMember]
-Date: Tue, 07 Dec 2021 00:38:49 +0800
-Message-ID: <202112070028.saTl0l8M-lkp@intel.com>
+Subject: [ambarus:spi-nor/next-clean-v5 20/25] drivers/mtd/spi-nor/core.c:2720 spi_nor_init_params_deprecated() warn: should this be a bitwise op?
+Date: Mon, 06 Dec 2021 23:16:02 +0800
+Message-ID: <202112062341.u7kBv9Hp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0180551531874239123==
+--===============2338401343100977888==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kan Liang <kan.liang@linux.intel.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Tudor Ambarus <tudor.ambarus@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
-commit: 61b985e3e775a3a75fda04ce7ef1b1aefc4758bc perf/x86/intel: Add perf c=
-ore PMU support for Sapphire Rapids
-date:   10 months ago
-:::::: branch date: 18 hours ago
-:::::: commit date: 10 months ago
+tree:   https://github.com/ambarus/linux-0day spi-nor/next-clean-v5
+head:   d643e0f7de527f4ccf909025478949a961440ac8
+commit: d3c97258de8777fd69e982ff804b97a4fc3372a9 [20/25] mtd: spi-nor: core=
+: Init all flash parameters based on SFDP where possible
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-m021-20211206 (https://download.01.org/0day-ci/arch=
+ive/20211206/202112062341.u7kBv9Hp-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/mtd/spi-nor/core.c:2720 spi_nor_init_params_deprecated() warn: shou=
+ld this be a bitwise op?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/mtd/spi-nor/core.c:1544 spi_nor_init_erase_cmd_list() warn: passing=
+ a valid pointer to 'PTR_ERR'
+drivers/mtd/spi-nor/core.c:1558 spi_nor_init_erase_cmd_list() warn: passing=
+ a valid pointer to 'PTR_ERR'
 
-   In file included from arch/x86/events/intel/ds.c:
-   arch/x86/events/perf_event.h:87:2: warning: Non-boolean value returned f=
-rom function returning bool [returnNonBoolInBooleanFunction]
-    return event->hw.flags & PERF_X86_EVENT_TOPDOWN;
-    ^
-   arch/x86/events/perf_event.h:987:2: warning: Non-boolean value returned =
-from function returning bool [returnNonBoolInBooleanFunction]
-    return hwc->flags & PERF_X86_EVENT_PAIR;
-    ^
-   arch/x86/events/intel/ds.c:1614:28: warning: Either the condition 'basic=
-=3D=3DNULL' is redundant or there is pointer arithmetic with NULL pointer. =
-[nullPointerArithmeticRedundantCheck]
-    void *next_record =3D basic + 1;
-                              ^
-   arch/x86/events/intel/ds.c:1621:12: note: Assuming that condition 'basic=
-=3D=3DNULL' is not redundant
-    if (basic =3D=3D NULL)
-              ^
-   arch/x86/events/intel/ds.c:1614:28: note: Null pointer addition
-    void *next_record =3D basic + 1;
-                              ^
-   arch/x86/events/intel/ds.c:41:16: warning: union member 'intel_x86_pebs_=
-dse::ld_reserved' is never used. [unusedStructMember]
-     unsigned int ld_reserved:24;
-                  ^
-   arch/x86/events/intel/ds.c:45:16: warning: union member 'intel_x86_pebs_=
-dse::st_reserved1' is never used. [unusedStructMember]
-     unsigned int st_reserved1:3;
-                  ^
-   arch/x86/events/intel/ds.c:48:16: warning: union member 'intel_x86_pebs_=
-dse::st_reserved2' is never used. [unusedStructMember]
-     unsigned int st_reserved2:26;
-                  ^
->> arch/x86/events/intel/ds.c:54:16: warning: union member 'intel_x86_pebs_=
-dse::ld_reserved3' is never used. [unusedStructMember]
-     unsigned int ld_reserved3:26;
-                  ^
+vim +2720 drivers/mtd/spi-nor/core.c
 
-vim +54 arch/x86/events/intel/ds.c
+d3c97258de8777 Tudor Ambarus 2021-11-22  2704  =
 
-ca037701a02533 arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra   2=
-010-03-02  30  =
+d3c97258de8777 Tudor Ambarus 2021-11-22  2705  /**
+d3c97258de8777 Tudor Ambarus 2021-11-22  2706   * spi_nor_init_params_depre=
+cated() - Deprecated way of initializing flash
+d3c97258de8777 Tudor Ambarus 2021-11-22  2707   * parameters and settings.
+d3c97258de8777 Tudor Ambarus 2021-11-22  2708   * @nor:	pointer to a 'struc=
+t spi_nor'.
+d3c97258de8777 Tudor Ambarus 2021-11-22  2709   *
+d3c97258de8777 Tudor Ambarus 2021-11-22  2710   * The method assumes that f=
+lash doesn't support SFDP so it initializes flash
+d3c97258de8777 Tudor Ambarus 2021-11-22  2711   * parameters in spi_nor_no_=
+sfdp_init_params() which later on can be overwritten
+d3c97258de8777 Tudor Ambarus 2021-11-22  2712   * when parsing SFDP, if sup=
+ported.
+d3c97258de8777 Tudor Ambarus 2021-11-22  2713   */
+d3c97258de8777 Tudor Ambarus 2021-11-22  2714  static void spi_nor_init_par=
+ams_deprecated(struct spi_nor *nor)
+d3c97258de8777 Tudor Ambarus 2021-11-22  2715  {
+d3c97258de8777 Tudor Ambarus 2021-11-22  2716  	spi_nor_no_sfdp_init_params=
+(nor);
+d3c97258de8777 Tudor Ambarus 2021-11-22  2717  =
 
-ca037701a02533 arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra   2=
-010-03-02  31   */
-ca037701a02533 arch/x86/kernel/cpu/perf_event_intel_ds.c Peter Zijlstra   2=
-010-03-02  32  =
+d3c97258de8777 Tudor Ambarus 2021-11-22  2718  	spi_nor_manufacturer_init_p=
+arams(nor);
+d3c97258de8777 Tudor Ambarus 2021-11-22  2719  =
 
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  33  union intel_x86_pebs_dse {
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  34  	u64 val;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  35  	struct {
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  36  		unsigned int ld_dse:4;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  37  		unsigned int ld_stlb_miss:1;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  38  		unsigned int ld_locked:1;
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  39  		unsigned int ld_data_blk:1;
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  40  		unsigned int ld_addr_blk:1;
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  41  		unsigned int ld_reserved:24;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  42  	};
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  43  	struct {
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  44  		unsigned int st_l1d_hit:1;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  45  		unsigned int st_reserved1:3;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  46  		unsigned int st_stlb_miss:1;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  47  		unsigned int st_locked:1;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  48  		unsigned int st_reserved2:26;
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  49  	};
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  50  	struct {
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  51  		unsigned int st_lat_dse:4;
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  52  		unsigned int st_lat_stlb_miss:1;
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  53  		unsigned int st_lat_locked:1;
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28 @54  		unsigned int ld_reserved3:26;
-61b985e3e775a3 arch/x86/events/intel/ds.c                Kan Liang        2=
-021-01-28  55  	};
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  56  };
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  57  =
-
-f20093eef5f784 arch/x86/kernel/cpu/perf_event_intel_ds.c Stephane Eranian 2=
-013-01-24  58  =
+d3c97258de8777 Tudor Ambarus 2021-11-22 @2720  	if ((SPI_NOR_DUAL_READ | SP=
+I_NOR_QUAD_READ | SPI_NOR_OCTAL_READ |
+d3c97258de8777 Tudor Ambarus 2021-11-22  2721  	     SPI_NOR_OCTAL_DTR_READ=
+) &&
+d3c97258de8777 Tudor Ambarus 2021-11-22  2722  	    !(nor->info->no_sfdp_fl=
+ags & SPI_NOR_SKIP_SFDP))
+d3c97258de8777 Tudor Ambarus 2021-11-22  2723  		spi_nor_sfdp_init_params_d=
+eprecated(nor);
+d3c97258de8777 Tudor Ambarus 2021-11-22  2724  }
+d3c97258de8777 Tudor Ambarus 2021-11-22  2725  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0180551531874239123==--
+--===============2338401343100977888==--
 
