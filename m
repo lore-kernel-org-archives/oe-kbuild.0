@@ -1,88 +1,127 @@
-Content-Type: multipart/mixed; boundary="===============7295367595674893805=="
+Content-Type: multipart/mixed; boundary="===============5782385528669230522=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 03/18] crypto: dh - optimize domain parameter serialization for well-known groups
-Date: Tue, 07 Dec 2021 03:01:55 +0800
-Message-ID: <202112070306.wfN6TcdK-lkp@intel.com>
+Subject: arch/x86/events/intel/uncore.c:847:4: warning: %u in format string (no. 1) requires 'unsigned int' but the argument type is 'signed int'. [invalidPrintfArgType_uint]
+Date: Tue, 07 Dec 2021 03:01:53 +0800
+Message-ID: <202112070211.60wvT1BD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7295367595674893805==
+--===============5782385528669230522==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211201004858.19831-4-nstange@suse.de>
-References: <20211201004858.19831-4-nstange@suse.de>
-TO: Nicolai Stange <nstange@suse.de>
-TO: Herbert Xu <herbert@gondor.apana.org.au>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev(a)vger.kernel.org
-CC: "Stephan M=C3=BCller" <smueller@chronox.de>
-CC: Hannes Reinecke <hare@suse.de>
-CC: Torsten Duwe <duwe@suse.de>
-CC: Zaibo Xu <xuzaibo@huawei.com>
-CC: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-CC: David Howells <dhowells@redhat.com>
-CC: Jarkko Sakkinen <jarkko@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Kan Liang <kan.liang@linux.intel.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
-Hi Nicolai,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master jmorris-=
-security/next-testing v5.16-rc4 next-20211206]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Nicolai-Stange/crypto-dh-i=
-nfrastructure-for-NVM-in-band-auth-and-FIPS-conformance/20211201-085159
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
-.6.git master
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-m031-20211128 (https://download.01.org/0day-ci/archi=
-ve/20211207/202112070306.wfN6TcdK-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   0fcfb00b28c0b7884635dacf38e46d60bf3d4eb1
+commit: d6c754130435ab786711bed75d04a2388a6b4da8 perf/x86/intel/uncore: Gen=
+eric support for the MSR type of uncore blocks
+date:   8 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 8 months ago
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-crypto/dh_helper.c:32 get_safe_prime_group() warn: we never enter this loop
 
-vim +32 crypto/dh_helper.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01  26  =
+   In file included from arch/x86/events/intel/uncore.c:
+   arch/x86/events/perf_event.h:87:2: warning: Non-boolean value returned f=
+rom function returning bool [returnNonBoolInBooleanFunction]
+    return event->hw.flags & PERF_X86_EVENT_TOPDOWN;
+    ^
+   arch/x86/events/perf_event.h:987:2: warning: Non-boolean value returned =
+from function returning bool [returnNonBoolInBooleanFunction]
+    return hwc->flags & PERF_X86_EVENT_PAIR;
+    ^
+>> arch/x86/events/intel/uncore.c:847:4: warning: %u in format string (no. =
+1) requires 'unsigned int' but the argument type is 'signed int'. [invalidP=
+rintfArgType_uint]
+      sprintf(pmu->name, "uncore_type_%u", type->type_id);
+      ^
+   arch/x86/events/intel/uncore.c:849:4: warning: %u in format string (no. =
+1) requires 'unsigned int' but the argument type is 'signed int'. [invalidP=
+rintfArgType_uint]
+      sprintf(pmu->name, "uncore_type_%u_%d",
+      ^
+>> arch/x86/events/intel/uncore.c:849:4: warning: %d in format string (no. =
+2) requires 'int' but the argument type is 'unsigned int'. [invalidPrintfAr=
+gType_sint]
+      sprintf(pmu->name, "uncore_type_%u_%d",
+      ^
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01  27  static inline const stru=
-ct safe_prime_group *
-3313d2f891c8a3 Nicolai Stange      2021-12-01  28  get_safe_prime_group(enu=
-m dh_group_id group_id)
-3313d2f891c8a3 Nicolai Stange      2021-12-01  29  {
-3313d2f891c8a3 Nicolai Stange      2021-12-01  30  	int i;
-3313d2f891c8a3 Nicolai Stange      2021-12-01  31  =
+vim +847 arch/x86/events/intel/uncore.c
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01 @32  	for (i =3D 0; i < ARRAY=
-_SIZE(safe_prime_groups); ++i) {
-3313d2f891c8a3 Nicolai Stange      2021-12-01  33  		if (safe_prime_groups[=
-i].group_id =3D=3D group_id)
-3313d2f891c8a3 Nicolai Stange      2021-12-01  34  			return &safe_prime_gr=
-oups[i];
-3313d2f891c8a3 Nicolai Stange      2021-12-01  35  	}
-3313d2f891c8a3 Nicolai Stange      2021-12-01  36  =
+314d9f63f38509 arch/x86/kernel/cpu/perf_event_intel_uncore.c Yan, Zheng 201=
+2-09-10  836  =
 
-3313d2f891c8a3 Nicolai Stange      2021-12-01  37  	return NULL;
-3313d2f891c8a3 Nicolai Stange      2021-12-01  38  }
-802c7f1c84e4b5 Salvatore Benedetto 2016-06-22  39  =
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  837  static void uncore_get_pmu_name(struct intel_uncore_pmu *pmu)
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  838  {
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  839  	struct intel_uncore_type *type =3D pmu->type;
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  840  =
+
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  841  	/*
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  842  	 * No uncore block name in discovery table.
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  843  	 * Use uncore_type_&typeid_&boxid as name.
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  844  	 */
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  845  	if (!type->name) {
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  846  		if (type->num_boxes =3D=3D 1)
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17 @847  			sprintf(pmu->name, "uncore_type_%u", type->type_id);
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  848  		else {
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17 @849  			sprintf(pmu->name, "uncore_type_%u_%d",
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  850  				type->type_id, type->box_ids[pmu->pmu_idx]);
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  851  		}
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  852  		return;
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  853  	}
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  854  =
+
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  855  	if (type->num_boxes =3D=3D 1) {
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  856  		if (strlen(type->name) > 0)
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  857  			sprintf(pmu->name, "uncore_%s", type->name);
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  858  		else
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  859  			sprintf(pmu->name, "uncore");
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  860  	} else
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  861  		sprintf(pmu->name, "uncore_%s_%d", type->name, pmu->pmu_idx=
+);
+d6c754130435ab arch/x86/events/intel/uncore.c                Kan Liang  202=
+1-03-17  862  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7295367595674893805==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============5782385528669230522==--
 
