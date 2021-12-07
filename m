@@ -1,93 +1,126 @@
-Content-Type: multipart/mixed; boundary="===============4517672170739560887=="
+Content-Type: multipart/mixed; boundary="===============3262518937737623286=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/regulator/core.c:915 bypass_show() error: uninitialized symbol 'bypass'.
-Date: Tue, 07 Dec 2021 21:14:33 +0800
-Message-ID: <202112072157.hRgTlxI6-lkp@intel.com>
+Subject: kernel/bpf/btf.c:3827:24: warning: Variable 'tag' is not assigned a value. [unassignedVariable]
+Date: Tue, 07 Dec 2021 21:03:57 +0800
+Message-ID: <202112072012.1hpcSbw4-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4517672170739560887==
+--===============3262518937737623286==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: YueHaibing <yuehaibing@huawei.com>
-CC: Mark Brown <broonie@kernel.org>
+TO: Yonghong Song <yhs@fb.com>
+CC: Alexei Starovoitov <ast@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
-commit: a277a2622ca9609de09c18f660f0d10f1ddbb379 regulator: core: Use DEVIC=
-E_ATTR_RO macro
-date:   6 months ago
+commit: b5ea834dde6b6e7f75e51d5f66dac8cd7c97b5ef bpf: Support for new btf k=
+ind BTF_KIND_TAG
+date:   3 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211206 (https://download.01.org/0day-ci/arch=
-ive/20211207/202112072157.hRgTlxI6-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+:::::: commit date: 3 months ago
+compiler: arc-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/regulator/core.c:915 bypass_show() error: uninitialized symbol 'byp=
-ass'.
-
-Old smatch warnings:
-drivers/regulator/core.c:129 regulator_ops_is_valid() error: we previously =
-assumed 'rdev->constraints' could be null (see line 128)
-drivers/regulator/core.c:4159 regulator_get_voltage_rdev() error: uninitial=
-ized symbol 'bypassed'.
-
-vim +/bypass +915 drivers/regulator/core.c
-
-7ad68e2f970fd8 David Brownell 2008-11-11  902  =
-
-a277a2622ca960 YueHaibing     2021-05-29  903  static ssize_t bypass_show(s=
-truct device *dev,
-f59c8f9fe68979 Mark Brown     2012-08-31  904  			   struct device_attribut=
-e *attr, char *buf)
-f59c8f9fe68979 Mark Brown     2012-08-31  905  {
-f59c8f9fe68979 Mark Brown     2012-08-31  906  	struct regulator_dev *rdev =
-=3D dev_get_drvdata(dev);
-f59c8f9fe68979 Mark Brown     2012-08-31  907  	const char *report;
-f59c8f9fe68979 Mark Brown     2012-08-31  908  	bool bypass;
-f59c8f9fe68979 Mark Brown     2012-08-31  909  	int ret;
-f59c8f9fe68979 Mark Brown     2012-08-31  910  =
-
-f59c8f9fe68979 Mark Brown     2012-08-31  911  	ret =3D rdev->desc->ops->ge=
-t_bypass(rdev, &bypass);
-f59c8f9fe68979 Mark Brown     2012-08-31  912  =
-
-f59c8f9fe68979 Mark Brown     2012-08-31  913  	if (ret !=3D 0)
-f59c8f9fe68979 Mark Brown     2012-08-31  914  		report =3D "unknown";
-f59c8f9fe68979 Mark Brown     2012-08-31 @915  	else if (bypass)
-f59c8f9fe68979 Mark Brown     2012-08-31  916  		report =3D "enabled";
-f59c8f9fe68979 Mark Brown     2012-08-31  917  	else
-f59c8f9fe68979 Mark Brown     2012-08-31  918  		report =3D "disabled";
-f59c8f9fe68979 Mark Brown     2012-08-31  919  =
-
-f59c8f9fe68979 Mark Brown     2012-08-31  920  	return sprintf(buf, "%s\n",=
- report);
-f59c8f9fe68979 Mark Brown     2012-08-31  921  }
-a277a2622ca960 YueHaibing     2021-05-29  922  static DEVICE_ATTR_RO(bypass=
-);
-bc558a60b58f63 Mark Brown     2008-10-10  923  =
 
 
-:::::: The code at line 915 was first introduced by commit
-:::::: f59c8f9fe689790248ae7aa7426579982050638c regulator: core: Support by=
-pass mode
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-:::::: TO: Mark Brown <broonie@opensource.wolfsonmicro.com>
-:::::: CC: Mark Brown <broonie@opensource.wolfsonmicro.com>
+                ^
+   kernel/bpf/btf.c:4849:38: note: Null pointer addition
+    args =3D (const struct btf_param *)(t + 1);
+                                        ^
+   kernel/bpf/btf.c:4534:5: warning: union member 'Anonymous2::__t' is neve=
+r used. [unusedStructMember]
+    } *__t;
+       ^
+>> kernel/bpf/btf.c:3827:24: warning: Variable 'tag' is not assigned a valu=
+e. [unassignedVariable]
+    const struct btf_tag *tag;
+                          ^
+
+vim +/tag +3827 kernel/bpf/btf.c
+
+b1828f0b04828aa Ilya Leoshkevich 2021-02-26  3822  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3823  static s32 btf_tag_check=
+_meta(struct btf_verifier_env *env,
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3824  			      const struct bt=
+f_type *t,
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3825  			      u32 meta_left)
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3826  {
+b5ea834dde6b6e7 Yonghong Song    2021-09-14 @3827  	const struct btf_tag *t=
+ag;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3828  	u32 meta_needed =3D siz=
+eof(*tag);
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3829  	s32 component_idx;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3830  	const char *value;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3831  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3832  	if (meta_left < meta_ne=
+eded) {
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3833  		btf_verifier_log_basic=
+(env, t,
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3834  				       "meta_left:%u=
+ meta_needed:%u",
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3835  				       meta_left, me=
+ta_needed);
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3836  		return -EINVAL;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3837  	}
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3838  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3839  	value =3D btf_name_by_o=
+ffset(env->btf, t->name_off);
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3840  	if (!value || !value[0]=
+) {
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3841  		btf_verifier_log_type(=
+env, t, "Invalid value");
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3842  		return -EINVAL;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3843  	}
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3844  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3845  	if (btf_type_vlen(t)) {
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3846  		btf_verifier_log_type(=
+env, t, "vlen !=3D 0");
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3847  		return -EINVAL;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3848  	}
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3849  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3850  	if (btf_type_kflag(t)) {
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3851  		btf_verifier_log_type(=
+env, t, "Invalid btf_info kind_flag");
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3852  		return -EINVAL;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3853  	}
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3854  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3855  	component_idx =3D btf_t=
+ype_tag(t)->component_idx;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3856  	if (component_idx < -1)=
+ {
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3857  		btf_verifier_log_type(=
+env, t, "Invalid component_idx");
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3858  		return -EINVAL;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3859  	}
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3860  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3861  	btf_verifier_log_type(e=
+nv, t, NULL);
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3862  =
+
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3863  	return meta_needed;
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3864  }
+b5ea834dde6b6e7 Yonghong Song    2021-09-14  3865  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4517672170739560887==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============3262518937737623286==--
 
