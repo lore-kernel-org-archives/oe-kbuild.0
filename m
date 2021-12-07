@@ -1,300 +1,250 @@
-Content-Type: multipart/mixed; boundary="===============0134332578343031472=="
+Content-Type: multipart/mixed; boundary="===============7562051627845039254=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] ethernet: fman: add missing put_device() call in fman_port_probe()
-Date: Wed, 08 Dec 2021 06:18:08 +0800
-Message-ID: <202112080640.dqIrbaTP-lkp@intel.com>
+Subject: drivers/vhost/vdpa.c:677 vhost_vdpa_pa_map() warn: should '(last_pfn - map_pfn + 1) << 12' be a 64 bit type?
+Date: Wed, 08 Dec 2021 06:07:41 +0800
+Message-ID: <202112080535.4T0ZV7mD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0134332578343031472==
+--===============7562051627845039254==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <1638881746-3215-1-git-send-email-wangqing@vivo.com>
-References: <1638881746-3215-1-git-send-email-wangqing@vivo.com>
-TO: Qing Wang <wangqing@vivo.com>
-TO: Madalin Bucur <madalin.bucur@nxp.com>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev(a)vger.kernel.org
-TO: Jakub Kicinski <kuba@kernel.org>
-TO: linux-kernel(a)vger.kernel.org
-CC: Wang Qing <wangqing@vivo.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Xie Yongji <xieyongji@bytedance.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
-Hi Qing,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-[also build test WARNING on net/master horms-ipvs/master linus/master v5.16=
--rc4 next-20211207]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Qing-Wang/ethernet-fman-ad=
-d-missing-put_device-call-in-fman_port_probe/20211207-210146
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-1c5526968e270e4efccfa1da21d211a4915cdeda
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 hours ago
-config: arc-randconfig-s032-20211207 (https://download.01.org/0day-ci/archi=
-ve/20211208/202112080640.dqIrbaTP-lkp(a)intel.com/config)
-compiler: arc-elf-gcc (GCC) 11.2.0
-reproduce:
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/0day-ci/linux/commit/72dfcb1946c5b8a0eca2806c5=
-74922ebbd990b49
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Qing-Wang/ethernet-fman-add-missin=
-g-put_device-call-in-fman_port_probe/20211207-210146
-        git checkout 72dfcb1946c5b8a0eca2806c574922ebbd990b49
-        # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Da=
-rc SHELL=3D/bin/bash
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
+commit: 22af48cf91aae5f2fd32fe811d9be1c52d7a801b vdpa: factor out vhost_vdp=
+a_pa_map() and vhost_vdpa_pa_unmap()
+date:   3 months ago
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-m021-20211206 (https://download.01.org/0day-ci/arch=
+ive/20211208/202112080535.4T0ZV7mD-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/vhost/vdpa.c:677 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
+pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:679 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
+e a 64 bit type?
+
+Old smatch warnings:
+drivers/vhost/vdpa.c:708 vhost_vdpa_pa_map() warn: should '(last_pfn - map_=
+pfn + 1) << 12' be a 64 bit type?
+drivers/vhost/vdpa.c:709 vhost_vdpa_pa_map() warn: should 'map_pfn << 12' b=
+e a 64 bit type?
+
+vim +677 drivers/vhost/vdpa.c
+
+4c8cf31885f69e Tiwei Bie          2020-03-26  613  =
+
+22af48cf91aae5 Xie Yongji         2021-08-31  614  static int vhost_vdpa_pa=
+_map(struct vhost_vdpa *v,
+22af48cf91aae5 Xie Yongji         2021-08-31  615  			     u64 iova, u64 si=
+ze, u64 uaddr, u32 perm)
+4c8cf31885f69e Tiwei Bie          2020-03-26  616  {
+4c8cf31885f69e Tiwei Bie          2020-03-26  617  	struct vhost_dev *dev =
+=3D &v->vdev;
+4c8cf31885f69e Tiwei Bie          2020-03-26  618  	struct page **page_list;
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  619  	unsigned long list_size=
+ =3D PAGE_SIZE / sizeof(struct page *);
+4c8cf31885f69e Tiwei Bie          2020-03-26  620  	unsigned int gup_flags =
+=3D FOLL_LONGTERM;
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  621  	unsigned long npages, c=
+ur_base, map_pfn, last_pfn =3D 0;
+ad89653f79f188 Si-Wei Liu         2020-11-05  622  	unsigned long lock_limi=
+t, sz2pin, nchunks, i;
+22af48cf91aae5 Xie Yongji         2021-08-31  623  	u64 start =3D iova;
+ad89653f79f188 Si-Wei Liu         2020-11-05  624  	long pinned;
+4c8cf31885f69e Tiwei Bie          2020-03-26  625  	int ret =3D 0;
+4c8cf31885f69e Tiwei Bie          2020-03-26  626  =
+
+ad89653f79f188 Si-Wei Liu         2020-11-05  627  	/* Limit the use of mem=
+ory for bookkeeping */
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  628  	page_list =3D (struct p=
+age **) __get_free_page(GFP_KERNEL);
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  629  	if (!page_list)
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  630  		return -ENOMEM;
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  631  =
+
+22af48cf91aae5 Xie Yongji         2021-08-31  632  	if (perm & VHOST_ACCESS=
+_WO)
+4c8cf31885f69e Tiwei Bie          2020-03-26  633  		gup_flags |=3D FOLL_WR=
+ITE;
+4c8cf31885f69e Tiwei Bie          2020-03-26  634  =
+
+22af48cf91aae5 Xie Yongji         2021-08-31  635  	npages =3D PFN_UP(size =
++ (iova & ~PAGE_MASK));
+ad89653f79f188 Si-Wei Liu         2020-11-05  636  	if (!npages) {
+ad89653f79f188 Si-Wei Liu         2020-11-05  637  		ret =3D -EINVAL;
+ad89653f79f188 Si-Wei Liu         2020-11-05  638  		goto free;
+ad89653f79f188 Si-Wei Liu         2020-11-05  639  	}
+4c8cf31885f69e Tiwei Bie          2020-03-26  640  =
+
+d8ed45c5dcd455 Michel Lespinasse  2020-06-08  641  	mmap_read_lock(dev->mm);
+4c8cf31885f69e Tiwei Bie          2020-03-26  642  =
+
+729ce5a5bd6fda Cai Huoqing        2021-08-02  643  	lock_limit =3D PFN_DOWN=
+(rlimit(RLIMIT_MEMLOCK));
+ad89653f79f188 Si-Wei Liu         2020-11-05  644  	if (npages + atomic64_r=
+ead(&dev->mm->pinned_vm) > lock_limit) {
+4c8cf31885f69e Tiwei Bie          2020-03-26  645  		ret =3D -ENOMEM;
+ad89653f79f188 Si-Wei Liu         2020-11-05  646  		goto unlock;
+4c8cf31885f69e Tiwei Bie          2020-03-26  647  	}
+4c8cf31885f69e Tiwei Bie          2020-03-26  648  =
+
+22af48cf91aae5 Xie Yongji         2021-08-31  649  	cur_base =3D uaddr & PA=
+GE_MASK;
+4c8cf31885f69e Tiwei Bie          2020-03-26  650  	iova &=3D PAGE_MASK;
+ad89653f79f188 Si-Wei Liu         2020-11-05  651  	nchunks =3D 0;
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  652  =
+
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  653  	while (npages) {
+ad89653f79f188 Si-Wei Liu         2020-11-05  654  		sz2pin =3D min_t(unsig=
+ned long, npages, list_size);
+ad89653f79f188 Si-Wei Liu         2020-11-05  655  		pinned =3D pin_user_pa=
+ges(cur_base, sz2pin,
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  656  					gup_flags, page_lis=
+t, NULL);
+ad89653f79f188 Si-Wei Liu         2020-11-05  657  		if (sz2pin !=3D pinned=
+) {
+ad89653f79f188 Si-Wei Liu         2020-11-05  658  			if (pinned < 0) {
+ad89653f79f188 Si-Wei Liu         2020-11-05  659  				ret =3D pinned;
+ad89653f79f188 Si-Wei Liu         2020-11-05  660  			} else {
+ad89653f79f188 Si-Wei Liu         2020-11-05  661  				unpin_user_pages(pag=
+e_list, pinned);
+ad89653f79f188 Si-Wei Liu         2020-11-05  662  				ret =3D -ENOMEM;
+ad89653f79f188 Si-Wei Liu         2020-11-05  663  			}
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  664  			goto out;
+ad89653f79f188 Si-Wei Liu         2020-11-05  665  		}
+ad89653f79f188 Si-Wei Liu         2020-11-05  666  		nchunks++;
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  667  =
+
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  668  		if (!last_pfn)
+4c8cf31885f69e Tiwei Bie          2020-03-26  669  			map_pfn =3D page_to_p=
+fn(page_list[0]);
+4c8cf31885f69e Tiwei Bie          2020-03-26  670  =
+
+ad89653f79f188 Si-Wei Liu         2020-11-05  671  		for (i =3D 0; i < pinn=
+ed; i++) {
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  672  			unsigned long this_pf=
+n =3D page_to_pfn(page_list[i]);
+4c8cf31885f69e Tiwei Bie          2020-03-26  673  			u64 csize;
+4c8cf31885f69e Tiwei Bie          2020-03-26  674  =
+
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  675  			if (last_pfn && (this=
+_pfn !=3D last_pfn + 1)) {
+4c8cf31885f69e Tiwei Bie          2020-03-26  676  				/* Pin a contiguous =
+chunk of memory */
+729ce5a5bd6fda Cai Huoqing        2021-08-02 @677  				csize =3D PFN_PHYS(l=
+ast_pfn - map_pfn + 1);
+ad89653f79f188 Si-Wei Liu         2020-11-05  678  				ret =3D vhost_vdpa_m=
+ap(v, iova, csize,
+729ce5a5bd6fda Cai Huoqing        2021-08-02 @679  						     PFN_PHYS(map_=
+pfn),
+22af48cf91aae5 Xie Yongji         2021-08-31  680  						     perm);
+ad89653f79f188 Si-Wei Liu         2020-11-05  681  				if (ret) {
+ad89653f79f188 Si-Wei Liu         2020-11-05  682  					/*
+ad89653f79f188 Si-Wei Liu         2020-11-05  683  					 * Unpin the pages =
+that are left unmapped
+ad89653f79f188 Si-Wei Liu         2020-11-05  684  					 * from this point =
+on in the current
+ad89653f79f188 Si-Wei Liu         2020-11-05  685  					 * page_list. The r=
+emaining outstanding
+ad89653f79f188 Si-Wei Liu         2020-11-05  686  					 * ones which may s=
+tride across several
+ad89653f79f188 Si-Wei Liu         2020-11-05  687  					 * chunks will be c=
+overed in the common
+ad89653f79f188 Si-Wei Liu         2020-11-05  688  					 * error path subse=
+quently.
+ad89653f79f188 Si-Wei Liu         2020-11-05  689  					 */
+ad89653f79f188 Si-Wei Liu         2020-11-05  690  					unpin_user_pages(&p=
+age_list[i],
+ad89653f79f188 Si-Wei Liu         2020-11-05  691  							 pinned - i);
+4c8cf31885f69e Tiwei Bie          2020-03-26  692  					goto out;
+ad89653f79f188 Si-Wei Liu         2020-11-05  693  				}
+ad89653f79f188 Si-Wei Liu         2020-11-05  694  =
+
+4c8cf31885f69e Tiwei Bie          2020-03-26  695  				map_pfn =3D this_pfn;
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  696  				iova +=3D csize;
+ad89653f79f188 Si-Wei Liu         2020-11-05  697  				nchunks =3D 0;
+4c8cf31885f69e Tiwei Bie          2020-03-26  698  			}
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  699  =
+
+4c8cf31885f69e Tiwei Bie          2020-03-26  700  			last_pfn =3D this_pfn;
+4c8cf31885f69e Tiwei Bie          2020-03-26  701  		}
+4c8cf31885f69e Tiwei Bie          2020-03-26  702  =
+
+729ce5a5bd6fda Cai Huoqing        2021-08-02  703  		cur_base +=3D PFN_PHYS=
+(pinned);
+ad89653f79f188 Si-Wei Liu         2020-11-05  704  		npages -=3D pinned;
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  705  	}
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  706  =
+
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  707  	/* Pin the rest chunk */
+729ce5a5bd6fda Cai Huoqing        2021-08-02  708  	ret =3D vhost_vdpa_map(=
+v, iova, PFN_PHYS(last_pfn - map_pfn + 1),
+22af48cf91aae5 Xie Yongji         2021-08-31  709  			     PFN_PHYS(map_pfn=
+), perm);
+4c8cf31885f69e Tiwei Bie          2020-03-26  710  out:
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  711  	if (ret) {
+ad89653f79f188 Si-Wei Liu         2020-11-05  712  		if (nchunks) {
+ad89653f79f188 Si-Wei Liu         2020-11-05  713  			unsigned long pfn;
+ad89653f79f188 Si-Wei Liu         2020-11-05  714  =
+
+ad89653f79f188 Si-Wei Liu         2020-11-05  715  			/*
+ad89653f79f188 Si-Wei Liu         2020-11-05  716  			 * Unpin the outstand=
+ing pages which are yet to be
+ad89653f79f188 Si-Wei Liu         2020-11-05  717  			 * mapped but haven't=
+ due to vdpa_map() or
+ad89653f79f188 Si-Wei Liu         2020-11-05  718  			 * pin_user_pages() f=
+ailure.
+ad89653f79f188 Si-Wei Liu         2020-11-05  719  			 *
+ad89653f79f188 Si-Wei Liu         2020-11-05  720  			 * Mapped pages are a=
+ccounted in vdpa_map(), hence
+ad89653f79f188 Si-Wei Liu         2020-11-05  721  			 * the corresponding =
+unpinning will be handled by
+ad89653f79f188 Si-Wei Liu         2020-11-05  722  			 * vdpa_unmap().
+ad89653f79f188 Si-Wei Liu         2020-11-05  723  			 */
+ad89653f79f188 Si-Wei Liu         2020-11-05  724  			WARN_ON(!last_pfn);
+ad89653f79f188 Si-Wei Liu         2020-11-05  725  			for (pfn =3D map_pfn;=
+ pfn <=3D last_pfn; pfn++)
+ad89653f79f188 Si-Wei Liu         2020-11-05  726  				unpin_user_page(pfn_=
+to_page(pfn));
+ad89653f79f188 Si-Wei Liu         2020-11-05  727  		}
+22af48cf91aae5 Xie Yongji         2021-08-31  728  		vhost_vdpa_unmap(v, st=
+art, size);
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  729  	}
+ad89653f79f188 Si-Wei Liu         2020-11-05  730  unlock:
+d8ed45c5dcd455 Michel Lespinasse  2020-06-08  731  	mmap_read_unlock(dev->m=
+m);
+ad89653f79f188 Si-Wei Liu         2020-11-05  732  free:
+5e1a3149eec867 Michael S. Tsirkin 2020-10-29  733  	free_page((unsigned lon=
+g)page_list);
+4c8cf31885f69e Tiwei Bie          2020-03-26  734  	return ret;
+22af48cf91aae5 Xie Yongji         2021-08-31  735  =
 
 
-sparse warnings: (new ones prefixed by >>)
->> drivers/net/ethernet/freescale/fman/fman_port.c:1903:1: sparse: sparse: =
-unused label 'free_port'
+:::::: The code at line 677 was first introduced by commit
+:::::: 729ce5a5bd6fda5eb2322a39db2287f1f26f92f3 vdpa: Make use of PFN_PHYS/=
+PFN_UP/PFN_DOWN helper macro
 
-vim +/free_port +1903 drivers/net/ethernet/freescale/fman/fman_port.c
-
-880f874cf50568 Yangbo Lu         2018-06-25  1767  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1768  static int fman_port_pro=
-be(struct platform_device *of_dev)
-18a6c85fcc78dd Igal Liberman     2015-12-21  1769  {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1770  	struct fman_port *port;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1771  	struct fman *fman;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1772  	struct device_node *fm_=
-node, *port_node;
-0572054617f326 Florinel Iordache 2020-08-03  1773  	struct platform_device =
-*fm_pdev;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1774  	struct resource res;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1775  	struct resource *dev_re=
-s;
-537a31658f8a01 Madalin Bucur     2016-05-16  1776  	u32 val;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1777  	int err =3D 0, lenp;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1778  	enum fman_port_type por=
-t_type;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1779  	u16 port_speed;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1780  	u8 port_id;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1781  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1782  	port =3D kzalloc(sizeof=
-(*port), GFP_KERNEL);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1783  	if (!port)
-18a6c85fcc78dd Igal Liberman     2015-12-21  1784  		return -ENOMEM;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1785  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1786  	port->dev =3D &of_dev->=
-dev;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1787  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1788  	port_node =3D of_node_g=
-et(of_dev->dev.of_node);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1789  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1790  	/* Get the FM node */
-18a6c85fcc78dd Igal Liberman     2015-12-21  1791  	fm_node =3D of_get_pare=
-nt(port_node);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1792  	if (!fm_node) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1793  		dev_err(port->dev, "%s=
-: of_get_parent() failed\n", __func__);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1794  		err =3D -ENODEV;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1795  		goto return_of_node_pu=
-t;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1796  	}
-18a6c85fcc78dd Igal Liberman     2015-12-21  1797  =
-
-0572054617f326 Florinel Iordache 2020-08-03  1798  	fm_pdev =3D of_find_dev=
-ice_by_node(fm_node);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1799  	of_node_put(fm_node);
-0572054617f326 Florinel Iordache 2020-08-03  1800  	if (!fm_pdev) {
-0572054617f326 Florinel Iordache 2020-08-03  1801  		err =3D -EINVAL;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1802  		goto return_of_node_pu=
-t;
-0572054617f326 Florinel Iordache 2020-08-03  1803  	}
-0572054617f326 Florinel Iordache 2020-08-03  1804  =
-
-0572054617f326 Florinel Iordache 2020-08-03  1805  	fman =3D dev_get_drvdat=
-a(&fm_pdev->dev);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1806  	if (!fman) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1807  		err =3D -EINVAL;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1808  		goto return_of_put_dev=
-ice;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1809  	}
-18a6c85fcc78dd Igal Liberman     2015-12-21  1810  =
-
-537a31658f8a01 Madalin Bucur     2016-05-16  1811  	err =3D of_property_rea=
-d_u32(port_node, "cell-index", &val);
-537a31658f8a01 Madalin Bucur     2016-05-16  1812  	if (err) {
-f7ce91038d5278 Rob Herring       2017-07-18  1813  		dev_err(port->dev, "%s=
-: reading cell-index for %pOF failed\n",
-f7ce91038d5278 Rob Herring       2017-07-18  1814  			__func__, port_node);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1815  		err =3D -EINVAL;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1816  		goto return_of_put_dev=
-ice;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1817  	}
-537a31658f8a01 Madalin Bucur     2016-05-16  1818  	port_id =3D (u8)val;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1819  	port->dts_params.id =3D=
- port_id;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1820  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1821  	if (of_device_is_compat=
-ible(port_node, "fsl,fman-v3-port-tx")) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1822  		port_type =3D FMAN_POR=
-T_TYPE_TX;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1823  		port_speed =3D 1000;
-537a31658f8a01 Madalin Bucur     2016-05-16  1824  		if (of_find_property(p=
-ort_node, "fsl,fman-10g-port", &lenp))
-18a6c85fcc78dd Igal Liberman     2015-12-21  1825  			port_speed =3D 10000;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1826  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1827  	} else if (of_device_is=
-_compatible(port_node, "fsl,fman-v2-port-tx")) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1828  		if (port_id >=3D TX_10=
-G_PORT_BASE)
-18a6c85fcc78dd Igal Liberman     2015-12-21  1829  			port_speed =3D 10000;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1830  		else
-18a6c85fcc78dd Igal Liberman     2015-12-21  1831  			port_speed =3D 1000;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1832  		port_type =3D FMAN_POR=
-T_TYPE_TX;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1833  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1834  	} else if (of_device_is=
-_compatible(port_node, "fsl,fman-v3-port-rx")) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1835  		port_type =3D FMAN_POR=
-T_TYPE_RX;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1836  		port_speed =3D 1000;
-537a31658f8a01 Madalin Bucur     2016-05-16  1837  		if (of_find_property(p=
-ort_node, "fsl,fman-10g-port", &lenp))
-18a6c85fcc78dd Igal Liberman     2015-12-21  1838  			port_speed =3D 10000;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1839  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1840  	} else if (of_device_is=
-_compatible(port_node, "fsl,fman-v2-port-rx")) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1841  		if (port_id >=3D RX_10=
-G_PORT_BASE)
-18a6c85fcc78dd Igal Liberman     2015-12-21  1842  			port_speed =3D 10000;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1843  		else
-18a6c85fcc78dd Igal Liberman     2015-12-21  1844  			port_speed =3D 1000;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1845  		port_type =3D FMAN_POR=
-T_TYPE_RX;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1846  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1847  	}  else {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1848  		dev_err(port->dev, "%s=
-: Illegal port type\n", __func__);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1849  		err =3D -EINVAL;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1850  		goto return_of_put_dev=
-ice;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1851  	}
-18a6c85fcc78dd Igal Liberman     2015-12-21  1852  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1853  	port->dts_params.type =
-=3D port_type;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1854  	port->dts_params.speed =
-=3D port_speed;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1855  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1856  	if (port_type =3D=3D FM=
-AN_PORT_TYPE_TX) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1857  		u32 qman_channel_id;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1858  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1859  		qman_channel_id =3D fm=
-an_get_qman_channel_id(fman, port_id);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1860  		if (qman_channel_id =
-=3D=3D 0) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1861  			dev_err(port->dev, "%=
-s: incorrect qman-channel-id\n",
-18a6c85fcc78dd Igal Liberman     2015-12-21  1862  				__func__);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1863  			err =3D -EINVAL;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1864  			goto return_of_put_de=
-vice;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1865  		}
-18a6c85fcc78dd Igal Liberman     2015-12-21  1866  		port->dts_params.qman_=
-channel_id =3D qman_channel_id;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1867  	}
-18a6c85fcc78dd Igal Liberman     2015-12-21  1868  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1869  	err =3D of_address_to_r=
-esource(port_node, 0, &res);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1870  	if (err < 0) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1871  		dev_err(port->dev, "%s=
-: of_address_to_resource() failed\n",
-18a6c85fcc78dd Igal Liberman     2015-12-21  1872  			__func__);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1873  		err =3D -ENOMEM;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1874  		goto return_of_put_dev=
-ice;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1875  	}
-18a6c85fcc78dd Igal Liberman     2015-12-21  1876  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1877  	port->dts_params.fman =
-=3D fman;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1878  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1879  	dev_res =3D __devm_requ=
-est_region(port->dev, &res, res.start,
-18a6c85fcc78dd Igal Liberman     2015-12-21  1880  					resource_size(&res)=
-, "fman-port");
-18a6c85fcc78dd Igal Liberman     2015-12-21  1881  	if (!dev_res) {
-18a6c85fcc78dd Igal Liberman     2015-12-21  1882  		dev_err(port->dev, "%s=
-: __devm_request_region() failed\n",
-18a6c85fcc78dd Igal Liberman     2015-12-21  1883  			__func__);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1884  		err =3D -EINVAL;
-72dfcb1946c5b8 Wang Qing         2021-12-07  1885  		goto return_of_put_dev=
-ice;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1886  	}
-18a6c85fcc78dd Igal Liberman     2015-12-21  1887  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1888  	port->dts_params.base_a=
-ddr =3D devm_ioremap(port->dev, res.start,
-18a6c85fcc78dd Igal Liberman     2015-12-21  1889  						  resource_size(&r=
-es));
-5df6f7fa47e030 Madalin Bucur     2016-03-22  1890  	if (!port->dts_params.b=
-ase_addr)
-18a6c85fcc78dd Igal Liberman     2015-12-21  1891  		dev_err(port->dev, "%s=
-: devm_ioremap() failed\n", __func__);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1892  =
-
-72dfcb1946c5b8 Wang Qing         2021-12-07  1893  	of_node_put(port_node);
-72dfcb1946c5b8 Wang Qing         2021-12-07  1894  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1895  	dev_set_drvdata(&of_dev=
-->dev, port);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1896  =
-
-18a6c85fcc78dd Igal Liberman     2015-12-21  1897  	return 0;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1898  =
-
-72dfcb1946c5b8 Wang Qing         2021-12-07  1899  return_of_put_device:
-72dfcb1946c5b8 Wang Qing         2021-12-07  1900  	put_device(&fm_pdev->de=
-v);
-72dfcb1946c5b8 Wang Qing         2021-12-07  1901  return_of_node_put:
-18a6c85fcc78dd Igal Liberman     2015-12-21  1902  	of_node_put(port_node);
-18a6c85fcc78dd Igal Liberman     2015-12-21 @1903  free_port:
-18a6c85fcc78dd Igal Liberman     2015-12-21  1904  	kfree(port);
-18a6c85fcc78dd Igal Liberman     2015-12-21  1905  	return err;
-18a6c85fcc78dd Igal Liberman     2015-12-21  1906  }
-18a6c85fcc78dd Igal Liberman     2015-12-21  1907  =
-
+:::::: TO: Cai Huoqing <caihuoqing@baidu.com>
+:::::: CC: Michael S. Tsirkin <mst@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0134332578343031472==--
+--===============7562051627845039254==--
 
