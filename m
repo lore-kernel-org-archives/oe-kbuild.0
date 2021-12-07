@@ -1,119 +1,109 @@
-Content-Type: multipart/mixed; boundary="===============4820136392016878047=="
+Content-Type: multipart/mixed; boundary="===============3494078930594253845=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 17/18] crypto: dh - try to match domain parameters to a known safe-prime group
-Date: Tue, 07 Dec 2021 15:06:25 +0800
-Message-ID: <202112071438.gJPtedGv-lkp@intel.com>
+Subject: sound/soc/amd/vangogh/acp5x-mach.c:190 acp5x_cs35l41_hw_params() error: uninitialized symbol 'ret'.
+Date: Tue, 07 Dec 2021 14:07:52 +0800
+Message-ID: <202112071329.eX6ekOgK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4820136392016878047==
+--===============3494078930594253845==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211201004858.19831-18-nstange@suse.de>
-References: <20211201004858.19831-18-nstange@suse.de>
-TO: Nicolai Stange <nstange@suse.de>
-TO: Herbert Xu <herbert@gondor.apana.org.au>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev(a)vger.kernel.org
-CC: "Stephan M=C3=BCller" <smueller@chronox.de>
-CC: Hannes Reinecke <hare@suse.de>
-CC: Torsten Duwe <duwe@suse.de>
-CC: Zaibo Xu <xuzaibo@huawei.com>
-CC: Giovanni Cabiddu <giovanni.cabiddu@intel.com>
-CC: David Howells <dhowells@redhat.com>
-CC: Jarkko Sakkinen <jarkko@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+CC: Mark Brown <broonie@kernel.org>
 
-Hi Nicolai,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on herbert-cryptodev-2.6/master]
-[also build test WARNING on herbert-crypto-2.6/master linus/master jmorris-=
-security/next-testing v5.16-rc4 next-20211206]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Nicolai-Stange/crypto-dh-i=
-nfrastructure-for-NVM-in-band-auth-and-FIPS-conformance/20211201-085159
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/herbert/cryptodev-2=
-.6.git master
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: arm-randconfig-m031-20211128 (https://download.01.org/0day-ci/archi=
-ve/20211207/202112071438.gJPtedGv-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
+commit: 96792fdd77cd19fcf2368e7c19bb8b78557ae425 ASoC: amd: enable vangogh =
+platform machine driver build
+date:   8 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 8 weeks ago
+config: x86_64-randconfig-m001-20211201 (https://download.01.org/0day-ci/ar=
+chive/20211207/202112071329.eX6ekOgK-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-crypto/dh_helper.c:493 lookup_group_id() warn: we never enter this loop
+smatch warnings:
+sound/soc/amd/vangogh/acp5x-mach.c:190 acp5x_cs35l41_hw_params() error: uni=
+nitialized symbol 'ret'.
 
-Old smatch warnings:
-crypto/dh_helper.c:466 get_safe_prime_group() warn: we never enter this loop
+vim +/ret +190 sound/soc/amd/vangogh/acp5x-mach.c
 
-vim +493 crypto/dh_helper.c
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  157  =
 
-802c7f1c84e4b5a Salvatore Benedetto 2016-06-22  473  =
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  158  static int acp5x_cs35l41_h=
+w_params(struct snd_pcm_substream *substream,
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  159  				   struct snd_pcm_hw_p=
+arams *params)
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  160  {
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  161  	struct snd_soc_pcm_runtim=
+e *rtd =3D substream->private_data;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  162  	struct snd_soc_card *card=
+ =3D rtd->card;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  163  	struct snd_soc_dai *codec=
+_dai;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  164  	int ret, i;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  165  	unsigned int num_codecs =
+=3D rtd->num_codecs;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  166  	unsigned int bclk_val;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  167  =
 
-2048fab14cfd860 Nicolai Stange      2021-12-01  474  static enum dh_group_i=
-d lookup_group_id(const char *g, size_t g_size,
-2048fab14cfd860 Nicolai Stange      2021-12-01  475  					const char *p, si=
-ze_t p_size)
-2048fab14cfd860 Nicolai Stange      2021-12-01  476  {
-2048fab14cfd860 Nicolai Stange      2021-12-01  477  	int i;
-2048fab14cfd860 Nicolai Stange      2021-12-01  478  =
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  168  	for (i =3D 0; i < num_cod=
+ecs; i++) {
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  169  		codec_dai =3D asoc_rtd_t=
+o_codec(rtd, i);
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  170  		if ((strcmp(codec_dai->n=
+ame, "spi-VLV1776:00") =3D=3D 0) ||
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  171  		    (strcmp(codec_dai->n=
+ame, "spi-VLV1776:01") =3D=3D 0)) {
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  172  			switch (params_rate(par=
+ams)) {
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  173  			case 48000:
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  174  				bclk_val =3D 1536000;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  175  				break;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  176  			default:
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  177  				dev_err(card->dev, "In=
+valid Samplerate:0x%x\n",
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  178  					params_rate(params));
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  179  				return -EINVAL;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  180  			}
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  181  			ret =3D snd_soc_compone=
+nt_set_sysclk(codec_dai->component,
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  182  							   0, 0, bclk_val, =
+SND_SOC_CLOCK_IN);
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  183  			if (ret < 0) {
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  184  				dev_err(card->dev, "fa=
+iled to set sysclk for CS35l41 dai\n");
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  185  				return ret;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  186  			}
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  187  		}
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  188  	}
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  189  =
 
-2048fab14cfd860 Nicolai Stange      2021-12-01  479  	/* All safe-prime gro=
-ups use a generator of g =3D=3D 2. */
-2048fab14cfd860 Nicolai Stange      2021-12-01  480  	while (g_size && !*g)=
- {
-2048fab14cfd860 Nicolai Stange      2021-12-01  481  		++g;
-2048fab14cfd860 Nicolai Stange      2021-12-01  482  		--g_size;
-2048fab14cfd860 Nicolai Stange      2021-12-01  483  	}
-2048fab14cfd860 Nicolai Stange      2021-12-01  484  =
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14 @190  	return ret;
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  191  }
+34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  192  =
 
-2048fab14cfd860 Nicolai Stange      2021-12-01  485  	if (g_size !=3D 1 || =
-*g !=3D 2)
-2048fab14cfd860 Nicolai Stange      2021-12-01  486  		return dh_group_id_u=
-nknown;
-2048fab14cfd860 Nicolai Stange      2021-12-01  487  =
 
-2048fab14cfd860 Nicolai Stange      2021-12-01  488  	while (p_size && !*p)=
- {
-2048fab14cfd860 Nicolai Stange      2021-12-01  489  		++p;
-2048fab14cfd860 Nicolai Stange      2021-12-01  490  		--p_size;
-2048fab14cfd860 Nicolai Stange      2021-12-01  491  	}
-2048fab14cfd860 Nicolai Stange      2021-12-01  492  =
+:::::: The code at line 190 was first introduced by commit
+:::::: 34a0094b9ff7b7544591a6841f9b61747033f292 ASoC: amd: add vangogh mach=
+ine driver
 
-2048fab14cfd860 Nicolai Stange      2021-12-01 @493  	for (i =3D 0; i < ARR=
-AY_SIZE(safe_prime_groups); ++i) {
-2048fab14cfd860 Nicolai Stange      2021-12-01  494  		if (safe_prime_group=
-s[i].p_size !=3D p_size)
-2048fab14cfd860 Nicolai Stange      2021-12-01  495  			continue;
-2048fab14cfd860 Nicolai Stange      2021-12-01  496  =
-
-2048fab14cfd860 Nicolai Stange      2021-12-01  497  		if (!memcmp(safe_pri=
-me_groups[i].p, p, p_size))
-2048fab14cfd860 Nicolai Stange      2021-12-01  498  			return safe_prime_g=
-roups[i].group_id;
-2048fab14cfd860 Nicolai Stange      2021-12-01  499  	}
-2048fab14cfd860 Nicolai Stange      2021-12-01  500  =
-
-2048fab14cfd860 Nicolai Stange      2021-12-01  501  	return dh_group_id_un=
-known;
-2048fab14cfd860 Nicolai Stange      2021-12-01  502  }
-2048fab14cfd860 Nicolai Stange      2021-12-01  503  =
-
+:::::: TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============4820136392016878047==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3494078930594253845==--
 
