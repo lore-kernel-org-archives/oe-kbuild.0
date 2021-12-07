@@ -1,149 +1,97 @@
-Content-Type: multipart/mixed; boundary="===============7623836005769899804=="
+Content-Type: multipart/mixed; boundary="===============1325787380645568114=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/clk/clk-scmi.c:157 scmi_clocks_probe() error: uninitialized symbol 'ph'.
-Date: Wed, 08 Dec 2021 05:26:58 +0800
-Message-ID: <202112080512.6fAucRKt-lkp@intel.com>
+Subject: drivers/mtd/parsers/ofpart_bcm4908.c:41 bcm4908_partitions_fw_offset() warn: should 'offset << 10' be a 64 bit type?
+Date: Wed, 08 Dec 2021 02:02:18 +0800
+Message-ID: <202112080139.hREpRBPY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7623836005769899804==
+--===============1325787380645568114==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Cristian Marussi <cristian.marussi@arm.com>
-CC: Sudeep Holla <sudeep.holla@arm.com>
-CC: Stephen Boyd <sboyd@kernel.org>
+TO: "Rafa=C5=82 Mi=C5=82ecki" <rafal@milecki.pl>
+CC: Miquel Raynal <miquel.raynal@bootlin.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
-commit: beb076bb181b0135ee582d1bc18dfe924270da48 clk: scmi: Port driver to =
-the new scmi_clk_proto_ops interface
-date:   8 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 8 months ago
-config: microblaze-randconfig-m031-20211207 (https://download.01.org/0day-c=
-i/archive/20211208/202112080512.6fAucRKt-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+commit: bb17230c61a6424b622e92006ec52ba23aa5a967 mtd: parsers: ofpart: supp=
+ort BCM4908 fixed partitions
+date:   9 months ago
+:::::: branch date: 17 hours ago
+:::::: commit date: 9 months ago
+config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
+hive/20211208/202112080139.hREpRBPY-lkp(a)intel.com/config)
+compiler: nios2-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/clk/clk-scmi.c:157 scmi_clocks_probe() error: uninitialized symbol =
-'ph'.
+smatch warnings:
+drivers/mtd/parsers/ofpart_bcm4908.c:41 bcm4908_partitions_fw_offset() warn=
+: should 'offset << 10' be a 64 bit type?
 
-Old smatch warnings:
-drivers/clk/clk-scmi.c:37 scmi_clk_recalc_rate() error: uninitialized symbo=
-l 'rate'.
+vim +41 drivers/mtd/parsers/ofpart_bcm4908.c
 
-vim +/ph +157 drivers/clk/clk-scmi.c
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  16  =
 
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  138  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  17  static long long bcm=
+4908_partitions_fw_offset(void)
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  18  {
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  19  	struct device_node =
+*root;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  20  	struct property *pr=
+op;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  21  	const char *s;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  22  =
 
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  139  static int scmi_clocks_pro=
-be(struct scmi_device *sdev)
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  140  {
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  141  	int idx, count, err;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  142  	struct clk_hw **hws;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  143  	struct clk_hw_onecell_dat=
-a *clk_data;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  144  	struct device *dev =3D &s=
-dev->dev;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  145  	struct device_node *np =
-=3D dev->of_node;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  146  	const struct scmi_handle =
-*handle =3D sdev->handle;
-beb076bb181b01 Cristian Marussi 2021-03-16  147  	struct scmi_protocol_hand=
-le *ph;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  148  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  23  	root =3D of_find_no=
+de_by_path("/");
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  24  	if (!root)
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  25  		return -ENOENT;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  26  =
 
-beb076bb181b01 Cristian Marussi 2021-03-16  149  	if (!handle)
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  150  		return -ENODEV;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  151  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  27  	of_property_for_eac=
+h_string(root, "brcm_blparms", prop, s) {
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  28  		size_t len =3D str=
+len(BLPARAMS_FW_OFFSET);
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  29  		unsigned long offs=
+et;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  30  		int err;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  31  =
 
-beb076bb181b01 Cristian Marussi 2021-03-16  152  	scmi_proto_clk_ops =3D
-beb076bb181b01 Cristian Marussi 2021-03-16  153  		handle->devm_protocol_ge=
-t(sdev, SCMI_PROTOCOL_CLOCK, &ph);
-beb076bb181b01 Cristian Marussi 2021-03-16  154  	if (IS_ERR(scmi_proto_clk=
-_ops))
-beb076bb181b01 Cristian Marussi 2021-03-16  155  		return PTR_ERR(scmi_prot=
-o_clk_ops);
-beb076bb181b01 Cristian Marussi 2021-03-16  156  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  32  		if (strncmp(s, BLP=
+ARAMS_FW_OFFSET, len) || s[len] !=3D '=3D')
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  33  			continue;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  34  =
 
-beb076bb181b01 Cristian Marussi 2021-03-16 @157  	count =3D scmi_proto_clk_=
-ops->count_get(ph);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  158  	if (count < 0) {
-e665f029a283af Rob Herring      2018-08-28  159  		dev_err(dev, "%pOFn: inv=
-alid clock output count\n", np);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  160  		return -EINVAL;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  161  	}
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  162  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  35  		err =3D kstrtoul(s=
+ + len + 1, 0, &offset);
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  36  		if (err) {
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  37  			pr_err("failed to=
+ parse %s\n", s + len + 1);
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  38  			return err;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  39  		}
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  40  =
 
-0ed2dd03b94b7b Kees Cook        2018-05-08  163  	clk_data =3D devm_kzalloc=
-(dev, struct_size(clk_data, hws, count),
-0ed2dd03b94b7b Kees Cook        2018-05-08  164  				GFP_KERNEL);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  165  	if (!clk_data)
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  166  		return -ENOMEM;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  167  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01 @41  		return offset << 1=
+0;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  42  	}
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  43  =
 
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  168  	clk_data->num =3D count;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  169  	hws =3D clk_data->hws;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  170  =
-
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  171  	for (idx =3D 0; idx < cou=
-nt; idx++) {
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  172  		struct scmi_clk *sclk;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  173  =
-
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  174  		sclk =3D devm_kzalloc(de=
-v, sizeof(*sclk), GFP_KERNEL);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  175  		if (!sclk)
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  176  			return -ENOMEM;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  177  =
-
-beb076bb181b01 Cristian Marussi 2021-03-16  178  		sclk->info =3D scmi_prot=
-o_clk_ops->info_get(ph, idx);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  179  		if (!sclk->info) {
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  180  			dev_dbg(dev, "invalid c=
-lock info for idx %d\n", idx);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  181  			continue;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  182  		}
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  183  =
-
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  184  		sclk->id =3D idx;
-beb076bb181b01 Cristian Marussi 2021-03-16  185  		sclk->ph =3D ph;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  186  =
-
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  187  		err =3D scmi_clk_ops_ini=
-t(dev, sclk);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  188  		if (err) {
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  189  			dev_err(dev, "failed to=
- register clock %d\n", idx);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  190  			devm_kfree(dev, sclk);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  191  			hws[idx] =3D NULL;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  192  		} else {
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  193  			dev_dbg(dev, "Registere=
-d clock:%s\n", sclk->info->name);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  194  			hws[idx] =3D &sclk->hw;
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  195  		}
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  196  	}
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  197  =
-
-7f9badfceffc6d Sudeep Holla     2018-03-20  198  	return devm_of_clk_add_hw=
-_provider(dev, of_clk_hw_onecell_get,
-7f9badfceffc6d Sudeep Holla     2018-03-20  199  					   clk_data);
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  200  }
-6d6a1d82eaef70 Sudeep Holla     2017-06-13  201  =
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  44  	return -ENOENT;
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  45  }
+bb17230c61a642 Rafa=C5=82 Mi=C5=82ecki 2021-03-01  46  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7623836005769899804==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============1325787380645568114==--
 
