@@ -1,32 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============7719764137280807231=="
+Content-Type: multipart/mixed; boundary="===============5755283577670850503=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/input/touchscreen/ili210x.c:664 ili251x_firmware_busy() error: uninitialized symbol 'data'.
-Date: Tue, 07 Dec 2021 11:34:52 +0800
-Message-ID: <202112071130.VjoibOrG-lkp@intel.com>
+Subject: net/ceph/messenger_v1.c:346 get_connect_authorizer() error: uninitialized symbol 'auth_proto'.
+Date: Tue, 07 Dec 2021 11:04:25 +0800
+Message-ID: <202112071144.sVPWoGn6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7719764137280807231==
+--===============5755283577670850503==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Marek Vasut <marex@denx.de>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+TO: Ilya Dryomov <idryomov@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
-commit: c6ac8f0b4ca927316eb40e1e9ba83df5d29f3793 Input: ili210x - add ili25=
-1x firmware update support
-date:   7 weeks ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 7 weeks ago
-config: x86_64-randconfig-m001-20211206 (https://download.01.org/0day-ci/ar=
-chive/20211207/202112071130.VjoibOrG-lkp(a)intel.com/config)
+head:   f80ef9e49fdfbfbc4197711230098b90e6b05a7e
+commit: 2f713615ddd9d805b6c5e79c52e0e11af99d2bf1 libceph: move msgr1 protoc=
+ol implementation to its own file
+date:   12 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-m021-20211206 (https://download.01.org/0day-ci/arch=
+ive/20211207/202112071144.sVPWoGn6-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -34,52 +33,59 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/input/touchscreen/ili210x.c:664 ili251x_firmware_busy() error: unin=
-itialized symbol 'data'.
+net/ceph/messenger_v1.c:346 get_connect_authorizer() error: uninitialized s=
+ymbol 'auth_proto'.
 
 Old smatch warnings:
-drivers/input/touchscreen/ili210x.c:600 ili251x_firmware_to_buffer() error:=
- uninitialized symbol 'fw_addr'.
-drivers/input/touchscreen/ili210x.c:600 ili251x_firmware_to_buffer() error:=
- uninitialized symbol 'fw_len'.
-drivers/input/touchscreen/ili210x.c:690 ili251x_firmware_write_to_ic() warn=
-: right shifting more than type allows 16 vs 16
-drivers/input/touchscreen/ili210x.c:691 ili251x_firmware_write_to_ic() warn=
-: right shifting more than type allows 16 vs 16
+net/ceph/messenger_v1.c:1111 read_partial_message() error: we previously as=
+sumed 'con->in_msg' could be null (see line 1090)
 
-vim +/data +664 drivers/input/touchscreen/ili210x.c
+vim +/auth_proto +346 net/ceph/messenger_v1.c
 
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  650  =
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  324  =
 
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  651  static int ili251x_firmware_bus=
-y(struct i2c_client *client)
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  652  {
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  653  	struct ili210x *priv =3D i2c_g=
-et_clientdata(client);
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  654  	int error, i =3D 0;
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  655  	u8 data;
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  656  =
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  325  /*
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  326   * Connection negotiation.
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  327   */
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  328  =
 
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  657  	do {
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  658  		/* The read_reg already conta=
-ins suitable delay */
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  659  		error =3D priv->chip->read_re=
-g(client, REG_IC_BUSY, &data, 1);
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  660  		if (error)
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  661  			return error;
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  662  		if (i++ =3D=3D 100000)
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  663  			return -ETIMEDOUT;
-c6ac8f0b4ca927 Marek Vasut 2021-10-16 @664  	} while (data !=3D REG_IC_BUSY=
-_NOT_BUSY);
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  665  =
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  329  static int get_connect_author=
+izer(struct ceph_connection *con)
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  330  {
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  331  	struct ceph_auth_handshake *=
+auth;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  332  	int auth_proto;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  333  =
 
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  666  	return 0;
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  667  }
-c6ac8f0b4ca927 Marek Vasut 2021-10-16  668  =
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  334  	if (!con->ops->get_authorize=
+r) {
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  335  		con->auth =3D NULL;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  336  		con->out_connect.authorizer=
+_protocol =3D CEPH_AUTH_UNKNOWN;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  337  		con->out_connect.authorizer=
+_len =3D 0;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  338  		return 0;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  339  	}
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  340  =
+
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  341  	auth =3D con->ops->get_autho=
+rizer(con, &auth_proto, con->auth_retry);
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  342  	if (IS_ERR(auth))
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  343  		return PTR_ERR(auth);
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  344  =
+
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  345  	con->auth =3D auth;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12 @346  	con->out_connect.authorizer_=
+protocol =3D cpu_to_le32(auth_proto);
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  347  	con->out_connect.authorizer_=
+len =3D cpu_to_le32(auth->authorizer_buf_len);
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  348  	return 0;
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  349  }
+2f713615ddd9d80 Ilya Dryomov 2020-11-12  350  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7719764137280807231==--
+--===============5755283577670850503==--
 
