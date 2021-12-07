@@ -1,168 +1,123 @@
-Content-Type: multipart/mixed; boundary="===============7887298834275272750=="
+Content-Type: multipart/mixed; boundary="===============6008101819682466993=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:dax-block-cleanup 24/29] fs/ext4/inode.c:3353 ext4_iomap_alloc() warn: bitwise AND condition is false here
-Date: Wed, 08 Dec 2021 01:31:21 +0800
-Message-ID: <202112080112.YMSgKEpb-lkp@intel.com>
+Subject: kernel/rcu/rcutorture.c:941 rcu_torture_boost_failed() error: uninitialized symbol 'cpu'.
+Date: Wed, 08 Dec 2021 01:31:13 +0800
+Message-ID: <202112080011.clCvoIrZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7887298834275272750==
+--===============6008101819682466993==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Paul E. McKenney" <paulmck@kernel.org>
 
-tree:   git://git.infradead.org/users/hch/misc.git dax-block-cleanup
-head:   85eeeba6accd7ba7457ab6c8905863a74458f063
-commit: 22a4392ec217ca818e4d3f851d1f8887cce98de9 [24/29] iomap: add a IOMAP=
-_DAX flag
-:::::: branch date: 8 days ago
-:::::: commit date: 8 days ago
-config: x86_64-randconfig-m001-20211201 (https://download.01.org/0day-ci/ar=
-chive/20211208/202112080112.YMSgKEpb-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
+commit: 0260b92e1c39412b1e345e202355c43169c16274 rcutorture: Forgive RCU bo=
+ost failures when CPUs don't pass through QS
+date:   7 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 7 months ago
+config: i386-randconfig-m021-20211206 (https://download.01.org/0day-ci/arch=
+ive/20211208/202112080011.clCvoIrZ-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/ext4/inode.c:3353 ext4_iomap_alloc() warn: bitwise AND condition is fals=
-e here
-fs/xfs/xfs_iomap.c:233 xfs_iomap_write_direct() warn: bitwise AND condition=
- is false here
-fs/xfs/xfs_iomap.c:624 imap_needs_alloc() warn: bitwise AND condition is fa=
-lse here
+smatch warnings:
+kernel/rcu/rcutorture.c:941 rcu_torture_boost_failed() error: uninitialized=
+ symbol 'cpu'.
 
-Old smatch warnings:
-fs/ext4/inode.c:381 ext4_da_update_reserve_space() warn: should 'used << sb=
-i->s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:388 ext4_da_update_reserve_space() warn: should 'used << sb=
-i->s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:1469 ext4_da_reserve_space() warn: should '(1) << sbi->s_cl=
-uster_bits' be a 64 bit type?
-fs/ext4/inode.c:1476 ext4_da_reserve_space() warn: should '(1) << sbi->s_cl=
-uster_bits' be a 64 bit type?
-fs/ext4/inode.c:1518 ext4_da_release_space() warn: should 'to_free << sbi->=
-s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:2590 mpage_prepare_extent_to_map() warn: missing error code=
- 'err'
-fs/ext4/inode.c:5575 ext4_file_getattr() warn: should '(()->i_reserved_data=
-_blocks) << (EXT4_SB(inode->i_sb))->s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:6115 ext4_page_mkwrite() error: uninitialized symbol 'get_b=
-lock'.
+vim +/cpu +941 kernel/rcu/rcutorture.c
 
-vim +3353 fs/ext4/inode.c
+450efca7182a51 Joel Fernandes (Google  2018-06-10  920) =
 
-c8fdfe294187455 Matthew Bobrowski 2019-11-05  3321  =
+ea6d962e80b619 Paul E. McKenney        2021-03-30  921  static bool rcu_tor=
+ture_boost_failed(unsigned long gp_state, unsigned long start, unsigned lon=
+g end)
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  922) {
+0260b92e1c3941 Paul E. McKenney        2021-04-08  923  	int cpu;
+5e59fba573e64c Paul E. McKenney        2021-01-15  924  	static int dbg_don=
+e;
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  925  	bool gp_done;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  926  	unsigned long j;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  927  	static unsigned lo=
+ng last_persist;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  928  	unsigned long lp;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  929  	unsigned long mini=
+nterval =3D test_boost_duration * HZ - HZ / 2;
+5e59fba573e64c Paul E. McKenney        2021-01-15  930  =
 
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3322  static int ext4_iomap_a=
-lloc(struct inode *inode, struct ext4_map_blocks *map,
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3323  			    unsigned int fla=
-gs)
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3324  {
-776722e85d3b093 Jan Kara          2016-11-20  3325  	handle_t *handle;
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3326  	u8 blkbits =3D inode->=
-i_blkbits;
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3327  	int ret, dio_credits, =
-m_flags =3D 0, retries =3D 0;
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3328  =
+0260b92e1c3941 Paul E. McKenney        2021-04-08  931  	if (end - start > =
+mininterval) {
+7b9dad7abad707 Paul E. McKenney        2021-04-07  932  		// Recheck after =
+checking time to avoid false positives.
+7b9dad7abad707 Paul E. McKenney        2021-04-07  933  		smp_mb(); // Time=
+ check before grace-period check.
+7b9dad7abad707 Paul E. McKenney        2021-04-07  934  		if (cur_ops->poll=
+_gp_state(gp_state))
+7b9dad7abad707 Paul E. McKenney        2021-04-07  935  			return false; //=
+ passed, though perhaps just barely
+0260b92e1c3941 Paul E. McKenney        2021-04-08  936  		if (cur_ops->chec=
+k_boost_failed && !cur_ops->check_boost_failed(gp_state, &cpu)) {
+0260b92e1c3941 Paul E. McKenney        2021-04-08  937  			// At most one p=
+ersisted message per boost test.
+0260b92e1c3941 Paul E. McKenney        2021-04-08  938  			j =3D jiffies;
+0260b92e1c3941 Paul E. McKenney        2021-04-08  939  			lp =3D READ_ONCE=
+(last_persist);
+0260b92e1c3941 Paul E. McKenney        2021-04-08  940  			if (time_after(j=
+, lp + mininterval) && cmpxchg(&last_persist, lp, j) =3D=3D lp)
+0260b92e1c3941 Paul E. McKenney        2021-04-08 @941  				pr_info("Boost =
+inversion persisted: No QS from CPU %d\n", cpu);
+0260b92e1c3941 Paul E. McKenney        2021-04-08  942  			return false; //=
+ passed on a technicality
+0260b92e1c3941 Paul E. McKenney        2021-04-08  943  		}
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  944) 		VERBOSE_TOROUT_ST=
+RING("rcu_torture_boost boosting failed");
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  945) 		n_rcu_torture_boo=
+st_failure++;
+ea6d962e80b619 Paul E. McKenney        2021-03-30  946  		if (!xchg(&dbg_do=
+ne, 1) && cur_ops->gp_kthread_dbg) {
+ea6d962e80b619 Paul E. McKenney        2021-03-30  947  			pr_info("Boost i=
+nversion thread ->rt_priority %u gp_state %lu jiffies %lu\n",
+ea6d962e80b619 Paul E. McKenney        2021-03-30  948  				current->rt_pri=
+ority, gp_state, end - start);
+5e59fba573e64c Paul E. McKenney        2021-01-15  949  			cur_ops->gp_kthr=
+ead_dbg();
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  950  			// Recheck after=
+ print to flag grace period ending during splat.
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  951  			gp_done =3D cur_=
+ops->poll_gp_state(gp_state);
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  952  			pr_info("Boost i=
+nversion: GP %lu %s.\n", gp_state,
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  953  				gp_done ? "ende=
+d already" : "still pending");
+bcd4af44e2f173 Paul E. McKenney        2021-04-08  954  =
 
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3329  	/*
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3330  	 * Trim the mapping re=
-quest to the maximum value that we can map at
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3331  	 * once for direct I/O.
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3332  	 */
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3333  	if (map->m_len > DIO_M=
-AX_BLOCKS)
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3334  		map->m_len =3D DIO_MA=
-X_BLOCKS;
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3335  	dio_credits =3D ext4_c=
-hunk_trans_blocks(inode, map->m_len);
-776722e85d3b093 Jan Kara          2016-11-20  3336  =
+ea6d962e80b619 Paul E. McKenney        2021-03-30  955  		}
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  956) =
 
-776722e85d3b093 Jan Kara          2016-11-20  3337  retry:
-776722e85d3b093 Jan Kara          2016-11-20  3338  	/*
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3339  	 * Either we allocate =
-blocks and then don't get an unwritten extent, so
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3340  	 * in that case we hav=
-e reserved enough credits. Or, the blocks are
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3341  	 * already allocated a=
-nd unwritten. In that case, the extent conversion
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3342  	 * fits into the credi=
-ts as well.
-776722e85d3b093 Jan Kara          2016-11-20  3343  	 */
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3344  	handle =3D ext4_journa=
-l_start(inode, EXT4_HT_MAP_BLOCKS, dio_credits);
-776722e85d3b093 Jan Kara          2016-11-20  3345  	if (IS_ERR(handle))
-776722e85d3b093 Jan Kara          2016-11-20  3346  		return PTR_ERR(handle=
-);
-776722e85d3b093 Jan Kara          2016-11-20  3347  =
+7b9dad7abad707 Paul E. McKenney        2021-04-07  957  		return true; // f=
+ailed
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  958) 	}
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  959) =
 
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3348  	/*
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3349  	 * DAX and direct I/O =
-are the only two operations that are currently
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3350  	 * supported with IOMA=
-P_WRITE.
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3351  	 */
-22a4392ec217ca8 Christoph Hellwig 2021-11-02  3352  	WARN_ON(!(flags & (IOM=
-AP_DAX | IOMAP_DIRECT)));
-22a4392ec217ca8 Christoph Hellwig 2021-11-02 @3353  	if (flags & IOMAP_DAX)
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3354  		m_flags =3D EXT4_GET_=
-BLOCKS_CREATE_ZERO;
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3355  	/*
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3356  	 * We use i_size inste=
-ad of i_disksize here because delalloc writeback
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3357  	 * can complete at any=
- point during the I/O and subsequently push the
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3358  	 * i_disksize out to i=
-_size. This could be beyond where direct I/O is
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3359  	 * happening and thus =
-expose allocated blocks to direct I/O reads.
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3360  	 */
-d0b040f5f2557b2 Jan Kara          2021-04-12  3361  	else if (((loff_t)map-=
->m_lblk << blkbits) >=3D i_size_read(inode))
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3362  		m_flags =3D EXT4_GET_=
-BLOCKS_CREATE;
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3363  	else if (ext4_test_ino=
-de_flag(inode, EXT4_INODE_EXTENTS))
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3364  		m_flags =3D EXT4_GET_=
-BLOCKS_IO_CREATE_EXT;
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3365  =
-
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3366  	ret =3D ext4_map_block=
-s(handle, inode, map, m_flags);
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3367  =
-
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3368  	/*
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3369  	 * We cannot fill hole=
-s in indirect tree based inodes as that could
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3370  	 * expose stale data i=
-n the case of a crash. Use the magic error code
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3371  	 * to fallback to buff=
-ered I/O.
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3372  	 */
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3373  	if (!m_flags && !ret)
-378f32bab3714f0 Matthew Bobrowski 2019-11-05  3374  		ret =3D -ENOTBLK;
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3375  =
-
-776722e85d3b093 Jan Kara          2016-11-20  3376  	ext4_journal_stop(hand=
-le);
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3377  	if (ret =3D=3D -ENOSPC=
- && ext4_should_retry_alloc(inode->i_sb, &retries))
-776722e85d3b093 Jan Kara          2016-11-20  3378  		goto retry;
-f063db5ee989aaf Matthew Bobrowski 2019-11-05  3379  =
-
-776722e85d3b093 Jan Kara          2016-11-20  3380  	return ret;
-776722e85d3b093 Jan Kara          2016-11-20  3381  }
-776722e85d3b093 Jan Kara          2016-11-20  3382  =
+7b9dad7abad707 Paul E. McKenney        2021-04-07  960  	return false; // p=
+assed
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  961) }
+3b745c8969c752 Joel Fernandes (Google  2018-06-10  962) =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7887298834275272750==--
+--===============6008101819682466993==--
 
