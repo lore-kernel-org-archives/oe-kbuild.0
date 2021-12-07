@@ -1,136 +1,233 @@
-Content-Type: multipart/mixed; boundary="===============2719897451981018171=="
+Content-Type: multipart/mixed; boundary="===============8684532233945192942=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/can/m_can/m_can.c:1034 m_can_echo_tx_event() error: uninitialized symbol 'txe'.
-Date: Tue, 07 Dec 2021 19:32:31 +0800
-Message-ID: <202112071909.sQoYNqGo-lkp@intel.com>
+Subject: arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:397 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead of &
+Date: Tue, 07 Dec 2021 19:01:46 +0800
+Message-ID: <202112071807.3EysEubE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2719897451981018171==
+--===============8684532233945192942==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Matt Kline <matt@bitbashing.io>
-CC: "Marc Kleine-Budde" <mkl@pengutronix.de>
+TO: Nick Terrell <terrelln@fb.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
-commit: e39381770ec9ca3c51d8b9bd9cc6e01d78ea974a can: m_can: Disable IRQs o=
-n FIFO bus errors
-date:   4 months ago
-:::::: branch date: 11 hours ago
-:::::: commit date: 4 months ago
-config: arc-randconfig-m031-20211207 (https://download.01.org/0day-ci/archi=
-ve/20211207/202112071909.sQoYNqGo-lkp(a)intel.com/config)
-compiler: arceb-elf-gcc (GCC) 11.2.0
+commit: e0c1b49f5b674cca7b10549c53b3791d0bbc90a8 lib: zstd: Upgrade to late=
+st upstream zstd version 1.4.10
+date:   4 weeks ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 4 weeks ago
+config: i386-randconfig-m021-20211205 (https://download.01.org/0day-ci/arch=
+ive/20211207/202112071807.3EysEubE-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/can/m_can/m_can.c:1034 m_can_echo_tx_event() error: uninitializ=
-ed symbol 'txe'.
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:3=
+97 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead=
+ of &
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:3=
+97 HUF_decompress4X1_usingDTable_internal_body() warn: maybe use && instead=
+ of &
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:8=
+50 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instead=
+ of &
+arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decompress.c:8=
+50 HUF_decompress4X2_usingDTable_internal_body() warn: maybe use && instead=
+ of &
 
 Old smatch warnings:
-drivers/net/can/m_can/m_can.c:477 m_can_read_fifo() error: uninitialized sy=
-mbol 'dlc'.
-drivers/net/can/m_can/m_can.c:495 m_can_read_fifo() error: uninitialized sy=
-mbol 'id'.
+arch/x86/boot/compressed/misc.c:292 parse_elf() warn: ignoring unreachable =
+code.
 
-vim +/txe +1034 drivers/net/can/m_can/m_can.c
+vim +397 arch/x86/boot/compressed/../../../../lib/zstd/decompress/huf_decom=
+press.c
 
-1be37d3b0414e3 Torin Cooper-Bennun 2021-03-08  1002  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  348  =
 
-e39381770ec9ca Matt Kline          2021-08-16  1003  static int m_can_echo_=
-tx_event(struct net_device *dev)
-10c1c3975a6663 Mario Huettel       2017-04-08  1004  {
-10c1c3975a6663 Mario Huettel       2017-04-08  1005  	u32 txe_count =3D 0;
-10c1c3975a6663 Mario Huettel       2017-04-08  1006  	u32 m_can_txefs;
-10c1c3975a6663 Mario Huettel       2017-04-08  1007  	u32 fgi =3D 0;
-10c1c3975a6663 Mario Huettel       2017-04-08  1008  	int i =3D 0;
-10c1c3975a6663 Mario Huettel       2017-04-08  1009  	unsigned int msg_mark;
-10c1c3975a6663 Mario Huettel       2017-04-08  1010  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  349  FORCE_INLINE_TEMPLATE size_t
+e0c1b49f5b674c Nick Terrell 2020-09-11  350  HUF_decompress4X1_usingDTable_=
+internal_body(
+e0c1b49f5b674c Nick Terrell 2020-09-11  351            void* dst,  size_t d=
+stSize,
+e0c1b49f5b674c Nick Terrell 2020-09-11  352      const void* cSrc, size_t c=
+SrcSize,
+e0c1b49f5b674c Nick Terrell 2020-09-11  353      const HUF_DTable* DTable)
+e0c1b49f5b674c Nick Terrell 2020-09-11  354  {
+e0c1b49f5b674c Nick Terrell 2020-09-11  355      /* Check */
+e0c1b49f5b674c Nick Terrell 2020-09-11  356      if (cSrcSize < 10) return =
+ERROR(corruption_detected);  /* strict minimum : jump table + 1 byte per st=
+ream */
+e0c1b49f5b674c Nick Terrell 2020-09-11  357  =
 
-441ac340169b79 Dan Murphy          2019-05-09  1011  	struct m_can_classdev=
- *cdev =3D netdev_priv(dev);
-10c1c3975a6663 Mario Huettel       2017-04-08  1012  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  358      {   const BYTE* const ista=
+rt =3D (const BYTE*) cSrc;
+e0c1b49f5b674c Nick Terrell 2020-09-11  359          BYTE* const ostart =3D=
+ (BYTE*) dst;
+e0c1b49f5b674c Nick Terrell 2020-09-11  360          BYTE* const oend =3D o=
+start + dstSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  361          BYTE* const olimit =3D=
+ oend - 3;
+e0c1b49f5b674c Nick Terrell 2020-09-11  362          const void* const dtPt=
+r =3D DTable + 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  363          const HUF_DEltX1* cons=
+t dt =3D (const HUF_DEltX1*)dtPtr;
+e0c1b49f5b674c Nick Terrell 2020-09-11  364  =
 
-10c1c3975a6663 Mario Huettel       2017-04-08  1013  	/* read tx event fifo=
- status */
-441ac340169b79 Dan Murphy          2019-05-09  1014  	m_can_txefs =3D m_can=
-_read(cdev, M_CAN_TXEFS);
-10c1c3975a6663 Mario Huettel       2017-04-08  1015  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  365          /* Init */
+e0c1b49f5b674c Nick Terrell 2020-09-11  366          BIT_DStream_t bitD1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  367          BIT_DStream_t bitD2;
+e0c1b49f5b674c Nick Terrell 2020-09-11  368          BIT_DStream_t bitD3;
+e0c1b49f5b674c Nick Terrell 2020-09-11  369          BIT_DStream_t bitD4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  370          size_t const length1 =
+=3D MEM_readLE16(istart);
+e0c1b49f5b674c Nick Terrell 2020-09-11  371          size_t const length2 =
+=3D MEM_readLE16(istart+2);
+e0c1b49f5b674c Nick Terrell 2020-09-11  372          size_t const length3 =
+=3D MEM_readLE16(istart+4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  373          size_t const length4 =
+=3D cSrcSize - (length1 + length2 + length3 + 6);
+e0c1b49f5b674c Nick Terrell 2020-09-11  374          const BYTE* const ista=
+rt1 =3D istart + 6;  /* jumpTable */
+e0c1b49f5b674c Nick Terrell 2020-09-11  375          const BYTE* const ista=
+rt2 =3D istart1 + length1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  376          const BYTE* const ista=
+rt3 =3D istart2 + length2;
+e0c1b49f5b674c Nick Terrell 2020-09-11  377          const BYTE* const ista=
+rt4 =3D istart3 + length3;
+e0c1b49f5b674c Nick Terrell 2020-09-11  378          const size_t segmentSi=
+ze =3D (dstSize+3) / 4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  379          BYTE* const opStart2 =
+=3D ostart + segmentSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  380          BYTE* const opStart3 =
+=3D opStart2 + segmentSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  381          BYTE* const opStart4 =
+=3D opStart3 + segmentSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  382          BYTE* op1 =3D ostart;
+e0c1b49f5b674c Nick Terrell 2020-09-11  383          BYTE* op2 =3D opStart2;
+e0c1b49f5b674c Nick Terrell 2020-09-11  384          BYTE* op3 =3D opStart3;
+e0c1b49f5b674c Nick Terrell 2020-09-11  385          BYTE* op4 =3D opStart4;
+e0c1b49f5b674c Nick Terrell 2020-09-11  386          DTableDesc const dtd =
+=3D HUF_getDTableDesc(DTable);
+e0c1b49f5b674c Nick Terrell 2020-09-11  387          U32 const dtLog =3D dt=
+d.tableLog;
+e0c1b49f5b674c Nick Terrell 2020-09-11  388          U32 endSignal =3D 1;
+e0c1b49f5b674c Nick Terrell 2020-09-11  389  =
 
-10c1c3975a6663 Mario Huettel       2017-04-08  1016  	/* Get Tx Event fifo =
-element count */
-20779943a080c5 Torin Cooper-Bennun 2021-05-04  1017  	txe_count =3D FIELD_G=
-ET(TXEFS_EFFL_MASK, m_can_txefs);
-10c1c3975a6663 Mario Huettel       2017-04-08  1018  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  390          if (length4 > cSrcSize=
+) return ERROR(corruption_detected);   /* overflow */
+e0c1b49f5b674c Nick Terrell 2020-09-11  391          CHECK_F( BIT_initDStre=
+am(&bitD1, istart1, length1) );
+e0c1b49f5b674c Nick Terrell 2020-09-11  392          CHECK_F( BIT_initDStre=
+am(&bitD2, istart2, length2) );
+e0c1b49f5b674c Nick Terrell 2020-09-11  393          CHECK_F( BIT_initDStre=
+am(&bitD3, istart3, length3) );
+e0c1b49f5b674c Nick Terrell 2020-09-11  394          CHECK_F( BIT_initDStre=
+am(&bitD4, istart4, length4) );
+e0c1b49f5b674c Nick Terrell 2020-09-11  395  =
 
-10c1c3975a6663 Mario Huettel       2017-04-08  1019  	/* Get and process al=
-l sent elements */
-10c1c3975a6663 Mario Huettel       2017-04-08  1020  	for (i =3D 0; i < txe=
-_count; i++) {
-1be37d3b0414e3 Torin Cooper-Bennun 2021-03-08  1021  		u32 txe, timestamp =
-=3D 0;
-e39381770ec9ca Matt Kline          2021-08-16  1022  		int err;
-1be37d3b0414e3 Torin Cooper-Bennun 2021-03-08  1023  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  396          /* up to 16 symbols pe=
+r loop (4 symbols per stream) in 64-bit mode */
+e0c1b49f5b674c Nick Terrell 2020-09-11 @397          for ( ; (endSignal) & =
+(op4 < olimit) ; ) {
+e0c1b49f5b674c Nick Terrell 2020-09-11  398              HUF_DECODE_SYMBOLX=
+1_2(op1, &bitD1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  399              HUF_DECODE_SYMBOLX=
+1_2(op2, &bitD2);
+e0c1b49f5b674c Nick Terrell 2020-09-11  400              HUF_DECODE_SYMBOLX=
+1_2(op3, &bitD3);
+e0c1b49f5b674c Nick Terrell 2020-09-11  401              HUF_DECODE_SYMBOLX=
+1_2(op4, &bitD4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  402              HUF_DECODE_SYMBOLX=
+1_1(op1, &bitD1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  403              HUF_DECODE_SYMBOLX=
+1_1(op2, &bitD2);
+e0c1b49f5b674c Nick Terrell 2020-09-11  404              HUF_DECODE_SYMBOLX=
+1_1(op3, &bitD3);
+e0c1b49f5b674c Nick Terrell 2020-09-11  405              HUF_DECODE_SYMBOLX=
+1_1(op4, &bitD4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  406              HUF_DECODE_SYMBOLX=
+1_2(op1, &bitD1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  407              HUF_DECODE_SYMBOLX=
+1_2(op2, &bitD2);
+e0c1b49f5b674c Nick Terrell 2020-09-11  408              HUF_DECODE_SYMBOLX=
+1_2(op3, &bitD3);
+e0c1b49f5b674c Nick Terrell 2020-09-11  409              HUF_DECODE_SYMBOLX=
+1_2(op4, &bitD4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  410              HUF_DECODE_SYMBOLX=
+1_0(op1, &bitD1);
+e0c1b49f5b674c Nick Terrell 2020-09-11  411              HUF_DECODE_SYMBOLX=
+1_0(op2, &bitD2);
+e0c1b49f5b674c Nick Terrell 2020-09-11  412              HUF_DECODE_SYMBOLX=
+1_0(op3, &bitD3);
+e0c1b49f5b674c Nick Terrell 2020-09-11  413              HUF_DECODE_SYMBOLX=
+1_0(op4, &bitD4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  414              endSignal &=3D BIT=
+_reloadDStreamFast(&bitD1) =3D=3D BIT_DStream_unfinished;
+e0c1b49f5b674c Nick Terrell 2020-09-11  415              endSignal &=3D BIT=
+_reloadDStreamFast(&bitD2) =3D=3D BIT_DStream_unfinished;
+e0c1b49f5b674c Nick Terrell 2020-09-11  416              endSignal &=3D BIT=
+_reloadDStreamFast(&bitD3) =3D=3D BIT_DStream_unfinished;
+e0c1b49f5b674c Nick Terrell 2020-09-11  417              endSignal &=3D BIT=
+_reloadDStreamFast(&bitD4) =3D=3D BIT_DStream_unfinished;
+e0c1b49f5b674c Nick Terrell 2020-09-11  418          }
+e0c1b49f5b674c Nick Terrell 2020-09-11  419  =
 
-10c1c3975a6663 Mario Huettel       2017-04-08  1024  		/* retrieve get inde=
-x */
-20779943a080c5 Torin Cooper-Bennun 2021-05-04  1025  		fgi =3D FIELD_GET(TX=
-EFS_EFGI_MASK, m_can_read(cdev, M_CAN_TXEFS));
-10c1c3975a6663 Mario Huettel       2017-04-08  1026  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  420          /* check corruption */
+e0c1b49f5b674c Nick Terrell 2020-09-11  421          /* note : should not b=
+e necessary : op# advance in lock step, and we control op4.
+e0c1b49f5b674c Nick Terrell 2020-09-11  422           *        but curiousl=
+y, binary generated by gcc 7.2 & 7.3 with -mbmi2 runs faster when >=3D1 tes=
+t is present */
+e0c1b49f5b674c Nick Terrell 2020-09-11  423          if (op1 > opStart2) re=
+turn ERROR(corruption_detected);
+e0c1b49f5b674c Nick Terrell 2020-09-11  424          if (op2 > opStart3) re=
+turn ERROR(corruption_detected);
+e0c1b49f5b674c Nick Terrell 2020-09-11  425          if (op3 > opStart4) re=
+turn ERROR(corruption_detected);
+e0c1b49f5b674c Nick Terrell 2020-09-11  426          /* note : op4 supposed=
+ already verified within main loop */
+e0c1b49f5b674c Nick Terrell 2020-09-11  427  =
 
-1be37d3b0414e3 Torin Cooper-Bennun 2021-03-08  1027  		/* get message marke=
-r, timestamp */
-e39381770ec9ca Matt Kline          2021-08-16  1028  		err =3D m_can_txe_fi=
-fo_read(cdev, fgi, 4, &txe);
-e39381770ec9ca Matt Kline          2021-08-16  1029  		if (err) {
-e39381770ec9ca Matt Kline          2021-08-16  1030  			netdev_err(dev, "TX=
-E FIFO read returned %d\n", err);
-e39381770ec9ca Matt Kline          2021-08-16  1031  			return err;
-e39381770ec9ca Matt Kline          2021-08-16  1032  		}
-e39381770ec9ca Matt Kline          2021-08-16  1033  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  428          /* finish bitStreams o=
+ne by one */
+e0c1b49f5b674c Nick Terrell 2020-09-11  429          HUF_decodeStreamX1(op1=
+, &bitD1, opStart2, dt, dtLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  430          HUF_decodeStreamX1(op2=
+, &bitD2, opStart3, dt, dtLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  431          HUF_decodeStreamX1(op3=
+, &bitD3, opStart4, dt, dtLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  432          HUF_decodeStreamX1(op4=
+, &bitD4, oend,     dt, dtLog);
+e0c1b49f5b674c Nick Terrell 2020-09-11  433  =
 
-20779943a080c5 Torin Cooper-Bennun 2021-05-04 @1034  		msg_mark =3D FIELD_G=
-ET(TX_EVENT_MM_MASK, txe);
-1be37d3b0414e3 Torin Cooper-Bennun 2021-03-08  1035  		timestamp =3D FIELD_=
-GET(TX_EVENT_TXTS_MASK, txe);
-10c1c3975a6663 Mario Huettel       2017-04-08  1036  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  434          /* check */
+e0c1b49f5b674c Nick Terrell 2020-09-11  435          { U32 const endCheck =
+=3D BIT_endOfDStream(&bitD1) & BIT_endOfDStream(&bitD2) & BIT_endOfDStream(=
+&bitD3) & BIT_endOfDStream(&bitD4);
+e0c1b49f5b674c Nick Terrell 2020-09-11  436            if (!endCheck) retur=
+n ERROR(corruption_detected); }
+e0c1b49f5b674c Nick Terrell 2020-09-11  437  =
 
-10c1c3975a6663 Mario Huettel       2017-04-08  1037  		/* ack txe element */
-20779943a080c5 Torin Cooper-Bennun 2021-05-04  1038  		m_can_write(cdev, M_=
-CAN_TXEFA, FIELD_PREP(TXEFA_EFAI_MASK,
-20779943a080c5 Torin Cooper-Bennun 2021-05-04  1039  							  fgi));
-10c1c3975a6663 Mario Huettel       2017-04-08  1040  =
+e0c1b49f5b674c Nick Terrell 2020-09-11  438          /* decoded size */
+e0c1b49f5b674c Nick Terrell 2020-09-11  439          return dstSize;
+e0c1b49f5b674c Nick Terrell 2020-09-11  440      }
+e0c1b49f5b674c Nick Terrell 2020-09-11  441  }
+e0c1b49f5b674c Nick Terrell 2020-09-11  442  =
 
-10c1c3975a6663 Mario Huettel       2017-04-08  1041  		/* update stats */
-1be37d3b0414e3 Torin Cooper-Bennun 2021-03-08  1042  		m_can_tx_update_stat=
-s(cdev, msg_mark, timestamp);
-10c1c3975a6663 Mario Huettel       2017-04-08  1043  	}
-e39381770ec9ca Matt Kline          2021-08-16  1044  =
-
-e39381770ec9ca Matt Kline          2021-08-16  1045  	return 0;
-10c1c3975a6663 Mario Huettel       2017-04-08  1046  }
-10c1c3975a6663 Mario Huettel       2017-04-08  1047  =
-
-
-:::::: The code@line 1034 was first introduced by commit
-:::::: 20779943a080c5ac9b9e291b76afbac12fdec023 can: m_can: use bits.h macr=
-os for all regmasks
-
-:::::: TO: Torin Cooper-Bennun <torin@maxiluxsystems.com>
-:::::: CC: Marc Kleine-Budde <mkl@pengutronix.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2719897451981018171==--
+--===============8684532233945192942==--
 
