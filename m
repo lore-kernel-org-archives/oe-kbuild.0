@@ -1,138 +1,94 @@
-Content-Type: multipart/mixed; boundary="===============0417950099664923579=="
+Content-Type: multipart/mixed; boundary="===============1998845135540609648=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5 net-next 10/12] flow_offload: add reoffload process to update hw_count
-Date: Tue, 07 Dec 2021 09:32:18 +0800
-Message-ID: <202112070927.kCpOi5qD-lkp@intel.com>
+Subject: [xiang-erofs:dev-test 2/4] fs/erofs/sysfs.c:131 erofs_attr_store() warn: impossible condition '(t > (~0)) => (0-u32max > u32max)'
+Date: Tue, 07 Dec 2021 09:01:51 +0800
+Message-ID: <202112070831.UyKX6QDb-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0417950099664923579==
+--===============1998845135540609648==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211203122444.11756-11-simon.horman@corigine.com>
-References: <20211203122444.11756-11-simon.horman@corigine.com>
-TO: Simon Horman <simon.horman@corigine.com>
-TO: netdev(a)vger.kernel.org
-CC: Cong Wang <xiyou.wangcong@gmail.com>
-CC: Ido Schimmel <idosch@nvidia.com>
-CC: Jamal Hadi Salim <jhs@mojatatu.com>
-CC: Jiri Pirko <jiri@resnulli.us>
-CC: Oz Shlomo <ozsh@nvidia.com>
-CC: Roi Dayan <roid@nvidia.com>
-CC: Vlad Buslov <vladbu@nvidia.com>
-CC: Baowen Zheng <baowen.zheng@corigine.com>
-CC: Louis Peens <louis.peens@corigine.com>
+CC: Xiang Gao <xiang@kernel.org>
+CC: linux-erofs(a)lists.ozlabs.org
+TO: Huang Jianan <huangjianan@oppo.com>
+CC: Gao Xiang <hsiangkao@linux.alibaba.com>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
-Hi Simon,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on net-next/master]
-
-url:    https://github.com/0day-ci/linux/commits/Simon-Horman/allow-user-to=
--offload-tc-action-to-net-device/20211203-202602
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
-43332cf97425a3e5508c827c82201ecc5ddd54e0
-:::::: branch date: 4 days ago
-:::::: commit date: 4 days ago
-config: i386-randconfig-m021-20211203 (https://download.01.org/0day-ci/arch=
-ive/20211207/202112070927.kCpOi5qD-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev=
+-test
+head:   ac913fada7e1bba6d1aa9fbb707c8cc4529af9b8
+commit: 8645bf5f00b6aa29d35707765a46fe8cdd89e0ee [2/4] erofs: add sysfs int=
+erface
+:::::: branch date: 10 hours ago
+:::::: commit date: 10 hours ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211207/202112070831.UyKX6QDb-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-net/sched/act_api.c:946 tcf_register_action() error: we previously assumed =
-'ops->id' could be null (see line 926)
+smatch warnings:
+fs/erofs/sysfs.c:131 erofs_attr_store() warn: impossible condition '(t > (~=
+0)) =3D> (0-u32max > u32max)'
 
-Old smatch warnings:
-net/sched/act_api.c:1362 tcf_action_init_1() error: uninitialized symbol 'a=
-'.
-net/sched/act_api.c:1365 tcf_action_init_1() error: potentially dereferenci=
-ng uninitialized 'a'.
-net/sched/act_api.c:1367 tcf_action_init_1() error: uninitialized symbol 'a=
-'.
-net/sched/act_api.c:1611 tcf_action_get_1() error: uninitialized symbol 'a'.
+vim +131 fs/erofs/sysfs.c
 
-vim +946 net/sched/act_api.c
+8645bf5f00b6aa Huang Jianan 2021-12-01  113  =
 
-^1da177e4c3f41 Linus Torvalds   2005-04-16  908  =
+8645bf5f00b6aa Huang Jianan 2021-12-01  114  static ssize_t erofs_attr_stor=
+e(struct kobject *kobj, struct attribute *attr,
+8645bf5f00b6aa Huang Jianan 2021-12-01  115  						const char *buf, size_t =
+len)
+8645bf5f00b6aa Huang Jianan 2021-12-01  116  {
+8645bf5f00b6aa Huang Jianan 2021-12-01  117  	struct erofs_sb_info *sbi =3D=
+ container_of(kobj, struct erofs_sb_info,
+8645bf5f00b6aa Huang Jianan 2021-12-01  118  						s_kobj);
+8645bf5f00b6aa Huang Jianan 2021-12-01  119  	struct erofs_attr *a =3D cont=
+ainer_of(attr, struct erofs_attr, attr);
+8645bf5f00b6aa Huang Jianan 2021-12-01  120  	unsigned char *ptr =3D __stru=
+ct_ptr(sbi, a->struct_type, a->offset);
+8645bf5f00b6aa Huang Jianan 2021-12-01  121  	unsigned long t;
+8645bf5f00b6aa Huang Jianan 2021-12-01  122  	int ret;
+8645bf5f00b6aa Huang Jianan 2021-12-01  123  =
 
-ddf97ccdd7cb7e WANG Cong        2016-02-22  909  int tcf_register_action(st=
-ruct tc_action_ops *act,
-ddf97ccdd7cb7e WANG Cong        2016-02-22  910  			struct pernet_operation=
-s *ops)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  911  {
-1f747c26c48bb2 WANG Cong        2013-12-15  912  	struct tc_action_ops *a;
-ddf97ccdd7cb7e WANG Cong        2016-02-22  913  	int ret;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  914  =
-
-ddf97ccdd7cb7e WANG Cong        2016-02-22  915  	if (!act->act || !act->du=
-mp || !act->init || !act->walk || !act->lookup)
-76c82d7a3d24a4 Jamal Hadi Salim 2013-12-04  916  		return -EINVAL;
-76c82d7a3d24a4 Jamal Hadi Salim 2013-12-04  917  =
-
-ab102b80cef28c WANG Cong        2016-10-11  918  	/* We have to register pe=
-rnet ops before making the action ops visible,
-ab102b80cef28c WANG Cong        2016-10-11  919  	 * otherwise tcf_action_i=
-nit_1() could get a partially initialized
-ab102b80cef28c WANG Cong        2016-10-11  920  	 * netns.
-ab102b80cef28c WANG Cong        2016-10-11  921  	 */
-ab102b80cef28c WANG Cong        2016-10-11  922  	ret =3D register_pernet_s=
-ubsys(ops);
-ab102b80cef28c WANG Cong        2016-10-11  923  	if (ret)
-ab102b80cef28c WANG Cong        2016-10-11  924  		return ret;
-ab102b80cef28c WANG Cong        2016-10-11  925  =
-
-d99abedd4989e7 Baowen Zheng     2021-12-03 @926  	if (ops->id) {
-d99abedd4989e7 Baowen Zheng     2021-12-03  927  		ret =3D tcf_pernet_add_i=
-d_list(*ops->id);
-d99abedd4989e7 Baowen Zheng     2021-12-03  928  		if (ret)
-d99abedd4989e7 Baowen Zheng     2021-12-03  929  			goto err_id;
-d99abedd4989e7 Baowen Zheng     2021-12-03  930  	}
-d99abedd4989e7 Baowen Zheng     2021-12-03  931  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  932  	write_lock(&act_mod_lock);
-1f747c26c48bb2 WANG Cong        2013-12-15  933  	list_for_each_entry(a, &a=
-ct_base, head) {
-eddd2cf195d6fb Eli Cohen        2019-02-10  934  		if (act->id =3D=3D a->id=
- || (strcmp(act->kind, a->kind) =3D=3D 0)) {
-d99abedd4989e7 Baowen Zheng     2021-12-03  935  			ret =3D -EEXIST;
-d99abedd4989e7 Baowen Zheng     2021-12-03  936  			goto err_out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  937  		}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  938  	}
-1f747c26c48bb2 WANG Cong        2013-12-15  939  	list_add_tail(&act->head,=
- &act_base);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  940  	write_unlock(&act_mod_loc=
-k);
-ddf97ccdd7cb7e WANG Cong        2016-02-22  941  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  942  	return 0;
-d99abedd4989e7 Baowen Zheng     2021-12-03  943  =
-
-d99abedd4989e7 Baowen Zheng     2021-12-03  944  err_out:
-d99abedd4989e7 Baowen Zheng     2021-12-03  945  	write_unlock(&act_mod_loc=
-k);
-d99abedd4989e7 Baowen Zheng     2021-12-03 @946  	tcf_pernet_del_id_list(*o=
-ps->id);
-d99abedd4989e7 Baowen Zheng     2021-12-03  947  err_id:
-d99abedd4989e7 Baowen Zheng     2021-12-03  948  	unregister_pernet_subsys(=
-ops);
-d99abedd4989e7 Baowen Zheng     2021-12-03  949  	return ret;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  950  }
-62e3ba1b558e5f Patrick McHardy  2008-01-22  951  EXPORT_SYMBOL(tcf_register=
-_action);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  952  =
+8645bf5f00b6aa Huang Jianan 2021-12-01  124  	switch (a->attr_id) {
+8645bf5f00b6aa Huang Jianan 2021-12-01  125  	case attr_pointer_ui:
+8645bf5f00b6aa Huang Jianan 2021-12-01  126  		if (!ptr)
+8645bf5f00b6aa Huang Jianan 2021-12-01  127  			return 0;
+8645bf5f00b6aa Huang Jianan 2021-12-01  128  		ret =3D kstrtoul(skip_spaces=
+(buf), 0, &t);
+8645bf5f00b6aa Huang Jianan 2021-12-01  129  		if (ret)
+8645bf5f00b6aa Huang Jianan 2021-12-01  130  			return ret;
+8645bf5f00b6aa Huang Jianan 2021-12-01 @131  		if (t > UINT_MAX)
+8645bf5f00b6aa Huang Jianan 2021-12-01  132  			return -EINVAL;
+8645bf5f00b6aa Huang Jianan 2021-12-01  133  		*(unsigned int *)ptr =3D t;
+8645bf5f00b6aa Huang Jianan 2021-12-01  134  		return len;
+8645bf5f00b6aa Huang Jianan 2021-12-01  135  	case attr_pointer_bool:
+8645bf5f00b6aa Huang Jianan 2021-12-01  136  		if (!ptr)
+8645bf5f00b6aa Huang Jianan 2021-12-01  137  			return 0;
+8645bf5f00b6aa Huang Jianan 2021-12-01  138  		ret =3D kstrtoul(skip_spaces=
+(buf), 0, &t);
+8645bf5f00b6aa Huang Jianan 2021-12-01  139  		if (ret)
+8645bf5f00b6aa Huang Jianan 2021-12-01  140  			return ret;
+8645bf5f00b6aa Huang Jianan 2021-12-01  141  		if (t !=3D 0 && t !=3D 1)
+8645bf5f00b6aa Huang Jianan 2021-12-01  142  			return -EINVAL;
+8645bf5f00b6aa Huang Jianan 2021-12-01  143  		*(bool *)ptr =3D !!t;
+8645bf5f00b6aa Huang Jianan 2021-12-01  144  		return len;
+8645bf5f00b6aa Huang Jianan 2021-12-01  145  	}
+8645bf5f00b6aa Huang Jianan 2021-12-01  146  	return 0;
+8645bf5f00b6aa Huang Jianan 2021-12-01  147  }
+8645bf5f00b6aa Huang Jianan 2021-12-01  148  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0417950099664923579==--
+--===============1998845135540609648==--
 
