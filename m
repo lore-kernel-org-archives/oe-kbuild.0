@@ -1,539 +1,465 @@
-Content-Type: multipart/mixed; boundary="===============4640617147473369271=="
+Content-Type: multipart/mixed; boundary="===============1706922628501886357=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Thu, 09 Dec 2021 07:13:10 +0800
-Message-ID: <202112090734.vometa8g-lkp@intel.com>
+Subject: Re: [PATCH v2] btrfs: zoned: free zone_cache when freeing zone_info
+Date: Thu, 09 Dec 2021 06:11:28 +0800
+Message-ID: <202112090657.BflsS2SD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4640617147473369271==
+--===============1706922628501886357==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Chris Down <chris@chrisdown.name>
-CC: Petr Mladek <pmladek@suse.com>
+In-Reply-To: <f3ea96654bb7f39afb15555dece992f2a8479608.1638879879.git.johan=
+nes.thumshirn@wdc.com>
+References: <f3ea96654bb7f39afb15555dece992f2a8479608.1638879879.git.johann=
+es.thumshirn@wdc.com>
+TO: Johannes Thumshirn <johannes.thumshirn@wdc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
-commit: ad7d61f159db73974f1b0352f21afe04b0bbd920 printk: index: Add indexin=
-g support to dev_printk
-date:   5 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
-chive/20211209/202112090734.vometa8g-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
-97ef3ee4dc2119d5429adf3072e90fac38)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dad7d61f159db73974f1b0352f21afe04b0bbd920
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ad7d61f159db73974f1b0352f21afe04b0bbd920
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+Hi Johannes,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on kdave/for-next]
+[also build test WARNING on next-20211208]
+[cannot apply to v5.16-rc4]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Johannes-Thumshirn/btrfs-z=
+oned-free-zone_cache-when-freeing-zone_info/20211207-215928
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
+-next
+:::::: branch date: 32 hours ago
+:::::: commit date: 32 hours ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211209/202112090657.BflsS2SD-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/btrfs/zoned.c:597 btrfs_get_dev_zone_info() warn: possible memory leak o=
+f 'zone_info'
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:31: note: expanded from macro 'rcu_derefere=
-nce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-                                        ^
-   drivers/pci/p2pdma.c:536:11: note: Assuming the condition is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:390:19: note: expanded from macro '__rcu_derefe=
-rence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/rcupdate.h:318:8: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                        ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '&&' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:318:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                           ^
-   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:316:2: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-           do {                                                            \
-           ^
-   drivers/pci/p2pdma.c:537:6: note: Assuming 'p2pdma' is non-null
-           if (p2pdma)
-               ^~~~~~
-   drivers/pci/p2pdma.c:537:2: note: Taking true branch
-           if (p2pdma)
-           ^
-   drivers/pci/p2pdma.c:538:46: note: Passing null pointer value via 1st pa=
-rameter 'client'
-                   xa_store(&p2pdma->map_types, map_types_idx(client),
-                                                              ^~~~~~
-   drivers/pci/p2pdma.c:538:32: note: Calling 'map_types_idx'
-                   xa_store(&p2pdma->map_types, map_types_idx(client),
-                                                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/p2pdma.c:409:24: note: Access to field 'bus' results in a de=
-reference of a null pointer (loaded from variable 'client')
-           return (pci_domain_nr(client->bus) << 16) |
-                                 ^~~~~~
->> drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang=
--analyzer-core.NullDereference]
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/pci/p2pdma.c:470:9: note: Assuming pointer value is null
-           while (a) {
-                  ^
-   drivers/pci/p2pdma.c:470:2: note: Loop condition is false. Execution con=
-tinues on line 492
-           while (a) {
-           ^
-   drivers/pci/p2pdma.c:493:2: note: Control jumps to line 527
-           goto map_through_host_bridge;
-           ^
-   drivers/pci/p2pdma.c:527:29: note: Left side of '&&' is false
-           if (!cpu_supports_p2pdma() &&
-                                      ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is true
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+Old smatch warnings:
+fs/btrfs/zoned.c:169 sb_zone_number() error: uninitialized symbol 'zone'.
+fs/btrfs/zoned.c:1452 btrfs_load_block_group_zone_info() error: uninitializ=
+ed symbol 'ret'.
 
-vim +536 drivers/pci/p2pdma.c
+vim +/zone_info +597 fs/btrfs/zoned.c
 
-110203bee05f33 Logan Gunthorpe   2019-08-12  412  =
+7365104236ade0b Naohiro Aota       2021-02-04  347  =
 
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  413  /*
-6389d43745228d Logan Gunthorpe   2021-06-10  414   * Calculate the P2PDMA m=
-apping type and distance between two PCI devices.
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  415   *
-6389d43745228d Logan Gunthorpe   2021-06-10  416   * If the two devices are=
- the same PCI function, return
-6389d43745228d Logan Gunthorpe   2021-06-10  417   * PCI_P2PDMA_MAP_BUS_ADD=
-R and a distance of 0.
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  418   *
-6389d43745228d Logan Gunthorpe   2021-06-10  419   * If they are two functi=
-ons of the same device, return
-6389d43745228d Logan Gunthorpe   2021-06-10  420   * PCI_P2PDMA_MAP_BUS_ADD=
-R and a distance of 2 (one hop up to the bridge,
-6389d43745228d Logan Gunthorpe   2021-06-10  421   * then one hop back down=
- to another function of the same device).
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  422   *
-6389d43745228d Logan Gunthorpe   2021-06-10  423   * In the case where two =
-devices are connected to the same PCIe switch,
-6389d43745228d Logan Gunthorpe   2021-06-10  424   * return a distance of 4=
-. This corresponds to the following PCI tree:
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  425   *
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  426   *     -+  Root Port
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  427   *      \+ Switch Upstrea=
-m Port
-6389d43745228d Logan Gunthorpe   2021-06-10  428   *       +-+ Switch Downs=
-tream Port 0
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  429   *       + \- Device A
-6389d43745228d Logan Gunthorpe   2021-06-10  430   *       \-+ Switch Downs=
-tream Port 1
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  431   *         \- Device B
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  432   *
-6389d43745228d Logan Gunthorpe   2021-06-10  433   * The distance is 4 beca=
-use we traverse from Device A to Downstream Port 0
-6389d43745228d Logan Gunthorpe   2021-06-10  434   * to the common Switch U=
-pstream Port, back down to Downstream Port 1 and
-6389d43745228d Logan Gunthorpe   2021-06-10  435   * then to Device B. The =
-mapping type returned depends on the ACS
-6389d43745228d Logan Gunthorpe   2021-06-10  436   * redirection setting of=
- the ports along the path.
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  437   *
-6389d43745228d Logan Gunthorpe   2021-06-10  438   * If ACS redirect is set=
- on any port in the path, traffic between the
-6389d43745228d Logan Gunthorpe   2021-06-10  439   * devices will go throug=
-h the host bridge, so return
-6389d43745228d Logan Gunthorpe   2021-06-10  440   * PCI_P2PDMA_MAP_THRU_HO=
-ST_BRIDGE; otherwise return
-6389d43745228d Logan Gunthorpe   2021-06-10  441   * PCI_P2PDMA_MAP_BUS_ADD=
-R.
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  442   *
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  443   * Any two devices that h=
-ave a data path that goes through the host bridge
-6389d43745228d Logan Gunthorpe   2021-06-10  444   * will consult a whiteli=
-st. If the host bridge is in the whitelist, return
-6389d43745228d Logan Gunthorpe   2021-06-10  445   * PCI_P2PDMA_MAP_THRU_HO=
-ST_BRIDGE with the distance set to the number of
-6389d43745228d Logan Gunthorpe   2021-06-10  446   * ports per above. If th=
-e device is not in the whitelist, return
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  447   * PCI_P2PDMA_MAP_NOT_SUP=
-PORTED.
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  448   */
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  449  static enum pci_p2pdma_ma=
-p_type
-6389d43745228d Logan Gunthorpe   2021-06-10  450  calc_map_type_and_dist(st=
-ruct pci_dev *provider, struct pci_dev *client,
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  451  		int *dist, bool verbose)
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  452  {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  453  	enum pci_p2pdma_map_type=
- map_type =3D PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  454  	struct pci_dev *a =3D pr=
-ovider, *b =3D client, *bb;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  455  	bool acs_redirects =3D f=
-alse;
-ae21f835a5bda0 Eric Dumazet      2021-07-01  456  	struct pci_p2pdma *p2pdm=
-a;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  457  	struct seq_buf acs_list;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  458  	int acs_cnt =3D 0;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  459  	int dist_a =3D 0;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  460  	int dist_b =3D 0;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  461  	char buf[128];
-e2cbfbf78968db Logan Gunthorpe   2019-08-12  462  =
+1c0066baa869433 Naohiro Aota       2021-11-11  348  int btrfs_get_dev_zone_=
+info(struct btrfs_device *device, bool populate_cache)
+5b316468983dfa9 Naohiro Aota       2020-11-10  349  {
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  350  	struct btrfs_fs_info *=
+fs_info =3D device->fs_info;
+5b316468983dfa9 Naohiro Aota       2020-11-10  351  	struct btrfs_zoned_dev=
+ice_info *zone_info =3D NULL;
+5b316468983dfa9 Naohiro Aota       2020-11-10  352  	struct block_device *b=
+dev =3D device->bdev;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  353  	struct request_queue *=
+queue =3D bdev_get_queue(bdev);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  354  	unsigned int max_activ=
+e_zones;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  355  	unsigned int nactive;
+5b316468983dfa9 Naohiro Aota       2020-11-10  356  	sector_t nr_sectors;
+5b316468983dfa9 Naohiro Aota       2020-11-10  357  	sector_t sector =3D 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  358  	struct blk_zone *zones=
+ =3D NULL;
+5b316468983dfa9 Naohiro Aota       2020-11-10  359  	unsigned int i, nrepor=
+ted =3D 0, nr_zones;
+d734492a14a2da6 Naohiro Aota       2021-03-03  360  	sector_t zone_sectors;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  361  	char *model, *emulated;
+5b316468983dfa9 Naohiro Aota       2020-11-10  362  	int ret;
+5b316468983dfa9 Naohiro Aota       2020-11-10  363  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  463  	seq_buf_init(&acs_list, =
-buf, sizeof(buf));
-e2cbfbf78968db Logan Gunthorpe   2019-08-12  464  =
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  364  	/*
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  365  	 * Cannot use btrfs_is=
+_zoned here, since fs_info::zone_size might not
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  366  	 * yet be set.
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  367  	 */
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  368  	if (!btrfs_fs_incompat=
+(fs_info, ZONED))
+5b316468983dfa9 Naohiro Aota       2020-11-10  369  		return 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  370  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  465  	/*
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  466  	 * Note, we don't need t=
-o take references to devices returned by
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  467  	 * pci_upstream_bridge()=
- seeing we hold a reference to a child
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  468  	 * device which will alr=
-eady hold a reference to the upstream bridge.
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  469  	 */
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  470  	while (a) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  471  		dist_b =3D 0;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  472  =
+5b316468983dfa9 Naohiro Aota       2020-11-10  371  	if (device->zone_info)
+5b316468983dfa9 Naohiro Aota       2020-11-10  372  		return 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  373  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  473  		if (pci_bridge_has_acs_=
-redir(a)) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  474  			seq_buf_print_bus_devf=
-n(&acs_list, a);
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  475  			acs_cnt++;
-e2cbfbf78968db Logan Gunthorpe   2019-08-12  476  		}
-e2cbfbf78968db Logan Gunthorpe   2019-08-12  477  =
+5b316468983dfa9 Naohiro Aota       2020-11-10  374  	zone_info =3D kzalloc(=
+sizeof(*zone_info), GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  375  	if (!zone_info)
+5b316468983dfa9 Naohiro Aota       2020-11-10  376  		return -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  377  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  478  		bb =3D b;
-110203bee05f33 Logan Gunthorpe   2019-08-12  479  =
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  378  	if (!bdev_is_zoned(bde=
+v)) {
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  379  		if (!fs_info->zone_si=
+ze) {
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  380  			ret =3D calculate_em=
+ulated_zone_size(fs_info);
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  381  			if (ret)
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  382  				goto out;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  383  		}
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  384  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  480  		while (bb) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  481  			if (a =3D=3D bb)
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  482  				goto check_b_path_acs;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  483  =
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  385  		ASSERT(fs_info->zone_=
+size);
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  386  		zone_sectors =3D fs_i=
+nfo->zone_size >> SECTOR_SHIFT;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  387  	} else {
+5b316468983dfa9 Naohiro Aota       2020-11-10  388  		zone_sectors =3D bdev=
+_zone_sectors(bdev);
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  389  	}
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  390  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  484  			bb =3D pci_upstream_br=
-idge(bb);
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  485  			dist_b++;
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  486  		}
-c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  487  =
+5b316468983dfa9 Naohiro Aota       2020-11-10  391  	/* Check if it's power=
+ of 2 (see is_power_of_2) */
+5b316468983dfa9 Naohiro Aota       2020-11-10  392  	ASSERT(zone_sectors !=
+=3D 0 && (zone_sectors & (zone_sectors - 1)) =3D=3D 0);
+5b316468983dfa9 Naohiro Aota       2020-11-10  393  	zone_info->zone_size =
+=3D zone_sectors << SECTOR_SHIFT;
+53b74fa990bf76f Naohiro Aota       2021-04-08  394  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  488  		a =3D pci_upstream_brid=
-ge(a);
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  489  		dist_a++;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  490  	}
-52916982af48d9 Logan Gunthorpe   2018-10-04  491  =
+53b74fa990bf76f Naohiro Aota       2021-04-08  395  	/* We reject devices w=
+ith a zone size larger than 8GB */
+53b74fa990bf76f Naohiro Aota       2021-04-08  396  	if (zone_info->zone_si=
+ze > BTRFS_MAX_ZONE_SIZE) {
+53b74fa990bf76f Naohiro Aota       2021-04-08  397  		btrfs_err_in_rcu(fs_i=
+nfo,
+53b74fa990bf76f Naohiro Aota       2021-04-08  398  		"zoned: %s: zone size=
+ %llu larger than supported maximum %llu",
+53b74fa990bf76f Naohiro Aota       2021-04-08  399  				 rcu_str_deref(devi=
+ce->name),
+53b74fa990bf76f Naohiro Aota       2021-04-08  400  				 zone_info->zone_si=
+ze, BTRFS_MAX_ZONE_SIZE);
+53b74fa990bf76f Naohiro Aota       2021-04-08  401  		ret =3D -EINVAL;
+53b74fa990bf76f Naohiro Aota       2021-04-08  402  		goto out;
+53b74fa990bf76f Naohiro Aota       2021-04-08  403  	}
+53b74fa990bf76f Naohiro Aota       2021-04-08  404  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  492  	*dist =3D dist_a + dist_=
-b;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  493  	goto map_through_host_br=
-idge;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  494  =
+53b74fa990bf76f Naohiro Aota       2021-04-08  405  	nr_sectors =3D bdev_nr=
+_sectors(bdev);
+5b316468983dfa9 Naohiro Aota       2020-11-10  406  	zone_info->zone_size_s=
+hift =3D ilog2(zone_info->zone_size);
+5b316468983dfa9 Naohiro Aota       2020-11-10  407  	zone_info->nr_zones =
+=3D nr_sectors >> ilog2(zone_sectors);
+5b316468983dfa9 Naohiro Aota       2020-11-10  408  	if (!IS_ALIGNED(nr_sec=
+tors, zone_sectors))
+5b316468983dfa9 Naohiro Aota       2020-11-10  409  		zone_info->nr_zones++;
+5b316468983dfa9 Naohiro Aota       2020-11-10  410  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  495  check_b_path_acs:
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  496  	bb =3D b;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  497  =
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  411  	max_active_zones =3D q=
+ueue_max_active_zones(queue);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  412  	if (max_active_zones &=
+& max_active_zones < BTRFS_MIN_ACTIVE_ZONES) {
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  413  		btrfs_err_in_rcu(fs_i=
+nfo,
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  414  "zoned: %s: max active =
+zones %u is too small, need@least %u active zones",
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  415  				 rcu_str_deref(devi=
+ce->name), max_active_zones,
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  416  				 BTRFS_MIN_ACTIVE_Z=
+ONES);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  417  		ret =3D -EINVAL;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  418  		goto out;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  419  	}
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  420  	zone_info->max_active_=
+zones =3D max_active_zones;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  421  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  498  	while (bb) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  499  		if (a =3D=3D bb)
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  500  			break;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  501  =
+5b316468983dfa9 Naohiro Aota       2020-11-10  422  	zone_info->seq_zones =
+=3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  423  	if (!zone_info->seq_zo=
+nes) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  424  		ret =3D -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  425  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  426  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  427  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  502  		if (pci_bridge_has_acs_=
-redir(bb)) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  503  			seq_buf_print_bus_devf=
-n(&acs_list, bb);
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  504  			acs_cnt++;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  505  		}
-52916982af48d9 Logan Gunthorpe   2018-10-04  506  =
+5b316468983dfa9 Naohiro Aota       2020-11-10  428  	zone_info->empty_zones=
+ =3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  429  	if (!zone_info->empty_=
+zones) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  430  		ret =3D -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  431  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  432  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  433  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  507  		bb =3D pci_upstream_bri=
-dge(bb);
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  508  	}
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  509  =
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  434  	zone_info->active_zone=
+s =3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  435  	if (!zone_info->active=
+_zones) {
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  436  		ret =3D -ENOMEM;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  437  		goto out;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  438  	}
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  439  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  510  	*dist =3D dist_a + dist_=
-b;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  511  =
+5b316468983dfa9 Naohiro Aota       2020-11-10  440  	zones =3D kcalloc(BTRF=
+S_REPORT_NR_ZONES, sizeof(struct blk_zone), GFP_KERNEL);
+5b316468983dfa9 Naohiro Aota       2020-11-10  441  	if (!zones) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  442  		ret =3D -ENOMEM;
+5b316468983dfa9 Naohiro Aota       2020-11-10  443  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  444  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  445  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  512  	if (!acs_cnt) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  513  		map_type =3D PCI_P2PDMA=
-_MAP_BUS_ADDR;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  514  		goto done;
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  515  	}
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  516  =
+1c0066baa869433 Naohiro Aota       2021-11-11  446  	/*
+1c0066baa869433 Naohiro Aota       2021-11-11  447  	 * Enable zone cache o=
+nly for a zoned device. On a non-zoned device, we
+1c0066baa869433 Naohiro Aota       2021-11-11  448  	 * fill the zone info =
+with emulated CONVENTIONAL zones, so no need to
+1c0066baa869433 Naohiro Aota       2021-11-11  449  	 * use the cache.
+1c0066baa869433 Naohiro Aota       2021-11-11  450  	 */
+1c0066baa869433 Naohiro Aota       2021-11-11  451  	if (populate_cache && =
+bdev_is_zoned(device->bdev)) {
+1c0066baa869433 Naohiro Aota       2021-11-11  452  		zone_info->zone_cache=
+ =3D vzalloc(sizeof(struct blk_zone) *
+1c0066baa869433 Naohiro Aota       2021-11-11  453  						zone_info->nr_zon=
+es);
+1c0066baa869433 Naohiro Aota       2021-11-11  454  		if (!zone_info->zone_=
+cache) {
+1c0066baa869433 Naohiro Aota       2021-11-11  455  			btrfs_err_in_rcu(dev=
+ice->fs_info,
+1c0066baa869433 Naohiro Aota       2021-11-11  456  				"zoned: failed to a=
+llocate zone cache for %s",
+1c0066baa869433 Naohiro Aota       2021-11-11  457  				rcu_str_deref(devic=
+e->name));
+1c0066baa869433 Naohiro Aota       2021-11-11  458  			ret =3D -ENOMEM;
+1c0066baa869433 Naohiro Aota       2021-11-11  459  			goto out;
+1c0066baa869433 Naohiro Aota       2021-11-11  460  		}
+1c0066baa869433 Naohiro Aota       2021-11-11  461  	}
+1c0066baa869433 Naohiro Aota       2021-11-11  462  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  517  	if (verbose) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  518  		acs_list.buffer[acs_lis=
-t.len-1] =3D 0; /* drop final semicolon */
-72583084e3fe33 Logan Gunthorpe   2019-08-12  519  		pci_warn(client, "ACS r=
-edirect is set between the client and provider (%s)\n",
-52916982af48d9 Logan Gunthorpe   2018-10-04  520  			 pci_name(provider));
-52916982af48d9 Logan Gunthorpe   2018-10-04  521  		pci_warn(client, "to di=
-sable ACS redirect for this path, add the kernel parameter: pci=3Ddisable_a=
-cs_redir=3D%s\n",
-52916982af48d9 Logan Gunthorpe   2018-10-04  522  			 acs_list.buffer);
-72583084e3fe33 Logan Gunthorpe   2019-08-12  523  	}
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  524  	acs_redirects =3D true;
-52916982af48d9 Logan Gunthorpe   2018-10-04  525  =
+1c0066baa869433 Naohiro Aota       2021-11-11  463  	device->zone_info =3D =
+zone_info;
+1c0066baa869433 Naohiro Aota       2021-11-11  464  =
 
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  526  map_through_host_bridge:
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  527  	if (!cpu_supports_p2pdma=
-() &&
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  528  	    !host_bridge_whiteli=
-st(provider, client, acs_redirects)) {
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  529  		if (verbose)
-72583084e3fe33 Logan Gunthorpe   2019-08-12  530  			pci_warn(client, "cann=
-ot be used for peer-to-peer DMA as the client and provider (%s) do not shar=
-e an upstream bridge or whitelisted host bridge\n",
-52916982af48d9 Logan Gunthorpe   2018-10-04  531  				 pci_name(provider));
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  532  		map_type =3D PCI_P2PDMA=
-_MAP_NOT_SUPPORTED;
-52916982af48d9 Logan Gunthorpe   2018-10-04  533  	}
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  534  done:
-ae21f835a5bda0 Eric Dumazet      2021-07-01  535  	rcu_read_lock();
-ae21f835a5bda0 Eric Dumazet      2021-07-01 @536  	p2pdma =3D rcu_dereferen=
-ce(provider->p2pdma);
-ae21f835a5bda0 Eric Dumazet      2021-07-01  537  	if (p2pdma)
-ae21f835a5bda0 Eric Dumazet      2021-07-01 @538  		xa_store(&p2pdma->map_t=
-ypes, map_types_idx(client),
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  539  			 xa_mk_value(map_type)=
-, GFP_KERNEL);
-ae21f835a5bda0 Eric Dumazet      2021-07-01  540  	rcu_read_unlock();
-d1b8dc09dd7124 Christoph Hellwig 2021-06-14  541  	return map_type;
-52916982af48d9 Logan Gunthorpe   2018-10-04  542  }
-52916982af48d9 Logan Gunthorpe   2018-10-04  543  =
+5b316468983dfa9 Naohiro Aota       2020-11-10  465  	/* Get zones type */
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  466  	nactive =3D 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  467  	while (sector < nr_sec=
+tors) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  468  		nr_zones =3D BTRFS_RE=
+PORT_NR_ZONES;
+5b316468983dfa9 Naohiro Aota       2020-11-10  469  		ret =3D btrfs_get_dev=
+_zones(device, sector << SECTOR_SHIFT, zones,
+5b316468983dfa9 Naohiro Aota       2020-11-10  470  					  &nr_zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  471  		if (ret)
+5b316468983dfa9 Naohiro Aota       2020-11-10  472  			goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  473  =
 
+5b316468983dfa9 Naohiro Aota       2020-11-10  474  		for (i =3D 0; i < nr_=
+zones; i++) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  475  			if (zones[i].type =
+=3D=3D BLK_ZONE_TYPE_SEQWRITE_REQ)
+5b316468983dfa9 Naohiro Aota       2020-11-10  476  				__set_bit(nreported=
+, zone_info->seq_zones);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  477  			switch (zones[i].con=
+d) {
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  478  			case BLK_ZONE_COND_E=
+MPTY:
+5b316468983dfa9 Naohiro Aota       2020-11-10  479  				__set_bit(nreported=
+, zone_info->empty_zones);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  480  				break;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  481  			case BLK_ZONE_COND_I=
+MP_OPEN:
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  482  			case BLK_ZONE_COND_E=
+XP_OPEN:
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  483  			case BLK_ZONE_COND_C=
+LOSED:
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  484  				__set_bit(nreported=
+, zone_info->active_zones);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  485  				nactive++;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  486  				break;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  487  			}
+5b316468983dfa9 Naohiro Aota       2020-11-10  488  			nreported++;
+5b316468983dfa9 Naohiro Aota       2020-11-10  489  		}
+5b316468983dfa9 Naohiro Aota       2020-11-10  490  		sector =3D zones[nr_z=
+ones - 1].start + zones[nr_zones - 1].len;
+5b316468983dfa9 Naohiro Aota       2020-11-10  491  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  492  =
 
-:::::: The code at line 536 was first introduced by commit
-:::::: ae21f835a5bda0ef1d00940373445693a764d89e PCI/P2PDMA: Finish RCU conv=
-ersion of pdev->p2pdma
+5b316468983dfa9 Naohiro Aota       2020-11-10  493  	if (nreported !=3D zon=
+e_info->nr_zones) {
+5b316468983dfa9 Naohiro Aota       2020-11-10  494  		btrfs_err_in_rcu(devi=
+ce->fs_info,
+5b316468983dfa9 Naohiro Aota       2020-11-10  495  				 "inconsistent numb=
+er of zones on %s (%u/%u)",
+5b316468983dfa9 Naohiro Aota       2020-11-10  496  				 rcu_str_deref(devi=
+ce->name), nreported,
+5b316468983dfa9 Naohiro Aota       2020-11-10  497  				 zone_info->nr_zone=
+s);
+5b316468983dfa9 Naohiro Aota       2020-11-10  498  		ret =3D -EIO;
+5b316468983dfa9 Naohiro Aota       2020-11-10  499  		goto out;
+5b316468983dfa9 Naohiro Aota       2020-11-10  500  	}
+5b316468983dfa9 Naohiro Aota       2020-11-10  501  =
 
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  502  	if (max_active_zones) {
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  503  		if (nactive > max_act=
+ive_zones) {
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  504  			btrfs_err_in_rcu(dev=
+ice->fs_info,
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  505  			"zoned: %u active zo=
+nes on %s exceeds max_active_zones %u",
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  506  					 nactive, rcu_str_=
+deref(device->name),
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  507  					 max_active_zones);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  508  			ret =3D -EIO;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  509  			goto out;
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  510  		}
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  511  		atomic_set(&zone_info=
+->active_zones_left,
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  512  			   max_active_zones =
+- nactive);
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  513  	}
+ea6f8ddcde63812 Naohiro Aota       2021-08-19  514  =
+
+12659251ca5df05 Naohiro Aota       2020-11-10  515  	/* Validate superblock=
+ log */
+12659251ca5df05 Naohiro Aota       2020-11-10  516  	nr_zones =3D BTRFS_NR_=
+SB_LOG_ZONES;
+12659251ca5df05 Naohiro Aota       2020-11-10  517  	for (i =3D 0; i < BTRF=
+S_SUPER_MIRROR_MAX; i++) {
+12659251ca5df05 Naohiro Aota       2020-11-10  518  		u32 sb_zone;
+12659251ca5df05 Naohiro Aota       2020-11-10  519  		u64 sb_wp;
+12659251ca5df05 Naohiro Aota       2020-11-10  520  		int sb_pos =3D BTRFS_=
+NR_SB_LOG_ZONES * i;
+12659251ca5df05 Naohiro Aota       2020-11-10  521  =
+
+12659251ca5df05 Naohiro Aota       2020-11-10  522  		sb_zone =3D sb_zone_n=
+umber(zone_info->zone_size_shift, i);
+12659251ca5df05 Naohiro Aota       2020-11-10  523  		if (sb_zone + 1 >=3D =
+zone_info->nr_zones)
+12659251ca5df05 Naohiro Aota       2020-11-10  524  			continue;
+12659251ca5df05 Naohiro Aota       2020-11-10  525  =
+
+5b434df8778771d Naohiro Aota       2021-05-27  526  		ret =3D btrfs_get_dev=
+_zones(device,
+5b434df8778771d Naohiro Aota       2021-05-27  527  					  zone_start_physi=
+cal(sb_zone, zone_info),
+12659251ca5df05 Naohiro Aota       2020-11-10  528  					  &zone_info->sb_z=
+ones[sb_pos],
+12659251ca5df05 Naohiro Aota       2020-11-10  529  					  &nr_zones);
+12659251ca5df05 Naohiro Aota       2020-11-10  530  		if (ret)
+12659251ca5df05 Naohiro Aota       2020-11-10  531  			goto out;
+12659251ca5df05 Naohiro Aota       2020-11-10  532  =
+
+12659251ca5df05 Naohiro Aota       2020-11-10  533  		if (nr_zones !=3D BTR=
+FS_NR_SB_LOG_ZONES) {
+12659251ca5df05 Naohiro Aota       2020-11-10  534  			btrfs_err_in_rcu(dev=
+ice->fs_info,
+12659251ca5df05 Naohiro Aota       2020-11-10  535  	"zoned: failed to read=
+ super block log zone info at devid %llu zone %u",
+12659251ca5df05 Naohiro Aota       2020-11-10  536  					 device->devid, sb=
+_zone);
+12659251ca5df05 Naohiro Aota       2020-11-10  537  			ret =3D -EUCLEAN;
+12659251ca5df05 Naohiro Aota       2020-11-10  538  			goto out;
+12659251ca5df05 Naohiro Aota       2020-11-10  539  		}
+12659251ca5df05 Naohiro Aota       2020-11-10  540  =
+
+12659251ca5df05 Naohiro Aota       2020-11-10  541  		/*
+1a9fd4172d5c8ba David Sterba       2021-05-21  542  		 * If zones[0] is con=
+ventional, always use the beginning of the
+12659251ca5df05 Naohiro Aota       2020-11-10  543  		 * zone to record sup=
+erblock. No need to validate in that case.
+12659251ca5df05 Naohiro Aota       2020-11-10  544  		 */
+12659251ca5df05 Naohiro Aota       2020-11-10  545  		if (zone_info->sb_zon=
+es[BTRFS_NR_SB_LOG_ZONES * i].type =3D=3D
+12659251ca5df05 Naohiro Aota       2020-11-10  546  		    BLK_ZONE_TYPE_CON=
+VENTIONAL)
+12659251ca5df05 Naohiro Aota       2020-11-10  547  			continue;
+12659251ca5df05 Naohiro Aota       2020-11-10  548  =
+
+12659251ca5df05 Naohiro Aota       2020-11-10  549  		ret =3D sb_write_poin=
+ter(device->bdev,
+12659251ca5df05 Naohiro Aota       2020-11-10  550  				       &zone_info->=
+sb_zones[sb_pos], &sb_wp);
+12659251ca5df05 Naohiro Aota       2020-11-10  551  		if (ret !=3D -ENOENT =
+&& ret) {
+12659251ca5df05 Naohiro Aota       2020-11-10  552  			btrfs_err_in_rcu(dev=
+ice->fs_info,
+12659251ca5df05 Naohiro Aota       2020-11-10  553  			"zoned: super block =
+log zone corrupted devid %llu zone %u",
+12659251ca5df05 Naohiro Aota       2020-11-10  554  					 device->devid, sb=
+_zone);
+12659251ca5df05 Naohiro Aota       2020-11-10  555  			ret =3D -EUCLEAN;
+12659251ca5df05 Naohiro Aota       2020-11-10  556  			goto out;
+12659251ca5df05 Naohiro Aota       2020-11-10  557  		}
+12659251ca5df05 Naohiro Aota       2020-11-10  558  	}
+12659251ca5df05 Naohiro Aota       2020-11-10  559  =
+
+12659251ca5df05 Naohiro Aota       2020-11-10  560  =
+
+5b316468983dfa9 Naohiro Aota       2020-11-10  561  	kfree(zones);
+5b316468983dfa9 Naohiro Aota       2020-11-10  562  =
+
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  563  	switch (bdev_zoned_mod=
+el(bdev)) {
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  564  	case BLK_ZONED_HM:
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  565  		model =3D "host-manag=
+ed zoned";
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  566  		emulated =3D "";
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  567  		break;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  568  	case BLK_ZONED_HA:
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  569  		model =3D "host-aware=
+ zoned";
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  570  		emulated =3D "";
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  571  		break;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  572  	case BLK_ZONED_NONE:
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  573  		model =3D "regular";
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  574  		emulated =3D "emulate=
+d ";
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  575  		break;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  576  	default:
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  577  		/* Just in case */
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  578  		btrfs_err_in_rcu(fs_i=
+nfo, "zoned: unsupported model %d on %s",
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  579  				 bdev_zoned_model(b=
+dev),
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  580  				 rcu_str_deref(devi=
+ce->name));
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  581  		ret =3D -EOPNOTSUPP;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  582  		goto out_free_zone_in=
+fo;
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  583  	}
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  584  =
+
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  585  	btrfs_info_in_rcu(fs_i=
+nfo,
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  586  		"%s block device %s, =
+%u %szones of %llu bytes",
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  587  		model, rcu_str_deref(=
+device->name), zone_info->nr_zones,
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  588  		emulated, zone_info->=
+zone_size);
+5b316468983dfa9 Naohiro Aota       2020-11-10  589  =
+
+5b316468983dfa9 Naohiro Aota       2020-11-10  590  	return 0;
+5b316468983dfa9 Naohiro Aota       2020-11-10  591  =
+
+5b316468983dfa9 Naohiro Aota       2020-11-10  592  out:
+5b316468983dfa9 Naohiro Aota       2020-11-10  593  	kfree(zones);
+3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  594  out_free_zone_info:
+0a2a39576fa1dd6 Johannes Thumshirn 2021-12-07  595  	btrfs_destroy_dev_zone=
+_info(device);
+5b316468983dfa9 Naohiro Aota       2020-11-10  596  =
+
+5b316468983dfa9 Naohiro Aota       2020-11-10 @597  	return ret;
+5b316468983dfa9 Naohiro Aota       2020-11-10  598  }
+5b316468983dfa9 Naohiro Aota       2020-11-10  599  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4640617147473369271==--
+--===============1706922628501886357==--
 
