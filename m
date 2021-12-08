@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6513997857136687334=="
+Content-Type: multipart/mixed; boundary="===============6060046830747054293=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: net/ceph/messenger_v2.c:370:9: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Wed, 08 Dec 2021 08:51:52 +0800
-Message-ID: <202112080801.YmDXWRX6-lkp@intel.com>
+Subject: drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments...
+Date: Wed, 08 Dec 2021 08:10:47 +0800
+Message-ID: <202112080821.gP9oyZCP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6513997857136687334==
+--===============6060046830747054293==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ilya Dryomov <idryomov@gmail.com>
+TO: Mario Limonciello <mario.limonciello@dell.com>
+CC: Hans de Goede <hdegoede@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
-commit: cd1a677cad994021b19665ed476aea63f5d54f31 libceph, ceph: implement m=
-sgr2.1 protocol (crc and secure modes)
-date:   12 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20211207 (https://download.01.org/0day-ci/arc=
-hive/20211208/202112080801.YmDXWRX6-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+commit: f1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28 platform/x86: Move all del=
+l drivers to their own subdirectory
+date:   10 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
+chive/20211208/202112080821.gP9oyZCP-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
+97ef3ee4dc2119d5429adf3072e90fac38)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dcd1a677cad994021b19665ed476aea63f5d54f31
+t/commit/?id=3Df1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout cd1a677cad994021b19665ed476aea63f5d54f31
+        git checkout f1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,261 +50,705 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^~~~~~~~~~~~~~~~~~~
-   net/rds/message.c:176:7: note: Assuming the condition is false
-           WARN(!refcount_read(&rm->m_refcount), "danger refcount zero on %=
-p\n", rm);
-                ^
-   include/asm-generic/bug.h:195:25: note: expanded from macro 'WARN'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   net/rds/message.c:176:2: note: Taking false branch
-           WARN(!refcount_read(&rm->m_refcount), "danger refcount zero on %=
-p\n", rm);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/stat.c:207:9: note: Calling 'vfs_statx'
+           return vfs_statx(dfd, filename, flags | AT_NO_AUTOMOUNT,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/stat.c:173:2: note: Taking false branch
+           if (flags & ~(AT_SYMLINK_NOFOLLOW | AT_NO_AUTOMOUNT | AT_EMPTY_P=
+ATH |
            ^
-   include/asm-generic/bug.h:196:2: note: expanded from macro 'WARN'
-           no_printk(format);                                              \
+   fs/stat.c:177:2: note: Taking false branch
+           if (!(flags & AT_SYMLINK_NOFOLLOW))
            ^
-   include/linux/printk.h:139:2: note: expanded from macro 'no_printk'
-           if (0)                                          \
+   fs/stat.c:179:2: note: Taking false branch
+           if (!(flags & AT_NO_AUTOMOUNT))
            ^
-   net/rds/message.c:177:2: note: Taking true branch
-           if (refcount_dec_and_test(&rm->m_refcount)) {
+   fs/stat.c:181:2: note: Taking false branch
+           if (flags & AT_EMPTY_PATH)
            ^
-   net/rds/message.c:178:3: note: Assuming the condition is false
-                   BUG_ON(!list_empty(&rm->m_sock_item));
+   fs/stat.c:186:6: note: Assuming 'error' is 0
+           if (error)
+               ^~~~~
+   fs/stat.c:186:2: note: Taking false branch
+           if (error)
+           ^
+   fs/stat.c:189:10: note: Calling 'vfs_getattr'
+           error =3D vfs_getattr(&path, stat, request_mask, flags);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/stat.c:122:6: note: Assuming 'retval' is not equal to 0
+           if (retval)
+               ^~~~~~
+   fs/stat.c:122:2: note: Taking true branch
+           if (retval)
+           ^
+   fs/stat.c:123:3: note: Returning without writing to '->result_mask'
+                   return retval;
                    ^
-   include/asm-generic/bug.h:183:36: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rds/message.c:178:3: note: Taking false branch
-                   BUG_ON(!list_empty(&rm->m_sock_item));
-                   ^
-   include/asm-generic/bug.h:183:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   net/rds/message.c:178:3: note: Loop condition is false.  Exiting loop
-                   BUG_ON(!list_empty(&rm->m_sock_item));
-                   ^
-   include/asm-generic/bug.h:183:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   net/rds/message.c:179:3: note: Assuming the condition is false
-                   BUG_ON(!list_empty(&rm->m_conn_item));
-                   ^
-   include/asm-generic/bug.h:183:36: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                      ^~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:22: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/rds/message.c:179:3: note: Taking false branch
-                   BUG_ON(!list_empty(&rm->m_conn_item));
-                   ^
-   include/asm-generic/bug.h:183:32: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                                  ^
-   net/rds/message.c:179:3: note: Loop condition is false.  Exiting loop
-                   BUG_ON(!list_empty(&rm->m_conn_item));
-                   ^
-   include/asm-generic/bug.h:183:27: note: expanded from macro 'BUG_ON'
-   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
-0)
-                             ^
-   net/rds/message.c:182:3: note: Memory is released
-                   kfree(rm);
-                   ^~~~~~~~~
-   net/rds/message.c:350:3: note: Returning; memory was released via 1st pa=
-rameter
-                   rds_message_put(rm);
-                   ^~~~~~~~~~~~~~~~~~~
-   net/rds/message.c:351:19: note: Use of memory after it is freed
-                   return ERR_CAST(rm->data.op_sg);
-                                   ^~~~~~~~~~~~~~
-   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   fs/stat.c:189:10: note: Returning from 'vfs_getattr'
+           error =3D vfs_getattr(&path, stat, request_mask, flags);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/stat.c:191:20: note: The left expression of the compound assignment i=
+s an uninitialized value. The computed value will also be garbage
+           stat->result_mask |=3D STATX_MNT_ID;
+           ~~~~~~~~~~~~~~~~~ ^
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/char/tpm/tpm_tis_core.c:455:2: warning: Value stored to 'rc' is =
+never read [clang-analyzer-deadcode.DeadStores]
+           rc =3D tpm_tis_write32(priv, TPM_INT_ENABLE(priv->locality), int=
+mask);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/char/tpm/tpm_tis_core.c:455:2: note: Value stored to 'rc' is nev=
+er read
+           rc =3D tpm_tis_write32(priv, TPM_INT_ENABLE(priv->locality), int=
+mask);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/char/tpm/tpm_infineon.c:172:3: warning: Value stored to 'status'=
+ is never read [clang-analyzer-deadcode.DeadStores]
+                   status =3D tpm_data_in(RDFIFO);
+                   ^        ~~~~~~~~~~~~~~~~~~~
+   drivers/char/tpm/tpm_infineon.c:172:3: note: Value stored to 'status' is=
+ never read
+                   status =3D tpm_data_in(RDFIFO);
+                   ^        ~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    6 warnings generated.
-   sound/soc/codecs/cs42l73.c:1329:2: warning: Value stored to 'ret' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_read(cs42l73->regmap, CS42L73_DEVID_AB, &reg);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l73.c:1329:2: note: Value stored to 'ret' is never =
-read
-           ret =3D regmap_read(cs42l73->regmap, CS42L73_DEVID_AB, &reg);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l73.c:1332:2: warning: Value stored to 'ret' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_read(cs42l73->regmap, CS42L73_DEVID_CD, &reg);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l73.c:1332:2: note: Value stored to 'ret' is never =
-read
-           ret =3D regmap_read(cs42l73->regmap, CS42L73_DEVID_CD, &reg);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l73.c:1335:2: warning: Value stored to 'ret' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           ret =3D regmap_read(cs42l73->regmap, CS42L73_DEVID_E, &reg);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/soc/codecs/cs42l73.c:1335:2: note: Value stored to 'ret' is never =
-read
-           ret =3D regmap_read(cs42l73->regmap, CS42L73_DEVID_E, &reg);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
->> net/ceph/messenger_v2.c:370:9: warning: Dereference of null pointer [cla=
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:160:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier, ";");
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:160:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier, ";");
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:166:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:166:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:168:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues, ";");
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:168:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues, ";");
+                   ^~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/w1/slaves/w1_ds28e17.c:723:2: warning: Call to function 'strcat'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcat(data->adapter.name, sl->name);
+           ^~~~~~
+   drivers/w1/slaves/w1_ds28e17.c:723:2: note: Call to function 'strcat' is=
+ insecure as it does not provide bounding of the memory buffer. Replace unb=
+ounded copy functions with analogous functions that support length argument=
+s such as 'strlcat'. CWE-119
+           strcat(data->adapter.name, sl->name);
+           ^~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   include/linux/skbuff.h:2071:2: warning: Dereference of null pointer [cla=
 ng-analyzer-core.NullDereference]
-           return le32_to_cpu(msg->hdr.data_len);
-                  ^
-   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32=
-_to_cpu'
-   #define le32_to_cpu __le32_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:34:50: note: expanded from =
-macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                    ^
-   net/ceph/messenger_v2.c:3031:2: note: Taking false branch
-           dout("%s con %p state %d have %zu\n", __func__, con, con->state,
+           WRITE_ONCE(next->prev, prev);
            ^
-   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
-                   if (0)                                          \
-                   ^
-   net/ceph/messenger_v2.c:3031:2: note: Loop condition is false.  Exiting =
-loop
-           dout("%s con %p state %d have %zu\n", __func__, con, con->state,
+   include/asm-generic/rwonce.h:61:2: note: expanded from macro 'WRITE_ONCE'
+           __WRITE_ONCE(x, val);                                           \
            ^
-   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
-   #  define dout(fmt, ...)        do {                            \
-                                   ^
-   net/ceph/messenger_v2.c:3035:6: note: Assuming field 'state' is not equa=
-l to CEPH_CON_S_PREOPEN
-           if (con->state =3D=3D CEPH_CON_S_PREOPEN) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:3035:2: note: Taking false branch
-           if (con->state =3D=3D CEPH_CON_S_PREOPEN) {
-           ^
-   net/ceph/messenger_v2.c:3070:6: note: Assuming the condition is true
-           if (!iov_iter_count(&con->v2.out_iter)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:3070:2: note: Taking true branch
-           if (!iov_iter_count(&con->v2.out_iter)) {
-           ^
-   net/ceph/messenger_v2.c:3071:9: note: Calling 'populate_out_iter'
-                   ret =3D populate_out_iter(con);
-                         ^~~~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:2953:2: note: Taking false branch
-           dout("%s con %p state %d out_state %d\n", __func__, con, con->st=
-ate,
-           ^
-   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
-                   if (0)                                          \
-                   ^
-   net/ceph/messenger_v2.c:2953:2: note: Loop condition is false.  Exiting =
-loop
-           dout("%s con %p state %d out_state %d\n", __func__, con, con->st=
-ate,
-           ^
-   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
-   #  define dout(fmt, ...)        do {                            \
-                                   ^
-   net/ceph/messenger_v2.c:2957:6: note: Assuming field 'state' is equal to=
- CEPH_CON_S_OPEN
-           if (con->state !=3D CEPH_CON_S_OPEN) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:2957:2: note: Taking false branch
-           if (con->state !=3D CEPH_CON_S_OPEN) {
-           ^
-   net/ceph/messenger_v2.c:2963:2: note: Control jumps to 'case 1:'  at lin=
-e 2964
-           switch (con->v2.out_state) {
-           ^
-   net/ceph/messenger_v2.c:2965:11: note: Assuming field 'out_msg' is null
-                   WARN_ON(!con->out_msg);
-                           ^
-   include/asm-generic/bug.h:188:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
+   include/asm-generic/rwonce.h:55:30: note: expanded from macro '__WRITE_O=
+NCE'
+           *(volatile typeof(x) *)&(x) =3D (val);                          =
   \
-                                  ^~~~~~~~~
-   net/ceph/messenger_v2.c:2966:3: note: Calling 'queue_data'
-                   queue_data(con);
-                   ^~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:2846:16: note: Passing null pointer value via 1s=
-t parameter 'msg'
-                                     data_len(con->out_msg));
-                                              ^~~~~~~~~~~~
-   net/ceph/messenger_v2.c:2846:7: note: Calling 'data_len'
-                                     data_len(con->out_msg));
-                                     ^~~~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:370:9: note: Dereference of null pointer
-           return le32_to_cpu(msg->hdr.data_len);
-                  ^
-   include/linux/byteorder/generic.h:89:21: note: expanded from macro 'le32=
-_to_cpu'
-   #define le32_to_cpu __le32_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:34:50: note: expanded from =
-macro '__le32_to_cpu'
-   #define __le32_to_cpu(x) ((__force __u32)(__le32)(x))
-                                                    ^~~
-   net/ceph/messenger_v2.c:2538:10: warning: Access to field 'con' results =
-in a dereference of a null pointer (loaded from field 'in_msg') [clang-anal=
-yzer-core.NullDereference]
-           WARN_ON(con->in_msg->con !=3D con);
-                   ^
-   net/ceph/messenger_v2.c:2812:2: note: Taking false branch
-           dout("%s con %p state %d need %zu\n", __func__, con, con->state,
+                                       ^
+   net/ipv6/ip6_output.c:1799:8: note: Calling '__skb_dequeue'
+           skb =3D __skb_dequeue(queue);
+                 ^~~~~~~~~~~~~~~~~~~~
+   include/linux/skbuff.h:2086:6: note: Assuming 'skb' is non-null
+           if (skb)
+--
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (10 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/media/tuners/r820t.c:1856:2: warning: Value stored to 'rc' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+           rc =3D r820t_section(priv, compare_iq);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/tuners/r820t.c:1856:2: note: Value stored to 'rc' is never=
+ read
+           rc =3D r820t_section(priv, compare_iq);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/staging/comedi/drivers/das08.c:181:2: warning: Value stored to '=
+range' is never read [clang-analyzer-deadcode.DeadStores]
+           range =3D CR_RANGE(insn->chanspec);
            ^
-   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
-                   if (0)                                          \
-                   ^
-   net/ceph/messenger_v2.c:2812:2: note: Loop condition is false.  Exiting =
-loop
-           dout("%s con %p state %d need %zu\n", __func__, con, con->state,
+   drivers/staging/comedi/drivers/das08.c:181:2: note: Value stored to 'ran=
+ge' is never read
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/platform/x86/dell/dell-laptop.c:1596:4: warning: Value stored to=
+ 'unit' is never read [clang-analyzer-deadcode.DeadStores]
+                           unit =3D KBD_TIMEOUT_SECONDS;
+                           ^      ~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/dell/dell-laptop.c:1596:4: note: Value stored to 'u=
+nit' is never read
+                           unit =3D KBD_TIMEOUT_SECONDS;
+                           ^      ~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/staging/comedi/drivers/das800.c:90:8: warning: Excessive padding=
+ in 'struct das800_board' (8 padding bytes, where 0 is optimal). =
+
+   Optimal fields order: =
+
+   name, =
+
+   ai_range, =
+
+   ai_speed, =
+
+   resolution, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct das800_board {
+   ~~~~~~~^~~~~~~~~~~~~~
+   drivers/staging/comedi/drivers/das800.c:90:8: note: Excessive padding in=
+ 'struct das800_board' (8 padding bytes, where 0 is optimal). Optimal field=
+s order: name, ai_range, ai_speed, resolution, consider reordering the fiel=
+ds or adding explicit padding members
+   struct das800_board {
+   ~~~~~~~^~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   drivers/staging/comedi/drivers/dt2814.c:203:2: warning: Value stored to =
+'data' is never read [clang-analyzer-deadcode.DeadStores]
+           data =3D (hi << 4) | (lo >> 4);
+           ^      ~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/comedi/drivers/dt2814.c:203:2: note: Value stored to 'da=
+ta' is never read
+           data =3D (hi << 4) | (lo >> 4);
+           ^      ~~~~~~~~~~~~~~~~~~~~~
+   drivers/staging/comedi/drivers/dt2814.c:244:2: warning: Value stored to =
+'i' is never read [clang-analyzer-deadcode.DeadStores]
+           i =3D inb(dev->iobase + DT2814_DATA);
            ^
-   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
-   #  define dout(fmt, ...)        do {                            \
-                                   ^
-   net/ceph/messenger_v2.c:2815:6: note: Assuming field 'state' is not equa=
-l to CEPH_CON_S_PREOPEN
-           if (con->state =3D=3D CEPH_CON_S_PREOPEN)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ceph/messenger_v2.c:2815:2: note: Taking false branch
-           if (con->state =3D=3D CEPH_CON_S_PREOPEN)
+   drivers/staging/comedi/drivers/dt2814.c:244:2: note: Value stored to 'i'=
+ is never read
+   drivers/staging/comedi/drivers/dt2814.c:245:2: warning: Value stored to =
+'i' is never read [clang-analyzer-deadcode.DeadStores]
+           i =3D inb(dev->iobase + DT2814_DATA);
+           ^
+   drivers/staging/comedi/drivers/dt2814.c:245:2: note: Value stored to 'i'=
+ is never read
+   Suppressed 8 warnings (6 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
 
-vim +370 net/ceph/messenger_v2.c
+vim +158 drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c
 
-cd1a677cad9940 Ilya Dryomov 2020-11-19  367  =
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  129  =
 
-cd1a677cad9940 Ilya Dryomov 2020-11-19  368  static int data_len(const stru=
-ct ceph_msg *msg)
-cd1a677cad9940 Ilya Dryomov 2020-11-19  369  {
-cd1a677cad9940 Ilya Dryomov 2020-11-19 @370  	return le32_to_cpu(msg->hdr.d=
-ata_len);
-cd1a677cad9940 Ilya Dryomov 2020-11-19  371  }
-cd1a677cad9940 Ilya Dryomov 2020-11-19  372  =
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  130  /**
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  131   * populate_enum_data() - Populate all propertie=
+s of an instance under enumeration attribute
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  132   * @enumeration_obj: ACPI object with enumeratio=
+n data
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  133   * @instance_id: The instance to enumerate
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  134   * @attr_name_kobj: The parent kernel object
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  135   */
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  136  int populate_enum_data(union acpi_object *enumer=
+ation_obj, int instance_id,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  137  			struct kobject *attr_name_kobj)
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  138  {
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  139  	int i, next_obj, value_modifier_count, possible=
+_values_count;
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  140  =
 
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  141  	wmi_priv.enumeration_data[instance_id].attr_nam=
+e_kobj =3D attr_name_kobj;
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  142  	strlcpy_attr(wmi_priv.enumeration_data[instance=
+_id].attribute_name,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  143  		enumeration_obj[ATTR_NAME].string.pointer);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  144  	strlcpy_attr(wmi_priv.enumeration_data[instance=
+_id].display_name_language_code,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  145  		enumeration_obj[DISPL_NAME_LANG_CODE].string.p=
+ointer);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  146  	strlcpy_attr(wmi_priv.enumeration_data[instance=
+_id].display_name,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  147  		enumeration_obj[DISPLAY_NAME].string.pointer);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  148  	strlcpy_attr(wmi_priv.enumeration_data[instance=
+_id].default_value,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  149  		enumeration_obj[DEFAULT_VAL].string.pointer);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  150  	strlcpy_attr(wmi_priv.enumeration_data[instance=
+_id].dell_modifier,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  151  		enumeration_obj[MODIFIER].string.pointer);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  152  =
+
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  153  	next_obj =3D MODIFIER + 1;
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  154  =
+
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  155  	value_modifier_count =3D (uintptr_t)enumeration=
+_obj[next_obj].string.pointer;
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  156  =
+
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  157  	for (i =3D 0; i < value_modifier_count; i++) {
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27 @158  		strcat(wmi_priv.enumeration_data[instance_id].=
+dell_value_modifier,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  159  			enumeration_obj[++next_obj].string.pointer);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  160  		strcat(wmi_priv.enumeration_data[instance_id].=
+dell_value_modifier, ";");
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  161  	}
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  162  =
+
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  163  	possible_values_count =3D (uintptr_t) enumerati=
+on_obj[++next_obj].string.pointer;
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  164  =
+
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  165  	for (i =3D 0; i < possible_values_count; i++) {
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  166  		strcat(wmi_priv.enumeration_data[instance_id].=
+possible_values,
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  167  			enumeration_obj[++next_obj].string.pointer);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  168  		strcat(wmi_priv.enumeration_data[instance_id].=
+possible_values, ";");
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  169  	}
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  170  =
+
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  171  	return sysfs_create_group(attr_name_kobj, &enum=
+eration_attr_group);
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  172  }
+e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
+ Bharathi 2020-10-27  173  =
+
+
+:::::: The code@line 158 was first introduced by commit
+:::::: e8a60aa7404bfef37705da5607c97737073ac38d platform/x86: Introduce sup=
+port for Systems Management Driver over WMI for Dell Systems
+
+:::::: TO: Divya Bharathi <divya.bharathi@dell.com>
+:::::: CC: Hans de Goede <hdegoede@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6513997857136687334==--
+--===============6060046830747054293==--
 
