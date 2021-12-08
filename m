@@ -1,91 +1,172 @@
-Content-Type: multipart/mixed; boundary="===============6352138992271467189=="
+Content-Type: multipart/mixed; boundary="===============5233901460018201024=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/controller/pcie-apple.c:177:33: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Wed, 08 Dec 2021 11:15:44 +0800
-Message-ID: <202112081140.7MWl5B2K-lkp@intel.com>
+Subject: [hch-misc:dax-block-cleanup 26/29] fs/erofs/data.c:222 erofs_iomap_begin() warn: bitwise AND condition is false here
+Date: Wed, 08 Dec 2021 11:15:41 +0800
+Message-ID: <202112081141.QkkIyJOC-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6352138992271467189==
+--===============5233901460018201024==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Marc Zyngier <maz@kernel.org>
-CC: Bjorn Helgaas <helgaas@kernel.org>
-CC: Lorenzo Pieralisi <lorenzo.pieralisi@arm.com>
+TO: Christoph Hellwig <hch@lst.de>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
-commit: d8fcbe52d7d382106ab1dfa89c4b6a4952524125 PCI: apple: Add INTx and p=
-er-port interrupt support
-date:   5 weeks ago
-:::::: branch date: 27 hours ago
-:::::: commit date: 5 weeks ago
-compiler: sparc64-linux-gcc (GCC) 11.2.0
+tree:   git://git.infradead.org/users/hch/misc.git dax-block-cleanup
+head:   85eeeba6accd7ba7457ab6c8905863a74458f063
+commit: 73389747fc322d376dc89b9ab5aadef1ddbe51d2 [26/29] fsdax: shift parti=
+tion offset handling into the file systems
+:::::: branch date: 9 days ago
+:::::: commit date: 9 days ago
+config: x86_64-randconfig-m001-20211201 (https://download.01.org/0day-ci/ar=
+chive/20211208/202112081141.QkkIyJOC-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+fs/erofs/data.c:222 erofs_iomap_begin() warn: bitwise AND condition is fals=
+e here
+fs/ext4/inode.c:3292 ext4_set_iomap() warn: bitwise AND condition is false =
+here
+fs/xfs/xfs_iomap.c:74 xfs_bmbt_to_iomap() warn: bitwise AND condition is fa=
+lse here
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+fs/ext4/inode.c:381 ext4_da_update_reserve_space() warn: should 'used << sb=
+i->s_cluster_bits' be a 64 bit type?
+fs/ext4/inode.c:388 ext4_da_update_reserve_space() warn: should 'used << sb=
+i->s_cluster_bits' be a 64 bit type?
+fs/ext4/inode.c:1469 ext4_da_reserve_space() warn: should '(1) << sbi->s_cl=
+uster_bits' be a 64 bit type?
+fs/ext4/inode.c:1476 ext4_da_reserve_space() warn: should '(1) << sbi->s_cl=
+uster_bits' be a 64 bit type?
+fs/ext4/inode.c:1518 ext4_da_release_space() warn: should 'to_free << sbi->=
+s_cluster_bits' be a 64 bit type?
+fs/ext4/inode.c:2590 mpage_prepare_extent_to_map() warn: missing error code=
+ 'err'
+fs/ext4/inode.c:3315 ext4_set_iomap() warn: bitwise AND condition is false =
+here
+fs/ext4/inode.c:3320 ext4_set_iomap() warn: bitwise AND condition is false =
+here
+fs/ext4/inode.c:3359 ext4_iomap_alloc() warn: bitwise AND condition is fals=
+e here
+fs/ext4/inode.c:5581 ext4_file_getattr() warn: should '(()->i_reserved_data=
+_blocks) << (EXT4_SB(inode->i_sb))->s_cluster_bits' be a 64 bit type?
+fs/ext4/inode.c:6121 ext4_page_mkwrite() error: uninitialized symbol 'get_b=
+lock'.
+fs/xfs/xfs_iomap.c:85 xfs_bmbt_to_iomap() warn: bitwise AND condition is fa=
+lse here
+fs/xfs/xfs_iomap.c:239 xfs_iomap_write_direct() warn: bitwise AND condition=
+ is false here
+fs/xfs/xfs_iomap.c:630 imap_needs_alloc() warn: bitwise AND condition is fa=
+lse here
 
->> kernel/bpf/bpf_iter.c:456:12: warning: Boolean result is used in bitwise=
- operation. Clarify expression with parentheses. [clarifyCondition]
-    if (!ulen ^ !ubuf)
-              ^
-   kernel/bpf/bpf_iter.c:517:29: warning: Boolean result is used in bitwise=
- operation. Clarify expression with parentheses. [clarifyCondition]
-    if (bpfptr_is_null(ulinfo) ^ !linfo_len)
-                               ^
->> drivers/pci/controller/pcie-apple.c:177:33: warning: Boolean result is u=
-sed in bitwise operation. Clarify expression with parentheses. [clarifyCond=
-ition]
-    if (hwirq_is_intx(data->hwirq) ^ !!(type & IRQ_TYPE_LEVEL_MASK))
-                                   ^
->> drivers/pinctrl/mediatek/pinctrl-mtk-common-v2.c:964:14: warning: Boolea=
-n result is used in bitwise operation. Clarify expression with parentheses.=
- [clarifyCondition]
-     if (pullup ^ !t)
-                ^
->> drivers/pinctrl/mediatek/pinctrl-mtk-common-v2.c:286:2: warning: Address=
- of local auto-variable assigned to a function parameter. [autoVariables]
-    *gpio_chip =3D &hw->chip;
-    ^
+vim +222 fs/erofs/data.c
 
-vim +177 drivers/pci/controller/pcie-apple.c
+dfeab2e95a75a4 Gao Xiang         2021-10-14  198  =
 
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  169  =
+a08e67a0280215 Huang Jianan      2021-08-05  199  static int erofs_iomap_be=
+gin(struct inode *inode, loff_t offset, loff_t length,
+a08e67a0280215 Huang Jianan      2021-08-05  200  		unsigned int flags, str=
+uct iomap *iomap, struct iomap *srcmap)
+a08e67a0280215 Huang Jianan      2021-08-05  201  {
+a08e67a0280215 Huang Jianan      2021-08-05  202  	int ret;
+a08e67a0280215 Huang Jianan      2021-08-05  203  	struct erofs_map_blocks =
+map;
+dfeab2e95a75a4 Gao Xiang         2021-10-14  204  	struct erofs_map_dev mde=
+v;
+a08e67a0280215 Huang Jianan      2021-08-05  205  =
 
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  170  static int apple_port_irq_set_=
-type(struct irq_data *data, unsigned int type)
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  171  {
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  172  	/*
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  173  	 * It doesn't seem that there=
- is any way to configure the
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  174  	 * trigger, so assume INTx ha=
-ve to be level (as per the spec),
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  175  	 * and the rest is edge (whic=
-h looks likely).
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  176  	 */
-d8fcbe52d7d382 Marc Zyngier 2021-09-29 @177  	if (hwirq_is_intx(data->hwirq=
-) ^ !!(type & IRQ_TYPE_LEVEL_MASK))
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  178  		return -EINVAL;
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  179  =
+a08e67a0280215 Huang Jianan      2021-08-05  206  	map.m_la =3D offset;
+a08e67a0280215 Huang Jianan      2021-08-05  207  	map.m_llen =3D length;
+a08e67a0280215 Huang Jianan      2021-08-05  208  =
 
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  180  	irqd_set_trigger_type(data, t=
-ype);
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  181  	return 0;
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  182  }
-d8fcbe52d7d382 Marc Zyngier 2021-09-29  183  =
+c5aa903a59db27 Gao Xiang         2021-08-20  209  	ret =3D erofs_map_blocks=
+(inode, &map, EROFS_GET_BLOCKS_RAW);
+a08e67a0280215 Huang Jianan      2021-08-05  210  	if (ret < 0)
+a08e67a0280215 Huang Jianan      2021-08-05  211  		return ret;
+a08e67a0280215 Huang Jianan      2021-08-05  212  =
+
+dfeab2e95a75a4 Gao Xiang         2021-10-14  213  	mdev =3D (struct erofs_m=
+ap_dev) {
+dfeab2e95a75a4 Gao Xiang         2021-10-14  214  		.m_deviceid =3D map.m_d=
+eviceid,
+dfeab2e95a75a4 Gao Xiang         2021-10-14  215  		.m_pa =3D map.m_pa,
+dfeab2e95a75a4 Gao Xiang         2021-10-14  216  	};
+dfeab2e95a75a4 Gao Xiang         2021-10-14  217  	ret =3D erofs_map_dev(in=
+ode->i_sb, &mdev);
+dfeab2e95a75a4 Gao Xiang         2021-10-14  218  	if (ret)
+dfeab2e95a75a4 Gao Xiang         2021-10-14  219  		return ret;
+dfeab2e95a75a4 Gao Xiang         2021-10-14  220  =
+
+a08e67a0280215 Huang Jianan      2021-08-05  221  	iomap->offset =3D map.m_=
+la;
+73389747fc322d Christoph Hellwig 2021-11-29 @222  	if (flags & IOMAP_DAX) {
+73389747fc322d Christoph Hellwig 2021-11-29  223  		iomap->dax_dev =3D mdev=
+.m_daxdev;
+73389747fc322d Christoph Hellwig 2021-11-29  224  		iomap->offset +=3D mdev=
+.m_dax_part_off;
+73389747fc322d Christoph Hellwig 2021-11-29  225  	} else {
+73389747fc322d Christoph Hellwig 2021-11-29  226  		iomap->bdev =3D mdev.m_=
+bdev;
+73389747fc322d Christoph Hellwig 2021-11-29  227  	}
+a08e67a0280215 Huang Jianan      2021-08-05  228  	iomap->length =3D map.m_=
+llen;
+a08e67a0280215 Huang Jianan      2021-08-05  229  	iomap->flags =3D 0;
+771c994ea51f57 Gao Xiang         2021-08-05  230  	iomap->private =3D NULL;
+a08e67a0280215 Huang Jianan      2021-08-05  231  =
+
+a08e67a0280215 Huang Jianan      2021-08-05  232  	if (!(map.m_flags & EROF=
+S_MAP_MAPPED)) {
+a08e67a0280215 Huang Jianan      2021-08-05  233  		iomap->type =3D IOMAP_H=
+OLE;
+a08e67a0280215 Huang Jianan      2021-08-05  234  		iomap->addr =3D IOMAP_N=
+ULL_ADDR;
+a08e67a0280215 Huang Jianan      2021-08-05  235  		if (!iomap->length)
+a08e67a0280215 Huang Jianan      2021-08-05  236  			iomap->length =3D leng=
+th;
+a08e67a0280215 Huang Jianan      2021-08-05  237  		return 0;
+a08e67a0280215 Huang Jianan      2021-08-05  238  	}
+a08e67a0280215 Huang Jianan      2021-08-05  239  =
+
+a08e67a0280215 Huang Jianan      2021-08-05  240  	if (map.m_flags & EROFS_=
+MAP_META) {
+771c994ea51f57 Gao Xiang         2021-08-05  241  		struct page *ipage;
+771c994ea51f57 Gao Xiang         2021-08-05  242  =
+
+771c994ea51f57 Gao Xiang         2021-08-05  243  		iomap->type =3D IOMAP_I=
+NLINE;
+771c994ea51f57 Gao Xiang         2021-08-05  244  		ipage =3D erofs_get_met=
+a_page(inode->i_sb,
+dfeab2e95a75a4 Gao Xiang         2021-10-14  245  					    erofs_blknr(mdev=
+.m_pa));
+771c994ea51f57 Gao Xiang         2021-08-05  246  		if (IS_ERR(ipage))
+771c994ea51f57 Gao Xiang         2021-08-05  247  			return PTR_ERR(ipage);
+771c994ea51f57 Gao Xiang         2021-08-05  248  		iomap->inline_data =3D =
+page_address(ipage) +
+dfeab2e95a75a4 Gao Xiang         2021-10-14  249  					erofs_blkoff(mdev.m_=
+pa);
+771c994ea51f57 Gao Xiang         2021-08-05  250  		iomap->private =3D ipag=
+e;
+771c994ea51f57 Gao Xiang         2021-08-05  251  	} else {
+a08e67a0280215 Huang Jianan      2021-08-05  252  		iomap->type =3D IOMAP_M=
+APPED;
+dfeab2e95a75a4 Gao Xiang         2021-10-14  253  		iomap->addr =3D mdev.m_=
+pa;
+771c994ea51f57 Gao Xiang         2021-08-05  254  	}
+a08e67a0280215 Huang Jianan      2021-08-05  255  	return 0;
+a08e67a0280215 Huang Jianan      2021-08-05  256  }
+a08e67a0280215 Huang Jianan      2021-08-05  257  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6352138992271467189==--
+--===============5233901460018201024==--
 
