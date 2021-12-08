@@ -1,48 +1,65 @@
-Content-Type: multipart/mixed; boundary="===============3113168369410889754=="
+Content-Type: multipart/mixed; boundary="===============6729617433211085734=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:126:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 09 Dec 2021 00:45:10 +0800
-Message-ID: <202112090024.VQMLfzUB-lkp@intel.com>
+Subject: Re: [PATCH v3 03/13] perf/x86/amd: add AMD Fam19h Branch Sampling support
+Date: Wed, 08 Dec 2021 23:22:46 +0800
+Message-ID: <202112082317.3QE5iOQk-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3113168369410889754==
+--===============6729617433211085734==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Qing Zhang <zhangqing@loongson.cn>
-CC: Jiaxun Yang <jiaxun.yang@flygoat.com>
+In-Reply-To: <20211201010217.886919-4-eranian@google.com>
+References: <20211201010217.886919-4-eranian@google.com>
+TO: Stephane Eranian <eranian@google.com>
+TO: linux-kernel(a)vger.kernel.org
+CC: peterz(a)infradead.org
+CC: kim.phillips(a)amd.com
+CC: acme(a)redhat.com
+CC: jolsa(a)redhat.com
+CC: songliubraving(a)fb.com
+CC: mpe(a)ellerman.id.au
+CC: maddy(a)linux.ibm.com
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
-commit: 30bba69d7db40e732d6c0aa6d4890c60d717e314 stmmac: pci: Add dwmac sup=
-port for Loongson
-date:   6 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-c001-20211130 (https://download.01.org/0day-ci/arch=
-ive/20211209/202112090024.VQMLfzUB-lkp(a)intel.com/config)
+Hi Stephane,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on tip/perf/core]
+[also build test WARNING on tip/x86/core rafael-pm/linux-next v5.16-rc4 nex=
+t-20211207]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Stephane-Eranian/perf-x86-=
+amd-Add-AMD-Fam19h-Branch-Sampling-support/20211201-090506
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tip/tip.git a9f4a6e=
+92b3b319296fb078da2615f618f6cd80c
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: x86_64-randconfig-c007-20211128 (https://download.01.org/0day-ci/ar=
+chive/20211208/202112082317.3QE5iOQk-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 25eb7f=
 a01d7ebbe67648ea03841cda55b4239ab2)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D30bba69d7db40e732d6c0aa6d4890c60d717e314
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 30bba69d7db40e732d6c0aa6d4890c60d717e314
+        # https://github.com/0day-ci/linux/commit/c6b0817d81501a8bc31ddd706=
+7697dba4408d75f
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Stephane-Eranian/perf-x86-amd-Add-=
+AMD-Fam19h-Branch-Sampling-support/20211201-090506
+        git checkout c6b0817d81501a8bc31ddd7067697dba4408d75f
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,422 +67,288 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:76:6: warning: Bran=
-ch condition evaluates to a garbage value [clang-analyzer-core.uninitialize=
-d.Branch]
-           if (mdio) {
-               ^~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:52:14: note: 'mdio'=
- declared without an initial value
-           int ret, i, mdio;
-                       ^~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:55:7: note: Calling=
- 'dev_of_node'
-           np =3D dev_of_node(&pdev->dev);
-                ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:769:6: note: Left side of '||' is false
-           if (!IS_ENABLED(CONFIG_OF) || !dev)
-               ^
-   include/linux/device.h:769:32: note: Assuming 'dev' is non-null, which p=
-articipates in a condition later
-           if (!IS_ENABLED(CONFIG_OF) || !dev)
-                                         ^~~~
-   include/linux/device.h:769:2: note: Taking false branch
-           if (!IS_ENABLED(CONFIG_OF) || !dev)
-           ^
-   include/linux/device.h:771:2: note: Returning without writing to 'dev->o=
-f_node', which participates in a condition later
-           return dev->of_node;
-           ^
-   include/linux/device.h:771:2: note: Returning pointer, which participate=
-s in a condition later
-           return dev->of_node;
-           ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:55:7: note: Returni=
-ng from 'dev_of_node'
-           np =3D dev_of_node(&pdev->dev);
-                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:57:6: note: Assumin=
-g 'np' is non-null
-           if (!np) {
-               ^~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:57:2: note: Taking =
-false branch
-           if (!np) {
-           ^
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:62:6: note: Assumin=
-g the condition is false
-           if (!of_device_is_compatible(np, "loongson, pci-gmac")) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:62:2: note: Taking =
-false branch
-           if (!of_device_is_compatible(np, "loongson, pci-gmac")) {
-           ^
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:68:6: note: Assumin=
-g 'plat' is non-null
-           if (!plat)
-               ^~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:68:2: note: Taking =
-false branch
-           if (!plat)
-           ^
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:71:6: note: Assumin=
-g field 'mdio_node' is null
-           if (plat->mdio_node) {
-               ^~~~~~~~~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:71:2: note: Taking =
-false branch
-           if (plat->mdio_node) {
-           ^
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:76:6: note: Branch =
-condition evaluates to a garbage value
-           if (mdio) {
-               ^~~~
->> drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:126:3: warning: Val=
-ue stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:126:3: note: Value =
-stored to 'ret' is never read
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:138:3: warning: Val=
-ue stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c:138:3: note: Value =
-stored to 'ret' is never read
-                   ret =3D -ENODEV;
-                   ^     ~~~~~~~
-   Suppressed 16 warnings (15 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
+                                          ~~~~~~~~~~ ^
    Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
+   2 warnings generated.
+   fs/proc/proc_sysctl.c:1056:2: warning: Value stored to 'ret' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           ret =3D 0;
+           ^     ~
+   fs/proc/proc_sysctl.c:1056:2: note: Value stored to 'ret' is never read
+           ret =3D 0;
+           ^     ~
+   fs/proc/proc_sysctl.c:1214:3: warning: Value stored to 'link' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   link =3D find_entry(&head, dir, procname, strlen(procnam=
+e));
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/proc/proc_sysctl.c:1214:3: note: Value stored to 'link' is never read
+                   link =3D find_entry(&head, dir, procname, strlen(procnam=
+e));
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   fs/kernfs/dir.c:672:6: warning: Value stored to 'gen' during its initial=
+ization is never read [clang-analyzer-deadcode.DeadStores]
+           u32 gen =3D kernfs_id_gen(id);
+               ^~~   ~~~~~~~~~~~~~~~~~
+   fs/kernfs/dir.c:672:6: note: Value stored to 'gen' during its initializa=
+tion is never read
+           u32 gen =3D kernfs_id_gen(id);
+               ^~~   ~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   fs/kernfs/symlink.c:76:3: warning: Call to function 'strcpy' is insecure=
+ as it does not provide bounding of the memory buffer. Replace unbounded co=
+py functions with analogous functions that support length arguments such as=
+ 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(s, "../");
+                   ^~~~~~
+   fs/kernfs/symlink.c:76:3: note: Call to function 'strcpy' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcpy'. CWE-119
+                   strcpy(s, "../");
+                   ^~~~~~
+   11 warnings generated.
+   kernel/sched/core.c:5250:34: warning: Branch condition evaluates to a ga=
+rbage value [clang-analyzer-core.uninitialized.Branch]
+           if (sched_feat(LATENCY_WARN) && resched_latency)
+                                           ^~~~~~~~~~~~~~~
+   kernel/sched/core.c:5229:18: note: Loop condition is false.  Exiting loop
+           struct rq *rq =3D cpu_rq(cpu);
+                           ^
+   kernel/sched/sched.h:1365:24: note: expanded from macro 'cpu_rq'
+   #define cpu_rq(cpu)             (&per_cpu(runqueues, (cpu)))
+                                     ^
+   include/linux/percpu-defs.h:269:29: note: expanded from macro 'per_cpu'
+   #define per_cpu(var, cpu)       (*per_cpu_ptr(&(var), cpu))
+                                     ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   kernel/sched/core.c:5233:2: note: 'resched_latency' declared without an =
+initial value
+           u64 resched_latency;
+           ^~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:5244:6: note: Assuming the condition is false
+           if (sched_feat(LATENCY_WARN))
+               ^
+   kernel/sched/sched.h:1964:24: note: expanded from macro 'sched_feat'
+   #define sched_feat(x) (sysctl_sched_features & (1UL << __SCHED_FEAT_##x))
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:5244:2: note: Taking false branch
+           if (sched_feat(LATENCY_WARN))
+           ^
+   kernel/sched/core.c:5250:6: note: Assuming the condition is true
+           if (sched_feat(LATENCY_WARN) && resched_latency)
+               ^
+   kernel/sched/sched.h:1964:24: note: expanded from macro 'sched_feat'
+   #define sched_feat(x) (sysctl_sched_features & (1UL << __SCHED_FEAT_##x))
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:5250:6: note: Left side of '&&' is true
+           if (sched_feat(LATENCY_WARN) && resched_latency)
+               ^
+   kernel/sched/sched.h:1964:23: note: expanded from macro 'sched_feat'
+   #define sched_feat(x) (sysctl_sched_features & (1UL << __SCHED_FEAT_##x))
+                         ^
+   kernel/sched/core.c:5250:34: note: Branch condition evaluates to a garba=
+ge value
+           if (sched_feat(LATENCY_WARN) && resched_latency)
+                                           ^~~~~~~~~~~~~~~
+   kernel/sched/core.c:6253:3: warning: Value stored to 'rq' is never read =
+[clang-analyzer-deadcode.DeadStores]
+                   rq =3D context_switch(rq, prev, next, &rf);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:6253:3: note: Value stored to 'rq' is never read
+                   rq =3D context_switch(rq, prev, next, &rf);
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:9288:3: warning: Value stored to 'ptr' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   ptr =3D (unsigned long)kzalloc(ptr, GFP_NOWAIT);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/sched/core.c:9288:3: note: Value stored to 'ptr' is never read
+                   ptr =3D (unsigned long)kzalloc(ptr, GFP_NOWAIT);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (2 in non-user code, 6 with check filters).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   16 warnings generated.
-   drivers/misc/altera-stapl/altera.c:463:24: warning: Array access (from v=
-ariable 'proc_attributes') results in a null pointer dereference [clang-ana=
-lyzer-core.NullDereference]
-                                   proc_attributes[i] =3D
-                                   ~~~~~~~~~~~~~~~    ^
-   drivers/misc/altera-stapl/altera.c:229:2: note: 'proc_attributes' initia=
-lized to a null pointer value
-           u8 *proc_attributes =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~
-   drivers/misc/altera-stapl/altera.c:263:2: note: Assuming 'debug' is 0
-           dprintk("%s\n", __func__);
-           ^
-   drivers/misc/altera-stapl/altera.c:31:6: note: expanded from macro 'dpri=
-ntk'
-           if (debug) { \
-               ^~~~~
-   drivers/misc/altera-stapl/altera.c:263:2: note: Taking false branch
-           dprintk("%s\n", __func__);
-           ^
-   drivers/misc/altera-stapl/altera.c:31:2: note: expanded from macro 'dpri=
-ntk'
-           if (debug) { \
-           ^
-   drivers/misc/altera-stapl/altera.c:266:6: note: Assuming 'program_size' =
-is > 52
-           if (program_size > 52L) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/misc/altera-stapl/altera.c:266:2: note: Taking true branch
-           if (program_size > 52L) {
-           ^
-   drivers/misc/altera-stapl/altera.c:284:7: note: Assuming 'first_word' is=
- not equal to 1245793536
-           if ((first_word !=3D 0x4A414D00L) && (first_word !=3D 0x4A414D01=
-L)) {
-                ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/altera-stapl/altera.c:284:6: note: Left side of '&&' is true
-           if ((first_word !=3D 0x4A414D00L) && (first_word !=3D 0x4A414D01=
-L)) {
-               ^
-   drivers/misc/altera-stapl/altera.c:284:38: note: Assuming 'first_word' i=
-s equal to 1245793537
-           if ((first_word !=3D 0x4A414D00L) && (first_word !=3D 0x4A414D01=
-L)) {
-                                               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/altera-stapl/altera.c:284:2: note: Taking false branch
-           if ((first_word !=3D 0x4A414D00L) && (first_word !=3D 0x4A414D01=
-L)) {
-           ^
-   drivers/misc/altera-stapl/altera.c:290:6: note: Assuming 'sym_count' is =
-<=3D 0
-           if (sym_count <=3D 0)
-               ^~~~~~~~~~~~~~
-   drivers/misc/altera-stapl/altera.c:290:2: note: Taking true branch
-           if (sym_count <=3D 0)
-           ^
-   drivers/misc/altera-stapl/altera.c:291:3: note: Control jumps to line 419
-                   goto exit_done;
-                   ^
-   drivers/misc/altera-stapl/altera.c:419:6: note: 'status' is equal to 0
-           if (status !=3D 0)
-               ^~~~~~
-   drivers/misc/altera-stapl/altera.c:419:2: note: Taking false branch
-           if (status !=3D 0)
-           ^
-   drivers/misc/altera-stapl/altera.c:431:6: note: 'version' is > 0
-           if (version > 0) {
-               ^~~~~~~
-   drivers/misc/altera-stapl/altera.c:431:2: note: Taking true branch
-           if (version > 0) {
-           ^
-   drivers/misc/altera-stapl/altera.c:432:7: note: Assuming field 'action' =
-is not equal to NULL
-                   if (aconf->action =3D=3D NULL) {
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/altera-stapl/altera.c:432:3: note: Taking false branch
-                   if (aconf->action =3D=3D NULL) {
-                   ^
-   drivers/misc/altera-stapl/altera.c:437:17: note: Assuming 'i' is < 'acti=
-on_count'
-                           for (i =3D 0; (i < action_count) && !action_foun=
-d; ++i) {
-                                        ^~~~~~~~~~~~~~~~
-   drivers/misc/altera-stapl/altera.c:437:16: note: Left side of '&&' is tr=
-ue
-                           for (i =3D 0; (i < action_count) && !action_foun=
-d; ++i) {
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   2 warnings generated.
+>> arch/x86/events/amd/core.c:682:3: warning: Value stored to 'hwc' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   hwc =3D &cpuc->events[idx]->hw;
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/core.c:682:3: note: Value stored to 'hwc' is never r=
+ead
+                   hwc =3D &cpuc->events[idx]->hw;
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   arch/x86/events/amd/ibs.c:669:37: warning: The left operand of '&' is a =
+garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           if (check_rip && (ibs_data.regs[2] & IBS_RIP_INVALID)) {
+                                              ^
+   arch/x86/events/amd/ibs.c:720:13: note: Calling 'perf_ibs_handle_irq'
+           handled +=3D perf_ibs_handle_irq(&perf_ibs_op, regs);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/ibs.c:587:30: note: Loop condition is false.  Exitin=
+g loop
+           struct cpu_perf_ibs *pcpu =3D this_cpu_ptr(perf_ibs->pcpu);
                                        ^
-   drivers/misc/altera-stapl/altera.c:437:4: note: Loop condition is true. =
- Entering loop body
-                           for (i =3D 0; (i < action_count) && !action_foun=
-d; ++i) {
-                           ^
-   drivers/misc/altera-stapl/altera.c:443:5: note: Taking true branch
-                                   if (strncasecmp(aconf->action, name, str=
-len(name)) =3D=3D 0) {
+   include/linux/percpu-defs.h:265:27: note: expanded from macro 'this_cpu_=
+ptr'
+   #define this_cpu_ptr(ptr)       raw_cpu_ptr(ptr)
                                    ^
-   drivers/misc/altera-stapl/altera.c:437:17: note: Assuming 'i' is >=3D 'a=
-ction_count'
-                           for (i =3D 0; (i < action_count) && !action_foun=
-d; ++i) {
+   include/linux/percpu-defs.h:264:26: note: expanded from macro 'raw_cpu_p=
+tr'
+   #define raw_cpu_ptr(ptr)        per_cpu_ptr(ptr, 0)
+                                   ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   arch/x86/events/amd/ibs.c:598:6: note: Assuming the condition is false
+           if (!test_bit(IBS_STARTED, pcpu->state)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/ibs.c:598:2: note: Taking false branch
+           if (!test_bit(IBS_STARTED, pcpu->state)) {
+           ^
+   arch/x86/events/amd/ibs.c:612:19: note: Assuming 'event' is non-null
+           if (WARN_ON_ONCE(!event))
+                            ^
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^~~~~~~~~
+   arch/x86/events/amd/ibs.c:612:6: note: Taking false branch
+           if (WARN_ON_ONCE(!event))
+               ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   arch/x86/events/amd/ibs.c:612:2: note: Taking false branch
+           if (WARN_ON_ONCE(!event))
+           ^
+   arch/x86/events/amd/ibs.c:619:6: note: Assuming the condition is false
+           if (!(*buf++ & perf_ibs->valid_mask))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/ibs.c:619:2: note: Taking false branch
+           if (!(*buf++ & perf_ibs->valid_mask))
+           ^
+   arch/x86/events/amd/ibs.c:623:2: note: Calling 'perf_ibs_event_update'
+           perf_ibs_event_update(perf_ibs, event, config);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/ibs.c:361:2: note: Loop condition is false. Executio=
+n continues on line 361
+           while (!perf_event_try_update(event, count, 64)) {
+           ^
+   arch/x86/events/amd/ibs.c:623:2: note: Returning from 'perf_ibs_event_up=
+date'
+           perf_ibs_event_update(perf_ibs, event, config);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/ibs.c:625:7: note: Calling 'perf_ibs_set_period'
+           if (!perf_ibs_set_period(perf_ibs, hwc, &period))
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/ibs.c:316:13: note: Calling 'perf_event_set_period'
+           overflow =3D perf_event_set_period(hwc, 1<<4, perf_ibs->max_peri=
+od, period);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+   arch/x86/events/amd/ibs.c:114:6: note: Assuming the condition is true
+           if (unlikely(left <=3D -period)) {
+               ^
+   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:23:50: note: expanded from macro '__branch_chec=
+k__'
+   #define __branch_check__(x, expect, is_constant) ({                     \
+                                                    ^~~~~~~~~~~~~~~~~~~~~~~~
+   arch/x86/events/amd/ibs.c:114:2: note: Taking true branch
+           if (unlikely(left <=3D -period)) {
+           ^
+   arch/x86/events/amd/ibs.c:121:15: note: Assuming 'left' is >=3D 'min'
+           if (unlikely(left < (s64)min)) {
+                        ^
+   include/linux/compiler.h:48:41: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                             ^
+   include/linux/compiler.h:33:34: note: expanded from macro '__branch_chec=
+k__'
+                           ______r =3D __builtin_expect(!!(x), expect);    =
+  \
+                                                         ^
+   arch/x86/events/amd/ibs.c:121:15: note: 'left' is >=3D 'min'
+           if (unlikely(left < (s64)min)) {
+                        ^
+   include/linux/compiler.h:48:68: note: expanded from macro 'unlikely'
+   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
+                                                                        ^
 
-vim +/ret +126 drivers/net/ethernet/stmicro/stmmac/dwmac-loongson.c
+vim +/hwc +682 arch/x86/events/amd/core.c
 
-30bba69d7db40e Qing Zhang 2021-06-18   47  =
+c6b0817d81501a8 Stephane Eranian 2021-11-30  672  =
 
-30bba69d7db40e Qing Zhang 2021-06-18   48  static int loongson_dwmac_probe(=
-struct pci_dev *pdev, const struct pci_device_id *id)
-30bba69d7db40e Qing Zhang 2021-06-18   49  {
-30bba69d7db40e Qing Zhang 2021-06-18   50  	struct plat_stmmacenet_data *pl=
-at;
-30bba69d7db40e Qing Zhang 2021-06-18   51  	struct stmmac_resources res;
-30bba69d7db40e Qing Zhang 2021-06-18   52  	int ret, i, mdio;
-30bba69d7db40e Qing Zhang 2021-06-18   53  	struct device_node *np;
-30bba69d7db40e Qing Zhang 2021-06-18   54  =
+c6b0817d81501a8 Stephane Eranian 2021-11-30  673  static void amd_pmu_enabl=
+e_all(int added)
+c6b0817d81501a8 Stephane Eranian 2021-11-30  674  {
+c6b0817d81501a8 Stephane Eranian 2021-11-30  675  	struct cpu_hw_events *cp=
+uc =3D this_cpu_ptr(&cpu_hw_events);
+c6b0817d81501a8 Stephane Eranian 2021-11-30  676  	struct hw_perf_event *hw=
+c;
+c6b0817d81501a8 Stephane Eranian 2021-11-30  677  	int idx;
+c6b0817d81501a8 Stephane Eranian 2021-11-30  678  =
 
-30bba69d7db40e Qing Zhang 2021-06-18   55  	np =3D dev_of_node(&pdev->dev);
-30bba69d7db40e Qing Zhang 2021-06-18   56  =
+c6b0817d81501a8 Stephane Eranian 2021-11-30  679  	amd_brs_enable_all();
+c6b0817d81501a8 Stephane Eranian 2021-11-30  680  =
 
-30bba69d7db40e Qing Zhang 2021-06-18   57  	if (!np) {
-30bba69d7db40e Qing Zhang 2021-06-18   58  		pr_info("dwmac_loongson_pci: N=
-o OF node\n");
-30bba69d7db40e Qing Zhang 2021-06-18   59  		return -ENODEV;
-30bba69d7db40e Qing Zhang 2021-06-18   60  	}
-30bba69d7db40e Qing Zhang 2021-06-18   61  =
+c6b0817d81501a8 Stephane Eranian 2021-11-30  681  	for (idx =3D 0; idx < x8=
+6_pmu.num_counters; idx++) {
+c6b0817d81501a8 Stephane Eranian 2021-11-30 @682  		hwc =3D &cpuc->events[i=
+dx]->hw;
+c6b0817d81501a8 Stephane Eranian 2021-11-30  683  =
 
-30bba69d7db40e Qing Zhang 2021-06-18   62  	if (!of_device_is_compatible(np=
-, "loongson, pci-gmac")) {
-30bba69d7db40e Qing Zhang 2021-06-18   63  		pr_info("dwmac_loongson_pci: I=
-ncompatible OF node\n");
-30bba69d7db40e Qing Zhang 2021-06-18   64  		return -ENODEV;
-30bba69d7db40e Qing Zhang 2021-06-18   65  	}
-30bba69d7db40e Qing Zhang 2021-06-18   66  =
+c6b0817d81501a8 Stephane Eranian 2021-11-30  684  		/* only activate events=
+ which are marked as active */
+c6b0817d81501a8 Stephane Eranian 2021-11-30  685  		if (!test_bit(idx, cpuc=
+->active_mask))
+c6b0817d81501a8 Stephane Eranian 2021-11-30  686  			continue;
+c6b0817d81501a8 Stephane Eranian 2021-11-30  687  =
 
-30bba69d7db40e Qing Zhang 2021-06-18   67  	plat =3D devm_kzalloc(&pdev->de=
-v, sizeof(*plat), GFP_KERNEL);
-30bba69d7db40e Qing Zhang 2021-06-18   68  	if (!plat)
-30bba69d7db40e Qing Zhang 2021-06-18   69  		return -ENOMEM;
-30bba69d7db40e Qing Zhang 2021-06-18   70  =
-
-30bba69d7db40e Qing Zhang 2021-06-18   71  	if (plat->mdio_node) {
-30bba69d7db40e Qing Zhang 2021-06-18   72  		dev_err(&pdev->dev, "Found MDI=
-O subnode\n");
-30bba69d7db40e Qing Zhang 2021-06-18   73  		mdio =3D true;
-30bba69d7db40e Qing Zhang 2021-06-18   74  	}
-30bba69d7db40e Qing Zhang 2021-06-18   75  =
-
-30bba69d7db40e Qing Zhang 2021-06-18   76  	if (mdio) {
-30bba69d7db40e Qing Zhang 2021-06-18   77  		plat->mdio_bus_data =3D devm_k=
-zalloc(&pdev->dev,
-30bba69d7db40e Qing Zhang 2021-06-18   78  						   sizeof(*plat->mdio_bus_=
-data),
-30bba69d7db40e Qing Zhang 2021-06-18   79  						   GFP_KERNEL);
-30bba69d7db40e Qing Zhang 2021-06-18   80  		if (!plat->mdio_bus_data)
-30bba69d7db40e Qing Zhang 2021-06-18   81  			return -ENOMEM;
-30bba69d7db40e Qing Zhang 2021-06-18   82  		plat->mdio_bus_data->needs_res=
-et =3D true;
-30bba69d7db40e Qing Zhang 2021-06-18   83  	}
-30bba69d7db40e Qing Zhang 2021-06-18   84  =
-
-30bba69d7db40e Qing Zhang 2021-06-18   85  	plat->dma_cfg =3D devm_kzalloc(=
-&pdev->dev, sizeof(*plat->dma_cfg), GFP_KERNEL);
-30bba69d7db40e Qing Zhang 2021-06-18   86  	if (!plat->dma_cfg)
-30bba69d7db40e Qing Zhang 2021-06-18   87  		return -ENOMEM;
-30bba69d7db40e Qing Zhang 2021-06-18   88  =
-
-30bba69d7db40e Qing Zhang 2021-06-18   89  	/* Enable pci device */
-30bba69d7db40e Qing Zhang 2021-06-18   90  	ret =3D pci_enable_device(pdev);
-30bba69d7db40e Qing Zhang 2021-06-18   91  	if (ret) {
-30bba69d7db40e Qing Zhang 2021-06-18   92  		dev_err(&pdev->dev, "%s: ERROR=
-: failed to enable device\n", __func__);
-30bba69d7db40e Qing Zhang 2021-06-18   93  		return ret;
-30bba69d7db40e Qing Zhang 2021-06-18   94  	}
-30bba69d7db40e Qing Zhang 2021-06-18   95  =
-
-30bba69d7db40e Qing Zhang 2021-06-18   96  	/* Get the base address of devi=
-ce */
-30bba69d7db40e Qing Zhang 2021-06-18   97  	for (i =3D 0; i < PCI_STD_NUM_B=
-ARS; i++) {
-30bba69d7db40e Qing Zhang 2021-06-18   98  		if (pci_resource_len(pdev, i) =
-=3D=3D 0)
-30bba69d7db40e Qing Zhang 2021-06-18   99  			continue;
-30bba69d7db40e Qing Zhang 2021-06-18  100  		ret =3D pcim_iomap_regions(pde=
-v, BIT(0), pci_name(pdev));
-30bba69d7db40e Qing Zhang 2021-06-18  101  		if (ret)
-30bba69d7db40e Qing Zhang 2021-06-18  102  			return ret;
-30bba69d7db40e Qing Zhang 2021-06-18  103  		break;
-30bba69d7db40e Qing Zhang 2021-06-18  104  	}
-30bba69d7db40e Qing Zhang 2021-06-18  105  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  106  	plat->bus_id =3D of_alias_get_i=
-d(np, "ethernet");
-30bba69d7db40e Qing Zhang 2021-06-18  107  	if (plat->bus_id < 0)
-30bba69d7db40e Qing Zhang 2021-06-18  108  		plat->bus_id =3D pci_dev_id(pd=
-ev);
-30bba69d7db40e Qing Zhang 2021-06-18  109  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  110  	plat->phy_interface =3D device_=
-get_phy_mode(&pdev->dev);
-30bba69d7db40e Qing Zhang 2021-06-18  111  	if (plat->phy_interface < 0)
-30bba69d7db40e Qing Zhang 2021-06-18  112  		dev_err(&pdev->dev, "phy_mode =
-not found\n");
-30bba69d7db40e Qing Zhang 2021-06-18  113  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  114  	plat->interface =3D PHY_INTERFA=
-CE_MODE_GMII;
-30bba69d7db40e Qing Zhang 2021-06-18  115  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  116  	pci_set_master(pdev);
-30bba69d7db40e Qing Zhang 2021-06-18  117  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  118  	loongson_default_data(plat);
-30bba69d7db40e Qing Zhang 2021-06-18  119  	pci_enable_msi(pdev);
-30bba69d7db40e Qing Zhang 2021-06-18  120  	memset(&res, 0, sizeof(res));
-30bba69d7db40e Qing Zhang 2021-06-18  121  	res.addr =3D pcim_iomap_table(p=
-dev)[0];
-30bba69d7db40e Qing Zhang 2021-06-18  122  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  123  	res.irq =3D of_irq_get_byname(n=
-p, "macirq");
-30bba69d7db40e Qing Zhang 2021-06-18  124  	if (res.irq < 0) {
-30bba69d7db40e Qing Zhang 2021-06-18  125  		dev_err(&pdev->dev, "IRQ macir=
-q not found\n");
-30bba69d7db40e Qing Zhang 2021-06-18 @126  		ret =3D -ENODEV;
-30bba69d7db40e Qing Zhang 2021-06-18  127  	}
-30bba69d7db40e Qing Zhang 2021-06-18  128  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  129  	res.wol_irq =3D of_irq_get_byna=
-me(np, "eth_wake_irq");
-30bba69d7db40e Qing Zhang 2021-06-18  130  	if (res.wol_irq < 0) {
-30bba69d7db40e Qing Zhang 2021-06-18  131  		dev_info(&pdev->dev, "IRQ eth_=
-wake_irq not found, using macirq\n");
-30bba69d7db40e Qing Zhang 2021-06-18  132  		res.wol_irq =3D res.irq;
-30bba69d7db40e Qing Zhang 2021-06-18  133  	}
-30bba69d7db40e Qing Zhang 2021-06-18  134  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  135  	res.lpi_irq =3D of_irq_get_byna=
-me(np, "eth_lpi");
-30bba69d7db40e Qing Zhang 2021-06-18  136  	if (res.lpi_irq < 0) {
-30bba69d7db40e Qing Zhang 2021-06-18  137  		dev_err(&pdev->dev, "IRQ eth_l=
-pi not found\n");
-30bba69d7db40e Qing Zhang 2021-06-18  138  		ret =3D -ENODEV;
-30bba69d7db40e Qing Zhang 2021-06-18  139  	}
-30bba69d7db40e Qing Zhang 2021-06-18  140  =
-
-30bba69d7db40e Qing Zhang 2021-06-18  141  	return stmmac_dvr_probe(&pdev->=
-dev, plat, &res);
-30bba69d7db40e Qing Zhang 2021-06-18  142  }
-30bba69d7db40e Qing Zhang 2021-06-18  143  =
+c6b0817d81501a8 Stephane Eranian 2021-11-30  688  		amd_pmu_enable_event(cp=
+uc->events[idx]);
+c6b0817d81501a8 Stephane Eranian 2021-11-30  689  	}
+c6b0817d81501a8 Stephane Eranian 2021-11-30  690  }
+c6b0817d81501a8 Stephane Eranian 2021-11-30  691  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3113168369410889754==--
+--===============6729617433211085734==--
 
