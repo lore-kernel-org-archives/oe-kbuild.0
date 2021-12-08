@@ -1,172 +1,779 @@
-Content-Type: multipart/mixed; boundary="===============5233901460018201024=="
+Content-Type: multipart/mixed; boundary="===============6155710681415049044=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:dax-block-cleanup 26/29] fs/erofs/data.c:222 erofs_iomap_begin() warn: bitwise AND condition is false here
-Date: Wed, 08 Dec 2021 11:15:41 +0800
-Message-ID: <202112081141.QkkIyJOC-lkp@intel.com>
+Subject: drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments...
+Date: Wed, 08 Dec 2021 10:34:07 +0800
+Message-ID: <202112081026.MZc5V6YO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5233901460018201024==
+--===============6155710681415049044==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Mario Limonciello <mario.limonciello@dell.com>
+CC: Hans de Goede <hdegoede@redhat.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git dax-block-cleanup
-head:   85eeeba6accd7ba7457ab6c8905863a74458f063
-commit: 73389747fc322d376dc89b9ab5aadef1ddbe51d2 [26/29] fsdax: shift parti=
-tion offset handling into the file systems
-:::::: branch date: 9 days ago
-:::::: commit date: 9 days ago
-config: x86_64-randconfig-m001-20211201 (https://download.01.org/0day-ci/ar=
-chive/20211208/202112081141.QkkIyJOC-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
+commit: f1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28 platform/x86: Move all del=
+l drivers to their own subdirectory
+date:   10 months ago
+:::::: branch date: 26 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
+chive/20211208/202112081026.MZc5V6YO-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
+97ef3ee4dc2119d5429adf3072e90fac38)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Df1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout f1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/erofs/data.c:222 erofs_iomap_begin() warn: bitwise AND condition is fals=
-e here
-fs/ext4/inode.c:3292 ext4_set_iomap() warn: bitwise AND condition is false =
-here
-fs/xfs/xfs_iomap.c:74 xfs_bmbt_to_iomap() warn: bitwise AND condition is fa=
-lse here
 
-Old smatch warnings:
-fs/ext4/inode.c:381 ext4_da_update_reserve_space() warn: should 'used << sb=
-i->s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:388 ext4_da_update_reserve_space() warn: should 'used << sb=
-i->s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:1469 ext4_da_reserve_space() warn: should '(1) << sbi->s_cl=
-uster_bits' be a 64 bit type?
-fs/ext4/inode.c:1476 ext4_da_reserve_space() warn: should '(1) << sbi->s_cl=
-uster_bits' be a 64 bit type?
-fs/ext4/inode.c:1518 ext4_da_release_space() warn: should 'to_free << sbi->=
-s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:2590 mpage_prepare_extent_to_map() warn: missing error code=
- 'err'
-fs/ext4/inode.c:3315 ext4_set_iomap() warn: bitwise AND condition is false =
-here
-fs/ext4/inode.c:3320 ext4_set_iomap() warn: bitwise AND condition is false =
-here
-fs/ext4/inode.c:3359 ext4_iomap_alloc() warn: bitwise AND condition is fals=
-e here
-fs/ext4/inode.c:5581 ext4_file_getattr() warn: should '(()->i_reserved_data=
-_blocks) << (EXT4_SB(inode->i_sb))->s_cluster_bits' be a 64 bit type?
-fs/ext4/inode.c:6121 ext4_page_mkwrite() error: uninitialized symbol 'get_b=
-lock'.
-fs/xfs/xfs_iomap.c:85 xfs_bmbt_to_iomap() warn: bitwise AND condition is fa=
-lse here
-fs/xfs/xfs_iomap.c:239 xfs_iomap_write_direct() warn: bitwise AND condition=
- is false here
-fs/xfs/xfs_iomap.c:630 imap_needs_alloc() warn: bitwise AND condition is fa=
-lse here
+clang-analyzer warnings: (new ones prefixed by >>)
+   23 warnings generated.
+   drivers/media/tuners/mxl5005s.c:2668:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2668:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2669:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2669:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2677:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2677:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2678:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2678:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2686:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2686:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2687:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2687:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2695:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2695:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2696:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2696:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2704:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2704:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2705:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2705:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2713:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2713:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2714:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2714:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2722:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2722:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2723:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2723:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2731:3: warning: Value stored to 'Fmax' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2731:3: note: Value stored to 'Fmax' is =
+never read
+                   Fmax =3D FmaxBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2732:3: warning: Value stored to 'Fmin' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   drivers/media/tuners/mxl5005s.c:2732:3: note: Value stored to 'Fmin' is =
+never read
+                   Fmin =3D FminBin ;
+                   ^      ~~~~~~~
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:160:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier, ";");
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:160:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
+_modifier, ";");
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:166:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:166:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues,
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:168:3: warni=
+ng: Call to function 'strcat' is insecure as it does not provide bounding o=
+f the memory buffer. Replace unbounded copy functions with analogous functi=
+ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
+r-security.insecureAPI.strcpy]
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues, ";");
+                   ^~~~~~
+   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:168:3: note:=
+ Call to function 'strcat' is insecure as it does not provide bounding of t=
+he memory buffer. Replace unbounded copy functions with analogous functions=
+ that support length arguments such as 'strlcat'. CWE-119
+                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
+alues, ";");
+                   ^~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/char/applicom.c:574:5: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D do_ac_read(i, buf, &st_loc, &mai=
+lbox);
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/char/applicom.c:574:5: note: Value stored to 'ret' is never read
+                                   ret =3D do_ac_read(i, buf, &st_loc, &mai=
+lbox);
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/char/applicom.c:734:4: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:734:4: note: Value stored to 'ret' is never read
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:755:4: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:755:4: note: Value stored to 'ret' is never read
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:781:4: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:781:4: note: Value stored to 'ret' is never read
+                           ret =3D -EFAULT;
+                           ^     ~~~~~~~
+   drivers/char/applicom.c:836:3: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   ret =3D -ENOTTY;
+                   ^     ~~~~~~~
+   drivers/char/applicom.c:836:3: note: Value stored to 'ret' is never read
+                   ret =3D -ENOTTY;
+                   ^     ~~~~~~~
+   Suppressed 10 warnings (6 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   net/bluetooth/bnep/core.c:641:2: warning: Call to function 'strcpy' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(req->device, dev->name);
+           ^~~~~~
+   net/bluetooth/bnep/core.c:641:2: note: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119
+           strcpy(req->device, dev->name);
+           ^~~~~~
+   net/bluetooth/bnep/core.c:680:2: warning: Call to function 'strcpy' is i=
+nsecure as it does not provide bounding of the memory buffer. Replace unbou=
+nded copy functions with analogous functions that support length arguments =
+such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(ci->device, s->dev->name);
+--
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/crypto/cavium/nitrox/nitrox_reqmgr.c:161:22: warning: Value stor=
+ed to 'sg' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct scatterlist *sg =3D req->src;
+                               ^~   ~~~~~~~~
+   drivers/crypto/cavium/nitrox/nitrox_reqmgr.c:161:22: note: Value stored =
+to 'sg' during its initialization is never read
+           struct scatterlist *sg =3D req->src;
+                               ^~   ~~~~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/iio/dac/ad5064.c:105:8: warning: Excessive padding in 'struct ad=
+5064_state' (179 padding bytes, where 51 is optimal). =
 
-vim +222 fs/erofs/data.c
+   Optimal fields order: =
 
-dfeab2e95a75a4 Gao Xiang         2021-10-14  198  =
+   data, =
 
-a08e67a0280215 Huang Jianan      2021-08-05  199  static int erofs_iomap_be=
-gin(struct inode *inode, loff_t offset, loff_t length,
-a08e67a0280215 Huang Jianan      2021-08-05  200  		unsigned int flags, str=
-uct iomap *iomap, struct iomap *srcmap)
-a08e67a0280215 Huang Jianan      2021-08-05  201  {
-a08e67a0280215 Huang Jianan      2021-08-05  202  	int ret;
-a08e67a0280215 Huang Jianan      2021-08-05  203  	struct erofs_map_blocks =
-map;
-dfeab2e95a75a4 Gao Xiang         2021-10-14  204  	struct erofs_map_dev mde=
-v;
-a08e67a0280215 Huang Jianan      2021-08-05  205  =
+   dac_cache, =
 
-a08e67a0280215 Huang Jianan      2021-08-05  206  	map.m_la =3D offset;
-a08e67a0280215 Huang Jianan      2021-08-05  207  	map.m_llen =3D length;
-a08e67a0280215 Huang Jianan      2021-08-05  208  =
+   use_internal_vref, =
 
-c5aa903a59db27 Gao Xiang         2021-08-20  209  	ret =3D erofs_map_blocks=
-(inode, &map, EROFS_GET_BLOCKS_RAW);
-a08e67a0280215 Huang Jianan      2021-08-05  210  	if (ret < 0)
-a08e67a0280215 Huang Jianan      2021-08-05  211  		return ret;
-a08e67a0280215 Huang Jianan      2021-08-05  212  =
+   pwr_down, =
 
-dfeab2e95a75a4 Gao Xiang         2021-10-14  213  	mdev =3D (struct erofs_m=
-ap_dev) {
-dfeab2e95a75a4 Gao Xiang         2021-10-14  214  		.m_deviceid =3D map.m_d=
-eviceid,
-dfeab2e95a75a4 Gao Xiang         2021-10-14  215  		.m_pa =3D map.m_pa,
-dfeab2e95a75a4 Gao Xiang         2021-10-14  216  	};
-dfeab2e95a75a4 Gao Xiang         2021-10-14  217  	ret =3D erofs_map_dev(in=
-ode->i_sb, &mdev);
-dfeab2e95a75a4 Gao Xiang         2021-10-14  218  	if (ret)
-dfeab2e95a75a4 Gao Xiang         2021-10-14  219  		return ret;
-dfeab2e95a75a4 Gao Xiang         2021-10-14  220  =
+   pwr_down_mode, =
 
-a08e67a0280215 Huang Jianan      2021-08-05  221  	iomap->offset =3D map.m_=
-la;
-73389747fc322d Christoph Hellwig 2021-11-29 @222  	if (flags & IOMAP_DAX) {
-73389747fc322d Christoph Hellwig 2021-11-29  223  		iomap->dax_dev =3D mdev=
-.m_daxdev;
-73389747fc322d Christoph Hellwig 2021-11-29  224  		iomap->offset +=3D mdev=
-.m_dax_part_off;
-73389747fc322d Christoph Hellwig 2021-11-29  225  	} else {
-73389747fc322d Christoph Hellwig 2021-11-29  226  		iomap->bdev =3D mdev.m_=
-bdev;
-73389747fc322d Christoph Hellwig 2021-11-29  227  	}
-a08e67a0280215 Huang Jianan      2021-08-05  228  	iomap->length =3D map.m_=
-llen;
-a08e67a0280215 Huang Jianan      2021-08-05  229  	iomap->flags =3D 0;
-771c994ea51f57 Gao Xiang         2021-08-05  230  	iomap->private =3D NULL;
-a08e67a0280215 Huang Jianan      2021-08-05  231  =
+   dev, =
 
-a08e67a0280215 Huang Jianan      2021-08-05  232  	if (!(map.m_flags & EROF=
-S_MAP_MAPPED)) {
-a08e67a0280215 Huang Jianan      2021-08-05  233  		iomap->type =3D IOMAP_H=
-OLE;
-a08e67a0280215 Huang Jianan      2021-08-05  234  		iomap->addr =3D IOMAP_N=
-ULL_ADDR;
-a08e67a0280215 Huang Jianan      2021-08-05  235  		if (!iomap->length)
-a08e67a0280215 Huang Jianan      2021-08-05  236  			iomap->length =3D leng=
-th;
-a08e67a0280215 Huang Jianan      2021-08-05  237  		return 0;
-a08e67a0280215 Huang Jianan      2021-08-05  238  	}
-a08e67a0280215 Huang Jianan      2021-08-05  239  =
+   chip_info, =
 
-a08e67a0280215 Huang Jianan      2021-08-05  240  	if (map.m_flags & EROFS_=
-MAP_META) {
-771c994ea51f57 Gao Xiang         2021-08-05  241  		struct page *ipage;
-771c994ea51f57 Gao Xiang         2021-08-05  242  =
+   write, =
 
-771c994ea51f57 Gao Xiang         2021-08-05  243  		iomap->type =3D IOMAP_I=
-NLINE;
-771c994ea51f57 Gao Xiang         2021-08-05  244  		ipage =3D erofs_get_met=
-a_page(inode->i_sb,
-dfeab2e95a75a4 Gao Xiang         2021-10-14  245  					    erofs_blknr(mdev=
-.m_pa));
-771c994ea51f57 Gao Xiang         2021-08-05  246  		if (IS_ERR(ipage))
-771c994ea51f57 Gao Xiang         2021-08-05  247  			return PTR_ERR(ipage);
-771c994ea51f57 Gao Xiang         2021-08-05  248  		iomap->inline_data =3D =
-page_address(ipage) +
-dfeab2e95a75a4 Gao Xiang         2021-10-14  249  					erofs_blkoff(mdev.m_=
-pa);
-771c994ea51f57 Gao Xiang         2021-08-05  250  		iomap->private =3D ipag=
-e;
-771c994ea51f57 Gao Xiang         2021-08-05  251  	} else {
-a08e67a0280215 Huang Jianan      2021-08-05  252  		iomap->type =3D IOMAP_M=
-APPED;
-dfeab2e95a75a4 Gao Xiang         2021-10-14  253  		iomap->addr =3D mdev.m_=
-pa;
-771c994ea51f57 Gao Xiang         2021-08-05  254  	}
-a08e67a0280215 Huang Jianan      2021-08-05  255  	return 0;
-a08e67a0280215 Huang Jianan      2021-08-05  256  }
-a08e67a0280215 Huang Jianan      2021-08-05  257  =
+   vref_reg, =
 
+   lock, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ad5064_state {
+   ~~~~~~~^~~~~~~~~~~~~~
+   drivers/iio/dac/ad5064.c:105:8: note: Excessive padding in 'struct ad506=
+4_state' (179 padding bytes, where 51 is optimal). Optimal fields order: da=
+ta, dac_cache, use_internal_vref, pwr_down, pwr_down_mode, dev, chip_info, =
+write, vref_reg, lock, consider reordering the fields or adding explicit pa=
+dding members
+   struct ad5064_state {
+   ~~~~~~~^~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/staging/comedi/drivers/das08.c:181:2: warning: Value stored to '=
+range' is never read [clang-analyzer-deadcode.DeadStores]
+           range =3D CR_RANGE(insn->chanspec);
+           ^
+   drivers/staging/comedi/drivers/das08.c:181:2: note: Value stored to 'ran=
+ge' is never read
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/platform/x86/dell/dell-laptop.c:1596:4: warning: Value stored to=
+ 'unit' is never read [clang-analyzer-deadcode.DeadStores]
+                           unit =3D KBD_TIMEOUT_SECONDS;
+                           ^      ~~~~~~~~~~~~~~~~~~~
+   drivers/platform/x86/dell/dell-laptop.c:1596:4: note: Value stored to 'u=
+nit' is never read
+                           unit =3D KBD_TIMEOUT_SECONDS;
+                           ^      ~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/rapidio/rio-scan.c:561:10: warning: Although the value stored to=
+ 'tmp' is used in the enclosing expression, the value is never actually rea=
+d from 'tmp' [clang-analyzer-deadcode.DeadStores]
+           while ((tmp =3D rio_get_host_deviceid_lock(port, hopcount))
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/rapidio/rio-scan.c:561:10: note: Although the value stored to 't=
+mp' is used in the enclosing expression, the value is never actually read f=
+rom 'tmp'
+           while ((tmp =3D rio_get_host_deviceid_lock(port, hopcount))
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   Suppressed 12 warnings (12 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/iio/accel/bmc150-accel-core.c:152:8: warning: Excessive padding =
+in 'struct bmc150_accel_chip_info' (11 padding bytes, where 3 is optimal). =
+
+   Optimal fields order: =
+
+   name, =
+
+   channels, =
+
+   num_channels, =
+
+   scale_table, =
+
+   chip_id, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct bmc150_accel_chip_info {
+   ~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/accel/bmc150-accel-core.c:152:8: note: Excessive padding in =
+'struct bmc150_accel_chip_info' (11 padding bytes, where 3 is optimal). Opt=
+imal fields order: name, channels, num_channels, scale_table, chip_id, cons=
+ider reordering the fields or adding explicit padding members
+
+vim +158 drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  129  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  130  /**
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  131   * populate_enum_data() - Populate all properti=
+es of an instance under enumeration attribute
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  132   * @enumeration_obj: ACPI object with enumerati=
+on data
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  133   * @instance_id: The instance to enumerate
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  134   * @attr_name_kobj: The parent kernel object
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  135   */
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  136  int populate_enum_data(union acpi_object *enume=
+ration_obj, int instance_id,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  137  			struct kobject *attr_name_kobj)
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  138  {
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  139  	int i, next_obj, value_modifier_count, possibl=
+e_values_count;
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  140  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  141  	wmi_priv.enumeration_data[instance_id].attr_na=
+me_kobj =3D attr_name_kobj;
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  142  	strlcpy_attr(wmi_priv.enumeration_data[instanc=
+e_id].attribute_name,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  143  		enumeration_obj[ATTR_NAME].string.pointer);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  144  	strlcpy_attr(wmi_priv.enumeration_data[instanc=
+e_id].display_name_language_code,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  145  		enumeration_obj[DISPL_NAME_LANG_CODE].string.=
+pointer);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  146  	strlcpy_attr(wmi_priv.enumeration_data[instanc=
+e_id].display_name,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  147  		enumeration_obj[DISPLAY_NAME].string.pointer);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  148  	strlcpy_attr(wmi_priv.enumeration_data[instanc=
+e_id].default_value,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  149  		enumeration_obj[DEFAULT_VAL].string.pointer);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  150  	strlcpy_attr(wmi_priv.enumeration_data[instanc=
+e_id].dell_modifier,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  151  		enumeration_obj[MODIFIER].string.pointer);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  152  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  153  	next_obj =3D MODIFIER + 1;
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  154  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  155  	value_modifier_count =3D (uintptr_t)enumeratio=
+n_obj[next_obj].string.pointer;
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  156  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  157  	for (i =3D 0; i < value_modifier_count; i++) {
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27 @158  		strcat(wmi_priv.enumeration_data[instance_id]=
+.dell_value_modifier,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  159  			enumeration_obj[++next_obj].string.pointer);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  160  		strcat(wmi_priv.enumeration_data[instance_id]=
+.dell_value_modifier, ";");
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  161  	}
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  162  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  163  	possible_values_count =3D (uintptr_t) enumerat=
+ion_obj[++next_obj].string.pointer;
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  164  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  165  	for (i =3D 0; i < possible_values_count; i++) {
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  166  		strcat(wmi_priv.enumeration_data[instance_id]=
+.possible_values,
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  167  			enumeration_obj[++next_obj].string.pointer);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  168  		strcat(wmi_priv.enumeration_data[instance_id]=
+.possible_values, ";");
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  169  	}
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  170  =
+
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  171  	return sysfs_create_group(attr_name_kobj, &enu=
+meration_attr_group);
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  172  }
+e8a60aa7404bfef drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divy=
+a Bharathi 2020-10-27  173  =
+
+
+:::::: The code@line 158 was first introduced by commit
+:::::: e8a60aa7404bfef37705da5607c97737073ac38d platform/x86: Introduce sup=
+port for Systems Management Driver over WMI for Dell Systems
+
+:::::: TO: Divya Bharathi <divya.bharathi@dell.com>
+:::::: CC: Hans de Goede <hdegoede@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5233901460018201024==--
+--===============6155710681415049044==--
 
