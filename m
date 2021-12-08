@@ -1,48 +1,64 @@
-Content-Type: multipart/mixed; boundary="===============0884077224616335555=="
+Content-Type: multipart/mixed; boundary="===============6135170292035841406=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Fri, 10 Dec 2021 06:25:48 +0800
-Message-ID: <202112100628.muNoiwX0-lkp@intel.com>
+Subject: Re: [net-next v1 2/2] net: sched: support hash/classid selecting queue_mapping
+Date: Wed, 08 Dec 2021 14:12:16 +0800
+Message-ID: <202112081406.0E2JDerN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0884077224616335555==
+--===============6135170292035841406==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Chris Down <chris@chrisdown.name>
-CC: Petr Mladek <pmladek@suse.com>
+In-Reply-To: <20211206080512.36610-3-xiangxia.m.yue@gmail.com>
+References: <20211206080512.36610-3-xiangxia.m.yue@gmail.com>
+TO: xiangxia.m.yue(a)gmail.com
+TO: netdev(a)vger.kernel.org
+CC: Tonghao Zhang <xiangxia.m.yue@gmail.com>
+CC: Jamal Hadi Salim <jhs@mojatatu.com>
+CC: Cong Wang <xiyou.wangcong@gmail.com>
+CC: Jiri Pirko <jiri@resnulli.us>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Jonathan Lemon <jonathan.lemon@gmail.com>
+CC: Eric Dumazet <edumazet@google.com>
+CC: Alexander Lobakin <alobakin@pm.me>
+CC: Paolo Abeni <pabeni@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ded746bfc94398d2ee9de315a187677b207b2004
-commit: ad7d61f159db73974f1b0352f21afe04b0bbd920 printk: index: Add indexin=
-g support to dev_printk
-date:   5 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
-chive/20211210/202112100628.muNoiwX0-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
-97ef3ee4dc2119d5429adf3072e90fac38)
+Hi,
+
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on net-next/master]
+
+url:    https://github.com/0day-ci/linux/commits/xiangxia-m-yue-gmail-com/n=
+et-sched-allow-user-to-select-txqueue/20211206-160708
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+ce83278f313ce65a9bbd780a3e07fa3f62d82525
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: riscv-randconfig-c006-20211207 (https://download.01.org/0day-ci/arc=
+hive/20211208/202112081406.0E2JDerN-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dad7d61f159db73974f1b0352f21afe04b0bbd920
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout ad7d61f159db73974f1b0352f21afe04b0bbd920
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/8c116fa6e5382fb2594f0587f=
+114802201e9bef2
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review xiangxia-m-yue-gmail-com/net-sched=
+-allow-user-to-select-txqueue/20211206-160708
+        git checkout 8c116fa6e5382fb2594f0587f114802201e9bef2
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,492 +66,1009 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
+           ^~~~~~~~~~~~~~~~~~~~~~
+   block/blk-mq-cpumap.c:41:2: note: Loop condition is true.  Entering loop=
+ body
+           for_each_possible_cpu(cpu)
            ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:31: note: expanded from macro 'rcu_derefere=
-nce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-                                        ^
-   drivers/pci/p2pdma.c:536:11: note: Assuming the condition is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:390:19: note: expanded from macro '__rcu_derefe=
-rence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/rcupdate.h:318:8: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                        ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '&&' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:318:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                           ^
-   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:316:2: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-           do {                                                            \
-           ^
-   drivers/pci/p2pdma.c:537:6: note: Assuming 'p2pdma' is non-null
-           if (p2pdma)
-               ^~~~~~
-   drivers/pci/p2pdma.c:537:2: note: Taking true branch
-           if (p2pdma)
-           ^
-   drivers/pci/p2pdma.c:538:46: note: Passing null pointer value via 1st pa=
-rameter 'client'
-                   xa_store(&p2pdma->map_types, map_types_idx(client),
-                                                              ^~~~~~
-   drivers/pci/p2pdma.c:538:32: note: Calling 'map_types_idx'
-                   xa_store(&p2pdma->map_types, map_types_idx(client),
-                                                ^~~~~~~~~~~~~~~~~~~~~
-   drivers/pci/p2pdma.c:409:24: note: Access to field 'bus' results in a de=
-reference of a null pointer (loaded from variable 'client')
-           return (pci_domain_nr(client->bus) << 16) |
-                                 ^~~~~~
->> drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang=
--analyzer-core.NullDereference]
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^~~~~~~~~~~~
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/pci/p2pdma.c:470:9: note: Assuming pointer value is null
-           while (a) {
-                  ^
-   drivers/pci/p2pdma.c:470:2: note: Loop condition is false. Execution con=
-tinues on line 492
-           while (a) {
-           ^
-   drivers/pci/p2pdma.c:493:2: note: Control jumps to line 527
-           goto map_through_host_bridge;
-           ^
-   drivers/pci/p2pdma.c:527:29: note: Left side of '&&' is false
-           if (!cpu_supports_p2pdma() &&
+   include/linux/cpumask.h:788:36: note: expanded from macro 'for_each_poss=
+ible_cpu'
+   #define for_each_possible_cpu(cpu) for_each_cpu((cpu), cpu_possible_mask)
                                       ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
            ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   block/blk-mq-cpumap.c:41:2: note: Loop condition is false. Execution con=
+tinues on line 48
+           for_each_possible_cpu(cpu)
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+   include/linux/cpumask.h:788:36: note: expanded from macro 'for_each_poss=
+ible_cpu'
+   #define for_each_possible_cpu(cpu) for_each_cpu((cpu), cpu_possible_mask)
+                                      ^
+   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
            ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   block/blk-mq-cpumap.c:48:2: note: Loop condition is true.  Entering loop=
+ body
+           for_each_present_cpu(cpu) {
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+   include/linux/cpumask.h:790:36: note: expanded from macro 'for_each_pres=
+ent_cpu'
+   #define for_each_present_cpu(cpu)  for_each_cpu((cpu), cpu_present_mask)
+                                      ^
+   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
            ^
-   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
+   block/blk-mq-cpumap.c:49:7: note: Assuming 'q' is >=3D 'nr_queues'
+                   if (q >=3D nr_queues)
+                       ^~~~~~~~~~~~~~
+   block/blk-mq-cpumap.c:49:3: note: Taking true branch
+                   if (q >=3D nr_queues)
+                   ^
+   block/blk-mq-cpumap.c:50:4: note:  Execution continues on line 54
+                           break;
+                           ^
+   block/blk-mq-cpumap.c:54:2: note: Loop condition is true.  Entering loop=
+ body
+           for_each_possible_cpu(cpu) {
            ^
-   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
-me_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-                              ^
-   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
-e_word'
-           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
- || \
-            ^
-   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is true
-           p2pdma =3D rcu_dereference(provider->p2pdma);
-                    ^
-   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+   include/linux/cpumask.h:788:36: note: expanded from macro 'for_each_poss=
+ible_cpu'
+   #define for_each_possible_cpu(cpu) for_each_cpu((cpu), cpu_possible_mask)
+                                      ^
+   include/linux/cpumask.h:179:2: note: expanded from macro 'for_each_cpu'
+           for ((cpu) =3D 0; (cpu) < 1; (cpu)++, (void)mask)
+           ^
+   block/blk-mq-cpumap.c:55:3: note: Taking false branch
+                   if (map[cpu] !=3D -1)
+                   ^
+   block/blk-mq-cpumap.c:63:7: note: 'q' is >=3D 'nr_queues'
+                   if (q < nr_queues) {
+                       ^
+   block/blk-mq-cpumap.c:63:3: note: Taking false branch
+                   if (q < nr_queues) {
+                   ^
+   block/blk-mq-cpumap.c:67:8: note: 'first_sibling' is equal to 'cpu'
+                           if (first_sibling =3D=3D cpu)
+                               ^~~~~~~~~~~~~
+   block/blk-mq-cpumap.c:67:4: note: Taking true branch
+                           if (first_sibling =3D=3D cpu)
+                           ^
+   block/blk-mq-cpumap.c:68:34: note: Passing the value 0 via 2nd parameter=
+ 'nr_queues'
+                                   map[cpu] =3D queue_index(qmap, nr_queues=
+, q++);
+                                                                ^~~~~~~~~
+   block/blk-mq-cpumap.c:68:16: note: Calling 'queue_index'
+                                   map[cpu] =3D queue_index(qmap, nr_queues=
+, q++);
+                                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   block/blk-mq-cpumap.c:21:33: note: Division by zero
+           return qmap->queue_offset + (q % nr_queues);
+                                        ~~^~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> net/sched/act_skbedit.c:243:26: warning: Dereference of null pointer (lo=
+aded from variable 'priority') [clang-analyzer-core.NullDereference]
+                   params_new->priority =3D *priority;
+                                          ^~~~~~~~~
+   net/sched/act_skbedit.c:130:18: note: 'priority' initialized to a null p=
+ointer value
+           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
+ULL;
+                           ^~~~~~~~
+   net/sched/act_skbedit.c:137:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:137:2: note: Taking false branch
+           if (nla =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:140:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:140:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:142:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:142:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:145:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:145:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:148:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:148:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:153:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:153:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:158:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:158:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:178:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:178:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                   ^
+   net/sched/act_skbedit.c:180:7: note: Assuming the condition is true
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:180:3: note: Taking true branch
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                   ^
+   net/sched/act_skbedit.c:183:9: note: 'queue_mapping' is non-null
+                           if (!queue_mapping)
+                                ^~~~~~~~~~~~~
+   net/sched/act_skbedit.c:183:4: note: Taking false branch
+                           if (!queue_mapping)
+                           ^
+   net/sched/act_skbedit.c:188:8: note: Assuming 'max' is >=3D 'min'
+                           if (max < min)
+                               ^~~~~~~~~
+   net/sched/act_skbedit.c:188:4: note: Taking false branch
+                           if (max < min)
+                           ^
+   net/sched/act_skbedit.c:200:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:200:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:203:6: note: Assuming 'exists' is true
+           if (exists && bind)
+               ^~~~~~
+   net/sched/act_skbedit.c:203:6: note: Left side of '&&' is true
+   net/sched/act_skbedit.c:203:16: note: Assuming 'bind' is false
+           if (exists && bind)
+                         ^~~~
+   net/sched/act_skbedit.c:203:2: note: Taking false branch
+           if (exists && bind)
+           ^
+   net/sched/act_skbedit.c:206:7: note: 'flags' is not equal to 0
+           if (!flags) {
+                ^~~~~
+   net/sched/act_skbedit.c:206:2: note: Taking false branch
+           if (!flags) {
+           ^
+   net/sched/act_skbedit.c:214:7: note: 'exists' is true
+           if (!exists) {
+                ^~~~~~
+   net/sched/act_skbedit.c:214:2: note: Taking false branch
+           if (!exists) {
+           ^
+   net/sched/act_skbedit.c:226:7: note: Assuming the condition is false
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:226:3: note: Taking false branch
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                   ^
+   net/sched/act_skbedit.c:232:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:232:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:236:15: note: Assuming 'params_new' is non-null
+           if (unlikely(!params_new)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/act_skbedit.c:236:2: note: Taking false branch
+           if (unlikely(!params_new)) {
+           ^
+   net/sched/act_skbedit.c:242:6: note: Assuming the condition is true
+           if (flags & SKBEDIT_F_PRIORITY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:242:2: note: Taking true branch
+           if (flags & SKBEDIT_F_PRIORITY)
+           ^
+   net/sched/act_skbedit.c:243:26: note: Dereference of null pointer (loade=
+d from variable 'priority')
+                   params_new->priority =3D *priority;
+                                          ^~~~~~~~~
+>> net/sched/act_skbedit.c:249:22: warning: Dereference of null pointer (lo=
+aded from variable 'mark') [clang-analyzer-core.NullDereference]
+                   params_new->mark =3D *mark;
+                                      ^~~~~
+   net/sched/act_skbedit.c:130:36: note: 'mark' initialized to a null point=
+er value
+           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
+ULL;
+                                             ^~~~
+   net/sched/act_skbedit.c:137:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:137:2: note: Taking false branch
+           if (nla =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:140:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:140:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:142:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:142:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:145:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:145:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:148:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:148:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:153:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:153:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:158:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:158:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:178:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:178:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                   ^
+   net/sched/act_skbedit.c:180:7: note: Assuming the condition is true
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:180:3: note: Taking true branch
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                   ^
+   net/sched/act_skbedit.c:183:9: note: 'queue_mapping' is non-null
+                           if (!queue_mapping)
+                                ^~~~~~~~~~~~~
+   net/sched/act_skbedit.c:183:4: note: Taking false branch
+                           if (!queue_mapping)
+                           ^
+   net/sched/act_skbedit.c:188:8: note: Assuming 'max' is >=3D 'min'
+                           if (max < min)
+                               ^~~~~~~~~
+   net/sched/act_skbedit.c:188:4: note: Taking false branch
+                           if (max < min)
+                           ^
+   net/sched/act_skbedit.c:200:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:200:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:203:6: note: Assuming 'exists' is true
+           if (exists && bind)
+               ^~~~~~
+   net/sched/act_skbedit.c:203:6: note: Left side of '&&' is true
+   net/sched/act_skbedit.c:203:16: note: Assuming 'bind' is false
+           if (exists && bind)
+                         ^~~~
+   net/sched/act_skbedit.c:203:2: note: Taking false branch
+           if (exists && bind)
+           ^
+   net/sched/act_skbedit.c:206:7: note: 'flags' is not equal to 0
+           if (!flags) {
+                ^~~~~
+   net/sched/act_skbedit.c:206:2: note: Taking false branch
+           if (!flags) {
+           ^
+   net/sched/act_skbedit.c:214:7: note: 'exists' is true
+           if (!exists) {
+                ^~~~~~
+   net/sched/act_skbedit.c:214:2: note: Taking false branch
+           if (!exists) {
+           ^
+   net/sched/act_skbedit.c:226:7: note: Assuming the condition is false
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:226:3: note: Taking false branch
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                   ^
+   net/sched/act_skbedit.c:232:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:232:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:236:15: note: Assuming 'params_new' is non-null
+           if (unlikely(!params_new)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/act_skbedit.c:236:2: note: Taking false branch
+           if (unlikely(!params_new)) {
+           ^
+   net/sched/act_skbedit.c:242:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_PRIORITY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:242:2: note: Taking false branch
+           if (flags & SKBEDIT_F_PRIORITY)
+           ^
+   net/sched/act_skbedit.c:244:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:244:2: note: Taking false branch
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+           ^
+   net/sched/act_skbedit.c:248:6: note: Assuming the condition is true
+           if (flags & SKBEDIT_F_MARK)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:248:2: note: Taking true branch
+           if (flags & SKBEDIT_F_MARK)
+           ^
+   net/sched/act_skbedit.c:249:22: note: Dereference of null pointer (loade=
+d from variable 'mark')
+                   params_new->mark =3D *mark;
+                                      ^~~~~
+>> net/sched/act_skbedit.c:251:23: warning: Dereference of null pointer (lo=
+aded from variable 'ptype') [clang-analyzer-core.NullDereference]
+                   params_new->ptype =3D *ptype;
+                                       ^~~~~~
+   net/sched/act_skbedit.c:131:30: note: 'ptype' initialized to a null poin=
+ter value
+           u16 *queue_mapping =3D NULL, *ptype =3D NULL;
+                                       ^~~~~
+   net/sched/act_skbedit.c:137:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:137:2: note: Taking false branch
+           if (nla =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:140:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:140:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:142:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:142:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:145:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:145:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:148:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:148:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:153:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:153:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:158:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:158:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:178:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:178:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                   ^
+   net/sched/act_skbedit.c:180:7: note: Assuming the condition is true
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:180:3: note: Taking true branch
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                   ^
+   net/sched/act_skbedit.c:183:9: note: 'queue_mapping' is non-null
+                           if (!queue_mapping)
+                                ^~~~~~~~~~~~~
+   net/sched/act_skbedit.c:183:4: note: Taking false branch
+                           if (!queue_mapping)
+                           ^
+   net/sched/act_skbedit.c:188:8: note: Assuming 'max' is >=3D 'min'
+                           if (max < min)
+                               ^~~~~~~~~
+   net/sched/act_skbedit.c:188:4: note: Taking false branch
+                           if (max < min)
+                           ^
+   net/sched/act_skbedit.c:200:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:200:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:203:6: note: Assuming 'exists' is true
+           if (exists && bind)
+               ^~~~~~
+   net/sched/act_skbedit.c:203:6: note: Left side of '&&' is true
+   net/sched/act_skbedit.c:203:16: note: Assuming 'bind' is false
+           if (exists && bind)
+                         ^~~~
+   net/sched/act_skbedit.c:203:2: note: Taking false branch
+           if (exists && bind)
+           ^
+   net/sched/act_skbedit.c:206:7: note: 'flags' is not equal to 0
+           if (!flags) {
+                ^~~~~
+   net/sched/act_skbedit.c:206:2: note: Taking false branch
+           if (!flags) {
+           ^
+   net/sched/act_skbedit.c:214:7: note: 'exists' is true
+           if (!exists) {
+                ^~~~~~
+   net/sched/act_skbedit.c:214:2: note: Taking false branch
+           if (!exists) {
+           ^
+   net/sched/act_skbedit.c:226:7: note: Assuming the condition is false
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:226:3: note: Taking false branch
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                   ^
+   net/sched/act_skbedit.c:232:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:232:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:236:15: note: Assuming 'params_new' is non-null
+           if (unlikely(!params_new)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/act_skbedit.c:236:2: note: Taking false branch
+           if (unlikely(!params_new)) {
+           ^
+   net/sched/act_skbedit.c:242:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_PRIORITY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:242:2: note: Taking false branch
+           if (flags & SKBEDIT_F_PRIORITY)
+           ^
+   net/sched/act_skbedit.c:244:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:244:2: note: Taking false branch
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+           ^
+   net/sched/act_skbedit.c:248:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_MARK)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:248:2: note: Taking false branch
+           if (flags & SKBEDIT_F_MARK)
+           ^
+   net/sched/act_skbedit.c:250:6: note: Assuming the condition is true
+           if (flags & SKBEDIT_F_PTYPE)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:250:2: note: Taking true branch
+           if (flags & SKBEDIT_F_PTYPE)
+           ^
+   net/sched/act_skbedit.c:251:23: note: Dereference of null pointer (loade=
+d from variable 'ptype')
+                   params_new->ptype =3D *ptype;
+                                       ^~~~~~
+>> net/sched/act_skbedit.c:255:22: warning: Dereference of null pointer (lo=
+aded from variable 'mask') [clang-analyzer-core.NullDereference]
+                   params_new->mask =3D *mask;
+                                      ^~~~~
+   net/sched/act_skbedit.c:130:50: note: 'mask' initialized to a null point=
+er value
+           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
+ULL;
+                                                           ^~~~
+   net/sched/act_skbedit.c:137:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:137:2: note: Taking false branch
+           if (nla =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:140:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:140:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:142:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:142:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:145:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:145:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:148:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:148:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:153:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:153:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:158:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:158:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:178:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:178:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                   ^
+   net/sched/act_skbedit.c:180:7: note: Assuming the condition is true
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:180:3: note: Taking true branch
+                   if (*pure_flags & SKBEDIT_F_QUEUE_MAPPING_HASH_MASK) {
+                   ^
+   net/sched/act_skbedit.c:183:9: note: 'queue_mapping' is non-null
+                           if (!queue_mapping)
+                                ^~~~~~~~~~~~~
+   net/sched/act_skbedit.c:183:4: note: Taking false branch
+                           if (!queue_mapping)
+                           ^
+   net/sched/act_skbedit.c:188:8: note: Assuming 'max' is >=3D 'min'
+                           if (max < min)
+                               ^~~~~~~~~
+   net/sched/act_skbedit.c:188:4: note: Taking false branch
+                           if (max < min)
+                           ^
+   net/sched/act_skbedit.c:200:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:200:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:203:6: note: Assuming 'exists' is true
+           if (exists && bind)
 
-vim +536 drivers/pci/p2pdma.c
+vim +/priority +243 net/sched/act_skbedit.c
 
-110203bee05f336 Logan Gunthorpe   2019-08-12  412  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  117  =
 
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  413  /*
-6389d43745228de Logan Gunthorpe   2021-06-10  414   * Calculate the P2PDMA =
-mapping type and distance between two PCI devices.
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  415   *
-6389d43745228de Logan Gunthorpe   2021-06-10  416   * If the two devices ar=
-e the same PCI function, return
-6389d43745228de Logan Gunthorpe   2021-06-10  417   * PCI_P2PDMA_MAP_BUS_AD=
-DR and a distance of 0.
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  418   *
-6389d43745228de Logan Gunthorpe   2021-06-10  419   * If they are two funct=
-ions of the same device, return
-6389d43745228de Logan Gunthorpe   2021-06-10  420   * PCI_P2PDMA_MAP_BUS_AD=
-DR and a distance of 2 (one hop up to the bridge,
-6389d43745228de Logan Gunthorpe   2021-06-10  421   * then one hop back dow=
-n to another function of the same device).
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  422   *
-6389d43745228de Logan Gunthorpe   2021-06-10  423   * In the case where two=
- devices are connected to the same PCIe switch,
-6389d43745228de Logan Gunthorpe   2021-06-10  424   * return a distance of =
-4. This corresponds to the following PCI tree:
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  425   *
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  426   *     -+  Root Port
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  427   *      \+ Switch Upstre=
-am Port
-6389d43745228de Logan Gunthorpe   2021-06-10  428   *       +-+ Switch Down=
-stream Port 0
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  429   *       + \- Device A
-6389d43745228de Logan Gunthorpe   2021-06-10  430   *       \-+ Switch Down=
-stream Port 1
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  431   *         \- Device B
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  432   *
-6389d43745228de Logan Gunthorpe   2021-06-10  433   * The distance is 4 bec=
-ause we traverse from Device A to Downstream Port 0
-6389d43745228de Logan Gunthorpe   2021-06-10  434   * to the common Switch =
-Upstream Port, back down to Downstream Port 1 and
-6389d43745228de Logan Gunthorpe   2021-06-10  435   * then to Device B. The=
- mapping type returned depends on the ACS
-6389d43745228de Logan Gunthorpe   2021-06-10  436   * redirection setting o=
-f the ports along the path.
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  437   *
-6389d43745228de Logan Gunthorpe   2021-06-10  438   * If ACS redirect is se=
-t on any port in the path, traffic between the
-6389d43745228de Logan Gunthorpe   2021-06-10  439   * devices will go throu=
-gh the host bridge, so return
-6389d43745228de Logan Gunthorpe   2021-06-10  440   * PCI_P2PDMA_MAP_THRU_H=
-OST_BRIDGE; otherwise return
-6389d43745228de Logan Gunthorpe   2021-06-10  441   * PCI_P2PDMA_MAP_BUS_AD=
-DR.
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  442   *
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  443   * Any two devices that =
-have a data path that goes through the host bridge
-6389d43745228de Logan Gunthorpe   2021-06-10  444   * will consult a whitel=
-ist. If the host bridge is in the whitelist, return
-6389d43745228de Logan Gunthorpe   2021-06-10  445   * PCI_P2PDMA_MAP_THRU_H=
-OST_BRIDGE with the distance set to the number of
-6389d43745228de Logan Gunthorpe   2021-06-10  446   * ports per above. If t=
-he device is not in the whitelist, return
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  447   * PCI_P2PDMA_MAP_NOT_SU=
-PPORTED.
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  448   */
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  449  static enum pci_p2pdma_m=
-ap_type
-6389d43745228de Logan Gunthorpe   2021-06-10  450  calc_map_type_and_dist(s=
-truct pci_dev *provider, struct pci_dev *client,
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  451  		int *dist, bool verbos=
-e)
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  452  {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  453  	enum pci_p2pdma_map_typ=
-e map_type =3D PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  454  	struct pci_dev *a =3D p=
-rovider, *b =3D client, *bb;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  455  	bool acs_redirects =3D =
-false;
-ae21f835a5bda0e Eric Dumazet      2021-07-01  456  	struct pci_p2pdma *p2pd=
-ma;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  457  	struct seq_buf acs_list;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  458  	int acs_cnt =3D 0;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  459  	int dist_a =3D 0;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  460  	int dist_b =3D 0;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  461  	char buf[128];
-e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  462  =
+c1b52739e45f59 Benjamin LaHaise  2013-01-14  118  static int tcf_skbedit_in=
+it(struct net *net, struct nlattr *nla,
+a85a970af265f1 WANG Cong         2016-07-25  119  			    struct nlattr *est=
+, struct tc_action **a,
+abbb0d33632ce9 Vlad Buslov       2019-10-30  120  			    struct tcf_proto *=
+tp, u32 act_flags,
+789871bb2a0381 Vlad Buslov       2018-07-05  121  			    struct netlink_ext=
+_ack *extack)
+ca9b0e27e072be Alexander Duyck   2008-09-12  122  {
+ddf97ccdd7cb7e WANG Cong         2016-02-22  123  	struct tc_action_net *tn=
+ =3D net_generic(net, skbedit_net_id);
+695176bfe5dec2 Cong Wang         2021-07-29  124  	bool bind =3D act_flags =
+& TCA_ACT_FLAGS_BIND;
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  125  	struct tcf_skbedit_param=
+s *params_new;
+ca9b0e27e072be Alexander Duyck   2008-09-12  126  	struct nlattr *tb[TCA_SK=
+BEDIT_MAX + 1];
+ec7727bb24b01e Davide Caratti    2019-03-20  127  	struct tcf_chain *goto_c=
+h =3D NULL;
+ca9b0e27e072be Alexander Duyck   2008-09-12  128  	struct tc_skbedit *parm;
+ca9b0e27e072be Alexander Duyck   2008-09-12  129  	struct tcf_skbedit *d;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  130  	u32 flags =3D 0, *priori=
+ty =3D NULL, *mark =3D NULL, *mask =3D NULL;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  131  	u16 *queue_mapping =3D N=
+ULL, *ptype =3D NULL;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  132  	u16 mapping_mod =3D 0;
+b2313077ed0db3 WANG Cong         2016-06-13  133  	bool exists =3D false;
+b2313077ed0db3 WANG Cong         2016-06-13  134  	int ret =3D 0, err;
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  135  	u32 index;
+ca9b0e27e072be Alexander Duyck   2008-09-12  136  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  463  	seq_buf_init(&acs_list,=
- buf, sizeof(buf));
-e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  464  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  137  	if (nla =3D=3D NULL)
+ca9b0e27e072be Alexander Duyck   2008-09-12  138  		return -EINVAL;
+ca9b0e27e072be Alexander Duyck   2008-09-12  139  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  465  	/*
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  466  	 * Note, we don't need =
-to take references to devices returned by
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  467  	 * pci_upstream_bridge(=
-) seeing we hold a reference to a child
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  468  	 * device which will al=
-ready hold a reference to the upstream bridge.
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  469  	 */
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  470  	while (a) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  471  		dist_b =3D 0;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  472  =
+8cb081746c031f Johannes Berg     2019-04-26  140  	err =3D nla_parse_nested=
+_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+8cb081746c031f Johannes Berg     2019-04-26  141  					  skbedit_policy, NU=
+LL);
+ca9b0e27e072be Alexander Duyck   2008-09-12  142  	if (err < 0)
+ca9b0e27e072be Alexander Duyck   2008-09-12  143  		return err;
+ca9b0e27e072be Alexander Duyck   2008-09-12  144  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  473  		if (pci_bridge_has_acs=
-_redir(a)) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  474  			seq_buf_print_bus_dev=
-fn(&acs_list, a);
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  475  			acs_cnt++;
-e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  476  		}
-e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  477  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  145  	if (tb[TCA_SKBEDIT_PARMS=
+] =3D=3D NULL)
+ca9b0e27e072be Alexander Duyck   2008-09-12  146  		return -EINVAL;
+ca9b0e27e072be Alexander Duyck   2008-09-12  147  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  478  		bb =3D b;
-110203bee05f336 Logan Gunthorpe   2019-08-12  479  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  148  	if (tb[TCA_SKBEDIT_PRIOR=
+ITY] !=3D NULL) {
+ca9b0e27e072be Alexander Duyck   2008-09-12  149  		flags |=3D SKBEDIT_F_PR=
+IORITY;
+ca9b0e27e072be Alexander Duyck   2008-09-12  150  		priority =3D nla_data(t=
+b[TCA_SKBEDIT_PRIORITY]);
+ca9b0e27e072be Alexander Duyck   2008-09-12  151  	}
+ca9b0e27e072be Alexander Duyck   2008-09-12  152  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  480  		while (bb) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  481  			if (a =3D=3D bb)
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  482  				goto check_b_path_ac=
-s;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  483  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  153  	if (tb[TCA_SKBEDIT_QUEUE=
+_MAPPING] !=3D NULL) {
+ca9b0e27e072be Alexander Duyck   2008-09-12  154  		flags |=3D SKBEDIT_F_QU=
+EUE_MAPPING;
+ca9b0e27e072be Alexander Duyck   2008-09-12  155  		queue_mapping =3D nla_d=
+ata(tb[TCA_SKBEDIT_QUEUE_MAPPING]);
+ca9b0e27e072be Alexander Duyck   2008-09-12  156  	}
+1c55d62e77fa16 jamal             2009-10-15  157  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  484  			bb =3D pci_upstream_b=
-ridge(bb);
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  485  			dist_b++;
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  486  		}
-c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  487  =
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  158  	if (tb[TCA_SKBEDIT_PTYPE=
+] !=3D NULL) {
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  159  		ptype =3D nla_data(tb[T=
+CA_SKBEDIT_PTYPE]);
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  160  		if (!skb_pkt_type_ok(*p=
+type))
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  161  			return -EINVAL;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  162  		flags |=3D SKBEDIT_F_PT=
+YPE;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  163  	}
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  164  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  488  		a =3D pci_upstream_bri=
-dge(a);
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  489  		dist_a++;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  490  	}
-52916982af48d9f Logan Gunthorpe   2018-10-04  491  =
+1c55d62e77fa16 jamal             2009-10-15  165  	if (tb[TCA_SKBEDIT_MARK]=
+ !=3D NULL) {
+1c55d62e77fa16 jamal             2009-10-15  166  		flags |=3D SKBEDIT_F_MA=
+RK;
+1c55d62e77fa16 jamal             2009-10-15  167  		mark =3D nla_data(tb[TC=
+A_SKBEDIT_MARK]);
+1c55d62e77fa16 jamal             2009-10-15  168  	}
+1c55d62e77fa16 jamal             2009-10-15  169  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  492  	*dist =3D dist_a + dist=
-_b;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  493  	goto map_through_host_b=
-ridge;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  494  =
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  170  	if (tb[TCA_SKBEDIT_MASK]=
+ !=3D NULL) {
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  171  		flags |=3D SKBEDIT_F_MA=
+SK;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  172  		mask =3D nla_data(tb[TC=
+A_SKBEDIT_MASK]);
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  173  	}
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  174  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  495  check_b_path_acs:
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  496  	bb =3D b;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  497  =
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  175  	if (tb[TCA_SKBEDIT_FLAGS=
+] !=3D NULL) {
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  176  		u64 *pure_flags =3D nla=
+_data(tb[TCA_SKBEDIT_FLAGS]);
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  177  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  498  	while (bb) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  499  		if (a =3D=3D bb)
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  500  			break;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  501  =
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  178  		if (*pure_flags & SKBED=
+IT_F_INHERITDSFIELD)
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  179  			flags |=3D SKBEDIT_F_I=
+NHERITDSFIELD;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  180  		if (*pure_flags & SKBED=
+IT_F_QUEUE_MAPPING_HASH_MASK) {
+8c116fa6e5382f Tonghao Zhang     2021-12-06  181  			u16 max, min;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  182  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  502  		if (pci_bridge_has_acs=
-_redir(bb)) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  503  			seq_buf_print_bus_dev=
-fn(&acs_list, bb);
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  504  			acs_cnt++;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  505  		}
-52916982af48d9f Logan Gunthorpe   2018-10-04  506  =
+8c116fa6e5382f Tonghao Zhang     2021-12-06  183  			if (!queue_mapping)
+8c116fa6e5382f Tonghao Zhang     2021-12-06  184  				return -EINVAL;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  185  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  507  		bb =3D pci_upstream_br=
-idge(bb);
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  508  	}
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  509  =
+8c116fa6e5382f Tonghao Zhang     2021-12-06  186  			max =3D *queue_mapping=
+ >> 8;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  187  			min =3D *queue_mapping=
+ & 0xff;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  188  			if (max < min)
+8c116fa6e5382f Tonghao Zhang     2021-12-06  189  				return -EINVAL;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  190  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  510  	*dist =3D dist_a + dist=
-_b;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  511  =
+8c116fa6e5382f Tonghao Zhang     2021-12-06  191  			mapping_mod =3D max - =
+min + 1;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  192  			flags |=3D *pure_flags=
+ &
+8c116fa6e5382f Tonghao Zhang     2021-12-06  193  				 SKBEDIT_F_QUEUE_MAPP=
+ING_HASH_MASK;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  194  		}
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  195  	}
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  196  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  512  	if (!acs_cnt) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  513  		map_type =3D PCI_P2PDM=
-A_MAP_BUS_ADDR;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  514  		goto done;
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  515  	}
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  516  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  197  	parm =3D nla_data(tb[TCA=
+_SKBEDIT_PARMS]);
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  198  	index =3D parm->index;
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  199  	err =3D tcf_idr_check_al=
+loc(tn, &index, a, bind);
+0190c1d452a91c Vlad Buslov       2018-07-05  200  	if (err < 0)
+0190c1d452a91c Vlad Buslov       2018-07-05  201  		return err;
+0190c1d452a91c Vlad Buslov       2018-07-05  202  	exists =3D err;
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  203  	if (exists && bind)
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  204  		return 0;
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  205  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  517  	if (verbose) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  518  		acs_list.buffer[acs_li=
-st.len-1] =3D 0; /* drop final semicolon */
-72583084e3fe333 Logan Gunthorpe   2019-08-12  519  		pci_warn(client, "ACS =
-redirect is set between the client and provider (%s)\n",
-52916982af48d9f Logan Gunthorpe   2018-10-04  520  			 pci_name(provider));
-52916982af48d9f Logan Gunthorpe   2018-10-04  521  		pci_warn(client, "to d=
-isable ACS redirect for this path, add the kernel parameter: pci=3Ddisable_=
-acs_redir=3D%s\n",
-52916982af48d9f Logan Gunthorpe   2018-10-04  522  			 acs_list.buffer);
-72583084e3fe333 Logan Gunthorpe   2019-08-12  523  	}
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  524  	acs_redirects =3D true;
-52916982af48d9f Logan Gunthorpe   2018-10-04  525  =
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  206  	if (!flags) {
+af5d01842fe1fb Roman Mashak      2018-05-11  207  		if (exists)
+65a206c01e8e7f Chris Mi          2017-08-30  208  			tcf_idr_release(*a, bi=
+nd);
+0190c1d452a91c Vlad Buslov       2018-07-05  209  		else
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  210  			tcf_idr_cleanup(tn, in=
+dex);
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  211  		return -EINVAL;
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  212  	}
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  213  =
 
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  526  map_through_host_bridge:
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  527  	if (!cpu_supports_p2pdm=
-a() &&
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  528  	    !host_bridge_whitel=
-ist(provider, client, acs_redirects)) {
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  529  		if (verbose)
-72583084e3fe333 Logan Gunthorpe   2019-08-12  530  			pci_warn(client, "can=
-not be used for peer-to-peer DMA as the client and provider (%s) do not sha=
-re an upstream bridge or whitelisted host bridge\n",
-52916982af48d9f Logan Gunthorpe   2018-10-04  531  				 pci_name(provider));
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  532  		map_type =3D PCI_P2PDM=
-A_MAP_NOT_SUPPORTED;
-52916982af48d9f Logan Gunthorpe   2018-10-04  533  	}
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  534  done:
-ae21f835a5bda0e Eric Dumazet      2021-07-01  535  	rcu_read_lock();
-ae21f835a5bda0e Eric Dumazet      2021-07-01 @536  	p2pdma =3D rcu_derefere=
-nce(provider->p2pdma);
-ae21f835a5bda0e Eric Dumazet      2021-07-01  537  	if (p2pdma)
-ae21f835a5bda0e Eric Dumazet      2021-07-01  538  		xa_store(&p2pdma->map_=
-types, map_types_idx(client),
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  539  			 xa_mk_value(map_type=
-), GFP_KERNEL);
-ae21f835a5bda0e Eric Dumazet      2021-07-01  540  	rcu_read_unlock();
-d1b8dc09dd71248 Christoph Hellwig 2021-06-14  541  	return map_type;
-52916982af48d9f Logan Gunthorpe   2018-10-04  542  }
-52916982af48d9f Logan Gunthorpe   2018-10-04  543  =
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  214  	if (!exists) {
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  215  		ret =3D tcf_idr_create(=
+tn, index, est, a,
+e38226786022d2 Vlad Buslov       2019-10-30  216  				     &act_skbedit_ops=
+, bind, true, 0);
+0190c1d452a91c Vlad Buslov       2018-07-05  217  		if (ret) {
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  218  			tcf_idr_cleanup(tn, in=
+dex);
+86062033feb8a1 WANG Cong         2014-02-11  219  			return ret;
+0190c1d452a91c Vlad Buslov       2018-07-05  220  		}
+ca9b0e27e072be Alexander Duyck   2008-09-12  221  =
 
+a85a970af265f1 WANG Cong         2016-07-25  222  		d =3D to_skbedit(*a);
+ca9b0e27e072be Alexander Duyck   2008-09-12  223  		ret =3D ACT_P_CREATED;
+ca9b0e27e072be Alexander Duyck   2008-09-12  224  	} else {
+a85a970af265f1 WANG Cong         2016-07-25  225  		d =3D to_skbedit(*a);
+695176bfe5dec2 Cong Wang         2021-07-29  226  		if (!(act_flags & TCA_A=
+CT_FLAGS_REPLACE)) {
+65a206c01e8e7f Chris Mi          2017-08-30  227  			tcf_idr_release(*a, bi=
+nd);
+ca9b0e27e072be Alexander Duyck   2008-09-12  228  			return -EEXIST;
+ca9b0e27e072be Alexander Duyck   2008-09-12  229  		}
+4e8ddd7f1758ca Vlad Buslov       2018-07-05  230  	}
+ec7727bb24b01e Davide Caratti    2019-03-20  231  	err =3D tcf_action_check=
+_ctrlact(parm->action, tp, &goto_ch, extack);
+ec7727bb24b01e Davide Caratti    2019-03-20  232  	if (err < 0)
+ec7727bb24b01e Davide Caratti    2019-03-20  233  		goto release_idr;
+ca9b0e27e072be Alexander Duyck   2008-09-12  234  =
 
-:::::: The code at line 536 was first introduced by commit
-:::::: ae21f835a5bda0ef1d00940373445693a764d89e PCI/P2PDMA: Finish RCU conv=
-ersion of pdev->p2pdma
+c749cdda9089eb Davide Caratti    2018-07-11  235  	params_new =3D kzalloc(s=
+izeof(*params_new), GFP_KERNEL);
+c749cdda9089eb Davide Caratti    2018-07-11  236  	if (unlikely(!params_new=
+)) {
+ec7727bb24b01e Davide Caratti    2019-03-20  237  		err =3D -ENOMEM;
+ec7727bb24b01e Davide Caratti    2019-03-20  238  		goto put_chain;
+c749cdda9089eb Davide Caratti    2018-07-11  239  	}
+ca9b0e27e072be Alexander Duyck   2008-09-12  240  =
 
-:::::: TO: Eric Dumazet <edumazet@google.com>
-:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
+c749cdda9089eb Davide Caratti    2018-07-11  241  	params_new->flags =3D fl=
+ags;
+ca9b0e27e072be Alexander Duyck   2008-09-12  242  	if (flags & SKBEDIT_F_PR=
+IORITY)
+c749cdda9089eb Davide Caratti    2018-07-11 @243  		params_new->priority =
+=3D *priority;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  244  	if (flags & SKBEDIT_F_QU=
+EUE_MAPPING) {
+c749cdda9089eb Davide Caratti    2018-07-11  245  		params_new->queue_mappi=
+ng =3D *queue_mapping;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  246  		params_new->mapping_mod=
+ =3D mapping_mod;
+8c116fa6e5382f Tonghao Zhang     2021-12-06  247  	}
+1c55d62e77fa16 jamal             2009-10-15  248  	if (flags & SKBEDIT_F_MA=
+RK)
+c749cdda9089eb Davide Caratti    2018-07-11 @249  		params_new->mark =3D *m=
+ark;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  250  	if (flags & SKBEDIT_F_PT=
+YPE)
+c749cdda9089eb Davide Caratti    2018-07-11 @251  		params_new->ptype =3D *=
+ptype;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  252  	/* default behaviour is =
+to use all the bits */
+c749cdda9089eb Davide Caratti    2018-07-11  253  	params_new->mask =3D 0xf=
+fffffff;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  254  	if (flags & SKBEDIT_F_MA=
+SK)
+c749cdda9089eb Davide Caratti    2018-07-11 @255  		params_new->mask =3D *m=
+ask;
+1c55d62e77fa16 jamal             2009-10-15  256  =
+
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  257  	spin_lock_bh(&d->tcf_loc=
+k);
+ec7727bb24b01e Davide Caratti    2019-03-20  258  	goto_ch =3D tcf_action_s=
+et_ctrlact(*a, parm->action, goto_ch);
+445d3749315f34 Paul E. McKenney  2019-09-23  259  	params_new =3D rcu_repla=
+ce_pointer(d->params, params_new,
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  260  					 lockdep_is_held(&d-=
+>tcf_lock));
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  261  	spin_unlock_bh(&d->tcf_l=
+ock);
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  262  	if (params_new)
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  263  		kfree_rcu(params_new, r=
+cu);
+ec7727bb24b01e Davide Caratti    2019-03-20  264  	if (goto_ch)
+ec7727bb24b01e Davide Caratti    2019-03-20  265  		tcf_chain_put_by_act(go=
+to_ch);
+ca9b0e27e072be Alexander Duyck   2008-09-12  266  =
+
+ca9b0e27e072be Alexander Duyck   2008-09-12  267  	return ret;
+ec7727bb24b01e Davide Caratti    2019-03-20  268  put_chain:
+ec7727bb24b01e Davide Caratti    2019-03-20  269  	if (goto_ch)
+ec7727bb24b01e Davide Caratti    2019-03-20  270  		tcf_chain_put_by_act(go=
+to_ch);
+ec7727bb24b01e Davide Caratti    2019-03-20  271  release_idr:
+ec7727bb24b01e Davide Caratti    2019-03-20  272  	tcf_idr_release(*a, bind=
+);
+ec7727bb24b01e Davide Caratti    2019-03-20  273  	return err;
+ca9b0e27e072be Alexander Duyck   2008-09-12  274  }
+ca9b0e27e072be Alexander Duyck   2008-09-12  275  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0884077224616335555==--
+--===============6135170292035841406==--
 
