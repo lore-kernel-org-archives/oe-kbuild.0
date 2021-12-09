@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8204960983238924758=="
+Content-Type: multipart/mixed; boundary="===============7962171735955457800=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResult]
-Date: Thu, 09 Dec 2021 08:39:11 +0800
-Message-ID: <202112090844.wThBsVEB-lkp@intel.com>
+Subject: drivers/hv/channel_mgmt.c:785:22: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Thu, 09 Dec 2021 08:18:49 +0800
+Message-ID: <202112090837.muDKpeym-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8204960983238924758==
+--===============7962171735955457800==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Haiyang Zhang <haiyangz@microsoft.com>
+CC: Wei Liu <wei.liu@kernel.org>
+CC: Michael Kelley <mikelley@microsoft.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
+commit: 7c9ff3deeee61b253715dcf968a6307af148c9b2 Drivers: hv: vmbus: Fix du=
+plicate CPU assignments within a device
+date:   5 months ago
 :::::: branch date: 25 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20211128 (https://download.01.org/0day-ci/arc=
-hive/20211209/202112090844.wThBsVEB-lkp(a)intel.com/config)
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
+chive/20211209/202112090837.muDKpeym-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
 97ef3ee4dc2119d5429adf3072e90fac38)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
+t/commit/?id=3D7c9ff3deeee61b253715dcf968a6307af148c9b2
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
+        git checkout 7c9ff3deeee61b253715dcf968a6307af148c9b2
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,311 +51,400 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:6: note: Left side of '&&' i=
-s true
-           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:2: note: Taking false branch
-           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:6: note: Assuming 'r' is 0
-           if (r)
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:2: note: Taking false branch
-           if (r)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:7: note: 'nodes' is null
-                   if (nodes) {
-                       ^~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:3: note: Taking false branch
-                   if (nodes) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:7: note: 'pages_addr' is null
-                   if (pages_addr) {
-                       ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:3: note: Taking false branch
-                   if (pages_addr) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1691:10: note: Taking true branch
-                   } else if (flags & (AMDGPU_PTE_VALID | AMDGPU_PTE_PRT)) {
-                          ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1697:7: note: Calling 'amdgpu_vm_=
-update_ptes'
-                   r =3D amdgpu_vm_update_ptes(&params, start, tmp, addr, f=
-lags);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Calling 'amdgpu_vm_=
-fragment'
-           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
-end);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:6: note: Assuming field 'asi=
-c_type' is >=3D CHIP_VEGA10
-           if (params->adev->asic_type < CHIP_VEGA10)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:2: note: Taking false branch
-           if (params->adev->asic_type < CHIP_VEGA10)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:6: note: Assuming field 'pag=
-es_addr' is non-null
-           if (params->pages_addr) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:2: note: Taking true branch
-           if (params->pages_addr) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1404:3: note: Returning without w=
-riting to 'params->unlocked', which participates in a condition later
-                   return;
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Returning from 'amd=
-gpu_vm_fragment'
-           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
-end);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:9: note: Assuming 'end' is >=
- field 'pfn'
-           while (cursor.pfn < end) {
-                  ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:2: note: Loop condition is t=
-rue.  Entering loop body
-           while (cursor.pfn < end) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:7: note: Assuming field 'unl=
-ocked' is true
-                   if (!params->unlocked) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:3: note: Taking false branch
-                   if (!params->unlocked) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Calling 'amdgpu_vm=
-_level_shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:125:2: note: Control jumps to the=
- 'default' case at line 133
-           switch (level) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:134:3: note: Returning the value =
-4294967295
-                   return ~0;
-                   ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Returning from 'am=
-dgpu_vm_level_shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:3: note: The value 429496729=
-5 is assigned to 'shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:15: note: Field 'unlocked' i=
-s true
-                   if (params->unlocked) {
-                               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:3: note: Taking true branch
-                   if (params->unlocked) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:8: note: Assuming the condit=
-ion is false
-                           if (amdgpu_vm_pt_descendant(adev, &cursor))
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:4: note: Taking false branch
-                           if (amdgpu_vm_pt_descendant(adev, &cursor))
-                           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:7: note: Assuming 'pt' is no=
-n-null
-                   if (!pt) {
-                       ^~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:3: note: Taking false branch
-                   if (!pt) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1510:41: note: The result of the =
-left shift is undefined due to shifting by '4294967295', which is greater o=
-r equal to the width of type 'uint64_t'
-                   incr =3D (uint64_t)AMDGPU_GPU_PAGE_SIZE << shift;
-                                                         ^  ~~~~~
->> include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>=
-' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResul=
-t]
-           __u32 h =3D x >> 32;
-                       ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:6: note: Assuming the condit=
-ion is true
-           if (amdgpu_vm_size !=3D -1) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:2: note: Taking true branch
-           if (amdgpu_vm_size !=3D -1) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:7: note: Assuming 'vm_size' =
-is <=3D 'max_size'
-                   if (vm_size > max_size) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:3: note: Taking false branch
-                   if (vm_size > max_size) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2712:8: note: '?' condition is fa=
-lse
-           tmp =3D roundup_pow_of_two(adev->vm_manager.max_pfn);
-                 ^
-   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __builtin_constant_p(n) ? (             \
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:6: note: Assuming the condit=
-ion is false
-           if (amdgpu_vm_block_size !=3D -1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:2: note: Taking false branch
-           if (amdgpu_vm_block_size !=3D -1)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: Assuming '__UNIQUE=
-_ID___x451' is >=3D '__UNIQUE_ID___y452'
-           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
-                                        ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
                    __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
                    __cmp(unique_x, unique_y, op); })
                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
    #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: '?' condition is f=
-alse
-           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
-                                        ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                            ^~~
+   drivers/ntb/hw/idt/ntb_hw_idt.c:2011:10: note: '?' condition is true
+                   mdeg =3D clamp_val(mdeg, IDT_TEMP_MIN_OFFSET,
+                          ^
+   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^
+   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
                    __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
                    ^
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
                    __cmp(unique_x, unique_y, op); })
                    ^
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
    #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
                             ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2717:2: note: Control jumps to th=
-e 'default' case@line 2727
-           switch (adev->vm_manager.num_level) {
+   drivers/ntb/hw/idt/ntb_hw_idt.c:2016:2: note: Calling 'idt_write_temp'
+           idt_write_temp(ndev, type, mdeg);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ntb/hw/idt/ntb_hw_idt.c:1938:8: note: Calling 'idt_temp_get_fmt'
+           fmt =3D idt_temp_get_fmt(val);
+                 ^~~~~~~~~~~~~~~~~~~~~
+   drivers/ntb/hw/idt/ntb_hw_idt.c:1858:10: note: Calling 'idt_get_deg'
+           return (idt_get_deg(mdegC) << 1) | (idt_get_deg_frac(mdegC) ? 1 =
+: 0);
+                   ^~~~~~~~~~~~~~~~~~
+   drivers/ntb/hw/idt/ntb_hw_idt.c:1836:2: note: Returning the value -64
+           return mdegC / 1000;
+           ^~~~~~~~~~~~~~~~~~~
+   drivers/ntb/hw/idt/ntb_hw_idt.c:1858:10: note: Returning from 'idt_get_d=
+eg'
+           return (idt_get_deg(mdegC) << 1) | (idt_get_deg_frac(mdegC) ? 1 =
+: 0);
+                   ^~~~~~~~~~~~~~~~~~
+   drivers/ntb/hw/idt/ntb_hw_idt.c:1858:29: note: The result of the left sh=
+ift is undefined because the left operand is negative
+           return (idt_get_deg(mdegC) << 1) | (idt_get_deg_frac(mdegC) ? 1 =
+: 0);
+                   ~~~~~~~~~~~~~~~~~~ ^
+   Suppressed 8 warnings (5 in non-user code, 3 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/char/agp/amd64-agp.c:336:2: warning: Value stored to 'i' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+           i =3D 0;
+           ^   ~
+   drivers/char/agp/amd64-agp.c:336:2: note: Value stored to 'i' is never r=
+ead
+           i =3D 0;
+           ^   ~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/char/agp/via-agp.c:133:2: warning: Value stored to 'current_size=
+' is never read [clang-analyzer-deadcode.DeadStores]
+           current_size =3D A_SIZE_16(agp_bridge->current_size);
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:6: note: Assuming the condit=
-ion is false
-           if (amdgpu_vm_block_size !=3D -1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:2: note: Taking false branch
-           if (amdgpu_vm_block_size !=3D -1)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:11: note: Assuming field 'nu=
-m_level' is <=3D 1
-           else if (adev->vm_manager.num_level > 1)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:7: note: Taking false branch
-           else if (adev->vm_manager.num_level > 1)
-                ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2739:33: note: Calling 'amdgpu_vm=
-_get_block_size'
-                   adev->vm_manager.block_size =3D amdgpu_vm_get_block_size=
-(tmp);
-                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~=
+   drivers/char/agp/via-agp.c:133:2: note: Value stored to 'current_size' i=
+s never read
+   Suppressed 6 warnings (5 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/char/applicom.c:571:5: warning: Value stored to 'ret' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                                   ret =3D do_ac_read(i, buf, &st_loc, &mai=
+lbox);
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
 ~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
-alse
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
+   drivers/char/applicom.c:571:5: note: Value stored to 'ret' is never read
+                                   ret =3D do_ac_read(i, buf, &st_loc, &mai=
+lbox);
+                                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   Suppressed 8 warnings (5 in non-user code, 3 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/hv/channel_mgmt.c:785:22: warning: Assigned value is garbage or =
+undefined [clang-analyzer-core.uninitialized.Assign]
+           channel->target_cpu =3D target_cpu;
+                               ^
+   drivers/hv/channel_mgmt.c:608:2: note: Left side of '&&' is false
+           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
+ry) {
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
-alse
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: Calling '__ilog2_u=
-64'
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:163:2: note: expanded from macro 'ilog2'
-           __ilog2_u64(n)                  \
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/hv/channel_mgmt.c:608:2: note: Taking false branch
+           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
+ry) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/hv/channel_mgmt.c:608:2: note: Loop condition is false.  Exiting=
+ loop
+           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
+ry) {
+           ^
+   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
+try'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+                      ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/hv/channel_mgmt.c:608:2: note: Loop condition is false. Executio=
+n continues on line 619
+           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
+ry) {
+           ^
+   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/hv/channel_mgmt.c:619:2: note: Calling 'init_vp_index'
+           init_vp_index(newchannel);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hv/channel_mgmt.c:732:2: note: 'target_cpu' declared without an =
+initial value
+           u32 target_cpu;
            ^~~~~~~~~~~~~~
-   include/linux/log2.h:32:9: note: Calling 'fls64'
-           return fls64(n) - 1;
-                  ^~~~~~~~
-   include/asm-generic/bitops/fls64.h:21:14: note: The result of the '>>' e=
-xpression is undefined
-           __u32 h =3D x >> 32;
-                     ~~^~~~~
-   include/linux/log2.h:57:13: warning: The result of the left shift is und=
-efined due to shifting by '32', which is greater or equal to the width of t=
-ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return 1UL << fls_long(n - 1);
+   drivers/hv/channel_mgmt.c:735:7: note: Assuming the condition is false
+           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hv/channel_mgmt.c:735:6: note: Left side of '||' is false
+           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
+               ^
+   drivers/hv/channel_mgmt.c:736:7: note: Assuming the condition is false
+               (vmbus_proto_version =3D=3D VERSION_WIN7) || (!perf_chn) ||
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hv/channel_mgmt.c:735:6: note: Left side of '||' is false
+           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
+               ^
+   drivers/hv/channel_mgmt.c:736:48: note: Assuming 'perf_chn' is true
+               (vmbus_proto_version =3D=3D VERSION_WIN7) || (!perf_chn) ||
+                                                         ^~~~~~~~~
+   drivers/hv/channel_mgmt.c:735:6: note: Left side of '||' is false
+           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
+               ^
+   drivers/hv/channel_mgmt.c:737:6: note: Assuming the condition is false
+               !alloc_cpumask_var(&available_mask, GFP_KERNEL)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hv/channel_mgmt.c:735:2: note: Taking false branch
+           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
+           ^
+   drivers/hv/channel_mgmt.c:752:14: note: Assuming the condition is false
+           for (i =3D 1; i <=3D ncpu + 1; i++) {
+                       ^~~~~~~~~~~~~
 
-vim +21 include/asm-generic/bitops/fls64.h
+vim +785 drivers/hv/channel_mgmt.c
 
-a54baa1487c51c Akinobu Mita           2006-03-26   6  =
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  714  =
 
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   7  /**
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   8   * fls64 - find last =
-set bit in a 64-bit word
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   9   * @x: the word to se=
-arch
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  10   *
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  11   * This is defined in=
- a similar way as the libc and compiler builtin
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  12   * ffsll, but returns=
- the position of the most significant set bit.
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  13   *
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  14   * fls64(value) retur=
-ns 0 if value is 0 or the position of the last
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  15   * set bit if value i=
-s nonzero. The last (most significant) bit is
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  16   *@position 64.
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  17   */
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  18  #if BITS_PER_LONG =3D=
-=3D 32
-c8399943bdb70f Andi Kleen             2009-01-12  19  static __always_inlin=
-e int fls64(__u64 x)
-2dfc383ad587bb Akinobu Mita           2006-03-26  20  {
-2dfc383ad587bb Akinobu Mita           2006-03-26 @21  	__u32 h =3D x >> 32;
-2dfc383ad587bb Akinobu Mita           2006-03-26  22  	if (h)
-2dfc383ad587bb Akinobu Mita           2006-03-26  23  		return fls(h) + 32;
-2dfc383ad587bb Akinobu Mita           2006-03-26  24  	return fls(x);
-2dfc383ad587bb Akinobu Mita           2006-03-26  25  }
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  26  #elif BITS_PER_LONG =
-=3D=3D 64
-c8399943bdb70f Andi Kleen             2009-01-12  27  static __always_inlin=
-e int fls64(__u64 x)
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  28  {
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  29  	if (x =3D=3D 0)
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  30  		return 0;
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  31  	return __fls(x) + 1;
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  32  }
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  33  #else
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  34  #error BITS_PER_LONG =
-not 32 or 64
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  35  #endif
-2dfc383ad587bb Akinobu Mita           2006-03-26  36  =
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  715  /*
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  716   * Starting with W=
+in8, we can statically distribute the incoming
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  717   * channel interru=
+pt load by binding a channel to VCPU.
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  718   *
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  719   * For pre-win8 ho=
+sts or non-performance critical channels we assign the
+d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  720)  * VMBUS_CONNECT_C=
+PU.
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  721)  *
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  722)  * Starting with w=
+in8, performance critical channels will be distributed
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  723)  * evenly among al=
+l the available NUMA nodes.  Once the node is assigned,
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  724)  * we will assign =
+the CPU based on a simple round robin scheme.
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  725   */
+afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  726) static void init_v=
+p_index(struct vmbus_channel *channel)
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  727  {
+afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  728) 	bool perf_chn =3D=
+ hv_is_perf_channel(channel);
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  729  	u32 i, ncpu =3D n=
+um_online_cpus();
+25355252607ca2 Dexuan Cui               2018-09-23  730  	cpumask_var_t ava=
+ilable_mask;
+9f01ec53458d9e K. Y. Srinivasan         2015-08-05  731  	struct cpumask *a=
+lloced_mask;
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  732) 	u32 target_cpu;
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  733) 	int numa_node;
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  734  =
+
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  735  	if ((vmbus_proto_=
+version =3D=3D VERSION_WS2008) ||
+25355252607ca2 Dexuan Cui               2018-09-23  736  	    (vmbus_proto_=
+version =3D=3D VERSION_WIN7) || (!perf_chn) ||
+25355252607ca2 Dexuan Cui               2018-09-23  737  	    !alloc_cpumas=
+k_var(&available_mask, GFP_KERNEL)) {
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  738  		/*
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  739  		 * Prior to win8=
+, all channel interrupts are
+d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  740) 		 * delivered on =
+VMBUS_CONNECT_CPU.
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  741  		 * Also if the c=
+hannel is not a performance critical
+d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  742) 		 * channel, bind=
+ it to VMBUS_CONNECT_CPU.
+d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  743) 		 * In case alloc=
+_cpumask_var() fails, bind it to
+d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  744) 		 * VMBUS_CONNECT=
+_CPU.
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  745  		 */
+d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  746) 		channel->target_=
+cpu =3D VMBUS_CONNECT_CPU;
+afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  747) 		if (perf_chn)
+afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  748) 			hv_set_alloced_=
+cpu(VMBUS_CONNECT_CPU);
+d3ba720dd58cdf K. Y. Srinivasan         2014-04-08  749  		return;
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  750  	}
+ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  751  =
+
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  752  	for (i =3D 1; i <=
+=3D ncpu + 1; i++) {
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  753  		while (true) {
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  754) 			numa_node =3D n=
+ext_numa_node_id++;
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  755) 			if (numa_node =
+=3D=3D nr_node_ids) {
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  756) 				next_numa_node=
+_id =3D 0;
+509879bdb30b8e K. Y. Srinivasan         2016-09-02  757  				continue;
+509879bdb30b8e K. Y. Srinivasan         2016-09-02  758  			}
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  759) 			if (cpumask_emp=
+ty(cpumask_of_node(numa_node)))
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  760  				continue;
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  761  			break;
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  762  		}
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  763) 		alloced_mask =3D=
+ &hv_context.hv_numa_map[numa_node];
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  764  =
+
+9f01ec53458d9e K. Y. Srinivasan         2015-08-05  765  		if (cpumask_weig=
+ht(alloced_mask) =3D=3D
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  766) 		    cpumask_weig=
+ht(cpumask_of_node(numa_node))) {
+ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  767  			/*
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  768  			 * We have cycl=
+ed through all the CPUs in the node;
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  769  			 * reset the al=
+loced map.
+ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  770  			 */
+9f01ec53458d9e K. Y. Srinivasan         2015-08-05  771  			cpumask_clear(a=
+lloced_mask);
+ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  772  		}
+ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  773  =
+
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  774  		cpumask_xor(avai=
+lable_mask, alloced_mask,
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  775  			    cpumask_of_=
+node(numa_node));
+79fd8e706637a5 Vitaly Kuznetsov         2016-01-27  776  =
+
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  777) 		target_cpu =3D c=
+pumask_first(available_mask);
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  778) 		cpumask_set_cpu(=
+target_cpu, alloced_mask);
+1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  779  =
+
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  780  		if (channel->off=
+ermsg.offer.sub_channel_index >=3D ncpu ||
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  781  		    i > ncpu || =
+!hv_cpuself_used(target_cpu, channel))
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  782  			break;
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  783  	}
+7c9ff3deeee61b Haiyang Zhang            2021-07-16  784  =
+
+8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06 @785) 	channel->target_c=
+pu =3D target_cpu;
+25355252607ca2 Dexuan Cui               2018-09-23  786  =
+
+25355252607ca2 Dexuan Cui               2018-09-23  787  	free_cpumask_var(=
+available_mask);
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  788  }
+a119845f6e98c8 K. Y. Srinivasan         2012-12-01  789  =
 
 
-:::::: The code at line 21 was first introduced by commit
-:::::: 2dfc383ad587bbead84739a9ff9273df3eda983d [PATCH] bitops: generic fls=
-64()
+:::::: The code at line 785 was first introduced by commit
+:::::: 8ef4c4abbbcdcd9d4bc0fd9454df03e6dac24b73 Drivers: hv: vmbus: Remove =
+the unused HV_LOCALIZED channel affinity logic
 
-:::::: TO: Akinobu Mita <mita@miraclelinux.com>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+:::::: TO: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
+:::::: CC: Wei Liu <wei.liu@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8204960983238924758==--
+--===============7962171735955457800==--
 
