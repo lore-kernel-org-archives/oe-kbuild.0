@@ -1,210 +1,180 @@
-Content-Type: multipart/mixed; boundary="===============6327363975932388221=="
+Content-Type: multipart/mixed; boundary="===============3308531899713163327=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gt/selftest_migrate.c:91 copy() error: uninitialized symbol 'rq'.
-Date: Fri, 10 Dec 2021 11:13:54 +0800
-Message-ID: <202112101151.igYZ2FJJ-lkp@intel.com>
+Subject: fs/erofs/super.c:149 erofs_read_metadata() error: buffer overflow 'ptr' 4096 <= 8191
+Date: Thu, 09 Dec 2021 20:48:28 +0800
+Message-ID: <202112092024.Xtcn66QP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6327363975932388221==
+--===============3308531899713163327==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Chris Wilson <chris@chris-wilson.co.uk>
-CC: Matthew Auld <matthew.auld@intel.com>
-CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+TO: Gao Xiang <hsiangkao@redhat.com>
+CC: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
-commit: cf586021642d8017cde111b7dd1ba86224e9da51 drm/i915/gt: Pipelined pag=
-e migration
-date:   6 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211210/202112101151.igYZ2FJJ-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+commit: 14373711dd54be8a84e2f4f624bc58787f80cfbd erofs: add on-disk compres=
+sion configurations
+date:   9 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 9 months ago
+config: arc-randconfig-m031-20211208 (https://download.01.org/0day-ci/archi=
+ve/20211209/202112092024.Xtcn66QP-lkp(a)intel.com/config)
+compiler: arc-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/gpu/drm/i915/gt/selftest_migrate.c:91 copy() error: uninitialized s=
-ymbol 'rq'.
-drivers/gpu/drm/i915/gt/selftest_migrate.c:113 copy() error: uninitialized =
-symbol 'vaddr'.
+fs/erofs/super.c:149 erofs_read_metadata() error: buffer overflow 'ptr' 409=
+6 <=3D 8191
+fs/erofs/super.c:149 erofs_read_metadata() error: buffer overflow 'ptr' 409=
+6 <=3D 8191
+fs/erofs/super.c:149 erofs_read_metadata() error: buffer overflow 'ptr' 409=
+6 <=3D 8191
+fs/erofs/super.c:149 erofs_read_metadata() error: buffer overflow 'ptr' 409=
+6 <=3D 8191
 
 Old smatch warnings:
-drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized =
-symbol 'rq'.
-drivers/gpu/drm/i915/gem/i915_gem_object.h:182 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 171)
+arch/arc/include/asm/thread_info.h:65 current_thread_info() error: uninitia=
+lized symbol 'sp'.
 
-vim +/rq +91 drivers/gpu/drm/i915/gt/selftest_migrate.c
+vim +/ptr +149 fs/erofs/super.c
 
-cf586021642d801 Chris Wilson 2021-06-17   31  =
+5efe5137f05bbb4 drivers/staging/erofs/super.c Gao Xiang 2019-06-13  124  =
 
-cf586021642d801 Chris Wilson 2021-06-17   32  static int copy(struct intel_=
-migrate *migrate,
-cf586021642d801 Chris Wilson 2021-06-17   33  		int (*fn)(struct intel_migr=
-ate *migrate,
-cf586021642d801 Chris Wilson 2021-06-17   34  			  struct i915_gem_ww_ctx *=
-ww,
-cf586021642d801 Chris Wilson 2021-06-17   35  			  struct drm_i915_gem_obje=
-ct *src,
-cf586021642d801 Chris Wilson 2021-06-17   36  			  struct drm_i915_gem_obje=
-ct *dst,
-cf586021642d801 Chris Wilson 2021-06-17   37  			  struct i915_request **ou=
-t),
-cf586021642d801 Chris Wilson 2021-06-17   38  		u32 sz, struct rnd_state *p=
-rng)
-cf586021642d801 Chris Wilson 2021-06-17   39  {
-cf586021642d801 Chris Wilson 2021-06-17   40  	struct drm_i915_private *i91=
-5 =3D migrate->context->engine->i915;
-cf586021642d801 Chris Wilson 2021-06-17   41  	struct drm_i915_gem_object *=
-src, *dst;
-cf586021642d801 Chris Wilson 2021-06-17   42  	struct i915_request *rq;
-cf586021642d801 Chris Wilson 2021-06-17   43  	struct i915_gem_ww_ctx ww;
-cf586021642d801 Chris Wilson 2021-06-17   44  	u32 *vaddr;
-cf586021642d801 Chris Wilson 2021-06-17   45  	int err =3D 0;
-cf586021642d801 Chris Wilson 2021-06-17   46  	int i;
-cf586021642d801 Chris Wilson 2021-06-17   47  =
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  125  #i=
+fdef CONFIG_EROFS_FS_ZIP
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  126  /*=
+ read variable-sized metadata, offset will be aligned by 4-byte */
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  127  st=
+atic void *erofs_read_metadata(struct super_block *sb, struct page **pagep,
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  128  		=
+		 erofs_off_t *offset, int *lengthp)
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  129  {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  130  	s=
+truct page *page =3D *pagep;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  131  	u=
+8 *buffer, *ptr;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  132  	i=
+nt len, i, cnt;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  133  	e=
+rofs_blk_t blk;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  134  =
 
-cf586021642d801 Chris Wilson 2021-06-17   48  	src =3D create_lmem_or_inter=
-nal(i915, sz);
-cf586021642d801 Chris Wilson 2021-06-17   49  	if (IS_ERR(src))
-cf586021642d801 Chris Wilson 2021-06-17   50  		return 0;
-cf586021642d801 Chris Wilson 2021-06-17   51  =
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  135  	*=
+offset =3D round_up(*offset, 4);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  136  	b=
+lk =3D erofs_blknr(*offset);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  137  =
 
-cf586021642d801 Chris Wilson 2021-06-17   52  	dst =3D i915_gem_object_crea=
-te_internal(i915, sz);
-cf586021642d801 Chris Wilson 2021-06-17   53  	if (IS_ERR(dst))
-cf586021642d801 Chris Wilson 2021-06-17   54  		goto err_free_src;
-cf586021642d801 Chris Wilson 2021-06-17   55  =
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  138  	i=
+f (!page || page->index !=3D blk) {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  139  		=
+if (page) {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  140  		=
+	unlock_page(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  141  		=
+	put_page(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  142  		}
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  143  		=
+page =3D erofs_get_meta_page(sb, blk);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  144  		=
+if (IS_ERR(page))
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  145  		=
+	goto err_nullpage;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  146  	}
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  147  =
 
-cf586021642d801 Chris Wilson 2021-06-17   56  	for_i915_gem_ww(&ww, err, tr=
-ue) {
-cf586021642d801 Chris Wilson 2021-06-17   57  		err =3D i915_gem_object_loc=
-k(src, &ww);
-cf586021642d801 Chris Wilson 2021-06-17   58  		if (err)
-cf586021642d801 Chris Wilson 2021-06-17   59  			continue;
-cf586021642d801 Chris Wilson 2021-06-17   60  =
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  148  	p=
+tr =3D kmap(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29 @149  	l=
+en =3D le16_to_cpu(*(__le16 *)&ptr[erofs_blkoff(*offset)]);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  150  	i=
+f (!len)
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  151  		=
+len =3D U16_MAX + 1;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  152  	b=
+uffer =3D kmalloc(len, GFP_KERNEL);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  153  	i=
+f (!buffer) {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  154  		=
+buffer =3D ERR_PTR(-ENOMEM);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  155  		=
+goto out;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  156  	}
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  157  	*=
+offset +=3D sizeof(__le16);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  158  	*=
+lengthp =3D len;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  159  =
 
-cf586021642d801 Chris Wilson 2021-06-17   61  		err =3D i915_gem_object_loc=
-k(dst, &ww);
-cf586021642d801 Chris Wilson 2021-06-17   62  		if (err)
-cf586021642d801 Chris Wilson 2021-06-17   63  			continue;
-cf586021642d801 Chris Wilson 2021-06-17   64  =
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  160  	f=
+or (i =3D 0; i < len; i +=3D cnt) {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  161  		=
+cnt =3D min(EROFS_BLKSIZ - (int)erofs_blkoff(*offset), len - i);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  162  		=
+blk =3D erofs_blknr(*offset);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  163  =
 
-cf586021642d801 Chris Wilson 2021-06-17   65  		vaddr =3D i915_gem_object_p=
-in_map(src, I915_MAP_WC);
-cf586021642d801 Chris Wilson 2021-06-17   66  		if (IS_ERR(vaddr)) {
-cf586021642d801 Chris Wilson 2021-06-17   67  			err =3D PTR_ERR(vaddr);
-cf586021642d801 Chris Wilson 2021-06-17   68  			continue;
-cf586021642d801 Chris Wilson 2021-06-17   69  		}
-cf586021642d801 Chris Wilson 2021-06-17   70  =
-
-cf586021642d801 Chris Wilson 2021-06-17   71  		for (i =3D 0; i < sz / size=
-of(u32); i++)
-cf586021642d801 Chris Wilson 2021-06-17   72  			vaddr[i] =3D i;
-cf586021642d801 Chris Wilson 2021-06-17   73  		i915_gem_object_flush_map(s=
-rc);
-cf586021642d801 Chris Wilson 2021-06-17   74  =
-
-cf586021642d801 Chris Wilson 2021-06-17   75  		vaddr =3D i915_gem_object_p=
-in_map(dst, I915_MAP_WC);
-cf586021642d801 Chris Wilson 2021-06-17   76  		if (IS_ERR(vaddr)) {
-cf586021642d801 Chris Wilson 2021-06-17   77  			err =3D PTR_ERR(vaddr);
-cf586021642d801 Chris Wilson 2021-06-17   78  			goto unpin_src;
-cf586021642d801 Chris Wilson 2021-06-17   79  		}
-cf586021642d801 Chris Wilson 2021-06-17   80  =
-
-cf586021642d801 Chris Wilson 2021-06-17   81  		for (i =3D 0; i < sz / size=
-of(u32); i++)
-cf586021642d801 Chris Wilson 2021-06-17   82  			vaddr[i] =3D ~i;
-cf586021642d801 Chris Wilson 2021-06-17   83  		i915_gem_object_flush_map(d=
-st);
-cf586021642d801 Chris Wilson 2021-06-17   84  =
-
-cf586021642d801 Chris Wilson 2021-06-17   85  		err =3D fn(migrate, &ww, sr=
-c, dst, &rq);
-cf586021642d801 Chris Wilson 2021-06-17   86  		if (!err)
-cf586021642d801 Chris Wilson 2021-06-17   87  			continue;
-cf586021642d801 Chris Wilson 2021-06-17   88  =
-
-cf586021642d801 Chris Wilson 2021-06-17   89  		if (err !=3D -EDEADLK && er=
-r !=3D -EINTR && err !=3D -ERESTARTSYS)
-cf586021642d801 Chris Wilson 2021-06-17   90  			pr_err("%ps failed, size: =
-%u\n", fn, sz);
-cf586021642d801 Chris Wilson 2021-06-17  @91  		if (rq) {
-cf586021642d801 Chris Wilson 2021-06-17   92  			i915_request_wait(rq, 0, H=
-Z);
-cf586021642d801 Chris Wilson 2021-06-17   93  			i915_request_put(rq);
-cf586021642d801 Chris Wilson 2021-06-17   94  		}
-cf586021642d801 Chris Wilson 2021-06-17   95  		i915_gem_object_unpin_map(d=
-st);
-cf586021642d801 Chris Wilson 2021-06-17   96  unpin_src:
-cf586021642d801 Chris Wilson 2021-06-17   97  		i915_gem_object_unpin_map(s=
-rc);
-cf586021642d801 Chris Wilson 2021-06-17   98  	}
-cf586021642d801 Chris Wilson 2021-06-17   99  	if (err)
-cf586021642d801 Chris Wilson 2021-06-17  100  		goto err_out;
-cf586021642d801 Chris Wilson 2021-06-17  101  =
-
-cf586021642d801 Chris Wilson 2021-06-17  102  	if (rq) {
-cf586021642d801 Chris Wilson 2021-06-17  103  		if (i915_request_wait(rq, 0=
-, HZ) < 0) {
-cf586021642d801 Chris Wilson 2021-06-17  104  			pr_err("%ps timed out, siz=
-e: %u\n", fn, sz);
-cf586021642d801 Chris Wilson 2021-06-17  105  			err =3D -ETIME;
-cf586021642d801 Chris Wilson 2021-06-17  106  		}
-cf586021642d801 Chris Wilson 2021-06-17  107  		i915_request_put(rq);
-cf586021642d801 Chris Wilson 2021-06-17  108  	}
-cf586021642d801 Chris Wilson 2021-06-17  109  =
-
-cf586021642d801 Chris Wilson 2021-06-17  110  	for (i =3D 0; !err && i < sz=
- / PAGE_SIZE; i++) {
-cf586021642d801 Chris Wilson 2021-06-17  111  		int x =3D i * 1024 + i915_p=
-random_u32_max_state(1024, prng);
-cf586021642d801 Chris Wilson 2021-06-17  112  =
-
-cf586021642d801 Chris Wilson 2021-06-17 @113  		if (vaddr[x] !=3D x) {
-cf586021642d801 Chris Wilson 2021-06-17  114  			pr_err("%ps failed, size: =
-%u, offset: %zu\n",
-cf586021642d801 Chris Wilson 2021-06-17  115  			       fn, sz, x * sizeof(=
-u32));
-cf586021642d801 Chris Wilson 2021-06-17  116  			igt_hexdump(vaddr + i * 10=
-24, 4096);
-cf586021642d801 Chris Wilson 2021-06-17  117  			err =3D -EINVAL;
-cf586021642d801 Chris Wilson 2021-06-17  118  		}
-cf586021642d801 Chris Wilson 2021-06-17  119  	}
-cf586021642d801 Chris Wilson 2021-06-17  120  =
-
-cf586021642d801 Chris Wilson 2021-06-17  121  	i915_gem_object_unpin_map(ds=
-t);
-cf586021642d801 Chris Wilson 2021-06-17  122  	i915_gem_object_unpin_map(sr=
-c);
-cf586021642d801 Chris Wilson 2021-06-17  123  =
-
-cf586021642d801 Chris Wilson 2021-06-17  124  err_out:
-cf586021642d801 Chris Wilson 2021-06-17  125  	i915_gem_object_put(dst);
-cf586021642d801 Chris Wilson 2021-06-17  126  err_free_src:
-cf586021642d801 Chris Wilson 2021-06-17  127  	i915_gem_object_put(src);
-cf586021642d801 Chris Wilson 2021-06-17  128  =
-
-cf586021642d801 Chris Wilson 2021-06-17  129  	return err;
-cf586021642d801 Chris Wilson 2021-06-17  130  }
-cf586021642d801 Chris Wilson 2021-06-17  131  =
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  164  		=
+if (!page || page->index !=3D blk) {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  165  		=
+	if (page) {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  166  		=
+		kunmap(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  167  		=
+		unlock_page(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  168  		=
+		put_page(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  169  		=
+	}
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  170  		=
+	page =3D erofs_get_meta_page(sb, blk);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  171  		=
+	if (IS_ERR(page)) {
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  172  		=
+		kfree(buffer);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  173  		=
+		goto err_nullpage;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  174  		=
+	}
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  175  		=
+	ptr =3D kmap(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  176  		}
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  177  		=
+memcpy(buffer + i, ptr + erofs_blkoff(*offset), cnt);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  178  		=
+*offset +=3D cnt;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  179  	}
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  180  ou=
+t:
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  181  	k=
+unmap(page);
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  182  	*=
+pagep =3D page;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  183  	r=
+eturn buffer;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  184  er=
+r_nullpage:
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  185  	*=
+pagep =3D NULL;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  186  	r=
+eturn page;
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  187  }
+14373711dd54be8 fs/erofs/super.c              Gao Xiang 2021-03-29  188  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============6327363975932388221==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============3308531899713163327==--
 
