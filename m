@@ -1,368 +1,247 @@
-Content-Type: multipart/mixed; boundary="===============0245570563130926716=="
+Content-Type: multipart/mixed; boundary="===============8921787290750259770=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 11/36] xfs: Pre-calculate per-AG agbno geometry
-Date: Sun, 05 Dec 2021 14:59:42 +0800
-Message-ID: <202112051425.OoVe322K-lkp@intel.com>
+Subject: drivers/usb/cdns3/cdnsp-pci.c:181 cdnsp_pci_probe() warn: possible memory leak of 'cdnsp'
+Date: Thu, 09 Dec 2021 21:50:59 +0800
+Message-ID: <202112092103.65goOmME-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0245570563130926716==
+--===============8921787290750259770==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211203000111.2800982-12-david@fromorbit.com>
-References: <20211203000111.2800982-12-david@fromorbit.com>
-TO: Dave Chinner <david@fromorbit.com>
-TO: linux-xfs(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Randy Dunlap <rdunlap@infradead.org>
+CC: Peter Chen <peter.chen@nxp.com>
 
-Hi Dave,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on xfs-linux/for-next]
-[also build test WARNING on v5.16-rc3 next-20211203]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Dave-Chinner/xfs-more-work=
--towards-shrinking/20211203-080331
-base:   https://git.kernel.org/pub/scm/fs/xfs/xfs-linux.git for-next
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+commit: 28a25ba3e59263a66b2a2cd3e153351b2db2a6b6 usb: cdns3: fix build when=
+ PM_SLEEP is not set
+date:   12 months ago
 :::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-c001-20211203 (https://download.01.org/0day-ci/arch=
-ive/20211205/202112051425.OoVe322K-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 1e328b=
-06c15273edf4a40a27ca24931b5efb3a87)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/ec9bd28a02575415892a9677f=
-c3491e032c128c4
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Dave-Chinner/xfs-more-work-towards=
--shrinking/20211203-080331
-        git checkout ec9bd28a02575415892a9677fc3491e032c128c4
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+:::::: commit date: 12 months ago
+config: x86_64-randconfig-m031-20211206 (https://download.01.org/0day-ci/ar=
+chive/20211209/202112092103.65goOmME-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+drivers/usb/cdns3/cdnsp-pci.c:181 cdnsp_pci_probe() warn: possible memory l=
+eak of 'cdnsp'
+
+vim +/cdnsp +181 drivers/usb/cdns3/cdnsp-pci.c
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07   57  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07   58  static int cdnsp_pci_probe(s=
+truct pci_dev *pdev,
+3d82904559f4f5 Pawel Laszczak 2020-12-07   59  			   const struct pci_devic=
+e_id *id)
+3d82904559f4f5 Pawel Laszczak 2020-12-07   60  {
+3d82904559f4f5 Pawel Laszczak 2020-12-07   61  	struct device *dev =3D &pde=
+v->dev;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   62  	struct pci_dev *func;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   63  	struct resource *res;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   64  	struct cdns *cdnsp;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   65  	int ret;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   66  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07   67  	/*
+3d82904559f4f5 Pawel Laszczak 2020-12-07   68  	 * For GADGET/HOST PCI (dev=
+fn) function number is 0,
+3d82904559f4f5 Pawel Laszczak 2020-12-07   69  	 * for OTG PCI (devfn) func=
+tion number is 1.
+3d82904559f4f5 Pawel Laszczak 2020-12-07   70  	 */
+3d82904559f4f5 Pawel Laszczak 2020-12-07   71  	if (!id || (pdev->devfn !=
+=3D PCI_DEV_FN_HOST_DEVICE &&
+3d82904559f4f5 Pawel Laszczak 2020-12-07   72  		    pdev->devfn !=3D PCI_D=
+EV_FN_OTG))
+3d82904559f4f5 Pawel Laszczak 2020-12-07   73  		return -EINVAL;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   74  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07   75  	func =3D cdnsp_get_second_f=
+un(pdev);
+3d82904559f4f5 Pawel Laszczak 2020-12-07   76  	if (!func)
+3d82904559f4f5 Pawel Laszczak 2020-12-07   77  		return -EINVAL;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   78  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07   79  	if (func->class =3D=3D PCI_=
+CLASS_SERIAL_USB_XHCI ||
+3d82904559f4f5 Pawel Laszczak 2020-12-07   80  	    pdev->class =3D=3D PCI_=
+CLASS_SERIAL_USB_XHCI) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07   81  		ret =3D -EINVAL;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   82  		goto put_pci;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   83  	}
+3d82904559f4f5 Pawel Laszczak 2020-12-07   84  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07   85  	ret =3D pcim_enable_device(=
+pdev);
+3d82904559f4f5 Pawel Laszczak 2020-12-07   86  	if (ret) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07   87  		dev_err(&pdev->dev, "Enabl=
+ing PCI device has failed %d\n", ret);
+3d82904559f4f5 Pawel Laszczak 2020-12-07   88  		goto put_pci;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   89  	}
+3d82904559f4f5 Pawel Laszczak 2020-12-07   90  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07   91  	pci_set_master(pdev);
+3d82904559f4f5 Pawel Laszczak 2020-12-07   92  	if (pci_is_enabled(func)) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07   93  		cdnsp =3D pci_get_drvdata(=
+func);
+3d82904559f4f5 Pawel Laszczak 2020-12-07   94  	} else {
+3d82904559f4f5 Pawel Laszczak 2020-12-07   95  		cdnsp =3D kzalloc(sizeof(*=
+cdnsp), GFP_KERNEL);
+3d82904559f4f5 Pawel Laszczak 2020-12-07   96  		if (!cdnsp) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07   97  			ret =3D -ENOMEM;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   98  			goto disable_pci;
+3d82904559f4f5 Pawel Laszczak 2020-12-07   99  		}
+3d82904559f4f5 Pawel Laszczak 2020-12-07  100  	}
+3d82904559f4f5 Pawel Laszczak 2020-12-07  101  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  102  	/* For GADGET device functi=
+on number is 0. */
+3d82904559f4f5 Pawel Laszczak 2020-12-07  103  	if (pdev->devfn =3D=3D 0) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07  104  		resource_size_t rsrc_start=
+, rsrc_len;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  105  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  106  		/* Function 0: host(BAR_0)=
+ + device(BAR_1).*/
+3d82904559f4f5 Pawel Laszczak 2020-12-07  107  		dev_dbg(dev, "Initialize r=
+esources\n");
+3d82904559f4f5 Pawel Laszczak 2020-12-07  108  		rsrc_start =3D pci_resourc=
+e_start(pdev, PCI_BAR_DEV);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  109  		rsrc_len =3D pci_resource_=
+len(pdev, PCI_BAR_DEV);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  110  		res =3D devm_request_mem_r=
+egion(dev, rsrc_start, rsrc_len, "dev");
+3d82904559f4f5 Pawel Laszczak 2020-12-07  111  		if (!res) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07  112  			dev_dbg(dev, "controller =
+already in use\n");
+3d82904559f4f5 Pawel Laszczak 2020-12-07  113  			ret =3D -EBUSY;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  114  			goto free_cdnsp;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  115  		}
+3d82904559f4f5 Pawel Laszczak 2020-12-07  116  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  117  		cdnsp->dev_regs =3D devm_i=
+oremap(dev, rsrc_start, rsrc_len);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  118  		if (!cdnsp->dev_regs) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07  119  			dev_dbg(dev, "error mappi=
+ng memory\n");
+3d82904559f4f5 Pawel Laszczak 2020-12-07  120  			ret =3D -EFAULT;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  121  			goto free_cdnsp;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  122  		}
+3d82904559f4f5 Pawel Laszczak 2020-12-07  123  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  124  		cdnsp->dev_irq =3D pdev->i=
+rq;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  125  		dev_dbg(dev, "USBSS-DEV ph=
+ysical base addr: %pa\n",
+3d82904559f4f5 Pawel Laszczak 2020-12-07  126  			&rsrc_start);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  127  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  128  		res =3D &cdnsp->xhci_res[0=
+];
+3d82904559f4f5 Pawel Laszczak 2020-12-07  129  		res->start =3D pci_resourc=
+e_start(pdev, PCI_BAR_HOST);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  130  		res->end =3D pci_resource_=
+end(pdev, PCI_BAR_HOST);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  131  		res->name =3D "xhci";
+3d82904559f4f5 Pawel Laszczak 2020-12-07  132  		res->flags =3D IORESOURCE_=
+MEM;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  133  		dev_dbg(dev, "USBSS-XHCI p=
+hysical base addr: %pa\n",
+3d82904559f4f5 Pawel Laszczak 2020-12-07  134  			&res->start);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  135  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  136  		/* Interrupt for XHCI, */
+3d82904559f4f5 Pawel Laszczak 2020-12-07  137  		res =3D &cdnsp->xhci_res[1=
+];
+3d82904559f4f5 Pawel Laszczak 2020-12-07  138  		res->start =3D pdev->irq;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  139  		res->name =3D "host";
+3d82904559f4f5 Pawel Laszczak 2020-12-07  140  		res->flags =3D IORESOURCE_=
+IRQ;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  141  	} else {
+3d82904559f4f5 Pawel Laszczak 2020-12-07  142  		res =3D &cdnsp->otg_res;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  143  		res->start =3D pci_resourc=
+e_start(pdev, PCI_BAR_OTG);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  144  		res->end =3D   pci_resourc=
+e_end(pdev, PCI_BAR_OTG);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  145  		res->name =3D "otg";
+3d82904559f4f5 Pawel Laszczak 2020-12-07  146  		res->flags =3D IORESOURCE_=
+MEM;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  147  		dev_dbg(dev, "CDNSP-DRD ph=
+ysical base addr: %pa\n",
+3d82904559f4f5 Pawel Laszczak 2020-12-07  148  			&res->start);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  149  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  150  		/* Interrupt for OTG/DRD. =
+*/
+3d82904559f4f5 Pawel Laszczak 2020-12-07  151  		cdnsp->otg_irq =3D pdev->i=
+rq;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  152  	}
+3d82904559f4f5 Pawel Laszczak 2020-12-07  153  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  154  	if (pci_is_enabled(func)) {
+3d82904559f4f5 Pawel Laszczak 2020-12-07  155  		cdnsp->dev =3D dev;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  156  		cdnsp->gadget_init =3D cdn=
+sp_gadget_init;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  157  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  158  		ret =3D cdns_init(cdnsp);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  159  		if (ret)
+3d82904559f4f5 Pawel Laszczak 2020-12-07  160  			goto free_cdnsp;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  161  	}
+3d82904559f4f5 Pawel Laszczak 2020-12-07  162  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  163  	pci_set_drvdata(pdev, cdnsp=
+);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  164  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  165  	device_wakeup_enable(&pdev-=
+>dev);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  166  	if (pci_dev_run_wake(pdev))
+3d82904559f4f5 Pawel Laszczak 2020-12-07  167  		pm_runtime_put_noidle(&pde=
+v->dev);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  168  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  169  	return 0;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  170  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  171  free_cdnsp:
+3d82904559f4f5 Pawel Laszczak 2020-12-07  172  	if (!pci_is_enabled(func))
+3d82904559f4f5 Pawel Laszczak 2020-12-07  173  		kfree(cdnsp);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  174  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  175  disable_pci:
+3d82904559f4f5 Pawel Laszczak 2020-12-07  176  	pci_disable_device(pdev);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  177  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07  178  put_pci:
+3d82904559f4f5 Pawel Laszczak 2020-12-07  179  	pci_dev_put(func);
+3d82904559f4f5 Pawel Laszczak 2020-12-07  180  =
+
+3d82904559f4f5 Pawel Laszczak 2020-12-07 @181  	return ret;
+3d82904559f4f5 Pawel Laszczak 2020-12-07  182  }
+3d82904559f4f5 Pawel Laszczak 2020-12-07  183  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/xfs/xfs_stats.h:196:36: note: expanded from macro 'XFS_STATS_ADD_OFF'
-           per_cpu_ptr(mp->m_stats.xs_stats, current_cpu())->a[off] +=3D (i=
-nc);      \
-                                             ^
-   fs/xfs/xfs_linux.h:103:25: note: expanded from macro 'current_cpu'
-   #define current_cpu()           (raw_smp_processor_id())
-                                    ^
-   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
-                                   ^
-   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
-read'
-   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
-_read_, pcp)
-                                           ^
-   include/linux/percpu-defs.h:323:42: note: expanded from macro '__pcpu_si=
-ze_call_return'
-           case 4: pscr_ret__ =3D stem##4(variable); break;                =
-  \
-                                                   ^
-   fs/xfs/libxfs/xfs_btree.c:3682:2: note: Loop condition is false.  Exitin=
-g loop
-           XFS_BTREE_STATS_ADD(cur, moves, numrecs - ptr);
-           ^
-   fs/xfs/libxfs/xfs_btree.h:91:2: note: expanded from macro 'XFS_BTREE_STA=
-TS_ADD'
-           XFS_STATS_ADD_OFF((cur)->bc_mp, (cur)->bc_statoff + __XBTS_ ## s=
-tat, val)
-           ^
-   fs/xfs/xfs_stats.h:193:45: note: expanded from macro 'XFS_STATS_ADD_OFF'
-   #define XFS_STATS_ADD_OFF(mp, off, inc)                                 \
-                                                                           ^
-   fs/xfs/libxfs/xfs_btree.c:3685:6: note: Assuming 'level' is <=3D 0
-           if (level > 0) {
-               ^~~~~~~~~
-   fs/xfs/libxfs/xfs_btree.c:3685:2: note: Taking false branch
-           if (level > 0) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3707:7: note: Assuming 'ptr' is >=3D 'numrecs'
-                   if (ptr < numrecs) {
-                       ^~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_btree.c:3707:3: note: Taking false branch
-                   if (ptr < numrecs) {
-                   ^
-   fs/xfs/libxfs/xfs_btree.c:3725:2: note: Taking false branch
-           if (xfs_btree_is_lastrec(cur, block, level)) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3735:6: note: Assuming the condition is false
-           if (level =3D=3D cur->bc_nlevels - 1) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_btree.c:3735:2: note: Taking false branch
-           if (level =3D=3D cur->bc_nlevels - 1) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3779:2: note: Taking false branch
-           if (xfs_btree_needs_key_update(cur, ptr)) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3789:6: note: Assuming the condition is false
-           if (numrecs >=3D cur->bc_ops->get_minrecs(cur, level)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_btree.c:3789:2: note: Taking false branch
-           if (numrecs >=3D cur->bc_ops->get_minrecs(cur, level)) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3804:6: note: Assuming the condition is false
-           if (cur->bc_flags & XFS_BTREE_ROOT_IN_INODE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_btree.c:3804:2: note: Taking false branch
-           if (cur->bc_flags & XFS_BTREE_ROOT_IN_INODE) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3822:44: note: Left side of '||' is true
-           ASSERT(!xfs_btree_ptr_is_null(cur, &rptr) ||
-                                                     ^
-   fs/xfs/libxfs/xfs_btree.c:3822:2: note: '?' condition is true
-           ASSERT(!xfs_btree_ptr_is_null(cur, &rptr) ||
-           ^
-   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-            ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^
-   fs/xfs/libxfs/xfs_btree.c:3830:6: note: 'error' is 0
-           if (error)
-               ^~~~~
-   fs/xfs/libxfs/xfs_btree.c:3830:2: note: Taking false branch
-           if (error)
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3837:2: note: Taking false branch
-           if (!xfs_btree_ptr_is_null(cur, &rptr)) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3923:2: note: Taking false branch
-           if (!xfs_btree_ptr_is_null(cur, &lptr)) {
-           ^
-   fs/xfs/libxfs/xfs_btree.c:3988:10: note: Calling 'xfs_btree_ptr_is_null'
-           ASSERT(!xfs_btree_ptr_is_null(cur, &cptr));
-                   ^
-   fs/xfs/xfs_linux.h:214:10: note: expanded from macro 'ASSERT'
-           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
-_))
-                   ^~~~
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   fs/xfs/libxfs/xfs_btree.c:1018:2: note: Taking false branch
-           if (cur->bc_flags & XFS_BTREE_LONG_PTRS)
-           ^
-   fs/xfs/libxfs/xfs_btree.c:1021:17: note: The left operand of '=3D=3D' is=
- a garbage value
-                   return ptr->s =3D=3D cpu_to_be32(NULLAGBLOCK);
-                          ~~~~~~ ^
->> fs/xfs/libxfs/xfs_btree.c:4509:2: warning: Value stored to 'agno' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           agno =3D xfs_daddr_to_agno(mp, xfs_buf_daddr(bp));
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_btree.c:4509:2: note: Value stored to 'agno' is never =
-read
-           agno =3D xfs_daddr_to_agno(mp, xfs_buf_daddr(bp));
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/libxfs/xfs_btree.h:446:9: warning: Access to field 'bb_numrecs' r=
-esults in a dereference of a null pointer (loaded from variable 'block') [c=
-lang-analyzer-core.NullDereference]
-           return be16_to_cpu(block->bb_numrecs);
-                  ^
-   include/linux/byteorder/generic.h:97:21: note: expanded from macro 'be16=
-_to_cpu'
-   #define be16_to_cpu __be16_to_cpu
-                       ^
-   include/uapi/linux/byteorder/little_endian.h:42:58: note: expanded from =
-macro '__be16_to_cpu'
-   #define __be16_to_cpu(x) __swab16((__force __u16)(__be16)(x))
-                                                            ^
-   fs/xfs/libxfs/xfs_btree.c:1817:2: note: Loop condition is false.  Exitin=
-g loop
-           XFS_BTREE_STATS_INC(cur, lookup);
-           ^
-   fs/xfs/libxfs/xfs_btree.h:89:2: note: expanded from macro 'XFS_BTREE_STA=
-TS_INC'
-           XFS_STATS_INC_OFF((cur)->bc_mp, (cur)->bc_statoff + __XBTS_ ## s=
-tat)
-           ^
-   fs/xfs/xfs_stats.h:183:2: note: expanded from macro 'XFS_STATS_INC_OFF'
-           per_cpu_ptr(xfsstats.xs_stats, current_cpu())->a[off]++;        \
-           ^
-   include/linux/percpu-defs.h:235:2: note: expanded from macro 'per_cpu_pt=
-r'
-           __verify_pcpu_ptr(ptr);                                         \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   fs/xfs/libxfs/xfs_btree.c:1817:2: note: Loop condition is false.  Exitin=
-g loop
-           XFS_BTREE_STATS_INC(cur, lookup);
-           ^
-   fs/xfs/libxfs/xfs_btree.h:89:2: note: expanded from macro 'XFS_BTREE_STA=
-TS_INC'
-           XFS_STATS_INC_OFF((cur)->bc_mp, (cur)->bc_statoff + __XBTS_ ## s=
-tat)
-           ^
-   fs/xfs/xfs_stats.h:183:33: note: expanded from macro 'XFS_STATS_INC_OFF'
-           per_cpu_ptr(xfsstats.xs_stats, current_cpu())->a[off]++;        \
-                                          ^
-   fs/xfs/xfs_linux.h:103:25: note: expanded from macro 'current_cpu'
-   #define current_cpu()           (raw_smp_processor_id())
-                                    ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
-read'
-   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
-_read_, pcp)
-                                           ^
-   include/linux/percpu-defs.h:319:2: note: expanded from macro '__pcpu_siz=
-e_call_return'
-           __verify_pcpu_ptr(&(variable));                                 \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   fs/xfs/libxfs/xfs_btree.c:1817:2: note: Control jumps to 'case 4:'  at l=
-ine 1817
-           XFS_BTREE_STATS_INC(cur, lookup);
-           ^
-   fs/xfs/libxfs/xfs_btree.h:89:2: note: expanded from macro 'XFS_BTREE_STA=
-TS_INC'
-           XFS_STATS_INC_OFF((cur)->bc_mp, (cur)->bc_statoff + __XBTS_ ## s=
-tat)
-           ^
-   fs/xfs/xfs_stats.h:183:33: note: expanded from macro 'XFS_STATS_INC_OFF'
-           per_cpu_ptr(xfsstats.xs_stats, current_cpu())->a[off]++;        \
-                                          ^
-   fs/xfs/xfs_linux.h:103:25: note: expanded from macro 'current_cpu'
-   #define current_cpu()           (raw_smp_processor_id())
-                                    ^
-   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
-                                   ^
-   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
-read'
-   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
-_read_, pcp)
-                                           ^
-   include/linux/percpu-defs.h:320:2: note: expanded from macro '__pcpu_siz=
-e_call_return'
-           switch(sizeof(variable)) {                                      \
-           ^
-   fs/xfs/libxfs/xfs_btree.c:1817:2: note:  Execution continues on line 1817
-           XFS_BTREE_STATS_INC(cur, lookup);
-           ^
-   fs/xfs/libxfs/xfs_btree.h:89:2: note: expanded from macro 'XFS_BTREE_STA=
-TS_INC'
-           XFS_STATS_INC_OFF((cur)->bc_mp, (cur)->bc_statoff + __XBTS_ ## s=
-tat)
-           ^
-   fs/xfs/xfs_stats.h:183:33: note: expanded from macro 'XFS_STATS_INC_OFF'
-           per_cpu_ptr(xfsstats.xs_stats, current_cpu())->a[off]++;        \
-                                          ^
-   fs/xfs/xfs_linux.h:103:25: note: expanded from macro 'current_cpu'
-   #define current_cpu()           (raw_smp_processor_id())
-                                    ^
-   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
-                                   ^
-   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
-read'
-   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
-_read_, pcp)
-                                           ^
-   include/linux/percpu-defs.h:323:42: note: expanded from macro '__pcpu_si=
-ze_call_return'
-           case 4: pscr_ret__ =3D stem##4(variable); break;                =
-  \
-                                                   ^
-   fs/xfs/libxfs/xfs_btree.c:1817:2: note: Loop condition is false.  Exitin=
-g loop
-           XFS_BTREE_STATS_INC(cur, lookup);
-           ^
-   fs/xfs/libxfs/xfs_btree.h:89:2: note: expanded from macro 'XFS_BTREE_STA=
-TS_INC'
-           XFS_STATS_INC_OFF((cur)->bc_mp, (cur)->bc_statoff + __XBTS_ ## s=
-tat)
-           ^
-   fs/xfs/xfs_stats.h:184:2: note: expanded from macro 'XFS_STATS_INC_OFF'
+:::::: The code at line 181 was first introduced by commit
+:::::: 3d82904559f4f5a2622db1b21de3edf2eded7664 usb: cdnsp: cdns3 Add main =
+part of Cadence USBSSP DRD Driver
 
-vim +/agno +4509 fs/xfs/libxfs/xfs_btree.c
-
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4488  =
-
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4489  /**
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4490   * xfs_btree_sblock_veri=
-fy() -- verify a short-format btree block
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4491   *
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4492   * @bp: buffer containin=
-g the btree block
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4493   * @max_recs: maximum re=
-cords allowed in this btree node
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4494   */
-a6a781a58befcb Darrick J. Wong   2018-01-08  4495  xfs_failaddr_t
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4496  xfs_btree_sblock_verify(
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4497  	struct xfs_buf		*bp,
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4498  	unsigned int		max_recs)
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4499  {
-dbd329f1e44ed4 Christoph Hellwig 2019-06-28  4500  	struct xfs_mount	*mp =
-=3D bp->b_mount;
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4501  	struct xfs_btree_block	=
-*block =3D XFS_BUF_TO_BLOCK(bp);
-e1e55aaf1cc646 Darrick J. Wong   2018-01-08  4502  	xfs_agblock_t		agno;
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4503  =
-
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4504  	/* numrecs verification=
- */
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4505  	if (be16_to_cpu(block->=
-bb_numrecs) > max_recs)
-a6a781a58befcb Darrick J. Wong   2018-01-08  4506  		return __this_address;
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4507  =
-
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4508  	/* sibling pointer veri=
-fication */
-04fcad80cd0687 Dave Chinner      2021-08-18 @4509  	agno =3D xfs_daddr_to_a=
-gno(mp, xfs_buf_daddr(bp));
-e1e55aaf1cc646 Darrick J. Wong   2018-01-08  4510  	if (block->bb_u.s.bb_le=
-ftsib !=3D cpu_to_be32(NULLAGBLOCK) &&
-ec9bd28a025754 Dave Chinner      2021-12-03  4511  	    !xfs_verify_agbno(b=
-p->b_pag, be32_to_cpu(block->bb_u.s.bb_leftsib)))
-a6a781a58befcb Darrick J. Wong   2018-01-08  4512  		return __this_address;
-e1e55aaf1cc646 Darrick J. Wong   2018-01-08  4513  	if (block->bb_u.s.bb_ri=
-ghtsib !=3D cpu_to_be32(NULLAGBLOCK) &&
-ec9bd28a025754 Dave Chinner      2021-12-03  4514  	    !xfs_verify_agbno(b=
-p->b_pag, be32_to_cpu(block->bb_u.s.bb_rightsib)))
-a6a781a58befcb Darrick J. Wong   2018-01-08  4515  		return __this_address;
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4516  =
-
-a6a781a58befcb Darrick J. Wong   2018-01-08  4517  	return NULL;
-c5ab131ba0df8c Darrick J. Wong   2016-01-04  4518  }
-19b54ee66c4c5d Darrick J. Wong   2016-06-21  4519  =
-
+:::::: TO: Pawel Laszczak <pawell@cadence.com>
+:::::: CC: Peter Chen <peter.chen@nxp.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0245570563130926716==--
+--===============8921787290750259770==--
 
