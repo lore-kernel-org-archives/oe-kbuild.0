@@ -1,102 +1,119 @@
-Content-Type: multipart/mixed; boundary="===============6944555776969556377=="
+Content-Type: multipart/mixed; boundary="===============3096696322724236241=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/thermal/tegra/soctherm.c:736 get_hot_temp() error: uninitialized symbol 'type'.
-Date: Wed, 08 Dec 2021 07:50:05 +0800
-Message-ID: <202112080723.6tgJu6W4-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/intel_region_ttm.c:176 intel_region_ttm_resource_alloc() error: uninitialized symbol 'res'.
+Date: Fri, 10 Dec 2021 04:13:21 +0800
+Message-ID: <202112100405.qXe0l7eT-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6944555776969556377==
+--===============3096696322724236241==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Dmitry Osipenko <digetx@gmail.com>
-CC: Daniel Lezcano <daniel.lezcano@linaro.org>
-
-Hi Dmitry,
-
-First bad commit (maybe !=3D root cause):
+TO: Matthew Auld <matthew.auld@intel.com>
+CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   cd8c917a56f20f48748dd43d9ae3caff51d5b987
-commit: 8f8d8b0334cc4e7908b78e73936a7673bbef0411 thermal/drivers/tegra: Cor=
-rect compile-testing of drivers
-date:   4 months ago
-:::::: branch date: 23 hours ago
-:::::: commit date: 4 months ago
-config: microblaze-randconfig-m031-20211207 (https://download.01.org/0day-c=
-i/archive/20211208/202112080723.6tgJu6W4-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+commit: a6c5b891252143ee9bc02f649282905954d6705c drm/i915/ttm: remove unuse=
+d function
+date:   6 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211210/202112100405.qXe0l7eT-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/thermal/tegra/soctherm.c:736 get_hot_temp() error: uninitialized sy=
-mbol 'type'.
+smatch warnings:
+drivers/gpu/drm/i915/intel_region_ttm.c:176 intel_region_ttm_resource_alloc=
+() error: uninitialized symbol 'res'.
 
-Old smatch warnings:
-drivers/thermal/tegra/soctherm.c:602 tegra_thermctl_set_trip_temp() error: =
-uninitialized symbol 'type'.
-drivers/thermal/tegra/soctherm.c:653 tegra_thermctl_get_trend() error: unin=
-itialized symbol 'trip_temp'.
+vim +/res +176 drivers/gpu/drm/i915/intel_region_ttm.c
 
-vim +/type +736 drivers/thermal/tegra/soctherm.c
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  141  =
 
-d790405d1b23cf Nicolin Chen 2017-10-25  722  =
+213d5092776345a Thomas Hellstr=C3=B6m 2021-06-10  142  #ifdef CONFIG_DRM_I9=
+15_SELFTEST
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  143  /**
+a6c5b891252143e Matthew Auld     2021-06-17  144   * intel_region_ttm_resou=
+rce_alloc - Allocate memory resources from a region
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  145   * @mem: The memory =
+region,
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  146   * @size: The reques=
+ted size in bytes
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  147   * @flags: Allocatio=
+n flags
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  148   *
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  149   * This functionalit=
+y is provided only for callers that need to allocate
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  150   * memory from stand=
+alone TTM range managers, without the TTM eviction
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  151   * functionality. Do=
+n't use if you are not completely sure that's the
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  152   * case. The returne=
+d opaque node can be converted to an sg_table using
+a6c5b891252143e Matthew Auld     2021-06-17  153   * intel_region_ttm_resou=
+rce_to_st(), and can be freed using
+a6c5b891252143e Matthew Auld     2021-06-17  154   * intel_region_ttm_resou=
+rce_free().
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  155   *
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  156   * Return: A valid p=
+ointer on success, an error pointer on failure.
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  157   */
+2a7005c8a3982ba Dave Airlie      2021-06-11  158  struct ttm_resource *
+687c7d0fcf8014a Matthew Auld     2021-06-16  159  intel_region_ttm_resource=
+_alloc(struct intel_memory_region *mem,
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  160  				resource_size_t =
+size,
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  161  				unsigned int fla=
+gs)
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  162  {
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  163  	struct ttm_resource=
+_manager *man =3D mem->region_private;
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  164  	struct ttm_place pl=
+ace =3D {};
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  165  	struct ttm_buffer_o=
+bject mock_bo =3D {};
+2a7005c8a3982ba Dave Airlie      2021-06-11  166  	struct ttm_resource *res;
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  167  	int ret;
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  168  =
 
-ce0dbf04f685d4 Wei Ni       2016-05-11  723  static int get_hot_temp(struct=
- thermal_zone_device *tz, int *trip, int *temp)
-ce0dbf04f685d4 Wei Ni       2016-05-11  724  {
-ce0dbf04f685d4 Wei Ni       2016-05-11  725  	int ntrips, i, ret;
-ce0dbf04f685d4 Wei Ni       2016-05-11  726  	enum thermal_trip_type type;
-ce0dbf04f685d4 Wei Ni       2016-05-11  727  =
+2a7005c8a3982ba Dave Airlie      2021-06-11  169  	mock_bo.base.size =3D si=
+ze;
+13c2ceb6addb6b1 Matthew Auld     2021-06-16  170  	mock_bo.page_alignment =
+=3D mem->min_page_size >> PAGE_SHIFT;
+d53ec322dc7de32 Matthew Auld     2021-06-16  171  	place.flags =3D flags;
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  172  =
 
-ce0dbf04f685d4 Wei Ni       2016-05-11  728  	ntrips =3D of_thermal_get_ntr=
-ips(tz);
-ce0dbf04f685d4 Wei Ni       2016-05-11  729  	if (ntrips <=3D 0)
-ce0dbf04f685d4 Wei Ni       2016-05-11  730  		return -EINVAL;
-ce0dbf04f685d4 Wei Ni       2016-05-11  731  =
-
-ce0dbf04f685d4 Wei Ni       2016-05-11  732  	for (i =3D 0; i < ntrips; i++=
-) {
-ce0dbf04f685d4 Wei Ni       2016-05-11  733  		ret =3D tz->ops->get_trip_ty=
-pe(tz, i, &type);
-ce0dbf04f685d4 Wei Ni       2016-05-11  734  		if (ret)
-ce0dbf04f685d4 Wei Ni       2016-05-11  735  			return -EINVAL;
-ce0dbf04f685d4 Wei Ni       2016-05-11 @736  		if (type =3D=3D THERMAL_TRIP=
-_HOT) {
-ce0dbf04f685d4 Wei Ni       2016-05-11  737  			ret =3D tz->ops->get_trip_t=
-emp(tz, i, temp);
-ce0dbf04f685d4 Wei Ni       2016-05-11  738  			if (!ret)
-ce0dbf04f685d4 Wei Ni       2016-05-11  739  				*trip =3D i;
-ce0dbf04f685d4 Wei Ni       2016-05-11  740  =
-
-ce0dbf04f685d4 Wei Ni       2016-05-11  741  			return ret;
-ce0dbf04f685d4 Wei Ni       2016-05-11  742  		}
-ce0dbf04f685d4 Wei Ni       2016-05-11  743  	}
-ce0dbf04f685d4 Wei Ni       2016-05-11  744  =
-
-ce0dbf04f685d4 Wei Ni       2016-05-11  745  	return -EINVAL;
-ce0dbf04f685d4 Wei Ni       2016-05-11  746  }
-ce0dbf04f685d4 Wei Ni       2016-05-11  747  =
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  173  	ret =3D man->func->=
+alloc(man, &mock_bo, &place, &res);
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  174  	if (ret =3D=3D -ENO=
+SPC)
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  175  		ret =3D -ENXIO;
+2a7005c8a3982ba Dave Airlie      2021-06-11 @176  	return ret ? ERR_PTR(ret=
+) : res;
+d148738923fdb50 Thomas Hellstr=C3=B6m 2021-06-02  177  }
+d53ec322dc7de32 Matthew Auld     2021-06-16  178  =
 
 
-:::::: The code at line 736 was first introduced by commit
-:::::: ce0dbf04f685d48ffdec64a17ebb4965f828c3ff thermal: tegra: add hw-thro=
-ttle function
+:::::: The code at line 176 was first introduced by commit
+:::::: 2a7005c8a3982ba27fab237d85c27da446484e9c Merge tag 'drm-intel-gt-nex=
+t-2021-06-10' of git://anongit.freedesktop.org/drm/drm-intel into drm-next
 
-:::::: TO: Wei Ni <wni@nvidia.com>
-:::::: CC: Zhang Rui <rui.zhang@intel.com>
+:::::: TO: Dave Airlie <airlied@redhat.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6944555776969556377==--
+--===============3096696322724236241==--
 
