@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4020771244116156624=="
+Content-Type: multipart/mixed; boundary="===============6102739290993993437=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/nvme/host/ioctl.c:193:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Sun, 05 Dec 2021 21:43:52 +0800
-Message-ID: <202112052142.JqvLRFgR-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/i915_perf.c:1955:9: warning: Potential leak of memory pointed to by 'oa_bo' [clang-analyzer-unix.Malloc]
+Date: Thu, 09 Dec 2021 22:31:47 +0800
+Message-ID: <202112092208.YAeLjs1S-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4020771244116156624==
+--===============6102739290993993437==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,35 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Keith Busch <kbusch@kernel.org>
-CC: "Javier Gonz=C3=A1lez" <javier.gonz@samsung.com>
-CC: Chaitanya Kulkarni <chaitanya.kulkarni@wdc.com>
+TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Daniel Vetter <daniel.vetter@ffwll.ch>
+CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   79a72162048e42a677bc7336a9f5d86fc3ff9558
-commit: 2405252a680e2151046f4f256d706c3ca92fedef nvme: move the ioctl code =
-to a separate file
-date:   8 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 8 months ago
-config: mips-randconfig-c004-20211203 (https://download.01.org/0day-ci/arch=
-ive/20211205/202112052142.JqvLRFgR-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 1e328b=
-06c15273edf4a40a27ca24931b5efb3a87)
+head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+commit: ef4985bac521f750d1ddc4da6428b381df1d99c0 drm/i915: Increase ww lock=
+ing for perf.
+date:   9 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-c007-20211208 (https://download.01.org/0day-ci/ar=
+chive/20211209/202112092208.YAeLjs1S-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install mips cross compiling tool for clang build
-        # apt-get install binutils-mips-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2405252a680e2151046f4f256d706c3ca92fedef
+t/commit/?id=3Def4985bac521f750d1ddc4da6428b381df1d99c0
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 2405252a680e2151046f4f256d706c3ca92fedef
+        git checkout ef4985bac521f750d1ddc4da6428b381df1d99c0
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dmips clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,332 +51,312 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/usb/host/ehci-q.c:792:2: note: Taking false branch
-           if (maxp > 1024) {
+           container_of(ptr, type, member)
            ^
-   drivers/usb/host/ehci-q.c:805:6: note: Assuming 'type' is equal to PIPE_=
-INTERRUPT
-           if (type =3D=3D PIPE_INTERRUPT) {
-               ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/ehci-q.c:805:2: note: Taking true branch
-           if (type =3D=3D PIPE_INTERRUPT) {
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   drivers/usb/host/ehci-q.c:812:7: note: Assuming field 'speed' is not equ=
-al to USB_SPEED_HIGH
-                   if (urb->dev->speed =3D=3D USB_SPEED_HIGH) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/ehci-q.c:812:3: note: Taking false branch
-                   if (urb->dev->speed =3D=3D USB_SPEED_HIGH) {
-                   ^
-   drivers/usb/host/ehci-q.c:842:8: note: 'is_input' is 0
-                           if (is_input) {         // SPLIT, gap, CSPLIT+DA=
-TA
-                               ^~~~~~~~
-   drivers/usb/host/ehci-q.c:842:4: note: Taking false branch
-                           if (is_input) {         // SPLIT, gap, CSPLIT+DA=
-TA
-                           ^
-   drivers/usb/host/ehci-q.c:850:17: note: Assuming 'tt' is null
-                           think_time =3D tt ? tt->think_time : 0;
-                                        ^~
-   drivers/usb/host/ehci-q.c:850:17: note: '?' condition is false
-   drivers/usb/host/ehci-q.c:854:8: note: Assuming field 'interval' is <=3D=
- field 'periodic_size'
-                           if (urb->interval > ehci->periodic_size)
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/host/ehci-q.c:854:4: note: Taking false branch
-                           if (urb->interval > ehci->periodic_size)
-                           ^
-   drivers/usb/host/ehci-q.c:859:10: note: Assuming '__UNIQUE_ID___x396' is=
- >=3D '__UNIQUE_ID___y397'
-                           tmp =3D min_t(unsigned, EHCI_BANDWIDTH_FRAMES,
-                                 ^
-   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   drivers/usb/host/ehci-q.c:859:10: note: '?' condition is false
-                           tmp =3D min_t(unsigned, EHCI_BANDWIDTH_FRAMES,
-                                 ^
-   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
-   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
-                                   ^
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/usb/host/ehci-q.c:861:10: note: '?' condition is false
-                           tmp =3D rounddown_pow_of_two(tmp);
-                                 ^
-   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_=
-two'
-           __builtin_constant_p(n) ? (             \
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/usb/host/ehci-q.c:861:10: note: Calling '__rounddown_pow_of_two'
-                           tmp =3D rounddown_pow_of_two(tmp);
-                                 ^
-   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_=
-two'
-           __rounddown_pow_of_two(n)               \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:67:13: note: The result of the left shift is undefi=
-ned due to shifting by '4294967295', which is greater or equal to the width=
- of type 'unsigned long'
-           return 1UL << (fls_long(n) - 1);
-                      ^  ~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/base/regmap/regmap-mmio.c:52:3: warning: Value stored to 'min_st=
-ride' is never read [clang-analyzer-deadcode.DeadStores]
-                   min_stride =3D 0;
-                   ^            ~
-   drivers/base/regmap/regmap-mmio.c:52:3: note: Value stored to 'min_strid=
-e' is never read
-                   min_stride =3D 0;
-                   ^            ~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> drivers/nvme/host/ioctl.c:193:6: warning: Branch condition evaluates to =
-a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (cmd.flags)
-               ^
-   drivers/nvme/host/ioctl.c:437:2: note: Control jumps to 'case 3225964097=
-:'  at line 438
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/gpu/drm/i915/i915_perf.c:1942:2: note: Loop condition is false. =
+ Exiting loop
+           llist_for_each_entry(oa_bo, stream->oa_config_bos.first, node) {
+           ^
+   include/linux/llist.h:152:15: note: expanded from macro 'llist_for_each_=
+entry'
+           for ((pos) =3D llist_entry((node), typeof(*(pos)), member);     =
+  \
+                        ^
+   include/linux/llist.h:81:2: note: expanded from macro 'llist_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1942:2: note: Loop condition is false. =
+Execution continues on line 1950
+           llist_for_each_entry(oa_bo, stream->oa_config_bos.first, node) {
+           ^
+   include/linux/llist.h:152:2: note: expanded from macro 'llist_for_each_e=
+ntry'
+           for ((pos) =3D llist_entry((node), typeof(*(pos)), member);     =
+  \
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1950:10: note: Calling 'alloc_oa_config=
+_buffer'
+           oa_bo =3D alloc_oa_config_buffer(stream, oa_config);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1856:10: note: Calling 'kzalloc'
+           oa_bo =3D kzalloc(sizeof(*oa_bo), GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:684:9: note: Uninitialized value stored to field 'v=
+ma'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1856:10: note: Returning from 'kzalloc'
+           oa_bo =3D kzalloc(sizeof(*oa_bo), GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1857:6: note: Assuming 'oa_bo' is non-n=
+ull
+           if (!oa_bo)
+               ^~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1857:2: note: Taking false branch
+           if (!oa_bo)
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1867:2: note: Taking true branch
+           if (IS_ERR(obj)) {
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1869:3: note: Control jumps to line 1926
+                   goto err_free;
+                   ^
+   drivers/gpu/drm/i915/i915_perf.c:1926:6: note: Assuming 'err' is 0
+           if (err) {
+               ^~~
+   drivers/gpu/drm/i915/i915_perf.c:1926:2: note: Taking false branch
+           if (err) {
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1950:10: note: Returning from 'alloc_oa=
+_config_buffer'
+           oa_bo =3D alloc_oa_config_buffer(stream, oa_config);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1951:6: note: Calling 'IS_ERR'
+           if (IS_ERR(oa_bo))
+               ^~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1951:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(oa_bo))
+               ^~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1951:2: note: Taking false branch
+           if (IS_ERR(oa_bo))
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1955:9: note: 1st function call argumen=
+t is an uninitialized value
+           return i915_vma_get(oa_bo->vma);
+                  ^            ~~~~~~~~~~
+>> drivers/gpu/drm/i915/i915_perf.c:1955:9: warning: Potential leak of memo=
+ry pointed to by 'oa_bo' [clang-analyzer-unix.Malloc]
+           return i915_vma_get(oa_bo->vma);
+                  ^
+   drivers/gpu/drm/i915/i915_perf.c:3304:8: note: Calling 'i915_perf_ioctl_=
+locked'
+           ret =3D i915_perf_ioctl_locked(stream, cmd, arg);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:3270:2: note: Control jumps to 'case 26=
+882:'  at line 3277
            switch (cmd) {
            ^
-   drivers/nvme/host/ioctl.c:439:10: note: Calling 'nvme_user_cmd'
-                   return nvme_user_cmd(ctrl, NULL, argp);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:189:6: note: Assuming the condition is false
-           if (!capable(CAP_SYS_ADMIN))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:189:2: note: Taking false branch
-           if (!capable(CAP_SYS_ADMIN))
+   drivers/gpu/drm/i915/i915_perf.c:3278:10: note: Calling 'i915_perf_confi=
+g_locked'
+                   return i915_perf_config_locked(stream, arg);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:3227:7: note: 'config' is non-null
+           if (!config)
+                ^~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:3227:2: note: Taking false branch
+           if (!config)
            ^
-   drivers/nvme/host/ioctl.c:191:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
+   drivers/gpu/drm/i915/i915_perf.c:3230:6: note: Assuming 'config' is not =
+equal to field 'oa_config'
+           if (config !=3D stream->oa_config) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:3230:2: note: Taking true branch
+           if (config !=3D stream->oa_config) {
            ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^
-   include/linux/uaccess.h:157:33: note: Assuming the condition is false
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                                          ^
-   include/linux/compiler.h:45:22: note: expanded from macro 'likely'
-   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
+   drivers/gpu/drm/i915/i915_perf.c:3242:9: note: Calling 'emit_oa_config'
+                   err =3D emit_oa_config(stream, config, oa_context(stream=
+), NULL);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1969:8: note: Calling 'get_oa_vma'
+           vma =3D get_oa_vma(stream, oa_config);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1942:2: note: Left side of '&&' is false
+           llist_for_each_entry(oa_bo, stream->oa_config_bos.first, node) {
+           ^
+   include/linux/llist.h:152:15: note: expanded from macro 'llist_for_each_=
+entry'
+           for ((pos) =3D llist_entry((node), typeof(*(pos)), member);     =
   \
-                                                       ^~~~
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
+                        ^
+   include/linux/llist.h:81:2: note: expanded from macro 'llist_entry'
+           container_of(ptr, type, member)
            ^
-   include/linux/uaccess.h:159:9: note: Calling 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/mips/include/asm/uaccess.h:616:2: note: Taking false branch
-           if (eva_kernel_access())
+   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/gpu/drm/i915/i915_perf.c:1942:2: note: Taking false branch
+           llist_for_each_entry(oa_bo, stream->oa_config_bos.first, node) {
            ^
-   arch/mips/include/asm/uaccess.h:619:3: note: Returning without writing t=
-o 'to->flags'
-                   return __invoke_copy_from_user(to, from, n);
+   include/linux/llist.h:152:15: note: expanded from macro 'llist_for_each_=
+entry'
+           for ((pos) =3D llist_entry((node), typeof(*(pos)), member);     =
+  \
+                        ^
+   include/linux/llist.h:81:2: note: expanded from macro 'llist_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   include/linux/uaccess.h:159:9: note: Returning from 'raw_copy_from_user'
-                   res =3D raw_copy_from_user(to, from, n);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
-           if (unlikely(res))
-               ^
-   include/linux/compiler.h:48:24: note: expanded from macro 'unlikely'
-   #  define unlikely(x)   (__branch_check__(x, 0, __builtin_constant_p(x)))
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:33:32: note: expanded from macro '__branch_chec=
-k__'
-                           ______r =3D __builtin_expect(!!(x), expect);    =
+   drivers/gpu/drm/i915/i915_perf.c:1942:2: note: Loop condition is false. =
+ Exiting loop
+           llist_for_each_entry(oa_bo, stream->oa_config_bos.first, node) {
+           ^
+   include/linux/llist.h:152:15: note: expanded from macro 'llist_for_each_=
+entry'
+           for ((pos) =3D llist_entry((node), typeof(*(pos)), member);     =
   \
-                                                       ^~~~
-   include/linux/uaccess.h:161:2: note: Taking false branch
-           if (unlikely(res))
+                        ^
+   include/linux/llist.h:81:2: note: expanded from macro 'llist_entry'
+           container_of(ptr, type, member)
            ^
-   include/linux/uaccess.h:163:2: note: Returning without writing to 'to->f=
-lags'
-           return res;
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/uaccess.h:163:2: note: Returning zero (loaded from 'res'),=
- which participates in a condition later
-           return res;
-           ^~~~~~~~~~
-   include/linux/uaccess.h:192:7: note: Returning from '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning without writing to 'to->f=
-lags'
-           return n;
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   include/linux/uaccess.h:193:2: note: Returning zero (loaded from 'n'), w=
-hich participates in a condition later
-           return n;
-           ^~~~~~~~
-   drivers/nvme/host/ioctl.c:191:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:191:2: note: Taking false branch
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/nvme/host/ioctl.c:193:6: note: Branch condition evaluates to a g=
-arbage value
-           if (cmd.flags)
-               ^~~~~~~~~
-   drivers/nvme/host/ioctl.c:224:7: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   if (put_user(result, &ucmd->result))
-                       ^
-   arch/mips/include/asm/uaccess.h:154:2: note: expanded from macro 'put_us=
-er'
-           __put_user_check((x), (ptr), sizeof(*(ptr)))
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1942:2: note: Loop condition is false. =
+Execution continues on line 1950
+           llist_for_each_entry(oa_bo, stream->oa_config_bos.first, node) {
+           ^
+   include/linux/llist.h:152:2: note: expanded from macro 'llist_for_each_e=
+ntry'
+           for ((pos) =3D llist_entry((node), typeof(*(pos)), member);     =
+  \
+           ^
+   drivers/gpu/drm/i915/i915_perf.c:1950:10: note: Calling 'alloc_oa_config=
+_buffer'
+           oa_bo =3D alloc_oa_config_buffer(stream, oa_config);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_perf.c:1856:10: note: Calling 'kzalloc'
+           oa_bo =3D kzalloc(sizeof(*oa_bo), GFP_KERNEL);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:684:9: note: Memory is allocated
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +193 drivers/nvme/host/ioctl.c
+vim +/oa_bo +1955 drivers/gpu/drm/i915/i915_perf.c
 
-2405252a680e21 Christoph Hellwig 2021-04-10  179  =
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1932  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  180  static int nvme_user_cmd(=
-struct nvme_ctrl *ctrl, struct nvme_ns *ns,
-2405252a680e21 Christoph Hellwig 2021-04-10  181  			struct nvme_passthru_c=
-md __user *ucmd)
-2405252a680e21 Christoph Hellwig 2021-04-10  182  {
-2405252a680e21 Christoph Hellwig 2021-04-10  183  	struct nvme_passthru_cmd=
- cmd;
-2405252a680e21 Christoph Hellwig 2021-04-10  184  	struct nvme_command c;
-2405252a680e21 Christoph Hellwig 2021-04-10  185  	unsigned timeout =3D 0;
-2405252a680e21 Christoph Hellwig 2021-04-10  186  	u64 result;
-2405252a680e21 Christoph Hellwig 2021-04-10  187  	int status;
-2405252a680e21 Christoph Hellwig 2021-04-10  188  =
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1933  static struct i915_vma *
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1934  get_oa_vma(struct i915_p=
+erf_stream *stream, struct i915_oa_config *oa_config)
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1935  {
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1936  	struct i915_oa_config_b=
+o *oa_bo;
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1937  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  189  	if (!capable(CAP_SYS_ADM=
-IN))
-2405252a680e21 Christoph Hellwig 2021-04-10  190  		return -EACCES;
-2405252a680e21 Christoph Hellwig 2021-04-10  191  	if (copy_from_user(&cmd,=
- ucmd, sizeof(cmd)))
-2405252a680e21 Christoph Hellwig 2021-04-10  192  		return -EFAULT;
-2405252a680e21 Christoph Hellwig 2021-04-10 @193  	if (cmd.flags)
-2405252a680e21 Christoph Hellwig 2021-04-10  194  		return -EINVAL;
-2405252a680e21 Christoph Hellwig 2021-04-10  195  	if (ns && cmd.nsid !=3D =
-ns->head->ns_id) {
-2405252a680e21 Christoph Hellwig 2021-04-10  196  		dev_err(ctrl->device,
-2405252a680e21 Christoph Hellwig 2021-04-10  197  			"%s: nsid (%u) in cmd =
-does not match nsid (%u) of namespace\n",
-2405252a680e21 Christoph Hellwig 2021-04-10  198  			current->comm, cmd.nsi=
-d, ns->head->ns_id);
-2405252a680e21 Christoph Hellwig 2021-04-10  199  		return -EINVAL;
-2405252a680e21 Christoph Hellwig 2021-04-10  200  	}
-2405252a680e21 Christoph Hellwig 2021-04-10  201  =
+14bfcd3e0daeb0 Lionel Landwerlin 2019-07-10  1938  	/*
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1939  	 * Look for the buffer =
+in the already allocated BOs attached
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1940  	 * to the stream.
+d79651522e89c4 Robert Bragg      2016-11-07  1941  	 */
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1942  	llist_for_each_entry(oa=
+_bo, stream->oa_config_bos.first, node) {
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1943  		if (oa_bo->oa_config =
+=3D=3D oa_config &&
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1944  		    memcmp(oa_bo->oa_c=
+onfig->uuid,
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1945  			   oa_config->uuid,
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1946  			   sizeof(oa_config->=
+uuid)) =3D=3D 0)
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1947  			goto out;
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1948  	}
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1949  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  202  	memset(&c, 0, sizeof(c));
-2405252a680e21 Christoph Hellwig 2021-04-10  203  	c.common.opcode =3D cmd.=
-opcode;
-2405252a680e21 Christoph Hellwig 2021-04-10  204  	c.common.flags =3D cmd.f=
-lags;
-2405252a680e21 Christoph Hellwig 2021-04-10  205  	c.common.nsid =3D cpu_to=
-_le32(cmd.nsid);
-2405252a680e21 Christoph Hellwig 2021-04-10  206  	c.common.cdw2[0] =3D cpu=
-_to_le32(cmd.cdw2);
-2405252a680e21 Christoph Hellwig 2021-04-10  207  	c.common.cdw2[1] =3D cpu=
-_to_le32(cmd.cdw3);
-2405252a680e21 Christoph Hellwig 2021-04-10  208  	c.common.cdw10 =3D cpu_t=
-o_le32(cmd.cdw10);
-2405252a680e21 Christoph Hellwig 2021-04-10  209  	c.common.cdw11 =3D cpu_t=
-o_le32(cmd.cdw11);
-2405252a680e21 Christoph Hellwig 2021-04-10  210  	c.common.cdw12 =3D cpu_t=
-o_le32(cmd.cdw12);
-2405252a680e21 Christoph Hellwig 2021-04-10  211  	c.common.cdw13 =3D cpu_t=
-o_le32(cmd.cdw13);
-2405252a680e21 Christoph Hellwig 2021-04-10  212  	c.common.cdw14 =3D cpu_t=
-o_le32(cmd.cdw14);
-2405252a680e21 Christoph Hellwig 2021-04-10  213  	c.common.cdw15 =3D cpu_t=
-o_le32(cmd.cdw15);
-2405252a680e21 Christoph Hellwig 2021-04-10  214  =
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1950  	oa_bo =3D alloc_oa_conf=
+ig_buffer(stream, oa_config);
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1951  	if (IS_ERR(oa_bo))
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1952  		return ERR_CAST(oa_bo);
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1953  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  215  	if (cmd.timeout_ms)
-2405252a680e21 Christoph Hellwig 2021-04-10  216  		timeout =3D msecs_to_ji=
-ffies(cmd.timeout_ms);
-2405252a680e21 Christoph Hellwig 2021-04-10  217  =
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1954  out:
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12 @1955  	return i915_vma_get(oa_=
+bo->vma);
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1956  }
+15d0ace1f876e0 Lionel Landwerlin 2019-10-12  1957  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  218  	status =3D nvme_submit_u=
-ser_cmd(ns ? ns->queue : ctrl->admin_q, &c,
-2405252a680e21 Christoph Hellwig 2021-04-10  219  			nvme_to_user_ptr(cmd.a=
-ddr), cmd.data_len,
-2405252a680e21 Christoph Hellwig 2021-04-10  220  			nvme_to_user_ptr(cmd.m=
-etadata), cmd.metadata_len,
-2405252a680e21 Christoph Hellwig 2021-04-10  221  			0, &result, timeout);
-2405252a680e21 Christoph Hellwig 2021-04-10  222  =
 
-2405252a680e21 Christoph Hellwig 2021-04-10  223  	if (status >=3D 0) {
-2405252a680e21 Christoph Hellwig 2021-04-10  224  		if (put_user(result, &u=
-cmd->result))
-2405252a680e21 Christoph Hellwig 2021-04-10  225  			return -EFAULT;
-2405252a680e21 Christoph Hellwig 2021-04-10  226  	}
-2405252a680e21 Christoph Hellwig 2021-04-10  227  =
+:::::: The code at line 1955 was first introduced by commit
+:::::: 15d0ace1f876e01b9745cb22ee32e3770fe3a6d5 drm/i915/perf: execute OA c=
+onfiguration from command stream
 
-2405252a680e21 Christoph Hellwig 2021-04-10  228  	return status;
-2405252a680e21 Christoph Hellwig 2021-04-10  229  }
-2405252a680e21 Christoph Hellwig 2021-04-10  230  =
-
+:::::: TO: Lionel Landwerlin <lionel.g.landwerlin@intel.com>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4020771244116156624==--
+--===============6102739290993993437==--
 
