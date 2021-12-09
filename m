@@ -1,165 +1,105 @@
-Content-Type: multipart/mixed; boundary="===============6601854766237311252=="
+Content-Type: multipart/mixed; boundary="===============3377784648516288415=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/mediatek/mt76/eeprom.c:315 mt76_get_rate_power_limits() error: uninitialized symbol 'len'.
-Date: Fri, 10 Dec 2021 10:53:21 +0800
-Message-ID: <202112101029.wGllvPF0-lkp@intel.com>
+Subject: [ambarus:sama7g5-qspi-for-broonie-v2 20/21] drivers/spi/atmel-quadspi.c:986 atmel_qspi_exec_op() error: uninitialized symbol 'offset'.
+Date: Thu, 09 Dec 2021 14:42:47 +0800
+Message-ID: <202112091430.3ElBx8iW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6601854766237311252==
+--===============3377784648516288415==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Shayne Chen <shayne.chen@mediatek.com>
-CC: Felix Fietkau <nbd@nbd.name>
-CC: Lorenzo Bianconi <lorenzo@kernel.org>
+TO: Tudor Ambarus <tudor.ambarus@microchip.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
-commit: a9627d992b5e3aa18315094b501eba0f4d883419 mt76: extend DT rate power=
- limits to support 11ax devices
-date:   8 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-m031-20211206 (https://download.01.org/0day-ci/ar=
-chive/20211210/202112101029.wGllvPF0-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://github.com/ambarus/linux-0day sama7g5-qspi-for-broonie-v2
+head:   1fbd20943203727424df62e17c565f1b3a49a542
+commit: 97f2a2c3d5f512f18f59a2066e6da47c0fca09e5 [20/21] spi: atmel-quadspi=
+: Add support for sama7g5 QSPI
+:::::: branch date: 15 hours ago
+:::::: commit date: 15 hours ago
+config: arc-randconfig-m031-20211207 (https://download.01.org/0day-ci/archi=
+ve/20211209/202112091430.3ElBx8iW-lkp(a)intel.com/config)
+compiler: arceb-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/net/wireless/mediatek/mt76/eeprom.c:315 mt76_get_rate_power_limits(=
-) error: uninitialized symbol 'len'.
+drivers/spi/atmel-quadspi.c:986 atmel_qspi_exec_op() error: uninitialized s=
+ymbol 'offset'.
+drivers/spi/atmel-quadspi.c:1234 atmel_qspi_dma_init() warn: passing zero t=
+o 'PTR_ERR'
 
-vim +/len +315 drivers/net/wireless/mediatek/mt76/eeprom.c
+vim +/offset +986 drivers/spi/atmel-quadspi.c
 
-a9627d992b5e3a Shayne Chen   2021-04-13  253  =
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  964  =
 
-22b980badc0fc7 Felix Fietkau 2021-04-13  254  s8 mt76_get_rate_power_limits=
-(struct mt76_phy *phy,
-22b980badc0fc7 Felix Fietkau 2021-04-13  255  			      struct ieee80211_cha=
-nnel *chan,
-22b980badc0fc7 Felix Fietkau 2021-04-13  256  			      struct mt76_power_li=
-mits *dest,
-22b980badc0fc7 Felix Fietkau 2021-04-13  257  			      s8 target_power)
-22b980badc0fc7 Felix Fietkau 2021-04-13  258  {
-22b980badc0fc7 Felix Fietkau 2021-04-13  259  	struct mt76_dev *dev =3D phy=
-->dev;
-22b980badc0fc7 Felix Fietkau 2021-04-13  260  	struct device_node *np;
-22b980badc0fc7 Felix Fietkau 2021-04-13  261  	const __be32 *val;
-22b980badc0fc7 Felix Fietkau 2021-04-13  262  	char name[16];
-22b980badc0fc7 Felix Fietkau 2021-04-13  263  	u32 mcs_rates =3D dev->drv->=
-mcs_rates;
-a9627d992b5e3a Shayne Chen   2021-04-13  264  	u32 ru_rates =3D ARRAY_SIZE(=
-dest->ru[0]);
-22b980badc0fc7 Felix Fietkau 2021-04-13  265  	char band;
-22b980badc0fc7 Felix Fietkau 2021-04-13  266  	size_t len;
-22b980badc0fc7 Felix Fietkau 2021-04-13  267  	s8 max_power =3D 0;
-22b980badc0fc7 Felix Fietkau 2021-04-13  268  	s8 txs_delta;
-22b980badc0fc7 Felix Fietkau 2021-04-13  269  =
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  965  static int atmel_qspi_exec_op(struct spi_mem *mem, const struct spi=
+_mem_op *op)
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  966  {
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  967  	struct atmel_qspi *aq =3D spi_controller_get_devdata(mem->spi->mas=
+ter);
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  968  	u32 offset;
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  969  	int err;
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  970  =
 
-22b980badc0fc7 Felix Fietkau 2021-04-13  270  	if (!mcs_rates)
-22b980badc0fc7 Felix Fietkau 2021-04-13  271  		mcs_rates =3D 10;
-22b980badc0fc7 Felix Fietkau 2021-04-13  272  =
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  971  	/*
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  972  	 * Check if the address exceeds the MMIO window size. An improveme=
+nt
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  973  	 * would be to add support for regular SPI mode and fall back to it
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  974  	 * when the flash memories overrun the controller's memory space.
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  975  	 */
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  976  	if (op->addr.val + op->data.nbytes > aq->mmap_size)
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  977  		return -EOPNOTSUPP;
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  978  =
 
-22b980badc0fc7 Felix Fietkau 2021-04-13  273  	memset(dest, target_power, s=
-izeof(*dest));
-22b980badc0fc7 Felix Fietkau 2021-04-13  274  =
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  979  	if (op->addr.nbytes > 4)
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  980  		return -EOPNOTSUPP;
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  981  =
 
-22b980badc0fc7 Felix Fietkau 2021-04-13  275  	if (!IS_ENABLED(CONFIG_OF))
-22b980badc0fc7 Felix Fietkau 2021-04-13  276  		return target_power;
-22b980badc0fc7 Felix Fietkau 2021-04-13  277  =
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  982  	err =3D aq->ops->set_cfg(aq, op, &offset);
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  983  	if (err)
+d5433def31531b drivers/mtd/spi-nor/atmel-quadspi.c Piotr Bugalski 2018-11-0=
+5  984  		return err;
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9  985  =
 
-22b980badc0fc7 Felix Fietkau 2021-04-13  278  	np =3D mt76_find_power_limit=
-s_node(dev);
-22b980badc0fc7 Felix Fietkau 2021-04-13  279  	if (!np)
-22b980badc0fc7 Felix Fietkau 2021-04-13  280  		return target_power;
-22b980badc0fc7 Felix Fietkau 2021-04-13  281  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  282  	switch (chan->band) {
-22b980badc0fc7 Felix Fietkau 2021-04-13  283  	case NL80211_BAND_2GHZ:
-22b980badc0fc7 Felix Fietkau 2021-04-13  284  		band =3D '2';
-22b980badc0fc7 Felix Fietkau 2021-04-13  285  		break;
-22b980badc0fc7 Felix Fietkau 2021-04-13  286  	case NL80211_BAND_5GHZ:
-22b980badc0fc7 Felix Fietkau 2021-04-13  287  		band =3D '5';
-22b980badc0fc7 Felix Fietkau 2021-04-13  288  		break;
-22b980badc0fc7 Felix Fietkau 2021-04-13  289  	default:
-22b980badc0fc7 Felix Fietkau 2021-04-13  290  		return target_power;
-22b980badc0fc7 Felix Fietkau 2021-04-13  291  	}
-22b980badc0fc7 Felix Fietkau 2021-04-13  292  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  293  	snprintf(name, sizeof(name),=
- "txpower-%cg", band);
-22b980badc0fc7 Felix Fietkau 2021-04-13  294  	np =3D of_get_child_by_name(=
-np, name);
-22b980badc0fc7 Felix Fietkau 2021-04-13  295  	if (!np)
-22b980badc0fc7 Felix Fietkau 2021-04-13  296  		return target_power;
-22b980badc0fc7 Felix Fietkau 2021-04-13  297  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  298  	np =3D mt76_find_channel_nod=
-e(np, chan);
-22b980badc0fc7 Felix Fietkau 2021-04-13  299  	if (!np)
-22b980badc0fc7 Felix Fietkau 2021-04-13  300  		return target_power;
-22b980badc0fc7 Felix Fietkau 2021-04-13  301  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  302  	txs_delta =3D mt76_get_txs_d=
-elta(np, hweight8(phy->antenna_mask));
-22b980badc0fc7 Felix Fietkau 2021-04-13  303  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  304  	val =3D mt76_get_of_array(np=
-, "rates-cck", &len, ARRAY_SIZE(dest->cck));
-22b980badc0fc7 Felix Fietkau 2021-04-13  305  	mt76_apply_array_limit(dest-=
->cck, ARRAY_SIZE(dest->cck), val,
-22b980badc0fc7 Felix Fietkau 2021-04-13  306  			       target_power, txs_d=
-elta, &max_power);
-22b980badc0fc7 Felix Fietkau 2021-04-13  307  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  308  	val =3D mt76_get_of_array(np=
-, "rates-ofdm",
-22b980badc0fc7 Felix Fietkau 2021-04-13  309  				&len, ARRAY_SIZE(dest->of=
-dm));
-22b980badc0fc7 Felix Fietkau 2021-04-13  310  	mt76_apply_array_limit(dest-=
->ofdm, ARRAY_SIZE(dest->ofdm), val,
-22b980badc0fc7 Felix Fietkau 2021-04-13  311  			       target_power, txs_d=
-elta, &max_power);
-22b980badc0fc7 Felix Fietkau 2021-04-13  312  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  313  	val =3D mt76_get_of_array(np=
-, "rates-mcs", &len, mcs_rates + 1);
-a9627d992b5e3a Shayne Chen   2021-04-13  314  	mt76_apply_multi_array_limit=
-(dest->mcs[0], ARRAY_SIZE(dest->mcs[0]),
-a9627d992b5e3a Shayne Chen   2021-04-13 @315  				     ARRAY_SIZE(dest->mcs=
-), val, len,
-a9627d992b5e3a Shayne Chen   2021-04-13  316  				     target_power, txs_de=
-lta, &max_power);
-22b980badc0fc7 Felix Fietkau 2021-04-13  317  =
-
-a9627d992b5e3a Shayne Chen   2021-04-13  318  	val =3D mt76_get_of_array(np=
-, "rates-ru", &len, ru_rates + 1);
-a9627d992b5e3a Shayne Chen   2021-04-13  319  	mt76_apply_multi_array_limit=
-(dest->ru[0], ARRAY_SIZE(dest->ru[0]),
-a9627d992b5e3a Shayne Chen   2021-04-13  320  				     ARRAY_SIZE(dest->ru)=
-, val, len,
-a9627d992b5e3a Shayne Chen   2021-04-13  321  				     target_power, txs_de=
-lta, &max_power);
-22b980badc0fc7 Felix Fietkau 2021-04-13  322  =
-
-22b980badc0fc7 Felix Fietkau 2021-04-13  323  	return max_power;
-22b980badc0fc7 Felix Fietkau 2021-04-13  324  }
-22b980badc0fc7 Felix Fietkau 2021-04-13  325  EXPORT_SYMBOL_GPL(mt76_get_ra=
-te_power_limits);
-22b980badc0fc7 Felix Fietkau 2021-04-13  326  =
+97f2a2c3d5f512 drivers/spi/atmel-quadspi.c         Tudor Ambarus  2020-10-1=
+9 @986  	return aq->ops->transfer(mem, op, offset);
+d5433def31531b drivers/mtd/spi-nor/atmel-quadspi.c Piotr Bugalski 2018-11-0=
+5  987  }
+d5433def31531b drivers/mtd/spi-nor/atmel-quadspi.c Piotr Bugalski 2018-11-0=
+5  988  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6601854766237311252==--
+--===============3377784648516288415==--
 
