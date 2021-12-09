@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============1584283103354569365=="
+Content-Type: multipart/mixed; boundary="===============0511547077459084746=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mchehab-media-next:master 7/326] drivers/media/platform/stm32/dma2d/dma2d.c:531:33: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Tue, 07 Dec 2021 12:25:41 +0800
-Message-ID: <202112071203.JsSvDngA-lkp@intel.com>
+Subject: drivers/net/ethernet/intel/ice/ice_lag.c:65:17: warning: Value stored to 'dev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 10 Dec 2021 03:21:58 +0800
+Message-ID: <202112100356.Y1YZRa4d-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1584283103354569365==
+--===============0511547077459084746==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Dillon Min <dillon.minfei@gmail.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Dave Ertman <david.m.ertman@intel.com>
+CC: Tony Nguyen <anthony.l.nguyen@intel.com>
 
-tree:   git://linuxtv.org/mchehab/media-next.git master
-head:   e6df6ad17c766f1e62e90332d143cd1c45567ffc
-commit: 002e8f0d59277375154a054df15f925685c01a5c [7/326] media: stm32-dma2d=
-: STM32 DMA2D driver
-:::::: branch date: 13 hours ago
-:::::: commit date: 3 weeks ago
-config: riscv-randconfig-c006-20211206 (https://download.01.org/0day-ci/arc=
-hive/20211207/202112071203.JsSvDngA-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project f50be8=
-eb0a12a61d23db6cda452c693001d76898)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+commit: df006dd4b1dca8c486f73ae76fb77c06afae83f2 ice: Add initial support f=
+ramework for LAG
+date:   10 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 10 months ago
+config: arm-randconfig-c002-20211126 (https://download.01.org/0day-ci/archi=
+ve/20211210/202112100356.Y1YZRa4d-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
+58d8c0b542e752b037e72a69d5fd51eb1e)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        git remote add mchehab-media-next git://linuxtv.org/mchehab/media-n=
-ext.git
-        git fetch --no-tags mchehab-media-next master
-        git checkout 002e8f0d59277375154a054df15f925685c01a5c
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Ddf006dd4b1dca8c486f73ae76fb77c06afae83f2
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout df006dd4b1dca8c486f73ae76fb77c06afae83f2
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,310 +52,380 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/spi/spi-mxic.c:263:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/spi/spi-mxic.c:263:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/spi/spi-mxic.c:268:2: note: Returning zero, which participates i=
-n a condition later
-           return 0;
-           ^~~~~~~~
-   drivers/spi/spi-mxic.c:368:8: note: Returning from 'mxic_spi_set_freq'
-           ret =3D mxic_spi_set_freq(mxic, mem->spi->max_speed_hz);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-mxic.c:369:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/spi/spi-mxic.c:369:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/spi/spi-mxic.c:372:6: note: Assuming the condition is false
-           if (mem->spi->mode & (SPI_TX_OCTAL | SPI_RX_OCTAL))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-mxic.c:372:2: note: Taking false branch
-           if (mem->spi->mode & (SPI_TX_OCTAL | SPI_RX_OCTAL))
-           ^
-   drivers/spi/spi-mxic.c:374:11: note: Assuming the condition is false
-           else if (mem->spi->mode & (SPI_TX_QUAD | SPI_RX_QUAD))
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-mxic.c:374:7: note: Taking false branch
-           else if (mem->spi->mode & (SPI_TX_QUAD | SPI_RX_QUAD))
-                ^
-   drivers/spi/spi-mxic.c:376:11: note: Assuming the condition is false
-           else if (mem->spi->mode & (SPI_TX_DUAL | SPI_RX_DUAL))
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/spi/spi-mxic.c:376:7: note: Taking false branch
-           else if (mem->spi->mode & (SPI_TX_DUAL | SPI_RX_DUAL))
-                ^
-   drivers/spi/spi-mxic.c:379:2: note: Loop condition is false.  Exiting lo=
-op
-           writel(HC_CFG_NIO(nio) |
-           ^
-   arch/riscv/include/asm/mmio.h:144:58: note: expanded from macro 'writel'
-   #define writel(v, c)    ({ __io_bw(); writel_cpu((v), (c)); __io_aw(); })
-                                                               ^
-   arch/riscv/include/asm/mmio.h:136:19: note: expanded from macro '__io_aw'
-   #define __io_aw()       mmiowb_set_pending()
-                           ^
-   include/asm-generic/mmiowb.h:61:31: note: expanded from macro 'mmiowb_se=
-t_pending'
-   #define mmiowb_set_pending()            do { } while (0)
-                                           ^
-   drivers/spi/spi-mxic.c:384:2: note: Loop condition is false.  Exiting lo=
-op
-           writel(HC_EN_BIT, mxic->regs + HC_EN);
-           ^
-   arch/riscv/include/asm/mmio.h:144:58: note: expanded from macro 'writel'
-   #define writel(v, c)    ({ __io_bw(); writel_cpu((v), (c)); __io_aw(); })
-                                                               ^
-   arch/riscv/include/asm/mmio.h:136:19: note: expanded from macro '__io_aw'
-   #define __io_aw()       mmiowb_set_pending()
-                           ^
-   include/asm-generic/mmiowb.h:61:31: note: expanded from macro 'mmiowb_se=
-t_pending'
-   #define mmiowb_set_pending()            do { } while (0)
-                                           ^
-   drivers/spi/spi-mxic.c:388:6: note: Assuming field 'dtr' is not equal to=
- 0
-                     (op->cmd.dtr ? OP_CMD_DDR : 0);
-                      ^~~~~~~~~~~
-   drivers/spi/spi-mxic.c:388:6: note: '?' condition is true
-   drivers/spi/spi-mxic.c:390:6: note: Assuming field 'nbytes' is 0
-           if (op->addr.nbytes)
-               ^~~~~~~~~~~~~~~
-   drivers/spi/spi-mxic.c:390:2: note: Taking false branch
-           if (op->addr.nbytes)
-           ^
-   drivers/spi/spi-mxic.c:395:6: note: Assuming field 'nbytes' is 0
-           if (op->dummy.nbytes)
-               ^~~~~~~~~~~~~~~~
-   drivers/spi/spi-mxic.c:395:2: note: Taking false branch
-           if (op->dummy.nbytes)
-           ^
-   drivers/spi/spi-mxic.c:398:6: note: Assuming field 'nbytes' is not equal=
- to 0
-           if (op->data.nbytes) {
-               ^~~~~~~~~~~~~~~
-   drivers/spi/spi-mxic.c:398:2: note: Taking true branch
-           if (op->data.nbytes) {
-           ^
-   drivers/spi/spi-mxic.c:399:14: note: The result of the left shift is und=
-efined because the left operand is negative
-                   ss_ctrl |=3D OP_DATA_BUSW(fls(op->data.buswidth) - 1) |
-                              ^
-   drivers/spi/spi-mxic.c:78:31: note: expanded from macro 'OP_DATA_BUSW'
-   #define OP_DATA_BUSW(x)         ((x) << 6)
-                                    ~~~ ^
-   Suppressed 3 warnings (3 in non-user code).
+   drivers/gpu/drm/radeon/rv770_smc.c:379:3: warning: Value stored to 'smc_=
+first_vector' is never read [clang-analyzer-deadcode.DeadStores]
+                   smc_first_vector =3D FIRST_SMC_INT_VECT_REG;
+                   ^
+   drivers/gpu/drm/radeon/rv770_smc.c:379:3: note: Value stored to 'smc_fir=
+st_vector' is never read
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
+   9 warnings generated.
+   drivers/gpu/drm/radeon/btc_dpm.c:2308:2: warning: Value stored to 'ret' =
+is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D btc_disable_ulv(rdev);
+           ^     ~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/btc_dpm.c:2308:2: note: Value stored to 'ret' is =
+never read
+           ret =3D btc_disable_ulv(rdev);
+           ^     ~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/media/platform/stm32/dma2d/dma2d.c:531:33: warning: Dereference =
-of null pointer [clang-analyzer-core.NullDereference]
-                   src =3D v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-                                                 ^~~~~~~~~~~~~~~
-   drivers/media/platform/stm32/dma2d/dma2d.c:521:2: note: 'ctx' initialize=
-d here
-           struct dma2d_ctx *ctx =3D dev->curr;
-           ^~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/stm32/dma2d/dma2d.c:526:6: note: Assuming the con=
-dition is true
-           if (s & ISR_TCIF || s =3D=3D 0) {
-               ^~~~~~~~~~~~
-   drivers/media/platform/stm32/dma2d/dma2d.c:526:19: note: Left side of '|=
-|' is true
-           if (s & ISR_TCIF || s =3D=3D 0) {
-                            ^
-   drivers/media/platform/stm32/dma2d/dma2d.c:529:11: note: Assuming 'ctx' =
-is null
-                   WARN_ON(!ctx);
-                           ^
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/media/platform/stm32/dma2d/dma2d.c:531:33: note: Dereference of =
-null pointer
-                   src =3D v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
-                                                 ^~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (4 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/gpu/drm/qxl/qxl_release.c:128:8: warning: Use of memory after it=
- is freed [clang-analyzer-unix.Malloc]
-                   bo =3D to_qxl_bo(entry->tv.bo);
-                        ^
-   drivers/gpu/drm/qxl/qxl_drv.h:99:25: note: expanded from macro 'to_qxl_b=
-o'
-   #define to_qxl_bo(tobj) container_of((tobj), struct qxl_bo, tbo)
-                           ^
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
+   12 warnings generated.
+   drivers/gpu/drm/radeon/sumo_dpm.c:423:18: warning: The right operand of =
+'*' is a garbage value due to array index out of bounds [clang-analyzer-cor=
+e.UndefinedBinaryOperatorResult]
+                   a_t =3D CG_R(m_a * r[ps->num_levels - 1] / 100) |
                                   ^
-   drivers/gpu/drm/qxl/qxl_release.c:256:6: note: Assuming 'surface_cmd_typ=
-e' is not equal to QXL_SURFACE_CMD_DESTROY
-           if (surface_cmd_type =3D=3D QXL_SURFACE_CMD_DESTROY && create_re=
-l) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/qxl/qxl_release.c:256:50: note: Left side of '&&' is fal=
+   drivers/gpu/drm/radeon/sumo_dpm.c:1302:6: note: Assuming field 'enable_d=
+pm' is true
+           if (pi->enable_dpm)
+               ^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:1302:2: note: Taking true branch
+           if (pi->enable_dpm)
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1304:6: note: Assuming field 'enable_b=
+oost' is false
+           if (pi->enable_boost) {
+               ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:1304:2: note: Taking false branch
+           if (pi->enable_boost) {
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1308:10: note: Field 'enable_dpm' is t=
+rue
+           if (pi->enable_dpm) {
+                   ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1308:2: note: Taking true branch
+           if (pi->enable_dpm) {
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1317:3: note: Calling 'sumo_program_at'
+                   sumo_program_at(rdev, new_ps);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:408:14: note: Assuming 'i' is >=3D fie=
+ld 'num_levels'
+           for (i =3D 0; i < ps->num_levels; i++) {
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:408:2: note: Loop condition is false. =
+Execution continues on line 418
+           for (i =3D 0; i < ps->num_levels; i++) {
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:418:6: note: Assuming the condition is=
+ true
+           if (ps->flags & SUMO_POWERSTATE_FLAGS_BOOST_STATE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:418:2: note: Taking true branch
+           if (ps->flags & SUMO_POWERSTATE_FLAGS_BOOST_STATE) {
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:423:18: note: The right operand of '*'=
+ is a garbage value due to array index out of bounds
+                   a_t =3D CG_R(m_a * r[ps->num_levels - 1] / 100) |
+                                  ^
+   drivers/gpu/drm/radeon/sumod.h:278:59: note: expanded from macro 'CG_R'
+   #       define CG_R(x)                                  ((x) << 0)
+                                                             ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:743:18: warning: The result of the lef=
+t shift is undefined due to shifting by '4294967295', which is greater or e=
+qual to the width of type 'int' [clang-analyzer-core.UndefinedBinaryOperato=
+rResult]
+           dpm_ctrl4 |=3D (1 << (new_ps->num_levels - 1));
+                           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1302:6: note: Assuming field 'enable_d=
+pm' is true
+           if (pi->enable_dpm)
+               ^~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:1302:2: note: Taking true branch
+           if (pi->enable_dpm)
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1304:6: note: Assuming field 'enable_b=
+oost' is false
+           if (pi->enable_boost) {
+               ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:1304:2: note: Taking false branch
+           if (pi->enable_boost) {
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1308:10: note: Field 'enable_dpm' is t=
+rue
+           if (pi->enable_dpm) {
+                   ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1308:2: note: Taking true branch
+           if (pi->enable_dpm) {
+           ^
+   drivers/gpu/drm/radeon/sumo_dpm.c:1315:3: note: Calling 'sumo_program_wl'
+                   sumo_program_wl(rdev, new_ps);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/radeon/sumo_dpm.c:743:18: note: The result of the left s=
+hift is undefined due to shifting by '4294967295', which is greater or equa=
+l to the width of type 'int'
+           dpm_ctrl4 |=3D (1 << (new_ps->num_levels - 1));
+                           ^  ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (8 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: warning: Value st=
+ored to 'dev' during its initialization is never read [clang-analyzer-deadc=
+ode.DeadStores]
+           struct device *dev =3D ice_pf_to_dev(pf);
+                          ^~~
+   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: note: Value store=
+d to 'dev' during its initialization is never read
+           struct device *dev =3D ice_pf_to_dev(pf);
+                          ^~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+>> drivers/net/ethernet/intel/ice/ice_lag.c:65:17: warning: Value stored to=
+ 'dev' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           struct device *dev =3D &lag->pf->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:65:17: note: Value stored to 'd=
+ev' during its initialization is never read
+           struct device *dev =3D &lag->pf->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:67:2: warning: Value stored to =
+'name' is never read [clang-analyzer-deadcode.DeadStores]
+           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:67:2: note: Value stored to 'na=
+me' is never read
+           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:68:2: warning: Value stored to =
+'peer' is never read [clang-analyzer-deadcode.DeadStores]
+           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
+et";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:68:2: note: Value stored to 'pe=
+er' is never read
+           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
+et";
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:69:2: warning: Value stored to =
+'upper' is never read [clang-analyzer-deadcode.DeadStores]
+           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
+unset";
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:69:2: note: Value stored to 'up=
+per' is never read
+           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
+unset";
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:70:2: warning: Value stored to =
+'master' is never read [clang-analyzer-deadcode.DeadStores]
+           master =3D lag->master ? "TRUE" : "FALSE";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:70:2: note: Value stored to 'ma=
+ster' is never read
+           master =3D lag->master ? "TRUE" : "FALSE";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:71:2: warning: Value stored to =
+'bonded' is never read [clang-analyzer-deadcode.DeadStores]
+           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:71:2: note: Value stored to 'bo=
+nded' is never read
+           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>> drivers/net/ethernet/intel/ice/ice_lag.c:75:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "NONE";
+                   ^      ~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:75:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "NONE";
+                   ^      ~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "PRIMARY";
+                   ^      ~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "PRIMARY";
+                   ^      ~~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "BACKUP";
+                   ^      ~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "BACKUP";
+                   ^      ~~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "UNSET";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "UNSET";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: warning: Value stored to =
+'role' is never read [clang-analyzer-deadcode.DeadStores]
+                   role =3D "ERROR";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: note: Value stored to 'ro=
+le' is never read
+                   role =3D "ERROR";
+                   ^      ~~~~~~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:356:17: warning: Value stored t=
+o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
+adStores]
+           struct device *dev =3D ice_pf_to_dev(lag->pf);
+                          ^~~
+   drivers/net/ethernet/intel/ice/ice_lag.c:356:17: note: Value stored to '=
+dev' during its initialization is never read
+           struct device *dev =3D ice_pf_to_dev(lag->pf);
+                          ^~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/mtd/nand/raw/ams-delta.c:199:17: warning: Value stored to 'dev' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &nand_to_mtd(this)->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/ams-delta.c:199:17: note: Value stored to 'dev' dur=
+ing its initialization is never read
+           struct device *dev =3D &nand_to_mtd(this)->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/mtd/nand/raw/diskonchip.c:371:20: warning: The left operand of '=
+<<' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           ret =3D ((u16)id[0] << 8) | id[1];
+                             ^
+   drivers/mtd/nand/raw/diskonchip.c:1548:6: note: Assuming 'doc_config_loc=
+ation' is not equal to 0
+           if (doc_config_location) {
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/diskonchip.c:1548:2: note: Taking true branch
+           if (doc_config_location) {
+           ^
+   drivers/mtd/nand/raw/diskonchip.c:1551:9: note: Calling 'doc_probe'
+                   ret =3D doc_probe(doc_config_location);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/diskonchip.c:1311:6: note: Assuming the condition i=
+s false
+           if (!request_mem_region(physadr, DOC_IOREMAP_LEN, "DiskOnChip"))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/mtd/nand/raw/diskonchip.c:1311:2: note: Taking false branch
+           if (!request_mem_region(physadr, DOC_IOREMAP_LEN, "DiskOnChip"))
+           ^
+   drivers/mtd/nand/raw/diskonchip.c:1314:6: note: Assuming 'virtadr' is no=
+n-null
+           if (!virtadr) {
+               ^~~~~~~~
+   drivers/mtd/nand/raw/diskonchip.c:1314:2: note: Taking false branch
+           if (!virtadr) {
+           ^
+   drivers/mtd/nand/raw/diskonchip.c:1341:2: note: Control jumps to 'case 3=
+2:' @line 1342
+           switch (ChipID) {
+           ^
+   drivers/mtd/nand/raw/diskonchip.c:1344:3: note:  Execution continues on =
+line 1388
+                   break;
+                   ^
+   drivers/mtd/nand/raw/diskonchip.c:1391:7: note: Assuming 'tmp' is not eq=
+ual to 'tmpb'
+           if ((tmp =3D=3D tmpb) || (tmp !=3D tmpc)) {
+                ^~~~~~~~~~~
+   drivers/mtd/nand/raw/diskonchip.c:1391:6: note: Left side of '||' is fal=
 se
-           if (surface_cmd_type =3D=3D QXL_SURFACE_CMD_DESTROY && create_re=
-l) {
-                                                           ^
-   drivers/gpu/drm/qxl/qxl_release.c:278:9: note: Calling 'qxl_alloc_releas=
-e_reserved'
-           return qxl_alloc_release_reserved(qdev, sizeof(struct qxl_surfac=
-e_cmd),
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/gpu/drm/qxl/qxl_release.c:293:6: note: 'type' is not equal to QX=
-L_RELEASE_DRAWABLE
-           if (type =3D=3D QXL_RELEASE_DRAWABLE) {
-               ^~~~
-   drivers/gpu/drm/qxl/qxl_release.c:293:2: note: Taking false branch
-           if (type =3D=3D QXL_RELEASE_DRAWABLE) {
-           ^
-   drivers/gpu/drm/qxl/qxl_release.c:296:13: note: 'type' is equal to QXL_R=
-ELEASE_SURFACE_CMD
-           } else if (type =3D=3D QXL_RELEASE_SURFACE_CMD) {
-                      ^~~~
-   drivers/gpu/drm/qxl/qxl_release.c:296:9: note: Taking true branch
-           } else if (type =3D=3D QXL_RELEASE_SURFACE_CMD) {
-                  ^
-   drivers/gpu/drm/qxl/qxl_release.c:309:6: note: 'idr_ret' is >=3D 0
-           if (idr_ret < 0) {
-               ^~~~~~~
-   drivers/gpu/drm/qxl/qxl_release.c:309:2: note: Taking false branch
-           if (idr_ret < 0) {
-           ^
-   drivers/gpu/drm/qxl/qxl_release.c:317:6: note: Assuming the condition is=
- false
-           if (qdev->current_release_bo_offset[cur_idx] + 1 >=3D releases_p=
-er_bo[cur_idx]) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   drivers/gpu/drm/qxl/qxl_release.c:317:2: note: Taking false branch
-           if (qdev->current_release_bo_offset[cur_idx] + 1 >=3D releases_p=
-er_bo[cur_idx]) {
+           if ((tmp =3D=3D tmpb) || (tmp !=3D tmpc)) {
+               ^
+   drivers/mtd/nand/raw/diskonchip.c:1391:24: note: Assuming 'tmp' is equal=
+ to 'tmpc'
+           if ((tmp =3D=3D tmpb) || (tmp !=3D tmpc)) {
+                                 ^~~~~~~~~~~
+   drivers/mtd/nand/raw/diskonchip.c:1391:2: note: Taking false branch
+           if ((tmp =3D=3D tmpb) || (tmp !=3D tmpc)) {
 
-vim +531 drivers/media/platform/stm32/dma2d/dma2d.c
+vim +/dev +65 drivers/net/ethernet/intel/ice/ice_lag.c
 
-002e8f0d592773 Dillon Min 2021-10-19  517  =
+df006dd4b1dca8c Dave Ertman 2020-11-20  57  =
 
-002e8f0d592773 Dillon Min 2021-10-19  518  static irqreturn_t dma2d_isr(int=
- irq, void *prv)
-002e8f0d592773 Dillon Min 2021-10-19  519  {
-002e8f0d592773 Dillon Min 2021-10-19  520  	struct dma2d_dev *dev =3D prv;
-002e8f0d592773 Dillon Min 2021-10-19  521  	struct dma2d_ctx *ctx =3D dev->=
-curr;
-002e8f0d592773 Dillon Min 2021-10-19  522  	struct vb2_v4l2_buffer *src, *d=
-st;
-002e8f0d592773 Dillon Min 2021-10-19  523  	u32 s =3D dma2d_get_int(dev);
-002e8f0d592773 Dillon Min 2021-10-19  524  =
+df006dd4b1dca8c Dave Ertman 2020-11-20  58  /**
+df006dd4b1dca8c Dave Ertman 2020-11-20  59   * ice_display_lag_info - print=
+ LAG info
+df006dd4b1dca8c Dave Ertman 2020-11-20  60   * @lag: LAG info struct
+df006dd4b1dca8c Dave Ertman 2020-11-20  61   */
+df006dd4b1dca8c Dave Ertman 2020-11-20  62  static void ice_display_lag_inf=
+o(struct ice_lag *lag)
+df006dd4b1dca8c Dave Ertman 2020-11-20  63  {
+df006dd4b1dca8c Dave Ertman 2020-11-20  64  	const char *name, *peer, *uppe=
+r, *role, *bonded, *master;
+df006dd4b1dca8c Dave Ertman 2020-11-20 @65  	struct device *dev =3D &lag->p=
+f->pdev->dev;
+df006dd4b1dca8c Dave Ertman 2020-11-20  66  =
 
-002e8f0d592773 Dillon Min 2021-10-19  525  	dma2d_clear_int(dev);
-002e8f0d592773 Dillon Min 2021-10-19  526  	if (s & ISR_TCIF || s =3D=3D 0)=
- {
-002e8f0d592773 Dillon Min 2021-10-19  527  		clk_disable(dev->gate);
-002e8f0d592773 Dillon Min 2021-10-19  528  =
+df006dd4b1dca8c Dave Ertman 2020-11-20 @67  	name =3D lag->netdev ? netdev_=
+name(lag->netdev) : "unset";
+df006dd4b1dca8c Dave Ertman 2020-11-20 @68  	peer =3D lag->peer_netdev ? ne=
+tdev_name(lag->peer_netdev) : "unset";
+df006dd4b1dca8c Dave Ertman 2020-11-20 @69  	upper =3D lag->upper_netdev ? =
+netdev_name(lag->upper_netdev) : "unset";
+df006dd4b1dca8c Dave Ertman 2020-11-20 @70  	master =3D lag->master ? "TRUE=
+" : "FALSE";
+df006dd4b1dca8c Dave Ertman 2020-11-20 @71  	bonded =3D lag->bonded ? "BOND=
+ED" : "UNBONDED";
+df006dd4b1dca8c Dave Ertman 2020-11-20  72  =
 
-002e8f0d592773 Dillon Min 2021-10-19  529  		WARN_ON(!ctx);
-002e8f0d592773 Dillon Min 2021-10-19  530  =
+df006dd4b1dca8c Dave Ertman 2020-11-20  73  	switch (lag->role) {
+df006dd4b1dca8c Dave Ertman 2020-11-20  74  	case ICE_LAG_NONE:
+df006dd4b1dca8c Dave Ertman 2020-11-20 @75  		role =3D "NONE";
+df006dd4b1dca8c Dave Ertman 2020-11-20  76  		break;
+df006dd4b1dca8c Dave Ertman 2020-11-20  77  	case ICE_LAG_PRIMARY:
+df006dd4b1dca8c Dave Ertman 2020-11-20  78  		role =3D "PRIMARY";
+df006dd4b1dca8c Dave Ertman 2020-11-20  79  		break;
+df006dd4b1dca8c Dave Ertman 2020-11-20  80  	case ICE_LAG_BACKUP:
+df006dd4b1dca8c Dave Ertman 2020-11-20  81  		role =3D "BACKUP";
+df006dd4b1dca8c Dave Ertman 2020-11-20  82  		break;
+df006dd4b1dca8c Dave Ertman 2020-11-20  83  	case ICE_LAG_UNSET:
+df006dd4b1dca8c Dave Ertman 2020-11-20  84  		role =3D "UNSET";
+df006dd4b1dca8c Dave Ertman 2020-11-20  85  		break;
+df006dd4b1dca8c Dave Ertman 2020-11-20  86  	default:
+df006dd4b1dca8c Dave Ertman 2020-11-20  87  		role =3D "ERROR";
+df006dd4b1dca8c Dave Ertman 2020-11-20  88  	}
+df006dd4b1dca8c Dave Ertman 2020-11-20  89  =
 
-002e8f0d592773 Dillon Min 2021-10-19 @531  		src =3D v4l2_m2m_src_buf_remov=
-e(ctx->fh.m2m_ctx);
-002e8f0d592773 Dillon Min 2021-10-19  532  		dst =3D v4l2_m2m_dst_buf_remov=
-e(ctx->fh.m2m_ctx);
-002e8f0d592773 Dillon Min 2021-10-19  533  =
-
-002e8f0d592773 Dillon Min 2021-10-19  534  		WARN_ON(!dst);
-002e8f0d592773 Dillon Min 2021-10-19  535  		WARN_ON(!src);
-002e8f0d592773 Dillon Min 2021-10-19  536  =
-
-002e8f0d592773 Dillon Min 2021-10-19  537  		v4l2_m2m_buf_done(src, VB2_BUF=
-_STATE_DONE);
-002e8f0d592773 Dillon Min 2021-10-19  538  		v4l2_m2m_buf_done(dst, VB2_BUF=
-_STATE_DONE);
-002e8f0d592773 Dillon Min 2021-10-19  539  		v4l2_m2m_job_finish(dev->m2m_d=
-ev, ctx->fh.m2m_ctx);
-002e8f0d592773 Dillon Min 2021-10-19  540  =
-
-002e8f0d592773 Dillon Min 2021-10-19  541  		dev->curr =3D NULL;
-002e8f0d592773 Dillon Min 2021-10-19  542  	}
-002e8f0d592773 Dillon Min 2021-10-19  543  =
-
-002e8f0d592773 Dillon Min 2021-10-19  544  	return IRQ_HANDLED;
-002e8f0d592773 Dillon Min 2021-10-19  545  }
-002e8f0d592773 Dillon Min 2021-10-19  546  =
+df006dd4b1dca8c Dave Ertman 2020-11-20  90  	dev_dbg(dev, "%s %s, peer:%s, =
+upper:%s, role:%s, master:%s\n", name,
+df006dd4b1dca8c Dave Ertman 2020-11-20  91  		bonded, peer, upper, role, ma=
+ster);
+df006dd4b1dca8c Dave Ertman 2020-11-20  92  }
+df006dd4b1dca8c Dave Ertman 2020-11-20  93  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1584283103354569365==--
+--===============0511547077459084746==--
 
