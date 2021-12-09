@@ -1,139 +1,140 @@
-Content-Type: multipart/mixed; boundary="===============5573715978707697625=="
+Content-Type: multipart/mixed; boundary="===============7057880642967793172=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [hch-misc:dax-block-cleanup 3/29] fs/fuse/dax.c:190 fuse_setup_one_mapping() warn: should 'start_idx << 21' be a 64 bit type?
-Date: Thu, 09 Dec 2021 13:31:40 +0800
-Message-ID: <202112091300.ipqLqV9m-lkp@intel.com>
+Subject: drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5409:30: warning: Possible null pointer dereference: new_rule [nullPointer]
+Date: Thu, 09 Dec 2021 11:08:59 +0800
+Message-ID: <202112091027.s5UHVKud-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5573715978707697625==
+--===============7057880642967793172==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: Christoph Hellwig <hch@lst.de>
+CC: linux-kernel(a)vger.kernel.org
+TO: Liu Jian <liujian56@huawei.com>
 
-tree:   git://git.infradead.org/users/hch/misc.git dax-block-cleanup
-head:   85eeeba6accd7ba7457ab6c8905863a74458f063
-commit: a576de70b62ce8ec3c32a17eb363b3f8a0484a74 [3/29] dax: remove CONFIG_=
-DAX_DRIVER
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: nios2-randconfig-m031-20211202 (https://download.01.org/0day-ci/arc=
-hive/20211209/202112091300.ipqLqV9m-lkp(a)intel.com/config)
-compiler: nios2-linux-gcc (GCC) 11.2.0
+Hi Liu,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2a987e65025e2b79c6d453b78cb5985ac6e5eb26
+commit: 54422bd436e084e6c74aff6026c1767f1570ab26 net: hns3: no return state=
+ment in hclge_clear_arfs_rules
+date:   9 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 9 months ago
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-fs/fuse/dax.c:190 fuse_setup_one_mapping() warn: should 'start_idx << 21' b=
-e a 64 bit type?
-fs/fuse/dax.c:871 dmap_writeback_invalidate() warn: should 'dmap->itn.start=
- << 21' be a 64 bit type?
-fs/fuse/dax.c:965 inode_inline_reclaim_one_dmap() warn: should 'start_idx <=
-< 21' be a 64 bit type?
-fs/fuse/dax.c:1117 lookup_and_reclaim_dmap() warn: should 'start_idx << 21'=
- be a 64 bit type?
-
-Old smatch warnings:
-fs/fuse/dax.c:284 dmap_removemapping_list() error: uninitialized symbol 're=
-t'.
-
-vim +190 fs/fuse/dax.c
-
-c2d0ad00d948de Vivek Goyal   2020-08-19  181  =
-
-c2d0ad00d948de Vivek Goyal   2020-08-19  182  static int fuse_setup_one_map=
-ping(struct inode *inode, unsigned long start_idx,
-c2d0ad00d948de Vivek Goyal   2020-08-19  183  				  struct fuse_dax_mapping=
- *dmap, bool writable,
-c2d0ad00d948de Vivek Goyal   2020-08-19  184  				  bool upgrade)
-c2d0ad00d948de Vivek Goyal   2020-08-19  185  {
-fcee216beb9c15 Max Reitz     2020-05-06  186  	struct fuse_mount *fm =3D ge=
-t_fuse_mount(inode);
-fcee216beb9c15 Max Reitz     2020-05-06  187  	struct fuse_conn_dax *fcd =
-=3D fm->fc->dax;
-c2d0ad00d948de Vivek Goyal   2020-08-19  188  	struct fuse_inode *fi =3D ge=
-t_fuse_inode(inode);
-c2d0ad00d948de Vivek Goyal   2020-08-19  189  	struct fuse_setupmapping_in =
-inarg;
-c2d0ad00d948de Vivek Goyal   2020-08-19 @190  	loff_t offset =3D start_idx =
-<< FUSE_DAX_SHIFT;
-c2d0ad00d948de Vivek Goyal   2020-08-19  191  	FUSE_ARGS(args);
-c2d0ad00d948de Vivek Goyal   2020-08-19  192  	ssize_t err;
-c2d0ad00d948de Vivek Goyal   2020-08-19  193  =
-
-c2d0ad00d948de Vivek Goyal   2020-08-19  194  	WARN_ON(fcd->nr_free_ranges =
-< 0);
-c2d0ad00d948de Vivek Goyal   2020-08-19  195  =
-
-c2d0ad00d948de Vivek Goyal   2020-08-19  196  	/* Ask fuse daemon to setup =
-mapping */
-c2d0ad00d948de Vivek Goyal   2020-08-19  197  	memset(&inarg, 0, sizeof(ina=
-rg));
-c2d0ad00d948de Vivek Goyal   2020-08-19  198  	inarg.foffset =3D offset;
-c2d0ad00d948de Vivek Goyal   2020-08-19  199  	inarg.fh =3D -1;
-c2d0ad00d948de Vivek Goyal   2020-08-19  200  	inarg.moffset =3D dmap->wind=
-ow_offset;
-c2d0ad00d948de Vivek Goyal   2020-08-19  201  	inarg.len =3D FUSE_DAX_SZ;
-c2d0ad00d948de Vivek Goyal   2020-08-19  202  	inarg.flags |=3D FUSE_SETUPM=
-APPING_FLAG_READ;
-c2d0ad00d948de Vivek Goyal   2020-08-19  203  	if (writable)
-c2d0ad00d948de Vivek Goyal   2020-08-19  204  		inarg.flags |=3D FUSE_SETUP=
-MAPPING_FLAG_WRITE;
-c2d0ad00d948de Vivek Goyal   2020-08-19  205  	args.opcode =3D FUSE_SETUPMA=
-PPING;
-c2d0ad00d948de Vivek Goyal   2020-08-19  206  	args.nodeid =3D fi->nodeid;
-c2d0ad00d948de Vivek Goyal   2020-08-19  207  	args.in_numargs =3D 1;
-c2d0ad00d948de Vivek Goyal   2020-08-19  208  	args.in_args[0].size =3D siz=
-eof(inarg);
-c2d0ad00d948de Vivek Goyal   2020-08-19  209  	args.in_args[0].value =3D &i=
-narg;
-fcee216beb9c15 Max Reitz     2020-05-06  210  	err =3D fuse_simple_request(=
-fm, &args);
-c2d0ad00d948de Vivek Goyal   2020-08-19  211  	if (err < 0)
-c2d0ad00d948de Vivek Goyal   2020-08-19  212  		return err;
-c2d0ad00d948de Vivek Goyal   2020-08-19  213  	dmap->writable =3D writable;
-c2d0ad00d948de Vivek Goyal   2020-08-19  214  	if (!upgrade) {
-9a752d18c85ae5 Vivek Goyal   2020-08-19  215  		/*
-c4e0cd4e0c1654 Zheng Yongjun 2021-06-04  216  		 * We don't take a referenc=
-e on inode. inode is valid right now
-9a752d18c85ae5 Vivek Goyal   2020-08-19  217  		 * and when inode is going =
-away, cleanup logic should first
-9a752d18c85ae5 Vivek Goyal   2020-08-19  218  		 * cleanup dmap entries.
-9a752d18c85ae5 Vivek Goyal   2020-08-19  219  		 */
-9a752d18c85ae5 Vivek Goyal   2020-08-19  220  		dmap->inode =3D inode;
-c2d0ad00d948de Vivek Goyal   2020-08-19  221  		dmap->itn.start =3D dmap->i=
-tn.last =3D start_idx;
-c2d0ad00d948de Vivek Goyal   2020-08-19  222  		/* Protected by fi->dax->se=
-m */
-c2d0ad00d948de Vivek Goyal   2020-08-19  223  		interval_tree_insert(&dmap-=
->itn, &fi->dax->tree);
-c2d0ad00d948de Vivek Goyal   2020-08-19  224  		fi->dax->nr++;
-d0cfb9dcbca6eb Vivek Goyal   2020-08-19  225  		spin_lock(&fcd->lock);
-d0cfb9dcbca6eb Vivek Goyal   2020-08-19  226  		list_add_tail(&dmap->busy_l=
-ist, &fcd->busy_ranges);
-d0cfb9dcbca6eb Vivek Goyal   2020-08-19  227  		fcd->nr_busy_ranges++;
-d0cfb9dcbca6eb Vivek Goyal   2020-08-19  228  		spin_unlock(&fcd->lock);
-c2d0ad00d948de Vivek Goyal   2020-08-19  229  	}
-c2d0ad00d948de Vivek Goyal   2020-08-19  230  	return 0;
-c2d0ad00d948de Vivek Goyal   2020-08-19  231  }
-c2d0ad00d948de Vivek Goyal   2020-08-19  232  =
 
 
-:::::: The code at line 190 was first introduced by commit
-:::::: c2d0ad00d948de73c78f05d2b3e5bdfa605035cc virtiofs: implement dax rea=
-d/write operations
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-:::::: TO: Vivek Goyal <vgoyal@redhat.com>
-:::::: CC: Miklos Szeredi <mszeredi@redhat.com>
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:4132:3: warning:=
+ Assignment of function parameter has no effect outside the function. Did y=
+ou forget dereferencing it? [uselessAssignmentPtrArg]
+     handle =3D &hdev->vport[0].nic;
+     ^
+>> drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5409:30: warning=
+: Possible null pointer dereference: new_rule [nullPointer]
+    hclge_fd_inc_rule_cnt(hdev, new_rule->location);
+                                ^
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:6585:61: note: C=
+alling function 'hclge_update_fd_list', 4th argument 'NULL' value is 0
+    hclge_update_fd_list(hdev, HCLGE_FD_DELETED, fs->location, NULL);
+                                                               ^
+   drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c:5409:30: note: N=
+ull pointer dereference
+    hclge_fd_inc_rule_cnt(hdev, new_rule->location);
+                                ^
+
+vim +5409 drivers/net/ethernet/hisilicon/hns3/hns3pf/hclge_main.c
+
+67b0e1428e2f59 Jian Shen 2021-03-22  5376  =
+
+fc4243b8de8b4e Jian Shen 2021-03-22  5377  static void hclge_update_fd_list=
+(struct hclge_dev *hdev,
+fc4243b8de8b4e Jian Shen 2021-03-22  5378  				 enum HCLGE_FD_NODE_STATE st=
+ate, u16 location,
+fc4243b8de8b4e Jian Shen 2021-03-22  5379  				 struct hclge_fd_rule *new_r=
+ule)
+fc4243b8de8b4e Jian Shen 2021-03-22  5380  {
+fc4243b8de8b4e Jian Shen 2021-03-22  5381  	struct hlist_head *hlist =3D &h=
+dev->fd_rule_list;
+fc4243b8de8b4e Jian Shen 2021-03-22  5382  	struct hclge_fd_rule *fd_rule, =
+*parent =3D NULL;
+fc4243b8de8b4e Jian Shen 2021-03-22  5383  =
+
+fc4243b8de8b4e Jian Shen 2021-03-22  5384  	fd_rule =3D hclge_find_fd_rule(=
+hlist, location, &parent);
+fc4243b8de8b4e Jian Shen 2021-03-22  5385  	if (fd_rule) {
+67b0e1428e2f59 Jian Shen 2021-03-22  5386  		hclge_fd_dec_user_def_refcnt(h=
+dev, fd_rule);
+67b0e1428e2f59 Jian Shen 2021-03-22  5387  		if (state =3D=3D HCLGE_FD_ACTI=
+VE)
+67b0e1428e2f59 Jian Shen 2021-03-22  5388  			hclge_fd_inc_user_def_refcnt(=
+hdev, new_rule);
+67b0e1428e2f59 Jian Shen 2021-03-22  5389  		hclge_sync_fd_user_def_cfg(hde=
+v, true);
+67b0e1428e2f59 Jian Shen 2021-03-22  5390  =
+
+fc4243b8de8b4e Jian Shen 2021-03-22  5391  		hclge_update_fd_rule_node(hdev=
+, fd_rule, new_rule, state);
+fc4243b8de8b4e Jian Shen 2021-03-22  5392  		return;
+fc4243b8de8b4e Jian Shen 2021-03-22  5393  	}
+fc4243b8de8b4e Jian Shen 2021-03-22  5394  =
+
+fc4243b8de8b4e Jian Shen 2021-03-22  5395  	/* it's unlikely to fail here, =
+because we have checked the rule
+fc4243b8de8b4e Jian Shen 2021-03-22  5396  	 * exist before.
+fc4243b8de8b4e Jian Shen 2021-03-22  5397  	 */
+fc4243b8de8b4e Jian Shen 2021-03-22  5398  	if (unlikely(state =3D=3D HCLGE=
+_FD_TO_DEL || state =3D=3D HCLGE_FD_DELETED)) {
+fc4243b8de8b4e Jian Shen 2021-03-22  5399  		dev_warn(&hdev->pdev->dev,
+fc4243b8de8b4e Jian Shen 2021-03-22  5400  			 "failed to delete fd rule %u=
+, it's inexistent\n",
+fc4243b8de8b4e Jian Shen 2021-03-22  5401  			 location);
+fc4243b8de8b4e Jian Shen 2021-03-22  5402  		return;
+fc4243b8de8b4e Jian Shen 2021-03-22  5403  	}
+fc4243b8de8b4e Jian Shen 2021-03-22  5404  =
+
+67b0e1428e2f59 Jian Shen 2021-03-22  5405  	hclge_fd_inc_user_def_refcnt(hd=
+ev, new_rule);
+67b0e1428e2f59 Jian Shen 2021-03-22  5406  	hclge_sync_fd_user_def_cfg(hdev=
+, true);
+67b0e1428e2f59 Jian Shen 2021-03-22  5407  =
+
+fc4243b8de8b4e Jian Shen 2021-03-22  5408  	hclge_fd_insert_rule_node(hlist=
+, new_rule, parent);
+fc4243b8de8b4e Jian Shen 2021-03-22 @5409  	hclge_fd_inc_rule_cnt(hdev, new=
+_rule->location);
+fc4243b8de8b4e Jian Shen 2021-03-22  5410  =
+
+fc4243b8de8b4e Jian Shen 2021-03-22  5411  	if (state =3D=3D HCLGE_FD_TO_AD=
+D) {
+fc4243b8de8b4e Jian Shen 2021-03-22  5412  		set_bit(HCLGE_STATE_FD_TBL_CHA=
+NGED, &hdev->state);
+fc4243b8de8b4e Jian Shen 2021-03-22  5413  		hclge_task_schedule(hdev, 0);
+fc4243b8de8b4e Jian Shen 2021-03-22  5414  	}
+fc4243b8de8b4e Jian Shen 2021-03-22  5415  }
+fc4243b8de8b4e Jian Shen 2021-03-22  5416  =
+
+
+:::::: The code at line 5409 was first introduced by commit
+:::::: fc4243b8de8b4e7170f07f2660dcab3f8ecda0e9 net: hns3: refactor flow di=
+rector configuration
+
+:::::: TO: Jian Shen <shenjian15@huawei.com>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5573715978707697625==--
+--===============7057880642967793172==--
 
