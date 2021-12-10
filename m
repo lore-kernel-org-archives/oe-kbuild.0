@@ -1,30 +1,37 @@
-Content-Type: multipart/mixed; boundary="===============3708142634896167163=="
+Content-Type: multipart/mixed; boundary="===============8242403991637703013=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.10 94/100] drivers/iommu/mtk_iommu.c:865 mtk_iommu_mm_dts_parse() error: uninitialized symbol 'larbnode'.
-Date: Fri, 10 Dec 2021 20:06:11 +0800
-Message-ID: <202112101915.YoEDCiBh-lkp@intel.com>
+Subject: sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p' large enough for 'struct gpr_pkt'? s32min
+Date: Fri, 10 Dec 2021 19:45:48 +0800
+Message-ID: <202112101903.hDp4bziV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3708142634896167163==
+--===============8242403991637703013==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.10
-head:   3eae3ffb66ef2c07a94f385c4160c405cc3a490b
-commit: 7fc5fdfd89dcb4030def0f07c3a015509dcca1c6 [94/100] BACKPORT: FROMLIS=
-T: iommu/mediatek: Contain MM IOMMU flow with the MM TYPE
-:::::: branch date: 3 weeks ago
-:::::: commit date: 3 weeks ago
+Hi Srinivas,
+
+First bad commit (maybe !=3D root cause):
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
+commit: cf989b68fcadbeeea1446e50fd8b2f24a0f1275c ASoC: qdsp6: audioreach: a=
+dd Kconfig and Makefile
+date:   6 weeks ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 6 weeks ago
 config: riscv-randconfig-m031-20211210 (https://download.01.org/0day-ci/arc=
-hive/20211210/202112101915.YoEDCiBh-lkp(a)intel.com/config)
+hive/20211210/202112101903.hDp4bziV-lkp(a)intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -32,108 +39,88 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/iommu/mtk_iommu.c:865 mtk_iommu_mm_dts_parse() error: uninitialized=
- symbol 'larbnode'.
-drivers/iommu/mtk_iommu.c:878 mtk_iommu_mm_dts_parse() warn: passing zero t=
-o 'PTR_ERR'
+sound/soc/qcom/qdsp6/audioreach.c:212 __audioreach_alloc_pkt() warn: is 'p'=
+ large enough for 'struct gpr_pkt'? s32min
+sound/soc/qcom/qdsp6/audioreach.c:228 __audioreach_alloc_pkt() warn: is 'p'=
+ large enough for 'struct apm_cmd_header'? 0
 
-vim +/larbnode +865 drivers/iommu/mtk_iommu.c
+vim +212 sound/soc/qcom/qdsp6/audioreach.c
 
-0df4fabe208d95 Yong Wu 2016-02-23  823  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  196  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  824  static int mtk_iommu_mm_dts_parse(s=
-truct device *dev,
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  825  				  struct component_match **matc=
-h,
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  826  				  struct mtk_iommu_data *data)
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  827  {
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  828  	struct platform_device	*plarbdev;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  829  	struct device_link	*link;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  830  	struct device_node *larbnode, *smi=
-comm_node;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  831  	int i, larb_nr, ret;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  832  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  197  static void *__audiorea=
+ch_alloc_pkt(int payload_size, uint32_t opcode, uint32_t token,
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  198  				    uint32_t src_po=
+rt, uint32_t dest_port, bool has_cmd_hdr)
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  199  {
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  200  	struct gpr_pkt *pkt;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  201  	void *p;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  202  	int pkt_size =3D GPR_H=
+DR_SIZE + payload_size;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  203  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  833  	larb_nr =3D of_count_phandle_with_=
-args(dev->of_node, "mediatek,larbs", NULL);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  834  	if (larb_nr < 0)
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  835  		return larb_nr;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  836  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  204  	if (has_cmd_hdr)
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  205  		pkt_size +=3D APM_CMD=
+_HDR_SIZE;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  206  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  837  	for (i =3D 0; i < larb_nr; i++) {
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  838  		u32 id;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  839  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  207  	p =3D kzalloc(pkt_size=
+, GFP_KERNEL);
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  208  	if (!p)
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  209  		return ERR_PTR(-ENOME=
+M);
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  210  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  840  		larbnode =3D of_parse_phandle(dev=
-->of_node, "mediatek,larbs", i);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  841  		if (!larbnode)
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  842  			return -EINVAL;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  843  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  211  	pkt =3D p;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26 @212  	pkt->hdr.version =3D G=
+PR_PKT_VER;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  213  	pkt->hdr.hdr_size =3D =
+GPR_PKT_HEADER_WORD_SIZE;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  214  	pkt->hdr.pkt_size =3D =
+pkt_size;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  215  	pkt->hdr.dest_port =3D=
+ dest_port;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  216  	pkt->hdr.src_port =3D =
+src_port;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  217  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  844  		if (!of_device_is_available(larbn=
-ode)) {
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  845  			of_node_put(larbnode);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  846  			continue;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  847  		}
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  848  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  218  	pkt->hdr.dest_domain =
+=3D GPR_DOMAIN_ID_ADSP;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  219  	pkt->hdr.src_domain =
+=3D GPR_DOMAIN_ID_APPS;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  220  	pkt->hdr.token =3D tok=
+en;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  221  	pkt->hdr.opcode =3D op=
+code;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  222  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  849  		ret =3D of_property_read_u32(larb=
-node, "mediatek,larb-id", &id);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  850  		if (ret)/* The id is consecutive =
-if there is no this property */
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  851  			id =3D i;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  852  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  223  	if (has_cmd_hdr) {
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  224  		struct apm_cmd_header=
+ *cmd_header;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  225  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  853  		plarbdev =3D of_find_device_by_no=
-de(larbnode);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  854  		if (!plarbdev || !plarbdev->dev.d=
-river) {
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  855  			of_node_put(larbnode);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  856  			return -EPROBE_DEFER;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  857  		}
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  858  		data->larb_imu[id].dev =3D &plarb=
-dev->dev;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  859  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  226  		p =3D p + GPR_HDR_SIZ=
+E;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  227  		cmd_header =3D p;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26 @228  		cmd_header->payload_s=
+ize =3D payload_size;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  229  	}
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  230  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  860  		component_match_add_release(dev, =
-match, release_of,
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  861  					    compare_of, larbnode);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  862  	}
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  863  =
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  231  	return pkt;
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  232  }
+44c28dbdb6195b Srinivas Kandagatla 2021-10-26  233  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  864  	/* Get smi-common dev from the las=
-t larb. */
-7fc5fdfd89dcb4 Yong Wu 2021-09-23 @865  	smicomm_node =3D of_parse_phandle(=
-larbnode, "mediatek,smi", 0);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  866  	if (!smicomm_node)
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  867  		return -EINVAL;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  868  =
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  869  	plarbdev =3D of_find_device_by_nod=
-e(smicomm_node);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  870  	of_node_put(smicomm_node);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  871  	data->smicomm_dev =3D &plarbdev->d=
-ev;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  872  =
+:::::: The code at line 212 was first introduced by commit
+:::::: 44c28dbdb6195b2a92e1fcb2946d1e987658f8b5 ASoC: qdsp6: audioreach: ad=
+d basic pkt alloc support
 
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  873  	link =3D device_link_add(data->smi=
-comm_dev, dev,
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  874  			       DL_FLAG_STATELESS | DL_FL=
-AG_PM_RUNTIME);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  875  =
-
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  876  	if (!link) {
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  877  		dev_err(dev, "Unable link %s.\n",=
- dev_name(data->smicomm_dev));
-7fc5fdfd89dcb4 Yong Wu 2021-09-23 @878  		return PTR_ERR(link);
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  879  	}
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  880  	return 0;
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  881  }
-7fc5fdfd89dcb4 Yong Wu 2021-09-23  882  =
-
+:::::: TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3708142634896167163==--
+--===============8242403991637703013==--
 
