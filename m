@@ -1,171 +1,109 @@
-Content-Type: multipart/mixed; boundary="===============3653147844377283653=="
+Content-Type: multipart/mixed; boundary="===============2224739621058701477=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chanwoo:devfreq-testing 2/4] drivers/devfreq/governor_passive.c:346 cpufreq_passive_register_notifier() warn: possible memory leak of 'parent_cpu_data'
-Date: Sat, 11 Dec 2021 02:23:45 +0800
-Message-ID: <202112110259.0FocPe7i-lkp@intel.com>
+Subject: [kvalo-ath:pending 40/56] drivers/net/wireless/ath/ath11k/dp_rx.c:5372 ath11k_dp_rx_full_mon_deliver_ppdu() error: uninitialized symbol 'ret'.
+Date: Sat, 11 Dec 2021 01:01:46 +0800
+Message-ID: <202112110053.k5oCYqGY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3653147844377283653==
+--===============2224739621058701477==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
+CC: Kalle Valo <kvalo@codeaurora.org>
+CC: ath10k(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Saravana Kannan <skannan@codeaurora.org>
-CC: Chanwoo Choi <cw00.choi@samsung.com>
-CC: Sibi Sankar <sibis@codeaurora.org>
+TO: Anilkumar Kolli <akolli@codeaurora.org>
+CC: Kalle Valo <quic_kvalo@quicinc.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/chanwoo/linux.git d=
-evfreq-testing
-head:   5857e3d1820d85e10321ec180ed88e780fd0ec3e
-commit: d678890dcdf858c25d2789793a35a81c4311e972 [2/4] PM / devfreq: Add cp=
-u based scaling support to passive governor
-:::::: branch date: 12 hours ago
-:::::: commit date: 12 hours ago
-config: x86_64-randconfig-m001-20211210 (https://download.01.org/0day-ci/ar=
-chive/20211211/202112110259.0FocPe7i-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git pendi=
+ng
+head:   34cbb4043dca455fca888e1ced323e588912b6a2
+commit: 7e2ea2e947046834a450295dfd328adb70a9f864 [40/56] ath11k: Process fu=
+ll monitor mode rx support
+:::::: branch date: 23 hours ago
+:::::: commit date: 33 hours ago
+config: riscv-randconfig-m031-20211210 (https://download.01.org/0day-ci/arc=
+hive/20211211/202112110053.k5oCYqGY-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/devfreq/governor_passive.c:346 cpufreq_passive_register_notifier() =
-warn: possible memory leak of 'parent_cpu_data'
+New smatch warnings:
+drivers/net/wireless/ath/ath11k/dp_rx.c:5372 ath11k_dp_rx_full_mon_deliver_=
+ppdu() error: uninitialized symbol 'ret'.
 
-vim +/parent_cpu_data +346 drivers/devfreq/governor_passive.c
+Old smatch warnings:
+drivers/net/wireless/ath/ath11k/dp_rx.c:1671 ath11k_htt_backpressure_event_=
+handler() warn: potential spectre issue 'ab->soc_stats.bp_stats.umac_ring_b=
+p_stats' [r]
 
-d678890dcdf858 Saravana Kannan 2021-03-02  269  =
+vim +/ret +5372 drivers/net/wireless/ath/ath11k/dp_rx.c
 
-d678890dcdf858 Saravana Kannan 2021-03-02  270  static int cpufreq_passive_=
-register_notifier(struct devfreq *devfreq)
-d678890dcdf858 Saravana Kannan 2021-03-02  271  {
-d678890dcdf858 Saravana Kannan 2021-03-02  272  	struct devfreq_passive_dat=
-a *p_data
-d678890dcdf858 Saravana Kannan 2021-03-02  273  			=3D (struct devfreq_pass=
-ive_data *)devfreq->data;
-d678890dcdf858 Saravana Kannan 2021-03-02  274  	struct device *dev =3D dev=
-freq->dev.parent;
-d678890dcdf858 Saravana Kannan 2021-03-02  275  	struct opp_table *opp_tabl=
-e =3D NULL;
-d678890dcdf858 Saravana Kannan 2021-03-02  276  	struct devfreq_cpu_data *p=
-arent_cpu_data;
-d678890dcdf858 Saravana Kannan 2021-03-02  277  	struct cpufreq_policy *pol=
-icy;
-d678890dcdf858 Saravana Kannan 2021-03-02  278  	struct device *cpu_dev;
-d678890dcdf858 Saravana Kannan 2021-03-02  279  	unsigned int cpu;
-d678890dcdf858 Saravana Kannan 2021-03-02  280  	int ret;
-d678890dcdf858 Saravana Kannan 2021-03-02  281  =
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5343  =
 
-d678890dcdf858 Saravana Kannan 2021-03-02  282  	p_data->nb.notifier_call =
-=3D cpufreq_passive_notifier_call;
-d678890dcdf858 Saravana Kannan 2021-03-02  283  	ret =3D cpufreq_register_n=
-otifier(&p_data->nb, CPUFREQ_TRANSITION_NOTIFIER);
-d678890dcdf858 Saravana Kannan 2021-03-02  284  	if (ret) {
-d678890dcdf858 Saravana Kannan 2021-03-02  285  		dev_err(dev, "failed to r=
-egister cpufreq notifier\n");
-d678890dcdf858 Saravana Kannan 2021-03-02  286  		p_data->nb.notifier_call =
-=3D NULL;
-d678890dcdf858 Saravana Kannan 2021-03-02  287  		goto err;
-d678890dcdf858 Saravana Kannan 2021-03-02  288  	}
-d678890dcdf858 Saravana Kannan 2021-03-02  289  =
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5344  static int ath11k_dp_rx_f=
+ull_mon_deliver_ppdu(struct ath11k *ar,
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5345  					      int mac_id,
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5346  					      struct ath11k_=
+mon_data *pmon,
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5347  					      struct napi_st=
+ruct *napi)
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5348  {
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5349  	struct ath11k_pdev_mon_s=
+tats *rx_mon_stats;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5350  	struct dp_full_mon_mpdu =
+*tmp;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5351  	struct dp_full_mon_mpdu =
+*mon_mpdu =3D pmon->mon_mpdu;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5352  	struct sk_buff *head_msd=
+u, *tail_msdu;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5353  	struct ath11k_base *ab =
+=3D ar->ab;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5354  	struct ath11k_dp *dp =3D=
+ &ab->dp;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5355  	int ret;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5356  =
 
-d678890dcdf858 Saravana Kannan 2021-03-02  290  	for_each_possible_cpu(cpu)=
- {
-d678890dcdf858 Saravana Kannan 2021-03-02  291  		if (p_data->cpu_data[cpu])
-d678890dcdf858 Saravana Kannan 2021-03-02  292  			continue;
-d678890dcdf858 Saravana Kannan 2021-03-02  293  =
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5357  	rx_mon_stats =3D &pmon->=
+rx_mon_stats;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5358  =
 
-d678890dcdf858 Saravana Kannan 2021-03-02  294  		policy =3D cpufreq_cpu_ge=
-t(cpu);
-d678890dcdf858 Saravana Kannan 2021-03-02  295  		if (!policy) {
-d678890dcdf858 Saravana Kannan 2021-03-02  296  			ret =3D -EPROBE_DEFER;
-d678890dcdf858 Saravana Kannan 2021-03-02  297  			goto err;
-d678890dcdf858 Saravana Kannan 2021-03-02  298  		}
-d678890dcdf858 Saravana Kannan 2021-03-02  299  =
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5359  	list_for_each_entry_safe=
+(mon_mpdu, tmp, &dp->dp_full_mon_mpdu_list, list) {
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5360  		list_del(&mon_mpdu->lis=
+t);
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5361  		head_msdu =3D mon_mpdu-=
+>head;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5362  		tail_msdu =3D mon_mpdu-=
+>tail;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5363  		if (head_msdu && tail_m=
+sdu) {
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5364  			ret =3D ath11k_dp_rx_m=
+on_deliver(ar, mac_id, head_msdu,
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5365  						       tail_msdu, n=
+api);
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5366  			rx_mon_stats->dest_mpd=
+u_done++;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5367  			ath11k_dbg(ar->ab, ATH=
+11K_DBG_DATA, "full mon: deliver ppdu\n");
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5368  		}
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5369  		kfree(mon_mpdu);
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5370  	}
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5371  =
 
-d678890dcdf858 Saravana Kannan 2021-03-02  300  		parent_cpu_data =3D kzall=
-oc(sizeof(*parent_cpu_data),
-d678890dcdf858 Saravana Kannan 2021-03-02  301  						GFP_KERNEL);
-d678890dcdf858 Saravana Kannan 2021-03-02  302  		if (!parent_cpu_data) {
-d678890dcdf858 Saravana Kannan 2021-03-02  303  			cpufreq_cpu_put(policy);
-d678890dcdf858 Saravana Kannan 2021-03-02  304  			ret =3D -ENOMEM;
-d678890dcdf858 Saravana Kannan 2021-03-02  305  			goto err;
-d678890dcdf858 Saravana Kannan 2021-03-02  306  		}
-d678890dcdf858 Saravana Kannan 2021-03-02  307  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02  308  		cpu_dev =3D get_cpu_devic=
-e(cpu);
-d678890dcdf858 Saravana Kannan 2021-03-02  309  		if (!cpu_dev) {
-d678890dcdf858 Saravana Kannan 2021-03-02  310  			dev_err(dev, "failed to =
-get cpu device\n");
-d678890dcdf858 Saravana Kannan 2021-03-02  311  			cpufreq_cpu_put(policy);
-d678890dcdf858 Saravana Kannan 2021-03-02  312  			ret =3D -ENODEV;
-d678890dcdf858 Saravana Kannan 2021-03-02  313  			goto err;
-d678890dcdf858 Saravana Kannan 2021-03-02  314  		}
-d678890dcdf858 Saravana Kannan 2021-03-02  315  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02  316  		opp_table =3D dev_pm_opp_=
-get_opp_table(cpu_dev);
-d678890dcdf858 Saravana Kannan 2021-03-02  317  		if (IS_ERR(opp_table)) {
-d678890dcdf858 Saravana Kannan 2021-03-02  318  			dev_err(dev, "failed to =
-get opp_table of cpu%d\n", cpu);
-d678890dcdf858 Saravana Kannan 2021-03-02  319  			cpufreq_cpu_put(policy);
-d678890dcdf858 Saravana Kannan 2021-03-02  320  			ret =3D PTR_ERR(opp_tabl=
-e);
-d678890dcdf858 Saravana Kannan 2021-03-02  321  			goto err;
-d678890dcdf858 Saravana Kannan 2021-03-02  322  		}
-d678890dcdf858 Saravana Kannan 2021-03-02  323  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02  324  		parent_cpu_data->dev =3D =
-cpu_dev;
-d678890dcdf858 Saravana Kannan 2021-03-02  325  		parent_cpu_data->opp_tabl=
-e =3D opp_table;
-d678890dcdf858 Saravana Kannan 2021-03-02  326  		parent_cpu_data->first_cp=
-u =3D cpumask_first(policy->related_cpus);
-d678890dcdf858 Saravana Kannan 2021-03-02  327  		parent_cpu_data->cur_freq=
- =3D policy->cur;
-d678890dcdf858 Saravana Kannan 2021-03-02  328  		parent_cpu_data->min_freq=
- =3D policy->cpuinfo.min_freq;
-d678890dcdf858 Saravana Kannan 2021-03-02  329  		parent_cpu_data->max_freq=
- =3D policy->cpuinfo.max_freq;
-d678890dcdf858 Saravana Kannan 2021-03-02  330  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02  331  		p_data->cpu_data[cpu] =3D=
- parent_cpu_data;
-d678890dcdf858 Saravana Kannan 2021-03-02  332  		cpufreq_cpu_put(policy);
-d678890dcdf858 Saravana Kannan 2021-03-02  333  	}
-d678890dcdf858 Saravana Kannan 2021-03-02  334  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02  335  	mutex_lock(&devfreq->lock);
-d678890dcdf858 Saravana Kannan 2021-03-02  336  	ret =3D devfreq_update_tar=
-get(devfreq, 0L);
-d678890dcdf858 Saravana Kannan 2021-03-02  337  	mutex_unlock(&devfreq->loc=
-k);
-d678890dcdf858 Saravana Kannan 2021-03-02  338  	if (ret)
-d678890dcdf858 Saravana Kannan 2021-03-02  339  		dev_err(dev, "failed to u=
-pdate the frequency\n");
-d678890dcdf858 Saravana Kannan 2021-03-02  340  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02  341  	return ret;
-d678890dcdf858 Saravana Kannan 2021-03-02  342  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02  343  err:
-d678890dcdf858 Saravana Kannan 2021-03-02  344  	WARN_ON(cpufreq_passive_un=
-register_notifier(devfreq));
-d678890dcdf858 Saravana Kannan 2021-03-02  345  =
-
-d678890dcdf858 Saravana Kannan 2021-03-02 @346  	return ret;
-d678890dcdf858 Saravana Kannan 2021-03-02  347  }
-d678890dcdf858 Saravana Kannan 2021-03-02  348  =
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08 @5372  	return ret;
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5373  }
+7e2ea2e94704683 Anilkumar Kolli 2021-12-08  5374  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3653147844377283653==--
+--===============2224739621058701477==--
 
