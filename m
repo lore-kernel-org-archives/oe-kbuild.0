@@ -1,465 +1,400 @@
-Content-Type: multipart/mixed; boundary="===============1706922628501886357=="
+Content-Type: multipart/mixed; boundary="===============3582903840524226196=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] btrfs: zoned: free zone_cache when freeing zone_info
-Date: Thu, 09 Dec 2021 06:11:28 +0800
-Message-ID: <202112090657.BflsS2SD-lkp@intel.com>
+Subject: Re: [PATCH v2 2/2] clk: si5351: Add clock output phase offset
+Date: Fri, 10 Dec 2021 10:02:12 +0800
+Message-ID: <202112100907.ZZ6U3zni-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1706922628501886357==
+--===============3582903840524226196==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <f3ea96654bb7f39afb15555dece992f2a8479608.1638879879.git.johan=
-nes.thumshirn@wdc.com>
-References: <f3ea96654bb7f39afb15555dece992f2a8479608.1638879879.git.johann=
-es.thumshirn@wdc.com>
-TO: Johannes Thumshirn <johannes.thumshirn@wdc.com>
+In-Reply-To: <20211208154605.72476-1-renner@efe-gmbh.de>
+References: <20211208154605.72476-1-renner@efe-gmbh.de>
+TO: Jens Renner <renner@efe-gmbh.de>
+TO: linux-clk(a)vger.kernel.org
+CC: mturquette(a)baylibre.com
+CC: sboyd(a)kernel.org
+CC: sebastian.hesselbarth(a)gmail.com
+CC: s.hauer(a)pengutronix.de
+CC: devicetree(a)vger.kernel.org
+CC: robh+dt(a)kernel.org
+CC: renner(a)efe-gmbh.de
 
-Hi Johannes,
+Hi Jens,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on kdave/for-next]
-[also build test WARNING on next-20211208]
-[cannot apply to v5.16-rc4]
+[auto build test WARNING on clk/clk-next]
+[also build test WARNING on linus/master v5.16-rc4 next-20211208]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Johannes-Thumshirn/btrfs-z=
-oned-free-zone_cache-when-freeing-zone_info/20211207-215928
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/kdave/linux.git for=
--next
-:::::: branch date: 32 hours ago
-:::::: commit date: 32 hours ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211209/202112090657.BflsS2SD-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+url:    https://github.com/0day-ci/linux/commits/Jens-Renner/clk-si5351-Add=
+-phase-offset-for-clock-output/20211208-234754
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/clk/linux.git clk-n=
+ext
+:::::: branch date: 34 hours ago
+:::::: commit date: 34 hours ago
+config: arm-randconfig-c002-20211207 (https://download.01.org/0day-ci/archi=
+ve/20211210/202112100907.ZZ6U3zni-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/0day-ci/linux/commit/2e4aec73925b427049ef0fd8c=
+d48e660eaff48fb
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Jens-Renner/clk-si5351-Add-phase-o=
+ffset-for-clock-output/20211208-234754
+        git checkout 2e4aec73925b427049ef0fd8cd48e660eaff48fb
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/btrfs/zoned.c:597 btrfs_get_dev_zone_info() warn: possible memory leak o=
-f 'zone_info'
 
-Old smatch warnings:
-fs/btrfs/zoned.c:169 sb_zone_number() error: uninitialized symbol 'zone'.
-fs/btrfs/zoned.c:1452 btrfs_load_block_group_zone_info() error: uninitializ=
-ed symbol 'ret'.
+clang-analyzer warnings: (new ones prefixed by >>)
+           *max_sys_div =3D min_t(u16, *max_sys_div,
+                          ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/media/i2c/ccs-pll.c:282:2: note: Taking false branch
+           dev_dbg(dev, "max_sys_div: min_vt_pix_clk_freq_hz: %u\n", *max_s=
+ys_div);
+           ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:133:2: note: expanded from macro '__dynami=
+c_func_call'
+           if (DYNAMIC_DEBUG_BRANCH(id))                   \
+           ^
+   drivers/media/i2c/ccs-pll.c:282:2: note: Loop condition is false.  Exiti=
+ng loop
+           dev_dbg(dev, "max_sys_div: min_vt_pix_clk_freq_hz: %u\n", *max_s=
+ys_div);
+           ^
+   include/linux/dev_printk.h:155:2: note: expanded from macro 'dev_dbg'
+           dynamic_dev_dbg(dev, dev_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/dynamic_debug.h:166:2: note: expanded from macro 'dynamic_=
+dev_dbg'
+           _dynamic_func_call(fmt,__dynamic_dev_dbg,               \
+           ^
+   include/linux/dynamic_debug.h:152:2: note: expanded from macro '_dynamic=
+_func_call'
+           __dynamic_func_call(__UNIQUE_ID(ddebug), fmt, func, ##__VA_ARGS_=
+_)
+           ^
+   include/linux/dynamic_debug.h:131:49: note: expanded from macro '__dynam=
+ic_func_call'
+   #define __dynamic_func_call(id, fmt, func, ...) do {    \
+                                                   ^
+   drivers/media/i2c/ccs-pll.c:520:2: note: Returning from 'ccs_pll_find_vt=
+_sys_div'
+           ccs_pll_find_vt_sys_div(dev, lim, pll, pll_fr, min_vt_div,
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:528:28: note: Assuming 'vt_div' is <=3D 'max=
+_vt_div'
+           for (vt_div =3D min_vt_div; vt_div <=3D max_vt_div; vt_div++) {
+                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:528:2: note: Loop condition is true.  Enteri=
+ng loop body
+           for (vt_div =3D min_vt_div; vt_div <=3D max_vt_div; vt_div++) {
+           ^
+   drivers/media/i2c/ccs-pll.c:529:23: note: Assuming the condition is false
+                   u16 __max_sys_div =3D vt_div & 1 ? 1 : max_sys_div;
+                                       ^~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:529:23: note: '?' condition is false
+   drivers/media/i2c/ccs-pll.c:531:31: note: Assuming 'sys_div' is > '__max=
+_sys_div'
+                   for (sys_div =3D min_sys_div; sys_div <=3D __max_sys_div;
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:531:3: note: Loop condition is false. Execut=
+ion continues on line 558
+                   for (sys_div =3D min_sys_div; sys_div <=3D __max_sys_div;
+                   ^
+   drivers/media/i2c/ccs-pll.c:558:3: note: Taking false branch
+                   if (best_pix_div < SHRT_MAX >> 1)
+                   ^
+   drivers/media/i2c/ccs-pll.c:528:28: note: Assuming 'vt_div' is <=3D 'max=
+_vt_div'
+           for (vt_div =3D min_vt_div; vt_div <=3D max_vt_div; vt_div++) {
+                                     ^~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:528:2: note: Loop condition is true.  Enteri=
+ng loop body
+           for (vt_div =3D min_vt_div; vt_div <=3D max_vt_div; vt_div++) {
+           ^
+   drivers/media/i2c/ccs-pll.c:529:23: note: Assuming the condition is true
+                   u16 __max_sys_div =3D vt_div & 1 ? 1 : max_sys_div;
+                                       ^~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:529:23: note: '?' condition is true
+   drivers/media/i2c/ccs-pll.c:531:8: note: The value of 'min_sys_div' is a=
+ssigned to 'sys_div'
+                   for (sys_div =3D min_sys_div; sys_div <=3D __max_sys_div;
+                        ^~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:531:31: note: Assuming 'sys_div' is <=3D '__=
+max_sys_div'
+                   for (sys_div =3D min_sys_div; sys_div <=3D __max_sys_div;
+                                               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/i2c/ccs-pll.c:531:3: note: Loop condition is true.  Enteri=
+ng loop body
+                   for (sys_div =3D min_sys_div; sys_div <=3D __max_sys_div;
+                   ^
+   drivers/media/i2c/ccs-pll.c:536:14: note: Division by zero
+                           pix_div =3D DIV_ROUND_UP(vt_div, sys_div);
+                                     ^
+   include/linux/math.h:36:22: note: expanded from macro 'DIV_ROUND_UP'
+   #define DIV_ROUND_UP __KERNEL_DIV_ROUND_UP
+                        ^
+   include/uapi/linux/const.h:34:54: note: expanded from macro '__KERNEL_DI=
+V_ROUND_UP'
+   #define __KERNEL_DIV_ROUND_UP(n, d) (((n) + (d) - 1) / (d))
+                                        ~~~~~~~~~~~~~~~~^~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+>> drivers/clk/clk-si5351.c:775:3: warning: Value stored to 'reg' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   reg =3D si5351_set_bits(hwdata->drvdata,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-si5351.c:775:3: note: Value stored to 'reg' is never read
+                   reg =3D si5351_set_bits(hwdata->drvdata,
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 with check filters).
+   1 warning generated.
+   drivers/tty/serial/fsl_lpuart.c:1276:33: warning: The result of the left=
+ shift is undefined because the right operand is negative [clang-analyzer-c=
+ore.UndefinedBinaryOperatorResult]
+           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
+en) - 1));
+                                          ^
+   drivers/tty/serial/fsl_lpuart.c:2859:6: note: Assuming field 'suspended'=
+ is 0
+           if (sport->port.suspended && !irq_wake)
+               ^~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2859:28: note: Left side of '&&' is false
+           if (sport->port.suspended && !irq_wake)
+                                     ^
+   drivers/tty/serial/fsl_lpuart.c:2862:2: note: Taking false branch
+           if (lpuart_is_32(sport))
+           ^
+   drivers/tty/serial/fsl_lpuart.c:2867:6: note: Assuming field 'lpuart_dma=
+_rx_use' is true
+           if (sport->lpuart_dma_rx_use) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2867:2: note: Taking true branch
+           if (sport->lpuart_dma_rx_use) {
+           ^
+   drivers/tty/serial/fsl_lpuart.c:2868:7: note: Assuming 'irq_wake' is true
+                   if (irq_wake) {
+                       ^~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:2868:3: note: Taking true branch
+                   if (irq_wake) {
+                   ^
+   drivers/tty/serial/fsl_lpuart.c:2869:9: note: Calling 'lpuart_start_rx_d=
+ma'
+                           if (!lpuart_start_rx_dma(sport))
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:1267:9: note: Assuming the condition is =
+false
+           bits =3D (termios->c_cflag & CSIZE) =3D=3D CS7 ? 9 : 10;
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:1267:9: note: '?' condition is false
+   drivers/tty/serial/fsl_lpuart.c:1268:6: note: Assuming the condition is =
+false
+           if (termios->c_cflag & PARENB)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/fsl_lpuart.c:1268:2: note: Taking false branch
+           if (termios->c_cflag & PARENB)
+           ^
+   drivers/tty/serial/fsl_lpuart.c:1276:33: note: The result of the left sh=
+ift is undefined because the right operand is negative
+           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
+en) - 1));
+                                          ^  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   include/asm-generic/bitops/non-atomic.h:22:6: warning: The left expressi=
+on of the compound assignment is an uninitialized value. The computed value=
+ will also be garbage [clang-analyzer-core.uninitialized.Assign]
+           *p  |=3D mask;
+               ^
+   drivers/tty/serial/serial_mctrl_gpio.c:52:6: note: Assuming 'gpios' is n=
+ot equal to NULL
+           if (gpios =3D=3D NULL)
+               ^~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:52:2: note: Taking false branch
+           if (gpios =3D=3D NULL)
+           ^
+   drivers/tty/serial/serial_mctrl_gpio.c:55:2: note: Loop condition is tru=
+e.  Entering loop body
+           for (i =3D 0; i < UART_GPIO_MAX; i++)
+           ^
+   drivers/tty/serial/serial_mctrl_gpio.c:56:7: note: Assuming the conditio=
+n is true
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                       ^~~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:56:7: note: Left side of '&&' is =
+true
+   drivers/tty/serial/serial_mctrl_gpio.c:56:25: note: Assuming the conditi=
+on is true
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:56:3: note: Taking true branch
+                   if (gpios->gpio[i] && mctrl_gpio_flags_is_dir_out(i)) {
+                   ^
+   drivers/tty/serial/serial_mctrl_gpio.c:58:4: note: Calling '__assign_bit'
+                           __assign_bit(count, values,
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/bitops.h:251:6: note: Assuming 'value' is true
+           if (value)
+               ^~~~~
+   include/linux/bitops.h:251:2: note: Taking true branch
+           if (value)
+           ^
+   include/linux/bitops.h:252:3: note: Calling 'arch___set_bit'
+                   __set_bit(nr, addr);
+                   ^
+   include/asm-generic/bitops/non-atomic.h:24:19: note: expanded from macro=
+ '__set_bit'
+   #define __set_bit arch___set_bit
+                     ^
+   include/asm-generic/bitops/non-atomic.h:22:6: note: The left expression =
+of the compound assignment is an uninitialized value. The computed value wi=
+ll also be garbage
+           *p  |=3D mask;
+           ~~  ^
+   include/asm-generic/bitops/non-atomic.h:32:5: warning: The left expressi=
+on of the compound assignment is an uninitialized value. The computed value=
+ will also be garbage [clang-analyzer-core.uninitialized.Assign]
+           *p &=3D ~mask;
+              ^
+   drivers/tty/serial/serial_mctrl_gpio.c:52:6: note: Assuming 'gpios' is n=
+ot equal to NULL
+           if (gpios =3D=3D NULL)
+               ^~~~~~~~~~~~~
+   drivers/tty/serial/serial_mctrl_gpio.c:52:2: note: Taking false branch
+           if (gpios =3D=3D NULL)
 
-vim +/zone_info +597 fs/btrfs/zoned.c
+vim +/reg +775 drivers/clk/clk-si5351.c
 
-7365104236ade0b Naohiro Aota       2021-02-04  347  =
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  754  =
 
-1c0066baa869433 Naohiro Aota       2021-11-11  348  int btrfs_get_dev_zone_=
-info(struct btrfs_device *device, bool populate_cache)
-5b316468983dfa9 Naohiro Aota       2020-11-10  349  {
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  350  	struct btrfs_fs_info *=
-fs_info =3D device->fs_info;
-5b316468983dfa9 Naohiro Aota       2020-11-10  351  	struct btrfs_zoned_dev=
-ice_info *zone_info =3D NULL;
-5b316468983dfa9 Naohiro Aota       2020-11-10  352  	struct block_device *b=
-dev =3D device->bdev;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  353  	struct request_queue *=
-queue =3D bdev_get_queue(bdev);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  354  	unsigned int max_activ=
-e_zones;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  355  	unsigned int nactive;
-5b316468983dfa9 Naohiro Aota       2020-11-10  356  	sector_t nr_sectors;
-5b316468983dfa9 Naohiro Aota       2020-11-10  357  	sector_t sector =3D 0;
-5b316468983dfa9 Naohiro Aota       2020-11-10  358  	struct blk_zone *zones=
- =3D NULL;
-5b316468983dfa9 Naohiro Aota       2020-11-10  359  	unsigned int i, nrepor=
-ted =3D 0, nr_zones;
-d734492a14a2da6 Naohiro Aota       2021-03-03  360  	sector_t zone_sectors;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  361  	char *model, *emulated;
-5b316468983dfa9 Naohiro Aota       2020-11-10  362  	int ret;
-5b316468983dfa9 Naohiro Aota       2020-11-10  363  =
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  755  static int si5351_ms=
+ynth_set_rate(struct clk_hw *hw, unsigned long rate,
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  756  				  unsigned long =
+parent_rate)
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  757  {
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  758  	struct si5351_hw_da=
+ta *hwdata =3D
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  759  		container_of(hw, s=
+truct si5351_hw_data, hw);
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  760  	u8 reg =3D si5351_m=
+synth_params_address(hwdata->num);
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  761  	int divby4 =3D 0;
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  762  =
 
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  364  	/*
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  365  	 * Cannot use btrfs_is=
-_zoned here, since fs_info::zone_size might not
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  366  	 * yet be set.
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  367  	 */
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  368  	if (!btrfs_fs_incompat=
-(fs_info, ZONED))
-5b316468983dfa9 Naohiro Aota       2020-11-10  369  		return 0;
-5b316468983dfa9 Naohiro Aota       2020-11-10  370  =
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  763  	/* write multisynth=
+ parameters */
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  764  	si5351_write_parame=
+ters(hwdata->drvdata, reg, &hwdata->params);
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  765  =
 
-5b316468983dfa9 Naohiro Aota       2020-11-10  371  	if (device->zone_info)
-5b316468983dfa9 Naohiro Aota       2020-11-10  372  		return 0;
-5b316468983dfa9 Naohiro Aota       2020-11-10  373  =
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  766  	if (rate > SI5351_M=
+ULTISYNTH_DIVBY4_FREQ)
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  767  		divby4 =3D 1;
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  768  =
 
-5b316468983dfa9 Naohiro Aota       2020-11-10  374  	zone_info =3D kzalloc(=
-sizeof(*zone_info), GFP_KERNEL);
-5b316468983dfa9 Naohiro Aota       2020-11-10  375  	if (!zone_info)
-5b316468983dfa9 Naohiro Aota       2020-11-10  376  		return -ENOMEM;
-5b316468983dfa9 Naohiro Aota       2020-11-10  377  =
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  769  	/* enable/disable i=
+nteger mode and divby4 on multisynth0-5 */
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  770  	if (hwdata->num < 6=
+) {
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  771  		si5351_set_bits(hw=
+data->drvdata, reg + 2,
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  772  				SI5351_OUTPUT_CL=
+K_DIVBY4,
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  773  				(divby4) ? SI535=
+1_OUTPUT_CLK_DIVBY4 : 0);
+2e4aec73925b427 Jens Renner           2021-12-08  774  		/* clear existing =
+phase offset */
+2e4aec73925b427 Jens Renner           2021-12-08 @775  		reg =3D si5351_set=
+_bits(hwdata->drvdata,
+2e4aec73925b427 Jens Renner           2021-12-08  776  				SI5351_CLK0_PHAS=
+E_OFFSET + hwdata->num,
+2e4aec73925b427 Jens Renner           2021-12-08  777  				SI5351_CLK_PHASE=
+_OFFSET_MASK, 0);
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  778  		si5351_set_bits(hw=
+data->drvdata, SI5351_CLK0_CTRL + hwdata->num,
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  779  			SI5351_CLK_INTEGE=
+R_MODE,
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  780  			(hwdata->params.p=
+2 =3D=3D 0) ? SI5351_CLK_INTEGER_MODE : 0);
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  781  	}
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  782  =
 
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  378  	if (!bdev_is_zoned(bde=
-v)) {
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  379  		if (!fs_info->zone_si=
-ze) {
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  380  			ret =3D calculate_em=
-ulated_zone_size(fs_info);
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  381  			if (ret)
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  382  				goto out;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  383  		}
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  384  =
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  783  	dev_dbg(&hwdata->dr=
+vdata->client->dev,
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  784  		"%s - %s: p1 =3D %=
+lu, p2 =3D %lu, p3 =3D %lu, divby4 =3D %d, parent_rate =3D %lu, rate =3D %l=
+u\n",
+44f22a5d671ad8b Stephen Boyd          2015-08-07  785  		__func__, clk_hw_g=
+et_name(hw),
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  786  		hwdata->params.p1,=
+ hwdata->params.p2, hwdata->params.p3,
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  787  		divby4, parent_rat=
+e, rate);
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  788  =
 
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  385  		ASSERT(fs_info->zone_=
-size);
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  386  		zone_sectors =3D fs_i=
-nfo->zone_size >> SECTOR_SHIFT;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  387  	} else {
-5b316468983dfa9 Naohiro Aota       2020-11-10  388  		zone_sectors =3D bdev=
-_zone_sectors(bdev);
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  389  	}
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  390  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  391  	/* Check if it's power=
- of 2 (see is_power_of_2) */
-5b316468983dfa9 Naohiro Aota       2020-11-10  392  	ASSERT(zone_sectors !=
-=3D 0 && (zone_sectors & (zone_sectors - 1)) =3D=3D 0);
-5b316468983dfa9 Naohiro Aota       2020-11-10  393  	zone_info->zone_size =
-=3D zone_sectors << SECTOR_SHIFT;
-53b74fa990bf76f Naohiro Aota       2021-04-08  394  =
-
-53b74fa990bf76f Naohiro Aota       2021-04-08  395  	/* We reject devices w=
-ith a zone size larger than 8GB */
-53b74fa990bf76f Naohiro Aota       2021-04-08  396  	if (zone_info->zone_si=
-ze > BTRFS_MAX_ZONE_SIZE) {
-53b74fa990bf76f Naohiro Aota       2021-04-08  397  		btrfs_err_in_rcu(fs_i=
-nfo,
-53b74fa990bf76f Naohiro Aota       2021-04-08  398  		"zoned: %s: zone size=
- %llu larger than supported maximum %llu",
-53b74fa990bf76f Naohiro Aota       2021-04-08  399  				 rcu_str_deref(devi=
-ce->name),
-53b74fa990bf76f Naohiro Aota       2021-04-08  400  				 zone_info->zone_si=
-ze, BTRFS_MAX_ZONE_SIZE);
-53b74fa990bf76f Naohiro Aota       2021-04-08  401  		ret =3D -EINVAL;
-53b74fa990bf76f Naohiro Aota       2021-04-08  402  		goto out;
-53b74fa990bf76f Naohiro Aota       2021-04-08  403  	}
-53b74fa990bf76f Naohiro Aota       2021-04-08  404  =
-
-53b74fa990bf76f Naohiro Aota       2021-04-08  405  	nr_sectors =3D bdev_nr=
-_sectors(bdev);
-5b316468983dfa9 Naohiro Aota       2020-11-10  406  	zone_info->zone_size_s=
-hift =3D ilog2(zone_info->zone_size);
-5b316468983dfa9 Naohiro Aota       2020-11-10  407  	zone_info->nr_zones =
-=3D nr_sectors >> ilog2(zone_sectors);
-5b316468983dfa9 Naohiro Aota       2020-11-10  408  	if (!IS_ALIGNED(nr_sec=
-tors, zone_sectors))
-5b316468983dfa9 Naohiro Aota       2020-11-10  409  		zone_info->nr_zones++;
-5b316468983dfa9 Naohiro Aota       2020-11-10  410  =
-
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  411  	max_active_zones =3D q=
-ueue_max_active_zones(queue);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  412  	if (max_active_zones &=
-& max_active_zones < BTRFS_MIN_ACTIVE_ZONES) {
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  413  		btrfs_err_in_rcu(fs_i=
-nfo,
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  414  "zoned: %s: max active =
-zones %u is too small, need@least %u active zones",
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  415  				 rcu_str_deref(devi=
-ce->name), max_active_zones,
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  416  				 BTRFS_MIN_ACTIVE_Z=
-ONES);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  417  		ret =3D -EINVAL;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  418  		goto out;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  419  	}
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  420  	zone_info->max_active_=
-zones =3D max_active_zones;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  421  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  422  	zone_info->seq_zones =
-=3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
-5b316468983dfa9 Naohiro Aota       2020-11-10  423  	if (!zone_info->seq_zo=
-nes) {
-5b316468983dfa9 Naohiro Aota       2020-11-10  424  		ret =3D -ENOMEM;
-5b316468983dfa9 Naohiro Aota       2020-11-10  425  		goto out;
-5b316468983dfa9 Naohiro Aota       2020-11-10  426  	}
-5b316468983dfa9 Naohiro Aota       2020-11-10  427  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  428  	zone_info->empty_zones=
- =3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
-5b316468983dfa9 Naohiro Aota       2020-11-10  429  	if (!zone_info->empty_=
-zones) {
-5b316468983dfa9 Naohiro Aota       2020-11-10  430  		ret =3D -ENOMEM;
-5b316468983dfa9 Naohiro Aota       2020-11-10  431  		goto out;
-5b316468983dfa9 Naohiro Aota       2020-11-10  432  	}
-5b316468983dfa9 Naohiro Aota       2020-11-10  433  =
-
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  434  	zone_info->active_zone=
-s =3D bitmap_zalloc(zone_info->nr_zones, GFP_KERNEL);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  435  	if (!zone_info->active=
-_zones) {
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  436  		ret =3D -ENOMEM;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  437  		goto out;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  438  	}
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  439  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  440  	zones =3D kcalloc(BTRF=
-S_REPORT_NR_ZONES, sizeof(struct blk_zone), GFP_KERNEL);
-5b316468983dfa9 Naohiro Aota       2020-11-10  441  	if (!zones) {
-5b316468983dfa9 Naohiro Aota       2020-11-10  442  		ret =3D -ENOMEM;
-5b316468983dfa9 Naohiro Aota       2020-11-10  443  		goto out;
-5b316468983dfa9 Naohiro Aota       2020-11-10  444  	}
-5b316468983dfa9 Naohiro Aota       2020-11-10  445  =
-
-1c0066baa869433 Naohiro Aota       2021-11-11  446  	/*
-1c0066baa869433 Naohiro Aota       2021-11-11  447  	 * Enable zone cache o=
-nly for a zoned device. On a non-zoned device, we
-1c0066baa869433 Naohiro Aota       2021-11-11  448  	 * fill the zone info =
-with emulated CONVENTIONAL zones, so no need to
-1c0066baa869433 Naohiro Aota       2021-11-11  449  	 * use the cache.
-1c0066baa869433 Naohiro Aota       2021-11-11  450  	 */
-1c0066baa869433 Naohiro Aota       2021-11-11  451  	if (populate_cache && =
-bdev_is_zoned(device->bdev)) {
-1c0066baa869433 Naohiro Aota       2021-11-11  452  		zone_info->zone_cache=
- =3D vzalloc(sizeof(struct blk_zone) *
-1c0066baa869433 Naohiro Aota       2021-11-11  453  						zone_info->nr_zon=
-es);
-1c0066baa869433 Naohiro Aota       2021-11-11  454  		if (!zone_info->zone_=
-cache) {
-1c0066baa869433 Naohiro Aota       2021-11-11  455  			btrfs_err_in_rcu(dev=
-ice->fs_info,
-1c0066baa869433 Naohiro Aota       2021-11-11  456  				"zoned: failed to a=
-llocate zone cache for %s",
-1c0066baa869433 Naohiro Aota       2021-11-11  457  				rcu_str_deref(devic=
-e->name));
-1c0066baa869433 Naohiro Aota       2021-11-11  458  			ret =3D -ENOMEM;
-1c0066baa869433 Naohiro Aota       2021-11-11  459  			goto out;
-1c0066baa869433 Naohiro Aota       2021-11-11  460  		}
-1c0066baa869433 Naohiro Aota       2021-11-11  461  	}
-1c0066baa869433 Naohiro Aota       2021-11-11  462  =
-
-1c0066baa869433 Naohiro Aota       2021-11-11  463  	device->zone_info =3D =
-zone_info;
-1c0066baa869433 Naohiro Aota       2021-11-11  464  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  465  	/* Get zones type */
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  466  	nactive =3D 0;
-5b316468983dfa9 Naohiro Aota       2020-11-10  467  	while (sector < nr_sec=
-tors) {
-5b316468983dfa9 Naohiro Aota       2020-11-10  468  		nr_zones =3D BTRFS_RE=
-PORT_NR_ZONES;
-5b316468983dfa9 Naohiro Aota       2020-11-10  469  		ret =3D btrfs_get_dev=
-_zones(device, sector << SECTOR_SHIFT, zones,
-5b316468983dfa9 Naohiro Aota       2020-11-10  470  					  &nr_zones);
-5b316468983dfa9 Naohiro Aota       2020-11-10  471  		if (ret)
-5b316468983dfa9 Naohiro Aota       2020-11-10  472  			goto out;
-5b316468983dfa9 Naohiro Aota       2020-11-10  473  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  474  		for (i =3D 0; i < nr_=
-zones; i++) {
-5b316468983dfa9 Naohiro Aota       2020-11-10  475  			if (zones[i].type =
-=3D=3D BLK_ZONE_TYPE_SEQWRITE_REQ)
-5b316468983dfa9 Naohiro Aota       2020-11-10  476  				__set_bit(nreported=
-, zone_info->seq_zones);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  477  			switch (zones[i].con=
-d) {
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  478  			case BLK_ZONE_COND_E=
-MPTY:
-5b316468983dfa9 Naohiro Aota       2020-11-10  479  				__set_bit(nreported=
-, zone_info->empty_zones);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  480  				break;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  481  			case BLK_ZONE_COND_I=
-MP_OPEN:
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  482  			case BLK_ZONE_COND_E=
-XP_OPEN:
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  483  			case BLK_ZONE_COND_C=
-LOSED:
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  484  				__set_bit(nreported=
-, zone_info->active_zones);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  485  				nactive++;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  486  				break;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  487  			}
-5b316468983dfa9 Naohiro Aota       2020-11-10  488  			nreported++;
-5b316468983dfa9 Naohiro Aota       2020-11-10  489  		}
-5b316468983dfa9 Naohiro Aota       2020-11-10  490  		sector =3D zones[nr_z=
-ones - 1].start + zones[nr_zones - 1].len;
-5b316468983dfa9 Naohiro Aota       2020-11-10  491  	}
-5b316468983dfa9 Naohiro Aota       2020-11-10  492  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  493  	if (nreported !=3D zon=
-e_info->nr_zones) {
-5b316468983dfa9 Naohiro Aota       2020-11-10  494  		btrfs_err_in_rcu(devi=
-ce->fs_info,
-5b316468983dfa9 Naohiro Aota       2020-11-10  495  				 "inconsistent numb=
-er of zones on %s (%u/%u)",
-5b316468983dfa9 Naohiro Aota       2020-11-10  496  				 rcu_str_deref(devi=
-ce->name), nreported,
-5b316468983dfa9 Naohiro Aota       2020-11-10  497  				 zone_info->nr_zone=
-s);
-5b316468983dfa9 Naohiro Aota       2020-11-10  498  		ret =3D -EIO;
-5b316468983dfa9 Naohiro Aota       2020-11-10  499  		goto out;
-5b316468983dfa9 Naohiro Aota       2020-11-10  500  	}
-5b316468983dfa9 Naohiro Aota       2020-11-10  501  =
-
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  502  	if (max_active_zones) {
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  503  		if (nactive > max_act=
-ive_zones) {
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  504  			btrfs_err_in_rcu(dev=
-ice->fs_info,
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  505  			"zoned: %u active zo=
-nes on %s exceeds max_active_zones %u",
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  506  					 nactive, rcu_str_=
-deref(device->name),
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  507  					 max_active_zones);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  508  			ret =3D -EIO;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  509  			goto out;
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  510  		}
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  511  		atomic_set(&zone_info=
-->active_zones_left,
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  512  			   max_active_zones =
-- nactive);
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  513  	}
-ea6f8ddcde63812 Naohiro Aota       2021-08-19  514  =
-
-12659251ca5df05 Naohiro Aota       2020-11-10  515  	/* Validate superblock=
- log */
-12659251ca5df05 Naohiro Aota       2020-11-10  516  	nr_zones =3D BTRFS_NR_=
-SB_LOG_ZONES;
-12659251ca5df05 Naohiro Aota       2020-11-10  517  	for (i =3D 0; i < BTRF=
-S_SUPER_MIRROR_MAX; i++) {
-12659251ca5df05 Naohiro Aota       2020-11-10  518  		u32 sb_zone;
-12659251ca5df05 Naohiro Aota       2020-11-10  519  		u64 sb_wp;
-12659251ca5df05 Naohiro Aota       2020-11-10  520  		int sb_pos =3D BTRFS_=
-NR_SB_LOG_ZONES * i;
-12659251ca5df05 Naohiro Aota       2020-11-10  521  =
-
-12659251ca5df05 Naohiro Aota       2020-11-10  522  		sb_zone =3D sb_zone_n=
-umber(zone_info->zone_size_shift, i);
-12659251ca5df05 Naohiro Aota       2020-11-10  523  		if (sb_zone + 1 >=3D =
-zone_info->nr_zones)
-12659251ca5df05 Naohiro Aota       2020-11-10  524  			continue;
-12659251ca5df05 Naohiro Aota       2020-11-10  525  =
-
-5b434df8778771d Naohiro Aota       2021-05-27  526  		ret =3D btrfs_get_dev=
-_zones(device,
-5b434df8778771d Naohiro Aota       2021-05-27  527  					  zone_start_physi=
-cal(sb_zone, zone_info),
-12659251ca5df05 Naohiro Aota       2020-11-10  528  					  &zone_info->sb_z=
-ones[sb_pos],
-12659251ca5df05 Naohiro Aota       2020-11-10  529  					  &nr_zones);
-12659251ca5df05 Naohiro Aota       2020-11-10  530  		if (ret)
-12659251ca5df05 Naohiro Aota       2020-11-10  531  			goto out;
-12659251ca5df05 Naohiro Aota       2020-11-10  532  =
-
-12659251ca5df05 Naohiro Aota       2020-11-10  533  		if (nr_zones !=3D BTR=
-FS_NR_SB_LOG_ZONES) {
-12659251ca5df05 Naohiro Aota       2020-11-10  534  			btrfs_err_in_rcu(dev=
-ice->fs_info,
-12659251ca5df05 Naohiro Aota       2020-11-10  535  	"zoned: failed to read=
- super block log zone info at devid %llu zone %u",
-12659251ca5df05 Naohiro Aota       2020-11-10  536  					 device->devid, sb=
-_zone);
-12659251ca5df05 Naohiro Aota       2020-11-10  537  			ret =3D -EUCLEAN;
-12659251ca5df05 Naohiro Aota       2020-11-10  538  			goto out;
-12659251ca5df05 Naohiro Aota       2020-11-10  539  		}
-12659251ca5df05 Naohiro Aota       2020-11-10  540  =
-
-12659251ca5df05 Naohiro Aota       2020-11-10  541  		/*
-1a9fd4172d5c8ba David Sterba       2021-05-21  542  		 * If zones[0] is con=
-ventional, always use the beginning of the
-12659251ca5df05 Naohiro Aota       2020-11-10  543  		 * zone to record sup=
-erblock. No need to validate in that case.
-12659251ca5df05 Naohiro Aota       2020-11-10  544  		 */
-12659251ca5df05 Naohiro Aota       2020-11-10  545  		if (zone_info->sb_zon=
-es[BTRFS_NR_SB_LOG_ZONES * i].type =3D=3D
-12659251ca5df05 Naohiro Aota       2020-11-10  546  		    BLK_ZONE_TYPE_CON=
-VENTIONAL)
-12659251ca5df05 Naohiro Aota       2020-11-10  547  			continue;
-12659251ca5df05 Naohiro Aota       2020-11-10  548  =
-
-12659251ca5df05 Naohiro Aota       2020-11-10  549  		ret =3D sb_write_poin=
-ter(device->bdev,
-12659251ca5df05 Naohiro Aota       2020-11-10  550  				       &zone_info->=
-sb_zones[sb_pos], &sb_wp);
-12659251ca5df05 Naohiro Aota       2020-11-10  551  		if (ret !=3D -ENOENT =
-&& ret) {
-12659251ca5df05 Naohiro Aota       2020-11-10  552  			btrfs_err_in_rcu(dev=
-ice->fs_info,
-12659251ca5df05 Naohiro Aota       2020-11-10  553  			"zoned: super block =
-log zone corrupted devid %llu zone %u",
-12659251ca5df05 Naohiro Aota       2020-11-10  554  					 device->devid, sb=
-_zone);
-12659251ca5df05 Naohiro Aota       2020-11-10  555  			ret =3D -EUCLEAN;
-12659251ca5df05 Naohiro Aota       2020-11-10  556  			goto out;
-12659251ca5df05 Naohiro Aota       2020-11-10  557  		}
-12659251ca5df05 Naohiro Aota       2020-11-10  558  	}
-12659251ca5df05 Naohiro Aota       2020-11-10  559  =
-
-12659251ca5df05 Naohiro Aota       2020-11-10  560  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  561  	kfree(zones);
-5b316468983dfa9 Naohiro Aota       2020-11-10  562  =
-
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  563  	switch (bdev_zoned_mod=
-el(bdev)) {
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  564  	case BLK_ZONED_HM:
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  565  		model =3D "host-manag=
-ed zoned";
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  566  		emulated =3D "";
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  567  		break;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  568  	case BLK_ZONED_HA:
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  569  		model =3D "host-aware=
- zoned";
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  570  		emulated =3D "";
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  571  		break;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  572  	case BLK_ZONED_NONE:
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  573  		model =3D "regular";
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  574  		emulated =3D "emulate=
-d ";
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  575  		break;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  576  	default:
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  577  		/* Just in case */
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  578  		btrfs_err_in_rcu(fs_i=
-nfo, "zoned: unsupported model %d on %s",
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  579  				 bdev_zoned_model(b=
-dev),
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  580  				 rcu_str_deref(devi=
-ce->name));
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  581  		ret =3D -EOPNOTSUPP;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  582  		goto out_free_zone_in=
-fo;
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  583  	}
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  584  =
-
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  585  	btrfs_info_in_rcu(fs_i=
-nfo,
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  586  		"%s block device %s, =
-%u %szones of %llu bytes",
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  587  		model, rcu_str_deref(=
-device->name), zone_info->nr_zones,
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  588  		emulated, zone_info->=
-zone_size);
-5b316468983dfa9 Naohiro Aota       2020-11-10  589  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  590  	return 0;
-5b316468983dfa9 Naohiro Aota       2020-11-10  591  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10  592  out:
-5b316468983dfa9 Naohiro Aota       2020-11-10  593  	kfree(zones);
-3c9daa09ccd43f6 Johannes Thumshirn 2021-02-04  594  out_free_zone_info:
-0a2a39576fa1dd6 Johannes Thumshirn 2021-12-07  595  	btrfs_destroy_dev_zone=
-_info(device);
-5b316468983dfa9 Naohiro Aota       2020-11-10  596  =
-
-5b316468983dfa9 Naohiro Aota       2020-11-10 @597  	return ret;
-5b316468983dfa9 Naohiro Aota       2020-11-10  598  }
-5b316468983dfa9 Naohiro Aota       2020-11-10  599  =
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  789  	return 0;
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  790  }
+9abd5f0555df6cd Sebastian Hesselbarth 2013-04-11  791  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1706922628501886357==--
+--===============3582903840524226196==--
 
