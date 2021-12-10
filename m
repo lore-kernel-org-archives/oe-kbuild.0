@@ -1,235 +1,210 @@
-Content-Type: multipart/mixed; boundary="===============3936172606640657192=="
+Content-Type: multipart/mixed; boundary="===============6327363975932388221=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [kees:memcpy/step2/next-20211206 18/19] drivers/vme/bridges/vme_ca91cx42.c:540 ca91cx42_alloc_resource() warn: passing freed memory 'image->bus_resource.name'
-Date: Fri, 10 Dec 2021 11:34:44 +0800
-Message-ID: <202112101100.RP5cQp9A-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gt/selftest_migrate.c:91 copy() error: uninitialized symbol 'rq'.
+Date: Fri, 10 Dec 2021 11:13:54 +0800
+Message-ID: <202112101151.igYZ2FJJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3936172606640657192==
+--===============6327363975932388221==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Chris Wilson <chris@chris-wilson.co.uk>
+CC: Matthew Auld <matthew.auld@intel.com>
+CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git memc=
-py/step2/next-20211206
-head:   082faead4a3c2e5d9f541f97d8d4d5fa0f88dce0
-commit: 2fc46de99fed3430ed2f29f9912c896b62905bd7 [18/19] fortify: Detect st=
-ruct member overflows in memset() at compile-time
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: i386-randconfig-m021-20211209 (https://download.01.org/0day-ci/arch=
-ive/20211210/202112101100.RP5cQp9A-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
+commit: cf586021642d8017cde111b7dd1ba86224e9da51 drm/i915/gt: Pipelined pag=
+e migration
+date:   6 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211210/202112101151.igYZ2FJJ-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/vme/bridges/vme_ca91cx42.c:540 ca91cx42_alloc_resource() warn: pass=
-ing freed memory 'image->bus_resource.name'
+New smatch warnings:
+drivers/gpu/drm/i915/gt/selftest_migrate.c:91 copy() error: uninitialized s=
+ymbol 'rq'.
+drivers/gpu/drm/i915/gt/selftest_migrate.c:113 copy() error: uninitialized =
+symbol 'vaddr'.
 
-vim +540 drivers/vme/bridges/vme_ca91cx42.c
+Old smatch warnings:
+drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized =
+symbol 'rq'.
+drivers/gpu/drm/i915/gem/i915_gem_object.h:182 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 171)
 
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  495  =
+vim +/rq +91 drivers/gpu/drm/i915/gt/selftest_migrate.c
 
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  496  /*
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  497   * Allocate and map PCI Resource
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  498   */
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  499  static int ca91cx42_alloc_resource(struct vme_master_res=
-ource *image,
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  500  	unsigned long long size)
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  501  {
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  502  	unsigned long long existing_size;
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  503  	int retval =3D 0;
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  504  	struct pci_dev *pdev;
-29848ac9f3b33bf drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  505  	struct vme_bridge *ca91cx42_bridge;
-29848ac9f3b33bf drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  506  =
+cf586021642d801 Chris Wilson 2021-06-17   31  =
 
-29848ac9f3b33bf drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  507  	ca91cx42_bridge =3D image->parent;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  508  =
+cf586021642d801 Chris Wilson 2021-06-17   32  static int copy(struct intel_=
+migrate *migrate,
+cf586021642d801 Chris Wilson 2021-06-17   33  		int (*fn)(struct intel_migr=
+ate *migrate,
+cf586021642d801 Chris Wilson 2021-06-17   34  			  struct i915_gem_ww_ctx *=
+ww,
+cf586021642d801 Chris Wilson 2021-06-17   35  			  struct drm_i915_gem_obje=
+ct *src,
+cf586021642d801 Chris Wilson 2021-06-17   36  			  struct drm_i915_gem_obje=
+ct *dst,
+cf586021642d801 Chris Wilson 2021-06-17   37  			  struct i915_request **ou=
+t),
+cf586021642d801 Chris Wilson 2021-06-17   38  		u32 sz, struct rnd_state *p=
+rng)
+cf586021642d801 Chris Wilson 2021-06-17   39  {
+cf586021642d801 Chris Wilson 2021-06-17   40  	struct drm_i915_private *i91=
+5 =3D migrate->context->engine->i915;
+cf586021642d801 Chris Wilson 2021-06-17   41  	struct drm_i915_gem_object *=
+src, *dst;
+cf586021642d801 Chris Wilson 2021-06-17   42  	struct i915_request *rq;
+cf586021642d801 Chris Wilson 2021-06-17   43  	struct i915_gem_ww_ctx ww;
+cf586021642d801 Chris Wilson 2021-06-17   44  	u32 *vaddr;
+cf586021642d801 Chris Wilson 2021-06-17   45  	int err =3D 0;
+cf586021642d801 Chris Wilson 2021-06-17   46  	int i;
+cf586021642d801 Chris Wilson 2021-06-17   47  =
 
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  509  	/* Find pci_dev container of dev */
-8d97931740cff8f drivers/vme/bridges/vme_ca91cx42.c         Markus Elfring  =
-  2017-08-25  510  	if (!ca91cx42_bridge->parent) {
-48d9356e7750d3e drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-03-22  511  		dev_err(ca91cx42_bridge->parent, "Dev entry NULL\n");
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  512  		return -EINVAL;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  513  	}
-445f82492f2256b drivers/vme/bridges/vme_ca91cx42.c         Geliang Tang    =
-  2015-12-27  514  	pdev =3D to_pci_dev(ca91cx42_bridge->parent);
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  515  =
+cf586021642d801 Chris Wilson 2021-06-17   48  	src =3D create_lmem_or_inter=
+nal(i915, sz);
+cf586021642d801 Chris Wilson 2021-06-17   49  	if (IS_ERR(src))
+cf586021642d801 Chris Wilson 2021-06-17   50  		return 0;
+cf586021642d801 Chris Wilson 2021-06-17   51  =
 
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  516  	existing_size =3D (unsigned long long)(image->bus_resou=
-rce.end -
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  517  		image->bus_resource.start);
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  518  =
+cf586021642d801 Chris Wilson 2021-06-17   52  	dst =3D i915_gem_object_crea=
+te_internal(i915, sz);
+cf586021642d801 Chris Wilson 2021-06-17   53  	if (IS_ERR(dst))
+cf586021642d801 Chris Wilson 2021-06-17   54  		goto err_free_src;
+cf586021642d801 Chris Wilson 2021-06-17   55  =
 
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  519  	/* If the existing size is OK, return */
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  520  	if (existing_size =3D=3D (size - 1))
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  521  		return 0;
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  522  =
+cf586021642d801 Chris Wilson 2021-06-17   56  	for_i915_gem_ww(&ww, err, tr=
+ue) {
+cf586021642d801 Chris Wilson 2021-06-17   57  		err =3D i915_gem_object_loc=
+k(src, &ww);
+cf586021642d801 Chris Wilson 2021-06-17   58  		if (err)
+cf586021642d801 Chris Wilson 2021-06-17   59  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   60  =
 
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  523  	if (existing_size !=3D 0) {
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  524  		iounmap(image->kern_base);
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  525  		image->kern_base =3D NULL;
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  526  		kfree(image->bus_resource.name);
-886953e9b70bcb6 drivers/staging/vme/bridges/vme_ca91cx42.c Emilio G. Cota  =
-  2010-11-12  527  		release_resource(&image->bus_resource);
-3d9b1e53343651e drivers/vme/bridges/vme_ca91cx42.c         Markus Elfring  =
-  2017-08-25  528  		memset(&image->bus_resource, 0, sizeof(image->bus_reso=
-urce));
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  529  	}
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  530  =
+cf586021642d801 Chris Wilson 2021-06-17   61  		err =3D i915_gem_object_loc=
+k(dst, &ww);
+cf586021642d801 Chris Wilson 2021-06-17   62  		if (err)
+cf586021642d801 Chris Wilson 2021-06-17   63  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   64  =
 
-8d97931740cff8f drivers/vme/bridges/vme_ca91cx42.c         Markus Elfring  =
-  2017-08-25  531  	if (!image->bus_resource.name) {
-0aa3f139cd5123f drivers/staging/vme/bridges/vme_ca91cx42.c Julia Lawall    =
-  2010-05-30  532  		image->bus_resource.name =3D kmalloc(VMENAMSIZ+3, GFP_=
-ATOMIC);
-8d97931740cff8f drivers/vme/bridges/vme_ca91cx42.c         Markus Elfring  =
-  2017-08-25  533  		if (!image->bus_resource.name) {
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  534  			retval =3D -ENOMEM;
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  535  			goto err_name;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  536  		}
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  537  	}
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  538  =
+cf586021642d801 Chris Wilson 2021-06-17   65  		vaddr =3D i915_gem_object_p=
+in_map(src, I915_MAP_WC);
+cf586021642d801 Chris Wilson 2021-06-17   66  		if (IS_ERR(vaddr)) {
+cf586021642d801 Chris Wilson 2021-06-17   67  			err =3D PTR_ERR(vaddr);
+cf586021642d801 Chris Wilson 2021-06-17   68  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   69  		}
+cf586021642d801 Chris Wilson 2021-06-17   70  =
 
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  539  	sprintf((char *)image->bus_resource.name, "%s.%d",
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27 @540  		ca91cx42_bridge->name, image->number);
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  541  =
+cf586021642d801 Chris Wilson 2021-06-17   71  		for (i =3D 0; i < sz / size=
+of(u32); i++)
+cf586021642d801 Chris Wilson 2021-06-17   72  			vaddr[i] =3D i;
+cf586021642d801 Chris Wilson 2021-06-17   73  		i915_gem_object_flush_map(s=
+rc);
+cf586021642d801 Chris Wilson 2021-06-17   74  =
 
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  542  	image->bus_resource.start =3D 0;
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  543  	image->bus_resource.end =3D (unsigned long)size;
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  544  	image->bus_resource.flags =3D IORESOURCE_MEM;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  545  =
+cf586021642d801 Chris Wilson 2021-06-17   75  		vaddr =3D i915_gem_object_p=
+in_map(dst, I915_MAP_WC);
+cf586021642d801 Chris Wilson 2021-06-17   76  		if (IS_ERR(vaddr)) {
+cf586021642d801 Chris Wilson 2021-06-17   77  			err =3D PTR_ERR(vaddr);
+cf586021642d801 Chris Wilson 2021-06-17   78  			goto unpin_src;
+cf586021642d801 Chris Wilson 2021-06-17   79  		}
+cf586021642d801 Chris Wilson 2021-06-17   80  =
 
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  546  	retval =3D pci_bus_alloc_resource(pdev->bus,
-da5ae8a991d35d7 drivers/vme/bridges/vme_ca91cx42.c         Dmitry Kalinkin =
-  2015-07-08  547  		&image->bus_resource, size, 0x10000, PCIBIOS_MIN_MEM,
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  548  		0, NULL, NULL);
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  549  	if (retval) {
-48d9356e7750d3e drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-03-22  550  		dev_err(ca91cx42_bridge->parent, "Failed to allocate m=
-em "
-48d9356e7750d3e drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-03-22  551  			"resource for window %d size 0x%lx start 0x%lx\n",
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  552  			image->number, (unsigned long)size,
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  553  			(unsigned long)image->bus_resource.start);
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  554  		goto err_resource;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  555  	}
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  556  =
+cf586021642d801 Chris Wilson 2021-06-17   81  		for (i =3D 0; i < sz / size=
+of(u32); i++)
+cf586021642d801 Chris Wilson 2021-06-17   82  			vaddr[i] =3D ~i;
+cf586021642d801 Chris Wilson 2021-06-17   83  		i915_gem_object_flush_map(d=
+st);
+cf586021642d801 Chris Wilson 2021-06-17   84  =
 
-4bdc0d676a64314 drivers/vme/bridges/vme_ca91cx42.c         Christoph Hellwi=
-g 2020-01-06  557  	image->kern_base =3D ioremap(
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  558  		image->bus_resource.start, size);
-8d97931740cff8f drivers/vme/bridges/vme_ca91cx42.c         Markus Elfring  =
-  2017-08-25  559  	if (!image->kern_base) {
-48d9356e7750d3e drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-03-22  560  		dev_err(ca91cx42_bridge->parent, "Failed to remap reso=
-urce\n");
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  561  		retval =3D -ENOMEM;
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  562  		goto err_remap;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  563  	}
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  564  =
+cf586021642d801 Chris Wilson 2021-06-17   85  		err =3D fn(migrate, &ww, sr=
+c, dst, &rq);
+cf586021642d801 Chris Wilson 2021-06-17   86  		if (!err)
+cf586021642d801 Chris Wilson 2021-06-17   87  			continue;
+cf586021642d801 Chris Wilson 2021-06-17   88  =
 
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  565  	return 0;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  566  =
+cf586021642d801 Chris Wilson 2021-06-17   89  		if (err !=3D -EDEADLK && er=
+r !=3D -EINTR && err !=3D -ERESTARTSYS)
+cf586021642d801 Chris Wilson 2021-06-17   90  			pr_err("%ps failed, size: =
+%u\n", fn, sz);
+cf586021642d801 Chris Wilson 2021-06-17  @91  		if (rq) {
+cf586021642d801 Chris Wilson 2021-06-17   92  			i915_request_wait(rq, 0, H=
+Z);
+cf586021642d801 Chris Wilson 2021-06-17   93  			i915_request_put(rq);
+cf586021642d801 Chris Wilson 2021-06-17   94  		}
+cf586021642d801 Chris Wilson 2021-06-17   95  		i915_gem_object_unpin_map(d=
+st);
+cf586021642d801 Chris Wilson 2021-06-17   96  unpin_src:
+cf586021642d801 Chris Wilson 2021-06-17   97  		i915_gem_object_unpin_map(s=
+rc);
+cf586021642d801 Chris Wilson 2021-06-17   98  	}
+cf586021642d801 Chris Wilson 2021-06-17   99  	if (err)
+cf586021642d801 Chris Wilson 2021-06-17  100  		goto err_out;
+cf586021642d801 Chris Wilson 2021-06-17  101  =
 
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  567  err_remap:
-886953e9b70bcb6 drivers/staging/vme/bridges/vme_ca91cx42.c Emilio G. Cota  =
-  2010-11-12  568  	release_resource(&image->bus_resource);
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  569  err_resource:
-8fafb47638012d9 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2010-02-18  570  	kfree(image->bus_resource.name);
-3d9b1e53343651e drivers/vme/bridges/vme_ca91cx42.c         Markus Elfring  =
-  2017-08-25  571  	memset(&image->bus_resource, 0, sizeof(image->bus_resou=
-rce));
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  572  err_name:
-3d0f8bc7517718a drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-08-27  573  	return retval;
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  574  }
-60479690af6d559 drivers/staging/vme/bridges/vme_ca91cx42.c Martyn Welch    =
-  2009-07-31  575  =
+cf586021642d801 Chris Wilson 2021-06-17  102  	if (rq) {
+cf586021642d801 Chris Wilson 2021-06-17  103  		if (i915_request_wait(rq, 0=
+, HZ) < 0) {
+cf586021642d801 Chris Wilson 2021-06-17  104  			pr_err("%ps timed out, siz=
+e: %u\n", fn, sz);
+cf586021642d801 Chris Wilson 2021-06-17  105  			err =3D -ETIME;
+cf586021642d801 Chris Wilson 2021-06-17  106  		}
+cf586021642d801 Chris Wilson 2021-06-17  107  		i915_request_put(rq);
+cf586021642d801 Chris Wilson 2021-06-17  108  	}
+cf586021642d801 Chris Wilson 2021-06-17  109  =
 
+cf586021642d801 Chris Wilson 2021-06-17  110  	for (i =3D 0; !err && i < sz=
+ / PAGE_SIZE; i++) {
+cf586021642d801 Chris Wilson 2021-06-17  111  		int x =3D i * 1024 + i915_p=
+random_u32_max_state(1024, prng);
+cf586021642d801 Chris Wilson 2021-06-17  112  =
 
-:::::: The code at line 540 was first introduced by commit
-:::::: 3d0f8bc7517718a4846de6f538ad67a4f7f83239 Staging: vme: Update suppor=
-t for the Universe II VME driver
+cf586021642d801 Chris Wilson 2021-06-17 @113  		if (vaddr[x] !=3D x) {
+cf586021642d801 Chris Wilson 2021-06-17  114  			pr_err("%ps failed, size: =
+%u, offset: %zu\n",
+cf586021642d801 Chris Wilson 2021-06-17  115  			       fn, sz, x * sizeof(=
+u32));
+cf586021642d801 Chris Wilson 2021-06-17  116  			igt_hexdump(vaddr + i * 10=
+24, 4096);
+cf586021642d801 Chris Wilson 2021-06-17  117  			err =3D -EINVAL;
+cf586021642d801 Chris Wilson 2021-06-17  118  		}
+cf586021642d801 Chris Wilson 2021-06-17  119  	}
+cf586021642d801 Chris Wilson 2021-06-17  120  =
 
-:::::: TO: Martyn Welch <martyn.welch@gefanuc.com>
-:::::: CC: Greg Kroah-Hartman <gregkh@suse.de>
+cf586021642d801 Chris Wilson 2021-06-17  121  	i915_gem_object_unpin_map(ds=
+t);
+cf586021642d801 Chris Wilson 2021-06-17  122  	i915_gem_object_unpin_map(sr=
+c);
+cf586021642d801 Chris Wilson 2021-06-17  123  =
+
+cf586021642d801 Chris Wilson 2021-06-17  124  err_out:
+cf586021642d801 Chris Wilson 2021-06-17  125  	i915_gem_object_put(dst);
+cf586021642d801 Chris Wilson 2021-06-17  126  err_free_src:
+cf586021642d801 Chris Wilson 2021-06-17  127  	i915_gem_object_put(src);
+cf586021642d801 Chris Wilson 2021-06-17  128  =
+
+cf586021642d801 Chris Wilson 2021-06-17  129  	return err;
+cf586021642d801 Chris Wilson 2021-06-17  130  }
+cf586021642d801 Chris Wilson 2021-06-17  131  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3936172606640657192==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============6327363975932388221==--
 
