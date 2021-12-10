@@ -1,194 +1,385 @@
-Content-Type: multipart/mixed; boundary="===============7507221735854084564=="
+Content-Type: multipart/mixed; boundary="===============8881291400599549689=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: kernel/sched/core_sched.c:175 sched_core_share_pid() warn: ignoring unreachable code.
-Date: Fri, 10 Dec 2021 14:39:33 +0800
-Message-ID: <202112101459.kQU6fanV-lkp@intel.com>
+Subject: [nvdimm:libnvdimm-for-next 27/32] fs/ext2/inode.c:809:23: warning: Value stored to 'sbi' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 10 Dec 2021 12:38:20 +0800
+Message-ID: <202112101242.ngLov0LI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7507221735854084564==
+--===============8881291400599549689==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Chris Hyser <chris.hyser@oracle.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+CC: linux-nvdimm(a)lists.01.org
+TO: Christoph Hellwig <hch@lst.de>
+CC: Dan Williams <dan.j.williams@intel.com>
+CC: Gao Xiang <hsiangkao@linux.alibaba.com>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
-commit: 7ac592aa35a684ff1858fb9ec282886b9e3575ac sched: prctl() core-schedu=
-ling interface
-date:   7 months ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 7 months ago
-config: s390-randconfig-m031-20211209 (https://download.01.org/0day-ci/arch=
-ive/20211210/202112101459.kQU6fanV-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git l=
+ibnvdimm-for-next
+head:   de291b5902860d18d6e02000808aeb833ec1feb6
+commit: de2051147771017a61b62c02fd4e883c9b07712d [27/32] fsdax: shift parti=
+tion offset handling into the file systems
+:::::: branch date: 2 days ago
+:::::: commit date: 6 days ago
+config: riscv-randconfig-c006-20211209 (https://download.01.org/0day-ci/arc=
+hive/20211210/202112101242.ngLov0LI-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/nvdimm/nvdimm.git=
+/commit/?id=3Dde2051147771017a61b62c02fd4e883c9b07712d
+        git remote add nvdimm https://git.kernel.org/pub/scm/linux/kernel/g=
+it/nvdimm/nvdimm.git
+        git fetch --no-tags nvdimm libnvdimm-for-next
+        git checkout de2051147771017a61b62c02fd4e883c9b07712d
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-kernel/sched/core_sched.c:175 sched_core_share_pid() warn: ignoring unreach=
-able code.
 
-vim +175 kernel/sched/core_sched.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   fs/xfs/xfs_linux.h:214:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : asswarn(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                           ^
+   fs/xfs/xfs_log_recover.c:149:6: note: Assuming 'error' is not equal to 0=
+, which participates in a condition later
+           if (error && !xlog_is_shutdown(log)) {
+               ^~~~~
+   fs/xfs/xfs_log_recover.c:149:6: note: Left side of '&&' is true
+   fs/xfs/xfs_log_recover.c:149:15: note: Assuming the condition is false
+           if (error && !xlog_is_shutdown(log)) {
+                        ^~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:149:2: note: Taking false branch
+           if (error && !xlog_is_shutdown(log)) {
+           ^
+   fs/xfs/xfs_log_recover.c:155:2: note: Returning value (loaded from 'erro=
+r'), which participates in a condition later
+           return error;
+           ^~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:178:10: note: Returning from 'xlog_do_io'
+           error =3D xlog_do_io(log, blk_no, nbblks, data, REQ_OP_READ);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:179:7: note: 'error' is not equal to 0, which p=
+articipates in a condition later
+           if (!error)
+                ^~~~~
+   fs/xfs/xfs_log_recover.c:179:2: note: Taking false branch
+           if (!error)
+           ^
+   fs/xfs/xfs_log_recover.c:181:2: note: Returning value (loaded from 'erro=
+r'), which participates in a condition later
+           return error;
+           ^~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:813:12: note: Returning from 'xlog_bread'
+                           error =3D xlog_bread(log, i, 1, buffer, &offset);
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:814:8: note: 'error' is not equal to 0, which p=
+articipates in a condition later
+                           if (error)
+                               ^~~~~
+   fs/xfs/xfs_log_recover.c:814:4: note: Taking true branch
+                           if (error)
+                           ^
+   fs/xfs/xfs_log_recover.c:815:5: note: Control jumps to line 831
+                                   goto out_error;
+                                   ^
+   fs/xfs/xfs_log_recover.c:831:2: note: Returning without writing to '*rhe=
+ad'
+           return error;
+           ^
+   fs/xfs/xfs_log_recover.c:831:2: note: Returning value (loaded from 'erro=
+r'), which participates in a condition later
+           return error;
+           ^~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:1287:10: note: Returning from 'xlog_rseek_logre=
+c_hdr'
+           error =3D xlog_rseek_logrec_hdr(log, *head_blk, *head_blk, 1, bu=
+ffer,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   fs/xfs/xfs_log_recover.c:1289:6: note: Assuming 'error' is >=3D 0
+           if (error < 0)
+               ^~~~~~~~~
+   fs/xfs/xfs_log_recover.c:1289:2: note: Taking false branch
+           if (error < 0)
+           ^
+   fs/xfs/xfs_log_recover.c:1291:7: note: 'error' is not equal to 0
+           if (!error) {
+                ^~~~~
+   fs/xfs/xfs_log_recover.c:1291:2: note: Taking false branch
+           if (!error) {
+           ^
+   fs/xfs/xfs_log_recover.c:1296:24: note: Access to field 'h_tail_lsn' res=
+ults in a dereference of an undefined pointer value (loaded from variable '=
+rhead')
+           *tail_blk =3D BLOCK_LSN(be64_to_cpu(rhead->h_tail_lsn));
+                                 ^
+   include/linux/byteorder/generic.h:93:21: note: expanded from macro 'be64=
+_to_cpu'
+   #define be64_to_cpu __be64_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:38:58: note: expanded from =
+macro '__be64_to_cpu'
+   #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
+                                                            ^~
+   include/uapi/linux/swab.h:131:32: note: expanded from macro '__swab64'
+           (__builtin_constant_p((__u64)(x)) ?     \
+                                         ^
+   fs/xfs/libxfs/xfs_log_format.h:52:32: note: expanded from macro 'BLOCK_L=
+SN'
+   #define BLOCK_LSN(lsn) ((uint)(lsn))
+                                  ^~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+>> fs/ext2/inode.c:809:23: warning: Value stored to 'sbi' during its initia=
+lization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ext2_sb_info *sbi =3D EXT2_SB(inode->i_sb);
+                                ^~~   ~~~~~~~~~~~~~~~~~~~~
+   fs/ext2/inode.c:809:23: note: Value stored to 'sbi' during its initializ=
+ation is never read
+           struct ext2_sb_info *sbi =3D EXT2_SB(inode->i_sb);
+                                ^~~   ~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   include/linux/hid.h:1007:9: warning: Access to field 'name' results in a=
+ dereference of a null pointer (loaded from variable 'input') [clang-analyz=
+er-core.NullDereference]
+                                       input->name, c, type);
+                                       ^
+   drivers/hid/hid-dr.c:252:2: note: Control jumps to 'case 65589:'  at lin=
+e 258
+           switch (usage->hid) {
+           ^
+   drivers/hid/hid-dr.c:259:7: note: Assuming the condition is false
+                   if (field->flags & HID_MAIN_ITEM_RELATIVE)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/hid/hid-dr.c:259:3: note: Taking false branch
+                   if (field->flags & HID_MAIN_ITEM_RELATIVE)
+                   ^
+   drivers/hid/hid-dr.c:262:4: note: Calling 'hid_map_usage'
+                           map_abs(usage->hid & 0xf);
+                           ^
+   drivers/hid/hid-dr.c:245:25: note: expanded from macro 'map_abs'
+   #define map_abs(c)      hid_map_usage(hi, usage, bit, max, EV_ABS, (c))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:982:2: note: 'input' initialized here
+           struct input_dev *input =3D hidinput->input;
+           ^~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/hid.h:986:2: note: Control jumps to 'case 3:'  at line 987
+           switch (type) {
+           ^
+   include/linux/hid.h:990:3: note:  Execution continues on line 1005
+                   break;
+                   ^
+   include/linux/hid.h:1005:15: note: 'c' is <=3D 'limit'
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:1005:15: note: Left side of '||' is false
+           if (unlikely(c > limit || !bmap)) {
+                        ^
+   include/linux/hid.h:1005:28: note: Assuming 'bmap' is null
+           if (unlikely(c > limit || !bmap)) {
+                                     ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/hid.h:1005:2: note: Taking true branch
+           if (unlikely(c > limit || !bmap)) {
+           ^
+   include/linux/hid.h:1006:3: note: Assuming the condition is true
+                   pr_warn_ratelimited("%s: Invalid code %d type %d\n",
+                   ^
+   include/linux/printk.h:656:2: note: expanded from macro 'pr_warn_ratelim=
+ited'
+           printk_ratelimited(KERN_WARNING pr_fmt(fmt), ##__VA_ARGS__)
 
-7ac592aa35a684 Chris Hyser 2021-03-24  124  =
+vim +/sbi +809 fs/ext2/inode.c
 
-7ac592aa35a684 Chris Hyser 2021-03-24  125  /* Called from prctl interface:=
- PR_SCHED_CORE */
-7ac592aa35a684 Chris Hyser 2021-03-24  126  int sched_core_share_pid(unsign=
-ed int cmd, pid_t pid, enum pid_type type,
-7ac592aa35a684 Chris Hyser 2021-03-24  127  			 unsigned long uaddr)
-7ac592aa35a684 Chris Hyser 2021-03-24  128  {
-7ac592aa35a684 Chris Hyser 2021-03-24  129  	unsigned long cookie =3D 0, id=
- =3D 0;
-7ac592aa35a684 Chris Hyser 2021-03-24  130  	struct task_struct *task, *p;
-7ac592aa35a684 Chris Hyser 2021-03-24  131  	struct pid *grp;
-7ac592aa35a684 Chris Hyser 2021-03-24  132  	int err =3D 0;
-7ac592aa35a684 Chris Hyser 2021-03-24  133  =
+a686cd898bd999 Martin J. Bligh     2007-10-16  802  =
 
-7ac592aa35a684 Chris Hyser 2021-03-24  134  	if (!static_branch_likely(&sch=
-ed_smt_present))
-7ac592aa35a684 Chris Hyser 2021-03-24  135  		return -ENODEV;
-7ac592aa35a684 Chris Hyser 2021-03-24  136  =
+25f4e70291a309 Christoph Hellwig   2016-09-19  803  static int ext2_iomap_b=
+egin(struct inode *inode, loff_t offset, loff_t length,
+c039b997927263 Goldwyn Rodrigues   2019-10-18  804  		unsigned flags, struc=
+t iomap *iomap, struct iomap *srcmap)
+25f4e70291a309 Christoph Hellwig   2016-09-19  805  {
+25f4e70291a309 Christoph Hellwig   2016-09-19  806  	unsigned int blkbits =
+=3D inode->i_blkbits;
+25f4e70291a309 Christoph Hellwig   2016-09-19  807  	unsigned long first_bl=
+ock =3D offset >> blkbits;
+25f4e70291a309 Christoph Hellwig   2016-09-19  808  	unsigned long max_bloc=
+ks =3D (length + (1 << blkbits) - 1) >> blkbits;
+8cf037a8b22f71 Dan Williams        2017-08-30 @809  	struct ext2_sb_info *s=
+bi =3D EXT2_SB(inode->i_sb);
+25f4e70291a309 Christoph Hellwig   2016-09-19  810  	bool new =3D false, bo=
+undary =3D false;
+25f4e70291a309 Christoph Hellwig   2016-09-19  811  	u32 bno;
+25f4e70291a309 Christoph Hellwig   2016-09-19  812  	int ret;
+25f4e70291a309 Christoph Hellwig   2016-09-19  813  =
 
-7ac592aa35a684 Chris Hyser 2021-03-24  137  	if (type > PIDTYPE_PGID || cmd=
- >=3D PR_SCHED_CORE_MAX || pid < 0 ||
-7ac592aa35a684 Chris Hyser 2021-03-24  138  	    (cmd !=3D PR_SCHED_CORE_GE=
-T && uaddr))
-7ac592aa35a684 Chris Hyser 2021-03-24  139  		return -EINVAL;
-7ac592aa35a684 Chris Hyser 2021-03-24  140  =
+25f4e70291a309 Christoph Hellwig   2016-09-19  814  	ret =3D ext2_get_block=
+s(inode, first_block, max_blocks,
+25f4e70291a309 Christoph Hellwig   2016-09-19  815  			&bno, &new, &boundar=
+y, flags & IOMAP_WRITE);
+25f4e70291a309 Christoph Hellwig   2016-09-19  816  	if (ret < 0)
+a686cd898bd999 Martin J. Bligh     2007-10-16  817  		return ret;
+a686cd898bd999 Martin J. Bligh     2007-10-16  818  =
 
-7ac592aa35a684 Chris Hyser 2021-03-24  141  	rcu_read_lock();
-7ac592aa35a684 Chris Hyser 2021-03-24  142  	if (pid =3D=3D 0) {
-7ac592aa35a684 Chris Hyser 2021-03-24  143  		task =3D current;
-7ac592aa35a684 Chris Hyser 2021-03-24  144  	} else {
-7ac592aa35a684 Chris Hyser 2021-03-24  145  		task =3D find_task_by_vpid(pi=
-d);
-7ac592aa35a684 Chris Hyser 2021-03-24  146  		if (!task) {
-7ac592aa35a684 Chris Hyser 2021-03-24  147  			rcu_read_unlock();
-7ac592aa35a684 Chris Hyser 2021-03-24  148  			return -ESRCH;
-7ac592aa35a684 Chris Hyser 2021-03-24  149  		}
-7ac592aa35a684 Chris Hyser 2021-03-24  150  	}
-7ac592aa35a684 Chris Hyser 2021-03-24  151  	get_task_struct(task);
-7ac592aa35a684 Chris Hyser 2021-03-24  152  	rcu_read_unlock();
-7ac592aa35a684 Chris Hyser 2021-03-24  153  =
+25f4e70291a309 Christoph Hellwig   2016-09-19  819  	iomap->flags =3D 0;
+d5bfccdf38d094 Christoph Hellwig   2016-10-03  820  	iomap->offset =3D (u64=
+)first_block << blkbits;
+de205114777101 Christoph Hellwig   2021-11-29  821  	if (flags & IOMAP_DAX)
+8cf037a8b22f71 Dan Williams        2017-08-30  822  		iomap->dax_dev =3D sb=
+i->s_daxdev;
+de205114777101 Christoph Hellwig   2021-11-29  823  	else
+de205114777101 Christoph Hellwig   2021-11-29  824  		iomap->bdev =3D inode=
+->i_sb->s_bdev;
+25f4e70291a309 Christoph Hellwig   2016-09-19  825  =
 
-7ac592aa35a684 Chris Hyser 2021-03-24  154  	/*
-7ac592aa35a684 Chris Hyser 2021-03-24  155  	 * Check if this process has t=
-he right to modify the specified
-7ac592aa35a684 Chris Hyser 2021-03-24  156  	 * process. Use the regular "p=
-trace_may_access()" checks.
-7ac592aa35a684 Chris Hyser 2021-03-24  157  	 */
-7ac592aa35a684 Chris Hyser 2021-03-24  158  	if (!ptrace_may_access(task, P=
-TRACE_MODE_READ_REALCREDS)) {
-7ac592aa35a684 Chris Hyser 2021-03-24  159  		err =3D -EPERM;
-7ac592aa35a684 Chris Hyser 2021-03-24  160  		goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  161  	}
-7ac592aa35a684 Chris Hyser 2021-03-24  162  =
+25f4e70291a309 Christoph Hellwig   2016-09-19  826  	if (ret =3D=3D 0) {
+25f4e70291a309 Christoph Hellwig   2016-09-19  827  		iomap->type =3D IOMAP=
+_HOLE;
+19fe5f643f89f2 Andreas Gruenbacher 2017-10-01  828  		iomap->addr =3D IOMAP=
+_NULL_ADDR;
+25f4e70291a309 Christoph Hellwig   2016-09-19  829  		iomap->length =3D 1 <=
+< blkbits;
+25f4e70291a309 Christoph Hellwig   2016-09-19  830  	} else {
+25f4e70291a309 Christoph Hellwig   2016-09-19  831  		iomap->type =3D IOMAP=
+_MAPPED;
+19fe5f643f89f2 Andreas Gruenbacher 2017-10-01  832  		iomap->addr =3D (u64)=
+bno << blkbits;
+de205114777101 Christoph Hellwig   2021-11-29  833  		if (flags & IOMAP_DAX)
+de205114777101 Christoph Hellwig   2021-11-29  834  			iomap->addr +=3D sbi=
+->s_dax_part_off;
+25f4e70291a309 Christoph Hellwig   2016-09-19  835  		iomap->length =3D (u6=
+4)ret << blkbits;
+25f4e70291a309 Christoph Hellwig   2016-09-19  836  		iomap->flags |=3D IOM=
+AP_F_MERGED;
+25f4e70291a309 Christoph Hellwig   2016-09-19  837  	}
+25f4e70291a309 Christoph Hellwig   2016-09-19  838  =
 
-7ac592aa35a684 Chris Hyser 2021-03-24  163  	switch (cmd) {
-7ac592aa35a684 Chris Hyser 2021-03-24  164  	case PR_SCHED_CORE_GET:
-7ac592aa35a684 Chris Hyser 2021-03-24  165  		if (type !=3D PIDTYPE_PID || =
-uaddr & 7) {
-7ac592aa35a684 Chris Hyser 2021-03-24  166  			err =3D -EINVAL;
-7ac592aa35a684 Chris Hyser 2021-03-24  167  			goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  168  		}
-7ac592aa35a684 Chris Hyser 2021-03-24  169  		cookie =3D sched_core_clone_c=
-ookie(task);
-7ac592aa35a684 Chris Hyser 2021-03-24  170  		if (cookie) {
-7ac592aa35a684 Chris Hyser 2021-03-24  171  			/* XXX improve ? */
-7ac592aa35a684 Chris Hyser 2021-03-24  172  			ptr_to_hashval((void *)cooki=
-e, &id);
-7ac592aa35a684 Chris Hyser 2021-03-24  173  		}
-7ac592aa35a684 Chris Hyser 2021-03-24  174  		err =3D put_user(id, (u64 __u=
-ser *)uaddr);
-7ac592aa35a684 Chris Hyser 2021-03-24 @175  		goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  176  =
+25f4e70291a309 Christoph Hellwig   2016-09-19  839  	if (new)
+25f4e70291a309 Christoph Hellwig   2016-09-19  840  		iomap->flags |=3D IOM=
+AP_F_NEW;
+25f4e70291a309 Christoph Hellwig   2016-09-19  841  	return 0;
+a686cd898bd999 Martin J. Bligh     2007-10-16  842  }
+a686cd898bd999 Martin J. Bligh     2007-10-16  843  =
 
-7ac592aa35a684 Chris Hyser 2021-03-24  177  	case PR_SCHED_CORE_CREATE:
-7ac592aa35a684 Chris Hyser 2021-03-24  178  		cookie =3D sched_core_alloc_c=
-ookie();
-7ac592aa35a684 Chris Hyser 2021-03-24  179  		if (!cookie) {
-7ac592aa35a684 Chris Hyser 2021-03-24  180  			err =3D -ENOMEM;
-7ac592aa35a684 Chris Hyser 2021-03-24  181  			goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  182  		}
-7ac592aa35a684 Chris Hyser 2021-03-24  183  		break;
-7ac592aa35a684 Chris Hyser 2021-03-24  184  =
 
-7ac592aa35a684 Chris Hyser 2021-03-24  185  	case PR_SCHED_CORE_SHARE_TO:
-7ac592aa35a684 Chris Hyser 2021-03-24  186  		cookie =3D sched_core_clone_c=
-ookie(current);
-7ac592aa35a684 Chris Hyser 2021-03-24  187  		break;
-7ac592aa35a684 Chris Hyser 2021-03-24  188  =
+:::::: The code at line 809 was first introduced by commit
+:::::: 8cf037a8b22f71c6659bd0246bfaba9e79766f64 ext2: perform dax_device lo=
+okup at mount
 
-7ac592aa35a684 Chris Hyser 2021-03-24  189  	case PR_SCHED_CORE_SHARE_FROM:
-7ac592aa35a684 Chris Hyser 2021-03-24  190  		if (type !=3D PIDTYPE_PID) {
-7ac592aa35a684 Chris Hyser 2021-03-24  191  			err =3D -EINVAL;
-7ac592aa35a684 Chris Hyser 2021-03-24  192  			goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  193  		}
-7ac592aa35a684 Chris Hyser 2021-03-24  194  		cookie =3D sched_core_clone_c=
-ookie(task);
-7ac592aa35a684 Chris Hyser 2021-03-24  195  		__sched_core_set(current, coo=
-kie);
-7ac592aa35a684 Chris Hyser 2021-03-24  196  		goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  197  =
-
-7ac592aa35a684 Chris Hyser 2021-03-24  198  	default:
-7ac592aa35a684 Chris Hyser 2021-03-24  199  		err =3D -EINVAL;
-7ac592aa35a684 Chris Hyser 2021-03-24  200  		goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  201  	};
-7ac592aa35a684 Chris Hyser 2021-03-24  202  =
-
-7ac592aa35a684 Chris Hyser 2021-03-24  203  	if (type =3D=3D PIDTYPE_PID) {
-7ac592aa35a684 Chris Hyser 2021-03-24  204  		__sched_core_set(task, cookie=
-);
-7ac592aa35a684 Chris Hyser 2021-03-24  205  		goto out;
-7ac592aa35a684 Chris Hyser 2021-03-24  206  	}
-7ac592aa35a684 Chris Hyser 2021-03-24  207  =
-
-7ac592aa35a684 Chris Hyser 2021-03-24  208  	read_lock(&tasklist_lock);
-7ac592aa35a684 Chris Hyser 2021-03-24  209  	grp =3D task_pid_type(task, ty=
-pe);
-7ac592aa35a684 Chris Hyser 2021-03-24  210  =
-
-7ac592aa35a684 Chris Hyser 2021-03-24  211  	do_each_pid_thread(grp, type, =
-p) {
-7ac592aa35a684 Chris Hyser 2021-03-24  212  		if (!ptrace_may_access(p, PTR=
-ACE_MODE_READ_REALCREDS)) {
-7ac592aa35a684 Chris Hyser 2021-03-24  213  			err =3D -EPERM;
-7ac592aa35a684 Chris Hyser 2021-03-24  214  			goto out_tasklist;
-7ac592aa35a684 Chris Hyser 2021-03-24  215  		}
-7ac592aa35a684 Chris Hyser 2021-03-24  216  	} while_each_pid_thread(grp, t=
-ype, p);
-7ac592aa35a684 Chris Hyser 2021-03-24  217  =
-
-7ac592aa35a684 Chris Hyser 2021-03-24  218  	do_each_pid_thread(grp, type, =
-p) {
-7ac592aa35a684 Chris Hyser 2021-03-24  219  		__sched_core_set(p, cookie);
-7ac592aa35a684 Chris Hyser 2021-03-24  220  	} while_each_pid_thread(grp, t=
-ype, p);
-7ac592aa35a684 Chris Hyser 2021-03-24  221  out_tasklist:
-7ac592aa35a684 Chris Hyser 2021-03-24  222  	read_unlock(&tasklist_lock);
-7ac592aa35a684 Chris Hyser 2021-03-24  223  =
-
-7ac592aa35a684 Chris Hyser 2021-03-24  224  out:
-7ac592aa35a684 Chris Hyser 2021-03-24  225  	sched_core_put_cookie(cookie);
-7ac592aa35a684 Chris Hyser 2021-03-24  226  	put_task_struct(task);
-7ac592aa35a684 Chris Hyser 2021-03-24  227  	return err;
-7ac592aa35a684 Chris Hyser 2021-03-24  228  }
-7ac592aa35a684 Chris Hyser 2021-03-24  229  =
-
+:::::: TO: Dan Williams <dan.j.williams@intel.com>
+:::::: CC: Dan Williams <dan.j.williams@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7507221735854084564==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============8881291400599549689==--
 
