@@ -1,195 +1,128 @@
-Content-Type: multipart/mixed; boundary="===============7931836799997364714=="
+Content-Type: multipart/mixed; boundary="===============0477895956542265016=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [kvalo-ath:pending 52/56] drivers/net/wireless/ath/ath11k/wmi.c:5651 ath11k_wmi_tlv_fw_stats_data_parse() error: uninitialized symbol 'len'.
-Date: Sat, 11 Dec 2021 04:16:15 +0800
-Message-ID: <202112110427.o6xDAKfE-lkp@intel.com>
+Subject: drivers/net/dsa/ocelot/felix.c:1329 felix_check_xtr_pkt() error: uninitialized symbol 'err'.
+Date: Sat, 11 Dec 2021 03:45:42 +0800
+Message-ID: <202112110349.5CNAwmu6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7931836799997364714==
+--===============0477895956542265016==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Kalle Valo <kvalo@codeaurora.org>
-CC: ath10k(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Wen Gong <quic_wgong@quicinc.com>
-CC: Kalle Valo <quic_kvalo@quicinc.com>
+TO: Vladimir Oltean <vladimir.oltean@nxp.com>
+CC: Florian Fainelli <f.fainelli@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/kvalo/ath.git pendi=
-ng
-head:   34cbb4043dca455fca888e1ced323e588912b6a2
-commit: bc5c448b70ff141f8a2b5cbbab79fba08d7a1be0 [52/56] ath11k: report rss=
-i of each chain to mac80211 for QCA6390/WCN6855
-:::::: branch date: 26 hours ago
-:::::: commit date: 33 hours ago
-config: riscv-randconfig-m031-20211210 (https://download.01.org/0day-ci/arc=
-hive/20211211/202112110427.o6xDAKfE-lkp(a)intel.com/config)
-compiler: riscv64-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
+commit: 0a6f17c6ae2116809a7b7eb6dd3eab59ef5460ef net: dsa: tag_ocelot_8021q=
+: add support for PTP timestamping
+date:   10 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-m001-20211210 (https://download.01.org/0day-ci/ar=
+chive/20211211/202112110349.5CNAwmu6-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/wireless/ath/ath11k/wmi.c:5651 ath11k_wmi_tlv_fw_stats_data_par=
-se() error: uninitialized symbol 'len'.
+smatch warnings:
+drivers/net/dsa/ocelot/felix.c:1329 felix_check_xtr_pkt() error: uninitiali=
+zed symbol 'err'.
 
-Old smatch warnings:
-arch/riscv/include/asm/atomic.h:317 arch_atomic_sub_if_positive() warn: inc=
-onsistent indenting
-drivers/net/wireless/ath/ath11k/wmi.c:5674 ath11k_wmi_tlv_fw_stats_data_par=
-se() error: uninitialized symbol 'len'.
-drivers/net/wireless/ath/ath11k/wmi.c:5695 ath11k_wmi_tlv_fw_stats_data_par=
-se() error: uninitialized symbol 'len'.
-drivers/net/wireless/ath/ath11k/wmi.c:6608 ath11k_mgmt_rx_event() warn: 'rx=
-_ev.snr + -95' 4294967201 can't fit into 127 'status->signal'
+vim +/err +1329 drivers/net/dsa/ocelot/felix.c
 
-vim +/len +5651 drivers/net/wireless/ath/ath11k/wmi.c
+c0bcf537667cf8 Yangbo Lu       2019-11-20  1285  =
 
-bc5c448b70ff14 Wen Gong   2021-12-08  5628  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1286  static bool felix_check_xt=
+r_pkt(struct ocelot *ocelot, unsigned int ptp_type)
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1287  {
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1288  	struct felix *felix =3D o=
+celot_to_felix(ocelot);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1289  	int err, grp =3D 0;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1290  =
 
-bc5c448b70ff14 Wen Gong   2021-12-08  5629  static int ath11k_wmi_tlv_fw_st=
-ats_data_parse(struct ath11k_base *ab,
-bc5c448b70ff14 Wen Gong   2021-12-08  5630  					      struct wmi_tlv_fw_st=
-ats_parse *parse,
-bc5c448b70ff14 Wen Gong   2021-12-08  5631  					      const void *ptr)
-bc5c448b70ff14 Wen Gong   2021-12-08  5632  {
-bc5c448b70ff14 Wen Gong   2021-12-08  5633  	struct ath11k_fw_stats *stats =
-=3D parse->stats;
-bc5c448b70ff14 Wen Gong   2021-12-08  5634  	const struct wmi_stats_event *=
-ev =3D parse->ev;
-bc5c448b70ff14 Wen Gong   2021-12-08  5635  	int i;
-bc5c448b70ff14 Wen Gong   2021-12-08  5636  	const void *data =3D ptr;
-bc5c448b70ff14 Wen Gong   2021-12-08  5637  	u32 len;
-bc5c448b70ff14 Wen Gong   2021-12-08  5638  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1291  	if (felix->tag_proto !=3D=
+ DSA_TAG_PROTO_OCELOT_8021Q)
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1292  		return false;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1293  =
 
-bc5c448b70ff14 Wen Gong   2021-12-08  5639  	if (!ev) {
-bc5c448b70ff14 Wen Gong   2021-12-08  5640  		ath11k_warn(ab, "failed to fe=
-tch update stats ev");
-bc5c448b70ff14 Wen Gong   2021-12-08  5641  		return -EPROTO;
-bc5c448b70ff14 Wen Gong   2021-12-08  5642  	}
-d5c65159f28953 Kalle Valo 2019-11-23  5643  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1294  	if (!felix->info->quirk_n=
+o_xtr_irq)
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1295  		return false;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1296  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5644  	stats->stats_id =3D 0;
-d5c65159f28953 Kalle Valo 2019-11-23  5645  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1297  	if (ptp_type =3D=3D PTP_C=
+LASS_NONE)
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1298  		return false;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1299  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5646  	for (i =3D 0; i < ev->num_pdev=
-_stats; i++) {
-d5c65159f28953 Kalle Valo 2019-11-23  5647  		const struct wmi_pdev_stats *=
-src;
-d5c65159f28953 Kalle Valo 2019-11-23  5648  		struct ath11k_fw_stats_pdev *=
-dst;
-d5c65159f28953 Kalle Valo 2019-11-23  5649  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1300  	while (ocelot_read(ocelot=
+, QS_XTR_DATA_PRESENT) & BIT(grp)) {
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1301  		struct sk_buff *skb;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1302  		unsigned int type;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1303  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5650  		src =3D data;
-bc5c448b70ff14 Wen Gong   2021-12-08 @5651  		if (len < sizeof(*src))
-d5c65159f28953 Kalle Valo 2019-11-23  5652  			return -EPROTO;
-d5c65159f28953 Kalle Valo 2019-11-23  5653  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1304  		err =3D ocelot_xtr_poll_=
+frame(ocelot, grp, &skb);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1305  		if (err)
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1306  			goto out;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1307  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5654  		stats->stats_id =3D WMI_REQUE=
-ST_PDEV_STAT;
-d5c65159f28953 Kalle Valo 2019-11-23  5655  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1308  		/* We trap to the CPU po=
+rt module all PTP frames, but
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1309  		 * felix_rxtstamp() only=
+ gets called for event frames.
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1310  		 * So we need to avoid s=
+ending duplicate general
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1311  		 * message frames by run=
+ning a second BPF classifier
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1312  		 * here and dropping tho=
+se.
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1313  		 */
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1314  		__skb_push(skb, ETH_HLEN=
+);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1315  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5656  		data +=3D sizeof(*src);
-d5c65159f28953 Kalle Valo 2019-11-23  5657  		len -=3D sizeof(*src);
-d5c65159f28953 Kalle Valo 2019-11-23  5658  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1316  		type =3D ptp_classify_ra=
+w(skb);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1317  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5659  		dst =3D kzalloc(sizeof(*dst),=
- GFP_ATOMIC);
-d5c65159f28953 Kalle Valo 2019-11-23  5660  		if (!dst)
-d5c65159f28953 Kalle Valo 2019-11-23  5661  			continue;
-d5c65159f28953 Kalle Valo 2019-11-23  5662  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1318  		__skb_pull(skb, ETH_HLEN=
+);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1319  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5663  		ath11k_wmi_pull_pdev_stats_ba=
-se(&src->base, dst);
-d5c65159f28953 Kalle Valo 2019-11-23  5664  		ath11k_wmi_pull_pdev_stats_tx=
-(&src->tx, dst);
-d5c65159f28953 Kalle Valo 2019-11-23  5665  		ath11k_wmi_pull_pdev_stats_rx=
-(&src->rx, dst);
-d5c65159f28953 Kalle Valo 2019-11-23  5666  		list_add_tail(&dst->list, &st=
-ats->pdevs);
-d5c65159f28953 Kalle Valo 2019-11-23  5667  	}
-d5c65159f28953 Kalle Valo 2019-11-23  5668  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1320  		if (type =3D=3D PTP_CLAS=
+S_NONE) {
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1321  			kfree_skb(skb);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1322  			continue;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1323  		}
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1324  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5669  	for (i =3D 0; i < ev->num_vdev=
-_stats; i++) {
-d5c65159f28953 Kalle Valo 2019-11-23  5670  		const struct wmi_vdev_stats *=
-src;
-d5c65159f28953 Kalle Valo 2019-11-23  5671  		struct ath11k_fw_stats_vdev *=
-dst;
-d5c65159f28953 Kalle Valo 2019-11-23  5672  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1325  		netif_rx(skb);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1326  	}
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1327  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5673  		src =3D data;
-bc5c448b70ff14 Wen Gong   2021-12-08  5674  		if (len < sizeof(*src))
-d5c65159f28953 Kalle Valo 2019-11-23  5675  			return -EPROTO;
-d5c65159f28953 Kalle Valo 2019-11-23  5676  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1328  out:
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14 @1329  	if (err < 0)
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1330  		ocelot_drain_cpu_queue(o=
+celot, 0);
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1331  =
 
-d5c65159f28953 Kalle Valo 2019-11-23  5677  		stats->stats_id =3D WMI_REQUE=
-ST_VDEV_STAT;
-d5c65159f28953 Kalle Valo 2019-11-23  5678  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5679  		data +=3D sizeof(*src);
-d5c65159f28953 Kalle Valo 2019-11-23  5680  		len -=3D sizeof(*src);
-d5c65159f28953 Kalle Valo 2019-11-23  5681  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5682  		dst =3D kzalloc(sizeof(*dst),=
- GFP_ATOMIC);
-d5c65159f28953 Kalle Valo 2019-11-23  5683  		if (!dst)
-d5c65159f28953 Kalle Valo 2019-11-23  5684  			continue;
-d5c65159f28953 Kalle Valo 2019-11-23  5685  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5686  		ath11k_wmi_pull_vdev_stats(sr=
-c, dst);
-d5c65159f28953 Kalle Valo 2019-11-23  5687  		list_add_tail(&dst->list, &st=
-ats->vdevs);
-d5c65159f28953 Kalle Valo 2019-11-23  5688  	}
-d5c65159f28953 Kalle Valo 2019-11-23  5689  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5690  	for (i =3D 0; i < ev->num_bcn_=
-stats; i++) {
-d5c65159f28953 Kalle Valo 2019-11-23  5691  		const struct wmi_bcn_stats *s=
-rc;
-d5c65159f28953 Kalle Valo 2019-11-23  5692  		struct ath11k_fw_stats_bcn *d=
-st;
-d5c65159f28953 Kalle Valo 2019-11-23  5693  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5694  		src =3D data;
-bc5c448b70ff14 Wen Gong   2021-12-08  5695  		if (len < sizeof(*src))
-d5c65159f28953 Kalle Valo 2019-11-23  5696  			return -EPROTO;
-d5c65159f28953 Kalle Valo 2019-11-23  5697  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5698  		stats->stats_id =3D WMI_REQUE=
-ST_BCN_STAT;
-d5c65159f28953 Kalle Valo 2019-11-23  5699  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5700  		data +=3D sizeof(*src);
-d5c65159f28953 Kalle Valo 2019-11-23  5701  		len -=3D sizeof(*src);
-d5c65159f28953 Kalle Valo 2019-11-23  5702  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5703  		dst =3D kzalloc(sizeof(*dst),=
- GFP_ATOMIC);
-d5c65159f28953 Kalle Valo 2019-11-23  5704  		if (!dst)
-d5c65159f28953 Kalle Valo 2019-11-23  5705  			continue;
-d5c65159f28953 Kalle Valo 2019-11-23  5706  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5707  		ath11k_wmi_pull_bcn_stats(src=
-, dst);
-d5c65159f28953 Kalle Valo 2019-11-23  5708  		list_add_tail(&dst->list, &st=
-ats->bcn);
-d5c65159f28953 Kalle Valo 2019-11-23  5709  	}
-d5c65159f28953 Kalle Valo 2019-11-23  5710  =
-
-d5c65159f28953 Kalle Valo 2019-11-23  5711  	return 0;
-d5c65159f28953 Kalle Valo 2019-11-23  5712  }
-d5c65159f28953 Kalle Valo 2019-11-23  5713  =
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1332  	return true;
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1333  }
+0a6f17c6ae2116 Vladimir Oltean 2021-02-14  1334  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7931836799997364714==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============0477895956542265016==--
 
