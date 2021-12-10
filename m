@@ -1,81 +1,235 @@
-Content-Type: multipart/mixed; boundary="===============3842922313262040949=="
+Content-Type: multipart/mixed; boundary="===============3530740203720284458=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [tytso-ext4:dev 6/13] fs/ext4/super.c:2658:21-39: ERROR: reference preceded by free on line 2657
-Date: Sat, 11 Dec 2021 00:20:44 +0800
-Message-ID: <202112110042.aftjriSY-lkp@intel.com>
+Subject: sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: potentially dereferencing uninitialized 'sg'.
+Date: Fri, 10 Dec 2021 23:09:24 +0800
+Message-ID: <202112102341.sytgEhFj-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3842922313262040949==
+--===============3530740203720284458==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-ext4(a)vger.kernel.org
-TO: Lukas Czerner <lczerner@redhat.com>
-CC: "Theodore Ts'o" <tytso@mit.edu>
-CC: Carlos Maiolino <cmaiolino@redhat.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+CC: Mark Brown <broonie@kernel.org>
+CC: "Pierre-Louis Bossart" <pierre-louis.bossart@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/tytso/ext4.git dev
-head:   ba2e524d918ab72c0e5edc02354bd6cb43d005f8
-commit: e6e268cb682290da29e3c8408493a4474307b8cc [6/13] ext4: move quota co=
-nfiguration out of handle_mount_opt()
-:::::: branch date: 21 hours ago
-:::::: commit date: 21 hours ago
-config: powerpc-randconfig-c024-20211210 (https://download.01.org/0day-ci/a=
-rchive/20211211/202112110042.aftjriSY-lkp(a)intel.com/config)
-compiler: powerpc-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
+commit: 36ad9bf1d93d66b901342eab9f8ed6c1537655a6 ASoC: qdsp6: audioreach: a=
+dd topology support
+date:   6 weeks ago
+:::::: branch date: 18 hours ago
+:::::: commit date: 6 weeks ago
+config: riscv-randconfig-m031-20211210 (https://download.01.org/0day-ci/arc=
+hive/20211210/202112102341.sytgEhFj-lkp(a)intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:355 audioreach_parse_sg_tokens() error: uni=
+nitialized symbol 'sg'.
+sound/soc/qcom/qdsp6/topology.c:382 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:402 audioreach_parse_cont_tokens() error: u=
+ninitialized symbol 'cont'.
 
-cocci warnings: (new ones prefixed by >>)
->> fs/ext4/super.c:2658:21-39: ERROR: reference preceded by free on line 26=
-57
+Old smatch warnings:
+sound/soc/qcom/qdsp6/topology.c:339 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:342 audioreach_parse_sg_tokens() error: pot=
+entially dereferencing uninitialized 'sg'.
+sound/soc/qcom/qdsp6/topology.c:357 audioreach_parse_sg_tokens() error: uni=
+nitialized symbol 'sg'.
+sound/soc/qcom/qdsp6/topology.c:385 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:388 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
+sound/soc/qcom/qdsp6/topology.c:391 audioreach_parse_cont_tokens() error: p=
+otentially dereferencing uninitialized 'cont'.
 
-vim +2658 fs/ext4/super.c
+vim +/sg +336 sound/soc/qcom/qdsp6/topology.c
 
-4c94bff967d90e Lukas Czerner 2021-10-27  2642  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  302  =
 
-e6e268cb682290 Lukas Czerner 2021-10-27  2643  static void ext4_apply_quota=
-_options(struct fs_context *fc,
-e6e268cb682290 Lukas Czerner 2021-10-27  2644  				     struct super_block =
-*sb)
-e6e268cb682290 Lukas Czerner 2021-10-27  2645  {
-e6e268cb682290 Lukas Czerner 2021-10-27  2646  #ifdef CONFIG_QUOTA
-e6e268cb682290 Lukas Czerner 2021-10-27  2647  	struct ext4_fs_context *ctx=
- =3D fc->fs_private;
-e6e268cb682290 Lukas Czerner 2021-10-27  2648  	struct ext4_sb_info *sbi =
-=3D EXT4_SB(sb);
-e6e268cb682290 Lukas Czerner 2021-10-27  2649  	char *qname;
-e6e268cb682290 Lukas Czerner 2021-10-27  2650  	int i;
-e6e268cb682290 Lukas Czerner 2021-10-27  2651  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  303  static struct audioreac=
+h_sub_graph *audioreach_parse_sg_tokens(struct q6apm *apm,
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  304  						       struct snd=
+_soc_tplg_private *private)
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  305  {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  306  	struct snd_soc_tplg_ve=
+ndor_value_elem *sg_elem;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  307  	struct snd_soc_tplg_ve=
+ndor_array *sg_array;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  308  	struct audioreach_grap=
+h_info *info =3D NULL;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  309  	int graph_id, sub_grap=
+h_id, tkn_count =3D 0;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  310  	struct audioreach_sub_=
+graph *sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  311  	bool found;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  312  =
 
-e6e268cb682290 Lukas Czerner 2021-10-27  2652  	for (i =3D 0; i < EXT4_MAXQ=
-UOTAS; i++) {
-e6e268cb682290 Lukas Czerner 2021-10-27  2653  		if (!(ctx->qname_spec & (1=
- << i)))
-e6e268cb682290 Lukas Czerner 2021-10-27  2654  			continue;
-e6e268cb682290 Lukas Czerner 2021-10-27  2655  		qname =3D ctx->s_qf_names[=
-i]; /* May be NULL */
-e6e268cb682290 Lukas Czerner 2021-10-27  2656  		ctx->s_qf_names[i] =3D NUL=
-L;
-e6e268cb682290 Lukas Czerner 2021-10-27 @2657  		kfree(sbi->s_qf_names[i]);
-e6e268cb682290 Lukas Czerner 2021-10-27 @2658  		rcu_assign_pointer(sbi->s_=
-qf_names[i], qname);
-e6e268cb682290 Lukas Czerner 2021-10-27  2659  		set_opt(sb, QUOTA);
-e6e268cb682290 Lukas Czerner 2021-10-27  2660  	}
-e6e268cb682290 Lukas Czerner 2021-10-27  2661  #endif
-e6e268cb682290 Lukas Czerner 2021-10-27  2662  }
-e6e268cb682290 Lukas Czerner 2021-10-27  2663  =
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  313  	sg_array =3D audioreac=
+h_get_sg_array(private);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  314  	sg_elem =3D sg_array->=
+value;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  315  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  316  	while (tkn_count <=3D =
+(le32_to_cpu(sg_array->num_elems) - 1)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  317  		switch (le32_to_cpu(s=
+g_elem->token)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  318  		case AR_TKN_U32_SUB_G=
+RAPH_INSTANCE_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  319  			sub_graph_id =3D le3=
+2_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  320  			sg =3D audioreach_tp=
+lg_alloc_sub_graph(apm, sub_graph_id, &found);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  321  			if (IS_ERR(sg)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  322  				return sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  323  			} else if (found) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  324  				/* Already parsed d=
+ata for this sub-graph */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  325  				return sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  326  			}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  327  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  328  		case AR_TKN_DAI_INDEX:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  329  			/* Sub graph is asso=
+ciated with predefined graph */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  330  			graph_id =3D le32_to=
+_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  331  			info =3D audioreach_=
+tplg_alloc_graph_info(apm, graph_id, &found);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  332  			if (IS_ERR(info))
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  333  				return ERR_CAST(inf=
+o);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  334  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  335  		case AR_TKN_U32_SUB_G=
+RAPH_PERF_MODE:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @336  			sg->perf_mode =3D le=
+32_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  337  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  338  		case AR_TKN_U32_SUB_G=
+RAPH_DIRECTION:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  339  			sg->direction =3D le=
+32_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  340  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  341  		case AR_TKN_U32_SUB_G=
+RAPH_SCENARIO_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  342  			sg->scenario_id =3D =
+le32_to_cpu(sg_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  343  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  344  		default:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  345  			dev_err(apm->dev, "N=
+ot a valid token %d for graph\n", sg_elem->token);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  346  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  347  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  348  		}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  349  		tkn_count++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  350  		sg_elem++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  351  	}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  352  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  353  	/* Sub graph is associ=
+ated with predefined graph */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  354  	if (info)
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @355  		audioreach_tplg_add_s=
+ub_graph(sg, info);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  356  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  357  	return sg;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  358  }
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  359  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  360  static struct audioreac=
+h_container *audioreach_parse_cont_tokens(struct q6apm *apm,
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  361  							 struct audiorea=
+ch_sub_graph *sg,
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  362  							 struct snd_soc_=
+tplg_private *private)
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  363  {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  364  	struct snd_soc_tplg_ve=
+ndor_value_elem *cont_elem;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  365  	struct snd_soc_tplg_ve=
+ndor_array *cont_array;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  366  	struct audioreach_cont=
+ainer *cont;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  367  	int container_id, tkn_=
+count =3D 0;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  368  	bool found =3D false;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  369  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  370  	cont_array =3D audiore=
+ach_get_cont_array(private);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  371  	cont_elem =3D cont_arr=
+ay->value;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  372  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  373  	while (tkn_count <=3D =
+(le32_to_cpu(cont_array->num_elems) - 1)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  374  		switch (le32_to_cpu(c=
+ont_elem->token)) {
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  375  		case AR_TKN_U32_CONTA=
+INER_INSTANCE_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  376  			container_id =3D le3=
+2_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  377  			cont =3D audioreach_=
+tplg_alloc_container(apm, sg, container_id, &found);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  378  			if (IS_ERR(cont) || =
+found)/* Error or Already parsed container data */
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  379  				return cont;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  380  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  381  		case AR_TKN_U32_CONTA=
+INER_CAPABILITY_ID:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @382  			cont->capability_id =
+=3D le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  383  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  384  		case AR_TKN_U32_CONTA=
+INER_STACK_SIZE:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  385  			cont->stack_size =3D=
+ le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  386  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  387  		case AR_TKN_U32_CONTA=
+INER_GRAPH_POS:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  388  			cont->graph_pos =3D =
+le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  389  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  390  		case AR_TKN_U32_CONTA=
+INER_PROC_DOMAIN:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  391  			cont->proc_domain =
+=3D le32_to_cpu(cont_elem->value);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  392  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  393  		default:
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  394  			dev_err(apm->dev, "N=
+ot a valid token %d for graph\n", cont_elem->token);
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  395  			break;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  396  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  397  		}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  398  		tkn_count++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  399  		cont_elem++;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  400  	}
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  401  =
+
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26 @402  	return cont;
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  403  }
+36ad9bf1d93d66 Srinivas Kandagatla 2021-10-26  404  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3842922313262040949==--
+--===============3530740203720284458==--
 
