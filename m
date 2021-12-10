@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3530740203720284458=="
+Content-Type: multipart/mixed; boundary="===============4754694900364398139=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: sound/soc/qcom/qdsp6/topology.c:336 audioreach_parse_sg_tokens() error: potentially dereferencing uninitialized 'sg'.
-Date: Fri, 10 Dec 2021 23:09:24 +0800
-Message-ID: <202112102341.sytgEhFj-lkp@intel.com>
+Date: Fri, 10 Dec 2021 22:48:38 +0800
+Message-ID: <202112102206.S7otMlhZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3530740203720284458==
+--===============4754694900364398139==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -24,10 +24,10 @@ head:   c741e49150dbb0c0aebe234389f4aa8b47958fa8
 commit: 36ad9bf1d93d66b901342eab9f8ed6c1537655a6 ASoC: qdsp6: audioreach: a=
 dd topology support
 date:   6 weeks ago
-:::::: branch date: 18 hours ago
+:::::: branch date: 17 hours ago
 :::::: commit date: 6 weeks ago
 config: riscv-randconfig-m031-20211210 (https://download.01.org/0day-ci/arc=
-hive/20211210/202112102341.sytgEhFj-lkp(a)intel.com/config)
+hive/20211210/202112102206.S7otMlhZ-lkp(a)intel.com/config)
 compiler: riscv64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -231,5 +231,5 @@ ot a valid token %d for graph\n", cont_elem->token);
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3530740203720284458==--
+--===============4754694900364398139==--
 
