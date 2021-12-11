@@ -1,128 +1,79 @@
-Content-Type: multipart/mixed; boundary="===============8954744011327363996=="
+Content-Type: multipart/mixed; boundary="===============1123407832092448503=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/arm/kernel/module-plts.c:65 get_module_plt() warn: we never enter this loop
-Date: Tue, 14 Dec 2021 23:15:31 +0800
-Message-ID: <202112142352.LfC1wryp-lkp@intel.com>
+Subject: drivers/vdpa/mlx5/core/mr.c:46 populate_mtts() warn: should '(((1))) << (mr->log_size)' be a 64 bit type?
+Date: Sun, 12 Dec 2021 01:38:28 +0800
+Message-ID: <202112120123.JO8hsqOh-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8954744011327363996==
+--===============1123407832092448503==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Alex Sverdlin <alexander.sverdlin@nokia.com>
-CC: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+TO: Eli Cohen <elic@nvidia.com>
+CC: "Michael S. Tsirkin" <mst@redhat.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   5472f14a37421d1bca3dddf33cabd3bd6dbefbbc
-commit: 79f32b221b18c15a98507b101ef4beb52444cc6f ARM: 9079/1: ftrace: Add M=
-ODULE_PLTS support
-date:   6 months ago
-:::::: branch date: 17 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-m031-20211214 (https://download.01.org/0day-ci/archi=
-ve/20211214/202112142352.LfC1wryp-lkp(a)intel.com/config)
-compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
+head:   6f513529296fd4f696afb4354c46508abe646541
+commit: 710eb8e32d04714452759f2b66884bfa7e97d495 vdpa/mlx5: Fix memory key =
+MTT population
+date:   11 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 11 months ago
+config: i386-randconfig-m031-20211211 (https://download.01.org/0day-ci/arch=
+ive/20211212/202112120123.JO8hsqOh-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-arch/arm/kernel/module-plts.c:65 get_module_plt() warn: we never enter this=
- loop
+New smatch warnings:
+drivers/vdpa/mlx5/core/mr.c:46 populate_mtts() warn: should '(((1))) << (mr=
+->log_size)' be a 64 bit type?
+drivers/vdpa/mlx5/core/mr.c:46 populate_mtts() warn: should '(((1))) << (mr=
+->log_size)' be a 64 bit type?
 
-vim +65 arch/arm/kernel/module-plts.c
+Old smatch warnings:
+drivers/vdpa/mlx5/core/mr.c:277 map_direct_mr() warn: missing error code 'e=
+rr'
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05   50  =
+vim +46 drivers/vdpa/mlx5/core/mr.c
 
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   51  u32 get_module_plt(struct mo=
-dule *mod, unsigned long loc, Elf32_Addr val)
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   52  {
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   53  	struct mod_plt_sec *pltsec =
-=3D !in_init(mod, loc) ? &mod->arch.core :
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   54  							  &mod->arch.init;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   55  	struct plt_entries *plt;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   56  	int idx;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   57  =
+94abbccdf2916c Eli Cohen 2020-08-04  33  =
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05   58  	/* cache the address, ELF h=
-eader is available only during module load */
-79f32b221b18c1 Alex Sverdlin  2021-05-05   59  	if (!pltsec->plt_ent)
-79f32b221b18c1 Alex Sverdlin  2021-05-05   60  		pltsec->plt_ent =3D (struc=
-t plt_entries *)pltsec->plt->sh_addr;
-79f32b221b18c1 Alex Sverdlin  2021-05-05   61  	plt =3D pltsec->plt_ent;
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   62  =
+94abbccdf2916c Eli Cohen 2020-08-04  34  static void populate_mtts(struct m=
+lx5_vdpa_direct_mr *mr, __be64 *mtt)
+94abbccdf2916c Eli Cohen 2020-08-04  35  {
+94abbccdf2916c Eli Cohen 2020-08-04  36  	struct scatterlist *sg;
+710eb8e32d0471 Eli Cohen 2021-01-07  37  	int nsg =3D mr->nsg;
+710eb8e32d0471 Eli Cohen 2021-01-07  38  	u64 dma_addr;
+710eb8e32d0471 Eli Cohen 2021-01-07  39  	u64 dma_len;
+710eb8e32d0471 Eli Cohen 2021-01-07  40  	int j =3D 0;
+94abbccdf2916c Eli Cohen 2020-08-04  41  	int i;
+94abbccdf2916c Eli Cohen 2020-08-04  42  =
 
-79f32b221b18c1 Alex Sverdlin  2021-05-05   63  	prealloc_fixed(pltsec, plt);
-79f32b221b18c1 Alex Sverdlin  2021-05-05   64  =
-
-79f32b221b18c1 Alex Sverdlin  2021-05-05  @65  	for (idx =3D 0; idx < ARRAY=
-_SIZE(fixed_plts); ++idx)
-79f32b221b18c1 Alex Sverdlin  2021-05-05   66  		if (plt->lit[idx] =3D=3D v=
-al)
-79f32b221b18c1 Alex Sverdlin  2021-05-05   67  			return (u32)&plt->ldr[idx=
-];
-35fa91eed817d2 Ard Biesheuvel 2016-08-16   68  =
-
-79f32b221b18c1 Alex Sverdlin  2021-05-05   69  	idx =3D 0;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   70  	/*
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   71  	 * Look for an existing ent=
-ry pointing to 'val'. Given that the
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   72  	 * relocations are sorted, =
-this will be the last entry we allocated.
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   73  	 * (if one exists).
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   74  	 */
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   75  	if (pltsec->plt_count > 0) {
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   76  		plt +=3D (pltsec->plt_coun=
-t - 1) / PLT_ENT_COUNT;
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   77  		idx =3D (pltsec->plt_count=
- - 1) % PLT_ENT_COUNT;
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   78  =
-
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   79  		if (plt->lit[idx] =3D=3D v=
-al)
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   80  			return (u32)&plt->ldr[idx=
-];
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   81  =
-
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   82  		idx =3D (idx + 1) % PLT_EN=
-T_COUNT;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   83  		if (!idx)
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   84  			plt++;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   85  	}
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   86  =
-
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   87  	pltsec->plt_count++;
-b7ede5a1f5905a Ard Biesheuvel 2017-02-22   88  	BUG_ON(pltsec->plt_count * =
-PLT_ENT_SIZE > pltsec->plt->sh_size);
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   89  =
-
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   90  	if (!idx)
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   91  		/* Populate a new set of e=
-ntries */
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   92  		*plt =3D (struct plt_entri=
-es){
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   93  			{ [0 ... PLT_ENT_COUNT - =
-1] =3D PLT_ENT_LDR, },
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   94  			{ val, }
-7d485f647c1f4a Ard Biesheuvel 2014-11-24   95  		};
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   96  	else
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   97  		plt->lit[idx] =3D val;
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   98  =
-
-66e94ba3c8ea5f Ard Biesheuvel 2016-08-18   99  	return (u32)&plt->ldr[idx];
-7d485f647c1f4a Ard Biesheuvel 2014-11-24  100  }
-7d485f647c1f4a Ard Biesheuvel 2014-11-24  101  =
+710eb8e32d0471 Eli Cohen 2021-01-07  43  	for_each_sg(mr->sg_head.sgl, sg, =
+mr->nent, i) {
+710eb8e32d0471 Eli Cohen 2021-01-07  44  		for (dma_addr =3D sg_dma_address=
+(sg), dma_len =3D sg_dma_len(sg);
+710eb8e32d0471 Eli Cohen 2021-01-07  45  		     nsg && dma_len;
+710eb8e32d0471 Eli Cohen 2021-01-07 @46  		     nsg--, dma_addr +=3D BIT(mr=
+->log_size), dma_len -=3D BIT(mr->log_size))
+710eb8e32d0471 Eli Cohen 2021-01-07  47  			mtt[j++] =3D cpu_to_be64(dma_ad=
+dr);
+710eb8e32d0471 Eli Cohen 2021-01-07  48  	}
+94abbccdf2916c Eli Cohen 2020-08-04  49  }
+94abbccdf2916c Eli Cohen 2020-08-04  50  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8954744011327363996==--
+--===============1123407832092448503==--
 
