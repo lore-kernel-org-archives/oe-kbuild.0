@@ -1,547 +1,298 @@
-Content-Type: multipart/mixed; boundary="===============3291984418291170859=="
+Content-Type: multipart/mixed; boundary="===============1993867650040390698=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/microchip/lan743x_main.c:2038:21: warning: Value stored to 'netdev' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sat, 11 Dec 2021 12:08:11 +0800
-Message-ID: <202112111224.6UzWG2P6-lkp@intel.com>
+Subject: [zanussi-trace:ftrace/cleanup-hist-func-v4 4/4] kernel/trace/trace_events_hist.c:6253 event_hist_trigger_parse() error: uninitialized symbol 'trigger_ops'.
+Date: Sat, 11 Dec 2021 11:06:54 +0800
+Message-ID: <202112111115.9jj2W3pF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3291984418291170859==
+--===============1993867650040390698==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Sven Van Asbroeck <thesven73@gmail.com>
-CC: Bryan Whitehead <Bryan.Whitehead@microchip.com>
+TO: Tom Zanussi <zanussi@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b8a98b6bf66ae35361e987333233d07241642909
-commit: a8db76d40e4d568a9e9cc9fb8d81352b5ff530ee lan743x: boost performance=
- on cpu archs w/o dma cache snooping
-date:   10 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20211126 (https://download.01.org/0day-ci/archi=
-ve/20211211/202112111224.6UzWG2P6-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 5162b5=
-58d8c0b542e752b037e72a69d5fd51eb1e)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da8db76d40e4d568a9e9cc9fb8d81352b5ff530ee
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a8db76d40e4d568a9e9cc9fb8d81352b5ff530ee
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/zanussi/linux-trace=
+.git ftrace/cleanup-hist-func-v4
+head:   c62ecf84dee35ff23b14ae3db0bb0006c35caff7
+commit: c62ecf84dee35ff23b14ae3db0bb0006c35caff7 [4/4] tracing: Have existi=
+ng event_command.parse() implementations use helpers
+:::::: branch date: 7 hours ago
+:::::: commit date: 7 hours ago
+config: i386-randconfig-m021-20211210 (https://download.01.org/0day-ci/arch=
+ive/20211211/202112111115.9jj2W3pF-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+smatch warnings:
+kernel/trace/trace_events_hist.c:6253 event_hist_trigger_parse() error: uni=
+nitialized symbol 'trigger_ops'.
+
+vim +/trigger_ops +6253 kernel/trace/trace_events_hist.c
+
+52a7f16dedff8f Tom Zanussi       2016-03-03  6149  =
+
+7784e321840752 Tom Zanussi       2021-12-09  6150  static int event_hist_tr=
+igger_parse(struct event_command *cmd_ops,
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6151  				    struct trace_eve=
+nt_file *file,
+c62ecf84dee35f Tom Zanussi       2021-11-05  6152  				    char *glob, char=
+ *cmd,
+c62ecf84dee35f Tom Zanussi       2021-11-05  6153  				    char *param_and_=
+filter)
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6154  {
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6155  	unsigned int hist_trigg=
+er_bits =3D TRACING_MAP_BITS_DEFAULT;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6156  	struct event_trigger_da=
+ta *trigger_data;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6157  	struct hist_trigger_att=
+rs *attrs;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6158  	struct event_trigger_op=
+s *trigger_ops;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6159  	struct hist_trigger_dat=
+a *hist_data;
+c62ecf84dee35f Tom Zanussi       2021-11-05  6160  	char *param, *filter, *=
+p, *start;
+4b147936fa5096 Tom Zanussi       2018-01-15  6161  	struct synth_event *se;
+4b147936fa5096 Tom Zanussi       2018-01-15  6162  	const char *se_name;
+c62ecf84dee35f Tom Zanussi       2021-11-05  6163  	int n_registered;
+c62ecf84dee35f Tom Zanussi       2021-11-05  6164  	bool remove;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6165  	int ret =3D 0;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6166  =
+
+0e2b81f7b52a1c Masami Hiramatsu  2018-11-05  6167  	lockdep_assert_held(&ev=
+ent_mutex);
+0e2b81f7b52a1c Masami Hiramatsu  2018-11-05  6168  =
+
+f404da6e1d46ce Tom Zanussi       2018-01-15  6169  	if (glob && strlen(glob=
+)) {
+f404da6e1d46ce Tom Zanussi       2018-01-15  6170  		hist_err_clear();
+c62ecf84dee35f Tom Zanussi       2021-11-05  6171  		last_cmd_set(file, par=
+am_and_filter);
+f404da6e1d46ce Tom Zanussi       2018-01-15  6172  	}
+f404da6e1d46ce Tom Zanussi       2018-01-15  6173  =
+
+c62ecf84dee35f Tom Zanussi       2021-11-05  6174  	remove =3D event_trigge=
+r_check_remove(glob);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6175  =
+
+c62ecf84dee35f Tom Zanussi       2021-11-05  6176  	if (event_trigger_empty=
+_param(param_and_filter))
+c62ecf84dee35f Tom Zanussi       2021-11-05  6177  		return -EINVAL;
+30350d65ac5676 Tom Zanussi       2018-01-15  6178  =
+
+ec5ce098754108 Tom Zanussi       2018-01-15  6179  	/*
+ec5ce098754108 Tom Zanussi       2018-01-15  6180  	 * separate the trigger=
+ from the filter (k:v [if filter])
+ec5ce098754108 Tom Zanussi       2018-01-15  6181  	 * allowing for whitesp=
+ace in the trigger
+ec5ce098754108 Tom Zanussi       2018-01-15  6182  	 */
+c62ecf84dee35f Tom Zanussi       2021-11-05  6183  	p =3D param =3D param_a=
+nd_filter;
+ec5ce098754108 Tom Zanussi       2018-01-15  6184  	do {
+ec5ce098754108 Tom Zanussi       2018-01-15  6185  		p =3D strstr(p, "if");
+ec5ce098754108 Tom Zanussi       2018-01-15  6186  		if (!p)
+ec5ce098754108 Tom Zanussi       2018-01-15  6187  			break;
+c62ecf84dee35f Tom Zanussi       2021-11-05  6188  		if (p =3D=3D param_and=
+_filter)
+ec5ce098754108 Tom Zanussi       2018-01-15  6189  			return -EINVAL;
+ec5ce098754108 Tom Zanussi       2018-01-15  6190  		if (*(p - 1) !=3D ' ' =
+&& *(p - 1) !=3D '\t') {
+ec5ce098754108 Tom Zanussi       2018-01-15  6191  			p++;
+ec5ce098754108 Tom Zanussi       2018-01-15  6192  			continue;
+ec5ce098754108 Tom Zanussi       2018-01-15  6193  		}
+c62ecf84dee35f Tom Zanussi       2021-11-05  6194  		if (p >=3D param_and_f=
+ilter + strlen(param_and_filter) - (sizeof("if") - 1) - 1)
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6195  			return -EINVAL;
+2f31ed9308cc9e Tom Zanussi       2018-12-18  6196  		if (*(p + sizeof("if")=
+ - 1) !=3D ' ' && *(p + sizeof("if") - 1) !=3D '\t') {
+ec5ce098754108 Tom Zanussi       2018-01-15  6197  			p++;
+ec5ce098754108 Tom Zanussi       2018-01-15  6198  			continue;
+ec5ce098754108 Tom Zanussi       2018-01-15  6199  		}
+ec5ce098754108 Tom Zanussi       2018-01-15  6200  		break;
+ec5ce098754108 Tom Zanussi       2018-01-15  6201  	} while (p);
+ec5ce098754108 Tom Zanussi       2018-01-15  6202  =
+
+ec5ce098754108 Tom Zanussi       2018-01-15  6203  	if (!p)
+c62ecf84dee35f Tom Zanussi       2021-11-05  6204  		filter =3D NULL;
+ec5ce098754108 Tom Zanussi       2018-01-15  6205  	else {
+ec5ce098754108 Tom Zanussi       2018-01-15  6206  		*(p - 1) =3D '\0';
+c62ecf84dee35f Tom Zanussi       2021-11-05  6207  		filter =3D strstrip(p);
+c62ecf84dee35f Tom Zanussi       2021-11-05  6208  		param =3D strstrip(par=
+am);
+ec5ce098754108 Tom Zanussi       2018-01-15  6209  	}
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6210  =
+
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6211  	/*
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6212  	 * To simplify arithmet=
+ic expression parsing, replace occurrences of
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6213  	 * '.sym-offset' modifi=
+er with '.symXoffset'
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6214  	 */
+c62ecf84dee35f Tom Zanussi       2021-11-05  6215  	start =3D strstr(param,=
+ ".sym-offset");
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6216  	while (start) {
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6217  		*(start + 4) =3D 'X';
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6218  		start =3D strstr(start=
+ + 11, ".sym-offset");
+feea69ec121f06 kernel test robot 2021-10-30  6219  	}
+c5eac6ee8bc5d3 Kalesh Singh      2021-10-25  6220  =
+
+c62ecf84dee35f Tom Zanussi       2021-11-05  6221  	attrs =3D parse_hist_tr=
+igger_attrs(file->tr, param);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6222  	if (IS_ERR(attrs))
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6223  		return PTR_ERR(attrs);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6224  =
+
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6225  	if (attrs->map_bits)
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6226  		hist_trigger_bits =3D =
+attrs->map_bits;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6227  =
+
+30350d65ac5676 Tom Zanussi       2018-01-15  6228  	hist_data =3D create_hi=
+st_data(hist_trigger_bits, attrs, file, remove);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6229  	if (IS_ERR(hist_data)) {
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6230  		destroy_hist_trigger_a=
+ttrs(attrs);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6231  		return PTR_ERR(hist_da=
+ta);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6232  	}
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6233  =
+
+c62ecf84dee35f Tom Zanussi       2021-11-05  6234  	trigger_data =3D event_=
+trigger_alloc(cmd_ops, cmd, param, hist_data);
+4b147936fa5096 Tom Zanussi       2018-01-15  6235  	if (!trigger_data) {
+4b147936fa5096 Tom Zanussi       2018-01-15  6236  		ret =3D -ENOMEM;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6237  		goto out_free;
+4b147936fa5096 Tom Zanussi       2018-01-15  6238  	}
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6239  =
+
+c62ecf84dee35f Tom Zanussi       2021-11-05  6240  	ret =3D event_trigger_s=
+et_filter(cmd_ops, file, filter, trigger_data);
+52a7f16dedff8f Tom Zanussi       2016-03-03  6241  	if (ret < 0)
+52a7f16dedff8f Tom Zanussi       2016-03-03  6242  		goto out_free;
+52a7f16dedff8f Tom Zanussi       2016-03-03  6243  =
+
+30350d65ac5676 Tom Zanussi       2018-01-15  6244  	if (remove) {
+4b147936fa5096 Tom Zanussi       2018-01-15  6245  		if (!have_hist_trigger=
+_match(trigger_data, file))
+4b147936fa5096 Tom Zanussi       2018-01-15  6246  			goto out_free;
+4b147936fa5096 Tom Zanussi       2018-01-15  6247  =
+
+067fe038e70f6e Tom Zanussi       2018-01-15  6248  		if (hist_trigger_check=
+_refs(trigger_data, file)) {
+067fe038e70f6e Tom Zanussi       2018-01-15  6249  			ret =3D -EBUSY;
+067fe038e70f6e Tom Zanussi       2018-01-15  6250  			goto out_free;
+067fe038e70f6e Tom Zanussi       2018-01-15  6251  		}
+067fe038e70f6e Tom Zanussi       2018-01-15  6252  =
+
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03 @6253  		cmd_ops->unreg(glob+1,=
+ trigger_ops, trigger_data, file);
+4b147936fa5096 Tom Zanussi       2018-01-15  6254  		se_name =3D trace_even=
+t_name(file->event_call);
+4b147936fa5096 Tom Zanussi       2018-01-15  6255  		se =3D find_synth_even=
+t(se_name);
+4b147936fa5096 Tom Zanussi       2018-01-15  6256  		if (se)
+4b147936fa5096 Tom Zanussi       2018-01-15  6257  			se->ref--;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6258  		ret =3D 0;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6259  		goto out_free;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6260  	}
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6261  =
+
+c62ecf84dee35f Tom Zanussi       2021-11-05  6262  	ret =3D event_trigger_r=
+egister(cmd_ops, file, glob, cmd, param, trigger_data, &n_registered);
+c62ecf84dee35f Tom Zanussi       2021-11-05  6263  	if (ret)
+c62ecf84dee35f Tom Zanussi       2021-11-05  6264  		goto out_free;
+c62ecf84dee35f Tom Zanussi       2021-11-05  6265  	if ((ret =3D=3D 0) && (=
+n_registered =3D=3D 0)) {
+e86ae9baacfa9e Tom Zanussi       2016-03-03  6266  		if (!(attrs->pause || =
+attrs->cont || attrs->clear))
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6267  			ret =3D -ENOENT;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6268  		goto out_free;
+c62ecf84dee35f Tom Zanussi       2021-11-05  6269  	}
+067fe038e70f6e Tom Zanussi       2018-01-15  6270  =
+
+067fe038e70f6e Tom Zanussi       2018-01-15  6271  	if (get_named_trigger_d=
+ata(trigger_data))
+067fe038e70f6e Tom Zanussi       2018-01-15  6272  		goto enable;
+067fe038e70f6e Tom Zanussi       2018-01-15  6273  =
+
+067fe038e70f6e Tom Zanussi       2018-01-15  6274  	if (has_hist_vars(hist_=
+data))
+067fe038e70f6e Tom Zanussi       2018-01-15  6275  		save_hist_vars(hist_da=
+ta);
+067fe038e70f6e Tom Zanussi       2018-01-15  6276  =
+
+7d18a10c316783 Tom Zanussi       2019-02-13  6277  	ret =3D create_actions(=
+hist_data);
+0212e2aa30e112 Tom Zanussi       2018-01-15  6278  	if (ret)
+0212e2aa30e112 Tom Zanussi       2018-01-15  6279  		goto out_unreg;
+0212e2aa30e112 Tom Zanussi       2018-01-15  6280  =
+
+067fe038e70f6e Tom Zanussi       2018-01-15  6281  	ret =3D tracing_map_ini=
+t(hist_data->map);
+067fe038e70f6e Tom Zanussi       2018-01-15  6282  	if (ret)
+067fe038e70f6e Tom Zanussi       2018-01-15  6283  		goto out_unreg;
+067fe038e70f6e Tom Zanussi       2018-01-15  6284  enable:
+067fe038e70f6e Tom Zanussi       2018-01-15  6285  	ret =3D hist_trigger_en=
+able(trigger_data, file);
+067fe038e70f6e Tom Zanussi       2018-01-15  6286  	if (ret)
+067fe038e70f6e Tom Zanussi       2018-01-15  6287  		goto out_unreg;
+067fe038e70f6e Tom Zanussi       2018-01-15  6288  =
+
+4b147936fa5096 Tom Zanussi       2018-01-15  6289  	se_name =3D trace_event=
+_name(file->event_call);
+4b147936fa5096 Tom Zanussi       2018-01-15  6290  	se =3D find_synth_event=
+(se_name);
+4b147936fa5096 Tom Zanussi       2018-01-15  6291  	if (se)
+4b147936fa5096 Tom Zanussi       2018-01-15  6292  		se->ref++;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6293  	/* Just return zero, no=
+t the number of registered triggers */
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6294  	ret =3D 0;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6295   out:
+f404da6e1d46ce Tom Zanussi       2018-01-15  6296  	if (ret =3D=3D 0)
+f404da6e1d46ce Tom Zanussi       2018-01-15  6297  		hist_err_clear();
+f404da6e1d46ce Tom Zanussi       2018-01-15  6298  =
+
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6299  	return ret;
+067fe038e70f6e Tom Zanussi       2018-01-15  6300   out_unreg:
+067fe038e70f6e Tom Zanussi       2018-01-15  6301  	cmd_ops->unreg(glob+1, =
+trigger_ops, trigger_data, file);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6302   out_free:
+c62ecf84dee35f Tom Zanussi       2021-11-05  6303  	event_trigger_reset_fil=
+ter(cmd_ops, trigger_data);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6304  =
+
+067fe038e70f6e Tom Zanussi       2018-01-15  6305  	remove_hist_vars(hist_d=
+ata);
+067fe038e70f6e Tom Zanussi       2018-01-15  6306  =
+
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6307  	kfree(trigger_data);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6308  =
+
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6309  	destroy_hist_data(hist_=
+data);
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6310  	goto out;
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6311  }
+7ef224d1d0e3a1 Tom Zanussi       2016-03-03  6312  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/gpu/drm/radeon/evergreen.c:2742:7: warning: Branch condition eva=
-luates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-                   if (save->crtc_enabled[i]) {
-                       ^
-   drivers/gpu/drm/radeon/evergreen.c:4050:6: note: Assuming 'hard' is true
-           if (hard) {
-               ^~~~
-   drivers/gpu/drm/radeon/evergreen.c:4050:2: note: Taking true branch
-           if (hard) {
-           ^
-   drivers/gpu/drm/radeon/evergreen.c:4051:3: note: Calling 'evergreen_gpu_=
-pci_config_reset'
-                   evergreen_gpu_pci_config_reset(rdev);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/evergreen.c:4015:2: note: '?' condition is true
-           udelay(50);
-           ^
-   arch/arm/include/asm/delay.h:83:3: note: expanded from macro 'udelay'
-           (__builtin_constant_p(n) ?                                      \
-            ^
-   drivers/gpu/drm/radeon/evergreen.c:4015:2: note: '?' condition is false
-           udelay(50);
-           ^
-   arch/arm/include/asm/delay.h:84:5: note: expanded from macro 'udelay'
-             ((n) > (MAX_UDELAY_MS * 1000) ? __bad_udelay() :              \
-              ^
-   drivers/gpu/drm/radeon/evergreen.c:4025:2: note: '?' condition is true
-           udelay(50);
-           ^
-   arch/arm/include/asm/delay.h:83:3: note: expanded from macro 'udelay'
-           (__builtin_constant_p(n) ?                                      \
-            ^
-   drivers/gpu/drm/radeon/evergreen.c:4025:2: note: '?' condition is false
-           udelay(50);
-           ^
-   arch/arm/include/asm/delay.h:84:5: note: expanded from macro 'udelay'
-             ((n) > (MAX_UDELAY_MS * 1000) ? __bad_udelay() :              \
-              ^
-   drivers/gpu/drm/radeon/evergreen.c:4032:2: note: Calling 'evergreen_mc_s=
-top'
-           evergreen_mc_stop(rdev, &save);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/evergreen.c:2665:21: note: Assuming field 'family=
-' is equal to CHIP_HAINAN
-           if (!ASIC_IS_NODCE(rdev)) {
-                              ^
-   drivers/gpu/drm/radeon/radeon.h:2649:31: note: expanded from macro 'ASIC=
-_IS_NODCE'
-   #define ASIC_IS_NODCE(rdev) ((rdev->family =3D=3D CHIP_HAINAN))
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/evergreen.c:2665:2: note: Taking false branch
-           if (!ASIC_IS_NODCE(rdev)) {
-           ^
-   drivers/gpu/drm/radeon/evergreen.c:2673:14: note: Assuming 'i' is >=3D f=
-ield 'num_crtc'
-           for (i =3D 0; i < rdev->num_crtc; i++) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/evergreen.c:2673:2: note: Loop condition is false=
-. Execution continues on line 2727
-           for (i =3D 0; i < rdev->num_crtc; i++) {
-           ^
-   drivers/gpu/drm/radeon/evergreen.c:2730:6: note: Assuming the condition =
-is false
-           if ((blackout & BLACKOUT_MODE_MASK) !=3D 1) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/evergreen.c:2730:2: note: Taking false branch
-           if ((blackout & BLACKOUT_MODE_MASK) !=3D 1) {
-           ^
-   drivers/gpu/drm/radeon/evergreen.c:2738:2: note: '?' condition is true
-           udelay(100);
-           ^
-   arch/arm/include/asm/delay.h:83:3: note: expanded from macro 'udelay'
-           (__builtin_constant_p(n) ?                                      \
-            ^
-   drivers/gpu/drm/radeon/evergreen.c:2738:2: note: '?' condition is false
-           udelay(100);
-           ^
-   arch/arm/include/asm/delay.h:84:5: note: expanded from macro 'udelay'
-             ((n) > (MAX_UDELAY_MS * 1000) ? __bad_udelay() :              \
-              ^
-   drivers/gpu/drm/radeon/evergreen.c:2741:7: note: The value 0 is assigned=
- to 'i'
-           for (i =3D 0; i < rdev->num_crtc; i++) {
-                ^~~~~
-   drivers/gpu/drm/radeon/evergreen.c:2741:14: note: Assuming 'i' is < fiel=
-d 'num_crtc'
-           for (i =3D 0; i < rdev->num_crtc; i++) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/evergreen.c:2741:2: note: Loop condition is true.=
-  Entering loop body
-           for (i =3D 0; i < rdev->num_crtc; i++) {
-           ^
-   drivers/gpu/drm/radeon/evergreen.c:2742:7: note: Branch condition evalua=
-tes to a garbage value
-                   if (save->crtc_enabled[i]) {
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/evergreen.c:3978:3: warning: Value stored to 'tmp=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   tmp =3D RREG32(GRBM_SOFT_RESET);
-                   ^
-   drivers/gpu/drm/radeon/evergreen.c:3978:3: note: Value stored to 'tmp' i=
-s never read
-   drivers/gpu/drm/radeon/evergreen.c:3992:3: warning: Value stored to 'tmp=
-' is never read [clang-analyzer-deadcode.DeadStores]
-                   tmp =3D RREG32(SRBM_SOFT_RESET);
-                   ^
-   drivers/gpu/drm/radeon/evergreen.c:3992:3: note: Value stored to 'tmp' i=
-s never read
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> drivers/net/ethernet/microchip/lan743x_main.c:2038:21: warning: Value st=
-ored to 'netdev' during its initialization is never read [clang-analyzer-de=
-adcode.DeadStores]
-           struct net_device *netdev =3D rx->adapter->netdev;
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/microchip/lan743x_main.c:2038:21: note: Value store=
-d to 'netdev' during its initialization is never read
-           struct net_device *netdev =3D rx->adapter->netdev;
-                              ^~~~~~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/net/ethernet/microchip/lan743x_ethtool.c:733:26: warning: Value =
-stored to 'adapter' during its initialization is never read [clang-analyzer=
--deadcode.DeadStores]
-           struct lan743x_adapter *adapter =3D netdev_priv(netdev);
-                                   ^~~~~~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/microchip/lan743x_ethtool.c:733:26: note: Value sto=
-red to 'adapter' during its initialization is never read
-           struct lan743x_adapter *adapter =3D netdev_priv(netdev);
-                                   ^~~~~~~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/net/ethernet/mscc/ocelot.c:49:17: warning: The left operand of '=
-<<' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           mach |=3D mac[1] << 0;
-                          ^
-   drivers/net/ethernet/mscc/ocelot.c:1479:6: note: Assuming 'port' is not =
-equal to field 'npi'
-           if (port =3D=3D ocelot->npi)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1479:2: note: Taking false branch
-           if (port =3D=3D ocelot->npi)
-           ^
-   drivers/net/ethernet/mscc/ocelot.c:1483:6: note: Assuming 'mc' is non-nu=
-ll
-           if (!mc)
-               ^~~
-   drivers/net/ethernet/mscc/ocelot.c:1483:2: note: Taking false branch
-           if (!mc)
-           ^
-   drivers/net/ethernet/mscc/ocelot.c:1486:2: note: Calling 'ocelot_encode_=
-ports_to_mdb'
-           ocelot_encode_ports_to_mdb(addr, mc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1403:2: note: Calling 'ether_addr_cop=
-y'
-           ether_addr_copy(addr, mc->addr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1403:2: note: Returning from 'ether_a=
-ddr_copy'
-           ether_addr_copy(addr, mc->addr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1405:6: note: Assuming field 'entry_t=
-ype' is not equal to ENTRYTYPE_MACv4
-           if (mc->entry_type =3D=3D ENTRYTYPE_MACv4) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1405:2: note: Taking false branch
-           if (mc->entry_type =3D=3D ENTRYTYPE_MACv4) {
-           ^
-   drivers/net/ethernet/mscc/ocelot.c:1409:13: note: Assuming field 'entry_=
-type' is not equal to ENTRYTYPE_MACv6
-           } else if (mc->entry_type =3D=3D ENTRYTYPE_MACv6) {
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1409:9: note: Taking false branch
-           } else if (mc->entry_type =3D=3D ENTRYTYPE_MACv6) {
-                  ^
-   drivers/net/ethernet/mscc/ocelot.c:1486:2: note: Returning from 'ocelot_=
-encode_ports_to_mdb'
-           ocelot_encode_ports_to_mdb(addr, mc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1487:2: note: Calling 'ocelot_mact_fo=
-rget'
-           ocelot_mact_forget(ocelot, addr, vid);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:93:2: note: Calling 'ocelot_mact_sele=
-ct'
-           ocelot_mact_select(ocelot, mac, vid);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:49:17: note: The left operand of '<<'=
- is a garbage value
-           mach |=3D mac[1] << 0;
-                   ~~~~~~ ^
-   drivers/net/ethernet/mscc/ocelot.c:51:17: warning: The left operand of '=
-<<' is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           macl |=3D mac[3] << 16;
-                          ^
-   drivers/net/ethernet/mscc/ocelot.c:1479:6: note: Assuming 'port' is not =
-equal to field 'npi'
-           if (port =3D=3D ocelot->npi)
-               ^~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1479:2: note: Taking false branch
-           if (port =3D=3D ocelot->npi)
-           ^
-   drivers/net/ethernet/mscc/ocelot.c:1483:6: note: Assuming 'mc' is non-nu=
-ll
-           if (!mc)
-               ^~~
-   drivers/net/ethernet/mscc/ocelot.c:1483:2: note: Taking false branch
-           if (!mc)
-           ^
-   drivers/net/ethernet/mscc/ocelot.c:1486:2: note: Calling 'ocelot_encode_=
-ports_to_mdb'
-           ocelot_encode_ports_to_mdb(addr, mc);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1403:2: note: Calling 'ether_addr_cop=
-y'
-           ether_addr_copy(addr, mc->addr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1403:2: note: Returning from 'ether_a=
-ddr_copy'
-           ether_addr_copy(addr, mc->addr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1405:6: note: Assuming field 'entry_t=
-ype' is equal to ENTRYTYPE_MACv4
-           if (mc->entry_type =3D=3D ENTRYTYPE_MACv4) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/mscc/ocelot.c:1405:2: note: Taking true branch
-           if (mc->entry_type =3D=3D ENTRYTYPE_MACv4) {
-           ^
-   drivers/net/ethernet/mscc/ocelot.c:1486:2: note: Returning from 'ocelot_=
-encode_ports_to_mdb'
-           ocelot_encode_ports_to_mdb(addr, mc);
+:::::: The code at line 6253 was first introduced by commit
+:::::: 7ef224d1d0e3a1ade02d02c01ce1dcffb736d2c3 tracing: Add 'hist' event t=
+rigger command
 
-vim +/netdev +2038 drivers/net/ethernet/microchip/lan743x_main.c
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2033  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2034  static int lan743x_rx_pr=
-ocess_buffer(struct lan743x_rx *rx)
-23f0703c125be4 Bryan Whitehead   2018-03-05  2035  {
-462512824f902a Alexey Denisov    2021-01-28  2036  	int current_head_index =
-=3D le32_to_cpu(*rx->head_cpu_ptr);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2037  	struct lan743x_rx_descr=
-iptor *descriptor, *desc_ext;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15 @2038  	struct net_device *netd=
-ev =3D rx->adapter->netdev;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2039  	int result =3D RX_PROCE=
-SS_RESULT_NOTHING_TO_DO;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2040  	struct lan743x_rx_buffe=
-r_info *buffer_info;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2041  	int frame_length, buffe=
-r_length;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2042  	int extension_index =3D=
- -1;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2043  	bool is_last, is_first;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2044  	struct sk_buff *skb;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2045  =
-
-23f0703c125be4 Bryan Whitehead   2018-03-05  2046  	if (current_head_index =
-< 0 || current_head_index >=3D rx->ring_size)
-23f0703c125be4 Bryan Whitehead   2018-03-05  2047  		goto done;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2048  =
-
-23f0703c125be4 Bryan Whitehead   2018-03-05  2049  	if (rx->last_head < 0 |=
-| rx->last_head >=3D rx->ring_size)
-23f0703c125be4 Bryan Whitehead   2018-03-05  2050  		goto done;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2051  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2052  	if (rx->last_head =3D=
-=3D current_head_index)
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2053  		goto done;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2054  =
-
-23f0703c125be4 Bryan Whitehead   2018-03-05  2055  	descriptor =3D &rx->rin=
-g_cpu_ptr[rx->last_head];
-462512824f902a Alexey Denisov    2021-01-28  2056  	if (le32_to_cpu(descrip=
-tor->data0) & RX_DESC_DATA0_OWN_)
-23f0703c125be4 Bryan Whitehead   2018-03-05  2057  		goto done;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2058  	buffer_info =3D &rx->bu=
-ffer_info[rx->last_head];
-23f0703c125be4 Bryan Whitehead   2018-03-05  2059  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2060  	is_last =3D le32_to_cpu=
-(descriptor->data0) & RX_DESC_DATA0_LS_;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2061  	is_first =3D le32_to_cp=
-u(descriptor->data0) & RX_DESC_DATA0_FS_;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2062  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2063  	if (is_last && le32_to_=
-cpu(descriptor->data0) & RX_DESC_DATA0_EXT_) {
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2064  		/* extension is expect=
-ed to follow */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2065  		int index =3D lan743x_=
-rx_next_index(rx, rx->last_head);
-23f0703c125be4 Bryan Whitehead   2018-03-05  2066  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2067  		if (index =3D=3D curre=
-nt_head_index)
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2068  			/* extension not yet =
-available */
-23f0703c125be4 Bryan Whitehead   2018-03-05  2069  			goto done;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2070  		desc_ext =3D &rx->ring=
-_cpu_ptr[index];
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2071  		if (le32_to_cpu(desc_e=
-xt->data0) & RX_DESC_DATA0_OWN_)
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2072  			/* extension not yet =
-available */
-23f0703c125be4 Bryan Whitehead   2018-03-05  2073  			goto done;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2074  		if (!(le32_to_cpu(desc=
-_ext->data0) & RX_DESC_DATA0_EXT_))
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2075  			goto move_forward;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2076  		extension_index =3D in=
-dex;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2077  	}
-23f0703c125be4 Bryan Whitehead   2018-03-05  2078  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2079  	/* Only the last buffer=
- in a multi-buffer frame contains the total frame
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2080  	 * length. The chip occ=
-asionally sends more buffers than strictly
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2081  	 * required to reach th=
-e total frame length.
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2082  	 * Handle this by addin=
-g all buffers to the skb in their entirety.
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2083  	 * Once the real frame =
-length is known, trim the skb.
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2084  	 */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2085  	frame_length =3D
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2086  		RX_DESC_DATA0_FRAME_LE=
-NGTH_GET_(le32_to_cpu(descriptor->data0));
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2087  	buffer_length =3D buffe=
-r_info->buffer_length;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2088  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2089  	netdev_dbg(netdev, "%s%=
-schunk: %d/%d",
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2090  		   is_first ? "first "=
- : "      ",
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2091  		   is_last  ? "last  "=
- : "      ",
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2092  		   frame_length, buffe=
-r_length);
-23f0703c125be4 Bryan Whitehead   2018-03-05  2093  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2094  	/* save existing skb, a=
-llocate new skb and map to dma */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2095  	skb =3D buffer_info->sk=
-b;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2096  	if (lan743x_rx_init_rin=
-g_element(rx, rx->last_head)) {
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2097  		/* failed to allocate =
-next skb.
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2098  		 * Memory is very low.
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2099  		 * Drop this packet an=
-d reuse buffer.
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2100  		 */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2101  		lan743x_rx_reuse_ring_=
-element(rx, rx->last_head);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2102  		/* drop packet that wa=
-s being assembled */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2103  		dev_kfree_skb_irq(rx->=
-skb_head);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2104  		rx->skb_head =3D NULL;
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2105  		goto process_extension;
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2106  	}
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2107  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2108  	/* add buffers to skb v=
-ia skb->frag_list */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2109  	if (is_first) {
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2110  		skb_reserve(skb, RX_HE=
-AD_PADDING);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2111  		skb_put(skb, buffer_le=
-ngth - RX_HEAD_PADDING);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2112  		if (rx->skb_head)
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2113  			dev_kfree_skb_irq(rx-=
->skb_head);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2114  		rx->skb_head =3D skb;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2115  	} else if (rx->skb_head=
-) {
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2116  		skb_put(skb, buffer_le=
-ngth);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2117  		if (skb_shinfo(rx->skb=
-_head)->frag_list)
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2118  			rx->skb_tail->next =
-=3D skb;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2119  		else
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2120  			skb_shinfo(rx->skb_he=
-ad)->frag_list =3D skb;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2121  		rx->skb_tail =3D skb;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2122  		rx->skb_head->len +=3D=
- skb->len;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2123  		rx->skb_head->data_len=
- +=3D skb->len;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2124  		rx->skb_head->truesize=
- +=3D skb->truesize;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2125  	} else {
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2126  		/* packet to assemble =
-has already been dropped because one or
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2127  		 * more of its buffers=
- could not be allocated
-23f0703c125be4 Bryan Whitehead   2018-03-05  2128  		 */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2129  		netdev_dbg(netdev, "dr=
-op buffer intended for dropped packet");
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2130  		dev_kfree_skb_irq(skb);
-23f0703c125be4 Bryan Whitehead   2018-03-05  2131  	}
-23f0703c125be4 Bryan Whitehead   2018-03-05  2132  =
-
-dd9d9f5907bb47 Bryan Whitehead   2019-03-11  2133  process_extension:
-23f0703c125be4 Bryan Whitehead   2018-03-05  2134  	if (extension_index >=
-=3D 0) {
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2135  		u32 ts_sec;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2136  		u32 ts_nsec;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2137  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2138  		ts_sec =3D le32_to_cpu=
-(desc_ext->data1);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2139  		ts_nsec =3D (le32_to_c=
-pu(desc_ext->data2) &
-23f0703c125be4 Bryan Whitehead   2018-03-05  2140  			  RX_DESC_DATA2_TS_NS=
-_MASK_);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2141  		if (rx->skb_head)
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2142  			skb_hwtstamps(rx->skb=
-_head)->hwtstamp =3D
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2143  				ktime_set(ts_sec, ts=
-_nsec);
-23f0703c125be4 Bryan Whitehead   2018-03-05  2144  		lan743x_rx_reuse_ring_=
-element(rx, extension_index);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2145  		rx->last_head =3D exte=
-nsion_index;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2146  		netdev_dbg(netdev, "pr=
-ocess extension");
-23f0703c125be4 Bryan Whitehead   2018-03-05  2147  	}
-23f0703c125be4 Bryan Whitehead   2018-03-05  2148  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2149  	if (is_last && rx->skb_=
-head)
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2150  		rx->skb_head =3D lan74=
-3x_rx_trim_skb(rx->skb_head, frame_length);
-23f0703c125be4 Bryan Whitehead   2018-03-05  2151  =
-
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2152  	if (is_last && rx->skb_=
-head) {
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2153  		rx->skb_head->protocol=
- =3D eth_type_trans(rx->skb_head,
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2154  							rx->adapter->netd=
-ev);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2155  		netdev_dbg(netdev, "se=
-nding %d byte frame to OS",
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2156  			   rx->skb_head->len);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2157  		napi_gro_receive(&rx->=
-napi, rx->skb_head);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2158  		rx->skb_head =3D NULL;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2159  	}
-23f0703c125be4 Bryan Whitehead   2018-03-05  2160  =
-
-23f0703c125be4 Bryan Whitehead   2018-03-05  2161  move_forward:
-23f0703c125be4 Bryan Whitehead   2018-03-05  2162  	/* push tail and head f=
-orward */
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2163  	rx->last_tail =3D rx->l=
-ast_head;
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2164  	rx->last_head =3D lan74=
-3x_rx_next_index(rx, rx->last_head);
-a8db76d40e4d56 Sven Van Asbroeck 2021-02-15  2165  	result =3D RX_PROCESS_R=
-ESULT_BUFFER_RECEIVED;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2166  done:
-23f0703c125be4 Bryan Whitehead   2018-03-05  2167  	return result;
-23f0703c125be4 Bryan Whitehead   2018-03-05  2168  }
-23f0703c125be4 Bryan Whitehead   2018-03-05  2169  =
-
+:::::: TO: Tom Zanussi <tom.zanussi@linux.intel.com>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3291984418291170859==--
+--===============1993867650040390698==--
 
