@@ -1,367 +1,144 @@
-Content-Type: multipart/mixed; boundary="===============4992491099829042616=="
+Content-Type: multipart/mixed; boundary="===============6409252510851698396=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [leon-rdma:rdma-next 9/31] drivers/infiniband/core/umem.c:201 __ib_umem_get() warn: impossible condition '(npages > (~0)) => (0-u32max > u32max)'
-Date: Sat, 11 Dec 2021 11:06:51 +0800
-Message-ID: <202112111041.7vwajC5x-lkp@intel.com>
+Subject: drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
+Date: Sat, 11 Dec 2021 11:06:25 +0800
+Message-ID: <202112111015.e4RjMAkS-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4992491099829042616==
+--===============6409252510851698396==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jason Gunthorpe <jgg@nvidia.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Yishai Hadas <yishaih@mellanox.com>
-CC: Feras Daoud <ferasda@mellanox.com>
+TO: Michael Zaidman <michael.zaidman@gmail.com>
+CC: Jiri Kosina <jkosina@suse.cz>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git=
- rdma-next
-head:   d6fd17a192e202c7b7869c325153352a02d3db08
-commit: e3560ddc54a02190698c74f04e7da988e2e9b58e [9/31] RDMA/core: Introduc=
-e peer memory interface
-:::::: branch date: 31 hours ago
-:::::: commit date: 3 days ago
-config: microblaze-randconfig-m031-20211210 (https://download.01.org/0day-c=
-i/archive/20211211/202112111041.7vwajC5x-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9e65da135b39cabd82dc2f56b0db526b65a8d690
+commit: 6a82582d9fa438045191074856f47165334f2777 HID: ft260: add usb hid to=
+ i2c host bridge driver
+date:   9 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 9 months ago
+compiler: arc-elf-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/infiniband/core/umem.c:201 __ib_umem_get() warn: impossible conditi=
-on '(npages > (~0)) =3D> (0-u32max > u32max)'
-
-vim +201 drivers/infiniband/core/umem.c
-
-4a35339958f16d drivers/infiniband/core/umem.c       Shiraz Saleem    2019-0=
-5-06  140  =
-
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  141  /**
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  142   * __ib_umem_get - Pin and DMA map userspace memory.
-8ada2c1c0c1d75 drivers/infiniband/core/umem.c       Shachar Raindel  2014-1=
-2-11  143   *
-c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua       2020-0=
-1-15  144   * @device: IB device to connect UMEM
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  145   * @addr: userspace virtual address to start at
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  146   * @size: length of region to pin
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  147   * @access: IB_ACCESS_xxx flags for memory being pinned
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  148   * @peer_mem_flags: IB_PEER_MEM_xxx flags for memory being used
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  149   */
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  150  static struct ib_umem *__ib_umem_get(struct ib_device *device,
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  151  				    unsigned long addr, size_t size, int access,
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  152  				    unsigned long peer_mem_flags)
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  153  {
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  154  	struct ib_umem *umem;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  155  	struct page **page_list;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  156  	unsigned long lock_limit;
-c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford     2018-0=
-9-21  157  	unsigned long new_pinned;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  158  	unsigned long cur_base;
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik 2020-0=
-2-12  159  	unsigned long dma_attr =3D 0;
-d4b4dd1b9706e4 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  160  	struct mm_struct *mm;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  161  	unsigned long npages;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  162  	int pinned, ret;
-768ae309a96103 drivers/infiniband/core/umem.c       Lorenzo Stoakes  2016-1=
-0-13  163  	unsigned int gup_flags =3D FOLL_WRITE;
-cb9fbc5c37b69a drivers/infiniband/core/umem.c       Arthur Kepner    2008-0=
-4-29  164  =
-
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel  2015-0=
-3-18  165  	/*
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel  2015-0=
-3-18  166  	 * If the combination of the addr and size requested for this m=
-emory
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel  2015-0=
-3-18  167  	 * region causes an integer overflow, return error.
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel  2015-0=
-3-18  168  	 */
-66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud    2015-0=
-4-13  169  	if (((addr + size) < addr) ||
-66578b0b2f6965 drivers/infiniband/core/umem.c       Yann Droneaud    2015-0=
-4-13  170  	    PAGE_ALIGN(addr + size) < (addr + size))
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel  2015-0=
-3-18  171  		return ERR_PTR(-EINVAL);
-8494057ab5e40d drivers/infiniband/core/umem.c       Shachar Raindel  2015-0=
-3-18  172  =
-
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  173  	if (!can_do_mlock())
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  174  		return ERR_PTR(-EPERM);
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  175  =
-
-261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe  2019-0=
-8-19  176  	if (access & IB_ACCESS_ON_DEMAND)
-261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe  2019-0=
-8-19  177  		return ERR_PTR(-EOPNOTSUPP);
-261dc53f8ee037 drivers/infiniband/core/umem.c       Jason Gunthorpe  2019-0=
-8-19  178  =
-
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  179  	umem =3D kzalloc(sizeof(*umem), GFP_KERNEL);
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  180  	if (!umem)
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  181  		return ERR_PTR(-ENOMEM);
-c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua       2020-0=
-1-15  182  	umem->ibdev      =3D device;
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  183  	umem->length     =3D size;
-406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran      2014-1=
-2-11  184  	umem->address    =3D addr;
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-0=
-9-04  185  	/*
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-0=
-9-04  186  	 * Drivers should call ib_umem_find_best_pgsz() to set the iova
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-0=
-9-04  187  	 * correctly.
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-0=
-9-04  188  	 */
-a665aca89a4111 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-0=
-9-04  189  	umem->iova =3D addr;
-08bb558ac11ab9 drivers/infiniband/core/umem.c       Jack Morgenstein 2018-0=
-5-23  190  	umem->writable   =3D ib_access_writable(access);
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  191  	umem->owning_mm =3D mm =3D current->mm;
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  192  	mmgrab(mm);
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  193  =
-
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  194  	page_list =3D (struct page **) __get_free_page(GFP_KERNEL);
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  195  	if (!page_list) {
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  196  		ret =3D -ENOMEM;
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  197  		goto umem_kfree;
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  198  	}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  199  =
-
-406f9e5fa9a7a6 drivers/infiniband/core/umem.c       Haggai Eran      2014-1=
-2-11  200  	npages =3D ib_umem_num_pages(umem);
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford     2018-0=
-9-21 @201  	if (npages =3D=3D 0 || npages > UINT_MAX) {
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford     2018-0=
-9-21  202  		ret =3D -EINVAL;
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford     2018-0=
-9-21  203  		goto out;
-3312d1c6bdee6a drivers/infiniband/core/umem.c       Doug Ledford     2018-0=
-9-21  204  	}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  205  =
-
-ccbe9f0b11b137 drivers/infiniband/core/umem.c       Jiri Slaby       2010-0=
-2-11  206  	lock_limit =3D rlimit(RLIMIT_MEMLOCK) >> PAGE_SHIFT;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  207  =
-
-b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso  2019-0=
-2-06  208  	new_pinned =3D atomic64_add_return(npages, &mm->pinned_vm);
-70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso  2019-0=
-2-06  209  	if (new_pinned > lock_limit && !capable(CAP_IPC_LOCK)) {
-b95df5e3e45914 drivers/infiniband/core/umem.c       Davidlohr Bueso  2019-0=
-2-06  210  		atomic64_sub(npages, &mm->pinned_vm);
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  211  		ret =3D -ENOMEM;
-c6ce580716372d drivers/infiniband/core/umem.c       Doug Ledford     2018-0=
-9-21  212  		goto out;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  213  	}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  214  =
-
-f7c6a7b5d59980 drivers/infiniband/core/umem.c       Roland Dreier    2007-0=
-3-04  215  	cur_base =3D addr & PAGE_MASK;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  216  =
-
-768ae309a96103 drivers/infiniband/core/umem.c       Lorenzo Stoakes  2016-1=
-0-13  217  	if (!umem->writable)
-768ae309a96103 drivers/infiniband/core/umem.c       Lorenzo Stoakes  2016-1=
-0-13  218  		gup_flags |=3D FOLL_FORCE;
-768ae309a96103 drivers/infiniband/core/umem.c       Lorenzo Stoakes  2016-1=
-0-13  219  =
-
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  220  	while (npages) {
-928da37a229f34 drivers/infiniband/core/umem.c       Eric Dumazet     2020-0=
-7-29  221  		cond_resched();
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  222  		pinned =3D pin_user_pages_fast(cur_base,
-8079ffa0e18baa drivers/infiniband/core/umem.c       Roland Dreier    2008-0=
-6-06  223  					  min_t(unsigned long, npages,
-4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard     2020-0=
-1-30  224  						PAGE_SIZE /
-4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard     2020-0=
-1-30  225  						sizeof(struct page *)),
-4789fcdd140952 drivers/infiniband/core/umem.c       John Hubbard     2020-0=
-1-30  226  					  gup_flags | FOLL_LONGTERM, page_list);
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  227  		if (pinned < 0) {
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  228  			ret =3D pinned;
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  229  			goto umem_release;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  230  		}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  231  =
-
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  232  		cur_base +=3D pinned * PAGE_SIZE;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  233  		npages -=3D pinned;
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  234  		ret =3D sg_alloc_append_table_from_pages(
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  235  			&umem->sgt_append, page_list, pinned, 0,
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  236  			pinned << PAGE_SHIFT, ib_dma_max_seg_size(device),
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  237  			npages, GFP_KERNEL);
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  238  		if (ret) {
-3e302dbc6774a2 drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  239  			unpin_user_pages_dirty_lock(page_list, pinned, 0);
-0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb    2020-1=
-0-04  240  			goto umem_release;
-0c16d9635e3a51 drivers/infiniband/core/umem.c       Maor Gottlieb    2020-1=
-0-04  241  		}
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  242  	}
-d10bcf947a3ea2 drivers/infiniband/core/umem.c       Shiraz Saleem    2019-0=
-4-02  243  =
-
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik 2020-0=
-2-12  244  	if (access & IB_ACCESS_RELAXED_ORDERING)
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik 2020-0=
-2-12  245  		dma_attr |=3D DMA_ATTR_WEAK_ORDERING;
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik 2020-0=
-2-12  246  =
-
-79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  247  	ret =3D ib_dma_map_sgtable_attrs(device, &umem->sgt_append.sgt,
-f03d9fadfe13a7 drivers/infiniband/core/umem.c       Michael Guralnik 2020-0=
-2-12  248  				       DMA_BIDIRECTIONAL, dma_attr);
-79fbd3e1241cea drivers/infiniband/core/umem.c       Maor Gottlieb    2021-0=
-8-24  249  	if (ret)
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  250  		goto umem_release;
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  251  	goto out;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  252  =
-
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  253  umem_release:
-c320e527e15483 drivers/infiniband/core/umem.c       Moni Shoua       2020-0=
-1-15  254  	__ib_umem_release(device, umem, 0);
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  255  =
-
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  256  	/*
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  257  	 * If the address belongs to peer memory client, then the first
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  258  	 * call to get_user_pages will fail. In this case, try to get
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  259  	 * these pages from the peers.
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  260  	 */
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  261  	//FIXME: this placement is horrible
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  262  	if (ret < 0 && peer_mem_flags & IB_PEER_MEM_ALLOW) {
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  263  		struct ib_umem *new_umem;
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  264  =
-
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  265  		new_umem =3D ib_peer_umem_get(umem, ret, peer_mem_flags);
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  266  		if (IS_ERR(new_umem)) {
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  267  			ret =3D PTR_ERR(new_umem);
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  268  			goto vma;
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  269  		}
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  270  		umem =3D new_umem;
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  271  		ret =3D 0;
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  272  		goto out;
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  273  	}
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  274  vma:
-70f8a3ca68d3e1 drivers/infiniband/core/umem.c       Davidlohr Bueso  2019-0=
-2-06  275  	atomic64_sub(ib_umem_num_pages(umem), &mm->pinned_vm);
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  276  out:
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  277  	free_page((unsigned long) page_list);
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  278  umem_kfree:
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  279  	if (ret) {
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  280  		mmdrop(umem->owning_mm);
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  281  		kfree(umem);
-41b4deeaa123e6 drivers/infiniband/core/umem.c       Jason Gunthorpe  2018-0=
-9-16  282  	}
-1215cb7c88ec88 drivers/infiniband/core/umem.c       Leon Romanovsky  2018-0=
-7-10  283  	return ret ? ERR_PTR(ret) : umem;
-eb8ffbfed50e79 drivers/infiniband/core/uverbs_mem.c Roland Dreier    2005-0=
-7-07  284  }
-e3560ddc54a021 drivers/infiniband/core/umem.c       Jason Gunthorpe  2020-1=
-1-26  285  =
 
 
-:::::: The code at line 201 was first introduced by commit
-:::::: 3312d1c6bdee6aa912c099c0ac0662d197c52842 RDMA/umem: Minor optimizati=
-ons
+cppcheck warnings: (new ones prefixed by >>)
+>> drivers/hid/hid-prodikeys.c:107:9: warning: %u in format string (no. 2) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (min:%u, max:%u)n", pk->pm->midi_channel,
+           ^
+   drivers/hid/hid-prodikeys.c:107:9: warning: %u in format string (no. 3) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (min:%u, max:%u)n", pk->pm->midi_channel,
+           ^
+   drivers/hid/hid-prodikeys.c:144:9: warning: %u in format string (no. 2) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (off:%u, max:%u (ms))n", pk->pm->midi_sustain,
+           ^
+   drivers/hid/hid-prodikeys.c:144:9: warning: %u in format string (no. 3) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (off:%u, max:%u (ms))n", pk->pm->midi_sustain,
+           ^
 
-:::::: TO: Doug Ledford <dledford@redhat.com>
-:::::: CC: Jason Gunthorpe <jgg@mellanox.com>
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+
+>> drivers/hid/hid-prodikeys.c:107:9: warning: %u in format string (no. 2) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (min:%u, max:%u)n", pk->pm->midi_channel,
+           ^
+   drivers/hid/hid-prodikeys.c:107:9: warning: %u in format string (no. 3) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (min:%u, max:%u)n", pk->pm->midi_channel,
+           ^
+   drivers/hid/hid-prodikeys.c:144:9: warning: %u in format string (no. 2) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (off:%u, max:%u (ms))n", pk->pm->midi_sustain,
+           ^
+   drivers/hid/hid-prodikeys.c:144:9: warning: %u in format string (no. 3) =
+requires 'unsigned int' but the argument type is 'signed int'. [invalidPrin=
+tfArgType_uint]
+    return sprintf(buf, "%u (off:%u, max:%u (ms))n", pk->pm->midi_sustain,
+           ^
+>> drivers/hid/hid-ft260.c:374:0: warning: syntax error [syntaxError]
+   =
+
+   ^
+--
+>> drivers/hid/wacom_sys.c:1781:2: warning: %ld in format string (no. 1) re=
+quires 'long' but the argument type is 'unsigned long'. [invalidPrintfArgTy=
+pe_sint]
+    sprintf(battery->bat_name, "wacom_battery_%ld", n);
+    ^
+
+vim +374 drivers/hid/hid-ft260.c
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  351  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  352  static int ft260_hid_output=
+_report_check_status(struct ft260_device *dev,
+6a82582d9fa438 Michael Zaidman 2021-02-19  353  						u8 *data, int len)
+6a82582d9fa438 Michael Zaidman 2021-02-19  354  {
+6a82582d9fa438 Michael Zaidman 2021-02-19  355  	int ret, usec, try =3D 3;
+6a82582d9fa438 Michael Zaidman 2021-02-19  356  	struct hid_device *hdev =
+=3D dev->hdev;
+6a82582d9fa438 Michael Zaidman 2021-02-19  357  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  358  	ret =3D ft260_hid_output_r=
+eport(hdev, data, len);
+6a82582d9fa438 Michael Zaidman 2021-02-19  359  	if (ret < 0) {
+6a82582d9fa438 Michael Zaidman 2021-02-19  360  		hid_err(hdev, "%s: failed=
+ to start transfer, ret %d\n",
+6a82582d9fa438 Michael Zaidman 2021-02-19  361  			__func__, ret);
+6a82582d9fa438 Michael Zaidman 2021-02-19  362  		ft260_i2c_reset(hdev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  363  		return ret;
+6a82582d9fa438 Michael Zaidman 2021-02-19  364  	}
+6a82582d9fa438 Michael Zaidman 2021-02-19  365  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  366  	/* transfer time =3D 1 / c=
+lock(KHz) * 10 bits * bytes */
+6a82582d9fa438 Michael Zaidman 2021-02-19  367  	usec =3D 10000 / dev->cloc=
+k * len;
+6a82582d9fa438 Michael Zaidman 2021-02-19  368  	usleep_range(usec, usec + =
+100);
+6a82582d9fa438 Michael Zaidman 2021-02-19  369  	ft260_dbg("wait %d usec, l=
+en %d\n", usec, len);
+6a82582d9fa438 Michael Zaidman 2021-02-19  370  	do {
+6a82582d9fa438 Michael Zaidman 2021-02-19  371  		ret =3D ft260_xfer_status=
+(dev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  372  		if (ret !=3D -EAGAIN)
+6a82582d9fa438 Michael Zaidman 2021-02-19  373  			break;
+6a82582d9fa438 Michael Zaidman 2021-02-19 @374  	} while (--try);
+6a82582d9fa438 Michael Zaidman 2021-02-19  375  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  376  	if (ret =3D=3D 0 || ret =
+=3D=3D -EBUSY)
+6a82582d9fa438 Michael Zaidman 2021-02-19  377  		return 0;
+6a82582d9fa438 Michael Zaidman 2021-02-19  378  =
+
+6a82582d9fa438 Michael Zaidman 2021-02-19  379  	ft260_i2c_reset(hdev);
+6a82582d9fa438 Michael Zaidman 2021-02-19  380  	return -EIO;
+6a82582d9fa438 Michael Zaidman 2021-02-19  381  }
+6a82582d9fa438 Michael Zaidman 2021-02-19  382  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4992491099829042616==--
+--===============6409252510851698396==--
 
