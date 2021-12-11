@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8826457087565381874=="
+Content-Type: multipart/mixed; boundary="===============5137367253525786432=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 12 Dec 2021 02:17:07 +0800
-Message-ID: <20211211181707.GA50504@c5041afcb41d>
+Date: Sun, 12 Dec 2021 02:17:02 +0800
+Message-ID: <20211211181702.GA49545@c5041afcb41d>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8826457087565381874==
+--===============5137367253525786432==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,14 +16,16 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Lee Jones <lee.jones@linaro.org>
-CC: patches(a)opensource.cirrus.com
+CC: Russell King <linux@armlinux.org.uk>
+CC: David Airlie <airlied@linux.ie>
+CC: Daniel Vetter <daniel@ffwll.ch>
+CC: dri-devel(a)lists.freedesktop.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/mfd/wm8350-irq.c:527:7-27: WARNING: Threaded IRQ with no primary ha=
-ndler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/gpu/drm/i2c/tda998x_drv.c:1916:8-28: WARNING: Threaded IRQ with no =
+primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -48,21 +50,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- wm8350-irq.c |    3 ++-
+ tda998x_drv.c |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/mfd/wm8350-irq.c
-+++ b/drivers/mfd/wm8350-irq.c
-@@ -524,7 +524,8 @@ int wm8350_irq_init(struct wm8350 *wm835
- 		irq_clear_status_flags(cur_irq, IRQ_NOREQUEST | IRQ_NOPROBE);
- 	}
+--- a/drivers/gpu/drm/i2c/tda998x_drv.c
++++ b/drivers/gpu/drm/i2c/tda998x_drv.c
+@@ -1914,7 +1914,8 @@ static int tda998x_create(struct device
  =
 
--	ret =3D request_threaded_irq(irq, NULL, wm8350_irq, flags,
-+	ret =3D request_threaded_irq(irq, NULL, wm8350_irq,
-+				   flags | IRQF_ONESHOT,
- 				   "wm8350", wm8350);
- 	if (ret !=3D 0)
- 		dev_err(wm8350->dev, "Failed to request IRQ: %d\n", ret);
---===============8826457087565381874==--
+ 		irq_flags |=3D IRQF_SHARED | IRQF_ONESHOT;
+ 		ret =3D request_threaded_irq(client->irq, NULL,
+-					   tda998x_irq_thread, irq_flags,
++					   tda998x_irq_thread,
++					   irq_flags | IRQF_ONESHOT,
+ 					   "tda998x", priv);
+ 		if (ret) {
+ 			dev_err(dev, "failed to request IRQ#%u: %d\n",
+--===============5137367253525786432==--
 
