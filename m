@@ -1,33 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============1417199338126573205=="
+Content-Type: multipart/mixed; boundary="===============7647527494858073130=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/can/spi/hi311x.c:759:7-27: WARNING: Threaded IRQ with no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
-Date: Sat, 11 Dec 2021 08:21:10 +0800
-Message-ID: <202112110812.NLdl2uoU-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.10 56/90] drivers/gpu/drm/mediatek/mtk_dp.c:2939:2-9: line 2939 is redundant because platform_get_irq() already prints an error
+Date: Sat, 11 Dec 2021 08:21:07 +0800
+Message-ID: <202112110846.YaHSfBov-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1417199338126573205==
+--===============7647527494858073130==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Krzysztof Kozlowski <krzk@kernel.org>
-CC: Julia Lawall <Julia.Lawall@inria.fr>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   b8a98b6bf66ae35361e987333233d07241642909
-commit: 5d2db9bb5f8a850d037983f0df72ad59cefa9e3d coccinelle: irqf_oneshot: =
-reduce the severity due to false positives
-date:   7 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 7 months ago
-config: sparc64-randconfig-c024-20211210 (https://download.01.org/0day-ci/a=
-rchive/20211211/202112110812.NLdl2uoU-lkp(a)intel.com/config)
-compiler: sparc64-linux-gcc (GCC) 11.2.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.10
+head:   3246f4ed0d71058d829b29bccc2454d305bec8ea
+commit: 9fc1f39630d4af841f63428a2cc6cdf6834c1865 [56/90] BACKPORT: FROMLIST=
+: drm/mediatek: Add mt8195 DisplayPort driver
+:::::: branch date: 10 days ago
+:::::: commit date: 10 days ago
+config: arm64-randconfig-c004-20211210 (https://download.01.org/0day-ci/arc=
+hive/20211211/202112110846.YaHSfBov-lkp(a)intel.com/config)
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
@@ -35,13 +33,19 @@ Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
 cocci warnings: (new ones prefixed by >>)
->> drivers/net/can/spi/hi311x.c:759:7-27: WARNING: Threaded IRQ with no pri=
-mary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+>> drivers/gpu/drm/mediatek/mtk_dp.c:2939:2-9: line 2939 is redundant becau=
+se platform_get_irq() already prints an error
+--
+>> drivers/gpu/drm/mediatek/mtk_dp.c:2165:5-8: Unneeded variable: "ret". Re=
+turn "0" on line 2204
+--
+>> drivers/gpu/drm/mediatek/mtk_dp.c:1980:2-3: Unneeded semicolon
+   drivers/gpu/drm/mediatek/mtk_dp.c:2014:4-5: Unneeded semicolon
 
 Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1417199338126573205==--
+--===============7647527494858073130==--
 
