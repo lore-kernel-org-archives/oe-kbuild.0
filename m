@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2990065567867960529=="
+Content-Type: multipart/mixed; boundary="===============8858761292165416948=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 12 Dec 2021 14:05:55 +0800
-Message-ID: <20211212060555.GA3419@665f7cac6c4a>
+Date: Sun, 12 Dec 2021 14:05:45 +0800
+Message-ID: <20211212060545.GA2460@665f7cac6c4a>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2990065567867960529==
+--===============8858761292165416948==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,17 +16,16 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Liam Girdwood <lgirdwood@gmail.com>
-CC: Mark Brown <broonie@kernel.org>
-CC: Matthias Brugger <matthias.bgg@gmail.com>
+CC: Ferruh Yigit <fery@cypress.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
-CC: linux-arm-kernel(a)lists.infradead.org
-CC: linux-mediatek(a)lists.infradead.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/regulator/mt6360-regulator.c:386:8-33: WARNING: Threaded IRQ with n=
-o primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/input/touchscreen/cyttsp4_core.c:2093:6-26: WARNING: Threaded IRQ w=
+ith no primary handler requested without IRQF_ONESHOT (unless it is nested =
+IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -51,23 +50,23 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- mt6360-regulator.c |    3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ cyttsp4_core.c |    5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
---- a/drivers/regulator/mt6360-regulator.c
-+++ b/drivers/regulator/mt6360-regulator.c
-@@ -383,7 +383,8 @@ static int mt6360_regulator_irq_register
- 		if (irq < 0)
- 			return irq;
+--- a/drivers/input/touchscreen/cyttsp4_core.c
++++ b/drivers/input/touchscreen/cyttsp4_core.c
+@@ -2090,8 +2090,9 @@ struct cyttsp4 *cyttsp4_probe(const stru
+ 		/* use edge triggered interrupts */
+ 		irq_flags =3D IRQF_TRIGGER_FALLING | IRQF_ONESHOT;
  =
 
--		ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, irq_desc->handl=
-er, 0,
-+		ret =3D devm_request_threaded_irq(&pdev->dev, irq, NULL, irq_desc->handl=
-er,
-+						IRQF_ONESHOT,
- 						irq_desc->name, rdev);
- 		if (ret) {
- 			dev_err(&pdev->dev, "Fail to request %s irq\n", irq_desc->name);
---===============2990065567867960529==--
+-	rc =3D request_threaded_irq(cd->irq, NULL, cyttsp4_irq, irq_flags,
+-		dev_name(dev), cd);
++	rc =3D request_threaded_irq(cd->irq, NULL, cyttsp4_irq,
++				  irq_flags | IRQF_ONESHOT,
++				  dev_name(dev), cd);
+ 	if (rc < 0) {
+ 		dev_err(dev, "%s: Error, could not request irq\n", __func__);
+ 		goto error_request_irq;
+--===============8858761292165416948==--
 
