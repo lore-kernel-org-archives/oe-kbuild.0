@@ -1,32 +1,34 @@
-Content-Type: multipart/mixed; boundary="===============5319772546675196611=="
+Content-Type: multipart/mixed; boundary="===============8137474476692021047=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/realtek/rtw89/rtw8852a.c:1820 rtw8852a_btc_set_wl_txpwr_ctrl() error: uninitialized symbol '_cur'.
-Date: Sun, 12 Dec 2021 10:30:13 +0800
-Message-ID: <202112121053.PakchGHm-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/selftests/intel_memory_region.c:324 igt_mock_splintered_region() warn: should '1 << ((__builtin_constant_p(size)) ?((size < 2) ?0:63 - __builtin_clzll(size)):((8 <= 4)) ?__ilog2_u32(size):__ilog2_u64(size))' be a 64 bit type?
+Date: Sun, 12 Dec 2021 09:49:31 +0800
+Message-ID: <202112120912.pVksyGNq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5319772546675196611==
+--===============8137474476692021047==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Ping-Ke Shih" <pkshih@realtek.com>
-CC: Kalle Valo <kvalo@codeaurora.org>
+TO: Jakub Jelinek <jakub@redhat.com>
+CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   bbdff6d583be718935b613ab2a966cddaadf661f
-commit: e3ec7017f6a20d12ddd9fe23d345ebb7b8c104dd rtw89: add Realtek 802.11a=
-x driver
-date:   9 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 9 weeks ago
-config: i386-randconfig-m031-20211211 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112121053.PakchGHm-lkp(a)intel.com/config)
+commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
+onstant arguments
+date:   12 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211212/202112120912.pVksyGNq-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -34,69 +36,140 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 New smatch warnings:
-drivers/net/wireless/realtek/rtw89/rtw8852a.c:1820 rtw8852a_btc_set_wl_txpw=
-r_ctrl() error: uninitialized symbol '_cur'.
+drivers/gpu/drm/i915/selftests/intel_memory_region.c:324 igt_mock_splintere=
+d_region() warn: should '1 << ((__builtin_constant_p(size)) ?((size < 2) ?0=
+:63 - __builtin_clzll(size)):((8 <=3D 4)) ?__ilog2_u32(size):__ilog2_u64(si=
+ze))' be a 64 bit type?
 
 Old smatch warnings:
-drivers/net/wireless/realtek/rtw89/rtw8852a.c:1821 rtw8852a_btc_set_wl_txpw=
-r_ctrl() error: uninitialized symbol '_cur'.
+drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 119)
 
-vim +/_cur +1820 drivers/net/wireless/realtek/rtw89/rtw8852a.c
+vim +324 drivers/gpu/drm/i915/selftests/intel_memory_region.c
 
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1794  =
+2f0b97ca021186 Matthew Auld 2019-10-08  263  =
 
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1795  static void
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1796  rtw8852a_btc_set_wl_txpwr_ctr=
-l(struct rtw89_dev *rtwdev, u32 txpwr_val)
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1797  {
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1798  	const u32 __btc_cr_all_time =
-=3D R_AX_PWR_RATE_CTRL;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1799  	const u32 __btc_cr_gnt_bt =
-=3D R_AX_PWR_COEXT_CTRL;
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1800  =
+09a729b178be1c Matthew Auld 2020-10-21  264  static int igt_mock_splintered=
+_region(void *arg)
+09a729b178be1c Matthew Auld 2020-10-21  265  {
+09a729b178be1c Matthew Auld 2020-10-21  266  	struct intel_memory_region *m=
+em =3D arg;
+09a729b178be1c Matthew Auld 2020-10-21  267  	struct drm_i915_private *i915=
+ =3D mem->i915;
+09a729b178be1c Matthew Auld 2020-10-21  268  	struct drm_i915_gem_object *o=
+bj;
+09a729b178be1c Matthew Auld 2020-10-21  269  	unsigned int expected_order;
+09a729b178be1c Matthew Auld 2020-10-21  270  	LIST_HEAD(objects);
+09a729b178be1c Matthew Auld 2020-10-21  271  	u64 size;
+09a729b178be1c Matthew Auld 2020-10-21  272  	int err =3D 0;
+09a729b178be1c Matthew Auld 2020-10-21  273  =
 
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1801  #define __do_clr(_chk) ((_chk=
-) =3D=3D GENMASK(15, 0))
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1802  #define __handle(_case)						=
-	\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1803  	do {								\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1804  		const u32 _reg =3D __btc_cr=
-_ ## _case;			\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1805  		u32 _val =3D __btc_ctrl_val=
-_ ## _case(txpwr_val);		\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1806  		u32 _cur, _wrt;						\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1807  		rtw89_debug(rtwdev, RTW89_D=
-BG_TXPWR,			\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1808  			    "btc ctrl %s: 0x%x\n",=
- #_case, _val);	\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1809  		rtw89_mac_txpwr_read32(rtwd=
-ev, RTW89_PHY_0, _reg, &_cur);\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1810  		rtw89_debug(rtwdev, RTW89_D=
-BG_TXPWR,			\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1811  			    "btc ctrl ori 0x%x: 0x=
-%x\n", _reg, _cur);	\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1812  		_wrt =3D __do_clr(_val) ?		=
-			\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1813  			__btc_ctrl_rst_ ## _case(_=
-cur) :		\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1814  			__btc_ctrl_gen_ ## _case(_=
-cur, _val);		\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1815  		rtw89_mac_txpwr_write32(rtw=
-dev, RTW89_PHY_0, _reg, _wrt);\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1816  		rtw89_debug(rtwdev, RTW89_D=
-BG_TXPWR,			\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1817  			    "btc ctrl set 0x%x: 0x=
-%x\n", _reg, _wrt);	\
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1818  	} while (0)
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1819  =
+09a729b178be1c Matthew Auld 2020-10-21  274  	/*
+09a729b178be1c Matthew Auld 2020-10-21  275  	 * Sanity check we can still =
+allocate everything even if the
+09a729b178be1c Matthew Auld 2020-10-21  276  	 * mm.max_order !=3D mm.size.=
+ i.e our starting address space size is not a
+09a729b178be1c Matthew Auld 2020-10-21  277  	 * power-of-two.
+09a729b178be1c Matthew Auld 2020-10-21  278  	 */
+09a729b178be1c Matthew Auld 2020-10-21  279  =
 
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11 @1820  	__handle(all_time);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1821  	__handle(gnt_bt);
-e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1822  =
+09a729b178be1c Matthew Auld 2020-10-21  280  	size =3D (SZ_4G - 1) & PAGE_M=
+ASK;
+09a729b178be1c Matthew Auld 2020-10-21  281  	mem =3D mock_region_create(i9=
+15, 0, size, PAGE_SIZE, 0);
+09a729b178be1c Matthew Auld 2020-10-21  282  	if (IS_ERR(mem))
+09a729b178be1c Matthew Auld 2020-10-21  283  		return PTR_ERR(mem);
+09a729b178be1c Matthew Auld 2020-10-21  284  =
 
+09a729b178be1c Matthew Auld 2020-10-21  285  	if (mem->mm.size !=3D size) {
+09a729b178be1c Matthew Auld 2020-10-21  286  		pr_err("%s size mismatch(%ll=
+u !=3D %llu)\n",
+09a729b178be1c Matthew Auld 2020-10-21  287  		       __func__, mem->mm.siz=
+e, size);
+09a729b178be1c Matthew Auld 2020-10-21  288  		err =3D -EINVAL;
+09a729b178be1c Matthew Auld 2020-10-21  289  		goto out_put;
+09a729b178be1c Matthew Auld 2020-10-21  290  	}
+09a729b178be1c Matthew Auld 2020-10-21  291  =
+
+09a729b178be1c Matthew Auld 2020-10-21  292  	expected_order =3D get_order(=
+rounddown_pow_of_two(size));
+09a729b178be1c Matthew Auld 2020-10-21  293  	if (mem->mm.max_order !=3D ex=
+pected_order) {
+09a729b178be1c Matthew Auld 2020-10-21  294  		pr_err("%s order mismatch(%u=
+ !=3D %u)\n",
+09a729b178be1c Matthew Auld 2020-10-21  295  		       __func__, mem->mm.max=
+_order, expected_order);
+09a729b178be1c Matthew Auld 2020-10-21  296  		err =3D -EINVAL;
+09a729b178be1c Matthew Auld 2020-10-21  297  		goto out_put;
+09a729b178be1c Matthew Auld 2020-10-21  298  	}
+09a729b178be1c Matthew Auld 2020-10-21  299  =
+
+09a729b178be1c Matthew Auld 2020-10-21  300  	obj =3D igt_object_create(mem=
+, &objects, size, 0);
+09a729b178be1c Matthew Auld 2020-10-21  301  	if (IS_ERR(obj)) {
+09a729b178be1c Matthew Auld 2020-10-21  302  		err =3D PTR_ERR(obj);
+09a729b178be1c Matthew Auld 2020-10-21  303  		goto out_close;
+09a729b178be1c Matthew Auld 2020-10-21  304  	}
+09a729b178be1c Matthew Auld 2020-10-21  305  =
+
+09a729b178be1c Matthew Auld 2020-10-21  306  	close_objects(mem, &objects);
+09a729b178be1c Matthew Auld 2020-10-21  307  =
+
+09a729b178be1c Matthew Auld 2020-10-21  308  	/*
+09a729b178be1c Matthew Auld 2020-10-21  309  	 * While we should be able al=
+locate everything without any flag
+09a729b178be1c Matthew Auld 2020-10-21  310  	 * restrictions, if we consid=
+er I915_BO_ALLOC_CONTIGUOUS then we are
+09a729b178be1c Matthew Auld 2020-10-21  311  	 * actually limited to the la=
+rgest power-of-two for the region size i.e
+09a729b178be1c Matthew Auld 2020-10-21  312  	 * max_order, due to the inne=
+r workings of the buddy allocator. So make
+09a729b178be1c Matthew Auld 2020-10-21  313  	 * sure that does indeed hold=
+ true.
+09a729b178be1c Matthew Auld 2020-10-21  314  	 */
+09a729b178be1c Matthew Auld 2020-10-21  315  =
+
+09a729b178be1c Matthew Auld 2020-10-21  316  	obj =3D igt_object_create(mem=
+, &objects, size, I915_BO_ALLOC_CONTIGUOUS);
+09a729b178be1c Matthew Auld 2020-10-21  317  	if (!IS_ERR(obj)) {
+09a729b178be1c Matthew Auld 2020-10-21  318  		pr_err("%s too large contigu=
+ous allocation was not rejected\n",
+09a729b178be1c Matthew Auld 2020-10-21  319  		       __func__);
+09a729b178be1c Matthew Auld 2020-10-21  320  		err =3D -EINVAL;
+09a729b178be1c Matthew Auld 2020-10-21  321  		goto out_close;
+09a729b178be1c Matthew Auld 2020-10-21  322  	}
+09a729b178be1c Matthew Auld 2020-10-21  323  =
+
+09a729b178be1c Matthew Auld 2020-10-21 @324  	obj =3D igt_object_create(mem=
+, &objects, rounddown_pow_of_two(size),
+09a729b178be1c Matthew Auld 2020-10-21  325  				I915_BO_ALLOC_CONTIGUOUS);
+09a729b178be1c Matthew Auld 2020-10-21  326  	if (IS_ERR(obj)) {
+09a729b178be1c Matthew Auld 2020-10-21  327  		pr_err("%s largest possible =
+contiguous allocation failed\n",
+09a729b178be1c Matthew Auld 2020-10-21  328  		       __func__);
+09a729b178be1c Matthew Auld 2020-10-21  329  		err =3D PTR_ERR(obj);
+09a729b178be1c Matthew Auld 2020-10-21  330  		goto out_close;
+09a729b178be1c Matthew Auld 2020-10-21  331  	}
+09a729b178be1c Matthew Auld 2020-10-21  332  =
+
+09a729b178be1c Matthew Auld 2020-10-21  333  out_close:
+09a729b178be1c Matthew Auld 2020-10-21  334  	close_objects(mem, &objects);
+09a729b178be1c Matthew Auld 2020-10-21  335  out_put:
+09a729b178be1c Matthew Auld 2020-10-21  336  	intel_memory_region_put(mem);
+09a729b178be1c Matthew Auld 2020-10-21  337  	return err;
+09a729b178be1c Matthew Auld 2020-10-21  338  }
+09a729b178be1c Matthew Auld 2020-10-21  339  =
+
+
+:::::: The code at line 324 was first introduced by commit
+:::::: 09a729b178be1cb20ffce620f7e5bfc04c4a13c0 drm/i915/region: fix max si=
+ze calculation
+
+:::::: TO: Matthew Auld <matthew.auld@intel.com>
+:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5319772546675196611==--
+--===============8137474476692021047==--
 
