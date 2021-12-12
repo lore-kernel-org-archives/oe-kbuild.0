@@ -1,50 +1,48 @@
-Content-Type: multipart/mixed; boundary="===============5165072395078798736=="
+Content-Type: multipart/mixed; boundary="===============8238045584754442806=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/dma/xilinx/zynqmp_dma.c:359:2: warning: Value stored to 'val' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Mon, 13 Dec 2021 04:56:32 +0800
-Message-ID: <202112130410.SA6DfvDP-lkp@intel.com>
+Subject: [linux-next:master 5033/6579] drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: warning: The result of the '/' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResult]
+Date: Mon, 13 Dec 2021 03:15:30 +0800
+Message-ID: <202112130311.0kcIrssq-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5165072395078798736==
+--===============8238045584754442806==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Michael Tretter <m.tretter@pengutronix.de>
-CC: Vinod Koul <vkoul@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Ville Syrj=C3=A4l=C3=A4" <ville.syrjala@linux.intel.com>
+CC: Stanislav Lisovskiy <stanislav.lisovskiy@intel.com>
+CC: Mika Kahola <mika.kahola@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
-commit: 7073b5a8bd6ea641b41568e2899b0977f79134e3 dmaengine: zynqmp_dma: ena=
-ble COMPILE_TEST
-date:   2 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 2 months ago
-config: riscv-randconfig-c006-20211210 (https://download.01.org/0day-ci/arc=
-hive/20211213/202112130410.SA6DfvDP-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   ea922272cbe547bdf58da2aaf240d59782c6a009
+commit: d4a23930490df39fd076a82649ddba6b3a6c8216 [5033/6579] drm/i915: Allo=
+w cdclk squasher to be reconfigured live
+:::::: branch date: 2 days ago
+:::::: commit date: 5 days ago
+config: i386-randconfig-c001-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211213/202112130311.0kcIrssq-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
 b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7073b5a8bd6ea641b41568e2899b0977f79134e3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7073b5a8bd6ea641b41568e2899b0977f79134e3
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Dd4a23930490df39fd076a82649ddba6b3a6c8216
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout d4a23930490df39fd076a82649ddba6b3a6c8216
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,342 +50,317 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1217:2: note: Returning witho=
+ut writing to 'i915->cdclk.hw.cdclk'
+           return IS_DG2(i915);
            ^
-   drivers/regulator/rohm-regulator.c:31:6: note: Assuming 'mask' is not eq=
-ual to 0
-           if (!mask) {
-               ^~~~~
-   drivers/regulator/rohm-regulator.c:31:2: note: Taking false branch
-           if (!mask) {
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1833:6: note: Returning from =
+'has_cdclk_squasher'
+           if (has_cdclk_squasher(dev_priv))
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1833:2: note: Assuming the co=
+ndition is true
+           if (has_cdclk_squasher(dev_priv))
            ^
-   drivers/regulator/rohm-regulator.c:37:14: note: Assuming 'i' is < field =
-'n_voltages'
-           for (i =3D 0; i < desc->n_voltages; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/rohm-regulator.c:37:2: note: Loop condition is true.  =
-Entering loop body
-           for (i =3D 0; i < desc->n_voltages; i++) {
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1833:2: note: '?' condition i=
+s false
+           if (has_cdclk_squasher(dev_priv))
            ^
-   drivers/regulator/rohm-regulator.c:39:7: note: Assuming field 'linear_ra=
-nge_selectors' is null
-                   if (desc->linear_range_selectors)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/rohm-regulator.c:39:3: note: Taking false branch
-                   if (desc->linear_range_selectors)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1833:2: note: Taking false br=
+anch
+           if (has_cdclk_squasher(dev_priv))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1836:3: note: Value assigned =
+to 'clock'
+                   clock =3D dev_priv->cdclk.hw.cdclk;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1838:47: note: Passing value =
+via 2nd parameter 'cdclk'
+           expected |=3D bxt_cdclk_cd2x_div_sel(dev_priv, clock,
+                                                        ^~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1838:14: note: Calling 'bxt_c=
+dclk_cd2x_div_sel'
+           expected |=3D bxt_cdclk_cd2x_div_sel(dev_priv, clock,
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: note: '__d' initiali=
+zed to the value of 'cdclk'
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
                    ^
-   drivers/regulator/rohm-regulator.c:41:7: note: Assuming field 'n_linear_=
-ranges' is 0
-                   if (desc->n_linear_ranges)
-                       ^~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/rohm-regulator.c:41:3: note: Taking false branch
-                   if (desc->n_linear_ranges)
+   include/linux/math.h:88:2: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           typeof(divisor) __d =3D divisor;                  \
+           ^~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: note: Left side of '=
+||' is false
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
                    ^
-   drivers/regulator/rohm-regulator.c:45:7: note: Assuming 'ret' is >=3D 0
-                   if (ret < 0)
-                       ^~~~~~~
-   drivers/regulator/rohm-regulator.c:45:3: note: Taking false branch
-                   if (ret < 0)
+   include/linux/math.h:89:3: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           (((typeof(x))-1) > 0 ||                         \
+            ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: note: Left side of '=
+||' is false
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
                    ^
-   drivers/regulator/rohm-regulator.c:47:7: note: Assuming 'ret' is equal t=
-o 'uv'
-                   if (ret =3D=3D uv) {
-                       ^~~~~~~~~
-   drivers/regulator/rohm-regulator.c:47:3: note: Taking true branch
-                   if (ret =3D=3D uv) {
+   include/linux/math.h:89:3: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           (((typeof(x))-1) > 0 ||                         \
+            ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: note: Assuming '__x'=
+ is <=3D 0
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
                    ^
-   drivers/regulator/rohm-regulator.c:48:6: note: Assigned value is garbage=
- or undefined
-                           i <<=3D ffs(desc->vsel_mask) - 1;
-                             ^   ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/mfd/sm501.c:513:16: warning: Value stored to 'mode' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned long mode =3D smc501_readl(sm->regs + SM501_POWER_MODE_=
-CONTROL);
-                         ^~~~
-   drivers/mfd/sm501.c:513:16: note: Value stored to 'mode' during its init=
-ialization is never read
-           unsigned long mode =3D smc501_readl(sm->regs + SM501_POWER_MODE_=
-CONTROL);
-                         ^~~~
-   drivers/mfd/sm501.c:514:16: warning: Value stored to 'gate' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned long gate =3D smc501_readl(sm->regs + SM501_CURRENT_GAT=
-E);
-                         ^~~~
-   drivers/mfd/sm501.c:514:16: note: Value stored to 'gate' during its init=
-ialization is never read
-           unsigned long gate =3D smc501_readl(sm->regs + SM501_CURRENT_GAT=
-E);
-                         ^~~~
-   drivers/mfd/sm501.c:515:16: warning: Value stored to 'clock' during its =
-initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned long clock =3D smc501_readl(sm->regs + SM501_CURRENT_CL=
-OCK);
-                         ^~~~~
-   drivers/mfd/sm501.c:515:16: note: Value stored to 'clock' during its ini=
-tialization is never read
-           unsigned long clock =3D smc501_readl(sm->regs + SM501_CURRENT_CL=
-OCK);
-                         ^~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> drivers/dma/xilinx/zynqmp_dma.c:359:2: warning: Value stored to 'val' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           val =3D readl(chan->regs + ZYNQMP_DMA_IRQ_SRC_ACCT);
-           ^
-   drivers/dma/xilinx/zynqmp_dma.c:359:2: note: Value stored to 'val' is ne=
-ver read
-   drivers/dma/xilinx/zynqmp_dma.c:360:2: warning: Value stored to 'val' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           val =3D readl(chan->regs + ZYNQMP_DMA_IRQ_DST_ACCT);
-           ^
-   drivers/dma/xilinx/zynqmp_dma.c:360:2: note: Value stored to 'val' is ne=
-ver read
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/nvme/host/ioctl.c:230:7: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   if (put_user(result, &ucmd->result))
-                       ^
-   arch/riscv/include/asm/uaccess.h:354:3: note: expanded from macro 'put_u=
-ser'
-                   __put_user((x), __p) :                          \
+   include/linux/math.h:91:5: note: expanded from macro 'DIV_ROUND_CLOSEST'
+            (((__x) > 0) =3D=3D ((__d) > 0))) ?                \
+              ^~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: note: Assuming '__d'=
+ is <=3D 0
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
                    ^
-   arch/riscv/include/asm/uaccess.h:321:2: note: expanded from macro '__put=
-_user'
-           __typeof__(*__gu_ptr) __val =3D (x);                      \
+   include/linux/math.h:91:20: note: expanded from macro 'DIV_ROUND_CLOSEST'
+            (((__x) > 0) =3D=3D ((__d) > 0))) ?                \
+                             ^~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: note: '?' condition =
+is true
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
+                   ^
+   include/linux/math.h:89:2: note: expanded from macro 'DIV_ROUND_CLOSEST'
+           (((typeof(x))-1) > 0 ||                         \
            ^
-   drivers/nvme/host/ioctl.c:479:2: note: Control jumps to 'case 3225964097=
-:'  at line 480
-           switch (cmd) {
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: note: Division by ze=
+ro
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
+                   ^
+   include/linux/math.h:92:26: note: expanded from macro 'DIV_ROUND_CLOSEST'
+                   (((__x) + ((__d) / 2)) / (__d)) :       \
+                    ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~
+>> drivers/gpu/drm/i915/display/intel_cdclk.c:1639:10: warning: The result =
+of the '/' expression is undefined [clang-analyzer-core.UndefinedBinaryOper=
+atorResult]
+           switch (DIV_ROUND_CLOSEST(vco, cdclk)) {
+                   ^
+   include/linux/math.h:92:26: note: expanded from macro 'DIV_ROUND_CLOSEST'
+                   (((__x) + ((__d) / 2)) / (__d)) :       \
+                                          ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:6: note: Assuming field =
+'ver' is < 10
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:1154:27: note: expanded from macro 'DISP=
+LAY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                   ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:6: note: Left side of '|=
+|' is false
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:1154:27: note: expanded from macro 'DISP=
+LAY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                   ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:2: note: Assuming the co=
+ndition is false
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
            ^
-   drivers/nvme/host/ioctl.c:481:10: note: Calling 'nvme_user_cmd'
-                   return nvme_user_cmd(ctrl, NULL, argp);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:196:2: note: 'result' declared without an init=
-ial value
-           u64 result;
-           ^~~~~~~~~~
-   drivers/nvme/host/ioctl.c:199:6: note: Assuming the condition is false
-           if (!capable(CAP_SYS_ADMIN))
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:199:2: note: Taking false branch
-           if (!capable(CAP_SYS_ADMIN))
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:2: note: '?' condition i=
+s false
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
            ^
-   drivers/nvme/host/ioctl.c:201:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:6: note: Field 'ver' is =
+< 10
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:1154:54: note: expanded from macro 'DISP=
+LAY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                                              ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:6: note: Left side of '|=
+|' is false
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
+               ^
+   drivers/gpu/drm/i915/i915_drv.h:1154:27: note: expanded from macro 'DISP=
+LAY_VER'
+   #define DISPLAY_VER(i915)       (INTEL_INFO(i915)->display.ver)
+                                   ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:2: note: Assuming the co=
+ndition is false
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
            ^
-   include/linux/uaccess.h:192:7: note: Value assigned to 'cmd.flags', whic=
-h participates in a condition later
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:193:2: note: Returning value (loaded from 'n'), =
-which participates in a condition later
-           return n;
-           ^~~~~~~~
-   drivers/nvme/host/ioctl.c:201:6: note: Returning from 'copy_from_user'
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:201:6: note: Assuming the condition is false
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/nvme/host/ioctl.c:201:2: note: Taking false branch
-           if (copy_from_user(&cmd, ucmd, sizeof(cmd)))
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:2: note: '?' condition i=
+s true
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
            ^
-   drivers/nvme/host/ioctl.c:203:6: note: Assuming field 'flags' is 0
-           if (cmd.flags)
-               ^~~~~~~~~
-   drivers/nvme/host/ioctl.c:203:2: note: Taking false branch
-           if (cmd.flags)
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1911:2: note: Taking true bra=
+nch
+           if (DISPLAY_VER(i915) >=3D 10 || IS_BROXTON(i915))
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1912:3: note: Calling 'bxt_cd=
+clk_init_hw'
+                   bxt_cdclk_init_hw(i915);
+                   ^~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1867:2: note: Calling 'bxt_sa=
+nitize_cdclk'
+           bxt_sanitize_cdclk(dev_priv);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1802:6: note: Assuming field =
+'vco' is not equal to 0
+           if (dev_priv->cdclk.hw.vco =3D=3D 0 ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   drivers/gpu/drm/i915/display/intel_cdclk.c:1802:6: note: Left side of '|=
+|' is false
+           if (dev_priv->cdclk.hw.vco =3D=3D 0 ||
 
-vim +/val +359 drivers/dma/xilinx/zynqmp_dma.c
+vim +1639 drivers/gpu/drm/i915/display/intel_cdclk.c
 
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  329  =
+0a12e437049786 Ville Syrj=C3=A4l=C3=A4 2019-09-11  1634  =
 
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  330  /**
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  331   * zynqmp_dma_init -=
- Initialize the channel
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  332   * @chan: ZynqMP DMA=
- channel pointer
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  333   */
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  334  static void zynqmp_d=
-ma_init(struct zynqmp_dma_chan *chan)
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  335  {
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  336  	u32 val;
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  337  =
-
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  338  	writel(ZYNQMP_DMA_I=
-DS_DEFAULT_MASK, chan->regs + ZYNQMP_DMA_IDS);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  339  	val =3D readl(chan-=
->regs + ZYNQMP_DMA_ISR);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  340  	writel(val, chan->r=
-egs + ZYNQMP_DMA_ISR);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  341  =
-
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  342  	if (chan->is_dmacoh=
-erent) {
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  343  		val =3D ZYNQMP_DMA=
-_AXCOHRNT;
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  344  		val =3D (val & ~ZY=
-NQMP_DMA_AXCACHE) |
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  345  			(ZYNQMP_DMA_AXCAC=
-HE_VAL << ZYNQMP_DMA_AXCACHE_OFST);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  346  		writel(val, chan->=
-regs + ZYNQMP_DMA_DSCR_ATTR);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  347  	}
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  348  =
-
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  349  	val =3D readl(chan-=
->regs + ZYNQMP_DMA_DATA_ATTR);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  350  	if (chan->is_dmacoh=
-erent) {
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  351  		val =3D (val & ~ZY=
-NQMP_DMA_ARCACHE) |
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  352  			(ZYNQMP_DMA_AXCAC=
-HE_VAL << ZYNQMP_DMA_ARCACHE_OFST);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  353  		val =3D (val & ~ZY=
-NQMP_DMA_AWCACHE) |
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  354  			(ZYNQMP_DMA_AXCAC=
-HE_VAL << ZYNQMP_DMA_AWCACHE_OFST);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  355  	}
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  356  	writel(val, chan->r=
-egs + ZYNQMP_DMA_DATA_ATTR);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  357  =
-
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  358  	/* Clearing the int=
-errupt account rgisters */
-b0cc417c163719 Kedareswara rao Appana 2016-07-01 @359  	val =3D readl(chan-=
->regs + ZYNQMP_DMA_IRQ_SRC_ACCT);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  360  	val =3D readl(chan-=
->regs + ZYNQMP_DMA_IRQ_DST_ACCT);
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  361  =
-
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  362  	chan->idle =3D true;
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  363  }
-b0cc417c163719 Kedareswara rao Appana 2016-07-01  364  =
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1635  static u32 bxt_cdc=
+lk_cd2x_div_sel(struct drm_i915_private *dev_priv,
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1636  				  int cdclk, i=
+nt vco)
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1637  {
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1638  	/* cdclk =3D vco =
+/ 2 / div{1,1.5,2,4} */
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30 @1639  	switch (DIV_ROUND=
+_CLOSEST(vco, cdclk)) {
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1640  	default:
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1641  		drm_WARN_ON(&dev=
+_priv->drm,
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1642  			    cdclk !=3D =
+dev_priv->cdclk.hw.bypass);
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1643  		drm_WARN_ON(&dev=
+_priv->drm, vco !=3D 0);
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1644  		fallthrough;
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1645  	case 2:
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1646  		return BXT_CDCLK=
+_CD2X_DIV_SEL_1;
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1647  	case 3:
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1648  		return BXT_CDCLK=
+_CD2X_DIV_SEL_1_5;
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1649  	case 4:
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1650  		return BXT_CDCLK=
+_CD2X_DIV_SEL_2;
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1651  	case 8:
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1652  		return BXT_CDCLK=
+_CD2X_DIV_SEL_4;
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1653  	}
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1654  }
+b41df85a983493 Ville Syrj=C3=A4l=C3=A4 2021-04-30  1655  =
 
 
-:::::: The code at line 359 was first introduced by commit
-:::::: b0cc417c1637192be658e68a74c8d1568e3d35f6 dmaengine: Add Xilinx zynqm=
-p dma engine driver support
+:::::: The code at line 1639 was first introduced by commit
+:::::: b41df85a9834932370806df189d5997a4891fd88 drm/i915: Extract some help=
+ers to compute cdclk register values
 
-:::::: TO: Kedareswara rao Appana <appana.durga.rao@xilinx.com>
-:::::: CC: Vinod Koul <vinod.koul@intel.com>
+:::::: TO: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
+:::::: CC: Ville Syrj=C3=A4l=C3=A4 <ville.syrjala@linux.intel.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5165072395078798736==--
+--===============8238045584754442806==--
 
