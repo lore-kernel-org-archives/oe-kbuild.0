@@ -1,369 +1,529 @@
-Content-Type: multipart/mixed; boundary="===============5401638289509478604=="
+Content-Type: multipart/mixed; boundary="===============7857306487459656166=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/intel/iavf/iavf_main.c:2065 iavf_watchdog_task() warn: inconsistent returns '&adapter->crit_lock'.
-Date: Sun, 12 Dec 2021 12:13:41 +0800
-Message-ID: <202112121221.DwFIXdGv-lkp@intel.com>
+Subject: [chrome-os:chromeos-5.15 1440/2818] sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:55:2: warning: Value stored to 'pdm_ctrl' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 12 Dec 2021 11:43:12 +0800
+Message-ID: <202112121130.Q9Cu5N6u-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5401638289509478604==
+--===============7857306487459656166==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Mateusz Palczewski <mateusz.palczewski@intel.com>
-CC: Tony Nguyen <anthony.l.nguyen@intel.com>
-CC: Jakub Pawlak <jakub.pawlak@intel.com>
-CC: Jan Sokolowski <jan.sokolowski@intel.com>
+TO: cros-kernel-buildreports(a)googlegroups.com
+TO: Guenter Roeck <groeck@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
-commit: 898ef1cb1cb24040c3e89263e02c605af70c776a iavf: Combine init and wat=
-chdog state machines
-date:   8 weeks ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 8 weeks ago
-config: i386-randconfig-m031-20211211 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112121221.DwFIXdGv-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
+omeos-5.15
+head:   b4852fbf90916fdc2f1e0e282e100f7e0e889d77
+commit: b86615571e3d8bd49bcc434a42d9070e2806e35d [1440/2818] CHROMIUM: ASoC=
+: amd: enable renoir audio driver build
+:::::: branch date: 21 hours ago
+:::::: commit date: 3 weeks ago
+config: i386-randconfig-c001-20211210 (https://download.01.org/0day-ci/arch=
+ive/20211212/202112121130.Q9Cu5N6u-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        git remote add chrome-os https://chromium.googlesource.com/chromium=
+os/third_party/kernel
+        git fetch --no-tags chrome-os chromeos-5.15
+        git checkout b86615571e3d8bd49bcc434a42d9070e2806e35d
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/net/ethernet/intel/iavf/iavf_main.c:2065 iavf_watchdog_task() warn:=
- inconsistent returns '&adapter->crit_lock'.
 
-Old smatch warnings:
-drivers/net/ethernet/intel/iavf/iavf_main.c:2354 iavf_reset_task() warn: in=
-consistent returns '&adapter->crit_lock'.
-
-vim +2065 drivers/net/ethernet/intel/iavf/iavf_main.c
-
-b66c7bc1cd4d72 drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1928  =
-
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1929  /**
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1930   * iavf_watchdog_task - Periodic call-back task
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1931   * @work: pointer to work_struct
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1932   **/
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1933  static void iavf_watchdog_task(struct work_struc=
-t *work)
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1934  {
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1935  	struct iavf_adapter *adapter =3D container_of(w=
-ork,
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1936  						    struct iavf_adapter,
-fdd4044ffdc831 drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1937  						    watchdog_task.work);
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1938  	struct iavf_hw *hw =3D &adapter->hw;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1939  	u32 reg_val;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1940  =
-
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn       2021-08-04  1941  	if (!mutex_trylock(&adapter->crit_lock))
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1942  		goto restart_watchdog;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1943  =
-
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  1944  	if (adapter->flags & IAVF_FLAG_PF_COMMS_FAILED)
-45eebd62999d37 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1945  		iavf_change_state(adapter, __IAVF_COMM_FAILED);
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  1946  =
-
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1947  	if (adapter->flags & IAVF_FLAG_RESET_NEEDED &&
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1948  	    adapter->state !=3D __IAVF_RESETTING) {
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1949  		iavf_change_state(adapter, __IAVF_RESETTING);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1950  		adapter->aq_required =3D 0;
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1951  		adapter->current_op =3D VIRTCHNL_OP_UNKNOWN;
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1952  	}
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1953  =
-
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  1954  	switch (adapter->state) {
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1955  	case __IAVF_STARTUP:
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1956  		iavf_startup(adapter);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1957  		mutex_unlock(&adapter->crit_lock);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1958  		queue_delayed_work(iavf_wq, &adapter->watchdog=
-_task,
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1959  				   msecs_to_jiffies(30));
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1960  		return;
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1961  	case __IAVF_INIT_VERSION_CHECK:
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1962  		iavf_init_version_check(adapter);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1963  		mutex_unlock(&adapter->crit_lock);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1964  		queue_delayed_work(iavf_wq, &adapter->watchdog=
-_task,
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1965  				   msecs_to_jiffies(30));
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1966  		return;
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1967  	case __IAVF_INIT_GET_RESOURCES:
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1968  		iavf_init_get_resources(adapter);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1969  		mutex_unlock(&adapter->crit_lock);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1970  		queue_delayed_work(iavf_wq, &adapter->watchdog=
-_task,
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1971  				   msecs_to_jiffies(1));
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1972  		return;
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1973  	case __IAVF_INIT_FAILED:
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1974  		if (++adapter->aq_wait_count > IAVF_AQ_MAX_ERR=
-) {
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1975  			dev_err(&adapter->pdev->dev,
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1976  				"Failed to communicate with PF; waiting befo=
-re retry\n");
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1977  			adapter->flags |=3D IAVF_FLAG_PF_COMMS_FAILED;
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1978  			iavf_shutdown_adminq(hw);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1979  			mutex_unlock(&adapter->crit_lock);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1980  			queue_delayed_work(iavf_wq,
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1981  					   &adapter->watchdog_task, (5 * HZ));
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1982  			return;
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1983  		}
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1984  		/* Try again from failed step*/
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1985  		iavf_change_state(adapter, adapter->last_state=
+clang-analyzer warnings: (new ones prefixed by >>)
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   sound/soc/codecs/tas2764.c:54:23: warning: Value stored to 'tas2764' dur=
+ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct tas2764_priv *tas2764 =3D snd_soc_component_get_drvdata(c=
+omponent);
+                                ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   sound/soc/codecs/tas2764.c:54:23: note: Value stored to 'tas2764' during=
+ its initialization is never read
+           struct tas2764_priv *tas2764 =3D snd_soc_component_get_drvdata(c=
+omponent);
+                                ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/gpu/drm/i915/i915_gpu_error.c:1018:2: warning: Call to function =
+'strcpy' is insecure as it does not provide bounding of the memory buffer. =
+Replace unbounded copy functions with analogous functions that support leng=
+th arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAP=
+I.strcpy]
+           strcpy(dst->name, name);
+           ^~~~~~
+   drivers/gpu/drm/i915/i915_gpu_error.c:1018:2: note: Call to function 'st=
+rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
+lace unbounded copy functions with analogous functions that support length =
+arguments such as 'strlcpy'. CWE-119
+           strcpy(dst->name, name);
+           ^~~~~~
+   drivers/gpu/drm/i915/i915_gpu_error.c:1282:3: warning: Call to function =
+'strcpy' is insecure as it does not provide bounding of the memory buffer. =
+Replace unbounded copy functions with analogous functions that support leng=
+th arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAP=
+I.strcpy]
+                   strcpy(e->comm, task->comm);
+                   ^~~~~~
+   drivers/gpu/drm/i915/i915_gpu_error.c:1282:3: note: Call to function 'st=
+rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
+lace unbounded copy functions with analogous functions that support length =
+arguments such as 'strlcpy'. CWE-119
+                   strcpy(e->comm, task->comm);
+                   ^~~~~~
+   drivers/gpu/drm/i915/i915_gpu_error.c:1326:2: warning: Call to function =
+'strcpy' is insecure as it does not provide bounding of the memory buffer. =
+Replace unbounded copy functions with analogous functions that support leng=
+th arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAP=
+I.strcpy]
+           strcpy(c->name, name);
+           ^~~~~~
+   drivers/gpu/drm/i915/i915_gpu_error.c:1326:2: note: Call to function 'st=
+rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
+lace unbounded copy functions with analogous functions that support length =
+arguments such as 'strlcpy'. CWE-119
+           strcpy(c->name, name);
+           ^~~~~~
+   drivers/gpu/drm/i915/i915_gpu_error.c:1715:3: warning: Value stored to '=
+len' is never read [clang-analyzer-deadcode.DeadStores]
+                   len +=3D scnprintf(error->error_msg + len,
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/i915_gpu_error.c:1715:3: note: Value stored to 'len=
+' is never read
+                   len +=3D scnprintf(error->error_msg + len,
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:55:2: warning: Value stored to '=
+pdm_ctrl' is never read [clang-analyzer-deadcode.DeadStores]
+           pdm_ctrl =3D 0x00;
+           ^          ~~~~
+   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:55:2: note: Value stored to 'pdm=
+_ctrl' is never read
+           pdm_ctrl =3D 0x00;
+           ^          ~~~~
+>> sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:107:2: warning: Value stored to =
+'pdm_dma_enable' is never read [clang-analyzer-deadcode.DeadStores]
+           pdm_dma_enable =3D 0x00;
+           ^                ~~~~
+   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:107:2: note: Value stored to 'pd=
+m_dma_enable' is never read
+           pdm_dma_enable =3D 0x00;
+           ^                ~~~~
+>> sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:123:2: warning: Value stored to =
+'pdm_enable' is never read [clang-analyzer-deadcode.DeadStores]
+           pdm_enable =3D 0x00;
+           ^            ~~~~
+   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:123:2: note: Value stored to 'pd=
+m_enable' is never read
+           pdm_enable =3D 0x00;
+           ^            ~~~~
+   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:124:2: warning: Value stored to =
+'pdm_dma_enable' is never read [clang-analyzer-deadcode.DeadStores]
+           pdm_dma_enable  =3D 0x00;
+           ^                 ~~~~
+   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:124:2: note: Value stored to 'pd=
+m_dma_enable' is never read
+           pdm_dma_enable  =3D 0x00;
+           ^                 ~~~~
+   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:131:3: warning: Value stored to =
+'pdm_dma_enable' is never read [clang-analyzer-deadcode.DeadStores]
+                   pdm_dma_enable =3D 0x00;
+                   ^                ~~~~
+   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:131:3: note: Value stored to 'pd=
+m_dma_enable' is never read
+                   pdm_dma_enable =3D 0x00;
+                   ^                ~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1009:3: warning: Value stored =
+to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+                   offset =3D intel_de_read(dev_priv, DSPOFFSET(i9xx_plane)=
 );
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1986  		mutex_unlock(&adapter->crit_lock);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1987  		queue_delayed_work(iavf_wq, &adapter->watchdog=
-_task, HZ);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1988  		return;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  1989  	case __IAVF_COMM_FAILED:
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1990  		reg_val =3D rd32(hw, IAVF_VFGEN_RSTAT) &
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1991  			  IAVF_VFGEN_RSTAT_VFR_STATE_MASK;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1992  		if (reg_val =3D=3D VIRTCHNL_VFR_VFACTIVE ||
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1993  		    reg_val =3D=3D VIRTCHNL_VFR_COMPLETED) {
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1994  			/* A chance for redemption! */
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  1995  			dev_err(&adapter->pdev->dev,
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  1996  				"Hardware came out of reset. Attempting rein=
-it.\n");
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  1997  			/* When init task contacts the PF and
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1998  			 * gets everything set up again, it'll restar=
-t the
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  1999  			 * watchdog for us. Down, boy. Sit. Stay. Woo=
-f.
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2000  			 */
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2001  			iavf_change_state(adapter, __IAVF_STARTUP);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2002  			adapter->flags &=3D ~IAVF_FLAG_PF_COMMS_FAILE=
-D;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2003  		}
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2004  		adapter->aq_required =3D 0;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2005  		adapter->current_op =3D VIRTCHNL_OP_UNKNOWN;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2006  		queue_delayed_work(iavf_wq,
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2007  				   &adapter->watchdog_task,
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2008  				   msecs_to_jiffies(10));
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2009  		return;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2010  	case __IAVF_RESETTING:
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn       2021-08-04  2011  		mutex_unlock(&adapter->crit_lock);
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2012  		queue_delayed_work(iavf_wq, &adapter->watchdog=
-_task, HZ * 2);
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2013  		return;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2014  	case __IAVF_DOWN:
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2015  	case __IAVF_DOWN_PENDING:
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2016  	case __IAVF_TESTING:
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2017  	case __IAVF_RUNNING:
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2018  		if (adapter->current_op) {
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2019  			if (!iavf_asq_done(hw)) {
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2020  				dev_dbg(&adapter->pdev->dev,
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2021  					"Admin queue timeout\n");
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2022  				iavf_send_api_ver(adapter);
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2023  			}
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2024  		} else {
-9358076642f14c drivers/net/ethernet/intel/iavf/iavf_main.c     Tony Nguyen =
-         2020-06-24  2025  			/* An error will be returned if no commands w=
-ere
-9358076642f14c drivers/net/ethernet/intel/iavf/iavf_main.c     Tony Nguyen =
-         2020-06-24  2026  			 * processed; use this opportunity to update =
-stats
-9358076642f14c drivers/net/ethernet/intel/iavf/iavf_main.c     Tony Nguyen =
-         2020-06-24  2027  			 */
-9358076642f14c drivers/net/ethernet/intel/iavf/iavf_main.c     Tony Nguyen =
-         2020-06-24  2028  			if (iavf_process_aq_command(adapter) &&
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2029  			    adapter->state =3D=3D __IAVF_RUNNING)
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2030  				iavf_request_stats(adapter);
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2031  		}
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2032  		if (adapter->state =3D=3D __IAVF_RUNNING)
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2033  			iavf_detect_recover_hung(&adapter->vsi);
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2034  		break;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2035  	case __IAVF_REMOVE:
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn       2021-08-04  2036  		mutex_unlock(&adapter->crit_lock);
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2037  		return;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2038  	default:
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2039  		return;
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy 2018-01-23  2040  	}
-0075fa0fadd0ac drivers/net/ethernet/intel/i40evf/i40evf_main.c Harshitha Ra=
-mamurthy 2018-01-23  2041  =
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1009:3: note: Value stored to =
+'offset' is never read
+                   offset =3D intel_de_read(dev_priv, DSPOFFSET(i9xx_plane)=
+);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1013:4: warning: Value stored =
+to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1013:4: note: Value stored to =
+'offset' is never read
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1016:4: warning: Value stored =
+to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1016:4: note: Value stored to =
+'offset' is never read
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/gpu/drm/i915/display/skl_universal_plane.c:2308:2: warning: Valu=
+e stored to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+           offset =3D intel_de_read(dev_priv, PLANE_OFFSET(pipe, plane_id));
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/skl_universal_plane.c:2308:2: note: Value s=
+tored to 'offset' is never read
+           offset =3D intel_de_read(dev_priv, PLANE_OFFSET(pipe, plane_id));
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2042  	/* check for hw reset */
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2043  	reg_val =3D rd32(hw, IAVF_VF_ARQLEN1) & IAVF_VF=
-_ARQLEN1_ARQENABLE_MASK;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2044  	if (!reg_val) {
-45eebd62999d37 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2045  		iavf_change_state(adapter, __IAVF_RESETTING);
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2046  		adapter->flags |=3D IAVF_FLAG_RESET_PENDING;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2047  		adapter->aq_required =3D 0;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2048  		adapter->current_op =3D VIRTCHNL_OP_UNKNOWN;
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2049  		dev_err(&adapter->pdev->dev, "Hardware reset d=
-etected\n");
-bac8486116b0ee drivers/net/ethernet/intel/iavf/iavf_main.c     Jan Sokolows=
-ki       2019-05-14  2050  		queue_work(iavf_wq, &adapter->reset_task);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2051  		mutex_unlock(&adapter->crit_lock);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2052  		queue_delayed_work(iavf_wq,
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2053  				   &adapter->watchdog_task, HZ * 2);
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2054  		return;
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2055  	}
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2056  =
+vim +/pdm_ctrl +55 sound/soc/amd/renoir/acp3x-rn-pdm-dma.c
 
-b476b0030e612e drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2057  	schedule_delayed_work(&adapter->client_task, ms=
-ecs_to_jiffies(5));
-5ac49f3c2702f2 drivers/net/ethernet/intel/iavf/iavf_main.c     Stefan Assma=
-nn       2021-08-04  2058  	mutex_unlock(&adapter->crit_lock);
-ef8693eb90ae38 drivers/net/ethernet/intel/i40evf/i40evf_main.c Mitch Willia=
-ms       2014-02-13  2059  restart_watchdog:
-898ef1cb1cb240 drivers/net/ethernet/intel/iavf/iavf_main.c     Mateusz Palc=
-zewski   2021-08-19  2060  	queue_work(iavf_wq, &adapter->adminq_task);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-         2013-12-21  2061  	if (adapter->aq_required)
-fdd4044ffdc831 drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2062  		queue_delayed_work(iavf_wq, &adapter->watchdog=
-_task,
-fdd4044ffdc831 drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14  2063  				   msecs_to_jiffies(20));
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-         2013-12-21  2064  	else
-fdd4044ffdc831 drivers/net/ethernet/intel/iavf/iavf_main.c     Jakub Pawlak=
-         2019-05-14 @2065  		queue_delayed_work(iavf_wq, &adapter->watchdog=
-_task, HZ * 2);
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-         2013-12-21  2066  }
-5eae00c57f5e42 drivers/net/ethernet/intel/i40evf/i40evf_main.c Greg Rose   =
-         2013-12-21  2067  =
+2dce795e59f452 Vijendar Mukunda 2021-04-15   49  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   50  static void enable_pdm_clo=
+ck(void __iomem *acp_base)
+2dce795e59f452 Vijendar Mukunda 2021-04-15   51  {
+2dce795e59f452 Vijendar Mukunda 2021-04-15   52  	u32 pdm_clk_enable, pdm_c=
+trl;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   53  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   54  	pdm_clk_enable =3D ACP_PD=
+M_CLK_FREQ_MASK;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  @55  	pdm_ctrl =3D 0x00;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   56  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   57  	rn_writel(pdm_clk_enable,=
+ acp_base + ACP_WOV_CLK_CTRL);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   58  	pdm_ctrl =3D rn_readl(acp=
+_base + ACP_WOV_MISC_CTRL);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   59  	pdm_ctrl |=3D ACP_WOV_MIS=
+C_CTRL_MASK;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   60  	rn_writel(pdm_ctrl, acp_b=
+ase + ACP_WOV_MISC_CTRL);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   61  }
+2dce795e59f452 Vijendar Mukunda 2021-04-15   62  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   63  static void enable_pdm_int=
+errupts(void __iomem *acp_base)
+2dce795e59f452 Vijendar Mukunda 2021-04-15   64  {
+2dce795e59f452 Vijendar Mukunda 2021-04-15   65  	u32 ext_int_ctrl;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   66  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   67  	ext_int_ctrl =3D rn_readl=
+(acp_base + ACP_EXTERNAL_INTR_CNTL);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   68  	ext_int_ctrl |=3D PDM_DMA=
+_INTR_MASK;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   69  	rn_writel(ext_int_ctrl, a=
+cp_base + ACP_EXTERNAL_INTR_CNTL);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   70  }
+2dce795e59f452 Vijendar Mukunda 2021-04-15   71  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   72  static void disable_pdm_in=
+terrupts(void __iomem *acp_base)
+2dce795e59f452 Vijendar Mukunda 2021-04-15   73  {
+2dce795e59f452 Vijendar Mukunda 2021-04-15   74  	u32 ext_int_ctrl;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   75  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   76  	ext_int_ctrl =3D rn_readl=
+(acp_base + ACP_EXTERNAL_INTR_CNTL);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   77  	ext_int_ctrl &=3D ~PDM_DM=
+A_INTR_MASK;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   78  	rn_writel(ext_int_ctrl, a=
+cp_base + ACP_EXTERNAL_INTR_CNTL);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   79  }
+2dce795e59f452 Vijendar Mukunda 2021-04-15   80  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   81  static bool check_pdm_dma_=
+status(void __iomem *acp_base)
+2dce795e59f452 Vijendar Mukunda 2021-04-15   82  {
+2dce795e59f452 Vijendar Mukunda 2021-04-15   83  	bool pdm_dma_status;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   84  	u32 pdm_enable, pdm_dma_e=
+nable;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   85  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   86  	pdm_dma_status =3D false;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   87  	pdm_enable =3D rn_readl(a=
+cp_base + ACP_WOV_PDM_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   88  	pdm_dma_enable =3D rn_rea=
+dl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15   89  	if ((pdm_enable & ACP_PDM=
+_ENABLE) && (pdm_dma_enable &
+2dce795e59f452 Vijendar Mukunda 2021-04-15   90  	     ACP_PDM_DMA_EN_STATU=
+S))
+2dce795e59f452 Vijendar Mukunda 2021-04-15   91  		pdm_dma_status =3D true;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   92  	return pdm_dma_status;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   93  }
+2dce795e59f452 Vijendar Mukunda 2021-04-15   94  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15   95  static int start_pdm_dma(v=
+oid __iomem *acp_base)
+2dce795e59f452 Vijendar Mukunda 2021-04-15   96  {
+2dce795e59f452 Vijendar Mukunda 2021-04-15   97  	u32 pdm_enable;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   98  	u32 pdm_dma_enable;
+2dce795e59f452 Vijendar Mukunda 2021-04-15   99  	int timeout;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  100  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15  101  	pdm_enable =3D 0x01;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  102  	pdm_dma_enable  =3D 0x01;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  103  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15  104  	enable_pdm_clock(acp_base=
+);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  105  	rn_writel(pdm_enable, acp=
+_base + ACP_WOV_PDM_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  106  	rn_writel(pdm_dma_enable,=
+ acp_base + ACP_WOV_PDM_DMA_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15 @107  	pdm_dma_enable =3D 0x00;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  108  	timeout =3D 0;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  109  	while (++timeout < ACP_CO=
+UNTER) {
+2dce795e59f452 Vijendar Mukunda 2021-04-15  110  		pdm_dma_enable =3D rn_re=
+adl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  111  		if ((pdm_dma_enable & 0x=
+02) =3D=3D ACP_PDM_DMA_EN_STATUS)
+2dce795e59f452 Vijendar Mukunda 2021-04-15  112  			return 0;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  113  		udelay(DELAY_US);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  114  	}
+2dce795e59f452 Vijendar Mukunda 2021-04-15  115  	return -ETIMEDOUT;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  116  }
+2dce795e59f452 Vijendar Mukunda 2021-04-15  117  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15  118  static int stop_pdm_dma(vo=
+id __iomem *acp_base)
+2dce795e59f452 Vijendar Mukunda 2021-04-15  119  {
+2dce795e59f452 Vijendar Mukunda 2021-04-15  120  	u32 pdm_enable, pdm_dma_e=
+nable;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  121  	int timeout;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  122  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15 @123  	pdm_enable =3D 0x00;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  124  	pdm_dma_enable  =3D 0x00;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  125  =
+
+2dce795e59f452 Vijendar Mukunda 2021-04-15  126  	pdm_enable =3D rn_readl(a=
+cp_base + ACP_WOV_PDM_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  127  	pdm_dma_enable =3D rn_rea=
+dl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  128  	if (pdm_dma_enable & 0x01=
+) {
+2dce795e59f452 Vijendar Mukunda 2021-04-15  129  		pdm_dma_enable =3D 0x02;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  130  		rn_writel(pdm_dma_enable=
+, acp_base + ACP_WOV_PDM_DMA_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  131  		pdm_dma_enable =3D 0x00;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  132  		timeout =3D 0;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  133  		while (++timeout < ACP_C=
+OUNTER) {
+2dce795e59f452 Vijendar Mukunda 2021-04-15  134  			pdm_dma_enable =3D rn_r=
+eadl(acp_base +
+2dce795e59f452 Vijendar Mukunda 2021-04-15  135  						  ACP_WOV_PDM_DMA_EN=
+ABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  136  			if ((pdm_dma_enable & 0=
+x02) =3D=3D 0x00)
+2dce795e59f452 Vijendar Mukunda 2021-04-15  137  				break;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  138  			udelay(DELAY_US);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  139  		}
+2dce795e59f452 Vijendar Mukunda 2021-04-15  140  		if (timeout =3D=3D ACP_C=
+OUNTER)
+2dce795e59f452 Vijendar Mukunda 2021-04-15  141  			return -ETIMEDOUT;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  142  	}
+2dce795e59f452 Vijendar Mukunda 2021-04-15  143  	if (pdm_enable =3D=3D ACP=
+_PDM_ENABLE) {
+2dce795e59f452 Vijendar Mukunda 2021-04-15  144  		pdm_enable =3D ACP_PDM_D=
+ISABLE;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  145  		rn_writel(pdm_enable, ac=
+p_base + ACP_WOV_PDM_ENABLE);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  146  	}
+2dce795e59f452 Vijendar Mukunda 2021-04-15  147  	rn_writel(0x01, acp_base =
++ ACP_WOV_PDM_FIFO_FLUSH);
+2dce795e59f452 Vijendar Mukunda 2021-04-15  148  	return 0;
+2dce795e59f452 Vijendar Mukunda 2021-04-15  149  }
+2dce795e59f452 Vijendar Mukunda 2021-04-15  150  =
 
 
-:::::: The code at line 2065 was first introduced by commit
-:::::: fdd4044ffdc8313b91353af7879a39ef9c683bec iavf: Remove timer for work=
- triggering, use delaying work instead
+:::::: The code@line 55 was first introduced by commit
+:::::: 2dce795e59f452c6e526029669aa2c269bb99dfc CHROMIUM: ASoC: amd: acp dr=
+iver changes to support I2S and dmic
 
-:::::: TO: Jakub Pawlak <jakub.pawlak@intel.com>
-:::::: CC: Jeff Kirsher <jeffrey.t.kirsher@intel.com>
+:::::: TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
+:::::: CC: Guenter Roeck <groeck@chromium.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5401638289509478604==--
+--===============7857306487459656166==--
 
