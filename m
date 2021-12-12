@@ -1,153 +1,385 @@
-Content-Type: multipart/mixed; boundary="===============3019662631939012681=="
+Content-Type: multipart/mixed; boundary="===============7251212255964320080=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:34 mlx5_dm_create() warn: should '(((1))) << (((__builtin_bswap32(((*((dev->caps.hca[15]->cur) + (($expr_0x7f67606e8f90(30)) / 32))))) >> (32 - 8 - (($expr_0x7f67606e9530(30)) & 31))) & (((1 << 8) - 1))) - ...
-Date: Sun, 12 Dec 2021 16:24:19 +0800
-Message-ID: <202112121641.HuenjZW6-lkp@intel.com>
+Subject: sound/soc/codecs/wm8994.c:1450:28: warning: Value stored to 'component' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 12 Dec 2021 15:38:57 +0800
+Message-ID: <202112121549.X8ecd25k-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3019662631939012681==
+--===============7251212255964320080==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Parav Pandit <parav@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Shay Drory <shayd@nvidia.com>
+TO: Shengjiu Wang <shengjiu.wang@nxp.com>
+CC: Mark Brown <broonie@kernel.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
-commit: 5958a6fad623ad3b67a9e4d8dbd5f1874cc7039e net/mlx5: Reorganize curre=
-nt and maximal capabilities to be per-type
-date:   4 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 4 months ago
-config: i386-randconfig-m021-20211209 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112121641.HuenjZW6-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+commit: efd0b1660829a987354cea6a446179c7ac7cd0e6 ASoC: fsl-asoc-card: Add s=
+upport for WM8958 codec
+date:   9 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20211209 (https://download.01.org/0day-ci/archi=
+ve/20211212/202112121549.X8ecd25k-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Defd0b1660829a987354cea6a446179c7ac7cd0e6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout efd0b1660829a987354cea6a446179c7ac7cd0e6
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:34 mlx5_dm_create() warn: =
-should '(((1))) << (((__builtin_bswap32(((*((dev->caps.hca[15]->cur) + (($e=
-xpr_0x7f67606e8f90(30)) / 32))))) >> (32 - 8 - (($expr_0x7f67606e9530(30)) =
-& 31))) & (((1 << 8) - 1))) - (((__builtin_bswap32(((*((dev->caps.hca[15]->=
-cur) + (($expr_0x7f67606ea340(30)) / 32))))) >> (32 - 6 - (($expr_0x7f67606=
-ea8e0(30)) & 31))) & (((1 << 6) - 1)))))' be a 64 bit type?
-
-Old smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c:46 mlx5_dm_create() warn: =
-should '(((1))) << (((__builtin_bswap32(((*((dev->caps.hca[15]->cur) + (($e=
-xpr_0x7f67606ecf00(30)) / 32))))) >> (32 - 8 - (($expr_0x7f67606ed4a0(30)) =
-& 31))) & (((1 << 8) - 1))) - (((__builtin_bswap32(((*((dev->caps.hca[15]->=
-cur) + (($expr_0x7f67606de2e0(30)) / 32))))) >> (32 - 6 - (($expr_0x7f67606=
-de880(30)) & 31))) & (((1 << 6) - 1)))))' be a 64 bit type?
-
-vim +34 drivers/net/ethernet/mellanox/mlx5/core/lib/dm.c
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  16  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  17  struct mlx5_dm *mlx5_dm_crea=
-te(struct mlx5_core_dev *dev)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  18  {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  19  	u64 header_modify_icm_block=
-s =3D 0;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  20  	u64 steering_icm_blocks =3D=
- 0;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  21  	struct mlx5_dm *dm;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  22  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  23  	if (!(MLX5_CAP_GEN_64(dev, =
-general_obj_types) & MLX5_GENERAL_OBJ_TYPES_CAP_SW_ICM))
-586ee9e8a3b007 Saeed Mahameed  2020-01-22  24  		return NULL;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  25  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  26  	dm =3D kzalloc(sizeof(*dm),=
- GFP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  27  	if (!dm)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  28  		return ERR_PTR(-ENOMEM);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  29  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  30  	spin_lock_init(&dm->lock);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  31  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  32  	if (MLX5_CAP64_DEV_MEM(dev,=
- steering_sw_icm_start_address)) {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  33  		steering_icm_blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29 @34  			BIT(MLX5_CAP_DEV_MEM(dev,=
- log_steering_sw_icm_size) -
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  35  			    MLX5_LOG_SW_ICM_BLOCK=
-_SIZE(dev));
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  36  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  37  		dm->steering_sw_icm_alloc_=
-blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  38  			kcalloc(BITS_TO_LONGS(ste=
-ering_icm_blocks),
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  39  				sizeof(unsigned long), G=
-FP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  40  		if (!dm->steering_sw_icm_a=
-lloc_blocks)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  41  			goto err_steering;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  42  	}
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  43  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  44  	if (MLX5_CAP64_DEV_MEM(dev,=
- header_modify_sw_icm_start_address)) {
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  45  		header_modify_icm_blocks =
-=3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  46  			BIT(MLX5_CAP_DEV_MEM(dev,=
- log_header_modify_sw_icm_size) -
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  47  			    MLX5_LOG_SW_ICM_BLOCK=
-_SIZE(dev));
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  48  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  49  		dm->header_modify_sw_icm_a=
-lloc_blocks =3D
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  50  			kcalloc(BITS_TO_LONGS(hea=
-der_modify_icm_blocks),
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  51  				sizeof(unsigned long), G=
-FP_KERNEL);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  52  		if (!dm->header_modify_sw_=
-icm_alloc_blocks)
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  53  			goto err_modify_hdr;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  54  	}
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  55  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  56  	return dm;
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  57  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  58  err_modify_hdr:
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  59  	kfree(dm->steering_sw_icm_a=
-lloc_blocks);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  60  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  61  err_steering:
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  62  	kfree(dm);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  63  =
-
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  64  	return ERR_PTR(-ENOMEM);
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  65  }
-c9b9dcb430b3cd Ariel Levkovich 2019-08-29  66  =
 
 
-:::::: The code at line 34 was first introduced by commit
-:::::: c9b9dcb430b3cd0ad2b04c360c4e528d73430481 net/mlx5: Move device memor=
-y management to mlx5_core
+clang-analyzer warnings: (new ones prefixed by >>)
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:634:17: warning: Value stored to 'd=
+ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:634:17: note: Value stored to 'dev'=
+ during its initialization is never read
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:653:17: warning: Value stored to 'd=
+ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   sound/soc/generic/audio-graph-card.c:653:17: note: Value stored to 'dev'=
+ during its initialization is never read
+           struct device *dev =3D simple_priv_to_dev(priv);
+                          ^~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   drivers/usb/gadget/udc/pxa27x_udc.c:480:17: warning: Value stored to 'ep=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           struct pxa_ep *ep =3D &udc->pxa_ep[0];
+                          ^~   ~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:480:17: note: Value stored to 'ep' d=
+uring its initialization is never read
+           struct pxa_ep *ep =3D &udc->pxa_ep[0];
+                          ^~   ~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:481:8: warning: Value stored to 'old=
+_stname' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           char *old_stname =3D EP0_STNAME(udc);
+                 ^~~~~~~~~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:481:8: note: Value stored to 'old_st=
+name' during its initialization is never read
+           char *old_stname =3D EP0_STNAME(udc);
+                 ^~~~~~~~~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:1087:2: warning: Value stored to 'is=
+_first_req' is never read [clang-analyzer-deadcode.DeadStores]
+           is_first_req =3D list_empty(&ep->queue);
+           ^              ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:1087:2: note: Value stored to 'is_fi=
+rst_req' is never read
+           is_first_req =3D list_empty(&ep->queue);
+           ^              ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:2271:6: warning: Value stored to 'ud=
+ccr' during its initialization is never read [clang-analyzer-deadcode.DeadS=
+tores]
+           u32 udccr =3D udc_readl(udc, UDCCR);
+               ^~~~~
+   drivers/usb/gadget/udc/pxa27x_udc.c:2271:6: note: Value stored to 'udccr=
+' during its initialization is never read
+           u32 udccr =3D udc_readl(udc, UDCCR);
+               ^~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   sound/soc/codecs/cs42l52.c:1165:2: warning: Value stored to 'ret' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           ret =3D regmap_read(cs42l52->regmap, CS42L52_CHIP, &reg);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/cs42l52.c:1165:2: note: Value stored to 'ret' is never =
+read
+           ret =3D regmap_read(cs42l52->regmap, CS42L52_CHIP, &reg);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   Suppressed 11 warnings (11 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+>> sound/soc/codecs/wm8994.c:1450:28: warning: Value stored to 'component' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct snd_soc_component *component =3D snd_soc_dapm_to_componen=
+t(w->dapm);
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   sound/soc/codecs/wm8994.c:1450:28: note: Value stored to 'component' dur=
+ing its initialization is never read
+           struct snd_soc_component *component =3D snd_soc_dapm_to_componen=
+t(w->dapm);
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   sound/soc/codecs/wm8994.c:3345:28: warning: Value stored to 'component' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct snd_soc_component *component =3D wm8994->hubs.component;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8994.c:3345:28: note: Value stored to 'component' dur=
+ing its initialization is never read
+           struct snd_soc_component *component =3D wm8994->hubs.component;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/wm8994.c:3703:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D wm8994->wm8994->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8994.c:3703:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D wm8994->wm8994->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/media/v4l2-core/v4l2-async.c:448:17: warning: Value stored to 'd=
+ev' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           struct device *dev =3D
+                          ^~~
+   drivers/media/v4l2-core/v4l2-async.c:448:17: note: Value stored to 'dev'=
+ during its initialization is never read
+           struct device *dev =3D
+                          ^~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/media/v4l2-core/v4l2-mc.c:176:4: warning: Value stored to 'if_au=
+d' is never read [clang-analyzer-deadcode.DeadStores]
+                           if_aud =3D tuner;
+                           ^        ~~~~~
+   drivers/media/v4l2-core/v4l2-mc.c:176:4: note: Value stored to 'if_aud' =
+is never read
+                           if_aud =3D tuner;
+                           ^        ~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   sound/usb/caiaq/audio.c:123:17: warning: Value stored to 'dev' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D caiaqdev_to_dev(cdev);
+                          ^~~
+   sound/usb/caiaq/audio.c:123:17: note: Value stored to 'dev' during its i=
+nitialization is never read
+           struct device *dev =3D caiaqdev_to_dev(cdev);
+                          ^~~
+   sound/usb/caiaq/audio.c:144:17: warning: Value stored to 'dev' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D caiaqdev_to_dev(cdev);
+                          ^~~
+   sound/usb/caiaq/audio.c:144:17: note: Value stored to 'dev' during its i=
+nitialization is never read
+           struct device *dev =3D caiaqdev_to_dev(cdev);
+                          ^~~
+   sound/usb/caiaq/audio.c:156:17: warning: Value stored to 'dev' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D caiaqdev_to_dev(cdev);
+                          ^~~
+   sound/usb/caiaq/audio.c:156:17: note: Value stored to 'dev' during its i=
+nitialization is never read
+           struct device *dev =3D caiaqdev_to_dev(cdev);
+                          ^~~
+   sound/usb/caiaq/audio.c:191:17: warning: Value stored to 'dev' during it=
+s initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D caiaqdev_to_dev(cdev);
 
-:::::: TO: Ariel Levkovich <lariel@mellanox.com>
-:::::: CC: Saeed Mahameed <saeedm@mellanox.com>
+vim +/component +1450 sound/soc/codecs/wm8994.c
+
+9e6e96a197a037 Mark Brown        2010-01-29  1445  =
+
+9e6e96a197a037 Mark Brown        2010-01-29  1446  /* Debugging; dump chip =
+status after DAPM transitions */
+9e6e96a197a037 Mark Brown        2010-01-29  1447  static int post_ev(struc=
+t snd_soc_dapm_widget *w,
+9e6e96a197a037 Mark Brown        2010-01-29  1448  	    struct snd_kcontrol=
+ *kcontrol, int event)
+9e6e96a197a037 Mark Brown        2010-01-29  1449  {
+00a6941c841205 Kuninori Morimoto 2018-01-29 @1450  	struct snd_soc_componen=
+t *component =3D snd_soc_dapm_to_component(w->dapm);
+00a6941c841205 Kuninori Morimoto 2018-01-29  1451  	dev_dbg(component->dev,=
+ "SRC status: %x\n",
+6d75dfc3e86500 Kuninori Morimoto 2020-06-16  1452  		snd_soc_component_read=
+(component,
+9e6e96a197a037 Mark Brown        2010-01-29  1453  			     WM8994_RATE_STAT=
+US));
+9e6e96a197a037 Mark Brown        2010-01-29  1454  	return 0;
+9e6e96a197a037 Mark Brown        2010-01-29  1455  }
+9e6e96a197a037 Mark Brown        2010-01-29  1456  =
+
+
+:::::: The code at line 1450 was first introduced by commit
+:::::: 00a6941c841205fbdade825219a828c81008149b ASoC: wm8993/wm8994/wm8958:=
+ replace codec to component
+
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3019662631939012681==--
+--===============7251212255964320080==--
 
