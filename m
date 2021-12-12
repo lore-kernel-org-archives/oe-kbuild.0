@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============3297110477358113600=="
+Content-Type: multipart/mixed; boundary="===============4725709886636952708=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 12 Dec 2021 13:34:51 +0800
-Message-ID: <20211212053451.GA81460@186b9a8a44b7>
+Date: Sun, 12 Dec 2021 13:34:48 +0800
+Message-ID: <20211212053448.GA80501@186b9a8a44b7>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3297110477358113600==
+--===============4725709886636952708==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,15 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
-CC: linux-input(a)vger.kernel.org
+CC: Support Opensource <support.opensource@diasemi.com>
+CC: Liam Girdwood <lgirdwood@gmail.com>
+CC: Mark Brown <broonie@kernel.org>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/input/keyboard/twl4030_keypad.c:413:9-34: WARNING: Threaded IRQ wit=
-h no primary handler requested without IRQF_ONESHOT (unless it is nested IR=
-Q)
+drivers/regulator/slg51000-regulator.c:480:8-33: WARNING: Threaded IRQ with=
+ no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -49,19 +49,20 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- twl4030_keypad.c |    2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ slg51000-regulator.c |    3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
---- a/drivers/input/keyboard/twl4030_keypad.c
-+++ b/drivers/input/keyboard/twl4030_keypad.c
-@@ -411,7 +411,7 @@ static int twl4030_kp_probe(struct platf
- 	 * NOTE:  we assume this host is wired to TWL4040 INT1, not INT2 ...
- 	 */
- 	error =3D devm_request_threaded_irq(&pdev->dev, kp->irq, NULL, do_kp_irq,
--					  0, pdev->name, kp);
-+					  IRQF_ONESHOT, pdev->name, kp);
- 	if (error) {
- 		dev_info(kp->dbg_dev, "request_irq failed for irq no=3D%d: %d\n",
- 			kp->irq, error);
---===============3297110477358113600==--
+--- a/drivers/regulator/slg51000-regulator.c
++++ b/drivers/regulator/slg51000-regulator.c
+@@ -479,8 +479,7 @@ static int slg51000_i2c_probe(struct i2c
+ 	if (chip->chip_irq) {
+ 		ret =3D devm_request_threaded_irq(dev, chip->chip_irq, NULL,
+ 						slg51000_irq_handler,
+-						(IRQF_TRIGGER_HIGH |
+-						IRQF_ONESHOT),
++						(IRQF_TRIGGER_HIGH | IRQF_ONESHOT) | IRQF_ONESHOT,
+ 						"slg51000-irq", chip);
+ 		if (ret !=3D 0) {
+ 			dev_err(dev, "Failed to request IRQ: %d\n",
+--===============4725709886636952708==--
 
