@@ -1,529 +1,196 @@
-Content-Type: multipart/mixed; boundary="===============7857306487459656166=="
+Content-Type: multipart/mixed; boundary="===============7545075199545790067=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [chrome-os:chromeos-5.15 1440/2818] sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:55:2: warning: Value stored to 'pdm_ctrl' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 12 Dec 2021 11:43:12 +0800
-Message-ID: <202112121130.Q9Cu5N6u-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() warn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __builtin_clzll((~0))):((4 <= 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a 64 bit type?
+Date: Sun, 12 Dec 2021 11:22:48 +0800
+Message-ID: <202112121114.UBOG7mjJ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7857306487459656166==
+--===============7545075199545790067==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
-TO: Guenter Roeck <groeck@google.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Jakub Jelinek <jakub@redhat.com>
+CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-tree:   https://chromium.googlesource.com/chromiumos/third_party/kernel chr=
-omeos-5.15
-head:   b4852fbf90916fdc2f1e0e282e100f7e0e889d77
-commit: b86615571e3d8bd49bcc434a42d9070e2806e35d [1440/2818] CHROMIUM: ASoC=
-: amd: enable renoir audio driver build
-:::::: branch date: 21 hours ago
-:::::: commit date: 3 weeks ago
-config: i386-randconfig-c001-20211210 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112121130.Q9Cu5N6u-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        git remote add chrome-os https://chromium.googlesource.com/chromium=
-os/third_party/kernel
-        git fetch --no-tags chrome-os chromeos-5.15
-        git checkout b86615571e3d8bd49bcc434a42d9070e2806e35d
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
+commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
+onstant arguments
+date:   12 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 12 months ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211212/202112121114.UBOG7mjJ-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() w=
+arn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __bu=
+iltin_clzll((~0))):((4 <=3D 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a=
+ 64 bit type?
+drivers/gpu/drm/i915/selftests/intel_memory_region.c:324 igt_mock_splintere=
+d_region() warn: should '1 << ((__builtin_constant_p(size)) ?((size < 2) ?0=
+:63 - __builtin_clzll(size)):((8 <=3D 4)) ?__ilog2_u32(size):__ilog2_u64(si=
+ze))' be a 64 bit type?
+
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 119)
+drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 119)
+
+vim +187 drivers/gpu/drm/i915/gem/selftests/huge_pages.c
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  183  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  184  static int fake_get_huge_pages(struct drm_i915_gem_object *ob=
+j)
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  185  {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  186  	struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06 @187  	const u64 max_len =3D rounddown_pow_of_two(UINT_MAX);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  188  	struct sg_table *st;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  189  	struct scatterlist *sg;
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  190  	unsigned int sg_page_sizes;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  191  	u64 rem;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  192  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  193  	st =3D kmalloc(sizeof(*st), GFP);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  194  	if (!st)
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  195  		return -ENOMEM;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  196  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  197  	if (sg_alloc_table(st, obj->base.size >> PAGE_SHIFT, GFP)) {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  198  		kfree(st);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  199  		return -ENOMEM;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  200  	}
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  201  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  202  	/* Use optimal page sized chunks to fill in the sg table */
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  203  	rem =3D obj->base.size;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  204  	sg =3D st->sgl;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  205  	st->nents =3D 0;
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  206  	sg_page_sizes =3D 0;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  207  	do {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  208  		unsigned int page_size =3D get_largest_page_size(i915, rem);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  209  		unsigned int len =3D min(page_size * div_u64(rem, page_size=
+),
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  210  				       max_len);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  211  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  212  		GEM_BUG_ON(!page_size);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  213  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  214  		sg->offset =3D 0;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  215  		sg->length =3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  216  		sg_dma_len(sg) =3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  217  		sg_dma_address(sg) =3D page_size;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  218  =
+
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  219  		sg_page_sizes |=3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  220  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  221  		st->nents++;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  222  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  223  		rem -=3D len;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  224  		if (!rem) {
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  225  			sg_mark_end(sg);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  226  			break;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  227  		}
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  228  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  229  		sg =3D sg_next(sg);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  230  	} while (1);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  231  =
+
+c6d22ab61bfdeb drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+8-09-20  232  	i915_sg_trim(st);
+c6d22ab61bfdeb drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+8-09-20  233  =
+
+84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-09  234  	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  235  =
+
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  236  	return 0;
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  237  }
+4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
+7-10-06  238  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   sound/soc/codecs/tas2764.c:54:23: warning: Value stored to 'tas2764' dur=
-ing its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct tas2764_priv *tas2764 =3D snd_soc_component_get_drvdata(c=
-omponent);
-                                ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   sound/soc/codecs/tas2764.c:54:23: note: Value stored to 'tas2764' during=
- its initialization is never read
-           struct tas2764_priv *tas2764 =3D snd_soc_component_get_drvdata(c=
-omponent);
-                                ^~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/gpu/drm/i915/i915_gpu_error.c:1018:2: warning: Call to function =
-'strcpy' is insecure as it does not provide bounding of the memory buffer. =
-Replace unbounded copy functions with analogous functions that support leng=
-th arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAP=
-I.strcpy]
-           strcpy(dst->name, name);
-           ^~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:1018:2: note: Call to function 'st=
-rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
-lace unbounded copy functions with analogous functions that support length =
-arguments such as 'strlcpy'. CWE-119
-           strcpy(dst->name, name);
-           ^~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:1282:3: warning: Call to function =
-'strcpy' is insecure as it does not provide bounding of the memory buffer. =
-Replace unbounded copy functions with analogous functions that support leng=
-th arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAP=
-I.strcpy]
-                   strcpy(e->comm, task->comm);
-                   ^~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:1282:3: note: Call to function 'st=
-rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
-lace unbounded copy functions with analogous functions that support length =
-arguments such as 'strlcpy'. CWE-119
-                   strcpy(e->comm, task->comm);
-                   ^~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:1326:2: warning: Call to function =
-'strcpy' is insecure as it does not provide bounding of the memory buffer. =
-Replace unbounded copy functions with analogous functions that support leng=
-th arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAP=
-I.strcpy]
-           strcpy(c->name, name);
-           ^~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:1326:2: note: Call to function 'st=
-rcpy' is insecure as it does not provide bounding of the memory buffer. Rep=
-lace unbounded copy functions with analogous functions that support length =
-arguments such as 'strlcpy'. CWE-119
-           strcpy(c->name, name);
-           ^~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:1715:3: warning: Value stored to '=
-len' is never read [clang-analyzer-deadcode.DeadStores]
-                   len +=3D scnprintf(error->error_msg + len,
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/i915_gpu_error.c:1715:3: note: Value stored to 'len=
-' is never read
-                   len +=3D scnprintf(error->error_msg + len,
-                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
->> sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:55:2: warning: Value stored to '=
-pdm_ctrl' is never read [clang-analyzer-deadcode.DeadStores]
-           pdm_ctrl =3D 0x00;
-           ^          ~~~~
-   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:55:2: note: Value stored to 'pdm=
-_ctrl' is never read
-           pdm_ctrl =3D 0x00;
-           ^          ~~~~
->> sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:107:2: warning: Value stored to =
-'pdm_dma_enable' is never read [clang-analyzer-deadcode.DeadStores]
-           pdm_dma_enable =3D 0x00;
-           ^                ~~~~
-   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:107:2: note: Value stored to 'pd=
-m_dma_enable' is never read
-           pdm_dma_enable =3D 0x00;
-           ^                ~~~~
->> sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:123:2: warning: Value stored to =
-'pdm_enable' is never read [clang-analyzer-deadcode.DeadStores]
-           pdm_enable =3D 0x00;
-           ^            ~~~~
-   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:123:2: note: Value stored to 'pd=
-m_enable' is never read
-           pdm_enable =3D 0x00;
-           ^            ~~~~
-   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:124:2: warning: Value stored to =
-'pdm_dma_enable' is never read [clang-analyzer-deadcode.DeadStores]
-           pdm_dma_enable  =3D 0x00;
-           ^                 ~~~~
-   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:124:2: note: Value stored to 'pd=
-m_dma_enable' is never read
-           pdm_dma_enable  =3D 0x00;
-           ^                 ~~~~
-   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:131:3: warning: Value stored to =
-'pdm_dma_enable' is never read [clang-analyzer-deadcode.DeadStores]
-                   pdm_dma_enable =3D 0x00;
-                   ^                ~~~~
-   sound/soc/amd/renoir/acp3x-rn-pdm-dma.c:131:3: note: Value stored to 'pd=
-m_dma_enable' is never read
-                   pdm_dma_enable =3D 0x00;
-                   ^                ~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/gpu/drm/i915/display/i9xx_plane.c:1009:3: warning: Value stored =
-to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
-                   offset =3D intel_de_read(dev_priv, DSPOFFSET(i9xx_plane)=
-);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/i9xx_plane.c:1009:3: note: Value stored to =
-'offset' is never read
-                   offset =3D intel_de_read(dev_priv, DSPOFFSET(i9xx_plane)=
-);
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/i9xx_plane.c:1013:4: warning: Value stored =
-to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
-                           offset =3D intel_de_read(dev_priv,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/i9xx_plane.c:1013:4: note: Value stored to =
-'offset' is never read
-                           offset =3D intel_de_read(dev_priv,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/i9xx_plane.c:1016:4: warning: Value stored =
-to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
-                           offset =3D intel_de_read(dev_priv,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/i9xx_plane.c:1016:4: note: Value stored to =
-'offset' is never read
-                           offset =3D intel_de_read(dev_priv,
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   drivers/gpu/drm/i915/display/skl_universal_plane.c:2308:2: warning: Valu=
-e stored to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
-           offset =3D intel_de_read(dev_priv, PLANE_OFFSET(pipe, plane_id));
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/i915/display/skl_universal_plane.c:2308:2: note: Value s=
-tored to 'offset' is never read
-           offset =3D intel_de_read(dev_priv, PLANE_OFFSET(pipe, plane_id));
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+:::::: The code at line 187 was first introduced by commit
+:::::: 4049866f0913110bf7de597c1177de7a1cc459cb drm/i915/selftests: huge pa=
+ge tests
 
-vim +/pdm_ctrl +55 sound/soc/amd/renoir/acp3x-rn-pdm-dma.c
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   49  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   50  static void enable_pdm_clo=
-ck(void __iomem *acp_base)
-2dce795e59f452 Vijendar Mukunda 2021-04-15   51  {
-2dce795e59f452 Vijendar Mukunda 2021-04-15   52  	u32 pdm_clk_enable, pdm_c=
-trl;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   53  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   54  	pdm_clk_enable =3D ACP_PD=
-M_CLK_FREQ_MASK;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  @55  	pdm_ctrl =3D 0x00;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   56  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   57  	rn_writel(pdm_clk_enable,=
- acp_base + ACP_WOV_CLK_CTRL);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   58  	pdm_ctrl =3D rn_readl(acp=
-_base + ACP_WOV_MISC_CTRL);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   59  	pdm_ctrl |=3D ACP_WOV_MIS=
-C_CTRL_MASK;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   60  	rn_writel(pdm_ctrl, acp_b=
-ase + ACP_WOV_MISC_CTRL);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   61  }
-2dce795e59f452 Vijendar Mukunda 2021-04-15   62  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   63  static void enable_pdm_int=
-errupts(void __iomem *acp_base)
-2dce795e59f452 Vijendar Mukunda 2021-04-15   64  {
-2dce795e59f452 Vijendar Mukunda 2021-04-15   65  	u32 ext_int_ctrl;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   66  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   67  	ext_int_ctrl =3D rn_readl=
-(acp_base + ACP_EXTERNAL_INTR_CNTL);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   68  	ext_int_ctrl |=3D PDM_DMA=
-_INTR_MASK;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   69  	rn_writel(ext_int_ctrl, a=
-cp_base + ACP_EXTERNAL_INTR_CNTL);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   70  }
-2dce795e59f452 Vijendar Mukunda 2021-04-15   71  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   72  static void disable_pdm_in=
-terrupts(void __iomem *acp_base)
-2dce795e59f452 Vijendar Mukunda 2021-04-15   73  {
-2dce795e59f452 Vijendar Mukunda 2021-04-15   74  	u32 ext_int_ctrl;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   75  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   76  	ext_int_ctrl =3D rn_readl=
-(acp_base + ACP_EXTERNAL_INTR_CNTL);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   77  	ext_int_ctrl &=3D ~PDM_DM=
-A_INTR_MASK;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   78  	rn_writel(ext_int_ctrl, a=
-cp_base + ACP_EXTERNAL_INTR_CNTL);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   79  }
-2dce795e59f452 Vijendar Mukunda 2021-04-15   80  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   81  static bool check_pdm_dma_=
-status(void __iomem *acp_base)
-2dce795e59f452 Vijendar Mukunda 2021-04-15   82  {
-2dce795e59f452 Vijendar Mukunda 2021-04-15   83  	bool pdm_dma_status;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   84  	u32 pdm_enable, pdm_dma_e=
-nable;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   85  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   86  	pdm_dma_status =3D false;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   87  	pdm_enable =3D rn_readl(a=
-cp_base + ACP_WOV_PDM_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   88  	pdm_dma_enable =3D rn_rea=
-dl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15   89  	if ((pdm_enable & ACP_PDM=
-_ENABLE) && (pdm_dma_enable &
-2dce795e59f452 Vijendar Mukunda 2021-04-15   90  	     ACP_PDM_DMA_EN_STATU=
-S))
-2dce795e59f452 Vijendar Mukunda 2021-04-15   91  		pdm_dma_status =3D true;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   92  	return pdm_dma_status;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   93  }
-2dce795e59f452 Vijendar Mukunda 2021-04-15   94  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15   95  static int start_pdm_dma(v=
-oid __iomem *acp_base)
-2dce795e59f452 Vijendar Mukunda 2021-04-15   96  {
-2dce795e59f452 Vijendar Mukunda 2021-04-15   97  	u32 pdm_enable;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   98  	u32 pdm_dma_enable;
-2dce795e59f452 Vijendar Mukunda 2021-04-15   99  	int timeout;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  100  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15  101  	pdm_enable =3D 0x01;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  102  	pdm_dma_enable  =3D 0x01;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  103  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15  104  	enable_pdm_clock(acp_base=
-);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  105  	rn_writel(pdm_enable, acp=
-_base + ACP_WOV_PDM_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  106  	rn_writel(pdm_dma_enable,=
- acp_base + ACP_WOV_PDM_DMA_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15 @107  	pdm_dma_enable =3D 0x00;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  108  	timeout =3D 0;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  109  	while (++timeout < ACP_CO=
-UNTER) {
-2dce795e59f452 Vijendar Mukunda 2021-04-15  110  		pdm_dma_enable =3D rn_re=
-adl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  111  		if ((pdm_dma_enable & 0x=
-02) =3D=3D ACP_PDM_DMA_EN_STATUS)
-2dce795e59f452 Vijendar Mukunda 2021-04-15  112  			return 0;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  113  		udelay(DELAY_US);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  114  	}
-2dce795e59f452 Vijendar Mukunda 2021-04-15  115  	return -ETIMEDOUT;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  116  }
-2dce795e59f452 Vijendar Mukunda 2021-04-15  117  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15  118  static int stop_pdm_dma(vo=
-id __iomem *acp_base)
-2dce795e59f452 Vijendar Mukunda 2021-04-15  119  {
-2dce795e59f452 Vijendar Mukunda 2021-04-15  120  	u32 pdm_enable, pdm_dma_e=
-nable;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  121  	int timeout;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  122  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15 @123  	pdm_enable =3D 0x00;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  124  	pdm_dma_enable  =3D 0x00;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  125  =
-
-2dce795e59f452 Vijendar Mukunda 2021-04-15  126  	pdm_enable =3D rn_readl(a=
-cp_base + ACP_WOV_PDM_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  127  	pdm_dma_enable =3D rn_rea=
-dl(acp_base + ACP_WOV_PDM_DMA_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  128  	if (pdm_dma_enable & 0x01=
-) {
-2dce795e59f452 Vijendar Mukunda 2021-04-15  129  		pdm_dma_enable =3D 0x02;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  130  		rn_writel(pdm_dma_enable=
-, acp_base + ACP_WOV_PDM_DMA_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  131  		pdm_dma_enable =3D 0x00;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  132  		timeout =3D 0;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  133  		while (++timeout < ACP_C=
-OUNTER) {
-2dce795e59f452 Vijendar Mukunda 2021-04-15  134  			pdm_dma_enable =3D rn_r=
-eadl(acp_base +
-2dce795e59f452 Vijendar Mukunda 2021-04-15  135  						  ACP_WOV_PDM_DMA_EN=
-ABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  136  			if ((pdm_dma_enable & 0=
-x02) =3D=3D 0x00)
-2dce795e59f452 Vijendar Mukunda 2021-04-15  137  				break;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  138  			udelay(DELAY_US);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  139  		}
-2dce795e59f452 Vijendar Mukunda 2021-04-15  140  		if (timeout =3D=3D ACP_C=
-OUNTER)
-2dce795e59f452 Vijendar Mukunda 2021-04-15  141  			return -ETIMEDOUT;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  142  	}
-2dce795e59f452 Vijendar Mukunda 2021-04-15  143  	if (pdm_enable =3D=3D ACP=
-_PDM_ENABLE) {
-2dce795e59f452 Vijendar Mukunda 2021-04-15  144  		pdm_enable =3D ACP_PDM_D=
-ISABLE;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  145  		rn_writel(pdm_enable, ac=
-p_base + ACP_WOV_PDM_ENABLE);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  146  	}
-2dce795e59f452 Vijendar Mukunda 2021-04-15  147  	rn_writel(0x01, acp_base =
-+ ACP_WOV_PDM_FIFO_FLUSH);
-2dce795e59f452 Vijendar Mukunda 2021-04-15  148  	return 0;
-2dce795e59f452 Vijendar Mukunda 2021-04-15  149  }
-2dce795e59f452 Vijendar Mukunda 2021-04-15  150  =
-
-
-:::::: The code@line 55 was first introduced by commit
-:::::: 2dce795e59f452c6e526029669aa2c269bb99dfc CHROMIUM: ASoC: amd: acp dr=
-iver changes to support I2S and dmic
-
-:::::: TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-:::::: CC: Guenter Roeck <groeck@chromium.org>
+:::::: TO: Matthew Auld <matthew.auld@intel.com>
+:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7857306487459656166==--
+--===============7545075199545790067==--
 
