@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============6688516794038181476=="
+Content-Type: multipart/mixed; boundary="===============1069691024609528845=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 12 Dec 2021 13:14:01 +0800
-Message-ID: <20211212051401.GA54539@23c71df2bcc1>
+Date: Sun, 12 Dec 2021 13:13:58 +0800
+Message-ID: <20211212051358.GA53580@23c71df2bcc1>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6688516794038181476==
+--===============1069691024609528845==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,14 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Felipe Balbi <balbi@kernel.org>
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: linux-usb(a)vger.kernel.org
+CC: MyungJoo Ham <myungjoo.ham@samsung.com>
+CC: Chanwoo Choi <cw00.choi@samsung.com>
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/usb/phy/phy-generic.c:300:8-33: WARNING: Threaded IRQ with no prima=
-ry handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/extcon/extcon-max77843.c:907:8-33: WARNING: Threaded IRQ with no pr=
+imary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -49,20 +48,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- phy-generic.c |    3 ++-
+ extcon-max77843.c |    3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/usb/phy/phy-generic.c
-+++ b/drivers/usb/phy/phy-generic.c
-@@ -300,7 +300,8 @@ static int usb_phy_generic_probe(struct
- 		err =3D devm_request_threaded_irq(&pdev->dev,
- 						gpiod_to_irq(nop->gpiod_vbus),
- 						NULL, nop_gpio_vbus_thread,
--						VBUS_IRQ_FLAGS, "vbus_detect",
-+						VBUS_IRQ_FLAGS | IRQF_ONESHOT,
-+						"vbus_detect",
- 						nop);
- 		if (err) {
- 			dev_err(&pdev->dev, "can't request irq %i, err: %d\n",
---===============6688516794038181476==--
+--- a/drivers/extcon/extcon-max77843.c
++++ b/drivers/extcon/extcon-max77843.c
+@@ -905,7 +905,8 @@ static int max77843_muic_probe(struct pl
+ 		muic_irq->virq =3D virq;
+ =
+
+ 		ret =3D devm_request_threaded_irq(&pdev->dev, virq, NULL,
+-				max77843_muic_irq_handler, IRQF_NO_SUSPEND,
++				max77843_muic_irq_handler,
++				IRQF_NO_SUSPEND | IRQF_ONESHOT,
+ 				muic_irq->name, info);
+ 		if (ret) {
+ 			dev_err(&pdev->dev,
+--===============1069691024609528845==--
 
