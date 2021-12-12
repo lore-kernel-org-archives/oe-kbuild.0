@@ -1,125 +1,102 @@
-Content-Type: multipart/mixed; boundary="===============6403855148763331368=="
+Content-Type: multipart/mixed; boundary="===============5319772546675196611=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/ethernet/mellanox/mlx5/core/pci_irq.c:233 irq_request() error: passing non negative 536870911 to ERR_PTR
-Date: Sun, 12 Dec 2021 10:50:35 +0800
-Message-ID: <202112121053.VvnObyYI-lkp@intel.com>
+Subject: drivers/net/wireless/realtek/rtw89/rtw8852a.c:1820 rtw8852a_btc_set_wl_txpwr_ctrl() error: uninitialized symbol '_cur'.
+Date: Sun, 12 Dec 2021 10:30:13 +0800
+Message-ID: <202112121053.PakchGHm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6403855148763331368==
+--===============5319772546675196611==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Shay Drory <shayd@nvidia.com>
-CC: Saeed Mahameed <saeedm@nvidia.com>
-CC: Leon Romanovsky <leonro@nvidia.com>
-CC: Tariq Toukan <tariqt@nvidia.com>
+TO: "Ping-Ke Shih" <pkshih@realtek.com>
+CC: Kalle Valo <kvalo@codeaurora.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
-commit: c36326d38d933199014aba5a17d384cf52e4b558 net/mlx5: Round-Robin EQs =
-over IRQs
-date:   6 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211209 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112121053.VvnObyYI-lkp(a)intel.com/config)
+head:   bbdff6d583be718935b613ab2a966cddaadf661f
+commit: e3ec7017f6a20d12ddd9fe23d345ebb7b8c104dd rtw89: add Realtek 802.11a=
+x driver
+date:   9 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 9 weeks ago
+config: i386-randconfig-m031-20211211 (https://download.01.org/0day-ci/arch=
+ive/20211212/202112121053.PakchGHm-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/net/ethernet/mellanox/mlx5/core/pci_irq.c:233 irq_request() error: =
-passing non negative 536870911 to ERR_PTR
+New smatch warnings:
+drivers/net/wireless/realtek/rtw89/rtw8852a.c:1820 rtw8852a_btc_set_wl_txpw=
+r_ctrl() error: uninitialized symbol '_cur'.
 
-vim +233 drivers/net/ethernet/mellanox/mlx5/core/pci_irq.c
+Old smatch warnings:
+drivers/net/wireless/realtek/rtw89/rtw8852a.c:1821 rtw8852a_btc_set_wl_txpw=
+r_ctrl() error: uninitialized symbol '_cur'.
 
-256cf690af0668 Yuval Avnery    2019-06-10  187  =
+vim +/_cur +1820 drivers/net/wireless/realtek/rtw89/rtw8852a.c
 
-71e084e26414b0 Shay Drory      2021-02-23  188  static struct mlx5_irq *irq=
-_request(struct mlx5_irq_pool *pool, int i)
-256cf690af0668 Yuval Avnery    2019-06-10  189  {
-71e084e26414b0 Shay Drory      2021-02-23  190  	struct mlx5_core_dev *dev =
-=3D pool->dev;
-256cf690af0668 Yuval Avnery    2019-06-10  191  	char name[MLX5_MAX_IRQ_NAM=
-E];
-2d74524c0106ab Shay Drory      2021-02-23  192  	struct mlx5_irq *irq;
-256cf690af0668 Yuval Avnery    2019-06-10  193  	int err;
-256cf690af0668 Yuval Avnery    2019-06-10  194  =
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1794  =
 
-fc63dd2a85be1f Shay Drory      2021-02-23  195  	irq =3D kzalloc(sizeof(*ir=
-q), GFP_KERNEL);
-fc63dd2a85be1f Shay Drory      2021-02-23  196  	if (!irq)
-fc63dd2a85be1f Shay Drory      2021-02-23  197  		return ERR_PTR(-ENOMEM);
-c38421abcf21d4 Leon Romanovsky 2021-02-23  198  	irq->irqn =3D pci_irq_vect=
-or(dev->pdev, i);
-71e084e26414b0 Shay Drory      2021-02-23  199  	if (!pool->name[0])
-256cf690af0668 Yuval Avnery    2019-06-10  200  		irq_set_name(name, i);
-71e084e26414b0 Shay Drory      2021-02-23  201  	else
-71e084e26414b0 Shay Drory      2021-02-23  202  		irq_sf_set_name(pool, nam=
-e, i);
-cf49f41d29467c Yuval Avnery    2019-06-10  203  	ATOMIC_INIT_NOTIFIER_HEAD(=
-&irq->nh);
-cf49f41d29467c Yuval Avnery    2019-06-10  204  	snprintf(irq->name, MLX5_M=
-AX_IRQ_NAME,
-256cf690af0668 Yuval Avnery    2019-06-10  205  		 "%s(a)pci:%s", name, pci=
-_name(dev->pdev));
-e8abebb3a48e86 Shay Drory      2021-02-23  206  	err =3D request_irq(irq->i=
-rqn, irq_int_handler, 0, irq->name,
-cf49f41d29467c Yuval Avnery    2019-06-10  207  			  &irq->nh);
-256cf690af0668 Yuval Avnery    2019-06-10  208  	if (err) {
-e8abebb3a48e86 Shay Drory      2021-02-23  209  		mlx5_core_err(dev, "Faile=
-d to request irq. err =3D %d\n", err);
-2d74524c0106ab Shay Drory      2021-02-23  210  		goto err_req_irq;
-256cf690af0668 Yuval Avnery    2019-06-10  211  	}
-e4e3f24b822f9d Leon Romanovsky 2021-02-23  212  	if (!zalloc_cpumask_var(&i=
-rq->mask, GFP_KERNEL)) {
-e4e3f24b822f9d Leon Romanovsky 2021-02-23  213  		mlx5_core_warn(dev, "zall=
-oc_cpumask_var failed\n");
-2d74524c0106ab Shay Drory      2021-02-23  214  		err =3D -ENOMEM;
-2d74524c0106ab Shay Drory      2021-02-23  215  		goto err_cpumask;
-e4e3f24b822f9d Leon Romanovsky 2021-02-23  216  	}
-c36326d38d9331 Shay Drory      2021-02-23  217  	kref_init(&irq->kref);
-c36326d38d9331 Shay Drory      2021-02-23  218  	irq->index =3D i;
-c36326d38d9331 Shay Drory      2021-02-23  219  	err =3D xa_err(xa_store(&p=
-ool->irqs, irq->index, irq, GFP_KERNEL));
-fc63dd2a85be1f Shay Drory      2021-02-23  220  	if (err) {
-fc63dd2a85be1f Shay Drory      2021-02-23  221  		mlx5_core_err(dev, "Faile=
-d to alloc xa entry for irq(%u). err =3D %d\n",
-fc63dd2a85be1f Shay Drory      2021-02-23  222  			      irq->index, err);
-fc63dd2a85be1f Shay Drory      2021-02-23  223  		goto err_xa;
-fc63dd2a85be1f Shay Drory      2021-02-23  224  	}
-71e084e26414b0 Shay Drory      2021-02-23  225  	irq->pool =3D pool;
-fc63dd2a85be1f Shay Drory      2021-02-23  226  	return irq;
-fc63dd2a85be1f Shay Drory      2021-02-23  227  err_xa:
-fc63dd2a85be1f Shay Drory      2021-02-23  228  	free_cpumask_var(irq->mask=
-);
-2d74524c0106ab Shay Drory      2021-02-23  229  err_cpumask:
-2d74524c0106ab Shay Drory      2021-02-23  230  	free_irq(irq->irqn, &irq->=
-nh);
-2d74524c0106ab Shay Drory      2021-02-23  231  err_req_irq:
-fc63dd2a85be1f Shay Drory      2021-02-23  232  	kfree(irq);
-fc63dd2a85be1f Shay Drory      2021-02-23 @233  	return ERR_PTR(err);
-e8abebb3a48e86 Shay Drory      2021-02-23  234  }
-256cf690af0668 Yuval Avnery    2019-06-10  235  =
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1795  static void
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1796  rtw8852a_btc_set_wl_txpwr_ctr=
+l(struct rtw89_dev *rtwdev, u32 txpwr_val)
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1797  {
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1798  	const u32 __btc_cr_all_time =
+=3D R_AX_PWR_RATE_CTRL;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1799  	const u32 __btc_cr_gnt_bt =
+=3D R_AX_PWR_COEXT_CTRL;
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1800  =
 
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1801  #define __do_clr(_chk) ((_chk=
+) =3D=3D GENMASK(15, 0))
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1802  #define __handle(_case)						=
+	\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1803  	do {								\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1804  		const u32 _reg =3D __btc_cr=
+_ ## _case;			\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1805  		u32 _val =3D __btc_ctrl_val=
+_ ## _case(txpwr_val);		\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1806  		u32 _cur, _wrt;						\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1807  		rtw89_debug(rtwdev, RTW89_D=
+BG_TXPWR,			\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1808  			    "btc ctrl %s: 0x%x\n",=
+ #_case, _val);	\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1809  		rtw89_mac_txpwr_read32(rtwd=
+ev, RTW89_PHY_0, _reg, &_cur);\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1810  		rtw89_debug(rtwdev, RTW89_D=
+BG_TXPWR,			\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1811  			    "btc ctrl ori 0x%x: 0x=
+%x\n", _reg, _cur);	\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1812  		_wrt =3D __do_clr(_val) ?		=
+			\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1813  			__btc_ctrl_rst_ ## _case(_=
+cur) :		\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1814  			__btc_ctrl_gen_ ## _case(_=
+cur, _val);		\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1815  		rtw89_mac_txpwr_write32(rtw=
+dev, RTW89_PHY_0, _reg, _wrt);\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1816  		rtw89_debug(rtwdev, RTW89_D=
+BG_TXPWR,			\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1817  			    "btc ctrl set 0x%x: 0x=
+%x\n", _reg, _wrt);	\
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1818  	} while (0)
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1819  =
 
-:::::: The code at line 233 was first introduced by commit
-:::::: fc63dd2a85be1f37fb822594101e9219b7be7460 net/mlx5: Change IRQ storag=
-e logic from static to dynamic
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11 @1820  	__handle(all_time);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1821  	__handle(gnt_bt);
+e3ec7017f6a20d Ping-Ke Shih 2021-10-11  1822  =
 
-:::::: TO: Shay Drory <shayd@nvidia.com>
-:::::: CC: Saeed Mahameed <saeedm@nvidia.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6403855148763331368==--
+--===============5319772546675196611==--
 
