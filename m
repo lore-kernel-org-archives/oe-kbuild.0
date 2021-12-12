@@ -1,478 +1,384 @@
-Content-Type: multipart/mixed; boundary="===============5567814445370751191=="
+Content-Type: multipart/mixed; boundary="===============8030948391799947981=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/net/wireless/marvell/mwifiex/cfg80211.c:1307 mwifiex_cfg80211_change_virtual_intf() warn: ignoring unreachable code.
-Date: Wed, 15 Dec 2021 01:54:49 +0800
-Message-ID: <202112150130.q1hT8U8O-lkp@intel.com>
+Subject: [linux-next:master 5993/6579] fs/ext4/super.c:5649:3: warning: Value stored to 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 12 Dec 2021 09:08:47 +0800
+Message-ID: <202112120915.2vuv8pWx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5567814445370751191==
+--===============8030948391799947981==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: "Jonas Dre=C3=9Fler" <verdre@v0yd.nl>
-CC: Kalle Valo <kvalo@codeaurora.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Lukas Czerner <lczerner@redhat.com>
+CC: "Theodore Ts'o" <tytso@mit.edu>
+CC: Carlos Maiolino <cmaiolino@redhat.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5472f14a37421d1bca3dddf33cabd3bd6dbefbbc
-commit: abe3a2c9ead8fd95db141ea1df8d96c48cad3893 mwifiex: Use function to c=
-heck whether interface type change is allowed
-date:   3 months ago
-:::::: branch date: 19 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-m001-20211214 (https://download.01.org/0day-ci/ar=
-chive/20211215/202112150130.q1hT8U8O-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   ea922272cbe547bdf58da2aaf240d59782c6a009
+commit: cebe85d570cf84804e848332d6721bc9e5300e07 [5993/6579] ext4: switch t=
+o the new mount api
+:::::: branch date: 28 hours ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-c001-20211210 (https://download.01.org/0day-ci/arch=
+ive/20211212/202112120915.2vuv8pWx-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
+it/commit/?id=3Dcebe85d570cf84804e848332d6721bc9e5300e07
+        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
+el/git/next/linux-next.git
+        git fetch --no-tags linux-next master
+        git checkout cebe85d570cf84804e848332d6721bc9e5300e07
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-drivers/net/wireless/marvell/mwifiex/cfg80211.c:1307 mwifiex_cfg80211_chang=
-e_virtual_intf() warn: ignoring unreachable code.
-
-vim +1307 drivers/net/wireless/marvell/mwifiex/cfg80211.c
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1126  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1127  static int
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1128  mwifiex_change_vif_to_ap(struct net_device *dev,
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1129  			 enum nl80211_iftype curr_iftype,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1130  			 enum nl80211_iftype type,
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1131  			 struct vif_params *params)
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1132  {
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1133  	struct mwifiex_private *priv;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1134  	struct mwifiex_adapter *adapter;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1135  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1136  	priv =3D mwifiex_netdev_get_priv(dev);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1137  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1138  	if (!priv)
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1139  		return -1;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1140  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1141  	adapter =3D priv->adapter;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1142  =
-
-acebe8c10a6eabd drivers/net/wireless/mwifiex/cfg80211.c         Zhaoyang Li=
-u     2015-05-12  1143  	mwifiex_dbg(adapter, INFO,
-acebe8c10a6eabd drivers/net/wireless/mwifiex/cfg80211.c         Zhaoyang Li=
-u     2015-05-12  1144  		    "%s: changing role to AP\n", dev->name);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1145  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1146  	if (mwifiex_deinit_priv_params(priv))
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1147  		return -1;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1148  	if (mwifiex_init_new_priv_params(priv, dev, type))
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1149  		return -1;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1150  	if (mwifiex_send_cmd(priv, HostCmd_CMD_SET_BSS_MOD=
-E,
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1151  			     HostCmd_ACT_GEN_SET, 0, NULL, true))
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1152  		return -1;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1153  	if (mwifiex_sta_init_cmd(priv, false, false))
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1154  		return -1;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1155  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1156  	switch (curr_iftype) {
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1157  	case NL80211_IFTYPE_P2P_CLIENT:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1158  	case NL80211_IFTYPE_P2P_GO:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1159  		adapter->curr_iface_comb.p2p_intf--;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1160  		break;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1161  	case NL80211_IFTYPE_STATION:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1162  	case NL80211_IFTYPE_ADHOC:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1163  		adapter->curr_iface_comb.sta_intf--;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1164  		break;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1165  	default:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1166  		break;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1167  	}
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1168  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1169  	adapter->curr_iface_comb.uap_intf++;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1170  	dev->ieee80211_ptr->iftype =3D type;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1171  	return 0;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1172  }
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1173  /*
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1174   * CFG802.11 operation handler to change interface =
-type.
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1175   */
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1176  static int
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1177  mwifiex_cfg80211_change_virtual_intf(struct wiphy *=
-wiphy,
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1178  				     struct net_device *dev,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1179  				     enum nl80211_iftype type,
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1180  				     struct vif_params *params)
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1181  {
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1182  	struct mwifiex_private *priv =3D mwifiex_netdev_ge=
-t_priv(dev);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1183  	enum nl80211_iftype curr_iftype =3D dev->ieee80211=
-_ptr->iftype;
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1184  =
-
-c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
-      2017-11-30  1185  	if (priv->scan_request) {
-c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
-      2017-11-30  1186  		mwifiex_dbg(priv->adapter, ERROR,
-c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
-      2017-11-30  1187  			    "change virtual interface: scan in process\n=
-");
-c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
-      2017-11-30  1188  		return -EBUSY;
-c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
-      2017-11-30  1189  	}
-c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
-      2017-11-30  1190  =
-
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1191  	if (type =3D=3D NL80211_IFTYPE_UNSPECIFIED)=
- {
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1192  		mwifiex_dbg(priv->adapter, INFO,
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1193  			    "%s: no new type specified, keeping o=
-ld type %d\n",
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1194  			    dev->name, curr_iftype);
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1195  		return 0;
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1196  	}
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1197  =
-
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1198  	if (curr_iftype =3D=3D type) {
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1199  		mwifiex_dbg(priv->adapter, INFO,
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1200  			    "%s: interface already is of type %d\=
-n",
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1201  			    dev->name, curr_iftype);
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1202  		return 0;
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1203  	}
-babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1204  =
-
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1205  	if (!is_vif_type_change_allowed(priv->adapt=
-er, curr_iftype, type)) {
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1206  		mwifiex_dbg(priv->adapter, ERROR,
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1207  			    "%s: change from type %d to %d is not=
- allowed\n",
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1208  			    dev->name, curr_iftype, type);
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1209  		return -EOPNOTSUPP;
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1210  	}
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1211  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1212  	switch (curr_iftype) {
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1213  	case NL80211_IFTYPE_ADHOC:
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1214  		switch (type) {
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1215  		case NL80211_IFTYPE_STATION:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1216  			priv->bss_mode =3D type;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1217  			priv->sec_info.authentication_mode =3D
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1218  						   NL80211_AUTHTYPE_OPEN_SYSTEM;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1219  			dev->ieee80211_ptr->iftype =3D type;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1220  			mwifiex_deauthenticate(priv, NULL);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1221  			return mwifiex_send_cmd(priv, HostCmd_CMD_SET_BS=
-S_MODE,
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1222  						HostCmd_ACT_GEN_SET, 0, NULL,
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1223  						true);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1224  		case NL80211_IFTYPE_P2P_CLIENT:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1225  		case NL80211_IFTYPE_P2P_GO:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1226  			return mwifiex_change_vif_to_p2p(dev, curr_iftyp=
-e,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1227  							 type, params);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1228  		case NL80211_IFTYPE_AP:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1229  			return mwifiex_change_vif_to_ap(dev, curr_iftype=
-, type,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1230  							params);
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1231  		default:
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1232  			goto errnotsupp;
-eecd8250e492ffc drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-28  1233  		}
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1234  =
-
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1235  	case NL80211_IFTYPE_STATION:
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1236  		switch (type) {
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1237  		case NL80211_IFTYPE_ADHOC:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1238  			priv->bss_mode =3D type;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1239  			priv->sec_info.authentication_mode =3D
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1240  						   NL80211_AUTHTYPE_OPEN_SYSTEM;
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1241  			dev->ieee80211_ptr->iftype =3D type;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1242  			mwifiex_deauthenticate(priv, NULL);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1243  			return mwifiex_send_cmd(priv, HostCmd_CMD_SET_BS=
-S_MODE,
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1244  						HostCmd_ACT_GEN_SET, 0, NULL,
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1245  						true);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1246  		case NL80211_IFTYPE_P2P_CLIENT:
-9197ab9e5f3016a drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1247  		case NL80211_IFTYPE_P2P_GO:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1248  			return mwifiex_change_vif_to_p2p(dev, curr_iftyp=
-e,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1249  							 type, params);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1250  		case NL80211_IFTYPE_AP:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1251  			return mwifiex_change_vif_to_ap(dev, curr_iftype=
-, type,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1252  							params);
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1253  		default:
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1254  			goto errnotsupp;
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1255  		}
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1256  =
-
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1257  	case NL80211_IFTYPE_AP:
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1258  		switch (type) {
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1259  		case NL80211_IFTYPE_ADHOC:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1260  			return mwifiex_change_vif_to_sta_adhoc(dev, curr=
-_iftype,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1261  							       type, params);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1262  			break;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1263  		case NL80211_IFTYPE_P2P_CLIENT:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1264  		case NL80211_IFTYPE_P2P_GO:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1265  			return mwifiex_change_vif_to_p2p(dev, curr_iftyp=
-e,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1266  							 type, params);
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1267  		default:
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1268  			goto errnotsupp;
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1269  		}
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1270  =
-
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1271  	case NL80211_IFTYPE_P2P_CLIENT:
-9197ab9e5f3016a drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1272  	case NL80211_IFTYPE_P2P_GO:
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1273  		switch (type) {
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1274  		case NL80211_IFTYPE_STATION:
-e79801ffe9c8625 drivers/net/wireless/mwifiex/cfg80211.c         Aniket Naga=
-rnaik 2015-07-16  1275  			if (mwifiex_cfg80211_deinit_p2p(priv))
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1276  				return -EFAULT;
-e79801ffe9c8625 drivers/net/wireless/mwifiex/cfg80211.c         Aniket Naga=
-rnaik 2015-07-16  1277  			priv->adapter->curr_iface_comb.p2p_intf--;
-e79801ffe9c8625 drivers/net/wireless/mwifiex/cfg80211.c         Aniket Naga=
-rnaik 2015-07-16  1278  			priv->adapter->curr_iface_comb.sta_intf++;
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1279  			dev->ieee80211_ptr->iftype =3D type;
-3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
-      2016-09-28  1280  			if (mwifiex_deinit_priv_params(priv))
-3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
-      2016-09-28  1281  				return -1;
-3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
-      2016-09-28  1282  			if (mwifiex_init_new_priv_params(priv, dev, type=
-))
-3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
-      2016-09-28  1283  				return -1;
-3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
-      2016-09-28  1284  			if (mwifiex_sta_init_cmd(priv, false, false))
-3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
-      2016-09-28  1285  				return -1;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1286  			break;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1287  		case NL80211_IFTYPE_ADHOC:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1288  			if (mwifiex_cfg80211_deinit_p2p(priv))
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1289  				return -EFAULT;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1290  			return mwifiex_change_vif_to_sta_adhoc(dev, curr=
-_iftype,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1291  							       type, params);
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1292  			break;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1293  		case NL80211_IFTYPE_AP:
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1294  			if (mwifiex_cfg80211_deinit_p2p(priv))
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1295  				return -EFAULT;
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28  1296  			return mwifiex_change_vif_to_ap(dev, curr_iftype=
-, type,
-818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
-rg    2017-04-12  1297  							params);
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1298  		default:
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1299  			goto errnotsupp;
-e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
-      2012-09-25  1300  		}
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1301  =
-
-4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2012-05-08  1302  	default:
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1303  		goto errnotsupp;
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1304  	}
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1305  =
-
-eecd8250e492ffc drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-28  1306  =
-
-047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
-il    2015-01-28 @1307  	return 0;
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1308  =
-
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1309  errnotsupp:
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1310  	mwifiex_dbg(priv->adapter, ERROR,
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1311  		    "unsupported interface type transition=
-: %d to %d\n",
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1312  		    curr_iftype, type);
-abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
-=C3=9Fler    2021-09-14  1313  	return -EOPNOTSUPP;
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1314  }
-5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
-      2011-03-21  1315  =
 
 
-:::::: The code at line 1307 was first introduced by commit
-:::::: 047eaaf64503c2902d1e054d5b944de18d14b28c mwifiex: support conversion=
- to any virtual interface type
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   drivers/char/ipmi/ipmi_msghandler.c:4927:4: note: Calling 'kref_put'
+                           kref_put(&intf->refcount, intf_free);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/kref.h:64:2: note: Assuming the condition is false
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   include/linux/kref.h:64:2: note: '?' condition is false
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   include/linux/kref.h:64:2: note: Assuming the condition is false
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   include/linux/kref.h:64:2: note: '?' condition is true
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   include/linux/kref.h:64:2: note: Taking true branch
+           if (refcount_dec_and_test(&kref->refcount)) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   include/linux/kref.h:65:3: note: Calling 'intf_free'
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:718:2: note: Memory is released
+           kfree(intf);
+           ^~~~~~~~~~~
+   include/linux/kref.h:65:3: note: Returning; memory was released
+                   release(kref);
+                   ^~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:4927:4: note: Returning; memory was =
+released
+                           kref_put(&intf->refcount, intf_free);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/char/ipmi/ipmi_msghandler.c:4938:2: note: Calling 'spinlock_chec=
+k'
+           spin_lock_irqsave(&intf->seq_lock, flags);
+           ^
+   include/linux/spinlock.h:379:24: note: expanded from macro 'spin_lock_ir=
+qsave'
+           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
+           ~~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/spinlock.h:242:34: note: expanded from macro 'raw_spin_loc=
+k_irqsave'
+                   flags =3D _raw_spin_lock_irqsave(lock);   \
+                                                  ^~~~
+   include/linux/spinlock.h:324:2: note: Use of memory after it is freed
+           return &lock->rlock;
+           ^      ~~~~~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   fs/ext4/resize.c:383:3: warning: Value stored to 'group' is never read [=
+clang-analyzer-deadcode.DeadStores]
+                   group =3D group_data[0].group;
+                   ^       ~~~~~~~~~~~~~~~~~~~
+   fs/ext4/resize.c:383:3: note: Value stored to 'group' is never read
+                   group =3D group_data[0].group;
+                   ^       ~~~~~~~~~~~~~~~~~~~
+   fs/ext4/resize.c:449:7: warning: Value stored to 'count2' is never read =
+[clang-analyzer-deadcode.DeadStores]
+           for (count2 =3D count; count > 0;
+                ^        ~~~~~
+   fs/ext4/resize.c:449:7: note: Value stored to 'count2' is never read
+           for (count2 =3D count; count > 0;
+                ^        ~~~~~
+   fs/ext4/resize.c:1929:3: warning: Value stored to 'err' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   err =3D ret;
+                   ^     ~~~
+   fs/ext4/resize.c:1929:3: note: Value stored to 'err' is never read
+                   err =3D ret;
+                   ^     ~~~
+   7 warnings generated.
+>> fs/ext4/super.c:5649:3: warning: Value stored to 'ret' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   fs/ext4/super.c:5649:3: note: Value stored to 'ret' is never read
+                   ret =3D -ENOMEM;
+                   ^     ~~~~~~~
+   Suppressed 6 warnings (2 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   fs/ext4/fast_commit.c:684:29: warning: Access to field 'b_data' results =
+in a dereference of a null pointer (loaded from field 's_fc_bh') [clang-ana=
+lyzer-core.NullDereference]
+           tl =3D (struct ext4_fc_tl *)(sbi->s_fc_bh->b_data + off);
+                                      ^
+   fs/ext4/fast_commit.c:1145:6: note: Assuming the condition is false
+           if (!test_opt2(sb, JOURNAL_FAST_COMMIT) ||
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/ext4/fast_commit.c:1145:6: note: Left side of '||' is false
+           if (!test_opt2(sb, JOURNAL_FAST_COMMIT) ||
+               ^
+   fs/ext4/fast_commit.c:1145:2: note: '?' condition is false
+           if (!test_opt2(sb, JOURNAL_FAST_COMMIT) ||
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/ext4/fast_commit.c:1145:6: note: Left side of '||' is false
+           if (!test_opt2(sb, JOURNAL_FAST_COMMIT) ||
+               ^
+   fs/ext4/fast_commit.c:1145:2: note: Assuming the condition is true
+           if (!test_opt2(sb, JOURNAL_FAST_COMMIT) ||
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/ext4/fast_commit.c:1145:2: note: '?' condition is false
+           if (!test_opt2(sb, JOURNAL_FAST_COMMIT) ||
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/ext4/fast_commit.c:1145:2: note: Taking false branch
+           if (!test_opt2(sb, JOURNAL_FAST_COMMIT) ||
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/ext4/fast_commit.c:1153:6: note: Assuming the condition is false
+           if (ret =3D=3D -EALREADY) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/ext4/fast_commit.c:1153:2: note: '?' condition is false
+           if (ret =3D=3D -EALREADY) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/ext4/fast_commit.c:1153:2: note: '?' condition is false
+           if (ret =3D=3D -EALREADY) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/ext4/fast_commit.c:1153:2: note: Taking false branch
+           if (ret =3D=3D -EALREADY) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-:::::: TO: Avinash Patil <patila@marvell.com>
-:::::: CC: Kalle Valo <kvalo@codeaurora.org>
+vim +/ret +5649 fs/ext4/super.c
+
+ac27a0ec112a08 Dave Kleikamp 2006-10-11  5639  =
+
+cebe85d570cf84 Lukas Czerner 2021-10-27  5640  static int ext4_fill_super(s=
+truct super_block *sb, struct fs_context *fc)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5641  {
+cebe85d570cf84 Lukas Czerner 2021-10-27  5642  	struct ext4_fs_context *ctx=
+ =3D fc->fs_private;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5643  	struct ext4_sb_info *sbi;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5644  	const char *descr;
+cebe85d570cf84 Lukas Czerner 2021-10-27  5645  	int ret;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5646  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5647  	sbi =3D ext4_alloc_sbi(sb);
+cebe85d570cf84 Lukas Czerner 2021-10-27  5648  	if (!sbi)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27 @5649  		ret =3D -ENOMEM;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5650  =
+
+cebe85d570cf84 Lukas Czerner 2021-10-27  5651  	fc->s_fs_info =3D sbi;
+cebe85d570cf84 Lukas Czerner 2021-10-27  5652  =
+
+cebe85d570cf84 Lukas Czerner 2021-10-27  5653  	/* Cleanup superblock name =
+*/
+cebe85d570cf84 Lukas Czerner 2021-10-27  5654  	strreplace(sb->s_id, '/', '=
+!');
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5655  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5656  	sbi->s_sb_block =3D 1;	/* D=
+efault super block location */
+cebe85d570cf84 Lukas Czerner 2021-10-27  5657  	if (ctx->spec & EXT4_SPEC_s=
+_sb_block)
+cebe85d570cf84 Lukas Czerner 2021-10-27  5658  		sbi->s_sb_block =3D ctx->s=
+_sb_block;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5659  =
+
+cebe85d570cf84 Lukas Czerner 2021-10-27  5660  	ret =3D __ext4_fill_super(f=
+c, sb, fc->sb_flags & SB_SILENT);
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5661  	if (ret < 0)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5662  		goto free_sbi;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5663  =
+
+cebe85d570cf84 Lukas Czerner 2021-10-27  5664  	if (sbi->s_journal) {
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5665  		if (test_opt(sb, DATA_FLAG=
+S) =3D=3D EXT4_MOUNT_JOURNAL_DATA)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5666  			descr =3D " journalled da=
+ta mode";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5667  		else if (test_opt(sb, DATA=
+_FLAGS) =3D=3D EXT4_MOUNT_ORDERED_DATA)
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5668  			descr =3D " ordered data =
+mode";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5669  		else
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5670  			descr =3D " writeback dat=
+a mode";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5671  	} else
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5672  		descr =3D "out journal";
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5673  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5674  	if (___ratelimit(&ext4_moun=
+t_msg_ratelimit, "EXT4-fs mount"))
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5675  		ext4_msg(sb, KERN_INFO, "m=
+ounted filesystem with%s. "
+cebe85d570cf84 Lukas Czerner 2021-10-27  5676  			 "Quota mode: %s.", descr=
+, ext4_quota_mode(sb));
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5677  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5678  	return 0;
+cebe85d570cf84 Lukas Czerner 2021-10-27  5679  =
+
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5680  free_sbi:
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5681  	ext4_free_sbi(sbi);
+cebe85d570cf84 Lukas Czerner 2021-10-27  5682  	fc->s_fs_info =3D NULL;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5683  	return ret;
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5684  }
+7edfd85b1ffd36 Lukas Czerner 2021-10-27  5685  =
+
+
+:::::: The code at line 5649 was first introduced by commit
+:::::: 7edfd85b1ffd36593011dec96ab395912a340418 ext4: Completely separate o=
+ptions parsing and sb setup
+
+:::::: TO: Lukas Czerner <lczerner@redhat.com>
+:::::: CC: Theodore Ts'o <tytso@mit.edu>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5567814445370751191==--
+--===============8030948391799947981==--
 
