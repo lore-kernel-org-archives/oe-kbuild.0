@@ -1,196 +1,353 @@
-Content-Type: multipart/mixed; boundary="===============7545075199545790067=="
+Content-Type: multipart/mixed; boundary="===============0509881336199659025=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() warn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __builtin_clzll((~0))):((4 <= 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a 64 bit type?
-Date: Sun, 12 Dec 2021 11:22:48 +0800
-Message-ID: <202112121114.UBOG7mjJ-lkp@intel.com>
+Subject: fs/cifs/cifsacl.c:267:21: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Sun, 12 Dec 2021 10:50:38 +0800
+Message-ID: <202112121010.976tmF1J-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7545075199545790067==
+--===============0509881336199659025==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kees Cook <keescook@chromium.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
-:::::: branch date: 3 hours ago
-:::::: commit date: 12 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112121114.UBOG7mjJ-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+head:   eccea80be2576dee642bc6cab20f1a242d58a08c
+commit: a52f8a59aef46b59753e583bf4b28fccb069ce64 fortify: Explicitly disabl=
+e Clang support
+date:   3 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-c001-20211208 (https://download.01.org/0day-ci/arch=
+ive/20211212/202112121010.976tmF1J-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Da52f8a59aef46b59753e583bf4b28fccb069ce64
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout a52f8a59aef46b59753e583bf4b28fccb069ce64
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/gpu/drm/i915/gem/selftests/huge_pages.c:187 fake_get_huge_pages() w=
-arn: should '1 << ((__builtin_constant_p((~0))) ?((((~0)) < 2) ?0:63 - __bu=
-iltin_clzll((~0))):((4 <=3D 4)) ?__ilog2_u32((~0)):__ilog2_u64((~0)))' be a=
- 64 bit type?
-drivers/gpu/drm/i915/selftests/intel_memory_region.c:324 igt_mock_splintere=
-d_region() warn: should '1 << ((__builtin_constant_p(size)) ?((size < 2) ?0=
-:63 - __builtin_clzll(size)):((8 <=3D 4)) ?__ilog2_u32(size):__ilog2_u64(si=
-ze))' be a 64 bit type?
-
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 119)
-drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 119)
-
-vim +187 drivers/gpu/drm/i915/gem/selftests/huge_pages.c
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  183  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  184  static int fake_get_huge_pages(struct drm_i915_gem_object *ob=
-j)
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  185  {
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  186  	struct drm_i915_private *i915 =3D to_i915(obj->base.dev);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06 @187  	const u64 max_len =3D rounddown_pow_of_two(UINT_MAX);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  188  	struct sg_table *st;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  189  	struct scatterlist *sg;
-84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-09  190  	unsigned int sg_page_sizes;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  191  	u64 rem;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  192  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  193  	st =3D kmalloc(sizeof(*st), GFP);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  194  	if (!st)
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  195  		return -ENOMEM;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  196  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  197  	if (sg_alloc_table(st, obj->base.size >> PAGE_SHIFT, GFP)) {
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  198  		kfree(st);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  199  		return -ENOMEM;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  200  	}
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  201  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  202  	/* Use optimal page sized chunks to fill in the sg table */
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  203  	rem =3D obj->base.size;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  204  	sg =3D st->sgl;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  205  	st->nents =3D 0;
-84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-09  206  	sg_page_sizes =3D 0;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  207  	do {
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  208  		unsigned int page_size =3D get_largest_page_size(i915, rem);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  209  		unsigned int len =3D min(page_size * div_u64(rem, page_size=
-),
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  210  				       max_len);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  211  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  212  		GEM_BUG_ON(!page_size);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  213  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  214  		sg->offset =3D 0;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  215  		sg->length =3D len;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  216  		sg_dma_len(sg) =3D len;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  217  		sg_dma_address(sg) =3D page_size;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  218  =
-
-84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-09  219  		sg_page_sizes |=3D len;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  220  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  221  		st->nents++;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  222  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  223  		rem -=3D len;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  224  		if (!rem) {
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  225  			sg_mark_end(sg);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  226  			break;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  227  		}
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  228  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  229  		sg =3D sg_next(sg);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  230  	} while (1);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  231  =
-
-c6d22ab61bfdeb drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-8-09-20  232  	i915_sg_trim(st);
-c6d22ab61bfdeb drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-8-09-20  233  =
-
-84e8978e62fea6 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-09  234  	__i915_gem_object_set_pages(obj, st, sg_page_sizes);
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  235  =
-
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  236  	return 0;
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  237  }
-4049866f091311 drivers/gpu/drm/i915/selftests/huge_pages.c Matthew Auld 201=
-7-10-06  238  =
 
 
-:::::: The code at line 187 was first introduced by commit
-:::::: 4049866f0913110bf7de597c1177de7a1cc459cb drm/i915/selftests: huge pa=
-ge tests
+clang-analyzer warnings: (new ones prefixed by >>)
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   net/core/rtnetlink.c:2688:2: note: '?' condition is false
+           if (tb[IFLA_GROUP]) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   net/core/rtnetlink.c:2688:2: note: Taking false branch
+           if (tb[IFLA_GROUP]) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   net/core/rtnetlink.c:2698:6: note: Assuming field 'ifi_index' is > 0
+           if (ifm->ifi_index > 0 && ifname[0]) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/rtnetlink.c:2698:6: note: Left side of '&&' is true
+           if (ifm->ifi_index > 0 && ifname[0]) {
+               ^
+   net/core/rtnetlink.c:2698:28: note: Array access (from variable 'ifname'=
+) results in a null pointer dereference
+           if (ifm->ifi_index > 0 && ifname[0]) {
+                                     ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   net/core/rtnetlink.c:2812:2: warning: Value stored to 'err' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   net/core/rtnetlink.c:2812:2: note: Value stored to 'err' is never read
+           err =3D 0;
+           ^     ~
+   net/core/rtnetlink.c:2847:2: warning: Value stored to 'err' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   net/core/rtnetlink.c:2847:2: note: Value stored to 'err' is never read
+           err =3D 0;
+           ^     ~
+   net/core/rtnetlink.c:3809:19: warning: Although the value stored to 'if_=
+info_size' is used in the enclosing expression, the value is never actually=
+ read from 'if_info_size' [clang-analyzer-deadcode.DeadStores]
+           skb =3D nlmsg_new((if_info_size =3D if_nlmsg_size(dev, 0)), flag=
+s);
+                            ^              ~~~~~~~~~~~~~~~~~~~~~
+   net/core/rtnetlink.c:3809:19: note: Although the value stored to 'if_inf=
+o_size' is used in the enclosing expression, the value is never actually re=
+ad from 'if_info_size'
+           skb =3D nlmsg_new((if_info_size =3D if_nlmsg_size(dev, 0)), flag=
+s);
+                            ^              ~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   fs/cifs/smb2transport.c:430:3: warning: Value stored to 'rc' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+                   rc =3D generate_key(ses, ptriplet->encryption.label,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cifs/smb2transport.c:430:3: note: Value stored to 'rc' is never read
+                   rc =3D generate_key(ses, ptriplet->encryption.label,
+                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   fs/cifs/smb2misc.c:505:2: warning: Value stored to 'rc' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+           rc =3D SMB2_lease_break(0, tlink_tcon(lw->tlink), lw->lease_key,
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/cifs/smb2misc.c:505:2: note: Value stored to 'rc' is never read
+           rc =3D SMB2_lease_break(0, tlink_tcon(lw->tlink), lw->lease_key,
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   fs/cifs/smb2pdu.c:577:3: warning: Value stored to 'pneg_ctxt' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+                   pneg_ctxt +=3D ctxt_len;
+                   ^            ~~~~~~~~
+   fs/cifs/smb2pdu.c:577:3: note: Value stored to 'pneg_ctxt' is never read
+                   pneg_ctxt +=3D ctxt_len;
+                   ^            ~~~~~~~~
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (13 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+>> fs/cifs/cifsacl.c:267:21: warning: Assigned value is garbage or undefine=
+d [clang-analyzer-core.uninitialized.Assign]
+                   dst->authority[i] =3D src->authority[i];
+                                     ^
+   fs/cifs/cifsacl.c:1261:2: note: Assuming 'dacloffset' is not equal to 0
+           if (dacloffset) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/cifs/cifsacl.c:1261:2: note: '?' condition is false
+           if (dacloffset) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/cifs/cifsacl.c:1261:6: note: 'dacloffset' is not equal to 0
+           if (dacloffset) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/cifs/cifsacl.c:1261:2: note: '?' condition is true
+           if (dacloffset) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/cifs/cifsacl.c:1261:2: note: Taking true branch
+           if (dacloffset) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/cifs/cifsacl.c:1263:3: note: '?' condition is false
+                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
+->size)) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/cifs/cifsacl.c:1263:3: note: Assuming the condition is false
+                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
+->size)) {
+                   ^
+   include/linux/compiler.h:56:44: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ~~~~=
+~~~~~~~~~~~~~^~~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   fs/cifs/cifsacl.c:1263:3: note: '?' condition is false
+                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
+->size)) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   fs/cifs/cifsacl.c:1263:3: note: Taking false branch
+                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
+->size)) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/cifs/cifsacl.c:1274:6: note: Assuming 'pnmode' is null
+           if (pnmode && *pnmode !=3D NO_CHANGE_64) { /* chmod */
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   fs/cifs/cifsacl.c:1274:13: note: Left side of '&&' is false
+           if (pnmode && *pnmode !=3D NO_CHANGE_64) { /* chmod */
 
-:::::: TO: Matthew Auld <matthew.auld@intel.com>
-:::::: CC: Chris Wilson <chris@chris-wilson.co.uk>
+vim +267 fs/cifs/cifsacl.c
+
+3514de3fd5fab5 Steve French   2016-10-13  257  =
+
+f5065508897a92 Shyam Prasad N 2021-02-12  258  static __u16
+36960e440ccf94 Jeff Layton    2012-11-03  259  cifs_copy_sid(struct cifs_si=
+d *dst, const struct cifs_sid *src)
+36960e440ccf94 Jeff Layton    2012-11-03  260  {
+36f87ee70f754d Jeff Layton    2012-11-25  261  	int i;
+f5065508897a92 Shyam Prasad N 2021-02-12  262  	__u16 size =3D 1 + 1 + 6;
+36f87ee70f754d Jeff Layton    2012-11-25  263  =
+
+36f87ee70f754d Jeff Layton    2012-11-25  264  	dst->revision =3D src->revi=
+sion;
+30c9d6cca52624 Jeff Layton    2012-11-25  265  	dst->num_subauth =3D min_t(=
+u8, src->num_subauth, SID_MAX_SUB_AUTHORITIES);
+36f87ee70f754d Jeff Layton    2012-11-25  266  	for (i =3D 0; i < NUM_AUTHS=
+; ++i)
+36f87ee70f754d Jeff Layton    2012-11-25 @267  		dst->authority[i] =3D src-=
+>authority[i];
+36f87ee70f754d Jeff Layton    2012-11-25  268  	for (i =3D 0; i < dst->num_=
+subauth; ++i)
+36f87ee70f754d Jeff Layton    2012-11-25  269  		dst->sub_auth[i] =3D src->=
+sub_auth[i];
+f5065508897a92 Shyam Prasad N 2021-02-12  270  	size +=3D (dst->num_subauth=
+ * 4);
+f5065508897a92 Shyam Prasad N 2021-02-12  271  =
+
+f5065508897a92 Shyam Prasad N 2021-02-12  272  	return size;
+36960e440ccf94 Jeff Layton    2012-11-03  273  }
+36960e440ccf94 Jeff Layton    2012-11-03  274  =
+
+
+:::::: The code at line 267 was first introduced by commit
+:::::: 36f87ee70f754d04e55518853e6fb30ed4732dda cifs: make cifs_copy_sid ha=
+ndle a source sid with variable size subauth arrays
+
+:::::: TO: Jeff Layton <jlayton@redhat.com>
+:::::: CC: Steve French <smfrench@gmail.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7545075199545790067==--
+--===============0509881336199659025==--
 
