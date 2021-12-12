@@ -1,412 +1,436 @@
-Content-Type: multipart/mixed; boundary="===============2968948876012473486=="
+Content-Type: multipart/mixed; boundary="===============3364197269440085968=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 4/5] usb: typec: port-mapper: Convert to the component framework
-Date: Sun, 12 Dec 2021 15:08:25 +0800
-Message-ID: <202112121426.tlqFjKZE-lkp@intel.com>
+Subject: drivers/misc/habanalabs/common/memory.c:1422 mem_ioctl_no_mmu() error: uninitialized symbol 'block_size'.
+Date: Sun, 12 Dec 2021 14:27:39 +0800
+Message-ID: <202112121431.tDvBtbT7-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2968948876012473486==
+--===============3364197269440085968==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211207143757.21895-5-heikki.krogerus@linux.intel.com>
-References: <20211207143757.21895-5-heikki.krogerus@linux.intel.com>
-TO: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-TO: "Rafael J. Wysocki" <rafael@kernel.org>
-TO: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
-CC: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC: Sakari Ailus <sakari.ailus@linux.intel.com>
-CC: Prashant Malani <pmalani@chromium.org>
-CC: linux-acpi(a)vger.kernel.org
-CC: linux-usb(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
+TO: Oded Gabbay <ogabbay@kernel.org>
 
-Hi Heikki,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on usb/usb-testing]
-[also build test WARNING on rafael-pm/linux-next linus/master v5.16-rc4]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Heikki-Krogerus/acpi-Store=
--_PLD-information-and-convert-users/20211207-223940
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-=
-testing
-:::::: branch date: 5 days ago
-:::::: commit date: 5 days ago
-config: i386-randconfig-c001-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112121426.tlqFjKZE-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/447d4051cf4a7ba3c5f9277c9=
-45528a5efd787f3
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Heikki-Krogerus/acpi-Store-_PLD-in=
-formation-and-convert-users/20211207-223940
-        git checkout 447d4051cf4a7ba3c5f9277c945528a5efd787f3
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
+commit: 6df50d274363aa189a31435024339b781a6e32a9 habanalabs: return block s=
+ize + block ID
+date:   10 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-m001-20211207 (https://download.01.org/0day-ci/ar=
+chive/20211212/202112121431.tDvBtbT7-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+drivers/misc/habanalabs/common/memory.c:1422 mem_ioctl_no_mmu() error: unin=
+itialized symbol 'block_size'.
+drivers/misc/habanalabs/common/memory.c:1531 hl_mem_ioctl() error: uninitia=
+lized symbol 'block_size'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_devlink.c:619:17: note: Value stored =
-to 'dev' during its initialization is never read
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_devlink.c:676:17: warning: Value stor=
-ed to 'dev' during its initialization is never read [clang-analyzer-deadcod=
-e.DeadStores]
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_devlink.c:676:17: note: Value stored =
-to 'dev' during its initialization is never read
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: warning: Value st=
-ored to 'dev' during its initialization is never read [clang-analyzer-deadc=
-ode.DeadStores]
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_fw_update.c:366:17: note: Value store=
-d to 'dev' during its initialization is never read
-           struct device *dev =3D ice_pf_to_dev(pf);
-                          ^~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   drivers/net/ethernet/intel/ice/ice_lag.c:65:17: warning: Value stored to=
- 'dev' during its initialization is never read [clang-analyzer-deadcode.Dea=
-dStores]
-           struct device *dev =3D &lag->pf->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:65:17: note: Value stored to 'd=
-ev' during its initialization is never read
-           struct device *dev =3D &lag->pf->pdev->dev;
-                          ^~~   ~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:67:2: warning: Value stored to =
-'name' is never read [clang-analyzer-deadcode.DeadStores]
-           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:67:2: note: Value stored to 'na=
-me' is never read
-           name =3D lag->netdev ? netdev_name(lag->netdev) : "unset";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:68:2: warning: Value stored to =
-'peer' is never read [clang-analyzer-deadcode.DeadStores]
-           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
-et";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:68:2: note: Value stored to 'pe=
-er' is never read
-           peer =3D lag->peer_netdev ? netdev_name(lag->peer_netdev) : "uns=
-et";
-           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:69:2: warning: Value stored to =
-'upper' is never read [clang-analyzer-deadcode.DeadStores]
-           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
-unset";
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:69:2: note: Value stored to 'up=
-per' is never read
-           upper =3D lag->upper_netdev ? netdev_name(lag->upper_netdev) : "=
-unset";
-           ^       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:70:2: warning: Value stored to =
-'master' is never read [clang-analyzer-deadcode.DeadStores]
-           master =3D lag->master ? "TRUE" : "FALSE";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:70:2: note: Value stored to 'ma=
-ster' is never read
-           master =3D lag->master ? "TRUE" : "FALSE";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:71:2: warning: Value stored to =
-'bonded' is never read [clang-analyzer-deadcode.DeadStores]
-           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:71:2: note: Value stored to 'bo=
-nded' is never read
-           bonded =3D lag->bonded ? "BONDED" : "UNBONDED";
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:75:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "NONE";
-                   ^      ~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:75:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "NONE";
-                   ^      ~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "PRIMARY";
-                   ^      ~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:78:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "PRIMARY";
-                   ^      ~~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "BACKUP";
-                   ^      ~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:81:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "BACKUP";
-                   ^      ~~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "UNSET";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:84:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "UNSET";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: warning: Value stored to =
-'role' is never read [clang-analyzer-deadcode.DeadStores]
-                   role =3D "ERROR";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:87:3: note: Value stored to 'ro=
-le' is never read
-                   role =3D "ERROR";
-                   ^      ~~~~~~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:348:17: warning: Value stored t=
-o 'dev' during its initialization is never read [clang-analyzer-deadcode.De=
-adStores]
-           struct device *dev =3D ice_pf_to_dev(lag->pf);
-                          ^~~
-   drivers/net/ethernet/intel/ice/ice_lag.c:348:17: note: Value stored to '=
-dev' during its initialization is never read
-           struct device *dev =3D ice_pf_to_dev(lag->pf);
-                          ^~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
->> drivers/usb/typec/port-mapper.c:45:2: warning: Dereference of null point=
-er [clang-analyzer-core.NullDereference]
-           list_for_each_entry(adev, &location->devices, location_list) {
-           ^
-   include/linux/list.h:632:13: note: expanded from macro 'list_for_each_en=
-try'
-                pos =3D list_next_entry(pos, member))
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:557:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^~~~~
-   drivers/usb/typec/port-mapper.c:40:38: note: Assuming the condition is t=
-rue
-           location =3D acpi_device_get_location(ACPI_COMPANION(&con->dev));
-                                               ^
-   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
-   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
-e)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/acpi/acpi_bus.h:426:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/usb/typec/port-mapper.c:40:38: note: '?' condition is true
-           location =3D acpi_device_get_location(ACPI_COMPANION(&con->dev));
-                                               ^
-   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
-   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
-e)
-                                           ^
-   include/acpi/acpi_bus.h:426:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-                   ^
-   drivers/usb/typec/port-mapper.c:41:6: note: Assuming 'location' is non-n=
-ull
-           if (!location)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   drivers/usb/typec/port-mapper.c:41:2: note: '?' condition is false
-           if (!location)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/usb/typec/port-mapper.c:41:7: note: 'location' is non-null
-           if (!location)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   drivers/usb/typec/port-mapper.c:41:2: note: '?' condition is false
-           if (!location)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   drivers/usb/typec/port-mapper.c:41:2: note: Taking false branch
-           if (!location)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/usb/typec/port-mapper.c:45:2: note: Loop condition is true.  Ent=
-ering loop body
-           list_for_each_entry(adev, &location->devices, location_list) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/usb/typec/port-mapper.c:46:15: note: Assuming the condition is f=
-alse
-                   if (adev =3D=3D ACPI_COMPANION(&con->dev))
-                               ^
-   include/linux/acpi.h:43:30: note: expanded from macro 'ACPI_COMPANION'
-   #define ACPI_COMPANION(dev)             to_acpi_device_node((dev)->fwnod=
-e)
-                                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/acpi/acpi_bus.h:426:3: note: expanded from macro 'to_acpi_device=
-_node'
-                   is_acpi_device_node(__to_acpi_device_node_fwnode) ?     \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
+vim +/block_size +1422 drivers/misc/habanalabs/common/memory.c
 
-vim +45 drivers/usb/typec/port-mapper.c
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1369  =
 
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  33  =
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1370  static int mem_ioctl_no_mmu(struct hl_fpriv *hpriv, union hl_=
+mem_args *args)
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1371  {
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1372  	struct hl_device *hdev =3D hpriv->hdev;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1373  	struct hl_ctx *ctx =3D hpriv->ctx;
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1374  	u64 block_handle, device_addr =3D 0;
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05  1375  	u32 handle =3D 0, block_size;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1376  	int rc;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1377  =
 
-447d4051cf4a7b Heikki Krogerus 2021-12-07  34  int typec_link_ports(struct =
-typec_port *con)
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  35  {
-447d4051cf4a7b Heikki Krogerus 2021-12-07  36  	struct acpi_device_location=
- *location;
-447d4051cf4a7b Heikki Krogerus 2021-12-07  37  	struct component_match *mat=
-ch =3D NULL;
-447d4051cf4a7b Heikki Krogerus 2021-12-07  38  	struct acpi_device *adev;
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  39  =
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1378  	switch (args->in.op) {
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1379  	case HL_MEM_OP_ALLOC:
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1380  		if (args->in.alloc.mem_size =3D=3D 0) {
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1381  			dev_err(hdev->dev,
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1382  				"alloc size must be larger than 0\n");
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1383  			rc =3D -EINVAL;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1384  			goto out;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1385  		}
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1386  =
 
-447d4051cf4a7b Heikki Krogerus 2021-12-07  40  	location =3D acpi_device_ge=
-t_location(ACPI_COMPANION(&con->dev));
-447d4051cf4a7b Heikki Krogerus 2021-12-07  41  	if (!location)
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  42  		return 0;
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  43  =
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1387  		/* Force contiguous as there are no real MMU
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1388  		 * translations to overcome physical memory gaps
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1389  		 */
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1390  		args->in.flags |=3D HL_MEM_CONTIGUOUS;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1391  		rc =3D alloc_device_memory(ctx, &args->in, &handle);
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1392  =
 
-447d4051cf4a7b Heikki Krogerus 2021-12-07  44  	/* Component match for ever=
-y device that shares the same _PLD. */
-447d4051cf4a7b Heikki Krogerus 2021-12-07 @45  	list_for_each_entry(adev, &=
-location->devices, location_list) {
-447d4051cf4a7b Heikki Krogerus 2021-12-07  46  		if (adev =3D=3D ACPI_COMPA=
-NION(&con->dev))
-447d4051cf4a7b Heikki Krogerus 2021-12-07  47  			continue;
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  48  =
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1393  		memset(args, 0, sizeof(*args));
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1394  		args->out.handle =3D (__u64) handle;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1395  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1396  =
 
-447d4051cf4a7b Heikki Krogerus 2021-12-07  49  		component_match_add(&con->=
-dev, &match, typec_port_compare,
-447d4051cf4a7b Heikki Krogerus 2021-12-07  50  				    acpi_fwnode_handle(a=
-dev));
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  51  	}
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  52  =
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1397  	case HL_MEM_OP_FREE:
+f19040ce418d6f drivers/misc/habanalabs/common/memory.c Omer Shpigelman 2020=
+-12-09  1398  		rc =3D free_device_memory(ctx, &args->in);
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1399  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1400  =
 
-447d4051cf4a7b Heikki Krogerus 2021-12-07  53  	/*
-447d4051cf4a7b Heikki Krogerus 2021-12-07  54  	 * REVISIT: Now each connec=
-tor can have only a single component master.
-447d4051cf4a7b Heikki Krogerus 2021-12-07  55  	 * So far only the USB port=
-s connected to the USB Type-C connector share
-447d4051cf4a7b Heikki Krogerus 2021-12-07  56  	 * the _PLD with it, but if=
- there one day is something else (like maybe
-447d4051cf4a7b Heikki Krogerus 2021-12-07  57  	 * the DisplayPort ACPI dev=
-ice object) that also shares the _PLD with
-447d4051cf4a7b Heikki Krogerus 2021-12-07  58  	 * the connector, every one=
- of those needs to have its own component
-447d4051cf4a7b Heikki Krogerus 2021-12-07  59  	 * master, because each dif=
-ferent type of component needs to be bind to
-447d4051cf4a7b Heikki Krogerus 2021-12-07  60  	 * the connector independen=
-tly of the other components. That requires
-447d4051cf4a7b Heikki Krogerus 2021-12-07  61  	 * improvements to the comp=
-onent framework. Right now you can only have
-447d4051cf4a7b Heikki Krogerus 2021-12-07  62  	 * one master per device.
-ae196ddb0d3186 Heikki Krogerus 2021-04-07  63  	 */
-ee64fc599b721c Heikki Krogerus 2021-04-07  64  =
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1401  	case HL_MEM_OP_MAP:
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1402  		if (args->in.flags & HL_MEM_USERPTR) {
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1403  			device_addr =3D args->in.map_host.host_virt_addr;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1404  			rc =3D 0;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1405  		} else {
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1406  			rc =3D get_paddr_from_handle(ctx, &args->in,
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1407  							&device_addr);
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1408  		}
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1409  =
 
-447d4051cf4a7b Heikki Krogerus 2021-12-07  65  	return component_master_add=
-_with_match(&con->dev, &typec_aggregate_ops, match);
-ee64fc599b721c Heikki Krogerus 2021-04-07  66  }
-ee64fc599b721c Heikki Krogerus 2021-04-07  67  =
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1410  		memset(args, 0, sizeof(*args));
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1411  		args->out.device_virt_addr =3D device_addr;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1412  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1413  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1414  	case HL_MEM_OP_UNMAP:
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1415  		rc =3D 0;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1416  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1417  =
+
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1418  	case HL_MEM_OP_MAP_BLOCK:
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1419  		rc =3D map_block(hdev, args->in.map_block.block_addr,
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05  1420  				&block_handle, &block_size);
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05  1421  		args->out.block_handle =3D block_handle;
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05 @1422  		args->out.block_size =3D block_size;
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1423  		break;
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1424  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1425  	default:
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1426  		dev_err(hdev->dev, "Unknown opcode for memory IOCTL\n");
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1427  		rc =3D -ENOTTY;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1428  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1429  	}
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1430  =
+
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1431  out:
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1432  	return rc;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1433  }
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1434  =
+
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1435  int hl_mem_ioctl(struct hl_fpriv *hpriv, void *data)
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1436  {
+66a76401c50b26 drivers/misc/habanalabs/common/memory.c Ofir Bitton     2020=
+-10-05  1437  	enum hl_device_status status;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1438  	union hl_mem_args *args =3D data;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1439  	struct hl_device *hdev =3D hpriv->hdev;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1440  	struct hl_ctx *ctx =3D hpriv->ctx;
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1441  	u64 block_handle, device_addr =3D 0;
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05  1442  	u32 handle =3D 0, block_size;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1443  	int rc;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1444  =
+
+66a76401c50b26 drivers/misc/habanalabs/common/memory.c Ofir Bitton     2020=
+-10-05  1445  	if (!hl_device_operational(hdev, &status)) {
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1446  		dev_warn_ratelimited(hdev->dev,
+3f5398cfbf051d drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-06  1447  			"Device is %s. Can't execute MEMORY IOCTL\n",
+66a76401c50b26 drivers/misc/habanalabs/common/memory.c Ofir Bitton     2020=
+-10-05  1448  			hdev->status[status]);
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1449  		return -EBUSY;
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1450  	}
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1451  =
+
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1452  	if (!hdev->mmu_enable)
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1453  		return mem_ioctl_no_mmu(hpriv, args);
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1454  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1455  	switch (args->in.op) {
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1456  	case HL_MEM_OP_ALLOC:
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1457  		if (args->in.alloc.mem_size =3D=3D 0) {
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1458  			dev_err(hdev->dev,
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1459  				"alloc size must be larger than 0\n");
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1460  			rc =3D -EINVAL;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1461  			goto out;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1462  		}
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1463  =
+
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1464  		/* If DRAM does not support virtual memory the driver won't
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1465  		 * handle the allocation/freeing of that memory. However, f=
+or
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1466  		 * system administration/monitoring purposes, the driver wi=
+ll
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1467  		 * keep track of the amount of DRAM memory that is allocated
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1468  		 * and freed by the user. Because this code totally relies =
+on
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1469  		 * the user's input, the driver can't ensure the validity
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1470  		 * of this accounting.
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1471  		 */
+7f070c913c361e drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-11-09  1472  		if (!hdev->asic_prop.dram_supports_virtual_memory) {
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1473  			atomic64_add(args->in.alloc.mem_size,
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1474  					&ctx->dram_phys_mem);
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1475  			atomic64_add(args->in.alloc.mem_size,
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1476  					&hdev->dram_used_mem);
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1477  =
+
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1478  			dev_dbg(hdev->dev, "DRAM alloc is not supported\n");
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1479  			rc =3D 0;
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1480  =
+
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1481  			memset(args, 0, sizeof(*args));
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1482  			args->out.handle =3D 0;
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1483  			goto out;
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1484  		}
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1485  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1486  		rc =3D alloc_device_memory(ctx, &args->in, &handle);
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1487  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1488  		memset(args, 0, sizeof(*args));
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1489  		args->out.handle =3D (__u64) handle;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1490  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1491  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1492  	case HL_MEM_OP_FREE:
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1493  		/* If DRAM does not support virtual memory the driver won't
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1494  		 * handle the allocation/freeing of that memory. However, f=
+or
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1495  		 * system administration/monitoring purposes, the driver wi=
+ll
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1496  		 * keep track of the amount of DRAM memory that is allocated
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1497  		 * and freed by the user. Because this code totally relies =
+on
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1498  		 * the user's input, the driver can't ensure the validity
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1499  		 * of this accounting.
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1500  		 */
+7f070c913c361e drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-11-09  1501  		if (!hdev->asic_prop.dram_supports_virtual_memory) {
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1502  			atomic64_sub(args->in.alloc.mem_size,
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1503  					&ctx->dram_phys_mem);
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1504  			atomic64_sub(args->in.alloc.mem_size,
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1505  					&hdev->dram_used_mem);
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1506  =
+
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1507  			dev_dbg(hdev->dev, "DRAM alloc is not supported\n");
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1508  			rc =3D 0;
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1509  =
+
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1510  			goto out;
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1511  		}
+3e622996576312 drivers/misc/habanalabs/common/memory.c Oded Gabbay     2020=
+-10-18  1512  =
+
+f19040ce418d6f drivers/misc/habanalabs/common/memory.c Omer Shpigelman 2020=
+-12-09  1513  		rc =3D free_device_memory(ctx, &args->in);
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1514  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1515  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1516  	case HL_MEM_OP_MAP:
+54303a1aef95b0 drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-04-04  1517  		rc =3D map_device_va(ctx, &args->in, &device_addr);
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1518  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1519  		memset(args, 0, sizeof(*args));
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1520  		args->out.device_virt_addr =3D device_addr;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1521  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1522  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1523  	case HL_MEM_OP_UNMAP:
+f19040ce418d6f drivers/misc/habanalabs/common/memory.c Omer Shpigelman 2020=
+-12-09  1524  		rc =3D unmap_device_va(ctx, &args->in, false);
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1525  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1526  =
+
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1527  	case HL_MEM_OP_MAP_BLOCK:
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1528  		rc =3D map_block(hdev, args->in.map_block.block_addr,
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05  1529  				&block_handle, &block_size);
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05  1530  		args->out.block_handle =3D block_handle;
+6df50d274363aa drivers/misc/habanalabs/common/memory.c Oded Gabbay     2021=
+-02-05 @1531  		args->out.block_size =3D block_size;
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1532  		break;
+d00697fbe13ccc drivers/misc/habanalabs/common/memory.c Ofir Bitton     2021=
+-01-05  1533  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1534  	default:
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1535  		dev_err(hdev->dev, "Unknown opcode for memory IOCTL\n");
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1536  		rc =3D -ENOTTY;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1537  		break;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1538  	}
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1539  =
+
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1540  out:
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1541  	return rc;
+0feaf86d4e6950 drivers/misc/habanalabs/memory.c        Omer Shpigelman 2019=
+-02-16  1542  }
+eff6f4a0e70b7b drivers/misc/habanalabs/memory.c        Oded Gabbay     2019=
+-02-16  1543  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2968948876012473486==--
+--===============3364197269440085968==--
 
