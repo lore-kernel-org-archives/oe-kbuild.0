@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4725709886636952708=="
+Content-Type: multipart/mixed; boundary="===============7606380477424914889=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] coccinelle: irqf_oneshot: fix irqf_oneshot.cocci warnings
-Date: Sun, 12 Dec 2021 13:34:48 +0800
-Message-ID: <20211212053448.GA80501@186b9a8a44b7>
+Date: Sun, 12 Dec 2021 13:34:45 +0800
+Message-ID: <20211212053445.GA79542@186b9a8a44b7>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4725709886636952708==
+--===============7606380477424914889==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -16,15 +16,15 @@ CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
 TO: Krzysztof Kozlowski <krzk@kernel.org>
 CC: Julia Lawall <Julia.Lawall@inria.fr>
-CC: Support Opensource <support.opensource@diasemi.com>
-CC: Liam Girdwood <lgirdwood@gmail.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: Michael Hennerich <michael.hennerich@analog.com>
+CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+CC: linux-input(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-drivers/regulator/slg51000-regulator.c:480:8-33: WARNING: Threaded IRQ with=
- no primary handler requested without IRQF_ONESHOT (unless it is nested IRQ)
+drivers/input/misc/ad714x.c:1153:9-34: WARNING: Threaded IRQ with no primar=
+y handler requested without IRQF_ONESHOT (unless it is nested IRQ)
 
  Since commit 1c6c69525b40 ("genirq: Reject bogus threaded irq requests")
  threaded IRQs without a primary handler need to be requested with
@@ -49,20 +49,21 @@ reduce the severity due to false positives
 
 Please take the patch only if it's a positive warning. Thanks!
 
- slg51000-regulator.c |    3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ ad714x.c |    3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
---- a/drivers/regulator/slg51000-regulator.c
-+++ b/drivers/regulator/slg51000-regulator.c
-@@ -479,8 +479,7 @@ static int slg51000_i2c_probe(struct i2c
- 	if (chip->chip_irq) {
- 		ret =3D devm_request_threaded_irq(dev, chip->chip_irq, NULL,
- 						slg51000_irq_handler,
--						(IRQF_TRIGGER_HIGH |
--						IRQF_ONESHOT),
-+						(IRQF_TRIGGER_HIGH | IRQF_ONESHOT) | IRQF_ONESHOT,
- 						"slg51000-irq", chip);
- 		if (ret !=3D 0) {
- 			dev_err(dev, "Failed to request IRQ: %d\n",
---===============4725709886636952708==--
+--- a/drivers/input/misc/ad714x.c
++++ b/drivers/input/misc/ad714x.c
+@@ -1152,7 +1152,8 @@ struct ad714x_chip *ad714x_probe(struct
+ =
+
+ 	error =3D devm_request_threaded_irq(dev, ad714x->irq, NULL,
+ 					  ad714x_interrupt_thread,
+-					  irqflags, "ad714x_captouch", ad714x);
++					  irqflags | IRQF_ONESHOT,
++					  "ad714x_captouch", ad714x);
+ 	if (error) {
+ 		dev_err(dev, "can't allocate irq %d\n", ad714x->irq);
+ 		return ERR_PTR(error);
+--===============7606380477424914889==--
 
