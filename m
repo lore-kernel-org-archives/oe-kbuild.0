@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2583207358332686026=="
+Content-Type: multipart/mixed; boundary="===============2306093846923563505=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResult]
-Date: Mon, 13 Dec 2021 10:33:44 +0800
-Message-ID: <202112131045.es1rz6j5-lkp@intel.com>
+Subject: drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Mon, 13 Dec 2021 08:51:56 +0800
+Message-ID: <202112130815.a7Wl2MWZ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2583207358332686026==
+--===============2306093846923563505==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,38 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 12 months ago
-config: riscv-randconfig-c006-20211128 (https://download.01.org/0day-ci/arc=
-hive/20211213/202112131045.es1rz6j5-lkp(a)intel.com/config)
+head:   90d9fbc16b691403a80a119d7094528721c03279
+commit: ad7d61f159db73974f1b0352f21afe04b0bbd920 printk: index: Add indexin=
+g support to dev_printk
+date:   5 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
+chive/20211213/202112130815.a7Wl2MWZ-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
 97ef3ee4dc2119d5429adf3072e90fac38)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
+t/commit/?id=3Dad7d61f159db73974f1b0352f21afe04b0bbd920
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
+        git checkout ad7d61f159db73974f1b0352f21afe04b0bbd920
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -54,311 +50,490 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                ^~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:6: note: Left side of '&&' i=
-s true
-           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:2: note: Taking false branch
-           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:6: note: Assuming 'r' is 0
-           if (r)
-               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:2: note: Taking false branch
-           if (r)
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:7: note: 'nodes' is null
-                   if (nodes) {
-                       ^~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:3: note: Taking false branch
-                   if (nodes) {
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:7: note: 'pages_addr' is null
-                   if (pages_addr) {
-                       ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:3: note: Taking false branch
-                   if (pages_addr) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1691:10: note: Taking true branch
-                   } else if (flags & (AMDGPU_PTE_VALID | AMDGPU_PTE_PRT)) {
-                          ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1697:7: note: Calling 'amdgpu_vm_=
-update_ptes'
-                   r =3D amdgpu_vm_update_ptes(&params, start, tmp, addr, f=
-lags);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Calling 'amdgpu_vm_=
-fragment'
-           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
-end);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:6: note: Assuming field 'asi=
-c_type' is >=3D CHIP_VEGA10
-           if (params->adev->asic_type < CHIP_VEGA10)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:2: note: Taking false branch
-           if (params->adev->asic_type < CHIP_VEGA10)
+   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:6: note: Assuming field 'pag=
-es_addr' is non-null
-           if (params->pages_addr) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:2: note: Taking true branch
-           if (params->pages_addr) {
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1404:3: note: Returning without w=
-riting to 'params->unlocked', which participates in a condition later
-                   return;
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Returning from 'amd=
-gpu_vm_fragment'
-           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
-end);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:9: note: Assuming 'end' is >=
- field 'pfn'
-           while (cursor.pfn < end) {
-                  ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:2: note: Loop condition is t=
-rue.  Entering loop body
-           while (cursor.pfn < end) {
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:7: note: Assuming field 'unl=
-ocked' is true
-                   if (!params->unlocked) {
-                       ^~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:3: note: Taking false branch
-                   if (!params->unlocked) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Calling 'amdgpu_vm=
-_level_shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:125:2: note: Control jumps to the=
- 'default' case at line 133
-           switch (level) {
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:134:3: note: Returning the value =
-4294967295
-                   return ~0;
-                   ^~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Returning from 'am=
-dgpu_vm_level_shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:3: note: The value 429496729=
-5 is assigned to 'shift'
-                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:15: note: Field 'unlocked' i=
-s true
-                   if (params->unlocked) {
-                               ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:3: note: Taking true branch
-                   if (params->unlocked) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:8: note: Assuming the condit=
-ion is false
-                           if (amdgpu_vm_pt_descendant(adev, &cursor))
-                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:4: note: Taking false branch
-                           if (amdgpu_vm_pt_descendant(adev, &cursor))
-                           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:7: note: Assuming 'pt' is no=
-n-null
-                   if (!pt) {
-                       ^~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:3: note: Taking false branch
-                   if (!pt) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1510:41: note: The result of the =
-left shift is undefined due to shifting by '4294967295', which is greater o=
-r equal to the width of type 'uint64_t'
-                   incr =3D (uint64_t)AMDGPU_GPU_PAGE_SIZE << shift;
-                                                         ^  ~~~~~
->> include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>=
-' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResul=
-t]
-           __u32 h =3D x >> 32;
-                       ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:6: note: Assuming the condit=
-ion is true
-           if (amdgpu_vm_size !=3D -1) {
-               ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:2: note: Taking true branch
-           if (amdgpu_vm_size !=3D -1) {
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:7: note: Assuming 'vm_size' =
-is <=3D 'max_size'
-                   if (vm_size > max_size) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:3: note: Taking false branch
-                   if (vm_size > max_size) {
-                   ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2712:8: note: '?' condition is fa=
-lse
-           tmp =3D roundup_pow_of_two(adev->vm_manager.max_pfn);
-                 ^
-   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __builtin_constant_p(n) ? (             \
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:6: note: Assuming the condit=
-ion is false
-           if (amdgpu_vm_block_size !=3D -1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:2: note: Taking false branch
-           if (amdgpu_vm_block_size !=3D -1)
-           ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: Assuming '__UNIQUE=
-_ID___x451' is >=3D '__UNIQUE_ID___y452'
-           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:31: note: expanded from macro 'rcu_derefere=
+nce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
                                         ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: '?' condition is f=
-alse
-           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
-                                        ^
-   include/linux/minmax.h:51:19: note: expanded from macro 'min'
-   #define min(x, y)       __careful_cmp(x, y, <)
-                           ^
-   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
-                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
-                   ^
-   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
-                   __cmp(unique_x, unique_y, op); })
-                   ^
-   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
-   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
-                            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2717:2: note: Control jumps to th=
-e 'default' case@line 2727
-           switch (adev->vm_manager.num_level) {
+   drivers/pci/p2pdma.c:536:11: note: Assuming the condition is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:390:19: note: expanded from macro '__rcu_derefe=
+rence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
+           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/rcupdate.h:318:8: note: expanded from macro 'RCU_LOCKDEP_W=
+ARN'
+                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
+                        ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '&&' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:6: note: Assuming the condit=
-ion is false
-           if (amdgpu_vm_block_size !=3D -1)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:2: note: Taking false branch
-           if (amdgpu_vm_block_size !=3D -1)
+   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
+ence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:11: note: Assuming field 'nu=
-m_level' is <=3D 1
-           else if (adev->vm_manager.num_level > 1)
-                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:7: note: Taking false branch
-           else if (adev->vm_manager.num_level > 1)
-                ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2739:33: note: Calling 'amdgpu_vm=
-_get_block_size'
-                   adev->vm_manager.block_size =3D amdgpu_vm_get_block_size=
-(tmp);
-                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
-alse
-           unsigned bits =3D ilog2(vm_size) + 18;
+   include/linux/rcupdate.h:318:11: note: expanded from macro 'RCU_LOCKDEP_=
+WARN'
+                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
                            ^
-   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
-           __builtin_constant_p(n) ?       \
+   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
-alse
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
-           (sizeof(n) <=3D 4) ?              \
+   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
+ence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
            ^
-   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: Calling '__ilog2_u=
-64'
-           unsigned bits =3D ilog2(vm_size) + 18;
-                           ^
-   include/linux/log2.h:163:2: note: expanded from macro 'ilog2'
-           __ilog2_u64(n)                  \
+   include/linux/rcupdate.h:316:2: note: expanded from macro 'RCU_LOCKDEP_W=
+ARN'
+           do {                                                            \
+           ^
+   drivers/pci/p2pdma.c:537:6: note: Assuming 'p2pdma' is non-null
+           if (p2pdma)
+               ^~~~~~
+   drivers/pci/p2pdma.c:537:2: note: Taking true branch
+           if (p2pdma)
+           ^
+   drivers/pci/p2pdma.c:538:46: note: Passing null pointer value via 1st pa=
+rameter 'client'
+                   xa_store(&p2pdma->map_types, map_types_idx(client),
+                                                              ^~~~~~
+   drivers/pci/p2pdma.c:538:32: note: Calling 'map_types_idx'
+                   xa_store(&p2pdma->map_types, map_types_idx(client),
+                                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:409:24: note: Access to field 'bus' results in a de=
+reference of a null pointer (loaded from variable 'client')
+           return (pci_domain_nr(client->bus) << 16) |
+                                 ^~~~~~
+>> drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang=
+-analyzer-core.NullDereference]
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
            ^~~~~~~~~~~~~~
-   include/linux/log2.h:32:9: note: Calling 'fls64'
-           return fls64(n) - 1;
-                  ^~~~~~~~
-   include/asm-generic/bitops/fls64.h:21:14: note: The result of the '>>' e=
-xpression is undefined
-           __u32 h =3D x >> 32;
-                     ~~^~~~~
-   include/linux/log2.h:57:13: warning: The result of the left shift is und=
-efined due to shifting by '32', which is greater or equal to the width of t=
-ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
-           return 1UL << fls_long(n - 1);
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/pci/p2pdma.c:470:9: note: Assuming pointer value is null
+           while (a) {
+                  ^
+   drivers/pci/p2pdma.c:470:2: note: Loop condition is false. Execution con=
+tinues on line 492
+           while (a) {
+           ^
+   drivers/pci/p2pdma.c:493:2: note: Control jumps to line 527
+           goto map_through_host_bridge;
+           ^
+   drivers/pci/p2pdma.c:527:29: note: Left side of '&&' is false
+           if (!cpu_supports_p2pdma() &&
+                                      ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is true
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
 
-vim +21 include/asm-generic/bitops/fls64.h
+vim +536 drivers/pci/p2pdma.c
 
-a54baa1487c51c Akinobu Mita           2006-03-26   6  =
+110203bee05f33 Logan Gunthorpe   2019-08-12  412  =
 
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   7  /**
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   8   * fls64 - find last =
-set bit in a 64-bit word
-d57594c203b1e7 Alexander van Heukelum 2008-03-15   9   * @x: the word to se=
-arch
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  10   *
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  11   * This is defined in=
- a similar way as the libc and compiler builtin
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  12   * ffsll, but returns=
- the position of the most significant set bit.
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  13   *
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  14   * fls64(value) retur=
-ns 0 if value is 0 or the position of the last
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  15   * set bit if value i=
-s nonzero. The last (most significant) bit is
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  16   *@position 64.
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  17   */
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  18  #if BITS_PER_LONG =3D=
-=3D 32
-c8399943bdb70f Andi Kleen             2009-01-12  19  static __always_inlin=
-e int fls64(__u64 x)
-2dfc383ad587bb Akinobu Mita           2006-03-26  20  {
-2dfc383ad587bb Akinobu Mita           2006-03-26 @21  	__u32 h =3D x >> 32;
-2dfc383ad587bb Akinobu Mita           2006-03-26  22  	if (h)
-2dfc383ad587bb Akinobu Mita           2006-03-26  23  		return fls(h) + 32;
-2dfc383ad587bb Akinobu Mita           2006-03-26  24  	return fls(x);
-2dfc383ad587bb Akinobu Mita           2006-03-26  25  }
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  26  #elif BITS_PER_LONG =
-=3D=3D 64
-c8399943bdb70f Andi Kleen             2009-01-12  27  static __always_inlin=
-e int fls64(__u64 x)
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  28  {
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  29  	if (x =3D=3D 0)
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  30  		return 0;
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  31  	return __fls(x) + 1;
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  32  }
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  33  #else
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  34  #error BITS_PER_LONG =
-not 32 or 64
-d57594c203b1e7 Alexander van Heukelum 2008-03-15  35  #endif
-2dfc383ad587bb Akinobu Mita           2006-03-26  36  =
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  413  /*
+6389d43745228d Logan Gunthorpe   2021-06-10  414   * Calculate the P2PDMA m=
+apping type and distance between two PCI devices.
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  415   *
+6389d43745228d Logan Gunthorpe   2021-06-10  416   * If the two devices are=
+ the same PCI function, return
+6389d43745228d Logan Gunthorpe   2021-06-10  417   * PCI_P2PDMA_MAP_BUS_ADD=
+R and a distance of 0.
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  418   *
+6389d43745228d Logan Gunthorpe   2021-06-10  419   * If they are two functi=
+ons of the same device, return
+6389d43745228d Logan Gunthorpe   2021-06-10  420   * PCI_P2PDMA_MAP_BUS_ADD=
+R and a distance of 2 (one hop up to the bridge,
+6389d43745228d Logan Gunthorpe   2021-06-10  421   * then one hop back down=
+ to another function of the same device).
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  422   *
+6389d43745228d Logan Gunthorpe   2021-06-10  423   * In the case where two =
+devices are connected to the same PCIe switch,
+6389d43745228d Logan Gunthorpe   2021-06-10  424   * return a distance of 4=
+. This corresponds to the following PCI tree:
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  425   *
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  426   *     -+  Root Port
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  427   *      \+ Switch Upstrea=
+m Port
+6389d43745228d Logan Gunthorpe   2021-06-10  428   *       +-+ Switch Downs=
+tream Port 0
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  429   *       + \- Device A
+6389d43745228d Logan Gunthorpe   2021-06-10  430   *       \-+ Switch Downs=
+tream Port 1
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  431   *         \- Device B
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  432   *
+6389d43745228d Logan Gunthorpe   2021-06-10  433   * The distance is 4 beca=
+use we traverse from Device A to Downstream Port 0
+6389d43745228d Logan Gunthorpe   2021-06-10  434   * to the common Switch U=
+pstream Port, back down to Downstream Port 1 and
+6389d43745228d Logan Gunthorpe   2021-06-10  435   * then to Device B. The =
+mapping type returned depends on the ACS
+6389d43745228d Logan Gunthorpe   2021-06-10  436   * redirection setting of=
+ the ports along the path.
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  437   *
+6389d43745228d Logan Gunthorpe   2021-06-10  438   * If ACS redirect is set=
+ on any port in the path, traffic between the
+6389d43745228d Logan Gunthorpe   2021-06-10  439   * devices will go throug=
+h the host bridge, so return
+6389d43745228d Logan Gunthorpe   2021-06-10  440   * PCI_P2PDMA_MAP_THRU_HO=
+ST_BRIDGE; otherwise return
+6389d43745228d Logan Gunthorpe   2021-06-10  441   * PCI_P2PDMA_MAP_BUS_ADD=
+R.
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  442   *
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  443   * Any two devices that h=
+ave a data path that goes through the host bridge
+6389d43745228d Logan Gunthorpe   2021-06-10  444   * will consult a whiteli=
+st. If the host bridge is in the whitelist, return
+6389d43745228d Logan Gunthorpe   2021-06-10  445   * PCI_P2PDMA_MAP_THRU_HO=
+ST_BRIDGE with the distance set to the number of
+6389d43745228d Logan Gunthorpe   2021-06-10  446   * ports per above. If th=
+e device is not in the whitelist, return
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  447   * PCI_P2PDMA_MAP_NOT_SUP=
+PORTED.
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  448   */
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  449  static enum pci_p2pdma_ma=
+p_type
+6389d43745228d Logan Gunthorpe   2021-06-10  450  calc_map_type_and_dist(st=
+ruct pci_dev *provider, struct pci_dev *client,
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  451  		int *dist, bool verbose)
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  452  {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  453  	enum pci_p2pdma_map_type=
+ map_type =3D PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  454  	struct pci_dev *a =3D pr=
+ovider, *b =3D client, *bb;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  455  	bool acs_redirects =3D f=
+alse;
+ae21f835a5bda0 Eric Dumazet      2021-07-01  456  	struct pci_p2pdma *p2pdm=
+a;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  457  	struct seq_buf acs_list;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  458  	int acs_cnt =3D 0;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  459  	int dist_a =3D 0;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  460  	int dist_b =3D 0;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  461  	char buf[128];
+e2cbfbf78968db Logan Gunthorpe   2019-08-12  462  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  463  	seq_buf_init(&acs_list, =
+buf, sizeof(buf));
+e2cbfbf78968db Logan Gunthorpe   2019-08-12  464  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  465  	/*
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  466  	 * Note, we don't need t=
+o take references to devices returned by
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  467  	 * pci_upstream_bridge()=
+ seeing we hold a reference to a child
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  468  	 * device which will alr=
+eady hold a reference to the upstream bridge.
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  469  	 */
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  470  	while (a) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  471  		dist_b =3D 0;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  472  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  473  		if (pci_bridge_has_acs_=
+redir(a)) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  474  			seq_buf_print_bus_devf=
+n(&acs_list, a);
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  475  			acs_cnt++;
+e2cbfbf78968db Logan Gunthorpe   2019-08-12  476  		}
+e2cbfbf78968db Logan Gunthorpe   2019-08-12  477  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  478  		bb =3D b;
+110203bee05f33 Logan Gunthorpe   2019-08-12  479  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  480  		while (bb) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  481  			if (a =3D=3D bb)
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  482  				goto check_b_path_acs;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  483  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  484  			bb =3D pci_upstream_br=
+idge(bb);
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  485  			dist_b++;
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  486  		}
+c6bfaeb573a6ca Logan Gunthorpe   2019-08-12  487  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  488  		a =3D pci_upstream_brid=
+ge(a);
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  489  		dist_a++;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  490  	}
+52916982af48d9 Logan Gunthorpe   2018-10-04  491  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  492  	*dist =3D dist_a + dist_=
+b;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  493  	goto map_through_host_br=
+idge;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  494  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  495  check_b_path_acs:
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  496  	bb =3D b;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  497  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  498  	while (bb) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  499  		if (a =3D=3D bb)
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  500  			break;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  501  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  502  		if (pci_bridge_has_acs_=
+redir(bb)) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  503  			seq_buf_print_bus_devf=
+n(&acs_list, bb);
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  504  			acs_cnt++;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  505  		}
+52916982af48d9 Logan Gunthorpe   2018-10-04  506  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  507  		bb =3D pci_upstream_bri=
+dge(bb);
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  508  	}
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  509  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  510  	*dist =3D dist_a + dist_=
+b;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  511  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  512  	if (!acs_cnt) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  513  		map_type =3D PCI_P2PDMA=
+_MAP_BUS_ADDR;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  514  		goto done;
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  515  	}
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  516  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  517  	if (verbose) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  518  		acs_list.buffer[acs_lis=
+t.len-1] =3D 0; /* drop final semicolon */
+72583084e3fe33 Logan Gunthorpe   2019-08-12  519  		pci_warn(client, "ACS r=
+edirect is set between the client and provider (%s)\n",
+52916982af48d9 Logan Gunthorpe   2018-10-04  520  			 pci_name(provider));
+52916982af48d9 Logan Gunthorpe   2018-10-04  521  		pci_warn(client, "to di=
+sable ACS redirect for this path, add the kernel parameter: pci=3Ddisable_a=
+cs_redir=3D%s\n",
+52916982af48d9 Logan Gunthorpe   2018-10-04  522  			 acs_list.buffer);
+72583084e3fe33 Logan Gunthorpe   2019-08-12  523  	}
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  524  	acs_redirects =3D true;
+52916982af48d9 Logan Gunthorpe   2018-10-04  525  =
+
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  526  map_through_host_bridge:
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  527  	if (!cpu_supports_p2pdma=
+() &&
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  528  	    !host_bridge_whiteli=
+st(provider, client, acs_redirects)) {
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  529  		if (verbose)
+72583084e3fe33 Logan Gunthorpe   2019-08-12  530  			pci_warn(client, "cann=
+ot be used for peer-to-peer DMA as the client and provider (%s) do not shar=
+e an upstream bridge or whitelisted host bridge\n",
+52916982af48d9 Logan Gunthorpe   2018-10-04  531  				 pci_name(provider));
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  532  		map_type =3D PCI_P2PDMA=
+_MAP_NOT_SUPPORTED;
+52916982af48d9 Logan Gunthorpe   2018-10-04  533  	}
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  534  done:
+ae21f835a5bda0 Eric Dumazet      2021-07-01  535  	rcu_read_lock();
+ae21f835a5bda0 Eric Dumazet      2021-07-01 @536  	p2pdma =3D rcu_dereferen=
+ce(provider->p2pdma);
+ae21f835a5bda0 Eric Dumazet      2021-07-01  537  	if (p2pdma)
+ae21f835a5bda0 Eric Dumazet      2021-07-01  538  		xa_store(&p2pdma->map_t=
+ypes, map_types_idx(client),
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  539  			 xa_mk_value(map_type)=
+, GFP_KERNEL);
+ae21f835a5bda0 Eric Dumazet      2021-07-01  540  	rcu_read_unlock();
+d1b8dc09dd7124 Christoph Hellwig 2021-06-14  541  	return map_type;
+52916982af48d9 Logan Gunthorpe   2018-10-04  542  }
+52916982af48d9 Logan Gunthorpe   2018-10-04  543  =
 
 
-:::::: The code at line 21 was first introduced by commit
-:::::: 2dfc383ad587bbead84739a9ff9273df3eda983d [PATCH] bitops: generic fls=
-64()
+:::::: The code at line 536 was first introduced by commit
+:::::: ae21f835a5bda0ef1d00940373445693a764d89e PCI/P2PDMA: Finish RCU conv=
+ersion of pdev->p2pdma
 
-:::::: TO: Akinobu Mita <mita@miraclelinux.com>
-:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2583207358332686026==--
+--===============2306093846923563505==--
 
