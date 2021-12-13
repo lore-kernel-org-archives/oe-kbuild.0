@@ -1,66 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============0715920699357424155=="
+Content-Type: multipart/mixed; boundary="===============6277368413615893440=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 2/2] Remove bdi_congested() and wb_congested() and related functions
-Date: Mon, 13 Dec 2021 22:04:17 +0800
-Message-ID: <202112132125.TxGmjdjv-lkp@intel.com>
+Subject: [rostedt-trace:ftrace/core 24/24] kernel/trace/trace_events_hist.c:1521:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Mon, 13 Dec 2021 21:53:58 +0800
+Message-ID: <202112132144.5GVZmljB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0715920699357424155==
+--===============6277368413615893440==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <163936886727.23860.5245364396572576756.stgit@noble.brown>
-References: <163936886727.23860.5245364396572576756.stgit@noble.brown>
-TO: NeilBrown <neilb@suse.de>
-TO: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Mel Gorman <mgorman@suse.de>
-TO: Philipp Reisner <philipp.reisner@linbit.com>
-TO: Lars Ellenberg <lars.ellenberg@linbit.com>
-TO: Jan Kara <jack@suse.com>
-TO: Ryusuke Konishi <konishi.ryusuke@gmail.com>
-TO: "Darrick J. Wong" <djwong@kernel.org>
-CC: linux-xfs(a)vger.kernel.org
-CC: linux-ext4(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Tom Zanussi <zanussi@kernel.org>
+CC: "Steven Rostedt (VMware)" <rostedt@goodmis.org>
 
-Hi NeilBrown,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on hnaz-mm/master]
-[also build test WARNING on axboe-block/for-next konis-nilfs2/upstream xfs-=
-linux/for-next linus/master v5.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/NeilBrown/Remove-some-cong=
-ested-tests/20211213-121653
-base:   https://github.com/hnaz/linux-mm master
-:::::: branch date: 10 hours ago
-:::::: commit date: 10 hours ago
-config: x86_64-randconfig-c007-20211213 (https://download.01.org/0day-ci/ar=
-chive/20211213/202112132125.TxGmjdjv-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2dd=
-b6c8ac29412b1361810972e15221fa021c)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-trace=
+.git ftrace/core
+head:   85c62c8c3749eec02ba81217bdcac26867dc262e
+commit: 85c62c8c3749eec02ba81217bdcac26867dc262e [24/24] tracing: Have exis=
+ting event_command.parse() implementations use helpers
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: i386-randconfig-c001-20211212 (https://download.01.org/0day-ci/arch=
+ive/20211213/202112132144.5GVZmljB-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/41802b6debbde3d5553a8067b=
-a2deb2035e6da6e
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review NeilBrown/Remove-some-congested-te=
-sts/20211213-121653
-        git checkout 41802b6debbde3d5553a8067ba2deb2035e6da6e
+        # https://git.kernel.org/pub/scm/linux/kernel/git/rostedt/linux-tra=
+ce.git/commit/?id=3D85c62c8c3749eec02ba81217bdcac26867dc262e
+        git remote add rostedt-trace https://git.kernel.org/pub/scm/linux/k=
+ernel/git/rostedt/linux-trace.git
+        git fetch --no-tags rostedt-trace ftrace/core
+        git checkout 85c62c8c3749eec02ba81217bdcac26867dc262e
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -68,343 +49,612 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                        ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/lockd/mon.c:280:2: note: Taking false branch
-           if (unlikely(new =3D=3D NULL))
+   include/linux/minmax.h:112:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/hwmon/lm75.h:27:14: note: '__UNIQUE_ID___x226' is < '__UNIQUE_ID=
+___y227'
+           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
+                       ^
+   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~
+   drivers/hwmon/lm75.h:27:14: note: '?' condition is true
+           int ntemp =3D clamp_val(temp, LM75_TEMP_MIN, LM75_TEMP_MAX);
+                       ^
+   include/linux/minmax.h:137:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^
+   include/linux/minmax.h:124:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ^
+   include/linux/minmax.h:104:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/hwmon/lm75.h:29:12: note: 'ntemp' is < 0
+           ntemp +=3D (ntemp < 0 ? -250 : 250);
+                     ^~~~~
+   drivers/hwmon/lm75.h:29:12: note: '?' condition is true
+   drivers/hwmon/lm75.h:30:29: note: The result of the left shift is undefi=
+ned because the left operand is negative
+           return (u16)((ntemp / 500) << 7);
+                        ~~~~~~~~~~~~~ ^
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   41 warnings generated.
+   kernel/trace/trace_events_hist.c:1301:4: warning: Call to function 'strc=
+at' is insecure as it does not provide bounding of the memory buffer. Repla=
+ce unbounded copy functions with analogous functions that support length ar=
+guments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.str=
+cpy]
+                           strcat(full_name, field->system);
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1301:4: note: Call to function 'strcat'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcat'. CWE-119
+                           strcat(full_name, field->system);
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1302:4: warning: Call to function 'strc=
+at' is insecure as it does not provide bounding of the memory buffer. Repla=
+ce unbounded copy functions with analogous functions that support length ar=
+guments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.str=
+cpy]
+                           strcat(full_name, ".");
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1302:4: note: Call to function 'strcat'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcat'. CWE-119
+                           strcat(full_name, ".");
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1303:4: warning: Call to function 'strc=
+at' is insecure as it does not provide bounding of the memory buffer. Repla=
+ce unbounded copy functions with analogous functions that support length ar=
+guments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.str=
+cpy]
+                           strcat(full_name, field->event_name);
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1303:4: note: Call to function 'strcat'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcat'. CWE-119
+                           strcat(full_name, field->event_name);
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1304:4: warning: Call to function 'strc=
+at' is insecure as it does not provide bounding of the memory buffer. Repla=
+ce unbounded copy functions with analogous functions that support length ar=
+guments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.str=
+cpy]
+                           strcat(full_name, ".");
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1304:4: note: Call to function 'strcat'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcat'. CWE-119
+                           strcat(full_name, ".");
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1305:4: warning: Call to function 'strc=
+at' is insecure as it does not provide bounding of the memory buffer. Repla=
+ce unbounded copy functions with analogous functions that support length ar=
+guments such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.str=
+cpy]
+                           strcat(full_name, field->name);
+                           ^~~~~~
+   kernel/trace/trace_events_hist.c:1305:4: note: Call to function 'strcat'=
+ is insecure as it does not provide bounding of the memory buffer. Replace =
+unbounded copy functions with analogous functions that support length argum=
+ents such as 'strlcat'. CWE-119
+                           strcat(full_name, field->name);
+                           ^~~~~~
+>> kernel/trace/trace_events_hist.c:1521:6: warning: Branch condition evalu=
+ates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (!attrs->keys_str) {
+               ^
+   kernel/trace/trace_events_hist.c:5784:19: note: Assuming field 'ref' is =
+> 0
+           if (WARN_ON_ONCE(data->ref <=3D 0))
+                            ^
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:5784:6: note: Taking false branch
+           if (WARN_ON_ONCE(data->ref <=3D 0))
+               ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
            ^
-   fs/lockd/mon.c:289:6: note: Assuming the condition is false
-           if (rpc_ntop(nsm_addr(new), new->sm_addrbuf,
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/lockd/mon.c:289:2: note: Taking false branch
-           if (rpc_ntop(nsm_addr(new), new->sm_addrbuf,
+   kernel/trace/trace_events_hist.c:5784:2: note: Taking false branch
+           if (WARN_ON_ONCE(data->ref <=3D 0))
            ^
-   fs/lockd/mon.c:293:2: note: Null pointer passed as 2nd argument to memor=
-y copy function
-           memcpy(new->sm_name, hostname, hostname_len);
-           ^                    ~~~~~~~~
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/gpio/gpio-pcf857x.c:237:23: warning: Value stored to 'np' during=
- its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-pcf857x.c:237:23: note: Value stored to 'np' during it=
-s initialization is never read
-           struct device_node              *np =3D client->dev.of_node;
-                                            ^~   ~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/mfd/sm501.c:513:16: warning: Value stored to 'mode' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned long mode =3D smc501_readl(sm->regs + SM501_POWER_MODE_=
-CONTROL);
-                         ^~~~
-   drivers/mfd/sm501.c:513:16: note: Value stored to 'mode' during its init=
-ialization is never read
-           unsigned long mode =3D smc501_readl(sm->regs + SM501_POWER_MODE_=
-CONTROL);
-                         ^~~~
-   drivers/mfd/sm501.c:514:16: warning: Value stored to 'gate' during its i=
-nitialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned long gate =3D smc501_readl(sm->regs + SM501_CURRENT_GAT=
-E);
-                         ^~~~
-   drivers/mfd/sm501.c:514:16: note: Value stored to 'gate' during its init=
-ialization is never read
-           unsigned long gate =3D smc501_readl(sm->regs + SM501_CURRENT_GAT=
-E);
-                         ^~~~
-   drivers/mfd/sm501.c:515:16: warning: Value stored to 'clock' during its =
-initialization is never read [clang-analyzer-deadcode.DeadStores]
-           unsigned long clock =3D smc501_readl(sm->regs + SM501_CURRENT_CL=
-OCK);
-                         ^~~~~
-   drivers/mfd/sm501.c:515:16: note: Value stored to 'clock' during its ini=
-tialization is never read
-           unsigned long clock =3D smc501_readl(sm->regs + SM501_CURRENT_CL=
-OCK);
-                         ^~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   fs/ext2/dir.c:477:2: warning: Value stored to 'err' is never read [clang=
--analyzer-deadcode.DeadStores]
-           err =3D ext2_commit_chunk(page, pos, len);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/ext2/dir.c:477:2: note: Value stored to 'err' is never read
-           err =3D ext2_commit_chunk(page, pos, len);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> fs/ext2/ialloc.c:175:2: warning: Value stored to 'bdi' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-           bdi =3D inode_to_bdi(inode);
-           ^     ~~~~~~~~~~~~~~~~~~~
-   fs/ext2/ialloc.c:175:2: note: Value stored to 'bdi' is never read
-           bdi =3D inode_to_bdi(inode);
-           ^     ~~~~~~~~~~~~~~~~~~~
-   fs/ext2/ialloc.c:301:4: warning: Value stored to 'desc' is never read [c=
-lang-analyzer-deadcode.DeadStores]
-                           desc =3D best_desc;
-                           ^      ~~~~~~~~~
-   fs/ext2/ialloc.c:301:4: note: Value stored to 'desc' is never read
-                           desc =3D best_desc;
-                           ^      ~~~~~~~~~
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/regulator/core.c:1109:2: warning: Value stored to 'count' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-           count +=3D scnprintf(buf + count, len - count, ", %s",
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/core.c:1109:2: note: Value stored to 'count' is never =
-read
-           count +=3D scnprintf(buf + count, len - count, ", %s",
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/core.c:3792:3: warning: Value stored to 'possible_uV' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                   possible_uV =3D desired_min_uV;
-                   ^             ~~~~~~~~~~~~~~
-   drivers/regulator/core.c:3792:3: note: Value stored to 'possible_uV' is =
-never read
-                   possible_uV =3D desired_min_uV;
-                   ^             ~~~~~~~~~~~~~~
-   Suppressed 11 warnings (11 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   fs/xfs/libxfs/xfs_rmap.c:244:2: warning: 4th function call argument is a=
-n uninitialized value [clang-analyzer-core.CallAndMessage]
-           xfs_warn(mp,
+   kernel/trace/trace_events_hist.c:5787:2: note: Calling 'event_hist_trigg=
+er_free'
+           event_hist_trigger_free(ops, data->named_data);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5744:19: note: Assuming field 'ref' is =
+> 0
+           if (WARN_ON_ONCE(data->ref <=3D 0))
+                            ^
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:5744:6: note: Taking false branch
+           if (WARN_ON_ONCE(data->ref <=3D 0))
+               ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   kernel/trace/trace_events_hist.c:5744:2: note: Taking false branch
+           if (WARN_ON_ONCE(data->ref <=3D 0))
+           ^
+   kernel/trace/trace_events_hist.c:5748:6: note: Assuming field 'ref' is 0
+           if (!data->ref) {
+               ^~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5748:2: note: Taking true branch
+           if (!data->ref) {
+           ^
+   kernel/trace/trace_events_hist.c:5749:7: note: Assuming field 'name' is =
+null
+                   if (data->name)
+                       ^~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5749:3: note: Taking false branch
+                   if (data->name)
+                   ^
+   kernel/trace/trace_events_hist.c:5756:3: note: Calling 'unregister_field=
+_var_hists'
+                   unregister_field_var_hists(hist_data);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5730:14: note: Assuming 'i' is < field =
+'n_field_var_hists'
+           for (i =3D 0; i < hist_data->n_field_var_hists; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:5730:2: note: Loop condition is true.  =
+Entering loop body
+           for (i =3D 0; i < hist_data->n_field_var_hists; i++) {
+           ^
+   kernel/trace/trace_events_hist.c:5733:9: note: Calling 'event_hist_trigg=
+er_parse'
+                   ret =3D event_hist_trigger_parse(&trigger_hist_cmd, file,
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:6167:2: note: Assuming 'debug_locks' is=
+ 0
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:6167:2: note: Left side of '&&' is false
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                                    ^
+   kernel/trace/trace_events_hist.c:6167:2: note: Taking false branch
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   kernel/trace/trace_events_hist.c:6167:2: note: Loop condition is false. =
+ Exiting loop
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+--
+                   ^
+   kernel/trace/trace_events_hist.c:3929:14: note: Calling 'create_var_ref'
+                           var_ref =3D create_var_ref(hist_data, hist_field,
+                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2123:14: note: Assuming 'i' is >=3D fie=
+ld 'n_var_refs'
+           for (i =3D 0; i < hist_data->n_var_refs; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2123:2: note: Loop condition is false. =
+Execution continues on line 2132
+           for (i =3D 0; i < hist_data->n_var_refs; i++) {
+           ^
+   kernel/trace/trace_events_hist.c:2132:14: note: Calling 'create_hist_fie=
+ld'
+           ref_field =3D create_hist_field(var_field->hist_data, NULL, flag=
+s, NULL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   kernel/trace/trace_events_hist.c:1891:6: note: 'field' is null
+           if (field && is_function_field(field))
+               ^~~~~
+   kernel/trace/trace_events_hist.c:1891:12: note: Left side of '&&' is fal=
+se
+           if (field && is_function_field(field))
+                     ^
+   kernel/trace/trace_events_hist.c:1894:15: note: Calling 'kzalloc'
+           hist_field =3D kzalloc(sizeof(struct hist_field), GFP_KERNEL);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:724:9: note: Uninitialized value stored to field 'n=
+ame'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:724:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:1894:15: note: Returning from 'kzalloc'
+           hist_field =3D kzalloc(sizeof(struct hist_field), GFP_KERNEL);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:1895:6: note: Assuming 'hist_field' is =
+non-null
+           if (!hist_field)
+               ^~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:1895:2: note: Taking false branch
+           if (!hist_field)
+           ^
+   kernel/trace/trace_events_hist.c:1902:6: note: Left side of '||' is false
+           if (flags & HIST_FIELD_FL_EXPR || flags & HIST_FIELD_FL_ALIAS)
+               ^
+   kernel/trace/trace_events_hist.c:1902:2: note: Taking false branch
+           if (flags & HIST_FIELD_FL_EXPR || flags & HIST_FIELD_FL_ALIAS)
+           ^
+   kernel/trace/trace_events_hist.c:1905:2: note: Taking true branch
+           if (flags & HIST_FIELD_FL_VAR_REF) {
+           ^
+   kernel/trace/trace_events_hist.c:1907:3: note: Control jumps to line 1994
+                   goto out;
+                   ^
+   kernel/trace/trace_events_hist.c:1997:6: note: 'var_name' is null
+           if (var_name) {
+               ^~~~~~~~
+   kernel/trace/trace_events_hist.c:1997:2: note: Taking false branch
+           if (var_name) {
+           ^
+   kernel/trace/trace_events_hist.c:2003:2: note: Returning pointer (loaded=
+ from 'hist_field'), which participates in a condition later
+           return hist_field;
+           ^~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2132:14: note: Returning from 'create_h=
+ist_field'
+           ref_field =3D create_hist_field(var_field->hist_data, NULL, flag=
+s, NULL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   kernel/trace/trace_events_hist.c:2133:6: note: 'ref_field' is non-null
+           if (ref_field) {
+               ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:2133:2: note: Taking true branch
+           if (ref_field) {
+           ^
+   kernel/trace/trace_events_hist.c:2134:7: note: Calling 'init_var_ref'
+                   if (init_var_ref(ref_field, var_field, system, event_nam=
+e)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   kernel/trace/trace_events_hist.c:2040:6: note: 'system' is non-null
+           if (system) {
+               ^~~~~~
+   kernel/trace/trace_events_hist.c:2040:2: note: Taking true branch
+           if (system) {
+           ^
+   kernel/trace/trace_events_hist.c:2042:7: note: Assuming field 'system' i=
+s non-null
+                   if (!ref_field->system)
+                       ^~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2042:3: note: Taking false branch
+                   if (!ref_field->system)
+                   ^
+   kernel/trace/trace_events_hist.c:2046:6: note: 'event_name' is non-null
+           if (event_name) {
+               ^~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2046:2: note: Taking true branch
+           if (event_name) {
+           ^
+   kernel/trace/trace_events_hist.c:2048:7: note: Assuming field 'event_nam=
+e' is null
+                   if (!ref_field->event_name) {
+                       ^~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:2048:3: note: Taking true branch
+                   if (!ref_field->event_name) {
+                   ^
+   kernel/trace/trace_events_hist.c:2050:4: note: Control jumps to line 2076
+                           goto free;
+                           ^
+   kernel/trace/trace_events_hist.c:2078:2: note: 1st function call argumen=
+t is an uninitialized value
+           kfree(ref_field->name);
+           ^     ~~~~~~~~~~~~~~~
+>> kernel/trace/trace_events_hist.c:2136:4: warning: Potential leak of memo=
+ry pointed to by 'ref_field' [clang-analyzer-unix.Malloc]
+                           return NULL;
+                           ^
+   kernel/trace/trace_events_hist.c:3490:6: note: Assuming the condition is=
+ false
+           if (track_data_var_str[0] !=3D '$') {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3490:2: note: Taking false branch
+           if (track_data_var_str[0] !=3D '$') {
+           ^
+   kernel/trace/trace_events_hist.c:3497:6: note: Assuming 'var_field' is n=
+on-null
+           if (!var_field) {
+               ^~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3497:2: note: Taking false branch
+           if (!var_field) {
+           ^
+   kernel/trace/trace_events_hist.c:3503:7: note: 'ref_field' is non-null
+           if (!ref_field)
+                ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:3503:2: note: Taking false branch
+           if (!ref_field)
+           ^
+   kernel/trace/trace_events_hist.c:3508:6: note: Assuming field 'handler' =
+is not equal to HANDLER_ONMAX
+           if (data->handler =3D=3D HANDLER_ONMAX)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3508:2: note: Taking false branch
+           if (data->handler =3D=3D HANDLER_ONMAX)
+           ^
+   kernel/trace/trace_events_hist.c:3510:2: note: Taking false branch
+           if (IS_ERR(track_var)) {
+           ^
+   kernel/trace/trace_events_hist.c:3516:6: note: Assuming field 'handler' =
+is not equal to HANDLER_ONCHANGE
+           if (data->handler =3D=3D HANDLER_ONCHANGE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3516:2: note: Taking false branch
+           if (data->handler =3D=3D HANDLER_ONCHANGE)
+           ^
+   kernel/trace/trace_events_hist.c:3518:2: note: Taking false branch
+           if (IS_ERR(track_var)) {
+           ^
+   kernel/trace/trace_events_hist.c:3525:8: note: Calling 'action_create'
+           ret =3D action_create(hist_data, data);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3982:6: note: Assuming field 'action' i=
+s equal to ACTION_TRACE
+           if (data->action =3D=3D ACTION_TRACE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3982:2: note: Taking true branch
+           if (data->action =3D=3D ACTION_TRACE)
+           ^
+   kernel/trace/trace_events_hist.c:3983:10: note: Calling 'trace_action_cr=
+eate'
+                   return trace_action_create(hist_data, data);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3874:2: note: Assuming 'debug_locks' is=
+ 0
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                        ^~~~~~~~~~~
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   kernel/trace/trace_events_hist.c:3874:2: note: Left side of '&&' is false
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
+t'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                                    ^
+   kernel/trace/trace_events_hist.c:3874:2: note: Taking false branch
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+                ^
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
+           ^
+   kernel/trace/trace_events_hist.c:3874:2: note: Loop condition is false. =
+ Exiting loop
+           lockdep_assert_held(&event_mutex);
+           ^
+   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
+_held'
+           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+           ^
+   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
+           do { WARN_ON(debug_locks && !(cond)); } while (0)
+           ^
+   kernel/trace/trace_events_hist.c:3876:6: note: Assuming field 'use_trace=
+_keyword' is false
+           if (data->use_trace_keyword)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   kernel/trace/trace_events_hist.c:3876:2: note: Taking false branch
+           if (data->use_trace_keyword)
+           ^
+   kernel/trace/trace_events_hist.c:3882:6: note: Assuming 'event' is non-n=
+ull
+           if (!event) {
 
-vim +/bdi +175 fs/ext2/ialloc.c
+vim +1521 kernel/trace/trace_events_hist.c
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  154  =
+9b1ae035c9304e Tom Zanussi             2018-01-15  1482  =
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  155  /*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  156   * We perform asynchronou=
-s prereading of the new inode's inode block when
-^1da177e4c3f41 Linus Torvalds    2005-04-16  157   * we create the inode, i=
-n the expectation that the inode will be written
-^1da177e4c3f41 Linus Torvalds    2005-04-16  158   * back soon.  There are =
-two reasons:
-^1da177e4c3f41 Linus Torvalds    2005-04-16  159   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  160   * - When creating a larg=
-e number of files, the async prereads will be
-^1da177e4c3f41 Linus Torvalds    2005-04-16  161   *   nicely merged into l=
-arge reads
-^1da177e4c3f41 Linus Torvalds    2005-04-16  162   * - When writing out a l=
-arge number of inodes, we don't need to keep on
-^1da177e4c3f41 Linus Torvalds    2005-04-16  163   *   stalling the writes =
-while we read the inode block.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  164   *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  165   * FIXME: ext2_get_group_=
-desc() needs to be simplified.
-^1da177e4c3f41 Linus Torvalds    2005-04-16  166   */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  167  static void ext2_preread_=
-inode(struct inode *inode)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  168  {
-^1da177e4c3f41 Linus Torvalds    2005-04-16  169  	unsigned long block_grou=
-p;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  170  	unsigned long offset;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  171  	unsigned long block;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  172  	struct ext2_group_desc *=
- gdp;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  173  	struct backing_dev_info =
-*bdi;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  174  =
+d0cd871ba0d613 Steven Rostedt (VMware  2019-04-01  1483) static struct hist=
+_trigger_attrs *
+d0cd871ba0d613 Steven Rostedt (VMware  2019-04-01  1484) parse_hist_trigger=
+_attrs(struct trace_array *tr, char *trigger_str)
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1485  {
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1486  	struct hist_trigg=
+er_attrs *attrs;
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1487  	int ret =3D 0;
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1488  =
 
-de1414a654e66b Christoph Hellwig 2015-01-14 @175  	bdi =3D inode_to_bdi(ino=
-de);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  176  =
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1489  	attrs =3D kzalloc=
+(sizeof(*attrs), GFP_KERNEL);
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1490  	if (!attrs)
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1491  		return ERR_PTR(-=
+ENOMEM);
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1492  =
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  177  	block_group =3D (inode->=
-i_ino - 1) / EXT2_INODES_PER_GROUP(inode->i_sb);
-ef2fb67989d30f Eric Sandeen      2007-10-16  178  	gdp =3D ext2_get_group_d=
-esc(inode->i_sb, block_group, NULL);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  179  	if (gdp =3D=3D NULL)
-^1da177e4c3f41 Linus Torvalds    2005-04-16  180  		return;
-^1da177e4c3f41 Linus Torvalds    2005-04-16  181  =
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1493  	while (trigger_st=
+r) {
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1494  		char *str =3D st=
+rsep(&trigger_str, ":");
+b527b638fd63ba Tom Zanussi             2019-06-28  1495  		char *rhs;
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1496  =
 
-^1da177e4c3f41 Linus Torvalds    2005-04-16  182  	/*
-^1da177e4c3f41 Linus Torvalds    2005-04-16  183  	 * Figure out the offset=
- within the block group inode table
-^1da177e4c3f41 Linus Torvalds    2005-04-16  184  	 */
-^1da177e4c3f41 Linus Torvalds    2005-04-16  185  	offset =3D ((inode->i_in=
-o - 1) % EXT2_INODES_PER_GROUP(inode->i_sb)) *
-^1da177e4c3f41 Linus Torvalds    2005-04-16  186  				EXT2_INODE_SIZE(inode=
-->i_sb);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  187  	block =3D le32_to_cpu(gd=
-p->bg_inode_table) +
-^1da177e4c3f41 Linus Torvalds    2005-04-16  188  				(offset >> EXT2_BLOCK=
-_SIZE_BITS(inode->i_sb));
-^1da177e4c3f41 Linus Torvalds    2005-04-16  189  	sb_breadahead(inode->i_s=
-b, block);
-^1da177e4c3f41 Linus Torvalds    2005-04-16  190  }
-^1da177e4c3f41 Linus Torvalds    2005-04-16  191  =
+b527b638fd63ba Tom Zanussi             2019-06-28  1497  		rhs =3D strchr(s=
+tr, '=3D');
+b527b638fd63ba Tom Zanussi             2019-06-28  1498  		if (rhs) {
+b527b638fd63ba Tom Zanussi             2019-06-28  1499  			if (!strlen(++r=
+hs)) {
+b527b638fd63ba Tom Zanussi             2019-06-28  1500  				ret =3D -EINVA=
+L;
+4de26c8c967d55 Tom Zanussi             2019-06-28  1501  				hist_err(tr, H=
+IST_ERR_EMPTY_ASSIGNMENT, errpos(str));
+b527b638fd63ba Tom Zanussi             2019-06-28  1502  				goto free;
+b527b638fd63ba Tom Zanussi             2019-06-28  1503  			}
+d0cd871ba0d613 Steven Rostedt (VMware  2019-04-01  1504) 			ret =3D parse_a=
+ssignment(tr, str, attrs);
+9b1ae035c9304e Tom Zanussi             2018-01-15  1505  			if (ret)
+9b1ae035c9304e Tom Zanussi             2018-01-15  1506  				goto free;
+9b1ae035c9304e Tom Zanussi             2018-01-15  1507  		} else if (strcm=
+p(str, "pause") =3D=3D 0)
+83e99914c9e267 Tom Zanussi             2016-03-03  1508  			attrs->pause =
+=3D true;
+83e99914c9e267 Tom Zanussi             2016-03-03  1509  		else if ((strcmp=
+(str, "cont") =3D=3D 0) ||
+83e99914c9e267 Tom Zanussi             2016-03-03  1510  			 (strcmp(str, "=
+continue") =3D=3D 0))
+83e99914c9e267 Tom Zanussi             2016-03-03  1511  			attrs->cont =3D=
+ true;
+e86ae9baacfa9e Tom Zanussi             2016-03-03  1512  		else if (strcmp(=
+str, "clear") =3D=3D 0)
+e86ae9baacfa9e Tom Zanussi             2016-03-03  1513  			attrs->clear =
+=3D true;
+9b1ae035c9304e Tom Zanussi             2018-01-15  1514  		else {
+0212e2aa30e112 Tom Zanussi             2018-01-15  1515  			ret =3D parse_a=
+ction(str, attrs);
+0212e2aa30e112 Tom Zanussi             2018-01-15  1516  			if (ret)
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1517  				goto free;
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1518  		}
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1519  	}
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1520  =
 
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03 @1521  	if (!attrs->keys_=
+str) {
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1522  		ret =3D -EINVAL;
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1523  		goto free;
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1524  	}
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1525  =
+
+a4072fe85ba367 Tom Zanussi             2018-01-15  1526  	if (!attrs->clock=
+) {
+a4072fe85ba367 Tom Zanussi             2018-01-15  1527  		attrs->clock =3D=
+ kstrdup("global", GFP_KERNEL);
+a4072fe85ba367 Tom Zanussi             2018-01-15  1528  		if (!attrs->cloc=
+k) {
+a4072fe85ba367 Tom Zanussi             2018-01-15  1529  			ret =3D -ENOMEM;
+a4072fe85ba367 Tom Zanussi             2018-01-15  1530  			goto free;
+a4072fe85ba367 Tom Zanussi             2018-01-15  1531  		}
+a4072fe85ba367 Tom Zanussi             2018-01-15  1532  	}
+a4072fe85ba367 Tom Zanussi             2018-01-15  1533  =
+
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1534  	return attrs;
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1535   free:
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1536  	destroy_hist_trig=
+ger_attrs(attrs);
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1537  =
+
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1538  	return ERR_PTR(re=
+t);
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1539  }
+7ef224d1d0e3a1 Tom Zanussi             2016-03-03  1540  =
+
+
+:::::: The code at line 1521 was first introduced by commit
+:::::: 7ef224d1d0e3a1ade02d02c01ce1dcffb736d2c3 tracing: Add 'hist' event t=
+rigger command
+
+:::::: TO: Tom Zanussi <tom.zanussi@linux.intel.com>
+:::::: CC: Steven Rostedt <rostedt@goodmis.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0715920699357424155==--
+--===============6277368413615893440==--
 
