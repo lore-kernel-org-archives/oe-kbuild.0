@@ -1,199 +1,364 @@
-Content-Type: multipart/mixed; boundary="===============1855164960688828403=="
+Content-Type: multipart/mixed; boundary="===============6304376680218997090=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/misc/habanalabs/common/firmware_if.c:467 hl_fw_send_msi_info_msg() error: uninitialized symbol 'result'.
-Date: Tue, 14 Dec 2021 07:20:53 +0800
-Message-ID: <202112140728.jZdhFChN-lkp@intel.com>
+Subject: include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResult]
+Date: Tue, 14 Dec 2021 05:45:11 +0800
+Message-ID: <202112140515.JJMNX3pt-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1855164960688828403==
+--===============6304376680218997090==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Ohad Sharabi <osharabi@habana.ai>
-CC: Oded Gabbay <ogabbay@kernel.org>
+TO: Jakub Jelinek <jakub@redhat.com>
+CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   2585cf9dfaaddf00b069673f27bb3f8530e2039c
-commit: e9c2003be4d4809c7e3bf17167ef08a3be7b43d2 habanalabs: send dynamic m=
-si-x indexes to f/w
-date:   8 months ago
-:::::: branch date: 24 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-m001-20211207 (https://download.01.org/0day-ci/ar=
-chive/20211214/202112140728.jZdhFChN-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
+onstant arguments
+date:   12 months ago
+:::::: branch date: 23 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-c006-20211128 (https://download.01.org/0day-ci/arc=
+hive/20211214/202112140515.JJMNX3pt-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
+97ef3ee4dc2119d5429adf3072e90fac38)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D2f78788b55baa3410b1ec91a576286abe1ad4d6a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 2f78788b55baa3410b1ec91a576286abe1ad4d6a
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/misc/habanalabs/common/firmware_if.c:467 hl_fw_send_msi_info_msg() =
-error: uninitialized symbol 'result'.
 
-Old smatch warnings:
-drivers/misc/habanalabs/common/firmware_if.c:122 hl_fw_send_cpu_message() e=
-rror: uninitialized symbol 'pkt_dma_addr'.
-drivers/misc/habanalabs/common/firmware_if.c:243 hl_fw_test_cpu_queue() err=
-or: uninitialized symbol 'result'.
-drivers/misc/habanalabs/common/firmware_if.c:286 hl_fw_send_heartbeat() err=
-or: uninitialized symbol 'result'.
-drivers/misc/habanalabs/common/firmware_if.c:385 hl_fw_cpucp_info_get() err=
-or: uninitialized symbol 'cpucp_info_dma_addr'.
-drivers/misc/habanalabs/common/firmware_if.c:513 hl_fw_get_eeprom_data() er=
-ror: uninitialized symbol 'eeprom_info_dma_addr'.
-drivers/misc/habanalabs/common/firmware_if.c:527 hl_fw_get_eeprom_data() er=
-ror: uninitialized symbol 'result'.
-drivers/misc/habanalabs/common/firmware_if.c:555 hl_fw_cpucp_pci_counters_g=
-et() error: uninitialized symbol 'result'.
-drivers/misc/habanalabs/common/firmware_if.c:607 hl_fw_cpucp_total_energy_g=
-et() error: uninitialized symbol 'result'.
-drivers/misc/habanalabs/common/firmware_if.c:675 hl_fw_cpucp_pll_info_get()=
- error: uninitialized symbol 'result'.
-drivers/misc/habanalabs/common/firmware_if.c:701 hl_fw_cpucp_power_get() er=
-ror: uninitialized symbol 'result'.
-drivers/misc/habanalabs/common/firmware_if.c:948 hl_fw_init_cpu() warn: mis=
-sing error code 'rc'
+clang-analyzer warnings: (new ones prefixed by >>)
+                ^~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:6: note: Left side of '&&' i=
+s true
+           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
+               ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1636:2: note: Taking false branch
+           if (!unlocked && !dma_fence_is_signaled(vm->last_unlocked)) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:6: note: Assuming 'r' is 0
+           if (r)
+               ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1645:2: note: Taking false branch
+           if (r)
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:7: note: 'nodes' is null
+                   if (nodes) {
+                       ^~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1653:3: note: Taking false branch
+                   if (nodes) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:7: note: 'pages_addr' is null
+                   if (pages_addr) {
+                       ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1661:3: note: Taking false branch
+                   if (pages_addr) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1691:10: note: Taking true branch
+                   } else if (flags & (AMDGPU_PTE_VALID | AMDGPU_PTE_PRT)) {
+                          ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1697:7: note: Calling 'amdgpu_vm_=
+update_ptes'
+                   r =3D amdgpu_vm_update_ptes(&params, start, tmp, addr, f=
+lags);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Calling 'amdgpu_vm_=
+fragment'
+           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
+end);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:6: note: Assuming field 'asi=
+c_type' is >=3D CHIP_VEGA10
+           if (params->adev->asic_type < CHIP_VEGA10)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1395:2: note: Taking false branch
+           if (params->adev->asic_type < CHIP_VEGA10)
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:6: note: Assuming field 'pag=
+es_addr' is non-null
+           if (params->pages_addr) {
+               ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1401:2: note: Taking true branch
+           if (params->pages_addr) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1404:3: note: Returning without w=
+riting to 'params->unlocked', which participates in a condition later
+                   return;
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1442:2: note: Returning from 'amd=
+gpu_vm_fragment'
+           amdgpu_vm_fragment(params, frag_start, end, flags, &frag, &frag_=
+end);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:9: note: Assuming 'end' is >=
+ field 'pfn'
+           while (cursor.pfn < end) {
+                  ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1446:2: note: Loop condition is t=
+rue.  Entering loop body
+           while (cursor.pfn < end) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:7: note: Assuming field 'unl=
+ocked' is true
+                   if (!params->unlocked) {
+                       ^~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1451:3: note: Taking false branch
+                   if (!params->unlocked) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Calling 'amdgpu_vm=
+_level_shift'
+                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:125:2: note: Control jumps to the=
+ 'default' case at line 133
+           switch (level) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:134:3: note: Returning the value =
+4294967295
+                   return ~0;
+                   ^~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:11: note: Returning from 'am=
+dgpu_vm_level_shift'
+                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1461:3: note: The value 429496729=
+5 is assigned to 'shift'
+                   shift =3D amdgpu_vm_level_shift(adev, cursor.level);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:15: note: Field 'unlocked' i=
+s true
+                   if (params->unlocked) {
+                               ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1463:3: note: Taking true branch
+                   if (params->unlocked) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:8: note: Assuming the condit=
+ion is false
+                           if (amdgpu_vm_pt_descendant(adev, &cursor))
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1465:4: note: Taking false branch
+                           if (amdgpu_vm_pt_descendant(adev, &cursor))
+                           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:7: note: Assuming 'pt' is no=
+n-null
+                   if (!pt) {
+                       ^~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1492:3: note: Taking false branch
+                   if (!pt) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:1510:41: note: The result of the =
+left shift is undefined due to shifting by '4294967295', which is greater o=
+r equal to the width of type 'uint64_t'
+                   incr =3D (uint64_t)AMDGPU_GPU_PAGE_SIZE << shift;
+                                                         ^  ~~~~~
+>> include/asm-generic/bitops/fls64.h:21:14: warning: The result of the '>>=
+' expression is undefined [clang-analyzer-core.UndefinedBinaryOperatorResul=
+t]
+           __u32 h =3D x >> 32;
+                       ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:6: note: Assuming the condit=
+ion is true
+           if (amdgpu_vm_size !=3D -1) {
+               ^~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2677:2: note: Taking true branch
+           if (amdgpu_vm_size !=3D -1) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:7: note: Assuming 'vm_size' =
+is <=3D 'max_size'
+                   if (vm_size > max_size) {
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2679:3: note: Taking false branch
+                   if (vm_size > max_size) {
+                   ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2712:8: note: '?' condition is fa=
+lse
+           tmp =3D roundup_pow_of_two(adev->vm_manager.max_pfn);
+                 ^
+   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
+o'
+           __builtin_constant_p(n) ? (             \
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:6: note: Assuming the condit=
+ion is false
+           if (amdgpu_vm_block_size !=3D -1)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2713:2: note: Taking false branch
+           if (amdgpu_vm_block_size !=3D -1)
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: Assuming '__UNIQUE=
+_ID___x451' is >=3D '__UNIQUE_ID___y452'
+           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
+                                        ^
+   include/linux/minmax.h:51:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2716:31: note: '?' condition is f=
+alse
+           adev->vm_manager.num_level =3D min(max_level, (unsigned)tmp);
+                                        ^
+   include/linux/minmax.h:51:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2717:2: note: Control jumps to th=
+e 'default' case@line 2727
+           switch (adev->vm_manager.num_level) {
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:6: note: Assuming the condit=
+ion is false
+           if (amdgpu_vm_block_size !=3D -1)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2731:2: note: Taking false branch
+           if (amdgpu_vm_block_size !=3D -1)
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:11: note: Assuming field 'nu=
+m_level' is <=3D 1
+           else if (adev->vm_manager.num_level > 1)
+                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2736:7: note: Taking false branch
+           else if (adev->vm_manager.num_level > 1)
+                ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2739:33: note: Calling 'amdgpu_vm=
+_get_block_size'
+                   adev->vm_manager.block_size =3D amdgpu_vm_get_block_size=
+(tmp);
+                                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
+alse
+           unsigned bits =3D ilog2(vm_size) + 18;
+                           ^
+   include/linux/log2.h:158:2: note: expanded from macro 'ilog2'
+           __builtin_constant_p(n) ?       \
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: '?' condition is f=
+alse
+           unsigned bits =3D ilog2(vm_size) + 18;
+                           ^
+   include/linux/log2.h:161:2: note: expanded from macro 'ilog2'
+           (sizeof(n) <=3D 4) ?              \
+           ^
+   drivers/gpu/drm/amd/amdgpu/amdgpu_vm.c:2648:18: note: Calling '__ilog2_u=
+64'
+           unsigned bits =3D ilog2(vm_size) + 18;
+                           ^
+   include/linux/log2.h:163:2: note: expanded from macro 'ilog2'
+           __ilog2_u64(n)                  \
+           ^~~~~~~~~~~~~~
+   include/linux/log2.h:32:9: note: Calling 'fls64'
+           return fls64(n) - 1;
+                  ^~~~~~~~
+   include/asm-generic/bitops/fls64.h:21:14: note: The result of the '>>' e=
+xpression is undefined
+           __u32 h =3D x >> 32;
+                     ~~^~~~~
+   include/linux/log2.h:57:13: warning: The result of the left shift is und=
+efined due to shifting by '32', which is greater or equal to the width of t=
+ype 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           return 1UL << fls_long(n - 1);
 
-vim +/result +467 drivers/misc/habanalabs/common/firmware_if.c
+vim +21 include/asm-generic/bitops/fls64.h
 
-3110c60fdc7a5a drivers/misc/habanalabs/firmware_if.c        Tomer Tayar  20=
-19-03-04  424  =
+a54baa1487c51c Akinobu Mita           2006-03-26   6  =
 
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  425  static int hl_fw_send_msi_info_msg(struct hl_device *hdev)
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  426  {
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  427  	struct cpucp_array_data_packet *pkt;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  428  	size_t total_pkt_size, data_size;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  429  	u64 result;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  430  	int rc;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  431  =
+d57594c203b1e7 Alexander van Heukelum 2008-03-15   7  /**
+d57594c203b1e7 Alexander van Heukelum 2008-03-15   8   * fls64 - find last =
+set bit in a 64-bit word
+d57594c203b1e7 Alexander van Heukelum 2008-03-15   9   * @x: the word to se=
+arch
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  10   *
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  11   * This is defined in=
+ a similar way as the libc and compiler builtin
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  12   * ffsll, but returns=
+ the position of the most significant set bit.
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  13   *
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  14   * fls64(value) retur=
+ns 0 if value is 0 or the position of the last
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  15   * set bit if value i=
+s nonzero. The last (most significant) bit is
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  16   *@position 64.
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  17   */
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  18  #if BITS_PER_LONG =3D=
+=3D 32
+c8399943bdb70f Andi Kleen             2009-01-12  19  static __always_inlin=
+e int fls64(__u64 x)
+2dfc383ad587bb Akinobu Mita           2006-03-26  20  {
+2dfc383ad587bb Akinobu Mita           2006-03-26 @21  	__u32 h =3D x >> 32;
+2dfc383ad587bb Akinobu Mita           2006-03-26  22  	if (h)
+2dfc383ad587bb Akinobu Mita           2006-03-26  23  		return fls(h) + 32;
+2dfc383ad587bb Akinobu Mita           2006-03-26  24  	return fls(x);
+2dfc383ad587bb Akinobu Mita           2006-03-26  25  }
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  26  #elif BITS_PER_LONG =
+=3D=3D 64
+c8399943bdb70f Andi Kleen             2009-01-12  27  static __always_inlin=
+e int fls64(__u64 x)
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  28  {
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  29  	if (x =3D=3D 0)
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  30  		return 0;
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  31  	return __fls(x) + 1;
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  32  }
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  33  #else
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  34  #error BITS_PER_LONG =
+not 32 or 64
+d57594c203b1e7 Alexander van Heukelum 2008-03-15  35  #endif
+2dfc383ad587bb Akinobu Mita           2006-03-26  36  =
 
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  432  	/* skip sending this info for unsupported ASICs */
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  433  	if (!hdev->asic_funcs->get_msi_info)
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  434  		return 0;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  435  =
 
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  436  	data_size =3D CPUCP_NUM_OF_MSI_TYPES * sizeof(u32);
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  437  	total_pkt_size =3D sizeof(struct cpucp_array_data_packet) +=
- data_size;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  438  =
+:::::: The code at line 21 was first introduced by commit
+:::::: 2dfc383ad587bbead84739a9ff9273df3eda983d [PATCH] bitops: generic fls=
+64()
 
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  439  	/* data should be aligned to 8 bytes in order to CPU-CP to =
-copy it */
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  440  	total_pkt_size =3D (total_pkt_size + 0x7) & ~0x7;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  441  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  442  	/* total_pkt_size is casted to u16 later on */
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  443  	if (total_pkt_size > USHRT_MAX) {
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  444  		dev_err(hdev->dev, "CPUCP array data is too big\n");
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  445  		return -EINVAL;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  446  	}
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  447  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  448  	pkt =3D kzalloc(total_pkt_size, GFP_KERNEL);
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  449  	if (!pkt)
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  450  		return -ENOMEM;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  451  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  452  	pkt->length =3D cpu_to_le32(CPUCP_NUM_OF_MSI_TYPES);
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  453  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  454  	hdev->asic_funcs->get_msi_info((u32 *)&pkt->data);
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  455  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  456  	pkt->cpucp_pkt.ctl =3D cpu_to_le32(CPUCP_PACKET_MSI_INFO_SE=
-T <<
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  457  						CPUCP_PKT_CTL_OPCODE_SHIFT);
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  458  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  459  	rc =3D hdev->asic_funcs->send_cpu_message(hdev, (u32 *)pkt,
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  460  						total_pkt_size, 0, &result);
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  461  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  462  	/*
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  463  	 * in case packet result is invalid it means that FW does n=
-ot support
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  464  	 * this feature and will use default/hard coded MSI values.=
- no reason
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  465  	 * to stop the boot
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  466  	 */
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22 @467  	if (rc && result =3D=3D cpucp_packet_invalid)
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  468  		rc =3D 0;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  469  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  470  	if (rc)
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  471  		dev_err(hdev->dev, "failed to send CPUCP array data\n");
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  472  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  473  	kfree(pkt);
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  474  =
-
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  475  	return rc;
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  476  }
-e9c2003be4d480 drivers/misc/habanalabs/common/firmware_if.c Ohad Sharabi 20=
-21-03-22  477  =
-
+:::::: TO: Akinobu Mita <mita@miraclelinux.com>
+:::::: CC: Linus Torvalds <torvalds@g5.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1855164960688828403==--
+--===============6304376680218997090==--
 
