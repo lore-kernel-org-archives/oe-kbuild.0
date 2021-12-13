@@ -1,142 +1,84 @@
-Content-Type: multipart/mixed; boundary="===============3132058626804293170=="
+Content-Type: multipart/mixed; boundary="===============7928957520034039120=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/iio/chemical/sunrise_co2.c:410 sunrise_read_raw() error: uninitialized symbol 'value'.
-Date: Mon, 13 Dec 2021 21:43:39 +0800
-Message-ID: <202112132135.I1VHSvJD-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:6211:6: warning: Unused variable: i [unusedVariable]
+Date: Mon, 13 Dec 2021 19:11:36 +0800
+Message-ID: <202112131908.rkHdevel-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3132058626804293170==
+--===============7928957520034039120==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jacopo Mondi <jacopo@jmondi.org>
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
+CC: Roman Li <Roman.Li@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   2585cf9dfaaddf00b069673f27bb3f8530e2039c
-commit: c397894e24f1c7281376c14dfdd4df8fe0e84754 iio: chemical: Add Senseai=
-r Sunrise 006-0-007 driver
-date:   8 weeks ago
-:::::: branch date: 15 hours ago
-:::::: commit date: 8 weeks ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211213/202112132135.I1VHSvJD-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+commit: 7fd13baeb7a3a48cae12c36c52f06bf4e9e7d728 drm/amdgpu/display: add su=
+pport for multiple backlights
+date:   5 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 5 months ago
+compiler: mips-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/iio/chemical/sunrise_co2.c:410 sunrise_read_raw() error: uninitiali=
-zed symbol 'value'.
 
-Old smatch warnings:
-drivers/iio/chemical/sunrise_co2.c:422 sunrise_read_raw() error: uninitiali=
-zed symbol 'value'.
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +/value +410 drivers/iio/chemical/sunrise_co2.c
+   In file included from drivers/gpu/drm/amd/amdgpu/../pm/powerplay/hwmgr/v=
+ega12_hwmgr.c:
+>> drivers/gpu/drm/amd/pm/powerplay/hwmgr/vega12_hwmgr.c:2929:0: warning: S=
+yntax error in #if [preprocessorErrorDirective]
+   #if 0
+   ^
+--
+        ^
+>> drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c:6211:6: warning: Unuse=
+d variable: i [unusedVariable]
+    int i;
+        ^
 
-c397894e24f1c7 Jacopo Mondi 2021-09-20  394  =
+vim +6211 drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
 
-c397894e24f1c7 Jacopo Mondi 2021-09-20  395  static int sunrise_read_raw(st=
-ruct iio_dev *iio_dev,
-c397894e24f1c7 Jacopo Mondi 2021-09-20  396  			    const struct iio_chan_s=
-pec *chan,
-c397894e24f1c7 Jacopo Mondi 2021-09-20  397  			    int *val, int *val2, lo=
-ng mask)
-c397894e24f1c7 Jacopo Mondi 2021-09-20  398  {
-c397894e24f1c7 Jacopo Mondi 2021-09-20  399  	struct sunrise_dev *sunrise =
-=3D iio_priv(iio_dev);
-c397894e24f1c7 Jacopo Mondi 2021-09-20  400  	u16 value;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  401  	int ret;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  402  =
+526c654a8a0641 Emily Deng        2019-05-31  6204  =
 
-c397894e24f1c7 Jacopo Mondi 2021-09-20  403  	switch (mask) {
-c397894e24f1c7 Jacopo Mondi 2021-09-20  404  	case IIO_CHAN_INFO_RAW:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  405  		switch (chan->type) {
-c397894e24f1c7 Jacopo Mondi 2021-09-20  406  		case IIO_CONCENTRATION:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  407  			mutex_lock(&sunrise->lock);
-c397894e24f1c7 Jacopo Mondi 2021-09-20  408  			ret =3D sunrise_read_word(s=
-unrise, SUNRISE_CO2_FILTERED_COMP_REG,
-c397894e24f1c7 Jacopo Mondi 2021-09-20  409  						&value);
-c397894e24f1c7 Jacopo Mondi 2021-09-20 @410  			*val =3D value;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  411  			mutex_unlock(&sunrise->lock=
-);
-c397894e24f1c7 Jacopo Mondi 2021-09-20  412  =
+7578ecda14d521 Alex Deucher      2017-10-10  6205  static void amdgpu_dm_co=
+nnector_destroy(struct drm_connector *connector)
+e7b07ceef2a650 Harry Wentland    2017-08-10  6206  {
+c84dec2fe8837f Harry Wentland    2017-09-05  6207  	struct amdgpu_dm_connec=
+tor *aconnector =3D to_amdgpu_dm_connector(connector);
+e7b07ceef2a650 Harry Wentland    2017-08-10  6208  	const struct dc_link *l=
+ink =3D aconnector->dc_link;
+1348969ab68cb8 Luben Tuikov      2020-08-24  6209  	struct amdgpu_device *a=
+dev =3D drm_to_adev(connector->dev);
+e7b07ceef2a650 Harry Wentland    2017-08-10  6210  	struct amdgpu_display_m=
+anager *dm =3D &adev->dm;
+7fd13baeb7a3a4 Alex Deucher      2021-07-08 @6211  	int i;
+ada8ce1530a7d1 Harry Wentland    2018-04-20  6212  =
 
-c397894e24f1c7 Jacopo Mondi 2021-09-20  413  			if (ret)
-c397894e24f1c7 Jacopo Mondi 2021-09-20  414  				return ret;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  415  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  416  			return IIO_VAL_INT;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  417  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  418  		case IIO_TEMP:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  419  			mutex_lock(&sunrise->lock);
-c397894e24f1c7 Jacopo Mondi 2021-09-20  420  			ret =3D sunrise_read_word(s=
-unrise, SUNRISE_CHIP_TEMPERATURE_REG,
-c397894e24f1c7 Jacopo Mondi 2021-09-20  421  						&value);
-c397894e24f1c7 Jacopo Mondi 2021-09-20  422  			*val =3D value;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  423  			mutex_unlock(&sunrise->lock=
-);
-c397894e24f1c7 Jacopo Mondi 2021-09-20  424  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  425  			if (ret)
-c397894e24f1c7 Jacopo Mondi 2021-09-20  426  				return ret;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  427  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  428  			return IIO_VAL_INT;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  429  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  430  		default:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  431  			return -EINVAL;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  432  		}
-c397894e24f1c7 Jacopo Mondi 2021-09-20  433  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  434  	case IIO_CHAN_INFO_SCALE:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  435  		switch (chan->type) {
-c397894e24f1c7 Jacopo Mondi 2021-09-20  436  		case IIO_CONCENTRATION:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  437  			/*
-c397894e24f1c7 Jacopo Mondi 2021-09-20  438  			 * 1 / 10^4 to comply with =
-IIO scale for CO2
-c397894e24f1c7 Jacopo Mondi 2021-09-20  439  			 * (percentage). The chip C=
-O2 reading range is [400 -
-c397894e24f1c7 Jacopo Mondi 2021-09-20  440  			 * 5000] ppm which correspo=
-nds to [0,004 - 0,5] %.
-c397894e24f1c7 Jacopo Mondi 2021-09-20  441  			 */
-c397894e24f1c7 Jacopo Mondi 2021-09-20  442  			*val =3D 1;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  443  			*val2 =3D 10000;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  444  			return IIO_VAL_FRACTIONAL;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  445  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  446  		case IIO_TEMP:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  447  			/* x10 to comply with IIO s=
-cale (millidegrees celsius). */
-c397894e24f1c7 Jacopo Mondi 2021-09-20  448  			*val =3D 10;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  449  			return IIO_VAL_INT;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  450  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  451  		default:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  452  			return -EINVAL;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  453  		}
-c397894e24f1c7 Jacopo Mondi 2021-09-20  454  =
-
-c397894e24f1c7 Jacopo Mondi 2021-09-20  455  	default:
-c397894e24f1c7 Jacopo Mondi 2021-09-20  456  		return -EINVAL;
-c397894e24f1c7 Jacopo Mondi 2021-09-20  457  	}
-c397894e24f1c7 Jacopo Mondi 2021-09-20  458  }
-c397894e24f1c7 Jacopo Mondi 2021-09-20  459  =
+5dff80bdce9e38 Andrey Grodzovsky 2020-10-14  6213  	/*
+5dff80bdce9e38 Andrey Grodzovsky 2020-10-14  6214  	 * Call only if mst_mgr=
+ was iniitalized before since it's not done
+5dff80bdce9e38 Andrey Grodzovsky 2020-10-14  6215  	 * for all connector ty=
+pes.
+5dff80bdce9e38 Andrey Grodzovsky 2020-10-14  6216  	 */
+5dff80bdce9e38 Andrey Grodzovsky 2020-10-14  6217  	if (aconnector->mst_mgr=
+.dev)
+5dff80bdce9e38 Andrey Grodzovsky 2020-10-14  6218  		drm_dp_mst_topology_mg=
+r_destroy(&aconnector->mst_mgr);
+5dff80bdce9e38 Andrey Grodzovsky 2020-10-14  6219  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3132058626804293170==--
+--===============7928957520034039120==--
 
