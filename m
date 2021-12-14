@@ -1,175 +1,478 @@
-Content-Type: multipart/mixed; boundary="===============8137474476692021047=="
+Content-Type: multipart/mixed; boundary="===============5567814445370751191=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/selftests/intel_memory_region.c:324 igt_mock_splintered_region() warn: should '1 << ((__builtin_constant_p(size)) ?((size < 2) ?0:63 - __builtin_clzll(size)):((8 <= 4)) ?__ilog2_u32(size):__ilog2_u64(size))' be a 64 bit type?
-Date: Sun, 12 Dec 2021 09:49:31 +0800
-Message-ID: <202112120912.pVksyGNq-lkp@intel.com>
+Subject: drivers/net/wireless/marvell/mwifiex/cfg80211.c:1307 mwifiex_cfg80211_change_virtual_intf() warn: ignoring unreachable code.
+Date: Wed, 15 Dec 2021 01:54:49 +0800
+Message-ID: <202112150130.q1hT8U8O-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8137474476692021047==
+--===============5567814445370751191==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jakub Jelinek <jakub@redhat.com>
-CC: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Jonas Dre=C3=9Fler" <verdre@v0yd.nl>
+CC: Kalle Valo <kvalo@codeaurora.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   bbdff6d583be718935b613ab2a966cddaadf661f
-commit: 2f78788b55baa3410b1ec91a576286abe1ad4d6a ilog2: improve ilog2 for c=
-onstant arguments
-date:   12 months ago
-:::::: branch date: 4 hours ago
-:::::: commit date: 12 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211212/202112120912.pVksyGNq-lkp(a)intel.com/config)
+head:   5472f14a37421d1bca3dddf33cabd3bd6dbefbbc
+commit: abe3a2c9ead8fd95db141ea1df8d96c48cad3893 mwifiex: Use function to c=
+heck whether interface type change is allowed
+date:   3 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-m001-20211214 (https://download.01.org/0day-ci/ar=
+chive/20211215/202112150130.q1hT8U8O-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/selftests/intel_memory_region.c:324 igt_mock_splintere=
-d_region() warn: should '1 << ((__builtin_constant_p(size)) ?((size < 2) ?0=
-:63 - __builtin_clzll(size)):((8 <=3D 4)) ?__ilog2_u32(size):__ilog2_u64(si=
-ze))' be a 64 bit type?
+smatch warnings:
+drivers/net/wireless/marvell/mwifiex/cfg80211.c:1307 mwifiex_cfg80211_chang=
+e_virtual_intf() warn: ignoring unreachable code.
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:127 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 119)
+vim +1307 drivers/net/wireless/marvell/mwifiex/cfg80211.c
 
-vim +324 drivers/gpu/drm/i915/selftests/intel_memory_region.c
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1126  =
 
-2f0b97ca021186 Matthew Auld 2019-10-08  263  =
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1127  static int
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1128  mwifiex_change_vif_to_ap(struct net_device *dev,
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1129  			 enum nl80211_iftype curr_iftype,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1130  			 enum nl80211_iftype type,
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1131  			 struct vif_params *params)
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1132  {
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1133  	struct mwifiex_private *priv;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1134  	struct mwifiex_adapter *adapter;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1135  =
 
-09a729b178be1c Matthew Auld 2020-10-21  264  static int igt_mock_splintered=
-_region(void *arg)
-09a729b178be1c Matthew Auld 2020-10-21  265  {
-09a729b178be1c Matthew Auld 2020-10-21  266  	struct intel_memory_region *m=
-em =3D arg;
-09a729b178be1c Matthew Auld 2020-10-21  267  	struct drm_i915_private *i915=
- =3D mem->i915;
-09a729b178be1c Matthew Auld 2020-10-21  268  	struct drm_i915_gem_object *o=
-bj;
-09a729b178be1c Matthew Auld 2020-10-21  269  	unsigned int expected_order;
-09a729b178be1c Matthew Auld 2020-10-21  270  	LIST_HEAD(objects);
-09a729b178be1c Matthew Auld 2020-10-21  271  	u64 size;
-09a729b178be1c Matthew Auld 2020-10-21  272  	int err =3D 0;
-09a729b178be1c Matthew Auld 2020-10-21  273  =
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1136  	priv =3D mwifiex_netdev_get_priv(dev);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1137  =
 
-09a729b178be1c Matthew Auld 2020-10-21  274  	/*
-09a729b178be1c Matthew Auld 2020-10-21  275  	 * Sanity check we can still =
-allocate everything even if the
-09a729b178be1c Matthew Auld 2020-10-21  276  	 * mm.max_order !=3D mm.size.=
- i.e our starting address space size is not a
-09a729b178be1c Matthew Auld 2020-10-21  277  	 * power-of-two.
-09a729b178be1c Matthew Auld 2020-10-21  278  	 */
-09a729b178be1c Matthew Auld 2020-10-21  279  =
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1138  	if (!priv)
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1139  		return -1;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1140  =
 
-09a729b178be1c Matthew Auld 2020-10-21  280  	size =3D (SZ_4G - 1) & PAGE_M=
-ASK;
-09a729b178be1c Matthew Auld 2020-10-21  281  	mem =3D mock_region_create(i9=
-15, 0, size, PAGE_SIZE, 0);
-09a729b178be1c Matthew Auld 2020-10-21  282  	if (IS_ERR(mem))
-09a729b178be1c Matthew Auld 2020-10-21  283  		return PTR_ERR(mem);
-09a729b178be1c Matthew Auld 2020-10-21  284  =
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1141  	adapter =3D priv->adapter;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1142  =
 
-09a729b178be1c Matthew Auld 2020-10-21  285  	if (mem->mm.size !=3D size) {
-09a729b178be1c Matthew Auld 2020-10-21  286  		pr_err("%s size mismatch(%ll=
-u !=3D %llu)\n",
-09a729b178be1c Matthew Auld 2020-10-21  287  		       __func__, mem->mm.siz=
-e, size);
-09a729b178be1c Matthew Auld 2020-10-21  288  		err =3D -EINVAL;
-09a729b178be1c Matthew Auld 2020-10-21  289  		goto out_put;
-09a729b178be1c Matthew Auld 2020-10-21  290  	}
-09a729b178be1c Matthew Auld 2020-10-21  291  =
+acebe8c10a6eabd drivers/net/wireless/mwifiex/cfg80211.c         Zhaoyang Li=
+u     2015-05-12  1143  	mwifiex_dbg(adapter, INFO,
+acebe8c10a6eabd drivers/net/wireless/mwifiex/cfg80211.c         Zhaoyang Li=
+u     2015-05-12  1144  		    "%s: changing role to AP\n", dev->name);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1145  =
 
-09a729b178be1c Matthew Auld 2020-10-21  292  	expected_order =3D get_order(=
-rounddown_pow_of_two(size));
-09a729b178be1c Matthew Auld 2020-10-21  293  	if (mem->mm.max_order !=3D ex=
-pected_order) {
-09a729b178be1c Matthew Auld 2020-10-21  294  		pr_err("%s order mismatch(%u=
- !=3D %u)\n",
-09a729b178be1c Matthew Auld 2020-10-21  295  		       __func__, mem->mm.max=
-_order, expected_order);
-09a729b178be1c Matthew Auld 2020-10-21  296  		err =3D -EINVAL;
-09a729b178be1c Matthew Auld 2020-10-21  297  		goto out_put;
-09a729b178be1c Matthew Auld 2020-10-21  298  	}
-09a729b178be1c Matthew Auld 2020-10-21  299  =
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1146  	if (mwifiex_deinit_priv_params(priv))
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1147  		return -1;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1148  	if (mwifiex_init_new_priv_params(priv, dev, type))
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1149  		return -1;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1150  	if (mwifiex_send_cmd(priv, HostCmd_CMD_SET_BSS_MOD=
+E,
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1151  			     HostCmd_ACT_GEN_SET, 0, NULL, true))
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1152  		return -1;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1153  	if (mwifiex_sta_init_cmd(priv, false, false))
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1154  		return -1;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1155  =
 
-09a729b178be1c Matthew Auld 2020-10-21  300  	obj =3D igt_object_create(mem=
-, &objects, size, 0);
-09a729b178be1c Matthew Auld 2020-10-21  301  	if (IS_ERR(obj)) {
-09a729b178be1c Matthew Auld 2020-10-21  302  		err =3D PTR_ERR(obj);
-09a729b178be1c Matthew Auld 2020-10-21  303  		goto out_close;
-09a729b178be1c Matthew Auld 2020-10-21  304  	}
-09a729b178be1c Matthew Auld 2020-10-21  305  =
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1156  	switch (curr_iftype) {
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1157  	case NL80211_IFTYPE_P2P_CLIENT:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1158  	case NL80211_IFTYPE_P2P_GO:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1159  		adapter->curr_iface_comb.p2p_intf--;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1160  		break;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1161  	case NL80211_IFTYPE_STATION:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1162  	case NL80211_IFTYPE_ADHOC:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1163  		adapter->curr_iface_comb.sta_intf--;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1164  		break;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1165  	default:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1166  		break;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1167  	}
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1168  =
 
-09a729b178be1c Matthew Auld 2020-10-21  306  	close_objects(mem, &objects);
-09a729b178be1c Matthew Auld 2020-10-21  307  =
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1169  	adapter->curr_iface_comb.uap_intf++;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1170  	dev->ieee80211_ptr->iftype =3D type;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1171  	return 0;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1172  }
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1173  /*
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1174   * CFG802.11 operation handler to change interface =
+type.
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1175   */
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1176  static int
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1177  mwifiex_cfg80211_change_virtual_intf(struct wiphy *=
+wiphy,
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1178  				     struct net_device *dev,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1179  				     enum nl80211_iftype type,
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1180  				     struct vif_params *params)
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1181  {
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1182  	struct mwifiex_private *priv =3D mwifiex_netdev_ge=
+t_priv(dev);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1183  	enum nl80211_iftype curr_iftype =3D dev->ieee80211=
+_ptr->iftype;
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1184  =
 
-09a729b178be1c Matthew Auld 2020-10-21  308  	/*
-09a729b178be1c Matthew Auld 2020-10-21  309  	 * While we should be able al=
-locate everything without any flag
-09a729b178be1c Matthew Auld 2020-10-21  310  	 * restrictions, if we consid=
-er I915_BO_ALLOC_CONTIGUOUS then we are
-09a729b178be1c Matthew Auld 2020-10-21  311  	 * actually limited to the la=
-rgest power-of-two for the region size i.e
-09a729b178be1c Matthew Auld 2020-10-21  312  	 * max_order, due to the inne=
-r workings of the buddy allocator. So make
-09a729b178be1c Matthew Auld 2020-10-21  313  	 * sure that does indeed hold=
- true.
-09a729b178be1c Matthew Auld 2020-10-21  314  	 */
-09a729b178be1c Matthew Auld 2020-10-21  315  =
+c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
+      2017-11-30  1185  	if (priv->scan_request) {
+c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
+      2017-11-30  1186  		mwifiex_dbg(priv->adapter, ERROR,
+c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
+      2017-11-30  1187  			    "change virtual interface: scan in process\n=
+");
+c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
+      2017-11-30  1188  		return -EBUSY;
+c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
+      2017-11-30  1189  	}
+c61cfe49f0f0f0d drivers/net/wireless/marvell/mwifiex/cfg80211.c Limin Zhu  =
+      2017-11-30  1190  =
 
-09a729b178be1c Matthew Auld 2020-10-21  316  	obj =3D igt_object_create(mem=
-, &objects, size, I915_BO_ALLOC_CONTIGUOUS);
-09a729b178be1c Matthew Auld 2020-10-21  317  	if (!IS_ERR(obj)) {
-09a729b178be1c Matthew Auld 2020-10-21  318  		pr_err("%s too large contigu=
-ous allocation was not rejected\n",
-09a729b178be1c Matthew Auld 2020-10-21  319  		       __func__);
-09a729b178be1c Matthew Auld 2020-10-21  320  		err =3D -EINVAL;
-09a729b178be1c Matthew Auld 2020-10-21  321  		goto out_close;
-09a729b178be1c Matthew Auld 2020-10-21  322  	}
-09a729b178be1c Matthew Auld 2020-10-21  323  =
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1191  	if (type =3D=3D NL80211_IFTYPE_UNSPECIFIED)=
+ {
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1192  		mwifiex_dbg(priv->adapter, INFO,
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1193  			    "%s: no new type specified, keeping o=
+ld type %d\n",
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1194  			    dev->name, curr_iftype);
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1195  		return 0;
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1196  	}
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1197  =
 
-09a729b178be1c Matthew Auld 2020-10-21 @324  	obj =3D igt_object_create(mem=
-, &objects, rounddown_pow_of_two(size),
-09a729b178be1c Matthew Auld 2020-10-21  325  				I915_BO_ALLOC_CONTIGUOUS);
-09a729b178be1c Matthew Auld 2020-10-21  326  	if (IS_ERR(obj)) {
-09a729b178be1c Matthew Auld 2020-10-21  327  		pr_err("%s largest possible =
-contiguous allocation failed\n",
-09a729b178be1c Matthew Auld 2020-10-21  328  		       __func__);
-09a729b178be1c Matthew Auld 2020-10-21  329  		err =3D PTR_ERR(obj);
-09a729b178be1c Matthew Auld 2020-10-21  330  		goto out_close;
-09a729b178be1c Matthew Auld 2020-10-21  331  	}
-09a729b178be1c Matthew Auld 2020-10-21  332  =
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1198  	if (curr_iftype =3D=3D type) {
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1199  		mwifiex_dbg(priv->adapter, INFO,
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1200  			    "%s: interface already is of type %d\=
+n",
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1201  			    dev->name, curr_iftype);
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1202  		return 0;
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1203  	}
+babe2a332dc40b0 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1204  =
 
-09a729b178be1c Matthew Auld 2020-10-21  333  out_close:
-09a729b178be1c Matthew Auld 2020-10-21  334  	close_objects(mem, &objects);
-09a729b178be1c Matthew Auld 2020-10-21  335  out_put:
-09a729b178be1c Matthew Auld 2020-10-21  336  	intel_memory_region_put(mem);
-09a729b178be1c Matthew Auld 2020-10-21  337  	return err;
-09a729b178be1c Matthew Auld 2020-10-21  338  }
-09a729b178be1c Matthew Auld 2020-10-21  339  =
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1205  	if (!is_vif_type_change_allowed(priv->adapt=
+er, curr_iftype, type)) {
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1206  		mwifiex_dbg(priv->adapter, ERROR,
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1207  			    "%s: change from type %d to %d is not=
+ allowed\n",
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1208  			    dev->name, curr_iftype, type);
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1209  		return -EOPNOTSUPP;
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1210  	}
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1211  =
+
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1212  	switch (curr_iftype) {
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1213  	case NL80211_IFTYPE_ADHOC:
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1214  		switch (type) {
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1215  		case NL80211_IFTYPE_STATION:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1216  			priv->bss_mode =3D type;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1217  			priv->sec_info.authentication_mode =3D
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1218  						   NL80211_AUTHTYPE_OPEN_SYSTEM;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1219  			dev->ieee80211_ptr->iftype =3D type;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1220  			mwifiex_deauthenticate(priv, NULL);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1221  			return mwifiex_send_cmd(priv, HostCmd_CMD_SET_BS=
+S_MODE,
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1222  						HostCmd_ACT_GEN_SET, 0, NULL,
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1223  						true);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1224  		case NL80211_IFTYPE_P2P_CLIENT:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1225  		case NL80211_IFTYPE_P2P_GO:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1226  			return mwifiex_change_vif_to_p2p(dev, curr_iftyp=
+e,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1227  							 type, params);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1228  		case NL80211_IFTYPE_AP:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1229  			return mwifiex_change_vif_to_ap(dev, curr_iftype=
+, type,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1230  							params);
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1231  		default:
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1232  			goto errnotsupp;
+eecd8250e492ffc drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-28  1233  		}
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1234  =
+
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1235  	case NL80211_IFTYPE_STATION:
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1236  		switch (type) {
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1237  		case NL80211_IFTYPE_ADHOC:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1238  			priv->bss_mode =3D type;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1239  			priv->sec_info.authentication_mode =3D
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1240  						   NL80211_AUTHTYPE_OPEN_SYSTEM;
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1241  			dev->ieee80211_ptr->iftype =3D type;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1242  			mwifiex_deauthenticate(priv, NULL);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1243  			return mwifiex_send_cmd(priv, HostCmd_CMD_SET_BS=
+S_MODE,
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1244  						HostCmd_ACT_GEN_SET, 0, NULL,
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1245  						true);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1246  		case NL80211_IFTYPE_P2P_CLIENT:
+9197ab9e5f3016a drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1247  		case NL80211_IFTYPE_P2P_GO:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1248  			return mwifiex_change_vif_to_p2p(dev, curr_iftyp=
+e,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1249  							 type, params);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1250  		case NL80211_IFTYPE_AP:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1251  			return mwifiex_change_vif_to_ap(dev, curr_iftype=
+, type,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1252  							params);
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1253  		default:
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1254  			goto errnotsupp;
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1255  		}
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1256  =
+
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1257  	case NL80211_IFTYPE_AP:
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1258  		switch (type) {
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1259  		case NL80211_IFTYPE_ADHOC:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1260  			return mwifiex_change_vif_to_sta_adhoc(dev, curr=
+_iftype,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1261  							       type, params);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1262  			break;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1263  		case NL80211_IFTYPE_P2P_CLIENT:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1264  		case NL80211_IFTYPE_P2P_GO:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1265  			return mwifiex_change_vif_to_p2p(dev, curr_iftyp=
+e,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1266  							 type, params);
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1267  		default:
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1268  			goto errnotsupp;
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1269  		}
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1270  =
+
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1271  	case NL80211_IFTYPE_P2P_CLIENT:
+9197ab9e5f3016a drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1272  	case NL80211_IFTYPE_P2P_GO:
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1273  		switch (type) {
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1274  		case NL80211_IFTYPE_STATION:
+e79801ffe9c8625 drivers/net/wireless/mwifiex/cfg80211.c         Aniket Naga=
+rnaik 2015-07-16  1275  			if (mwifiex_cfg80211_deinit_p2p(priv))
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1276  				return -EFAULT;
+e79801ffe9c8625 drivers/net/wireless/mwifiex/cfg80211.c         Aniket Naga=
+rnaik 2015-07-16  1277  			priv->adapter->curr_iface_comb.p2p_intf--;
+e79801ffe9c8625 drivers/net/wireless/mwifiex/cfg80211.c         Aniket Naga=
+rnaik 2015-07-16  1278  			priv->adapter->curr_iface_comb.sta_intf++;
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1279  			dev->ieee80211_ptr->iftype =3D type;
+3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
+      2016-09-28  1280  			if (mwifiex_deinit_priv_params(priv))
+3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
+      2016-09-28  1281  				return -1;
+3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
+      2016-09-28  1282  			if (mwifiex_init_new_priv_params(priv, dev, type=
+))
+3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
+      2016-09-28  1283  				return -1;
+3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
+      2016-09-28  1284  			if (mwifiex_sta_init_cmd(priv, false, false))
+3d8bd85c2c9e47e drivers/net/wireless/marvell/mwifiex/cfg80211.c Karthik D A=
+      2016-09-28  1285  				return -1;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1286  			break;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1287  		case NL80211_IFTYPE_ADHOC:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1288  			if (mwifiex_cfg80211_deinit_p2p(priv))
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1289  				return -EFAULT;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1290  			return mwifiex_change_vif_to_sta_adhoc(dev, curr=
+_iftype,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1291  							       type, params);
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1292  			break;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1293  		case NL80211_IFTYPE_AP:
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1294  			if (mwifiex_cfg80211_deinit_p2p(priv))
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1295  				return -EFAULT;
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28  1296  			return mwifiex_change_vif_to_ap(dev, curr_iftype=
+, type,
+818a986e4ebacea drivers/net/wireless/marvell/mwifiex/cfg80211.c Johannes Be=
+rg    2017-04-12  1297  							params);
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1298  		default:
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1299  			goto errnotsupp;
+e1a2b7a394ad8c2 drivers/net/wireless/mwifiex/cfg80211.c         Stone Piao =
+      2012-09-25  1300  		}
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1301  =
+
+4f02341ac27f707 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2012-05-08  1302  	default:
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1303  		goto errnotsupp;
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1304  	}
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1305  =
+
+eecd8250e492ffc drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-28  1306  =
+
+047eaaf64503c29 drivers/net/wireless/mwifiex/cfg80211.c         Avinash Pat=
+il    2015-01-28 @1307  	return 0;
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1308  =
+
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1309  errnotsupp:
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1310  	mwifiex_dbg(priv->adapter, ERROR,
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1311  		    "unsupported interface type transition=
+: %d to %d\n",
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1312  		    curr_iftype, type);
+abe3a2c9ead8fd9 drivers/net/wireless/marvell/mwifiex/cfg80211.c Jonas Dre=
+=C3=9Fler    2021-09-14  1313  	return -EOPNOTSUPP;
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1314  }
+5e6e3a92b9a4c94 drivers/net/wireless/mwifiex/cfg80211.c         Bing Zhao  =
+      2011-03-21  1315  =
 
 
-:::::: The code at line 324 was first introduced by commit
-:::::: 09a729b178be1cb20ffce620f7e5bfc04c4a13c0 drm/i915/region: fix max si=
-ze calculation
+:::::: The code at line 1307 was first introduced by commit
+:::::: 047eaaf64503c2902d1e054d5b944de18d14b28c mwifiex: support conversion=
+ to any virtual interface type
 
-:::::: TO: Matthew Auld <matthew.auld@intel.com>
-:::::: CC: Rodrigo Vivi <rodrigo.vivi@intel.com>
+:::::: TO: Avinash Patil <patila@marvell.com>
+:::::: CC: Kalle Valo <kvalo@codeaurora.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8137474476692021047==--
+--===============5567814445370751191==--
 
