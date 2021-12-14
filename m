@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============4817233832466327900=="
+Content-Type: multipart/mixed; boundary="===============1773290586689146936=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:342:3: warning: Value stored to 'src_buf' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 15 Dec 2021 08:21:00 +0800
-Message-ID: <202112150808.bMnC6chn-lkp@intel.com>
+Subject: [axboe-block:for-5.17/block 47/90] block/bfq-iosched.c:631:11: warning: Division by zero [clang-analyzer-core.DivideZero]
+Date: Tue, 14 Dec 2021 08:22:02 +0800
+Message-ID: <202112140819.J39hWlei-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4817233832466327900==
+--===============1773290586689146936==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,37 +15,33 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Yunfei Dong <yunfei.dong@mediatek.com>
-CC: Mauro Carvalho Chehab <mchehab@kernel.org>
-CC: linux-media(a)vger.kernel.org
-CC: Alexandre Courbot <acourbot@chromium.org>
-CC: "Tzung-Bi Shih" <tzungbi@google.com>
-CC: Hans Verkuil <hverkuil@xs4all.nl>
+TO: Jan Kara <jack@suse.cz>
+CC: Jens Axboe <axboe@kernel.dk>
+CC: "Michal Koutn=C3=BD" <mkoutny@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   5472f14a37421d1bca3dddf33cabd3bd6dbefbbc
-commit: fd00d90330d1d2a962d010fc93515e2d77739ad8 media: mtk-vcodec: vdec: m=
-ove stateful ops into their own file
-date:   3 months ago
-:::::: branch date: 26 hours ago
-:::::: commit date: 3 months ago
-config: riscv-randconfig-c006-20211213 (https://download.01.org/0day-ci/arc=
-hive/20211215/202112150808.bMnC6chn-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2dd=
-b6c8ac29412b1361810972e15221fa021c)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block.g=
+it for-5.17/block
+head:   0ba4566cd8a4e645b542e6ddbe3dd26c85ad2408
+commit: 76f1df88bbc2f984eb0418cc90de0a8384e63604 [47/90] bfq: Limit number =
+of requests consumed by each cgroup
+:::::: branch date: 6 hours ago
+:::::: commit date: 2 weeks ago
+config: riscv-randconfig-c006-20211212 (https://download.01.org/0day-ci/arc=
+hive/20211214/202112140819.J39hWlei-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install riscv cross compiling tool for clang build
         # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dfd00d90330d1d2a962d010fc93515e2d77739ad8
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout fd00d90330d1d2a962d010fc93515e2d77739ad8
+        # https://git.kernel.org/pub/scm/linux/kernel/git/axboe/linux-block=
+.git/commit/?id=3D76f1df88bbc2f984eb0418cc90de0a8384e63604
+        git remote add axboe-block https://git.kernel.org/pub/scm/linux/ker=
+nel/git/axboe/linux-block.git
+        git fetch --no-tags axboe-block for-5.17/block
+        git checkout 76f1df88bbc2f984eb0418cc90de0a8384e63604
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Driscv clang-analyzer =
@@ -56,504 +52,365 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                                                   ^
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:837:19: note: Calling 'devm_kcalloc'
-           adc->iio_chans =3D devm_kcalloc(adc->dev, adc->nchans,
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:9: note: Calling 'devm_kmalloc_array'
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:215:2: note: Taking false branch
-           if (unlikely(check_mul_overflow(n, size, &bytes)))
-           ^
-   include/linux/device.h:218:2: note: Returning pointer, which participate=
-s in a condition later
-           return devm_kmalloc(dev, bytes, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:9: note: Returning from 'devm_kmalloc_array'
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:2: note: Returning pointer, which participate=
-s in a condition later
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:837:19: note: Returning from 'devm_k=
-calloc'
-           adc->iio_chans =3D devm_kcalloc(adc->dev, adc->nchans,
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:839:6: note: Assuming field 'iio_cha=
-ns' is non-null
-           if (!adc->iio_chans)
-               ^~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:839:2: note: Taking false branch
-           if (!adc->iio_chans)
-           ^
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:842:15: note: Calling 'devm_kcalloc'
-           adc->chans =3D devm_kcalloc(adc->dev, adc->nchans,
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:9: note: Calling 'devm_kmalloc_array'
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:215:2: note: Taking false branch
-           if (unlikely(check_mul_overflow(n, size, &bytes)))
-           ^
-   include/linux/device.h:218:2: note: Returning pointer, which participate=
-s in a condition later
-           return devm_kmalloc(dev, bytes, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:9: note: Returning from 'devm_kmalloc_array'
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:2: note: Returning pointer, which participate=
-s in a condition later
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:842:15: note: Returning from 'devm_k=
-calloc'
-           adc->chans =3D devm_kcalloc(adc->dev, adc->nchans,
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:844:6: note: Assuming field 'chans' =
-is non-null
-           if (!adc->chans)
-               ^~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:844:2: note: Taking false branch
-           if (!adc->chans)
-           ^
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:848:39: note: Assuming 'child' is no=
-t equal to null
-           for_each_available_child_of_node(np, child) {
-                                                ^
-   include/linux/of.h:1304:58: note: expanded from macro 'for_each_availabl=
-e_child_of_node'
-           for (child =3D of_get_next_available_child(parent, NULL); child =
-!=3D NULL; \
-                                                                   ^~~~~~~~=
-~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:848:2: note: Loop condition is true.=
-  Entering loop body
-           for_each_available_child_of_node(np, child) {
-           ^
-   include/linux/of.h:1304:2: note: expanded from macro 'for_each_available=
-_child_of_node'
-           for (child =3D of_get_next_available_child(parent, NULL); child =
-!=3D NULL; \
-           ^
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:851:8: note: Passing value via 3rd p=
-arameter 'hw_channels'
-                                                    adc->variant->channels,
-                                                    ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:850:9: note: Calling 'pm8xxx_xoadc_p=
-arse_channel'
-                   ret =3D pm8xxx_xoadc_parse_channel(adc->dev, child,
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:746:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:746:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:751:6: note: Assuming 'ret' is 0
-           if (ret) {
-               ^~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:751:2: note: Taking false branch
-           if (ret) {
-           ^
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:758:2: note: Value assigned to 'hwch=
-an'
-           hwchan =3D &hw_channels[0];
-           ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:759:9: note: Assuming 'hwchan' is nu=
-ll
-           while (hwchan && hwchan->datasheet_name) {
-                  ^~~~~~
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:759:16: note: Left side of '&&' is f=
-alse
-           while (hwchan && hwchan->datasheet_name) {
-                         ^
-   drivers/iio/adc/qcom-pm8xxx-xoadc.c:767:7: note: Access to field 'datash=
-eet_name' results in a dereference of a null pointer (loaded from variable =
-'hwchan')
-           if (!hwchan->datasheet_name) {
-                ^~~~~~
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:3347:7: note: Returning from 'IS_ERR'
+                   if (IS_ERR(device)) {
+                       ^~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:3347:3: note: Taking true branch
+                   if (IS_ERR(device)) {
+                   ^
+   fs/btrfs/extent_io.c:3349:4: note: Control jumps to line 3356
+                           goto error;
+                           ^
+   fs/btrfs/extent_io.c:3356:2: note: Null pointer value stored to 'bio_ctr=
+l.bio'
+           bio_ctrl->bio =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:3407:10: note: Returning from 'alloc_new_bio'
+                           ret =3D alloc_new_bio(inode, bio_ctrl, wbc, opf,
+                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:3411:8: note: 'ret' is >=3D 0
+                           if (ret < 0)
+                               ^~~
+   fs/btrfs/extent_io.c:3411:4: note: Taking false branch
+                           if (ret < 0)
+                           ^
+   fs/btrfs/extent_io.c:3418:3: note: Taking false branch
+                   if (bio_flags & EXTENT_BIO_COMPRESSED)
+                   ^
+   fs/btrfs/extent_io.c:3423:12: note: Calling 'btrfs_bio_add_page'
+                           added =3D btrfs_bio_add_page(bio_ctrl, page,
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:3211:2: note: 'bio' initialized to a null pointer v=
+alue
+           struct bio *bio =3D bio_ctrl->bio;
+           ^~~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:3212:17: note: Dereference of null pointer
+           u32 bio_size =3D bio->bi_iter.bi_size;
+                          ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/extent_io.c:5698:4: warning: Value stored to 'ret' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                           ret =3D 0;
+                           ^     ~
+   fs/btrfs/extent_io.c:5698:4: note: Value stored to 'ret' is never read
+                           ret =3D 0;
+                           ^     ~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/usb/dwc2/hcd.c:2893:2: warning: Value stored to 'qspcavail' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           qspcavail =3D (tx_status & TXSTS_QSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:2893:2: note: Value stored to 'qspcavail' is neve=
+r read
+           qspcavail =3D (tx_status & TXSTS_QSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:2895:2: warning: Value stored to 'fspcavail' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           fspcavail =3D (tx_status & TXSTS_FSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:2895:2: note: Value stored to 'fspcavail' is neve=
+r read
+           fspcavail =3D (tx_status & TXSTS_FSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3023:2: warning: Value stored to 'qspcavail' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           qspcavail =3D (tx_status & TXSTS_QSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3023:2: note: Value stored to 'qspcavail' is neve=
+r read
+           qspcavail =3D (tx_status & TXSTS_QSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3025:2: warning: Value stored to 'fspcavail' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+           fspcavail =3D (tx_status & TXSTS_FSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3025:2: note: Value stored to 'fspcavail' is neve=
+r read
+           fspcavail =3D (tx_status & TXSTS_FSPCAVAIL_MASK) >>
+           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3083:3: warning: Value stored to 'qspcavail' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   qspcavail =3D (tx_status & TXSTS_QSPCAVAIL_MASK) >>
+                   ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3083:3: note: Value stored to 'qspcavail' is neve=
+r read
+                   qspcavail =3D (tx_status & TXSTS_QSPCAVAIL_MASK) >>
+                   ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3085:3: warning: Value stored to 'fspcavail' is n=
+ever read [clang-analyzer-deadcode.DeadStores]
+                   fspcavail =3D (tx_status & TXSTS_FSPCAVAIL_MASK) >>
+                   ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3085:3: note: Value stored to 'fspcavail' is neve=
+r read
+                   fspcavail =3D (tx_status & TXSTS_FSPCAVAIL_MASK) >>
+                   ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3682:4: warning: Value stored to 'hprt0' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+                           hprt0 =3D dwc2_read_hprt0(hsotg);
+                           ^       ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:3682:4: note: Value stored to 'hprt0' is never re=
+ad
+                           hprt0 =3D dwc2_read_hprt0(hsotg);
+                           ^       ~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:5679:2: warning: Value stored to 'hprt0' is never=
+ read [clang-analyzer-deadcode.DeadStores]
+           hprt0 =3D dwc2_readl(hsotg, HPRT0);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/usb/dwc2/hcd.c:5679:2: note: Value stored to 'hprt0' is never re=
+ad
+           hprt0 =3D dwc2_readl(hsotg, HPRT0);
+           ^       ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
    Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    11 warnings generated.
->> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:342:3: warni=
-ng: Value stored to 'src_buf' is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-                   src_buf =3D v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:342:3: note:=
- Value stored to 'src_buf' is never read
-                   src_buf =3D v4l2_m2m_src_buf_remove(ctx->m2m_ctx);
-                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:405:2: warni=
-ng: Value stored to 'dst_buf' is never read [clang-analyzer-deadcode.DeadSt=
-ores]
-           dst_buf =3D v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_stateful.c:405:2: note:=
- Value stored to 'dst_buf' is never read
-           dst_buf =3D v4l2_m2m_dst_buf_remove(ctx->m2m_ctx);
-           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/iio/imu/fxos8700_core.c:167:8: warning: Excessive padding in 'st=
-ruct fxos8700_data' (106 padding bytes, where 42 is optimal). =
-
-   Optimal fields order: =
-
-   buf, =
-
-   regmap, =
-
-   trig, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct fxos8700_data {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   drivers/iio/imu/fxos8700_core.c:167:8: note: Excessive padding in 'struc=
-t fxos8700_data' (106 padding bytes, where 42 is optimal). Optimal fields o=
-rder: buf, regmap, trig, consider reordering the fields or adding explicit =
-padding members
-   struct fxos8700_data {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/iio/light/adux1020.c:384:9: warning: Assigned value is garbage o=
-r undefined [clang-analyzer-core.uninitialized.Assign]
-                           *val =3D buf[0];
-                                ^ ~~~~~~
-   drivers/iio/light/adux1020.c:372:2: note: Control jumps to 'case IIO_CHA=
-N_INFO_RAW:'  at line 373
-           switch (mask) {
-           ^
-   drivers/iio/light/adux1020.c:374:3: note: Control jumps to 'case IIO_PRO=
-XIMITY:'  at line 375
-                   switch (chan->type) {
-                   ^
-   drivers/iio/light/adux1020.c:377:8: note: 'ret' is >=3D 0
-                           if (ret < 0)
-                               ^~~
-   drivers/iio/light/adux1020.c:377:4: note: Taking false branch
-                           if (ret < 0)
+>> block/bfq-iosched.c:631:11: warning: Division by zero [clang-analyzer-co=
+re.DivideZero]
+                   limit =3D DIV_ROUND_CLOSEST(limit * entity->weight, wsum=
+);
                            ^
-   drivers/iio/light/adux1020.c:380:10: note: Calling 'adux1020_measure'
-                           ret =3D adux1020_measure(data, ADUX1020_MODE_PRO=
-X_I, buf);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   drivers/iio/light/adux1020.c:320:6: note: Assuming 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/iio/light/adux1020.c:320:2: note: Taking false branch
-           if (ret < 0)
+   include/linux/math.h:92:26: note: expanded from macro 'DIV_ROUND_CLOSEST'
+                   (((__x) + ((__d) / 2)) / (__d)) :       \
+                                          ^
+   block/bfq-iosched.c:672:27: note: Assuming 'bic' is non-null
+           struct bfq_queue *bfqq =3D bic ? bic_to_bfqq(bic, op_is_sync(op)=
+) : NULL;
+                                    ^~~
+   block/bfq-iosched.c:672:27: note: '?' condition is true
+   block/bfq-iosched.c:677:6: note: Assuming the condition is true
+           if (op_is_sync(op) && !op_is_write(op)) {
+               ^~~~~~~~~~~~~~
+   block/bfq-iosched.c:677:6: note: Left side of '&&' is true
+   block/bfq-iosched.c:677:24: note: Assuming the condition is true
+           if (op_is_sync(op) && !op_is_write(op)) {
+                                 ^~~~~~~~~~~~~~~~
+   block/bfq-iosched.c:677:2: note: Taking true branch
+           if (op_is_sync(op) && !op_is_write(op)) {
            ^
-   drivers/iio/light/adux1020.c:327:6: note: Assuming 'ret' is >=3D 0
-           if (ret < 0)
-               ^~~~~~~
-   drivers/iio/light/adux1020.c:327:2: note: Taking false branch
-           if (ret < 0)
-           ^
-   drivers/iio/light/adux1020.c:330:2: note: Loop condition is true.  Enter=
-ing loop body
-           while (tries--) {
-           ^
-   drivers/iio/light/adux1020.c:333:7: note: Assuming 'ret' is >=3D 0
-                   if (ret < 0)
-                       ^~~~~~~
-   drivers/iio/light/adux1020.c:333:3: note: Taking false branch
-                   if (ret < 0)
-                   ^
-   drivers/iio/light/adux1020.c:337:7: note: Assuming 'status' is >=3D fiel=
-d 'bytes'
-                   if (status >=3D adux1020_modes[mode].bytes)
+   block/bfq-iosched.c:689:6: note: Assuming 'bfqq' is non-null
+           if (bfqq && bfqq_request_over_limit(bfqq, limit))
+               ^~~~
+   block/bfq-iosched.c:689:6: note: Left side of '&&' is true
+   block/bfq-iosched.c:689:14: note: Calling 'bfqq_request_over_limit'
+           if (bfqq && bfqq_request_over_limit(bfqq, limit))
                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/light/adux1020.c:337:3: note: Taking true branch
-                   if (status >=3D adux1020_modes[mode].bytes)
+   block/bfq-iosched.c:583:6: note: Assuming field 'on_st_or_in_serv' is tr=
+ue
+           if (!entity->on_st_or_in_serv)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-iosched.c:583:2: note: Taking false branch
+           if (!entity->on_st_or_in_serv)
+           ^
+   block/bfq-iosched.c:588:6: note: Assuming 'depth' is <=3D BFQ_LIMIT_INLI=
+NE_DEPTH
+           if (depth > BFQ_LIMIT_INLINE_DEPTH) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-iosched.c:588:2: note: Taking false branch
+           if (depth > BFQ_LIMIT_INLINE_DEPTH) {
+           ^
+   block/bfq-iosched.c:598:2: note: Loop condition is true.  Entering loop =
+body
+           for_each_entity(entity) {
+           ^
+   block/bfq-iosched.h:1028:2: note: expanded from macro 'for_each_entity'
+           for (; entity ; entity =3D entity->parent)
+           ^
+   block/bfq-iosched.c:604:7: note: Assuming field 'on_st_or_in_serv' is tr=
+ue
+                   if (!entity->on_st_or_in_serv)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~
+   block/bfq-iosched.c:604:3: note: Taking false branch
+                   if (!entity->on_st_or_in_serv)
                    ^
-   drivers/iio/light/adux1020.c:338:4: note:  Execution continues on line 3=
-42
-                           break;
-                           ^
-   drivers/iio/light/adux1020.c:342:6: note: 'tries' is >=3D 0
-           if (tries < 0)
-               ^~~~~
+   block/bfq-iosched.c:607:20: note: Assuming 'level' is < 'depth'
+                   if (WARN_ON_ONCE(level >=3D depth))
+                                    ^
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^~~~~~~~~
+   block/bfq-iosched.c:607:7: note: Taking false branch
+                   if (WARN_ON_ONCE(level >=3D depth))
+                       ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   block/bfq-iosched.c:607:3: note: Taking false branch
+                   if (WARN_ON_ONCE(level >=3D depth))
+                   ^
+   block/bfq-iosched.c:598:2: note: Loop condition is false. Execution cont=
+inues on line 611
+           for_each_entity(entity) {
+           ^
+   block/bfq-iosched.h:1028:2: note: expanded from macro 'for_each_entity'
+           for (; entity ; entity =3D entity->parent)
+           ^
+   block/bfq-iosched.c:611:15: note: Assuming 'level' is equal to 'depth'
+           WARN_ON_ONCE(level !=3D depth);
+                        ^
+   include/asm-generic/bug.h:104:25: note: expanded from macro 'WARN_ON_ONC=
+E'
+           int __ret_warn_on =3D !!(condition);                      \
+                                  ^~~~~~~~~
+   block/bfq-iosched.c:611:2: note: Taking false branch
+           WARN_ON_ONCE(level !=3D depth);
+           ^
+   include/asm-generic/bug.h:105:2: note: expanded from macro 'WARN_ON_ONCE'
+           if (unlikely(__ret_warn_on))                            \
+           ^
+   block/bfq-iosched.c:612:2: note: Loop condition is true.  Entering loop =
+body
+           for (level--; level >=3D 0; level--) {
+           ^
+   block/bfq-iosched.c:614:7: note: 'level' is <=3D 0
+                   if (level > 0) {
+                       ^~~~~
+   block/bfq-iosched.c:614:3: note: Taking false branch
+                   if (level > 0) {
+                   ^
+   block/bfq-iosched.c:625:4: note: The value 0 is assigned to 'wsum'
+                           wsum =3D 0;
+                           ^~~~~~~~
+   block/bfq-iosched.c:626:16: note: Assuming 'i' is > 'class_idx'
+                           for (i =3D 0; i <=3D class_idx; i++) {
+                                       ^~~~~~~~~~~~~~
+   block/bfq-iosched.c:626:4: note: Loop condition is false. Execution cont=
+inues on line 631
+                           for (i =3D 0; i <=3D class_idx; i++) {
 
-vim +/src_buf +342 drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_statefu=
-l.c
+vim +631 block/bfq-iosched.c
 
-fd00d90330d1d2a Yunfei Dong 2021-08-06  292  =
+76f1df88bbc2f9 Jan Kara 2021-11-25  569  =
 
-fd00d90330d1d2a Yunfei Dong 2021-08-06  293  static void mtk_vdec_worker(st=
-ruct work_struct *work)
-fd00d90330d1d2a Yunfei Dong 2021-08-06  294  {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  295  	struct mtk_vcodec_ctx *ctx =
-=3D
-fd00d90330d1d2a Yunfei Dong 2021-08-06  296  		container_of(work, struct mt=
-k_vcodec_ctx, decode_work);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  297  	struct mtk_vcodec_dev *dev =
-=3D ctx->dev;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  298  	struct vb2_v4l2_buffer *src_b=
-uf, *dst_buf;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  299  	struct mtk_vcodec_mem buf;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  300  	struct vdec_fb *pfb;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  301  	bool res_chg =3D false;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  302  	int ret;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  303  	struct mtk_video_dec_buf *dst=
-_buf_info, *src_buf_info;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  304  =
+76f1df88bbc2f9 Jan Kara 2021-11-25  570  #ifdef CONFIG_BFQ_GROUP_IOSCHED
+76f1df88bbc2f9 Jan Kara 2021-11-25  571  static bool bfqq_request_over_limi=
+t(struct bfq_queue *bfqq, int limit)
+76f1df88bbc2f9 Jan Kara 2021-11-25  572  {
+76f1df88bbc2f9 Jan Kara 2021-11-25  573  	struct bfq_data *bfqd =3D bfqq->b=
+fqd;
+76f1df88bbc2f9 Jan Kara 2021-11-25  574  	struct bfq_entity *entity =3D &bf=
+qq->entity;
+76f1df88bbc2f9 Jan Kara 2021-11-25  575  	struct bfq_entity *inline_entitie=
+s[BFQ_LIMIT_INLINE_DEPTH];
+76f1df88bbc2f9 Jan Kara 2021-11-25  576  	struct bfq_entity **entities =3D =
+inline_entities;
+76f1df88bbc2f9 Jan Kara 2021-11-25  577  	int depth, level;
+76f1df88bbc2f9 Jan Kara 2021-11-25  578  	int class_idx =3D bfqq->ioprio_cl=
+ass - 1;
+76f1df88bbc2f9 Jan Kara 2021-11-25  579  	struct bfq_sched_data *sched_data;
+76f1df88bbc2f9 Jan Kara 2021-11-25  580  	unsigned long wsum;
+76f1df88bbc2f9 Jan Kara 2021-11-25  581  	bool ret =3D false;
+76f1df88bbc2f9 Jan Kara 2021-11-25  582  =
 
-fd00d90330d1d2a Yunfei Dong 2021-08-06  305  	src_buf =3D v4l2_m2m_next_src=
-_buf(ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  306  	if (!src_buf) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  307  		v4l2_m2m_job_finish(dev->m2m=
-_dev_dec, ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  308  		mtk_v4l2_debug(1, "[%d] src_=
-buf empty!!", ctx->id);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  309  		return;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  310  	}
-fd00d90330d1d2a Yunfei Dong 2021-08-06  311  =
+76f1df88bbc2f9 Jan Kara 2021-11-25  583  	if (!entity->on_st_or_in_serv)
+76f1df88bbc2f9 Jan Kara 2021-11-25  584  		return false;
+76f1df88bbc2f9 Jan Kara 2021-11-25  585  =
 
-fd00d90330d1d2a Yunfei Dong 2021-08-06  312  	dst_buf =3D v4l2_m2m_next_dst=
-_buf(ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  313  	if (!dst_buf) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  314  		v4l2_m2m_job_finish(dev->m2m=
-_dev_dec, ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  315  		mtk_v4l2_debug(1, "[%d] dst_=
-buf empty!!", ctx->id);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  316  		return;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  317  	}
-fd00d90330d1d2a Yunfei Dong 2021-08-06  318  =
+76f1df88bbc2f9 Jan Kara 2021-11-25  586  	/* +1 for bfqq entity, root cgrou=
+p not included */
+76f1df88bbc2f9 Jan Kara 2021-11-25  587  	depth =3D bfqg_to_blkg(bfqq_group=
+(bfqq))->blkcg->css.cgroup->level + 1;
+76f1df88bbc2f9 Jan Kara 2021-11-25  588  	if (depth > BFQ_LIMIT_INLINE_DEPT=
+H) {
+76f1df88bbc2f9 Jan Kara 2021-11-25  589  		entities =3D kmalloc_array(depth=
+, sizeof(*entities), GFP_NOIO);
+76f1df88bbc2f9 Jan Kara 2021-11-25  590  		if (!entities)
+76f1df88bbc2f9 Jan Kara 2021-11-25  591  			return false;
+76f1df88bbc2f9 Jan Kara 2021-11-25  592  	}
+76f1df88bbc2f9 Jan Kara 2021-11-25  593  =
 
-fd00d90330d1d2a Yunfei Dong 2021-08-06  319  	dst_buf_info =3D
-fd00d90330d1d2a Yunfei Dong 2021-08-06  320  		container_of(dst_buf, struct=
- mtk_video_dec_buf, m2m_buf.vb);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  321  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  322  	pfb =3D &dst_buf_info->frame_=
-buffer;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  323  	pfb->base_y.va =3D vb2_plane_=
-vaddr(&dst_buf->vb2_buf, 0);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  324  	pfb->base_y.dma_addr =3D
-fd00d90330d1d2a Yunfei Dong 2021-08-06  325  		vb2_dma_contig_plane_dma_add=
-r(&dst_buf->vb2_buf, 0);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  326  	pfb->base_y.size =3D ctx->pic=
-info.fb_sz[0];
-fd00d90330d1d2a Yunfei Dong 2021-08-06  327  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  328  	pfb->base_c.va =3D vb2_plane_=
-vaddr(&dst_buf->vb2_buf, 1);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  329  	pfb->base_c.dma_addr =3D
-fd00d90330d1d2a Yunfei Dong 2021-08-06  330  		vb2_dma_contig_plane_dma_add=
-r(&dst_buf->vb2_buf, 1);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  331  	pfb->base_c.size =3D ctx->pic=
-info.fb_sz[1];
-fd00d90330d1d2a Yunfei Dong 2021-08-06  332  	pfb->status =3D 0;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  333  	mtk_v4l2_debug(3, "=3D=3D=3D>=
-[%d] vdec_if_decode() =3D=3D=3D>", ctx->id);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  334  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  335  	mtk_v4l2_debug(3,
-fd00d90330d1d2a Yunfei Dong 2021-08-06  336  		       "id=3D%d Framebuf  pf=
-b=3D%p VA=3D%p Y_DMA=3D%pad C_DMA=3D%pad Size=3D%zx",
-fd00d90330d1d2a Yunfei Dong 2021-08-06  337  		       dst_buf->vb2_buf.inde=
-x, pfb, pfb->base_y.va,
-fd00d90330d1d2a Yunfei Dong 2021-08-06  338  		       &pfb->base_y.dma_addr=
-, &pfb->base_c.dma_addr, pfb->base_y.size);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  339  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  340  	if (src_buf =3D=3D &ctx->empt=
-y_flush_buf.vb) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  341  		mtk_v4l2_debug(1, "Got empty=
- flush input buffer.");
-fd00d90330d1d2a Yunfei Dong 2021-08-06 @342  		src_buf =3D v4l2_m2m_src_buf=
-_remove(ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  343  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  344  		/* update dst buf status */
-fd00d90330d1d2a Yunfei Dong 2021-08-06  345  		dst_buf =3D v4l2_m2m_dst_buf=
-_remove(ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  346  		mutex_lock(&ctx->lock);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  347  		dst_buf_info->used =3D false;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  348  		mutex_unlock(&ctx->lock);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  349  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  350  		vdec_if_decode(ctx, NULL, NU=
-LL, &res_chg);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  351  		clean_display_buffer(ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  352  		vb2_set_plane_payload(&dst_b=
-uf->vb2_buf, 0, 0);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  353  		if (ctx->q_data[MTK_Q_DATA_D=
-ST].fmt->num_planes =3D=3D 2)
-fd00d90330d1d2a Yunfei Dong 2021-08-06  354  			vb2_set_plane_payload(&dst_=
-buf->vb2_buf, 1, 0);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  355  		dst_buf->flags |=3D V4L2_BUF=
-_FLAG_LAST;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  356  		v4l2_m2m_buf_done(dst_buf, V=
-B2_BUF_STATE_DONE);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  357  		clean_free_buffer(ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  358  		v4l2_m2m_job_finish(dev->m2m=
-_dev_dec, ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  359  		return;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  360  	}
-fd00d90330d1d2a Yunfei Dong 2021-08-06  361  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  362  	src_buf_info =3D
-fd00d90330d1d2a Yunfei Dong 2021-08-06  363  		container_of(src_buf, struct=
- mtk_video_dec_buf, m2m_buf.vb);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  364  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  365  	buf.va =3D vb2_plane_vaddr(&s=
-rc_buf->vb2_buf, 0);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  366  	buf.dma_addr =3D vb2_dma_cont=
-ig_plane_dma_addr(&src_buf->vb2_buf, 0);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  367  	buf.size =3D (size_t)src_buf-=
->vb2_buf.planes[0].bytesused;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  368  	if (!buf.va) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  369  		v4l2_m2m_job_finish(dev->m2m=
-_dev_dec, ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  370  		mtk_v4l2_err("[%d] id=3D%d s=
-rc_addr is NULL!!", ctx->id,
-fd00d90330d1d2a Yunfei Dong 2021-08-06  371  			     src_buf->vb2_buf.index=
-);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  372  		return;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  373  	}
-fd00d90330d1d2a Yunfei Dong 2021-08-06  374  	mtk_v4l2_debug(3, "[%d] Bitst=
-ream VA=3D%p DMA=3D%pad Size=3D%zx vb=3D%p",
-fd00d90330d1d2a Yunfei Dong 2021-08-06  375  		       ctx->id, buf.va, &buf=
-.dma_addr, buf.size, src_buf);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  376  	dst_buf->vb2_buf.timestamp =
-=3D src_buf->vb2_buf.timestamp;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  377  	dst_buf->timecode =3D src_buf=
-->timecode;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  378  	mutex_lock(&ctx->lock);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  379  	dst_buf_info->used =3D true;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  380  	mutex_unlock(&ctx->lock);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  381  	src_buf_info->used =3D true;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  382  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  383  	ret =3D vdec_if_decode(ctx, &=
-buf, pfb, &res_chg);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  384  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  385  	if (ret) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  386  		mtk_v4l2_err(" <=3D=3D=3D[%d=
-], src_buf[%d] sz=3D0x%zx pts=3D%llu dst_buf[%d] vdec_if_decode() ret=3D%d =
-res_chg=3D%d=3D=3D=3D>",
-fd00d90330d1d2a Yunfei Dong 2021-08-06  387  			     ctx->id, src_buf->vb2_=
-buf.index, buf.size,
-fd00d90330d1d2a Yunfei Dong 2021-08-06  388  			     src_buf->vb2_buf.times=
-tamp, dst_buf->vb2_buf.index, ret, res_chg);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  389  		src_buf =3D v4l2_m2m_src_buf=
-_remove(ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  390  		if (ret =3D=3D -EIO) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  391  			mutex_lock(&ctx->lock);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  392  			src_buf_info->error =3D tru=
-e;
-fd00d90330d1d2a Yunfei Dong 2021-08-06  393  			mutex_unlock(&ctx->lock);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  394  		}
-fd00d90330d1d2a Yunfei Dong 2021-08-06  395  		v4l2_m2m_buf_done(src_buf, V=
-B2_BUF_STATE_ERROR);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  396  	} else if (!res_chg) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  397  		/*
-fd00d90330d1d2a Yunfei Dong 2021-08-06  398  		 * we only return src buffer=
- with VB2_BUF_STATE_DONE
-fd00d90330d1d2a Yunfei Dong 2021-08-06  399  		 * when decode success witho=
-ut resolution change
-fd00d90330d1d2a Yunfei Dong 2021-08-06  400  		 */
-fd00d90330d1d2a Yunfei Dong 2021-08-06  401  		src_buf =3D v4l2_m2m_src_buf=
-_remove(ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  402  		v4l2_m2m_buf_done(src_buf, V=
-B2_BUF_STATE_DONE);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  403  	}
-fd00d90330d1d2a Yunfei Dong 2021-08-06  404  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06 @405  	dst_buf =3D v4l2_m2m_dst_buf_=
-remove(ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  406  	clean_display_buffer(ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  407  	clean_free_buffer(ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  408  =
-
-fd00d90330d1d2a Yunfei Dong 2021-08-06  409  	if (!ret && res_chg) {
-fd00d90330d1d2a Yunfei Dong 2021-08-06  410  		mtk_vdec_pic_info_update(ctx=
-);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  411  		/*
-fd00d90330d1d2a Yunfei Dong 2021-08-06  412  		 * On encountering a resolut=
-ion change in the stream.
-fd00d90330d1d2a Yunfei Dong 2021-08-06  413  		 * The driver must first pro=
-cess and decode all
-fd00d90330d1d2a Yunfei Dong 2021-08-06  414  		 * remaining buffers from be=
-fore the resolution change
-fd00d90330d1d2a Yunfei Dong 2021-08-06  415  		 * point, so call flush deco=
-de here
-fd00d90330d1d2a Yunfei Dong 2021-08-06  416  		 */
-fd00d90330d1d2a Yunfei Dong 2021-08-06  417  		mtk_vdec_flush_decoder(ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  418  		/*
-fd00d90330d1d2a Yunfei Dong 2021-08-06  419  		 * After all buffers contain=
-ing decoded frames from
-fd00d90330d1d2a Yunfei Dong 2021-08-06  420  		 * before the resolution cha=
-nge point ready to be
-fd00d90330d1d2a Yunfei Dong 2021-08-06  421  		 * dequeued on the CAPTURE q=
-ueue, the driver sends a
-fd00d90330d1d2a Yunfei Dong 2021-08-06  422  		 * V4L2_EVENT_SOURCE_CHANGE =
-event for source change
-fd00d90330d1d2a Yunfei Dong 2021-08-06  423  		 * type V4L2_EVENT_SRC_CH_RE=
-SOLUTION
-fd00d90330d1d2a Yunfei Dong 2021-08-06  424  		 */
-fd00d90330d1d2a Yunfei Dong 2021-08-06  425  		mtk_vdec_queue_res_chg_event=
-(ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  426  	}
-fd00d90330d1d2a Yunfei Dong 2021-08-06  427  	v4l2_m2m_job_finish(dev->m2m_=
-dev_dec, ctx->m2m_ctx);
-fd00d90330d1d2a Yunfei Dong 2021-08-06  428  }
-fd00d90330d1d2a Yunfei Dong 2021-08-06  429  =
+76f1df88bbc2f9 Jan Kara 2021-11-25  594  	spin_lock_irq(&bfqd->lock);
+76f1df88bbc2f9 Jan Kara 2021-11-25  595  	sched_data =3D entity->sched_data;
+76f1df88bbc2f9 Jan Kara 2021-11-25  596  	/* Gather our ancestors as we nee=
+d to traverse them in reverse order */
+76f1df88bbc2f9 Jan Kara 2021-11-25  597  	level =3D 0;
+76f1df88bbc2f9 Jan Kara 2021-11-25  598  	for_each_entity(entity) {
+76f1df88bbc2f9 Jan Kara 2021-11-25  599  		/*
+76f1df88bbc2f9 Jan Kara 2021-11-25  600  		 * If at some level entity is no=
+t even active, allow request
+76f1df88bbc2f9 Jan Kara 2021-11-25  601  		 * queueing so that BFQ knows th=
+ere's work to do and activate
+76f1df88bbc2f9 Jan Kara 2021-11-25  602  		 * entities.
+76f1df88bbc2f9 Jan Kara 2021-11-25  603  		 */
+76f1df88bbc2f9 Jan Kara 2021-11-25  604  		if (!entity->on_st_or_in_serv)
+76f1df88bbc2f9 Jan Kara 2021-11-25  605  			goto out;
+76f1df88bbc2f9 Jan Kara 2021-11-25  606  		/* Uh, more parents than cgroup =
+subsystem thinks? */
+76f1df88bbc2f9 Jan Kara 2021-11-25  607  		if (WARN_ON_ONCE(level >=3D dept=
+h))
+76f1df88bbc2f9 Jan Kara 2021-11-25  608  			break;
+76f1df88bbc2f9 Jan Kara 2021-11-25  609  		entities[level++] =3D entity;
+76f1df88bbc2f9 Jan Kara 2021-11-25  610  	}
+76f1df88bbc2f9 Jan Kara 2021-11-25  611  	WARN_ON_ONCE(level !=3D depth);
+76f1df88bbc2f9 Jan Kara 2021-11-25  612  	for (level--; level >=3D 0; level=
+--) {
+76f1df88bbc2f9 Jan Kara 2021-11-25  613  		entity =3D entities[level];
+76f1df88bbc2f9 Jan Kara 2021-11-25  614  		if (level > 0) {
+76f1df88bbc2f9 Jan Kara 2021-11-25  615  			wsum =3D bfq_entity_service_tre=
+e(entity)->wsum;
+76f1df88bbc2f9 Jan Kara 2021-11-25  616  		} else {
+76f1df88bbc2f9 Jan Kara 2021-11-25  617  			int i;
+76f1df88bbc2f9 Jan Kara 2021-11-25  618  			/*
+76f1df88bbc2f9 Jan Kara 2021-11-25  619  			 * For bfqq itself we take into=
+ account service trees
+76f1df88bbc2f9 Jan Kara 2021-11-25  620  			 * of all higher priority class=
+es and multiply their
+76f1df88bbc2f9 Jan Kara 2021-11-25  621  			 * weights so that low prio que=
+ue from higher class
+76f1df88bbc2f9 Jan Kara 2021-11-25  622  			 * gets more requests than high=
+ prio queue from lower
+76f1df88bbc2f9 Jan Kara 2021-11-25  623  			 * class.
+76f1df88bbc2f9 Jan Kara 2021-11-25  624  			 */
+76f1df88bbc2f9 Jan Kara 2021-11-25  625  			wsum =3D 0;
+76f1df88bbc2f9 Jan Kara 2021-11-25  626  			for (i =3D 0; i <=3D class_idx;=
+ i++) {
+76f1df88bbc2f9 Jan Kara 2021-11-25  627  				wsum =3D wsum * IOPRIO_BE_NR +
+76f1df88bbc2f9 Jan Kara 2021-11-25  628  					sched_data->service_tree[i].w=
+sum;
+76f1df88bbc2f9 Jan Kara 2021-11-25  629  			}
+76f1df88bbc2f9 Jan Kara 2021-11-25  630  		}
+76f1df88bbc2f9 Jan Kara 2021-11-25 @631  		limit =3D DIV_ROUND_CLOSEST(limi=
+t * entity->weight, wsum);
+76f1df88bbc2f9 Jan Kara 2021-11-25  632  		if (entity->allocated >=3D limit=
+) {
+76f1df88bbc2f9 Jan Kara 2021-11-25  633  			bfq_log_bfqq(bfqq->bfqd, bfqq,
+76f1df88bbc2f9 Jan Kara 2021-11-25  634  				"too many requests: allocated =
+%d limit %d level %d",
+76f1df88bbc2f9 Jan Kara 2021-11-25  635  				entity->allocated, limit, leve=
+l);
+76f1df88bbc2f9 Jan Kara 2021-11-25  636  			ret =3D true;
+76f1df88bbc2f9 Jan Kara 2021-11-25  637  			break;
+76f1df88bbc2f9 Jan Kara 2021-11-25  638  		}
+76f1df88bbc2f9 Jan Kara 2021-11-25  639  	}
+76f1df88bbc2f9 Jan Kara 2021-11-25  640  out:
+76f1df88bbc2f9 Jan Kara 2021-11-25  641  	spin_unlock_irq(&bfqd->lock);
+76f1df88bbc2f9 Jan Kara 2021-11-25  642  	if (entities !=3D inline_entities)
+76f1df88bbc2f9 Jan Kara 2021-11-25  643  		kfree(entities);
+76f1df88bbc2f9 Jan Kara 2021-11-25  644  	return ret;
+76f1df88bbc2f9 Jan Kara 2021-11-25  645  }
+76f1df88bbc2f9 Jan Kara 2021-11-25  646  #else
+76f1df88bbc2f9 Jan Kara 2021-11-25  647  static bool bfqq_request_over_limi=
+t(struct bfq_queue *bfqq, int limit)
+76f1df88bbc2f9 Jan Kara 2021-11-25  648  {
+76f1df88bbc2f9 Jan Kara 2021-11-25  649  	return false;
+76f1df88bbc2f9 Jan Kara 2021-11-25  650  }
+76f1df88bbc2f9 Jan Kara 2021-11-25  651  #endif
+76f1df88bbc2f9 Jan Kara 2021-11-25  652  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4817233832466327900==--
+--===============1773290586689146936==--
 
