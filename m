@@ -1,462 +1,367 @@
-Content-Type: multipart/mixed; boundary="===============7587049488372714121=="
+Content-Type: multipart/mixed; boundary="===============1025828111437803268=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/hv/channel_mgmt.c:785:22: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sun, 12 Dec 2021 18:57:13 +0800
-Message-ID: <202112121844.0E86hxdz-lkp@intel.com>
+Subject: [arm:clearfog 2/13] drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c:441 mv88e6xxx_default_vid_show() error: uninitialized symbol 'err'.
+Date: Wed, 15 Dec 2021 04:18:46 +0800
+Message-ID: <202112150402.dLYfw6VE-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7587049488372714121==
+--===============1025828111437803268==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Haiyang Zhang <haiyangz@microsoft.com>
-CC: Wei Liu <wei.liu@kernel.org>
-CC: Michael Kelley <mikelley@microsoft.com>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Russell King <rmk+kernel@armlinux.org.uk>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a763d5a5abd65797aec3dd1bf01fe2ccbec32967
-commit: 7c9ff3deeee61b253715dcf968a6307af148c9b2 Drivers: hv: vmbus: Fix du=
-plicate CPU assignments within a device
-date:   5 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 5 months ago
-config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
-chive/20211212/202112121844.0E86hxdz-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
-97ef3ee4dc2119d5429adf3072e90fac38)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D7c9ff3deeee61b253715dcf968a6307af148c9b2
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 7c9ff3deeee61b253715dcf968a6307af148c9b2
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   git://git.armlinux.org.uk/~rmk/linux-arm.git clearfog
+head:   31ca7cd503d73e8da285382d31b7be1c7a7da479
+commit: 79d4556027c96d9cb569bf50ae889fd148344999 [2/13] net: dsa: mv88e6xxx=
+: debugfs hacks to fix the compile
+:::::: branch date: 8 hours ago
+:::::: commit date: 6 weeks ago
+config: x86_64-randconfig-m001-20211214 (https://download.01.org/0day-ci/ar=
+chive/20211215/202112150402.dLYfw6VE-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c:441 mv88e6xxx_default_vid_sho=
+w() error: uninitialized symbol 'err'.
+drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c:505 mv88e6xxx_fid_show() erro=
+r: uninitialized symbol 'err'.
+drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c:555 mv88e6xxx_state_show() er=
+ror: uninitialized symbol 'ret'.
+drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c:605 mv88e6xxx_8021q_mode_show=
+() error: uninitialized symbol 'ret'.
+
+Old smatch warnings:
+drivers/net/dsa/mv88e6xxx/chip.c:2747 mv88e6xxx_serdes_irq_request() warn: =
+'irq' not released on lines: 2747.
+
+vim +/err +441 drivers/net/dsa/mv88e6xxx/mv88e6xxx_debugfs.c
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  420  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  421  static int mv88e6xxx_defaul=
+t_vid_show(struct seq_file *s, void *p)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  422  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  423  	struct mv88e6xxx_chip *chi=
+p =3D s->private;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  424  	u16 pvid;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  425  	int i, err;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  426  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  427  	seq_puts(s, " Port  Defaul=
+tVID\n");
+fe8a2a1725d821b Vivien Didelot 2015-10-22  428  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  429  	mutex_lock(&chip->reg_lock=
+);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  430  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  431  	for (i =3D 0; i < mv88e6xx=
+x_num_ports(chip); ++i) {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  432  		err =3D mv88e6xxx_port_ge=
+t_pvid(chip, i, &pvid);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  433  		if (err)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  434  			break;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  435  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  436  		seq_printf(s, "%4d  %d\n"=
+, i, pvid);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  437  	}
+fe8a2a1725d821b Vivien Didelot 2015-10-22  438  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  439  	mutex_unlock(&chip->reg_lo=
+ck);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  440  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22 @441  	return err;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  442  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  443  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  444  static ssize_t mv88e6xxx_de=
+fault_vid_write(struct file *file,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  445  					   const char __user *=
+buf, size_t count,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  446  					   loff_t *ppos)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  447  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  448  	struct seq_file *s =3D fil=
+e->private_data;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  449  	struct mv88e6xxx_chip *chi=
+p =3D s->private;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  450  	char cmd[32];
+fe8a2a1725d821b Vivien Didelot 2015-10-22  451  	unsigned int port, pvid;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  452  	int ret;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  453  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  454  	if (copy_from_user(cmd, bu=
+f, sizeof(cmd)))
+fe8a2a1725d821b Vivien Didelot 2015-10-22  455  		return -EFAULT;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  456  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  457  	ret =3D sscanf(cmd, "%u %u=
+", &port, &pvid);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  458  	if (ret !=3D 2)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  459  		return -EINVAL;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  460  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  461  	if (port >=3D mv88e6xxx_nu=
+m_ports(chip) || pvid > 0xfff)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  462  		return -ERANGE;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  463  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  464  	mutex_lock(&chip->reg_lock=
+);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  465  	ret =3D mv88e6xxx_port_set=
+_pvid(chip, port, pvid);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  466  	mutex_unlock(&chip->reg_lo=
+ck);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  467  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  468  	return ret < 0 ? ret : cou=
+nt;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  469  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  470  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  471  static int mv88e6xxx_defaul=
+t_vid_open(struct inode *inode, struct file *file)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  472  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  473  	return single_open(file, m=
+v88e6xxx_default_vid_show, inode->i_private);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  474  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  475  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  476  static const struct file_op=
+erations mv88e6xxx_default_vid_fops =3D {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  477  	.open		=3D mv88e6xxx_defau=
+lt_vid_open,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  478  	.read		=3D seq_read,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  479  	.write		=3D mv88e6xxx_defa=
+ult_vid_write,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  480  	.llseek		=3D no_llseek,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  481  	.release	=3D single_releas=
+e,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  482  	.owner		=3D THIS_MODULE,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  483  };
+fe8a2a1725d821b Vivien Didelot 2015-10-22  484  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  485  static int mv88e6xxx_fid_sh=
+ow(struct seq_file *s, void *p)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  486  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  487  	struct mv88e6xxx_chip *chi=
+p =3D s->private;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  488  	u16 fid;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  489  	int i, err;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  490  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  491  	seq_puts(s, " Port  FID\n"=
+);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  492  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  493  	mutex_lock(&chip->reg_lock=
+);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  494  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  495  	for (i =3D 0; i < mv88e6xx=
+x_num_ports(chip); ++i) {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  496  		err =3D mv88e6xxx_port_ge=
+t_fid(chip, i, &fid);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  497  		if (err)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  498  			break;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  499  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  500  		seq_printf(s, "%4d  %d\n"=
+, i, fid);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  501  	}
+fe8a2a1725d821b Vivien Didelot 2015-10-22  502  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  503  	mutex_unlock(&chip->reg_lo=
+ck);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  504  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22 @505  	return err;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  506  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  507  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  508  static int mv88e6xxx_fid_op=
+en(struct inode *inode, struct file *file)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  509  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  510  	return single_open(file, m=
+v88e6xxx_fid_show, inode->i_private);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  511  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  512  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  513  static const struct file_op=
+erations mv88e6xxx_fid_fops =3D {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  514  	.open		=3D mv88e6xxx_fid_o=
+pen,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  515  	.read		=3D seq_read,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  516  	.llseek		=3D no_llseek,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  517  	.release	=3D single_releas=
+e,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  518  	.owner		=3D THIS_MODULE,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  519  };
+fe8a2a1725d821b Vivien Didelot 2015-10-22  520  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  521  static const char * const m=
+v88e6xxx_port_state_names[] =3D {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  522  	[MV88E6XXX_PORT_CTL0_STATE=
+_DISABLED] =3D "Disabled",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  523  	[MV88E6XXX_PORT_CTL0_STATE=
+_BLOCKING] =3D "Blocking/Listening",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  524  	[MV88E6XXX_PORT_CTL0_STATE=
+_LEARNING] =3D "Learning",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  525  	[MV88E6XXX_PORT_CTL0_STATE=
+_FORWARDING] =3D "Forwarding",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  526  };
+fe8a2a1725d821b Vivien Didelot 2015-10-22  527  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  528  static int mv88e6xxx_state_=
+show(struct seq_file *s, void *p)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  529  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  530  	struct mv88e6xxx_chip *chi=
+p =3D s->private;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  531  	int i, ret;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  532  	u16 data;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  533  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  534  	/* header */
+fe8a2a1725d821b Vivien Didelot 2015-10-22  535  	seq_puts(s, " Port  Mode\n=
+");
+fe8a2a1725d821b Vivien Didelot 2015-10-22  536  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  537  	mutex_lock(&chip->reg_lock=
+);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  538  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  539  	/* One line per input port=
+ */
+fe8a2a1725d821b Vivien Didelot 2015-10-22  540  	for (i =3D 0; i < mv88e6xx=
+x_num_ports(chip); ++i) {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  541  		seq_printf(s, "%4d ", i);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  542  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  543  		ret =3D mv88e6xxx_port_re=
+ad(chip, i, MV88E6XXX_PORT_CTL0, &data);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  544  		if (ret < 0)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  545  			goto unlock;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  546  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  547  		data &=3D MV88E6XXX_PORT_=
+CTL0_STATE_MASK;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  548  		seq_printf(s, " %s\n", mv=
+88e6xxx_port_state_names[data]);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  549  		ret =3D 0;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  550  	}
+fe8a2a1725d821b Vivien Didelot 2015-10-22  551  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  552  unlock:
+fe8a2a1725d821b Vivien Didelot 2015-10-22  553  	mutex_unlock(&chip->reg_lo=
+ck);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  554  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22 @555  	return ret;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  556  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  557  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  558  static int mv88e6xxx_state_=
+open(struct inode *inode, struct file *file)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  559  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  560  	return single_open(file, m=
+v88e6xxx_state_show, inode->i_private);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  561  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  562  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  563  static const struct file_op=
+erations mv88e6xxx_state_fops =3D {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  564  	.open		=3D mv88e6xxx_state=
+_open,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  565  	.read		=3D seq_read,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  566  	.llseek		=3D no_llseek,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  567  	.release	=3D single_releas=
+e,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  568  	.owner		=3D THIS_MODULE,
+fe8a2a1725d821b Vivien Didelot 2015-10-22  569  };
+fe8a2a1725d821b Vivien Didelot 2015-10-22  570  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  571  static const char * const m=
+v88e6xxx_port_8021q_mode_names[] =3D {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  572  	[MV88E6XXX_PORT_CTL2_8021Q=
+_MODE_DISABLED] =3D "Disabled",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  573  	[MV88E6XXX_PORT_CTL2_8021Q=
+_MODE_FALLBACK] =3D "Fallback",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  574  	[MV88E6XXX_PORT_CTL2_8021Q=
+_MODE_CHECK] =3D "Check",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  575  	[MV88E6XXX_PORT_CTL2_8021Q=
+_MODE_SECURE] =3D "Secure",
+fe8a2a1725d821b Vivien Didelot 2015-10-22  576  };
+fe8a2a1725d821b Vivien Didelot 2015-10-22  577  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  578  static int mv88e6xxx_8021q_=
+mode_show(struct seq_file *s, void *p)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  579  {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  580  	struct mv88e6xxx_chip *chi=
+p =3D s->private;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  581  	int i, ret;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  582  	u16 data;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  583  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  584  	/* header */
+fe8a2a1725d821b Vivien Didelot 2015-10-22  585  	seq_puts(s, " Port  Mode\n=
+");
+fe8a2a1725d821b Vivien Didelot 2015-10-22  586  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  587  	mutex_lock(&chip->reg_lock=
+);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  588  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  589  	/* One line per input port=
+ */
+fe8a2a1725d821b Vivien Didelot 2015-10-22  590  	for (i =3D 0; i < mv88e6xx=
+x_num_ports(chip); ++i) {
+fe8a2a1725d821b Vivien Didelot 2015-10-22  591  		seq_printf(s, "%4d ", i);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  592  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  593  		ret =3D mv88e6xxx_port_re=
+ad(chip, i, MV88E6XXX_PORT_CTL2, &data);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  594  		if (ret < 0)
+fe8a2a1725d821b Vivien Didelot 2015-10-22  595  			goto unlock;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  596  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  597  		data &=3D MV88E6XXX_PORT_=
+CTL2_8021Q_MODE_MASK;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  598  		seq_printf(s, " %s\n", mv=
+88e6xxx_port_8021q_mode_names[data]);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  599  		ret =3D 0;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  600  	}
+fe8a2a1725d821b Vivien Didelot 2015-10-22  601  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22  602  unlock:
+fe8a2a1725d821b Vivien Didelot 2015-10-22  603  	mutex_unlock(&chip->reg_lo=
+ck);
+fe8a2a1725d821b Vivien Didelot 2015-10-22  604  =
+
+fe8a2a1725d821b Vivien Didelot 2015-10-22 @605  	return ret;
+fe8a2a1725d821b Vivien Didelot 2015-10-22  606  }
+fe8a2a1725d821b Vivien Didelot 2015-10-22  607  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/w1/slaves/w1_ds28e17.c:723:2: warning: Call to function 'strcat'=
- is insecure as it does not provide bounding of the memory buffer. Replace =
-unbounded copy functions with analogous functions that support length argum=
-ents such as 'strlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcat(data->adapter.name, sl->name);
-           ^~~~~~
-   drivers/w1/slaves/w1_ds28e17.c:723:2: note: Call to function 'strcat' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcat'. CWE-119
-           strcat(data->adapter.name, sl->name);
-           ^~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/hv/channel_mgmt.c:785:22: warning: Assigned value is garbage or =
-undefined [clang-analyzer-core.uninitialized.Assign]
-           channel->target_cpu =3D target_cpu;
-                               ^
-   drivers/hv/channel_mgmt.c:608:2: note: Left side of '&&' is false
-           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
-ry) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/hv/channel_mgmt.c:608:2: note: Taking false branch
-           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
-ry) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   drivers/hv/channel_mgmt.c:608:2: note: Loop condition is false.  Exiting=
- loop
-           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
-ry) {
-           ^
-   include/linux/list.h:628:13: note: expanded from macro 'list_for_each_en=
-try'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/hv/channel_mgmt.c:608:2: note: Loop condition is false. Executio=
-n continues on line 619
-           list_for_each_entry(channel, &vmbus_connection.chn_list, listent=
-ry) {
-           ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/hv/channel_mgmt.c:619:2: note: Calling 'init_vp_index'
-           init_vp_index(newchannel);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hv/channel_mgmt.c:732:2: note: 'target_cpu' declared without an =
-initial value
-           u32 target_cpu;
-           ^~~~~~~~~~~~~~
-   drivers/hv/channel_mgmt.c:735:7: note: Assuming the condition is false
-           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hv/channel_mgmt.c:735:6: note: Left side of '||' is false
-           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
-               ^
-   drivers/hv/channel_mgmt.c:736:7: note: Assuming the condition is false
-               (vmbus_proto_version =3D=3D VERSION_WIN7) || (!perf_chn) ||
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hv/channel_mgmt.c:735:6: note: Left side of '||' is false
-           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
-               ^
-   drivers/hv/channel_mgmt.c:736:48: note: Assuming 'perf_chn' is true
-               (vmbus_proto_version =3D=3D VERSION_WIN7) || (!perf_chn) ||
-                                                         ^~~~~~~~~
-   drivers/hv/channel_mgmt.c:735:6: note: Left side of '||' is false
-           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
-               ^
-   drivers/hv/channel_mgmt.c:737:6: note: Assuming the condition is false
-               !alloc_cpumask_var(&available_mask, GFP_KERNEL)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hv/channel_mgmt.c:735:2: note: Taking false branch
-           if ((vmbus_proto_version =3D=3D VERSION_WS2008) ||
-           ^
-   drivers/hv/channel_mgmt.c:752:14: note: Assuming the condition is false
-           for (i =3D 1; i <=3D ncpu + 1; i++) {
-                       ^~~~~~~~~~~~~
+:::::: The code at line 441 was first introduced by commit
+:::::: fe8a2a1725d821bb81755cefe6483985aee89fba net: dsa: mv88e6xxx: add de=
+bugfs interface
 
-vim +785 drivers/hv/channel_mgmt.c
-
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  714  =
-
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  715  /*
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  716   * Starting with W=
-in8, we can statically distribute the incoming
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  717   * channel interru=
-pt load by binding a channel to VCPU.
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  718   *
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  719   * For pre-win8 ho=
-sts or non-performance critical channels we assign the
-d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  720)  * VMBUS_CONNECT_C=
-PU.
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  721)  *
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  722)  * Starting with w=
-in8, performance critical channels will be distributed
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  723)  * evenly among al=
-l the available NUMA nodes.  Once the node is assigned,
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  724)  * we will assign =
-the CPU based on a simple round robin scheme.
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  725   */
-afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  726) static void init_v=
-p_index(struct vmbus_channel *channel)
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  727  {
-afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  728) 	bool perf_chn =3D=
- hv_is_perf_channel(channel);
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  729  	u32 i, ncpu =3D n=
-um_online_cpus();
-25355252607ca2 Dexuan Cui               2018-09-23  730  	cpumask_var_t ava=
-ilable_mask;
-9f01ec53458d9e K. Y. Srinivasan         2015-08-05  731  	struct cpumask *a=
-lloced_mask;
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  732) 	u32 target_cpu;
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  733) 	int numa_node;
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  734  =
-
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  735  	if ((vmbus_proto_=
-version =3D=3D VERSION_WS2008) ||
-25355252607ca2 Dexuan Cui               2018-09-23  736  	    (vmbus_proto_=
-version =3D=3D VERSION_WIN7) || (!perf_chn) ||
-25355252607ca2 Dexuan Cui               2018-09-23  737  	    !alloc_cpumas=
-k_var(&available_mask, GFP_KERNEL)) {
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  738  		/*
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  739  		 * Prior to win8=
-, all channel interrupts are
-d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  740) 		 * delivered on =
-VMBUS_CONNECT_CPU.
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  741  		 * Also if the c=
-hannel is not a performance critical
-d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  742) 		 * channel, bind=
- it to VMBUS_CONNECT_CPU.
-d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  743) 		 * In case alloc=
-_cpumask_var() fails, bind it to
-d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  744) 		 * VMBUS_CONNECT=
-_CPU.
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  745  		 */
-d570aec0f2154e Andrea Parri (Microsoft  2020-04-06  746) 		channel->target_=
-cpu =3D VMBUS_CONNECT_CPU;
-afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  747) 		if (perf_chn)
-afaa33da08abd1 Andrea Parri (Microsoft  2020-05-22  748) 			hv_set_alloced_=
-cpu(VMBUS_CONNECT_CPU);
-d3ba720dd58cdf K. Y. Srinivasan         2014-04-08  749  		return;
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  750  	}
-ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  751  =
-
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  752  	for (i =3D 1; i <=
-=3D ncpu + 1; i++) {
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  753  		while (true) {
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  754) 			numa_node =3D n=
-ext_numa_node_id++;
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  755) 			if (numa_node =
-=3D=3D nr_node_ids) {
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  756) 				next_numa_node=
-_id =3D 0;
-509879bdb30b8e K. Y. Srinivasan         2016-09-02  757  				continue;
-509879bdb30b8e K. Y. Srinivasan         2016-09-02  758  			}
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  759) 			if (cpumask_emp=
-ty(cpumask_of_node(numa_node)))
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  760  				continue;
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  761  			break;
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  762  		}
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  763) 		alloced_mask =3D=
- &hv_context.hv_numa_map[numa_node];
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  764  =
-
-9f01ec53458d9e K. Y. Srinivasan         2015-08-05  765  		if (cpumask_weig=
-ht(alloced_mask) =3D=3D
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  766) 		    cpumask_weig=
-ht(cpumask_of_node(numa_node))) {
-ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  767  			/*
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  768  			 * We have cycl=
-ed through all the CPUs in the node;
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  769  			 * reset the al=
-loced map.
-ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  770  			 */
-9f01ec53458d9e K. Y. Srinivasan         2015-08-05  771  			cpumask_clear(a=
-lloced_mask);
-ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  772  		}
-ce59fec836a9b4 Vitaly Kuznetsov         2015-05-06  773  =
-
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  774  		cpumask_xor(avai=
-lable_mask, alloced_mask,
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  775  			    cpumask_of_=
-node(numa_node));
-79fd8e706637a5 Vitaly Kuznetsov         2016-01-27  776  =
-
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  777) 		target_cpu =3D c=
-pumask_first(available_mask);
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06  778) 		cpumask_set_cpu(=
-target_cpu, alloced_mask);
-1f656ff3fdddc2 K. Y. Srinivasan         2015-05-30  779  =
-
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  780  		if (channel->off=
-ermsg.offer.sub_channel_index >=3D ncpu ||
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  781  		    i > ncpu || =
-!hv_cpuself_used(target_cpu, channel))
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  782  			break;
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  783  	}
-7c9ff3deeee61b Haiyang Zhang            2021-07-16  784  =
-
-8ef4c4abbbcdcd Andrea Parri (Microsoft  2020-04-06 @785) 	channel->target_c=
-pu =3D target_cpu;
-25355252607ca2 Dexuan Cui               2018-09-23  786  =
-
-25355252607ca2 Dexuan Cui               2018-09-23  787  	free_cpumask_var(=
-available_mask);
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  788  }
-a119845f6e98c8 K. Y. Srinivasan         2012-12-01  789  =
-
-
-:::::: The code at line 785 was first introduced by commit
-:::::: 8ef4c4abbbcdcd9d4bc0fd9454df03e6dac24b73 Drivers: hv: vmbus: Remove =
-the unused HV_LOCALIZED channel affinity logic
-
-:::::: TO: Andrea Parri (Microsoft) <parri.andrea@gmail.com>
-:::::: CC: Wei Liu <wei.liu@kernel.org>
+:::::: TO: Vivien Didelot <vivien.didelot@savoirfairelinux.com>
+:::::: CC: Russell King (Oracle) <rmk+kernel@armlinux.org.uk>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7587049488372714121==--
+--===============1025828111437803268==--
 
