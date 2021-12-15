@@ -1,42 +1,50 @@
-Content-Type: multipart/mixed; boundary="===============3584724922303380228=="
+Content-Type: multipart/mixed; boundary="===============5069948902768429846=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [android-common:android12-5.10-2021-09 4582/10860] lib/test_kasan_module.c:41:2: warning: Value stored to 'unused' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Thu, 16 Dec 2021 07:28:36 +0800
-Message-ID: <202112160728.tIW3Y6j7-lkp@intel.com>
+Subject: sound/soc/codecs/wm8994.c:1450:28: warning: Value stored to 'component' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 16 Dec 2021 06:47:24 +0800
+Message-ID: <202112160624.aSphPuVU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3584724922303380228==
+--===============5069948902768429846==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-TO: cros-kernel-buildreports(a)googlegroups.com
+CC: linux-kernel(a)vger.kernel.org
+TO: Shengjiu Wang <shengjiu.wang@nxp.com>
+CC: Mark Brown <broonie@kernel.org>
 
-tree:   https://android.googlesource.com/kernel/common android12-5.10-2021-=
-09
-head:   ee75d385a3eaa0e0f430d77b0e610914e3764678
-commit: 916518ead7a5c918acbd0bdb48e8e5dd10e62bd8 [4582/10860] FROMGIT: kasa=
-n: rename CONFIG_TEST_KASAN_MODULE
-:::::: branch date: 5 days ago
-:::::: commit date: 10 months ago
-config: x86_64-randconfig-c007-20211214 (https://download.01.org/0day-ci/ar=
-chive/20211216/202112160728.tIW3Y6j7-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2dd=
-b6c8ac29412b1361810972e15221fa021c)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   5472f14a37421d1bca3dddf33cabd3bd6dbefbbc
+commit: efd0b1660829a987354cea6a446179c7ac7cd0e6 ASoC: fsl-asoc-card: Add s=
+upport for WM8958 codec
+date:   9 months ago
+:::::: branch date: 2 days ago
+:::::: commit date: 9 months ago
+config: arm-randconfig-c002-20211209 (https://download.01.org/0day-ci/archi=
+ve/20211216/202112160624.aSphPuVU-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        git remote add android-common https://android.googlesource.com/kern=
-el/common
-        git fetch --no-tags android-common android12-5.10-2021-09
-        git checkout 916518ead7a5c918acbd0bdb48e8e5dd10e62bd8
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Defd0b1660829a987354cea6a446179c7ac7cd0e6
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout efd0b1660829a987354cea6a446179c7ac7cd0e6
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -44,435 +52,326 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
            ^
-   include/linux/compiler_types.h:311:2: note: expanded from macro '_compil=
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:301:2: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
 letime_assert'
            do {                                                            \
            ^
-   drivers/scsi/libsas/sas_expander.c:1851:2: note: Loop condition is true.=
-  Entering loop body
-           list_for_each_entry(ch, &ex->children, siblings) {
+   fs/ext4/resize.c:1227:13: note: Left side of '&&' is false
+                           gdb_bh =3D sbi_array_rcu_deref(sbi, s_group_desc,
+                                    ^
+   fs/ext4/ext4.h:1710:21: note: expanded from macro 'sbi_array_rcu_deref'
+           _v =3D ((typeof(_v)*)rcu_dereference((sbi)->field))[index];     =
+     \
+                              ^
+   include/linux/rcupdate.h:571:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:513:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
            ^
-   include/linux/list.h:628:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
+   include/linux/rcupdate.h:375:2: note: expanded from macro '__rcu_derefer=
+ence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
            ^
-   drivers/scsi/libsas/sas_expander.c:1852:3: note: Taking true branch
-                   if (dev_is_expander(ch->dev_type)) {
-                   ^
-   drivers/scsi/libsas/sas_expander.c:1853:10: note: Calling 'sas_find_bcas=
-t_dev'
-                           res =3D sas_find_bcast_dev(ch, src_dev);
-                                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1832:8: note: Calling 'sas_get_ex_cha=
-nge_count'
-           res =3D sas_get_ex_change_count(dev, &ex_change_count);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1782:6: note: Assuming 'rg_req' is no=
-n-null
-           if (!rg_req)
-               ^~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1782:2: note: Taking false branch
-           if (!rg_req)
+   include/linux/rcupdate.h:345:48: note: expanded from macro 'RCU_LOCKDEP_=
+WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                                  ^
+   fs/ext4/resize.c:1227:13: note: Loop condition is false.  Exiting loop
+                           gdb_bh =3D sbi_array_rcu_deref(sbi, s_group_desc,
+                                    ^
+   fs/ext4/ext4.h:1710:21: note: expanded from macro 'sbi_array_rcu_deref'
+           _v =3D ((typeof(_v)*)rcu_dereference((sbi)->field))[index];     =
+     \
+                              ^
+   include/linux/rcupdate.h:571:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:513:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
            ^
-   drivers/scsi/libsas/sas_expander.c:1785:12: note: Calling 'alloc_smp_res=
-p'
-           rg_resp =3D alloc_smp_resp(RG_RESP_SIZE);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:163:9: note: Calling 'kzalloc'
-           return kzalloc(size, GFP_KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:664:9: note: Uninitialized value stored to field 'r=
-esult'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:664:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:163:9: note: Returning from 'kzalloc'
-           return kzalloc(size, GFP_KERNEL);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:163:2: note: Returning pointer, which=
- participates in a condition later
-           return kzalloc(size, GFP_KERNEL);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1785:12: note: Returning from 'alloc_=
-smp_resp'
-           rg_resp =3D alloc_smp_resp(RG_RESP_SIZE);
-                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1786:6: note: Assuming 'rg_resp' is n=
-on-null
-           if (!rg_resp) {
-               ^~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1786:2: note: Taking false branch
-           if (!rg_resp) {
+   include/linux/rcupdate.h:375:2: note: expanded from macro '__rcu_derefer=
+ence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
            ^
-   drivers/scsi/libsas/sas_expander.c:1793:8: note: Calling 'smp_execute_ta=
-sk'
-           res =3D smp_execute_task(dev, rg_req, RG_REQ_SIZE, rg_resp,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:148:2: note: Returning without writin=
-g to 'resp->result'
-           return smp_execute_task_sg(dev, &req_sg, &resp_sg);
-           ^
-   drivers/scsi/libsas/sas_expander.c:148:2: note: Returning value, which p=
-articipates in a condition later
-           return smp_execute_task_sg(dev, &req_sg, &resp_sg);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1793:8: note: Returning from 'smp_exe=
-cute_task'
-           res =3D smp_execute_task(dev, rg_req, RG_REQ_SIZE, rg_resp,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/scsi/libsas/sas_expander.c:1795:6: note: Assuming 'res' is 0
-           if (res)
-               ^~~
-   drivers/scsi/libsas/sas_expander.c:1795:2: note: Taking false branch
-           if (res)
-           ^
-   drivers/scsi/libsas/sas_expander.c:1797:22: note: The left operand of '!=
-=3D' is a garbage value
-           if (rg_resp->result !=3D SMP_RESP_FUNC_ACC) {
-               ~~~~~~~~~~~~~~~ ^
-   Suppressed 4 warnings (4 in non-user code).
+   include/linux/rcupdate.h:345:32: note: expanded from macro 'RCU_LOCKDEP_=
+WARN'
+   #define RCU_LOCKDEP_WARN(c, s) do { } while (0 && (c))
+                                  ^
+   fs/ext4/resize.c:1229:4: note: Loop condition is false.  Exiting loop
+                           BUFFER_TRACE(gdb_bh, "get_write_access");
+                           ^
+   include/linux/jbd2.h:1787:32: note: expanded from macro 'BUFFER_TRACE'
+   #define BUFFER_TRACE(bh, info)  do {} while (0)
+                                   ^
+   fs/ext4/resize.c:1232:8: note: Assuming 'err' is 0
+                           if (!err && reserved_gdb && ext4_bg_num_gdb(sb, =
+group))
+                               ^~~~
+   fs/ext4/resize.c:1232:8: note: Left side of '&&' is true
+   fs/ext4/resize.c:1232:16: note: Assuming 'reserved_gdb' is not equal to 0
+                           if (!err && reserved_gdb && ext4_bg_num_gdb(sb, =
+group))
+                                       ^~~~~~~~~~~~
+   fs/ext4/resize.c:1232:8: note: Left side of '&&' is true
+                           if (!err && reserved_gdb && ext4_bg_num_gdb(sb, =
+group))
+                               ^
+   fs/ext4/resize.c:1232:32: note: Assuming the condition is true
+                           if (!err && reserved_gdb && ext4_bg_num_gdb(sb, =
+group))
+                                                       ^~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   fs/ext4/resize.c:1232:4: note: Taking true branch
+                           if (!err && reserved_gdb && ext4_bg_num_gdb(sb, =
+group))
+                           ^
+   fs/ext4/resize.c:1233:38: note: Passing null pointer value via 2nd param=
+eter 'inode'
+                                   err =3D reserve_backup_gdb(handle, resiz=
+e_inode, group);
+                                                                    ^~~~~~~=
+~~~~~
+   fs/ext4/resize.c:1233:11: note: Calling 'reserve_backup_gdb'
+                                   err =3D reserve_backup_gdb(handle, resiz=
+e_inode, group);
+                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~
+   fs/ext4/resize.c:983:27: note: Access to field 'i_sb' results in a deref=
+erence of a null pointer (loaded from variable 'inode')
+           struct super_block *sb =3D inode->i_sb;
+                                    ^~~~~
+   fs/ext4/resize.c:1916:3: warning: Value stored to 'err' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   err =3D ret;
+                   ^     ~~~
+   fs/ext4/resize.c:1916:3: note: Value stored to 'err' is never read
+                   err =3D ret;
+                   ^     ~~~
+   Suppressed 10 warnings (10 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    10 warnings generated.
->> lib/test_kasan_module.c:41:2: warning: Value stored to 'unused' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           unused =3D copy_from_user(kmem, usermem, size + 1 + OOB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:41:2: note: Value stored to 'unused' is never re=
-ad
-           unused =3D copy_from_user(kmem, usermem, size + 1 + OOB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:44:2: warning: Value stored to 'unused' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           unused =3D copy_to_user(usermem, kmem, size + 1 + OOB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:44:2: note: Value stored to 'unused' is never re=
-ad
-           unused =3D copy_to_user(usermem, kmem, size + 1 + OOB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:47:2: warning: Value stored to 'unused' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           unused =3D __copy_from_user(kmem, usermem, size + 1 + OOB_TAG_OF=
-F);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:47:2: note: Value stored to 'unused' is never re=
-ad
-           unused =3D __copy_from_user(kmem, usermem, size + 1 + OOB_TAG_OF=
-F);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:50:2: warning: Value stored to 'unused' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           unused =3D __copy_to_user(usermem, kmem, size + 1 + OOB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:50:2: note: Value stored to 'unused' is never re=
-ad
-           unused =3D __copy_to_user(usermem, kmem, size + 1 + OOB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:53:2: warning: Value stored to 'unused' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           unused =3D __copy_from_user_inatomic(kmem, usermem, size + 1 + O=
-OB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   lib/test_kasan_module.c:53:2: note: Value stored to 'unused' is never re=
-ad
-           unused =3D __copy_from_user_inatomic(kmem, usermem, size + 1 + O=
-OB_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
-   lib/test_kasan_module.c:56:2: warning: Value stored to 'unused' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           unused =3D __copy_to_user_inatomic(usermem, kmem, size + 1 + OOB=
-_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   lib/test_kasan_module.c:56:2: note: Value stored to 'unused' is never re=
-ad
-           unused =3D __copy_to_user_inatomic(usermem, kmem, size + 1 + OOB=
-_TAG_OFF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~
-   lib/test_kasan_module.c:59:2: warning: Value stored to 'unused' is never=
- read [clang-analyzer-deadcode.DeadStores]
-           unused =3D strncpy_from_user(kmem, usermem, size + 1 + OOB_TAG_O=
-FF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/test_kasan_module.c:59:2: note: Value stored to 'unused' is never re=
-ad
-           unused =3D strncpy_from_user(kmem, usermem, size + 1 + OOB_TAG_O=
-FF);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->> lib/test_kasan_module.c:76:8: warning: Use of memory after it is freed [=
-clang-analyzer-unix.Malloc]
-           fp->i =3D 1;
-           ~~~~~ ^
-   lib/test_kasan_module.c:72:30: note: Left side of '&&' is false
-           struct kasan_rcu_info *fp =3D container_of(rp,
-                                       ^
-   include/linux/kernel.h:853:61: note: expanded from macro 'container_of'
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+>> sound/soc/codecs/wm8994.c:1450:28: warning: Value stored to 'component' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct snd_soc_component *component =3D snd_soc_dapm_to_componen=
+t(w->dapm);
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   sound/soc/codecs/wm8994.c:1450:28: note: Value stored to 'component' dur=
+ing its initialization is never read
+           struct snd_soc_component *component =3D snd_soc_dapm_to_componen=
+t(w->dapm);
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+   sound/soc/codecs/wm8994.c:3345:28: warning: Value stored to 'component' =
+during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct snd_soc_component *component =3D wm8994->hubs.component;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8994.c:3345:28: note: Value stored to 'component' dur=
+ing its initialization is never read
+           struct snd_soc_component *component =3D wm8994->hubs.component;
+                                     ^~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~
+>> sound/soc/codecs/wm8994.c:3703:17: warning: Value stored to 'dev' during=
+ its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D wm8994->wm8994->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   sound/soc/codecs/wm8994.c:3703:17: note: Value stored to 'dev' during it=
+s initialization is never read
+           struct device *dev =3D wm8994->wm8994->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/hwmon/lm75.h:30:29: warning: The result of the left shift is und=
+efined because the left operand is negative [clang-analyzer-core.UndefinedB=
+inaryOperatorResult]
+           return (u16)((ntemp / 500) << 7);
+                                      ^
+   drivers/hwmon/w83781d.c:391:1: note: Left side of '&&' is false
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
+g'
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
+ \
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:709:61: note: expanded from macro 'container_of'
            BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
                                                                       ^
-   lib/test_kasan_module.c:72:30: note: Taking false branch
-           struct kasan_rcu_info *fp =3D container_of(rp,
-                                       ^
-   include/linux/kernel.h:853:2: note: expanded from macro 'container_of'
+   drivers/hwmon/w83781d.c:391:1: note: Taking false branch
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
+g'
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
+ \
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
            BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro 'compile=
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:311:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:303:3: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
 letime_assert'
                    if (!(condition))                                       \
                    ^
-   lib/test_kasan_module.c:72:30: note: Loop condition is false.  Exiting l=
+   drivers/hwmon/w83781d.c:391:1: note: Loop condition is false.  Exiting l=
 oop
-           struct kasan_rcu_info *fp =3D container_of(rp,
-                                       ^
-   include/linux/kernel.h:853:2: note: expanded from macro 'container_of'
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:368:41: note: expanded from macro 'store_temp_re=
+g'
+           struct sensor_device_attribute *attr =3D to_sensor_dev_attr(da);=
+ \
+                                                  ^
+   include/linux/hwmon-sysfs.h:17:2: note: expanded from macro 'to_sensor_d=
+ev_attr'
+           container_of(_dev_attr, struct sensor_device_attribute, dev_attr)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
            BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
-_MSG'
-   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
-                                       ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro 'compile=
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
 time_assert'
            _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
 NTER__)
            ^
-   include/linux/compiler_types.h:311:2: note: expanded from macro '_compil=
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
 etime_assert'
            __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler_types.h:301:2: note: expanded from macro '__compi=
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
 letime_assert'
            do {                                                            \
            ^
-   lib/test_kasan_module.c:75:2: note: Memory is released
-           kfree(fp);
-           ^~~~~~~~~
-   lib/test_kasan_module.c:76:8: note: Use of memory after it is freed
-           fp->i =3D 1;
-           ~~~~~ ^
-   Suppressed 2 warnings (1 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   fs/gfs2/glock.c:643:3: warning: Called function pointer is null (null de=
-reference) [clang-analyzer-core.CallAndMessage]
-                   glops->go_inval(gl, target =3D=3D LM_ST_DEFERRED ? 0 : D=
-IO_METADATA);
-                   ^~~~~~~~~~~~~~~
-   fs/gfs2/glock.c:586:42: note: Assuming 'gh' is null
-           unsigned int lck_flags =3D (unsigned int)(gh ? gh->gh_flags : 0);
-                                                   ^~
-   fs/gfs2/glock.c:586:42: note: '?' condition is false
-   fs/gfs2/glock.c:589:6: note: Assuming 'target' is equal to LM_ST_UNLOCKED
-           if (target !=3D LM_ST_UNLOCKED && glock_blocked_by_withdraw(gl) =
-&&
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/gfs2/glock.c:589:31: note: Left side of '&&' is false
-           if (target !=3D LM_ST_UNLOCKED && glock_blocked_by_withdraw(gl) =
-&&
-                                        ^
-   fs/gfs2/glock.c:594:19: note: Assuming 'target' is not equal to field 'g=
-l_state'
-           GLOCK_BUG_ON(gl, gl->gl_state =3D=3D target);
-                            ^
-   fs/gfs2/glock.h:205:46: note: expanded from macro 'GLOCK_BUG_ON'
-   #define GLOCK_BUG_ON(gl,x) do { if (unlikely(x)) {              \
-                                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/gfs2/glock.c:594:2: note: Taking false branch
-           GLOCK_BUG_ON(gl, gl->gl_state =3D=3D target);
+   drivers/hwmon/w83781d.c:391:1: note: Assuming 'err' is 0
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:373:6: note: expanded from macro 'store_temp_reg'
+           if (err) \
+               ^~~
+   drivers/hwmon/w83781d.c:391:1: note: Taking false branch
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:373:2: note: expanded from macro 'store_temp_reg'
+           if (err) \
            ^
-   fs/gfs2/glock.h:205:33: note: expanded from macro 'GLOCK_BUG_ON'
-   #define GLOCK_BUG_ON(gl,x) do { if (unlikely(x)) {              \
-                                   ^
-   fs/gfs2/glock.c:594:2: note: Loop condition is false.  Exiting loop
-           GLOCK_BUG_ON(gl, gl->gl_state =3D=3D target);
-           ^
-   fs/gfs2/glock.h:205:28: note: expanded from macro 'GLOCK_BUG_ON'
-   #define GLOCK_BUG_ON(gl,x) do { if (unlikely(x)) {              \
-                              ^
-   fs/gfs2/glock.c:595:19: note: Assuming field 'gl_state' is not equal to =
-field 'gl_target'
-           GLOCK_BUG_ON(gl, gl->gl_state =3D=3D gl->gl_target);
-                            ^
-   fs/gfs2/glock.h:205:46: note: expanded from macro 'GLOCK_BUG_ON'
-   #define GLOCK_BUG_ON(gl,x) do { if (unlikely(x)) {              \
-                                                ^
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   fs/gfs2/glock.c:595:2: note: Taking false branch
+   drivers/hwmon/w83781d.c:391:1: note: Assuming 'nr' is >=3D 2
+   store_temp_reg(HYST, max_hyst);
+   ^
+   drivers/hwmon/w83781d.c:377:6: note: expanded from macro 'store_temp_reg'
+           if (nr >=3D 2) {  /* TEMP2 and TEMP3 */ \
+               ^~~~~~~
 
-vim +/unused +41 lib/test_kasan_module.c
+vim +/component +1450 sound/soc/codecs/wm8994.c
 
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  19  =
+9e6e96a197a0375 Mark Brown        2010-01-29  1445  =
 
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  20  static noinline void __init=
- copy_user_test(void)
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  21  {
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  22  	char *kmem;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  23  	char __user *usermem;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  24  	size_t size =3D 10;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  25  	int unused;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  26  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  27  	kmem =3D kmalloc(size, GFP=
-_KERNEL);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  28  	if (!kmem)
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  29  		return;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  30  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  31  	usermem =3D (char __user *=
-)vm_mmap(NULL, 0, PAGE_SIZE,
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  32  			    PROT_READ | PROT_WRI=
-TE | PROT_EXEC,
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  33  			    MAP_ANONYMOUS | MAP_=
-PRIVATE, 0);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  34  	if (IS_ERR(usermem)) {
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  35  		pr_err("Failed to allocat=
-e user memory\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  36  		kfree(kmem);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  37  		return;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  38  	}
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  39  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  40  	pr_info("out-of-bounds in =
-copy_from_user()\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13 @41  	unused =3D copy_from_user(=
-kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  42  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  43  	pr_info("out-of-bounds in =
-copy_to_user()\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  44  	unused =3D copy_to_user(us=
-ermem, kmem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  45  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  46  	pr_info("out-of-bounds in =
-__copy_from_user()\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  47  	unused =3D __copy_from_use=
-r(kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  48  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  49  	pr_info("out-of-bounds in =
-__copy_to_user()\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  50  	unused =3D __copy_to_user(=
-usermem, kmem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  51  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  52  	pr_info("out-of-bounds in =
-__copy_from_user_inatomic()\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  53  	unused =3D __copy_from_use=
-r_inatomic(kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  54  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  55  	pr_info("out-of-bounds in =
-__copy_to_user_inatomic()\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  56  	unused =3D __copy_to_user_=
-inatomic(usermem, kmem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  57  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  58  	pr_info("out-of-bounds in =
-strncpy_from_user()\n");
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  59  	unused =3D strncpy_from_us=
-er(kmem, usermem, size + 1 + OOB_TAG_OFF);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  60  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  61  	vm_munmap((unsigned long)u=
-sermem, PAGE_SIZE);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  62  	kfree(kmem);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  63  }
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  64  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  65  static struct kasan_rcu_inf=
-o {
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  66  	int i;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  67  	struct rcu_head rcu;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  68  } *global_rcu_ptr;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  69  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  70  static noinline void __init=
- kasan_rcu_reclaim(struct rcu_head *rp)
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  71  {
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  72  	struct kasan_rcu_info *fp =
-=3D container_of(rp,
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  73  						struct kasan_rcu_info=
-, rcu);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  74  =
-
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  75  	kfree(fp);
-73228c7ecc5e40 Patricia Alfonso 2020-10-13 @76  	fp->i =3D 1;
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  77  }
-73228c7ecc5e40 Patricia Alfonso 2020-10-13  78  =
+9e6e96a197a0375 Mark Brown        2010-01-29  1446  /* Debugging; dump chip=
+ status after DAPM transitions */
+9e6e96a197a0375 Mark Brown        2010-01-29  1447  static int post_ev(stru=
+ct snd_soc_dapm_widget *w,
+9e6e96a197a0375 Mark Brown        2010-01-29  1448  	    struct snd_kcontro=
+l *kcontrol, int event)
+9e6e96a197a0375 Mark Brown        2010-01-29  1449  {
+00a6941c841205f Kuninori Morimoto 2018-01-29 @1450  	struct snd_soc_compone=
+nt *component =3D snd_soc_dapm_to_component(w->dapm);
+00a6941c841205f Kuninori Morimoto 2018-01-29  1451  	dev_dbg(component->dev=
+, "SRC status: %x\n",
+6d75dfc3e86500e Kuninori Morimoto 2020-06-16  1452  		snd_soc_component_rea=
+d(component,
+9e6e96a197a0375 Mark Brown        2010-01-29  1453  			     WM8994_RATE_STA=
+TUS));
+9e6e96a197a0375 Mark Brown        2010-01-29  1454  	return 0;
+9e6e96a197a0375 Mark Brown        2010-01-29  1455  }
+9e6e96a197a0375 Mark Brown        2010-01-29  1456  =
 
 
-:::::: The code at line 41 was first introduced by commit
-:::::: 73228c7ecc5e40c0851c4703c5ec6ed38123e989 KASAN: port KASAN Tests to =
-KUnit
+:::::: The code at line 1450 was first introduced by commit
+:::::: 00a6941c841205fbdade825219a828c81008149b ASoC: wm8993/wm8994/wm8958:=
+ replace codec to component
 
-:::::: TO: Patricia Alfonso <trishalfonso@google.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+:::::: TO: Kuninori Morimoto <kuninori.morimoto.gx@renesas.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3584724922303380228==--
+--===============5069948902768429846==--
 
