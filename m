@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============0369486241003694593=="
+Content-Type: multipart/mixed; boundary="===============2166450945295876843=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/crypto/gemini/sl3516-ce-cipher.c:365:24: warning: Value stored to 'ce' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Fri, 17 Dec 2021 07:58:54 +0800
-Message-ID: <202112170717.qY9nLOgc-lkp@intel.com>
+Subject: sound/core/oss/pcm_oss.c:2377:3: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Fri, 17 Dec 2021 07:08:07 +0800
+Message-ID: <202112170722.QJcRozeU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0369486241003694593==
+--===============2166450945295876843==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,21 +15,21 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Corentin Labbe <clabbe@baylibre.com>
-CC: Herbert Xu <herbert@gondor.apana.org.au>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   2b14864acbaaf03d9c01982e243a84632524c3ac
-commit: 46c5338db7bd45b2cf99570560f00389d60fd6b4 crypto: sl3516 - Add sl351=
-6 crypto engine
-date:   6 months ago
-:::::: branch date: 29 hours ago
-:::::: commit date: 6 months ago
-config: arm-randconfig-c002-20211209 (https://download.01.org/0day-ci/archi=
-ve/20211217/202112170717.qY9nLOgc-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
+head:   fa36bbe6d43f3bbce1f10a187e153587c7584d83
+commit: fc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3 locking/atomic: arm: move =
+to ARCH_ATOMIC
+date:   7 months ago
+:::::: branch date: 4 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20211215 (https://download.01.org/0day-ci/archi=
+ve/20211217/202112170722.QJcRozeU-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
+ab9fbb364faa1581e4f92ba3119a872fba)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -37,11 +37,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D46c5338db7bd45b2cf99570560f00389d60fd6b4
+t/commit/?id=3Dfc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 46c5338db7bd45b2cf99570560f00389d60fd6b4
+        git checkout fc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -52,286 +52,633 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/rtc/rtc-s5m.c:491:2: warning: Value stored to 'ret' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-           ret =3D s5m_check_peding_alarm_interrupt(info, alrm);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/rtc/rtc-s5m.c:491:2: note: Value stored to 'ret' is never read
-           ret =3D s5m_check_peding_alarm_interrupt(info, alrm);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   fs/btrfs/extent_map.c:615:3: warning: Value stored to 'ret' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                   ret =3D 0;
-                   ^     ~
-   fs/btrfs/extent_map.c:615:3: note: Value stored to 'ret' is never read
-                   ret =3D 0;
-                   ^     ~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   crypto/asymmetric_keys/public_key.c:91:3: warning: Call to function 'str=
-cpy' is insecure as it does not provide bounding of the memory buffer. Repl=
-ace unbounded copy functions with analogous functions that support length a=
-rguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.st=
-rcpy]
-                   strcpy(alg_name, pkey->pkey_algo);
-                   ^~~~~~
-   crypto/asymmetric_keys/public_key.c:91:3: note: Call to function 'strcpy=
-' is insecure as it does not provide bounding of the memory buffer. Replace=
- unbounded copy functions with analogous functions that support length argu=
-ments such as 'strlcpy'. CWE-119
-                   strcpy(alg_name, pkey->pkey_algo);
-                   ^~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/gpu/drm/drm_self_refresh_helper.c:85:3: warning: Value stored to=
- 'ret' is never read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D -ENOMEM;
-                   ^     ~~~~~~~
-   drivers/gpu/drm/drm_self_refresh_helper.c:85:3: note: Value stored to 'r=
-et' is never read
-                   ret =3D -ENOMEM;
-                   ^     ~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/gpu/drm/drm_fb_helper.c:156:24: warning: Value stored to 'helper=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct drm_fb_helper *helper =3D info->par;
-                                 ^~~~~~   ~~~~~~~~~
-   drivers/gpu/drm/drm_fb_helper.c:156:24: note: Value stored to 'helper' d=
-uring its initialization is never read
-           struct drm_fb_helper *helper =3D info->par;
-                                 ^~~~~~   ~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   drivers/crypto/gemini/sl3516-ce-cipher.c:27:22: warning: Value stored to=
- 'in_sg' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct scatterlist *in_sg =3D areq->src;
-                               ^~~~~   ~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:27:22: note: Value stored to 'i=
-n_sg' during its initialization is never read
-           struct scatterlist *in_sg =3D areq->src;
-                               ^~~~~   ~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:28:22: warning: Value stored to=
- 'out_sg' during its initialization is never read [clang-analyzer-deadcode.=
-DeadStores]
-           struct scatterlist *out_sg =3D areq->dst;
-                               ^~~~~~   ~~~~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:28:22: note: Value stored to 'o=
-ut_sg' during its initialization is never read
-           struct scatterlist *out_sg =3D areq->dst;
-                               ^~~~~~   ~~~~~~~~~
->> drivers/crypto/gemini/sl3516-ce-cipher.c:365:24: warning: Value stored t=
-o 'ce' during its initialization is never read [clang-analyzer-deadcode.Dea=
-dStores]
-           struct sl3516_ce_dev *ce =3D op->ce;
-                                 ^~   ~~~~~~
-   drivers/crypto/gemini/sl3516-ce-cipher.c:365:24: note: Value stored to '=
-ce' during its initialization is never read
-           struct sl3516_ce_dev *ce =3D op->ce;
-                                 ^~   ~~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
-   drivers/crypto/inside-secure/safexcel.c:139:36: warning: The result of t=
-he left shift is undefined because the left operand is negative [clang-anal=
-yzer-core.UndefinedBinaryOperatorResult]
-                   val =3D EIP197_CS_RC_NEXT(i + 1) | EIP197_CS_RC_PREV(i -=
- 1);
-                                                    ^
-   drivers/crypto/inside-secure/safexcel.h:492:37: note: expanded from macr=
-o 'EIP197_CS_RC_PREV'
-   #define EIP197_CS_RC_PREV(x)                    ((x) << 10)
-                                                        ^
-   drivers/crypto/inside-secure/safexcel.c:591:2: note: Taking false branch
-           dev_dbg(priv->dev, "HW init: using %d pipe(s) and %d ring(s)\n",
            ^
-   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
-           if (0)                                                          \
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:733:6: note: 'min_period_size' is 0
+           if (min_period_size) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:733:2: note: '?' condition is false
+           if (min_period_size) {
            ^
-   drivers/crypto/inside-secure/safexcel.c:598:6: note: Assuming the condit=
-ion is true
-           if (priv->flags & SAFEXCEL_HW_EIP197) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/inside-secure/safexcel.c:598:2: note: Taking true branch
-           if (priv->flags & SAFEXCEL_HW_EIP197) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/crypto/inside-secure/safexcel.c:599:9: note: Loop condition is f=
-alse.  Exiting loop
-                   val =3D readl(EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL=
-);
+   sound/core/oss/pcm_oss.c:733:2: note: Taking false branch
+           if (min_period_size) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
                          ^
-   arch/arm/include/asm/io.h:303:50: note: expanded from macro 'readl'
-   #define readl(c)                ({ u32 __v =3D readl_relaxed(c); __iormb=
-(); __v; })
-                                                                  ^
-   arch/arm/include/asm/io.h:168:20: note: expanded from macro '__iormb'
-   #define __iormb()               do { } while (0)
-                                   ^
-   drivers/crypto/inside-secure/safexcel.c:601:3: note: Loop condition is f=
-alse.  Exiting loop
-                   writel(val, EIP197_HIA_AIC(priv) + EIP197_HIA_MST_CTRL);
+   sound/core/oss/pcm_oss.c:742:2: note: Assuming 'max_period_size' is not =
+equal to 0
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:742:2: note: '?' condition is false
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:742:6: note: 'max_period_size' is not equal to 0
+           if (max_period_size) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:742:2: note: '?' condition is true
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:742:2: note: Taking true branch
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:744:21: note: '?' condition is false
+                   max_period_size =3D rounddown_pow_of_two(max_period_size=
+);
+                                     ^
+   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_=
+two'
+           __builtin_constant_p(n) ? (             \
+           ^
+   sound/core/oss/pcm_oss.c:744:21: note: Calling '__rounddown_pow_of_two'
+                   max_period_size =3D rounddown_pow_of_two(max_period_size=
+);
+                                     ^
+   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_=
+two'
+           __rounddown_pow_of_two(n)               \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:67:13: note: The result of the left shift is undefi=
+ned due to shifting by '4294967295', which is greater or equal to the width=
+ of type 'unsigned long'
+           return 1UL << (fls_long(n) - 1);
+                      ^  ~~~~~~~~~~~~~~~~~
+>> sound/core/oss/pcm_oss.c:2377:3: warning: Assigned value is garbage or u=
+ndefined [clang-analyzer-core.uninitialized.Assign]
+                   struct snd_pcm_substream *substream =3D pcm_oss_file->st=
+reams[cidx];
                    ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/crypto/inside-secure/safexcel.c:605:2: note: Loop condition is f=
-alse.  Exiting loop
-           writel(EIP197_MST_CTRL_RD_CACHE(RD_CACHE_4BITS) |
+   sound/core/oss/pcm_oss.c:2396:2: note: Assuming 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
            ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/crypto/inside-secure/safexcel.c:612:2: note: Loop condition is f=
-alse.  Exiting loop
-           writel(0, EIP197_HIA_AIC_G(priv) + EIP197_HIA_AIC_G_ENABLE_CTRL);
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
            ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/crypto/inside-secure/safexcel.c:615:2: note: Loop condition is f=
-alse.  Exiting loop
-           writel(GENMASK(31, 0), EIP197_HIA_AIC_G(priv) + EIP197_HIA_AIC_G=
-_ACK);
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2396:6: note: 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
            ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/crypto/inside-secure/safexcel.c:618:15: note: Assuming 'pe' is >=
-=3D field 'pes'
-           for (pe =3D 0; pe < priv->config.pes; pe++) {
-                        ^~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/inside-secure/safexcel.c:618:2: note: Loop condition is f=
-alse. Execution continues on line 712
-           for (pe =3D 0; pe < priv->config.pes; pe++) {
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
            ^
-   drivers/crypto/inside-secure/safexcel.c:712:14: note: Assuming 'i' is < =
-field 'rings'
-           for (i =3D 0; i < priv->config.rings; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/crypto/inside-secure/safexcel.c:712:2: note: Loop condition is t=
-rue.  Entering loop body
-           for (i =3D 0; i < priv->config.rings; i++) {
+   sound/core/oss/pcm_oss.c:2396:2: note: Taking false branch
+           if (rpcm_oss_file)
            ^
-   drivers/crypto/inside-secure/safexcel.c:714:3: note: Loop condition is f=
-alse.  Exiting loop
-                   writel(GENMASK(31, 0),
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2399:17: note: Calling 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Storing uninitialized value
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2399:17: note: Returning from 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2400:6: note: Assuming 'pcm_oss_file' is not eq=
+ual to null
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2400:6: note: 'pcm_oss_file' is not equal to nu=
+ll
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+--
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2421:3: note: '?' condition is false
+                   if (err < 0) {
                    ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
-                                      ^
-   arch/arm/include/asm/io.h:169:20: note: expanded from macro '__iowmb'
-   #define __iowmb()               do { } while (0)
-                                   ^
-   drivers/crypto/inside-secure/safexcel.c:718:3: note: Loop condition is f=
-alse.  Exiting loop
-                   writel(0, EIP197_HIA_CDR(priv, i) + EIP197_HIA_xDR_CFG);
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2421:7: note: 'err' is < 0
+                   if (err < 0) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2421:3: note: '?' condition is true
+                   if (err < 0) {
                    ^
-   arch/arm/include/asm/io.h:307:25: note: expanded from macro 'writel'
-   #define writel(v,c)             ({ __iowmb(); writel_relaxed(v,c); })
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:2421:3: note: Taking true branch
+                   if (err < 0) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2422:4: note: Calling 'snd_pcm_oss_release_file'
+                           snd_pcm_oss_release_file(pcm_oss_file);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2374:7: note: 'pcm_oss_file' is non-null
+           if (!pcm_oss_file)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2374:2: note: '?' condition is false
+           if (!pcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2374:7: note: 'pcm_oss_file' is non-null
+           if (!pcm_oss_file)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2374:2: note: '?' condition is false
+           if (!pcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:2374:2: note: Taking false branch
+           if (!pcm_oss_file)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2376:7: note: The value 0 is assigned to 'cidx'
+           for (cidx =3D 0; cidx < 2; ++cidx) {
+                ^~~~~~~~
+   sound/core/oss/pcm_oss.c:2376:2: note: Loop condition is true.  Entering=
+ loop body
+           for (cidx =3D 0; cidx < 2; ++cidx) {
+           ^
+   sound/core/oss/pcm_oss.c:2377:3: note: Assigned value is garbage or unde=
+fined
+                   struct snd_pcm_substream *substream =3D pcm_oss_file->st=
+reams[cidx];
+                   ^                                     ~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+>> sound/core/oss/pcm_oss.c:2430:6: warning: Branch condition evaluates to =
+a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (!pcm_oss_file->streams[0] && !pcm_oss_file->streams[1]) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: Assuming 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2396:6: note: 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:2396:2: note: Taking false branch
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2399:17: note: Calling 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Storing uninitialized value
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2399:17: note: Returning from 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2400:6: note: Assuming 'pcm_oss_file' is not eq=
+ual to null
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2400:6: note: 'pcm_oss_file' is not equal to nu=
+ll
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-vim +/ce +365 drivers/crypto/gemini/sl3516-ce-cipher.c
+vim +2377 sound/core/oss/pcm_oss.c
 
-46c5338db7bd45b Corentin Labbe 2021-06-01  360  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2370  =
 
-46c5338db7bd45b Corentin Labbe 2021-06-01  361  int sl3516_ce_aes_setkey(st=
-ruct crypto_skcipher *tfm, const u8 *key,
-46c5338db7bd45b Corentin Labbe 2021-06-01  362  			 unsigned int keylen)
-46c5338db7bd45b Corentin Labbe 2021-06-01  363  {
-46c5338db7bd45b Corentin Labbe 2021-06-01  364  	struct sl3516_ce_cipher_tf=
-m_ctx *op =3D crypto_skcipher_ctx(tfm);
-46c5338db7bd45b Corentin Labbe 2021-06-01 @365  	struct sl3516_ce_dev *ce =
-=3D op->ce;
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2371  static int snd_pcm_oss_rele=
+ase_file(struct snd_pcm_oss_file *pcm_oss_file)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2372  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2373  	int cidx;
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2374  	if (!pcm_oss_file)
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2375  		return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2376  	for (cidx =3D 0; cidx < 2;=
+ ++cidx) {
+6ac77bc180fbd9 Takashi Iwai   2005-11-17 @2377  		struct snd_pcm_substream =
+*substream =3D pcm_oss_file->streams[cidx];
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2378  		if (substream)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2379  			snd_pcm_release_substrea=
+m(substream);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2380  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2381  	kfree(pcm_oss_file);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2382  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2383  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2384  =
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2385  static int snd_pcm_oss_open=
+_file(struct file *file,
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2386  				 struct snd_pcm *pcm,
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2387  				 struct snd_pcm_oss_fil=
+e **rpcm_oss_file,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2388  				 int minor,
+060d77b9c04acd Takashi Iwai   2006-03-27  2389  				 struct snd_pcm_oss_set=
+up *setup)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2390  {
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2391  	int idx, err;
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2392  	struct snd_pcm_oss_file *p=
+cm_oss_file;
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2393  	struct snd_pcm_substream *=
+substream;
+aeb5d727062a02 Al Viro        2008-09-02  2394  	fmode_t f_mode =3D file->f=
+_mode;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2395  =
+
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2396  	if (rpcm_oss_file)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2397  		*rpcm_oss_file =3D NULL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2398  =
+
+ca2c0966562cfb Takashi Iwai   2005-09-09  2399  	pcm_oss_file =3D kzalloc(s=
+izeof(*pcm_oss_file), GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2400  	if (pcm_oss_file =3D=3D NU=
+LL)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2401  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2402  =
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2403  	if ((f_mode & (FMODE_WRITE=
+|FMODE_READ)) =3D=3D (FMODE_WRITE|FMODE_READ) &&
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2404  	    (pcm->info_flags & SND=
+RV_PCM_INFO_HALF_DUPLEX))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2405  		f_mode =3D FMODE_WRITE;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2406  =
+
+0df63e44c3e315 Takashi Iwai   2006-04-28  2407  	file->f_flags &=3D ~O_APPE=
+ND;
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2408  	for (idx =3D 0; idx < 2; i=
+dx++) {
+060d77b9c04acd Takashi Iwai   2006-03-27  2409  		if (setup[idx].disable)
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2410  			continue;
+6cb53e7ed77d42 Takashi Iwai   2006-08-02  2411  		if (! pcm->streams[idx].s=
+ubstream_count)
+6cb53e7ed77d42 Takashi Iwai   2006-08-02  2412  			continue; /* no matching=
+ substream */
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2413  		if (idx =3D=3D SNDRV_PCM_=
+STREAM_PLAYBACK) {
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2414  			if (! (f_mode & FMODE_WR=
+ITE))
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2415  				continue;
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2416  		} else {
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2417  			if (! (f_mode & FMODE_RE=
+AD))
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2418  				continue;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2419  		}
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2420  		err =3D snd_pcm_open_subs=
+tream(pcm, idx, file, &substream);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2421  		if (err < 0) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2422  			snd_pcm_oss_release_file=
+(pcm_oss_file);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2423  			return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2424  		}
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2425  =
+
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2426  		pcm_oss_file->streams[idx=
+] =3D substream;
+060d77b9c04acd Takashi Iwai   2006-03-27  2427  		snd_pcm_oss_init_substrea=
+m(substream, &setup[idx], minor);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2428  	}
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2429  	=
+
+bbdc1b7dbe4157 OGAWA Hirofumi 2006-04-06 @2430  	if (!pcm_oss_file->streams=
+[0] && !pcm_oss_file->streams[1]) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2431  		snd_pcm_oss_release_file(=
+pcm_oss_file);
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2432  		return -EINVAL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2433  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2434  =
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2435  	file->private_data =3D pcm=
+_oss_file;
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2436  	if (rpcm_oss_file)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2437  		*rpcm_oss_file =3D pcm_os=
+s_file;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2438  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2439  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2440  =
+
+
+:::::: The code at line 2377 was first introduced by commit
+:::::: 6ac77bc180fbd985988015020c2e2347e802959d [ALSA] Remove xxx_t typedef=
+s: PCM OSS-emulation
+
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Jaroslav Kysela <perex@suse.cz>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0369486241003694593==--
+--===============2166450945295876843==--
 
