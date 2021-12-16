@@ -1,36 +1,31 @@
-Content-Type: multipart/mixed; boundary="===============8081699197911320492=="
+Content-Type: multipart/mixed; boundary="===============4738189514743231905=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/soc/amd/vangogh/acp5x-mach.c:190 acp5x_cs35l41_hw_params() error: uninitialized symbol 'ret'.
-Date: Thu, 16 Dec 2021 12:43:20 +0800
-Message-ID: <202112161210.taedkEiN-lkp@intel.com>
+Subject: [linux-next:master 5713/7473] drivers/net/phy/phylink.c:823 phylink_change_inband_advert() error: we previously assumed 'pl->pcs_ops' could be null (see line 806)
+Date: Thu, 16 Dec 2021 11:52:41 +0800
+Message-ID: <202112161111.nZYxPvCn-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8081699197911320492==
+--===============4738189514743231905==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-CC: Mark Brown <broonie@kernel.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-Hi Vijendar,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   2b14864acbaaf03d9c01982e243a84632524c3ac
-commit: 96792fdd77cd19fcf2368e7c19bb8b78557ae425 ASoC: amd: enable vangogh =
-platform machine driver build
-date:   9 weeks ago
-:::::: branch date: 9 hours ago
-:::::: commit date: 9 weeks ago
-config: x86_64-randconfig-m001-20211215 (https://download.01.org/0day-ci/ar=
-chive/20211216/202112161210.taedkEiN-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   93bf6eee76c0e716f6b32de690b1c52991547bb4
+commit: 001f4261fe4d5ae710cf1f445b6cae6d9d3ae26e [5713/7473] net: phylink: =
+use legacy_pre_march2020
+:::::: branch date: 6 hours ago
+:::::: commit date: 6 days ago
+config: x86_64-randconfig-m001-20211214 (https://download.01.org/0day-ci/ar=
+chive/20211216/202112161111.nZYxPvCn-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -38,76 +33,95 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-sound/soc/amd/vangogh/acp5x-mach.c:190 acp5x_cs35l41_hw_params() error: uni=
-nitialized symbol 'ret'.
+drivers/net/phy/phylink.c:823 phylink_change_inband_advert() error: we prev=
+iously assumed 'pl->pcs_ops' could be null (see line 806)
 
-vim +/ret +190 sound/soc/amd/vangogh/acp5x-mach.c
+vim +823 drivers/net/phy/phylink.c
 
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  157  =
+9525ae83959b60 Russell King          2017-07-25  792  =
 
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  158  static int acp5x_cs35l41_h=
-w_params(struct snd_pcm_substream *substream,
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  159  				   struct snd_pcm_hw_p=
-arams *params)
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  160  {
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  161  	struct snd_soc_pcm_runtim=
-e *rtd =3D substream->private_data;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  162  	struct snd_soc_card *card=
- =3D rtd->card;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  163  	struct snd_soc_dai *codec=
-_dai;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  164  	int ret, i;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  165  	unsigned int num_codecs =
-=3D rtd->num_codecs;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  166  	unsigned int bclk_val;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  167  =
+1571e700fd610c Russell King          2020-07-21  793  /*
+1571e700fd610c Russell King          2020-07-21  794   * Reconfigure for a =
+change of inband advertisement.
+1571e700fd610c Russell King          2020-07-21  795   * If we have a separ=
+ate PCS, we only need to call its pcs_config() method,
+1571e700fd610c Russell King          2020-07-21  796   * and then restart A=
+N if it indicates something changed. Otherwise, we do
+1571e700fd610c Russell King          2020-07-21  797   * the full MAC recon=
+figuration.
+1571e700fd610c Russell King          2020-07-21  798   */
+1571e700fd610c Russell King          2020-07-21  799  static int phylink_ch=
+ange_inband_advert(struct phylink *pl)
+1571e700fd610c Russell King          2020-07-21  800  {
+1571e700fd610c Russell King          2020-07-21  801  	int ret;
+1571e700fd610c Russell King          2020-07-21  802  =
 
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  168  	for (i =3D 0; i < num_cod=
-ecs; i++) {
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  169  		codec_dai =3D asoc_rtd_t=
-o_codec(rtd, i);
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  170  		if ((strcmp(codec_dai->n=
-ame, "spi-VLV1776:00") =3D=3D 0) ||
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  171  		    (strcmp(codec_dai->n=
-ame, "spi-VLV1776:01") =3D=3D 0)) {
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  172  			switch (params_rate(par=
-ams)) {
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  173  			case 48000:
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  174  				bclk_val =3D 1536000;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  175  				break;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  176  			default:
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  177  				dev_err(card->dev, "In=
-valid Samplerate:0x%x\n",
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  178  					params_rate(params));
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  179  				return -EINVAL;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  180  			}
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  181  			ret =3D snd_soc_compone=
-nt_set_sysclk(codec_dai->component,
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  182  							   0, 0, bclk_val, =
-SND_SOC_CLOCK_IN);
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  183  			if (ret < 0) {
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  184  				dev_err(card->dev, "fa=
-iled to set sysclk for CS35l41 dai\n");
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  185  				return ret;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  186  			}
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  187  		}
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  188  	}
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  189  =
+1571e700fd610c Russell King          2020-07-21  803  	if (test_bit(PHYLINK=
+_DISABLE_STOPPED, &pl->phylink_disable_state))
+1571e700fd610c Russell King          2020-07-21  804  		return 0;
+1571e700fd610c Russell King          2020-07-21  805  =
 
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14 @190  	return ret;
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  191  }
-34a0094b9ff7b7 Vijendar Mukunda 2021-10-14  192  =
+001f4261fe4d5a Russell King (Oracle  2021-12-09 @806) 	if (!pl->pcs_ops && =
+pl->config->legacy_pre_march2020) {
+1571e700fd610c Russell King          2020-07-21  807  		/* Legacy method */
+1571e700fd610c Russell King          2020-07-21  808  		phylink_mac_config(=
+pl, &pl->link_config);
+1571e700fd610c Russell King          2020-07-21  809  		phylink_mac_pcs_an_=
+restart(pl);
+1571e700fd610c Russell King          2020-07-21  810  		return 0;
+1571e700fd610c Russell King          2020-07-21  811  	}
+1571e700fd610c Russell King          2020-07-21  812  =
+
+1571e700fd610c Russell King          2020-07-21  813  	phylink_dbg(pl, "%s:=
+ mode=3D%s/%s adv=3D%*pb pause=3D%02x\n", __func__,
+1571e700fd610c Russell King          2020-07-21  814  		    phylink_an_mode=
+_str(pl->cur_link_an_mode),
+1571e700fd610c Russell King          2020-07-21  815  		    phy_modes(pl->l=
+ink_config.interface),
+1571e700fd610c Russell King          2020-07-21  816  		    __ETHTOOL_LINK_=
+MODE_MASK_NBITS, pl->link_config.advertising,
+1571e700fd610c Russell King          2020-07-21  817  		    pl->link_config=
+.pause);
+1571e700fd610c Russell King          2020-07-21  818  =
+
+1571e700fd610c Russell King          2020-07-21  819  	/* Modern PCS-based =
+method; update the advert at the PCS, and
+1571e700fd610c Russell King          2020-07-21  820  	 * restart negotiati=
+on if the pcs_config() helper indicates that
+1571e700fd610c Russell King          2020-07-21  821  	 * the programmed ad=
+vertisement has changed.
+1571e700fd610c Russell King          2020-07-21  822  	 */
+7137e18f6f889a Russell King          2020-07-21 @823  	ret =3D pl->pcs_ops-=
+>pcs_config(pl->pcs, pl->cur_link_an_mode,
+1571e700fd610c Russell King          2020-07-21  824  				      pl->link_co=
+nfig.interface,
+1571e700fd610c Russell King          2020-07-21  825  				      pl->link_co=
+nfig.advertising,
+1571e700fd610c Russell King          2020-07-21  826  				      !!(pl->link=
+_config.pause & MLO_PAUSE_AN));
+1571e700fd610c Russell King          2020-07-21  827  	if (ret < 0)
+1571e700fd610c Russell King          2020-07-21  828  		return ret;
+1571e700fd610c Russell King          2020-07-21  829  =
+
+1571e700fd610c Russell King          2020-07-21  830  	if (ret > 0)
+1571e700fd610c Russell King          2020-07-21  831  		phylink_mac_pcs_an_=
+restart(pl);
+1571e700fd610c Russell King          2020-07-21  832  =
+
+1571e700fd610c Russell King          2020-07-21  833  	return 0;
+1571e700fd610c Russell King          2020-07-21  834  }
+1571e700fd610c Russell King          2020-07-21  835  =
 
 
-:::::: The code at line 190 was first introduced by commit
-:::::: 34a0094b9ff7b7544591a6841f9b61747033f292 ASoC: amd: add vangogh mach=
-ine driver
+:::::: The code at line 823 was first introduced by commit
+:::::: 7137e18f6f889a67046d5004e1690a32d7d2108d net: phylink: add struct ph=
+ylink_pcs
 
-:::::: TO: Vijendar Mukunda <Vijendar.Mukunda@amd.com>
-:::::: CC: Mark Brown <broonie@kernel.org>
+:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
+:::::: CC: David S. Miller <davem@davemloft.net>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8081699197911320492==--
+--===============4738189514743231905==--
 
