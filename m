@@ -1,286 +1,352 @@
-Content-Type: multipart/mixed; boundary="===============6159230547219129931=="
+Content-Type: multipart/mixed; boundary="===============7334324965781236164=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symbol 'addr'.
-Date: Thu, 16 Dec 2021 23:37:51 +0800
-Message-ID: <202112162341.INAyp2F6-lkp@intel.com>
+Subject: fs/xfs/xfs_buf.c:284:7: warning: Array access (via field 'b_pages') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+Date: Thu, 16 Dec 2021 22:15:31 +0800
+Message-ID: <202112162218.4b6MoWJP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6159230547219129931==
+--===============7334324965781236164==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+TO: Dave Chinner <dchinner@redhat.com>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 CC: Christoph Hellwig <hch@lst.de>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   2b14864acbaaf03d9c01982e243a84632524c3ac
-commit: 45deb5faeb9e02951361ceba5ffee721745661c3 MIPS: uaccess: Remove get_=
-fs/set_fs call sites
-date:   8 months ago
-:::::: branch date: 20 hours ago
-:::::: commit date: 8 months ago
-config: mips-randconfig-m031-20211216 (https://download.01.org/0day-ci/arch=
-ive/20211216/202112162341.INAyp2F6-lkp(a)intel.com/config)
-compiler: mips64-linux-gcc (GCC) 11.2.0
+commit: 4c7f65aea7b7fe66c08f8f7304c1ea3f7a871d5a xfs: rename buffer cache i=
+ndex variable b_bn
+date:   4 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 4 months ago
+config: riscv-randconfig-c006-20211214 (https://download.01.org/0day-ci/arc=
+hive/20211216/202112162218.4b6MoWJP-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2dd=
+b6c8ac29412b1361810972e15221fa021c)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D4c7f65aea7b7fe66c08f8f7304c1ea3f7a871d5a
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 4c7f65aea7b7fe66c08f8f7304c1ea3f7a871d5a
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symb=
-ol 'addr'.
-arch/mips/kernel/traps.c:195 show_stacktrace() error: uninitialized symbol =
-'stackdata'.
-arch/mips/kernel/traps.c:240 show_code() error: uninitialized symbol 'insn1=
-6'.
-arch/mips/kernel/traps.c:247 show_code() error: uninitialized symbol 'insn3=
-2'.
-arch/mips/kernel/traps.c:1054 do_bp() error: uninitialized symbol 'opcode'.
-arch/mips/kernel/traps.c:1132 do_tr() error: uninitialized symbol 'opcode'.
-
-Old smatch warnings:
-arch/mips/kernel/traps.c:1996 nmi_exception_handler() warn: ignoring unreac=
-hable code.
-
-vim +/addr +128 arch/mips/kernel/traps.c
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  112  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  113  static void show_raw_ba=
-cktrace(unsigned long reg29, const char *loglvl,
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  114  			       bool user)
-e889d78fd5775d Atsushi Nemoto      2006-07-25  115  {
-39b8d5254246ac Ralf Baechle        2008-04-28  116  	unsigned long *sp =3D =
-(unsigned long *)(reg29 & ~3);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  117  	unsigned long addr;
-e889d78fd5775d Atsushi Nemoto      2006-07-25  118  =
-
-96f0458a96892d Dmitry Safonov      2020-06-08  119  	printk("%sCall Trace:"=
-, loglvl);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  120  #ifdef CONFIG_KALLSYMS
-96f0458a96892d Dmitry Safonov      2020-06-08  121  	printk("%s\n", loglvl);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  122  #endif
-87151ae39bf555 Franck Bui-Huu      2006-08-03  123  	while (!kstack_end(sp)=
-) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  124  		if (__get_addr(&addr,=
- sp++, user)) {
-96f0458a96892d Dmitry Safonov      2020-06-08  125  			printk("%s (Bad stac=
-k address)", loglvl);
-10220c884444a1 Thomas Bogendoerfer 2008-05-12  126  			break;
-10220c884444a1 Thomas Bogendoerfer 2008-05-12  127  		}
-87151ae39bf555 Franck Bui-Huu      2006-08-03 @128  		if (__kernel_text_add=
-ress(addr))
-96f0458a96892d Dmitry Safonov      2020-06-08  129  			print_ip_sym(loglvl,=
- addr);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  130  	}
-96f0458a96892d Dmitry Safonov      2020-06-08  131  	printk("%s\n", loglvl);
-e889d78fd5775d Atsushi Nemoto      2006-07-25  132  }
-e889d78fd5775d Atsushi Nemoto      2006-07-25  133  =
-
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  134  #ifdef CONFIG_KALLSYMS
-1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  135  int raw_show_trace;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  136  static int __init set_r=
-aw_show_trace(char *str)
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  137  {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  138  	raw_show_trace =3D 1;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  139  	return 1;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  140  }
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  141  __setup("raw_show_trace=
-", set_raw_show_trace);
-1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  142  #endif
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  143  =
-
-96f0458a96892d Dmitry Safonov      2020-06-08  144  static void show_backtr=
-ace(struct task_struct *task, const struct pt_regs *regs,
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  145  			   const char *loglv=
-l, bool user)
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  146  {
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  147  	unsigned long sp =3D r=
-egs->regs[29];
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  148  	unsigned long ra =3D r=
-egs->regs[31];
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  149  	unsigned long pc =3D r=
-egs->cp0_epc;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  150  =
-
-e909be825212da Vincent Wen         2012-07-19  151  	if (!task)
-e909be825212da Vincent Wen         2012-07-19  152  		task =3D current;
-e909be825212da Vincent Wen         2012-07-19  153  =
-
-81a76d7119f63c James Hogan         2015-12-04  154  	if (raw_show_trace || =
-user_mode(regs) || !__kernel_text_address(pc)) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  155  		show_raw_backtrace(sp=
-, loglvl, user);
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  156  		return;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  157  	}
-96f0458a96892d Dmitry Safonov      2020-06-08  158  	printk("%sCall Trace:\=
-n", loglvl);
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  159  	do {
-96f0458a96892d Dmitry Safonov      2020-06-08  160  		print_ip_sym(loglvl, =
-pc);
-1924600cdb3143 Atsushi Nemoto      2006-09-29  161  		pc =3D unwind_stack(t=
-ask, &sp, pc, &ra);
-4d157d5eac29d7 Franck Bui-Huu      2006-08-03  162  	} while (pc);
-bcf084de5d429c Matt Redfearn       2016-10-19  163  	pr_cont("\n");
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  164  }
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  165  =
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  166  /*
-^1da177e4c3f41 Linus Torvalds      2005-04-16  167   * This routine abuses =
-get_user()/put_user() to reference pointers
-^1da177e4c3f41 Linus Torvalds      2005-04-16  168   * with at least a bit =
-of error checking ...
-^1da177e4c3f41 Linus Torvalds      2005-04-16  169   */
-eae23f2c2ac1e4 Ralf Baechle        2007-10-14  170  static void show_stackt=
-race(struct task_struct *task,
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  171  	const struct pt_regs *=
-regs, const char *loglvl, bool user)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  172  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  173  	const int field =3D 2 =
-* sizeof(unsigned long);
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  174  	unsigned long stackdat=
-a;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  175  	int i;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  176  	unsigned long *sp =3D =
-(unsigned long *)regs->regs[29];
-^1da177e4c3f41 Linus Torvalds      2005-04-16  177  =
-
-96f0458a96892d Dmitry Safonov      2020-06-08  178  	printk("%sStack :", lo=
-glvl);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  179  	i =3D 0;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  180  	while ((unsigned long)=
- sp & (PAGE_SIZE - 1)) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  181  		if (i && ((i % (64 / =
-field)) =3D=3D 0)) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  182  			pr_cont("\n");
-96f0458a96892d Dmitry Safonov      2020-06-08  183  			printk("%s       ", =
-loglvl);
-fe4e09e7012132 Matt Redfearn       2016-10-19  184  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  185  		if (i > 39) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  186  			pr_cont(" ...");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  187  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  188  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  189  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  190  		if (__get_addr(&stack=
-data, sp++, user)) {
-fe4e09e7012132 Matt Redfearn       2016-10-19  191  			pr_cont(" (Bad stack=
- address)");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  192  			break;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  193  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  194  =
-
-fe4e09e7012132 Matt Redfearn       2016-10-19 @195  		pr_cont(" %0*lx", fie=
-ld, stackdata);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  196  		i++;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  197  	}
-fe4e09e7012132 Matt Redfearn       2016-10-19  198  	pr_cont("\n");
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  199  	show_backtrace(task, r=
-egs, loglvl, user);
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  200  }
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  201  =
-
-9cb8f069deeed7 Dmitry Safonov      2020-06-08  202  void show_stack(struct =
-task_struct *task, unsigned long *sp, const char *loglvl)
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  203  {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  204  	struct pt_regs regs;
-85423636337099 James Hogan         2017-06-29  205  =
-
-85423636337099 James Hogan         2017-06-29  206  	regs.cp0_status =3D KS=
-U_KERNEL;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  207  	if (sp) {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  208  		regs.regs[29] =3D (un=
-signed long)sp;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  209  		regs.regs[31] =3D 0;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  210  		regs.cp0_epc =3D 0;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  211  	} else {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  212  		if (task && task !=3D=
- current) {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  213  			regs.regs[29] =3D ta=
-sk->thread.reg29;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  214  			regs.regs[31] =3D 0;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  215  			regs.cp0_epc =3D tas=
-k->thread.reg31;
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  216  		} else {
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  217  			prepare_frametrace(&=
-regs);
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  218  		}
-f66686f70a2a61 Atsushi Nemoto      2006-07-29  219  	}
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  220  	show_stacktrace(task, =
-&regs, loglvl, false);
-^1da177e4c3f41 Linus Torvalds      2005-04-16  221  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  222  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  223  static void show_code(v=
-oid *pc, bool user)
-^1da177e4c3f41 Linus Torvalds      2005-04-16  224  {
-^1da177e4c3f41 Linus Torvalds      2005-04-16  225  	long i;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  226  	unsigned short *pc16 =
-=3D NULL;
-^1da177e4c3f41 Linus Torvalds      2005-04-16  227  =
-
-41000c5819ee5a Matt Redfearn       2016-10-19  228  	printk("Code:");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  229  =
-
-39b8d5254246ac Ralf Baechle        2008-04-28  230  	if ((unsigned long)pc =
-& 1)
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  231  		pc16 =3D (u16 *)((uns=
-igned long)pc & ~1);
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  232  =
-
-^1da177e4c3f41 Linus Torvalds      2005-04-16  233  	for(i =3D -3 ; i < 6 ;=
- i++) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  234  		if (pc16) {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  235  			u16 insn16;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  236  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  237  			if (__get_inst16(&in=
-sn16, pc16 + i, user))
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  238  				goto bad_address;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  239  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @240  			pr_cont("%c%04x%c", =
-(i?' ':'<'), insn16, (i?' ':'>'));
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  241  		} else {
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  242  			u32 insn32;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  243  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  244  			if (__get_inst32(&in=
-sn32, (u32 *)pc + i, user))
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  245  				goto bad_address;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  246  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @247  			pr_cont("%c%08x%c", =
-(i?' ':'<'), insn32, (i?' ':'>'));
-^1da177e4c3f41 Linus Torvalds      2005-04-16  248  		}
-^1da177e4c3f41 Linus Torvalds      2005-04-16  249  	}
-41000c5819ee5a Matt Redfearn       2016-10-19  250  	pr_cont("\n");
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  251  	return;
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  252  =
-
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  253  bad_address:
-45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  254  	pr_cont(" (Bad address=
- in epc)\n\n");
-^1da177e4c3f41 Linus Torvalds      2005-04-16  255  }
-^1da177e4c3f41 Linus Torvalds      2005-04-16  256  =
 
 
-:::::: The code at line 128 was first introduced by commit
-:::::: 87151ae39bf5556abe83d69af0be9580c32c501b [MIPS] Miscellaneous cleanu=
-p in prologue analysis code
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   fs/verity/open.c:347:6: note: Assuming the condition is false
+           if (!IS_VERITY(inode))
+               ^~~~~~~~~~~~~~~~~
+   fs/verity/open.c:347:2: note: Taking false branch
+           if (!IS_VERITY(inode))
+           ^
+   fs/verity/open.c:350:6: note: Assuming the condition is false
+           if (filp->f_mode & FMODE_WRITE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:350:2: note: Taking false branch
+           if (filp->f_mode & FMODE_WRITE) {
+           ^
+   fs/verity/open.c:356:9: note: Calling 'ensure_verity_info'
+           return ensure_verity_info(inode);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:312:6: note: Assuming 'vi' is null
+           if (vi)
+               ^~
+   fs/verity/open.c:312:2: note: Taking false branch
+           if (vi)
+           ^
+   fs/verity/open.c:316:6: note: 'err' is 0
+           if (err)
+               ^~~
+   fs/verity/open.c:316:2: note: Taking false branch
+           if (err)
+           ^
+   fs/verity/open.c:319:7: note: Calling 'fsverity_create_info'
+           vi =3D fsverity_create_info(inode, desc, desc_size);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:157:6: note: Assuming 'vi' is non-null
+           if (!vi)
+               ^~~
+   fs/verity/open.c:157:2: note: Taking false branch
+           if (!vi)
+           ^
+   fs/verity/open.c:161:8: note: Calling 'fsverity_init_merkle_tree_params'
+           err =3D fsverity_init_merkle_tree_params(&vi->tree_params, inode,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:43:2: note: Taking false branch
+           if (IS_ERR(hash_alg))
+           ^
+   fs/verity/open.c:50:2: note: Taking false branch
+           if (IS_ERR(params->hashstate)) {
+           ^
+   fs/verity/open.c:57:6: note: Assuming 'log_blocksize' is not equal to PA=
+GE_SHIFT
+           if (log_blocksize !=3D PAGE_SHIFT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:57:2: note: Taking true branch
+           if (log_blocksize !=3D PAGE_SHIFT) {
+           ^
+   fs/verity/open.c:61:3: note: Control jumps to line 121
+                   goto out_err;
+                   ^
+   fs/verity/open.c:121:2: note: Memory is released
+           kfree(params->hashstate);
+           ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:161:8: note: Returning; memory was released
+           err =3D fsverity_init_merkle_tree_params(&vi->tree_params, inode,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:165:6: note: 'err' is -22
+           if (err) {
+               ^~~
+   fs/verity/open.c:165:2: note: Taking true branch
+           if (err) {
+           ^
+   fs/verity/open.c:169:3: note: Control jumps to line 187
+                   goto out;
+                   ^
+   fs/verity/open.c:187:6: note: 'err' is -22
+           if (err) {
+               ^~~
+   fs/verity/open.c:187:2: note: Taking true branch
+           if (err) {
+           ^
+   fs/verity/open.c:188:3: note: Calling 'fsverity_free_info'
+                   fsverity_free_info(vi);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:215:7: note: 'vi' is non-null
+           if (!vi)
+                ^~
+   fs/verity/open.c:215:2: note: Taking false branch
+           if (!vi)
+           ^
+   fs/verity/open.c:217:2: note: Attempt to free released memory
+           kfree(vi->tree_params.hashstate);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> fs/xfs/xfs_buf.c:284:7: warning: Array access (via field 'b_pages') resu=
+lts in a null pointer dereference [clang-analyzer-core.NullDereference]
+                   if (bp->b_pages[i])
+                       ^
+   fs/xfs/xfs_buf.c:874:10: note: Calling 'xfs_buf_get_uncached'
+           error =3D xfs_buf_get_uncached(target, numblks, flags, &bp);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_buf.c:910:10: note: Calling '_xfs_buf_alloc'
+           error =3D _xfs_buf_alloc(target, &map, 1, flags & XBF_NO_IOACCT,=
+ &bp);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   fs/xfs/xfs_buf.c:238:2: note: Loop condition is false.  Exiting loop
+           spin_lock_init(&bp->b_lock);
+           ^
+   include/linux/spinlock.h:334:35: note: expanded from macro 'spin_lock_in=
+it'
+   # define spin_lock_init(lock)                                   \
+                                                                   ^
+   fs/xfs/xfs_buf.c:248:10: note: Calling 'xfs_buf_get_maps'
+           error =3D xfs_buf_get_maps(bp, nmaps);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_buf.c:185:6: note: 'map_count' is equal to 1
+           if (map_count =3D=3D 1) {
+               ^~~~~~~~~
+   fs/xfs/xfs_buf.c:185:2: note: Taking true branch
+           if (map_count =3D=3D 1) {
+           ^
+   fs/xfs/xfs_buf.c:187:3: note: Returning without writing to 'bp->b_pages'
+                   return 0;
+                   ^
+   fs/xfs/xfs_buf.c:248:10: note: Returning from 'xfs_buf_get_maps'
+           error =3D xfs_buf_get_maps(bp, nmaps);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_buf.c:249:6: note: 'error' is 0
+           if (error)  {
+               ^~~~~
+   fs/xfs/xfs_buf.c:249:2: note: Taking false branch
+           if (error)  {
+           ^
+   fs/xfs/xfs_buf.c:256:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < nmaps; i++) {
+           ^
+   fs/xfs/xfs_buf.c:256:2: note: Loop condition is false. Execution continu=
+es on line 262
+   fs/xfs/xfs_buf.c:263:2: note: Loop condition is false.  Exiting loop
+           init_waitqueue_head(&bp->b_waiters);
+           ^
+   include/linux/wait.h:67:2: note: expanded from macro 'init_waitqueue_hea=
+d'
+           do {                                                            =
+        \
+           ^
+   fs/xfs/xfs_buf.c:265:2: note: Loop condition is false.  Exiting loop
+           XFS_STATS_INC(bp->b_mount, xb_create);
+           ^
+   fs/xfs/xfs_stats.h:165:2: note: expanded from macro 'XFS_STATS_INC'
+           per_cpu_ptr(xfsstats.xs_stats, current_cpu())->s.v++;   \
+           ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   fs/xfs/xfs_buf.c:265:2: note: Loop condition is false.  Exiting loop
+           XFS_STATS_INC(bp->b_mount, xb_create);
+           ^
+   fs/xfs/xfs_stats.h:166:2: note: expanded from macro 'XFS_STATS_INC'
+           per_cpu_ptr(mp->m_stats.xs_stats, current_cpu())->s.v++;        \
+           ^
+   include/linux/percpu-defs.h:263:47: note: expanded from macro 'per_cpu_p=
+tr'
+   #define per_cpu_ptr(ptr, cpu)   ({ (void)(cpu); VERIFY_PERCPU_PTR(ptr); =
+})
+                                                   ^
+   include/linux/percpu-defs.h:259:2: note: expanded from macro 'VERIFY_PER=
+CPU_PTR'
+           __verify_pcpu_ptr(__p);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   fs/xfs/xfs_buf.c:265:2: note: Loop condition is false.  Exiting loop
+           XFS_STATS_INC(bp->b_mount, xb_create);
+           ^
+   fs/xfs/xfs_stats.h:163:34: note: expanded from macro 'XFS_STATS_INC'
+   #define XFS_STATS_INC(mp, v)                                    \
+                                                                   ^
+   fs/xfs/xfs_buf.c:266:2: note: Calling 'trace_xfs_buf_init'
+           trace_xfs_buf_init(bp, _RET_IP_);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_trace.h:448:1: note: Returning without writing to 'bp->b_page=
+s'
+   DEFINE_BUF_EVENT(xfs_buf_init);
+   ^
+   fs/xfs/xfs_trace.h:444:32: note: expanded from macro 'DEFINE_BUF_EVENT'
+   #define DEFINE_BUF_EVENT(name) \
+                                  ^
+   include/linux/tracepoint.h:542:2: note: expanded from macro '\DEFINE_EVE=
+NT'
+           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
+           ^
+   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
+CE'
+           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
+           ^
+   include/linux/tracepoint.h:343:4: note: expanded from macro '__DECLARE_T=
+RACE'
+           { }                                                             \
+             ^
+   fs/xfs/xfs_buf.c:266:2: note: Returning from 'trace_xfs_buf_init'
 
-:::::: TO: Franck Bui-Huu <vagabon.xyz@gmail.com>
-:::::: CC: Ralf Baechle <ralf@linux-mips.org>
+vim +/b_pages +284 fs/xfs/xfs_buf.c
+
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  271=
+  =
+
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  272=
+  static void
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  273=
+  xfs_buf_free_pages(
+e82226138b20d4 fs/xfs/xfs_buf.c           Dave Chinner      2020-12-16  274=
+  	struct xfs_buf	*bp)
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  275=
+  {
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  276=
+  	uint		i;
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  277=
+  =
+
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  278=
+  	ASSERT(bp->b_flags & _XBF_PAGES);
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  279=
+  =
+
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  280=
+  	if (xfs_buf_is_vmapped(bp))
+54cd3aa6f8102f fs/xfs/xfs_buf.c           Christoph Hellwig 2021-06-07  281=
+  		vm_unmap_ram(bp->b_addr, bp->b_page_count);
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  282=
+  =
+
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  283=
+  	for (i =3D 0; i < bp->b_page_count; i++) {
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01 @284=
+  		if (bp->b_pages[i])
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  285=
+  			__free_page(bp->b_pages[i]);
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  286=
+  	}
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  287=
+  	if (current->reclaim_state)
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  288=
+  		current->reclaim_state->reclaimed_slab +=3D bp->b_page_count;
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  289=
+  =
+
+02c5117386884e fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  290=
+  	if (bp->b_pages !=3D bp->b_page_array)
+f0e2d93c29dc39 fs/xfs/linux-2.6/xfs_buf.c Denys Vlasenko    2008-05-19  291=
+  		kmem_free(bp->b_pages);
+3fc98b1ac03667 fs/xfs/linux-2.6/xfs_buf.c Dave Chinner      2009-12-14  292=
+  	bp->b_pages =3D NULL;
+e7d236a6fe5102 fs/xfs/xfs_buf.c           Dave Chinner      2021-06-01  293=
+  	bp->b_flags &=3D ~_XBF_PAGES;
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  294=
+  }
+^1da177e4c3f41 fs/xfs/linux-2.6/xfs_buf.c Linus Torvalds    2005-04-16  295=
+  =
+
+
+:::::: The code at line 284 was first introduced by commit
+:::::: e7d236a6fe5102092c463112124cf52e4d71885e xfs: move page freeing into=
+ _xfs_buf_free_pages()
+
+:::::: TO: Dave Chinner <dchinner@redhat.com>
+:::::: CC: Dave Chinner <david@fromorbit.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6159230547219129931==--
+--===============7334324965781236164==--
 
