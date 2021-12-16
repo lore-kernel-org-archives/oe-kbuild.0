@@ -1,31 +1,32 @@
-Content-Type: multipart/mixed; boundary="===============4738189514743231905=="
+Content-Type: multipart/mixed; boundary="===============1649785951081507445=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 5713/7473] drivers/net/phy/phylink.c:823 phylink_change_inband_advert() error: we previously assumed 'pl->pcs_ops' could be null (see line 806)
-Date: Thu, 16 Dec 2021 11:52:41 +0800
-Message-ID: <202112161111.nZYxPvCn-lkp@intel.com>
+Subject: drivers/edac/i10nm_base.c:256 i10nm_get_hbm_munits() warn: 'mbase' not released on lines: 249.
+Date: Thu, 16 Dec 2021 10:01:10 +0800
+Message-ID: <202112161000.15tF7PTx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4738189514743231905==
+--===============1649785951081507445==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: "Russell King (Oracle)" <rmk+kernel@armlinux.org.uk>
-CC: Jakub Kicinski <kuba@kernel.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Qiuxu Zhuo <qiuxu.zhuo@intel.com>
+CC: Tony Luck <tony.luck@intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   93bf6eee76c0e716f6b32de690b1c52991547bb4
-commit: 001f4261fe4d5ae710cf1f445b6cae6d9d3ae26e [5713/7473] net: phylink: =
-use legacy_pre_march2020
-:::::: branch date: 6 hours ago
-:::::: commit date: 6 days ago
-config: x86_64-randconfig-m001-20211214 (https://download.01.org/0day-ci/ar=
-chive/20211216/202112161111.nZYxPvCn-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2b14864acbaaf03d9c01982e243a84632524c3ac
+commit: c945088384d00e6eb61535cc4ba25bc062090909 EDAC/i10nm: Add support fo=
+r high bandwidth memory
+date:   6 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 months ago
+config: x86_64-randconfig-m001-20211215 (https://download.01.org/0day-ci/ar=
+chive/20211216/202112161000.15tF7PTx-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -33,95 +34,123 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-drivers/net/phy/phylink.c:823 phylink_change_inband_advert() error: we prev=
-iously assumed 'pl->pcs_ops' could be null (see line 806)
+drivers/edac/i10nm_base.c:256 i10nm_get_hbm_munits() warn: 'mbase' not rele=
+ased on lines: 249.
 
-vim +823 drivers/net/phy/phylink.c
+vim +/mbase +256 drivers/edac/i10nm_base.c
 
-9525ae83959b60 Russell King          2017-07-25  792  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  186  =
 
-1571e700fd610c Russell King          2020-07-21  793  /*
-1571e700fd610c Russell King          2020-07-21  794   * Reconfigure for a =
-change of inband advertisement.
-1571e700fd610c Russell King          2020-07-21  795   * If we have a separ=
-ate PCS, we only need to call its pcs_config() method,
-1571e700fd610c Russell King          2020-07-21  796   * and then restart A=
-N if it indicates something changed. Otherwise, we do
-1571e700fd610c Russell King          2020-07-21  797   * the full MAC recon=
-figuration.
-1571e700fd610c Russell King          2020-07-21  798   */
-1571e700fd610c Russell King          2020-07-21  799  static int phylink_ch=
-ange_inband_advert(struct phylink *pl)
-1571e700fd610c Russell King          2020-07-21  800  {
-1571e700fd610c Russell King          2020-07-21  801  	int ret;
-1571e700fd610c Russell King          2020-07-21  802  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  187  static int i10nm_get_hbm_munits(=
+void)
+c945088384d00e Qiuxu Zhuo 2021-06-11  188  {
+c945088384d00e Qiuxu Zhuo 2021-06-11  189  	struct pci_dev *mdev;
+c945088384d00e Qiuxu Zhuo 2021-06-11  190  	void __iomem *mbase;
+c945088384d00e Qiuxu Zhuo 2021-06-11  191  	u32 reg, off, mcmtr;
+c945088384d00e Qiuxu Zhuo 2021-06-11  192  	struct skx_dev *d;
+c945088384d00e Qiuxu Zhuo 2021-06-11  193  	int i, lmc;
+c945088384d00e Qiuxu Zhuo 2021-06-11  194  	u64 base;
+c945088384d00e Qiuxu Zhuo 2021-06-11  195  =
 
-1571e700fd610c Russell King          2020-07-21  803  	if (test_bit(PHYLINK=
-_DISABLE_STOPPED, &pl->phylink_disable_state))
-1571e700fd610c Russell King          2020-07-21  804  		return 0;
-1571e700fd610c Russell King          2020-07-21  805  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  196  	list_for_each_entry(d, i10nm_ed=
+ac_list, list) {
+c945088384d00e Qiuxu Zhuo 2021-06-11  197  		d->pcu_cr3 =3D pci_get_dev_wra=
+pper(d->seg, d->bus[1], 30, 3);
+c945088384d00e Qiuxu Zhuo 2021-06-11  198  		if (!d->pcu_cr3)
+c945088384d00e Qiuxu Zhuo 2021-06-11  199  			return -ENODEV;
+c945088384d00e Qiuxu Zhuo 2021-06-11  200  =
 
-001f4261fe4d5a Russell King (Oracle  2021-12-09 @806) 	if (!pl->pcs_ops && =
-pl->config->legacy_pre_march2020) {
-1571e700fd610c Russell King          2020-07-21  807  		/* Legacy method */
-1571e700fd610c Russell King          2020-07-21  808  		phylink_mac_config(=
-pl, &pl->link_config);
-1571e700fd610c Russell King          2020-07-21  809  		phylink_mac_pcs_an_=
-restart(pl);
-1571e700fd610c Russell King          2020-07-21  810  		return 0;
-1571e700fd610c Russell King          2020-07-21  811  	}
-1571e700fd610c Russell King          2020-07-21  812  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  201  		if (!i10nm_check_hbm_imc(d)) {
+c945088384d00e Qiuxu Zhuo 2021-06-11  202  			i10nm_printk(KERN_DEBUG, "No =
+hbm memory\n");
+c945088384d00e Qiuxu Zhuo 2021-06-11  203  			return -ENODEV;
+c945088384d00e Qiuxu Zhuo 2021-06-11  204  		}
+c945088384d00e Qiuxu Zhuo 2021-06-11  205  =
 
-1571e700fd610c Russell King          2020-07-21  813  	phylink_dbg(pl, "%s:=
- mode=3D%s/%s adv=3D%*pb pause=3D%02x\n", __func__,
-1571e700fd610c Russell King          2020-07-21  814  		    phylink_an_mode=
-_str(pl->cur_link_an_mode),
-1571e700fd610c Russell King          2020-07-21  815  		    phy_modes(pl->l=
-ink_config.interface),
-1571e700fd610c Russell King          2020-07-21  816  		    __ETHTOOL_LINK_=
-MODE_MASK_NBITS, pl->link_config.advertising,
-1571e700fd610c Russell King          2020-07-21  817  		    pl->link_config=
-.pause);
-1571e700fd610c Russell King          2020-07-21  818  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  206  		if (I10NM_GET_SCK_BAR(d, reg))=
+ {
+c945088384d00e Qiuxu Zhuo 2021-06-11  207  			i10nm_printk(KERN_ERR, "Faile=
+d to get socket bar\n");
+c945088384d00e Qiuxu Zhuo 2021-06-11  208  			return -ENODEV;
+c945088384d00e Qiuxu Zhuo 2021-06-11  209  		}
+c945088384d00e Qiuxu Zhuo 2021-06-11  210  		base =3D I10NM_GET_SCK_MMIO_BA=
+SE(reg);
+c945088384d00e Qiuxu Zhuo 2021-06-11  211  =
 
-1571e700fd610c Russell King          2020-07-21  819  	/* Modern PCS-based =
-method; update the advert at the PCS, and
-1571e700fd610c Russell King          2020-07-21  820  	 * restart negotiati=
-on if the pcs_config() helper indicates that
-1571e700fd610c Russell King          2020-07-21  821  	 * the programmed ad=
-vertisement has changed.
-1571e700fd610c Russell King          2020-07-21  822  	 */
-7137e18f6f889a Russell King          2020-07-21 @823  	ret =3D pl->pcs_ops-=
->pcs_config(pl->pcs, pl->cur_link_an_mode,
-1571e700fd610c Russell King          2020-07-21  824  				      pl->link_co=
-nfig.interface,
-1571e700fd610c Russell King          2020-07-21  825  				      pl->link_co=
-nfig.advertising,
-1571e700fd610c Russell King          2020-07-21  826  				      !!(pl->link=
-_config.pause & MLO_PAUSE_AN));
-1571e700fd610c Russell King          2020-07-21  827  	if (ret < 0)
-1571e700fd610c Russell King          2020-07-21  828  		return ret;
-1571e700fd610c Russell King          2020-07-21  829  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  212  		if (I10NM_GET_HBM_IMC_BAR(d, r=
+eg)) {
+c945088384d00e Qiuxu Zhuo 2021-06-11  213  			i10nm_printk(KERN_ERR, "Faile=
+d to get hbm mc bar\n");
+c945088384d00e Qiuxu Zhuo 2021-06-11  214  			return -ENODEV;
+c945088384d00e Qiuxu Zhuo 2021-06-11  215  		}
+c945088384d00e Qiuxu Zhuo 2021-06-11  216  		base +=3D I10NM_GET_HBM_IMC_MM=
+IO_OFFSET(reg);
+c945088384d00e Qiuxu Zhuo 2021-06-11  217  =
 
-1571e700fd610c Russell King          2020-07-21  830  	if (ret > 0)
-1571e700fd610c Russell King          2020-07-21  831  		phylink_mac_pcs_an_=
-restart(pl);
-1571e700fd610c Russell King          2020-07-21  832  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  218  		lmc =3D I10NM_NUM_DDR_IMC;
+c945088384d00e Qiuxu Zhuo 2021-06-11  219  =
 
-1571e700fd610c Russell King          2020-07-21  833  	return 0;
-1571e700fd610c Russell King          2020-07-21  834  }
-1571e700fd610c Russell King          2020-07-21  835  =
+c945088384d00e Qiuxu Zhuo 2021-06-11  220  		for (i =3D 0; i < I10NM_NUM_HB=
+M_IMC; i++) {
+c945088384d00e Qiuxu Zhuo 2021-06-11  221  			mdev =3D pci_get_dev_wrapper(=
+d->seg, d->bus[0],
+c945088384d00e Qiuxu Zhuo 2021-06-11  222  						   12 + i / 4, 1 + i % 4);
+c945088384d00e Qiuxu Zhuo 2021-06-11  223  			if (i =3D=3D 0 && !mdev) {
+c945088384d00e Qiuxu Zhuo 2021-06-11  224  				i10nm_printk(KERN_ERR, "No h=
+bm mc found\n");
+c945088384d00e Qiuxu Zhuo 2021-06-11  225  				return -ENODEV;
+c945088384d00e Qiuxu Zhuo 2021-06-11  226  			}
+c945088384d00e Qiuxu Zhuo 2021-06-11  227  			if (!mdev)
+c945088384d00e Qiuxu Zhuo 2021-06-11  228  				continue;
+c945088384d00e Qiuxu Zhuo 2021-06-11  229  =
 
+c945088384d00e Qiuxu Zhuo 2021-06-11  230  			d->imc[lmc].mdev =3D mdev;
+c945088384d00e Qiuxu Zhuo 2021-06-11  231  			off =3D i * I10NM_HBM_IMC_MMI=
+O_SIZE;
+c945088384d00e Qiuxu Zhuo 2021-06-11  232  =
 
-:::::: The code at line 823 was first introduced by commit
-:::::: 7137e18f6f889a67046d5004e1690a32d7d2108d net: phylink: add struct ph=
-ylink_pcs
+c945088384d00e Qiuxu Zhuo 2021-06-11  233  			edac_dbg(2, "hbm mc%d mmio ba=
+se 0x%llx size 0x%x\n",
+c945088384d00e Qiuxu Zhuo 2021-06-11  234  				 lmc, base + off, I10NM_HBM_=
+IMC_MMIO_SIZE);
+c945088384d00e Qiuxu Zhuo 2021-06-11  235  =
 
-:::::: TO: Russell King <rmk+kernel@armlinux.org.uk>
-:::::: CC: David S. Miller <davem@davemloft.net>
+c945088384d00e Qiuxu Zhuo 2021-06-11  236  			mbase =3D ioremap(base + off,=
+ I10NM_HBM_IMC_MMIO_SIZE);
+c945088384d00e Qiuxu Zhuo 2021-06-11  237  			if (!mbase) {
+c945088384d00e Qiuxu Zhuo 2021-06-11  238  				i10nm_printk(KERN_ERR, "Fail=
+ed to ioremap for hbm mc 0x%llx\n",
+c945088384d00e Qiuxu Zhuo 2021-06-11  239  					     base + off);
+c945088384d00e Qiuxu Zhuo 2021-06-11  240  				return -ENOMEM;
+c945088384d00e Qiuxu Zhuo 2021-06-11  241  			}
+c945088384d00e Qiuxu Zhuo 2021-06-11  242  =
+
+c945088384d00e Qiuxu Zhuo 2021-06-11  243  			d->imc[lmc].mbase =3D mbase;
+c945088384d00e Qiuxu Zhuo 2021-06-11  244  			d->imc[lmc].hbm_mc =3D true;
+c945088384d00e Qiuxu Zhuo 2021-06-11  245  =
+
+c945088384d00e Qiuxu Zhuo 2021-06-11  246  			mcmtr =3D I10NM_GET_MCMTR(&d-=
+>imc[lmc], 0);
+c945088384d00e Qiuxu Zhuo 2021-06-11  247  			if (!I10NM_IS_HBM_IMC(mcmtr))=
+ {
+c945088384d00e Qiuxu Zhuo 2021-06-11  248  				i10nm_printk(KERN_ERR, "This=
+ isn't an hbm mc!\n");
+c945088384d00e Qiuxu Zhuo 2021-06-11  249  				return -ENODEV;
+c945088384d00e Qiuxu Zhuo 2021-06-11  250  			}
+c945088384d00e Qiuxu Zhuo 2021-06-11  251  =
+
+c945088384d00e Qiuxu Zhuo 2021-06-11  252  			lmc++;
+c945088384d00e Qiuxu Zhuo 2021-06-11  253  		}
+c945088384d00e Qiuxu Zhuo 2021-06-11  254  	}
+c945088384d00e Qiuxu Zhuo 2021-06-11  255  =
+
+c945088384d00e Qiuxu Zhuo 2021-06-11 @256  	return 0;
+c945088384d00e Qiuxu Zhuo 2021-06-11  257  }
+c945088384d00e Qiuxu Zhuo 2021-06-11  258  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4738189514743231905==--
+--===============1649785951081507445==--
 
