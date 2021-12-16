@@ -1,379 +1,286 @@
-Content-Type: multipart/mixed; boundary="===============3292291466684383561=="
+Content-Type: multipart/mixed; boundary="===============6159230547219129931=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 17/17] fortify: Work around Clang inlining bugs
-Date: Thu, 16 Dec 2021 23:37:54 +0800
-Message-ID: <202112162317.HYiDRObX-lkp@intel.com>
+Subject: arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symbol 'addr'.
+Date: Thu, 16 Dec 2021 23:37:51 +0800
+Message-ID: <202112162341.INAyp2F6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3292291466684383561==
+--===============6159230547219129931==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211213223331.135412-18-keescook@chromium.org>
-References: <20211213223331.135412-18-keescook@chromium.org>
-TO: Kees Cook <keescook@chromium.org>
+CC: linux-kernel(a)vger.kernel.org
+TO: Thomas Bogendoerfer <tsbogend@alpha.franken.de>
+CC: Christoph Hellwig <hch@lst.de>
 
-Hi Kees,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linus/master]
-[also build test WARNING on v5.16-rc5]
-[cannot apply to rdma/for-next axboe-block/for-next kvm/queue tip/x86/core =
-mkp-scsi/for-next jejb-scsi/for-next next-20211215]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Kees-Cook/Enable-strict-co=
-mpile-time-memcpy-fortify-checks/20211214-064002
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-aa50faff4416c869b52dff68a937c84d29e12f4b
-:::::: branch date: 3 days ago
-:::::: commit date: 3 days ago
-config: x86_64-randconfig-c007-20211215 (https://download.01.org/0day-ci/ar=
-chive/20211216/202112162317.HYiDRObX-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://github.com/0day-ci/linux/commit/e5d600e1abbdd2034dbc84465=
-4957a4ec1182dbf
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Kees-Cook/Enable-strict-compile-ti=
-me-memcpy-fortify-checks/20211214-064002
-        git checkout e5d600e1abbdd2034dbc844654957a4ec1182dbf
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   2b14864acbaaf03d9c01982e243a84632524c3ac
+commit: 45deb5faeb9e02951361ceba5ffee721745661c3 MIPS: uaccess: Remove get_=
+fs/set_fs call sites
+date:   8 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 8 months ago
+config: mips-randconfig-m031-20211216 (https://download.01.org/0day-ci/arch=
+ive/20211216/202112162341.INAyp2F6-lkp(a)intel.com/config)
+compiler: mips64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+arch/mips/kernel/traps.c:128 show_raw_backtrace() error: uninitialized symb=
+ol 'addr'.
+arch/mips/kernel/traps.c:195 show_stacktrace() error: uninitialized symbol =
+'stackdata'.
+arch/mips/kernel/traps.c:240 show_code() error: uninitialized symbol 'insn1=
+6'.
+arch/mips/kernel/traps.c:247 show_code() error: uninitialized symbol 'insn3=
+2'.
+arch/mips/kernel/traps.c:1054 do_bp() error: uninitialized symbol 'opcode'.
+arch/mips/kernel/traps.c:1132 do_tr() error: uninitialized symbol 'opcode'.
+
+Old smatch warnings:
+arch/mips/kernel/traps.c:1996 nmi_exception_handler() warn: ignoring unreac=
+hable code.
+
+vim +/addr +128 arch/mips/kernel/traps.c
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  112  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  113  static void show_raw_ba=
+cktrace(unsigned long reg29, const char *loglvl,
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  114  			       bool user)
+e889d78fd5775d Atsushi Nemoto      2006-07-25  115  {
+39b8d5254246ac Ralf Baechle        2008-04-28  116  	unsigned long *sp =3D =
+(unsigned long *)(reg29 & ~3);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  117  	unsigned long addr;
+e889d78fd5775d Atsushi Nemoto      2006-07-25  118  =
+
+96f0458a96892d Dmitry Safonov      2020-06-08  119  	printk("%sCall Trace:"=
+, loglvl);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  120  #ifdef CONFIG_KALLSYMS
+96f0458a96892d Dmitry Safonov      2020-06-08  121  	printk("%s\n", loglvl);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  122  #endif
+87151ae39bf555 Franck Bui-Huu      2006-08-03  123  	while (!kstack_end(sp)=
+) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  124  		if (__get_addr(&addr,=
+ sp++, user)) {
+96f0458a96892d Dmitry Safonov      2020-06-08  125  			printk("%s (Bad stac=
+k address)", loglvl);
+10220c884444a1 Thomas Bogendoerfer 2008-05-12  126  			break;
+10220c884444a1 Thomas Bogendoerfer 2008-05-12  127  		}
+87151ae39bf555 Franck Bui-Huu      2006-08-03 @128  		if (__kernel_text_add=
+ress(addr))
+96f0458a96892d Dmitry Safonov      2020-06-08  129  			print_ip_sym(loglvl,=
+ addr);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  130  	}
+96f0458a96892d Dmitry Safonov      2020-06-08  131  	printk("%s\n", loglvl);
+e889d78fd5775d Atsushi Nemoto      2006-07-25  132  }
+e889d78fd5775d Atsushi Nemoto      2006-07-25  133  =
+
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  134  #ifdef CONFIG_KALLSYMS
+1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  135  int raw_show_trace;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  136  static int __init set_r=
+aw_show_trace(char *str)
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  137  {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  138  	raw_show_trace =3D 1;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  139  	return 1;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  140  }
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  141  __setup("raw_show_trace=
+", set_raw_show_trace);
+1df0f0ff7e56f6 Atsushi Nemoto      2006-09-26  142  #endif
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  143  =
+
+96f0458a96892d Dmitry Safonov      2020-06-08  144  static void show_backtr=
+ace(struct task_struct *task, const struct pt_regs *regs,
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  145  			   const char *loglv=
+l, bool user)
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  146  {
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  147  	unsigned long sp =3D r=
+egs->regs[29];
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  148  	unsigned long ra =3D r=
+egs->regs[31];
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  149  	unsigned long pc =3D r=
+egs->cp0_epc;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  150  =
+
+e909be825212da Vincent Wen         2012-07-19  151  	if (!task)
+e909be825212da Vincent Wen         2012-07-19  152  		task =3D current;
+e909be825212da Vincent Wen         2012-07-19  153  =
+
+81a76d7119f63c James Hogan         2015-12-04  154  	if (raw_show_trace || =
+user_mode(regs) || !__kernel_text_address(pc)) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  155  		show_raw_backtrace(sp=
+, loglvl, user);
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  156  		return;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  157  	}
+96f0458a96892d Dmitry Safonov      2020-06-08  158  	printk("%sCall Trace:\=
+n", loglvl);
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  159  	do {
+96f0458a96892d Dmitry Safonov      2020-06-08  160  		print_ip_sym(loglvl, =
+pc);
+1924600cdb3143 Atsushi Nemoto      2006-09-29  161  		pc =3D unwind_stack(t=
+ask, &sp, pc, &ra);
+4d157d5eac29d7 Franck Bui-Huu      2006-08-03  162  	} while (pc);
+bcf084de5d429c Matt Redfearn       2016-10-19  163  	pr_cont("\n");
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  164  }
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  165  =
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  166  /*
+^1da177e4c3f41 Linus Torvalds      2005-04-16  167   * This routine abuses =
+get_user()/put_user() to reference pointers
+^1da177e4c3f41 Linus Torvalds      2005-04-16  168   * with at least a bit =
+of error checking ...
+^1da177e4c3f41 Linus Torvalds      2005-04-16  169   */
+eae23f2c2ac1e4 Ralf Baechle        2007-10-14  170  static void show_stackt=
+race(struct task_struct *task,
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  171  	const struct pt_regs *=
+regs, const char *loglvl, bool user)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  172  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  173  	const int field =3D 2 =
+* sizeof(unsigned long);
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  174  	unsigned long stackdat=
+a;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  175  	int i;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  176  	unsigned long *sp =3D =
+(unsigned long *)regs->regs[29];
+^1da177e4c3f41 Linus Torvalds      2005-04-16  177  =
+
+96f0458a96892d Dmitry Safonov      2020-06-08  178  	printk("%sStack :", lo=
+glvl);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  179  	i =3D 0;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  180  	while ((unsigned long)=
+ sp & (PAGE_SIZE - 1)) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  181  		if (i && ((i % (64 / =
+field)) =3D=3D 0)) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  182  			pr_cont("\n");
+96f0458a96892d Dmitry Safonov      2020-06-08  183  			printk("%s       ", =
+loglvl);
+fe4e09e7012132 Matt Redfearn       2016-10-19  184  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  185  		if (i > 39) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  186  			pr_cont(" ...");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  187  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  188  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  189  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  190  		if (__get_addr(&stack=
+data, sp++, user)) {
+fe4e09e7012132 Matt Redfearn       2016-10-19  191  			pr_cont(" (Bad stack=
+ address)");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  192  			break;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  193  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  194  =
+
+fe4e09e7012132 Matt Redfearn       2016-10-19 @195  		pr_cont(" %0*lx", fie=
+ld, stackdata);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  196  		i++;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  197  	}
+fe4e09e7012132 Matt Redfearn       2016-10-19  198  	pr_cont("\n");
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  199  	show_backtrace(task, r=
+egs, loglvl, user);
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  200  }
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  201  =
+
+9cb8f069deeed7 Dmitry Safonov      2020-06-08  202  void show_stack(struct =
+task_struct *task, unsigned long *sp, const char *loglvl)
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  203  {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  204  	struct pt_regs regs;
+85423636337099 James Hogan         2017-06-29  205  =
+
+85423636337099 James Hogan         2017-06-29  206  	regs.cp0_status =3D KS=
+U_KERNEL;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  207  	if (sp) {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  208  		regs.regs[29] =3D (un=
+signed long)sp;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  209  		regs.regs[31] =3D 0;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  210  		regs.cp0_epc =3D 0;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  211  	} else {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  212  		if (task && task !=3D=
+ current) {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  213  			regs.regs[29] =3D ta=
+sk->thread.reg29;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  214  			regs.regs[31] =3D 0;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  215  			regs.cp0_epc =3D tas=
+k->thread.reg31;
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  216  		} else {
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  217  			prepare_frametrace(&=
+regs);
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  218  		}
+f66686f70a2a61 Atsushi Nemoto      2006-07-29  219  	}
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  220  	show_stacktrace(task, =
+&regs, loglvl, false);
+^1da177e4c3f41 Linus Torvalds      2005-04-16  221  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  222  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  223  static void show_code(v=
+oid *pc, bool user)
+^1da177e4c3f41 Linus Torvalds      2005-04-16  224  {
+^1da177e4c3f41 Linus Torvalds      2005-04-16  225  	long i;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  226  	unsigned short *pc16 =
+=3D NULL;
+^1da177e4c3f41 Linus Torvalds      2005-04-16  227  =
+
+41000c5819ee5a Matt Redfearn       2016-10-19  228  	printk("Code:");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  229  =
+
+39b8d5254246ac Ralf Baechle        2008-04-28  230  	if ((unsigned long)pc =
+& 1)
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  231  		pc16 =3D (u16 *)((uns=
+igned long)pc & ~1);
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  232  =
+
+^1da177e4c3f41 Linus Torvalds      2005-04-16  233  	for(i =3D -3 ; i < 6 ;=
+ i++) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  234  		if (pc16) {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  235  			u16 insn16;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  236  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  237  			if (__get_inst16(&in=
+sn16, pc16 + i, user))
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  238  				goto bad_address;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  239  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @240  			pr_cont("%c%04x%c", =
+(i?' ':'<'), insn16, (i?' ':'>'));
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  241  		} else {
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  242  			u32 insn32;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  243  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  244  			if (__get_inst32(&in=
+sn32, (u32 *)pc + i, user))
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  245  				goto bad_address;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  246  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01 @247  			pr_cont("%c%08x%c", =
+(i?' ':'<'), insn32, (i?' ':'>'));
+^1da177e4c3f41 Linus Torvalds      2005-04-16  248  		}
+^1da177e4c3f41 Linus Torvalds      2005-04-16  249  	}
+41000c5819ee5a Matt Redfearn       2016-10-19  250  	pr_cont("\n");
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  251  	return;
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  252  =
+
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  253  bad_address:
+45deb5faeb9e02 Thomas Bogendoerfer 2021-04-01  254  	pr_cont(" (Bad address=
+ in epc)\n\n");
+^1da177e4c3f41 Linus Torvalds      2005-04-16  255  }
+^1da177e4c3f41 Linus Torvalds      2005-04-16  256  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-               ^
-   fs/jfs/jfs_logmgr.c:892:8: note: Assuming field 'gcrtc' is > 0
-               ((log->gcrtc > 0) || (tblk->bp->l_wqnext !=3D NULL) ||
-                 ^~~~~~~~~~~~~~
-   fs/jfs/jfs_logmgr.c:892:24: note: Left side of '||' is true
-               ((log->gcrtc > 0) || (tblk->bp->l_wqnext !=3D NULL) ||
-                                 ^
-   fs/jfs/jfs_logmgr.c:897:3: note: Calling 'lmGCwrite'
-                   lmGCwrite(log, 1);
-                   ^~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_logmgr.c:751:2: note: 'xtblk' initialized to a null pointer v=
-alue
-           struct tblock *xtblk =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_logmgr.c:762:2: note: Loop condition is false. Execution cont=
-inues on line 771
-           list_for_each_entry(tblk, &log->cqueue, cqueue) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   fs/jfs/jfs_logmgr.c:771:2: note: Null pointer value stored to 'tblk'
-           tblk =3D xtblk;           /* last tblk of the page */
-           ^~~~~~~~~~~~
-   fs/jfs/jfs_logmgr.c:776:23: note: Access to field 'bp' results in a dere=
-ference of a null pointer (loaded from variable 'tblk')
-           bp =3D (struct lbuf *) tblk->bp;
-                                ^~~~
-   fs/jfs/jfs_logmgr.c:1346:3: warning: Value stored to 'lp' is never read =
-[clang-analyzer-deadcode.DeadStores]
-                   lp =3D (struct logpage *) bp->l_ldata;
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/jfs/jfs_logmgr.c:1346:3: note: Value stored to 'lp' is never read
-                   lp =3D (struct logpage *) bp->l_ldata;
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   fs/dlm/config.c:723:4: warning: Call to function 'strcat' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcat'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcat(buf, buf0);
-                           ^~~~~~
-   fs/dlm/config.c:723:4: note: Call to function 'strcat' is insecure as it=
- does not provide bounding of the memory buffer. Replace unbounded copy fun=
-ctions with analogous functions that support length arguments such as 'strl=
-cat'. CWE-119
-                           strcat(buf, buf0);
-                           ^~~~~~
->> include/linux/fortify-string.h:137:3: warning: Null pointer passed as 1s=
-t argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
-                   __underlying_memcpy(p, q, len);
-                   ^
-   include/linux/fortify-string.h:43:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^
-   fs/dlm/config.c:125:10: note: Passing null pointer value via 1st paramet=
-er 'p'
-           strlcpy(cl->cl_cluster_name, buf, sizeof(cl->cl_cluster_name));
-                   ^
-   include/linux/fortify-string.h:114:44: note: expanded from macro 'strlcp=
-y'
-   #define strlcpy(p, q, s) __fortify_strlcpy(p, q, s,                     \
-                                              ^
-   fs/dlm/config.c:125:2: note: Calling '__fortify_strlcpy'
-           strlcpy(cl->cl_cluster_name, buf, sizeof(cl->cl_cluster_name));
-           ^
-   include/linux/fortify-string.h:114:26: note: expanded from macro 'strlcp=
-y'
-   #define strlcpy(p, q, s) __fortify_strlcpy(p, q, s,                     \
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fortify-string.h:125:27: note: Left side of '&&' is false
-           if (p_size =3D=3D (size_t)-1 && q_size =3D=3D (size_t)-1)
-                                    ^
-   include/linux/fortify-string.h:128:9: note: 'q_len' is >=3D 'size'
-           len =3D (q_len >=3D size) ? size - 1 : q_len;
-                  ^~~~~
-   include/linux/fortify-string.h:128:8: note: '?' condition is true
-           len =3D (q_len >=3D size) ? size - 1 : q_len;
-                 ^
-   include/linux/fortify-string.h:129:33: note: Left side of '&&' is false
-           if (__builtin_constant_p(size) && __builtin_constant_p(q_len) &&=
- size) {
-                                          ^
-   include/linux/fortify-string.h:134:6: note: 'size' is 64
-           if (size) {
-               ^~~~
-   include/linux/fortify-string.h:134:2: note: Taking true branch
-           if (size) {
-           ^
-   include/linux/fortify-string.h:135:7: note: 'len' is < 'p_size'
-                   if (len >=3D p_size)
-                       ^~~
-   include/linux/fortify-string.h:135:3: note: Taking false branch
-                   if (len >=3D p_size)
-                   ^
-   include/linux/fortify-string.h:137:3: note: Null pointer passed as 1st a=
-rgument to memory copy function
-                   __underlying_memcpy(p, q, len);
-                   ^                   ~
-   include/linux/fortify-string.h:43:29: note: expanded from macro '__under=
-lying_memcpy'
-   #define __underlying_memcpy     __builtin_memcpy
-                                   ^
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (4 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (6 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   fs/ntfs/inode.c:1840:3: warning: Value stored to 'err' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                   err =3D -ENOMEM;
-                   ^     ~~~~~~~
-   fs/ntfs/inode.c:1840:3: note: Value stored to 'err' is never read
-                   err =3D -ENOMEM;
-                   ^     ~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+:::::: The code at line 128 was first introduced by commit
+:::::: 87151ae39bf5556abe83d69af0be9580c32c501b [MIPS] Miscellaneous cleanu=
+p in prologue analysis code
 
-vim +137 include/linux/fortify-string.h
-
-a28a6e860c6cf2 Francis Laniel 2021-02-25  111  =
-
-a28a6e860c6cf2 Francis Laniel 2021-02-25  112  /* defined after fortified s=
-trlen to reuse it */
-a28a6e860c6cf2 Francis Laniel 2021-02-25  113  extern size_t __real_strlcpy=
-(char *, const char *, size_t) __RENAME(strlcpy);
-e5d600e1abbdd2 Kees Cook      2021-12-13  114  #define strlcpy(p, q, s) __f=
-ortify_strlcpy(p, q, s,			\
-e5d600e1abbdd2 Kees Cook      2021-12-13  115  					   __builtin_object_siz=
-e(p, 1),	\
-e5d600e1abbdd2 Kees Cook      2021-12-13  116  					   __builtin_object_siz=
-e(q, 1))
-e5d600e1abbdd2 Kees Cook      2021-12-13  117  __FORTIFY_INLINE size_t __fo=
-rtify_strlcpy(char *p, const char *q,
-e5d600e1abbdd2 Kees Cook      2021-12-13  118  					  size_t size,
-e5d600e1abbdd2 Kees Cook      2021-12-13  119  					  const size_t p_size,
-e5d600e1abbdd2 Kees Cook      2021-12-13  120  					  const size_t q_size)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  121  {
-3009f891bb9f32 Kees Cook      2021-08-02  122  	size_t q_len;	/* Full count=
- of source string length. */
-3009f891bb9f32 Kees Cook      2021-08-02  123  	size_t len;	/* Count of cha=
-racters going into destination. */
-a28a6e860c6cf2 Francis Laniel 2021-02-25  124  =
-
-a28a6e860c6cf2 Francis Laniel 2021-02-25  125  	if (p_size =3D=3D (size_t)-=
-1 && q_size =3D=3D (size_t)-1)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  126  		return __real_strlcpy(p, q=
-, size);
-3009f891bb9f32 Kees Cook      2021-08-02  127  	q_len =3D strlen(q);
-3009f891bb9f32 Kees Cook      2021-08-02  128  	len =3D (q_len >=3D size) ?=
- size - 1 : q_len;
-3009f891bb9f32 Kees Cook      2021-08-02  129  	if (__builtin_constant_p(si=
-ze) && __builtin_constant_p(q_len) && size) {
-3009f891bb9f32 Kees Cook      2021-08-02  130  		/* Write size is always la=
-rger than destination. */
-3009f891bb9f32 Kees Cook      2021-08-02  131  		if (len >=3D p_size)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  132  			__write_overflow();
-3009f891bb9f32 Kees Cook      2021-08-02  133  	}
-3009f891bb9f32 Kees Cook      2021-08-02  134  	if (size) {
-a28a6e860c6cf2 Francis Laniel 2021-02-25  135  		if (len >=3D p_size)
-a28a6e860c6cf2 Francis Laniel 2021-02-25  136  			fortify_panic(__func__);
-a28a6e860c6cf2 Francis Laniel 2021-02-25 @137  		__underlying_memcpy(p, q, =
-len);
-a28a6e860c6cf2 Francis Laniel 2021-02-25  138  		p[len] =3D '\0';
-a28a6e860c6cf2 Francis Laniel 2021-02-25  139  	}
-3009f891bb9f32 Kees Cook      2021-08-02  140  	return q_len;
-a28a6e860c6cf2 Francis Laniel 2021-02-25  141  }
-a28a6e860c6cf2 Francis Laniel 2021-02-25  142  =
-
+:::::: TO: Franck Bui-Huu <vagabon.xyz@gmail.com>
+:::::: CC: Ralf Baechle <ralf@linux-mips.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3292291466684383561==--
+--===============6159230547219129931==--
 
