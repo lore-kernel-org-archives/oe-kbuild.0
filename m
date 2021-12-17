@@ -1,226 +1,403 @@
-Content-Type: multipart/mixed; boundary="===============0599664200515961069=="
+Content-Type: multipart/mixed; boundary="===============5484768817264904140=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xilinx-xlnx:xlnx_rebase_v5.10 730/1981] drivers/mtd/spi-nor/micron-st.c:61:3-19: duplicated argument to & or |
-Date: Sat, 18 Dec 2021 00:49:57 +0800
-Message-ID: <202112180053.vQI0Y0PV-lkp@intel.com>
+Subject: security/integrity/ima/ima_queue.c:163:6: warning: Value stored to 'digest' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 17 Dec 2021 23:38:06 +0800
+Message-ID: <202112172305.Kzh5R1KG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0599664200515961069==
+--===============5484768817264904140==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-arm-kernel(a)lists.infradead.org
-TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
-CC: Michal Simek <monstr@monstr.eu>
-CC: P L Sai Krishna <lakshmis@xilinx.com>
-CC: Anurag Kumar Vulisha <anuragku@xilinx.com>
-CC: Naga Sureshkumar Relli <naga.sureshkumar.relli@xilinx.com>
-CC: Tejas Prajapati Rameshchandra <tejaspra@xilinx.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Tushar Sugandhi <tusharsu@linux.microsoft.com>
+CC: Mimi Zohar <zohar@linux.ibm.com>
+CC: Petr Vorel <pvorel@suse.cz>
 
-tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.10
-head:   87ec9a2d98a7a7dfc98b57348a0ec310fd170e4b
-commit: 69da6b404536626df93a8b4b5b4e48884cba87ca [730/1981] mtd: spi-nor: U=
-pdate flags for serial NOR flash devices
-:::::: branch date: 3 days ago
-:::::: commit date: 7 months ago
-config: microblaze-randconfig-c004-20211216 (https://download.01.org/0day-c=
-i/archive/20211218/202112180053.vQI0Y0PV-lkp(a)intel.com/config)
-compiler: microblaze-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6441998e2e37131b0a4c310af9156d79d3351c16
+commit: 52c208397c246f0c31d031eb8c41f9c7e9fdec0e IMA: support for duplicate=
+ measurement records
+date:   6 months ago
+:::::: branch date: 16 hours ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-c001-20211215 (https://download.01.org/0day-ci/arch=
+ive/20211217/202112172305.Kzh5R1KG-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
+ab9fbb364faa1581e4f92ba3119a872fba)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D52c208397c246f0c31d031eb8c41f9c7e9fdec0e
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 52c208397c246f0c31d031eb8c41f9c7e9fdec0e
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> drivers/mtd/spi-nor/micron-st.c:61:3-19: duplicated argument to & or |
+clang-analyzer warnings: (new ones prefixed by >>)
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/video/fbdev/core/fbmem.c:809:3: warning: Value stored to 'dst' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   dst +=3D c;
+                   ^      ~
+   drivers/video/fbdev/core/fbmem.c:809:3: note: Value stored to 'dst' is n=
+ever read
+                   dst +=3D c;
+                   ^      ~
+   drivers/video/fbdev/core/fbmem.c:887:3: warning: Value stored to 'src' i=
+s never read [clang-analyzer-deadcode.DeadStores]
+                   src +=3D c;
+                   ^      ~
+   drivers/video/fbdev/core/fbmem.c:887:3: note: Value stored to 'src' is n=
+ever read
+                   src +=3D c;
+                   ^      ~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   drivers/video/fbdev/core/fbmon.c:925:20: warning: Division by zero [clan=
+g-analyzer-core.DivideZero]
+                           var->pixclock =3D KHZ2PICOS(var->pixclock);
+                                           ^
+   include/uapi/linux/fb.h:240:35: note: expanded from macro 'KHZ2PICOS'
+   #define KHZ2PICOS(a) (1000000000UL/(a))
+                         ~~~~~~~~~~~~^~~~
+   drivers/video/fbdev/core/fbmon.c:899:6: note: Assuming 'edid' is not equ=
+al to NULL
+           if (edid =3D=3D NULL || var =3D=3D NULL)
+               ^~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:899:6: note: Left side of '||' is false
+   drivers/video/fbdev/core/fbmon.c:899:22: note: Assuming 'var' is not equ=
+al to NULL
+           if (edid =3D=3D NULL || var =3D=3D NULL)
+                               ^~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:899:2: note: Taking false branch
+           if (edid =3D=3D NULL || var =3D=3D NULL)
+           ^
+   drivers/video/fbdev/core/fbmon.c:902:6: note: Assuming the condition is =
+false
+           if (!(edid_checksum(edid)))
+               ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:902:2: note: Taking false branch
+           if (!(edid_checksum(edid)))
+           ^
+   drivers/video/fbdev/core/fbmon.c:905:6: note: Assuming the condition is =
+false
+           if (!(edid_check_header(edid)))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:905:2: note: Taking false branch
+           if (!(edid_check_header(edid)))
+           ^
+   drivers/video/fbdev/core/fbmon.c:910:2: note: Loop condition is true.  E=
+ntering loop body
+           for (i =3D 0; i < 4; i++, block +=3D DETAILED_TIMING_DESCRIPTION=
+_SIZE) {
+           ^
+   drivers/video/fbdev/core/fbmon.c:911:7: note: Calling 'edid_is_timing_bl=
+ock'
+                   if (edid_is_timing_block(block)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:138:7: note: Assuming the condition is =
+false
+           if ((block[0] !=3D 0x00) || (block[1] !=3D 0x00) ||
+                ^~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:138:6: note: Left side of '||' is false
+           if ((block[0] !=3D 0x00) || (block[1] !=3D 0x00) ||
+               ^
+   drivers/video/fbdev/core/fbmon.c:138:29: note: Assuming the condition is=
+ false
+           if ((block[0] !=3D 0x00) || (block[1] !=3D 0x00) ||
+                                      ^~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:138:6: note: Left side of '||' is false
+           if ((block[0] !=3D 0x00) || (block[1] !=3D 0x00) ||
+               ^
+   drivers/video/fbdev/core/fbmon.c:139:7: note: Assuming the condition is =
+true
+               (block[2] !=3D 0x00) || (block[4] !=3D 0x00))
+                ^~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:139:25: note: Left side of '||' is true
+               (block[2] !=3D 0x00) || (block[4] !=3D 0x00))
+                                  ^
+   drivers/video/fbdev/core/fbmon.c:140:3: note: Returning the value 1, whi=
+ch participates in a condition later
+                   return 1;
+                   ^~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:911:7: note: Returning from 'edid_is_ti=
+ming_block'
+                   if (edid_is_timing_block(block)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:911:3: note: Taking true branch
+                   if (edid_is_timing_block(block)) {
+                   ^
+   drivers/video/fbdev/core/fbmon.c:924:4: note: The value 0 is assigned to=
+ field 'pixclock'
+                           var->pixclock /=3D 1000;
+                           ^~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/core/fbmon.c:925:20: note: Division by zero
+                           var->pixclock =3D KHZ2PICOS(var->pixclock);
+                                           ^
+   include/uapi/linux/fb.h:240:35: note: expanded from macro 'KHZ2PICOS'
+   #define KHZ2PICOS(a) (1000000000UL/(a))
+                         ~~~~~~~~~~~~^~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+>> security/integrity/ima/ima_queue.c:163:6: warning: Value stored to 'dige=
+st' during its initialization is never read [clang-analyzer-deadcode.DeadSt=
+ores]
+           u8 *digest =3D entry->digests[ima_hash_algo_idx].digest;
+               ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_queue.c:163:6: note: Value stored to 'digest'=
+ during its initialization is never read
+           u8 *digest =3D entry->digests[ima_hash_algo_idx].digest;
+               ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   security/integrity/ima/ima_main.c:417:15: warning: Value stored to 'file=
+' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
+es]
+           struct file *file =3D vma->vm_file;
+                        ^~~~   ~~~~~~~~~~~~
+   security/integrity/ima/ima_main.c:417:15: note: Value stored to 'file' d=
+uring its initialization is never read
+           struct file *file =3D vma->vm_file;
+                        ^~~~   ~~~~~~~~~~~~
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   security/integrity/ima/ima_crypto.c:428:2: warning: 2nd function call ar=
+gument is an uninitialized value [clang-analyzer-core.CallAndMessage]
+           ima_free_pages(rbuf[1], rbuf_size[1]);
+           ^
+   security/integrity/ima/ima_crypto.c:546:6: note: Assuming the condition =
+is false
+           if (file->f_flags & O_DIRECT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:546:2: note: Taking false branch
+           if (file->f_flags & O_DIRECT) {
+           ^
+   security/integrity/ima/ima_crypto.c:553:6: note: Assuming the condition =
+is false
+           if (!(file->f_mode & FMODE_READ)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:553:2: note: Taking false branch
+           if (!(file->f_mode & FMODE_READ)) {
+           ^
+   security/integrity/ima/ima_crypto.c:566:6: note: Assuming 'ima_ahash_min=
+size' is not equal to 0
+           if (ima_ahash_minsize && i_size >=3D ima_ahash_minsize) {
+               ^~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:566:6: note: Left side of '&&' is tr=
+ue
+   security/integrity/ima/ima_crypto.c:566:27: note: Assuming 'i_size' is >=
+=3D 'ima_ahash_minsize'
+           if (ima_ahash_minsize && i_size >=3D ima_ahash_minsize) {
+                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:566:2: note: Taking true branch
+           if (ima_ahash_minsize && i_size >=3D ima_ahash_minsize) {
+           ^
+   security/integrity/ima/ima_crypto.c:567:8: note: Calling 'ima_calc_file_=
+ahash'
+                   rc =3D ima_calc_file_ahash(f, hash);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:445:2: note: Taking false branch
+           if (IS_ERR(tfm))
+           ^
+   security/integrity/ima/ima_crypto.c:448:7: note: Calling 'ima_calc_file_=
+hash_atfm'
+           rc =3D ima_calc_file_hash_atfm(file, hash, tfm);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:342:8: note: Calling 'ahash_request_=
+alloc'
+           req =3D ahash_request_alloc(tfm, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/crypto/hash.h:604:8: note: Calling 'kmalloc'
+           req =3D kmalloc(sizeof(struct ahash_request) +
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:544:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:561:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/crypto/hash.h:604:8: note: Returning from 'kmalloc'
+           req =3D kmalloc(sizeof(struct ahash_request) +
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/crypto/hash.h:607:6: note: Assuming 'req' is non-null, which par=
+ticipates in a condition later
+           if (likely(req))
+               ^
+   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
+                                             ^~~~
+   include/crypto/hash.h:607:2: note: Taking true branch
+           if (likely(req))
+           ^
+   include/crypto/hash.h:610:2: note: Returning pointer (loaded from 'req')=
+, which participates in a condition later
+           return req;
+           ^~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:342:8: note: Returning from 'ahash_r=
+equest_alloc'
+           req =3D ahash_request_alloc(tfm, GFP_KERNEL);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/integrity/ima/ima_crypto.c:343:7: note: 'req' is non-null
+           if (!req)
+                ^~~
+   security/integrity/ima/ima_crypto.c:343:2: note: Taking false branch
+           if (!req)
+           ^
+   security/integrity/ima/ima_crypto.c:351:18: note: Calling 'crypto_ahash_=
+init'
+           rc =3D ahash_wait(crypto_ahash_init(req), &wait);
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/crypto/hash.h:532:6: note: Assuming the condition is false
+           if (crypto_ahash_get_flags(tfm) & CRYPTO_TFM_NEED_KEY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/crypto/hash.h:532:2: note: Taking false branch
+           if (crypto_ahash_get_flags(tfm) & CRYPTO_TFM_NEED_KEY)
+           ^
+   include/crypto/hash.h:535:2: note: Returning value, which participates i=
+n a condition later
 
-vim +61 drivers/mtd/spi-nor/micron-st.c
+vim +/digest +163 security/integrity/ima/ima_queue.c
 
-15f5c7e54e658a Boris Brezillon      2020-03-13   19  =
+3323eec921efd8 Mimi Zohar      2009-02-04  150  =
 
-15f5c7e54e658a Boris Brezillon      2020-03-13   20  static const struct fl=
-ash_info st_parts[] =3D {
-15f5c7e54e658a Boris Brezillon      2020-03-13   21  	{ "n25q016a",	 INFO(0=
-x20bb15, 0, 64 * 1024,   32,
-15f5c7e54e658a Boris Brezillon      2020-03-13   22  			      SECT_4K | SPI=
-_NOR_QUAD_READ) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   23  	{ "n25q032",	 INFO(0x=
-20ba16, 0, 64 * 1024,   64,
-15f5c7e54e658a Boris Brezillon      2020-03-13   24  			      SPI_NOR_QUAD_=
-READ) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   25  	{ "n25q032a",	 INFO(0=
-x20bb16, 0, 64 * 1024,   64,
-15f5c7e54e658a Boris Brezillon      2020-03-13   26  			      SPI_NOR_QUAD_=
-READ) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   27  	{ "n25q064",     INFO=
-(0x20ba17, 0, 64 * 1024,  128,
-15f5c7e54e658a Boris Brezillon      2020-03-13   28  			      SECT_4K | SPI=
-_NOR_QUAD_READ) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   29  	{ "n25q064a",    INFO=
-(0x20bb17, 0, 64 * 1024,  128,
-15f5c7e54e658a Boris Brezillon      2020-03-13   30  			      SECT_4K | SPI=
-_NOR_QUAD_READ) },
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   31  	{ "n25q128a11",  INFO=
-(0x20bb18, 0, 64 * 1024,  256, SECT_4K |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   32  			SPI_NOR_QUAD_READ |=
- SPI_NOR_HAS_LOCK) },
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   33  	{ "n25q128a13",  INFO=
-(0x20ba18, 0, 64 * 1024,  256, SECT_4K |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   34  			SPI_NOR_QUAD_READ |=
- SPI_NOR_HAS_LOCK) },
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   35  	{ "n25q256a",    INFO=
-(0x20ba19, 0, 64 * 1024,  512, SECT_4K |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   36  			SPI_NOR_DUAL_READ |=
- SPI_NOR_QUAD_READ | USE_FSR |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   37  			SPI_NOR_HAS_LOCK) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   38  	{ "n25q256a",    INFO=
-(0x20ba19, 0, 64 * 1024,  512, SECT_4K |
-15f5c7e54e658a Boris Brezillon      2020-03-13   39  			      USE_FSR | SPI=
-_NOR_DUAL_READ |
-15f5c7e54e658a Boris Brezillon      2020-03-13   40  			      SPI_NOR_QUAD_=
-READ) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   41  	{ "mt25qu256a",  INFO=
-6(0x20bb19, 0x104400, 64 * 1024,  512,
-15f5c7e54e658a Boris Brezillon      2020-03-13   42  			       SECT_4K | US=
-E_FSR | SPI_NOR_DUAL_READ |
-15f5c7e54e658a Boris Brezillon      2020-03-13   43  			       SPI_NOR_QUAD=
-_READ | SPI_NOR_4B_OPCODES) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   44  	{ "n25q256ax1",  INFO=
-(0x20bb19, 0, 64 * 1024,  512,
-15f5c7e54e658a Boris Brezillon      2020-03-13   45  			      SECT_4K | USE=
-_FSR | SPI_NOR_QUAD_READ) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   46  	{ "mt25ql512a",  INFO=
-6(0x20ba20, 0x104400, 64 * 1024, 1024,
-15f5c7e54e658a Boris Brezillon      2020-03-13   47  			       SECT_4K | US=
-E_FSR | SPI_NOR_DUAL_READ |
-15f5c7e54e658a Boris Brezillon      2020-03-13   48  			       SPI_NOR_QUAD=
-_READ | SPI_NOR_4B_OPCODES) },
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   49  	{ "n25q512ax3",  INFO=
-(0x20ba20, 0, 64 * 1024, 1024, SECT_4K |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   50  			USE_FSR | SPI_NOR_Q=
-UAD_READ | SPI_NOR_HAS_LOCK) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   51  	{ "mt25qu512a",  INFO=
-6(0x20bb20, 0x104400, 64 * 1024, 1024,
-15f5c7e54e658a Boris Brezillon      2020-03-13   52  			       SECT_4K | US=
-E_FSR | SPI_NOR_DUAL_READ |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   53  			       SPI_NOR_QUAD=
-_READ | SPI_NOR_4B_OPCODES |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   54  				   SPI_NOR_HAS_LOC=
-K) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   55  	{ "n25q512a",    INFO=
-(0x20bb20, 0, 64 * 1024, 1024,
-f3f2b7eb2f1c58 Jungseung Lee        2020-03-18   56  			      SECT_4K | USE=
-_FSR | SPI_NOR_QUAD_READ |
-f3f2b7eb2f1c58 Jungseung Lee        2020-03-18   57  			      SPI_NOR_HAS_L=
-OCK | SPI_NOR_HAS_TB |
-f3f2b7eb2f1c58 Jungseung Lee        2020-03-18   58  			      SPI_NOR_4BIT_=
-BP | SPI_NOR_BP3_SR_BIT6) },
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   59  	{ "n25q00",      INFO=
-(0x20ba21, 0, 64 * 1024, 2048, SECT_4K |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   60  			USE_FSR | SPI_NOR_Q=
-UAD_READ | NO_CHIP_ERASE |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19  @61  			SPI_NOR_HAS_LOCK | =
-SPI_NOR_HAS_LOCK) },
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   62  	{ "n25q00a",     INFO=
-(0x20bb21, 0, 64 * 1024, 2048, SECT_4K |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   63  			USE_FSR | SPI_NOR_Q=
-UAD_READ | NO_CHIP_ERASE |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   64  			SPI_NOR_HAS_LOCK) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   65  	{ "mt25ql02g",   INFO=
-(0x20ba22, 0, 64 * 1024, 4096,
-15f5c7e54e658a Boris Brezillon      2020-03-13   66  			      SECT_4K | USE=
-_FSR | SPI_NOR_QUAD_READ |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   67  			      NO_CHIP_ERASE=
- | SPI_NOR_HAS_LOCK) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   68  	{ "mt25qu02g",   INFO=
-(0x20bb22, 0, 64 * 1024, 4096,
-1371a80cac33d5 David Clear          2020-07-20   69  			      SECT_4K | USE=
-_FSR | SPI_NOR_DUAL_READ |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   70  			      SPI_NOR_QUAD_=
-READ | NO_CHIP_ERASE |
-69da6b40453662 Amit Kumar Mahapatra 2020-01-19   71  				  SPI_NOR_HAS_LOCK=
-) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   72  =
+d158847ae89a25 Mimi Zohar      2016-12-19  151  /*
+d158847ae89a25 Mimi Zohar      2016-12-19  152   * Add template entry to th=
+e measurement list and hash table, and
+d158847ae89a25 Mimi Zohar      2016-12-19  153   * extend the pcr.
+d158847ae89a25 Mimi Zohar      2016-12-19  154   *
+d158847ae89a25 Mimi Zohar      2016-12-19  155   * On systems which support=
+ carrying the IMA measurement list across
+d158847ae89a25 Mimi Zohar      2016-12-19  156   * kexec, maintain the tota=
+l memory size required for serializing the
+d158847ae89a25 Mimi Zohar      2016-12-19  157   * binary_runtime_measureme=
+nts.
+3323eec921efd8 Mimi Zohar      2009-02-04  158   */
+3323eec921efd8 Mimi Zohar      2009-02-04  159  int ima_add_template_entry(=
+struct ima_template_entry *entry, int violation,
+9803d413f41db8 Roberto Sassu   2013-06-07  160  			   const char *op, struc=
+t inode *inode,
+9803d413f41db8 Roberto Sassu   2013-06-07  161  			   const unsigned char *=
+filename)
+3323eec921efd8 Mimi Zohar      2009-02-04  162  {
+2592677c0486e6 Roberto Sassu   2020-03-25 @163  	u8 *digest =3D entry->dige=
+sts[ima_hash_algo_idx].digest;
+1ea973df6e2166 Roberto Sassu   2020-03-25  164  	struct tpm_digest *digests=
+_arg =3D entry->digests;
+3323eec921efd8 Mimi Zohar      2009-02-04  165  	const char *audit_cause =
+=3D "hash_added";
+7b7e5916aa2f46 Roberto Sassu   2011-12-19  166  	char tpm_audit_cause[AUDIT=
+_CAUSE_LEN_MAX];
+3323eec921efd8 Mimi Zohar      2009-02-04  167  	int audit_info =3D 1;
+7b7e5916aa2f46 Roberto Sassu   2011-12-19  168  	int result =3D 0, tpmresul=
+t =3D 0;
+3323eec921efd8 Mimi Zohar      2009-02-04  169  =
 
-15f5c7e54e658a Boris Brezillon      2020-03-13   73  	{ "m25p05",  INFO(0x2=
-02010,  0,  32 * 1024,   2, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   74  	{ "m25p10",  INFO(0x2=
-02011,  0,  32 * 1024,   4, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   75  	{ "m25p20",  INFO(0x2=
-02012,  0,  64 * 1024,   4, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   76  	{ "m25p40",  INFO(0x2=
-02013,  0,  64 * 1024,   8, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   77  	{ "m25p80",  INFO(0x2=
-02014,  0,  64 * 1024,  16, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   78  	{ "m25p16",  INFO(0x2=
-02015,  0,  64 * 1024,  32, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   79  	{ "m25p32",  INFO(0x2=
-02016,  0,  64 * 1024,  64, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   80  	{ "m25p64",  INFO(0x2=
-02017,  0,  64 * 1024, 128, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   81  	{ "m25p128", INFO(0x2=
-02018,  0, 256 * 1024,  64, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   82  =
+3323eec921efd8 Mimi Zohar      2009-02-04  170  	mutex_lock(&ima_extend_lis=
+t_mutex);
+52c208397c246f Tushar Sugandhi 2021-05-10  171  	if (!violation && !IS_ENAB=
+LED(CONFIG_IMA_DISABLE_HTABLE)) {
+67696f6d79923c Eric Richter    2016-06-01  172  		if (ima_lookup_digest_ent=
+ry(digest, entry->pcr)) {
+3323eec921efd8 Mimi Zohar      2009-02-04  173  			audit_cause =3D "hash_ex=
+ists";
+45fae7493970d7 Roberto Sassu   2011-12-19  174  			result =3D -EEXIST;
+3323eec921efd8 Mimi Zohar      2009-02-04  175  			goto out;
+3323eec921efd8 Mimi Zohar      2009-02-04  176  		}
+3323eec921efd8 Mimi Zohar      2009-02-04  177  	}
+3323eec921efd8 Mimi Zohar      2009-02-04  178  =
 
-15f5c7e54e658a Boris Brezillon      2020-03-13   83  	{ "m25p05-nonjedec", =
- INFO(0, 0,  32 * 1024,   2, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   84  	{ "m25p10-nonjedec", =
- INFO(0, 0,  32 * 1024,   4, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   85  	{ "m25p20-nonjedec", =
- INFO(0, 0,  64 * 1024,   4, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   86  	{ "m25p40-nonjedec", =
- INFO(0, 0,  64 * 1024,   8, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   87  	{ "m25p80-nonjedec", =
- INFO(0, 0,  64 * 1024,  16, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   88  	{ "m25p16-nonjedec", =
- INFO(0, 0,  64 * 1024,  32, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   89  	{ "m25p32-nonjedec", =
- INFO(0, 0,  64 * 1024,  64, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   90  	{ "m25p64-nonjedec", =
- INFO(0, 0,  64 * 1024, 128, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   91  	{ "m25p128-nonjedec",=
- INFO(0, 0, 256 * 1024,  64, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   92  =
+52c208397c246f Tushar Sugandhi 2021-05-10  179  	result =3D ima_add_digest_=
+entry(entry,
+52c208397c246f Tushar Sugandhi 2021-05-10  180  				      !IS_ENABLED(CONFI=
+G_IMA_DISABLE_HTABLE));
+3323eec921efd8 Mimi Zohar      2009-02-04  181  	if (result < 0) {
+3323eec921efd8 Mimi Zohar      2009-02-04  182  		audit_cause =3D "ENOMEM";
+3323eec921efd8 Mimi Zohar      2009-02-04  183  		audit_info =3D 0;
+3323eec921efd8 Mimi Zohar      2009-02-04  184  		goto out;
+3323eec921efd8 Mimi Zohar      2009-02-04  185  	}
+3323eec921efd8 Mimi Zohar      2009-02-04  186  =
 
-15f5c7e54e658a Boris Brezillon      2020-03-13   93  	{ "m45pe10", INFO(0x2=
-04011,  0, 64 * 1024,    2, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   94  	{ "m45pe80", INFO(0x2=
-04014,  0, 64 * 1024,   16, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   95  	{ "m45pe16", INFO(0x2=
-04015,  0, 64 * 1024,   32, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   96  =
+3323eec921efd8 Mimi Zohar      2009-02-04  187  	if (violation)		/* invalid=
+ate pcr */
+1ea973df6e2166 Roberto Sassu   2020-03-25  188  		digests_arg =3D digests;
+3323eec921efd8 Mimi Zohar      2009-02-04  189  =
 
-15f5c7e54e658a Boris Brezillon      2020-03-13   97  	{ "m25pe20", INFO(0x2=
-08012,  0, 64 * 1024,  4,       0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   98  	{ "m25pe80", INFO(0x2=
-08014,  0, 64 * 1024, 16,       0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13   99  	{ "m25pe16", INFO(0x2=
-08015,  0, 64 * 1024, 32, SECT_4K) },
-15f5c7e54e658a Boris Brezillon      2020-03-13  100  =
+1ea973df6e2166 Roberto Sassu   2020-03-25  190  	tpmresult =3D ima_pcr_exte=
+nd(digests_arg, entry->pcr);
+7b7e5916aa2f46 Roberto Sassu   2011-12-19  191  	if (tpmresult !=3D 0) {
+7b7e5916aa2f46 Roberto Sassu   2011-12-19  192  		snprintf(tpm_audit_cause,=
+ AUDIT_CAUSE_LEN_MAX, "TPM_error(%d)",
+7b7e5916aa2f46 Roberto Sassu   2011-12-19  193  			 tpmresult);
+7b7e5916aa2f46 Roberto Sassu   2011-12-19  194  		audit_cause =3D tpm_audit=
+_cause;
+3323eec921efd8 Mimi Zohar      2009-02-04  195  		audit_info =3D 0;
+3323eec921efd8 Mimi Zohar      2009-02-04  196  	}
+3323eec921efd8 Mimi Zohar      2009-02-04  197  out:
+3323eec921efd8 Mimi Zohar      2009-02-04  198  	mutex_unlock(&ima_extend_l=
+ist_mutex);
+9803d413f41db8 Roberto Sassu   2013-06-07  199  	integrity_audit_msg(AUDIT_=
+INTEGRITY_PCR, inode, filename,
+3323eec921efd8 Mimi Zohar      2009-02-04  200  			    op, audit_cause, res=
+ult, audit_info);
+3323eec921efd8 Mimi Zohar      2009-02-04  201  	return result;
+3323eec921efd8 Mimi Zohar      2009-02-04  202  }
+94c3aac567a9dd Mimi Zohar      2016-12-19  203  =
 
-15f5c7e54e658a Boris Brezillon      2020-03-13  101  	{ "m25px16",    INFO(=
-0x207115,  0, 64 * 1024, 32, SECT_4K) },
-15f5c7e54e658a Boris Brezillon      2020-03-13  102  	{ "m25px32",    INFO(=
-0x207116,  0, 64 * 1024, 64, SECT_4K) },
-15f5c7e54e658a Boris Brezillon      2020-03-13  103  	{ "m25px32-s0", INFO(=
-0x207316,  0, 64 * 1024, 64, SECT_4K) },
-15f5c7e54e658a Boris Brezillon      2020-03-13  104  	{ "m25px32-s1", INFO(=
-0x206316,  0, 64 * 1024, 64, SECT_4K) },
-15f5c7e54e658a Boris Brezillon      2020-03-13  105  	{ "m25px64",    INFO(=
-0x207117,  0, 64 * 1024, 128, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13  106  	{ "m25px80",    INFO(=
-0x207114,  0, 64 * 1024, 16, 0) },
-15f5c7e54e658a Boris Brezillon      2020-03-13  107  };
-15f5c7e54e658a Boris Brezillon      2020-03-13  108  =
 
+:::::: The code at line 163 was first introduced by commit
+:::::: 2592677c0486e64a08e0b930a7dfa6fbf77e6fc1 ima: Use ima_hash_algo for =
+collision detection in the measurement list
+
+:::::: TO: Roberto Sassu <roberto.sassu@huawei.com>
+:::::: CC: Mimi Zohar <zohar@linux.ibm.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0599664200515961069==--
+--===============5484768817264904140==--
 
