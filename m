@@ -1,140 +1,179 @@
-Content-Type: multipart/mixed; boundary="===============7622900374462944476=="
+Content-Type: multipart/mixed; boundary="===============6182099134645231485=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v9 1/3] bluetooth: msft: Handle MSFT Monitor Device Event
-Date: Fri, 17 Dec 2021 14:58:25 +0800
-Message-ID: <202112171439.KaggScQN-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
+Date: Fri, 17 Dec 2021 14:07:16 +0800
+Message-ID: <202112171318.cviU6AwG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7622900374462944476==
+--===============6182099134645231485==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211216044839.v9.1.Ic0a40b84dee3825302890aaea690e73165c71820=
-@changeid>
-References: <20211216044839.v9.1.Ic0a40b84dee3825302890aaea690e73165c71820(=
-a)changeid>
-TO: Manish Mandlik <mmandlik@google.com>
-TO: marcel(a)holtmann.org
-TO: luiz.dentz(a)gmail.com
-CC: chromeos-bluetooth-upstreaming(a)chromium.org
-CC: linux-bluetooth(a)vger.kernel.org
-CC: Manish Mandlik <mmandlik@google.com>
-CC: "Miao-chen Chou" <mcchou@google.com>
-CC: Jakub Kicinski <kuba@kernel.org>
-CC: Johan Hedberg <johan.hedberg@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
-CC: netdev(a)vger.kernel.org
+TO: Matthew Auld <matthew.auld@intel.com>
 
-Hi Manish,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on bluetooth-next/master]
-[also build test WARNING on next-20211216]
-[cannot apply to bluetooth/master v5.16-rc5]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Manish-Mandlik/bluetooth-m=
-sft-Handle-MSFT-Monitor-Device-Event/20211216-205227
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
--next.git master
-:::::: branch date: 18 hours ago
-:::::: commit date: 18 hours ago
-config: i386-randconfig-m021-20211216 (https://download.01.org/0day-ci/arch=
-ive/20211217/202112171439.KaggScQN-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6441998e2e37131b0a4c310af9156d79d3351c16
+commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
+y_man
+date:   6 months ago
+:::::: branch date: 7 hours ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211217/202112171318.cviU6AwG-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-net/bluetooth/msft.c:757 msft_vendor_evt() warn: inconsistent returns '&hde=
-v->lock'.
+New smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
+ warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
 
-vim +757 net/bluetooth/msft.c
+Old smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
+ warn: should 'bo->page_alignment << 12' be a 64 bit type?
 
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  713  =
+vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
 
-3e54c5890c87a30 Luiz Augusto von Dentz 2021-12-01  714  void msft_vendor_ev=
-t(struct hci_dev *hdev, void *data, struct sk_buff *skb)
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  715  {
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  716  	struct msft_data *=
-msft =3D hdev->msft_data;
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  717  	u8 *evt_prefix;
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  718  	u8 *evt;
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  719  =
+88be9a0a06b73e Matthew Auld 2021-06-16   28  =
 
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  720  	if (!msft)
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  721  		return;
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  722  =
+88be9a0a06b73e Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man_=
+alloc(struct ttm_resource_manager *man,
+88be9a0a06b73e Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obje=
+ct *bo,
+88be9a0a06b73e Matthew Auld 2021-06-16   31  				    const struct ttm_place=
+ *place,
+88be9a0a06b73e Matthew Auld 2021-06-16   32  				    struct ttm_resource **=
+res)
+88be9a0a06b73e Matthew Auld 2021-06-16   33  {
+88be9a0a06b73e Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manager=
+ *bman =3D to_buddy_manager(man);
+88be9a0a06b73e Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resourc=
+e *bman_res;
+88be9a0a06b73e Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D =
+&bman->mm;
+88be9a0a06b73e Matthew Auld 2021-06-16   37  	unsigned long n_pages;
+88be9a0a06b73e Matthew Auld 2021-06-16   38  	unsigned int min_order;
+88be9a0a06b73e Matthew Auld 2021-06-16   39  	u64 min_page_size;
+88be9a0a06b73e Matthew Auld 2021-06-16   40  	u64 size;
+88be9a0a06b73e Matthew Auld 2021-06-16   41  	int err;
+88be9a0a06b73e Matthew Auld 2021-06-16   42  =
 
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  723  	/* When the extens=
-ion has defined an event prefix, check that it
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  724  	 * matches, and ot=
-herwise just return.
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  725  	 */
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  726  	if (msft->evt_pref=
-ix_len > 0) {
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  727  		evt_prefix =3D ms=
-ft_skb_pull(hdev, skb, 0, msft->evt_prefix_len);
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  728  		if (!evt_prefix)
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  729  			return;
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  730  =
+88be9a0a06b73e Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pla=
+ce->lpfn);
+88be9a0a06b73e Matthew Auld 2021-06-16   44  =
 
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  731  		if (memcmp(evt_pr=
-efix, msft->evt_prefix, msft->evt_prefix_len))
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  732  			return;
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  733  	}
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  734  =
+88be9a0a06b73e Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(*=
+bman_res), GFP_KERNEL);
+88be9a0a06b73e Matthew Auld 2021-06-16   46  	if (!bman_res)
+88be9a0a06b73e Matthew Auld 2021-06-16   47  		return -ENOMEM;
+88be9a0a06b73e Matthew Auld 2021-06-16   48  =
 
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  735  	/* Every event sta=
-rts at least with an event code and the rest of
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  736  	 * the data is var=
-iable and depends on the event code.
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  737  	 */
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  738  	if (skb->len < 1)
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  739  		return;
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  740  =
+88be9a0a06b73e Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place, =
+&bman_res->base);
+88be9a0a06b73e Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->blo=
+cks);
+88be9a0a06b73e Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
+88be9a0a06b73e Matthew Auld 2021-06-16   52  =
 
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  741  	hci_dev_lock(hdev);
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  742  =
+88be9a0a06b73e Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.nu=
+m_pages);
+88be9a0a06b73e Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_p=
+ages << PAGE_SHIFT;
+88be9a0a06b73e Matthew Auld 2021-06-16   55  =
 
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  743  	evt =3D msft_skb_p=
-ull(hdev, skb, 0, sizeof(*evt));
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  744  	if (!evt)
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  745  		return;
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  746  =
+88be9a0a06b73e Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_al=
+ignment << PAGE_SHIFT;
+88be9a0a06b73e Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < mm=
+->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page_=
+size) - ilog2(mm->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FLA=
+G_CONTIGUOUS) {
+88be9a0a06b73e Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two(=
+size);
+88be9a0a06b73e Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) - =
+ilog2(mm->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   62  	}
+88be9a0a06b73e Matthew Auld 2021-06-16   63  =
 
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  747  	switch (*evt) {
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  748  	case MSFT_EV_LE_MO=
-NITOR_DEVICE:
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  749  		msft_monitor_devi=
-ce_evt(hdev, skb);
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  750  		break;
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  751  =
+88be9a0a06b73e Matthew Auld 2021-06-16   64  	if (size > mm->size) {
+88be9a0a06b73e Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
+88be9a0a06b73e Matthew Auld 2021-06-16   66  		goto err_free_res;
+88be9a0a06b73e Matthew Auld 2021-06-16   67  	}
+88be9a0a06b73e Matthew Auld 2021-06-16   68  =
 
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  752  	default:
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  753  		bt_dev_dbg(hdev, =
-"MSFT vendor event 0x%02x", *evt);
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  754  		break;
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  755  	}
-e5af6a85decc8c1 Manish Mandlik         2021-12-16  756  =
+88be9a0a06b73e Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm-=
+>chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   70  =
 
-e5af6a85decc8c1 Manish Mandlik         2021-12-16 @757  	hci_dev_unlock(hde=
-v);
-145373cb1b1fcdb Miao-chen Chou         2020-04-03  758  }
-e5e1e7fd470ccf2 Miao-chen Chou         2020-06-17  759  =
+88be9a0a06b73e Matthew Auld 2021-06-16   71  	do {
+88be9a0a06b73e Matthew Auld 2021-06-16   72  		struct i915_buddy_block *blo=
+ck;
+88be9a0a06b73e Matthew Auld 2021-06-16   73  		unsigned int order;
+88be9a0a06b73e Matthew Auld 2021-06-16   74  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
+88be9a0a06b73e Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_o=
+rder);
+88be9a0a06b73e Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_order=
+);
+88be9a0a06b73e Matthew Auld 2021-06-16   78  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   79  		do {
+88be9a0a06b73e Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc(=
+mm, order);
+88be9a0a06b73e Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
+88be9a0a06b73e Matthew Auld 2021-06-16   84  				break;
+88be9a0a06b73e Matthew Auld 2021-06-16   85  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_orde=
+r) {
+88be9a0a06b73e Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
+88be9a0a06b73e Matthew Auld 2021-06-16   88  				goto err_free_blocks;
+88be9a0a06b73e Matthew Auld 2021-06-16   89  			}
+88be9a0a06b73e Matthew Auld 2021-06-16   90  		} while (1);
+88be9a0a06b73e Matthew Auld 2021-06-16   91  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
+88be9a0a06b73e Matthew Auld 2021-06-16   93  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   94  		list_add_tail(&block->link, =
+&bman_res->blocks);
+88be9a0a06b73e Matthew Auld 2021-06-16   95  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   96  		if (!n_pages)
+88be9a0a06b73e Matthew Auld 2021-06-16   97  			break;
+88be9a0a06b73e Matthew Auld 2021-06-16   98  	} while (1);
+88be9a0a06b73e Matthew Auld 2021-06-16   99  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
+88be9a0a06b73e Matthew Auld 2021-06-16  101  	return 0;
+88be9a0a06b73e Matthew Auld 2021-06-16  102  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16  103  err_free_blocks:
+88be9a0a06b73e Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bma=
+n_res->blocks);
+88be9a0a06b73e Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16  107  err_free_res:
+88be9a0a06b73e Matthew Auld 2021-06-16  108  	kfree(bman_res);
+88be9a0a06b73e Matthew Auld 2021-06-16  109  	return err;
+88be9a0a06b73e Matthew Auld 2021-06-16  110  }
+88be9a0a06b73e Matthew Auld 2021-06-16  111  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7622900374462944476==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============6182099134645231485==--
 
