@@ -1,192 +1,434 @@
-Content-Type: multipart/mixed; boundary="===============6613930052616820106=="
+Content-Type: multipart/mixed; boundary="===============7722447560159907771=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [goldwynr:iomap 27/33] fs/btrfs/file.c:1517:19-21: ERROR: reference preceded by free on line 1516
-Date: Thu, 30 Dec 2021 19:59:25 +0800
-Message-ID: <202112301901.eLLE2zEp-lkp@intel.com>
+Subject: [brgl:gpio/for-next 16/29] drivers/gpio/gpio-sim.c:889:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+Date: Fri, 17 Dec 2021 15:19:44 +0800
+Message-ID: <202112171504.U1a3Ld4A-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6613930052616820106==
+--===============7722447560159907771==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Goldwyn Rodrigues <rgoldwyn@suse.com>
+TO: Bartosz Golaszewski <brgl@bgdev.pl>
 
-tree:   https://github.com/goldwynr/linux iomap
-head:   30c74a8c201365178cae26d0d7aefa120c3245ab
-commit: f3623890897fee87c24f37ae01a2f1a5c35a39d9 [27/33] btrfs: use srcmap =
-for read-before-write cases
-:::::: branch date: 13 hours ago
-:::::: commit date: 18 hours ago
-config: i386-randconfig-c001-20211228 (https://download.01.org/0day-ci/arch=
-ive/20211230/202112301901.eLLE2zEp-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio=
+/for-next
+head:   c492c8dc2ed86825ebf02f0de1da5c9b1d641b80
+commit: 83960fcf4818607692ee7dd7ec566bab944d71a8 [16/29] gpio: sim: new tes=
+ting module
+:::::: branch date: 22 hours ago
+:::::: commit date: 4 days ago
+config: arm-randconfig-c002-20211216 (https://download.01.org/0day-ci/archi=
+ve/20211217/202112171504.U1a3Ld4A-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
+ab9fbb364faa1581e4f92ba3119a872fba)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/co=
+mmit/?id=3D83960fcf4818607692ee7dd7ec566bab944d71a8
+        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git=
+/brgl/linux.git
+        git fetch --no-tags brgl gpio/for-next
+        git checkout 83960fcf4818607692ee7dd7ec566bab944d71a8
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-cocci warnings: (new ones prefixed by >>)
->> fs/btrfs/file.c:1517:19-21: ERROR: reference preceded by free on line 15=
-16
+clang-analyzer warnings: (new ones prefixed by >>)
+                ^~~~~
+   arch/arm/kernel/setup.c:1109:2: note: Taking true branch
+           if (!mdesc)
+           ^
+   arch/arm/kernel/setup.c:1110:3: note: Value assigned to 'mdesc'
+                   mdesc =3D setup_machine_tags(atags_vaddr, __machine_arch=
+_type);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   arch/arm/kernel/setup.c:1111:6: note: Assuming 'mdesc' is null
+           if (!mdesc) {
+               ^~~~~~
+   arch/arm/kernel/setup.c:1111:2: note: Taking true branch
+           if (!mdesc) {
+           ^
+   arch/arm/kernel/setup.c:1115:7: note: Assuming '__atags_pointer' is 0
+                   if (__atags_pointer)
+                       ^~~~~~~~~~~~~~~
+   arch/arm/kernel/setup.c:1115:3: note: Taking false branch
+                   if (__atags_pointer)
+                   ^
+   arch/arm/kernel/setup.c:1121:17: note: Access to field 'name' results in=
+ a dereference of a null pointer (loaded from variable 'mdesc')
+           machine_name =3D mdesc->name;
+                          ^~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+   Suppressed 13 warnings (9 in non-user code, 4 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   security/keys/request_key.c:119:21: warning: Value stored to 'cred' duri=
+ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           const struct cred *cred =3D current_cred();
+                              ^~~~
+   security/keys/request_key.c:119:21: note: Value stored to 'cred' during =
+its initialization is never read
+           const struct cred *cred =3D current_cred();
+                              ^~~~
+   security/keys/request_key.c:510:3: warning: Value stored to 'ret' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   ret =3D 0;
+                   ^     ~
+   security/keys/request_key.c:510:3: note: Value stored to 'ret' is never =
+read
+                   ret =3D 0;
+                   ^     ~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/gpio/gpio-rcar.c:468:13: warning: The result of the right shift =
+is undefined due to shifting by '32', which is greater or equal to the widt=
+h of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResul=
+t]
+           u32 mask =3D GENMASK(p->gpio_chip.ngpio - 1, 0);
+                      ^
+   include/linux/bits.h:38:31: note: expanded from macro 'GENMASK'
+           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+                                        ^
+   include/linux/bits.h:36:11: note: expanded from macro '__GENMASK'
+            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+                    ^
+   drivers/gpio/gpio-rcar.c:619:19: note: Assuming 'offset' is >=3D field '=
+ngpio'
+           for (offset =3D 0; offset < p->gpio_chip.ngpio; offset++) {
+                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-rcar.c:619:2: note: Loop condition is false. Execution=
+ continues on line 647
+           for (offset =3D 0; offset < p->gpio_chip.ngpio; offset++) {
+           ^
+   drivers/gpio/gpio-rcar.c:647:6: note: Assuming field 'has_inen' is true
+           if (p->info.has_inen)
+               ^~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-rcar.c:647:2: note: Taking true branch
+           if (p->info.has_inen)
+           ^
+   drivers/gpio/gpio-rcar.c:648:3: note: Calling 'gpio_rcar_enable_inputs'
+                   gpio_rcar_enable_inputs(p);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-rcar.c:468:13: note: The result of the right shift is =
+undefined due to shifting by '32', which is greater or equal to the width o=
+f type 'unsigned long'
+           u32 mask =3D GENMASK(p->gpio_chip.ngpio - 1, 0);
+                      ^
+   include/linux/bits.h:38:31: note: expanded from macro 'GENMASK'
+           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
+                                        ^~~~~~~~~~~~~~~
+   include/linux/bits.h:36:11: note: expanded from macro '__GENMASK'
+            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
+                    ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> drivers/gpio/gpio-sim.c:889:7: warning: Branch condition evaluates to a =
+garbage value [clang-analyzer-core.uninitialized.Branch]
+                   if (ret) {
+                       ^
+   drivers/gpio/gpio-sim.c:953:6: note: Assuming 'ret' is 0
+           if (ret)
+               ^~~
+   drivers/gpio/gpio-sim.c:953:2: note: Taking false branch
+           if (ret)
+           ^
+   drivers/gpio/gpio-sim.c:958:7: note: Assuming 'live' is true
+           if ((!live && !gpio_sim_device_is_live_unlocked(dev)) ||
+                ^~~~~
+   drivers/gpio/gpio-sim.c:958:13: note: Left side of '&&' is false
+           if ((!live && !gpio_sim_device_is_live_unlocked(dev)) ||
+                      ^
+   drivers/gpio/gpio-sim.c:959:7: note: 'live' is true
+               (live && gpio_sim_device_is_live_unlocked(dev)))
+                ^~~~
+   drivers/gpio/gpio-sim.c:959:7: note: Left side of '&&' is true
+   drivers/gpio/gpio-sim.c:958:2: note: Taking false branch
+           if ((!live && !gpio_sim_device_is_live_unlocked(dev)) ||
+           ^
+   drivers/gpio/gpio-sim.c:961:11: note: 'live' is true
+           else if (live)
+                    ^~~~
+   drivers/gpio/gpio-sim.c:961:7: note: Taking true branch
+           else if (live)
+                ^
+   drivers/gpio/gpio-sim.c:962:9: note: Calling 'gpio_sim_device_activate_u=
+nlocked'
+                   ret =3D gpio_sim_device_activate_unlocked(dev);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-sim.c:868:2: note: 'ret' declared without an initial v=
+alue
+           int ret;
+           ^~~~~~~
+   drivers/gpio/gpio-sim.c:870:6: note: Assuming the condition is false
+           if (list_empty(&dev->bank_list))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-sim.c:870:2: note: Taking false branch
+           if (list_empty(&dev->bank_list))
+           ^
+   drivers/gpio/gpio-sim.c:878:6: note: Assuming the condition is false
+           if (gpio_sim_bank_labels_non_unique(dev))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-sim.c:878:2: note: Taking false branch
+           if (gpio_sim_bank_labels_non_unique(dev))
+           ^
+   drivers/gpio/gpio-sim.c:884:6: note: Calling 'IS_ERR'
+           if (IS_ERR(swnode))
+               ^~~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpio/gpio-sim.c:884:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(swnode))
+               ^~~~~~~~~~~~~~
+   drivers/gpio/gpio-sim.c:884:2: note: Taking false branch
+           if (IS_ERR(swnode))
+           ^
+   drivers/gpio/gpio-sim.c:887:2: note: Loop condition is true.  Entering l=
+oop body
+           list_for_each_entry(bank, &dev->bank_list, siblings) {
+           ^
+   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
+ry'
+           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
+  \
+           ^
+   drivers/gpio/gpio-sim.c:889:7: note: Branch condition evaluates to a gar=
+bage value
+                   if (ret) {
+                       ^~~
+   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   lib/zstd/compress/fse_compress.c:85:9: warning: The result of the left s=
+hift is undefined due to shifting by '4294967294', which is greater or equa=
+l to the width of type 'unsigned long long' [clang-analyzer-core.UndefinedB=
+inaryOperatorResult]
+       if (FSE_BUILD_CTABLE_WORKSPACE_SIZE(maxSymbolValue, tableLog) > wksp=
+Size) return ERROR(tableLog_tooLarge);
+           ^
+   lib/zstd/compress/../common/fse.h:338:87: note: expanded from macro 'FSE=
+_BUILD_CTABLE_WORKSPACE_SIZE'
+   #define FSE_BUILD_CTABLE_WORKSPACE_SIZE(maxSymbolValue, tableLog) (sizeo=
+f(unsigned) * FSE_BUILD_CTABLE_WORKSPACE_SIZE_U32(maxSymbolValue, tableLog))
+                                                                           =
+              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/zstd/compress/../common/fse.h:337:99: note: expanded from macro 'FSE=
+_BUILD_CTABLE_WORKSPACE_SIZE_U32'
+   #define FSE_BUILD_CTABLE_WORKSPACE_SIZE_U32(maxSymbolValue, tableLog) (m=
+axSymbolValue + 2 + (1ull << (tableLog - 2)))
+                                                                           =
+                          ^  ~~~~~~~~~~~~~~
+   lib/zstd/compress/fse_compress.c:75:56: note: Assuming 'tableLog' is 0
+       void* const FSCT =3D ((U32*)ptr) + 1 /* header */ + (tableLog ? tabl=
+eSize>>1 : 1) ;
+                                                          ^~~~~~~~
+   lib/zstd/compress/fse_compress.c:75:56: note: '?' condition is false
+   lib/zstd/compress/fse_compress.c:84:9: note: Assuming the condition is f=
+alse
+       if ((size_t)workSpace & 3) return ERROR(GENERIC); /* Must be 4 byte =
+aligned */
+           ^~~~~~~~~~~~~~~~~~~~~
 
-vim +1517 fs/btrfs/file.c
+vim +889 drivers/gpio/gpio-sim.c
 
-e95dc238df949a Goldwyn Rodrigues 2021-05-11  1489  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  861  =
 
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1490  static int btrfs_buffere=
-d_iomap_begin(struct inode *inode, loff_t pos,
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1491  		loff_t length, unsigne=
-d flags, struct iomap *iomap,
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1492  		struct iomap *srcmap)
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1493  {
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1494  	int ret;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1495  	size_t write_bytes =3D =
-length;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1496  	struct btrfs_fs_info *f=
-s_info =3D btrfs_sb(inode->i_sb);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1497  	size_t sector_offset =
-=3D pos & (fs_info->sectorsize - 1);
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1498  	struct btrfs_iomap *bi;
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1499  	loff_t end =3D pos + le=
-ngth;
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1500  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  862  static int gpio_sim_dev=
+ice_activate_unlocked(struct gpio_sim_device *dev)
+83960fcf481860 Bartosz Golaszewski 2021-12-07  863  {
+83960fcf481860 Bartosz Golaszewski 2021-12-07  864  	struct platform_device=
+_info pdevinfo;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  865  	struct fwnode_handle *=
+swnode;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  866  	struct platform_device=
+ *pdev;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  867  	struct gpio_sim_bank *=
+bank;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  868  	int ret;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  869  =
 
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1501  	bi =3D kzalloc(sizeof(s=
-truct btrfs_iomap), GFP_NOFS);
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1502  	if (!bi)
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1503  		return -ENOMEM;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1504  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  870  	if (list_empty(&dev->b=
+ank_list))
+83960fcf481860 Bartosz Golaszewski 2021-12-07  871  		return -ENODATA;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  872  =
 
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1505  	if ((pos & (PAGE_SIZE -=
- 1) || end & (PAGE_SIZE - 1))) {
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1506  		loff_t isize =3D i_siz=
-e_read(inode);
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1507  		if (pos >=3D isize) {
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1508  			srcmap->addr =3D IOMA=
-P_NULL_ADDR;
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1509  			srcmap->type =3D IOMA=
-P_HOLE;
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1510  			srcmap->offset =3D is=
-ize;
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1511  			srcmap->length =3D en=
-d - isize;
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1512  		} else {
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1513  			bi->em =3D btrfs_get_=
-extent(BTRFS_I(inode), NULL, 0,
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1514  					pos - sector_offset=
-, length);
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1515  			if (IS_ERR(bi->em)) {
-f3623890897fee Goldwyn Rodrigues 2021-04-21 @1516  				kfree(bi);
-f3623890897fee Goldwyn Rodrigues 2021-04-21 @1517  				return PTR_ERR(bi->e=
-m);
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1518  			}
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1519  			btrfs_em_to_iomap(ino=
-de, bi->em, srcmap,
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1520  					pos - sector_offset=
+83960fcf481860 Bartosz Golaszewski 2021-12-07  873  	/*
+83960fcf481860 Bartosz Golaszewski 2021-12-07  874  	 * Non-unique GPIO dev=
+ice labels are a corner-case we don't support
+83960fcf481860 Bartosz Golaszewski 2021-12-07  875  	 * as it would interfe=
+re with machine hogging mechanism and has little
+83960fcf481860 Bartosz Golaszewski 2021-12-07  876  	 * use in real life.
+83960fcf481860 Bartosz Golaszewski 2021-12-07  877  	 */
+83960fcf481860 Bartosz Golaszewski 2021-12-07  878  	if (gpio_sim_bank_labe=
+ls_non_unique(dev))
+83960fcf481860 Bartosz Golaszewski 2021-12-07  879  		return -EINVAL;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  880  =
+
+83960fcf481860 Bartosz Golaszewski 2021-12-07  881  	memset(&pdevinfo, 0, s=
+izeof(pdevinfo));
+83960fcf481860 Bartosz Golaszewski 2021-12-07  882  =
+
+83960fcf481860 Bartosz Golaszewski 2021-12-07  883  	swnode =3D fwnode_crea=
+te_software_node(NULL, NULL);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  884  	if (IS_ERR(swnode))
+83960fcf481860 Bartosz Golaszewski 2021-12-07  885  		return PTR_ERR(swnode=
 );
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1521  		}
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1522  	}
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1523  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  886  =
 
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1524  	if ((srcmap->type !=3D =
-IOMAP_HOLE) &&
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1525  			(end > srcmap->offset=
- + srcmap->length))
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1526  			write_bytes =3D srcma=
-p->offset + srcmap->length - pos;
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1527  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  887  	list_for_each_entry(ba=
+nk, &dev->bank_list, siblings) {
+83960fcf481860 Bartosz Golaszewski 2021-12-07  888  		bank->swnode =3D gpio=
+_sim_make_bank_swnode(bank, swnode);
+83960fcf481860 Bartosz Golaszewski 2021-12-07 @889  		if (ret) {
+83960fcf481860 Bartosz Golaszewski 2021-12-07  890  			gpio_sim_remove_swno=
+de_recursive(swnode);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  891  			return ret;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  892  		}
+83960fcf481860 Bartosz Golaszewski 2021-12-07  893  	}
+83960fcf481860 Bartosz Golaszewski 2021-12-07  894  =
 
-f3623890897fee Goldwyn Rodrigues 2021-04-21  1528  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  895  	ret =3D gpio_sim_add_h=
+ogs(dev);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  896  	if (ret) {
+83960fcf481860 Bartosz Golaszewski 2021-12-07  897  		gpio_sim_remove_swnod=
+e_recursive(swnode);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  898  		return ret;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  899  	}
+83960fcf481860 Bartosz Golaszewski 2021-12-07  900  =
 
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1529  	ret =3D btrfs_check_dat=
-a_free_space(BTRFS_I(inode),
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1530  			&bi->data_reserved, p=
-os, write_bytes);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1531  	if (ret < 0) {
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1532  		/*
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1533  		 * If we don't have to=
- COW@the offset, reserve
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1534  		 * metadata only. writ=
-e_bytes may get smaller than
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1535  		 * requested here.
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1536  		 */
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1537  		if (btrfs_check_nocow_=
-lock(BTRFS_I(inode), pos,
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1538  					&write_bytes) > 0)
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1539  			bi->metadata_only =3D=
- true;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1540  		else
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1541  			return ret;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1542  	}
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1543  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  901  	pdevinfo.name =3D "gpi=
+o-sim";
+83960fcf481860 Bartosz Golaszewski 2021-12-07  902  	pdevinfo.fwnode =3D sw=
+node;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  903  	pdevinfo.id =3D dev->i=
+d;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  904  =
 
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1544  	bi->reserved_bytes =3D =
-round_up(write_bytes + sector_offset,
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1545  			fs_info->sectorsize);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1546  	WARN_ON(bi->reserved_by=
-tes =3D=3D 0);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1547  	ret =3D btrfs_delalloc_=
-reserve_metadata(BTRFS_I(inode),
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1548  			bi->reserved_bytes);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1549  	if (ret) {
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1550  		if (!bi->metadata_only)
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1551  			btrfs_free_reserved_d=
-ata_space(BTRFS_I(inode),
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1552  					bi->data_reserved, =
-pos,
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1553  					write_bytes);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1554  		else
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1555  			btrfs_check_nocow_unl=
-ock(BTRFS_I(inode));
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1556  		return ret;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1557  	}
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1558  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  905  	reinit_completion(&dev=
+->probe_completion);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  906  	dev->driver_bound =3D =
+false;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  907  	bus_register_notifier(=
+&platform_bus_type, &dev->bus_notifier);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  908  =
 
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1559  	if (pos < inode->i_size=
+83960fcf481860 Bartosz Golaszewski 2021-12-07  909  	pdev =3D platform_devi=
+ce_register_full(&pdevinfo);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  910  	if (IS_ERR(pdev)) {
+83960fcf481860 Bartosz Golaszewski 2021-12-07  911  		bus_unregister_notifi=
+er(&platform_bus_type, &dev->bus_notifier);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  912  		gpio_sim_remove_hogs(=
+dev);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  913  		gpio_sim_remove_swnod=
+e_recursive(swnode);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  914  		return PTR_ERR(pdev);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  915  	}
+83960fcf481860 Bartosz Golaszewski 2021-12-07  916  =
+
+83960fcf481860 Bartosz Golaszewski 2021-12-07  917  	wait_for_completion(&d=
+ev->probe_completion);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  918  	bus_unregister_notifie=
+r(&platform_bus_type, &dev->bus_notifier);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  919  =
+
+83960fcf481860 Bartosz Golaszewski 2021-12-07  920  	if (!dev->driver_bound=
 ) {
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1560  		bi->lockstart =3D roun=
-d_down(pos, fs_info->sectorsize);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1561  		bi->lockend =3D round_=
-up(pos + write_bytes, fs_info->sectorsize) - 1;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1562  		btrfs_lock_and_flush_o=
-rdered_range(BTRFS_I(inode),
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1563  				bi->lockstart, bi->l=
-ockend,
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1564  				&bi->cached_state);
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1565  		bi->extents_locked =3D=
- true;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1566  	}
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1567  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  921  		/* Probe failed, chec=
+k kernel log. */
+83960fcf481860 Bartosz Golaszewski 2021-12-07  922  		platform_device_unreg=
+ister(pdev);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  923  		gpio_sim_remove_hogs(=
+dev);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  924  		gpio_sim_remove_swnod=
+e_recursive(swnode);
+83960fcf481860 Bartosz Golaszewski 2021-12-07  925  		return -ENXIO;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  926  	}
+83960fcf481860 Bartosz Golaszewski 2021-12-07  927  =
 
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1568  	iomap->private =3D bi;
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1569  	iomap->length =3D round=
-_up(write_bytes + sector_offset,
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1570  			         fs_info->sec=
-torsize);
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1571  	iomap->offset =3D round=
-_down(pos, fs_info->sectorsize);
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1572  	iomap->addr =3D IOMAP_N=
-ULL_ADDR;
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1573  	iomap->type =3D IOMAP_D=
-ELALLOC;
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1574  	iomap->bdev =3D fs_info=
-->fs_devices->latest_dev->bdev;
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1575  	iomap->page_ops =3D &bt=
-rfs_iomap_page_ops;
-f4ecee4435f363 Goldwyn Rodrigues 2021-04-21  1576  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  928  	dev->pdev =3D pdev;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  929  =
 
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1577  	return 0;
-b192ee8d4db510 Goldwyn Rodrigues 2021-04-21  1578  =
+83960fcf481860 Bartosz Golaszewski 2021-12-07  930  	return 0;
+83960fcf481860 Bartosz Golaszewski 2021-12-07  931  }
+83960fcf481860 Bartosz Golaszewski 2021-12-07  932  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6613930052616820106==--
+--===============7722447560159907771==--
 
