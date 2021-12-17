@@ -1,179 +1,216 @@
-Content-Type: multipart/mixed; boundary="===============6182099134645231485=="
+Content-Type: multipart/mixed; boundary="===============2725835908304591156=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
-Date: Fri, 17 Dec 2021 14:07:16 +0800
-Message-ID: <202112171318.cviU6AwG-lkp@intel.com>
+Subject: [linux-next:master 1258/7827] net/core/gro.c:493:5-12: ERROR: PTR_ERR applied after initialization to constant on line 441
+Date: Fri, 17 Dec 2021 13:36:08 +0800
+Message-ID: <202112171305.AMUGGrsD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6182099134645231485==
+--===============2725835908304591156==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Eric Dumazet <edumazet@google.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6441998e2e37131b0a4c310af9156d79d3351c16
-commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
-y_man
-date:   6 months ago
-:::::: branch date: 7 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211217/202112171318.cviU6AwG-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   fbf252e0967821ce890e23359d00c30132876014
+commit: 587652bbdd06ab38a4c1b85e40f933d2cf4a1147 [1258/7827] net: gro: popu=
+late net/core/gro.c
+:::::: branch date: 6 hours ago
+:::::: commit date: 4 weeks ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20211217/202112171305.AMUGGrsD-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
- warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
- warn: should 'bo->page_alignment << 12' be a 64 bit type?
+cocci warnings: (new ones prefixed by >>)
+>> net/core/gro.c:493:5-12: ERROR: PTR_ERR applied after initialization to =
+constant on line 441
 
-vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+vim +493 net/core/gro.c
 
-88be9a0a06b73e Matthew Auld 2021-06-16   28  =
+587652bbdd06ab Eric Dumazet 2021-11-15  433  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man_=
-alloc(struct ttm_resource_manager *man,
-88be9a0a06b73e Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obje=
-ct *bo,
-88be9a0a06b73e Matthew Auld 2021-06-16   31  				    const struct ttm_place=
- *place,
-88be9a0a06b73e Matthew Auld 2021-06-16   32  				    struct ttm_resource **=
-res)
-88be9a0a06b73e Matthew Auld 2021-06-16   33  {
-88be9a0a06b73e Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manager=
- *bman =3D to_buddy_manager(man);
-88be9a0a06b73e Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resourc=
-e *bman_res;
-88be9a0a06b73e Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D =
-&bman->mm;
-88be9a0a06b73e Matthew Auld 2021-06-16   37  	unsigned long n_pages;
-88be9a0a06b73e Matthew Auld 2021-06-16   38  	unsigned int min_order;
-88be9a0a06b73e Matthew Auld 2021-06-16   39  	u64 min_page_size;
-88be9a0a06b73e Matthew Auld 2021-06-16   40  	u64 size;
-88be9a0a06b73e Matthew Auld 2021-06-16   41  	int err;
-88be9a0a06b73e Matthew Auld 2021-06-16   42  =
+587652bbdd06ab Eric Dumazet 2021-11-15  434  static enum gro_result dev_gro=
+_receive(struct napi_struct *napi, struct sk_buff *skb)
+587652bbdd06ab Eric Dumazet 2021-11-15  435  {
+587652bbdd06ab Eric Dumazet 2021-11-15  436  	u32 bucket =3D skb_get_hash_r=
+aw(skb) & (GRO_HASH_BUCKETS - 1);
+587652bbdd06ab Eric Dumazet 2021-11-15  437  	struct gro_list *gro_list =3D=
+ &napi->gro_hash[bucket];
+587652bbdd06ab Eric Dumazet 2021-11-15  438  	struct list_head *head =3D &o=
+ffload_base;
+587652bbdd06ab Eric Dumazet 2021-11-15  439  	struct packet_offload *ptype;
+587652bbdd06ab Eric Dumazet 2021-11-15  440  	__be16 type =3D skb->protocol;
+587652bbdd06ab Eric Dumazet 2021-11-15 @441  	struct sk_buff *pp =3D NULL;
+587652bbdd06ab Eric Dumazet 2021-11-15  442  	enum gro_result ret;
+587652bbdd06ab Eric Dumazet 2021-11-15  443  	int same_flow;
+587652bbdd06ab Eric Dumazet 2021-11-15  444  	int grow;
+587652bbdd06ab Eric Dumazet 2021-11-15  445  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pla=
-ce->lpfn);
-88be9a0a06b73e Matthew Auld 2021-06-16   44  =
+587652bbdd06ab Eric Dumazet 2021-11-15  446  	if (netif_elide_gro(skb->dev))
+587652bbdd06ab Eric Dumazet 2021-11-15  447  		goto normal;
+587652bbdd06ab Eric Dumazet 2021-11-15  448  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(*=
-bman_res), GFP_KERNEL);
-88be9a0a06b73e Matthew Auld 2021-06-16   46  	if (!bman_res)
-88be9a0a06b73e Matthew Auld 2021-06-16   47  		return -ENOMEM;
-88be9a0a06b73e Matthew Auld 2021-06-16   48  =
+587652bbdd06ab Eric Dumazet 2021-11-15  449  	gro_list_prepare(&gro_list->l=
+ist, skb);
+587652bbdd06ab Eric Dumazet 2021-11-15  450  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place, =
-&bman_res->base);
-88be9a0a06b73e Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->blo=
-cks);
-88be9a0a06b73e Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
-88be9a0a06b73e Matthew Auld 2021-06-16   52  =
+587652bbdd06ab Eric Dumazet 2021-11-15  451  	rcu_read_lock();
+587652bbdd06ab Eric Dumazet 2021-11-15  452  	list_for_each_entry_rcu(ptype=
+, head, list) {
+587652bbdd06ab Eric Dumazet 2021-11-15  453  		if (ptype->type !=3D type ||=
+ !ptype->callbacks.gro_receive)
+587652bbdd06ab Eric Dumazet 2021-11-15  454  			continue;
+587652bbdd06ab Eric Dumazet 2021-11-15  455  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.nu=
-m_pages);
-88be9a0a06b73e Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_p=
-ages << PAGE_SHIFT;
-88be9a0a06b73e Matthew Auld 2021-06-16   55  =
+587652bbdd06ab Eric Dumazet 2021-11-15  456  		skb_set_network_header(skb, =
+skb_gro_offset(skb));
+587652bbdd06ab Eric Dumazet 2021-11-15  457  		skb_reset_mac_len(skb);
+587652bbdd06ab Eric Dumazet 2021-11-15  458  		NAPI_GRO_CB(skb)->same_flow =
+=3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  459  		NAPI_GRO_CB(skb)->flush =3D =
+skb_is_gso(skb) || skb_has_frag_list(skb);
+587652bbdd06ab Eric Dumazet 2021-11-15  460  		NAPI_GRO_CB(skb)->free =3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  461  		NAPI_GRO_CB(skb)->encap_mark=
+ =3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  462  		NAPI_GRO_CB(skb)->recursion_=
+counter =3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  463  		NAPI_GRO_CB(skb)->is_fou =3D=
+ 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  464  		NAPI_GRO_CB(skb)->is_atomic =
+=3D 1;
+587652bbdd06ab Eric Dumazet 2021-11-15  465  		NAPI_GRO_CB(skb)->gro_remcsu=
+m_start =3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  466  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_al=
-ignment << PAGE_SHIFT;
-88be9a0a06b73e Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < mm=
-->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page_=
-size) - ilog2(mm->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FLA=
-G_CONTIGUOUS) {
-88be9a0a06b73e Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two(=
-size);
-88be9a0a06b73e Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) - =
-ilog2(mm->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   62  	}
-88be9a0a06b73e Matthew Auld 2021-06-16   63  =
+587652bbdd06ab Eric Dumazet 2021-11-15  467  		/* Setup for GRO checksum va=
+lidation */
+587652bbdd06ab Eric Dumazet 2021-11-15  468  		switch (skb->ip_summed) {
+587652bbdd06ab Eric Dumazet 2021-11-15  469  		case CHECKSUM_COMPLETE:
+587652bbdd06ab Eric Dumazet 2021-11-15  470  			NAPI_GRO_CB(skb)->csum =3D =
+skb->csum;
+587652bbdd06ab Eric Dumazet 2021-11-15  471  			NAPI_GRO_CB(skb)->csum_vali=
+d =3D 1;
+587652bbdd06ab Eric Dumazet 2021-11-15  472  			NAPI_GRO_CB(skb)->csum_cnt =
+=3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  473  			break;
+587652bbdd06ab Eric Dumazet 2021-11-15  474  		case CHECKSUM_UNNECESSARY:
+587652bbdd06ab Eric Dumazet 2021-11-15  475  			NAPI_GRO_CB(skb)->csum_cnt =
+=3D skb->csum_level + 1;
+587652bbdd06ab Eric Dumazet 2021-11-15  476  			NAPI_GRO_CB(skb)->csum_vali=
+d =3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  477  			break;
+587652bbdd06ab Eric Dumazet 2021-11-15  478  		default:
+587652bbdd06ab Eric Dumazet 2021-11-15  479  			NAPI_GRO_CB(skb)->csum_cnt =
+=3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  480  			NAPI_GRO_CB(skb)->csum_vali=
+d =3D 0;
+587652bbdd06ab Eric Dumazet 2021-11-15  481  		}
+587652bbdd06ab Eric Dumazet 2021-11-15  482  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   64  	if (size > mm->size) {
-88be9a0a06b73e Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
-88be9a0a06b73e Matthew Auld 2021-06-16   66  		goto err_free_res;
-88be9a0a06b73e Matthew Auld 2021-06-16   67  	}
-88be9a0a06b73e Matthew Auld 2021-06-16   68  =
+587652bbdd06ab Eric Dumazet 2021-11-15  483  		pp =3D INDIRECT_CALL_INET(pt=
+ype->callbacks.gro_receive,
+587652bbdd06ab Eric Dumazet 2021-11-15  484  					ipv6_gro_receive, inet_gr=
+o_receive,
+587652bbdd06ab Eric Dumazet 2021-11-15  485  					&gro_list->list, skb);
+587652bbdd06ab Eric Dumazet 2021-11-15  486  		break;
+587652bbdd06ab Eric Dumazet 2021-11-15  487  	}
+587652bbdd06ab Eric Dumazet 2021-11-15  488  	rcu_read_unlock();
+587652bbdd06ab Eric Dumazet 2021-11-15  489  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm-=
->chunk_size);
-88be9a0a06b73e Matthew Auld 2021-06-16   70  =
+587652bbdd06ab Eric Dumazet 2021-11-15  490  	if (&ptype->list =3D=3D head)
+587652bbdd06ab Eric Dumazet 2021-11-15  491  		goto normal;
+587652bbdd06ab Eric Dumazet 2021-11-15  492  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   71  	do {
-88be9a0a06b73e Matthew Auld 2021-06-16   72  		struct i915_buddy_block *blo=
-ck;
-88be9a0a06b73e Matthew Auld 2021-06-16   73  		unsigned int order;
-88be9a0a06b73e Matthew Auld 2021-06-16   74  =
+587652bbdd06ab Eric Dumazet 2021-11-15 @493  	if (PTR_ERR(pp) =3D=3D -EINPR=
+OGRESS) {
+587652bbdd06ab Eric Dumazet 2021-11-15  494  		ret =3D GRO_CONSUMED;
+587652bbdd06ab Eric Dumazet 2021-11-15  495  		goto ok;
+587652bbdd06ab Eric Dumazet 2021-11-15  496  	}
+587652bbdd06ab Eric Dumazet 2021-11-15  497  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
-88be9a0a06b73e Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_o=
-rder);
-88be9a0a06b73e Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_order=
-);
-88be9a0a06b73e Matthew Auld 2021-06-16   78  =
+587652bbdd06ab Eric Dumazet 2021-11-15  498  	same_flow =3D NAPI_GRO_CB(skb=
+)->same_flow;
+587652bbdd06ab Eric Dumazet 2021-11-15  499  	ret =3D NAPI_GRO_CB(skb)->fre=
+e ? GRO_MERGED_FREE : GRO_MERGED;
+587652bbdd06ab Eric Dumazet 2021-11-15  500  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   79  		do {
-88be9a0a06b73e Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc(=
-mm, order);
-88be9a0a06b73e Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
-88be9a0a06b73e Matthew Auld 2021-06-16   84  				break;
-88be9a0a06b73e Matthew Auld 2021-06-16   85  =
+587652bbdd06ab Eric Dumazet 2021-11-15  501  	if (pp) {
+587652bbdd06ab Eric Dumazet 2021-11-15  502  		skb_list_del_init(pp);
+587652bbdd06ab Eric Dumazet 2021-11-15  503  		napi_gro_complete(napi, pp);
+587652bbdd06ab Eric Dumazet 2021-11-15  504  		gro_list->count--;
+587652bbdd06ab Eric Dumazet 2021-11-15  505  	}
+587652bbdd06ab Eric Dumazet 2021-11-15  506  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_orde=
-r) {
-88be9a0a06b73e Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
-88be9a0a06b73e Matthew Auld 2021-06-16   88  				goto err_free_blocks;
-88be9a0a06b73e Matthew Auld 2021-06-16   89  			}
-88be9a0a06b73e Matthew Auld 2021-06-16   90  		} while (1);
-88be9a0a06b73e Matthew Auld 2021-06-16   91  =
+587652bbdd06ab Eric Dumazet 2021-11-15  507  	if (same_flow)
+587652bbdd06ab Eric Dumazet 2021-11-15  508  		goto ok;
+587652bbdd06ab Eric Dumazet 2021-11-15  509  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
-88be9a0a06b73e Matthew Auld 2021-06-16   93  =
+587652bbdd06ab Eric Dumazet 2021-11-15  510  	if (NAPI_GRO_CB(skb)->flush)
+587652bbdd06ab Eric Dumazet 2021-11-15  511  		goto normal;
+587652bbdd06ab Eric Dumazet 2021-11-15  512  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   94  		list_add_tail(&block->link, =
-&bman_res->blocks);
-88be9a0a06b73e Matthew Auld 2021-06-16   95  =
+587652bbdd06ab Eric Dumazet 2021-11-15  513  	if (unlikely(gro_list->count =
+>=3D MAX_GRO_SKBS))
+587652bbdd06ab Eric Dumazet 2021-11-15  514  		gro_flush_oldest(napi, &gro_=
+list->list);
+587652bbdd06ab Eric Dumazet 2021-11-15  515  	else
+587652bbdd06ab Eric Dumazet 2021-11-15  516  		gro_list->count++;
+587652bbdd06ab Eric Dumazet 2021-11-15  517  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16   96  		if (!n_pages)
-88be9a0a06b73e Matthew Auld 2021-06-16   97  			break;
-88be9a0a06b73e Matthew Auld 2021-06-16   98  	} while (1);
-88be9a0a06b73e Matthew Auld 2021-06-16   99  =
+587652bbdd06ab Eric Dumazet 2021-11-15  518  	NAPI_GRO_CB(skb)->count =3D 1;
+587652bbdd06ab Eric Dumazet 2021-11-15  519  	NAPI_GRO_CB(skb)->age =3D jif=
+fies;
+587652bbdd06ab Eric Dumazet 2021-11-15  520  	NAPI_GRO_CB(skb)->last =3D sk=
+b;
+587652bbdd06ab Eric Dumazet 2021-11-15  521  	skb_shinfo(skb)->gso_size =3D=
+ skb_gro_len(skb);
+587652bbdd06ab Eric Dumazet 2021-11-15  522  	list_add(&skb->list, &gro_lis=
+t->list);
+587652bbdd06ab Eric Dumazet 2021-11-15  523  	ret =3D GRO_HELD;
+587652bbdd06ab Eric Dumazet 2021-11-15  524  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
-88be9a0a06b73e Matthew Auld 2021-06-16  101  	return 0;
-88be9a0a06b73e Matthew Auld 2021-06-16  102  =
+587652bbdd06ab Eric Dumazet 2021-11-15  525  pull:
+587652bbdd06ab Eric Dumazet 2021-11-15  526  	grow =3D skb_gro_offset(skb) =
+- skb_headlen(skb);
+587652bbdd06ab Eric Dumazet 2021-11-15  527  	if (grow > 0)
+587652bbdd06ab Eric Dumazet 2021-11-15  528  		gro_pull_from_frag0(skb, gro=
+w);
+587652bbdd06ab Eric Dumazet 2021-11-15  529  ok:
+587652bbdd06ab Eric Dumazet 2021-11-15  530  	if (gro_list->count) {
+587652bbdd06ab Eric Dumazet 2021-11-15  531  		if (!test_bit(bucket, &napi-=
+>gro_bitmask))
+587652bbdd06ab Eric Dumazet 2021-11-15  532  			__set_bit(bucket, &napi->gr=
+o_bitmask);
+587652bbdd06ab Eric Dumazet 2021-11-15  533  	} else if (test_bit(bucket, &=
+napi->gro_bitmask)) {
+587652bbdd06ab Eric Dumazet 2021-11-15  534  		__clear_bit(bucket, &napi->g=
+ro_bitmask);
+587652bbdd06ab Eric Dumazet 2021-11-15  535  	}
+587652bbdd06ab Eric Dumazet 2021-11-15  536  =
 
-88be9a0a06b73e Matthew Auld 2021-06-16  103  err_free_blocks:
-88be9a0a06b73e Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bma=
-n_res->blocks);
-88be9a0a06b73e Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
-88be9a0a06b73e Matthew Auld 2021-06-16  107  err_free_res:
-88be9a0a06b73e Matthew Auld 2021-06-16  108  	kfree(bman_res);
-88be9a0a06b73e Matthew Auld 2021-06-16  109  	return err;
-88be9a0a06b73e Matthew Auld 2021-06-16  110  }
-88be9a0a06b73e Matthew Auld 2021-06-16  111  =
+587652bbdd06ab Eric Dumazet 2021-11-15  537  	return ret;
+587652bbdd06ab Eric Dumazet 2021-11-15  538  =
+
+587652bbdd06ab Eric Dumazet 2021-11-15  539  normal:
+587652bbdd06ab Eric Dumazet 2021-11-15  540  	ret =3D GRO_NORMAL;
+587652bbdd06ab Eric Dumazet 2021-11-15  541  	goto pull;
+587652bbdd06ab Eric Dumazet 2021-11-15  542  }
+587652bbdd06ab Eric Dumazet 2021-11-15  543  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6182099134645231485==--
+--===============2725835908304591156==--
 
