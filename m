@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8371789616285095099=="
+Content-Type: multipart/mixed; boundary="===============8984833904081842480=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: warning: Call to function 'strcat' is insecure as it does not provide bounding of the memory buffer. Replace unbounded copy functions with analogous functions that support length arguments...
-Date: Fri, 17 Dec 2021 21:35:45 +0800
-Message-ID: <202112172134.k3Tg6Pjk-lkp@intel.com>
+Subject: sound/core/oss/pcm_oss.c:2377:3: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+Date: Fri, 17 Dec 2021 16:51:38 +0800
+Message-ID: <202112171657.WM2Eyr6v-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8371789616285095099==
+--===============8984833904081842480==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,34 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mario Limonciello <mario.limonciello@dell.com>
-CC: Hans de Goede <hdegoede@redhat.com>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6441998e2e37131b0a4c310af9156d79d3351c16
-commit: f1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28 platform/x86: Move all del=
-l drivers to their own subdirectory
-date:   11 months ago
-:::::: branch date: 14 hours ago
-:::::: commit date: 11 months ago
-config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
-chive/20211217/202112172134.k3Tg6Pjk-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
-97ef3ee4dc2119d5429adf3072e90fac38)
+commit: fc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3 locking/atomic: arm: move =
+to ARCH_ATOMIC
+date:   7 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20211215 (https://download.01.org/0day-ci/archi=
+ve/20211217/202112171657.WM2Eyr6v-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
+ab9fbb364faa1581e4f92ba3119a872fba)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Df1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28
+t/commit/?id=3Dfc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout f1e1ea516721d1ea0b21327ff9e6cb2c2bb86e28
+        git checkout fc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -50,734 +52,633 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   strcpy(uid->string, obj_desc->string.pointer);
-                   ^~~~~~
-   drivers/acpi/acpica/utids.c:292:4: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                           strcpy(next_id_string, cid_objects[i]->string.po=
-inter);
-                           ^~~~~~
-   drivers/acpi/acpica/utids.c:292:4: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-                           strcpy(next_id_string, cid_objects[i]->string.po=
-inter);
-                           ^~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   Suppressed 12 warnings (12 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/iio/light/si1145.c:151:8: warning: Excessive padding in 'struct =
-si1145_part_info' (14 padding bytes, where 6 is optimal). =
-
-   Optimal fields order: =
-
-   iio_info, =
-
-   channels, =
-
-   num_channels, =
-
-   num_leds, =
-
-   part, =
-
-   uncompressed_meas_rate, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct si1145_part_info {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~
-   drivers/iio/light/si1145.c:151:8: note: Excessive padding in 'struct si1=
-145_part_info' (14 padding bytes, where 6 is optimal). Optimal fields order=
-: iio_info, channels, num_channels, num_leds, part, uncompressed_meas_rate,=
- consider reordering the fields or adding explicit padding members
-   struct si1145_part_info {
-   ~~~~~~~^~~~~~~~~~~~~~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: warni=
-ng: Call to function 'strcat' is insecure as it does not provide bounding o=
-f the memory buffer. Replace unbounded copy functions with analogous functi=
-ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
-r-security.insecureAPI.strcpy]
-                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
-_modifier,
-                   ^~~~~~
-   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:158:3: note:=
- Call to function 'strcat' is insecure as it does not provide bounding of t=
-he memory buffer. Replace unbounded copy functions with analogous functions=
- that support length arguments such as 'strlcat'. CWE-119
-                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
-_modifier,
-                   ^~~~~~
-   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:160:3: warni=
-ng: Call to function 'strcat' is insecure as it does not provide bounding o=
-f the memory buffer. Replace unbounded copy functions with analogous functi=
-ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
-r-security.insecureAPI.strcpy]
-                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
-_modifier, ";");
-                   ^~~~~~
-   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:160:3: note:=
- Call to function 'strcat' is insecure as it does not provide bounding of t=
-he memory buffer. Replace unbounded copy functions with analogous functions=
- that support length arguments such as 'strlcat'. CWE-119
-                   strcat(wmi_priv.enumeration_data[instance_id].dell_value=
-_modifier, ";");
-                   ^~~~~~
-   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:166:3: warni=
-ng: Call to function 'strcat' is insecure as it does not provide bounding o=
-f the memory buffer. Replace unbounded copy functions with analogous functi=
-ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
-r-security.insecureAPI.strcpy]
-                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
-alues,
-                   ^~~~~~
-   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:166:3: note:=
- Call to function 'strcat' is insecure as it does not provide bounding of t=
-he memory buffer. Replace unbounded copy functions with analogous functions=
- that support length arguments such as 'strlcat'. CWE-119
-                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
-alues,
-                   ^~~~~~
-   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:168:3: warni=
-ng: Call to function 'strcat' is insecure as it does not provide bounding o=
-f the memory buffer. Replace unbounded copy functions with analogous functi=
-ons that support length arguments such as 'strlcat'. CWE-119 [clang-analyze=
-r-security.insecureAPI.strcpy]
-                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
-alues, ";");
-                   ^~~~~~
-   drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c:168:3: note:=
- Call to function 'strcat' is insecure as it does not provide bounding of t=
-he memory buffer. Replace unbounded copy functions with analogous functions=
- that support length arguments such as 'strlcat'. CWE-119
-                   strcat(wmi_priv.enumeration_data[instance_id].possible_v=
-alues, ";");
-                   ^~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/acpi/ac.c:259:2: warning: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_name(device), ACPI_AC_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/ac.c:259:2: note: Call to function 'strcpy' is insecure as =
-it does not provide bounding of the memory buffer. Replace unbounded copy f=
-unctions with analogous functions that support length arguments such as 'st=
-rlcpy'. CWE-119
-           strcpy(acpi_device_name(device), ACPI_AC_DEVICE_NAME);
-           ^~~~~~
-   drivers/acpi/ac.c:260:2: warning: Call to function 'strcpy' is insecure =
-as it does not provide bounding of the memory buffer. Replace unbounded cop=
-y functions with analogous functions that support length arguments such as =
-'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(acpi_device_class(device), ACPI_AC_CLASS);
-           ^~~~~~
-   drivers/acpi/ac.c:260:2: note: Call to function 'strcpy' is insecure as =
-it does not provide bounding of the memory buffer. Replace unbounded copy f=
-unctions with analogous functions that support length arguments such as 'st=
-rlcpy'. CWE-119
-           strcpy(acpi_device_class(device), ACPI_AC_CLASS);
-           ^~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/mtd/mtdcore.c:657:3: warning: Value stored to 'error' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   error =3D 0;
-                   ^       ~
-   drivers/mtd/mtdcore.c:657:3: note: Value stored to 'error' is never read
-                   error =3D 0;
-                   ^       ~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/mtd/mtdconcat.c:67:4: warning: Value stored to 'size' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                           size =3D 0;
-                           ^      ~
-   drivers/mtd/mtdconcat.c:67:4: note: Value stored to 'size' is never read
-                           size =3D 0;
-                           ^      ~
-   drivers/mtd/mtdconcat.c:159:4: warning: Value stored to 'size' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                           size =3D 0;
-                           ^      ~
-   drivers/mtd/mtdconcat.c:159:4: note: Value stored to 'size' is never read
-                           size =3D 0;
-                           ^      ~
-   drivers/mtd/mtdconcat.c:492:4: warning: Value stored to 'size' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                           size =3D 0;
-                           ^      ~
-   drivers/mtd/mtdconcat.c:492:4: note: Value stored to 'size' is never read
-                           size =3D 0;
-                           ^      ~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:733:6: note: 'min_period_size' is 0
+           if (min_period_size) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:733:2: note: '?' condition is false
+           if (min_period_size) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:733:2: note: Taking false branch
+           if (min_period_size) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:742:2: note: Assuming 'max_period_size' is not =
+equal to 0
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:742:2: note: '?' condition is false
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:742:6: note: 'max_period_size' is not equal to 0
+           if (max_period_size) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:742:2: note: '?' condition is true
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:742:2: note: Taking true branch
+           if (max_period_size) {
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:744:21: note: '?' condition is false
+                   max_period_size =3D rounddown_pow_of_two(max_period_size=
+);
+                                     ^
+   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_=
+two'
+           __builtin_constant_p(n) ? (             \
+           ^
+   sound/core/oss/pcm_oss.c:744:21: note: Calling '__rounddown_pow_of_two'
+                   max_period_size =3D rounddown_pow_of_two(max_period_size=
+);
+                                     ^
+   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_=
+two'
+           __rounddown_pow_of_two(n)               \
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/log2.h:67:13: note: The result of the left shift is undefi=
+ned due to shifting by '4294967295', which is greater or equal to the width=
+ of type 'unsigned long'
+           return 1UL << (fls_long(n) - 1);
+                      ^  ~~~~~~~~~~~~~~~~~
+>> sound/core/oss/pcm_oss.c:2377:3: warning: Assigned value is garbage or u=
+ndefined [clang-analyzer-core.uninitialized.Assign]
+                   struct snd_pcm_substream *substream =3D pcm_oss_file->st=
+reams[cidx];
+                   ^
+   sound/core/oss/pcm_oss.c:2396:2: note: Assuming 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2396:6: note: 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:2396:2: note: Taking false branch
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2399:17: note: Calling 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Storing uninitialized value
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2399:17: note: Returning from 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2400:6: note: Assuming 'pcm_oss_file' is not eq=
+ual to null
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2400:6: note: 'pcm_oss_file' is not equal to nu=
+ll
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
 --
-   7 warnings generated.
-   drivers/media/dvb-frontends/nxt6000.c:420:2: warning: Value stored to 'v=
-al' is never read [clang-analyzer-deadcode.DeadStores]
-           val =3D nxt6000_readreg(state, RF_AGC_STATUS);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/media/dvb-frontends/nxt6000.c:420:2: note: Value stored to 'val'=
- is never read
-           val =3D nxt6000_readreg(state, RF_AGC_STATUS);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/misc/eeprom/idt_89hpesx.c:977:3: warning: Value stored to 'csrad=
-dr_len' is never read [clang-analyzer-deadcode.DeadStores]
-                   csraddr_len =3D strnlen(csraddr_str, count);
-                   ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/misc/eeprom/idt_89hpesx.c:977:3: note: Value stored to 'csraddr_=
-len' is never read
-                   csraddr_len =3D strnlen(csraddr_str, count);
-                   ^             ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (6 in non-user code, 3 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
->> drivers/platform/x86/dell/dell-laptop.c:1596:4: warning: Value stored to=
- 'unit' is never read [clang-analyzer-deadcode.DeadStores]
-                           unit =3D KBD_TIMEOUT_SECONDS;
-                           ^      ~~~~~~~~~~~~~~~~~~~
-   drivers/platform/x86/dell/dell-laptop.c:1596:4: note: Value stored to 'u=
-nit' is never read
-                           unit =3D KBD_TIMEOUT_SECONDS;
-                           ^      ~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   drivers/iio/imu/inv_mpu6050/inv_mpu_magn.c:290:5: warning: Call to funct=
-ion 'strcpy' is insecure as it does not provide bounding of the memory buff=
-er. Replace unbounded copy functions with analogous functions that support =
-length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecu=
-reAPI.strcpy]
-                                   strcpy(str, orient);
-                                   ^~~~~~
-   drivers/iio/imu/inv_mpu6050/inv_mpu_magn.c:290:5: note: Call to function=
- 'strcpy' is insecure as it does not provide bounding of the memory buffer.=
- Replace unbounded copy functions with analogous functions that support len=
-gth arguments such as 'strlcpy'. CWE-119
-                                   strcpy(str, orient);
-                                   ^~~~~~
-   drivers/iio/imu/inv_mpu6050/inv_mpu_magn.c:292:5: warning: Call to funct=
-ion 'strcpy' is insecure as it does not provide bounding of the memory buff=
-er. Replace unbounded copy functions with analogous functions that support =
-length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecu=
-reAPI.strcpy]
-                                   strcpy(str, &orient[1]);
-                                   ^~~~~~
-   drivers/iio/imu/inv_mpu6050/inv_mpu_magn.c:292:5: note: Call to function=
- 'strcpy' is insecure as it does not provide bounding of the memory buffer.=
- Replace unbounded copy functions with analogous functions that support len=
-gth arguments such as 'strlcpy'. CWE-119
-                                   strcpy(str, &orient[1]);
-                                   ^~~~~~
-   drivers/iio/imu/inv_mpu6050/inv_mpu_magn.c:295:5: warning: Call to funct=
-ion 'strcpy' is insecure as it does not provide bounding of the memory buff=
-er. Replace unbounded copy functions with analogous functions that support =
-length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecu=
-reAPI.strcpy]
-                                   strcpy(&str[1], orient);
-                                   ^~~~~~
-   drivers/iio/imu/inv_mpu6050/inv_mpu_magn.c:295:5: note: Call to function=
- 'strcpy' is insecure as it does not provide bounding of the memory buffer.=
- Replace unbounded copy functions with analogous functions that support len=
-gth arguments such as 'strlcpy'. CWE-119
-                                   strcpy(&str[1], orient);
-                                   ^~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/media/dvb-frontends/s5h1432.c:207:4: warning: Value stored to 'd=
-vb_bandwidth' is never read [clang-analyzer-deadcode.DeadStores]
-                           dvb_bandwidth =3D 6;
-                           ^               ~
-   drivers/media/dvb-frontends/s5h1432.c:207:4: note: Value stored to 'dvb_=
-bandwidth' is never read
-                           dvb_bandwidth =3D 6;
-                           ^               ~
-   drivers/media/dvb-frontends/s5h1432.c:211:4: warning: Value stored to 'd=
-vb_bandwidth' is never read [clang-analyzer-deadcode.DeadStores]
-                           dvb_bandwidth =3D 7;
-                           ^               ~
-   drivers/media/dvb-frontends/s5h1432.c:211:4: note: Value stored to 'dvb_=
-bandwidth' is never read
-                           dvb_bandwidth =3D 7;
-                           ^               ~
-   drivers/media/dvb-frontends/s5h1432.c:215:4: warning: Value stored to 'd=
-vb_bandwidth' is never read [clang-analyzer-deadcode.DeadStores]
-                           dvb_bandwidth =3D 8;
-                           ^               ~
-   drivers/media/dvb-frontends/s5h1432.c:215:4: note: Value stored to 'dvb_=
-bandwidth' is never read
-                           dvb_bandwidth =3D 8;
-                           ^               ~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/leds/leds-ss4200.c:363:2: warning: Value stored to 'status' is n=
-ever read [clang-analyzer-deadcode.DeadStores]
-           status =3D pci_read_config_dword(dev, GPIO_CTRL, &gc);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/leds/leds-ss4200.c:363:2: note: Value stored to 'status' is neve=
-r read
-           status =3D pci_read_config_dword(dev, GPIO_CTRL, &gc);
-           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2421:3: note: '?' condition is false
+                   if (err < 0) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2421:7: note: 'err' is < 0
+                   if (err < 0) {
+                       ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2421:3: note: '?' condition is true
+                   if (err < 0) {
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:2421:3: note: Taking true branch
+                   if (err < 0) {
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2422:4: note: Calling 'snd_pcm_oss_release_file'
+                           snd_pcm_oss_release_file(pcm_oss_file);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2374:7: note: 'pcm_oss_file' is non-null
+           if (!pcm_oss_file)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2374:2: note: '?' condition is false
+           if (!pcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2374:7: note: 'pcm_oss_file' is non-null
+           if (!pcm_oss_file)
+                ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2374:2: note: '?' condition is false
+           if (!pcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:2374:2: note: Taking false branch
+           if (!pcm_oss_file)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2376:7: note: The value 0 is assigned to 'cidx'
+           for (cidx =3D 0; cidx < 2; ++cidx) {
+                ^~~~~~~~
+   sound/core/oss/pcm_oss.c:2376:2: note: Loop condition is true.  Entering=
+ loop body
+           for (cidx =3D 0; cidx < 2; ++cidx) {
+           ^
+   sound/core/oss/pcm_oss.c:2377:3: note: Assigned value is garbage or unde=
+fined
+                   struct snd_pcm_substream *substream =3D pcm_oss_file->st=
+reams[cidx];
+                   ^                                     ~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~
+>> sound/core/oss/pcm_oss.c:2430:6: warning: Branch condition evaluates to =
+a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (!pcm_oss_file->streams[0] && !pcm_oss_file->streams[1]) {
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: Assuming 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:45: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2396:6: note: 'rpcm_oss_file' is null
+           if (rpcm_oss_file)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                       ^
+   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+           ^
+   sound/core/oss/pcm_oss.c:2396:2: note: Taking false branch
+           if (rpcm_oss_file)
+           ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   sound/core/oss/pcm_oss.c:2399:17: note: Calling 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:686:9: note: Storing uninitialized value
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2399:17: note: Returning from 'kzalloc'
+           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   sound/core/oss/pcm_oss.c:2400:6: note: Assuming 'pcm_oss_file' is not eq=
+ual to null
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   sound/core/oss/pcm_oss.c:2400:6: note: 'pcm_oss_file' is not equal to nu=
+ll
+           if (pcm_oss_file =3D=3D NULL)
+               ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                                           =
+             ^~~~
+   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
+ue'
+           (cond) ?                                        \
+            ^~~~
+   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
+           if (pcm_oss_file =3D=3D NULL)
+           ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
 
-vim +158 drivers/platform/x86/dell/dell-wmi-sysman/enum-attributes.c
+vim +2377 sound/core/oss/pcm_oss.c
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  129  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2370  =
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  130  /**
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  131   * populate_enum_data() - Populate all propertie=
-s of an instance under enumeration attribute
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  132   * @enumeration_obj: ACPI object with enumeratio=
-n data
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  133   * @instance_id: The instance to enumerate
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  134   * @attr_name_kobj: The parent kernel object
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  135   */
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  136  int populate_enum_data(union acpi_object *enumer=
-ation_obj, int instance_id,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  137  			struct kobject *attr_name_kobj)
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  138  {
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  139  	int i, next_obj, value_modifier_count, possible=
-_values_count;
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  140  =
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2371  static int snd_pcm_oss_rele=
+ase_file(struct snd_pcm_oss_file *pcm_oss_file)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2372  {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2373  	int cidx;
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2374  	if (!pcm_oss_file)
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2375  		return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2376  	for (cidx =3D 0; cidx < 2;=
+ ++cidx) {
+6ac77bc180fbd9 Takashi Iwai   2005-11-17 @2377  		struct snd_pcm_substream =
+*substream =3D pcm_oss_file->streams[cidx];
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2378  		if (substream)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2379  			snd_pcm_release_substrea=
+m(substream);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2380  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2381  	kfree(pcm_oss_file);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2382  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2383  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2384  =
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  141  	wmi_priv.enumeration_data[instance_id].attr_nam=
-e_kobj =3D attr_name_kobj;
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  142  	strlcpy_attr(wmi_priv.enumeration_data[instance=
-_id].attribute_name,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  143  		enumeration_obj[ATTR_NAME].string.pointer);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  144  	strlcpy_attr(wmi_priv.enumeration_data[instance=
-_id].display_name_language_code,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  145  		enumeration_obj[DISPL_NAME_LANG_CODE].string.p=
-ointer);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  146  	strlcpy_attr(wmi_priv.enumeration_data[instance=
-_id].display_name,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  147  		enumeration_obj[DISPLAY_NAME].string.pointer);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  148  	strlcpy_attr(wmi_priv.enumeration_data[instance=
-_id].default_value,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  149  		enumeration_obj[DEFAULT_VAL].string.pointer);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  150  	strlcpy_attr(wmi_priv.enumeration_data[instance=
-_id].dell_modifier,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  151  		enumeration_obj[MODIFIER].string.pointer);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  152  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2385  static int snd_pcm_oss_open=
+_file(struct file *file,
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2386  				 struct snd_pcm *pcm,
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2387  				 struct snd_pcm_oss_fil=
+e **rpcm_oss_file,
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2388  				 int minor,
+060d77b9c04acd Takashi Iwai   2006-03-27  2389  				 struct snd_pcm_oss_set=
+up *setup)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2390  {
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2391  	int idx, err;
+6ac77bc180fbd9 Takashi Iwai   2005-11-17  2392  	struct snd_pcm_oss_file *p=
+cm_oss_file;
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2393  	struct snd_pcm_substream *=
+substream;
+aeb5d727062a02 Al Viro        2008-09-02  2394  	fmode_t f_mode =3D file->f=
+_mode;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2395  =
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  153  	next_obj =3D MODIFIER + 1;
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  154  =
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2396  	if (rpcm_oss_file)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2397  		*rpcm_oss_file =3D NULL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2398  =
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  155  	value_modifier_count =3D (uintptr_t)enumeration=
-_obj[next_obj].string.pointer;
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  156  =
+ca2c0966562cfb Takashi Iwai   2005-09-09  2399  	pcm_oss_file =3D kzalloc(s=
+izeof(*pcm_oss_file), GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2400  	if (pcm_oss_file =3D=3D NU=
+LL)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2401  		return -ENOMEM;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2402  =
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  157  	for (i =3D 0; i < value_modifier_count; i++) {
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27 @158  		strcat(wmi_priv.enumeration_data[instance_id].=
-dell_value_modifier,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  159  			enumeration_obj[++next_obj].string.pointer);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  160  		strcat(wmi_priv.enumeration_data[instance_id].=
-dell_value_modifier, ";");
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  161  	}
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  162  =
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2403  	if ((f_mode & (FMODE_WRITE=
+|FMODE_READ)) =3D=3D (FMODE_WRITE|FMODE_READ) &&
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2404  	    (pcm->info_flags & SND=
+RV_PCM_INFO_HALF_DUPLEX))
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2405  		f_mode =3D FMODE_WRITE;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2406  =
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  163  	possible_values_count =3D (uintptr_t) enumerati=
-on_obj[++next_obj].string.pointer;
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  164  =
+0df63e44c3e315 Takashi Iwai   2006-04-28  2407  	file->f_flags &=3D ~O_APPE=
+ND;
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2408  	for (idx =3D 0; idx < 2; i=
+dx++) {
+060d77b9c04acd Takashi Iwai   2006-03-27  2409  		if (setup[idx].disable)
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2410  			continue;
+6cb53e7ed77d42 Takashi Iwai   2006-08-02  2411  		if (! pcm->streams[idx].s=
+ubstream_count)
+6cb53e7ed77d42 Takashi Iwai   2006-08-02  2412  			continue; /* no matching=
+ substream */
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2413  		if (idx =3D=3D SNDRV_PCM_=
+STREAM_PLAYBACK) {
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2414  			if (! (f_mode & FMODE_WR=
+ITE))
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2415  				continue;
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2416  		} else {
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2417  			if (! (f_mode & FMODE_RE=
+AD))
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2418  				continue;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2419  		}
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2420  		err =3D snd_pcm_open_subs=
+tream(pcm, idx, file, &substream);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2421  		if (err < 0) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2422  			snd_pcm_oss_release_file=
+(pcm_oss_file);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2423  			return err;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2424  		}
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2425  =
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  165  	for (i =3D 0; i < possible_values_count; i++) {
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  166  		strcat(wmi_priv.enumeration_data[instance_id].=
-possible_values,
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  167  			enumeration_obj[++next_obj].string.pointer);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  168  		strcat(wmi_priv.enumeration_data[instance_id].=
-possible_values, ";");
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  169  	}
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  170  =
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2426  		pcm_oss_file->streams[idx=
+] =3D substream;
+060d77b9c04acd Takashi Iwai   2006-03-27  2427  		snd_pcm_oss_init_substrea=
+m(substream, &setup[idx], minor);
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2428  	}
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2429  	=
 
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  171  	return sysfs_create_group(attr_name_kobj, &enum=
-eration_attr_group);
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  172  }
-e8a60aa7404bfe drivers/platform/x86/dell-wmi-sysman/enum-attributes.c Divya=
- Bharathi 2020-10-27  173  =
+bbdc1b7dbe4157 OGAWA Hirofumi 2006-04-06 @2430  	if (!pcm_oss_file->streams=
+[0] && !pcm_oss_file->streams[1]) {
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2431  		snd_pcm_oss_release_file(=
+pcm_oss_file);
+3bf75f9b90c981 Takashi Iwai   2006-03-27  2432  		return -EINVAL;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2433  	}
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2434  =
+
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2435  	file->private_data =3D pcm=
+_oss_file;
+7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2436  	if (rpcm_oss_file)
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2437  		*rpcm_oss_file =3D pcm_os=
+s_file;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2438  	return 0;
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2439  }
+^1da177e4c3f41 Linus Torvalds 2005-04-16  2440  =
 
 
-:::::: The code@line 158 was first introduced by commit
-:::::: e8a60aa7404bfef37705da5607c97737073ac38d platform/x86: Introduce sup=
-port for Systems Management Driver over WMI for Dell Systems
+:::::: The code at line 2377 was first introduced by commit
+:::::: 6ac77bc180fbd985988015020c2e2347e802959d [ALSA] Remove xxx_t typedef=
+s: PCM OSS-emulation
 
-:::::: TO: Divya Bharathi <divya.bharathi@dell.com>
-:::::: CC: Hans de Goede <hdegoede@redhat.com>
+:::::: TO: Takashi Iwai <tiwai@suse.de>
+:::::: CC: Jaroslav Kysela <perex@suse.cz>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8371789616285095099==--
+--===============8984833904081842480==--
 
