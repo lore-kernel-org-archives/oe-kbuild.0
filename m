@@ -1,434 +1,140 @@
-Content-Type: multipart/mixed; boundary="===============7722447560159907771=="
+Content-Type: multipart/mixed; boundary="===============7622900374462944476=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [brgl:gpio/for-next 16/29] drivers/gpio/gpio-sim.c:889:7: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Fri, 17 Dec 2021 15:19:44 +0800
-Message-ID: <202112171504.U1a3Ld4A-lkp@intel.com>
+Subject: Re: [PATCH v9 1/3] bluetooth: msft: Handle MSFT Monitor Device Event
+Date: Fri, 17 Dec 2021 14:58:25 +0800
+Message-ID: <202112171439.KaggScQN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7722447560159907771==
+--===============7622900374462944476==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
+In-Reply-To: <20211216044839.v9.1.Ic0a40b84dee3825302890aaea690e73165c71820=
+@changeid>
+References: <20211216044839.v9.1.Ic0a40b84dee3825302890aaea690e73165c71820(=
+a)changeid>
+TO: Manish Mandlik <mmandlik@google.com>
+TO: marcel(a)holtmann.org
+TO: luiz.dentz(a)gmail.com
+CC: chromeos-bluetooth-upstreaming(a)chromium.org
+CC: linux-bluetooth(a)vger.kernel.org
+CC: Manish Mandlik <mmandlik@google.com>
+CC: "Miao-chen Chou" <mcchou@google.com>
+CC: Jakub Kicinski <kuba@kernel.org>
+CC: Johan Hedberg <johan.hedberg@gmail.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: Bartosz Golaszewski <brgl@bgdev.pl>
+CC: netdev(a)vger.kernel.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git gpio=
-/for-next
-head:   c492c8dc2ed86825ebf02f0de1da5c9b1d641b80
-commit: 83960fcf4818607692ee7dd7ec566bab944d71a8 [16/29] gpio: sim: new tes=
-ting module
-:::::: branch date: 22 hours ago
-:::::: commit date: 4 days ago
-config: arm-randconfig-c002-20211216 (https://download.01.org/0day-ci/archi=
-ve/20211217/202112171504.U1a3Ld4A-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/brgl/linux.git/co=
-mmit/?id=3D83960fcf4818607692ee7dd7ec566bab944d71a8
-        git remote add brgl https://git.kernel.org/pub/scm/linux/kernel/git=
-/brgl/linux.git
-        git fetch --no-tags brgl gpio/for-next
-        git checkout 83960fcf4818607692ee7dd7ec566bab944d71a8
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+Hi Manish,
 
+Thank you for the patch! Perhaps something to improve:
+
+[auto build test WARNING on bluetooth-next/master]
+[also build test WARNING on next-20211216]
+[cannot apply to bluetooth/master v5.16-rc5]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Manish-Mandlik/bluetooth-m=
+sft-Handle-MSFT-Monitor-Device-Event/20211216-205227
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/bluetooth/bluetooth=
+-next.git master
+:::::: branch date: 18 hours ago
+:::::: commit date: 18 hours ago
+config: i386-randconfig-m021-20211216 (https://download.01.org/0day-ci/arch=
+ive/20211217/202112171439.KaggScQN-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+net/bluetooth/msft.c:757 msft_vendor_evt() warn: inconsistent returns '&hde=
+v->lock'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                ^~~~~
-   arch/arm/kernel/setup.c:1109:2: note: Taking true branch
-           if (!mdesc)
-           ^
-   arch/arm/kernel/setup.c:1110:3: note: Value assigned to 'mdesc'
-                   mdesc =3D setup_machine_tags(atags_vaddr, __machine_arch=
-_type);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~
-   arch/arm/kernel/setup.c:1111:6: note: Assuming 'mdesc' is null
-           if (!mdesc) {
-               ^~~~~~
-   arch/arm/kernel/setup.c:1111:2: note: Taking true branch
-           if (!mdesc) {
-           ^
-   arch/arm/kernel/setup.c:1115:7: note: Assuming '__atags_pointer' is 0
-                   if (__atags_pointer)
-                       ^~~~~~~~~~~~~~~
-   arch/arm/kernel/setup.c:1115:3: note: Taking false branch
-                   if (__atags_pointer)
-                   ^
-   arch/arm/kernel/setup.c:1121:17: note: Access to field 'name' results in=
- a dereference of a null pointer (loaded from variable 'mdesc')
-           machine_name =3D mdesc->name;
-                          ^~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (9 in non-user code, 4 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (9 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   security/keys/request_key.c:119:21: warning: Value stored to 'cred' duri=
-ng its initialization is never read [clang-analyzer-deadcode.DeadStores]
-           const struct cred *cred =3D current_cred();
-                              ^~~~
-   security/keys/request_key.c:119:21: note: Value stored to 'cred' during =
-its initialization is never read
-           const struct cred *cred =3D current_cred();
-                              ^~~~
-   security/keys/request_key.c:510:3: warning: Value stored to 'ret' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                   ret =3D 0;
-                   ^     ~
-   security/keys/request_key.c:510:3: note: Value stored to 'ret' is never =
-read
-                   ret =3D 0;
-                   ^     ~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/gpio/gpio-rcar.c:468:13: warning: The result of the right shift =
-is undefined due to shifting by '32', which is greater or equal to the widt=
-h of type 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResul=
-t]
-           u32 mask =3D GENMASK(p->gpio_chip.ngpio - 1, 0);
-                      ^
-   include/linux/bits.h:38:31: note: expanded from macro 'GENMASK'
-           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-                                        ^
-   include/linux/bits.h:36:11: note: expanded from macro '__GENMASK'
-            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-                    ^
-   drivers/gpio/gpio-rcar.c:619:19: note: Assuming 'offset' is >=3D field '=
-ngpio'
-           for (offset =3D 0; offset < p->gpio_chip.ngpio; offset++) {
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rcar.c:619:2: note: Loop condition is false. Execution=
- continues on line 647
-           for (offset =3D 0; offset < p->gpio_chip.ngpio; offset++) {
-           ^
-   drivers/gpio/gpio-rcar.c:647:6: note: Assuming field 'has_inen' is true
-           if (p->info.has_inen)
-               ^~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rcar.c:647:2: note: Taking true branch
-           if (p->info.has_inen)
-           ^
-   drivers/gpio/gpio-rcar.c:648:3: note: Calling 'gpio_rcar_enable_inputs'
-                   gpio_rcar_enable_inputs(p);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-rcar.c:468:13: note: The result of the right shift is =
-undefined due to shifting by '32', which is greater or equal to the width o=
-f type 'unsigned long'
-           u32 mask =3D GENMASK(p->gpio_chip.ngpio - 1, 0);
-                      ^
-   include/linux/bits.h:38:31: note: expanded from macro 'GENMASK'
-           (GENMASK_INPUT_CHECK(h, l) + __GENMASK(h, l))
-                                        ^~~~~~~~~~~~~~~
-   include/linux/bits.h:36:11: note: expanded from macro '__GENMASK'
-            (~UL(0) >> (BITS_PER_LONG - 1 - (h))))
-                    ^  ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/gpio/gpio-sim.c:889:7: warning: Branch condition evaluates to a =
-garbage value [clang-analyzer-core.uninitialized.Branch]
-                   if (ret) {
-                       ^
-   drivers/gpio/gpio-sim.c:953:6: note: Assuming 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/gpio/gpio-sim.c:953:2: note: Taking false branch
-           if (ret)
-           ^
-   drivers/gpio/gpio-sim.c:958:7: note: Assuming 'live' is true
-           if ((!live && !gpio_sim_device_is_live_unlocked(dev)) ||
-                ^~~~~
-   drivers/gpio/gpio-sim.c:958:13: note: Left side of '&&' is false
-           if ((!live && !gpio_sim_device_is_live_unlocked(dev)) ||
-                      ^
-   drivers/gpio/gpio-sim.c:959:7: note: 'live' is true
-               (live && gpio_sim_device_is_live_unlocked(dev)))
-                ^~~~
-   drivers/gpio/gpio-sim.c:959:7: note: Left side of '&&' is true
-   drivers/gpio/gpio-sim.c:958:2: note: Taking false branch
-           if ((!live && !gpio_sim_device_is_live_unlocked(dev)) ||
-           ^
-   drivers/gpio/gpio-sim.c:961:11: note: 'live' is true
-           else if (live)
-                    ^~~~
-   drivers/gpio/gpio-sim.c:961:7: note: Taking true branch
-           else if (live)
-                ^
-   drivers/gpio/gpio-sim.c:962:9: note: Calling 'gpio_sim_device_activate_u=
-nlocked'
-                   ret =3D gpio_sim_device_activate_unlocked(dev);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-sim.c:868:2: note: 'ret' declared without an initial v=
-alue
-           int ret;
-           ^~~~~~~
-   drivers/gpio/gpio-sim.c:870:6: note: Assuming the condition is false
-           if (list_empty(&dev->bank_list))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-sim.c:870:2: note: Taking false branch
-           if (list_empty(&dev->bank_list))
-           ^
-   drivers/gpio/gpio-sim.c:878:6: note: Assuming the condition is false
-           if (gpio_sim_bank_labels_non_unique(dev))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-sim.c:878:2: note: Taking false branch
-           if (gpio_sim_bank_labels_non_unique(dev))
-           ^
-   drivers/gpio/gpio-sim.c:884:6: note: Calling 'IS_ERR'
-           if (IS_ERR(swnode))
-               ^~~~~~~~~~~~~~
-   include/linux/err.h:36:9: note: Assuming the condition is false
-           return IS_ERR_VALUE((unsigned long)ptr);
-                  ^
-   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
-   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
-ed long)-MAX_ERRNO)
-                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
-                                               ^
-   include/linux/err.h:36:2: note: Returning zero, which participates in a =
-condition later
-           return IS_ERR_VALUE((unsigned long)ptr);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpio/gpio-sim.c:884:6: note: Returning from 'IS_ERR'
-           if (IS_ERR(swnode))
-               ^~~~~~~~~~~~~~
-   drivers/gpio/gpio-sim.c:884:2: note: Taking false branch
-           if (IS_ERR(swnode))
-           ^
-   drivers/gpio/gpio-sim.c:887:2: note: Loop condition is true.  Entering l=
-oop body
-           list_for_each_entry(bank, &dev->bank_list, siblings) {
-           ^
-   include/linux/list.h:630:2: note: expanded from macro 'list_for_each_ent=
-ry'
-           for (pos =3D list_first_entry(head, typeof(*pos), member);      =
-  \
-           ^
-   drivers/gpio/gpio-sim.c:889:7: note: Branch condition evaluates to a gar=
-bage value
-                   if (ret) {
-                       ^~~
-   Suppressed 3 warnings (2 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   lib/zstd/compress/fse_compress.c:85:9: warning: The result of the left s=
-hift is undefined due to shifting by '4294967294', which is greater or equa=
-l to the width of type 'unsigned long long' [clang-analyzer-core.UndefinedB=
-inaryOperatorResult]
-       if (FSE_BUILD_CTABLE_WORKSPACE_SIZE(maxSymbolValue, tableLog) > wksp=
-Size) return ERROR(tableLog_tooLarge);
-           ^
-   lib/zstd/compress/../common/fse.h:338:87: note: expanded from macro 'FSE=
-_BUILD_CTABLE_WORKSPACE_SIZE'
-   #define FSE_BUILD_CTABLE_WORKSPACE_SIZE(maxSymbolValue, tableLog) (sizeo=
-f(unsigned) * FSE_BUILD_CTABLE_WORKSPACE_SIZE_U32(maxSymbolValue, tableLog))
-                                                                           =
-              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/zstd/compress/../common/fse.h:337:99: note: expanded from macro 'FSE=
-_BUILD_CTABLE_WORKSPACE_SIZE_U32'
-   #define FSE_BUILD_CTABLE_WORKSPACE_SIZE_U32(maxSymbolValue, tableLog) (m=
-axSymbolValue + 2 + (1ull << (tableLog - 2)))
-                                                                           =
-                          ^  ~~~~~~~~~~~~~~
-   lib/zstd/compress/fse_compress.c:75:56: note: Assuming 'tableLog' is 0
-       void* const FSCT =3D ((U32*)ptr) + 1 /* header */ + (tableLog ? tabl=
-eSize>>1 : 1) ;
-                                                          ^~~~~~~~
-   lib/zstd/compress/fse_compress.c:75:56: note: '?' condition is false
-   lib/zstd/compress/fse_compress.c:84:9: note: Assuming the condition is f=
-alse
-       if ((size_t)workSpace & 3) return ERROR(GENERIC); /* Must be 4 byte =
-aligned */
-           ^~~~~~~~~~~~~~~~~~~~~
+vim +757 net/bluetooth/msft.c
 
-vim +889 drivers/gpio/gpio-sim.c
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  713  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  861  =
+3e54c5890c87a30 Luiz Augusto von Dentz 2021-12-01  714  void msft_vendor_ev=
+t(struct hci_dev *hdev, void *data, struct sk_buff *skb)
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  715  {
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  716  	struct msft_data *=
+msft =3D hdev->msft_data;
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  717  	u8 *evt_prefix;
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  718  	u8 *evt;
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  719  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  862  static int gpio_sim_dev=
-ice_activate_unlocked(struct gpio_sim_device *dev)
-83960fcf481860 Bartosz Golaszewski 2021-12-07  863  {
-83960fcf481860 Bartosz Golaszewski 2021-12-07  864  	struct platform_device=
-_info pdevinfo;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  865  	struct fwnode_handle *=
-swnode;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  866  	struct platform_device=
- *pdev;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  867  	struct gpio_sim_bank *=
-bank;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  868  	int ret;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  869  =
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  720  	if (!msft)
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  721  		return;
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  722  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  870  	if (list_empty(&dev->b=
-ank_list))
-83960fcf481860 Bartosz Golaszewski 2021-12-07  871  		return -ENODATA;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  872  =
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  723  	/* When the extens=
+ion has defined an event prefix, check that it
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  724  	 * matches, and ot=
+herwise just return.
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  725  	 */
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  726  	if (msft->evt_pref=
+ix_len > 0) {
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  727  		evt_prefix =3D ms=
+ft_skb_pull(hdev, skb, 0, msft->evt_prefix_len);
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  728  		if (!evt_prefix)
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  729  			return;
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  730  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  873  	/*
-83960fcf481860 Bartosz Golaszewski 2021-12-07  874  	 * Non-unique GPIO dev=
-ice labels are a corner-case we don't support
-83960fcf481860 Bartosz Golaszewski 2021-12-07  875  	 * as it would interfe=
-re with machine hogging mechanism and has little
-83960fcf481860 Bartosz Golaszewski 2021-12-07  876  	 * use in real life.
-83960fcf481860 Bartosz Golaszewski 2021-12-07  877  	 */
-83960fcf481860 Bartosz Golaszewski 2021-12-07  878  	if (gpio_sim_bank_labe=
-ls_non_unique(dev))
-83960fcf481860 Bartosz Golaszewski 2021-12-07  879  		return -EINVAL;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  880  =
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  731  		if (memcmp(evt_pr=
+efix, msft->evt_prefix, msft->evt_prefix_len))
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  732  			return;
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  733  	}
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  734  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  881  	memset(&pdevinfo, 0, s=
-izeof(pdevinfo));
-83960fcf481860 Bartosz Golaszewski 2021-12-07  882  =
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  735  	/* Every event sta=
+rts at least with an event code and the rest of
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  736  	 * the data is var=
+iable and depends on the event code.
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  737  	 */
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  738  	if (skb->len < 1)
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  739  		return;
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  740  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  883  	swnode =3D fwnode_crea=
-te_software_node(NULL, NULL);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  884  	if (IS_ERR(swnode))
-83960fcf481860 Bartosz Golaszewski 2021-12-07  885  		return PTR_ERR(swnode=
-);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  886  =
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  741  	hci_dev_lock(hdev);
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  742  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  887  	list_for_each_entry(ba=
-nk, &dev->bank_list, siblings) {
-83960fcf481860 Bartosz Golaszewski 2021-12-07  888  		bank->swnode =3D gpio=
-_sim_make_bank_swnode(bank, swnode);
-83960fcf481860 Bartosz Golaszewski 2021-12-07 @889  		if (ret) {
-83960fcf481860 Bartosz Golaszewski 2021-12-07  890  			gpio_sim_remove_swno=
-de_recursive(swnode);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  891  			return ret;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  892  		}
-83960fcf481860 Bartosz Golaszewski 2021-12-07  893  	}
-83960fcf481860 Bartosz Golaszewski 2021-12-07  894  =
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  743  	evt =3D msft_skb_p=
+ull(hdev, skb, 0, sizeof(*evt));
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  744  	if (!evt)
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  745  		return;
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  746  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  895  	ret =3D gpio_sim_add_h=
-ogs(dev);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  896  	if (ret) {
-83960fcf481860 Bartosz Golaszewski 2021-12-07  897  		gpio_sim_remove_swnod=
-e_recursive(swnode);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  898  		return ret;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  899  	}
-83960fcf481860 Bartosz Golaszewski 2021-12-07  900  =
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  747  	switch (*evt) {
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  748  	case MSFT_EV_LE_MO=
+NITOR_DEVICE:
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  749  		msft_monitor_devi=
+ce_evt(hdev, skb);
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  750  		break;
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  751  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  901  	pdevinfo.name =3D "gpi=
-o-sim";
-83960fcf481860 Bartosz Golaszewski 2021-12-07  902  	pdevinfo.fwnode =3D sw=
-node;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  903  	pdevinfo.id =3D dev->i=
-d;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  904  =
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  752  	default:
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  753  		bt_dev_dbg(hdev, =
+"MSFT vendor event 0x%02x", *evt);
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  754  		break;
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  755  	}
+e5af6a85decc8c1 Manish Mandlik         2021-12-16  756  =
 
-83960fcf481860 Bartosz Golaszewski 2021-12-07  905  	reinit_completion(&dev=
-->probe_completion);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  906  	dev->driver_bound =3D =
-false;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  907  	bus_register_notifier(=
-&platform_bus_type, &dev->bus_notifier);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  908  =
-
-83960fcf481860 Bartosz Golaszewski 2021-12-07  909  	pdev =3D platform_devi=
-ce_register_full(&pdevinfo);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  910  	if (IS_ERR(pdev)) {
-83960fcf481860 Bartosz Golaszewski 2021-12-07  911  		bus_unregister_notifi=
-er(&platform_bus_type, &dev->bus_notifier);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  912  		gpio_sim_remove_hogs(=
-dev);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  913  		gpio_sim_remove_swnod=
-e_recursive(swnode);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  914  		return PTR_ERR(pdev);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  915  	}
-83960fcf481860 Bartosz Golaszewski 2021-12-07  916  =
-
-83960fcf481860 Bartosz Golaszewski 2021-12-07  917  	wait_for_completion(&d=
-ev->probe_completion);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  918  	bus_unregister_notifie=
-r(&platform_bus_type, &dev->bus_notifier);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  919  =
-
-83960fcf481860 Bartosz Golaszewski 2021-12-07  920  	if (!dev->driver_bound=
-) {
-83960fcf481860 Bartosz Golaszewski 2021-12-07  921  		/* Probe failed, chec=
-k kernel log. */
-83960fcf481860 Bartosz Golaszewski 2021-12-07  922  		platform_device_unreg=
-ister(pdev);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  923  		gpio_sim_remove_hogs(=
-dev);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  924  		gpio_sim_remove_swnod=
-e_recursive(swnode);
-83960fcf481860 Bartosz Golaszewski 2021-12-07  925  		return -ENXIO;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  926  	}
-83960fcf481860 Bartosz Golaszewski 2021-12-07  927  =
-
-83960fcf481860 Bartosz Golaszewski 2021-12-07  928  	dev->pdev =3D pdev;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  929  =
-
-83960fcf481860 Bartosz Golaszewski 2021-12-07  930  	return 0;
-83960fcf481860 Bartosz Golaszewski 2021-12-07  931  }
-83960fcf481860 Bartosz Golaszewski 2021-12-07  932  =
+e5af6a85decc8c1 Manish Mandlik         2021-12-16 @757  	hci_dev_unlock(hde=
+v);
+145373cb1b1fcdb Miao-chen Chou         2020-04-03  758  }
+e5e1e7fd470ccf2 Miao-chen Chou         2020-06-17  759  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7722447560159907771==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============7622900374462944476==--
 
