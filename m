@@ -1,175 +1,90 @@
-Content-Type: multipart/mixed; boundary="===============4380912731224937786=="
+Content-Type: multipart/mixed; boundary="===============1622717667063043073=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gt/selftest_migrate.c:182 clear() error: uninitialized symbol 'rq'.
-Date: Sat, 18 Dec 2021 08:37:45 +0800
-Message-ID: <202112180857.ODI140kE-lkp@intel.com>
+Subject: [linux-next:master 3098/8462] net/unix/af_unix.c:3255:2-11: second lock on line 3255
+Date: Sat, 18 Dec 2021 07:16:18 +0800
+Message-ID: <202112180756.LW6mSr0H-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4380912731224937786==
+--===============1622717667063043073==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Chris Wilson <chris@chris-wilson.co.uk>
-CC: Matthew Auld <matthew.auld@intel.com>
-CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Kuniyuki Iwashima <kuniyu@amazon.co.jp>
+CC: Jakub Kicinski <kuba@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6441998e2e37131b0a4c310af9156d79d3351c16
-commit: 563baae1875cbcac332086cca325cf55a0532b9e drm/i915/gt: Pipelined cle=
-ar
-date:   6 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211218/202112180857.ODI140kE-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   c122052c3cb861b3e61a01d2c2ab9069e470663e
+commit: afd20b9290e184c203fe22f2d6b80dc7127ba724 [3098/8462] af_unix: Repla=
+ce the big lock with small locks.
+:::::: branch date: 10 hours ago
+:::::: commit date: 3 weeks ago
+config: x86_64-rhel-8.3-kselftests (https://download.01.org/0day-ci/archive=
+/20211218/202112180756.LW6mSr0H-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-New smatch warnings:
-drivers/gpu/drm/i915/gt/selftest_migrate.c:182 clear() error: uninitialized=
- symbol 'rq'.
-drivers/gpu/drm/i915/gt/selftest_migrate.c:193 clear() error: uninitialized=
- symbol 'vaddr'.
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized =
-symbol 'rq'.
-drivers/gpu/drm/i915/gt/selftest_migrate.c:113 copy() error: uninitialized =
-symbol 'vaddr'.
-drivers/gpu/drm/i915/gem/i915_gem_object.h:182 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 171)
+cocci warnings: (new ones prefixed by >>)
+>> net/unix/af_unix.c:3255:2-11: second lock on line 3255
 
-vim +/rq +182 drivers/gpu/drm/i915/gt/selftest_migrate.c
+vim +3255 net/unix/af_unix.c
 
-cf586021642d80 Chris Wilson 2021-06-17  131  =
+7123aaa3a14165 Eric Dumazet      2012-06-08  3239  =
 
-563baae1875cbc Chris Wilson 2021-06-17  132  static int clear(struct intel_=
-migrate *migrate,
-563baae1875cbc Chris Wilson 2021-06-17  133  		 int (*fn)(struct intel_migr=
-ate *migrate,
-563baae1875cbc Chris Wilson 2021-06-17  134  			   struct i915_gem_ww_ctx *=
-ww,
-563baae1875cbc Chris Wilson 2021-06-17  135  			   struct drm_i915_gem_obje=
-ct *obj,
-563baae1875cbc Chris Wilson 2021-06-17  136  			   u32 value,
-563baae1875cbc Chris Wilson 2021-06-17  137  			   struct i915_request **ou=
-t),
-563baae1875cbc Chris Wilson 2021-06-17  138  		 u32 sz, struct rnd_state *p=
-rng)
-563baae1875cbc Chris Wilson 2021-06-17  139  {
-563baae1875cbc Chris Wilson 2021-06-17  140  	struct drm_i915_private *i915=
- =3D migrate->context->engine->i915;
-563baae1875cbc Chris Wilson 2021-06-17  141  	struct drm_i915_gem_object *o=
-bj;
-563baae1875cbc Chris Wilson 2021-06-17  142  	struct i915_request *rq;
-563baae1875cbc Chris Wilson 2021-06-17  143  	struct i915_gem_ww_ctx ww;
-563baae1875cbc Chris Wilson 2021-06-17  144  	u32 *vaddr;
-563baae1875cbc Chris Wilson 2021-06-17  145  	int err =3D 0;
-563baae1875cbc Chris Wilson 2021-06-17  146  	int i;
-563baae1875cbc Chris Wilson 2021-06-17  147  =
+7123aaa3a14165 Eric Dumazet      2012-06-08  3240  static struct sock *unix=
+_next_socket(struct seq_file *seq,
+7123aaa3a14165 Eric Dumazet      2012-06-08  3241  				     struct sock *sk,
+7123aaa3a14165 Eric Dumazet      2012-06-08  3242  				     loff_t *pos)
+7123aaa3a14165 Eric Dumazet      2012-06-08  3243  {
+afd20b9290e184 Kuniyuki Iwashima 2021-11-24  3244  	unsigned long bucket =
+=3D get_bucket(*pos);
+7123aaa3a14165 Eric Dumazet      2012-06-08  3245  =
 
-563baae1875cbc Chris Wilson 2021-06-17  148  	obj =3D create_lmem_or_intern=
-al(i915, sz);
-563baae1875cbc Chris Wilson 2021-06-17  149  	if (IS_ERR(obj))
-563baae1875cbc Chris Wilson 2021-06-17  150  		return 0;
-563baae1875cbc Chris Wilson 2021-06-17  151  =
+7123aaa3a14165 Eric Dumazet      2012-06-08  3246  	while (sk > (struct soc=
+k *)SEQ_START_TOKEN) {
+7123aaa3a14165 Eric Dumazet      2012-06-08  3247  		sk =3D sk_next(sk);
+7123aaa3a14165 Eric Dumazet      2012-06-08  3248  		if (!sk)
+7123aaa3a14165 Eric Dumazet      2012-06-08  3249  			goto next_bucket;
+7123aaa3a14165 Eric Dumazet      2012-06-08  3250  		if (sock_net(sk) =3D=
+=3D seq_file_net(seq))
+7123aaa3a14165 Eric Dumazet      2012-06-08  3251  			return sk;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3252  	}
+7123aaa3a14165 Eric Dumazet      2012-06-08  3253  =
 
-563baae1875cbc Chris Wilson 2021-06-17  152  	for_i915_gem_ww(&ww, err, tru=
-e) {
-563baae1875cbc Chris Wilson 2021-06-17  153  		err =3D i915_gem_object_lock=
-(obj, &ww);
-563baae1875cbc Chris Wilson 2021-06-17  154  		if (err)
-563baae1875cbc Chris Wilson 2021-06-17  155  			continue;
-563baae1875cbc Chris Wilson 2021-06-17  156  =
+7123aaa3a14165 Eric Dumazet      2012-06-08  3254  	do {
+afd20b9290e184 Kuniyuki Iwashima 2021-11-24 @3255  		spin_lock(&unix_table_=
+locks[bucket]);
+7123aaa3a14165 Eric Dumazet      2012-06-08  3256  		sk =3D unix_from_bucke=
+t(seq, pos);
+7123aaa3a14165 Eric Dumazet      2012-06-08  3257  		if (sk)
+7123aaa3a14165 Eric Dumazet      2012-06-08  3258  			return sk;
+7123aaa3a14165 Eric Dumazet      2012-06-08  3259  =
 
-563baae1875cbc Chris Wilson 2021-06-17  157  		vaddr =3D i915_gem_object_pi=
-n_map(obj, I915_MAP_WC);
-563baae1875cbc Chris Wilson 2021-06-17  158  		if (IS_ERR(vaddr)) {
-563baae1875cbc Chris Wilson 2021-06-17  159  			err =3D PTR_ERR(vaddr);
-563baae1875cbc Chris Wilson 2021-06-17  160  			continue;
-563baae1875cbc Chris Wilson 2021-06-17  161  		}
-563baae1875cbc Chris Wilson 2021-06-17  162  =
+7123aaa3a14165 Eric Dumazet      2012-06-08  3260  next_bucket:
+afd20b9290e184 Kuniyuki Iwashima 2021-11-24  3261  		spin_unlock(&unix_tabl=
+e_locks[bucket++]);
+7123aaa3a14165 Eric Dumazet      2012-06-08  3262  		*pos =3D set_bucket_of=
+fset(bucket, 1);
+7123aaa3a14165 Eric Dumazet      2012-06-08  3263  	} while (bucket < ARRAY=
+_SIZE(unix_socket_table));
+7123aaa3a14165 Eric Dumazet      2012-06-08  3264  =
 
-563baae1875cbc Chris Wilson 2021-06-17  163  		for (i =3D 0; i < sz / sizeo=
-f(u32); i++)
-563baae1875cbc Chris Wilson 2021-06-17  164  			vaddr[i] =3D ~i;
-563baae1875cbc Chris Wilson 2021-06-17  165  		i915_gem_object_flush_map(ob=
-j);
-563baae1875cbc Chris Wilson 2021-06-17  166  =
-
-563baae1875cbc Chris Wilson 2021-06-17  167  		err =3D fn(migrate, &ww, obj=
-, sz, &rq);
-563baae1875cbc Chris Wilson 2021-06-17  168  		if (!err)
-563baae1875cbc Chris Wilson 2021-06-17  169  			continue;
-563baae1875cbc Chris Wilson 2021-06-17  170  =
-
-563baae1875cbc Chris Wilson 2021-06-17  171  		if (err !=3D -EDEADLK && err=
- !=3D -EINTR && err !=3D -ERESTARTSYS)
-563baae1875cbc Chris Wilson 2021-06-17  172  			pr_err("%ps failed, size: %=
-u\n", fn, sz);
-563baae1875cbc Chris Wilson 2021-06-17  173  		if (rq) {
-563baae1875cbc Chris Wilson 2021-06-17  174  			i915_request_wait(rq, 0, HZ=
-);
-563baae1875cbc Chris Wilson 2021-06-17  175  			i915_request_put(rq);
-563baae1875cbc Chris Wilson 2021-06-17  176  		}
-563baae1875cbc Chris Wilson 2021-06-17  177  		i915_gem_object_unpin_map(ob=
-j);
-563baae1875cbc Chris Wilson 2021-06-17  178  	}
-563baae1875cbc Chris Wilson 2021-06-17  179  	if (err)
-563baae1875cbc Chris Wilson 2021-06-17  180  		goto err_out;
-563baae1875cbc Chris Wilson 2021-06-17  181  =
-
-563baae1875cbc Chris Wilson 2021-06-17 @182  	if (rq) {
-563baae1875cbc Chris Wilson 2021-06-17  183  		if (i915_request_wait(rq, 0,=
- HZ) < 0) {
-563baae1875cbc Chris Wilson 2021-06-17  184  			pr_err("%ps timed out, size=
-: %u\n", fn, sz);
-563baae1875cbc Chris Wilson 2021-06-17  185  			err =3D -ETIME;
-563baae1875cbc Chris Wilson 2021-06-17  186  		}
-563baae1875cbc Chris Wilson 2021-06-17  187  		i915_request_put(rq);
-563baae1875cbc Chris Wilson 2021-06-17  188  	}
-563baae1875cbc Chris Wilson 2021-06-17  189  =
-
-563baae1875cbc Chris Wilson 2021-06-17  190  	for (i =3D 0; !err && i < sz =
-/ PAGE_SIZE; i++) {
-563baae1875cbc Chris Wilson 2021-06-17  191  		int x =3D i * 1024 + i915_pr=
-andom_u32_max_state(1024, prng);
-563baae1875cbc Chris Wilson 2021-06-17  192  =
-
-563baae1875cbc Chris Wilson 2021-06-17 @193  		if (vaddr[x] !=3D sz) {
-563baae1875cbc Chris Wilson 2021-06-17  194  			pr_err("%ps failed, size: %=
-u, offset: %zu\n",
-563baae1875cbc Chris Wilson 2021-06-17  195  			       fn, sz, x * sizeof(u=
-32));
-563baae1875cbc Chris Wilson 2021-06-17  196  			igt_hexdump(vaddr + i * 102=
-4, 4096);
-563baae1875cbc Chris Wilson 2021-06-17  197  			err =3D -EINVAL;
-563baae1875cbc Chris Wilson 2021-06-17  198  		}
-563baae1875cbc Chris Wilson 2021-06-17  199  	}
-563baae1875cbc Chris Wilson 2021-06-17  200  =
-
-563baae1875cbc Chris Wilson 2021-06-17  201  	i915_gem_object_unpin_map(obj=
-);
-563baae1875cbc Chris Wilson 2021-06-17  202  err_out:
-563baae1875cbc Chris Wilson 2021-06-17  203  	i915_gem_object_put(obj);
-563baae1875cbc Chris Wilson 2021-06-17  204  =
-
-563baae1875cbc Chris Wilson 2021-06-17  205  	return err;
-563baae1875cbc Chris Wilson 2021-06-17  206  }
-563baae1875cbc Chris Wilson 2021-06-17  207  =
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3265  	return NULL;
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3266  }
+^1da177e4c3f41 Linus Torvalds    2005-04-16  3267  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============4380912731224937786==--
+--===============1622717667063043073==--
 
