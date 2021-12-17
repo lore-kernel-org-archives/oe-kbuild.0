@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8984833904081842480=="
+Content-Type: multipart/mixed; boundary="===============8998843633418027846=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: sound/core/oss/pcm_oss.c:2377:3: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Fri, 17 Dec 2021 16:51:38 +0800
-Message-ID: <202112171657.WM2Eyr6v-lkp@intel.com>
+Subject: fs/ceph/addr.c:334:6: warning: Value stored to 'len' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Fri, 17 Dec 2021 16:51:36 +0800
+Message-ID: <202112171619.EdGlYxTY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8984833904081842480==
+--===============8998843633418027846==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,21 +15,21 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mark Rutland <mark.rutland@arm.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: Jeff Layton <jlayton@kernel.org>
+CC: Ilya Dryomov <idryomov@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   6441998e2e37131b0a4c310af9156d79d3351c16
-commit: fc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3 locking/atomic: arm: move =
-to ARCH_ATOMIC
-date:   7 months ago
+commit: 8ff2d290c8ce77c8e30d9b08c13d87cd5688d7e1 ceph: convert some PAGE_SI=
+ZE invocations to thp_size()
+date:   8 months ago
 :::::: branch date: 9 hours ago
-:::::: commit date: 7 months ago
-config: arm-randconfig-c002-20211215 (https://download.01.org/0day-ci/archi=
-ve/20211217/202112171657.WM2Eyr6v-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
+:::::: commit date: 8 months ago
+config: arm-randconfig-c002-20211211 (https://download.01.org/0day-ci/archi=
+ve/20211217/202112171619.EdGlYxTY-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
+b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
@@ -37,11 +37,11 @@ make.cross -O ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dfc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3
+t/commit/?id=3D8ff2d290c8ce77c8e30d9b08c13d87cd5688d7e1
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout fc63a6e08a8c97a3dc3a6f2e1946b949b9a6c2d3
+        git checkout 8ff2d290c8ce77c8e30d9b08c13d87cd5688d7e1
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -52,633 +52,301 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:733:6: note: 'min_period_size' is 0
-           if (min_period_size) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:733:2: note: '?' condition is false
-           if (min_period_size) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   sound/core/oss/pcm_oss.c:733:2: note: Taking false branch
-           if (min_period_size) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/core/oss/pcm_oss.c:742:2: note: Assuming 'max_period_size' is not =
-equal to 0
-           if (max_period_size) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:742:2: note: '?' condition is false
-           if (max_period_size) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:742:6: note: 'max_period_size' is not equal to 0
-           if (max_period_size) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:742:2: note: '?' condition is true
-           if (max_period_size) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   sound/core/oss/pcm_oss.c:742:2: note: Taking true branch
-           if (max_period_size) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/core/oss/pcm_oss.c:744:21: note: '?' condition is false
-                   max_period_size =3D rounddown_pow_of_two(max_period_size=
-);
-                                     ^
-   include/linux/log2.h:193:2: note: expanded from macro 'rounddown_pow_of_=
-two'
-           __builtin_constant_p(n) ? (             \
-           ^
-   sound/core/oss/pcm_oss.c:744:21: note: Calling '__rounddown_pow_of_two'
-                   max_period_size =3D rounddown_pow_of_two(max_period_size=
-);
-                                     ^
-   include/linux/log2.h:195:2: note: expanded from macro 'rounddown_pow_of_=
-two'
-           __rounddown_pow_of_two(n)               \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:67:13: note: The result of the left shift is undefi=
-ned due to shifting by '4294967295', which is greater or equal to the width=
- of type 'unsigned long'
-           return 1UL << (fls_long(n) - 1);
-                      ^  ~~~~~~~~~~~~~~~~~
->> sound/core/oss/pcm_oss.c:2377:3: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   struct snd_pcm_substream *substream =3D pcm_oss_file->st=
-reams[cidx];
+                   list_first_entry(head, struct host1x_waitlist, list)->th=
+resh;
                    ^
-   sound/core/oss/pcm_oss.c:2396:2: note: Assuming 'rpcm_oss_file' is null
-           if (rpcm_oss_file)
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
-           if (rpcm_oss_file)
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:2396:6: note: 'rpcm_oss_file' is null
-           if (rpcm_oss_file)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
-           if (rpcm_oss_file)
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
            ^
-   sound/core/oss/pcm_oss.c:2396:2: note: Taking false branch
-           if (rpcm_oss_file)
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/core/oss/pcm_oss.c:2399:17: note: Calling 'kzalloc'
-           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:686:9: note: Storing uninitialized value
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/oss/pcm_oss.c:2399:17: note: Returning from 'kzalloc'
-           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/oss/pcm_oss.c:2400:6: note: Assuming 'pcm_oss_file' is not eq=
-ual to null
-           if (pcm_oss_file =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
-           if (pcm_oss_file =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:2400:6: note: 'pcm_oss_file' is not equal to nu=
-ll
-           if (pcm_oss_file =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
-           if (pcm_oss_file =3D=3D NULL)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
---
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:2421:3: note: '?' condition is false
-                   if (err < 0) {
+   include/linux/compiler_types.h:300:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
                    ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:2421:7: note: 'err' is < 0
-                   if (err < 0) {
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:2421:3: note: '?' condition is true
-                   if (err < 0) {
+   drivers/gpu/host1x/intr.c:93:3: note: Loop condition is false.  Exiting =
+loop
+                   list_first_entry(head, struct host1x_waitlist, list)->th=
+resh;
                    ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   sound/core/oss/pcm_oss.c:2421:3: note: Taking true branch
-                   if (err < 0) {
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:709:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:320:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:308:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:298:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/gpu/host1x/intr.c:93:3: note: Use of memory after it is freed
+                   list_first_entry(head, struct host1x_waitlist, list)->th=
+resh;
                    ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/core/oss/pcm_oss.c:2422:4: note: Calling 'snd_pcm_oss_release_file'
-                           snd_pcm_oss_release_file(pcm_oss_file);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/oss/pcm_oss.c:2374:7: note: 'pcm_oss_file' is non-null
-           if (!pcm_oss_file)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:2374:2: note: '?' condition is false
-           if (!pcm_oss_file)
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:2374:7: note: 'pcm_oss_file' is non-null
-           if (!pcm_oss_file)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:2374:2: note: '?' condition is false
-           if (!pcm_oss_file)
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   include/linux/kernel.h:707:41: note: expanded from macro 'container_of'
+   #define container_of(ptr, type, member) ({                              \
+                                           ^
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   18 warnings generated.
+   fs/ceph/file.c:295:7: warning: Value stored to 'issued' during its initi=
+alization is never read [clang-analyzer-deadcode.DeadStores]
+                   int issued =3D __ceph_caps_issued(ci, NULL);
+                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/file.c:295:7: note: Value stored to 'issued' during its initiali=
+zation is never read
+                   int issued =3D __ceph_caps_issued(ci, NULL);
+                       ^~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/file.c:2183:2: warning: Value stored to 'size' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           size =3D i_size_read(dst_inode);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/file.c:2183:2: note: Value stored to 'size' is never read
+           size =3D i_size_read(dst_inode);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   19 warnings generated.
+   fs/ceph/addr.c:332:19: warning: Value stored to 'vino' during its initia=
+lization is never read [clang-analyzer-deadcode.DeadStores]
+           struct ceph_vino vino =3D ceph_vino(inode);
+                            ^~~~   ~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c:332:19: note: Value stored to 'vino' during its initializ=
+ation is never read
+           struct ceph_vino vino =3D ceph_vino(inode);
+                            ^~~~   ~~~~~~~~~~~~~~~~
+>> fs/ceph/addr.c:334:6: warning: Value stored to 'len' during its initiali=
+zation is never read [clang-analyzer-deadcode.DeadStores]
+           u64 len =3D thp_size(page);
+               ^~~   ~~~~~~~~~~~~~~
+   fs/ceph/addr.c:334:6: note: Value stored to 'len' during its initializat=
+ion is never read
+           u64 len =3D thp_size(page);
+               ^~~   ~~~~~~~~~~~~~~
+   fs/ceph/addr.c:585:3: warning: The expression is an uninitialized value.=
+ The computed value will also be garbage [clang-analyzer-core.uninitialized=
+.Assign]
+                   wbc->pages_skipped++;
+                   ^
+   fs/ceph/addr.c:607:9: note: Assuming 'inode' is non-null
+           BUG_ON(!inode);
+                  ^
+   include/asm-generic/bug.h:183:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   fs/ceph/addr.c:607:2: note: Taking false branch
+           BUG_ON(!inode);
            ^
-   sound/core/oss/pcm_oss.c:2374:2: note: Taking false branch
-           if (!pcm_oss_file)
+   include/asm-generic/bug.h:183:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   fs/ceph/addr.c:607:2: note: Loop condition is false.  Exiting loop
+           BUG_ON(!inode);
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/core/oss/pcm_oss.c:2376:7: note: The value 0 is assigned to 'cidx'
-           for (cidx =3D 0; cidx < 2; ++cidx) {
-                ^~~~~~~~
-   sound/core/oss/pcm_oss.c:2376:2: note: Loop condition is true.  Entering=
- loop body
-           for (cidx =3D 0; cidx < 2; ++cidx) {
+   include/asm-generic/bug.h:183:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   fs/ceph/addr.c:609:8: note: Calling 'writepage_nounlock'
+           err =3D writepage_nounlock(page, wbc);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c:504:2: note: Taking false branch
+           dout("writepage %p idx %lu\n", page, page->index);
            ^
-   sound/core/oss/pcm_oss.c:2377:3: note: Assigned value is garbage or unde=
-fined
-                   struct snd_pcm_substream *substream =3D pcm_oss_file->st=
-reams[cidx];
-                   ^                                     ~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~
->> sound/core/oss/pcm_oss.c:2430:6: warning: Branch condition evaluates to =
-a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (!pcm_oss_file->streams[0] && !pcm_oss_file->streams[1]) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:2396:2: note: Assuming 'rpcm_oss_file' is null
-           if (rpcm_oss_file)
+   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
+                   if (0)                                          \
+                   ^
+   fs/ceph/addr.c:504:2: note: Loop condition is false.  Exiting loop
+           dout("writepage %p idx %lu\n", page, page->index);
            ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
-           if (rpcm_oss_file)
+   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
+   #  define dout(fmt, ...)        do {                            \
+                                   ^
+   fs/ceph/addr.c:508:6: note: Assuming 'snapc' is non-null
+           if (!snapc) {
+               ^~~~~~
+   fs/ceph/addr.c:508:2: note: Taking false branch
+           if (!snapc) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:2396:6: note: 'rpcm_oss_file' is null
-           if (rpcm_oss_file)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:2396:2: note: '?' condition is false
-           if (rpcm_oss_file)
+   fs/ceph/addr.c:513:6: note: Assuming 'snapc->seq' is <=3D 'oldest->seq'
+           if (snapc->seq > oldest->seq) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c:513:2: note: Taking false branch
+           if (snapc->seq > oldest->seq) {
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
+   fs/ceph/addr.c:525:6: note: Assuming 'page_off' is < field 'i_size'
+           if (page_off >=3D ceph_wbc.i_size) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c:525:2: note: Taking false branch
+           if (page_off >=3D ceph_wbc.i_size) {
            ^
-   sound/core/oss/pcm_oss.c:2396:2: note: Taking false branch
-           if (rpcm_oss_file)
+   fs/ceph/addr.c:531:6: note: Assuming the condition is false
+           if (ceph_wbc.i_size < page_off + len)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c:531:2: note: Taking false branch
+           if (ceph_wbc.i_size < page_off + len)
            ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   sound/core/oss/pcm_oss.c:2399:17: note: Calling 'kzalloc'
-           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:686:9: note: Storing uninitialized value
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/oss/pcm_oss.c:2399:17: note: Returning from 'kzalloc'
-           pcm_oss_file =3D kzalloc(sizeof(*pcm_oss_file), GFP_KERNEL);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   sound/core/oss/pcm_oss.c:2400:6: note: Assuming 'pcm_oss_file' is not eq=
-ual to null
-           if (pcm_oss_file =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
-           if (pcm_oss_file =3D=3D NULL)
+   fs/ceph/addr.c:534:2: note: Taking false branch
+           dout("writepage %p page %p index %lu on %llu~%llu snapc %p seq %=
+lld\n",
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   sound/core/oss/pcm_oss.c:2400:6: note: 'pcm_oss_file' is not equal to nu=
-ll
-           if (pcm_oss_file =3D=3D NULL)
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   sound/core/oss/pcm_oss.c:2400:2: note: '?' condition is false
-           if (pcm_oss_file =3D=3D NULL)
+   include/linux/ceph/ceph_debug.h:25:3: note: expanded from macro 'dout'
+                   if (0)                                          \
+                   ^
+   fs/ceph/addr.c:534:2: note: Loop condition is false.  Exiting loop
+           dout("writepage %p page %p index %lu on %llu~%llu snapc %p seq %=
+lld\n",
            ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+   include/linux/ceph/ceph_debug.h:24:26: note: expanded from macro 'dout'
+   #  define dout(fmt, ...)        do {                            \
+                                   ^
+   fs/ceph/addr.c:537:6: note: Assuming the condition is false
+           if (atomic_long_inc_return(&fsc->writeback_count) >
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/ceph/addr.c:537:2: note: Taking false branch
+           if (atomic_long_inc_return(&fsc->writeback_count) >
+           ^
+   fs/ceph/addr.c:546:6: note: Calling 'IS_ERR'
+           if (IS_ERR(req)) {
+               ^~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
 
-vim +2377 sound/core/oss/pcm_oss.c
+vim +/len +334 fs/ceph/addr.c
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2370  =
+f0702876e152f04 Jeff Layton 2020-06-01  326  =
 
-6ac77bc180fbd9 Takashi Iwai   2005-11-17  2371  static int snd_pcm_oss_rele=
-ase_file(struct snd_pcm_oss_file *pcm_oss_file)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2372  {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2373  	int cidx;
-7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2374  	if (!pcm_oss_file)
-7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2375  		return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2376  	for (cidx =3D 0; cidx < 2;=
- ++cidx) {
-6ac77bc180fbd9 Takashi Iwai   2005-11-17 @2377  		struct snd_pcm_substream =
-*substream =3D pcm_oss_file->streams[cidx];
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2378  		if (substream)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2379  			snd_pcm_release_substrea=
-m(substream);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2380  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2381  	kfree(pcm_oss_file);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2382  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2383  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2384  =
+f0702876e152f04 Jeff Layton 2020-06-01  327  /* read a single page, without=
+ unlocking it. */
+f0702876e152f04 Jeff Layton 2020-06-01  328  static int ceph_readpage(struc=
+t file *file, struct page *page)
+f0702876e152f04 Jeff Layton 2020-06-01  329  {
+f0702876e152f04 Jeff Layton 2020-06-01  330  	struct inode *inode =3D file_=
+inode(file);
+f0702876e152f04 Jeff Layton 2020-06-01  331  	struct ceph_inode_info *ci =
+=3D ceph_inode(inode);
+f0702876e152f04 Jeff Layton 2020-06-01  332  	struct ceph_vino vino =3D cep=
+h_vino(inode);
+f0702876e152f04 Jeff Layton 2020-06-01  333  	u64 off =3D page_offset(page);
+8ff2d290c8ce77c Jeff Layton 2021-04-05 @334  	u64 len =3D thp_size(page);
+f0702876e152f04 Jeff Layton 2020-06-01  335  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2385  static int snd_pcm_oss_open=
-_file(struct file *file,
-6ac77bc180fbd9 Takashi Iwai   2005-11-17  2386  				 struct snd_pcm *pcm,
-6ac77bc180fbd9 Takashi Iwai   2005-11-17  2387  				 struct snd_pcm_oss_fil=
-e **rpcm_oss_file,
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2388  				 int minor,
-060d77b9c04acd Takashi Iwai   2006-03-27  2389  				 struct snd_pcm_oss_set=
-up *setup)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2390  {
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2391  	int idx, err;
-6ac77bc180fbd9 Takashi Iwai   2005-11-17  2392  	struct snd_pcm_oss_file *p=
-cm_oss_file;
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2393  	struct snd_pcm_substream *=
-substream;
-aeb5d727062a02 Al Viro        2008-09-02  2394  	fmode_t f_mode =3D file->f=
-_mode;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2395  =
+f0702876e152f04 Jeff Layton 2020-06-01  336  	if (ci->i_inline_version !=3D=
+ CEPH_INLINE_NONE) {
+f0702876e152f04 Jeff Layton 2020-06-01  337  		/*
+f0702876e152f04 Jeff Layton 2020-06-01  338  		 * Uptodate inline data shou=
+ld have been added
+f0702876e152f04 Jeff Layton 2020-06-01  339  		 * into page cache while get=
+ting Fcr caps.
+f0702876e152f04 Jeff Layton 2020-06-01  340  		 */
+f0702876e152f04 Jeff Layton 2020-06-01  341  		if (off =3D=3D 0) {
+f0702876e152f04 Jeff Layton 2020-06-01  342  			unlock_page(page);
+f0702876e152f04 Jeff Layton 2020-06-01  343  			return -EINVAL;
+f0702876e152f04 Jeff Layton 2020-06-01  344  		}
+8ff2d290c8ce77c Jeff Layton 2021-04-05  345  		zero_user_segment(page, 0, t=
+hp_size(page));
+f0702876e152f04 Jeff Layton 2020-06-01  346  		SetPageUptodate(page);
+f0702876e152f04 Jeff Layton 2020-06-01  347  		unlock_page(page);
+f0702876e152f04 Jeff Layton 2020-06-01  348  		return 0;
+f0702876e152f04 Jeff Layton 2020-06-01  349  	}
+f0702876e152f04 Jeff Layton 2020-06-01  350  =
 
-7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2396  	if (rpcm_oss_file)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2397  		*rpcm_oss_file =3D NULL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2398  =
+f0702876e152f04 Jeff Layton 2020-06-01  351  	dout("readpage ino %llx.%llx =
+file %p off %llu len %llu page %p index %lu\n",
+f0702876e152f04 Jeff Layton 2020-06-01  352  	     vino.ino, vino.snap, fil=
+e, off, len, page, page->index);
+f0702876e152f04 Jeff Layton 2020-06-01  353  =
 
-ca2c0966562cfb Takashi Iwai   2005-09-09  2399  	pcm_oss_file =3D kzalloc(s=
-izeof(*pcm_oss_file), GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2400  	if (pcm_oss_file =3D=3D NU=
-LL)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2401  		return -ENOMEM;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2402  =
+f0702876e152f04 Jeff Layton 2020-06-01  354  	return netfs_readpage(file, p=
+age, &ceph_netfs_read_ops, NULL);
+f0702876e152f04 Jeff Layton 2020-06-01  355  }
+f0702876e152f04 Jeff Layton 2020-06-01  356  =
 
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2403  	if ((f_mode & (FMODE_WRITE=
-|FMODE_READ)) =3D=3D (FMODE_WRITE|FMODE_READ) &&
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2404  	    (pcm->info_flags & SND=
-RV_PCM_INFO_HALF_DUPLEX))
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2405  		f_mode =3D FMODE_WRITE;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2406  =
-
-0df63e44c3e315 Takashi Iwai   2006-04-28  2407  	file->f_flags &=3D ~O_APPE=
-ND;
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2408  	for (idx =3D 0; idx < 2; i=
-dx++) {
-060d77b9c04acd Takashi Iwai   2006-03-27  2409  		if (setup[idx].disable)
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2410  			continue;
-6cb53e7ed77d42 Takashi Iwai   2006-08-02  2411  		if (! pcm->streams[idx].s=
-ubstream_count)
-6cb53e7ed77d42 Takashi Iwai   2006-08-02  2412  			continue; /* no matching=
- substream */
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2413  		if (idx =3D=3D SNDRV_PCM_=
-STREAM_PLAYBACK) {
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2414  			if (! (f_mode & FMODE_WR=
-ITE))
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2415  				continue;
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2416  		} else {
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2417  			if (! (f_mode & FMODE_RE=
-AD))
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2418  				continue;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2419  		}
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2420  		err =3D snd_pcm_open_subs=
-tream(pcm, idx, file, &substream);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2421  		if (err < 0) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2422  			snd_pcm_oss_release_file=
-(pcm_oss_file);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2423  			return err;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2424  		}
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2425  =
-
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2426  		pcm_oss_file->streams[idx=
-] =3D substream;
-060d77b9c04acd Takashi Iwai   2006-03-27  2427  		snd_pcm_oss_init_substrea=
-m(substream, &setup[idx], minor);
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2428  	}
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2429  	=
-
-bbdc1b7dbe4157 OGAWA Hirofumi 2006-04-06 @2430  	if (!pcm_oss_file->streams=
-[0] && !pcm_oss_file->streams[1]) {
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2431  		snd_pcm_oss_release_file(=
-pcm_oss_file);
-3bf75f9b90c981 Takashi Iwai   2006-03-27  2432  		return -EINVAL;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2433  	}
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2434  =
-
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2435  	file->private_data =3D pcm=
-_oss_file;
-7eaa943c8ed8e9 Takashi Iwai   2008-08-08  2436  	if (rpcm_oss_file)
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2437  		*rpcm_oss_file =3D pcm_os=
-s_file;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2438  	return 0;
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2439  }
-^1da177e4c3f41 Linus Torvalds 2005-04-16  2440  =
-
-
-:::::: The code at line 2377 was first introduced by commit
-:::::: 6ac77bc180fbd985988015020c2e2347e802959d [ALSA] Remove xxx_t typedef=
-s: PCM OSS-emulation
-
-:::::: TO: Takashi Iwai <tiwai@suse.de>
-:::::: CC: Jaroslav Kysela <perex@suse.cz>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8984833904081842480==--
+--===============8998843633418027846==--
 
