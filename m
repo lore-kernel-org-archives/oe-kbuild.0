@@ -1,500 +1,332 @@
-Content-Type: multipart/mixed; boundary="===============2279137680195008703=="
+Content-Type: multipart/mixed; boundary="===============3041761301598518906=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 4066/8462] kernel/bpf/btf.c:6693:3: warning: Address of stack memory associated with local variable 'local_cand' returned to caller [clang-analyzer-core.StackAddressEscape]
-Date: Sat, 18 Dec 2021 03:22:09 +0800
-Message-ID: <202112180325.fCHT1YiB-lkp@intel.com>
+Subject: [xilinx-xlnx:xlnx_rebase_v5.10 65/1981] drivers/spi/spi-zynqmp-gqspi.c:968:3-9: preceding lock on line 959
+Date: Sat, 18 Dec 2021 03:01:38 +0800
+Message-ID: <202112180238.NUlXfiNL-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2279137680195008703==
+--===============3041761301598518906==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Alexei Starovoitov <ast@kernel.org>
-CC: Andrii Nakryiko <andrii@kernel.org>
+CC: linux-arm-kernel(a)lists.infradead.org
+TO: Quanyang Wang <quanyang.wang@windriver.com>
+CC: Michal Simek <monstr@monstr.eu>
+CC: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   c122052c3cb861b3e61a01d2c2ab9069e470663e
-commit: 1e89106da25390826608ad6ac0edfb7c9952eff3 [4066/8462] bpf: Add bpf_c=
-ore_add_cands() and wire it into bpf_core_apply_relo_insn().
-:::::: branch date: 6 hours ago
-:::::: commit date: 2 weeks ago
-config: arm-randconfig-c002-20211216 (https://download.01.org/0day-ci/archi=
-ve/20211218/202112180325.fCHT1YiB-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.g=
-it/commit/?id=3D1e89106da25390826608ad6ac0edfb7c9952eff3
-        git remote add linux-next https://git.kernel.org/pub/scm/linux/kern=
-el/git/next/linux-next.git
-        git fetch --no-tags linux-next master
-        git checkout 1e89106da25390826608ad6ac0edfb7c9952eff3
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://github.com/Xilinx/linux-xlnx xlnx_rebase_v5.10
+head:   87ec9a2d98a7a7dfc98b57348a0ec310fd170e4b
+commit: bc753db9c74d949b33bbb8b08a9b6340b57a444f [65/1981] spi: spi-zynqmp-=
+gqspi: add mutex locking for exec_op
+:::::: branch date: 3 days ago
+:::::: commit date: 9 months ago
+config: x86_64-randconfig-c002-20211216 (https://download.01.org/0day-ci/ar=
+chive/20211218/202112180238.NUlXfiNL-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:390:48: note: expanded from macro '__rcu_derefe=
-rence_check'
-           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
-                                                         ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:335:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:323:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:307:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   kernel/bpf/lpm_trie.c:695:11: note: Left side of '||' is false
-                           node =3D rcu_dereference(node->child[0]);
-                                  ^
-   include/linux/rcupdate.h:597:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:529:31: note: expanded from macro 'rcu_derefere=
-nce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-                                        ^
-   kernel/bpf/lpm_trie.c:695:11: note: Assuming the condition is false
-                           node =3D rcu_dereference(node->child[0]);
-                                  ^
-   include/linux/rcupdate.h:597:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:391:19: note: expanded from macro '__rcu_derefe=
-rence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/rcupdate.h:319:8: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                        ^
-   kernel/bpf/lpm_trie.c:695:11: note: Left side of '&&' is false
-                           node =3D rcu_dereference(node->child[0]);
-                                  ^
-   include/linux/rcupdate.h:597:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:391:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:319:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                           ^
-   kernel/bpf/lpm_trie.c:695:11: note: Loop condition is false.  Exiting lo=
-op
-                           node =3D rcu_dereference(node->child[0]);
-                                  ^
-   include/linux/rcupdate.h:597:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:391:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:317:2: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-           do {                                                            \
-           ^
-   kernel/bpf/lpm_trie.c:693:2: note: Loop condition is false. Execution co=
-ntinues on line 704
-           for (node =3D search_root; node;) {
-           ^
-   kernel/bpf/lpm_trie.c:704:24: note: Access to field 'prefixlen' results =
-in a dereference of a null pointer (loaded from variable 'next_node')
-           next_key->prefixlen =3D next_node->prefixlen;
-                                 ^~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   kernel/bpf/btf.c:840:25: warning: Value stored to 't' during its initial=
-ization is never read [clang-analyzer-deadcode.DeadStores]
-           const struct btf_type *t =3D show->state.type;
-                                  ^   ~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:840:25: note: Value stored to 't' during its initializa=
-tion is never read
-           const struct btf_type *t =3D show->state.type;
-                                  ^   ~~~~~~~~~~~~~~~~
->> kernel/bpf/btf.c:6693:3: warning: Address of stack memory associated wit=
-h local variable 'local_cand' returned to caller [clang-analyzer-core.Stack=
-AddressEscape]
-                   return cands;
-                   ^
-   kernel/bpf/btf.c:6743:20: note: Assuming field 'kind' is not equal to BP=
-F_CORE_TYPE_ID_LOCAL
-           bool need_cands =3D relo->kind !=3D BPF_CORE_TYPE_ID_LOCAL;
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6747:6: note: 'need_cands' is true
-           if (need_cands) {
-               ^~~~~~~~~~
-   kernel/bpf/btf.c:6747:2: note: Taking true branch
-           if (need_cands) {
-           ^
-   kernel/bpf/btf.c:6752:8: note: Calling 'bpf_core_find_cands'
-                   cc =3D bpf_core_find_cands(ctx, relo->type_id);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6665:2: note: Taking false branch
-           if (IS_ERR(main_btf))
-           ^
-   kernel/bpf/btf.c:6669:6: note: Assuming 'local_type' is non-null
-           if (!local_type)
-               ^~~~~~~~~~~
-   kernel/bpf/btf.c:6669:2: note: Taking false branch
-           if (!local_type)
-           ^
-   kernel/bpf/btf.c:6673:6: note: Assuming the condition is false
-           if (str_is_empty(name))
-               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6673:2: note: Taking false branch
-           if (str_is_empty(name))
-           ^
-   kernel/bpf/btf.c:6684:6: note: 'cc' is null
-           if (cc) {
-               ^~
-   kernel/bpf/btf.c:6684:2: note: Taking false branch
-           if (cc) {
-           ^
-   kernel/bpf/btf.c:6692:6: note: Assuming the condition is true
-           if (IS_ERR(cands))
-               ^~~~~~~~~~~~~
-   kernel/bpf/btf.c:6692:2: note: Taking true branch
-           if (IS_ERR(cands))
-           ^
-   kernel/bpf/btf.c:6693:3: note: Address of stack memory associated with l=
-ocal variable 'local_cand' returned to caller
-                   return cands;
-                   ^      ~~~~~
->> kernel/bpf/btf.c:6708:7: warning: Use of memory after it is freed [clang=
--analyzer-unix.Malloc]
-           cc =3D check_cand_cache(cands, module_cand_cache, MODULE_CAND_CA=
-CHE_SIZE);
-                ^
-   kernel/bpf/btf.c:6743:20: note: Assuming field 'kind' is not equal to BP=
-F_CORE_TYPE_ID_LOCAL
-           bool need_cands =3D relo->kind !=3D BPF_CORE_TYPE_ID_LOCAL;
-                             ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6747:6: note: 'need_cands' is true
-           if (need_cands) {
-               ^~~~~~~~~~
-   kernel/bpf/btf.c:6747:2: note: Taking true branch
-           if (need_cands) {
-           ^
-   kernel/bpf/btf.c:6752:8: note: Calling 'bpf_core_find_cands'
-                   cc =3D bpf_core_find_cands(ctx, relo->type_id);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6665:2: note: Taking false branch
-           if (IS_ERR(main_btf))
-           ^
-   kernel/bpf/btf.c:6669:6: note: Assuming 'local_type' is non-null
-           if (!local_type)
-               ^~~~~~~~~~~
-   kernel/bpf/btf.c:6669:2: note: Taking false branch
-           if (!local_type)
-           ^
-   kernel/bpf/btf.c:6673:6: note: Assuming the condition is false
-           if (str_is_empty(name))
-               ^~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6673:2: note: Taking false branch
-           if (str_is_empty(name))
-           ^
-   kernel/bpf/btf.c:6684:6: note: 'cc' is null
-           if (cc) {
-               ^~
-   kernel/bpf/btf.c:6684:2: note: Taking false branch
-           if (cc) {
-           ^
-   kernel/bpf/btf.c:6691:10: note: Calling 'bpf_core_add_cands'
-           cands =3D bpf_core_add_cands(cands, main_btf, 1);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6614:26: note: Assuming 'i' is < 'n'
-           for (i =3D targ_start_id; i < n; i++) {
-                                   ^~~~~
-   kernel/bpf/btf.c:6614:2: note: Loop condition is true.  Entering loop bo=
-dy
-           for (i =3D targ_start_id; i < n; i++) {
-           ^
-   kernel/bpf/btf.c:6616:7: note: Assuming the condition is false
-                   if (btf_kind(t) !=3D cands->kind)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6616:3: note: Taking false branch
-                   if (btf_kind(t) !=3D cands->kind)
-                   ^
-   kernel/bpf/btf.c:6620:7: note: Assuming 'targ_name' is non-null
-                   if (!targ_name)
-                       ^~~~~~~~~~
-   kernel/bpf/btf.c:6620:3: note: Taking false branch
-                   if (!targ_name)
-                   ^
-   kernel/bpf/btf.c:6628:3: note: Taking false branch
-                   if (strncmp(cands->name, targ_name, cands->name_len) !=
-=3D 0)
-                   ^
-   kernel/bpf/btf.c:6632:7: note: Assuming 'targ_essent_len' is equal to fi=
-eld 'name_len'
-                   if (targ_essent_len !=3D cands->name_len)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6632:3: note: Taking false branch
-                   if (targ_essent_len !=3D cands->name_len)
-                   ^
-   kernel/bpf/btf.c:6637:7: note: Assuming 'new_cands' is non-null
-                   if (!new_cands) {
-                       ^~~~~~~~~~
-   kernel/bpf/btf.c:6637:3: note: Taking false branch
-                   if (!new_cands) {
-                   ^
-   kernel/bpf/btf.c:6614:26: note: Assuming 'i' is >=3D 'n'
-           for (i =3D targ_start_id; i < n; i++) {
-                                   ^~~~~
-   kernel/bpf/btf.c:6614:2: note: Loop condition is false. Execution contin=
-ues on line 6649
-           for (i =3D targ_start_id; i < n; i++) {
-           ^
-   kernel/bpf/btf.c:6691:10: note: Returning from 'bpf_core_add_cands'
-           cands =3D bpf_core_add_cands(cands, main_btf, 1);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   kernel/bpf/btf.c:6692:2: note: Taking false branch
-           if (IS_ERR(cands))
-           ^
-   kernel/bpf/btf.c:6698:7: note: Calling 'populate_cand_cache'
-           cc =3D populate_cand_cache(cands, vmlinux_cand_cache, VMLINUX_CA=
-ND_CACHE_SIZE);
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~
-   kernel/bpf/btf.c:6541:6: note: Assuming the condition is false
-           if (*cc) {
-               ^~~
-   kernel/bpf/btf.c:6541:2: note: Taking false branch
-           if (*cc) {
-           ^
-   kernel/bpf/btf.c:6546:6: note: Assuming 'new_cands' is non-null
-           if (!new_cands) {
-               ^~~~~~~~~~
-   kernel/bpf/btf.c:6546:2: note: Taking false branch
-           if (!new_cands) {
-           ^
-   kernel/bpf/btf.c:6555:2: note: Calling 'bpf_free_cands'
-           bpf_free_cands(cands);
+cocci warnings: (new ones prefixed by >>)
+>> drivers/spi/spi-zynqmp-gqspi.c:968:3-9: preceding lock on line 959
 
-vim +/local_cand +6693 kernel/bpf/btf.c
+vim +968 drivers/spi/spi-zynqmp-gqspi.c
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6651  =
+9e3a000362aecb Naga Sureshkumar Relli 2018-03-26   934  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6652  static struct bpf_cand_=
-cache *
-1e89106da25390 Alexei Starovoitov 2021-12-01  6653  bpf_core_find_cands(str=
-uct bpf_core_ctx *ctx, u32 local_type_id)
-1e89106da25390 Alexei Starovoitov 2021-12-01  6654  {
-1e89106da25390 Alexei Starovoitov 2021-12-01  6655  	struct bpf_cand_cache =
-*cands, *cc, local_cand =3D {};
-1e89106da25390 Alexei Starovoitov 2021-12-01  6656  	const struct btf *loca=
-l_btf =3D ctx->btf;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6657  	const struct btf_type =
-*local_type;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6658  	const struct btf *main=
-_btf;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6659  	size_t local_essent_le=
-n;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6660  	struct btf *mod_btf;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6661  	const char *name;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6662  	int id;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6663  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   935  /**
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   936   * zynqmp_qspi_exec=
+_op() - Initiates the QSPI transfer
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   937   * @mem: The SPI me=
+mory
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   938   * @op: The memory =
+operation to execute
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   939   *
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   940   * Executes a memor=
+y operation.
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   941   *
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   942   * This function fi=
+rst selects the chip and starts the memory operation.
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   943   *
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   944   * Return: 0 in cas=
+e of success, a negative error code otherwise.
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   945   */
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   946  static int zynqmp_q=
+spi_exec_op(struct spi_mem *mem,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   947  			       const str=
+uct spi_mem_op *op)
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   948  {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   949  	struct zynqmp_qspi=
+ *xqspi =3D spi_controller_get_devdata
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   950  				    (mem->spi->=
+master);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   951  	int err =3D 0, i;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   952  	u8 *tmpbuf;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   953  	u32 genfifoentry =
+=3D 0;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   954  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6664  	main_btf =3D bpf_get_b=
-tf_vmlinux();
-1e89106da25390 Alexei Starovoitov 2021-12-01  6665  	if (IS_ERR(main_btf))
-1e89106da25390 Alexei Starovoitov 2021-12-01  6666  		return (void *)main_b=
-tf;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6667  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   955  	dev_dbg(xqspi->dev=
+, "cmd:%#x mode:%d.%d.%d.%d\n",
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   956  		op->cmd.opcode, o=
+p->cmd.buswidth, op->addr.buswidth,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   957  		op->dummy.buswidt=
+h, op->data.buswidth);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   958  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6668  	local_type =3D btf_typ=
-e_by_id(local_btf, local_type_id);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6669  	if (!local_type)
-1e89106da25390 Alexei Starovoitov 2021-12-01  6670  		return ERR_PTR(-EINVA=
-L);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6671  =
+bc753db9c74d94 Quanyang Wang          2020-11-19  @959  	mutex_lock(&xqspi-=
+>op_lock);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   960  	zynqmp_qspi_config=
+_op(xqspi, mem->spi);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   961  	zynqmp_qspi_chipse=
+lect(mem->spi, false);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   962  	genfifoentry |=3D =
+xqspi->genfifocs;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   963  	genfifoentry |=3D =
+xqspi->genfifobus;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   964  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6672  	name =3D btf_name_by_o=
-ffset(local_btf, local_type->name_off);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6673  	if (str_is_empty(name))
-1e89106da25390 Alexei Starovoitov 2021-12-01  6674  		return ERR_PTR(-EINVA=
-L);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6675  	local_essent_len =3D b=
-pf_core_essential_name_len(name);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6676  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   965  	if (op->cmd.opcode=
+) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   966  		tmpbuf =3D kzallo=
+c(op->cmd.nbytes, GFP_KERNEL | GFP_DMA);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   967  		if (!tmpbuf)
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  @968  			return -ENOMEM;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   969  		tmpbuf[0] =3D op-=
+>cmd.opcode;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   970  		reinit_completion=
+(&xqspi->data_completion);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   971  		xqspi->txbuf =3D =
+tmpbuf;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   972  		xqspi->rxbuf =3D =
+NULL;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   973  		xqspi->bytes_to_t=
+ransfer =3D op->cmd.nbytes;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   974  		xqspi->bytes_to_r=
+eceive =3D 0;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   975  		zynqmp_qspi_write=
+_op(xqspi, op->cmd.buswidth, genfifoentry);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   976  		zynqmp_gqspi_writ=
+e(xqspi, GQSPI_CONFIG_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   977  				   zynqmp_gqspi=
+_read(xqspi, GQSPI_CONFIG_OFST) |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   978  				   GQSPI_CFG_ST=
+ART_GEN_FIFO_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   979  		zynqmp_gqspi_writ=
+e(xqspi, GQSPI_IER_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   980  				   GQSPI_IER_GE=
+NFIFOEMPTY_MASK |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   981  				   GQSPI_IER_TX=
+NOT_FULL_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   982  		if (!wait_for_com=
+pletion_interruptible_timeout
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   983  		    (&xqspi->data=
+_completion, msecs_to_jiffies(1000))) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   984  			err =3D -ETIMEDO=
+UT;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   985  			kfree(tmpbuf);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   986  			goto return_err;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   987  		}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   988  		kfree(tmpbuf);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   989  	}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   990  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6677  	cands =3D &local_cand;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6678  	cands->name =3D name;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6679  	cands->kind =3D btf_ki=
-nd(local_type);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6680  	cands->name_len =3D lo=
-cal_essent_len;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6681  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   991  	if (op->addr.nbyte=
+s) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   992  		for (i =3D 0; i <=
+ op->addr.nbytes; i++) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   993  			*(((u8 *)xqspi->=
+txbuf) + i) =3D op->addr.val >>
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   994  					(8 * (op->addr=
+.nbytes - i - 1));
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   995  		}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   996  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6682  	cc =3D check_cand_cach=
-e(cands, vmlinux_cand_cache, VMLINUX_CAND_CACHE_SIZE);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6683  	/* cands is a pointer =
-to stack here */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6684  	if (cc) {
-1e89106da25390 Alexei Starovoitov 2021-12-01  6685  		if (cc->cnt)
-1e89106da25390 Alexei Starovoitov 2021-12-01  6686  			return cc;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6687  		goto check_modules;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6688  	}
-1e89106da25390 Alexei Starovoitov 2021-12-01  6689  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   997  		reinit_completion=
+(&xqspi->data_completion);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   998  		xqspi->rxbuf =3D =
+NULL;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24   999  		xqspi->bytes_to_t=
+ransfer =3D op->addr.nbytes;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1000  		xqspi->bytes_to_r=
+eceive =3D 0;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1001  		zynqmp_qspi_write=
+_op(xqspi, op->addr.buswidth, genfifoentry);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1002  		zynqmp_gqspi_writ=
+e(xqspi, GQSPI_CONFIG_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1003  				   zynqmp_gqspi=
+_read(xqspi,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1004  						     GQSPI_CO=
+NFIG_OFST) |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1005  				   GQSPI_CFG_ST=
+ART_GEN_FIFO_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1006  		zynqmp_gqspi_writ=
+e(xqspi, GQSPI_IER_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1007  				   GQSPI_IER_TX=
+EMPTY_MASK |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1008  				   GQSPI_IER_GE=
+NFIFOEMPTY_MASK |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1009  				   GQSPI_IER_TX=
+NOT_FULL_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1010  		if (!wait_for_com=
+pletion_interruptible_timeout
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1011  		    (&xqspi->data=
+_completion, msecs_to_jiffies(1000))) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1012  			err =3D -ETIMEDO=
+UT;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1013  			goto return_err;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1014  		}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1015  	}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1016  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6690  	/* Attempt to find tar=
-get candidates in vmlinux BTF first */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6691  	cands =3D bpf_core_add=
-_cands(cands, main_btf, 1);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6692  	if (IS_ERR(cands))
-1e89106da25390 Alexei Starovoitov 2021-12-01 @6693  		return cands;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6694  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1017  	if (op->dummy.nbyt=
+es) {
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1018  		xqspi->txbuf =3D =
+NULL;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1019  		xqspi->rxbuf =3D =
+NULL;
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1020  		/*
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1021  		 * xqspi->bytes_t=
+o_transfer here represents the dummy circles
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1022  		 * per data line.
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1023  		 */
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1024  		xqspi->bytes_to_t=
+ransfer =3D op->dummy.nbytes * 8 / op->dummy.buswidth;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1025  		xqspi->bytes_to_r=
+eceive =3D 0;
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1026  		/*
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1027  		 * Using op->data=
+.buswidth instead of op->dummy.buswidth since
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1028  		 * the specificat=
+ion requires that the dummy.buswidth should
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1029  		 * be the same as=
+ data.buswidth.
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1030  		 */
+5e19e3ddfa5d4b Quanyang Wang          2020-11-16  1031  		zynqmp_qspi_write=
+_op(xqspi, op->data.buswidth,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1032  				     genfifoent=
+ry);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1033  		zynqmp_gqspi_writ=
+e(xqspi, GQSPI_CONFIG_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1034  				   zynqmp_gqspi=
+_read(xqspi, GQSPI_CONFIG_OFST) |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1035  				   GQSPI_CFG_ST=
+ART_GEN_FIFO_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1036  	}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1037  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6695  	/* cands is a pointer =
-to kmalloced memory here if cands->cnt > 0 */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6696  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1038  	if (op->data.nbyte=
+s) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1039  		reinit_completion=
+(&xqspi->data_completion);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1040  		if (op->data.dir =
+=3D=3D SPI_MEM_DATA_OUT) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1041  			xqspi->txbuf =3D=
+ (u8 *)op->data.buf.out;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1042  			xqspi->rxbuf =3D=
+ NULL;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1043  			xqspi->bytes_to_=
+transfer =3D op->data.nbytes;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1044  			xqspi->bytes_to_=
+receive =3D 0;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1045  			zynqmp_qspi_writ=
+e_op(xqspi, op->data.buswidth,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1046  					     genfifoen=
+try);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1047  			zynqmp_gqspi_wri=
+te(xqspi, GQSPI_CONFIG_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1048  					   zynqmp_gqsp=
+i_read
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1049  					   (xqspi, GQS=
+PI_CONFIG_OFST) |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1050  					   GQSPI_CFG_S=
+TART_GEN_FIFO_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1051  			zynqmp_gqspi_wri=
+te(xqspi, GQSPI_IER_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1052  					   GQSPI_IER_T=
+XEMPTY_MASK |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1053  					   GQSPI_IER_G=
+ENFIFOEMPTY_MASK |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1054  					   GQSPI_IER_T=
+XNOT_FULL_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1055  		} else {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1056  			xqspi->txbuf =3D=
+ NULL;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1057  			xqspi->rxbuf =3D=
+ (u8 *)op->data.buf.in;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1058  			xqspi->bytes_to_=
+receive =3D op->data.nbytes;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1059  			xqspi->bytes_to_=
+transfer =3D 0;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1060  			zynqmp_qspi_read=
+_op(xqspi, op->data.buswidth,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1061  					    genfifoent=
+ry);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1062  			zynqmp_gqspi_wri=
+te(xqspi, GQSPI_CONFIG_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1063  					   zynqmp_gqsp=
+i_read
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1064  					   (xqspi, GQS=
+PI_CONFIG_OFST) |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1065  					   GQSPI_CFG_S=
+TART_GEN_FIFO_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1066  			if (xqspi->mode =
+=3D=3D GQSPI_MODE_DMA) {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1067  				zynqmp_gqspi_wr=
+ite
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1068  					(xqspi, GQSPI_=
+QSPIDMA_DST_I_EN_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1069  					 GQSPI_QSPIDMA=
+_DST_I_EN_DONE_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1070  			} else {
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1071  				zynqmp_gqspi_wr=
+ite(xqspi, GQSPI_IER_OFST,
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1072  						   GQSPI_IER_=
+GENFIFOEMPTY_MASK |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1073  						   GQSPI_IER_=
+RXNEMPTY_MASK |
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1074  						   GQSPI_IER_=
+RXEMPTY_MASK);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1075  			}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1076  		}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1077  		if (!wait_for_com=
+pletion_interruptible_timeout
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1078  		    (&xqspi->data=
+_completion, msecs_to_jiffies(1000)))
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1079  			err =3D -ETIMEDO=
+UT;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1080  	}
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1081  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6697  	/* populate cache even=
- when cands->cnt =3D=3D 0 */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6698  	cc =3D populate_cand_c=
-ache(cands, vmlinux_cand_cache, VMLINUX_CAND_CACHE_SIZE);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6699  	if (IS_ERR(cc))
-1e89106da25390 Alexei Starovoitov 2021-12-01  6700  		return cc;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6701  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1082  return_err:
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1083  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6702  	/* if vmlinux BTF has =
-any candidate, don't go for module BTFs */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6703  	if (cc->cnt)
-1e89106da25390 Alexei Starovoitov 2021-12-01  6704  		return cc;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6705  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1084  	zynqmp_qspi_chipse=
+lect(mem->spi, true);
+bc753db9c74d94 Quanyang Wang          2020-11-19  1085  	mutex_unlock(&xqsp=
+i->op_lock);
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1086  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6706  check_modules:
-1e89106da25390 Alexei Starovoitov 2021-12-01  6707  	/* cands is a pointer =
-to stack here and cands->cnt =3D=3D 0 */
-1e89106da25390 Alexei Starovoitov 2021-12-01 @6708  	cc =3D check_cand_cach=
-e(cands, module_cand_cache, MODULE_CAND_CACHE_SIZE);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6709  	if (cc)
-1e89106da25390 Alexei Starovoitov 2021-12-01  6710  		/* if cache has it re=
-turn it even if cc->cnt =3D=3D 0 */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6711  		return cc;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6712  =
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1087  	return err;
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1088  }
+1c26372e5aa9e5 Amit Kumar Mahapatra   2020-09-24  1089  =
 
-1e89106da25390 Alexei Starovoitov 2021-12-01  6713  	/* If candidate is not=
- found in vmlinux's BTF then search in module's BTFs */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6714  	spin_lock_bh(&btf_idr_=
-lock);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6715  	idr_for_each_entry(&bt=
-f_idr, mod_btf, id) {
-1e89106da25390 Alexei Starovoitov 2021-12-01  6716  		if (!btf_is_module(mo=
-d_btf))
-1e89106da25390 Alexei Starovoitov 2021-12-01  6717  			continue;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6718  		/* linear search coul=
-d be slow hence unlock/lock
-1e89106da25390 Alexei Starovoitov 2021-12-01  6719  		 * the IDR to avoidin=
-g holding it for too long
-1e89106da25390 Alexei Starovoitov 2021-12-01  6720  		 */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6721  		btf_get(mod_btf);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6722  		spin_unlock_bh(&btf_i=
-dr_lock);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6723  		cands =3D bpf_core_ad=
-d_cands(cands, mod_btf, btf_nr_types(main_btf));
-1e89106da25390 Alexei Starovoitov 2021-12-01  6724  		if (IS_ERR(cands)) {
-1e89106da25390 Alexei Starovoitov 2021-12-01  6725  			btf_put(mod_btf);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6726  			return cands;
-1e89106da25390 Alexei Starovoitov 2021-12-01  6727  		}
-1e89106da25390 Alexei Starovoitov 2021-12-01  6728  		spin_lock_bh(&btf_idr=
-_lock);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6729  		btf_put(mod_btf);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6730  	}
-1e89106da25390 Alexei Starovoitov 2021-12-01  6731  	spin_unlock_bh(&btf_id=
-r_lock);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6732  	/* cands is a pointer =
-to kmalloced memory here if cands->cnt > 0
-1e89106da25390 Alexei Starovoitov 2021-12-01  6733  	 * or pointer to stack=
- if cands->cnd =3D=3D 0.
-1e89106da25390 Alexei Starovoitov 2021-12-01  6734  	 * Copy it into the ca=
-che even when cands->cnt =3D=3D 0 and
-1e89106da25390 Alexei Starovoitov 2021-12-01  6735  	 * return the result.
-1e89106da25390 Alexei Starovoitov 2021-12-01  6736  	 */
-1e89106da25390 Alexei Starovoitov 2021-12-01  6737  	return populate_cand_c=
-ache(cands, module_cand_cache, MODULE_CAND_CACHE_SIZE);
-1e89106da25390 Alexei Starovoitov 2021-12-01  6738  }
-1e89106da25390 Alexei Starovoitov 2021-12-01  6739  =
 
+:::::: The code at line 968 was first introduced by commit
+:::::: 1c26372e5aa9e53391a1f8fe0dc7cd93a7e5ba9e spi: spi-zynqmp-gqspi: Upda=
+te driver to use spi-mem framework
+
+:::::: TO: Amit Kumar Mahapatra <amit.kumar-mahapatra@xilinx.com>
+:::::: CC: Mark Brown <broonie@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2279137680195008703==--
+--===============3041761301598518906==--
 
