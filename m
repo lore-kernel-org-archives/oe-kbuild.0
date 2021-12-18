@@ -1,313 +1,541 @@
-Content-Type: multipart/mixed; boundary="===============1609937010395382679=="
+Content-Type: multipart/mixed; boundary="===============3069918950432316159=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [andrea-aa:main 44/48] mm/ksm.c:2134 cmp_and_merge_page() error: uninitialized symbol 'checksum'.
-Date: Sun, 19 Dec 2021 05:20:39 +0800
-Message-ID: <202112190517.NPcuhEOX-lkp@intel.com>
+Subject: drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
+Date: Sun, 19 Dec 2021 05:00:05 +0800
+Message-ID: <202112190408.h8APic0f-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1609937010395382679==
+--===============3069918950432316159==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Andrea Arcangeli <aarcange@redhat.com>
+TO: Chris Down <chris@chrisdown.name>
+CC: Petr Mladek <pmladek@suse.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/andrea/aa.git main
-head:   2f1336124b54750df7ae428da9352e4d8091f31e
-commit: fec43fa50ccf8365ae2a8d9f150970ab6ca42b18 [44/48] KSM: only attempt =
-to merge with KSM pages if the payload doesn't change
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: i386-randconfig-m021-20211218 (https://download.01.org/0day-ci/arch=
-ive/20211219/202112190517.NPcuhEOX-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   9eaa88c7036eda3f6c215f87ca693594cf90559b
+commit: ad7d61f159db73974f1b0352f21afe04b0bbd920 printk: index: Add indexin=
+g support to dev_printk
+date:   5 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-c007-20211202 (https://download.01.org/0day-ci/ar=
+chive/20211219/202112190408.h8APic0f-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4b5532=
+97ef3ee4dc2119d5429adf3072e90fac38)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dad7d61f159db73974f1b0352f21afe04b0bbd920
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout ad7d61f159db73974f1b0352f21afe04b0bbd920
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Dx86_64 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-smatch warnings:
-mm/ksm.c:2134 cmp_and_merge_page() error: uninitialized symbol 'checksum'.
-
-vim +/checksum +2134 mm/ksm.c
-
-31dbd01f314364 Izik Eidus        2009-09-21  2049  =
-
-31dbd01f314364 Izik Eidus        2009-09-21  2050  /*
-81464e30609cdb Hugh Dickins      2009-09-21  2051   * cmp_and_merge_page - =
-first see if page can be merged into the stable tree;
-81464e30609cdb Hugh Dickins      2009-09-21  2052   * if not, compare check=
-sum to previous and if it's the same, see if page can
-81464e30609cdb Hugh Dickins      2009-09-21  2053   * be inserted into the =
-unstable tree, or merged with a page already there and
-81464e30609cdb Hugh Dickins      2009-09-21  2054   * both transferred to t=
-he stable tree.
-31dbd01f314364 Izik Eidus        2009-09-21  2055   *
-31dbd01f314364 Izik Eidus        2009-09-21  2056   * @page: the page that =
-we are searching identical page to.
-31dbd01f314364 Izik Eidus        2009-09-21  2057   * @rmap_item: the rever=
-se mapping into the virtual address of this page
-31dbd01f314364 Izik Eidus        2009-09-21  2058   */
-31dbd01f314364 Izik Eidus        2009-09-21  2059  static void cmp_and_merg=
-e_page(struct page *page, struct rmap_item *rmap_item)
-31dbd01f314364 Izik Eidus        2009-09-21  2060  {
-4b22927f0cbd58 Kirill Tkhai      2017-10-03  2061  	struct mm_struct *mm =
-=3D rmap_item->mm;
-31dbd01f314364 Izik Eidus        2009-09-21  2062  	struct rmap_item *tree_=
-rmap_item;
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2063  	struct page *tree_page =
-=3D NULL;
-7b6ba2c7d3baf8 Hugh Dickins      2009-12-14  2064  	struct stable_node *sta=
-ble_node;
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2065  	struct page *kpage;
-31dbd01f314364 Izik Eidus        2009-09-21  2066  	unsigned int checksum;
-31dbd01f314364 Izik Eidus        2009-09-21  2067  	int err;
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2068  	bool max_page_sharing_b=
-ypass =3D false;
-31dbd01f314364 Izik Eidus        2009-09-21  2069  =
-
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2070  	stable_node =3D page_st=
-able_node(page);
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2071  	if (stable_node) {
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2072  		if (stable_node->head =
-!=3D &migrate_nodes &&
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2073  		    get_kpfn_nid(READ_=
-ONCE(stable_node->kpfn)) !=3D
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2074  		    NUMA(stable_node->=
-nid)) {
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2075  			stable_node_dup_del(s=
-table_node);
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2076  			stable_node->head =3D=
- &migrate_nodes;
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2077  			list_add(&stable_node=
-->list, stable_node->head);
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2078  		}
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2079  		if (stable_node->head =
-!=3D &migrate_nodes &&
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2080  		    rmap_item->head =
-=3D=3D stable_node)
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2081  			return;
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2082  		/*
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2083  		 * If it's a KSM fork,=
- allow it to go over the sharing limit
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2084  		 * without warnings.
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2085  		 */
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2086  		if (!is_page_sharing_c=
-andidate(stable_node))
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2087  			max_page_sharing_bypa=
-ss =3D true;
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2088  	} else {
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2089  		/*
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2090  		 * If the hash value o=
-f the page has changed from the last
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2091  		 * time we calculated =
-it, this page is changing frequently:
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2092  		 * therefore we don't =
-want to write protect it.
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2093  		 */
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2094  		checksum =3D calc_chec=
-ksum(page);
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2095  		if (rmap_item->oldchec=
-ksum !=3D checksum) {
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2096  			rmap_item->oldchecksu=
-m =3D checksum;
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2097  			remove_rmap_item_from=
-_tree(rmap_item);
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2098  			return;
-fec43fa50ccf83 Andrea Arcangeli  2021-11-23  2099  		}
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2100  	}
-31dbd01f314364 Izik Eidus        2009-09-21  2101  =
-
-31dbd01f314364 Izik Eidus        2009-09-21  2102  	/* We first start with =
-searching the page inside the stable tree */
-62b61f611eb5e2 Hugh Dickins      2009-12-14  2103  	kpage =3D stable_tree_s=
-earch(page);
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2104  	if (kpage =3D=3D page &=
-& rmap_item->head =3D=3D stable_node) {
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2105  		put_page(kpage);
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2106  		return;
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2107  	}
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2108  =
-
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2109  	remove_rmap_item_from_t=
-ree(rmap_item);
-4146d2d673e8d6 Hugh Dickins      2013-02-22  2110  =
-
-62b61f611eb5e2 Hugh Dickins      2009-12-14  2111  	if (kpage) {
-2cee57d1b08877 Yang Shi          2019-03-05  2112  		if (PTR_ERR(kpage) =3D=
-=3D -EBUSY)
-2cee57d1b08877 Yang Shi          2019-03-05  2113  			return;
-2cee57d1b08877 Yang Shi          2019-03-05  2114  =
-
-08beca44dfb0ab Hugh Dickins      2009-12-14  2115  		err =3D try_to_merge_w=
-ith_ksm_page(rmap_item, page, kpage);
-31dbd01f314364 Izik Eidus        2009-09-21  2116  		if (!err) {
-31dbd01f314364 Izik Eidus        2009-09-21  2117  			/*
-31dbd01f314364 Izik Eidus        2009-09-21  2118  			 * The page was succe=
-ssfully merged:
-31dbd01f314364 Izik Eidus        2009-09-21  2119  			 * add its rmap_item =
-to the stable tree.
-31dbd01f314364 Izik Eidus        2009-09-21  2120  			 */
-5ad6468801d28c Hugh Dickins      2009-12-14  2121  			lock_page(kpage);
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2122  			stable_tree_append(rm=
-ap_item, page_stable_node(kpage),
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2123  					   max_page_sharing=
-_bypass);
-5ad6468801d28c Hugh Dickins      2009-12-14  2124  			unlock_page(kpage);
-31dbd01f314364 Izik Eidus        2009-09-21  2125  		}
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2126  		put_page(kpage);
-31dbd01f314364 Izik Eidus        2009-09-21  2127  		return;
-31dbd01f314364 Izik Eidus        2009-09-21  2128  	}
-31dbd01f314364 Izik Eidus        2009-09-21  2129  =
-
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2130  	/*
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2131  	 * Same checksum as an =
-empty page. We attempt to merge it with the
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2132  	 * appropriate zero pag=
-e if the user enabled this via sysfs.
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2133  	 */
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24 @2134  	if (ksm_use_zero_pages =
-&& (checksum =3D=3D zero_checksum)) {
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2135  		struct vm_area_struct =
-*vma;
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2136  =
-
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2137  		mmap_read_lock(mm);
-4b22927f0cbd58 Kirill Tkhai      2017-10-03  2138  		vma =3D find_mergeable=
-_vma(mm, rmap_item->address);
-56df70a63ed5d9 Muchun Song       2020-04-20  2139  		if (vma) {
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2140  			err =3D try_to_merge_=
-one_page(vma, page,
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2141  					ZERO_PAGE(rmap_item=
-->address));
-56df70a63ed5d9 Muchun Song       2020-04-20  2142  		} else {
-56df70a63ed5d9 Muchun Song       2020-04-20  2143  			/*
-56df70a63ed5d9 Muchun Song       2020-04-20  2144  			 * If the vma is out =
-of date, we do not need to
-56df70a63ed5d9 Muchun Song       2020-04-20  2145  			 * continue.
-56df70a63ed5d9 Muchun Song       2020-04-20  2146  			 */
-56df70a63ed5d9 Muchun Song       2020-04-20  2147  			err =3D 0;
-56df70a63ed5d9 Muchun Song       2020-04-20  2148  		}
-d8ed45c5dcd455 Michel Lespinasse 2020-06-08  2149  		mmap_read_unlock(mm);
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2150  		/*
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2151  		 * In case of failure,=
- the page was not really empty, so we
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2152  		 * need to continue. O=
-therwise we're done.
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2153  		 */
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2154  		if (!err)
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2155  			return;
-e86c59b1b12d0d Claudio Imbrenda  2017-02-24  2156  	}
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2157  	tree_rmap_item =3D
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2158  		unstable_tree_search_i=
-nsert(rmap_item, page, &tree_page);
-31dbd01f314364 Izik Eidus        2009-09-21  2159  	if (tree_rmap_item) {
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2160  		bool split;
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2161  =
-
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2162  		kpage =3D try_to_merge=
-_two_pages(rmap_item, page,
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2163  						tree_rmap_item, tr=
-ee_page);
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2164  		/*
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2165  		 * If both pages we tr=
-ied to merge belong to the same compound
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2166  		 * page, then we actua=
-lly ended up increasing the reference
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2167  		 * count of the same c=
-ompound page twice, and split_huge_page
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2168  		 * failed.
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2169  		 * Here we set a flag =
-if that happened, and we use it later to
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2170  		 * try split_huge_page=
- again. Since we call put_page right
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2171  		 * afterwards, the ref=
-erence count will be correct and
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2172  		 * split_huge_page sho=
-uld succeed.
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2173  		 */
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2174  		split =3D PageTransCom=
-pound(page)
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2175  			&& compound_head(page=
-) =3D=3D compound_head(tree_page);
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2176  		put_page(tree_page);
-bc56620b493496 Hugh Dickins      2013-02-22  2177  		if (kpage) {
-31dbd01f314364 Izik Eidus        2009-09-21  2178  			/*
-bc56620b493496 Hugh Dickins      2013-02-22  2179  			 * The pages were suc=
-cessfully merged: insert new
-bc56620b493496 Hugh Dickins      2013-02-22  2180  			 * node in the stable=
- tree and add both rmap_items.
-31dbd01f314364 Izik Eidus        2009-09-21  2181  			 */
-5ad6468801d28c Hugh Dickins      2009-12-14  2182  			lock_page(kpage);
-7b6ba2c7d3baf8 Hugh Dickins      2009-12-14  2183  			stable_node =3D stabl=
-e_tree_insert(kpage);
-7b6ba2c7d3baf8 Hugh Dickins      2009-12-14  2184  			if (stable_node) {
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2185  				stable_tree_append(t=
-ree_rmap_item, stable_node,
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2186  						   false);
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2187  				stable_tree_append(r=
-map_item, stable_node,
-2c653d0ee2ae78 Andrea Arcangeli  2017-07-06  2188  						   false);
-7b6ba2c7d3baf8 Hugh Dickins      2009-12-14  2189  			}
-5ad6468801d28c Hugh Dickins      2009-12-14  2190  			unlock_page(kpage);
-7b6ba2c7d3baf8 Hugh Dickins      2009-12-14  2191  =
-
-31dbd01f314364 Izik Eidus        2009-09-21  2192  			/*
-31dbd01f314364 Izik Eidus        2009-09-21  2193  			 * If we fail to inse=
-rt the page into the stable tree,
-31dbd01f314364 Izik Eidus        2009-09-21  2194  			 * we will have 2 vir=
-tual addresses that are pointing
-31dbd01f314364 Izik Eidus        2009-09-21  2195  			 * to a ksm page left=
- outside the stable tree,
-31dbd01f314364 Izik Eidus        2009-09-21  2196  			 * in which case we n=
-eed to break_cow on both.
-31dbd01f314364 Izik Eidus        2009-09-21  2197  			 */
-7b6ba2c7d3baf8 Hugh Dickins      2009-12-14  2198  			if (!stable_node) {
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2199  				break_cow(tree_rmap_=
-item);
-8dd3557a52f0bc Hugh Dickins      2009-12-14  2200  				break_cow(rmap_item);
-31dbd01f314364 Izik Eidus        2009-09-21  2201  			}
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2202  		} else if (split) {
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2203  			/*
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2204  			 * We are here if we =
-tried to merge two pages and
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2205  			 * failed because the=
-y both belonged to the same
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2206  			 * compound page. We =
-will split the page now, but no
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2207  			 * merging will take =
-place.
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2208  			 * We do not want to =
-add the cost of a full lock; if
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2209  			 * the page is locked=
-, it is better to skip it and
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2210  			 * perhaps try again =
-later.
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2211  			 */
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2212  			if (!trylock_page(pag=
-e))
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2213  				return;
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2214  			split_huge_page(page);
-77da2ba0648a4f Claudio Imbrenda  2018-04-05  2215  			unlock_page(page);
-31dbd01f314364 Izik Eidus        2009-09-21  2216  		}
-31dbd01f314364 Izik Eidus        2009-09-21  2217  	}
-31dbd01f314364 Izik Eidus        2009-09-21  2218  }
-31dbd01f314364 Izik Eidus        2009-09-21  2219  =
 
 
-:::::: The code at line 2134 was first introduced by commit
-:::::: e86c59b1b12d0db1c97eb5bec7586a691685c6cc mm/ksm: improve deduplicati=
-on of zero pages with colouring
+clang-analyzer warnings: (new ones prefixed by >>)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:31: note: expanded from macro 'rcu_derefere=
+nce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+                                        ^
+   drivers/pci/p2pdma.c:536:11: note: Assuming the condition is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:390:19: note: expanded from macro '__rcu_derefe=
+rence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
+           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/rcupdate.h:318:8: note: expanded from macro 'RCU_LOCKDEP_W=
+ARN'
+                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
+                        ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '&&' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
+ence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
+           ^
+   include/linux/rcupdate.h:318:11: note: expanded from macro 'RCU_LOCKDEP_=
+WARN'
+                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
+                           ^
+   drivers/pci/p2pdma.c:536:11: note: Loop condition is false.  Exiting loop
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:390:2: note: expanded from macro '__rcu_derefer=
+ence_check'
+           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
+"); \
+           ^
+   include/linux/rcupdate.h:316:2: note: expanded from macro 'RCU_LOCKDEP_W=
+ARN'
+           do {                                                            \
+           ^
+   drivers/pci/p2pdma.c:537:6: note: Assuming 'p2pdma' is non-null
+           if (p2pdma)
+               ^~~~~~
+   drivers/pci/p2pdma.c:537:2: note: Taking true branch
+           if (p2pdma)
+           ^
+   drivers/pci/p2pdma.c:538:46: note: Passing null pointer value via 1st pa=
+rameter 'client'
+                   xa_store(&p2pdma->map_types, map_types_idx(client),
+                                                              ^~~~~~
+   drivers/pci/p2pdma.c:538:32: note: Calling 'map_types_idx'
+                   xa_store(&p2pdma->map_types, map_types_idx(client),
+                                                ^~~~~~~~~~~~~~~~~~~~~
+   drivers/pci/p2pdma.c:409:24: note: Access to field 'bus' results in a de=
+reference of a null pointer (loaded from variable 'client')
+           return (pci_domain_nr(client->bus) << 16) |
+                                 ^~~~~~
+>> drivers/pci/p2pdma.c:536:11: warning: Dereference of null pointer [clang=
+-analyzer-core.NullDereference]
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^~~~~~~~~~~~
+   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
+           __READ_ONCE(x);                                                 \
+           ^~~~~~~~~~~~~~
+   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
+CE'
+   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
+x))
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/pci/p2pdma.c:470:9: note: Assuming pointer value is null
+           while (a) {
+                  ^
+   drivers/pci/p2pdma.c:470:2: note: Loop condition is false. Execution con=
+tinues on line 492
+           while (a) {
+           ^
+   drivers/pci/p2pdma.c:493:2: note: Control jumps to line 527
+           goto map_through_host_bridge;
+           ^
+   drivers/pci/p2pdma.c:527:29: note: Left side of '&&' is false
+           if (!cpu_supports_p2pdma() &&
+                                      ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is false
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
+           ^
+   include/linux/rcupdate.h:389:48: note: expanded from macro '__rcu_derefe=
+rence_check'
+           typeof(*p) *________p1 =3D (typeof(*p) *__force)READ_ONCE(p); \
+                                                         ^
+   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
+           compiletime_assert_rwonce_type(x);                              \
+           ^
+   include/asm-generic/rwonce.h:36:21: note: expanded from macro 'compileti=
+me_assert_rwonce_type'
+           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
+ong long),  \
+                              ^
+   include/linux/compiler_types.h:290:3: note: expanded from macro '__nativ=
+e_word'
+           (sizeof(t) =3D=3D sizeof(char) || sizeof(t) =3D=3D sizeof(short)=
+ || \
+            ^
+   drivers/pci/p2pdma.c:536:11: note: Left side of '||' is true
+           p2pdma =3D rcu_dereference(provider->p2pdma);
+                    ^
+   include/linux/rcupdate.h:596:28: note: expanded from macro 'rcu_derefere=
+nce'
+   #define rcu_dereference(p) rcu_dereference_check(p, 0)
+                              ^
+   include/linux/rcupdate.h:528:2: note: expanded from macro 'rcu_dereferen=
+ce_check'
+           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
 
-:::::: TO: Claudio Imbrenda <imbrenda@linux.vnet.ibm.com>
-:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
+vim +536 drivers/pci/p2pdma.c
+
+110203bee05f336 Logan Gunthorpe   2019-08-12  412  =
+
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  413  /*
+6389d43745228de Logan Gunthorpe   2021-06-10  414   * Calculate the P2PDMA =
+mapping type and distance between two PCI devices.
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  415   *
+6389d43745228de Logan Gunthorpe   2021-06-10  416   * If the two devices ar=
+e the same PCI function, return
+6389d43745228de Logan Gunthorpe   2021-06-10  417   * PCI_P2PDMA_MAP_BUS_AD=
+DR and a distance of 0.
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  418   *
+6389d43745228de Logan Gunthorpe   2021-06-10  419   * If they are two funct=
+ions of the same device, return
+6389d43745228de Logan Gunthorpe   2021-06-10  420   * PCI_P2PDMA_MAP_BUS_AD=
+DR and a distance of 2 (one hop up to the bridge,
+6389d43745228de Logan Gunthorpe   2021-06-10  421   * then one hop back dow=
+n to another function of the same device).
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  422   *
+6389d43745228de Logan Gunthorpe   2021-06-10  423   * In the case where two=
+ devices are connected to the same PCIe switch,
+6389d43745228de Logan Gunthorpe   2021-06-10  424   * return a distance of =
+4. This corresponds to the following PCI tree:
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  425   *
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  426   *     -+  Root Port
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  427   *      \+ Switch Upstre=
+am Port
+6389d43745228de Logan Gunthorpe   2021-06-10  428   *       +-+ Switch Down=
+stream Port 0
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  429   *       + \- Device A
+6389d43745228de Logan Gunthorpe   2021-06-10  430   *       \-+ Switch Down=
+stream Port 1
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  431   *         \- Device B
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  432   *
+6389d43745228de Logan Gunthorpe   2021-06-10  433   * The distance is 4 bec=
+ause we traverse from Device A to Downstream Port 0
+6389d43745228de Logan Gunthorpe   2021-06-10  434   * to the common Switch =
+Upstream Port, back down to Downstream Port 1 and
+6389d43745228de Logan Gunthorpe   2021-06-10  435   * then to Device B. The=
+ mapping type returned depends on the ACS
+6389d43745228de Logan Gunthorpe   2021-06-10  436   * redirection setting o=
+f the ports along the path.
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  437   *
+6389d43745228de Logan Gunthorpe   2021-06-10  438   * If ACS redirect is se=
+t on any port in the path, traffic between the
+6389d43745228de Logan Gunthorpe   2021-06-10  439   * devices will go throu=
+gh the host bridge, so return
+6389d43745228de Logan Gunthorpe   2021-06-10  440   * PCI_P2PDMA_MAP_THRU_H=
+OST_BRIDGE; otherwise return
+6389d43745228de Logan Gunthorpe   2021-06-10  441   * PCI_P2PDMA_MAP_BUS_AD=
+DR.
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  442   *
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  443   * Any two devices that =
+have a data path that goes through the host bridge
+6389d43745228de Logan Gunthorpe   2021-06-10  444   * will consult a whitel=
+ist. If the host bridge is in the whitelist, return
+6389d43745228de Logan Gunthorpe   2021-06-10  445   * PCI_P2PDMA_MAP_THRU_H=
+OST_BRIDGE with the distance set to the number of
+6389d43745228de Logan Gunthorpe   2021-06-10  446   * ports per above. If t=
+he device is not in the whitelist, return
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  447   * PCI_P2PDMA_MAP_NOT_SU=
+PPORTED.
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  448   */
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  449  static enum pci_p2pdma_m=
+ap_type
+6389d43745228de Logan Gunthorpe   2021-06-10  450  calc_map_type_and_dist(s=
+truct pci_dev *provider, struct pci_dev *client,
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  451  		int *dist, bool verbos=
+e)
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  452  {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  453  	enum pci_p2pdma_map_typ=
+e map_type =3D PCI_P2PDMA_MAP_THRU_HOST_BRIDGE;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  454  	struct pci_dev *a =3D p=
+rovider, *b =3D client, *bb;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  455  	bool acs_redirects =3D =
+false;
+ae21f835a5bda0e Eric Dumazet      2021-07-01  456  	struct pci_p2pdma *p2pd=
+ma;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  457  	struct seq_buf acs_list;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  458  	int acs_cnt =3D 0;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  459  	int dist_a =3D 0;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  460  	int dist_b =3D 0;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  461  	char buf[128];
+e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  462  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  463  	seq_buf_init(&acs_list,=
+ buf, sizeof(buf));
+e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  464  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  465  	/*
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  466  	 * Note, we don't need =
+to take references to devices returned by
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  467  	 * pci_upstream_bridge(=
+) seeing we hold a reference to a child
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  468  	 * device which will al=
+ready hold a reference to the upstream bridge.
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  469  	 */
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  470  	while (a) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  471  		dist_b =3D 0;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  472  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  473  		if (pci_bridge_has_acs=
+_redir(a)) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  474  			seq_buf_print_bus_dev=
+fn(&acs_list, a);
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  475  			acs_cnt++;
+e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  476  		}
+e2cbfbf78968db3 Logan Gunthorpe   2019-08-12  477  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  478  		bb =3D b;
+110203bee05f336 Logan Gunthorpe   2019-08-12  479  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  480  		while (bb) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  481  			if (a =3D=3D bb)
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  482  				goto check_b_path_ac=
+s;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  483  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  484  			bb =3D pci_upstream_b=
+ridge(bb);
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  485  			dist_b++;
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  486  		}
+c6bfaeb573a6caa Logan Gunthorpe   2019-08-12  487  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  488  		a =3D pci_upstream_bri=
+dge(a);
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  489  		dist_a++;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  490  	}
+52916982af48d9f Logan Gunthorpe   2018-10-04  491  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  492  	*dist =3D dist_a + dist=
+_b;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  493  	goto map_through_host_b=
+ridge;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  494  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  495  check_b_path_acs:
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  496  	bb =3D b;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  497  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  498  	while (bb) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  499  		if (a =3D=3D bb)
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  500  			break;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  501  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  502  		if (pci_bridge_has_acs=
+_redir(bb)) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  503  			seq_buf_print_bus_dev=
+fn(&acs_list, bb);
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  504  			acs_cnt++;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  505  		}
+52916982af48d9f Logan Gunthorpe   2018-10-04  506  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  507  		bb =3D pci_upstream_br=
+idge(bb);
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  508  	}
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  509  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  510  	*dist =3D dist_a + dist=
+_b;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  511  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  512  	if (!acs_cnt) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  513  		map_type =3D PCI_P2PDM=
+A_MAP_BUS_ADDR;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  514  		goto done;
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  515  	}
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  516  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  517  	if (verbose) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  518  		acs_list.buffer[acs_li=
+st.len-1] =3D 0; /* drop final semicolon */
+72583084e3fe333 Logan Gunthorpe   2019-08-12  519  		pci_warn(client, "ACS =
+redirect is set between the client and provider (%s)\n",
+52916982af48d9f Logan Gunthorpe   2018-10-04  520  			 pci_name(provider));
+52916982af48d9f Logan Gunthorpe   2018-10-04  521  		pci_warn(client, "to d=
+isable ACS redirect for this path, add the kernel parameter: pci=3Ddisable_=
+acs_redir=3D%s\n",
+52916982af48d9f Logan Gunthorpe   2018-10-04  522  			 acs_list.buffer);
+72583084e3fe333 Logan Gunthorpe   2019-08-12  523  	}
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  524  	acs_redirects =3D true;
+52916982af48d9f Logan Gunthorpe   2018-10-04  525  =
+
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  526  map_through_host_bridge:
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  527  	if (!cpu_supports_p2pdm=
+a() &&
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  528  	    !host_bridge_whitel=
+ist(provider, client, acs_redirects)) {
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  529  		if (verbose)
+72583084e3fe333 Logan Gunthorpe   2019-08-12  530  			pci_warn(client, "can=
+not be used for peer-to-peer DMA as the client and provider (%s) do not sha=
+re an upstream bridge or whitelisted host bridge\n",
+52916982af48d9f Logan Gunthorpe   2018-10-04  531  				 pci_name(provider));
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  532  		map_type =3D PCI_P2PDM=
+A_MAP_NOT_SUPPORTED;
+52916982af48d9f Logan Gunthorpe   2018-10-04  533  	}
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  534  done:
+ae21f835a5bda0e Eric Dumazet      2021-07-01  535  	rcu_read_lock();
+ae21f835a5bda0e Eric Dumazet      2021-07-01 @536  	p2pdma =3D rcu_derefere=
+nce(provider->p2pdma);
+ae21f835a5bda0e Eric Dumazet      2021-07-01  537  	if (p2pdma)
+ae21f835a5bda0e Eric Dumazet      2021-07-01  538  		xa_store(&p2pdma->map_=
+types, map_types_idx(client),
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  539  			 xa_mk_value(map_type=
+), GFP_KERNEL);
+ae21f835a5bda0e Eric Dumazet      2021-07-01  540  	rcu_read_unlock();
+d1b8dc09dd71248 Christoph Hellwig 2021-06-14  541  	return map_type;
+52916982af48d9f Logan Gunthorpe   2018-10-04  542  }
+52916982af48d9f Logan Gunthorpe   2018-10-04  543  =
+
+
+:::::: The code at line 536 was first introduced by commit
+:::::: ae21f835a5bda0ef1d00940373445693a764d89e PCI/P2PDMA: Finish RCU conv=
+ersion of pdev->p2pdma
+
+:::::: TO: Eric Dumazet <edumazet@google.com>
+:::::: CC: Bjorn Helgaas <bhelgaas@google.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1609937010395382679==--
+--===============3069918950432316159==--
 
