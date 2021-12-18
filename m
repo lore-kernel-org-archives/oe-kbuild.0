@@ -1,109 +1,326 @@
-Content-Type: multipart/mixed; boundary="===============1408485484467096754=="
+Content-Type: multipart/mixed; boundary="===============5905423533733278508=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hwseq.c:222 dcn21_set_backlight_level() error: we previously assumed 'panel_cntl' could be null (see line 213)
-Date: Sat, 18 Dec 2021 21:44:03 +0800
-Message-ID: <202112182118.FZN5I3gV-lkp@intel.com>
+Subject: include/linux/atomic/atomic-instrumented.h:28:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+Date: Sat, 18 Dec 2021 21:23:29 +0800
+Message-ID: <202112182150.IQYBNEfY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1408485484467096754==
+--===============5905423533733278508==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jake Wang <haonan.wang2@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
+TO: Mark Rutland <mark.rutland@arm.com>
+CC: Peter Zijlstra <peterz@infradead.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9eaa88c7036eda3f6c215f87ca693594cf90559b
-commit: e922057b556d37c54f8f88e44f7d7b731d6365b1 drm/amd/display: Added sup=
-port for multiple eDP BL control
-date:   8 months ago
+commit: e3d18cee258b898017b298b5b93f8134dd62aee3 locking/atomic: centralize=
+ generated headers
+date:   5 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 8 months ago
-config: x86_64-randconfig-m001-20211207 (https://download.01.org/0day-ci/ar=
-chive/20211218/202112182118.FZN5I3gV-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+:::::: commit date: 5 months ago
+config: arm-randconfig-c002-20211215 (https://download.01.org/0day-ci/archi=
+ve/20211218/202112182150.IQYBNEfY-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
+ab9fbb364faa1581e4f92ba3119a872fba)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3De3d18cee258b898017b298b5b93f8134dd62aee3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout e3d18cee258b898017b298b5b93f8134dd62aee3
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_hwseq.c:222 dcn21_set_=
-backlight_level() error: we previously assumed 'panel_cntl' could be null (=
-see line 213)
 
-vim +/panel_cntl +222 drivers/gpu/drm/amd/amdgpu/../display/dc/dcn21/dcn21_=
-hwseq.c
+clang-analyzer warnings: (new ones prefixed by >>)
+           ^
+   fs/btrfs/ordered-data.c:583:13: note: Left side of '&&' is false
+                   ordered =3D list_first_entry(&splice, struct btrfs_order=
+ed_extent,
+                             ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   fs/btrfs/ordered-data.c:583:13: note: '?' condition is true
+                   ordered =3D list_first_entry(&splice, struct btrfs_order=
+ed_extent,
+                             ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/btrfs/ordered-data.c:583:13: note: Left side of '&&' is false
+                   ordered =3D list_first_entry(&splice, struct btrfs_order=
+ed_extent,
+                             ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   fs/btrfs/ordered-data.c:583:13: note: Taking false branch
+                   ordered =3D list_first_entry(&splice, struct btrfs_order=
+ed_extent,
+                             ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/btrfs/ordered-data.c:583:13: note: Loop condition is false.  Exiting =
+loop
+                   ordered =3D list_first_entry(&splice, struct btrfs_order=
+ed_extent,
+                             ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/btrfs/ordered-data.c:586:17: note: The right operand of '<=3D' is a g=
+arbage value
+                   if (range_end <=3D ordered->disk_bytenr ||
+                                 ^
+   include/linux/compiler.h:56:47: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                                                 ^~~~
+   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                                      ^~~~
+>> include/linux/atomic/atomic-instrumented.h:28:2: warning: Undefined or g=
+arbage value returned to caller [clang-analyzer-core.uninitialized.UndefRet=
+urn]
+           return arch_atomic_read(v);
+           ^
+   fs/btrfs/ordered-data.c:636:9: note: Assuming the condition is true
+           while (!list_empty(&splice) && nr) {
+                  ^~~~~~~~~~~~~~~~~~~~
+   fs/btrfs/ordered-data.c:636:9: note: Left side of '&&' is true
+   fs/btrfs/ordered-data.c:636:2: note: Loop condition is true.  Entering l=
+oop body
+           while (!list_empty(&splice) && nr) {
+           ^
+   fs/btrfs/ordered-data.c:637:10: note: Left side of '&&' is false
+                   root =3D list_first_entry(&splice, struct btrfs_root,
+                          ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   fs/btrfs/ordered-data.c:637:10: note: '?' condition is true
+                   root =3D list_first_entry(&splice, struct btrfs_root,
+                          ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:28: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                              ^
+   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
+r'
+   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
+ace_if_value(cond))
+                                 ^
+   fs/btrfs/ordered-data.c:637:10: note: Left side of '&&' is false
+                   root =3D list_first_entry(&splice, struct btrfs_root,
+                          ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   fs/btrfs/ordered-data.c:637:10: note: Taking false branch
+                   root =3D list_first_entry(&splice, struct btrfs_root,
+                          ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   include/linux/compiler.h:56:23: note: expanded from macro 'if'
+   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
+                         ^
+   fs/btrfs/ordered-data.c:637:10: note: Loop condition is false.  Exiting =
+loop
+                   root =3D list_first_entry(&splice, struct btrfs_root,
+                          ^
+   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
+           list_entry((ptr)->next, type, member)
+           ^
+   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
+           container_of(ptr, type, member)
+           ^
+   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   fs/btrfs/ordered-data.c:639:10: note: Calling 'btrfs_grab_root'
 
-474ac4a875ca6f Yongqiang Sun 2020-04-27  197  =
+vim +28 include/linux/atomic/atomic-instrumented.h
 
-474ac4a875ca6f Yongqiang Sun 2020-04-27  198  bool dcn21_set_backlight_leve=
-l(struct pipe_ctx *pipe_ctx,
-474ac4a875ca6f Yongqiang Sun 2020-04-27  199  		uint32_t backlight_pwm_u16_=
-16,
-474ac4a875ca6f Yongqiang Sun 2020-04-27  200  		uint32_t frame_ramp)
-474ac4a875ca6f Yongqiang Sun 2020-04-27  201  {
-474ac4a875ca6f Yongqiang Sun 2020-04-27  202  	union dmub_rb_cmd cmd;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  203  	struct dc_context *dc =3D pi=
-pe_ctx->stream->ctx;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  204  	struct abm *abm =3D pipe_ctx=
-->stream_res.abm;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  205  	uint32_t otg_inst =3D pipe_c=
-tx->stream_res.tg->inst;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  206  	struct panel_cntl *panel_cnt=
-l =3D pipe_ctx->stream->link->panel_cntl;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  207  =
+aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
+09-04  23  =
 
-474ac4a875ca6f Yongqiang Sun 2020-04-27  208  	if (dc->dc->res_pool->dmcu) {
-474ac4a875ca6f Yongqiang Sun 2020-04-27  209  		dce110_set_backlight_level(=
-pipe_ctx, backlight_pwm_u16_16, frame_ramp);
-474ac4a875ca6f Yongqiang Sun 2020-04-27  210  		return true;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  211  	}
-474ac4a875ca6f Yongqiang Sun 2020-04-27  212  =
+c020395b6634b7 include/asm-generic/atomic-instrumented.h Marco Elver  2019-=
+11-26  24  static __always_inline int
+aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
+09-04  25  atomic_read(const atomic_t *v)
+aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
+09-04  26  {
+ed8af2e4d2a71b include/asm-generic/atomic-instrumented.h Marco Elver  2020-=
+01-21  27  	instrument_atomic_read(v, sizeof(*v));
+aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
+09-04 @28  	return arch_atomic_read(v);
+aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
+09-04  29  }
+aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
+09-04  30  =
 
-474ac4a875ca6f Yongqiang Sun 2020-04-27 @213  	if (abm && panel_cntl)
-474ac4a875ca6f Yongqiang Sun 2020-04-27  214  		dmub_abm_set_pipe(abm, otg_=
-inst, SET_ABM_PIPE_NORMAL, panel_cntl->inst);
-474ac4a875ca6f Yongqiang Sun 2020-04-27  215  =
 
-148816f93fa0db Wyatt Wood    2021-01-18  216  	memset(&cmd, 0, sizeof(cmd));
-474ac4a875ca6f Yongqiang Sun 2020-04-27  217  	cmd.abm_set_backlight.header=
-.type =3D DMUB_CMD__ABM;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  218  	cmd.abm_set_backlight.header=
-.sub_type =3D DMUB_CMD__ABM_SET_BACKLIGHT;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  219  	cmd.abm_set_backlight.abm_se=
-t_backlight_data.frame_ramp =3D frame_ramp;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  220  	cmd.abm_set_backlight.abm_se=
-t_backlight_data.backlight_user_level =3D backlight_pwm_u16_16;
-e922057b556d37 Jake Wang     2021-04-01  221  	cmd.abm_set_backlight.abm_se=
-t_backlight_data.version =3D DMUB_CMD_ABM_SET_BACKLIGHT_VERSION_1;
-e922057b556d37 Jake Wang     2021-04-01 @222  	cmd.abm_set_backlight.abm_se=
-t_backlight_data.panel_mask =3D (0x01 << panel_cntl->inst);
-474ac4a875ca6f Yongqiang Sun 2020-04-27  223  	cmd.abm_set_backlight.header=
-.payload_bytes =3D sizeof(struct dmub_cmd_abm_set_backlight_data);
-474ac4a875ca6f Yongqiang Sun 2020-04-27  224  =
+:::::: The code at line 28 was first introduced by commit
+:::::: aa525d063851a98e020b827fdd1d7776ae652301 locking/atomics: Switch to =
+generated instrumentation
 
-474ac4a875ca6f Yongqiang Sun 2020-04-27  225  	dc_dmub_srv_cmd_queue(dc->dm=
-ub_srv, &cmd);
-474ac4a875ca6f Yongqiang Sun 2020-04-27  226  	dc_dmub_srv_cmd_execute(dc->=
-dmub_srv);
-474ac4a875ca6f Yongqiang Sun 2020-04-27  227  	dc_dmub_srv_wait_idle(dc->dm=
-ub_srv);
-474ac4a875ca6f Yongqiang Sun 2020-04-27  228  =
-
-474ac4a875ca6f Yongqiang Sun 2020-04-27  229  	return true;
-474ac4a875ca6f Yongqiang Sun 2020-04-27  230  }
-474ac4a875ca6f Yongqiang Sun 2020-04-27  231  =
-
+:::::: TO: Mark Rutland <mark.rutland@arm.com>
+:::::: CC: Ingo Molnar <mingo@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1408485484467096754==--
+--===============5905423533733278508==--
 
