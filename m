@@ -1,212 +1,678 @@
-Content-Type: multipart/mixed; boundary="===============4079915983579986533=="
+Content-Type: multipart/mixed; boundary="===============9014703527669747960=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_hw_sequencer.c:1018 dce110_edp_backlight_control() error: we previously assumed 'link->panel_cntl' could be null (see line 977)
-Date: Sat, 18 Dec 2021 10:29:22 +0800
-Message-ID: <202112181037.uydEtc7w-lkp@intel.com>
+Subject: drivers/media/platform/allegro-dvt/allegro-core.c:1593:3: warning: Value stored to 'curr' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sat, 18 Dec 2021 09:58:45 +0800
+Message-ID: <202112180923.td2YOXTx-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4079915983579986533==
+--===============9014703527669747960==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Jake Wang <haonan.wang2@amd.com>
-CC: Alex Deucher <alexander.deucher@amd.com>
-CC: Aric Cyr <Aric.Cyr@amd.com>
+TO: Michael Tretter <m.tretter@pengutronix.de>
+CC: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
+CC: Hans Verkuil <hverkuil@xs4all.nl>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   5d65f6f3df56021ec76761ea6986bc8139f537d2
-commit: 06ddcee49a35981835e04910bef462a09f108984 drm/amd/display: Added mul=
-ti instance support for panel control
-date:   9 months ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 9 months ago
-config: x86_64-randconfig-m001-20211207 (https://download.01.org/0day-ci/ar=
-chive/20211218/202112181037.uydEtc7w-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+head:   6441998e2e37131b0a4c310af9156d79d3351c16
+commit: d74d4e2359ec7985831192f9b5ee22ed5e55b81c media: allegro: move drive=
+r out of staging
+date:   12 months ago
+:::::: branch date: 27 hours ago
+:::::: commit date: 12 months ago
+config: riscv-randconfig-c006-20211213 (https://download.01.org/0day-ci/arc=
+hive/20211218/202112180923.td2YOXTx-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project b6a2dd=
+b6c8ac29412b1361810972e15221fa021c)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dd74d4e2359ec7985831192f9b5ee22ed5e55b81c
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout d74d4e2359ec7985831192f9b5ee22ed5e55b81c
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Driscv clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_hw_sequencer.c:1018 =
-dce110_edp_backlight_control() error: we previously assumed 'link->panel_cn=
-tl' could be null (see line 977)
 
-vim +1018 drivers/gpu/drm/amd/amdgpu/../display/dc/dce110/dce110_hw_sequenc=
-er.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/hwmon/tmp401.c:451:8: note: Assuming '__UNIQUE_ID___x212' is > '=
+__UNIQUE_ID___y213'
+           val =3D clamp_val(val, 125, 16000);
+                 ^
+   include/linux/minmax.h:143:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:130:48: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:118:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/minmax.h:110:48: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ~~~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:44:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:37:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                                         ^
+   drivers/hwmon/tmp401.c:451:8: note: '?' condition is true
+           val =3D clamp_val(val, 125, 16000);
+                 ^
+   include/linux/minmax.h:143:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^
+   include/linux/minmax.h:130:48: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                                  ^
+   include/linux/minmax.h:118:27: note: expanded from macro 'max_t'
+   #define max_t(type, x, y)       __careful_cmp((type)(x), (type)(y), >)
+                                   ^
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/hwmon/tmp401.c:451:8: note: Assuming '__UNIQUE_ID___x214' is < '=
+__UNIQUE_ID___y215'
+           val =3D clamp_val(val, 125, 16000);
+                 ^
+   include/linux/minmax.h:143:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:130:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   drivers/hwmon/tmp401.c:451:8: note: '?' condition is true
+           val =3D clamp_val(val, 125, 16000);
+                 ^
+   include/linux/minmax.h:143:32: note: expanded from macro 'clamp_val'
+   #define clamp_val(val, lo, hi) clamp_t(typeof(val), val, lo, hi)
+                                  ^
+   include/linux/minmax.h:130:36: note: expanded from macro 'clamp_t'
+   #define clamp_t(type, val, lo, hi) min_t(type, max_t(type, val, lo), hi)
+                                      ^
+   include/linux/minmax.h:110:27: note: expanded from macro 'min_t'
+   #define min_t(type, x, y)       __careful_cmp((type)(x), (type)(y), <)
+                                   ^
+   include/linux/minmax.h:44:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:39:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:34:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/hwmon/tmp401.c:455:29: note: The result of the left shift is und=
+efined due to shifting by '63', which is greater or equal to the width of t=
+ype 'int'
+           data->update_interval =3D (1 << (7 - rate)) * 125;
+                                      ^  ~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+>> drivers/media/platform/allegro-dvt/allegro-core.c:1593:3: warning: Value=
+ stored to 'curr' is never read [clang-analyzer-deadcode.DeadStores]
+                   curr +=3D len;
+                   ^       ~~~
+   drivers/media/platform/allegro-dvt/allegro-core.c:1593:3: note: Value st=
+ored to 'curr' is never read
+                   curr +=3D len;
+                   ^       ~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/media/platform/imx-pxp.c:335:4: warning: The result of the left =
+shift is undefined because the left operand is negative [clang-analyzer-cor=
+e.UndefinedBinaryOperatorResult]
+                           BF_PXP_CSC1_COEF0_UV_OFFSET(-128) |
+                           ^
+   drivers/media/platform/imx-pxp.h:598:8: note: expanded from macro 'BF_PX=
+P_CSC1_COEF0_UV_OFFSET'
+           (((v) << 9) & BM_PXP_CSC1_COEF0_UV_OFFSET)
+                 ^
+   drivers/media/platform/imx-pxp.c:968:2: note: Calling 'pxp_start'
+           pxp_start(ctx, src_buf, dst_buf);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-pxp.c:749:6: note: Assuming 'p_in' is not equ=
+al to 0
+           if (!p_in || !p_out) {
+               ^~~~~
+   drivers/media/platform/imx-pxp.c:749:6: note: Left side of '||' is false
+   drivers/media/platform/imx-pxp.c:749:15: note: Assuming 'p_out' is not e=
+qual to 0
+           if (!p_in || !p_out) {
+                        ^~~~~~
+   drivers/media/platform/imx-pxp.c:749:2: note: Taking false branch
+           if (!p_in || !p_out) {
+           ^
+   drivers/media/platform/imx-pxp.c:760:6: note: Assuming the condition is =
+false
+           if (in_vb->flags & V4L2_BUF_FLAG_TIMECODE)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-pxp.c:760:2: note: Taking false branch
+           if (in_vb->flags & V4L2_BUF_FLAG_TIMECODE)
+           ^
+   drivers/media/platform/imx-pxp.c:771:29: note: Assuming the condition is=
+ false
+           ctrl =3D BF_PXP_CTRL_VFLIP0(!!(ctx->mode & MEM2MEM_VFLIP)) |
+                                      ^
+   drivers/media/platform/imx-pxp.h:84:5: note: expanded from macro 'BF_PXP=
+_CTRL_VFLIP0'
+           (((v) << 11) & BM_PXP_CTRL_VFLIP0)
+              ^
+   drivers/media/platform/imx-pxp.c:772:29: note: Assuming the condition is=
+ false
+                  BF_PXP_CTRL_HFLIP0(!!(ctx->mode & MEM2MEM_HFLIP));
+                                      ^
+   drivers/media/platform/imx-pxp.h:87:5: note: expanded from macro 'BF_PXP=
+_CTRL_HFLIP0'
+           (((v) << 10) & BM_PXP_CTRL_HFLIP0)
+              ^
+   drivers/media/platform/imx-pxp.c:778:2: note: Control jumps to the 'defa=
+ult' case at line 785
+           switch (dst_fourcc) {
+           ^
+   drivers/media/platform/imx-pxp.c:800:10: note: Assuming 'src_width' is <=
+=3D 'dst_width'
+           decx =3D (src_width <=3D dst_width) ? 0 : ilog2(src_width / dst_=
+width);
+                   ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-pxp.c:800:9: note: '?' condition is true
+           decx =3D (src_width <=3D dst_width) ? 0 : ilog2(src_width / dst_=
+width);
+                  ^
+   drivers/media/platform/imx-pxp.c:801:10: note: Assuming 'src_height' is =
+<=3D 'dst_height'
+           decy =3D (src_height <=3D dst_height) ? 0 : ilog2(src_height / d=
+st_height);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-pxp.c:801:9: note: '?' condition is true
+           decy =3D (src_height <=3D dst_height) ? 0 : ilog2(src_height / d=
+st_height);
+                  ^
+   drivers/media/platform/imx-pxp.c:806:2: note: Control jumps to 'case 540=
+291161:'  at line 823
+           switch (src_fourcc) {
+           ^
+   drivers/media/platform/imx-pxp.c:827:3: note:  Execution continues on li=
+ne 833
+                   break;
+                   ^
+   drivers/media/platform/imx-pxp.c:834:6: note: 'decx' is 0
+           if (decx) {
+               ^~~~
+   drivers/media/platform/imx-pxp.c:834:2: note: Taking false branch
+           if (decx) {
+           ^
+   drivers/media/platform/imx-pxp.c:837:3: note: Control jumps to the 'defa=
+ult' case@line 854
+                   switch (src_fourcc) {
+                   ^
+   drivers/media/platform/imx-pxp.c:856:4: note:  Execution continues on li=
+ne 859
+                           break;
+                           ^
+   drivers/media/platform/imx-pxp.c:859:6: note: 'decy' is 0
+           if (decy)
+               ^~~~
+   drivers/media/platform/imx-pxp.c:859:2: note: Taking false branch
+           if (decy)
+           ^
+   drivers/media/platform/imx-pxp.c:895:2: note: Calling 'pxp_setup_csc'
+           pxp_setup_csc(ctx);
+           ^~~~~~~~~~~~~~~~~~
+   drivers/media/platform/imx-pxp.c:315:6: note: Assuming the condition is =
+true
+           if (pxp_v4l2_pix_fmt_is_yuv(ctx->q_data[V4L2_M2M_SRC].fmt->fourc=
+c) &&
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/media/platform/imx-pxp.c:315:6: note: Left side of '&&' is true
 
-cf3a2627597794 Jun Lei           2020-11-24   957  =
+vim +/curr +1593 drivers/media/platform/allegro-dvt/allegro-core.c
 
-5eefbc40173644 Yue Hin Lau       2017-09-15   958  /*todo: cloned in stream=
- enc, fix*/
-5eefbc40173644 Yue Hin Lau       2017-09-15   959  /*
-5eefbc40173644 Yue Hin Lau       2017-09-15   960   * @brief
-5eefbc40173644 Yue Hin Lau       2017-09-15   961   * eDP only. Control the=
- backlight of the eDP panel
-5eefbc40173644 Yue Hin Lau       2017-09-15   962   */
-8a31820b12187c Martin Leung      2019-07-09   963  void dce110_edp_backligh=
-t_control(
-5eefbc40173644 Yue Hin Lau       2017-09-15   964  		struct dc_link *link,
-5eefbc40173644 Yue Hin Lau       2017-09-15   965  		bool enable)
-5eefbc40173644 Yue Hin Lau       2017-09-15   966  {
-069d418f412ec4 Andrew Jiang      2017-09-26   967  	struct dc_context *ctx =
-=3D link->ctx;
-5eefbc40173644 Yue Hin Lau       2017-09-15   968  	struct bp_transmitter_c=
-ontrol cntl =3D { 0 };
-06ddcee49a3598 Jake Wang         2021-02-23   969  	uint8_t panel_instance;
-5eefbc40173644 Yue Hin Lau       2017-09-15   970  =
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1470  =
 
-069d418f412ec4 Andrew Jiang      2017-09-26   971  	if (dal_graphics_object=
-_id_get_connector_id(link->link_enc->connector)
-5eefbc40173644 Yue Hin Lau       2017-09-15   972  		!=3D CONNECTOR_ID_EDP)=
- {
-5eefbc40173644 Yue Hin Lau       2017-09-15   973  		BREAK_TO_DEBUGGER();
-5eefbc40173644 Yue Hin Lau       2017-09-15   974  		return;
-5eefbc40173644 Yue Hin Lau       2017-09-15   975  	}
-5eefbc40173644 Yue Hin Lau       2017-09-15   976  =
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1471  static void allegro_channel_finish_frame(struct alle=
+gro_channel *channel,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1472  		struct mcu_msg_encode_frame_response *msg)
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1473  {
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1474  	struct allegro_dev *dev =3D channel->dev;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1475  	struct vb2_v4l2_buffer *src_buf;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1476  	struct vb2_v4l2_buffer *dst_buf;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1477  	struct {
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1478  		u32 offset;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1479  		u32 size;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1480  	} *partition;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1481  	enum vb2_buffer_state state =3D VB2_BUF_STATE_ERROR;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1482  	char *curr;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1483  	ssize_t len;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1484  	ssize_t free;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1485  =
 
-014427adc5565a Sherry            2020-11-11  @977  	if (link->panel_cntl) {
-014427adc5565a Sherry            2020-11-11   978  		bool is_backlight_on =
-=3D link->panel_cntl->funcs->is_panel_backlight_on(link->panel_cntl);
-014427adc5565a Sherry            2020-11-11   979  =
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1486  	src_buf =3D allegro_get_buffer(channel, &channel->s=
+ource_shadow_list,
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1487  				     msg->src_handle);
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1488  	if (!src_buf)
+3b78f8a21ed685 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1489  		v4l2_warn(&dev->v4l2_dev,
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1490  			  "channel %d: invalid source buffer\n",
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1491  			  channel->mcu_channel_id);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1492  =
 
-014427adc5565a Sherry            2020-11-11   980  		if ((enable && is_back=
-light_on) || (!enable && !is_backlight_on)) {
-1296423bf23c7a Bhawanpreet Lakha 2018-02-20   981  			DC_LOG_HW_RESUME_S3(
-014427adc5565a Sherry            2020-11-11   982  				"%s: panel already p=
-owered up/off. Do nothing.\n",
-5eefbc40173644 Yue Hin Lau       2017-09-15   983  				__func__);
-5eefbc40173644 Yue Hin Lau       2017-09-15   984  			return;
-5eefbc40173644 Yue Hin Lau       2017-09-15   985  		}
-014427adc5565a Sherry            2020-11-11   986  	}
-5eefbc40173644 Yue Hin Lau       2017-09-15   987  =
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1493  	dst_buf =3D allegro_get_buffer(channel, &channel->s=
+tream_shadow_list,
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1494  				     msg->stream_id);
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1495  	if (!dst_buf)
+3b78f8a21ed685 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1496  		v4l2_warn(&dev->v4l2_dev,
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1497  			  "channel %d: invalid stream buffer\n",
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1498  			  channel->mcu_channel_id);
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1499  =
 
-5eefbc40173644 Yue Hin Lau       2017-09-15   988  	/* Send VBIOS command t=
-o control eDP panel backlight */
-5eefbc40173644 Yue Hin Lau       2017-09-15   989  =
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1500  	if (!src_buf || !dst_buf)
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1501  		goto err;
+3b78f8a21ed685 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1502  =
 
-1296423bf23c7a Bhawanpreet Lakha 2018-02-20   990  	DC_LOG_HW_RESUME_S3(
-5eefbc40173644 Yue Hin Lau       2017-09-15   991  			"%s: backlight action=
-: %s\n",
-5eefbc40173644 Yue Hin Lau       2017-09-15   992  			__func__, (enable ? "=
-On":"Off"));
-5eefbc40173644 Yue Hin Lau       2017-09-15   993  =
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1503  	dst_buf->sequence =3D channel->csequence++;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1504  =
 
-5eefbc40173644 Yue Hin Lau       2017-09-15   994  	cntl.action =3D enable ?
-5eefbc40173644 Yue Hin Lau       2017-09-15   995  		TRANSMITTER_CONTROL_BA=
-CKLIGHT_ON :
-5eefbc40173644 Yue Hin Lau       2017-09-15   996  		TRANSMITTER_CONTROL_BA=
-CKLIGHT_OFF;
-8740196935625d Andrew Jiang      2017-09-25   997  =
+b646f99642b749 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1505  	if (msg->error_code & AL_ERROR) {
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1506  		v4l2_err(&dev->v4l2_dev,
+04d2a110187103 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1507  			 "channel %d: failed to encode frame: %s (%x)\n",
+04d2a110187103 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1508  			 channel->mcu_channel_id,
+04d2a110187103 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1509  			 allegro_err_to_string(msg->error_code),
+04d2a110187103 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1510  			 msg->error_code);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1511  		goto err;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1512  	}
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1513  =
 
-5eefbc40173644 Yue Hin Lau       2017-09-15   998  	/*cntl.engine_id =3D ct=
-x->engine;*/
-5eefbc40173644 Yue Hin Lau       2017-09-15   999  	cntl.transmitter =3D li=
-nk->link_enc->transmitter;
-5eefbc40173644 Yue Hin Lau       2017-09-15  1000  	cntl.connector_obj_id =
-=3D link->link_enc->connector;
-5eefbc40173644 Yue Hin Lau       2017-09-15  1001  	/*todo: unhardcode*/
-5eefbc40173644 Yue Hin Lau       2017-09-15  1002  	cntl.lanes_number =3D L=
-ANE_COUNT_FOUR;
-5eefbc40173644 Yue Hin Lau       2017-09-15  1003  	cntl.hpd_sel =3D link->=
-link_enc->hpd_source;
-cf1835f03ffb3b Charlene Liu      2018-01-08  1004  	cntl.signal =3D SIGNAL_=
-TYPE_EDP;
-5eefbc40173644 Yue Hin Lau       2017-09-15  1005  =
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1514  	if (msg->partition_table_size !=3D 1) {
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1515  		v4l2_warn(&dev->v4l2_dev,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1516  			  "channel %d: only handling first partition tabl=
+e entry (%d entries)\n",
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1517  			  channel->mcu_channel_id, msg->partition_table_s=
+ize);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1518  	}
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1519  =
 
-5eefbc40173644 Yue Hin Lau       2017-09-15  1006  	/* For eDP, the followi=
-ng delays might need to be considered
-5eefbc40173644 Yue Hin Lau       2017-09-15  1007  	 * after link training =
-completed:
-5eefbc40173644 Yue Hin Lau       2017-09-15  1008  	 * idle period - min. a=
-ccounts for required BS-Idle pattern,
-5eefbc40173644 Yue Hin Lau       2017-09-15  1009  	 * max. allows for sour=
-ce frame synchronization);
-5eefbc40173644 Yue Hin Lau       2017-09-15  1010  	 * 50 msec max. delay f=
-rom valid video data from source
-5eefbc40173644 Yue Hin Lau       2017-09-15  1011  	 * to video on dislpay =
-or backlight enable.
-5eefbc40173644 Yue Hin Lau       2017-09-15  1012  	 *
-5eefbc40173644 Yue Hin Lau       2017-09-15  1013  	 * Disable the delay fo=
-r now.
-5eefbc40173644 Yue Hin Lau       2017-09-15  1014  	 * Enable it in the fut=
-ure if necessary.
-5eefbc40173644 Yue Hin Lau       2017-09-15  1015  	 */
-5eefbc40173644 Yue Hin Lau       2017-09-15  1016  	/* dc_service_sleep_in_=
-milliseconds(50); */
-5180d4a4766d7d Charlene Liu      2018-01-18  1017  		/*edp 1.2*/
-06ddcee49a3598 Jake Wang         2021-02-23 @1018  	panel_instance =3D link=
-->panel_cntl->inst;
-5180d4a4766d7d Charlene Liu      2018-01-18  1019  	if (cntl.action =3D=3D =
-TRANSMITTER_CONTROL_BACKLIGHT_ON)
-5180d4a4766d7d Charlene Liu      2018-01-18  1020  		edp_receiver_ready_T7(=
-link);
-8a0e210c048e97 Chris Park        2020-08-05  1021  =
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1520  	if (msg->partition_table_offset +
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1521  	    msg->partition_table_size * sizeof(*partition) >
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1522  	    vb2_plane_size(&dst_buf->vb2_buf, 0)) {
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1523  		v4l2_err(&dev->v4l2_dev,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1524  			 "channel %d: partition table outside of dst_buf\=
+n",
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1525  			 channel->mcu_channel_id);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1526  		goto err;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1527  	}
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1528  =
 
-8a0e210c048e97 Chris Park        2020-08-05  1022  	if (ctx->dc->ctx->dmub_=
-srv &&
-8a0e210c048e97 Chris Park        2020-08-05  1023  			ctx->dc->debug.dmub_c=
-ommand_table) {
-8a0e210c048e97 Chris Park        2020-08-05  1024  		if (cntl.action =3D=3D=
- TRANSMITTER_CONTROL_BACKLIGHT_ON)
-8a0e210c048e97 Chris Park        2020-08-05  1025  			ctx->dc_bios->funcs->=
-enable_lvtma_control(ctx->dc_bios,
-06ddcee49a3598 Jake Wang         2021-02-23  1026  					LVTMA_CONTROL_LCD_B=
-LON,
-06ddcee49a3598 Jake Wang         2021-02-23  1027  					panel_instance);
-8a0e210c048e97 Chris Park        2020-08-05  1028  		else
-8a0e210c048e97 Chris Park        2020-08-05  1029  			ctx->dc_bios->funcs->=
-enable_lvtma_control(ctx->dc_bios,
-06ddcee49a3598 Jake Wang         2021-02-23  1030  					LVTMA_CONTROL_LCD_B=
-LOFF,
-06ddcee49a3598 Jake Wang         2021-02-23  1031  					panel_instance);
-8a0e210c048e97 Chris Park        2020-08-05  1032  	}
-8a0e210c048e97 Chris Park        2020-08-05  1033  =
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1529  	partition =3D
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1530  	    vb2_plane_vaddr(&dst_buf->vb2_buf, 0) + msg->pa=
+rtition_table_offset;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1531  	if (partition->offset + partition->size >
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1532  	    vb2_plane_size(&dst_buf->vb2_buf, 0)) {
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1533  		v4l2_err(&dev->v4l2_dev,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1534  			 "channel %d: encoded frame is outside of dst_buf=
+ (offset 0x%x, size 0x%x)\n",
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1535  			 channel->mcu_channel_id, partition->offset,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1536  			 partition->size);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1537  		goto err;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1538  	}
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1539  =
 
-069d418f412ec4 Andrew Jiang      2017-09-26  1034  	link_transmitter_contro=
-l(ctx->dc_bios, &cntl);
-96577cf82a1331 Hersen Wu         2020-01-14  1035  =
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1540  	v4l2_dbg(2, debug, &dev->v4l2_dev,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1541  		 "channel %d: encoded frame of size %d is at offse=
+t 0x%x\n",
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1542  		 channel->mcu_channel_id, partition->size, partiti=
+on->offset);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1543  =
 
-96577cf82a1331 Hersen Wu         2020-01-14  1036  	if (enable && link->dpc=
-d_sink_ext_caps.bits.oled)
-96577cf82a1331 Hersen Wu         2020-01-14  1037  		msleep(OLED_POST_T7_DE=
-LAY);
-96577cf82a1331 Hersen Wu         2020-01-14  1038  =
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1544  	/*
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1545  	 * The payload must include the data before the par=
+tition offset,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1546  	 * because we will put the sps and pps data there.
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1547  	 */
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1548  	vb2_set_plane_payload(&dst_buf->vb2_buf, 0,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1549  			      partition->offset + partition->size);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1550  =
 
-96577cf82a1331 Hersen Wu         2020-01-14  1039  	if (link->dpcd_sink_ext=
-_caps.bits.oled ||
-96577cf82a1331 Hersen Wu         2020-01-14  1040  		link->dpcd_sink_ext_ca=
-ps.bits.hdr_aux_backlight_control =3D=3D 1 ||
-96577cf82a1331 Hersen Wu         2020-01-14  1041  		link->dpcd_sink_ext_ca=
-ps.bits.sdr_aux_backlight_control =3D=3D 1)
-96577cf82a1331 Hersen Wu         2020-01-14  1042  		dc_link_backlight_enab=
-le_aux(link, enable);
-96577cf82a1331 Hersen Wu         2020-01-14  1043  =
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1551  	curr =3D vb2_plane_vaddr(&dst_buf->vb2_buf, 0);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1552  	free =3D partition->offset;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1553  	if (msg->is_idr) {
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1554  		len =3D allegro_h264_write_sps(channel, curr, free=
+);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1555  		if (len < 0) {
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1556  			v4l2_err(&dev->v4l2_dev,
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1557  				 "not enough space for sequence parameter set: %=
+zd left\n",
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1558  				 free);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1559  			goto err;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1560  		}
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1561  		curr +=3D len;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1562  		free -=3D len;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1563  		v4l2_dbg(1, debug, &dev->v4l2_dev,
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1564  			 "channel %d: wrote %zd byte SPS nal unit\n",
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1565  			 channel->mcu_channel_id, len);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1566  	}
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1567  =
 
-69b9723a81e74e Charlene Liu      2018-01-18  1044  	/*edp 1.2*/
-5180d4a4766d7d Charlene Liu      2018-01-18  1045  	if (cntl.action =3D=3D =
-TRANSMITTER_CONTROL_BACKLIGHT_OFF)
-3a372bed1e337e Hugo Hu           2020-10-06  1046  		edp_add_delay_for_T9(l=
-ink);
-96577cf82a1331 Hersen Wu         2020-01-14  1047  =
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1568  	if (msg->slice_type =3D=3D AL_ENC_SLICE_TYPE_I) {
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1569  		len =3D allegro_h264_write_pps(channel, curr, free=
+);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1570  		if (len < 0) {
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1571  			v4l2_err(&dev->v4l2_dev,
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1572  				 "not enough space for picture parameter set: %z=
+d left\n",
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1573  				 free);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1574  			goto err;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1575  		}
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1576  		curr +=3D len;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1577  		free -=3D len;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1578  		v4l2_dbg(1, debug, &dev->v4l2_dev,
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1579  			 "channel %d: wrote %zd byte PPS nal unit\n",
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1580  			 channel->mcu_channel_id, len);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1581  	}
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1582  =
 
-96577cf82a1331 Hersen Wu         2020-01-14  1048  	if (!enable && link->dp=
-cd_sink_ext_caps.bits.oled)
-96577cf82a1331 Hersen Wu         2020-01-14  1049  		msleep(OLED_PRE_T11_DE=
-LAY);
-5eefbc40173644 Yue Hin Lau       2017-09-15  1050  }
-5eefbc40173644 Yue Hin Lau       2017-09-15  1051  =
+e74145c2334d85 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1583  	if (msg->slice_type !=3D AL_ENC_SLICE_TYPE_I && !ms=
+g->is_idr) {
+e74145c2334d85 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1584  		dst_buf->vb2_buf.planes[0].data_offset =3D free;
+e74145c2334d85 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1585  		free =3D 0;
+e74145c2334d85 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1586  	} else {
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1587  		len =3D nal_h264_write_filler(&dev->plat_dev->dev,=
+ curr, free);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1588  		if (len < 0) {
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1589  			v4l2_err(&dev->v4l2_dev,
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1590  				 "failed to write %zd filler data\n", free);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1591  			goto err;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1592  		}
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28 @1593  		curr +=3D len;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1594  		free -=3D len;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1595  		v4l2_dbg(2, debug, &dev->v4l2_dev,
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1596  			 "channel %d: wrote %zd bytes filler nal unit\n",
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1597  			 channel->mcu_channel_id, len);
+e74145c2334d85 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1598  	}
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1599  =
 
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1600  	if (free !=3D 0) {
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1601  		v4l2_err(&dev->v4l2_dev,
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1602  			 "non-VCL NAL units do not fill space until VCL N=
+AL unit: %zd bytes left\n",
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1603  			 free);
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1604  		goto err;
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1605  	}
+878344de61d0d5 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1606  =
+
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1607  	state =3D VB2_BUF_STATE_DONE;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1608  =
+
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1609  	v4l2_m2m_buf_copy_metadata(src_buf, dst_buf, false);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1610  	if (msg->is_idr)
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1611  		dst_buf->flags |=3D V4L2_BUF_FLAG_KEYFRAME;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1612  	else
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1613  		dst_buf->flags |=3D V4L2_BUF_FLAG_PFRAME;
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1614  =
+
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1615  	v4l2_dbg(1, debug, &dev->v4l2_dev,
+80c8449fc71c80 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1616  		 "channel %d: encoded frame #%03d (%s%s, QP %d, %d=
+ bytes)\n",
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1617  		 channel->mcu_channel_id,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1618  		 dst_buf->sequence,
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1619  		 msg->is_idr ? "IDR, " : "",
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1620  		 msg->slice_type =3D=3D AL_ENC_SLICE_TYPE_I ? "I s=
+lice" :
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1621  		 msg->slice_type =3D=3D AL_ENC_SLICE_TYPE_P ? "P s=
+lice" : "unknown",
+80c8449fc71c80 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1622  		 msg->qp, partition->size);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1623  =
+
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1624  err:
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1625  	if (src_buf)
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1626  		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1627  =
+
+09e6a7d63ead8d drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2020-03-16  1628  	if (dst_buf)
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1629  		allegro_channel_buf_done(channel, dst_buf, state);
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1630  }
+f20387dfd06569 drivers/staging/media/allegro-dvt/allegro-core.c Michael Tre=
+tter 2019-05-28  1631  =
+
+
+:::::: The code at line 1593 was first introduced by commit
+:::::: 878344de61d0d5f351a1b84fce009a321be3eb45 media: allegro: add SPS/PPS=
+ nal unit writer
+
+:::::: TO: Michael Tretter <m.tretter@pengutronix.de>
+:::::: CC: Mauro Carvalho Chehab <mchehab+samsung@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4079915983579986533==--
+--===============9014703527669747960==--
 
