@@ -1,141 +1,177 @@
-Content-Type: multipart/mixed; boundary="===============2139239178966787054=="
+Content-Type: multipart/mixed; boundary="===============5400090688916410301=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [RFC PATCH v1 1/3] io_uring: Rename `io_{send, recv}` to `io_{sendto, recvfrom}`
-Date: Fri, 31 Dec 2021 00:54:48 +0800
-Message-ID: <202112310016.rALniPPT-lkp@intel.com>
+Subject: [intel-lts:5.10/yocto 15/21] drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c:258 proc_thermal_pci_probe() warn: missing error code 'ret'
+Date: Sat, 18 Dec 2021 14:57:23 +0800
+Message-ID: <202112181418.z7X0aTMV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2139239178966787054==
+--===============5400090688916410301==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211230013250.103267-1-ammar.faizi@intel.com>
-References: <20211230013250.103267-1-ammar.faizi@intel.com>
-TO: Ammar Faizi <ammarfaizi2@gmail.com>
+TO: Srinivas Pandruvada <srinivas.pandruvada@linux.intel.com>
+CC: "Dutta, Ranjan" <ranjan.dutta@intel.com>
 
-Hi Ammar,
-
-[FYI, it's a private test report for your RFC patch.]
-[auto build test WARNING on aafc6e6eba29c890b0031267fc37c43490447c81]
-
-url:    https://github.com/0day-ci/linux/commits/Ammar-Faizi/io_uring-Add-s=
-endto-2-and-recvfrom-2-support/20211230-093703
-base:   aafc6e6eba29c890b0031267fc37c43490447c81
-:::::: branch date: 15 hours ago
-:::::: commit date: 15 hours ago
-config: i386-randconfig-m021-20211230 (https://download.01.org/0day-ci/arch=
-ive/20211231/202112310016.rALniPPT-lkp(a)intel.com/config)
+tree:   https://github.com/intel/linux-intel-lts.git 5.10/yocto
+head:   1295e3a3b1ca09035005acb32a98dedf96ca3a80
+commit: 81915272ac5c5c670876e773a3febc7ec67268e1 [15/21] thermal/drivers/in=
+t340x/processor_thermal: Add PCI MMIO based thermal driver
+:::::: branch date: 3 months ago
+:::::: commit date: 3 months ago
+config: x86_64-randconfig-m001-20211216 (https://download.01.org/0day-ci/ar=
+chive/20211218/202112181418.z7X0aTMV-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/io_uring.c:5550 io_recvfrom() error: uninitialized symbol 'flags'.
+smatch warnings:
+drivers/thermal/intel/int340x_thermal/processor_thermal_device_pci.c:258 pr=
+oc_thermal_pci_probe() warn: missing error code 'ret'
 
-Old smatch warnings:
-fs/io_uring.c:6364 io_timeout_cancel() warn: passing a valid pointer to 'PT=
-R_ERR'
-fs/io_uring.c:6421 io_timeout_update() warn: passing a valid pointer to 'PT=
-R_ERR'
-fs/io_uring.c:8722 io_sqe_files_register() error: we previously assumed 'ct=
-x->file_data' could be null (see line 8694)
+vim +/ret +258 drivers/thermal/intel/int340x_thermal/processor_thermal_devi=
+ce_pci.c
 
-vim +/flags +5550 fs/io_uring.c
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  214  =
 
-0fa03c624d8fc9 Jens Axboe        2019-04-19  5501  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  215  static int proc_thermal=
+_pci_probe(struct pci_dev *pdev, const struct pci_device_id *id)
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  216  {
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  217  	struct proc_thermal_de=
+vice *proc_priv;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  218  	struct proc_thermal_pc=
+i *pci_info;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  219  	int irq_flag =3D 0, ir=
+q, ret;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  220  =
 
-9cfe685bad5431 Ammar Faizi       2021-12-30  5502  static int io_recvfrom(s=
-truct io_kiocb *req, unsigned int issue_flags)
-fddafacee287b3 Jens Axboe        2020-01-04  5503  {
-6b754c8b912a16 Pavel Begunkov    2020-07-16  5504  	struct io_buffer *kbuf;
-fddafacee287b3 Jens Axboe        2020-01-04  5505  	struct io_sr_msg *sr =
-=3D &req->sr_msg;
-fddafacee287b3 Jens Axboe        2020-01-04  5506  	struct msghdr msg;
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5507  	void __user *buf =3D sr=
-->buf;
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5508  	struct socket *sock;
-fddafacee287b3 Jens Axboe        2020-01-04  5509  	struct iovec iov;
-fddafacee287b3 Jens Axboe        2020-01-04  5510  	unsigned flags;
-d1fd1c201d7507 Pavel Begunkov    2021-12-05  5511  	int ret, min_ret =3D 0;
-45d189c6062922 Pavel Begunkov    2021-02-10  5512  	bool force_nonblock =3D=
- issue_flags & IO_URING_F_NONBLOCK;
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5513  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  221  	proc_priv =3D devm_kza=
+lloc(&pdev->dev, sizeof(*proc_priv), GFP_KERNEL);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  222  	if (!proc_priv)
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  223  		return -ENOMEM;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  224  =
 
-dba4a9256bb4d7 Florent Revest    2020-12-04  5514  	sock =3D sock_from_file=
-(req->file);
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5515  	if (unlikely(!sock))
-dba4a9256bb4d7 Florent Revest    2020-12-04  5516  		return -ENOTSOCK;
-fddafacee287b3 Jens Axboe        2020-01-04  5517  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  225  	pci_info =3D devm_kzal=
+loc(&pdev->dev, sizeof(*pci_info), GFP_KERNEL);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  226  	if (!pci_info)
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  227  		return -ENOMEM;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  228  =
 
-bc02ef3325e3ef Pavel Begunkov    2020-07-16  5518  	if (req->flags & REQ_F_=
-BUFFER_SELECT) {
-51aac424aef980 Pavel Begunkov    2021-10-14  5519  		kbuf =3D io_recv_buffe=
-r_select(req, issue_flags);
-bcda7baaa3f15c Jens Axboe        2020-02-23  5520  		if (IS_ERR(kbuf))
-bcda7baaa3f15c Jens Axboe        2020-02-23  5521  			return PTR_ERR(kbuf);
-bcda7baaa3f15c Jens Axboe        2020-02-23  5522  		buf =3D u64_to_user_pt=
-r(kbuf->addr);
-bcda7baaa3f15c Jens Axboe        2020-02-23  5523  	}
-fddafacee287b3 Jens Axboe        2020-01-04  5524  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  229  	pci_info->pdev =3D pde=
+v;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  230  	ret =3D pcim_enable_de=
+vice(pdev);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  231  	if (ret < 0) {
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  232  		dev_err(&pdev->dev, "=
+error: could not enable device\n");
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  233  		return ret;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  234  	}
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  235  =
 
-7a7cacba8b4560 Pavel Begunkov    2020-07-16  5525  	ret =3D import_single_r=
-ange(READ, buf, sr->len, &iov, &msg.msg_iter);
-14c32eee928662 Pavel Begunkov    2020-07-16  5526  	if (unlikely(ret))
-14c32eee928662 Pavel Begunkov    2020-07-16  5527  		goto out_free;
-fddafacee287b3 Jens Axboe        2020-01-04  5528  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  236  	pci_set_master(pdev);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  237  =
 
-fddafacee287b3 Jens Axboe        2020-01-04  5529  	msg.msg_name =3D NULL;
-fddafacee287b3 Jens Axboe        2020-01-04  5530  	msg.msg_control =3D NUL=
-L;
-fddafacee287b3 Jens Axboe        2020-01-04  5531  	msg.msg_controllen =3D =
-0;
-fddafacee287b3 Jens Axboe        2020-01-04  5532  	msg.msg_namelen =3D 0;
-fddafacee287b3 Jens Axboe        2020-01-04  5533  	msg.msg_iocb =3D NULL;
-fddafacee287b3 Jens Axboe        2020-01-04  5534  	msg.msg_flags =3D 0;
-fddafacee287b3 Jens Axboe        2020-01-04  5535  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  238  	INIT_DELAYED_WORK(&pci=
+_info->work, proc_thermal_threshold_work_fn);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  239  =
 
-044118069a23fd Pavel Begunkov    2021-04-01  5536  	flags =3D req->sr_msg.m=
-sg_flags;
-044118069a23fd Pavel Begunkov    2021-04-01  5537  	if (force_nonblock)
-fddafacee287b3 Jens Axboe        2020-01-04  5538  		flags |=3D MSG_DONTWAI=
-T;
-0031275d119efe Stefan Metzmacher 2021-03-20  5539  	if (flags & MSG_WAITALL)
-0031275d119efe Stefan Metzmacher 2021-03-20  5540  		min_ret =3D iov_iter_c=
-ount(&msg.msg_iter);
-0031275d119efe Stefan Metzmacher 2021-03-20  5541  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  240  	ret =3D proc_thermal_a=
+dd(&pdev->dev, proc_priv);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  241  	if (ret) {
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  242  		dev_err(&pdev->dev, "=
+error: proc_thermal_add, will continue\n");
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  243  		pci_info->no_legacy =
+=3D 1;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  244  	}
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  245  =
 
-0b7b21e42ba2d6 Jens Axboe        2020-01-31  5542  	ret =3D sock_recvmsg(so=
-ck, &msg, flags);
-7297ce3d59449d Pavel Begunkov    2021-11-23  5543  out_free:
-7297ce3d59449d Pavel Begunkov    2021-11-23  5544  	if (ret < min_ret) {
-7297ce3d59449d Pavel Begunkov    2021-11-23  5545  		if (ret =3D=3D -EAGAIN=
- && force_nonblock)
-fddafacee287b3 Jens Axboe        2020-01-04  5546  			return -EAGAIN;
-fddafacee287b3 Jens Axboe        2020-01-04  5547  		if (ret =3D=3D -ERESTA=
-RTSYS)
-fddafacee287b3 Jens Axboe        2020-01-04  5548  			ret =3D -EINTR;
-7297ce3d59449d Pavel Begunkov    2021-11-23  5549  		req_set_fail(req);
-7297ce3d59449d Pavel Begunkov    2021-11-23 @5550  	} else if ((flags & MSG=
-_WAITALL) && (msg.msg_flags & (MSG_TRUNC | MSG_CTRUNC))) {
-7297ce3d59449d Pavel Begunkov    2021-11-23  5551  		req_set_fail(req);
-7297ce3d59449d Pavel Begunkov    2021-11-23  5552  	}
-d1fd1c201d7507 Pavel Begunkov    2021-12-05  5553  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  246  	proc_priv->priv_data =
+=3D pci_info;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  247  	pci_info->proc_priv =
+=3D proc_priv;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  248  	pci_set_drvdata(pdev, =
+proc_priv);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  249  =
 
-d1fd1c201d7507 Pavel Begunkov    2021-12-05  5554  	__io_req_complete(req, =
-issue_flags, ret, io_put_kbuf(req));
-fddafacee287b3 Jens Axboe        2020-01-04  5555  	return 0;
-fddafacee287b3 Jens Axboe        2020-01-04  5556  }
-fddafacee287b3 Jens Axboe        2020-01-04  5557  =
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  250  	ret =3D proc_thermal_m=
+mio_add(pdev, proc_priv, id->driver_data);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  251  	if (ret)
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  252  		goto err_ret_thermal;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  253  =
+
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  254  	pci_info->tzone =3D th=
+ermal_zone_device_register("TCPU_PCI", 1, 1, pci_info,
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  255  							&tzone_ops,
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  256  							&tzone_params, 0=
+, 0);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  257  	if (IS_ERR(pci_info->t=
+zone))
+81915272ac5c5c Srinivas Pandruvada 2021-05-25 @258  		goto err_ret_mmio;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  259  =
+
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  260  	/* request and enable =
+interrupt */
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  261  	ret =3D pci_alloc_irq_=
+vectors(pdev, 1, 1, PCI_IRQ_ALL_TYPES);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  262  	if (ret < 0) {
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  263  		dev_err(&pdev->dev, "=
+Failed to allocate vectors!\n");
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  264  		goto err_ret_tzone;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  265  	}
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  266  	if (!pdev->msi_enabled=
+ && !pdev->msix_enabled)
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  267  		irq_flag =3D IRQF_SHA=
+RED;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  268  =
+
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  269  	irq =3D  pci_irq_vecto=
+r(pdev, 0);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  270  	ret =3D devm_request_t=
+hreaded_irq(&pdev->dev, irq,
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  271  					proc_thermal_irq_h=
+andler, NULL,
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  272  					irq_flag, KBUILD_M=
+ODNAME, pci_info);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  273  	if (ret) {
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  274  		dev_err(&pdev->dev, "=
+Request IRQ %d failed\n", pdev->irq);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  275  		goto err_free_vectors;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  276  	}
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  277  =
+
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  278  	return 0;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  279  =
+
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  280  err_free_vectors:
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  281  	pci_free_irq_vectors(p=
+dev);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  282  err_ret_tzone:
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  283  	thermal_zone_device_un=
+register(pci_info->tzone);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  284  err_ret_mmio:
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  285  	proc_thermal_mmio_remo=
+ve(pdev, proc_priv);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  286  err_ret_thermal:
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  287  	if (!pci_info->no_lega=
+cy)
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  288  		proc_thermal_remove(p=
+roc_priv);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  289  	pci_disable_device(pde=
+v);
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  290  =
+
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  291  	return ret;
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  292  }
+81915272ac5c5c Srinivas Pandruvada 2021-05-25  293  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============2139239178966787054==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============5400090688916410301==--
 
