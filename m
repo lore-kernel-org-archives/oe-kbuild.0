@@ -1,326 +1,219 @@
-Content-Type: multipart/mixed; boundary="===============5905423533733278508=="
+Content-Type: multipart/mixed; boundary="===============8863465501605648411=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: include/linux/atomic/atomic-instrumented.h:28:2: warning: Undefined or garbage value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
-Date: Sat, 18 Dec 2021 21:23:29 +0800
-Message-ID: <202112182150.IQYBNEfY-lkp@intel.com>
+Subject: mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows outer function [shadowFunction]
+Date: Sat, 18 Dec 2021 21:13:09 +0800
+Message-ID: <202112182159.x7OIcZ54-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5905423533733278508==
+--===============8863465501605648411==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Mark Rutland <mark.rutland@arm.com>
-CC: Peter Zijlstra <peterz@infradead.org>
+TO: David Hildenbrand <david@redhat.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   9eaa88c7036eda3f6c215f87ca693594cf90559b
-commit: e3d18cee258b898017b298b5b93f8134dd62aee3 locking/atomic: centralize=
- generated headers
-date:   5 months ago
+commit: 445fcf7c721450dd1d4ec6c217b3c6a932602a44 mm/memory_hotplug: memory =
+group aware "auto-movable" online policy
+date:   3 months ago
 :::::: branch date: 12 hours ago
-:::::: commit date: 5 months ago
-config: arm-randconfig-c002-20211215 (https://download.01.org/0day-ci/archi=
-ve/20211218/202112182150.IQYBNEfY-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3De3d18cee258b898017b298b5b93f8134dd62aee3
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout e3d18cee258b898017b298b5b93f8134dd62aee3
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+:::::: commit date: 3 months ago
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   fs/btrfs/ordered-data.c:583:13: note: Left side of '&&' is false
-                   ordered =3D list_first_entry(&splice, struct btrfs_order=
-ed_extent,
-                             ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   fs/btrfs/ordered-data.c:583:13: note: '?' condition is true
-                   ordered =3D list_first_entry(&splice, struct btrfs_order=
-ed_extent,
-                             ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/btrfs/ordered-data.c:583:13: note: Left side of '&&' is false
-                   ordered =3D list_first_entry(&splice, struct btrfs_order=
-ed_extent,
-                             ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   fs/btrfs/ordered-data.c:583:13: note: Taking false branch
-                   ordered =3D list_first_entry(&splice, struct btrfs_order=
-ed_extent,
-                             ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/btrfs/ordered-data.c:583:13: note: Loop condition is false.  Exiting =
-loop
-                   ordered =3D list_first_entry(&splice, struct btrfs_order=
-ed_extent,
-                             ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   fs/btrfs/ordered-data.c:586:17: note: The right operand of '<=3D' is a g=
-arbage value
-                   if (range_end <=3D ordered->disk_bytenr ||
-                                 ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
->> include/linux/atomic/atomic-instrumented.h:28:2: warning: Undefined or g=
-arbage value returned to caller [clang-analyzer-core.uninitialized.UndefRet=
-urn]
-           return arch_atomic_read(v);
-           ^
-   fs/btrfs/ordered-data.c:636:9: note: Assuming the condition is true
-           while (!list_empty(&splice) && nr) {
-                  ^~~~~~~~~~~~~~~~~~~~
-   fs/btrfs/ordered-data.c:636:9: note: Left side of '&&' is true
-   fs/btrfs/ordered-data.c:636:2: note: Loop condition is true.  Entering l=
-oop body
-           while (!list_empty(&splice) && nr) {
-           ^
-   fs/btrfs/ordered-data.c:637:10: note: Left side of '&&' is false
-                   root =3D list_first_entry(&splice, struct btrfs_root,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   fs/btrfs/ordered-data.c:637:10: note: '?' condition is true
-                   root =3D list_first_entry(&splice, struct btrfs_root,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/btrfs/ordered-data.c:637:10: note: Left side of '&&' is false
-                   root =3D list_first_entry(&splice, struct btrfs_root,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   fs/btrfs/ordered-data.c:637:10: note: Taking false branch
-                   root =3D list_first_entry(&splice, struct btrfs_root,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/btrfs/ordered-data.c:637:10: note: Loop condition is false.  Exiting =
-loop
-                   root =3D list_first_entry(&splice, struct btrfs_root,
-                          ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:704:2: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-           ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   fs/btrfs/ordered-data.c:639:10: note: Calling 'btrfs_grab_root'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +28 include/linux/atomic/atomic-instrumented.h
+>> mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows=
+ outer function [shadowFunction]
+    unsigned long online_pages =3D 0, max_pages, end_pfn;
+                  ^
+   mm/memory_hotplug.c:1024:11: note: Shadowed declaration
+   int __ref online_pages(unsigned long pfn, unsigned long nr_pages,
+             ^
+   mm/memory_hotplug.c:860:16: note: Shadow variable
+    unsigned long online_pages =3D 0, max_pages, end_pfn;
+                  ^
 
-aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
-09-04  23  =
+vim +860 mm/memory_hotplug.c
 
-c020395b6634b7 include/asm-generic/atomic-instrumented.h Marco Elver  2019-=
-11-26  24  static __always_inline int
-aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
-09-04  25  atomic_read(const atomic_t *v)
-aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
-09-04  26  {
-ed8af2e4d2a71b include/asm-generic/atomic-instrumented.h Marco Elver  2020-=
-01-21  27  	instrument_atomic_read(v, sizeof(*v));
-aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
-09-04 @28  	return arch_atomic_read(v);
-aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
-09-04  29  }
-aa525d063851a9 include/asm-generic/atomic-instrumented.h Mark Rutland 2018-=
-09-04  30  =
+c246a213f5bad6 Michal Hocko      2017-07-06  808  =
 
+e83a437faa625e David Hildenbrand 2021-09-07  809  /*
+e83a437faa625e David Hildenbrand 2021-09-07  810   * Determine to which zon=
+e to online memory dynamically based on user
+e83a437faa625e David Hildenbrand 2021-09-07  811   * configuration and syst=
+em stats. We care about the following ratio:
+e83a437faa625e David Hildenbrand 2021-09-07  812   *
+e83a437faa625e David Hildenbrand 2021-09-07  813   *   MOVABLE : KERNEL
+e83a437faa625e David Hildenbrand 2021-09-07  814   *
+e83a437faa625e David Hildenbrand 2021-09-07  815   * Whereby MOVABLE is mem=
+ory in ZONE_MOVABLE and KERNEL is memory in
+e83a437faa625e David Hildenbrand 2021-09-07  816   * one of the kernel zone=
+s. CMA pages inside one of the kernel zones really
+e83a437faa625e David Hildenbrand 2021-09-07  817   * behaves like ZONE_MOVA=
+BLE, so we treat them accordingly.
+e83a437faa625e David Hildenbrand 2021-09-07  818   *
+e83a437faa625e David Hildenbrand 2021-09-07  819   * We don't allow for hot=
+plugged memory in a KERNEL zone to increase the
+e83a437faa625e David Hildenbrand 2021-09-07  820   * amount of MOVABLE memo=
+ry we can have, so we end up with:
+e83a437faa625e David Hildenbrand 2021-09-07  821   *
+e83a437faa625e David Hildenbrand 2021-09-07  822   *   MOVABLE : KERNEL_EAR=
+LY
+e83a437faa625e David Hildenbrand 2021-09-07  823   *
+e83a437faa625e David Hildenbrand 2021-09-07  824   * Whereby KERNEL_EARLY i=
+s memory in one of the kernel zones, available sinze
+e83a437faa625e David Hildenbrand 2021-09-07  825   * boot. We base our calc=
+ulation on KERNEL_EARLY internally, because:
+e83a437faa625e David Hildenbrand 2021-09-07  826   *
+e83a437faa625e David Hildenbrand 2021-09-07  827   * a) Hotplugged memory i=
+n one of the kernel zones can sometimes still get
+e83a437faa625e David Hildenbrand 2021-09-07  828   *    hotunplugged, espec=
+ially when hot(un)plugging individual memory blocks.
+e83a437faa625e David Hildenbrand 2021-09-07  829   *    There is no coordin=
+ation across memory devices, therefore "automatic"
+e83a437faa625e David Hildenbrand 2021-09-07  830   *    hotunplugging, as i=
+mplemented in hypervisors, could result in zone
+e83a437faa625e David Hildenbrand 2021-09-07  831   *    imbalances.
+e83a437faa625e David Hildenbrand 2021-09-07  832   * b) Early/boot memory i=
+n one of the kernel zones can usually not get
+e83a437faa625e David Hildenbrand 2021-09-07  833   *    hotunplugged again =
+(e.g., no firmware interface to unplug, fragmented
+e83a437faa625e David Hildenbrand 2021-09-07  834   *    with unmovable allo=
+cations). While there are corner cases where it might
+e83a437faa625e David Hildenbrand 2021-09-07  835   *    still work, it is b=
+arely relevant in practice.
+e83a437faa625e David Hildenbrand 2021-09-07  836   *
+e83a437faa625e David Hildenbrand 2021-09-07  837   * We rely on "present pa=
+ges" instead of "managed pages", as the latter is
+e83a437faa625e David Hildenbrand 2021-09-07  838   * highly unreliable and =
+dynamic in virtualized environments, and does not
+e83a437faa625e David Hildenbrand 2021-09-07  839   * consider boot time all=
+ocations. For example, memory ballooning adjusts the
+e83a437faa625e David Hildenbrand 2021-09-07  840   * managed pages when inf=
+lating/deflating the balloon, and balloon compaction
+e83a437faa625e David Hildenbrand 2021-09-07  841   * can even migrate infla=
+ted pages between zones.
+e83a437faa625e David Hildenbrand 2021-09-07  842   *
+e83a437faa625e David Hildenbrand 2021-09-07  843   * Using "present pages" =
+is better but some things to keep in mind are:
+e83a437faa625e David Hildenbrand 2021-09-07  844   *
+e83a437faa625e David Hildenbrand 2021-09-07  845   * a) Some memblock alloc=
+ations, such as for the crashkernel area, are
+e83a437faa625e David Hildenbrand 2021-09-07  846   *    effectively unused =
+by the kernel, yet they account to "present pages".
+e83a437faa625e David Hildenbrand 2021-09-07  847   *    Fortunately, these =
+allocations are comparatively small in relevant setups
+e83a437faa625e David Hildenbrand 2021-09-07  848   *    (e.g., fraction of =
+system memory).
+e83a437faa625e David Hildenbrand 2021-09-07  849   * b) Some hotplugged mem=
+ory blocks in virtualized environments, esecially
+e83a437faa625e David Hildenbrand 2021-09-07  850   *    hotplugged by virti=
+o-mem, look like they are completely present, however,
+e83a437faa625e David Hildenbrand 2021-09-07  851   *    only parts of the m=
+emory block are actually currently usable.
+e83a437faa625e David Hildenbrand 2021-09-07  852   *    "present pages" is =
+an upper limit that can get reached at runtime. As
+e83a437faa625e David Hildenbrand 2021-09-07  853   *    we base our calcula=
+tions on KERNEL_EARLY, this is not an issue.
+e83a437faa625e David Hildenbrand 2021-09-07  854   */
+445fcf7c721450 David Hildenbrand 2021-09-07  855  static struct zone *auto_=
+movable_zone_for_pfn(int nid,
+445fcf7c721450 David Hildenbrand 2021-09-07  856  					      struct memory_=
+group *group,
+445fcf7c721450 David Hildenbrand 2021-09-07  857  					      unsigned long =
+pfn,
+e83a437faa625e David Hildenbrand 2021-09-07  858  					      unsigned long =
+nr_pages)
+e83a437faa625e David Hildenbrand 2021-09-07  859  {
+445fcf7c721450 David Hildenbrand 2021-09-07 @860  	unsigned long online_pag=
+es =3D 0, max_pages, end_pfn;
+445fcf7c721450 David Hildenbrand 2021-09-07  861  	struct page *page;
+445fcf7c721450 David Hildenbrand 2021-09-07  862  =
 
-:::::: The code at line 28 was first introduced by commit
-:::::: aa525d063851a98e020b827fdd1d7776ae652301 locking/atomics: Switch to =
-generated instrumentation
+e83a437faa625e David Hildenbrand 2021-09-07  863  	if (!auto_movable_ratio)
+e83a437faa625e David Hildenbrand 2021-09-07  864  		goto kernel_zone;
+e83a437faa625e David Hildenbrand 2021-09-07  865  =
 
-:::::: TO: Mark Rutland <mark.rutland@arm.com>
-:::::: CC: Ingo Molnar <mingo@kernel.org>
+445fcf7c721450 David Hildenbrand 2021-09-07  866  	if (group && !group->is_=
+dynamic) {
+445fcf7c721450 David Hildenbrand 2021-09-07  867  		max_pages =3D group->s.=
+max_pages;
+445fcf7c721450 David Hildenbrand 2021-09-07  868  		online_pages =3D group-=
+>present_movable_pages;
+445fcf7c721450 David Hildenbrand 2021-09-07  869  =
+
+445fcf7c721450 David Hildenbrand 2021-09-07  870  		/* If anything is !MOVA=
+BLE online the rest !MOVABLE. */
+445fcf7c721450 David Hildenbrand 2021-09-07  871  		if (group->present_kern=
+el_pages)
+445fcf7c721450 David Hildenbrand 2021-09-07  872  			goto kernel_zone;
+445fcf7c721450 David Hildenbrand 2021-09-07  873  	} else if (!group || gro=
+up->d.unit_pages =3D=3D nr_pages) {
+445fcf7c721450 David Hildenbrand 2021-09-07  874  		max_pages =3D nr_pages;
+445fcf7c721450 David Hildenbrand 2021-09-07  875  	} else {
+445fcf7c721450 David Hildenbrand 2021-09-07  876  		max_pages =3D group->d.=
+unit_pages;
+445fcf7c721450 David Hildenbrand 2021-09-07  877  		/*
+445fcf7c721450 David Hildenbrand 2021-09-07  878  		 * Take a look at all o=
+nline sections in the current unit.
+445fcf7c721450 David Hildenbrand 2021-09-07  879  		 * We can safely assume=
+ that all pages within a section belong
+445fcf7c721450 David Hildenbrand 2021-09-07  880  		 * to the same zone, be=
+cause dynamic memory groups only deal
+445fcf7c721450 David Hildenbrand 2021-09-07  881  		 * with hotplugged memo=
+ry.
+445fcf7c721450 David Hildenbrand 2021-09-07  882  		 */
+445fcf7c721450 David Hildenbrand 2021-09-07  883  		pfn =3D ALIGN_DOWN(pfn,=
+ group->d.unit_pages);
+445fcf7c721450 David Hildenbrand 2021-09-07  884  		end_pfn =3D pfn + group=
+->d.unit_pages;
+445fcf7c721450 David Hildenbrand 2021-09-07  885  		for (; pfn < end_pfn; p=
+fn +=3D PAGES_PER_SECTION) {
+445fcf7c721450 David Hildenbrand 2021-09-07  886  			page =3D pfn_to_online=
+_page(pfn);
+445fcf7c721450 David Hildenbrand 2021-09-07  887  			if (!page)
+445fcf7c721450 David Hildenbrand 2021-09-07  888  				continue;
+445fcf7c721450 David Hildenbrand 2021-09-07  889  			/* If anything is !MOV=
+ABLE online the rest !MOVABLE. */
+445fcf7c721450 David Hildenbrand 2021-09-07  890  			if (page_zonenum(page)=
+ !=3D ZONE_MOVABLE)
+445fcf7c721450 David Hildenbrand 2021-09-07  891  				goto kernel_zone;
+445fcf7c721450 David Hildenbrand 2021-09-07  892  			online_pages +=3D PAGE=
+S_PER_SECTION;
+445fcf7c721450 David Hildenbrand 2021-09-07  893  		}
+445fcf7c721450 David Hildenbrand 2021-09-07  894  	}
+445fcf7c721450 David Hildenbrand 2021-09-07  895  =
+
+445fcf7c721450 David Hildenbrand 2021-09-07  896  	/*
+445fcf7c721450 David Hildenbrand 2021-09-07  897  	 * Online MOVABLE if we =
+could *currently* online all remaining parts
+445fcf7c721450 David Hildenbrand 2021-09-07  898  	 * MOVABLE. We expect to=
+ (add+) online them immediately next, so if
+445fcf7c721450 David Hildenbrand 2021-09-07  899  	 * nobody interferes, al=
+l will be MOVABLE if possible.
+445fcf7c721450 David Hildenbrand 2021-09-07  900  	 */
+445fcf7c721450 David Hildenbrand 2021-09-07  901  	nr_pages =3D max_pages -=
+ online_pages;
+e83a437faa625e David Hildenbrand 2021-09-07  902  	if (!auto_movable_can_on=
+line_movable(NUMA_NO_NODE, nr_pages))
+e83a437faa625e David Hildenbrand 2021-09-07  903  		goto kernel_zone;
+e83a437faa625e David Hildenbrand 2021-09-07  904  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5905423533733278508==--
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+--===============8863465501605648411==--
 
