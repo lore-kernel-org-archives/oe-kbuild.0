@@ -1,31 +1,29 @@
-Content-Type: multipart/mixed; boundary="===============8863465501605648411=="
+Content-Type: multipart/mixed; boundary="===============5678642771276578354=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows outer function [shadowFunction]
-Date: Sat, 18 Dec 2021 21:13:09 +0800
-Message-ID: <202112182159.x7OIcZ54-lkp@intel.com>
+Subject: [linux-next:master 6656/8462] arch/arm64/kernel/perf_event.c:299:2: warning: Non-boolean value returned from function returning bool [returnNonBoolInBooleanFunction]
+Date: Sat, 18 Dec 2021 18:20:40 +0800
+Message-ID: <202112181839.GfSBYsmg-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8863465501605648411==
+--===============5678642771276578354==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: David Hildenbrand <david@redhat.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
 CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Rob Herring <robh@kernel.org>
+CC: Will Deacon <will@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   9eaa88c7036eda3f6c215f87ca693594cf90559b
-commit: 445fcf7c721450dd1d4ec6c217b3c6a932602a44 mm/memory_hotplug: memory =
-group aware "auto-movable" online policy
-date:   3 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 3 months ago
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   c122052c3cb861b3e61a01d2c2ab9069e470663e
+commit: 83a7a4d643d33a8b74a42229346b7ed7139fcef9 [6656/8462] arm64: perf: E=
+nable PMU counter userspace access for perf event
+:::::: branch date: 21 hours ago
+:::::: commit date: 4 days ago
 compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -34,186 +32,26 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
->> mm/memory_hotplug.c:860:16: warning: Local variable online_pages shadows=
- outer function [shadowFunction]
-    unsigned long online_pages =3D 0, max_pages, end_pfn;
-                  ^
-   mm/memory_hotplug.c:1024:11: note: Shadowed declaration
-   int __ref online_pages(unsigned long pfn, unsigned long nr_pages,
-             ^
-   mm/memory_hotplug.c:860:16: note: Shadow variable
-    unsigned long online_pages =3D 0, max_pages, end_pfn;
-                  ^
+>> arch/arm64/kernel/perf_event.c:299:2: warning: Non-boolean value returne=
+d from function returning bool [returnNonBoolInBooleanFunction]
+    return event->attr.config1 & 0x2;
+    ^
 
-vim +860 mm/memory_hotplug.c
+vim +299 arch/arm64/kernel/perf_event.c
 
-c246a213f5bad6 Michal Hocko      2017-07-06  808  =
+57d74123954dfe Will Deacon 2015-12-22  296  =
 
-e83a437faa625e David Hildenbrand 2021-09-07  809  /*
-e83a437faa625e David Hildenbrand 2021-09-07  810   * Determine to which zon=
-e to online memory dynamically based on user
-e83a437faa625e David Hildenbrand 2021-09-07  811   * configuration and syst=
-em stats. We care about the following ratio:
-e83a437faa625e David Hildenbrand 2021-09-07  812   *
-e83a437faa625e David Hildenbrand 2021-09-07  813   *   MOVABLE : KERNEL
-e83a437faa625e David Hildenbrand 2021-09-07  814   *
-e83a437faa625e David Hildenbrand 2021-09-07  815   * Whereby MOVABLE is mem=
-ory in ZONE_MOVABLE and KERNEL is memory in
-e83a437faa625e David Hildenbrand 2021-09-07  816   * one of the kernel zone=
-s. CMA pages inside one of the kernel zones really
-e83a437faa625e David Hildenbrand 2021-09-07  817   * behaves like ZONE_MOVA=
-BLE, so we treat them accordingly.
-e83a437faa625e David Hildenbrand 2021-09-07  818   *
-e83a437faa625e David Hildenbrand 2021-09-07  819   * We don't allow for hot=
-plugged memory in a KERNEL zone to increase the
-e83a437faa625e David Hildenbrand 2021-09-07  820   * amount of MOVABLE memo=
-ry we can have, so we end up with:
-e83a437faa625e David Hildenbrand 2021-09-07  821   *
-e83a437faa625e David Hildenbrand 2021-09-07  822   *   MOVABLE : KERNEL_EAR=
-LY
-e83a437faa625e David Hildenbrand 2021-09-07  823   *
-e83a437faa625e David Hildenbrand 2021-09-07  824   * Whereby KERNEL_EARLY i=
-s memory in one of the kernel zones, available sinze
-e83a437faa625e David Hildenbrand 2021-09-07  825   * boot. We base our calc=
-ulation on KERNEL_EARLY internally, because:
-e83a437faa625e David Hildenbrand 2021-09-07  826   *
-e83a437faa625e David Hildenbrand 2021-09-07  827   * a) Hotplugged memory i=
-n one of the kernel zones can sometimes still get
-e83a437faa625e David Hildenbrand 2021-09-07  828   *    hotunplugged, espec=
-ially when hot(un)plugging individual memory blocks.
-e83a437faa625e David Hildenbrand 2021-09-07  829   *    There is no coordin=
-ation across memory devices, therefore "automatic"
-e83a437faa625e David Hildenbrand 2021-09-07  830   *    hotunplugging, as i=
-mplemented in hypervisors, could result in zone
-e83a437faa625e David Hildenbrand 2021-09-07  831   *    imbalances.
-e83a437faa625e David Hildenbrand 2021-09-07  832   * b) Early/boot memory i=
-n one of the kernel zones can usually not get
-e83a437faa625e David Hildenbrand 2021-09-07  833   *    hotunplugged again =
-(e.g., no firmware interface to unplug, fragmented
-e83a437faa625e David Hildenbrand 2021-09-07  834   *    with unmovable allo=
-cations). While there are corner cases where it might
-e83a437faa625e David Hildenbrand 2021-09-07  835   *    still work, it is b=
-arely relevant in practice.
-e83a437faa625e David Hildenbrand 2021-09-07  836   *
-e83a437faa625e David Hildenbrand 2021-09-07  837   * We rely on "present pa=
-ges" instead of "managed pages", as the latter is
-e83a437faa625e David Hildenbrand 2021-09-07  838   * highly unreliable and =
-dynamic in virtualized environments, and does not
-e83a437faa625e David Hildenbrand 2021-09-07  839   * consider boot time all=
-ocations. For example, memory ballooning adjusts the
-e83a437faa625e David Hildenbrand 2021-09-07  840   * managed pages when inf=
-lating/deflating the balloon, and balloon compaction
-e83a437faa625e David Hildenbrand 2021-09-07  841   * can even migrate infla=
-ted pages between zones.
-e83a437faa625e David Hildenbrand 2021-09-07  842   *
-e83a437faa625e David Hildenbrand 2021-09-07  843   * Using "present pages" =
-is better but some things to keep in mind are:
-e83a437faa625e David Hildenbrand 2021-09-07  844   *
-e83a437faa625e David Hildenbrand 2021-09-07  845   * a) Some memblock alloc=
-ations, such as for the crashkernel area, are
-e83a437faa625e David Hildenbrand 2021-09-07  846   *    effectively unused =
-by the kernel, yet they account to "present pages".
-e83a437faa625e David Hildenbrand 2021-09-07  847   *    Fortunately, these =
-allocations are comparatively small in relevant setups
-e83a437faa625e David Hildenbrand 2021-09-07  848   *    (e.g., fraction of =
-system memory).
-e83a437faa625e David Hildenbrand 2021-09-07  849   * b) Some hotplugged mem=
-ory blocks in virtualized environments, esecially
-e83a437faa625e David Hildenbrand 2021-09-07  850   *    hotplugged by virti=
-o-mem, look like they are completely present, however,
-e83a437faa625e David Hildenbrand 2021-09-07  851   *    only parts of the m=
-emory block are actually currently usable.
-e83a437faa625e David Hildenbrand 2021-09-07  852   *    "present pages" is =
-an upper limit that can get reached at runtime. As
-e83a437faa625e David Hildenbrand 2021-09-07  853   *    we base our calcula=
-tions on KERNEL_EARLY, this is not an issue.
-e83a437faa625e David Hildenbrand 2021-09-07  854   */
-445fcf7c721450 David Hildenbrand 2021-09-07  855  static struct zone *auto_=
-movable_zone_for_pfn(int nid,
-445fcf7c721450 David Hildenbrand 2021-09-07  856  					      struct memory_=
-group *group,
-445fcf7c721450 David Hildenbrand 2021-09-07  857  					      unsigned long =
-pfn,
-e83a437faa625e David Hildenbrand 2021-09-07  858  					      unsigned long =
-nr_pages)
-e83a437faa625e David Hildenbrand 2021-09-07  859  {
-445fcf7c721450 David Hildenbrand 2021-09-07 @860  	unsigned long online_pag=
-es =3D 0, max_pages, end_pfn;
-445fcf7c721450 David Hildenbrand 2021-09-07  861  	struct page *page;
-445fcf7c721450 David Hildenbrand 2021-09-07  862  =
-
-e83a437faa625e David Hildenbrand 2021-09-07  863  	if (!auto_movable_ratio)
-e83a437faa625e David Hildenbrand 2021-09-07  864  		goto kernel_zone;
-e83a437faa625e David Hildenbrand 2021-09-07  865  =
-
-445fcf7c721450 David Hildenbrand 2021-09-07  866  	if (group && !group->is_=
-dynamic) {
-445fcf7c721450 David Hildenbrand 2021-09-07  867  		max_pages =3D group->s.=
-max_pages;
-445fcf7c721450 David Hildenbrand 2021-09-07  868  		online_pages =3D group-=
->present_movable_pages;
-445fcf7c721450 David Hildenbrand 2021-09-07  869  =
-
-445fcf7c721450 David Hildenbrand 2021-09-07  870  		/* If anything is !MOVA=
-BLE online the rest !MOVABLE. */
-445fcf7c721450 David Hildenbrand 2021-09-07  871  		if (group->present_kern=
-el_pages)
-445fcf7c721450 David Hildenbrand 2021-09-07  872  			goto kernel_zone;
-445fcf7c721450 David Hildenbrand 2021-09-07  873  	} else if (!group || gro=
-up->d.unit_pages =3D=3D nr_pages) {
-445fcf7c721450 David Hildenbrand 2021-09-07  874  		max_pages =3D nr_pages;
-445fcf7c721450 David Hildenbrand 2021-09-07  875  	} else {
-445fcf7c721450 David Hildenbrand 2021-09-07  876  		max_pages =3D group->d.=
-unit_pages;
-445fcf7c721450 David Hildenbrand 2021-09-07  877  		/*
-445fcf7c721450 David Hildenbrand 2021-09-07  878  		 * Take a look at all o=
-nline sections in the current unit.
-445fcf7c721450 David Hildenbrand 2021-09-07  879  		 * We can safely assume=
- that all pages within a section belong
-445fcf7c721450 David Hildenbrand 2021-09-07  880  		 * to the same zone, be=
-cause dynamic memory groups only deal
-445fcf7c721450 David Hildenbrand 2021-09-07  881  		 * with hotplugged memo=
-ry.
-445fcf7c721450 David Hildenbrand 2021-09-07  882  		 */
-445fcf7c721450 David Hildenbrand 2021-09-07  883  		pfn =3D ALIGN_DOWN(pfn,=
- group->d.unit_pages);
-445fcf7c721450 David Hildenbrand 2021-09-07  884  		end_pfn =3D pfn + group=
-->d.unit_pages;
-445fcf7c721450 David Hildenbrand 2021-09-07  885  		for (; pfn < end_pfn; p=
-fn +=3D PAGES_PER_SECTION) {
-445fcf7c721450 David Hildenbrand 2021-09-07  886  			page =3D pfn_to_online=
-_page(pfn);
-445fcf7c721450 David Hildenbrand 2021-09-07  887  			if (!page)
-445fcf7c721450 David Hildenbrand 2021-09-07  888  				continue;
-445fcf7c721450 David Hildenbrand 2021-09-07  889  			/* If anything is !MOV=
-ABLE online the rest !MOVABLE. */
-445fcf7c721450 David Hildenbrand 2021-09-07  890  			if (page_zonenum(page)=
- !=3D ZONE_MOVABLE)
-445fcf7c721450 David Hildenbrand 2021-09-07  891  				goto kernel_zone;
-445fcf7c721450 David Hildenbrand 2021-09-07  892  			online_pages +=3D PAGE=
-S_PER_SECTION;
-445fcf7c721450 David Hildenbrand 2021-09-07  893  		}
-445fcf7c721450 David Hildenbrand 2021-09-07  894  	}
-445fcf7c721450 David Hildenbrand 2021-09-07  895  =
-
-445fcf7c721450 David Hildenbrand 2021-09-07  896  	/*
-445fcf7c721450 David Hildenbrand 2021-09-07  897  	 * Online MOVABLE if we =
-could *currently* online all remaining parts
-445fcf7c721450 David Hildenbrand 2021-09-07  898  	 * MOVABLE. We expect to=
- (add+) online them immediately next, so if
-445fcf7c721450 David Hildenbrand 2021-09-07  899  	 * nobody interferes, al=
-l will be MOVABLE if possible.
-445fcf7c721450 David Hildenbrand 2021-09-07  900  	 */
-445fcf7c721450 David Hildenbrand 2021-09-07  901  	nr_pages =3D max_pages -=
- online_pages;
-e83a437faa625e David Hildenbrand 2021-09-07  902  	if (!auto_movable_can_on=
-line_movable(NUMA_NO_NODE, nr_pages))
-e83a437faa625e David Hildenbrand 2021-09-07  903  		goto kernel_zone;
-e83a437faa625e David Hildenbrand 2021-09-07  904  =
+83a7a4d643d33a Rob Herring 2021-12-08  297  static inline bool armv8pmu_eve=
+nt_want_user_access(struct perf_event *event)
+83a7a4d643d33a Rob Herring 2021-12-08  298  {
+83a7a4d643d33a Rob Herring 2021-12-08 @299  	return event->attr.config1 & 0=
+x2;
+83a7a4d643d33a Rob Herring 2021-12-08  300  }
+83a7a4d643d33a Rob Herring 2021-12-08  301  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============8863465501605648411==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============5678642771276578354==--
 
