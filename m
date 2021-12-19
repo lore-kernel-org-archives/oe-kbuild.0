@@ -1,274 +1,372 @@
-Content-Type: multipart/mixed; boundary="===============2207546631981357714=="
+Content-Type: multipart/mixed; boundary="===============7721933971112626848=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mtd/ftl.c:220 build_maps() warn: should '(i + __builtin_bswap16(((part->header.FirstPhysicalEUN)))) << part->header.EraseUnitSize' be a 64 bit type?
-Date: Fri, 31 Dec 2021 02:56:39 +0800
-Message-ID: <202112310235.ZV3zJcsD-lkp@intel.com>
+Subject: drivers/ptp/ptp_ocp.c:773:2: warning: Value stored to 'ctrl' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 19 Dec 2021 08:54:00 +0800
+Message-ID: <202112190822.6HmzS0fV-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2207546631981357714==
+--===============7721933971112626848==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Jonathan Lemon <jonathan.lemon@gmail.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   eec4df26e24e978e49ccf9bcf49ca0f2ccdaeffe
-commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
-.h: sparse can do constant folding of __builtin_bswap*()
-date:   8 months ago
-:::::: branch date: 25 hours ago
-:::::: commit date: 8 months ago
-config: s390-randconfig-m031-20211123 (https://download.01.org/0day-ci/arch=
-ive/20211231/202112310235.ZV3zJcsD-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
+head:   3f667b5d4053ad54aee13dab5c94f04ff75ddfdf
+commit: 1acffc6e09ede525ecf733b1a700fdad8db9a203 ptp: ocp: Add timestamp wi=
+ndow adjustment
+date:   3 months ago
+:::::: branch date: 3 hours ago
+:::::: commit date: 3 months ago
+config: i386-randconfig-c001-20211215 (https://download.01.org/0day-ci/arch=
+ive/20211219/202112190822.6HmzS0fV-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
+ab9fbb364faa1581e4f92ba3119a872fba)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D1acffc6e09ede525ecf733b1a700fdad8db9a203
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 1acffc6e09ede525ecf733b1a700fdad8db9a203
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-
-New smatch warnings:
-drivers/mtd/ftl.c:220 build_maps() warn: should '(i + __builtin_bswap16(((p=
-art->header.FirstPhysicalEUN)))) << part->header.EraseUnitSize' be a 64 bit=
- type?
-
-Old smatch warnings:
-drivers/mtd/ftl.c:347 erase_xfer() warn: should '1 << part->header.EraseUni=
-tSize' be a 64 bit type?
-drivers/mtd/ftl.c:605 reclaim_block() warn: inconsistent indenting
-
-vim +220 drivers/mtd/ftl.c
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  191  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  192  static int build_maps(part=
-ition_t *part)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  193  {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  194      erase_unit_header_t he=
-ader;
-3854be7712f7b4 David Woodhouse  2008-12-10  195      uint16_t xvalid, xtran=
-s, i;
-3854be7712f7b4 David Woodhouse  2008-12-10  196      unsigned blocks, j;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  197      int hdr_ok, ret =3D -1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  198      ssize_t retval;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  199      loff_t offset;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  200  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  201      /* Set up erase unit m=
-aps */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  202      part->DataUnits =3D le=
-16_to_cpu(part->header.NumEraseUnits) -
-^1da177e4c3f41 Linus Torvalds   2005-04-16  203  	part->header.NumTransferU=
-nits;
-6da2ec56059c3c Kees Cook        2018-06-12  204      part->EUNInfo =3D kmal=
-loc_array(part->DataUnits, sizeof(struct eun_info_t),
-^1da177e4c3f41 Linus Torvalds   2005-04-16  205                            =
-        GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  206      if (!part->EUNInfo)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  207  	    goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  208      for (i =3D 0; i < part=
-->DataUnits; i++)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  209  	part->EUNInfo[i].Offset =
-=3D 0xffffffff;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  210      part->XferInfo =3D
-6da2ec56059c3c Kees Cook        2018-06-12  211  	kmalloc_array(part->heade=
-r.NumTransferUnits,
-6da2ec56059c3c Kees Cook        2018-06-12  212                        size=
-of(struct xfer_info_t),
-^1da177e4c3f41 Linus Torvalds   2005-04-16  213                        GFP_=
-KERNEL);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  214      if (!part->XferInfo)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  215  	    goto out_EUNInfo;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  216  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  217      xvalid =3D xtrans =3D =
-0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  218      for (i =3D 0; i < le16=
-_to_cpu(part->header.NumEraseUnits); i++) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  219  	offset =3D ((i + le16_to_=
-cpu(part->header.FirstPhysicalEUN))
-^1da177e4c3f41 Linus Torvalds   2005-04-16 @220  		      << part->header.Er=
-aseUnitSize);
-329ad399a9b3ad Artem Bityutskiy 2011-12-23  221  	ret =3D mtd_read(part->mb=
-d.mtd, offset, sizeof(header), &retval,
-^1da177e4c3f41 Linus Torvalds   2005-04-16  222                         (un=
-signed char *)&header);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  223  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  224  	if (ret)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  225  	    goto out_XferInfo;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  226  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  227  	ret =3D -1;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  228  	/* Is this a transfer par=
-tition? */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  229  	hdr_ok =3D (strcmp(header=
-.DataOrgTuple+3, "FTL100") =3D=3D 0);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  230  	if (hdr_ok && (le16_to_cp=
-u(header.LogicalEUN) < part->DataUnits) &&
-^1da177e4c3f41 Linus Torvalds   2005-04-16  231  	    (part->EUNInfo[le16_t=
-o_cpu(header.LogicalEUN)].Offset =3D=3D 0xffffffff)) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  232  	    part->EUNInfo[le16_to=
-_cpu(header.LogicalEUN)].Offset =3D offset;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  233  	    part->EUNInfo[le16_to=
-_cpu(header.LogicalEUN)].EraseCount =3D
-^1da177e4c3f41 Linus Torvalds   2005-04-16  234  		le32_to_cpu(header.Erase=
-Count);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  235  	    xvalid++;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  236  	} else {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  237  	    if (xtrans =3D=3D par=
-t->header.NumTransferUnits) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  238  		printk(KERN_NOTICE "ftl_=
-cs: format error: too many "
-^1da177e4c3f41 Linus Torvalds   2005-04-16  239  		       "transfer units!\=
-n");
-^1da177e4c3f41 Linus Torvalds   2005-04-16  240  		goto out_XferInfo;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  241  	    }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  242  	    if (hdr_ok && (le16_t=
-o_cpu(header.LogicalEUN) =3D=3D 0xffff)) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  243  		part->XferInfo[xtrans].s=
-tate =3D XFER_PREPARED;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  244  		part->XferInfo[xtrans].E=
-raseCount =3D le32_to_cpu(header.EraseCount);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  245  	    } else {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  246  		part->XferInfo[xtrans].s=
-tate =3D XFER_UNKNOWN;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  247  		/* Pick anything reasona=
-ble for the erase count */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  248  		part->XferInfo[xtrans].E=
-raseCount =3D
-^1da177e4c3f41 Linus Torvalds   2005-04-16  249  		    le32_to_cpu(part->he=
-ader.EraseCount);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  250  	    }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  251  	    part->XferInfo[xtrans=
-].Offset =3D offset;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  252  	    xtrans++;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  253  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  254      }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  255      /* Check for format tr=
-ouble */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  256      header =3D part->heade=
-r;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  257      if ((xtrans !=3D heade=
-r.NumTransferUnits) ||
-^1da177e4c3f41 Linus Torvalds   2005-04-16  258  	(xvalid+xtrans !=3D le16_=
-to_cpu(header.NumEraseUnits))) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  259  	printk(KERN_NOTICE "ftl_c=
-s: format error: erase units "
-^1da177e4c3f41 Linus Torvalds   2005-04-16  260  	       "don't add up!\n");
-^1da177e4c3f41 Linus Torvalds   2005-04-16  261  	goto out_XferInfo;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  262      }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  263  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  264      /* Set up virtual page=
- map */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  265      blocks =3D le32_to_cpu=
-(header.FormattedSize) >> header.BlockSize;
-42bc47b35320e0 Kees Cook        2018-06-12  266      part->VirtualBlockMap =
-=3D vmalloc(array_size(blocks, sizeof(uint32_t)));
-^1da177e4c3f41 Linus Torvalds   2005-04-16  267      if (!part->VirtualBloc=
-kMap)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  268  	    goto out_XferInfo;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  269  =
-
-3854be7712f7b4 David Woodhouse  2008-12-10  270      memset(part->VirtualBl=
-ockMap, 0xff, blocks * sizeof(uint32_t));
-^1da177e4c3f41 Linus Torvalds   2005-04-16  271      part->BlocksPerUnit =
-=3D (1 << header.EraseUnitSize) >> header.BlockSize;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  272  =
-
-6da2ec56059c3c Kees Cook        2018-06-12  273      part->bam_cache =3D km=
-alloc_array(part->BlocksPerUnit, sizeof(uint32_t),
-^1da177e4c3f41 Linus Torvalds   2005-04-16  274                            =
-          GFP_KERNEL);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  275      if (!part->bam_cache)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  276  	    goto out_VirtualBlock=
-Map;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  277  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  278      part->bam_index =3D 0x=
-ffff;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  279      part->FreeTotal =3D 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  280  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  281      for (i =3D 0; i < part=
-->DataUnits; i++) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  282  	part->EUNInfo[i].Free =3D=
- 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  283  	part->EUNInfo[i].Deleted =
-=3D 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  284  	offset =3D part->EUNInfo[=
-i].Offset + le32_to_cpu(header.BAMOffset);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  285  =
-
-329ad399a9b3ad Artem Bityutskiy 2011-12-23  286  	ret =3D mtd_read(part->mb=
-d.mtd, offset,
-3854be7712f7b4 David Woodhouse  2008-12-10  287                         par=
-t->BlocksPerUnit * sizeof(uint32_t), &retval,
-^1da177e4c3f41 Linus Torvalds   2005-04-16  288                         (un=
-signed char *)part->bam_cache);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  289  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  290  	if (ret)
-^1da177e4c3f41 Linus Torvalds   2005-04-16  291  		goto out_bam_cache;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  292  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  293  	for (j =3D 0; j < part->B=
-locksPerUnit; j++) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  294  	    if (BLOCK_FREE(le32_t=
-o_cpu(part->bam_cache[j]))) {
-^1da177e4c3f41 Linus Torvalds   2005-04-16  295  		part->EUNInfo[i].Free++;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  296  		part->FreeTotal++;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  297  	    } else if ((BLOCK_TYP=
-E(le32_to_cpu(part->bam_cache[j])) =3D=3D BLOCK_DATA) &&
-^1da177e4c3f41 Linus Torvalds   2005-04-16  298  		     (BLOCK_NUMBER(le32_=
-to_cpu(part->bam_cache[j])) < blocks))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  299  		part->VirtualBlockMap[BL=
-OCK_NUMBER(le32_to_cpu(part->bam_cache[j]))] =3D
-^1da177e4c3f41 Linus Torvalds   2005-04-16  300  		    (i << header.EraseUn=
-itSize) + (j << header.BlockSize);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  301  	    else if (BLOCK_DELETE=
-D(le32_to_cpu(part->bam_cache[j])))
-^1da177e4c3f41 Linus Torvalds   2005-04-16  302  		part->EUNInfo[i].Deleted=
-++;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  303  	}
-^1da177e4c3f41 Linus Torvalds   2005-04-16  304      }
-^1da177e4c3f41 Linus Torvalds   2005-04-16  305  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  306      ret =3D 0;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  307      goto out;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  308  =
-
-^1da177e4c3f41 Linus Torvalds   2005-04-16  309  out_bam_cache:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  310      kfree(part->bam_cache);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  311  out_VirtualBlockMap:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  312      vfree(part->VirtualBlo=
-ckMap);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  313  out_XferInfo:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  314      kfree(part->XferInfo);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  315  out_EUNInfo:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  316      kfree(part->EUNInfo);
-^1da177e4c3f41 Linus Torvalds   2005-04-16  317  out:
-^1da177e4c3f41 Linus Torvalds   2005-04-16  318      return ret;
-^1da177e4c3f41 Linus Torvalds   2005-04-16  319  } /* build_maps */
-^1da177e4c3f41 Linus Torvalds   2005-04-16  320  =
 
 
-:::::: The code at line 220 was first introduced by commit
-:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
+clang-analyzer warnings: (new ones prefixed by >>)
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   12 warnings generated.
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1009:3: warning: Value stored =
+to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+                   offset =3D intel_de_read(dev_priv, DSPOFFSET(i9xx_plane)=
+);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1009:3: note: Value stored to =
+'offset' is never read
+                   offset =3D intel_de_read(dev_priv, DSPOFFSET(i9xx_plane)=
+);
+                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1013:4: warning: Value stored =
+to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1013:4: note: Value stored to =
+'offset' is never read
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1016:4: warning: Value stored =
+to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/i9xx_plane.c:1016:4: note: Value stored to =
+'offset' is never read
+                           offset =3D intel_de_read(dev_priv,
+                           ^        ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gpu/drm/i915/display/skl_universal_plane.c:2308:2: warning: Valu=
+e stored to 'offset' is never read [clang-analyzer-deadcode.DeadStores]
+           offset =3D intel_de_read(dev_priv, PLANE_OFFSET(pipe, plane_id));
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/i915/display/skl_universal_plane.c:2308:2: note: Value s=
+tored to 'offset' is never read
+           offset =3D intel_de_read(dev_priv, PLANE_OFFSET(pipe, plane_id));
+           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   drivers/net/ethernet/intel/igc/igc_mac.c:367:3: warning: Value stored to=
+ 'ret_val' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret_val =3D 0;
+                   ^         ~
+   drivers/net/ethernet/intel/igc/igc_mac.c:367:3: note: Value stored to 'r=
+et_val' is never read
+                   ret_val =3D 0;
+                   ^         ~
+   drivers/net/ethernet/intel/igc/igc_mac.c:393:3: warning: Value stored to=
+ 'ret_val' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret_val =3D -IGC_ERR_CONFIG;
+                   ^         ~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_mac.c:393:3: note: Value stored to 'r=
+et_val' is never read
+                   ret_val =3D -IGC_ERR_CONFIG;
+                   ^         ~~~~~~~~~~~~~~~
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/net/ethernet/intel/igc/igc_base.c:231:2: warning: Value stored t=
+o 'ret_val' is never read [clang-analyzer-deadcode.DeadStores]
+           ret_val =3D igc_init_nvm_params_base(hw);
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_base.c:231:2: note: Value stored to '=
+ret_val' is never read
+           ret_val =3D igc_init_nvm_params_base(hw);
+           ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_base.c:234:3: warning: Value stored t=
+o 'ret_val' is never read [clang-analyzer-deadcode.DeadStores]
+                   ret_val =3D igc_init_nvm_params_i225(hw);
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/net/ethernet/intel/igc/igc_base.c:234:3: note: Value stored to '=
+ret_val' is never read
+                   ret_val =3D igc_init_nvm_params_i225(hw);
+                   ^         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   14 warnings generated.
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   drivers/net/ethernet/intel/igc/igc_phy.c:190:2: warning: Value stored to=
+ 'phpm' is never read [clang-analyzer-deadcode.DeadStores]
+           phpm =3D rd32(IGC_I225_PHPM);
+           ^
+   drivers/net/ethernet/intel/igc/igc_phy.c:190:2: note: Value stored to 'p=
+hpm' is never read
+   Suppressed 14 warnings (14 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   22 warnings generated.
+>> drivers/ptp/ptp_ocp.c:773:2: warning: Value stored to 'ctrl' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           ctrl =3D ioread32(&bp->reg->ctrl);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ptp/ptp_ocp.c:773:2: note: Value stored to 'ctrl' is never read
+           ctrl =3D ioread32(&bp->reg->ctrl);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ptp/ptp_ocp.c:780:2: warning: Value stored to 'ctrl' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+           ctrl =3D ioread32(&bp->reg->ctrl);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ptp/ptp_ocp.c:780:2: note: Value stored to 'ctrl' is never read
+           ctrl =3D ioread32(&bp->reg->ctrl);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ptp/ptp_ocp.c:1993:2: warning: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(ans, def);
+           ^~~~~~
+   drivers/ptp/ptp_ocp.c:1993:2: note: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119
+           strcpy(ans, def);
+           ^~~~~~
+   drivers/ptp/ptp_ocp.c:1997:3: warning: Value stored to 'ans' is never re=
+ad [clang-analyzer-deadcode.DeadStores]
+                   ans +=3D sprintf(ans, "%s ", sec);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ptp/ptp_ocp.c:1997:3: note: Value stored to 'ans' is never read
+                   ans +=3D sprintf(ans, "%s ", sec);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/ptp/ptp_ocp.c:2143:3: warning: Call to function 'strcpy' is inse=
+cure as it does not provide bounding of the memory buffer. Replace unbounde=
+d copy functions with analogous functions that support length arguments suc=
+h as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(buf, "unknown");
+                   ^~~~~~
+   drivers/ptp/ptp_ocp.c:2143:3: note: Call to function 'strcpy' is insecur=
+e as it does not provide bounding of the memory buffer. Replace unbounded c=
+opy functions with analogous functions that support length arguments such a=
+s 'strlcpy'. CWE-119
+                   strcpy(buf, "unknown");
+                   ^~~~~~
+   Suppressed 17 warnings (15 in non-user code, 2 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   drivers/siox/siox-core.c:240:4: warning: Value stored to 'status' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                           status &=3D ~SIOX_STATUS_WDG;
+                           ^         ~~~~~~~~~~~~~~~~
+   drivers/siox/siox-core.c:240:4: note: Value stored to 'status' is never =
+read
+                           status &=3D ~SIOX_STATUS_WDG;
+                           ^         ~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gnss/sirf.c:191:17: warning: Value stored to 'dev' during its in=
+itialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct device *dev =3D &data->serdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   drivers/gnss/sirf.c:191:17: note: Value stored to 'dev' during its initi=
+alization is never read
+           struct device *dev =3D &data->serdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   Suppressed 7 warnings (7 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/media/dvb-frontends/tda10086.c:220:28: warning: The result of th=
+e left shift is undefined because the left operand is negative [clang-analy=
+zer-core.UndefinedBinaryOperatorResult]
+                                           | ((cmd->msg_len - 1) << 4));
+                                              ~~~~~~~~~~~~~~~~~~ ^
+   drivers/media/dvb-frontends/tda10086.c:207:2: note: Assuming 'debug' is 0
+           dprintk ("%s\n", __func__);
+           ^
+   drivers/media/dvb-frontends/tda10086.c:36:7: note: expanded from macro '=
+dprintk'
+                   if (debug) printk(KERN_DEBUG "tda10086: " args); \
+                       ^~~~~
+   drivers/media/dvb-frontends/tda10086.c:207:2: note: Taking false branch
+           dprintk ("%s\n", __func__);
+           ^
+   drivers/media/dvb-frontends/tda10086.c:36:3: note: expanded from macro '=
+dprintk'
+                   if (debug) printk(KERN_DEBUG "tda10086: " args); \
+                   ^
+   drivers/media/dvb-frontends/tda10086.c:207:2: note: Loop condition is fa=
+lse.  Exiting loop
+           dprintk ("%s\n", __func__);
+           ^
+   drivers/media/dvb-frontends/tda10086.c:35:2: note: expanded from macro '=
+dprintk'
+           do { \
 
-:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
-:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
+vim +/ctrl +773 drivers/ptp/ptp_ocp.c
+
+773bda96492153 Jonathan Lemon 2021-08-03  765  =
+
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  766  static void
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  767  ptp_ocp_estimate_pci_timing(=
+struct ptp_ocp *bp)
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  768  {
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  769  	ktime_t start, end;
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  770  	ktime_t delay;
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  771  	u32 ctrl;
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  772  =
+
+1acffc6e09ede5 Jonathan Lemon 2021-09-14 @773  	ctrl =3D ioread32(&bp->reg-=
+>ctrl);
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  774  	ctrl =3D OCP_CTRL_READ_TIME=
+_REQ | OCP_CTRL_ENABLE;
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  775  =
+
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  776  	iowrite32(ctrl, &bp->reg->c=
+trl);
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  777  =
+
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  778  	start =3D ktime_get_ns();
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  779  =
+
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  780  	ctrl =3D ioread32(&bp->reg-=
+>ctrl);
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  781  =
+
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  782  	end =3D ktime_get_ns();
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  783  =
+
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  784  	delay =3D end - start;
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  785  	bp->ts_window_adjust =3D (d=
+elay >> 5) * 3;
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  786  }
+1acffc6e09ede5 Jonathan Lemon 2021-09-14  787  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2207546631981357714==--
+--===============7721933971112626848==--
 
