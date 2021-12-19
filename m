@@ -1,346 +1,206 @@
-Content-Type: multipart/mixed; boundary="===============5262663989666890258=="
+Content-Type: multipart/mixed; boundary="===============2380236410628594924=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH bpf-next v4 6/7] bpf: Add "live packet" mode for XDP in bpf_prog_run()
-Date: Sun, 19 Dec 2021 13:45:15 +0800
-Message-ID: <202112191337.xxF9Xt5w-lkp@intel.com>
+Subject: Re: [PATCH v7 4/7] kallsyms: introduce sections needed to map symbols to built-in modules
+Date: Sun, 19 Dec 2021 12:14:00 +0800
+Message-ID: <202112191214.roku0djI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5262663989666890258==
+--===============2380236410628594924==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211217002741.146797-7-toke@redhat.com>
-References: <20211217002741.146797-7-toke@redhat.com>
-TO: "Toke H=C3=B8iland-J=C3=B8rgensen" <toke@redhat.com>
-TO: Alexei Starovoitov <ast@kernel.org>
-TO: Daniel Borkmann <daniel@iogearbox.net>
-TO: Andrii Nakryiko <andrii@kernel.org>
-TO: Martin KaFai Lau <kafai@fb.com>
-TO: Song Liu <songliubraving@fb.com>
-TO: Yonghong Song <yhs@fb.com>
-TO: John Fastabend <john.fastabend@gmail.com>
-TO: KP Singh <kpsingh@kernel.org>
-TO: "David S. Miller" <davem@davemloft.net>
-CC: netdev(a)vger.kernel.org
+In-Reply-To: <20211216201919.234994-5-nick.alcock@oracle.com>
+References: <20211216201919.234994-5-nick.alcock@oracle.com>
+TO: Nick Alcock <nick.alcock@oracle.com>
 
-Hi "Toke,
+Hi Nick,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on bpf-next/master]
+[auto build test WARNING on linux/master]
+[also build test WARNING on linus/master v5.16-rc5]
+[cannot apply to masahiroy/kconfig jeyu/modules-next next-20211217]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Toke-H-iland-J-rgensen/Add=
--support-for-transmitting-packets-using-XDP-in-bpf_prog_run/20211217-082908
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git ma=
-ster
+url:    https://github.com/0day-ci/linux/commits/Nick-Alcock/kbuild-bring-b=
+ack-tristate-conf/20211217-051935
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+136057256686de39cc3a07c2e39ef6bc43003ff6
 :::::: branch date: 2 days ago
 :::::: commit date: 2 days ago
-config: arm-randconfig-c002-20211216 (https://download.01.org/0day-ci/archi=
-ve/20211219/202112191337.xxF9Xt5w-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 9043c3=
-d65b11b442226015acfbf8167684586cfa)
+config: arm-randconfig-c002-20211219 (https://download.01.org/0day-ci/archi=
+ve/20211219/202112191214.roku0djI-lkp(a)intel.com/config)
+compiler: arm-linux-gnueabi-gcc (GCC) 11.2.0
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/a3e21683741cab77adaeece94=
-c327006e875938b
+        # https://github.com/0day-ci/linux/commit/54ce07da9021c6db11ebe215d=
+22d88542671e8f6
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Toke-H-iland-J-rgensen/Add-support=
--for-transmitting-packets-using-XDP-in-bpf_prog_run/20211217-082908
-        git checkout a3e21683741cab77adaeece94c327006e875938b
+        git fetch --no-tags linux-review Nick-Alcock/kbuild-bring-back-tris=
+tate-conf/20211217-051935
+        git checkout 54ce07da9021c6db11ebe215d22d88542671e8f6
         # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+         ARCH=3Darm KBUILD_USERCFLAGS=3D'-fanalyzer -Wno-error' =
 
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:391:19: note: expanded from macro '__rcu_derefe=
-rence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   include/linux/rcupdate.h:319:8: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                        ^
-   net/xfrm/xfrm_policy.c:2164:8: note: Left side of '&&' is false
-           pol =3D rcu_dereference(sk->sk_policy[dir]);
-                 ^
-   include/linux/rcupdate.h:597:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:391:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:319:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                           ^
-   net/xfrm/xfrm_policy.c:2164:8: note: Loop condition is false.  Exiting l=
-oop
-           pol =3D rcu_dereference(sk->sk_policy[dir]);
-                 ^
-   include/linux/rcupdate.h:597:28: note: expanded from macro 'rcu_derefere=
-nce'
-   #define rcu_dereference(p) rcu_dereference_check(p, 0)
-                              ^
-   include/linux/rcupdate.h:529:2: note: expanded from macro 'rcu_dereferen=
-ce_check'
-           __rcu_dereference_check((p), (c) || rcu_read_lock_held(), __rcu)
-           ^
-   include/linux/rcupdate.h:391:2: note: expanded from macro '__rcu_derefer=
-ence_check'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_check() usage=
-"); \
-           ^
-   include/linux/rcupdate.h:317:2: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-           do {                                                            \
-           ^
-   net/xfrm/xfrm_policy.c:2165:6: note: 'pol' is not equal to NULL
-           if (pol !=3D NULL) {
-               ^~~
-   net/xfrm/xfrm_policy.c:2165:2: note: Taking true branch
-           if (pol !=3D NULL) {
-           ^
-   net/xfrm/xfrm_policy.c:2169:7: note: Assuming 'family' is equal to field=
- 'family'
-                   if (pol->family !=3D family) {
-                       ^~~~~~~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:2169:3: note: Taking false branch
-                   if (pol->family !=3D family) {
-                   ^
-   net/xfrm/xfrm_policy.c:2174:11: note: Calling 'xfrm_selector_match'
-                   match =3D xfrm_selector_match(&pol->selector, fl, family=
-);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:224:2: note: Control jumps to 'case 10:'  at line=
- 227
-           switch (family) {
-           ^
-   net/xfrm/xfrm_policy.c:228:10: note: Calling '__xfrm6_selector_match'
-                   return __xfrm6_selector_match(sel, fl);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:213:10: note: Assuming the condition is true
-           return  addr_match(&fl6->daddr, &sel->daddr, sel->prefixlen_d) &&
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:213:10: note: Left side of '&&' is true
-   net/xfrm/xfrm_policy.c:214:3: note: Assuming the condition is true
-                   addr_match(&fl6->saddr, &sel->saddr, sel->prefixlen_s) &&
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:213:10: note: Left side of '&&' is true
-           return  addr_match(&fl6->daddr, &sel->daddr, sel->prefixlen_d) &&
-                   ^
-   net/xfrm/xfrm_policy.c:215:3: note: Assuming the condition is true
-                   !((xfrm_flowi_dport(fl, &fl6->uli) ^ sel->dport) & sel->=
-dport_mask) &&
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:213:10: note: Left side of '&&' is true
-           return  addr_match(&fl6->daddr, &sel->daddr, sel->prefixlen_d) &&
-                   ^
-   net/xfrm/xfrm_policy.c:216:3: note: Assuming the condition is true
-                   !((xfrm_flowi_sport(fl, &fl6->uli) ^ sel->sport) & sel->=
-sport_mask) &&
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:213:10: note: Left side of '&&' is true
-           return  addr_match(&fl6->daddr, &sel->daddr, sel->prefixlen_d) &&
-                   ^
-   net/xfrm/xfrm_policy.c:217:22: note: The left operand of '=3D=3D' is a g=
-arbage value
-                   (fl6->flowi6_proto =3D=3D sel->proto || !sel->proto) &&
-                    ~~~~~~~~~~~~~~~~~ ^
-   net/xfrm/xfrm_policy.c:3395:4: warning: Value stored to 'exthdr' is neve=
-r read [clang-analyzer-deadcode.DeadStores]
-                           exthdr =3D (struct ipv6_opt_hdr *)(nh + offset);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/xfrm/xfrm_policy.c:3395:4: note: Value stored to 'exthdr' is never r=
-ead
-                           exthdr =3D (struct ipv6_opt_hdr *)(nh + offset);
-                           ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   22 warnings generated.
->> net/bpf/test_run.c:103:8: warning: Excessive padding in 'struct xdp_test=
-_data' (48 padding bytes, where 16 is optimal). =
+gcc-analyzer warnings: (new ones prefixed by >>)
+   scripts/kallsyms.c: In function 'make_percpus_absolute':
+>> scripts/kallsyms.c:976:7: warning: use after 'free' of '<unknown>' [CWE-=
+416] [-Wanalyzer-use-after-free]
+     976 |   if (addr_in_range(table[i]->addr, &percpu_range, 1)) {
+         |       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+     'main': events 1-4
+       |
+       | 1106 | int main(int argc, char **argv)
+       |      |     ^~~~
+       |      |     |
+       |      |     (1) entry to 'main'
+       |......
+       | 1124 |  } else if (argc !=3D 1)
+       |      |            ~
+       |      |            |
+       |      |            (2) following 'false' branch (when 'argc =3D=3D =
+1')...
+       |......
+       | 1127 |  read_map(stdin);
+       |      |  ~~~~~~~~~~~~~~~
+       |      |  |
+       |      |  (3) ...to here
+       |      |  (4) calling 'read_map' from 'main'
+       |
+       +--> 'read_map': events 5-7
+              |
+              |  433 | static void read_map(FILE *in)
+              |      |             ^~~~~~~~
+              |      |             |
+              |      |             (5) entry to 'read_map'
+              |......
+              |  437 |  while (!feof(in)) {
+              |      |        ~     =
 
-   Optimal fields order: =
+              |      |        |
+              |      |        (6) following 'false' branch...
+              |......
+              |  455 | }
+              |      | ~            =
 
-   rxq, =
+              |      | |
+              |      | (7) ...to here
+              |
+       <------+
+       |
+     'main': events 8-9
+       |
+       | 1127 |  read_map(stdin);
+       |      |  ^~~~~~~~~~~~~~~
+       |      |  |
+       |      |  (8) returning to 'main' from 'read_map'
+       | 1128 |  read_modules(modules_builtin);
+       | 1129 |  shrink_table();
+       |      |  ~~~~~~~~~~~~~~
+       |      |  |
+       |      |  (9) calling 'shrink_table' from 'main'
+       |
+       +--> 'shrink_table': events 10-14
+              |
+              |  410 | static void shrink_table(void)
+              |      |             ^~~~~~~~~~~~
+              |      |             |
+              |      |             (10) entry to 'shrink_table'
+              |      |             (11) entry to 'shrink_table'
+              |......
+              |  415 |  for (i =3D 0; i < table_cnt; i++) {
+              |      |  ~~~         =
 
-   orig_ctx, =
+              |      |  |
+              |      |  (12) following 'true' branch...
+              |  416 |   if (symbol_valid(table[i])) {
+              |      |       ~~~~~~~~~~~~~~~~~~~~~~
+              |      |       |                 |
+              |      |       |                 (13) ...to here
+              |      |       (14) calling 'symbol_valid' from 'shrink_table'
+              |
+              +--> 'symbol_valid': events 15-18
+                     |
+                     |  383 | static int symbol_valid(const struct sym_entr=
+y *s)
+                     |      |            ^~~~~~~~~~~~
+                     |      |            |
+                     |      |            (15) entry to 'symbol_valid'
+                     |......
+                     |  389 |  if (!all_symbols) {
+                     |      |     ~       =
 
-   dev, =
+                     |      |     |
+                     |      |     (16) following 'true' branch...
+                     |  390 |   if (addr_in_range(s->addr, text_ranges,
+                     |      |       ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+                     |      |       |
+                     |      |       (17) ...to here
+                     |      |       (18) calling 'addr_in_range' from 'symb=
+ol_valid'
+                     |  391 |       ARRAY_SIZE(text_ranges)) =3D=3D 0)
+                     |      |       ~~~~~~~~~~~~~~~~~~~~~~~~
+                     |
+                     +--> 'addr_in_range': events 19-25
+                            |
+                            |  367 | static int addr_in_range(unsigned long=
+ long addr,
+                            |      |            ^~~~~~~~~~~~~
+                            |      |            |
+                            |      |            (19) entry to 'addr_in_rang=
+e'
+                            |......
+                            |  373 |  for (i =3D 0; i < entries; ++i) {
+                            |      |  ~~~        =
 
-   pp, =
+                            |      |  |
+                            |      |  (20) following 'true' branch...
+                            |  374 |   ar =3D &ranges[i];
 
-   frame_cnt, =
+vim +976 scripts/kallsyms.c
 
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct xdp_test_data {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   net/bpf/test_run.c:103:8: note: Excessive padding in 'struct xdp_test_da=
-ta' (48 padding bytes, where 16 is optimal). Optimal fields order: rxq, ori=
-g_ctx, dev, pp, frame_cnt, consider reordering the fields or adding explici=
-t padding members
-   struct xdp_test_data {
-   ~~~~~~~^~~~~~~~~~~~~~~
-   Suppressed 21 warnings (9 in non-user code, 12 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   net/ethtool/ioctl.c:2125:4: warning: Called function pointer is null (nu=
-ll dereference) [clang-analyzer-core.CallAndMessage]
-                           ops->get_ethtool_phy_stats(dev, &stats, data);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:2095:6: note: Assuming 'phydev' is non-null
-           if (!phydev && (!ops->get_ethtool_phy_stats || !ops->get_sset_co=
-unt))
-               ^~~~~~~
-   net/ethtool/ioctl.c:2095:14: note: Left side of '&&' is false
-           if (!phydev && (!ops->get_ethtool_phy_stats || !ops->get_sset_co=
-unt))
-                       ^
-   net/ethtool/ioctl.c:2098:11: note: Field 'phydev' is non-null
-           if (dev->phydev && !ops->get_ethtool_phy_stats &&
-                    ^
-   net/ethtool/ioctl.c:2098:6: note: Left side of '&&' is true
-           if (dev->phydev && !ops->get_ethtool_phy_stats &&
-               ^
-   net/ethtool/ioctl.c:2098:21: note: Assuming field 'get_ethtool_phy_stats=
-' is null
-           if (dev->phydev && !ops->get_ethtool_phy_stats &&
-                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:2098:6: note: Left side of '&&' is true
-           if (dev->phydev && !ops->get_ethtool_phy_stats &&
-               ^
-   net/ethtool/ioctl.c:2099:6: note: Assuming 'phy_ops' is null
-               phy_ops && phy_ops->get_sset_count)
-               ^~~~~~~
-   net/ethtool/ioctl.c:2099:14: note: Left side of '&&' is false
-               phy_ops && phy_ops->get_sset_count)
-                       ^
-   net/ethtool/ioctl.c:2103:6: note: Assuming 'n_stats' is >=3D 0
-           if (n_stats < 0)
-               ^~~~~~~~~~~
-   net/ethtool/ioctl.c:2103:2: note: Taking false branch
-           if (n_stats < 0)
-           ^
-   net/ethtool/ioctl.c:2105:6: note: Assuming the condition is false
-           if (n_stats > S32_MAX / sizeof(u64))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ethtool/ioctl.c:2105:2: note: Taking false branch
-           if (n_stats > S32_MAX / sizeof(u64))
-           ^
-   net/ethtool/ioctl.c:2107:15: note: Assuming 'n_stats' is not equal to 0
-           WARN_ON_ONCE(!n_stats);
-                        ^
-   include/asm-generic/bug.h:179:41: note: expanded from macro 'WARN_ON_ONC=
-E'
-   #define WARN_ON_ONCE(condition) WARN_ON(condition)
-                                           ^~~~~~~~~
-   include/asm-generic/bug.h:166:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   net/ethtool/ioctl.c:2109:6: note: Calling 'copy_from_user'
-           if (copy_from_user(&stats, useraddr, sizeof(stats)))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:191:6: note: Assuming the condition is false
-           if (likely(check_copy_size(to, n, false)))
-               ^
-   include/linux/compiler.h:77:38: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                             ^~~~
-   include/linux/uaccess.h:191:2: note: Taking true branch
-           if (likely(check_copy_size(to, n, false)))
-           ^
-   include/linux/uaccess.h:192:7: note: Calling '_copy_from_user'
-                   n =3D _copy_from_user(to, from, n);
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Calling 'should_fail_usercopy'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/fault-inject-usercopy.h:18:49: note: Returning zero, which=
- participates in a condition later
-   static inline bool should_fail_usercopy(void) { return false; }
-                                                   ^~~~~~~~~~~~
-   include/linux/uaccess.h:157:7: note: Returning from 'should_fail_usercop=
-y'
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                ^~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:6: note: Left side of '&&' is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-               ^
-   include/linux/uaccess.h:157:33: note: Assuming the condition is true
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-                                          ^
-   include/linux/compiler.h:77:20: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/uaccess.h:157:2: note: Taking true branch
-           if (!should_fail_usercopy() && likely(access_ok(from, n))) {
-           ^
-   include/linux/uaccess.h:161:6: note: Assuming 'res' is 0, which particip=
-ates in a condition later
+^1da177e4c3f41 Linus Torvalds  2005-04-16  970  =
 
-vim +103 net/bpf/test_run.c
+c6bda7c988a579 Rusty Russell   2014-03-17  971  static void make_percpus_ab=
+solute(void)
+c6bda7c988a579 Rusty Russell   2014-03-17  972  {
+c6bda7c988a579 Rusty Russell   2014-03-17  973  	unsigned int i;
+c6bda7c988a579 Rusty Russell   2014-03-17  974  =
 
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  102  =
-
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17 @103  struct xdp=
-_test_data {
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  104  	struct xd=
-p_buff *orig_ctx;
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  105  	struct xd=
-p_rxq_info rxq;
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  106  	struct ne=
-t_device *dev;
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  107  	struct pa=
-ge_pool *pp;
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  108  	u32 frame=
-_cnt;
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  109  };
-a3e21683741cab Toke H=C3=B8iland-J=C3=B8rgensen 2021-12-17  110  =
+c6bda7c988a579 Rusty Russell   2014-03-17  975  	for (i =3D 0; i < table_cn=
+t; i++)
+54ce07da9021c6 Nick Alcock     2021-12-16 @976  		if (addr_in_range(table[i=
+]->addr, &percpu_range, 1)) {
+8c996940b3be9c Ard Biesheuvel  2016-03-15  977  			/*
+8c996940b3be9c Ard Biesheuvel  2016-03-15  978  			 * Keep the 'A' override=
+ for percpu symbols to
+8c996940b3be9c Ard Biesheuvel  2016-03-15  979  			 * ensure consistent beh=
+avior compared to older
+8c996940b3be9c Ard Biesheuvel  2016-03-15  980  			 * versions of this tool.
+8c996940b3be9c Ard Biesheuvel  2016-03-15  981  			 */
+8d60526999aace Masahiro Yamada 2020-02-02  982  			table[i]->sym[0] =3D 'A';
+8d60526999aace Masahiro Yamada 2020-02-02  983  			table[i]->percpu_absolut=
+e =3D 1;
+8c996940b3be9c Ard Biesheuvel  2016-03-15  984  		}
+c6bda7c988a579 Rusty Russell   2014-03-17  985  }
+c6bda7c988a579 Rusty Russell   2014-03-17  986  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5262663989666890258==--
+--===============2380236410628594924==--
 
