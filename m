@@ -1,179 +1,179 @@
-Content-Type: multipart/mixed; boundary="===============8687377828993833217=="
+Content-Type: multipart/mixed; boundary="===============4709544573973814664=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
-Date: Tue, 21 Dec 2021 10:43:46 +0800
-Message-ID: <202112211043.zKe8dF7V-lkp@intel.com>
+Subject: [linux-next:master 4729/8462] arch/s390/kvm/gaccess.c:859 guest_range_to_gpas() error: uninitialized symbol 'prot'.
+Date: Mon, 20 Dec 2021 21:20:33 +0800
+Message-ID: <202112202110.2un18JIB-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8687377828993833217==
+--===============4709544573973814664==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Matthew Auld <matthew.auld@intel.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "Janis Schoetterl-Glausch" <scgl@linux.ibm.com>
+CC: Janosch Frank <frankja@linux.ibm.com>
+CC: Claudio Imbrenda <imbrenda@linux.ibm.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   86085fe79e3c1a66e32f2acae0ae64f4cceb8d28
-commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
-y_man
-date:   6 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211221/202112211043.zKe8dF7V-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   c122052c3cb861b3e61a01d2c2ab9069e470663e
+commit: 7619a23b47888ef0176ea2757bc45ec850559b67 [4729/8462] KVM: s390: gac=
+cess: Refactor access address range check
+:::::: branch date: 3 days ago
+:::::: commit date: 13 days ago
+config: s390-randconfig-m031-20211220 (https://download.01.org/0day-ci/arch=
+ive/20211220/202112202110.2un18JIB-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
- warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
+smatch warnings:
+arch/s390/kvm/gaccess.c:859 guest_range_to_gpas() error: uninitialized symb=
+ol 'prot'.
 
-Old smatch warnings:
-drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
- warn: should 'bo->page_alignment << 12' be a 64 bit type?
+vim +/prot +859 arch/s390/kvm/gaccess.c
 
-vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
+2293897805c2fe Heiko Carstens           2014-01-01  796  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   28  =
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  797  /**
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  798   * guest_range_to_=
+gpas() - Calculate guest physical addresses of page fragments
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  799   * covering a logi=
+cal range
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  800   * @vcpu: virtual =
+cpu
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  801   * @ga: guest addr=
+ess, start of range
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  802   * @ar: access reg=
+ister
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  803   * @gpas: output a=
+rgument, may be NULL
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  804   * @len: length of=
+ range in bytes
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  805   * @asce: address-=
+space-control element to use for translation
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  806   * @mode: access m=
+ode
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  807   *
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  808   * Translate a log=
+ical range to a series of guest absolute addresses,
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  809   * such that the c=
+oncatenation of page fragments starting at each gpa make up
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  810   * the whole range.
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  811   * The translation=
+ is performed as if done by the cpu for the given @asce, @ar,
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  812   * @mode and state=
+ of the @vcpu.
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  813   * If the translat=
+ion causes an exception, its program interruption code is
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  814   * returned and th=
+e &struct kvm_s390_pgm_info pgm member of @vcpu is modified
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  815   * such that a sub=
+sequent call to kvm_s390_inject_prog_vcpu() will inject
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  816   * a correct excep=
+tion into the guest.
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  817   * The resulting g=
+pas are stored into @gpas, unless it is NULL.
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  818   *
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  819   * Note: All fragm=
+ents except the first one start at the beginning of a page.
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  820   *       When deri=
+ving the boundaries of a fragment from a gpa, all but the last
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  821   *       fragment =
+end at the end of the page.
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  822   *
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  823   * Return:
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  824   * * 0		- success
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  825   * * <0		- transla=
+tion could not be performed, for example if  guest
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  826   *		  memory could=
+ not be accessed
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  827   * * >0		- an acce=
+ss exception occurred. In this case the returned value
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  828   *		  is the progr=
+am interruption code and the contents of pgm may
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  829   *		  be used to i=
+nject an exception into the guest.
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  830   */
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  831  static int guest_r=
+ange_to_gpas(struct kvm_vcpu *vcpu, unsigned long ga, u8 ar,
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  832  			       unsigned=
+ long *gpas, unsigned long len,
+92c9632119b67f David Hildenbrand        2015-11-16  833  			       const un=
+ion asce asce, enum gacc_mode mode)
+2293897805c2fe Heiko Carstens           2014-01-01  834  {
+2293897805c2fe Heiko Carstens           2014-01-01  835  	psw_t *psw =3D &v=
+cpu->arch.sie_block->gpsw;
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  836  	unsigned int offs=
+et =3D offset_in_page(ga);
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  837  	unsigned int frag=
+ment_len;
+cde0dcfb5df1db David Hildenbrand        2016-05-31  838  	int lap_enabled, =
+rc =3D 0;
+6ae1574c2a24ee Christian Borntraeger    2017-06-07  839  	enum prot_type pr=
+ot;
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  840  	unsigned long gpa;
+2293897805c2fe Heiko Carstens           2014-01-01  841  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man=
-_alloc(struct ttm_resource_manager *man,
-88be9a0a06b73ec Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obj=
-ect *bo,
-88be9a0a06b73ec Matthew Auld 2021-06-16   31  				    const struct ttm_plac=
-e *place,
-88be9a0a06b73ec Matthew Auld 2021-06-16   32  				    struct ttm_resource *=
-*res)
-88be9a0a06b73ec Matthew Auld 2021-06-16   33  {
-88be9a0a06b73ec Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manage=
-r *bman =3D to_buddy_manager(man);
-88be9a0a06b73ec Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resour=
-ce *bman_res;
-88be9a0a06b73ec Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D=
- &bman->mm;
-88be9a0a06b73ec Matthew Auld 2021-06-16   37  	unsigned long n_pages;
-88be9a0a06b73ec Matthew Auld 2021-06-16   38  	unsigned int min_order;
-88be9a0a06b73ec Matthew Auld 2021-06-16   39  	u64 min_page_size;
-88be9a0a06b73ec Matthew Auld 2021-06-16   40  	u64 size;
-88be9a0a06b73ec Matthew Auld 2021-06-16   41  	int err;
-88be9a0a06b73ec Matthew Auld 2021-06-16   42  =
+75a1812230ad7a Alexander Yarygin        2015-01-22  842  	lap_enabled =3D l=
+ow_address_protection_enabled(vcpu, asce);
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  843  	while (min(PAGE_S=
+IZE - offset, len) > 0) {
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  844  		fragment_len =3D=
+ min(PAGE_SIZE - offset, len);
+2293897805c2fe Heiko Carstens           2014-01-01  845  		ga =3D kvm_s390_=
+logical_to_effective(vcpu, ga);
+cde0dcfb5df1db David Hildenbrand        2016-05-31  846  		if (mode =3D=3D =
+GACC_STORE && lap_enabled && is_low_address(ga))
+cde0dcfb5df1db David Hildenbrand        2016-05-31  847  			return trans_ex=
+c(vcpu, PGM_PROTECTION, ga, ar, mode,
+cde0dcfb5df1db David Hildenbrand        2016-05-31  848  					 PROT_TYPE_LA=
+);
+a752598254016d Heiko Carstens           2017-06-03  849  		if (psw_bits(*ps=
+w).dat) {
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  850  			rc =3D guest_tr=
+anslate(vcpu, ga, &gpa, asce, mode, &prot);
+2293897805c2fe Heiko Carstens           2014-01-01  851  			if (rc < 0)
+2293897805c2fe Heiko Carstens           2014-01-01  852  				return rc;
+2293897805c2fe Heiko Carstens           2014-01-01  853  		} else {
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  854  			gpa =3D kvm_s39=
+0_real_to_abs(vcpu, ga);
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  855  			if (kvm_is_erro=
+r_gpa(vcpu->kvm, gpa))
+cde0dcfb5df1db David Hildenbrand        2016-05-31  856  				rc =3D PGM_ADD=
+RESSING;
+2293897805c2fe Heiko Carstens           2014-01-01  857  		}
+cde0dcfb5df1db David Hildenbrand        2016-05-31  858  		if (rc)
+6ae1574c2a24ee Christian Borntraeger    2017-06-07 @859  			return trans_ex=
+c(vcpu, rc, ga, ar, mode, prot);
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  860  		if (gpas)
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  861  			*gpas++ =3D gpa;
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  862  		offset =3D 0;
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  863  		ga +=3D fragment=
+_len;
+7619a23b47888e Janis Schoetterl-Glausch 2021-11-26  864  		len -=3D fragmen=
+t_len;
+2293897805c2fe Heiko Carstens           2014-01-01  865  	}
+2293897805c2fe Heiko Carstens           2014-01-01  866  	return 0;
+2293897805c2fe Heiko Carstens           2014-01-01  867  }
+2293897805c2fe Heiko Carstens           2014-01-01  868  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pl=
-ace->lpfn);
-88be9a0a06b73ec Matthew Auld 2021-06-16   44  =
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(=
-*bman_res), GFP_KERNEL);
-88be9a0a06b73ec Matthew Auld 2021-06-16   46  	if (!bman_res)
-88be9a0a06b73ec Matthew Auld 2021-06-16   47  		return -ENOMEM;
-88be9a0a06b73ec Matthew Auld 2021-06-16   48  =
+:::::: The code at line 859 was first introduced by commit
+:::::: 6ae1574c2a24eec5efa8bac305a8f87c839acc64 KVM: s390: implement instru=
+ction execution protection for emulated ifetch
 
-88be9a0a06b73ec Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place,=
- &bman_res->base);
-88be9a0a06b73ec Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->bl=
-ocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
-88be9a0a06b73ec Matthew Auld 2021-06-16   52  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.n=
-um_pages);
-88be9a0a06b73ec Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_=
-pages << PAGE_SHIFT;
-88be9a0a06b73ec Matthew Auld 2021-06-16   55  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_a=
-lignment << PAGE_SHIFT;
-88be9a0a06b73ec Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < m=
-m->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page=
-_size) - ilog2(mm->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FL=
-AG_CONTIGUOUS) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two=
-(size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) -=
- ilog2(mm->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   62  	}
-88be9a0a06b73ec Matthew Auld 2021-06-16   63  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   64  	if (size > mm->size) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
-88be9a0a06b73ec Matthew Auld 2021-06-16   66  		goto err_free_res;
-88be9a0a06b73ec Matthew Auld 2021-06-16   67  	}
-88be9a0a06b73ec Matthew Auld 2021-06-16   68  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm=
-->chunk_size);
-88be9a0a06b73ec Matthew Auld 2021-06-16   70  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   71  	do {
-88be9a0a06b73ec Matthew Auld 2021-06-16   72  		struct i915_buddy_block *bl=
-ock;
-88be9a0a06b73ec Matthew Auld 2021-06-16   73  		unsigned int order;
-88be9a0a06b73ec Matthew Auld 2021-06-16   74  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
-88be9a0a06b73ec Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_=
-order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_orde=
-r);
-88be9a0a06b73ec Matthew Auld 2021-06-16   78  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   79  		do {
-88be9a0a06b73ec Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc=
-(mm, order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
-88be9a0a06b73ec Matthew Auld 2021-06-16   84  				break;
-88be9a0a06b73ec Matthew Auld 2021-06-16   85  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_ord=
-er) {
-88be9a0a06b73ec Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
-88be9a0a06b73ec Matthew Auld 2021-06-16   88  				goto err_free_blocks;
-88be9a0a06b73ec Matthew Auld 2021-06-16   89  			}
-88be9a0a06b73ec Matthew Auld 2021-06-16   90  		} while (1);
-88be9a0a06b73ec Matthew Auld 2021-06-16   91  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
-88be9a0a06b73ec Matthew Auld 2021-06-16   93  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   94  		list_add_tail(&block->link,=
- &bman_res->blocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16   95  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16   96  		if (!n_pages)
-88be9a0a06b73ec Matthew Auld 2021-06-16   97  			break;
-88be9a0a06b73ec Matthew Auld 2021-06-16   98  	} while (1);
-88be9a0a06b73ec Matthew Auld 2021-06-16   99  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
-88be9a0a06b73ec Matthew Auld 2021-06-16  101  	return 0;
-88be9a0a06b73ec Matthew Auld 2021-06-16  102  =
-
-88be9a0a06b73ec Matthew Auld 2021-06-16  103  err_free_blocks:
-88be9a0a06b73ec Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bm=
-an_res->blocks);
-88be9a0a06b73ec Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
-88be9a0a06b73ec Matthew Auld 2021-06-16  107  err_free_res:
-88be9a0a06b73ec Matthew Auld 2021-06-16  108  	kfree(bman_res);
-88be9a0a06b73ec Matthew Auld 2021-06-16  109  	return err;
-88be9a0a06b73ec Matthew Auld 2021-06-16  110  }
-88be9a0a06b73ec Matthew Auld 2021-06-16  111  =
-
+:::::: TO: Christian Borntraeger <borntraeger@de.ibm.com>
+:::::: CC: Christian Borntraeger <borntraeger@de.ibm.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8687377828993833217==--
+--===============4709544573973814664==--
 
