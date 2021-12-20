@@ -1,88 +1,152 @@
-Content-Type: multipart/mixed; boundary="===============0498655203623467095=="
+Content-Type: multipart/mixed; boundary="===============7209053156663778608=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gt/mock_engine.c:48 mock_timeline_pin() warn: inconsistent returns 'tl->hwsp_ggtt->obj->base.resv'.
-Date: Mon, 20 Dec 2021 18:48:24 +0800
-Message-ID: <202112201850.U8rOos2w-lkp@intel.com>
+Subject: drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3552 amdgpu_dm_backlight_update_status() error: testing array offset 'i' after use.
+Date: Mon, 20 Dec 2021 16:16:55 +0800
+Message-ID: <202112201629.HD4tpHHY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0498655203623467095==
+--===============7209053156663778608==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: Daniel Vetter <daniel.vetter@ffwll.ch>
-CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+TO: Alex Deucher <alexander.deucher@amd.com>
+CC: Roman Li <Roman.Li@amd.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   a7904a538933c525096ca2ccde1e60d0ee62c08e
-commit: 2c8ab3339e398bbbcb0980933e266b93bedaae52 drm/i915: Pin timeline map=
- after first timeline pin, v4.
-date:   9 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 9 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211220/202112201850.U8rOos2w-lkp(a)intel.com/config)
+commit: 7fd13baeb7a3a48cae12c36c52f06bf4e9e7d728 drm/amdgpu/display: add su=
+pport for multiple backlights
+date:   5 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-m001-20211207 (https://download.01.org/0day-ci/ar=
+chive/20211220/202112201629.HD4tpHHY-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/gpu/drm/i915/gt/mock_engine.c:48 mock_timeline_pin() warn: inconsis=
-tent returns 'tl->hwsp_ggtt->obj->base.resv'.
+New smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3552 amdgpu_dm_=
+backlight_update_status() error: testing array offset 'i' after use.
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:3594 amdgpu_dm_=
+backlight_get_brightness() error: testing array offset 'i' after use.
 
-vim +48 drivers/gpu/drm/i915/gt/mock_engine.c
+Old smatch warnings:
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:1349 amdgpu_dm_=
+fini() warn: variable dereferenced before check 'adev->dm.dc' (see line 133=
+6)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:5888 create_str=
+eam_for_sink() error: we previously assumed 'aconnector->dc_sink' could be =
+null (see line 5786)
+drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c:8194 handle_cur=
+sor_update() error: we previously assumed 'afb' could be null (see line 815=
+3)
 
-f97fbf9606a1a9 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2017-02-13  34  =
+vim +/i +3552 drivers/gpu/drm/amd/amdgpu/../display/amdgpu_dm/amdgpu_dm.c
 
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  35  static int mock_timeline_pin(struct intel_timeline *tl)
-5013eb8cd601c3 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2019-01-28  36  {
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  37  	int err;
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  38  =
+4562236b3bc0a2 Harry Wentland 2017-09-12  3542  =
 
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  39  	if (WARN_ON(!i915_gem_object_trylock(tl->hwsp_ggtt->obj=
-)))
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  40  		return -EBUSY;
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  41  =
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3543  static int amdgpu_dm_backli=
+ght_update_status(struct backlight_device *bd)
+4562236b3bc0a2 Harry Wentland 2017-09-12  3544  {
+620a0d27b211aa David Francis  2018-07-19  3545  	struct amdgpu_display_mana=
+ger *dm =3D bl_get_data(bd);
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3546  	int i;
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3547  =
 
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  42  	err =3D intel_timeline_pin_map(tl);
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  43  	i915_gem_object_unlock(tl->hwsp_ggtt->obj);
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  44  	if (err)
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  45  		return err;
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23  46  =
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3548  	for (i =3D 0; i < dm->num_=
+of_edps; i++) {
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3549  		if (bd =3D=3D dm->backlig=
+ht_dev[i])
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3550  			break;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3551  	}
+7fd13baeb7a3a4 Alex Deucher   2021-07-08 @3552  	if (i >=3D AMDGPU_DM_MAX_N=
+UM_EDP)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3553  		i =3D 0;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3554  	amdgpu_dm_backlight_set_le=
+vel(dm, i, bd->props.brightness);
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3555  =
 
-ccb23d2dcc300d drivers/gpu/drm/i915/gt/mock_engine.c        Chris Wilson   =
-   2019-08-15  47  	atomic_inc(&tl->pin_count);
-2c8ab3339e398b drivers/gpu/drm/i915/gt/mock_engine.c        Maarten Lankhor=
-st 2021-03-23 @48  	return 0;
-5013eb8cd601c3 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2019-01-28  49  }
-5013eb8cd601c3 drivers/gpu/drm/i915/selftests/mock_engine.c Chris Wilson   =
-   2019-01-28  50  =
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3556  	return 0;
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3557  }
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3558  =
+
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3559  static u32 amdgpu_dm_backli=
+ght_get_level(struct amdgpu_display_manager *dm,
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3560  					 int bl_idx)
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3561  {
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3562  	struct amdgpu_dm_backlight=
+_caps caps;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3563  	struct dc_link *link =3D (=
+struct dc_link *)dm->backlight_link[bl_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3564  =
+
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3565  	amdgpu_dm_update_backlight=
+_caps(dm, bl_idx);
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3566  	caps =3D dm->backlight_cap=
+s[bl_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3567  =
+
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3568  	if (caps.aux_support) {
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3569  		u32 avg, peak;
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3570  		bool rc;
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3571  =
+
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3572  		rc =3D dc_link_get_backli=
+ght_level_nits(link, &avg, &peak);
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3573  		if (!rc)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3574  			return dm->brightness[bl=
+_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3575  		return convert_brightness=
+_to_user(&caps, avg);
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3576  	} else {
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3577  		int ret =3D dc_link_get_b=
+acklight_level(link);
+620a0d27b211aa David Francis  2018-07-19  3578  =
+
+620a0d27b211aa David Francis  2018-07-19  3579  		if (ret =3D=3D DC_ERROR_U=
+NEXPECTED)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3580  			return dm->brightness[bl=
+_idx];
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3581  		return convert_brightness=
+_to_user(&caps, ret);
+0ad3e64eb46d8c Alex Deucher   2020-12-10  3582  	}
+4562236b3bc0a2 Harry Wentland 2017-09-12  3583  }
+4562236b3bc0a2 Harry Wentland 2017-09-12  3584  =
+
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3585  static int amdgpu_dm_backli=
+ght_get_brightness(struct backlight_device *bd)
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3586  {
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3587  	struct amdgpu_display_mana=
+ger *dm =3D bl_get_data(bd);
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3588  	int i;
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3589  =
+
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3590  	for (i =3D 0; i < dm->num_=
+of_edps; i++) {
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3591  		if (bd =3D=3D dm->backlig=
+ht_dev[i])
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3592  			break;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3593  	}
+7fd13baeb7a3a4 Alex Deucher   2021-07-08 @3594  	if (i >=3D AMDGPU_DM_MAX_N=
+UM_EDP)
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3595  		i =3D 0;
+7fd13baeb7a3a4 Alex Deucher   2021-07-08  3596  	return amdgpu_dm_backlight=
+_get_level(dm, i);
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3597  }
+3d6c91641bc8a8 Alex Deucher   2021-05-11  3598  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0498655203623467095==--
+--===============7209053156663778608==--
 
