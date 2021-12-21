@@ -1,221 +1,363 @@
-Content-Type: multipart/mixed; boundary="===============8396428674375039946=="
+Content-Type: multipart/mixed; boundary="===============0706924428192879232=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v5 3/3] mmc: Add driver for LiteX's LiteSDCard interface
-Date: Tue, 21 Dec 2021 18:46:16 +0800
-Message-ID: <202112211815.CYSR6MVP-lkp@intel.com>
+Subject: include/linux/seq_file.h:136:25: warning: Null pointer passed as 1st argument to string length function [clang-analyzer-unix.cstring.NullArg]
+Date: Tue, 21 Dec 2021 14:59:14 +0800
+Message-ID: <202112211442.wm3AiUM2-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8396428674375039946==
+--===============0706924428192879232==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211215130711.111186-4-gsomlo@gmail.com>
-References: <20211215130711.111186-4-gsomlo@gmail.com>
-TO: Gabriel Somlo <gsomlo@gmail.com>
-TO: linux-kernel(a)vger.kernel.org
-CC: robh+dt(a)kernel.org
-CC: devicetree(a)vger.kernel.org
-CC: ulf.hansson(a)linaro.org
-CC: linux-mmc(a)vger.kernel.org
-CC: kgugala(a)antmicro.com
-CC: mholenko(a)antmicro.com
-CC: krakoczy(a)antmicro.com
-CC: mdudek(a)internships.antmicro.com
-CC: paulus(a)ozlabs.org
+CC: linux-kernel(a)vger.kernel.org
+TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi Gabriel,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6e0567b7305209c2d689ce57180a63d8dc657ad8
+commit: 372904c080be44629d84bb15ed5e12eed44b5f9f seq_file: move seq_escape(=
+) to a header
+date:   6 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 6 weeks ago
+config: i386-randconfig-c001-20211219 (https://download.01.org/0day-ci/arch=
+ive/20211221/202112211442.wm3AiUM2-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 4c9e31=
+a4814592bbda7153833e46728dc7b21100)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D372904c080be44629d84bb15ed5e12eed44b5f9f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 372904c080be44629d84bb15ed5e12eed44b5f9f
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
 
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on robh/for-next]
-[also build test WARNING on linux/master ulf-hansson-mmc-mirror/next linus/=
-master v5.16-rc6 next-20211220]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Gabriel-Somlo/mmc-Add-Lite=
-SDCard-mmc-driver/20211215-211022
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
-next
-:::::: branch date: 6 days ago
-:::::: commit date: 6 days ago
-config: i386-randconfig-m021-20211219 (https://download.01.org/0day-ci/arch=
-ive/20211221/202112211815.CYSR6MVP-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/mmc/host/litex_mmc.c:416 litex_mmc_request() error: we previously a=
-ssumed 'data' could be null (see line 410)
 
-vim +/data +416 drivers/mmc/host/litex_mmc.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   10 warnings generated.
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   mm/secretmem.c:165:15: warning: Value stored to 'file' during its initia=
+lization is never read [clang-analyzer-deadcode.DeadStores]
+           struct file *file =3D ERR_PTR(-ENOMEM);
+                        ^~~~   ~~~~~~~~~~~~~~~~
+   mm/secretmem.c:165:15: note: Value stored to 'file' during its initializ=
+ation is never read
+           struct file *file =3D ERR_PTR(-ENOMEM);
+                        ^~~~   ~~~~~~~~~~~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   mm/memfd.c:281:2: warning: Call to function 'strcpy' is insecure as it d=
+oes not provide bounding of the memory buffer. Replace unbounded copy funct=
+ions with analogous functions that support length arguments such as 'strlcp=
+y'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(name, MFD_NAME_PREFIX);
+           ^~~~~~
+   mm/memfd.c:281:2: note: Call to function 'strcpy' is insecure as it does=
+ not provide bounding of the memory buffer. Replace unbounded copy function=
+s with analogous functions that support length arguments such as 'strlcpy'.=
+ CWE-119
+           strcpy(name, MFD_NAME_PREFIX);
+           ^~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   fs/jbd2/commit.c:619:2: warning: Value stored to 'err' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+           err =3D 0;
+           ^     ~
+   fs/jbd2/commit.c:619:2: note: Value stored to 'err' is never read
+           err =3D 0;
+           ^     ~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> include/linux/seq_file.h:136:25: warning: Null pointer passed as 1st arg=
+ument to string length function [clang-analyzer-unix.cstring.NullArg]
+           seq_escape_mem(m, src, strlen(src), flags, esc);
+                                  ^
+   security/selinux/hooks.c:1113:6: note: Assuming the condition is false
+           if (!(sbsec->flags & SE_SBINITIALIZED))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1113:2: note: Taking false branch
+           if (!(sbsec->flags & SE_SBINITIALIZED))
+           ^
+   security/selinux/hooks.c:1116:6: note: Assuming the condition is false
+           if (!selinux_initialized(&selinux_state))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1116:2: note: Taking false branch
+           if (!selinux_initialized(&selinux_state))
+           ^
+   security/selinux/hooks.c:1119:6: note: Assuming the condition is true
+           if (sbsec->flags & FSCONTEXT_MNT) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1119:2: note: Taking true branch
+           if (sbsec->flags & FSCONTEXT_MNT) {
+           ^
+   security/selinux/hooks.c:1122:8: note: Calling 'show_sid'
+                   rc =3D show_sid(m, sbsec->sid);
+                        ^~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1092:7: note: Value assigned to 'context'
+           rc =3D security_sid_to_context(&selinux_state, sid,
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   security/selinux/hooks.c:1094:6: note: Assuming 'rc' is 0
+           if (!rc) {
+               ^~~
+   security/selinux/hooks.c:1094:2: note: Taking true branch
+           if (!rc) {
+           ^
+   security/selinux/hooks.c:1095:20: note: Assuming 'context' is null
+                   bool has_comma =3D context && strchr(context, ',');
+                                    ^~~~~~~
+   security/selinux/hooks.c:1095:28: note: Left side of '&&' is false
+                   bool has_comma =3D context && strchr(context, ',');
+                                            ^
+   security/selinux/hooks.c:1098:7: note: 'has_comma' is false
+                   if (has_comma)
+                       ^~~~~~~~~
+   security/selinux/hooks.c:1098:3: note: Taking false branch
+                   if (has_comma)
+                   ^
+   security/selinux/hooks.c:1100:17: note: Passing null pointer value via 2=
+nd parameter 's'
+                   seq_escape(m, context, "\"\n\\");
+                                 ^~~~~~~
+   security/selinux/hooks.c:1100:3: note: Calling 'seq_escape'
+                   seq_escape(m, context, "\"\n\\");
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:152:20: note: Passing null pointer value via 2n=
+d parameter 'src'
+           seq_escape_str(m, s, ESCAPE_OCTAL, esc);
+                             ^
+   include/linux/seq_file.h:152:2: note: Calling 'seq_escape_str'
+           seq_escape_str(m, s, ESCAPE_OCTAL, esc);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:136:25: note: Null pointer passed as 1st argume=
+nt to string length function
+           seq_escape_mem(m, src, strlen(src), flags, esc);
+                                  ^      ~~~
+   security/selinux/hooks.c:6606:3: warning: Value stored to 'error' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   error =3D -EPERM;
+                   ^       ~~~~~~
+   security/selinux/hooks.c:6606:3: note: Value stored to 'error' is never =
+read
+                   error =3D -EPERM;
+                   ^       ~~~~~~
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   fs/sysfs/file.c:54:2: warning: Null pointer passed as 1st argument to me=
+mory set function [clang-analyzer-unix.cstring.NullArg]
+           memset(buf, 0, PAGE_SIZE);
+           ^      ~~~
+   fs/sysfs/file.c:49:10: note: Calling 'seq_get_buf'
+           count =3D seq_get_buf(sf, &buf);
+                   ^~~~~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:66:9: note: Assuming field 'count' is <=3D fiel=
+d 'size'
+           BUG_ON(m->count > m->size);
+                  ^
+   include/asm-generic/bug.h:65:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/seq_file.h:66:2: note: Taking false branch
+           BUG_ON(m->count > m->size);
+           ^
+   include/asm-generic/bug.h:65:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   include/linux/seq_file.h:66:2: note: Loop condition is false.  Exiting l=
+oop
+           BUG_ON(m->count > m->size);
+           ^
+   include/asm-generic/bug.h:65:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   include/linux/seq_file.h:67:6: note: Assuming field 'count' is >=3D fiel=
+d 'size'
+           if (m->count < m->size)
+               ^~~~~~~~~~~~~~~~~~
+   include/linux/seq_file.h:67:2: note: Taking false branch
+           if (m->count < m->size)
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  330  =
+vim +136 include/linux/seq_file.h
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  331  static void litex_mmc_request=
-(struct mmc_host *mmc, struct mmc_request *mrq)
-e5f0016daf4739 Gabriel Somlo 2021-12-15  332  {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  333  	struct litex_mmc_host *host =
-=3D mmc_priv(mmc);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  334  	struct device *dev =3D mmc_d=
-ev(mmc);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  335  	struct mmc_command *cmd =3D =
-mrq->cmd;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  336  	struct mmc_command *sbc =3D =
-mrq->sbc;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  337  	struct mmc_data *data =3D mr=
-q->data;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  338  	struct mmc_command *stop =3D=
- mrq->stop;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  339  	unsigned int retries =3D cmd=
-->retries;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  340  	unsigned int len =3D 0;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  341  	bool direct =3D false;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  342  	u32 response_len =3D litex_m=
-mc_response_len(cmd);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  343  	u8 transfer =3D SD_CTL_DATA_=
-XFER_NONE;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  344  =
+^1da177e4c3f41 Linus Torvalds  2005-04-16  115  =
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  345  	/* First check that the card=
- is still there */
-e5f0016daf4739 Gabriel Somlo 2021-12-15  346  	if (!litex_mmc_get_cd(mmc)) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  347  		cmd->error =3D -ENOMEDIUM;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  348  		mmc_request_done(mmc, mrq);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  349  		return;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  350  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  351  =
+6798a8caaf64fa Joe Perches     2015-09-11  116  __printf(2, 0)
+6798a8caaf64fa Joe Perches     2015-09-11  117  void seq_vprintf(struct seq=
+_file *m, const char *fmt, va_list args);
+6798a8caaf64fa Joe Perches     2015-09-11  118  __printf(2, 3)
+6798a8caaf64fa Joe Perches     2015-09-11  119  void seq_printf(struct seq_=
+file *m, const char *fmt, ...);
+6798a8caaf64fa Joe Perches     2015-09-11  120  void seq_putc(struct seq_fi=
+le *m, char c);
+6798a8caaf64fa Joe Perches     2015-09-11  121  void seq_puts(struct seq_fi=
+le *m, const char *s);
+d1be35cb6f9697 Andrei Vagin    2018-04-10  122  void seq_put_decimal_ull_wi=
+dth(struct seq_file *m, const char *delimiter,
+d1be35cb6f9697 Andrei Vagin    2018-04-10  123  			       unsigned long lon=
+g num, unsigned int width);
+75ba1d07fd6a49 Joe Perches     2016-10-07  124  void seq_put_decimal_ull(st=
+ruct seq_file *m, const char *delimiter,
+6798a8caaf64fa Joe Perches     2015-09-11  125  			 unsigned long long num);
+75ba1d07fd6a49 Joe Perches     2016-10-07  126  void seq_put_decimal_ll(str=
+uct seq_file *m, const char *delimiter, long long num);
+0e3dc019143104 Andrei Vagin    2018-04-10  127  void seq_put_hex_ll(struct =
+seq_file *m, const char *delimiter,
+0e3dc019143104 Andrei Vagin    2018-04-10  128  		    unsigned long long v,=
+ unsigned int width);
+0e3dc019143104 Andrei Vagin    2018-04-10  129  =
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  352  	/* Send set-block-count comm=
-and if needed */
-e5f0016daf4739 Gabriel Somlo 2021-12-15  353  	if (sbc) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  354  		sbc->error =3D litex_mmc_se=
-nd_cmd(host, sbc->opcode, sbc->arg,
-e5f0016daf4739 Gabriel Somlo 2021-12-15  355  						litex_mmc_response_len(=
-sbc),
-e5f0016daf4739 Gabriel Somlo 2021-12-15  356  						SD_CTL_DATA_XFER_NONE);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  357  		if (sbc->error) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  358  			host->is_bus_width_set =3D=
- false;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  359  			mmc_request_done(mmc, mrq);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  360  			return;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  361  		}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  362  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  363  =
+1d31aa172a4e67 Andy Shevchenko 2021-06-30  130  void seq_escape_mem(struct =
+seq_file *m, const char *src, size_t len,
+1d31aa172a4e67 Andy Shevchenko 2021-06-30  131  		    unsigned int flags, c=
+onst char *esc);
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  132  =
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  364  	if (data) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  365  		/* LiteSDCard only supports=
- 4-bit bus width; therefore, we MUST
-e5f0016daf4739 Gabriel Somlo 2021-12-15  366  		 * inject a SET_BUS_WIDTH (=
-acmd6) before the very first data
-e5f0016daf4739 Gabriel Somlo 2021-12-15  367  		 * transfer, earlier than w=
-hen the mmc subsystem would normally
-e5f0016daf4739 Gabriel Somlo 2021-12-15  368  		 * get around to it!
-e5f0016daf4739 Gabriel Somlo 2021-12-15  369  		 */
-e5f0016daf4739 Gabriel Somlo 2021-12-15  370  		cmd->error =3D litex_mmc_se=
-t_bus_width(host);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  371  		if (cmd->error) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  372  			dev_err(dev, "Can't set bu=
-s width!\n");
-e5f0016daf4739 Gabriel Somlo 2021-12-15  373  			mmc_request_done(mmc, mrq);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  374  			return;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  375  		}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  376  =
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  133  static inline void seq_esca=
+pe_str(struct seq_file *m, const char *src,
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  134  				  unsigned int flags, c=
+onst char *esc)
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  135  {
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30 @136  	seq_escape_mem(m, src, str=
+len(src), flags, esc);
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  137  }
+e7ed4a3b922b04 Andy Shevchenko 2021-06-30  138  =
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  377  		litex_mmc_do_dma(host, data=
-, &len, &direct, &transfer);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  378  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  379  =
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  380  	do {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  381  		cmd->error =3D litex_mmc_se=
-nd_cmd(host, cmd->opcode, cmd->arg,
-e5f0016daf4739 Gabriel Somlo 2021-12-15  382  						response_len, transfer);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  383  	} while (cmd->error && retri=
-es-- > 0);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  384  =
+:::::: The code at line 136 was first introduced by commit
+:::::: e7ed4a3b922b04d2042cd2e19d1096fa457b6c11 seq_file: add seq_escape_st=
+r() as replica of string_escape_str()
 
-e5f0016daf4739 Gabriel Somlo 2021-12-15  385  	if (cmd->error) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  386  		/* card may be gone; don't =
-assume bus width is still set */
-e5f0016daf4739 Gabriel Somlo 2021-12-15  387  		host->is_bus_width_set =3D =
-false;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  388  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  389  =
-
-e5f0016daf4739 Gabriel Somlo 2021-12-15  390  	if (response_len =3D=3D SD_C=
-TL_RESP_SHORT) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  391  		/* pull short response fiel=
-ds from appropriate host registers */
-e5f0016daf4739 Gabriel Somlo 2021-12-15  392  		cmd->resp[0] =3D host->resp=
-[3];
-e5f0016daf4739 Gabriel Somlo 2021-12-15  393  		cmd->resp[1] =3D host->resp=
-[2] & 0xFF;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  394  	} else if (response_len =3D=
-=3D SD_CTL_RESP_LONG) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  395  		cmd->resp[0] =3D host->resp=
-[0];
-e5f0016daf4739 Gabriel Somlo 2021-12-15  396  		cmd->resp[1] =3D host->resp=
-[1];
-e5f0016daf4739 Gabriel Somlo 2021-12-15  397  		cmd->resp[2] =3D host->resp=
-[2];
-e5f0016daf4739 Gabriel Somlo 2021-12-15  398  		cmd->resp[3] =3D host->resp=
-[3];
-e5f0016daf4739 Gabriel Somlo 2021-12-15  399  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  400  =
-
-e5f0016daf4739 Gabriel Somlo 2021-12-15  401  	/* Send stop-transmission co=
-mmand if required */
-e5f0016daf4739 Gabriel Somlo 2021-12-15  402  	if (stop && (cmd->error || !=
-sbc)) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  403  		stop->error =3D litex_mmc_s=
-end_cmd(host, stop->opcode, stop->arg,
-e5f0016daf4739 Gabriel Somlo 2021-12-15  404  						 litex_mmc_response_len=
-(stop),
-e5f0016daf4739 Gabriel Somlo 2021-12-15  405  						 SD_CTL_DATA_XFER_NONE);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  406  		if (stop->error)
-e5f0016daf4739 Gabriel Somlo 2021-12-15  407  			host->is_bus_width_set =3D=
- false;
-e5f0016daf4739 Gabriel Somlo 2021-12-15  408  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  409  =
-
-e5f0016daf4739 Gabriel Somlo 2021-12-15 @410  	if (data) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  411  		dma_unmap_sg(dev, data->sg,=
- data->sg_len,
-e5f0016daf4739 Gabriel Somlo 2021-12-15  412  			     mmc_get_dma_dir(data)=
-);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  413  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  414  =
-
-e5f0016daf4739 Gabriel Somlo 2021-12-15  415  	if (!cmd->error && transfer =
-!=3D SD_CTL_DATA_XFER_NONE) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15 @416  		data->bytes_xfered =3D min(=
-len, mmc->max_req_size);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  417  		if (transfer =3D=3D SD_CTL_=
-DATA_XFER_READ && !direct) {
-e5f0016daf4739 Gabriel Somlo 2021-12-15  418  			sg_copy_from_buffer(data->=
-sg, sg_nents(data->sg),
-e5f0016daf4739 Gabriel Somlo 2021-12-15  419  					    host->buffer, data->=
-bytes_xfered);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  420  		}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  421  	}
-e5f0016daf4739 Gabriel Somlo 2021-12-15  422  =
-
-e5f0016daf4739 Gabriel Somlo 2021-12-15  423  	mmc_request_done(mmc, mrq);
-e5f0016daf4739 Gabriel Somlo 2021-12-15  424  }
-e5f0016daf4739 Gabriel Somlo 2021-12-15  425  =
-
+:::::: TO: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+:::::: CC: Linus Torvalds <torvalds@linux-foundation.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8396428674375039946==--
+--===============0706924428192879232==--
 
