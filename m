@@ -1,208 +1,221 @@
-Content-Type: multipart/mixed; boundary="===============7358584411633223656=="
+Content-Type: multipart/mixed; boundary="===============8396428674375039946=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized symbol 'rq'.
-Date: Tue, 21 Dec 2021 21:49:23 +0800
-Message-ID: <202112212142.bD6wSbTv-lkp@intel.com>
+Subject: Re: [PATCH v5 3/3] mmc: Add driver for LiteX's LiteSDCard interface
+Date: Tue, 21 Dec 2021 18:46:16 +0800
+Message-ID: <202112211815.CYSR6MVP-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7358584411633223656==
+--===============8396428674375039946==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Chris Wilson <chris@chris-wilson.co.uk>
-CC: Matthew Auld <matthew.auld@intel.com>
-CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
+In-Reply-To: <20211215130711.111186-4-gsomlo@gmail.com>
+References: <20211215130711.111186-4-gsomlo@gmail.com>
+TO: Gabriel Somlo <gsomlo@gmail.com>
+TO: linux-kernel(a)vger.kernel.org
+CC: robh+dt(a)kernel.org
+CC: devicetree(a)vger.kernel.org
+CC: ulf.hansson(a)linaro.org
+CC: linux-mmc(a)vger.kernel.org
+CC: kgugala(a)antmicro.com
+CC: mholenko(a)antmicro.com
+CC: krakoczy(a)antmicro.com
+CC: mdudek(a)internships.antmicro.com
+CC: paulus(a)ozlabs.org
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   6e0567b7305209c2d689ce57180a63d8dc657ad8
-commit: cf586021642d8017cde111b7dd1ba86224e9da51 drm/i915/gt: Pipelined pag=
-e migration
-date:   6 months ago
-:::::: branch date: 12 hours ago
-:::::: commit date: 6 months ago
-config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
-ive/20211221/202112212142.bD6wSbTv-lkp(a)intel.com/config)
+Hi Gabriel,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linux/master ulf-hansson-mmc-mirror/next linus/=
+master v5.16-rc6 next-20211220]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Gabriel-Somlo/mmc-Add-Lite=
+SDCard-mmc-driver/20211215-211022
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-=
+next
+:::::: branch date: 6 days ago
+:::::: commit date: 6 days ago
+config: i386-randconfig-m021-20211219 (https://download.01.org/0day-ci/arch=
+ive/20211221/202112211815.CYSR6MVP-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized =
-symbol 'rq'.
-drivers/gpu/drm/i915/gt/selftest_migrate.c:113 copy() error: uninitialized =
-symbol 'vaddr'.
+smatch warnings:
+drivers/mmc/host/litex_mmc.c:416 litex_mmc_request() error: we previously a=
+ssumed 'data' could be null (see line 410)
 
-Old smatch warnings:
-drivers/gpu/drm/i915/gem/i915_gem_object.h:182 __i915_gem_object_lock() err=
-or: we previously assumed 'ww' could be null (see line 171)
+vim +/data +416 drivers/mmc/host/litex_mmc.c
 
-vim +/rq +102 drivers/gpu/drm/i915/gt/selftest_migrate.c
+e5f0016daf4739 Gabriel Somlo 2021-12-15  330  =
 
-cf586021642d80 Chris Wilson 2021-06-17   31  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  331  static void litex_mmc_request=
+(struct mmc_host *mmc, struct mmc_request *mrq)
+e5f0016daf4739 Gabriel Somlo 2021-12-15  332  {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  333  	struct litex_mmc_host *host =
+=3D mmc_priv(mmc);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  334  	struct device *dev =3D mmc_d=
+ev(mmc);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  335  	struct mmc_command *cmd =3D =
+mrq->cmd;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  336  	struct mmc_command *sbc =3D =
+mrq->sbc;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  337  	struct mmc_data *data =3D mr=
+q->data;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  338  	struct mmc_command *stop =3D=
+ mrq->stop;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  339  	unsigned int retries =3D cmd=
+->retries;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  340  	unsigned int len =3D 0;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  341  	bool direct =3D false;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  342  	u32 response_len =3D litex_m=
+mc_response_len(cmd);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  343  	u8 transfer =3D SD_CTL_DATA_=
+XFER_NONE;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  344  =
 
-cf586021642d80 Chris Wilson 2021-06-17   32  static int copy(struct intel_m=
-igrate *migrate,
-cf586021642d80 Chris Wilson 2021-06-17   33  		int (*fn)(struct intel_migra=
-te *migrate,
-cf586021642d80 Chris Wilson 2021-06-17   34  			  struct i915_gem_ww_ctx *w=
-w,
-cf586021642d80 Chris Wilson 2021-06-17   35  			  struct drm_i915_gem_objec=
-t *src,
-cf586021642d80 Chris Wilson 2021-06-17   36  			  struct drm_i915_gem_objec=
-t *dst,
-cf586021642d80 Chris Wilson 2021-06-17   37  			  struct i915_request **out=
-),
-cf586021642d80 Chris Wilson 2021-06-17   38  		u32 sz, struct rnd_state *pr=
-ng)
-cf586021642d80 Chris Wilson 2021-06-17   39  {
-cf586021642d80 Chris Wilson 2021-06-17   40  	struct drm_i915_private *i915=
- =3D migrate->context->engine->i915;
-cf586021642d80 Chris Wilson 2021-06-17   41  	struct drm_i915_gem_object *s=
-rc, *dst;
-cf586021642d80 Chris Wilson 2021-06-17   42  	struct i915_request *rq;
-cf586021642d80 Chris Wilson 2021-06-17   43  	struct i915_gem_ww_ctx ww;
-cf586021642d80 Chris Wilson 2021-06-17   44  	u32 *vaddr;
-cf586021642d80 Chris Wilson 2021-06-17   45  	int err =3D 0;
-cf586021642d80 Chris Wilson 2021-06-17   46  	int i;
-cf586021642d80 Chris Wilson 2021-06-17   47  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  345  	/* First check that the card=
+ is still there */
+e5f0016daf4739 Gabriel Somlo 2021-12-15  346  	if (!litex_mmc_get_cd(mmc)) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  347  		cmd->error =3D -ENOMEDIUM;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  348  		mmc_request_done(mmc, mrq);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  349  		return;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  350  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  351  =
 
-cf586021642d80 Chris Wilson 2021-06-17   48  	src =3D create_lmem_or_intern=
-al(i915, sz);
-cf586021642d80 Chris Wilson 2021-06-17   49  	if (IS_ERR(src))
-cf586021642d80 Chris Wilson 2021-06-17   50  		return 0;
-cf586021642d80 Chris Wilson 2021-06-17   51  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  352  	/* Send set-block-count comm=
+and if needed */
+e5f0016daf4739 Gabriel Somlo 2021-12-15  353  	if (sbc) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  354  		sbc->error =3D litex_mmc_se=
+nd_cmd(host, sbc->opcode, sbc->arg,
+e5f0016daf4739 Gabriel Somlo 2021-12-15  355  						litex_mmc_response_len(=
+sbc),
+e5f0016daf4739 Gabriel Somlo 2021-12-15  356  						SD_CTL_DATA_XFER_NONE);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  357  		if (sbc->error) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  358  			host->is_bus_width_set =3D=
+ false;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  359  			mmc_request_done(mmc, mrq);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  360  			return;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  361  		}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  362  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  363  =
 
-cf586021642d80 Chris Wilson 2021-06-17   52  	dst =3D i915_gem_object_creat=
-e_internal(i915, sz);
-cf586021642d80 Chris Wilson 2021-06-17   53  	if (IS_ERR(dst))
-cf586021642d80 Chris Wilson 2021-06-17   54  		goto err_free_src;
-cf586021642d80 Chris Wilson 2021-06-17   55  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  364  	if (data) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  365  		/* LiteSDCard only supports=
+ 4-bit bus width; therefore, we MUST
+e5f0016daf4739 Gabriel Somlo 2021-12-15  366  		 * inject a SET_BUS_WIDTH (=
+acmd6) before the very first data
+e5f0016daf4739 Gabriel Somlo 2021-12-15  367  		 * transfer, earlier than w=
+hen the mmc subsystem would normally
+e5f0016daf4739 Gabriel Somlo 2021-12-15  368  		 * get around to it!
+e5f0016daf4739 Gabriel Somlo 2021-12-15  369  		 */
+e5f0016daf4739 Gabriel Somlo 2021-12-15  370  		cmd->error =3D litex_mmc_se=
+t_bus_width(host);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  371  		if (cmd->error) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  372  			dev_err(dev, "Can't set bu=
+s width!\n");
+e5f0016daf4739 Gabriel Somlo 2021-12-15  373  			mmc_request_done(mmc, mrq);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  374  			return;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  375  		}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  376  =
 
-cf586021642d80 Chris Wilson 2021-06-17   56  	for_i915_gem_ww(&ww, err, tru=
-e) {
-cf586021642d80 Chris Wilson 2021-06-17   57  		err =3D i915_gem_object_lock=
-(src, &ww);
-cf586021642d80 Chris Wilson 2021-06-17   58  		if (err)
-cf586021642d80 Chris Wilson 2021-06-17   59  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   60  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  377  		litex_mmc_do_dma(host, data=
+, &len, &direct, &transfer);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  378  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  379  =
 
-cf586021642d80 Chris Wilson 2021-06-17   61  		err =3D i915_gem_object_lock=
-(dst, &ww);
-cf586021642d80 Chris Wilson 2021-06-17   62  		if (err)
-cf586021642d80 Chris Wilson 2021-06-17   63  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   64  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  380  	do {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  381  		cmd->error =3D litex_mmc_se=
+nd_cmd(host, cmd->opcode, cmd->arg,
+e5f0016daf4739 Gabriel Somlo 2021-12-15  382  						response_len, transfer);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  383  	} while (cmd->error && retri=
+es-- > 0);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  384  =
 
-cf586021642d80 Chris Wilson 2021-06-17   65  		vaddr =3D i915_gem_object_pi=
-n_map(src, I915_MAP_WC);
-cf586021642d80 Chris Wilson 2021-06-17   66  		if (IS_ERR(vaddr)) {
-cf586021642d80 Chris Wilson 2021-06-17   67  			err =3D PTR_ERR(vaddr);
-cf586021642d80 Chris Wilson 2021-06-17   68  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   69  		}
-cf586021642d80 Chris Wilson 2021-06-17   70  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  385  	if (cmd->error) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  386  		/* card may be gone; don't =
+assume bus width is still set */
+e5f0016daf4739 Gabriel Somlo 2021-12-15  387  		host->is_bus_width_set =3D =
+false;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  388  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  389  =
 
-cf586021642d80 Chris Wilson 2021-06-17   71  		for (i =3D 0; i < sz / sizeo=
-f(u32); i++)
-cf586021642d80 Chris Wilson 2021-06-17   72  			vaddr[i] =3D i;
-cf586021642d80 Chris Wilson 2021-06-17   73  		i915_gem_object_flush_map(sr=
-c);
-cf586021642d80 Chris Wilson 2021-06-17   74  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  390  	if (response_len =3D=3D SD_C=
+TL_RESP_SHORT) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  391  		/* pull short response fiel=
+ds from appropriate host registers */
+e5f0016daf4739 Gabriel Somlo 2021-12-15  392  		cmd->resp[0] =3D host->resp=
+[3];
+e5f0016daf4739 Gabriel Somlo 2021-12-15  393  		cmd->resp[1] =3D host->resp=
+[2] & 0xFF;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  394  	} else if (response_len =3D=
+=3D SD_CTL_RESP_LONG) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  395  		cmd->resp[0] =3D host->resp=
+[0];
+e5f0016daf4739 Gabriel Somlo 2021-12-15  396  		cmd->resp[1] =3D host->resp=
+[1];
+e5f0016daf4739 Gabriel Somlo 2021-12-15  397  		cmd->resp[2] =3D host->resp=
+[2];
+e5f0016daf4739 Gabriel Somlo 2021-12-15  398  		cmd->resp[3] =3D host->resp=
+[3];
+e5f0016daf4739 Gabriel Somlo 2021-12-15  399  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  400  =
 
-cf586021642d80 Chris Wilson 2021-06-17   75  		vaddr =3D i915_gem_object_pi=
-n_map(dst, I915_MAP_WC);
-cf586021642d80 Chris Wilson 2021-06-17   76  		if (IS_ERR(vaddr)) {
-cf586021642d80 Chris Wilson 2021-06-17   77  			err =3D PTR_ERR(vaddr);
-cf586021642d80 Chris Wilson 2021-06-17   78  			goto unpin_src;
-cf586021642d80 Chris Wilson 2021-06-17   79  		}
-cf586021642d80 Chris Wilson 2021-06-17   80  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  401  	/* Send stop-transmission co=
+mmand if required */
+e5f0016daf4739 Gabriel Somlo 2021-12-15  402  	if (stop && (cmd->error || !=
+sbc)) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  403  		stop->error =3D litex_mmc_s=
+end_cmd(host, stop->opcode, stop->arg,
+e5f0016daf4739 Gabriel Somlo 2021-12-15  404  						 litex_mmc_response_len=
+(stop),
+e5f0016daf4739 Gabriel Somlo 2021-12-15  405  						 SD_CTL_DATA_XFER_NONE);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  406  		if (stop->error)
+e5f0016daf4739 Gabriel Somlo 2021-12-15  407  			host->is_bus_width_set =3D=
+ false;
+e5f0016daf4739 Gabriel Somlo 2021-12-15  408  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  409  =
 
-cf586021642d80 Chris Wilson 2021-06-17   81  		for (i =3D 0; i < sz / sizeo=
-f(u32); i++)
-cf586021642d80 Chris Wilson 2021-06-17   82  			vaddr[i] =3D ~i;
-cf586021642d80 Chris Wilson 2021-06-17   83  		i915_gem_object_flush_map(ds=
-t);
-cf586021642d80 Chris Wilson 2021-06-17   84  =
-
-cf586021642d80 Chris Wilson 2021-06-17   85  		err =3D fn(migrate, &ww, src=
-, dst, &rq);
-cf586021642d80 Chris Wilson 2021-06-17   86  		if (!err)
-cf586021642d80 Chris Wilson 2021-06-17   87  			continue;
-cf586021642d80 Chris Wilson 2021-06-17   88  =
-
-cf586021642d80 Chris Wilson 2021-06-17   89  		if (err !=3D -EDEADLK && err=
- !=3D -EINTR && err !=3D -ERESTARTSYS)
-cf586021642d80 Chris Wilson 2021-06-17   90  			pr_err("%ps failed, size: %=
-u\n", fn, sz);
-cf586021642d80 Chris Wilson 2021-06-17   91  		if (rq) {
-cf586021642d80 Chris Wilson 2021-06-17   92  			i915_request_wait(rq, 0, HZ=
+e5f0016daf4739 Gabriel Somlo 2021-12-15 @410  	if (data) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  411  		dma_unmap_sg(dev, data->sg,=
+ data->sg_len,
+e5f0016daf4739 Gabriel Somlo 2021-12-15  412  			     mmc_get_dma_dir(data)=
 );
-cf586021642d80 Chris Wilson 2021-06-17   93  			i915_request_put(rq);
-cf586021642d80 Chris Wilson 2021-06-17   94  		}
-cf586021642d80 Chris Wilson 2021-06-17   95  		i915_gem_object_unpin_map(ds=
-t);
-cf586021642d80 Chris Wilson 2021-06-17   96  unpin_src:
-cf586021642d80 Chris Wilson 2021-06-17   97  		i915_gem_object_unpin_map(sr=
-c);
-cf586021642d80 Chris Wilson 2021-06-17   98  	}
-cf586021642d80 Chris Wilson 2021-06-17   99  	if (err)
-cf586021642d80 Chris Wilson 2021-06-17  100  		goto err_out;
-cf586021642d80 Chris Wilson 2021-06-17  101  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  413  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  414  =
 
-cf586021642d80 Chris Wilson 2021-06-17 @102  	if (rq) {
-cf586021642d80 Chris Wilson 2021-06-17  103  		if (i915_request_wait(rq, 0,=
- HZ) < 0) {
-cf586021642d80 Chris Wilson 2021-06-17  104  			pr_err("%ps timed out, size=
-: %u\n", fn, sz);
-cf586021642d80 Chris Wilson 2021-06-17  105  			err =3D -ETIME;
-cf586021642d80 Chris Wilson 2021-06-17  106  		}
-cf586021642d80 Chris Wilson 2021-06-17  107  		i915_request_put(rq);
-cf586021642d80 Chris Wilson 2021-06-17  108  	}
-cf586021642d80 Chris Wilson 2021-06-17  109  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  415  	if (!cmd->error && transfer =
+!=3D SD_CTL_DATA_XFER_NONE) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15 @416  		data->bytes_xfered =3D min(=
+len, mmc->max_req_size);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  417  		if (transfer =3D=3D SD_CTL_=
+DATA_XFER_READ && !direct) {
+e5f0016daf4739 Gabriel Somlo 2021-12-15  418  			sg_copy_from_buffer(data->=
+sg, sg_nents(data->sg),
+e5f0016daf4739 Gabriel Somlo 2021-12-15  419  					    host->buffer, data->=
+bytes_xfered);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  420  		}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  421  	}
+e5f0016daf4739 Gabriel Somlo 2021-12-15  422  =
 
-cf586021642d80 Chris Wilson 2021-06-17  110  	for (i =3D 0; !err && i < sz =
-/ PAGE_SIZE; i++) {
-cf586021642d80 Chris Wilson 2021-06-17  111  		int x =3D i * 1024 + i915_pr=
-andom_u32_max_state(1024, prng);
-cf586021642d80 Chris Wilson 2021-06-17  112  =
-
-cf586021642d80 Chris Wilson 2021-06-17 @113  		if (vaddr[x] !=3D x) {
-cf586021642d80 Chris Wilson 2021-06-17  114  			pr_err("%ps failed, size: %=
-u, offset: %zu\n",
-cf586021642d80 Chris Wilson 2021-06-17  115  			       fn, sz, x * sizeof(u=
-32));
-cf586021642d80 Chris Wilson 2021-06-17  116  			igt_hexdump(vaddr + i * 102=
-4, 4096);
-cf586021642d80 Chris Wilson 2021-06-17  117  			err =3D -EINVAL;
-cf586021642d80 Chris Wilson 2021-06-17  118  		}
-cf586021642d80 Chris Wilson 2021-06-17  119  	}
-cf586021642d80 Chris Wilson 2021-06-17  120  =
-
-cf586021642d80 Chris Wilson 2021-06-17  121  	i915_gem_object_unpin_map(dst=
-);
-cf586021642d80 Chris Wilson 2021-06-17  122  	i915_gem_object_unpin_map(src=
-);
-cf586021642d80 Chris Wilson 2021-06-17  123  =
-
-cf586021642d80 Chris Wilson 2021-06-17  124  err_out:
-cf586021642d80 Chris Wilson 2021-06-17  125  	i915_gem_object_put(dst);
-cf586021642d80 Chris Wilson 2021-06-17  126  err_free_src:
-cf586021642d80 Chris Wilson 2021-06-17  127  	i915_gem_object_put(src);
-cf586021642d80 Chris Wilson 2021-06-17  128  =
-
-cf586021642d80 Chris Wilson 2021-06-17  129  	return err;
-cf586021642d80 Chris Wilson 2021-06-17  130  }
-cf586021642d80 Chris Wilson 2021-06-17  131  =
+e5f0016daf4739 Gabriel Somlo 2021-12-15  423  	mmc_request_done(mmc, mrq);
+e5f0016daf4739 Gabriel Somlo 2021-12-15  424  }
+e5f0016daf4739 Gabriel Somlo 2021-12-15  425  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============7358584411633223656==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============8396428674375039946==--
 
