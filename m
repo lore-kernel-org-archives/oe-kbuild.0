@@ -1,168 +1,208 @@
-Content-Type: multipart/mixed; boundary="===============2363954408945184146=="
+Content-Type: multipart/mixed; boundary="===============7358584411633223656=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [linux-next:master 2469/8895] drivers/net/dsa/qca8k.c:2315:44: warning: Boolean result is used in bitwise operation. Clarify expression with parentheses. [clarifyCondition]
-Date: Tue, 21 Dec 2021 22:50:17 +0800
-Message-ID: <202112212228.V7Ig044v-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized symbol 'rq'.
+Date: Tue, 21 Dec 2021 21:49:23 +0800
+Message-ID: <202112212142.bD6wSbTv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2363954408945184146==
+--===============7358584411633223656==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: Linux Memory Management List <linux-mm@kvack.org>
-TO: Ansuel Smith <ansuelsmth@gmail.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Chris Wilson <chris@chris-wilson.co.uk>
+CC: Matthew Auld <matthew.auld@intel.com>
+CC: "Thomas Hellstr=C3=B6m" <thomas.hellstrom@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
- master
-head:   2850c2311ef4bf30ae8dd8927f0f66b026ff08fb
-commit: def975307c01191b6f0170048c3724b0ed3348af [2469/8895] net: dsa: qca8=
-k: add LAG support
-:::::: branch date: 2 hours ago
-:::::: commit date: 4 weeks ago
-compiler: s390-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   6e0567b7305209c2d689ce57180a63d8dc657ad8
+commit: cf586021642d8017cde111b7dd1ba86224e9da51 drm/i915/gt: Pipelined pag=
+e migration
+date:   6 months ago
+:::::: branch date: 12 hours ago
+:::::: commit date: 6 months ago
+config: i386-randconfig-m021-20211207 (https://download.01.org/0day-ci/arch=
+ive/20211221/202112212142.bD6wSbTv-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/i915/gt/selftest_migrate.c:102 copy() error: uninitialized =
+symbol 'rq'.
+drivers/gpu/drm/i915/gt/selftest_migrate.c:113 copy() error: uninitialized =
+symbol 'vaddr'.
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/gpu/drm/i915/gem/i915_gem_object.h:182 __i915_gem_object_lock() err=
+or: we previously assumed 'ww' could be null (see line 171)
 
->> drivers/net/dsa/qca8k.c:2315:44: warning: Boolean result is used in bitw=
-ise operation. Clarify expression with parentheses. [clarifyCondition]
-        !val << QCA8K_REG_GOL_TRUNK_SHIFT(id) |
-                                              ^
-   drivers/net/dsa/qca8k.c:2353:61: warning: Boolean result is used in bitw=
-ise operation. Clarify expression with parentheses. [clarifyCondition]
-         !delete << QCA8K_REG_GOL_TRUNK_ID_MEM_ID_SHIFT(id, i) |
-                                                               ^
->> drivers/net/dsa/qca8k.c:693:52: warning: Uninitialized variable: val [un=
-initvar]
-    ret =3D read_poll_timeout(qca8k_mii_read32, ret1, !(val & mask), 0,
-                                                      ^
+vim +/rq +102 drivers/gpu/drm/i915/gt/selftest_migrate.c
 
-vim +2315 drivers/net/dsa/qca8k.c
+cf586021642d80 Chris Wilson 2021-06-17   31  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2287  =
+cf586021642d80 Chris Wilson 2021-06-17   32  static int copy(struct intel_m=
+igrate *migrate,
+cf586021642d80 Chris Wilson 2021-06-17   33  		int (*fn)(struct intel_migra=
+te *migrate,
+cf586021642d80 Chris Wilson 2021-06-17   34  			  struct i915_gem_ww_ctx *w=
+w,
+cf586021642d80 Chris Wilson 2021-06-17   35  			  struct drm_i915_gem_objec=
+t *src,
+cf586021642d80 Chris Wilson 2021-06-17   36  			  struct drm_i915_gem_objec=
+t *dst,
+cf586021642d80 Chris Wilson 2021-06-17   37  			  struct i915_request **out=
+),
+cf586021642d80 Chris Wilson 2021-06-17   38  		u32 sz, struct rnd_state *pr=
+ng)
+cf586021642d80 Chris Wilson 2021-06-17   39  {
+cf586021642d80 Chris Wilson 2021-06-17   40  	struct drm_i915_private *i915=
+ =3D migrate->context->engine->i915;
+cf586021642d80 Chris Wilson 2021-06-17   41  	struct drm_i915_gem_object *s=
+rc, *dst;
+cf586021642d80 Chris Wilson 2021-06-17   42  	struct i915_request *rq;
+cf586021642d80 Chris Wilson 2021-06-17   43  	struct i915_gem_ww_ctx ww;
+cf586021642d80 Chris Wilson 2021-06-17   44  	u32 *vaddr;
+cf586021642d80 Chris Wilson 2021-06-17   45  	int err =3D 0;
+cf586021642d80 Chris Wilson 2021-06-17   46  	int i;
+cf586021642d80 Chris Wilson 2021-06-17   47  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2288  static int
-def975307c0119 Ansuel Smith 2021-11-23  2289  qca8k_lag_refresh_portmap(str=
-uct dsa_switch *ds, int port,
-def975307c0119 Ansuel Smith 2021-11-23  2290  			  struct net_device *lag, =
-bool delete)
-def975307c0119 Ansuel Smith 2021-11-23  2291  {
-def975307c0119 Ansuel Smith 2021-11-23  2292  	struct qca8k_priv *priv =3D =
-ds->priv;
-def975307c0119 Ansuel Smith 2021-11-23  2293  	int ret, id, i;
-def975307c0119 Ansuel Smith 2021-11-23  2294  	u32 val;
-def975307c0119 Ansuel Smith 2021-11-23  2295  =
+cf586021642d80 Chris Wilson 2021-06-17   48  	src =3D create_lmem_or_intern=
+al(i915, sz);
+cf586021642d80 Chris Wilson 2021-06-17   49  	if (IS_ERR(src))
+cf586021642d80 Chris Wilson 2021-06-17   50  		return 0;
+cf586021642d80 Chris Wilson 2021-06-17   51  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2296  	id =3D dsa_lag_id(ds->dst, l=
-ag);
-def975307c0119 Ansuel Smith 2021-11-23  2297  =
+cf586021642d80 Chris Wilson 2021-06-17   52  	dst =3D i915_gem_object_creat=
+e_internal(i915, sz);
+cf586021642d80 Chris Wilson 2021-06-17   53  	if (IS_ERR(dst))
+cf586021642d80 Chris Wilson 2021-06-17   54  		goto err_free_src;
+cf586021642d80 Chris Wilson 2021-06-17   55  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2298  	/* Read current port member =
-*/
-def975307c0119 Ansuel Smith 2021-11-23  2299  	ret =3D regmap_read(priv->re=
-gmap, QCA8K_REG_GOL_TRUNK_CTRL0, &val);
-def975307c0119 Ansuel Smith 2021-11-23  2300  	if (ret)
-def975307c0119 Ansuel Smith 2021-11-23  2301  		return ret;
-def975307c0119 Ansuel Smith 2021-11-23  2302  =
+cf586021642d80 Chris Wilson 2021-06-17   56  	for_i915_gem_ww(&ww, err, tru=
+e) {
+cf586021642d80 Chris Wilson 2021-06-17   57  		err =3D i915_gem_object_lock=
+(src, &ww);
+cf586021642d80 Chris Wilson 2021-06-17   58  		if (err)
+cf586021642d80 Chris Wilson 2021-06-17   59  			continue;
+cf586021642d80 Chris Wilson 2021-06-17   60  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2303  	/* Shift val to the correct =
-trunk */
-def975307c0119 Ansuel Smith 2021-11-23  2304  	val >>=3D QCA8K_REG_GOL_TRUN=
-K_SHIFT(id);
-def975307c0119 Ansuel Smith 2021-11-23  2305  	val &=3D QCA8K_REG_GOL_TRUNK=
-_MEMBER_MASK;
-def975307c0119 Ansuel Smith 2021-11-23  2306  	if (delete)
-def975307c0119 Ansuel Smith 2021-11-23  2307  		val &=3D ~BIT(port);
-def975307c0119 Ansuel Smith 2021-11-23  2308  	else
-def975307c0119 Ansuel Smith 2021-11-23  2309  		val |=3D BIT(port);
-def975307c0119 Ansuel Smith 2021-11-23  2310  =
+cf586021642d80 Chris Wilson 2021-06-17   61  		err =3D i915_gem_object_lock=
+(dst, &ww);
+cf586021642d80 Chris Wilson 2021-06-17   62  		if (err)
+cf586021642d80 Chris Wilson 2021-06-17   63  			continue;
+cf586021642d80 Chris Wilson 2021-06-17   64  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2311  	/* Update port member. With =
-empty portmap disable trunk */
-def975307c0119 Ansuel Smith 2021-11-23  2312  	ret =3D regmap_update_bits(p=
-riv->regmap, QCA8K_REG_GOL_TRUNK_CTRL0,
-def975307c0119 Ansuel Smith 2021-11-23  2313  				 QCA8K_REG_GOL_TRUNK_MEMB=
-ER(id) |
-def975307c0119 Ansuel Smith 2021-11-23  2314  				 QCA8K_REG_GOL_TRUNK_EN(i=
-d),
-def975307c0119 Ansuel Smith 2021-11-23 @2315  				 !val << QCA8K_REG_GOL_TR=
-UNK_SHIFT(id) |
-def975307c0119 Ansuel Smith 2021-11-23  2316  				 val << QCA8K_REG_GOL_TRU=
-NK_SHIFT(id));
-def975307c0119 Ansuel Smith 2021-11-23  2317  =
+cf586021642d80 Chris Wilson 2021-06-17   65  		vaddr =3D i915_gem_object_pi=
+n_map(src, I915_MAP_WC);
+cf586021642d80 Chris Wilson 2021-06-17   66  		if (IS_ERR(vaddr)) {
+cf586021642d80 Chris Wilson 2021-06-17   67  			err =3D PTR_ERR(vaddr);
+cf586021642d80 Chris Wilson 2021-06-17   68  			continue;
+cf586021642d80 Chris Wilson 2021-06-17   69  		}
+cf586021642d80 Chris Wilson 2021-06-17   70  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2318  	/* Search empty member if ad=
-ding or port on deleting */
-def975307c0119 Ansuel Smith 2021-11-23  2319  	for (i =3D 0; i < QCA8K_NUM_=
-PORTS_FOR_LAG; i++) {
-def975307c0119 Ansuel Smith 2021-11-23  2320  		ret =3D regmap_read(priv->r=
-egmap, QCA8K_REG_GOL_TRUNK_CTRL(id), &val);
-def975307c0119 Ansuel Smith 2021-11-23  2321  		if (ret)
-def975307c0119 Ansuel Smith 2021-11-23  2322  			return ret;
-def975307c0119 Ansuel Smith 2021-11-23  2323  =
+cf586021642d80 Chris Wilson 2021-06-17   71  		for (i =3D 0; i < sz / sizeo=
+f(u32); i++)
+cf586021642d80 Chris Wilson 2021-06-17   72  			vaddr[i] =3D i;
+cf586021642d80 Chris Wilson 2021-06-17   73  		i915_gem_object_flush_map(sr=
+c);
+cf586021642d80 Chris Wilson 2021-06-17   74  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2324  		val >>=3D QCA8K_REG_GOL_TRU=
-NK_ID_MEM_ID_SHIFT(id, i);
-def975307c0119 Ansuel Smith 2021-11-23  2325  		val &=3D QCA8K_REG_GOL_TRUN=
-K_ID_MEM_ID_MASK;
-def975307c0119 Ansuel Smith 2021-11-23  2326  =
+cf586021642d80 Chris Wilson 2021-06-17   75  		vaddr =3D i915_gem_object_pi=
+n_map(dst, I915_MAP_WC);
+cf586021642d80 Chris Wilson 2021-06-17   76  		if (IS_ERR(vaddr)) {
+cf586021642d80 Chris Wilson 2021-06-17   77  			err =3D PTR_ERR(vaddr);
+cf586021642d80 Chris Wilson 2021-06-17   78  			goto unpin_src;
+cf586021642d80 Chris Wilson 2021-06-17   79  		}
+cf586021642d80 Chris Wilson 2021-06-17   80  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2327  		if (delete) {
-def975307c0119 Ansuel Smith 2021-11-23  2328  			/* If port flagged to be d=
-isabled assume this member is
-def975307c0119 Ansuel Smith 2021-11-23  2329  			 * empty
-def975307c0119 Ansuel Smith 2021-11-23  2330  			 */
-def975307c0119 Ansuel Smith 2021-11-23  2331  			if (val !=3D QCA8K_REG_GOL=
-_TRUNK_ID_MEM_ID_EN_MASK)
-def975307c0119 Ansuel Smith 2021-11-23  2332  				continue;
-def975307c0119 Ansuel Smith 2021-11-23  2333  =
+cf586021642d80 Chris Wilson 2021-06-17   81  		for (i =3D 0; i < sz / sizeo=
+f(u32); i++)
+cf586021642d80 Chris Wilson 2021-06-17   82  			vaddr[i] =3D ~i;
+cf586021642d80 Chris Wilson 2021-06-17   83  		i915_gem_object_flush_map(ds=
+t);
+cf586021642d80 Chris Wilson 2021-06-17   84  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2334  			val &=3D QCA8K_REG_GOL_TRU=
-NK_ID_MEM_ID_PORT_MASK;
-def975307c0119 Ansuel Smith 2021-11-23  2335  			if (val !=3D port)
-def975307c0119 Ansuel Smith 2021-11-23  2336  				continue;
-def975307c0119 Ansuel Smith 2021-11-23  2337  		} else {
-def975307c0119 Ansuel Smith 2021-11-23  2338  			/* If port flagged to be e=
-nabled assume this member is
-def975307c0119 Ansuel Smith 2021-11-23  2339  			 * already set
-def975307c0119 Ansuel Smith 2021-11-23  2340  			 */
-def975307c0119 Ansuel Smith 2021-11-23  2341  			if (val =3D=3D QCA8K_REG_G=
-OL_TRUNK_ID_MEM_ID_EN_MASK)
-def975307c0119 Ansuel Smith 2021-11-23  2342  				continue;
-def975307c0119 Ansuel Smith 2021-11-23  2343  		}
-def975307c0119 Ansuel Smith 2021-11-23  2344  =
+cf586021642d80 Chris Wilson 2021-06-17   85  		err =3D fn(migrate, &ww, src=
+, dst, &rq);
+cf586021642d80 Chris Wilson 2021-06-17   86  		if (!err)
+cf586021642d80 Chris Wilson 2021-06-17   87  			continue;
+cf586021642d80 Chris Wilson 2021-06-17   88  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2345  		/* We have found the member=
- to add/remove */
-def975307c0119 Ansuel Smith 2021-11-23  2346  		break;
-def975307c0119 Ansuel Smith 2021-11-23  2347  	}
-def975307c0119 Ansuel Smith 2021-11-23  2348  =
+cf586021642d80 Chris Wilson 2021-06-17   89  		if (err !=3D -EDEADLK && err=
+ !=3D -EINTR && err !=3D -ERESTARTSYS)
+cf586021642d80 Chris Wilson 2021-06-17   90  			pr_err("%ps failed, size: %=
+u\n", fn, sz);
+cf586021642d80 Chris Wilson 2021-06-17   91  		if (rq) {
+cf586021642d80 Chris Wilson 2021-06-17   92  			i915_request_wait(rq, 0, HZ=
+);
+cf586021642d80 Chris Wilson 2021-06-17   93  			i915_request_put(rq);
+cf586021642d80 Chris Wilson 2021-06-17   94  		}
+cf586021642d80 Chris Wilson 2021-06-17   95  		i915_gem_object_unpin_map(ds=
+t);
+cf586021642d80 Chris Wilson 2021-06-17   96  unpin_src:
+cf586021642d80 Chris Wilson 2021-06-17   97  		i915_gem_object_unpin_map(sr=
+c);
+cf586021642d80 Chris Wilson 2021-06-17   98  	}
+cf586021642d80 Chris Wilson 2021-06-17   99  	if (err)
+cf586021642d80 Chris Wilson 2021-06-17  100  		goto err_out;
+cf586021642d80 Chris Wilson 2021-06-17  101  =
 
-def975307c0119 Ansuel Smith 2021-11-23  2349  	/* Set port in the correct p=
-ort mask or disable port if in delete mode */
-def975307c0119 Ansuel Smith 2021-11-23  2350  	return regmap_update_bits(pr=
-iv->regmap, QCA8K_REG_GOL_TRUNK_CTRL(id),
-def975307c0119 Ansuel Smith 2021-11-23  2351  				  QCA8K_REG_GOL_TRUNK_ID_=
-MEM_ID_EN(id, i) |
-def975307c0119 Ansuel Smith 2021-11-23  2352  				  QCA8K_REG_GOL_TRUNK_ID_=
-MEM_ID_PORT(id, i),
-def975307c0119 Ansuel Smith 2021-11-23  2353  				  !delete << QCA8K_REG_GO=
-L_TRUNK_ID_MEM_ID_SHIFT(id, i) |
-def975307c0119 Ansuel Smith 2021-11-23  2354  				  port << QCA8K_REG_GOL_T=
-RUNK_ID_MEM_ID_SHIFT(id, i));
-def975307c0119 Ansuel Smith 2021-11-23  2355  }
-def975307c0119 Ansuel Smith 2021-11-23  2356  =
+cf586021642d80 Chris Wilson 2021-06-17 @102  	if (rq) {
+cf586021642d80 Chris Wilson 2021-06-17  103  		if (i915_request_wait(rq, 0,=
+ HZ) < 0) {
+cf586021642d80 Chris Wilson 2021-06-17  104  			pr_err("%ps timed out, size=
+: %u\n", fn, sz);
+cf586021642d80 Chris Wilson 2021-06-17  105  			err =3D -ETIME;
+cf586021642d80 Chris Wilson 2021-06-17  106  		}
+cf586021642d80 Chris Wilson 2021-06-17  107  		i915_request_put(rq);
+cf586021642d80 Chris Wilson 2021-06-17  108  	}
+cf586021642d80 Chris Wilson 2021-06-17  109  =
+
+cf586021642d80 Chris Wilson 2021-06-17  110  	for (i =3D 0; !err && i < sz =
+/ PAGE_SIZE; i++) {
+cf586021642d80 Chris Wilson 2021-06-17  111  		int x =3D i * 1024 + i915_pr=
+andom_u32_max_state(1024, prng);
+cf586021642d80 Chris Wilson 2021-06-17  112  =
+
+cf586021642d80 Chris Wilson 2021-06-17 @113  		if (vaddr[x] !=3D x) {
+cf586021642d80 Chris Wilson 2021-06-17  114  			pr_err("%ps failed, size: %=
+u, offset: %zu\n",
+cf586021642d80 Chris Wilson 2021-06-17  115  			       fn, sz, x * sizeof(u=
+32));
+cf586021642d80 Chris Wilson 2021-06-17  116  			igt_hexdump(vaddr + i * 102=
+4, 4096);
+cf586021642d80 Chris Wilson 2021-06-17  117  			err =3D -EINVAL;
+cf586021642d80 Chris Wilson 2021-06-17  118  		}
+cf586021642d80 Chris Wilson 2021-06-17  119  	}
+cf586021642d80 Chris Wilson 2021-06-17  120  =
+
+cf586021642d80 Chris Wilson 2021-06-17  121  	i915_gem_object_unpin_map(dst=
+);
+cf586021642d80 Chris Wilson 2021-06-17  122  	i915_gem_object_unpin_map(src=
+);
+cf586021642d80 Chris Wilson 2021-06-17  123  =
+
+cf586021642d80 Chris Wilson 2021-06-17  124  err_out:
+cf586021642d80 Chris Wilson 2021-06-17  125  	i915_gem_object_put(dst);
+cf586021642d80 Chris Wilson 2021-06-17  126  err_free_src:
+cf586021642d80 Chris Wilson 2021-06-17  127  	i915_gem_object_put(src);
+cf586021642d80 Chris Wilson 2021-06-17  128  =
+
+cf586021642d80 Chris Wilson 2021-06-17  129  	return err;
+cf586021642d80 Chris Wilson 2021-06-17  130  }
+cf586021642d80 Chris Wilson 2021-06-17  131  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============2363954408945184146==--
+--===============7358584411633223656==--
 
