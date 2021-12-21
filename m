@@ -1,918 +1,441 @@
-Content-Type: multipart/mixed; boundary="===============4884935689795072285=="
+Content-Type: multipart/mixed; boundary="===============2022311466351673758=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [dlemoal-libata:for-5.17-logging 18/79] drivers/ata/libata-eh.c:2713 ata_eh_reset() error: uninitialized symbol 'rc'.
-Date: Fri, 31 Dec 2021 04:48:15 +0800
-Message-ID: <202112310458.T2sWUhPF-lkp@intel.com>
+Subject: [linux-next:master 8713/8895] mm/slub.c:3063:16: warning: Local variable flush_slab shadows outer function [shadowFunction]
+Date: Wed, 22 Dec 2021 03:13:10 +0800
+Message-ID: <202112220235.ThWT1LcU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4884935689795072285==
+--===============2022311466351673758==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Hannes Reinecke <hare@suse.de>
-CC: Damien Le Moal <damien.lemoal@opensource.wdc.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Vlastimil Babka <vbabka@suse.cz>
+CC: Roman Gushchin <guro@fb.com>
 
-tree:   git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/libata.git fo=
-r-5.17-logging
-head:   7830f5151b3b153a04daec48653458c9a2db7b16
-commit: aa1464975dcc4219113d0d3948590f17fc5da7c2 [18/79] libata: add reset =
-tracepoints
-:::::: branch date: 16 hours ago
-:::::: commit date: 16 hours ago
-config: s390-randconfig-m031-20211228 (https://download.01.org/0day-ci/arch=
-ive/20211231/202112310458.T2sWUhPF-lkp(a)intel.com/config)
-compiler: s390-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   2850c2311ef4bf30ae8dd8927f0f66b026ff08fb
+commit: 86d75bda97ce13d7560c277e00ca98d65bd19170 [8713/8895] mm/slub: Conve=
+rt most struct page to struct slab by spatch
+:::::: branch date: 6 hours ago
+:::::: commit date: 18 hours ago
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/ata/libata-eh.c:2713 ata_eh_reset() error: uninitialized symbol 'rc=
-'.
 
-vim +/rc +2713 drivers/ata/libata-eh.c
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2448  =
+>> mm/slub.c:3063:16: warning: Local variable flush_slab shadows outer func=
+tion [shadowFunction]
+     struct slab *flush_slab =3D c->slab;
+                  ^
+   mm/slub.c:2626:20: note: Shadowed declaration
+   static inline void flush_slab(struct kmem_cache *s, struct kmem_cache_cp=
+u *c)
+                      ^
+   mm/slub.c:3063:16: note: Shadow variable
+     struct slab *flush_slab =3D c->slab;
+                  ^
+>> mm/slub.c:3804:16: warning: Local variable slab_size shadows outer funct=
+ion [shadowFunction]
+     unsigned int slab_size =3D (unsigned int)PAGE_SIZE << order;
+                  ^
+   mm/slab.h:170:22: note: Shadowed declaration
+   static inline size_t slab_size(const struct slab *slab)
+                        ^
+   mm/slub.c:3804:16: note: Shadow variable
+     unsigned int slab_size =3D (unsigned int)PAGE_SIZE << order;
+                  ^
+   mm/slub.c:5887:4: warning: Either the condition '!name' is redundant or =
+there is pointer arithmetic with NULL pointer. [nullPointerArithmeticRedund=
+antCheck]
+    *p++ =3D ':';
+      ^
+   mm/slub.c:5885:9: note: Assuming that condition '!name' is not redundant
+    BUG_ON(!name);
+           ^
+   mm/slub.c:5883:12: note: Assignment 'p=3Dname', assigned value is 0
+    char *p =3D name;
+              ^
+   mm/slub.c:5887:4: note: Null pointer addition
+    *p++ =3D ':';
+      ^
 
-fb7fd61454c8681 drivers/ata/libata-eh.c  Tejun Heo                 2007-09-=
-23  2449  int ata_eh_reset(struct ata_link *link, int classify,
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2450  		 ata_prereset_fn_t prereset, ata_reset_fn_t softreset,
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2451  		 ata_reset_fn_t hardreset, ata_postreset_fn_t postreset)
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2452  {
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2453  	struct ata_port *ap =3D link->ap;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2454  	struct ata_link *slave =3D ap->slave_link;
-936fd7328657884 drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2455  	struct ata_eh_context *ehc =3D &link->eh_context;
-705d201414382b0 drivers/ata/libata-eh.c  Bartlomiej Zolnierkiewicz 2009-07-=
-26  2456  	struct ata_eh_context *sehc =3D slave ? &slave->eh_context : NUL=
+vim +3063 mm/slub.c
+
+213eeb9fd9d66c Christoph Lameter         2011-11-11  2876  =
+
+81819f0fc8285a Christoph Lameter         2007-05-06  2877  /*
+894b8788d7f265 Christoph Lameter         2007-05-10  2878   * Slow path. Th=
+e lockless freelist is empty or we need to perform
+894b8788d7f265 Christoph Lameter         2007-05-10  2879   * debugging dut=
+ies.
+894b8788d7f265 Christoph Lameter         2007-05-10  2880   *
+894b8788d7f265 Christoph Lameter         2007-05-10  2881   * Processing is=
+ still very fast if new objects have been freed to the
+894b8788d7f265 Christoph Lameter         2007-05-10  2882   * regular freel=
+ist. In that case we simply take over the regular freelist
+894b8788d7f265 Christoph Lameter         2007-05-10  2883   * as the lockle=
+ss freelist and zap the regular freelist.
+81819f0fc8285a Christoph Lameter         2007-05-06  2884   *
+894b8788d7f265 Christoph Lameter         2007-05-10  2885   * If that is no=
+t working then we fall back to the partial lists. We take the
+894b8788d7f265 Christoph Lameter         2007-05-10  2886   * first element=
+ of the freelist as the object to allocate now and move the
+894b8788d7f265 Christoph Lameter         2007-05-10  2887   * rest of the f=
+reelist to the lockless freelist.
+81819f0fc8285a Christoph Lameter         2007-05-06  2888   *
+894b8788d7f265 Christoph Lameter         2007-05-10  2889   * And if we wer=
+e unable to get a new slab from the partial slab lists then
+6446faa2ff30ca Christoph Lameter         2008-02-15  2890   * we need to al=
+locate a new slab. This is the slowest path since it involves
+6446faa2ff30ca Christoph Lameter         2008-02-15  2891   * a call to the=
+ page allocator and the setup of a new slab.
+a380a3c75529a5 Christoph Lameter         2015-11-20  2892   *
+e500059ba55268 Vlastimil Babka           2021-05-07  2893   * Version of __=
+slab_alloc to use when we know that preemption is
+a380a3c75529a5 Christoph Lameter         2015-11-20  2894   * already disab=
+led (which is the case for bulk allocation).
+81819f0fc8285a Christoph Lameter         2007-05-06  2895   */
+a380a3c75529a5 Christoph Lameter         2015-11-20  2896  static void *___=
+slab_alloc(struct kmem_cache *s, gfp_t gfpflags, int node,
+ce71e27c6fdc43 Eduard - Gabriel Munteanu 2008-08-19  2897  			  unsigned lo=
+ng addr, struct kmem_cache_cpu *c)
+81819f0fc8285a Christoph Lameter         2007-05-06  2898  {
+6faa68337b0c90 Christoph Lameter         2012-05-09  2899  	void *freelist;
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2900  	struct slab *sl=
+ab;
+e500059ba55268 Vlastimil Babka           2021-05-07  2901  	unsigned long f=
+lags;
+81819f0fc8285a Christoph Lameter         2007-05-06  2902  =
+
+9f986d998a3001 Abel Wu                   2020-10-13  2903  	stat(s, ALLOC_S=
+LOWPATH);
+9f986d998a3001 Abel Wu                   2020-10-13  2904  =
+
+0b303fb402862d Vlastimil Babka           2021-05-08  2905  reread_page:
+0b303fb402862d Vlastimil Babka           2021-05-08  2906  =
+
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2907  	slab =3D READ_O=
+NCE(c->slab);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2908  	if (!slab) {
+0715e6c516f106 Vlastimil Babka           2020-03-21  2909  		/*
+0715e6c516f106 Vlastimil Babka           2020-03-21  2910  		 * if the node=
+ is not online or has no normal memory, just
+0715e6c516f106 Vlastimil Babka           2020-03-21  2911  		 * ignore the =
+node constraint
+0715e6c516f106 Vlastimil Babka           2020-03-21  2912  		 */
+0715e6c516f106 Vlastimil Babka           2020-03-21  2913  		if (unlikely(n=
+ode !=3D NUMA_NO_NODE &&
+7e1fa93deff446 Vlastimil Babka           2021-02-24  2914  			     !node_is=
+set(node, slab_nodes)))
+0715e6c516f106 Vlastimil Babka           2020-03-21  2915  			node =3D NUMA=
+_NO_NODE;
+81819f0fc8285a Christoph Lameter         2007-05-06  2916  		goto new_slab;
+0715e6c516f106 Vlastimil Babka           2020-03-21  2917  	}
+49e2258586b423 Christoph Lameter         2011-08-09  2918  redo:
+6faa68337b0c90 Christoph Lameter         2012-05-09  2919  =
+
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2920  	if (unlikely(!n=
+ode_match(slab, node))) {
+0715e6c516f106 Vlastimil Babka           2020-03-21  2921  		/*
+0715e6c516f106 Vlastimil Babka           2020-03-21  2922  		 * same as abo=
+ve but node_match() being false already
+0715e6c516f106 Vlastimil Babka           2020-03-21  2923  		 * implies nod=
+e !=3D NUMA_NO_NODE
+0715e6c516f106 Vlastimil Babka           2020-03-21  2924  		 */
+7e1fa93deff446 Vlastimil Babka           2021-02-24  2925  		if (!node_isse=
+t(node, slab_nodes)) {
+0715e6c516f106 Vlastimil Babka           2020-03-21  2926  			node =3D NUMA=
+_NO_NODE;
+0715e6c516f106 Vlastimil Babka           2020-03-21  2927  			goto redo;
+0715e6c516f106 Vlastimil Babka           2020-03-21  2928  		} else {
+e36a2652d7d1ad Christoph Lameter         2011-06-01  2929  			stat(s, ALLOC=
+_NODE_MISMATCH);
+0b303fb402862d Vlastimil Babka           2021-05-08  2930  			goto deactiva=
+te_slab;
+fc59c05306fe1d Christoph Lameter         2011-06-01  2931  		}
+a561ce00b09e15 Joonsoo Kim               2014-10-09  2932  	}
+6446faa2ff30ca Christoph Lameter         2008-02-15  2933  =
+
+072bb0aa5e0629 Mel Gorman                2012-07-31  2934  	/*
+072bb0aa5e0629 Mel Gorman                2012-07-31  2935  	 * By rights, w=
+e should be searching for a slab page that was
+072bb0aa5e0629 Mel Gorman                2012-07-31  2936  	 * PFMEMALLOC b=
+ut right now, we are losing the pfmemalloc
+072bb0aa5e0629 Mel Gorman                2012-07-31  2937  	 * information =
+when the page leaves the per-cpu allocator
+072bb0aa5e0629 Mel Gorman                2012-07-31  2938  	 */
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2939  	if (unlikely(!p=
+fmemalloc_match(slab, gfpflags)))
+0b303fb402862d Vlastimil Babka           2021-05-08  2940  		goto deactivat=
+e_slab;
+072bb0aa5e0629 Mel Gorman                2012-07-31  2941  =
+
+25c00c506e8176 Vlastimil Babka           2021-05-21  2942  	/* must check a=
+gain c->page in case we got preempted and it changed */
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2943  	local_lock_irqs=
+ave(&s->cpu_slab->lock, flags);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2944  	if (unlikely(sl=
+ab !=3D c->slab)) {
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2945  		local_unlock_i=
+rqrestore(&s->cpu_slab->lock, flags);
+0b303fb402862d Vlastimil Babka           2021-05-08  2946  		goto reread_pa=
+ge;
+0b303fb402862d Vlastimil Babka           2021-05-08  2947  	}
+6faa68337b0c90 Christoph Lameter         2012-05-09  2948  	freelist =3D c-=
+>freelist;
+6faa68337b0c90 Christoph Lameter         2012-05-09  2949  	if (freelist)
+73736e0387ba0e Eric Dumazet              2011-12-13  2950  		goto load_free=
+list;
+01ad8a7bc226dd Christoph Lameter         2011-04-15  2951  =
+
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2952  	freelist =3D ge=
+t_freelist(s, slab);
+6446faa2ff30ca Christoph Lameter         2008-02-15  2953  =
+
+6faa68337b0c90 Christoph Lameter         2012-05-09  2954  	if (!freelist) {
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2955  		c->slab =3D NU=
+LL;
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2956  		local_unlock_i=
+rqrestore(&s->cpu_slab->lock, flags);
+03e404af26dc2e Christoph Lameter         2011-06-01  2957  		stat(s, DEACTI=
+VATE_BYPASS);
+fc59c05306fe1d Christoph Lameter         2011-06-01  2958  		goto new_slab;
+03e404af26dc2e Christoph Lameter         2011-06-01  2959  	}
+81819f0fc8285a Christoph Lameter         2007-05-06  2960  =
+
+2cfb7455d223ab Christoph Lameter         2011-06-01  2961  	stat(s, ALLOC_R=
+EFILL);
+01ad8a7bc226dd Christoph Lameter         2011-04-15  2962  =
+
+4eade540fc3535 Christoph Lameter         2011-06-01  2963  load_freelist:
+0b303fb402862d Vlastimil Babka           2021-05-08  2964  =
+
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2965  	lockdep_assert_=
+held(this_cpu_ptr(&s->cpu_slab->lock));
+0b303fb402862d Vlastimil Babka           2021-05-08  2966  =
+
+507effeaba29bf Christoph Lameter         2012-05-09  2967  	/*
+507effeaba29bf Christoph Lameter         2012-05-09  2968  	 * freelist is =
+pointing to the list of objects to be used.
+507effeaba29bf Christoph Lameter         2012-05-09  2969  	 * page is poin=
+ting to the page from which the objects are obtained.
+507effeaba29bf Christoph Lameter         2012-05-09  2970  	 * That page mu=
+st be frozen for per cpu allocations to work.
+507effeaba29bf Christoph Lameter         2012-05-09  2971  	 */
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2972  	VM_BUG_ON(!c->s=
+lab->frozen);
+6faa68337b0c90 Christoph Lameter         2012-05-09  2973  	c->freelist =3D=
+ get_freepointer(s, freelist);
+8a5ec0ba42c491 Christoph Lameter         2011-02-25  2974  	c->tid =3D next=
+_tid(c->tid);
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2975  	local_unlock_ir=
+qrestore(&s->cpu_slab->lock, flags);
+6faa68337b0c90 Christoph Lameter         2012-05-09  2976  	return freelist;
+81819f0fc8285a Christoph Lameter         2007-05-06  2977  =
+
+0b303fb402862d Vlastimil Babka           2021-05-08  2978  deactivate_slab:
+0b303fb402862d Vlastimil Babka           2021-05-08  2979  =
+
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2980  	local_lock_irqs=
+ave(&s->cpu_slab->lock, flags);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2981  	if (slab !=3D c=
+->slab) {
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2982  		local_unlock_i=
+rqrestore(&s->cpu_slab->lock, flags);
+0b303fb402862d Vlastimil Babka           2021-05-08  2983  		goto reread_pa=
+ge;
+0b303fb402862d Vlastimil Babka           2021-05-08  2984  	}
+a019d20162586a Vlastimil Babka           2021-05-12  2985  	freelist =3D c-=
+>freelist;
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2986  	c->slab =3D NUL=
 L;
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2457  	unsigned int *classes =3D ehc->classes;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2458  	unsigned int lflags =3D link->flags;
-1cdaf534f829b87 drivers/scsi/libata-eh.c Tejun Heo                 2006-07-=
-03  2459  	int verbose =3D !(ehc->i.flags & ATA_EHI_QUIET);
-d8af0eb6046c56e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2460  	int max_tries =3D 0, try =3D 0;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2461  	struct ata_link *failed_link;
-f58229f8060055b drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2462  	struct ata_device *dev;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2463  	unsigned long deadline, now;
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2464  	ata_reset_fn_t reset;
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2465  	unsigned long flags;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2466  	u32 sstatus;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2467  	int nr_unknown, rc;
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2468  =
+a019d20162586a Vlastimil Babka           2021-05-12  2987  	c->freelist =3D=
+ NULL;
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2988  	local_unlock_ir=
+qrestore(&s->cpu_slab->lock, flags);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2989  	deactivate_slab=
+(s, slab, freelist);
+0b303fb402862d Vlastimil Babka           2021-05-08  2990  =
 
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2469  	/*
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2470  	 * Prepare to reset
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2471  	 */
-d8af0eb6046c56e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2472  	while (ata_eh_reset_timeouts[max_tries] !=3D ULONG_MAX)
-d8af0eb6046c56e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2473  		max_tries++;
-ca6d43b051b5a06 drivers/ata/libata-eh.c  Dan Williams              2012-06-=
-21  2474  	if (link->flags & ATA_LFLAG_RST_ONCE)
-ca6d43b051b5a06 drivers/ata/libata-eh.c  Dan Williams              2012-06-=
-21  2475  		max_tries =3D 1;
-05944bdf6fadb53 drivers/ata/libata-eh.c  Tejun Heo                 2008-08-=
-13  2476  	if (link->flags & ATA_LFLAG_NO_HRST)
-05944bdf6fadb53 drivers/ata/libata-eh.c  Tejun Heo                 2008-08-=
-13  2477  		hardreset =3D NULL;
-05944bdf6fadb53 drivers/ata/libata-eh.c  Tejun Heo                 2008-08-=
-13  2478  	if (link->flags & ATA_LFLAG_NO_SRST)
-05944bdf6fadb53 drivers/ata/libata-eh.c  Tejun Heo                 2008-08-=
-13  2479  		softreset =3D NULL;
-d8af0eb6046c56e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2480  =
+81819f0fc8285a Christoph Lameter         2007-05-06  2991  new_slab:
+2cfb7455d223ab Christoph Lameter         2011-06-01  2992  =
 
-25985edcedea639 drivers/ata/libata-eh.c  Lucas De Marchi           2011-03-=
-30  2481  	/* make sure each reset attempt is at least COOL_DOWN apart */
-19b723218bde79c drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-04  2482  	if (ehc->i.flags & ATA_EHI_DID_RESET) {
-0a2c0f56159999e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2483  		now =3D jiffies;
-19b723218bde79c drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-04  2484  		WARN_ON(time_after(ehc->last_reset, now));
-19b723218bde79c drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-04  2485  		deadline =3D ata_deadline(ehc->last_reset,
-19b723218bde79c drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-04  2486  					ATA_EH_RESET_COOL_DOWN);
-0a2c0f56159999e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2487  		if (time_before(now, deadline))
-0a2c0f56159999e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2488  			schedule_timeout_uninterruptible(deadline - now);
-19b723218bde79c drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-04  2489  	}
-0a2c0f56159999e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2490  =
+a93cf07bc3fb4e Wei Yang                  2017-07-06  2993  	if (slub_percpu=
+_partial(c)) {
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2994  		local_lock_irq=
+save(&s->cpu_slab->lock, flags);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  2995  		if (unlikely(c=
+->slab)) {
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  2996  			local_unlock_=
+irqrestore(&s->cpu_slab->lock, flags);
+fa417ab7506f92 Vlastimil Babka           2021-05-10  2997  			goto reread_p=
+age;
+fa417ab7506f92 Vlastimil Babka           2021-05-10  2998  		}
+4b1f449dedd2ff Vlastimil Babka           2021-05-11  2999  		if (unlikely(!=
+slub_percpu_partial(c))) {
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  3000  			local_unlock_=
+irqrestore(&s->cpu_slab->lock, flags);
+25c00c506e8176 Vlastimil Babka           2021-05-21  3001  			/* we were pr=
+eempted and partial list got empty */
+25c00c506e8176 Vlastimil Babka           2021-05-21  3002  			goto new_obje=
+cts;
+4b1f449dedd2ff Vlastimil Babka           2021-05-11  3003  		}
+fa417ab7506f92 Vlastimil Babka           2021-05-10  3004  =
 
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2491  	spin_lock_irqsave(ap->lock, flags);
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2492  	ap->pflags |=3D ATA_PFLAG_RESETTING;
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2493  	spin_unlock_irqrestore(ap->lock, flags);
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2494  =
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3005  		slab =3D c->sl=
+ab =3D slub_percpu_partial(c);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3006  		slub_set_percp=
+u_partial(c, slab);
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  3007  		local_unlock_i=
+rqrestore(&s->cpu_slab->lock, flags);
+49e2258586b423 Christoph Lameter         2011-08-09  3008  		stat(s, CPU_PA=
+RTIAL_ALLOC);
+49e2258586b423 Christoph Lameter         2011-08-09  3009  		goto redo;
+81819f0fc8285a Christoph Lameter         2007-05-06  3010  	}
+81819f0fc8285a Christoph Lameter         2007-05-06  3011  =
 
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2495  	ata_eh_about_to_do(link, NULL, ATA_EH_RESET);
-13abf50df209008 drivers/scsi/libata-eh.c Tejun Heo                 2006-07-=
-10  2496  =
+fa417ab7506f92 Vlastimil Babka           2021-05-10  3012  new_objects:
+fa417ab7506f92 Vlastimil Babka           2021-05-10  3013  =
 
-1eca4365be25c54 drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-03  2497  	ata_for_each_dev(dev, link, ALL) {
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2498  		/* If we issue an SRST then an ATA drive (not ATAPI)
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2499  		 * may change configuration and be in PIO0 timing. If
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2500  		 * we do a hard reset (or are coming from power on)
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2501  		 * this is true for ATA or ATAPI. Until we've set a
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2502  		 * suitable controller mode we should not touch the
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2503  		 * bus as we may be talking too fast.
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2504  		 */
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2505  		dev->pio_mode =3D XFER_PIO_0;
-5416912af75de9c drivers/ata/libata-eh.c  Aaron Lu                  2012-12-=
-03  2506  		dev->dma_mode =3D 0xff;
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2507  =
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3014  	freelist =3D ge=
+t_partial(s, gfpflags, node, &slab);
+3f2b77e35a4fc3 Vlastimil Babka           2021-05-11  3015  	if (freelist)
+2a904905ae0415 Vlastimil Babka           2021-05-11  3016  		goto check_new=
+_page;
+2a904905ae0415 Vlastimil Babka           2021-05-11  3017  =
 
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2508  		/* If the controller has a pio mode setup function
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2509  		 * then use it to set the chipset to rights. Don't
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2510  		 * touch the DMA setup as that will be dealt with when
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2511  		 * configuring devices.
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2512  		 */
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2513  		if (ap->ops->set_piomode)
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2514  			ap->ops->set_piomode(ap, dev);
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2515  	}
-cdeab1140799f09 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-29  2516  =
+25c00c506e8176 Vlastimil Babka           2021-05-21  3018  	slub_put_cpu_pt=
+r(s->cpu_slab);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3019  	slab =3D new_sl=
+ab(s, gfpflags, node);
+25c00c506e8176 Vlastimil Babka           2021-05-21  3020  	c =3D slub_get_=
+cpu_ptr(s->cpu_slab);
+9e577e8b46ab0c Christoph Lameter         2011-07-22  3021  =
 
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2517  	/* prefer hardreset */
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2518  	reset =3D NULL;
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2519  	ehc->i.action &=3D ~ATA_EH_RESET;
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2520  	if (hardreset) {
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2521  		reset =3D hardreset;
-a674050e068a291 drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2522  		ehc->i.action |=3D ATA_EH_HARDRESET;
-4f7faa3f2b99f8f drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-30  2523  	} else if (softreset) {
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2524  		reset =3D softreset;
-a674050e068a291 drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2525  		ehc->i.action |=3D ATA_EH_SOFTRESET;
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2526  	}
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2527  =
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3022  	if (unlikely(!s=
+lab)) {
+781b2ba6eb5f22 Pekka Enberg              2009-06-10  3023  		slab_out_of_me=
+mory(s, gfpflags, node);
+71c7a06ff0a2ba Christoph Lameter         2008-02-14  3024  		return NULL;
+497b66f2ecc978 Christoph Lameter         2011-08-09  3025  	}
+2cfb7455d223ab Christoph Lameter         2011-06-01  3026  =
 
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2528  	if (prereset) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2529  		unsigned long deadline =3D ata_deadline(jiffies,
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2530  						      ATA_EH_PRERESET_TIMEOUT);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2531  =
+53a0de06e50acb Vlastimil Babka           2021-05-11  3027  	/*
+53a0de06e50acb Vlastimil Babka           2021-05-11  3028  	 * No other ref=
+erence to the page yet so we can
+53a0de06e50acb Vlastimil Babka           2021-05-11  3029  	 * muck around =
+with it freely without cmpxchg
+53a0de06e50acb Vlastimil Babka           2021-05-11  3030  	 */
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3031  	freelist =3D sl=
+ab->freelist;
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3032  	slab->freelist =
+=3D NULL;
+53a0de06e50acb Vlastimil Babka           2021-05-11  3033  =
 
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2532  		if (slave) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2533  			sehc->i.action &=3D ~ATA_EH_RESET;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2534  			sehc->i.action |=3D ehc->i.action;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2535  		}
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2536  =
+53a0de06e50acb Vlastimil Babka           2021-05-11  3034  	stat(s, ALLOC_S=
+LAB);
+53a0de06e50acb Vlastimil Babka           2021-05-11  3035  =
 
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2537  		rc =3D prereset(link, deadline);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2538  =
+2a904905ae0415 Vlastimil Babka           2021-05-11  3036  check_new_page:
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3037  =
 
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2539  		/* If present, do prereset on slave link too.  Reset
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2540  		 * is skipped iff both master and slave links report
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2541  		 * -ENOENT or clear ATA_EH_RESET.
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2542  		 */
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2543  		if (slave && (rc =3D=3D 0 || rc =3D=3D -ENOENT)) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2544  			int tmp;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2545  =
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3038  	if (kmem_cache_=
+debug(s)) {
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3039  		if (!alloc_deb=
+ug_processing(s, slab, freelist, addr)) {
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3040  			/* Slab faile=
+d checks. Next slab needed */
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3041  			goto new_slab;
+fa417ab7506f92 Vlastimil Babka           2021-05-10  3042  		} else {
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3043  			/*
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3044  			 * For debug =
+case, we don't load freelist so that all
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3045  			 * allocation=
+s go through alloc_debug_processing()
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3046  			 */
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3047  			goto return_s=
+ingle;
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3048  		}
+fa417ab7506f92 Vlastimil Babka           2021-05-10  3049  	}
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3050  =
 
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2546  			tmp =3D prereset(slave, deadline);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2547  			if (tmp !=3D -ENOENT)
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2548  				rc =3D tmp;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2549  =
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3051  	if (unlikely(!p=
+fmemalloc_match(slab, gfpflags)))
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3052  		/*
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3053  		 * For !pfmema=
+lloc_match() case we don't load freelist so that
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3054  		 * we don't ma=
+ke further mismatched allocations easier.
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3055  		 */
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3056  		goto return_si=
+ngle;
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3057  =
 
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2550  			ehc->i.action |=3D sehc->i.action;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2551  		}
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2552  =
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3058  retry_load_page:
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3059  =
 
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2553  		if (rc) {
-c961922b73dab42 drivers/ata/libata-eh.c  Alan Cox                  2006-09-=
-26  2554  			if (rc =3D=3D -ENOENT) {
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2555  				ata_link_dbg(link, "port disabled--ignoring\n");
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2556  				ehc->i.action &=3D ~ATA_EH_RESET;
-4aa9ab67fb9c0df drivers/ata/libata-eh.c  Tejun Heo                 2007-03-=
-12  2557  =
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  3060  	local_lock_irqs=
+ave(&s->cpu_slab->lock, flags);
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3061  	if (unlikely(c-=
+>slab)) {
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3062  		void *flush_fr=
+eelist =3D c->freelist;
+86d75bda97ce13 Vlastimil Babka           2021-11-03 @3063  		struct slab *f=
+lush_slab =3D c->slab;
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3064  =
 
-1eca4365be25c54 drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-03  2558  				ata_for_each_dev(dev, link, ALL)
-f58229f8060055b drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2559  					classes[dev->devno] =3D ATA_DEV_NONE;
-4aa9ab67fb9c0df drivers/ata/libata-eh.c  Tejun Heo                 2007-03-=
-12  2560  =
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3065  		c->slab =3D NU=
+LL;
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3066  		c->freelist =
+=3D NULL;
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3067  		c->tid =3D nex=
+t_tid(c->tid);
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3068  =
 
-4aa9ab67fb9c0df drivers/ata/libata-eh.c  Tejun Heo                 2007-03-=
-12  2561  				rc =3D 0;
-c961922b73dab42 drivers/ata/libata-eh.c  Alan Cox                  2006-09-=
-26  2562  			} else
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2563  				ata_link_err(link,
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2564  					     "prereset failed (errno=3D%d)\n",
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2565  					     rc);
-fccb6ea5c240b9f drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2566  			goto out;
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2567  		}
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2568  =
+bd0e7491a931f5 Vlastimil Babka           2021-05-22  3069  		local_unlock_i=
+rqrestore(&s->cpu_slab->lock, flags);
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3070  =
 
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2569  		/* prereset() might have cleared ATA_EH_RESET.  If so,
-d6515e6ff4ad3db drivers/ata/libata-eh.c  Tejun Heo                 2009-03-=
-04  2570  		 * bang classes, thaw and return.
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2571  		 */
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2572  		if (reset && !(ehc->i.action & ATA_EH_RESET)) {
-1eca4365be25c54 drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-03  2573  			ata_for_each_dev(dev, link, ALL)
-f58229f8060055b drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2574  				classes[dev->devno] =3D ATA_DEV_NONE;
-d6515e6ff4ad3db drivers/ata/libata-eh.c  Tejun Heo                 2009-03-=
-04  2575  			if ((ap->pflags & ATA_PFLAG_FROZEN) &&
-d6515e6ff4ad3db drivers/ata/libata-eh.c  Tejun Heo                 2009-03-=
-04  2576  			    ata_is_host_link(link))
-d6515e6ff4ad3db drivers/ata/libata-eh.c  Tejun Heo                 2009-03-=
-04  2577  				ata_eh_thaw_port(ap);
-fccb6ea5c240b9f drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2578  			rc =3D 0;
-fccb6ea5c240b9f drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2579  			goto out;
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2580  		}
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2581  	}
-f5914a461eb9703 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2582  =
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3071  		deactivate_sla=
+b(s, flush_slab, flush_freelist);
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3072  =
 
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2583   retry:
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2584  	/*
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2585  	 * Perform reset
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2586  	 */
-dc98c32cbe80750 drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2587  	if (ata_is_host_link(link))
-dc98c32cbe80750 drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2588  		ata_eh_freeze_port(ap);
-dc98c32cbe80750 drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2589  =
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3073  		stat(s, CPUSLA=
+B_FLUSH);
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3074  =
 
-341c2c958ec7bdd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2590  	deadline =3D ata_deadline(jiffies, ata_eh_reset_timeouts[try++]);
-31daabda16063b6 drivers/ata/libata-eh.c  Tejun Heo                 2007-02-=
-02  2591  =
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3075  		goto retry_loa=
+d_page;
+cfdf836e1f93df Vlastimil Babka           2021-05-12  3076  	}
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3077  	c->slab =3D sla=
+b;
+3f2b77e35a4fc3 Vlastimil Babka           2021-05-11  3078  =
 
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2592  	if (reset) {
-3e706399b03bd23 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2593  		if (verbose)
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2594  			ata_link_info(link, "%s resetting link\n",
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2595  				      reset =3D=3D softreset ? "soft" : "hard");
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2596  =
+497b66f2ecc978 Christoph Lameter         2011-08-09  3079  	goto load_freel=
+ist;
+497b66f2ecc978 Christoph Lameter         2011-08-09  3080  =
 
-13abf50df209008 drivers/scsi/libata-eh.c Tejun Heo                 2006-07-=
-10  2597  		/* mark that this EH session started with reset */
-19b723218bde79c drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-04  2598  		ehc->last_reset =3D jiffies;
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2599  		if (reset =3D=3D hardreset) {
-0d64a233fe6a8fd drivers/ata/libata-eh.c  Tejun Heo                 2007-04-=
-23  2600  			ehc->i.flags |=3D ATA_EHI_DID_HARDRESET;
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2601  			trace_ata_link_hardreset_begin(link, classes, deadline);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2602  		} else {
-0d64a233fe6a8fd drivers/ata/libata-eh.c  Tejun Heo                 2007-04-=
-23  2603  			ehc->i.flags |=3D ATA_EHI_DID_SOFTRESET;
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2604  			trace_ata_link_softreset_begin(link, classes, deadline);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2605  		}
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2606  =
+1572df7cbcb489 Vlastimil Babka           2021-05-11  3081  return_single:
+894b8788d7f265 Christoph Lameter         2007-05-10  3082  =
 
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2607  		rc =3D ata_do_reset(link, reset, classes, deadline, true);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2608  		if (reset =3D=3D hardreset)
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2609  			trace_ata_link_hardreset_end(link, classes, rc);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2610  		else
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2611  			trace_ata_link_softreset_end(link, classes, rc);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2612  		if (rc && rc !=3D -EAGAIN) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2613  			failed_link =3D link;
-5dbfc9cb59d4ad7 drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2614  			goto fail;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2615  		}
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2616  =
-
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2617  		/* hardreset slave link if existent */
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2618  		if (slave && reset =3D=3D hardreset) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2619  			int tmp;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2620  =
-
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2621  			if (verbose)
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2622  				ata_link_info(slave, "hard resetting link\n");
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2623  =
-
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2624  			ata_eh_about_to_do(slave, NULL, ATA_EH_RESET);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2625  			trace_ata_slave_hardreset_begin(slave, classes,
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2626  							deadline);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2627  			tmp =3D ata_do_reset(slave, reset, classes, deadline,
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2628  					   false);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2629  			trace_ata_slave_hardreset_end(slave, classes, tmp);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2630  			switch (tmp) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2631  			case -EAGAIN:
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2632  				rc =3D -EAGAIN;
-e06abcc68cb5553 drivers/ata/libata-eh.c  Gustavo A. R. Silva       2021-04-=
-20  2633  				break;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2634  			case 0:
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2635  				break;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2636  			default:
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2637  				failed_link =3D slave;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2638  				rc =3D tmp;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2639  				goto fail;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2640  			}
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2641  		}
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2642  =
-
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2643  		/* perform follow-up SRST if necessary */
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2644  		if (reset =3D=3D hardreset &&
-e8411fbad67a6fe drivers/ata/libata-eh.c  Sergei Shtylyov           2011-08-=
-09  2645  		    ata_eh_followup_srst_needed(link, rc)) {
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2646  			reset =3D softreset;
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2647  =
-
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2648  			if (!reset) {
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2649  				ata_link_err(link,
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2650  	     "follow-up softreset required but no softreset available\n"=
-);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2651  				failed_link =3D link;
-fccb6ea5c240b9f drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2652  				rc =3D -EINVAL;
-08cf69d005acda7 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2653  				goto fail;
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2654  			}
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2655  =
-
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2656  			ata_eh_about_to_do(link, NULL, ATA_EH_RESET);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2657  			trace_ata_link_softreset_begin(link, classes, deadline);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2658  			rc =3D ata_do_reset(link, reset, classes, deadline, true);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2659  			trace_ata_link_softreset_end(link, classes, rc);
-fe2c4d018fc6127 drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-08  2660  			if (rc) {
-fe2c4d018fc6127 drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-08  2661  				failed_link =3D link;
-fe2c4d018fc6127 drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-08  2662  				goto fail;
-fe2c4d018fc6127 drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-08  2663  			}
-08cf69d005acda7 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2664  		}
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2665  	} else {
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2666  		if (verbose)
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2667  			ata_link_info(link,
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2668  	"no reset method available, skipping reset\n");
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2669  		if (!(lflags & ATA_LFLAG_ASSUME_CLASS))
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2670  			lflags |=3D ATA_LFLAG_ASSUME_ATA;
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2671  	}
-664faf09a05d740 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2672  =
-
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2673  	/*
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2674  	 * Post-reset processing
-932648b007de76b drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2675  	 */
-1eca4365be25c54 drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-03  2676  	ata_for_each_dev(dev, link, ALL) {
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2677  		/* After the reset, the device state is PIO 0 and the
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2678  		 * controller state is undefined.  Reset also wakes up
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2679  		 * drives from sleeping mode.
-20952b699035448 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2680  		 */
-f58229f8060055b drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2681  		dev->pio_mode =3D XFER_PIO_0;
-054a5fbaceb2eb3 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-25  2682  		dev->flags &=3D ~ATA_DFLAG_SLEEPING;
-20952b699035448 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-31  2683  =
-
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2684  		if (ata_phys_link_offline(ata_dev_phys_link(dev)))
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2685  			continue;
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2686  =
-
-4ccd3329a2e5147 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-08  2687  		/* apply class override */
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2688  		if (lflags & ATA_LFLAG_ASSUME_ATA)
-ae791c05694d739 drivers/ata/libata-eh.c  Tejun Heo                 2007-09-=
-23  2689  			classes[dev->devno] =3D ATA_DEV_ATA;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2690  		else if (lflags & ATA_LFLAG_ASSUME_SEMB)
-816ab89782ac139 drivers/ata/libata-eh.c  Tejun Heo                 2008-10-=
-22  2691  			classes[dev->devno] =3D ATA_DEV_SEMB_UNSUP;
-ae791c05694d739 drivers/ata/libata-eh.c  Tejun Heo                 2007-09-=
-23  2692  	}
-ae791c05694d739 drivers/ata/libata-eh.c  Tejun Heo                 2007-09-=
-23  2693  =
-
-008a78961ec7299 drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2694  	/* record current link speed */
-936fd7328657884 drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2695  	if (sata_scr_read(link, SCR_STATUS, &sstatus) =3D=3D 0)
-936fd7328657884 drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2696  		link->sata_spd =3D (sstatus >> 4) & 0xf;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2697  	if (slave && sata_scr_read(slave, SCR_STATUS, &sstatus) =3D=3D 0)
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2698  		slave->sata_spd =3D (sstatus >> 4) & 0xf;
-008a78961ec7299 drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2699  =
-
-dc98c32cbe80750 drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2700  	/* thaw the port */
-dc98c32cbe80750 drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2701  	if (ata_is_host_link(link))
-dc98c32cbe80750 drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2702  		ata_eh_thaw_port(ap);
-dc98c32cbe80750 drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2703  =
-
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2704  	/* postreset() should clear hardware SError.  Although SError
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2705  	 * is cleared during link resume, clearing SError here is
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2706  	 * necessary as some PHYs raise hotplug events after SRST.
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2707  	 * This introduces race condition where hotplug occurs between
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2708  	 * reset and here.  This race is mediated by cross checking
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2709  	 * link onlineness and classification result later.
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2710  	 */
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2711  	if (postreset) {
-cc0680a580b5be8 drivers/ata/libata-eh.c  Tejun Heo                 2007-08-=
-06  2712  		postreset(link, classes);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21 @2713  		trace_ata_link_postreset(link, classes, rc);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2714  		if (slave) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2715  			postreset(slave, classes);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2716  			trace_ata_slave_postreset(slave, classes, rc);
-aa1464975dcc421 drivers/ata/libata-eh.c  Hannes Reinecke           2021-12-=
-21  2717  		}
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2718  	}
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2719  =
-
-1e641060c4b564e drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-17  2720  	/*
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2721  	 * Some controllers can't be frozen very well and may set spurio=
-us
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2722  	 * error conditions during reset.  Clear accumulated error
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2723  	 * information and re-thaw the port if frozen.  As reset is the
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2724  	 * final recovery action and we cross check link onlineness agai=
-nst
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2725  	 * device classification later, no hotplug event is lost by this.
-1e641060c4b564e drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-17  2726  	 */
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2727  	spin_lock_irqsave(link->ap->lock, flags);
-1e641060c4b564e drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-17  2728  	memset(&link->eh_info, 0, sizeof(link->eh_info));
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2729  	if (slave)
-1e641060c4b564e drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-17  2730  		memset(&slave->eh_info, 0, sizeof(link->eh_info));
-1e641060c4b564e drivers/ata/libata-eh.c  Tejun Heo                 2009-07-=
-17  2731  	ap->pflags &=3D ~ATA_PFLAG_EH_PENDING;
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2732  	spin_unlock_irqrestore(link->ap->lock, flags);
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2733  =
-
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2734  	if (ap->pflags & ATA_PFLAG_FROZEN)
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2735  		ata_eh_thaw_port(ap);
-8c56cacc724c765 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2736  =
-
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2737  	/*
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2738  	 * Make sure onlineness and classification result correspond.
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2739  	 * Hotplug could have happened during reset and some
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2740  	 * controllers fail to wait while a drive is spinning up after
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2741  	 * being hotplugged causing misdetection.  By cross checking
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2742  	 * link on/offlineness and classification result, those
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2743  	 * conditions can be reliably detected and retried.
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2744  	 */
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2745  	nr_unknown =3D 0;
-1eca4365be25c54 drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-03  2746  	ata_for_each_dev(dev, link, ALL) {
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2747  		if (ata_phys_link_online(ata_dev_phys_link(dev))) {
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2748  			if (classes[dev->devno] =3D=3D ATA_DEV_UNKNOWN) {
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2749  				ata_dev_dbg(dev, "link online but device misclassified\n");
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2750  				classes[dev->devno] =3D ATA_DEV_NONE;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2751  				nr_unknown++;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2752  			}
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2753  		} else if (ata_phys_link_offline(ata_dev_phys_link(dev))) {
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2754  			if (ata_class_enabled(classes[dev->devno]))
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2755  				ata_dev_dbg(dev,
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2756  					    "link offline, clearing class %d to NONE\n",
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2757  					    classes[dev->devno]);
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2758  			classes[dev->devno] =3D ATA_DEV_NONE;
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2759  		} else if (classes[dev->devno] =3D=3D ATA_DEV_UNKNOWN) {
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2760  			ata_dev_dbg(dev,
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2761  				    "link status unknown, clearing UNKNOWN to NONE\n");
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2762  			classes[dev->devno] =3D ATA_DEV_NONE;
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2763  		}
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2764  	}
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2765  =
-
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2766  	if (classify && nr_unknown) {
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2767  		if (try < max_tries) {
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2768  			ata_link_warn(link,
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2769  				      "link online but %d devices misclassified, retrying\n",
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2770  				      nr_unknown);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2771  			failed_link =3D link;
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2772  			rc =3D -EAGAIN;
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2773  			goto fail;
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2774  		}
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2775  		ata_link_warn(link,
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2776  			      "link online but %d devices misclassified, "
-3b761d3d437cffc drivers/ata/libata-eh.c  Tejun Heo                 2009-10-=
-06  2777  			      "device detection might fail\n", nr_unknown);
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2778  	}
-f046519fc85a8fd drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-19  2779  =
-
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2780  	/* reset successful, schedule revalidation */
-cf48062658e7ab3 drivers/ata/libata-eh.c  Tejun Heo                 2008-01-=
-24  2781  	ata_eh_done(link, NULL, ATA_EH_RESET);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2782  	if (slave)
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2783  		ata_eh_done(slave, NULL, ATA_EH_RESET);
-19b723218bde79c drivers/ata/libata-eh.c  Tejun Heo                 2008-11-=
-04  2784  	ehc->last_reset =3D jiffies;		/* update to completion time */
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2785  	ehc->i.action |=3D ATA_EH_REVALIDATE;
-6b7ae9545ad9875 drivers/ata/libata-eh.c  Tejun Heo                 2010-09-=
-01  2786  	link->lpm_policy =3D ATA_LPM_UNKNOWN;	/* reset LPM state */
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2787  =
-
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2788  	rc =3D 0;
-fccb6ea5c240b9f drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2789   out:
-fccb6ea5c240b9f drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2790  	/* clear hotplug flag */
-fccb6ea5c240b9f drivers/ata/libata-eh.c  Tejun Heo                 2007-07-=
-16  2791  	ehc->i.flags &=3D ~ATA_EHI_HOTPLUGGED;
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2792  	if (slave)
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2793  		sehc->i.flags &=3D ~ATA_EHI_HOTPLUGGED;
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2794  =
-
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2795  	spin_lock_irqsave(ap->lock, flags);
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2796  	ap->pflags &=3D ~ATA_PFLAG_RESETTING;
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2797  	spin_unlock_irqrestore(ap->lock, flags);
-afaa5c373d2c49e drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-09  2798  =
-
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2799  	return rc;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2800  =
-
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2801   fail:
-5958e3025fd9d97 drivers/ata/libata-eh.c  Tejun Heo                 2008-04-=
-07  2802  	/* if SCR isn't accessible on a fan-out port, PMP needs to be re=
-set */
-5958e3025fd9d97 drivers/ata/libata-eh.c  Tejun Heo                 2008-04-=
-07  2803  	if (!ata_is_host_link(link) &&
-5958e3025fd9d97 drivers/ata/libata-eh.c  Tejun Heo                 2008-04-=
-07  2804  	    sata_scr_read(link, SCR_STATUS, &sstatus))
-5958e3025fd9d97 drivers/ata/libata-eh.c  Tejun Heo                 2008-04-=
-07  2805  		rc =3D -ERESTART;
-5958e3025fd9d97 drivers/ata/libata-eh.c  Tejun Heo                 2008-04-=
-07  2806  =
-
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2807  	if (try >=3D max_tries) {
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2808  		/*
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2809  		 * Thaw host port even if reset failed, so that the port
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2810  		 * can be retried on the next phy event.  This risks
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2811  		 * repeated EH runs but seems to be a better tradeoff than
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2812  		 * shutting down a port after a botched hotplug attempt.
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2813  		 */
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2814  		if (ata_is_host_link(link))
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2815  			ata_eh_thaw_port(ap);
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2816  		goto out;
-8ea7645c5a949f9 drivers/ata/libata-eh.c  Tejun Heo                 2011-05-=
-25  2817  	}
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2818  =
-
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2819  	now =3D jiffies;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2820  	if (time_before(now, deadline)) {
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2821  		unsigned long delta =3D deadline - now;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2822  =
-
-a9a79dfec239568 drivers/ata/libata-eh.c  Joe Perches               2011-04-=
-15  2823  		ata_link_warn(failed_link,
-0a2c0f56159999e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2824  			"reset failed (errno=3D%d), retrying in %u secs\n",
-0a2c0f56159999e drivers/ata/libata-eh.c  Tejun Heo                 2008-05-=
-20  2825  			rc, DIV_ROUND_UP(jiffies_to_msecs(delta), 1000));
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2826  =
-
-c0c362b60e259e3 drivers/ata/libata-eh.c  Tejun Heo                 2010-09-=
-06  2827  		ata_eh_release(ap);
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2828  		while (delta)
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2829  			delta =3D schedule_timeout_uninterruptible(delta);
-c0c362b60e259e3 drivers/ata/libata-eh.c  Tejun Heo                 2010-09-=
-06  2830  		ata_eh_acquire(ap);
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2831  	}
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2832  =
-
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2833  	/*
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2834  	 * While disks spinup behind PMP, some controllers fail sending =
-SRST.
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2835  	 * They need to be reset - as well as the PMP - before retrying.
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2836  	 */
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2837  	if (rc =3D=3D -ERESTART) {
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2838  		if (ata_is_host_link(link))
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2839  			ata_eh_thaw_port(ap);
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2840  		goto out;
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2841  	}
-7a46c0780babea7 drivers/ata/libata-eh.c  Gwendal Grignou           2011-10-=
-19  2842  =
-
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2843  	if (try =3D=3D max_tries - 1) {
-a07d499b4759881 drivers/ata/libata-eh.c  Tejun Heo                 2009-01-=
-29  2844  		sata_down_spd_limit(link, 0);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2845  		if (slave)
-a07d499b4759881 drivers/ata/libata-eh.c  Tejun Heo                 2009-01-=
-29  2846  			sata_down_spd_limit(slave, 0);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2847  	} else if (rc =3D=3D -EPIPE)
-a07d499b4759881 drivers/ata/libata-eh.c  Tejun Heo                 2009-01-=
-29  2848  		sata_down_spd_limit(failed_link, 0);
-b1c72916abbdd0a drivers/ata/libata-eh.c  Tejun Heo                 2008-07-=
-31  2849  =
-
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2850  	if (hardreset)
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2851  		reset =3D hardreset;
-416dc9ed206bba0 drivers/ata/libata-eh.c  Tejun Heo                 2007-10-=
-31  2852  	goto retry;
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2853  }
-022bdb075b9e1f2 drivers/scsi/libata-eh.c Tejun Heo                 2006-05-=
-15  2854  =
+86d75bda97ce13 Vlastimil Babka           2021-11-03  3083  	deactivate_slab=
+(s, slab, get_freepointer(s, freelist));
+6faa68337b0c90 Christoph Lameter         2012-05-09  3084  	return freelist;
+894b8788d7f265 Christoph Lameter         2007-05-10  3085  }
+894b8788d7f265 Christoph Lameter         2007-05-10  3086  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4884935689795072285==--
+--===============2022311466351673758==--
 
