@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8722490176427619223=="
+Content-Type: multipart/mixed; boundary="===============1242087800614721148=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
 Subject: [PATCH] userfaultfd: fix bugon.cocci warnings
-Date: Thu, 23 Dec 2021 10:47:23 +0800
-Message-ID: <20211223024723.GA12922@6c97301a9aff>
+Date: Thu, 23 Dec 2021 10:47:15 +0800
+Message-ID: <20211223024714.GA11963@6c97301a9aff>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8722490176427619223==
+--===============1242087800614721148==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -21,12 +21,8 @@ CC: linux-kernel(a)vger.kernel.org
 
 From: kernel test robot <lkp@intel.com>
 
-mm/userfaultfd.c:865:3-6: WARNING: Use BUG_ON instead of if condition follo=
-wed by BUG.
-Please make sure the condition has no side effects (see conditional BUG_ON =
-definition in include/asm-generic/bug.h)
-mm/userfaultfd.c:917:3-6: WARNING: Use BUG_ON instead of if condition follo=
-wed by BUG.
+mm/huge_memory.c:1987:2-5: WARNING: Use BUG_ON instead of if condition foll=
+owed by BUG.
 Please make sure the condition has no side effects (see conditional BUG_ON =
 definition in include/asm-generic/bug.h)
 
@@ -54,38 +50,23 @@ O_REMAP uABI
 
 Please take the patch only if it's a positive warning. Thanks!
 
- userfaultfd.c |    8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ huge_memory.c |    4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
---- a/mm/userfaultfd.c
-+++ b/mm/userfaultfd.c
-@@ -860,9 +860,7 @@ static int remap_pages_pte(struct mm_str
- 		WRITE_ONCE(src_page->index, linear_page_index(dst_vma,
- 							      dst_addr));
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -1982,9 +1982,7 @@ int remap_pages_huge_pmd(struct mm_struc
+ 	WRITE_ONCE(src_page->mapping, (struct address_space *) dst_anon_vma);
+ 	WRITE_ONCE(src_page->index, linear_page_index(dst_vma, dst_addr));
  =
 
--		if (!pte_same(ptep_clear_flush(src_vma, src_addr, src_pte),
--			      orig_src_pte))
--			BUG();
-+		BUG_ON(!pte_same(ptep_clear_flush(src_vma, src_addr, src_pte), orig_src_=
-pte));
- =
-
- 		orig_dst_pte =3D mk_pte(src_page, dst_vma->vm_page_prot);
- 		orig_dst_pte =3D maybe_mkwrite(pte_mkdirty(orig_dst_pte),
-@@ -912,9 +910,7 @@ static int remap_pages_pte(struct mm_str
- 			return -EAGAIN;
- 		}
- =
-
--		if (pte_val(ptep_get_and_clear(src_mm, src_addr, src_pte)) !=3D
--		    pte_val(orig_src_pte))
--			BUG();
-+		BUG_ON(pte_val(ptep_get_and_clear(src_mm, src_addr, src_pte)) !=3D pte_v=
-al(orig_src_pte));
- 		set_pte_at(dst_mm, dst_addr, dst_pte, orig_src_pte);
- =
-
- 		if (dst_mm !=3D src_mm) {
---===============8722490176427619223==--
+-	if (!pmd_same(pmdp_huge_clear_flush(src_vma, src_addr, src_pmd),
+-		      src_pmdval))
+-		BUG();
++	BUG_ON(!pmd_same(pmdp_huge_clear_flush(src_vma, src_addr, src_pmd), src_p=
+mdval));
+ 	_dst_pmd =3D mk_huge_pmd(src_page, dst_vma->vm_page_prot);
+ 	_dst_pmd =3D maybe_pmd_mkwrite(pmd_mkdirty(_dst_pmd), dst_vma);
+ 	set_pmd_at(dst_mm, dst_addr, dst_pmd, _dst_pmd);
+--===============1242087800614721148==--
 
