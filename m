@@ -1,334 +1,739 @@
-Content-Type: multipart/mixed; boundary="===============5277373375289679518=="
+Content-Type: multipart/mixed; boundary="===============7267311937857271527=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: arch/powerpc/kvm/powerpc.c:2115:26: sparse: sparse: incorrect type in assignment (different base types)
-Date: Sun, 26 Dec 2021 11:39:38 +0800
-Message-ID: <202112261135.3ehyG5H6-lkp@intel.com>
+Subject: [chenxing:msc313_mainlining 40/79] drivers/pinctrl/mstar/pinctrl-msc313-pm.c:35:27: warning: unused variable 'pm_uart_groups'
+Date: Sun, 26 Dec 2021 07:46:40 +0800
+Message-ID: <202112260724.JNo6H2IW-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============5277373375289679518==
+--===============7267311937857271527==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "C=C3=A9dric Le Goater" <clg@kaod.org>
-CC: Michael Ellerman <mpe@ellerman.id.au>
+TO: Daniel Palmer <daniel@0x0f.com>
 
-Hi C=C3=A9dric,
-
-First bad commit (maybe !=3D root cause):
-
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e2ae0d4a6b0ba461542f0fd0ba0b828658013e9f
-commit: 9236f57a9e51c72ce426ccd2e53e123de7196a0f KVM: PPC: Make the VMX ins=
-truction emulation routines static
-date:   11 months ago
-:::::: branch date: 6 hours ago
-:::::: commit date: 11 months ago
-config: powerpc64-randconfig-s032-20211226 (https://download.01.org/0day-ci=
-/archive/20211226/202112261135.3ehyG5H6-lkp(a)intel.com/config)
-compiler: powerpc64le-linux-gcc (GCC) 11.2.0
-reproduce:
+tree:   git://github.com/linux-chenxing/linux.git msc313_mainlining
+head:   17a0ed91a3dc1dc1074446b16909ead13a6593a4
+commit: 5119e24f7f04d53e9b2b0915e0129801befeb37c [40/79] pinctrl: mstar: ms=
+c313 pinctrl driver
+:::::: branch date: 2 days ago
+:::::: commit date: 2 days ago
+config: arm-randconfig-c002-20211225 (https://download.01.org/0day-ci/archi=
+ve/20211226/202112260724.JNo6H2IW-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project a9e8b1=
+ee7fd44b53c555a7823ae8fd1a8209c520)
+reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D9236f57a9e51c72ce426ccd2e53e123de7196a0f
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 9236f57a9e51c72ce426ccd2e53e123de7196a0f
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/linux-chenxing/linux/commit/5119e24f7f04d53e9b=
+2b0915e0129801befeb37c
+        git remote add chenxing git://github.com/linux-chenxing/linux.git
+        git fetch --no-tags chenxing msc313_mainlining
+        git checkout 5119e24f7f04d53e9b2b0915e0129801befeb37c
         # save the config file to linux build tree
-        mkdir build_dir
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
- C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
-owerpc SHELL=3D/bin/bash arch/powerpc/kvm/ drivers/misc/ drivers/pinctrl/nu=
-voton/
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
+All warnings (new ones prefixed by >>):
 
-sparse warnings: (new ones prefixed by >>)
->> arch/powerpc/kvm/powerpc.c:2115:26: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected unsigned int @@     got res=
-tricted __be32 [usertype] @@
-   arch/powerpc/kvm/powerpc.c:2115:26: sparse:     expected unsigned int
-   arch/powerpc/kvm/powerpc.c:2115:26: sparse:     got restricted __be32 [u=
-sertype]
-   arch/powerpc/kvm/powerpc.c:2116:26: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected unsigned int @@     got res=
-tricted __be32 [usertype] @@
-   arch/powerpc/kvm/powerpc.c:2116:26: sparse:     expected unsigned int
-   arch/powerpc/kvm/powerpc.c:2116:26: sparse:     got restricted __be32 [u=
-sertype]
-   arch/powerpc/kvm/powerpc.c:2117:26: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected unsigned int @@     got res=
-tricted __be32 [usertype] @@
-   arch/powerpc/kvm/powerpc.c:2117:26: sparse:     expected unsigned int
-   arch/powerpc/kvm/powerpc.c:2117:26: sparse:     got restricted __be32 [u=
-sertype]
-   arch/powerpc/kvm/powerpc.c:2118:26: sparse: sparse: incorrect type in as=
-signment (different base types) @@     expected unsigned int @@     got res=
-tricted __be32 [usertype] @@
-   arch/powerpc/kvm/powerpc.c:2118:26: sparse:     expected unsigned int
-   arch/powerpc/kvm/powerpc.c:2118:26: sparse:     got restricted __be32 [u=
-sertype]
-   arch/powerpc/kvm/powerpc.c: note: in included file:
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __be64
-   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
-cted __le64
-
-vim +2115 arch/powerpc/kvm/powerpc.c
-
-5b1c1493afe8d6 Carsten Otte   2012-01-04  2090  =
-
-15711e9c927bfc Alexander Graf 2010-07-29  2091  static int kvm_vm_ioctl_get=
-_pvinfo(struct kvm_ppc_pvinfo *pvinfo)
-15711e9c927bfc Alexander Graf 2010-07-29  2092  {
-784bafac79e764 Stuart Yoder   2012-07-03  2093  	u32 inst_nop =3D 0x6000000=
-0;
-784bafac79e764 Stuart Yoder   2012-07-03  2094  #ifdef CONFIG_KVM_BOOKE_HV
-784bafac79e764 Stuart Yoder   2012-07-03  2095  	u32 inst_sc1 =3D 0x4400002=
-2;
-2743103f91e20d Alexander Graf 2014-04-24  2096  	pvinfo->hcall[0] =3D cpu_t=
-o_be32(inst_sc1);
-2743103f91e20d Alexander Graf 2014-04-24  2097  	pvinfo->hcall[1] =3D cpu_t=
-o_be32(inst_nop);
-2743103f91e20d Alexander Graf 2014-04-24  2098  	pvinfo->hcall[2] =3D cpu_t=
-o_be32(inst_nop);
-2743103f91e20d Alexander Graf 2014-04-24  2099  	pvinfo->hcall[3] =3D cpu_t=
-o_be32(inst_nop);
-784bafac79e764 Stuart Yoder   2012-07-03  2100  #else
-15711e9c927bfc Alexander Graf 2010-07-29  2101  	u32 inst_lis =3D 0x3c00000=
-0;
-15711e9c927bfc Alexander Graf 2010-07-29  2102  	u32 inst_ori =3D 0x6000000=
-0;
-15711e9c927bfc Alexander Graf 2010-07-29  2103  	u32 inst_sc =3D 0x44000002;
-15711e9c927bfc Alexander Graf 2010-07-29  2104  	u32 inst_imm_mask =3D 0xff=
-ff;
-15711e9c927bfc Alexander Graf 2010-07-29  2105  =
-
-15711e9c927bfc Alexander Graf 2010-07-29  2106  	/*
-15711e9c927bfc Alexander Graf 2010-07-29  2107  	 * The hypercall to get in=
-to KVM from within guest context is as
-15711e9c927bfc Alexander Graf 2010-07-29  2108  	 * follows:
-15711e9c927bfc Alexander Graf 2010-07-29  2109  	 *
-15711e9c927bfc Alexander Graf 2010-07-29  2110  	 *    lis r0, r0, KVM_SC_M=
-AGIC_R0(a)h
-15711e9c927bfc Alexander Graf 2010-07-29  2111  	 *    ori r0, KVM_SC_MAGIC=
-_R0(a)l
-15711e9c927bfc Alexander Graf 2010-07-29  2112  	 *    sc
-15711e9c927bfc Alexander Graf 2010-07-29  2113  	 *    nop
-15711e9c927bfc Alexander Graf 2010-07-29  2114  	 */
-2743103f91e20d Alexander Graf 2014-04-24 @2115  	pvinfo->hcall[0] =3D cpu_t=
-o_be32(inst_lis | ((KVM_SC_MAGIC_R0 >> 16) & inst_imm_mask));
-2743103f91e20d Alexander Graf 2014-04-24  2116  	pvinfo->hcall[1] =3D cpu_t=
-o_be32(inst_ori | (KVM_SC_MAGIC_R0 & inst_imm_mask));
-2743103f91e20d Alexander Graf 2014-04-24  2117  	pvinfo->hcall[2] =3D cpu_t=
-o_be32(inst_sc);
-2743103f91e20d Alexander Graf 2014-04-24  2118  	pvinfo->hcall[3] =3D cpu_t=
-o_be32(inst_nop);
-784bafac79e764 Stuart Yoder   2012-07-03  2119  #endif
-15711e9c927bfc Alexander Graf 2010-07-29  2120  =
-
-9202e07636f0c4 Liu Yu-B13201  2012-07-03  2121  	pvinfo->flags =3D KVM_PPC_=
-PVINFO_FLAGS_EV_IDLE;
-9202e07636f0c4 Liu Yu-B13201  2012-07-03  2122  =
-
-15711e9c927bfc Alexander Graf 2010-07-29  2123  	return 0;
-15711e9c927bfc Alexander Graf 2010-07-29  2124  }
-15711e9c927bfc Alexander Graf 2010-07-29  2125  =
+>> drivers/pinctrl/mstar/pinctrl-msc313-pm.c:35:27: warning: unused variabl=
+e 'pm_uart_groups' [-Wunused-const-variable]
+   static const char * const pm_uart_groups[] =3D {
+                             ^
+>> drivers/pinctrl/mstar/pinctrl-msc313-pm.c:39:27: warning: unused variabl=
+e 'pm_spi_groups' [-Wunused-const-variable]
+   static const char * const pm_spi_groups[] =3D {
+                             ^
+>> drivers/pinctrl/mstar/pinctrl-msc313-pm.c:43:27: warning: unused variabl=
+e 'pm_irin_groups' [-Wunused-const-variable]
+   static const char * const pm_irin_groups[] =3D {
+                             ^
+   3 warnings generated.
 
 
-:::::: The code at line 2115 was first introduced by commit
-:::::: 2743103f91e20d4c4d4f1a8d00821289c4c6ff62 KVM: PPC: PR: Fill pvinfo h=
-call instructions in big endian
+clang-analyzer warnings: (new ones prefixed by >>)
+                   ^~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/omapdss-boot-init.c:68:3: note: Cal=
+l to function 'strcpy' is insecure as it does not provide bounding of the m=
+emory buffer. Replace unbounded copy functions with analogous functions tha=
+t support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(dst, prefix);
+                   ^~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/omapdss-boot-init.c:71:3: warning: =
+Call to function 'strcpy' is insecure as it does not provide bounding of th=
+e memory buffer. Replace unbounded copy functions with analogous functions =
+that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-se=
+curity.insecureAPI.strcpy]
+                   strcpy(dst, src);
+                   ^~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/omapdss-boot-init.c:71:3: note: Cal=
+l to function 'strcpy' is insecure as it does not provide bounding of the m=
+emory buffer. Replace unbounded copy functions with analogous functions tha=
+t support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(dst, src);
+                   ^~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:670:49: warning: The result=
+ of the left shift is undefined because the left operand is negative [clang=
+-analyzer-core.UndefinedBinaryOperatorResult]
+           dispc_write_reg(DISPC_OVL_CONV_COEF(plane, 2), CVAL(ct->gcb, ct-=
+>gcr));
+                                                          ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:666:21: note: expanded from=
+ macro 'CVAL'
+   #define CVAL(x, y) (FLD_VAL(x, 26, 16) | FLD_VAL(y, 10, 0))
+                       ^
+   drivers/video/fbdev/omap2/omapfb/dss/dss.h:60:42: note: expanded from ma=
+cro 'FLD_VAL'
+   #define FLD_VAL(val, start, end) (((val) << (end)) & FLD_MASK(start, end=
+))
+                                            ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:4049:6: note: Assuming the =
+condition is true
+           if (REG_GET(DISPC_CONFIG, 2, 1) !=3D OMAP_DSS_LOAD_FRAME_ONLY) {
+               ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:49:2: note: expanded from m=
+acro 'REG_GET'
+           FLD_GET(dispc_read_reg(idx), start, end)
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dss.h:61:34: note: expanded from ma=
+cro 'FLD_GET'
+   #define FLD_GET(val, start, end) (((val) & FLD_MASK(start, end)) >> (end=
+))
+                                    ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:4049:2: note: Taking true b=
+ranch
+           if (REG_GET(DISPC_CONFIG, 2, 1) !=3D OMAP_DSS_LOAD_FRAME_ONLY) {
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:4050:3: note: Calling '_oma=
+p_dispc_initial_config'
+                   _omap_dispc_initial_config();
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3721:6: note: Assuming the =
+condition is false
+           if (dss_has_feature(FEAT_CORE_CLK_DIV)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3721:2: note: Taking false =
+branch
+           if (dss_has_feature(FEAT_CORE_CLK_DIV)) {
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3732:6: note: Assuming the =
+condition is false
+           if (dss_has_feature(FEAT_FUNCGATED))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3732:2: note: Taking false =
+branch
+           if (dss_has_feature(FEAT_FUNCGATED))
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3735:2: note: Calling 'disp=
+c_setup_color_conv_coef'
+           dispc_setup_color_conv_coef();
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:692:14: note: Assuming 'i' =
+is >=3D 'num_ovl'
+           for (i =3D 1; i < num_ovl; i++)
+                       ^~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:692:2: note: Loop condition=
+ is false. Execution continues on line 695
+           for (i =3D 1; i < num_ovl; i++)
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:695:6: note: Assuming field=
+ 'has_writeback' is true
+           if (dispc.feat->has_writeback)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:695:2: note: Taking true br=
+anch
+           if (dispc.feat->has_writeback)
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:696:3: note: Calling 'dispc=
+_ovl_write_color_conv_coef'
+                   dispc_ovl_write_color_conv_coef(OMAP_DSS_WB, &ctbl_bt601=
+_5_wb);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:670:49: note: The result of=
+ the left shift is undefined because the left operand is negative
+           dispc_write_reg(DISPC_OVL_CONV_COEF(plane, 2), CVAL(ct->gcb, ct-=
+>gcr));
+                                                          ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:666:21: note: expanded from=
+ macro 'CVAL'
+   #define CVAL(x, y) (FLD_VAL(x, 26, 16) | FLD_VAL(y, 10, 0))
+                       ^~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dss.h:60:42: note: expanded from ma=
+cro 'FLD_VAL'
+   #define FLD_VAL(val, start, end) (((val) << (end)) & FLD_MASK(start, end=
+))
+                                      ~~~~~ ^
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> drivers/pinctrl/mstar/pinctrl-mstar.c:88:2: warning: Undefined or garbag=
+e value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:80:9: note: 'ret' declared without=
+ an initial value
+           int i, ret;
+                  ^~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:82:14: note: Assuming 'i' is >=3D =
+field 'ngroups'
+           for (i =3D 0; i < pinctrl->info->ngroups; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:82:2: note: Loop condition is fals=
+e. Execution continues on line 88
+           for (i =3D 0; i < pinctrl->info->ngroups; i++) {
+           ^
+   drivers/pinctrl/mstar/pinctrl-mstar.c:88:2: note: Undefined or garbage v=
+alue returned to caller
+           return ret;
+           ^      ~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:112:2: warning: Undefined or garba=
+ge value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:93:9: note: 'ret' declared without=
+ an initial value
+           int i, ret;
+                  ^~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:95:14: note: Assuming 'i' is >=3D =
+field 'nfunctions'
+           for (i =3D 0; i < pinctrl->info->nfunctions; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:95:2: note: Loop condition is fals=
+e. Execution continues on line 112
+           for (i =3D 0; i < pinctrl->info->nfunctions; i++) {
+           ^
+   drivers/pinctrl/mstar/pinctrl-mstar.c:112:2: note: Undefined or garbage =
+value returned to caller
+           return ret;
+           ^      ~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/pinctrl/mstar/pinctrl-msc313-pm.c:391:2: warning: Value stored t=
+o 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D mstar_pinctrl_parse_functions(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-msc313-pm.c:391:2: note: Value stored to '=
+ret' is never read
+           ret =3D mstar_pinctrl_parse_functions(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-msc313-pm.c:392:2: warning: Value stored t=
+o 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D mstar_pinctrl_parse_groups(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-msc313-pm.c:392:2: note: Value stored to '=
+ret' is never read
+           ret =3D mstar_pinctrl_parse_groups(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 with check filters).
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   20 warnings generated.
+   fs/afs/fsclient.c:685:3: warning: Value stored to 'bp' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                   bp =3D (void *) bp + padsz;
+                   ^    ~~~~~~~~~~~~~~~~~~~
+   fs/afs/fsclient.c:685:3: note: Value stored to 'bp' is never read
+                   bp =3D (void *) bp + padsz;
+                   ^    ~~~~~~~~~~~~~~~~~~~
+   fs/afs/fsclient.c:732:3: warning: Value stored to 'bp' is never read [cl=
+ang-analyzer-deadcode.DeadStores]
+                   bp =3D (void *) bp + padsz;
+                   ^    ~~~~~~~~~~~~~~~~~~~
+   fs/afs/fsclient.c:732:3: note: Value stored to 'bp' is never read
+                   bp =3D (void *) bp + padsz;
+                   ^    ~~~~~~~~~~~~~~~~~~~
+   fs/afs/fsclient.c:1003:3: warning: Value stored to 'bp' is never read [c=
+lang-analyzer-deadcode.DeadStores]
+                   bp =3D (void *) bp + n_padsz;
+                   ^    ~~~~~~~~~~~~~~~~~~~~~
+   fs/afs/fsclient.c:1003:3: note: Value stored to 'bp' is never read
+                   bp =3D (void *) bp + n_padsz;
+                   ^    ~~~~~~~~~~~~~~~~~~~~~
+   fs/afs/fsclient.c:1674:36: warning: The left operand of '-' is a garbage=
+ value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+                   afs_extract_discard(call, (count - 1) * sizeof(__be32));
+                                              ~~~~~ ^
+   fs/afs/fsclient.c:1638:2: note: 'count' declared without an initial value
+           u32 count;
+           ^~~~~~~~~
+   fs/afs/fsclient.c:1641:2: note: Taking false branch
+           _enter("{%u,%zu}", call->unmarshall, iov_iter_count(call->iter));
+           ^
+   fs/afs/internal.h:1677:25: note: expanded from macro '_enter'
+   #define _enter(FMT,...) no_printk("=3D=3D> %s("FMT")",__func__ ,##__VA_A=
+RGS__)
+                           ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   fs/afs/fsclient.c:1643:2: note: Control jumps to 'case 2:'  at line 1669
+           switch (call->unmarshall) {
+           ^
+   fs/afs/fsclient.c:1671:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~~~~~
+   fs/afs/fsclient.c:1671:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   fs/afs/fsclient.c:1674:36: note: The left operand of '-' is a garbage va=
+lue
+                   afs_extract_discard(call, (count - 1) * sizeof(__be32));
+                                              ~~~~~ ^
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/clk/clk-vt8500.c:301:2: warning: Value stored to 'rc' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+           rc =3D of_clk_add_hw_provider(node, of_clk_hw_simple_get, hw);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-vt8500.c:301:2: note: Value stored to 'rc' is never read
+           rc =3D of_clk_add_hw_provider(node, of_clk_hw_simple_get, hw);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-vt8500.c:715:2: warning: Value stored to 'rc' is never r=
+ead [clang-analyzer-deadcode.DeadStores]
+           rc =3D of_clk_add_hw_provider(node, of_clk_hw_simple_get, hw);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/clk/clk-vt8500.c:715:2: note: Value stored to 'rc' is never read
+           rc =3D of_clk_add_hw_provider(node, of_clk_hw_simple_get, hw);
+           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/clk/baikal-t1/ccu-pll.c:258:45: warning: The left operand of '-'=
+ is a garbage value [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           val =3D FIELD_PREP(CCU_PLL_CTL_CLKR_MASK, nr - 1) |
+                                                      ^
+   include/linux/bitfield.h:94:33: note: expanded from macro 'FIELD_PREP'
+                   __BF_FIELD_CHECK(_mask, 0ULL, _val, "FIELD_PREP: ");    \
+                                                 ^~~~
+   include/linux/bitfield.h:49:41: note: expanded from macro '__BF_FIELD_CH=
+ECK'
+                   BUILD_BUG_ON_MSG(__builtin_constant_p(_val) ?           \
+                                                         ^~~~
+--
+                           ^
+   include/linux/printk.h:131:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   fs/afs/fsclient.c:1643:2: note: Control jumps to 'case 2:' @line 1669
+           switch (call->unmarshall) {
+           ^
+   fs/afs/fsclient.c:1671:7: note: Assuming 'ret' is >=3D 0
+                   if (ret < 0)
+                       ^~~~~~~
+   fs/afs/fsclient.c:1671:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   fs/afs/fsclient.c:1674:36: note: The left operand of '-' is a garbage va=
+lue
+                   afs_extract_discard(call, (count - 1) * sizeof(__be32));
+                                              ~~~~~ ^
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/video/fbdev/omap2/omapfb/omapfb-main.c:1554:3: warning: Value st=
+ored to 'rg' is never read [clang-analyzer-deadcode.DeadStores]
+                   rg =3D ofbi->region;
+                   ^    ~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/omapfb-main.c:1554:3: note: Value store=
+d to 'rg' is never read
+                   rg =3D ofbi->region;
+                   ^    ~~~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/video/fbdev/omap2/omapfb/omapfb-ioctl.c:514:6: warning: Value st=
+ored to 'mode_idx' during its initialization is never read [clang-analyzer-=
+deadcode.DeadStores]
+           int mode_idx =3D mode->mode_idx;
+               ^~~~~~~~   ~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/omapfb-ioctl.c:514:6: note: Value store=
+d to 'mode_idx' during its initialization is never read
+           int mode_idx =3D mode->mode_idx;
+               ^~~~~~~~   ~~~~~~~~~~~~~~
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+>> drivers/pinctrl/mstar/pinctrl-mstar.c:88:2: warning: Undefined or garbag=
+e value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:80:9: note: 'ret' declared without=
+ an initial value
+           int i, ret;
+                  ^~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:82:14: note: Assuming 'i' is >=3D =
+field 'ngroups'
+           for (i =3D 0; i < pinctrl->info->ngroups; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:82:2: note: Loop condition is fals=
+e. Execution continues on line 88
+           for (i =3D 0; i < pinctrl->info->ngroups; i++) {
+           ^
+   drivers/pinctrl/mstar/pinctrl-mstar.c:88:2: note: Undefined or garbage v=
+alue returned to caller
+           return ret;
+           ^      ~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:112:2: warning: Undefined or garba=
+ge value returned to caller [clang-analyzer-core.uninitialized.UndefReturn]
+           return ret;
+           ^      ~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:93:9: note: 'ret' declared without=
+ an initial value
+           int i, ret;
+                  ^~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:95:14: note: Assuming 'i' is >=3D =
+field 'nfunctions'
+           for (i =3D 0; i < pinctrl->info->nfunctions; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-mstar.c:95:2: note: Loop condition is fals=
+e. Execution continues on line 112
+           for (i =3D 0; i < pinctrl->info->nfunctions; i++) {
+           ^
+   drivers/pinctrl/mstar/pinctrl-mstar.c:112:2: note: Undefined or garbage =
+value returned to caller
+           return ret;
+           ^      ~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+>> drivers/pinctrl/mstar/pinctrl-msc313-pm.c:391:2: warning: Value stored t=
+o 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D mstar_pinctrl_parse_functions(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-msc313-pm.c:391:2: note: Value stored to '=
+ret' is never read
+           ret =3D mstar_pinctrl_parse_functions(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-msc313-pm.c:392:2: warning: Value stored t=
+o 'ret' is never read [clang-analyzer-deadcode.DeadStores]
+           ret =3D mstar_pinctrl_parse_groups(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/pinctrl/mstar/pinctrl-msc313-pm.c:392:2: note: Value stored to '=
+ret' is never read
+           ret =3D mstar_pinctrl_parse_groups(pinctrl);
+           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 with check filters).
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   17 warnings generated.
+   drivers/video/fbdev/omap2/omapfb/dss/omapdss-boot-init.c:68:3: warning: =
+Call to function 'strcpy' is insecure as it does not provide bounding of th=
+e memory buffer. Replace unbounded copy functions with analogous functions =
+that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-se=
+curity.insecureAPI.strcpy]
+                   strcpy(dst, prefix);
+                   ^~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/omapdss-boot-init.c:68:3: note: Cal=
+l to function 'strcpy' is insecure as it does not provide bounding of the m=
+emory buffer. Replace unbounded copy functions with analogous functions tha=
+t support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(dst, prefix);
+                   ^~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/omapdss-boot-init.c:71:3: warning: =
+Call to function 'strcpy' is insecure as it does not provide bounding of th=
+e memory buffer. Replace unbounded copy functions with analogous functions =
+that support length arguments such as 'strlcpy'. CWE-119 [clang-analyzer-se=
+curity.insecureAPI.strcpy]
+                   strcpy(dst, src);
+                   ^~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/omapdss-boot-init.c:71:3: note: Cal=
+l to function 'strcpy' is insecure as it does not provide bounding of the m=
+emory buffer. Replace unbounded copy functions with analogous functions tha=
+t support length arguments such as 'strlcpy'. CWE-119
+                   strcpy(dst, src);
+                   ^~~~~~
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   Suppressed 16 warnings (16 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   15 warnings generated.
+   Suppressed 15 warnings (15 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   16 warnings generated.
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:670:49: warning: The result=
+ of the left shift is undefined because the left operand is negative [clang=
+-analyzer-core.UndefinedBinaryOperatorResult]
+           dispc_write_reg(DISPC_OVL_CONV_COEF(plane, 2), CVAL(ct->gcb, ct-=
+>gcr));
+                                                          ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:666:21: note: expanded from=
+ macro 'CVAL'
+   #define CVAL(x, y) (FLD_VAL(x, 26, 16) | FLD_VAL(y, 10, 0))
+                       ^
+   drivers/video/fbdev/omap2/omapfb/dss/dss.h:60:42: note: expanded from ma=
+cro 'FLD_VAL'
+   #define FLD_VAL(val, start, end) (((val) << (end)) & FLD_MASK(start, end=
+))
+                                            ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:4049:6: note: Assuming the =
+condition is true
+           if (REG_GET(DISPC_CONFIG, 2, 1) !=3D OMAP_DSS_LOAD_FRAME_ONLY) {
+               ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:49:2: note: expanded from m=
+acro 'REG_GET'
+           FLD_GET(dispc_read_reg(idx), start, end)
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dss.h:61:34: note: expanded from ma=
+cro 'FLD_GET'
+   #define FLD_GET(val, start, end) (((val) & FLD_MASK(start, end)) >> (end=
+))
+                                    ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:4049:2: note: Taking true b=
+ranch
+           if (REG_GET(DISPC_CONFIG, 2, 1) !=3D OMAP_DSS_LOAD_FRAME_ONLY) {
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:4050:3: note: Calling '_oma=
+p_dispc_initial_config'
+                   _omap_dispc_initial_config();
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3721:6: note: Assuming the =
+condition is false
+           if (dss_has_feature(FEAT_CORE_CLK_DIV)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3721:2: note: Taking false =
+branch
+           if (dss_has_feature(FEAT_CORE_CLK_DIV)) {
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3732:6: note: Assuming the =
+condition is false
+           if (dss_has_feature(FEAT_FUNCGATED))
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3732:2: note: Taking false =
+branch
+           if (dss_has_feature(FEAT_FUNCGATED))
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:3735:2: note: Calling 'disp=
+c_setup_color_conv_coef'
+           dispc_setup_color_conv_coef();
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:692:14: note: Assuming 'i' =
+is >=3D 'num_ovl'
+           for (i =3D 1; i < num_ovl; i++)
+                       ^~~~~~~~~~~
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:692:2: note: Loop condition=
+ is false. Execution continues on line 695
+           for (i =3D 1; i < num_ovl; i++)
+           ^
+   drivers/video/fbdev/omap2/omapfb/dss/dispc.c:695:6: note: Assuming field=
+ 'has_writeback' is true
+           if (dispc.feat->has_writeback)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~
 
-:::::: TO: Alexander Graf <agraf@suse.de>
-:::::: CC: Alexander Graf <agraf@suse.de>
+vim +/pm_uart_groups +35 drivers/pinctrl/mstar/pinctrl-msc313-pm.c
+
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  34  =
+
+7094a49a4ca2d8 Daniel Palmer 2021-01-10 @35  static const char * const pm_u=
+art_groups[] =3D {
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  36  	GROUPNAME_PM_UART,
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  37  };
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  38  =
+
+7094a49a4ca2d8 Daniel Palmer 2021-01-10 @39  static const char * const pm_s=
+pi_groups[] =3D {
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  40  	GROUPNAME_PM_SPI,
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  41  };
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  42  =
+
+7094a49a4ca2d8 Daniel Palmer 2021-01-10 @43  static const char * const pm_i=
+rin_groups[] =3D {
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  44  	GROUPNAME_PM_IRIN,
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  45  };
+7094a49a4ca2d8 Daniel Palmer 2021-01-10  46  =
+
+
+:::::: The code at line 35 was first introduced by commit
+:::::: 7094a49a4ca2d8ebb8a7bf96d8ee2acd717f5c6d pinctrl: mstar: msc313 pm p=
+inctrl driver
+
+:::::: TO: Daniel Palmer <daniel@0x0f.com>
+:::::: CC: Daniel Palmer <daniel@0x0f.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============5277373375289679518==--
+--===============7267311937857271527==--
 
