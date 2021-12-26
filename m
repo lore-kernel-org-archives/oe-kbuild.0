@@ -1,161 +1,334 @@
-Content-Type: multipart/mixed; boundary="===============3487156911284836034=="
+Content-Type: multipart/mixed; boundary="===============5277373375289679518=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/mmc/host/renesas_sdhi_core.c:701:0: warning: Same expression used in consecutive assignments of 'new_tap' and 'error_tap'. [duplicateAssignExpression]
-Date: Sun, 26 Dec 2021 15:56:30 +0800
-Message-ID: <202112261358.g3byjIM0-lkp@intel.com>
+Subject: arch/powerpc/kvm/powerpc.c:2115:26: sparse: sparse: incorrect type in assignment (different base types)
+Date: Sun, 26 Dec 2021 11:39:38 +0800
+Message-ID: <202112261135.3ehyG5H6-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3487156911284836034==
+--===============5277373375289679518==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Masahiro Yamada <masahiroy@kernel.org>
-CC: Andrew Morton <akpm@linux-foundation.org>
-CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: "C=C3=A9dric Le Goater" <clg@kaod.org>
+CC: Michael Ellerman <mpe@ellerman.id.au>
+
+Hi C=C3=A9dric,
+
+First bad commit (maybe !=3D root cause):
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   e2ae0d4a6b0ba461542f0fd0ba0b828658013e9f
-commit: ea29b20a828511de3348334e529a3d046a180416 init/Kconfig: make COMPILE=
-_TEST depend on HAS_IOMEM
-date:   10 months ago
-:::::: branch date: 8 hours ago
-:::::: commit date: 10 months ago
-compiler: s390-linux-gcc (GCC) 11.2.0
+commit: 9236f57a9e51c72ce426ccd2e53e123de7196a0f KVM: PPC: Make the VMX ins=
+truction emulation routines static
+date:   11 months ago
+:::::: branch date: 6 hours ago
+:::::: commit date: 11 months ago
+config: powerpc64-randconfig-s032-20211226 (https://download.01.org/0day-ci=
+/archive/20211226/202112261135.3ehyG5H6-lkp(a)intel.com/config)
+compiler: powerpc64le-linux-gcc (GCC) 11.2.0
+reproduce:
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D9236f57a9e51c72ce426ccd2e53e123de7196a0f
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 9236f57a9e51c72ce426ccd2e53e123de7196a0f
+        # save the config file to linux build tree
+        mkdir build_dir
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dgcc-11.2.0 make.cross=
+ C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3Dbuild_dir ARCH=3Dp=
+owerpc SHELL=3D/bin/bash arch/powerpc/kvm/ drivers/misc/ drivers/pinctrl/nu=
+voton/
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+sparse warnings: (new ones prefixed by >>)
+>> arch/powerpc/kvm/powerpc.c:2115:26: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int @@     got res=
+tricted __be32 [usertype] @@
+   arch/powerpc/kvm/powerpc.c:2115:26: sparse:     expected unsigned int
+   arch/powerpc/kvm/powerpc.c:2115:26: sparse:     got restricted __be32 [u=
+sertype]
+   arch/powerpc/kvm/powerpc.c:2116:26: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int @@     got res=
+tricted __be32 [usertype] @@
+   arch/powerpc/kvm/powerpc.c:2116:26: sparse:     expected unsigned int
+   arch/powerpc/kvm/powerpc.c:2116:26: sparse:     got restricted __be32 [u=
+sertype]
+   arch/powerpc/kvm/powerpc.c:2117:26: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int @@     got res=
+tricted __be32 [usertype] @@
+   arch/powerpc/kvm/powerpc.c:2117:26: sparse:     expected unsigned int
+   arch/powerpc/kvm/powerpc.c:2117:26: sparse:     got restricted __be32 [u=
+sertype]
+   arch/powerpc/kvm/powerpc.c:2118:26: sparse: sparse: incorrect type in as=
+signment (different base types) @@     expected unsigned int @@     got res=
+tricted __be32 [usertype] @@
+   arch/powerpc/kvm/powerpc.c:2118:26: sparse:     expected unsigned int
+   arch/powerpc/kvm/powerpc.c:2118:26: sparse:     got restricted __be32 [u=
+sertype]
+   arch/powerpc/kvm/powerpc.c: note: in included file:
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __be64
+   arch/powerpc/include/asm/kvm_ppc.h:966:1: sparse: sparse: cast to restri=
+cted __le64
 
->> drivers/mmc/host/renesas_sdhi_core.c:701:0: warning: Same expression use=
-d in consecutive assignments of 'new_tap' and 'error_tap'. [duplicateAssign=
-Expression]
-    unsigned int new_tap =3D priv->tap_set, error_tap =3D priv->tap_set;
-   ^
-   drivers/mmc/host/renesas_sdhi_core.c:701:0: note: Same expression used i=
-n consecutive assignments of 'new_tap' and 'error_tap'.
-    unsigned int new_tap =3D priv->tap_set, error_tap =3D priv->tap_set;
-   ^
-   drivers/mmc/host/renesas_sdhi_core.c:701:0: note: Same expression used i=
-n consecutive assignments of 'new_tap' and 'error_tap'.
-    unsigned int new_tap =3D priv->tap_set, error_tap =3D priv->tap_set;
-   ^
+vim +2115 arch/powerpc/kvm/powerpc.c
 
-vim +701 drivers/mmc/host/renesas_sdhi_core.c
+5b1c1493afe8d6 Carsten Otte   2012-01-04  2090  =
 
-0c482d829ac413 Wolfram Sang  2020-01-29  697  =
+15711e9c927bfc Alexander Graf 2010-07-29  2091  static int kvm_vm_ioctl_get=
+_pvinfo(struct kvm_ppc_pvinfo *pvinfo)
+15711e9c927bfc Alexander Graf 2010-07-29  2092  {
+784bafac79e764 Stuart Yoder   2012-07-03  2093  	u32 inst_nop =3D 0x6000000=
+0;
+784bafac79e764 Stuart Yoder   2012-07-03  2094  #ifdef CONFIG_KVM_BOOKE_HV
+784bafac79e764 Stuart Yoder   2012-07-03  2095  	u32 inst_sc1 =3D 0x4400002=
+2;
+2743103f91e20d Alexander Graf 2014-04-24  2096  	pvinfo->hcall[0] =3D cpu_t=
+o_be32(inst_sc1);
+2743103f91e20d Alexander Graf 2014-04-24  2097  	pvinfo->hcall[1] =3D cpu_t=
+o_be32(inst_nop);
+2743103f91e20d Alexander Graf 2014-04-24  2098  	pvinfo->hcall[2] =3D cpu_t=
+o_be32(inst_nop);
+2743103f91e20d Alexander Graf 2014-04-24  2099  	pvinfo->hcall[3] =3D cpu_t=
+o_be32(inst_nop);
+784bafac79e764 Stuart Yoder   2012-07-03  2100  #else
+15711e9c927bfc Alexander Graf 2010-07-29  2101  	u32 inst_lis =3D 0x3c00000=
+0;
+15711e9c927bfc Alexander Graf 2010-07-29  2102  	u32 inst_ori =3D 0x6000000=
+0;
+15711e9c927bfc Alexander Graf 2010-07-29  2103  	u32 inst_sc =3D 0x44000002;
+15711e9c927bfc Alexander Graf 2010-07-29  2104  	u32 inst_imm_mask =3D 0xff=
+ff;
+15711e9c927bfc Alexander Graf 2010-07-29  2105  =
 
-11a219606a9bc7 Takeshi Saito 2019-12-17  698  static bool renesas_sdhi_manu=
-al_correction(struct tmio_mmc_host *host, bool use_4tap)
-11a219606a9bc7 Takeshi Saito 2019-12-17  699  {
-11a219606a9bc7 Takeshi Saito 2019-12-17  700  	struct renesas_sdhi *priv =
-=3D host_to_priv(host);
-a38c078fea0b13 Takeshi Saito 2020-04-23 @701  	unsigned int new_tap =3D pri=
-v->tap_set, error_tap =3D priv->tap_set;
-11a219606a9bc7 Takeshi Saito 2019-12-17  702  	u32 val;
-11a219606a9bc7 Takeshi Saito 2019-12-17  703  =
+15711e9c927bfc Alexander Graf 2010-07-29  2106  	/*
+15711e9c927bfc Alexander Graf 2010-07-29  2107  	 * The hypercall to get in=
+to KVM from within guest context is as
+15711e9c927bfc Alexander Graf 2010-07-29  2108  	 * follows:
+15711e9c927bfc Alexander Graf 2010-07-29  2109  	 *
+15711e9c927bfc Alexander Graf 2010-07-29  2110  	 *    lis r0, r0, KVM_SC_M=
+AGIC_R0(a)h
+15711e9c927bfc Alexander Graf 2010-07-29  2111  	 *    ori r0, KVM_SC_MAGIC=
+_R0(a)l
+15711e9c927bfc Alexander Graf 2010-07-29  2112  	 *    sc
+15711e9c927bfc Alexander Graf 2010-07-29  2113  	 *    nop
+15711e9c927bfc Alexander Graf 2010-07-29  2114  	 */
+2743103f91e20d Alexander Graf 2014-04-24 @2115  	pvinfo->hcall[0] =3D cpu_t=
+o_be32(inst_lis | ((KVM_SC_MAGIC_R0 >> 16) & inst_imm_mask));
+2743103f91e20d Alexander Graf 2014-04-24  2116  	pvinfo->hcall[1] =3D cpu_t=
+o_be32(inst_ori | (KVM_SC_MAGIC_R0 & inst_imm_mask));
+2743103f91e20d Alexander Graf 2014-04-24  2117  	pvinfo->hcall[2] =3D cpu_t=
+o_be32(inst_sc);
+2743103f91e20d Alexander Graf 2014-04-24  2118  	pvinfo->hcall[3] =3D cpu_t=
+o_be32(inst_nop);
+784bafac79e764 Stuart Yoder   2012-07-03  2119  #endif
+15711e9c927bfc Alexander Graf 2010-07-29  2120  =
 
-11a219606a9bc7 Takeshi Saito 2019-12-17  704  	val =3D sd_scc_read32(host, =
-priv, SH_MOBILE_SDHI_SCC_RVSREQ);
-11a219606a9bc7 Takeshi Saito 2019-12-17  705  	if (!val)
-11a219606a9bc7 Takeshi Saito 2019-12-17  706  		return false;
-11a219606a9bc7 Takeshi Saito 2019-12-17  707  =
+9202e07636f0c4 Liu Yu-B13201  2012-07-03  2121  	pvinfo->flags =3D KVM_PPC_=
+PVINFO_FLAGS_EV_IDLE;
+9202e07636f0c4 Liu Yu-B13201  2012-07-03  2122  =
 
-11a219606a9bc7 Takeshi Saito 2019-12-17  708  	sd_scc_write32(host, priv, S=
-H_MOBILE_SDHI_SCC_RVSREQ, 0);
-11a219606a9bc7 Takeshi Saito 2019-12-17  709  =
-
-11a219606a9bc7 Takeshi Saito 2019-12-17  710  	/* Change TAP position accor=
-ding to correction status */
-71cfc92751ac7a Takeshi Saito 2019-12-17  711  	if (sd_ctrl_read16(host, CTL=
-_VERSION) =3D=3D SDHI_VER_GEN3_SDMMC &&
-71cfc92751ac7a Takeshi Saito 2019-12-17  712  	    host->mmc->ios.timing =
-=3D=3D MMC_TIMING_MMC_HS400) {
-a38c078fea0b13 Takeshi Saito 2020-04-23  713  		u32 bad_taps =3D priv->quir=
-ks ? priv->quirks->hs400_bad_taps : 0;
-71cfc92751ac7a Takeshi Saito 2019-12-17  714  		/*
-71cfc92751ac7a Takeshi Saito 2019-12-17  715  		 * With HS400, the DAT sign=
-al is based on DS, not CLK.
-71cfc92751ac7a Takeshi Saito 2019-12-17  716  		 * Therefore, use only CMD =
-status.
-71cfc92751ac7a Takeshi Saito 2019-12-17  717  		 */
-71cfc92751ac7a Takeshi Saito 2019-12-17  718  		u32 smpcmp =3D sd_scc_read3=
-2(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) &
-71cfc92751ac7a Takeshi Saito 2019-12-17  719  					   SH_MOBILE_SDHI_SCC_SM=
-PCMP_CMD_ERR;
-a38c078fea0b13 Takeshi Saito 2020-04-23  720  		if (!smpcmp) {
-71cfc92751ac7a Takeshi Saito 2019-12-17  721  			return false;	/* no error =
-in CMD signal */
-a38c078fea0b13 Takeshi Saito 2020-04-23  722  		} else if (smpcmp =3D=3D SH=
-_MOBILE_SDHI_SCC_SMPCMP_CMD_REQUP) {
-71cfc92751ac7a Takeshi Saito 2019-12-17  723  			new_tap++;
-a38c078fea0b13 Takeshi Saito 2020-04-23  724  			error_tap--;
-a38c078fea0b13 Takeshi Saito 2020-04-23  725  		} else if (smpcmp =3D=3D SH=
-_MOBILE_SDHI_SCC_SMPCMP_CMD_REQDOWN) {
-71cfc92751ac7a Takeshi Saito 2019-12-17  726  			new_tap--;
-a38c078fea0b13 Takeshi Saito 2020-04-23  727  			error_tap++;
-a38c078fea0b13 Takeshi Saito 2020-04-23  728  		} else {
-71cfc92751ac7a Takeshi Saito 2019-12-17  729  			return true;	/* need retun=
-e */
-a38c078fea0b13 Takeshi Saito 2020-04-23  730  		}
-a38c078fea0b13 Takeshi Saito 2020-04-23  731  =
-
-a38c078fea0b13 Takeshi Saito 2020-04-23  732  		/*
-a38c078fea0b13 Takeshi Saito 2020-04-23  733  		 * When new_tap is a bad ta=
-p, we cannot change. Then, we compare
-a38c078fea0b13 Takeshi Saito 2020-04-23  734  		 * with the HS200 tuning re=
-sult. When smpcmp[error_tap] is OK,
-a38c078fea0b13 Takeshi Saito 2020-04-23  735  		 * we can at least retune.
-a38c078fea0b13 Takeshi Saito 2020-04-23  736  		 */
-a38c078fea0b13 Takeshi Saito 2020-04-23  737  		if (bad_taps & BIT(new_tap =
-% priv->tap_num))
-a38c078fea0b13 Takeshi Saito 2020-04-23  738  			return test_bit(error_tap =
-% priv->tap_num, priv->smpcmp);
-71cfc92751ac7a Takeshi Saito 2019-12-17  739  	} else {
-11a219606a9bc7 Takeshi Saito 2019-12-17  740  		if (val & SH_MOBILE_SDHI_SC=
-C_RVSREQ_RVSERR)
-71cfc92751ac7a Takeshi Saito 2019-12-17  741  			return true;    /* need re=
-tune */
-11a219606a9bc7 Takeshi Saito 2019-12-17  742  		else if (val & SH_MOBILE_SD=
-HI_SCC_RVSREQ_REQTAPUP)
-71cfc92751ac7a Takeshi Saito 2019-12-17  743  			new_tap++;
-11a219606a9bc7 Takeshi Saito 2019-12-17  744  		else if (val & SH_MOBILE_SD=
-HI_SCC_RVSREQ_REQTAPDOWN)
-71cfc92751ac7a Takeshi Saito 2019-12-17  745  			new_tap--;
-11a219606a9bc7 Takeshi Saito 2019-12-17  746  		else
-11a219606a9bc7 Takeshi Saito 2019-12-17  747  			return false;
-71cfc92751ac7a Takeshi Saito 2019-12-17  748  	}
-11a219606a9bc7 Takeshi Saito 2019-12-17  749  =
-
-b2dd9a1325e680 Wolfram Sang  2020-01-29  750  	priv->tap_set =3D (new_tap %=
- priv->tap_num);
-11a219606a9bc7 Takeshi Saito 2019-12-17  751  	sd_scc_write32(host, priv, S=
-H_MOBILE_SDHI_SCC_TAPSET,
-b2dd9a1325e680 Wolfram Sang  2020-01-29  752  		       priv->tap_set / (use=
-_4tap ? 2 : 1));
-11a219606a9bc7 Takeshi Saito 2019-12-17  753  =
-
-11a219606a9bc7 Takeshi Saito 2019-12-17  754  	return false;
-11a219606a9bc7 Takeshi Saito 2019-12-17  755  }
-11a219606a9bc7 Takeshi Saito 2019-12-17  756  =
+15711e9c927bfc Alexander Graf 2010-07-29  2123  	return 0;
+15711e9c927bfc Alexander Graf 2010-07-29  2124  }
+15711e9c927bfc Alexander Graf 2010-07-29  2125  =
 
 
-:::::: The code at line 701 was first introduced by commit
-:::::: a38c078fea0b1393fd2acb50e91057d7e429d9aa mmc: renesas_sdhi: Avoid ba=
-d TAP in HS400
+:::::: The code at line 2115 was first introduced by commit
+:::::: 2743103f91e20d4c4d4f1a8d00821289c4c6ff62 KVM: PPC: PR: Fill pvinfo h=
+call instructions in big endian
 
-:::::: TO: Takeshi Saito <takeshi.saito.xv@renesas.com>
-:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
+:::::: TO: Alexander Graf <agraf@suse.de>
+:::::: CC: Alexander Graf <agraf@suse.de>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3487156911284836034==--
+--===============5277373375289679518==--
 
