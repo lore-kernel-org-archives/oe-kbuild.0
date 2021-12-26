@@ -1,346 +1,161 @@
-Content-Type: multipart/mixed; boundary="===============7759214693266443060=="
+Content-Type: multipart/mixed; boundary="===============3487156911284836034=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/cifs/cifsacl.c:267:21: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Fri, 31 Dec 2021 06:09:08 +0800
-Message-ID: <202112310632.lzS1FTV2-lkp@intel.com>
+Subject: drivers/mmc/host/renesas_sdhi_core.c:701:0: warning: Same expression used in consecutive assignments of 'new_tap' and 'error_tap'. [duplicateAssignExpression]
+Date: Sun, 26 Dec 2021 15:56:30 +0800
+Message-ID: <202112261358.g3byjIM0-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7759214693266443060==
+--===============3487156911284836034==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Masahiro Yamada <masahiroy@kernel.org>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   eec4df26e24e978e49ccf9bcf49ca0f2ccdaeffe
-commit: a52f8a59aef46b59753e583bf4b28fccb069ce64 fortify: Explicitly disabl=
-e Clang support
-date:   3 months ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 3 months ago
-config: i386-randconfig-c001-20211208 (https://download.01.org/0day-ci/arch=
-ive/20211231/202112310632.lzS1FTV2-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da52f8a59aef46b59753e583bf4b28fccb069ce64
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a52f8a59aef46b59753e583bf4b28fccb069ce64
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+head:   e2ae0d4a6b0ba461542f0fd0ba0b828658013e9f
+commit: ea29b20a828511de3348334e529a3d046a180416 init/Kconfig: make COMPILE=
+_TEST depend on HAS_IOMEM
+date:   10 months ago
+:::::: branch date: 8 hours ago
+:::::: commit date: 10 months ago
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   net/core/datagram.c:299:3: note: '?' condition is false
-                   if (skb)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/core/datagram.c:299:3: note: Taking false branch
-                   if (skb)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/core/datagram.c:302:7: note: Assuming the condition is false
-                   if (*err !=3D -EAGAIN)
-                       ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   net/core/datagram.c:302:3: note: '?' condition is false
-                   if (*err !=3D -EAGAIN)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   net/core/datagram.c:302:3: note: '?' condition is false
-                   if (*err !=3D -EAGAIN)
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   net/core/datagram.c:302:3: note: Taking false branch
-                   if (*err !=3D -EAGAIN)
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   net/core/datagram.c:304:11: note: Assuming 'timeo' is not equal to 0
-           } while (timeo &&
-                    ^~~~~
-   net/core/datagram.c:304:11: note: Left side of '&&' is true
-   net/core/datagram.c:305:5: note: 5th function call argument is an uninit=
-ialized value
-                    !__skb_wait_for_more_packets(sk, sk_queue, err,
-                     ^
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   fs/cifs/smb2transport.c:430:3: warning: Value stored to 'rc' is never re=
-ad [clang-analyzer-deadcode.DeadStores]
-                   rc =3D generate_key(ses, ptriplet->encryption.label,
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2transport.c:430:3: note: Value stored to 'rc' is never read
-                   rc =3D generate_key(ses, ptriplet->encryption.label,
-                   ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   fs/cifs/smb2misc.c:505:2: warning: Value stored to 'rc' is never read [c=
-lang-analyzer-deadcode.DeadStores]
-           rc =3D SMB2_lease_break(0, tlink_tcon(lw->tlink), lw->lease_key,
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2misc.c:505:2: note: Value stored to 'rc' is never read
-           rc =3D SMB2_lease_break(0, tlink_tcon(lw->tlink), lw->lease_key,
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   14 warnings generated.
-   fs/cifs/smb2pdu.c:577:3: warning: Value stored to 'pneg_ctxt' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   pneg_ctxt +=3D ctxt_len;
-                   ^            ~~~~~~~~
-   fs/cifs/smb2pdu.c:577:3: note: Value stored to 'pneg_ctxt' is never read
-                   pneg_ctxt +=3D ctxt_len;
-                   ^            ~~~~~~~~
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   13 warnings generated.
-   Suppressed 13 warnings (13 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   15 warnings generated.
->> fs/cifs/cifsacl.c:267:21: warning: Assigned value is garbage or undefine=
-d [clang-analyzer-core.uninitialized.Assign]
-                   dst->authority[i] =3D src->authority[i];
-                                     ^
-   fs/cifs/cifsacl.c:1261:2: note: Assuming 'dacloffset' is not equal to 0
-           if (dacloffset) {
-           ^
-   include/linux/compiler.h:56:45: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/cifs/cifsacl.c:1261:2: note: '?' condition is false
-           if (dacloffset) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/cifs/cifsacl.c:1261:6: note: 'dacloffset' is not equal to 0
-           if (dacloffset) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/cifs/cifsacl.c:1261:2: note: '?' condition is true
-           if (dacloffset) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/cifs/cifsacl.c:1261:2: note: Taking true branch
-           if (dacloffset) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/cifs/cifsacl.c:1263:3: note: '?' condition is false
-                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
-->size)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/cifs/cifsacl.c:1263:3: note: Assuming the condition is false
-                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
-->size)) {
-                   ^
-   include/linux/compiler.h:56:44: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ~~~~=
-~~~~~~~~~~~~~^~~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/cifs/cifsacl.c:1263:3: note: '?' condition is false
-                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
-->size)) {
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/cifs/cifsacl.c:1263:3: note: Taking false branch
-                   if (end_of_acl < (char *)dacl_ptr + le16_to_cpu(dacl_ptr=
-->size)) {
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/cifs/cifsacl.c:1274:6: note: Assuming 'pnmode' is null
-           if (pnmode && *pnmode !=3D NO_CHANGE_64) { /* chmod */
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/cifs/cifsacl.c:1274:13: note: Left side of '&&' is false
-           if (pnmode && *pnmode !=3D NO_CHANGE_64) { /* chmod */
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +267 fs/cifs/cifsacl.c
+>> drivers/mmc/host/renesas_sdhi_core.c:701:0: warning: Same expression use=
+d in consecutive assignments of 'new_tap' and 'error_tap'. [duplicateAssign=
+Expression]
+    unsigned int new_tap =3D priv->tap_set, error_tap =3D priv->tap_set;
+   ^
+   drivers/mmc/host/renesas_sdhi_core.c:701:0: note: Same expression used i=
+n consecutive assignments of 'new_tap' and 'error_tap'.
+    unsigned int new_tap =3D priv->tap_set, error_tap =3D priv->tap_set;
+   ^
+   drivers/mmc/host/renesas_sdhi_core.c:701:0: note: Same expression used i=
+n consecutive assignments of 'new_tap' and 'error_tap'.
+    unsigned int new_tap =3D priv->tap_set, error_tap =3D priv->tap_set;
+   ^
 
-3514de3fd5fab5 Steve French   2016-10-13  257  =
+vim +701 drivers/mmc/host/renesas_sdhi_core.c
 
-f5065508897a92 Shyam Prasad N 2021-02-12  258  static __u16
-36960e440ccf94 Jeff Layton    2012-11-03  259  cifs_copy_sid(struct cifs_si=
-d *dst, const struct cifs_sid *src)
-36960e440ccf94 Jeff Layton    2012-11-03  260  {
-36f87ee70f754d Jeff Layton    2012-11-25  261  	int i;
-f5065508897a92 Shyam Prasad N 2021-02-12  262  	__u16 size =3D 1 + 1 + 6;
-36f87ee70f754d Jeff Layton    2012-11-25  263  =
+0c482d829ac413 Wolfram Sang  2020-01-29  697  =
 
-36f87ee70f754d Jeff Layton    2012-11-25  264  	dst->revision =3D src->revi=
-sion;
-30c9d6cca52624 Jeff Layton    2012-11-25  265  	dst->num_subauth =3D min_t(=
-u8, src->num_subauth, SID_MAX_SUB_AUTHORITIES);
-36f87ee70f754d Jeff Layton    2012-11-25  266  	for (i =3D 0; i < NUM_AUTHS=
-; ++i)
-36f87ee70f754d Jeff Layton    2012-11-25 @267  		dst->authority[i] =3D src-=
->authority[i];
-36f87ee70f754d Jeff Layton    2012-11-25  268  	for (i =3D 0; i < dst->num_=
-subauth; ++i)
-36f87ee70f754d Jeff Layton    2012-11-25  269  		dst->sub_auth[i] =3D src->=
-sub_auth[i];
-f5065508897a92 Shyam Prasad N 2021-02-12  270  	size +=3D (dst->num_subauth=
- * 4);
-f5065508897a92 Shyam Prasad N 2021-02-12  271  =
+11a219606a9bc7 Takeshi Saito 2019-12-17  698  static bool renesas_sdhi_manu=
+al_correction(struct tmio_mmc_host *host, bool use_4tap)
+11a219606a9bc7 Takeshi Saito 2019-12-17  699  {
+11a219606a9bc7 Takeshi Saito 2019-12-17  700  	struct renesas_sdhi *priv =
+=3D host_to_priv(host);
+a38c078fea0b13 Takeshi Saito 2020-04-23 @701  	unsigned int new_tap =3D pri=
+v->tap_set, error_tap =3D priv->tap_set;
+11a219606a9bc7 Takeshi Saito 2019-12-17  702  	u32 val;
+11a219606a9bc7 Takeshi Saito 2019-12-17  703  =
 
-f5065508897a92 Shyam Prasad N 2021-02-12  272  	return size;
-36960e440ccf94 Jeff Layton    2012-11-03  273  }
-36960e440ccf94 Jeff Layton    2012-11-03  274  =
+11a219606a9bc7 Takeshi Saito 2019-12-17  704  	val =3D sd_scc_read32(host, =
+priv, SH_MOBILE_SDHI_SCC_RVSREQ);
+11a219606a9bc7 Takeshi Saito 2019-12-17  705  	if (!val)
+11a219606a9bc7 Takeshi Saito 2019-12-17  706  		return false;
+11a219606a9bc7 Takeshi Saito 2019-12-17  707  =
+
+11a219606a9bc7 Takeshi Saito 2019-12-17  708  	sd_scc_write32(host, priv, S=
+H_MOBILE_SDHI_SCC_RVSREQ, 0);
+11a219606a9bc7 Takeshi Saito 2019-12-17  709  =
+
+11a219606a9bc7 Takeshi Saito 2019-12-17  710  	/* Change TAP position accor=
+ding to correction status */
+71cfc92751ac7a Takeshi Saito 2019-12-17  711  	if (sd_ctrl_read16(host, CTL=
+_VERSION) =3D=3D SDHI_VER_GEN3_SDMMC &&
+71cfc92751ac7a Takeshi Saito 2019-12-17  712  	    host->mmc->ios.timing =
+=3D=3D MMC_TIMING_MMC_HS400) {
+a38c078fea0b13 Takeshi Saito 2020-04-23  713  		u32 bad_taps =3D priv->quir=
+ks ? priv->quirks->hs400_bad_taps : 0;
+71cfc92751ac7a Takeshi Saito 2019-12-17  714  		/*
+71cfc92751ac7a Takeshi Saito 2019-12-17  715  		 * With HS400, the DAT sign=
+al is based on DS, not CLK.
+71cfc92751ac7a Takeshi Saito 2019-12-17  716  		 * Therefore, use only CMD =
+status.
+71cfc92751ac7a Takeshi Saito 2019-12-17  717  		 */
+71cfc92751ac7a Takeshi Saito 2019-12-17  718  		u32 smpcmp =3D sd_scc_read3=
+2(host, priv, SH_MOBILE_SDHI_SCC_SMPCMP) &
+71cfc92751ac7a Takeshi Saito 2019-12-17  719  					   SH_MOBILE_SDHI_SCC_SM=
+PCMP_CMD_ERR;
+a38c078fea0b13 Takeshi Saito 2020-04-23  720  		if (!smpcmp) {
+71cfc92751ac7a Takeshi Saito 2019-12-17  721  			return false;	/* no error =
+in CMD signal */
+a38c078fea0b13 Takeshi Saito 2020-04-23  722  		} else if (smpcmp =3D=3D SH=
+_MOBILE_SDHI_SCC_SMPCMP_CMD_REQUP) {
+71cfc92751ac7a Takeshi Saito 2019-12-17  723  			new_tap++;
+a38c078fea0b13 Takeshi Saito 2020-04-23  724  			error_tap--;
+a38c078fea0b13 Takeshi Saito 2020-04-23  725  		} else if (smpcmp =3D=3D SH=
+_MOBILE_SDHI_SCC_SMPCMP_CMD_REQDOWN) {
+71cfc92751ac7a Takeshi Saito 2019-12-17  726  			new_tap--;
+a38c078fea0b13 Takeshi Saito 2020-04-23  727  			error_tap++;
+a38c078fea0b13 Takeshi Saito 2020-04-23  728  		} else {
+71cfc92751ac7a Takeshi Saito 2019-12-17  729  			return true;	/* need retun=
+e */
+a38c078fea0b13 Takeshi Saito 2020-04-23  730  		}
+a38c078fea0b13 Takeshi Saito 2020-04-23  731  =
+
+a38c078fea0b13 Takeshi Saito 2020-04-23  732  		/*
+a38c078fea0b13 Takeshi Saito 2020-04-23  733  		 * When new_tap is a bad ta=
+p, we cannot change. Then, we compare
+a38c078fea0b13 Takeshi Saito 2020-04-23  734  		 * with the HS200 tuning re=
+sult. When smpcmp[error_tap] is OK,
+a38c078fea0b13 Takeshi Saito 2020-04-23  735  		 * we can at least retune.
+a38c078fea0b13 Takeshi Saito 2020-04-23  736  		 */
+a38c078fea0b13 Takeshi Saito 2020-04-23  737  		if (bad_taps & BIT(new_tap =
+% priv->tap_num))
+a38c078fea0b13 Takeshi Saito 2020-04-23  738  			return test_bit(error_tap =
+% priv->tap_num, priv->smpcmp);
+71cfc92751ac7a Takeshi Saito 2019-12-17  739  	} else {
+11a219606a9bc7 Takeshi Saito 2019-12-17  740  		if (val & SH_MOBILE_SDHI_SC=
+C_RVSREQ_RVSERR)
+71cfc92751ac7a Takeshi Saito 2019-12-17  741  			return true;    /* need re=
+tune */
+11a219606a9bc7 Takeshi Saito 2019-12-17  742  		else if (val & SH_MOBILE_SD=
+HI_SCC_RVSREQ_REQTAPUP)
+71cfc92751ac7a Takeshi Saito 2019-12-17  743  			new_tap++;
+11a219606a9bc7 Takeshi Saito 2019-12-17  744  		else if (val & SH_MOBILE_SD=
+HI_SCC_RVSREQ_REQTAPDOWN)
+71cfc92751ac7a Takeshi Saito 2019-12-17  745  			new_tap--;
+11a219606a9bc7 Takeshi Saito 2019-12-17  746  		else
+11a219606a9bc7 Takeshi Saito 2019-12-17  747  			return false;
+71cfc92751ac7a Takeshi Saito 2019-12-17  748  	}
+11a219606a9bc7 Takeshi Saito 2019-12-17  749  =
+
+b2dd9a1325e680 Wolfram Sang  2020-01-29  750  	priv->tap_set =3D (new_tap %=
+ priv->tap_num);
+11a219606a9bc7 Takeshi Saito 2019-12-17  751  	sd_scc_write32(host, priv, S=
+H_MOBILE_SDHI_SCC_TAPSET,
+b2dd9a1325e680 Wolfram Sang  2020-01-29  752  		       priv->tap_set / (use=
+_4tap ? 2 : 1));
+11a219606a9bc7 Takeshi Saito 2019-12-17  753  =
+
+11a219606a9bc7 Takeshi Saito 2019-12-17  754  	return false;
+11a219606a9bc7 Takeshi Saito 2019-12-17  755  }
+11a219606a9bc7 Takeshi Saito 2019-12-17  756  =
 
 
-:::::: The code at line 267 was first introduced by commit
-:::::: 36f87ee70f754d04e55518853e6fb30ed4732dda cifs: make cifs_copy_sid ha=
-ndle a source sid with variable size subauth arrays
+:::::: The code at line 701 was first introduced by commit
+:::::: a38c078fea0b1393fd2acb50e91057d7e429d9aa mmc: renesas_sdhi: Avoid ba=
+d TAP in HS400
 
-:::::: TO: Jeff Layton <jlayton@redhat.com>
-:::::: CC: Steve French <smfrench@gmail.com>
+:::::: TO: Takeshi Saito <takeshi.saito.xv@renesas.com>
+:::::: CC: Ulf Hansson <ulf.hansson@linaro.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7759214693266443060==--
+--===============3487156911284836034==--
 
