@@ -1,328 +1,380 @@
-Content-Type: multipart/mixed; boundary="===============7195910852746414472=="
+Content-Type: multipart/mixed; boundary="===============8294662230792813589=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [mtd:spi-mem-ecc 14/16] drivers/mtd/nand/ecc-mxic.c:395 mxic_ecc_data_xfer_wait_for_completion() error: uninitialized symbol 'val'.
-Date: Mon, 27 Dec 2021 17:06:22 +0800
-Message-ID: <202112271621.cNxEVvN6-lkp@intel.com>
+Subject: drivers/gpu/drm/gma500/cdv_intel_dp.c:863:2: warning: Null pointer passed as 2nd argument to string copy function [clang-analyzer-unix.cstring.NullArg]
+Date: Mon, 27 Dec 2021 14:54:36 +0800
+Message-ID: <202112271409.Cjq8ceMY-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7195910852746414472==
+--===============8294662230792813589==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Miquel Raynal <miquel.raynal@bootlin.com>
+TO: Thomas Zimmermann <tzimmermann@suse.de>
+CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+CC: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mtd/linux.git spi-m=
-em-ecc
-head:   5966bd4f59edbbe5873b1b4637ed50f258ced0b2
-commit: b78baf1891f0b7c3f0e2e3e6022eab38ee6c871f [14/16] mtd: nand: mxic-ec=
-c: Add Macronix external ECC engine support
-:::::: branch date: 10 days ago
-:::::: commit date: 10 days ago
-config: i386-randconfig-m021-20211227 (https://download.01.org/0day-ci/arch=
-ive/20211227/202112271621.cNxEVvN6-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   fc74e0a40e4f9fd0468e34045b0c45bba11dcbb2
+commit: 26499e0518a77de29e7db2c53fb0d0e9e15be8fb drm/gma500: Drop DRM_GMA36=
+00 config option
+date:   11 months ago
+:::::: branch date: 10 hours ago
+:::::: commit date: 11 months ago
+config: i386-randconfig-c001-20211226 (https://download.01.org/0day-ci/arch=
+ive/20211227/202112271409.Cjq8ceMY-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project a9e8b1=
+ee7fd44b53c555a7823ae8fd1a8209c520)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D26499e0518a77de29e7db2c53fb0d0e9e15be8fb
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 26499e0518a77de29e7db2c53fb0d0e9e15be8fb
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Di386 clang-analyzer =
+
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/mtd/nand/ecc-mxic.c:395 mxic_ecc_data_xfer_wait_for_completion() er=
-ror: uninitialized symbol 'val'.
-drivers/mtd/nand/ecc-mxic.c:548 mxic_ecc_prepare_io_req_external() error: u=
-ninitialized symbol 'ret'.
 
-vim +/val +395 drivers/mtd/nand/ecc-mxic.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   drivers/phy/cadence/phy-cadence-torrent.c:907:6: note: Assuming field 's=
+et_lanes' is not equal to 0
+           if (opts->dp.set_lanes) {
+               ^~~~~~~~~~~~~~~~~~
+   drivers/phy/cadence/phy-cadence-torrent.c:907:2: note: Taking true branch
+           if (opts->dp.set_lanes) {
+           ^
+   drivers/phy/cadence/phy-cadence-torrent.c:908:9: note: Calling 'cdns_tor=
+rent_dp_set_lanes'
+                   ret =3D cdns_torrent_dp_set_lanes(cdns_phy, &opts->dp);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/cadence/phy-cadence-torrent.c:778:25: note: The result of th=
+e left shift is undefined because the left operand is negative
+           value |=3D ((~lane_mask) << PMA_TX_ELEC_IDLE_SHIFT) &
+                     ~~~~~~~~~~~~ ^
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/gpu/drm/gma500/cdv_intel_display.c:761:2: warning: Value stored =
+to 'dpll' is never read [clang-analyzer-deadcode.DeadStores]
+           dpll |=3D DPLL_VCO_ENABLE;
+           ^
+   drivers/gpu/drm/gma500/cdv_intel_display.c:761:2: note: Value stored to =
+'dpll' is never read
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> drivers/gpu/drm/gma500/cdv_intel_dp.c:863:2: warning: Null pointer passe=
+d as 2nd argument to string copy function [clang-analyzer-unix.cstring.Null=
+Arg]
+           strncpy (intel_dp->adapter.name, name, sizeof(intel_dp->adapter.=
+name) - 1);
+           ^
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1960:2: note: 'name' initialized t=
+o a null pointer value
+           const char *name =3D NULL;
+           ^~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1963:16: note: Calling 'kzalloc'
+           gma_encoder =3D kzalloc(sizeof(struct gma_encoder), GFP_KERNEL);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:540:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:557:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1963:16: note: Returning from 'kza=
+lloc'
+           gma_encoder =3D kzalloc(sizeof(struct gma_encoder), GFP_KERNEL);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1964:6: note: Assuming 'gma_encode=
+r' is non-null
+           if (!gma_encoder)
+               ^~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1964:2: note: Taking false branch
+           if (!gma_encoder)
+           ^
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1966:25: note: Calling 'kzalloc'
+           gma_connector =3D kzalloc(sizeof(struct gma_connector), GFP_KERN=
+EL);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:540:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:557:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1966:25: note: Returning from 'kza=
+lloc'
+           gma_connector =3D kzalloc(sizeof(struct gma_connector), GFP_KERN=
+EL);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1967:13: note: Assuming 'gma_conne=
+ctor' is non-null
+           if (!gma_connector)
+               ^~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1967:9: note: Taking false branch
+           if (!gma_connector)
+           ^
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1969:13: note: Calling 'kzalloc'
+           intel_dp =3D kzalloc(sizeof(struct cdv_intel_dp), GFP_KERNEL);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:9: note: Calling 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:540:2: note: Taking false branch
+           if (__builtin_constant_p(size)) {
+           ^
+   include/linux/slab.h:557:2: note: Returning pointer, which participates =
+in a condition later
+           return __kmalloc(size, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:9: note: Returning from 'kmalloc'
+           return kmalloc(size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:682:2: note: Returning pointer, which participates =
+in a condition later
+           return kmalloc(size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1969:13: note: Returning from 'kza=
+lloc'
+           intel_dp =3D kzalloc(sizeof(struct cdv_intel_dp), GFP_KERNEL);
+                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1970:6: note: Assuming 'intel_dp' =
+is non-null
+           if (!intel_dp)
+               ^~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1970:2: note: Taking false branch
+           if (!intel_dp)
+           ^
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1973:7: note: Assuming 'output_reg=
+' is not equal to DP_C
+           if ((output_reg =3D=3D DP_C) && cdv_intel_dpc_is_edp(dev))
+                ^~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1973:27: note: Left side of '&&' i=
+s false
+           if ((output_reg =3D=3D DP_C) && cdv_intel_dpc_is_edp(dev))
+                                    ^
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1984:6: note: 'type' is equal to D=
+RM_MODE_CONNECTOR_DisplayPort
+           if (type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+               ^~~~
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:1984:2: note: Taking true branch
+           if (type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
+           ^
+   drivers/gpu/drm/gma500/cdv_intel_dp.c:2004:2: note: 'Default' branch tak=
+en. Execution continues on line 2015
+           switch (output_reg) {
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  376  =
+vim +863 drivers/gpu/drm/gma500/cdv_intel_dp.c
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  377  static int mxic_ecc_data_xfer=
-_wait_for_completion(struct mxic_ecc_engine *mxic)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  378  {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  379  	u32 val;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  380  	int ret;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  381  =
+8695b612943561 Alan Cox         2012-08-08  846  =
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  382  	if (mxic->irq) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  383  		reinit_completion(&mxic->co=
-mplete);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  384  		mxic_ecc_enable_int(mxic);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  385  		ret =3D wait_for_completion=
-_timeout(&mxic->complete,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  386  						  msecs_to_jiffies(1000=
-));
-b78baf1891f0b7 Miquel Raynal 2021-12-16  387  		mxic_ecc_disable_int(mxic);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  388  	} else {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  389  		ret =3D readl_poll_timeout(=
-mxic->regs + INTRPT_STS, val,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  390  					 val & TRANS_CMPLT, 10, =
-USEC_PER_SEC);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  391  		writel(val, mxic->regs + IN=
-TRPT_STS);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  392  	}
-b78baf1891f0b7 Miquel Raynal 2021-12-16  393  =
+8695b612943561 Alan Cox         2012-08-08  847  static int
+367e44080e20f7 Patrik Jakobsson 2013-07-22  848  cdv_intel_dp_i2c_init(stru=
+ct gma_connector *connector,
+367e44080e20f7 Patrik Jakobsson 2013-07-22  849  		      struct gma_encoder=
+ *encoder, const char *name)
+8695b612943561 Alan Cox         2012-08-08  850  {
+37e7b184da18a9 Alan Cox         2012-08-08  851  	struct cdv_intel_dp *inte=
+l_dp =3D encoder->dev_priv;
+d112a8163f8375 Zhao Yakui       2012-08-08  852  	int ret;
+d112a8163f8375 Zhao Yakui       2012-08-08  853  =
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  394  	if (ret) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16 @395  		dev_err(mxic->dev, "Timeout=
- on data xfer completion (sts 0x%08x)\n", val);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  396  		return -ETIMEDOUT;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  397  	}
-b78baf1891f0b7 Miquel Raynal 2021-12-16  398  =
+8695b612943561 Alan Cox         2012-08-08  854  	DRM_DEBUG_KMS("i2c_init %=
+s\n", name);
+d112a8163f8375 Zhao Yakui       2012-08-08  855  =
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  399  	return 0;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  400  }
-b78baf1891f0b7 Miquel Raynal 2021-12-16  401  =
+8695b612943561 Alan Cox         2012-08-08  856  	intel_dp->algo.running =
+=3D false;
+8695b612943561 Alan Cox         2012-08-08  857  	intel_dp->algo.address =
+=3D 0;
+37e7b184da18a9 Alan Cox         2012-08-08  858  	intel_dp->algo.aux_ch =3D=
+ cdv_intel_dp_i2c_aux_ch;
+8695b612943561 Alan Cox         2012-08-08  859  =
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  402  static int mxic_ecc_process_d=
-ata(struct mxic_ecc_engine *mxic,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  403  				 unsigned int direction)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  404  {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  405  	unsigned int dir =3D (direct=
-ion =3D=3D NAND_PAGE_READ) ?
-b78baf1891f0b7 Miquel Raynal 2021-12-16  406  			   READ_NAND : WRITE_NAND;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  407  	int ret;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  408  =
+8695b612943561 Alan Cox         2012-08-08  860  	memset(&intel_dp->adapter=
+, '\0', sizeof (intel_dp->adapter));
+8695b612943561 Alan Cox         2012-08-08  861  	intel_dp->adapter.owner =
+=3D THIS_MODULE;
+8695b612943561 Alan Cox         2012-08-08  862  	intel_dp->adapter.class =
+=3D I2C_CLASS_DDC;
+8695b612943561 Alan Cox         2012-08-08 @863  	strncpy (intel_dp->adapte=
+r.name, name, sizeof(intel_dp->adapter.name) - 1);
+8695b612943561 Alan Cox         2012-08-08  864  	intel_dp->adapter.name[si=
+zeof(intel_dp->adapter.name) - 1] =3D '\0';
+8695b612943561 Alan Cox         2012-08-08  865  	intel_dp->adapter.algo_da=
+ta =3D &intel_dp->algo;
+5bdebb183c9702 Dave Airlie      2013-10-11  866  	intel_dp->adapter.dev.par=
+ent =3D connector->base.kdev;
+8695b612943561 Alan Cox         2012-08-08  867  =
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  409  	mxic_ecc_enable_engine(mxic);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  410  =
+d112a8163f8375 Zhao Yakui       2012-08-08  868  	if (is_edp(encoder))
+d112a8163f8375 Zhao Yakui       2012-08-08  869  		cdv_intel_edp_panel_vdd_=
+on(encoder);
+d112a8163f8375 Zhao Yakui       2012-08-08  870  	ret =3D i2c_dp_aux_add_bu=
+s(&intel_dp->adapter);
+d112a8163f8375 Zhao Yakui       2012-08-08  871  	if (is_edp(encoder))
+d112a8163f8375 Zhao Yakui       2012-08-08  872  		cdv_intel_edp_panel_vdd_=
+off(encoder);
+d112a8163f8375 Zhao Yakui       2012-08-08  873  	=
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  411  	/* Trigger processing */
-b78baf1891f0b7 Miquel Raynal 2021-12-16  412  	writel(SDMA_STRT | dir, mxic=
-->regs + SDMA_CTRL);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  413  =
+d112a8163f8375 Zhao Yakui       2012-08-08  874  	return ret;
+d112a8163f8375 Zhao Yakui       2012-08-08  875  }
+d112a8163f8375 Zhao Yakui       2012-08-08  876  =
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  414  	/* Wait for completion */
-b78baf1891f0b7 Miquel Raynal 2021-12-16  415  	ret =3D mxic_ecc_data_xfer_w=
-ait_for_completion(mxic);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  416  =
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  417  	mxic_ecc_disable_engine(mxic=
-);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  418  =
+:::::: The code at line 863 was first introduced by commit
+:::::: 8695b612943561478fd22f28f45e5692e5d078db gma500: Add the support of =
+display port on CDV
 
-b78baf1891f0b7 Miquel Raynal 2021-12-16  419  	return ret;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  420  }
-b78baf1891f0b7 Miquel Raynal 2021-12-16  421  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  422  static void mxic_ecc_extract_=
-status_bytes(struct mxic_ecc_ctx *ctx)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  423  {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  424  	u8 *buf =3D ctx->oobwithstat;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  425  	int next_stat_pos;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  426  	int step;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  427  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  428  	/* Extract the ECC status */
-b78baf1891f0b7 Miquel Raynal 2021-12-16  429  	for (step =3D 0; step < ctx-=
->steps; step++) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  430  		next_stat_pos =3D ctx->oob_=
-step_sz +
-b78baf1891f0b7 Miquel Raynal 2021-12-16  431  				((STAT_BYTES + ctx->oob_s=
-tep_sz) * step);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  432  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  433  		ctx->status[step] =3D buf[n=
-ext_stat_pos];
-b78baf1891f0b7 Miquel Raynal 2021-12-16  434  	}
-b78baf1891f0b7 Miquel Raynal 2021-12-16  435  }
-b78baf1891f0b7 Miquel Raynal 2021-12-16  436  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  437  static void mxic_ecc_reconstr=
-uct_oobbuf(struct mxic_ecc_ctx *ctx,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  438  					u8 *dst, const u8 *src)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  439  {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  440  	int step;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  441  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  442  	/* Reconstruct the OOB buffe=
-r linearly (without the ECC status bytes) */
-b78baf1891f0b7 Miquel Raynal 2021-12-16  443  	for (step =3D 0; step < ctx-=
->steps; step++)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  444  		memcpy(dst + (step * ctx->o=
-ob_step_sz),
-b78baf1891f0b7 Miquel Raynal 2021-12-16  445  		       src + (step * (ctx->=
-oob_step_sz + STAT_BYTES)),
-b78baf1891f0b7 Miquel Raynal 2021-12-16  446  		       ctx->oob_step_sz);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  447  }
-b78baf1891f0b7 Miquel Raynal 2021-12-16  448  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  449  static void mxic_ecc_add_room=
-_in_oobbuf(struct mxic_ecc_ctx *ctx,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  450  					u8 *dst, const u8 *src)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  451  {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  452  	int step;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  453  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  454  	/* Add some space in the OOB=
- buffer for the status bytes */
-b78baf1891f0b7 Miquel Raynal 2021-12-16  455  	for (step =3D 0; step < ctx-=
->steps; step++)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  456  		memcpy(dst + (step * (ctx->=
-oob_step_sz + STAT_BYTES)),
-b78baf1891f0b7 Miquel Raynal 2021-12-16  457  		       src + (step * ctx->o=
-ob_step_sz),
-b78baf1891f0b7 Miquel Raynal 2021-12-16  458  		       ctx->oob_step_sz);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  459  }
-b78baf1891f0b7 Miquel Raynal 2021-12-16  460  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  461  static int mxic_ecc_count_bit=
-errs(struct mxic_ecc_engine *mxic,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  462  				  struct nand_device *nan=
-d)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  463  {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  464  	struct mxic_ecc_ctx *ctx =3D=
- nand_to_ecc_ctx(nand);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  465  	struct mtd_info *mtd =3D nan=
-ddev_to_mtd(nand);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  466  	struct device *dev =3D mxic-=
->dev;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  467  	unsigned int max_bf =3D 0;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  468  	bool failure =3D false;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  469  	int step;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  470  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  471  	for (step =3D 0; step < ctx-=
->steps; step++) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  472  		u8 stat =3D ctx->status[ste=
-p];
-b78baf1891f0b7 Miquel Raynal 2021-12-16  473  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  474  		if (stat =3D=3D NO_ERR) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  475  			dev_dbg(dev, "ECC step %d:=
- no error\n", step);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  476  		} else if (stat =3D=3D ERAS=
-ED_CHUNK) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  477  			dev_dbg(dev, "ECC step %d:=
- erased\n", step);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  478  		} else if (stat =3D=3D UNCO=
-RR_ERR || stat > MAX_CORR_ERR) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  479  			dev_dbg(dev, "ECC step %d:=
- uncorrectable\n", step);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  480  			mtd->ecc_stats.failed++;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  481  			failure =3D true;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  482  		} else {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  483  			dev_dbg(dev, "ECC step %d:=
- %d bits corrected\n",
-b78baf1891f0b7 Miquel Raynal 2021-12-16  484  				step, stat);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  485  			max_bf =3D max_t(unsigned =
-int, max_bf, stat);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  486  			mtd->ecc_stats.corrected +=
-=3D stat;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  487  		}
-b78baf1891f0b7 Miquel Raynal 2021-12-16  488  	}
-b78baf1891f0b7 Miquel Raynal 2021-12-16  489  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  490  	return failure ? -EBADMSG : =
-max_bf;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  491  }
-b78baf1891f0b7 Miquel Raynal 2021-12-16  492  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  493  /* External ECC engine helper=
-s */
-b78baf1891f0b7 Miquel Raynal 2021-12-16  494  static int mxic_ecc_prepare_i=
-o_req_external(struct nand_device *nand,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  495  					    struct nand_page_io_=
-req *req)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  496  {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  497  	struct mxic_ecc_engine *mxic=
- =3D nand_to_mxic(nand);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  498  	struct mxic_ecc_ctx *ctx =3D=
- nand_to_ecc_ctx(nand);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  499  	struct mtd_info *mtd =3D nan=
-ddev_to_mtd(nand);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  500  	int offset, nents, step, ret;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  501  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  502  	if (req->mode =3D=3D MTD_OPS=
-_RAW)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  503  		return 0;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  504  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  505  	nand_ecc_tweak_req(&ctx->req=
-_ctx, req);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  506  	ctx->req =3D req;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  507  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  508  	if (req->type =3D=3D NAND_PA=
-GE_READ)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  509  		return 0;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  510  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  511  	mxic_ecc_add_room_in_oobbuf(=
-ctx, ctx->oobwithstat,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  512  				    ctx->req->oobbuf.out);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  513  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  514  	sg_set_buf(&ctx->sg[0], req-=
->databuf.out, req->datalen);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  515  	sg_set_buf(&ctx->sg[1], ctx-=
->oobwithstat,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  516  		   req->ooblen + (ctx->step=
-s * STAT_BYTES));
-b78baf1891f0b7 Miquel Raynal 2021-12-16  517  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  518  	nents =3D dma_map_sg(mxic->d=
-ev, ctx->sg, 2, DMA_BIDIRECTIONAL);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  519  	if (!nents)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  520  		return -EINVAL;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  521  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  522  	mutex_lock(&mxic->lock);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  523  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  524  	for (step =3D 0; step < ctx-=
->steps; step++) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  525  		writel(sg_dma_address(&ctx-=
->sg[0]) + (step * ctx->data_step_sz),
-b78baf1891f0b7 Miquel Raynal 2021-12-16  526  		       mxic->regs + SDMA_MA=
-IN_ADDR);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  527  		writel(sg_dma_address(&ctx-=
->sg[1]) + (step * (ctx->oob_step_sz + STAT_BYTES)),
-b78baf1891f0b7 Miquel Raynal 2021-12-16  528  		       mxic->regs + SDMA_SP=
-ARE_ADDR);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  529  		ret =3D mxic_ecc_process_da=
-ta(mxic, ctx->req->type);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  530  		if (ret)
-b78baf1891f0b7 Miquel Raynal 2021-12-16  531  			break;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  532  	}
-b78baf1891f0b7 Miquel Raynal 2021-12-16  533  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  534  	mutex_unlock(&mxic->lock);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  535  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  536  	dma_unmap_sg(mxic->dev, ctx-=
->sg, 2, DMA_BIDIRECTIONAL);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  537  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16  538  	/* Retrieve the calculated E=
-CC bytes */
-b78baf1891f0b7 Miquel Raynal 2021-12-16  539  	for (step =3D 0; step < ctx-=
->steps; step++) {
-b78baf1891f0b7 Miquel Raynal 2021-12-16  540  		offset =3D ctx->meta_sz + (=
-step * ctx->oob_step_sz);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  541  		mtd_ooblayout_get_eccbytes(=
-mtd,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  542  					   (u8 *)ctx->req->oobbu=
-f.out + offset,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  543  					   ctx->oobwithstat + (s=
-tep * STAT_BYTES),
-b78baf1891f0b7 Miquel Raynal 2021-12-16  544  					   step * ctx->parity_sz,
-b78baf1891f0b7 Miquel Raynal 2021-12-16  545  					   ctx->parity_sz);
-b78baf1891f0b7 Miquel Raynal 2021-12-16  546  	}
-b78baf1891f0b7 Miquel Raynal 2021-12-16  547  =
-
-b78baf1891f0b7 Miquel Raynal 2021-12-16 @548  	return ret;
-b78baf1891f0b7 Miquel Raynal 2021-12-16  549  }
-b78baf1891f0b7 Miquel Raynal 2021-12-16  550  =
-
+:::::: TO: Alan Cox <alan@linux.intel.com>
+:::::: CC: Dave Airlie <airlied@redhat.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7195910852746414472==--
+--===============8294662230792813589==--
 
