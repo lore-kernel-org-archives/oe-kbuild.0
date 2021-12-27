@@ -1,68 +1,52 @@
-Content-Type: multipart/mixed; boundary="===============6550790661854579392=="
+Content-Type: multipart/mixed; boundary="===============0369559846519644826=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 10/14] drm/vc4: hdmi: Move clock calculation into its own function
-Date: Tue, 28 Dec 2021 06:44:14 +0800
-Message-ID: <202112280623.f3h65W1j-lkp@intel.com>
+Subject: Re: [net-next v7 2/2] net: sched: support hash/classid/cpuid selecting tx queue
+Date: Tue, 28 Dec 2021 06:13:45 +0800
+Message-ID: <202112280602.UuBkQ7jr-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6550790661854579392==
+--===============0369559846519644826==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211215124406.340180-11-maxime@cerno.tech>
-References: <20211215124406.340180-11-maxime@cerno.tech>
-TO: Maxime Ripard <maxime@cerno.tech>
-TO: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-TO: Maxime Ripard <maxime@cerno.tech>
-TO: Daniel Vetter <daniel.vetter@intel.com>
-TO: David Airlie <airlied@linux.ie>
-CC: Dom Cobley <dom@raspberrypi.com>
-CC: Tim Gover <tim.gover@raspberrypi.com>
-CC: Dave Stevenson <dave.stevenson@raspberrypi.com>
-CC: dri-devel(a)lists.freedesktop.org
-CC: Werner Sembach <wse@tuxedocomputers.com>
+In-Reply-To: <20211224164926.80733-3-xiangxia.m.yue@gmail.com>
+References: <20211224164926.80733-3-xiangxia.m.yue@gmail.com>
+TO: xiangxia.m.yue(a)gmail.com
 
-Hi Maxime,
+Hi,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on drm/drm-next]
-[also build test WARNING on drm-intel/for-linux-next next-20211224]
-[cannot apply to anholt/for-next v5.16-rc7]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
+[auto build test WARNING on net-next/master]
 
-url:    https://github.com/0day-ci/linux/commits/Maxime-Ripard/drm-vc4-hdmi=
--Yet-Another-Approach-to-HDMI-YUV-output/20211215-204656
-base:   git://anongit.freedesktop.org/drm/drm drm-next
-:::::: branch date: 12 days ago
-:::::: commit date: 12 days ago
-config: arm-randconfig-c002-20211227 (https://download.01.org/0day-ci/archi=
-ve/20211228/202112280623.f3h65W1j-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 511726=
-c64d3b6cca66f7c54d457d586aa3129f67)
+url:    https://github.com/0day-ci/linux/commits/xiangxia-m-yue-gmail-com/n=
+et-sched-allow-user-to-select-txqueue/20211225-005116
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/davem/net-next.git =
+7467d716583eec12ae84a33fb1fb27d22333fc64
+:::::: branch date: 3 days ago
+:::::: commit date: 3 days ago
+config: i386-randconfig-c001-20211226 (https://download.01.org/0day-ci/arch=
+ive/20211228/202112280602.UuBkQ7jr-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project a9e8b1=
+ee7fd44b53c555a7823ae8fd1a8209c520)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/7944eff87b48d07ddbb19c3a0=
-3d2fd9922553ac0
+        # https://github.com/0day-ci/linux/commit/6ede36fda618b75206f5cd31a=
+9c06c1667f1864b
         git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Maxime-Ripard/drm-vc4-hdmi-Yet-Ano=
-ther-Approach-to-HDMI-YUV-output/20211215-204656
-        git checkout 7944eff87b48d07ddbb19c3a03d2fd9922553ac0
+        git fetch --no-tags linux-review xiangxia-m-yue-gmail-com/net-sched=
+-allow-user-to-select-txqueue/20211225-005116
+        git checkout 6ede36fda618b75206f5cd31a9c06c1667f1864b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -70,334 +54,1075 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-                   ^
-   include/asm-generic/bug.h:150:2: note: expanded from macro 'WARN_ONCE'
-           DO_ONCE_LITE_IF(condition, WARN, 1, format)
+                                ^
+   fs/f2fs/segment.h:104:3: note: expanded from macro 'GET_SEC_FROM_SEG'
+           (((segno) =3D=3D -1) ? -1: (segno) / (sbi)->segs_per_sec)
+            ^
+   fs/f2fs/gc.c:319:2: note: 'usable_segs_per_sec' initialized here
+           unsigned int usable_segs_per_sec =3D f2fs_usable_segs_in_sec(sbi=
+, segno);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/gc.c:321:14: note: Assuming 'i' is >=3D 'usable_segs_per_sec'
+           for (i =3D 0; i < usable_segs_per_sec; i++)
+                       ^~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/gc.c:321:2: note: Loop condition is false. Execution continues o=
+n line 323
+           for (i =3D 0; i < usable_segs_per_sec; i++)
            ^
-   include/linux/once_lite.h:17:3: note: expanded from macro 'DO_ONCE_LITE_=
-IF'
-                   if (unlikely(__ret_do_once && !__already_done)) {       \
-                   ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1220:6: note: Assuming field 'hdmi_monito=
-r' is true
-           if (vc4_encoder->hdmi_monitor) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1220:2: note: Taking true branch
-           if (vc4_encoder->hdmi_monitor) {
-           ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1221:3: note: Loop condition is false.  E=
-xiting loop
-                   spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
-                   ^
-   include/linux/spinlock.h:379:2: note: expanded from macro 'spin_lock_irq=
-save'
-           raw_spin_lock_irqsave(spinlock_check(lock), flags);     \
-           ^
-   include/linux/spinlock.h:240:2: note: expanded from macro 'raw_spin_lock=
-_irqsave'
-           do {                                            \
-           ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1221:3: note: Loop condition is false.  E=
-xiting loop
-                   spin_lock_irqsave(&vc4_hdmi->hw_lock, flags);
-                   ^
-   include/linux/spinlock.h:377:43: note: expanded from macro 'spin_lock_ir=
-qsave'
-   #define spin_lock_irqsave(lock, flags)                          \
-                                                                   ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1223:11: note: Assuming the condition is =
-false
-                   WARN_ON(!(HDMI_READ(HDMI_SCHEDULER_CONTROL) &
+   fs/f2fs/gc.c:325:25: note: Passing the value 0 via 2nd parameter 'diviso=
+r'
+           mtime =3D div_u64(mtime, usable_segs_per_sec);
+                                  ^~~~~~~~~~~~~~~~~~~
+   fs/f2fs/gc.c:325:10: note: Calling 'div_u64'
+           mtime =3D div_u64(mtime, usable_segs_per_sec);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/math64.h:128:31: note: Passing the value 0 via 2nd paramet=
+er 'divisor'
+           return div_u64_rem(dividend, divisor, &remainder);
+                                        ^~~~~~~
+   include/linux/math64.h:128:9: note: Calling 'div_u64_rem'
+           return div_u64_rem(dividend, divisor, &remainder);
+                  ^
+   arch/x86/include/asm/div64.h:61:21: note: expanded from macro 'div_u64_r=
+em'
+   #define div_u64_rem     div_u64_rem
                            ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1223:3: note: Taking false branch
-                   WARN_ON(!(HDMI_READ(HDMI_SCHEDULER_CONTROL) &
+   arch/x86/include/asm/div64.h:53:6: note: 'upper' is >=3D 'divisor'
+           if (upper >=3D divisor) {
+               ^~~~~
+   arch/x86/include/asm/div64.h:53:2: note: Taking true branch
+           if (upper >=3D divisor) {
+           ^
+   arch/x86/include/asm/div64.h:54:20: note: Division by zero
+                   d.v32[1] =3D upper / divisor;
+                              ~~~~~~^~~~~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   drivers/mmc/core/sdio_cis.c:63:3: warning: Call to function 'strcpy' is =
+insecure as it does not provide bounding of the memory buffer. Replace unbo=
+unded copy functions with analogous functions that support length arguments=
+ such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+                   strcpy(string, buf);
+                   ^~~~~~
+   drivers/mmc/core/sdio_cis.c:63:3: note: Call to function 'strcpy' is ins=
+ecure as it does not provide bounding of the memory buffer. Replace unbound=
+ed copy functions with analogous functions that support length arguments su=
+ch as 'strlcpy'. CWE-119
+                   strcpy(string, buf);
+                   ^~~~~~
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   1 warning generated.
+   Suppressed 1 warnings (1 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> net/sched/act_skbedit.c:272:26: warning: Dereference of null pointer (lo=
+aded from variable 'priority') [clang-analyzer-core.NullDereference]
+                   params_new->priority =3D *priority;
+                                          ^~~~~~~~~
+   net/sched/act_skbedit.c:147:18: note: 'priority' initialized to a null p=
+ointer value
+           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
+ULL;
+                           ^~~~~~~~
+   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:154:2: note: Taking false branch
+           if (nla =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:159:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:162:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:182:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:187:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:192:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
+ equal to 0
+                   if (mapping_hash_type) {
+                       ^~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:197:3: note: Taking true branch
+                   if (mapping_hash_type) {
                    ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
+   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:201:4: note: Taking false branch
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                           ^
+   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                               ^
+   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
+                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:206:4: note: Taking false branch
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                           ^
+   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
+                           if (*queue_mapping_max < *queue_mapping) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:214:4: note: Taking false branch
+                           if (*queue_mapping_max < *queue_mapping) {
+                           ^
+   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:222:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                   ^
+   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:229:2: note: Taking false branch
+           if (err < 0)
            ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1234:3: note: Calling 'vc4_hdmi_set_infof=
-rames'
-                   vc4_hdmi_set_infoframes(encoder);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:570:2: note: Assuming 'debug_locks' is 0
-           lockdep_assert_held(&vc4_hdmi->mutex);
+   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
+           if (exists && bind)
+               ^~~~~~
+   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
+   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
+           if (exists && bind)
+                         ^~~~
+   net/sched/act_skbedit.c:232:2: note: Taking false branch
+           if (exists && bind)
            ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/lockdep.h:310:15: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                        ^~~~~~~~~~~
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:570:2: note: Left side of '&&' is false
-           lockdep_assert_held(&vc4_hdmi->mutex);
+   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
+           if (!flags) {
+                ^~~~~
+   net/sched/act_skbedit.c:235:2: note: Taking false branch
+           if (!flags) {
            ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
+   net/sched/act_skbedit.c:243:7: note: 'exists' is true
+           if (!exists) {
+                ^~~~~~
+   net/sched/act_skbedit.c:243:2: note: Taking false branch
+           if (!exists) {
            ^
-   include/linux/lockdep.h:310:27: note: expanded from macro 'lockdep_asser=
-t'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                                    ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:570:2: note: Taking false branch
-           lockdep_assert_held(&vc4_hdmi->mutex);
+   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:255:3: note: Taking false branch
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                   ^
+   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:261:2: note: Taking false branch
+           if (err < 0)
            ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:7: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-                ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
-           ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:570:2: note: Loop condition is false.  Ex=
-iting loop
-           lockdep_assert_held(&vc4_hdmi->mutex);
-           ^
-   include/linux/lockdep.h:316:2: note: expanded from macro 'lockdep_assert=
-_held'
-           lockdep_assert(lockdep_is_held(l) !=3D LOCK_STATE_NOT_HELD)
-           ^
-   include/linux/lockdep.h:310:2: note: expanded from macro 'lockdep_assert'
-           do { WARN_ON(debug_locks && !(cond)); } while (0)
-           ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:578:6: note: Assuming field 'streaming' i=
-s true
-           if (vc4_hdmi->audio.streaming)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:578:2: note: Taking true branch
-           if (vc4_hdmi->audio.streaming)
-           ^
-   drivers/gpu/drm/vc4/vc4_hdmi.c:579:3: note: Calling 'vc4_hdmi_set_audio_=
-infoframe'
-                   vc4_hdmi_set_audio_infoframe(encoder);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:542:2: note: Calling 'vc4_hdmi_write_info=
-frame'
-           vc4_hdmi_write_infoframe(encoder, &frame);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:437:34: note: The left operand of '-' is =
-a garbage value
-           u32 packet_id =3D frame->any.type - 0x80;
-                           ~~~~~~~~~~~~~~~ ^
->> drivers/gpu/drm/vc4/vc4_hdmi.c:1337:3: warning: Value stored to 'pixel_r=
-ate' is never read [clang-analyzer-deadcode.DeadStores]
-                   pixel_rate =3D mode->clock * 1000;
-                   ^            ~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/vc4/vc4_hdmi.c:1337:3: note: Value stored to 'pixel_rate=
-' is never read
-                   pixel_rate =3D mode->clock * 1000;
-                   ^            ~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/greybus/svc.c:1144:2: warning: Value stored to 'reset' is never =
-read [clang-analyzer-deadcode.DeadStores]
-           reset =3D request->payload;
-           ^       ~~~~~~~~~~~~~~~~
-   drivers/greybus/svc.c:1144:2: note: Value stored to 'reset' is never read
-           reset =3D request->payload;
-           ^       ~~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/hwtracing/coresight/coresight-core.c:490:8: warning: Access to f=
-ield 'next' results in a dereference of a null pointer (loaded from variabl=
-e 'path') [clang-analyzer-core.NullDereference]
-                   nd =3D list_first_entry(path, struct coresight_node, lin=
-k);
+   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
+           if (unlikely(!params_new)) {
                         ^
-   include/linux/list.h:524:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/act_skbedit.c:265:2: note: Taking false branch
+           if (unlikely(!params_new)) {
            ^
-   include/linux/list.h:513:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   net/sched/act_skbedit.c:271:6: note: Assuming the condition is true
+           if (flags & SKBEDIT_F_PRIORITY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:271:2: note: Taking true branch
+           if (flags & SKBEDIT_F_PRIORITY)
            ^
-   include/linux/container_of.h:18:25: note: expanded from macro 'container=
-_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-                                  ^
-   drivers/hwtracing/coresight/coresight-core.c:1253:6: note: Assuming 'ret=
-' is 0
-           if (ret)
-               ^~~
-   drivers/hwtracing/coresight/coresight-core.c:1253:2: note: Taking false =
-branch
-           if (ret)
+   net/sched/act_skbedit.c:272:26: note: Dereference of null pointer (loade=
+d from variable 'priority')
+                   params_new->priority =3D *priority;
+                                          ^~~~~~~~~
+>> net/sched/act_skbedit.c:278:22: warning: Dereference of null pointer (lo=
+aded from variable 'mark') [clang-analyzer-core.NullDereference]
+                   params_new->mark =3D *mark;
+                                      ^~~~~
+   net/sched/act_skbedit.c:147:36: note: 'mark' initialized to a null point=
+er value
+           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
+ULL;
+                                             ^~~~
+   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:154:2: note: Taking false branch
+           if (nla =3D=3D NULL)
            ^
-   drivers/hwtracing/coresight/coresight-core.c:1256:6: note: Assuming 'val=
-' is 0
-           if (val) {
-               ^~~
-   drivers/hwtracing/coresight/coresight-core.c:1256:2: note: Taking false =
-branch
-           if (val) {
+   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:159:2: note: Taking false branch
+           if (err < 0)
            ^
-   drivers/hwtracing/coresight/coresight-core.c:1261:3: note: Calling 'core=
-sight_disable'
-                   coresight_disable(csdev);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1172:2: note: 'path' initia=
-lized to a null pointer value
-           struct list_head *path =3D NULL;
-           ^~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1176:8: note: Calling 'core=
-sight_validate_source'
-           ret =3D coresight_validate_source(csdev, __func__);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1075:6: note: Assuming 'typ=
-e' is equal to CORESIGHT_DEV_TYPE_SOURCE
-           if (type !=3D CORESIGHT_DEV_TYPE_SOURCE) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1075:2: note: Taking false =
-branch
-           if (type !=3D CORESIGHT_DEV_TYPE_SOURCE) {
+   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:162:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
            ^
-   drivers/hwtracing/coresight/coresight-core.c:1080:6: note: Assuming 'sub=
-type' is equal to CORESIGHT_DEV_SUBTYPE_SOURCE_PROC
-           if (subtype !=3D CORESIGHT_DEV_SUBTYPE_SOURCE_PROC &&
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1080:51: note: Left side of=
- '&&' is false
-           if (subtype !=3D CORESIGHT_DEV_SUBTYPE_SOURCE_PROC &&
-                                                            ^
-   drivers/hwtracing/coresight/coresight-core.c:1086:2: note: Returning wit=
-hout writing to 'csdev->enable', which participates in a condition later
-           return 0;
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
            ^
-   drivers/hwtracing/coresight/coresight-core.c:1086:2: note: Returning zer=
-o, which participates in a condition later
-           return 0;
-           ^~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1176:8: note: Returning fro=
-m 'coresight_validate_source'
-           ret =3D coresight_validate_source(csdev, __func__);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-core.c:1177:6: note: 'ret' is 0
-           if (ret)
-               ^~~
-   drivers/hwtracing/coresight/coresight-core.c:1177:2: note: Taking false =
-branch
-           if (ret)
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
            ^
-   drivers/hwtracing/coresight/coresight-core.c:1180:6: note: Assuming fiel=
-d 'enable' is true
-           if (!csdev->enable || !coresight_disable_source(csdev))
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:182:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:187:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:192:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
+ equal to 0
+                   if (mapping_hash_type) {
+                       ^~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:197:3: note: Taking true branch
+                   if (mapping_hash_type) {
+                   ^
+   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:201:4: note: Taking false branch
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                           ^
+   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                               ^
+   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
+                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:206:4: note: Taking false branch
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                           ^
+   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
+                           if (*queue_mapping_max < *queue_mapping) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:214:4: note: Taking false branch
+                           if (*queue_mapping_max < *queue_mapping) {
+                           ^
+   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:222:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                   ^
+   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:229:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
+           if (exists && bind)
+               ^~~~~~
+   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
+   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
+           if (exists && bind)
+                         ^~~~
+   net/sched/act_skbedit.c:232:2: note: Taking false branch
+           if (exists && bind)
+           ^
+   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
+           if (!flags) {
+                ^~~~~
+   net/sched/act_skbedit.c:235:2: note: Taking false branch
+           if (!flags) {
+           ^
+   net/sched/act_skbedit.c:243:7: note: 'exists' is true
+           if (!exists) {
+                ^~~~~~
+   net/sched/act_skbedit.c:243:2: note: Taking false branch
+           if (!exists) {
+           ^
+   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:255:3: note: Taking false branch
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                   ^
+   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:261:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
+           if (unlikely(!params_new)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/act_skbedit.c:265:2: note: Taking false branch
+           if (unlikely(!params_new)) {
+           ^
+   net/sched/act_skbedit.c:271:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_PRIORITY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:271:2: note: Taking false branch
+           if (flags & SKBEDIT_F_PRIORITY)
+           ^
+   net/sched/act_skbedit.c:273:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:273:2: note: Taking false branch
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+           ^
+   net/sched/act_skbedit.c:277:6: note: Assuming the condition is true
+           if (flags & SKBEDIT_F_MARK)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:277:2: note: Taking true branch
+           if (flags & SKBEDIT_F_MARK)
+           ^
+   net/sched/act_skbedit.c:278:22: note: Dereference of null pointer (loade=
+d from variable 'mark')
+                   params_new->mark =3D *mark;
+                                      ^~~~~
+>> net/sched/act_skbedit.c:280:23: warning: Dereference of null pointer (lo=
+aded from variable 'ptype') [clang-analyzer-core.NullDereference]
+                   params_new->ptype =3D *ptype;
+                                       ^~~~~~
+   net/sched/act_skbedit.c:148:30: note: 'ptype' initialized to a null poin=
+ter value
+           u16 *queue_mapping =3D NULL, *ptype =3D NULL;
+                                       ^~~~~
+   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:154:2: note: Taking false branch
+           if (nla =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:159:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:162:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:182:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:187:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:192:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
+ equal to 0
+                   if (mapping_hash_type) {
+                       ^~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:197:3: note: Taking true branch
+                   if (mapping_hash_type) {
+                   ^
+   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:201:4: note: Taking false branch
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                           ^
+   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                               ^
+   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
+                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:206:4: note: Taking false branch
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                           ^
+   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
+                           if (*queue_mapping_max < *queue_mapping) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:214:4: note: Taking false branch
+                           if (*queue_mapping_max < *queue_mapping) {
+                           ^
+   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:222:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                   ^
+   net/sched/act_skbedit.c:229:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:229:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:232:6: note: Assuming 'exists' is true
+           if (exists && bind)
+               ^~~~~~
+   net/sched/act_skbedit.c:232:6: note: Left side of '&&' is true
+   net/sched/act_skbedit.c:232:16: note: Assuming 'bind' is false
+           if (exists && bind)
+                         ^~~~
+   net/sched/act_skbedit.c:232:2: note: Taking false branch
+           if (exists && bind)
+           ^
+   net/sched/act_skbedit.c:235:7: note: 'flags' is not equal to 0
+           if (!flags) {
+                ^~~~~
+   net/sched/act_skbedit.c:235:2: note: Taking false branch
+           if (!flags) {
+           ^
+   net/sched/act_skbedit.c:243:7: note: 'exists' is true
+           if (!exists) {
+                ^~~~~~
+   net/sched/act_skbedit.c:243:2: note: Taking false branch
+           if (!exists) {
+           ^
+   net/sched/act_skbedit.c:255:7: note: Assuming the condition is false
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:255:3: note: Taking false branch
+                   if (!(act_flags & TCA_ACT_FLAGS_REPLACE)) {
+                   ^
+   net/sched/act_skbedit.c:261:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:261:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:265:15: note: Assuming 'params_new' is non-null
+           if (unlikely(!params_new)) {
+                        ^
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   net/sched/act_skbedit.c:265:2: note: Taking false branch
+           if (unlikely(!params_new)) {
+           ^
+   net/sched/act_skbedit.c:271:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_PRIORITY)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:271:2: note: Taking false branch
+           if (flags & SKBEDIT_F_PRIORITY)
+           ^
+   net/sched/act_skbedit.c:273:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:273:2: note: Taking false branch
+           if (flags & SKBEDIT_F_QUEUE_MAPPING) {
+           ^
+   net/sched/act_skbedit.c:277:6: note: Assuming the condition is false
+           if (flags & SKBEDIT_F_MARK)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:277:2: note: Taking false branch
+           if (flags & SKBEDIT_F_MARK)
+           ^
+   net/sched/act_skbedit.c:279:6: note: Assuming the condition is true
+           if (flags & SKBEDIT_F_PTYPE)
+               ^~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:279:2: note: Taking true branch
+           if (flags & SKBEDIT_F_PTYPE)
+           ^
+   net/sched/act_skbedit.c:280:23: note: Dereference of null pointer (loade=
+d from variable 'ptype')
+                   params_new->ptype =3D *ptype;
+                                       ^~~~~~
+>> net/sched/act_skbedit.c:284:22: warning: Dereference of null pointer (lo=
+aded from variable 'mask') [clang-analyzer-core.NullDereference]
+                   params_new->mask =3D *mask;
+                                      ^~~~~
+   net/sched/act_skbedit.c:147:50: note: 'mask' initialized to a null point=
+er value
+           u32 flags =3D 0, *priority =3D NULL, *mark =3D NULL, *mask =3D N=
+ULL;
+                                                           ^~~~
+   net/sched/act_skbedit.c:154:6: note: Assuming 'nla' is not equal to NULL
+           if (nla =3D=3D NULL)
+               ^~~~~~~~~~~
+   net/sched/act_skbedit.c:154:2: note: Taking false branch
+           if (nla =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:157:8: note: Calling 'nla_parse_nested_deprecate=
+d'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/net/netlink.h:1231:9: note: Assigning value, which participates =
+in a condition later
+           return __nla_parse(tb, maxtype, nla_data(nla), nla_len(nla), pol=
+icy,
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   net/sched/act_skbedit.c:157:8: note: Returning from 'nla_parse_nested_de=
+precated'
+           err =3D nla_parse_nested_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:159:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   net/sched/act_skbedit.c:159:2: note: Taking false branch
+           if (err < 0)
+           ^
+   net/sched/act_skbedit.c:162:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:162:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PARMS] =3D=3D NULL)
+           ^
+   net/sched/act_skbedit.c:165:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:165:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PRIORITY] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:170:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:170:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_QUEUE_MAPPING] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:175:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:175:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_PTYPE] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:182:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:182:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MARK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:187:6: note: Assuming the condition is false
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:187:2: note: Taking false branch
+           if (tb[TCA_SKBEDIT_MASK] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:192:6: note: Assuming the condition is true
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:192:2: note: Taking true branch
+           if (tb[TCA_SKBEDIT_FLAGS] !=3D NULL) {
+           ^
+   net/sched/act_skbedit.c:197:7: note: Assuming 'mapping_hash_type' is not=
+ equal to 0
+                   if (mapping_hash_type) {
+                       ^~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:197:3: note: Taking true branch
+                   if (mapping_hash_type) {
+                   ^
+   net/sched/act_skbedit.c:201:8: note: Assuming the condition is false
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:201:4: note: Taking false branch
+                           if (mapping_hash_type & (mapping_hash_type - 1))=
+ {
+                           ^
+   net/sched/act_skbedit.c:206:8: note: Left side of '||' is false
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                               ^
+   net/sched/act_skbedit.c:207:8: note: Assuming the condition is false
+                               !tb[TCA_SKBEDIT_QUEUE_MAPPING_MAX]) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:206:4: note: Taking false branch
+                           if (!tb[TCA_SKBEDIT_QUEUE_MAPPING] ||
+                           ^
+   net/sched/act_skbedit.c:214:8: note: Assuming the condition is false
+                           if (*queue_mapping_max < *queue_mapping) {
+                               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:214:4: note: Taking false branch
+                           if (*queue_mapping_max < *queue_mapping) {
+                           ^
+   net/sched/act_skbedit.c:222:7: note: Assuming the condition is false
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   net/sched/act_skbedit.c:222:3: note: Taking false branch
+                   if (*pure_flags & SKBEDIT_F_INHERITDSFIELD)
 
-vim +/pixel_rate +1337 drivers/gpu/drm/vc4/vc4_hdmi.c
+vim +/priority +272 net/sched/act_skbedit.c
 
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1309  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  134  =
 
-63495f6b4aede26 Maxime Ripard 2020-10-29  1310  static int vc4_hdmi_encoder=
-_atomic_check(struct drm_encoder *encoder,
-63495f6b4aede26 Maxime Ripard 2020-10-29  1311  					 struct drm_crtc_state=
- *crtc_state,
-63495f6b4aede26 Maxime Ripard 2020-10-29  1312  					 struct drm_connector_=
-state *conn_state)
-63495f6b4aede26 Maxime Ripard 2020-10-29  1313  {
-f623746f74721be Maxime Ripard 2020-12-15  1314  	struct vc4_hdmi_connector_=
-state *vc4_state =3D conn_state_to_vc4_hdmi_conn_state(conn_state);
-63495f6b4aede26 Maxime Ripard 2020-10-29  1315  	struct drm_display_mode *m=
-ode =3D &crtc_state->adjusted_mode;
-63495f6b4aede26 Maxime Ripard 2020-10-29  1316  	struct vc4_hdmi *vc4_hdmi =
-=3D encoder_to_vc4_hdmi(encoder);
-63495f6b4aede26 Maxime Ripard 2020-10-29  1317  	unsigned long long pixel_r=
-ate =3D mode->clock * 1000;
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1318  	unsigned long long tmds_ra=
-te;
-7944eff87b48d07 Maxime Ripard 2021-12-15  1319  	int ret;
-63495f6b4aede26 Maxime Ripard 2020-10-29  1320  =
+c1b52739e45f59 Benjamin LaHaise  2013-01-14  135  static int tcf_skbedit_in=
+it(struct net *net, struct nlattr *nla,
+a85a970af265f1 WANG Cong         2016-07-25  136  			    struct nlattr *est=
+, struct tc_action **a,
+abbb0d33632ce9 Vlad Buslov       2019-10-30  137  			    struct tcf_proto *=
+tp, u32 act_flags,
+789871bb2a0381 Vlad Buslov       2018-07-05  138  			    struct netlink_ext=
+_ack *extack)
+ca9b0e27e072be Alexander Duyck   2008-09-12  139  {
+ddf97ccdd7cb7e WANG Cong         2016-02-22  140  	struct tc_action_net *tn=
+ =3D net_generic(net, skbedit_net_id);
+695176bfe5dec2 Cong Wang         2021-07-29  141  	bool bind =3D act_flags =
+& TCA_ACT_FLAGS_BIND;
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  142  	struct tcf_skbedit_param=
+s *params_new;
+ca9b0e27e072be Alexander Duyck   2008-09-12  143  	struct nlattr *tb[TCA_SK=
+BEDIT_MAX + 1];
+ec7727bb24b01e Davide Caratti    2019-03-20  144  	struct tcf_chain *goto_c=
+h =3D NULL;
+ca9b0e27e072be Alexander Duyck   2008-09-12  145  	struct tc_skbedit *parm;
+ca9b0e27e072be Alexander Duyck   2008-09-12  146  	struct tcf_skbedit *d;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  147  	u32 flags =3D 0, *priori=
+ty =3D NULL, *mark =3D NULL, *mask =3D NULL;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  148  	u16 *queue_mapping =3D N=
+ULL, *ptype =3D NULL;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  149  	u16 mapping_mod =3D 1;
+b2313077ed0db3 WANG Cong         2016-06-13  150  	bool exists =3D false;
+b2313077ed0db3 WANG Cong         2016-06-13  151  	int ret =3D 0, err;
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  152  	u32 index;
+ca9b0e27e072be Alexander Duyck   2008-09-12  153  =
 
-57fb32e632be4d4 Maxime Ripard 2020-10-29  1321  	if (vc4_hdmi->variant->uns=
-upported_odd_h_timings &&
-57fb32e632be4d4 Maxime Ripard 2020-10-29  1322  	    ((mode->hdisplay % 2) =
-|| (mode->hsync_start % 2) ||
-57fb32e632be4d4 Maxime Ripard 2020-10-29  1323  	     (mode->hsync_end % 2)=
- || (mode->htotal % 2)))
-57fb32e632be4d4 Maxime Ripard 2020-10-29  1324  		return -EINVAL;
-57fb32e632be4d4 Maxime Ripard 2020-10-29  1325  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  154  	if (nla =3D=3D NULL)
+ca9b0e27e072be Alexander Duyck   2008-09-12  155  		return -EINVAL;
+ca9b0e27e072be Alexander Duyck   2008-09-12  156  =
 
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1326  	/*
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1327  	 * The 1440p(a)60 pixel ra=
-te is in the same range than the first
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1328  	 * WiFi channel (between 2=
-.4GHz and 2.422GHz with 22MHz
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1329  	 * bandwidth). Slightly lo=
-wer the frequency to bring it out of
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1330  	 * the WiFi range.
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1331  	 */
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1332  	tmds_rate =3D pixel_rate *=
- 10;
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1333  	if (vc4_hdmi->disable_wifi=
-_frequencies &&
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1334  	    (tmds_rate >=3D WIFI_2=
-_4GHz_CH1_MIN_FREQ &&
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1335  	     tmds_rate <=3D WIFI_2=
-_4GHz_CH1_MAX_FREQ)) {
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1336  		mode->clock =3D 238560;
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29 @1337  		pixel_rate =3D mode->cloc=
-k * 1000;
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1338  	}
-9fa1d7e60ad5ad2 Maxime Ripard 2020-10-29  1339  =
+8cb081746c031f Johannes Berg     2019-04-26  157  	err =3D nla_parse_nested=
+_deprecated(tb, TCA_SKBEDIT_MAX, nla,
+8cb081746c031f Johannes Berg     2019-04-26  158  					  skbedit_policy, NU=
+LL);
+ca9b0e27e072be Alexander Duyck   2008-09-12  159  	if (err < 0)
+ca9b0e27e072be Alexander Duyck   2008-09-12  160  		return err;
+ca9b0e27e072be Alexander Duyck   2008-09-12  161  =
 
-7944eff87b48d07 Maxime Ripard 2021-12-15  1340  	ret =3D vc4_hdmi_encoder_c=
-ompute_clock(vc4_hdmi, vc4_state, mode,
-7944eff87b48d07 Maxime Ripard 2021-12-15  1341  					     conn_state->max_b=
-pc);
-7944eff87b48d07 Maxime Ripard 2021-12-15  1342  	if (ret)
-7944eff87b48d07 Maxime Ripard 2021-12-15  1343  		return ret;
-f623746f74721be Maxime Ripard 2020-12-15  1344  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  162  	if (tb[TCA_SKBEDIT_PARMS=
+] =3D=3D NULL)
+ca9b0e27e072be Alexander Duyck   2008-09-12  163  		return -EINVAL;
+ca9b0e27e072be Alexander Duyck   2008-09-12  164  =
 
-63495f6b4aede26 Maxime Ripard 2020-10-29  1345  	return 0;
-63495f6b4aede26 Maxime Ripard 2020-10-29  1346  }
-63495f6b4aede26 Maxime Ripard 2020-10-29  1347  =
+ca9b0e27e072be Alexander Duyck   2008-09-12  165  	if (tb[TCA_SKBEDIT_PRIOR=
+ITY] !=3D NULL) {
+ca9b0e27e072be Alexander Duyck   2008-09-12  166  		flags |=3D SKBEDIT_F_PR=
+IORITY;
+ca9b0e27e072be Alexander Duyck   2008-09-12  167  		priority =3D nla_data(t=
+b[TCA_SKBEDIT_PRIORITY]);
+ca9b0e27e072be Alexander Duyck   2008-09-12  168  	}
+ca9b0e27e072be Alexander Duyck   2008-09-12  169  =
+
+ca9b0e27e072be Alexander Duyck   2008-09-12  170  	if (tb[TCA_SKBEDIT_QUEUE=
+_MAPPING] !=3D NULL) {
+ca9b0e27e072be Alexander Duyck   2008-09-12  171  		flags |=3D SKBEDIT_F_QU=
+EUE_MAPPING;
+ca9b0e27e072be Alexander Duyck   2008-09-12  172  		queue_mapping =3D nla_d=
+ata(tb[TCA_SKBEDIT_QUEUE_MAPPING]);
+ca9b0e27e072be Alexander Duyck   2008-09-12  173  	}
+1c55d62e77fa16 jamal             2009-10-15  174  =
+
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  175  	if (tb[TCA_SKBEDIT_PTYPE=
+] !=3D NULL) {
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  176  		ptype =3D nla_data(tb[T=
+CA_SKBEDIT_PTYPE]);
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  177  		if (!skb_pkt_type_ok(*p=
+type))
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  178  			return -EINVAL;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  179  		flags |=3D SKBEDIT_F_PT=
+YPE;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  180  	}
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  181  =
+
+1c55d62e77fa16 jamal             2009-10-15  182  	if (tb[TCA_SKBEDIT_MARK]=
+ !=3D NULL) {
+1c55d62e77fa16 jamal             2009-10-15  183  		flags |=3D SKBEDIT_F_MA=
+RK;
+1c55d62e77fa16 jamal             2009-10-15  184  		mark =3D nla_data(tb[TC=
+A_SKBEDIT_MARK]);
+1c55d62e77fa16 jamal             2009-10-15  185  	}
+1c55d62e77fa16 jamal             2009-10-15  186  =
+
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  187  	if (tb[TCA_SKBEDIT_MASK]=
+ !=3D NULL) {
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  188  		flags |=3D SKBEDIT_F_MA=
+SK;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  189  		mask =3D nla_data(tb[TC=
+A_SKBEDIT_MASK]);
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  190  	}
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  191  =
+
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  192  	if (tb[TCA_SKBEDIT_FLAGS=
+] !=3D NULL) {
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  193  		u64 *pure_flags =3D nla=
+_data(tb[TCA_SKBEDIT_FLAGS]);
+6ede36fda618b7 Tonghao Zhang     2021-12-25  194  		u64 mapping_hash_type;
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  195  =
+
+6ede36fda618b7 Tonghao Zhang     2021-12-25  196  		mapping_hash_type =3D *=
+pure_flags & SKBEDIT_F_TXQ_HASH_MASK;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  197  		if (mapping_hash_type) {
+6ede36fda618b7 Tonghao Zhang     2021-12-25  198  			u16 *queue_mapping_max;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  199  =
+
+6ede36fda618b7 Tonghao Zhang     2021-12-25  200  			/* Hash types are mutu=
+ally exclusive. */
+6ede36fda618b7 Tonghao Zhang     2021-12-25  201  			if (mapping_hash_type =
+& (mapping_hash_type - 1)) {
+6ede36fda618b7 Tonghao Zhang     2021-12-25  202  				NL_SET_ERR_MSG_MOD(ex=
+tack, "Multi types of hash are specified.");
+6ede36fda618b7 Tonghao Zhang     2021-12-25  203  				return -EINVAL;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  204  			}
+6ede36fda618b7 Tonghao Zhang     2021-12-25  205  =
+
+6ede36fda618b7 Tonghao Zhang     2021-12-25  206  			if (!tb[TCA_SKBEDIT_QU=
+EUE_MAPPING] ||
+6ede36fda618b7 Tonghao Zhang     2021-12-25  207  			    !tb[TCA_SKBEDIT_QU=
+EUE_MAPPING_MAX]) {
+6ede36fda618b7 Tonghao Zhang     2021-12-25  208  				NL_SET_ERR_MSG_MOD(ex=
+tack, "Missing required range of queue_mapping.");
+6ede36fda618b7 Tonghao Zhang     2021-12-25  209  				return -EINVAL;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  210  			}
+6ede36fda618b7 Tonghao Zhang     2021-12-25  211  =
+
+6ede36fda618b7 Tonghao Zhang     2021-12-25  212  			queue_mapping_max =3D
+6ede36fda618b7 Tonghao Zhang     2021-12-25  213  				nla_data(tb[TCA_SKBED=
+IT_QUEUE_MAPPING_MAX]);
+6ede36fda618b7 Tonghao Zhang     2021-12-25  214  			if (*queue_mapping_max=
+ < *queue_mapping) {
+6ede36fda618b7 Tonghao Zhang     2021-12-25  215  				NL_SET_ERR_MSG_MOD(ex=
+tack, "The range of queue_mapping is invalid, max < min.");
+6ede36fda618b7 Tonghao Zhang     2021-12-25  216  				return -EINVAL;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  217  			}
+6ede36fda618b7 Tonghao Zhang     2021-12-25  218  =
+
+6ede36fda618b7 Tonghao Zhang     2021-12-25  219  			mapping_mod =3D *queue=
+_mapping_max - *queue_mapping + 1;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  220  			flags |=3D mapping_has=
+h_type;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  221  		}
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  222  		if (*pure_flags & SKBED=
+IT_F_INHERITDSFIELD)
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  223  			flags |=3D SKBEDIT_F_I=
+NHERITDSFIELD;
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  224  	}
+e7e3728bd776d1 Qiaobin Fu        2018-07-01  225  =
+
+ca9b0e27e072be Alexander Duyck   2008-09-12  226  	parm =3D nla_data(tb[TCA=
+_SKBEDIT_PARMS]);
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  227  	index =3D parm->index;
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  228  	err =3D tcf_idr_check_al=
+loc(tn, &index, a, bind);
+0190c1d452a91c Vlad Buslov       2018-07-05  229  	if (err < 0)
+0190c1d452a91c Vlad Buslov       2018-07-05  230  		return err;
+0190c1d452a91c Vlad Buslov       2018-07-05  231  	exists =3D err;
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  232  	if (exists && bind)
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  233  		return 0;
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  234  =
+
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  235  	if (!flags) {
+af5d01842fe1fb Roman Mashak      2018-05-11  236  		if (exists)
+65a206c01e8e7f Chris Mi          2017-08-30  237  			tcf_idr_release(*a, bi=
+nd);
+0190c1d452a91c Vlad Buslov       2018-07-05  238  		else
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  239  			tcf_idr_cleanup(tn, in=
+dex);
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  240  		return -EINVAL;
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  241  	}
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  242  =
+
+5e1567aeb7fe0c Jamal Hadi Salim  2016-05-10  243  	if (!exists) {
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  244  		ret =3D tcf_idr_create(=
+tn, index, est, a,
+40bd094d65fc9f Baowen Zheng      2021-12-17  245  				     &act_skbedit_ops=
+, bind, true, act_flags);
+0190c1d452a91c Vlad Buslov       2018-07-05  246  		if (ret) {
+7be8ef2cdbfe41 Dmytro Linkin     2019-08-01  247  			tcf_idr_cleanup(tn, in=
+dex);
+86062033feb8a1 WANG Cong         2014-02-11  248  			return ret;
+0190c1d452a91c Vlad Buslov       2018-07-05  249  		}
+ca9b0e27e072be Alexander Duyck   2008-09-12  250  =
+
+a85a970af265f1 WANG Cong         2016-07-25  251  		d =3D to_skbedit(*a);
+ca9b0e27e072be Alexander Duyck   2008-09-12  252  		ret =3D ACT_P_CREATED;
+ca9b0e27e072be Alexander Duyck   2008-09-12  253  	} else {
+a85a970af265f1 WANG Cong         2016-07-25  254  		d =3D to_skbedit(*a);
+695176bfe5dec2 Cong Wang         2021-07-29  255  		if (!(act_flags & TCA_A=
+CT_FLAGS_REPLACE)) {
+65a206c01e8e7f Chris Mi          2017-08-30  256  			tcf_idr_release(*a, bi=
+nd);
+ca9b0e27e072be Alexander Duyck   2008-09-12  257  			return -EEXIST;
+ca9b0e27e072be Alexander Duyck   2008-09-12  258  		}
+4e8ddd7f1758ca Vlad Buslov       2018-07-05  259  	}
+ec7727bb24b01e Davide Caratti    2019-03-20  260  	err =3D tcf_action_check=
+_ctrlact(parm->action, tp, &goto_ch, extack);
+ec7727bb24b01e Davide Caratti    2019-03-20  261  	if (err < 0)
+ec7727bb24b01e Davide Caratti    2019-03-20  262  		goto release_idr;
+ca9b0e27e072be Alexander Duyck   2008-09-12  263  =
+
+c749cdda9089eb Davide Caratti    2018-07-11  264  	params_new =3D kzalloc(s=
+izeof(*params_new), GFP_KERNEL);
+c749cdda9089eb Davide Caratti    2018-07-11  265  	if (unlikely(!params_new=
+)) {
+ec7727bb24b01e Davide Caratti    2019-03-20  266  		err =3D -ENOMEM;
+ec7727bb24b01e Davide Caratti    2019-03-20  267  		goto put_chain;
+c749cdda9089eb Davide Caratti    2018-07-11  268  	}
+ca9b0e27e072be Alexander Duyck   2008-09-12  269  =
+
+c749cdda9089eb Davide Caratti    2018-07-11  270  	params_new->flags =3D fl=
+ags;
+ca9b0e27e072be Alexander Duyck   2008-09-12  271  	if (flags & SKBEDIT_F_PR=
+IORITY)
+c749cdda9089eb Davide Caratti    2018-07-11 @272  		params_new->priority =
+=3D *priority;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  273  	if (flags & SKBEDIT_F_QU=
+EUE_MAPPING) {
+c749cdda9089eb Davide Caratti    2018-07-11  274  		params_new->queue_mappi=
+ng =3D *queue_mapping;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  275  		params_new->mapping_mod=
+ =3D mapping_mod;
+6ede36fda618b7 Tonghao Zhang     2021-12-25  276  	}
+1c55d62e77fa16 jamal             2009-10-15  277  	if (flags & SKBEDIT_F_MA=
+RK)
+c749cdda9089eb Davide Caratti    2018-07-11 @278  		params_new->mark =3D *m=
+ark;
+ff202ee1ed8f03 Jamal Hadi Salim  2016-07-02  279  	if (flags & SKBEDIT_F_PT=
+YPE)
+c749cdda9089eb Davide Caratti    2018-07-11 @280  		params_new->ptype =3D *=
+ptype;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  281  	/* default behaviour is =
+to use all the bits */
+c749cdda9089eb Davide Caratti    2018-07-11  282  	params_new->mask =3D 0xf=
+fffffff;
+4fe77d82ef80c7 Antonio Quartulli 2016-10-24  283  	if (flags & SKBEDIT_F_MA=
+SK)
+c749cdda9089eb Davide Caratti    2018-07-11 @284  		params_new->mask =3D *m=
+ask;
+1c55d62e77fa16 jamal             2009-10-15  285  =
+
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  286  	spin_lock_bh(&d->tcf_loc=
+k);
+ec7727bb24b01e Davide Caratti    2019-03-20  287  	goto_ch =3D tcf_action_s=
+et_ctrlact(*a, parm->action, goto_ch);
+445d3749315f34 Paul E. McKenney  2019-09-23  288  	params_new =3D rcu_repla=
+ce_pointer(d->params, params_new,
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  289  					 lockdep_is_held(&d-=
+>tcf_lock));
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  290  	spin_unlock_bh(&d->tcf_l=
+ock);
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  291  	if (params_new)
+6d7a8df6dfe4d6 Vlad Buslov       2018-09-03  292  		kfree_rcu(params_new, r=
+cu);
+ec7727bb24b01e Davide Caratti    2019-03-20  293  	if (goto_ch)
+ec7727bb24b01e Davide Caratti    2019-03-20  294  		tcf_chain_put_by_act(go=
+to_ch);
+ca9b0e27e072be Alexander Duyck   2008-09-12  295  =
+
+ca9b0e27e072be Alexander Duyck   2008-09-12  296  	return ret;
+ec7727bb24b01e Davide Caratti    2019-03-20  297  put_chain:
+ec7727bb24b01e Davide Caratti    2019-03-20  298  	if (goto_ch)
+ec7727bb24b01e Davide Caratti    2019-03-20  299  		tcf_chain_put_by_act(go=
+to_ch);
+ec7727bb24b01e Davide Caratti    2019-03-20  300  release_idr:
+ec7727bb24b01e Davide Caratti    2019-03-20  301  	tcf_idr_release(*a, bind=
+);
+ec7727bb24b01e Davide Caratti    2019-03-20  302  	return err;
+ca9b0e27e072be Alexander Duyck   2008-09-12  303  }
+ca9b0e27e072be Alexander Duyck   2008-09-12  304  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6550790661854579392==--
+--===============0369559846519644826==--
 
