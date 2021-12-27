@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8294662230792813589=="
+Content-Type: multipart/mixed; boundary="===============7045436735667759818=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/gma500/cdv_intel_dp.c:863:2: warning: Null pointer passed as 2nd argument to string copy function [clang-analyzer-unix.cstring.NullArg]
-Date: Mon, 27 Dec 2021 14:54:36 +0800
-Message-ID: <202112271409.Cjq8ceMY-lkp@intel.com>
+Subject: drivers/staging/media/av7110/sp8870.c:381:2: warning: Value stored to 'tmp' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Mon, 27 Dec 2021 13:53:52 +0800
+Message-ID: <202112271354.JDYQY59Y-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8294662230792813589==
+--===============7045436735667759818==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,35 +15,36 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
-CC: Patrik Jakobsson <patrik.r.jakobsson@gmail.com>
+TO: Mauro Carvalho Chehab <mchehab@kernel.org>
+CC: linux-media(a)vger.kernel.org
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   fc74e0a40e4f9fd0468e34045b0c45bba11dcbb2
-commit: 26499e0518a77de29e7db2c53fb0d0e9e15be8fb drm/gma500: Drop DRM_GMA36=
-00 config option
-date:   11 months ago
-:::::: branch date: 10 hours ago
-:::::: commit date: 11 months ago
-config: i386-randconfig-c001-20211226 (https://download.01.org/0day-ci/arch=
-ive/20211227/202112271409.Cjq8ceMY-lkp(a)intel.com/config)
+commit: b998a59f82f1152605eae4f7617778020549e81a media: sp8870: move it to =
+staging
+date:   7 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 7 months ago
+config: arm-randconfig-c002-20211226 (https://download.01.org/0day-ci/archi=
+ve/20211227/202112271354.JDYQY59Y-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project a9e8b1=
 ee7fd44b53c555a7823ae8fd1a8209c520)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D26499e0518a77de29e7db2c53fb0d0e9e15be8fb
+t/commit/?id=3Db998a59f82f1152605eae4f7617778020549e81a
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 26499e0518a77de29e7db2c53fb0d0e9e15be8fb
+        git checkout b998a59f82f1152605eae4f7617778020549e81a
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,21 +52,63 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/phy/cadence/phy-cadence-torrent.c:907:6: note: Assuming field 's=
-et_lanes' is not equal to 0
-           if (opts->dp.set_lanes) {
-               ^~~~~~~~~~~~~~~~~~
-   drivers/phy/cadence/phy-cadence-torrent.c:907:2: note: Taking true branch
-           if (opts->dp.set_lanes) {
+           if (!count)
            ^
-   drivers/phy/cadence/phy-cadence-torrent.c:908:9: note: Calling 'cdns_tor=
-rent_dp_set_lanes'
-                   ret =3D cdns_torrent_dp_set_lanes(cdns_phy, &opts->dp);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/phy/cadence/phy-cadence-torrent.c:778:25: note: The result of th=
-e left shift is undefined because the left operand is negative
-           value |=3D ((~lane_mask) << PMA_TX_ELEC_IDLE_SHIFT) &
-                     ~~~~~~~~~~~~ ^
+   drivers/leds/leds-pwm.c:146:6: note: Assuming 'priv' is non-null
+           if (!priv)
+               ^~~~~
+   drivers/leds/leds-pwm.c:146:2: note: Taking false branch
+           if (!priv)
+           ^
+   drivers/leds/leds-pwm.c:149:8: note: Calling 'led_pwm_create_fwnode'
+           ret =3D led_pwm_create_fwnode(&pdev->dev, priv);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/leds-pwm.c:108:2: note: Loop condition is true.  Entering l=
+oop body
+           device_for_each_child_node(dev, fwnode) {
+           ^
+   include/linux/property.h:111:2: note: expanded from macro 'device_for_ea=
+ch_child_node'
+           for (child =3D device_get_next_child_node(dev, NULL); child;    =
+  \
+           ^
+   drivers/leds/leds-pwm.c:110:7: note: Assuming 'ret' is not equal to 0
+                   if (ret && is_of_node(fwnode))
+                       ^~~
+   drivers/leds/leds-pwm.c:110:7: note: Left side of '&&' is true
+   drivers/leds/leds-pwm.c:110:14: note: Assuming the condition is true
+                   if (ret && is_of_node(fwnode))
+                              ^~~~~~~~~~~~~~~~~~
+   drivers/leds/leds-pwm.c:110:3: note: Taking true branch
+                   if (ret && is_of_node(fwnode))
+                   ^
+   drivers/leds/leds-pwm.c:111:15: note: Assuming the condition is false
+                           led.name =3D to_of_node(fwnode)->name;
+                                      ^
+   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
+                   is_of_node(__to_of_node_fwnode) ?                       \
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/leds/leds-pwm.c:111:15: note: '?' condition is false
+                           led.name =3D to_of_node(fwnode)->name;
+                                      ^
+   include/linux/of.h:164:3: note: expanded from macro 'to_of_node'
+                   is_of_node(__to_of_node_fwnode) ?                       \
+                   ^
+   drivers/leds/leds-pwm.c:111:15: note: Access to field 'name' results in =
+a dereference of a null pointer
+                           led.name =3D to_of_node(fwnode)->name;
+                                      ^
+   include/linux/of.h:161:2: note: expanded from macro 'to_of_node'
+           ({                                                              \
+           ^
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
    Suppressed 4 warnings (4 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
@@ -73,66 +116,6 @@ se -system-headers to display errors from system headers as well.
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
    3 warnings generated.
    Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
@@ -143,238 +126,248 @@ se -system-headers to display errors from system headers as well.
 se -system-headers to display errors from system headers as well.
    3 warnings generated.
    Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   drivers/gpu/drm/gma500/cdv_intel_display.c:761:2: warning: Value stored =
-to 'dpll' is never read [clang-analyzer-deadcode.DeadStores]
-           dpll |=3D DPLL_VCO_ENABLE;
-           ^
-   drivers/gpu/drm/gma500/cdv_intel_display.c:761:2: note: Value stored to =
-'dpll' is never read
-   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
->> drivers/gpu/drm/gma500/cdv_intel_dp.c:863:2: warning: Null pointer passe=
-d as 2nd argument to string copy function [clang-analyzer-unix.cstring.Null=
-Arg]
-           strncpy (intel_dp->adapter.name, name, sizeof(intel_dp->adapter.=
-name) - 1);
+   drivers/video/fbdev/matrox/g450_pll.c:362:6: warning: Value stored to 't=
+mp' is never read [clang-analyzer-deadcode.DeadStores]
+                                           tmp =3D 0;
+                                           ^     ~
+   drivers/video/fbdev/matrox/g450_pll.c:362:6: note: Value stored to 'tmp'=
+ is never read
+                                           tmp =3D 0;
+                                           ^     ~
+   drivers/video/fbdev/matrox/g450_pll.c:363:10: warning: Value stored to '=
+tmp' is never read [clang-analyzer-deadcode.DeadStores]
+                                   else tmp =3D
+                                        ^
+   drivers/video/fbdev/matrox/g450_pll.c:363:10: note: Value stored to 'tmp=
+' is never read
+   drivers/video/fbdev/matrox/g450_pll.c:420:5: warning: Value stored to 'm=
+np' is never read [clang-analyzer-deadcode.DeadStores]
+                                   mnp |=3D matroxfb_DAC_in(minfo, M1064_XP=
+IXPLLCN) << 8;
+                                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+   drivers/video/fbdev/matrox/g450_pll.c:420:5: note: Value stored to 'mnp'=
+ is never read
+                                   mnp |=3D matroxfb_DAC_in(minfo, M1064_XP=
+IXPLLCN) << 8;
+                                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~
+   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/video/fbdev/matrox/matroxfb_g450.c:277:2: warning: Value stored =
+to 'chromasc' is never read [clang-analyzer-deadcode.DeadStores]
+           chromasc =3D piic;
+           ^          ~~~~
+   drivers/video/fbdev/matrox/matroxfb_g450.c:277:2: note: Value stored to =
+'chromasc' is never read
+           chromasc =3D piic;
+           ^          ~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+>> drivers/staging/media/av7110/sp8870.c:381:2: warning: Value stored to 't=
+mp' is never read [clang-analyzer-deadcode.DeadStores]
+           tmp =3D ret & 0x3F;
+           ^     ~~~~~~~~~~
+   drivers/staging/media/av7110/sp8870.c:381:2: note: Value stored to 'tmp'=
+ is never read
+           tmp =3D ret & 0x3F;
+           ^     ~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   drivers/media/i2c/max2175.c:643:50: warning: The result of the left shif=
+t is undefined because the left operand is negative [clang-analyzer-core.Un=
+definedBinaryOperatorResult]
+           nco_reg =3D max2175_round_closest(nco_val_desired << 20, clock_r=
+ate);
+                                                           ^
+   drivers/media/i2c/max2175.c:1101:2: note: Taking false branch
+           mxm_dbg(ctx, "s_freq: new %u curr %u, mode_resolved %d\n",
            ^
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1960:2: note: 'name' initialized t=
-o a null pointer value
-           const char *name =3D NULL;
-           ^~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1963:16: note: Calling 'kzalloc'
-           gma_encoder =3D kzalloc(sizeof(struct gma_encoder), GFP_KERNEL);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:540:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
+   drivers/media/i2c/max2175.c:30:35: note: expanded from macro 'mxm_dbg'
+   #define mxm_dbg(ctx, fmt, arg...) dev_dbg(&ctx->client->dev, fmt, ## arg)
+                                     ^
+   include/linux/dev_printk.h:130:2: note: expanded from macro 'dev_dbg'
+           if (0)                                                          \
            ^
-   include/linux/slab.h:557:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1963:16: note: Returning from 'kza=
-lloc'
-           gma_encoder =3D kzalloc(sizeof(struct gma_encoder), GFP_KERNEL);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1964:6: note: Assuming 'gma_encode=
-r' is non-null
-           if (!gma_encoder)
-               ^~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1964:2: note: Taking false branch
-           if (!gma_encoder)
-           ^
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1966:25: note: Calling 'kzalloc'
-           gma_connector =3D kzalloc(sizeof(struct gma_connector), GFP_KERN=
-EL);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:540:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:557:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1966:25: note: Returning from 'kza=
-lloc'
-           gma_connector =3D kzalloc(sizeof(struct gma_connector), GFP_KERN=
-EL);
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1967:13: note: Assuming 'gma_conne=
-ctor' is non-null
-           if (!gma_connector)
+   drivers/media/i2c/max2175.c:1104:6: note: Assuming field 'tuner' is equa=
+l to 0
+           if (vf->tuner !=3D 0)
                ^~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1967:9: note: Taking false branch
-           if (!gma_connector)
+   drivers/media/i2c/max2175.c:1104:2: note: Taking false branch
+           if (vf->tuner !=3D 0)
            ^
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1969:13: note: Calling 'kzalloc'
-           intel_dp =3D kzalloc(sizeof(struct cdv_intel_dp), GFP_KERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:9: note: Calling 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:540:2: note: Taking false branch
-           if (__builtin_constant_p(size)) {
-           ^
-   include/linux/slab.h:557:2: note: Returning pointer, which participates =
-in a condition later
-           return __kmalloc(size, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:9: note: Returning from 'kmalloc'
-           return kmalloc(size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:682:2: note: Returning pointer, which participates =
-in a condition later
-           return kmalloc(size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1969:13: note: Returning from 'kza=
-lloc'
-           intel_dp =3D kzalloc(sizeof(struct cdv_intel_dp), GFP_KERNEL);
-                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1970:6: note: Assuming 'intel_dp' =
-is non-null
-           if (!intel_dp)
-               ^~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1970:2: note: Taking false branch
-           if (!intel_dp)
-           ^
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1973:7: note: Assuming 'output_reg=
-' is not equal to DP_C
-           if ((output_reg =3D=3D DP_C) && cdv_intel_dpc_is_edp(dev))
-                ^~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1973:27: note: Left side of '&&' i=
-s false
-           if ((output_reg =3D=3D DP_C) && cdv_intel_dpc_is_edp(dev))
-                                    ^
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1984:6: note: 'type' is equal to D=
-RM_MODE_CONNECTOR_DisplayPort
-           if (type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-               ^~~~
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:1984:2: note: Taking true branch
-           if (type =3D=3D DRM_MODE_CONNECTOR_DisplayPort)
-           ^
-   drivers/gpu/drm/gma500/cdv_intel_dp.c:2004:2: note: 'Default' branch tak=
-en. Execution continues on line 2015
-           switch (output_reg) {
+   drivers/media/i2c/max2175.c:1107:9: note: Assuming '__UNIQUE_ID___x243' =
+is <=3D '__UNIQUE_ID___y244'
+           freq =3D clamp(vf->frequency, ctx->bands_rf->rangelow,
+                  ^
+   include/linux/minmax.h:89:45: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+                              ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
+=3D0 to see all)
+   include/linux/minmax.h:45:33: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ~~~~~~~~~~~~~~^~~~~~~~
+   include/linux/minmax.h:38:14: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:31:25: note: expanded from macro '__cmp_once'
+                   typeof(x) unique_x =3D (x);               \
+                                         ^
+   drivers/media/i2c/max2175.c:1107:9: note: '?' condition is false
+           freq =3D clamp(vf->frequency, ctx->bands_rf->rangelow,
+                  ^
+   include/linux/minmax.h:89:45: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+                                               ^
+   include/linux/minmax.h:52:19: note: expanded from macro 'max'
+   #define max(x, y)       __careful_cmp(x, y, >)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^
+   drivers/media/i2c/max2175.c:1107:9: note: Assuming '__UNIQUE_ID___x245' =
+is >=3D '__UNIQUE_ID___y246'
+           freq =3D clamp(vf->frequency, ctx->bands_rf->rangelow,
+                  ^
+   include/linux/minmax.h:89:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+                              ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
+   #define __cmp(x, y, op) ((x) op (y) ? (x) : (y))
+                            ^~~~~~~~~~
+   drivers/media/i2c/max2175.c:1107:9: note: '?' condition is false
+           freq =3D clamp(vf->frequency, ctx->bands_rf->rangelow,
+                  ^
+   include/linux/minmax.h:89:28: note: expanded from macro 'clamp'
+   #define clamp(val, lo, hi) min((typeof(val))max(val, lo), hi)
+                              ^
+   include/linux/minmax.h:45:19: note: expanded from macro 'min'
+   #define min(x, y)       __careful_cmp(x, y, <)
+                           ^
+   include/linux/minmax.h:38:3: note: expanded from macro '__careful_cmp'
+                   __cmp_once(x, y, __UNIQUE_ID(__x), __UNIQUE_ID(__y), op))
+                   ^
+   include/linux/minmax.h:33:3: note: expanded from macro '__cmp_once'
+                   __cmp(unique_x, unique_y, op); })
+                   ^
+   include/linux/minmax.h:28:26: note: expanded from macro '__cmp'
 
-vim +863 drivers/gpu/drm/gma500/cdv_intel_dp.c
+vim +/tmp +381 drivers/staging/media/av7110/sp8870.c
 
-8695b612943561 Alan Cox         2012-08-08  846  =
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  368  =
 
-8695b612943561 Alan Cox         2012-08-08  847  static int
-367e44080e20f7 Patrik Jakobsson 2013-07-22  848  cdv_intel_dp_i2c_init(stru=
-ct gma_connector *connector,
-367e44080e20f7 Patrik Jakobsson 2013-07-22  849  		      struct gma_encoder=
- *encoder, const char *name)
-8695b612943561 Alan Cox         2012-08-08  850  {
-37e7b184da18a9 Alan Cox         2012-08-08  851  	struct cdv_intel_dp *inte=
-l_dp =3D encoder->dev_priv;
-d112a8163f8375 Zhao Yakui       2012-08-08  852  	int ret;
-d112a8163f8375 Zhao Yakui       2012-08-08  853  =
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  369  static int sp8870_read_ber (struct dvb_frontend* fe, u32 * b=
+er)
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  370  {
+b8742700f13163f drivers/media/dvb/frontends/sp8870.c Johannes Stezenbach 20=
+05-05-16  371  	struct sp8870_state* state =3D fe->demodulator_priv;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  372  	int ret;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  373  	u32 tmp;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  374  =
 
-8695b612943561 Alan Cox         2012-08-08  854  	DRM_DEBUG_KMS("i2c_init %=
-s\n", name);
-d112a8163f8375 Zhao Yakui       2012-08-08  855  =
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  375  	*ber =3D 0;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  376  =
 
-8695b612943561 Alan Cox         2012-08-08  856  	intel_dp->algo.running =
-=3D false;
-8695b612943561 Alan Cox         2012-08-08  857  	intel_dp->algo.address =
-=3D 0;
-37e7b184da18a9 Alan Cox         2012-08-08  858  	intel_dp->algo.aux_ch =3D=
- cdv_intel_dp_i2c_aux_ch;
-8695b612943561 Alan Cox         2012-08-08  859  =
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  377  	ret =3D sp8870_readreg(state, 0xC08);
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  378  	if (ret < 0)
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  379  		return -EIO;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  380  =
 
-8695b612943561 Alan Cox         2012-08-08  860  	memset(&intel_dp->adapter=
-, '\0', sizeof (intel_dp->adapter));
-8695b612943561 Alan Cox         2012-08-08  861  	intel_dp->adapter.owner =
-=3D THIS_MODULE;
-8695b612943561 Alan Cox         2012-08-08  862  	intel_dp->adapter.class =
-=3D I2C_CLASS_DDC;
-8695b612943561 Alan Cox         2012-08-08 @863  	strncpy (intel_dp->adapte=
-r.name, name, sizeof(intel_dp->adapter.name) - 1);
-8695b612943561 Alan Cox         2012-08-08  864  	intel_dp->adapter.name[si=
-zeof(intel_dp->adapter.name) - 1] =3D '\0';
-8695b612943561 Alan Cox         2012-08-08  865  	intel_dp->adapter.algo_da=
-ta =3D &intel_dp->algo;
-5bdebb183c9702 Dave Airlie      2013-10-11  866  	intel_dp->adapter.dev.par=
-ent =3D connector->base.kdev;
-8695b612943561 Alan Cox         2012-08-08  867  =
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16 @381  	tmp =3D ret & 0x3F;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  382  =
 
-d112a8163f8375 Zhao Yakui       2012-08-08  868  	if (is_edp(encoder))
-d112a8163f8375 Zhao Yakui       2012-08-08  869  		cdv_intel_edp_panel_vdd_=
-on(encoder);
-d112a8163f8375 Zhao Yakui       2012-08-08  870  	ret =3D i2c_dp_aux_add_bu=
-s(&intel_dp->adapter);
-d112a8163f8375 Zhao Yakui       2012-08-08  871  	if (is_edp(encoder))
-d112a8163f8375 Zhao Yakui       2012-08-08  872  		cdv_intel_edp_panel_vdd_=
-off(encoder);
-d112a8163f8375 Zhao Yakui       2012-08-08  873  	=
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  383  	ret =3D sp8870_readreg(state, 0xC07);
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  384  	if (ret < 0)
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  385  		return -EIO;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  386  =
 
-d112a8163f8375 Zhao Yakui       2012-08-08  874  	return ret;
-d112a8163f8375 Zhao Yakui       2012-08-08  875  }
-d112a8163f8375 Zhao Yakui       2012-08-08  876  =
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  387  	tmp =3D ret << 6;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  388  	if (tmp >=3D 0x3FFF0)
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  389  		tmp =3D ~0;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  390  =
+
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  391  	*ber =3D tmp;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  392  =
+
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  393  	return 0;
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  394  }
+^1da177e4c3f415 drivers/media/dvb/frontends/sp8870.c Linus Torvalds      20=
+05-04-16  395  =
 
 
-:::::: The code at line 863 was first introduced by commit
-:::::: 8695b612943561478fd22f28f45e5692e5d078db gma500: Add the support of =
-display port on CDV
+:::::: The code at line 381 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-:::::: TO: Alan Cox <alan@linux.intel.com>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8294662230792813589==--
+--===============7045436735667759818==--
 
