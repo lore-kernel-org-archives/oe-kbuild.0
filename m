@@ -1,158 +1,239 @@
-Content-Type: multipart/mixed; boundary="===============8592563858366771305=="
+Content-Type: multipart/mixed; boundary="===============1339546055367761077=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 13/23] counter: Provide alternative counter registration functions
-Date: Wed, 29 Dec 2021 03:45:50 +0800
-Message-ID: <202112290340.PMwi47LV-lkp@intel.com>
+Subject: [luxis1999-iommufd:iommufd-v5.16-rc3 23/26] drivers/iommu/iommufd/io_pagetable.c:425: undefined reference to `interval_tree_iter_first'
+Date: Wed, 29 Dec 2021 01:24:03 +0800
+Message-ID: <202112290140.pe0slnR3-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8592563858366771305==
+--===============1339546055367761077==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211227094526.698714-14-u.kleine-koenig@pengutronix.de>
-References: <20211227094526.698714-14-u.kleine-koenig@pengutronix.de>
-TO: "Uwe Kleine-K=C3=B6nig" <u.kleine-koenig@pengutronix.de>
-TO: William Breathitt Gray <vilhelm.gray@gmail.com>
-CC: "Lars-Peter Clausen" <lars@metafoo.de>
-CC: kernel(a)pengutronix.de
-CC: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-CC: linux-iio(a)vger.kernel.org
-CC: "Greg Kroah-Hartman" <gregkh@linuxfoundation.org>
 CC: linux-kernel(a)vger.kernel.org
+TO: Liu Yi L <yi.l.liu@intel.com>
 
-Hi "Uwe,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on a7904a538933c525096ca2ccde1e60d0ee62c08e]
-
-url:    https://github.com/0day-ci/linux/commits/Uwe-Kleine-K-nig/counter-c=
-leanups-and-device-lifetime-fixes/20211227-174815
-base:   a7904a538933c525096ca2ccde1e60d0ee62c08e
-:::::: branch date: 34 hours ago
-:::::: commit date: 34 hours ago
-config: i386-randconfig-m021-20211227 (https://download.01.org/0day-ci/arch=
-ive/20211229/202112290340.PMwi47LV-lkp(a)intel.com/config)
+tree:   https://github.com/luxis1999/iommufd iommufd-v5.16-rc3
+head:   9194d1d84235002ef9e0ae8666bc205840e3be74
+commit: 4aa75d972a71aafba6e3b57ca91f6a04bdd37611 [23/26] vfio/pci: Add bind=
+_iommufd() support
+:::::: branch date: 33 hours ago
+:::::: commit date: 12 days ago
+config: i386-randconfig-s002-20211228 (https://download.01.org/0day-ci/arch=
+ive/20211229/202112290140.pe0slnR3-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+reproduce:
+        # apt-get install sparse
+        # sparse version: v0.6.4-dirty
+        # https://github.com/luxis1999/iommufd/commit/4aa75d972a71aafba6e3b=
+57ca91f6a04bdd37611
+        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
+fd
+        git fetch --no-tags luxis1999-iommufd iommufd-v5.16-rc3
+        git checkout 4aa75d972a71aafba6e3b57ca91f6a04bdd37611
+        # save the config file to linux build tree
+        mkdir build_dir
+        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
+build_dir ARCH=3Di386 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/counter/counter-core.c:175 counter_alloc() error: uninitialized sym=
-bol 'id'.
+All errors (new ones prefixed by >>):
 
-vim +/id +175 drivers/counter/counter-core.c
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_iter_fi=
+rst':
+>> drivers/iommu/iommufd/io_pagetable.c:425: undefined reference to `interv=
+al_tree_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_unpin':
+>> drivers/iommu/iommufd/io_pagetable.c:678: undefined reference to `interv=
+al_tree_span_iter_first'
+>> ld: drivers/iommu/iommufd/io_pagetable.c:681: undefined reference to `in=
+terval_tree_span_iter_next'
+>> ld: drivers/iommu/iommufd/io_pagetable.c:685: undefined reference to `in=
+terval_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:689: undefined reference to `in=
+terval_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_get_ex=
+act_user':
+   drivers/iommu/iommufd/io_pagetable.c:1443: undefined reference to `inter=
+val_tree_iter_first'
+>> ld: drivers/iommu/iommufd/io_pagetable.c:1444: undefined reference to `i=
+nterval_tree_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_iter_ne=
+xt':
+>> drivers/iommu/iommufd/io_pagetable.c:437: undefined reference to `interv=
+al_tree_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pfn_reader_i=
+nit':
+   drivers/iommu/iommufd/io_pagetable.c:788: undefined reference to `interv=
+al_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_alloc_area':
+   drivers/iommu/iommufd/io_pagetable.c:1178: undefined reference to `inter=
+val_tree_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_find_domain_=
+area':
+   drivers/iommu/iommufd/io_pagetable.c:502: undefined reference to `interv=
+al_tree_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pfn_reader_n=
+ext':
+>> drivers/iommu/iommufd/io_pagetable.c:755: undefined reference to `interv=
+al_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_unfill=
+_xarray':
+   drivers/iommu/iommufd/io_pagetable.c:1059: undefined reference to `inter=
+val_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1062: undefined reference to `i=
+nterval_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_fully_covers=
+':
+   drivers/iommu/iommufd/io_pagetable.c:835: undefined reference to `interv=
+al_tree_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_clean_=
+xarray':
+   drivers/iommu/iommufd/io_pagetable.c:1038: undefined reference to `inter=
+val_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1041: undefined reference to `i=
+nterval_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_fill_x=
+array':
+   drivers/iommu/iommufd/io_pagetable.c:1116: undefined reference to `inter=
+val_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1119: undefined reference to `i=
+nterval_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_fully_covers=
+':
+   drivers/iommu/iommufd/io_pagetable.c:835: undefined reference to `interv=
+al_tree_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `__iopt_unmap_iova=
+':
+>> drivers/iommu/iommufd/io_pagetable.c:1377: undefined reference to `inter=
+val_tree_remove'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_unfill_=
+domains':
+   drivers/iommu/iommufd/io_pagetable.c:1021: undefined reference to `inter=
+val_tree_remove'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_fill_do=
+mains':
+>> drivers/iommu/iommufd/io_pagetable.c:975: undefined reference to `interv=
+al_tree_insert'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_alloc_iova':
+   drivers/iommu/iommufd/io_pagetable.c:1252: undefined reference to `inter=
+val_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1255: undefined reference to `i=
+nterval_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1260: undefined reference to `i=
+nterval_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1264: undefined reference to `i=
+nterval_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_map_user_pag=
+es':
+   drivers/iommu/iommufd/io_pagetable.c:1310: undefined reference to `inter=
+val_tree_insert'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_copy_iova':
+   drivers/iommu/iommufd/io_pagetable.c:1363: undefined reference to `inter=
+val_tree_insert'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_add_us=
+er':
+   drivers/iommu/iommufd/io_pagetable.c:1482: undefined reference to `inter=
+val_tree_insert'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_reserve_iova=
+':
+   drivers/iommu/iommufd/io_pagetable.c:1632: undefined reference to `inter=
+val_tree_insert'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_remove_reser=
+ved_iova':
+   drivers/iommu/iommufd/io_pagetable.c:1641: undefined reference to `inter=
+val_tree_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1647: undefined reference to `i=
+nterval_tree_iter_next'
+>> ld: drivers/iommu/iommufd/io_pagetable.c:1650: undefined reference to `i=
+nterval_tree_remove'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_populate_new=
+_domain':
+   drivers/iommu/iommufd/io_pagetable.c:1749: undefined reference to `inter=
+val_tree_insert'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1763: undefined reference to `i=
+nterval_tree_remove'
+   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_unpopulate_d=
+omain':
+   drivers/iommu/iommufd/io_pagetable.c:1710: undefined reference to `inter=
+val_tree_span_iter_first'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1713: undefined reference to `i=
+nterval_tree_span_iter_next'
+   ld: drivers/iommu/iommufd/io_pagetable.c:1726: undefined reference to `i=
+nterval_tree_remove'
+   ld: drivers/iommu/iommufd/ioas_pt.o: in function `iommufd_ioas_pagetable=
+_iova_ranges':
+>> drivers/iommu/iommufd/ioas_pt.c:77: undefined reference to `interval_tre=
+e_span_iter_first'
+>> ld: drivers/iommu/iommufd/ioas_pt.c:80: undefined reference to `interval=
+_tree_span_iter_next'
 
-aaec1a0f76ec25 William Breathitt Gray 2021-08-27  134  =
+Kconfig warnings: (for reference only)
+   WARNING: unmet direct dependencies detected for IOMMUFD
+   Depends on IOMMU_SUPPORT
+   Selected by
+   - VFIO_PCI_CORE && VFIO && PCI && MMU
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  135  /**
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  136   * counter_allo=
-c - allocate a counter_device
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  137   * @sizeof_priv=
-: size of the driver private data
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  138   *
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  139   * This is part=
- one of counter registration. The structure is allocated
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  140   * dynamically =
-to ensure the right lifetime for the embedded struct device.
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  141   *
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  142   * If this succ=
-eeds, call counter_put() to get rid of the counter_device again.
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  143   */
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  144  struct counter_=
-device *counter_alloc(size_t sizeof_priv)
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  145  {
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  146  	struct counter=
-_device_allochelper *ch;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  147  	struct counter=
-_device *counter;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  148  	struct device =
-*dev;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  149  	int id, err;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  150  =
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  151  	ch =3D kzalloc=
-(sizeof(*ch) + sizeof_priv, GFP_KERNEL);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  152  	if (!ch) {
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  153  		err =3D -ENOM=
-EM;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  154  		goto err_allo=
-c_ch;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  155  	}
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  156  =
+vim +425 drivers/iommu/iommufd/io_pagetable.c
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  157  	counter =3D &c=
-h->counter;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  158  	dev =3D &count=
-er->dev;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  159  =
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  418  =
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  160  	/* Acquire uni=
-que ID */
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  161  	err =3D ida_al=
-loc(&counter_ida, GFP_KERNEL);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  162  	if (err < 0) {
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  163  		goto err_ida_=
-alloc;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  164  	}
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  165  	dev->id =3D er=
-r;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  166  =
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  419  static struct iopt_area *i=
+opt_area_iter_first(struct io_pagetable *iopt,
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  420  					      unsigned long s=
+tart,
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  421  					      unsigned long l=
+ast)
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  422  {
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  423  	struct interval_tree_node=
+ *node;
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  424  =
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  167  	err =3D counte=
-r_chrdev_add(counter);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  168  	if (err < 0)
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  169  		goto err_chrd=
-ev_add;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  170  =
+b1baa437fe5478b Jason Gunthorpe 2021-11-11 @425  	node =3D interval_tree_it=
+er_first(&iopt->area_itree, start, last);
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  426  	if (!node)
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  427  		return NULL;
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  428  	return container_of(node,=
+ struct iopt_area, node);
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  429  }
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  430  =
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  171  	device_initial=
-ize(dev);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  172  	/* Configure d=
-evice structure for Counter */
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  173  	dev->type =3D =
-&counter_device_type;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  174  	dev->bus =3D &=
-counter_bus_type;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27 @175  	dev->devt =3D =
-MKDEV(MAJOR(counter_devt), id);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  176  =
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  431  static struct iopt_area *i=
+opt_area_iter_next(struct iopt_area *area,
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  432  					     unsigned long st=
+art,
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  433  					     unsigned long la=
+st)
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  434  {
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  435  	struct interval_tree_node=
+ *node;
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  436  =
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  177  	mutex_init(&co=
-unter->ops_exist_lock);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  178  =
+b1baa437fe5478b Jason Gunthorpe 2021-11-11 @437  	node =3D interval_tree_it=
+er_next(&area->node, start, last);
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  438  	if (!node)
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  439  		return NULL;
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  440  	return container_of(node,=
+ struct iopt_area, node);
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  441  }
+b1baa437fe5478b Jason Gunthorpe 2021-11-11  442  =
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  179  	return counter;
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  180  =
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  181  err_chrdev_add:
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  182  =
+:::::: The code at line 425 was first introduced by commit
+:::::: b1baa437fe5478bf8f79e53f49409b2f413ea27e iommufd: Data structure to =
+provide IOVA to PFN mapping
 
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  183  	ida_free(&coun=
-ter_ida, dev->id);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  184  err_ida_alloc:
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  185  =
-
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  186  	kfree(ch);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  187  err_alloc_ch:
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  188  =
-
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  189  	return ERR_PTR=
-(err);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  190  }
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  191  EXPORT_SYMBOL_G=
-PL(counter_alloc);
-250e0e3d91caea Uwe Kleine-K=C3=B6nig       2021-12-27  192  =
-
+:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
+:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8592563858366771305==--
+--===============1339546055367761077==--
 
