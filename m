@@ -1,239 +1,133 @@
-Content-Type: multipart/mixed; boundary="===============1339546055367761077=="
+Content-Type: multipart/mixed; boundary="===============6183115756673678929=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [luxis1999-iommufd:iommufd-v5.16-rc3 23/26] drivers/iommu/iommufd/io_pagetable.c:425: undefined reference to `interval_tree_iter_first'
-Date: Wed, 29 Dec 2021 01:24:03 +0800
-Message-ID: <202112290140.pe0slnR3-lkp@intel.com>
+Subject: [jolsa-perf:kprobe/multi 4/13] kernel/kprobes.c:1685 check_ftrace_multi() error: uninitialized symbol 'err'.
+Date: Wed, 29 Dec 2021 00:12:51 +0800
+Message-ID: <202112290028.kqVCCoGF-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1339546055367761077==
+--===============6183115756673678929==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Liu Yi L <yi.l.liu@intel.com>
+TO: Jiri Olsa <jolsa@kernel.org>
 
-tree:   https://github.com/luxis1999/iommufd iommufd-v5.16-rc3
-head:   9194d1d84235002ef9e0ae8666bc205840e3be74
-commit: 4aa75d972a71aafba6e3b57ca91f6a04bdd37611 [23/26] vfio/pci: Add bind=
-_iommufd() support
-:::::: branch date: 33 hours ago
-:::::: commit date: 12 days ago
-config: i386-randconfig-s002-20211228 (https://download.01.org/0day-ci/arch=
-ive/20211229/202112290140.pe0slnR3-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/jolsa/perf.git kpro=
+be/multi
+head:   bc59262730d5cfc95d6cae84f247d2e8690a309b
+commit: 9ea9f7bc2b16659a9932cc80aed62216856c111e [4/13] kprobe: Add support=
+ to register multiple ftrace kprobes
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: i386-randconfig-m021-20211228 (https://download.01.org/0day-ci/arch=
+ive/20211229/202112290028.kqVCCoGF-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
-reproduce:
-        # apt-get install sparse
-        # sparse version: v0.6.4-dirty
-        # https://github.com/luxis1999/iommufd/commit/4aa75d972a71aafba6e3b=
-57ca91f6a04bdd37611
-        git remote add luxis1999-iommufd https://github.com/luxis1999/iommu=
-fd
-        git fetch --no-tags luxis1999-iommufd iommufd-v5.16-rc3
-        git checkout 4aa75d972a71aafba6e3b57ca91f6a04bdd37611
-        # save the config file to linux build tree
-        mkdir build_dir
-        make W=3D1 C=3D1 CF=3D'-fdiagnostic-prefix -D__CHECK_ENDIAN__' O=3D=
-build_dir ARCH=3Di386 SHELL=3D/bin/bash
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-All errors (new ones prefixed by >>):
+smatch warnings:
+kernel/kprobes.c:1685 check_ftrace_multi() error: uninitialized symbol 'err=
+'.
 
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_iter_fi=
-rst':
->> drivers/iommu/iommufd/io_pagetable.c:425: undefined reference to `interv=
-al_tree_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_unpin':
->> drivers/iommu/iommufd/io_pagetable.c:678: undefined reference to `interv=
-al_tree_span_iter_first'
->> ld: drivers/iommu/iommufd/io_pagetable.c:681: undefined reference to `in=
-terval_tree_span_iter_next'
->> ld: drivers/iommu/iommufd/io_pagetable.c:685: undefined reference to `in=
-terval_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:689: undefined reference to `in=
-terval_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_get_ex=
-act_user':
-   drivers/iommu/iommufd/io_pagetable.c:1443: undefined reference to `inter=
-val_tree_iter_first'
->> ld: drivers/iommu/iommufd/io_pagetable.c:1444: undefined reference to `i=
-nterval_tree_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_iter_ne=
-xt':
->> drivers/iommu/iommufd/io_pagetable.c:437: undefined reference to `interv=
-al_tree_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pfn_reader_i=
-nit':
-   drivers/iommu/iommufd/io_pagetable.c:788: undefined reference to `interv=
-al_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_alloc_area':
-   drivers/iommu/iommufd/io_pagetable.c:1178: undefined reference to `inter=
-val_tree_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_find_domain_=
-area':
-   drivers/iommu/iommufd/io_pagetable.c:502: undefined reference to `interv=
-al_tree_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pfn_reader_n=
-ext':
->> drivers/iommu/iommufd/io_pagetable.c:755: undefined reference to `interv=
-al_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_unfill=
-_xarray':
-   drivers/iommu/iommufd/io_pagetable.c:1059: undefined reference to `inter=
-val_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1062: undefined reference to `i=
-nterval_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_fully_covers=
-':
-   drivers/iommu/iommufd/io_pagetable.c:835: undefined reference to `interv=
-al_tree_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_clean_=
-xarray':
-   drivers/iommu/iommufd/io_pagetable.c:1038: undefined reference to `inter=
-val_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1041: undefined reference to `i=
-nterval_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_fill_x=
-array':
-   drivers/iommu/iommufd/io_pagetable.c:1116: undefined reference to `inter=
-val_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1119: undefined reference to `i=
-nterval_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_fully_covers=
-':
-   drivers/iommu/iommufd/io_pagetable.c:835: undefined reference to `interv=
-al_tree_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `__iopt_unmap_iova=
-':
->> drivers/iommu/iommufd/io_pagetable.c:1377: undefined reference to `inter=
-val_tree_remove'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_unfill_=
-domains':
-   drivers/iommu/iommufd/io_pagetable.c:1021: undefined reference to `inter=
-val_tree_remove'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_area_fill_do=
-mains':
->> drivers/iommu/iommufd/io_pagetable.c:975: undefined reference to `interv=
-al_tree_insert'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_alloc_iova':
-   drivers/iommu/iommufd/io_pagetable.c:1252: undefined reference to `inter=
-val_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1255: undefined reference to `i=
-nterval_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1260: undefined reference to `i=
-nterval_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1264: undefined reference to `i=
-nterval_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_map_user_pag=
-es':
-   drivers/iommu/iommufd/io_pagetable.c:1310: undefined reference to `inter=
-val_tree_insert'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_copy_iova':
-   drivers/iommu/iommufd/io_pagetable.c:1363: undefined reference to `inter=
-val_tree_insert'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_pages_add_us=
-er':
-   drivers/iommu/iommufd/io_pagetable.c:1482: undefined reference to `inter=
-val_tree_insert'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_reserve_iova=
-':
-   drivers/iommu/iommufd/io_pagetable.c:1632: undefined reference to `inter=
-val_tree_insert'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_remove_reser=
-ved_iova':
-   drivers/iommu/iommufd/io_pagetable.c:1641: undefined reference to `inter=
-val_tree_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1647: undefined reference to `i=
-nterval_tree_iter_next'
->> ld: drivers/iommu/iommufd/io_pagetable.c:1650: undefined reference to `i=
-nterval_tree_remove'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_populate_new=
-_domain':
-   drivers/iommu/iommufd/io_pagetable.c:1749: undefined reference to `inter=
-val_tree_insert'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1763: undefined reference to `i=
-nterval_tree_remove'
-   ld: drivers/iommu/iommufd/io_pagetable.o: in function `iopt_unpopulate_d=
-omain':
-   drivers/iommu/iommufd/io_pagetable.c:1710: undefined reference to `inter=
-val_tree_span_iter_first'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1713: undefined reference to `i=
-nterval_tree_span_iter_next'
-   ld: drivers/iommu/iommufd/io_pagetable.c:1726: undefined reference to `i=
-nterval_tree_remove'
-   ld: drivers/iommu/iommufd/ioas_pt.o: in function `iommufd_ioas_pagetable=
-_iova_ranges':
->> drivers/iommu/iommufd/ioas_pt.c:77: undefined reference to `interval_tre=
-e_span_iter_first'
->> ld: drivers/iommu/iommufd/ioas_pt.c:80: undefined reference to `interval=
-_tree_span_iter_next'
+vim +/err +1685 kernel/kprobes.c
 
-Kconfig warnings: (for reference only)
-   WARNING: unmet direct dependencies detected for IOMMUFD
-   Depends on IOMMU_SUPPORT
-   Selected by
-   - VFIO_PCI_CORE && VFIO && PCI && MMU
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1645  =
 
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1646  static int check_ftrace_multi(st=
+ruct kprobe *p)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1647  {
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1648  	kprobe_opcode_t **addrs =3D p->=
+multi.addrs;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1649  	const char **symbols =3D p->mul=
+ti.symbols;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1650  	unsigned int i, cnt =3D p->mult=
+i.cnt;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1651  	unsigned long addr, *ips;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1652  	int err;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1653  =
 
-vim +425 drivers/iommu/iommufd/io_pagetable.c
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1654  	if ((symbols && addrs) || (!sym=
+bols && !addrs))
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1655  		return -EINVAL;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1656  =
 
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  418  =
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1657  	/* do we want sysctl for this? =
+*/
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1658  	if (cnt >=3D 20000)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1659  		return -E2BIG;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1660  =
 
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  419  static struct iopt_area *i=
-opt_area_iter_first(struct io_pagetable *iopt,
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  420  					      unsigned long s=
-tart,
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  421  					      unsigned long l=
-ast)
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  422  {
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  423  	struct interval_tree_node=
- *node;
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  424  =
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1661  	ips =3D kmalloc(sizeof(*ips) * =
+cnt, GFP_KERNEL);
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1662  	if (!ips)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1663  		return -ENOMEM;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1664  =
 
-b1baa437fe5478b Jason Gunthorpe 2021-11-11 @425  	node =3D interval_tree_it=
-er_first(&iopt->area_itree, start, last);
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  426  	if (!node)
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  427  		return NULL;
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  428  	return container_of(node,=
- struct iopt_area, node);
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  429  }
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  430  =
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1665  	for (i =3D 0; i < cnt; i++) {
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1666  		if (symbols)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1667  			addr =3D (unsigned long) kpro=
+be_lookup_name(symbols[i], 0);
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1668  		else
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1669  			addr =3D (unsigned long) addr=
+s[i];
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1670  		ips[i] =3D addr;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1671  	}
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1672  =
 
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  431  static struct iopt_area *i=
-opt_area_iter_next(struct iopt_area *area,
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  432  					     unsigned long st=
-art,
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  433  					     unsigned long la=
-st)
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  434  {
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  435  	struct interval_tree_node=
- *node;
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  436  =
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1673  	jump_label_lock();
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1674  	preempt_disable();
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1675  =
 
-b1baa437fe5478b Jason Gunthorpe 2021-11-11 @437  	node =3D interval_tree_it=
-er_next(&area->node, start, last);
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  438  	if (!node)
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  439  		return NULL;
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  440  	return container_of(node,=
- struct iopt_area, node);
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  441  }
-b1baa437fe5478b Jason Gunthorpe 2021-11-11  442  =
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1676  	for (i =3D 0; i < cnt; i++) {
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1677  		err =3D check_ftrace_addr(ips[=
+i]);
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1678  		if (err)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1679  			break;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1680  	}
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1681  =
 
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1682  	preempt_enable();
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1683  	jump_label_unlock();
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1684  =
 
-:::::: The code at line 425 was first introduced by commit
-:::::: b1baa437fe5478bf8f79e53f49409b2f413ea27e iommufd: Data structure to =
-provide IOVA to PFN mapping
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12 @1685  	if (err)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1686  		goto out;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1687  =
 
-:::::: TO: Jason Gunthorpe <jgg@nvidia.com>
-:::::: CC: Jason Gunthorpe <jgg@nvidia.com>
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1688  	err =3D ftrace_set_filter_ips(&=
+p->multi.ops, ips, cnt, 0, 0);
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1689  	if (err)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1690  		goto out;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1691  =
+
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1692  	p->multi.ops.func =3D kprobe_ft=
+race_multi_handler;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1693  	p->multi.ops.flags =3D FTRACE_O=
+PS_FL_SAVE_REGS|FTRACE_OPS_FL_DYNAMIC;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1694  =
+
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1695  	p->flags |=3D KPROBE_FLAG_MULTI=
+|KPROBE_FLAG_FTRACE;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1696  	if (p->post_handler)
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1697  		p->multi.ops.flags |=3D FTRACE=
+_OPS_FL_IPMODIFY;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1698  =
+
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1699  out:
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1700  	kfree(ips);
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1701  	return err;
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1702  }
+9ea9f7bc2b1665 Jiri Olsa 2021-12-12  1703  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1339546055367761077==--
+--===============6183115756673678929==--
 
