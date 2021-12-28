@@ -1,46 +1,44 @@
-Content-Type: multipart/mixed; boundary="===============3176168426088144462=="
+Content-Type: multipart/mixed; boundary="===============6231573871228319907=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH 3/5] erofs: use meta buffers for super operations
-Date: Fri, 31 Dec 2021 06:49:58 +0800
-Message-ID: <202112310650.TDDinvVT-lkp@intel.com>
+Subject: Re: [PATCH] nfs: local_lock: handle async processing of F_SETLK with FL_SLEEP
+Date: Tue, 28 Dec 2021 12:19:54 +0800
+Message-ID: <202112281211.SsWl4cfI-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3176168426088144462==
+--===============6231573871228319907==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211229041405.45921-4-hsiangkao@linux.alibaba.com>
-References: <20211229041405.45921-4-hsiangkao@linux.alibaba.com>
-TO: Gao Xiang <hsiangkao@linux.alibaba.com>
-TO: linux-erofs(a)lists.ozlabs.org
-TO: Chao Yu <yuchao0@huawei.com>, Chao Yu <chao@kernel.org>
-TO: Liu Bo <bo.liu@linux.alibaba.com>
-CC: LKML <linux-kernel@vger.kernel.org>
-CC: Gao Xiang <hsiangkao@linux.alibaba.com>
+In-Reply-To: <6613b17b-43bd-07d0-2ca7-1581a39cdf7b@virtuozzo.com>
+References: <6613b17b-43bd-07d0-2ca7-1581a39cdf7b@virtuozzo.com>
+TO: Vasily Averin <vvs@virtuozzo.com>
+TO: Trond Myklebust <trond.myklebust@hammerspace.com>
+TO: Anna Schumaker <anna.schumaker@netapp.com>
+CC: kernel(a)openvz.org
+CC: linux-nfs(a)vger.kernel.org
+CC: linux-kernel(a)vger.kernel.org
 
-Hi Gao,
+Hi Vasily,
 
-I love your patch! Perhaps something to improve:
+Thank you for the patch! Perhaps something to improve:
 
-[auto build test WARNING on xiang-erofs/dev-test]
-[also build test WARNING on next-20211224]
-[cannot apply to v5.16-rc7]
+[auto build test WARNING on trondmy-nfs/linux-next]
+[also build test WARNING on v5.16-rc7 next-20211224]
 [If your patch is applied to the wrong git tree, kindly drop us a note.
 And when submitting patch, we suggest to use '--base' as documented in
 https://git-scm.com/docs/git-format-patch]
 
-url:    https://github.com/0day-ci/linux/commits/Gao-Xiang/erofs-get-rid-of=
--erofs_get_meta_page/20211229-121538
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev=
--test
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-m001-20211230 (https://download.01.org/0day-ci/ar=
-chive/20211231/202112310650.TDDinvVT-lkp(a)intel.com/config)
+url:    https://github.com/0day-ci/linux/commits/Vasily-Averin/nfs-local_lo=
+ck-handle-async-processing-of-F_SETLK-with-FL_SLEEP/20211227-184705
+base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
+:::::: branch date: 17 hours ago
+:::::: commit date: 17 hours ago
+config: i386-randconfig-m021-20211227 (https://download.01.org/0day-ci/arch=
+ive/20211228/202112281211.SsWl4cfI-lkp(a)intel.com/config)
 compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
@@ -48,81 +46,80 @@ Reported-by: kernel test robot <lkp@intel.com>
 Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
 smatch warnings:
-fs/erofs/super.c:153 erofs_read_metadata() warn: possible memory leak of 'b=
-uffer'
+fs/nfs/file.c:772 do_setlk() warn: should this be a bitwise op?
 
-vim +/buffer +153 fs/erofs/super.c
+vim +772 fs/nfs/file.c
 
-5efe5137f05bbb drivers/staging/erofs/super.c Gao Xiang 2019-06-13  125  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  751  =
 
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  126  #if=
-def CONFIG_EROFS_FS_ZIP
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  127  /* =
-read variable-sized metadata, offset will be aligned by 4-byte */
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  128  sta=
-tic void *erofs_read_metadata(struct super_block *sb, struct erofs_buf *buf,
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  129  			=
-	 erofs_off_t *offset, int *lengthp)
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  130  {
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  131  	u8=
- *buffer, *ptr;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  132  	in=
-t len, i, cnt;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  133  =
+5eebde23223aeb Suresh Jayaraman 2010-09-23  752  static int
+5eebde23223aeb Suresh Jayaraman 2010-09-23  753  do_setlk(struct file *filp=
+, int cmd, struct file_lock *fl, int is_local)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  754  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  755  	struct inode *inode =3D f=
+ilp->f_mapping->host;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  756  	int status;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  757  =
 
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  134  	*o=
-ffset =3D round_up(*offset, 4);
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  135  	pt=
-r =3D erofs_read_metabuf(buf, sb, erofs_blknr(*offset), EROFS_KMAP);
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  136  	if=
- (IS_ERR(ptr))
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  137  		r=
-eturn ptr;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  138  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  758  	/*
+^1da177e4c3f41 Linus Torvalds   2005-04-16  759  	 * Flush all pending writ=
+es before doing anything
+^1da177e4c3f41 Linus Torvalds   2005-04-16  760  	 * with locks..
+^1da177e4c3f41 Linus Torvalds   2005-04-16  761  	 */
+29884df0d89c1d Trond Myklebust  2005-12-13  762  	status =3D nfs_sync_mappi=
+ng(filp->f_mapping);
+29884df0d89c1d Trond Myklebust  2005-12-13  763  	if (status !=3D 0)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  764  		goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  765  =
 
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  139  	le=
-n =3D le16_to_cpu(*(__le16 *)&ptr[erofs_blkoff(*offset)]);
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  140  	if=
- (!len)
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  141  		l=
-en =3D U16_MAX + 1;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  142  	bu=
-ffer =3D kmalloc(len, GFP_KERNEL);
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  143  	if=
- (!buffer)
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  144  		r=
-eturn ERR_PTR(-ENOMEM);
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  145  	*o=
-ffset +=3D sizeof(__le16);
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  146  	*l=
-engthp =3D len;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  147  =
+5eebde23223aeb Suresh Jayaraman 2010-09-23  766  	/*
+5eebde23223aeb Suresh Jayaraman 2010-09-23  767  	 * Use local locking if m=
+ounted with "-onolock" or with appropriate
+5eebde23223aeb Suresh Jayaraman 2010-09-23  768  	 * "-olocal_lock=3D"
+5eebde23223aeb Suresh Jayaraman 2010-09-23  769  	 */
+5eebde23223aeb Suresh Jayaraman 2010-09-23  770  	if (!is_local)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  771  		status =3D NFS_PROTO(ino=
+de)->lock(filp, cmd, fl);
+00e7edbaaa914f Vasily Averin    2021-12-27 @772  	else if ((fl->fl_flags &&=
+ FL_SLEEP) && IS_SETLK(cmd))
+00e7edbaaa914f Vasily Averin    2021-12-27  773  		status =3D posix_lock_fi=
+le(filp, fl, NULL);
+c4d7c402b788b7 Trond Myklebust  2008-04-01  774  	else
+75575ddf29cbbf Jeff Layton      2016-09-17  775  		status =3D locks_lock_fi=
+le_wait(filp, fl);
+00e7edbaaa914f Vasily Averin    2021-12-27  776  	if (status)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  777  		goto out;
+6b96724e507fec Ricardo Labiaga  2010-10-12  778  =
 
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  148  	fo=
-r (i =3D 0; i < len; i +=3D cnt) {
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  149  		c=
-nt =3D min(EROFS_BLKSIZ - (int)erofs_blkoff(*offset), len - i);
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  150  		p=
-tr =3D erofs_read_metabuf(buf, sb, erofs_blknr(*offset),
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  151  			=
-		 EROFS_KMAP);
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29  152  		i=
-f (IS_ERR(ptr))
-6477e408d41152 fs/erofs/super.c              Gao Xiang 2021-12-29 @153  			=
-return ptr;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  154  		m=
-emcpy(buffer + i, ptr + erofs_blkoff(*offset), cnt);
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  155  		*=
-offset +=3D cnt;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  156  	}
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  157  	re=
-turn buffer;
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  158  }
-14373711dd54be fs/erofs/super.c              Gao Xiang 2021-03-29  159  =
+^1da177e4c3f41 Linus Torvalds   2005-04-16  779  	/*
+779eafab06036f NeilBrown        2017-08-18  780  	 * Invalidate cache to pr=
+event missing any changes.  If
+779eafab06036f NeilBrown        2017-08-18  781  	 * the file is mapped, cl=
+ear the page cache as well so
+779eafab06036f NeilBrown        2017-08-18  782  	 * those mappings will be=
+ loaded.
+6b96724e507fec Ricardo Labiaga  2010-10-12  783  	 *
+^1da177e4c3f41 Linus Torvalds   2005-04-16  784  	 * This makes locking act=
+ as a cache coherency point.
+^1da177e4c3f41 Linus Torvalds   2005-04-16  785  	 */
+29884df0d89c1d Trond Myklebust  2005-12-13  786  	nfs_sync_mapping(filp->f_=
+mapping);
+779eafab06036f NeilBrown        2017-08-18  787  	if (!NFS_PROTO(inode)->ha=
+ve_delegation(inode, FMODE_READ)) {
+442ce0499c0535 NeilBrown        2017-07-24  788  		nfs_zap_caches(inode);
+779eafab06036f NeilBrown        2017-08-18  789  		if (mapping_mapped(filp-=
+>f_mapping))
+779eafab06036f NeilBrown        2017-08-18  790  			nfs_revalidate_mapping(=
+inode, filp->f_mapping);
+779eafab06036f NeilBrown        2017-08-18  791  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  792  out:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  793  	return status;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  794  }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  795  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============3176168426088144462==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============6231573871228319907==--
 
