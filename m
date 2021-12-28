@@ -1,47 +1,59 @@
-Content-Type: multipart/mixed; boundary="===============1114074602870263509=="
+Content-Type: multipart/mixed; boundary="===============6493820968223996878=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: fs/f2fs/compress.c:347:3: warning: Value stored to 'level' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 29 Dec 2021 09:21:13 +0800
-Message-ID: <202112290901.qpqxp7wv-lkp@intel.com>
+Subject: Re: [PATCH 2/8] phy: qcom-qmp: Register typec mux and orientation switch
+Date: Wed, 29 Dec 2021 07:59:44 +0800
+Message-ID: <202112290722.EHAx7G1v-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============1114074602870263509==
+--===============6493820968223996878==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Nick Terrell <terrelln@fb.com>
+In-Reply-To: <20211228052116.1748443-3-bjorn.andersson@linaro.org>
+References: <20211228052116.1748443-3-bjorn.andersson@linaro.org>
+TO: Bjorn Andersson <bjorn.andersson@linaro.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   ecf71de775a049cbfa6298deceb8ba2083331171
-commit: cf30f6a5f0c60ec98a637b836bef6915f602c6ab lib: zstd: Add kernel-spec=
-ific API
-date:   7 weeks ago
-:::::: branch date: 5 hours ago
-:::::: commit date: 7 weeks ago
-config: i386-randconfig-c001-20211228 (https://download.01.org/0day-ci/arch=
-ive/20211229/202112290901.qpqxp7wv-lkp(a)intel.com/config)
+Hi Bjorn,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on usb/usb-testing]
+[also build test WARNING on robh/for-next driver-core/driver-core-testing l=
+inus/master v5.16-rc7 next-20211224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Bjorn-Andersson/typec-mux-=
+Introduce-support-for-multiple-TypeC-muxes/20211228-132045
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-=
+testing
+:::::: branch date: 19 hours ago
+:::::: commit date: 19 hours ago
+config: riscv-randconfig-c006-20211228 (https://download.01.org/0day-ci/arc=
+hive/20211229/202112290722.EHAx7G1v-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7171af=
 744543433ac75b232eb7dfdaef7efd4d7a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dcf30f6a5f0c60ec98a637b836bef6915f602c6ab
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout cf30f6a5f0c60ec98a637b836bef6915f602c6ab
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://github.com/0day-ci/linux/commit/db0b002b5b2e1055b2df7b430=
+438335a75dc1557
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Bjorn-Andersson/typec-mux-Introduc=
+e-support-for-multiple-TypeC-muxes/20211228-132045
+        git checkout db0b002b5b2e1055b2df7b430438335a75dc1557
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -49,286 +61,339 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   fs/f2fs/compress.c:1145:9: note: Calling 'prepare_compress_overwrite'
-           return prepare_compress_overwrite(&cc, pagep, index, fsdata);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:1059:6: note: Assuming 'ret' is > 0
-           if (ret <=3D 0)
-               ^~~~~~~~
-   fs/f2fs/compress.c:1059:2: note: Taking false branch
-           if (ret <=3D 0)
+                                                                   ^~~~~~~~=
+~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5986:2: note: Loop condition is fals=
+e. Execution continues on line 5991
+           for_each_available_child_of_node(dev->of_node, child) {
            ^
-   fs/f2fs/compress.c:1062:8: note: Calling 'f2fs_init_compress_ctx'
-           ret =3D f2fs_init_compress_ctx(cc);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:144:10: note: Field 'rpages' is null
-           if (cc->rpages)
+   include/linux/of.h:1305:2: note: expanded from macro 'for_each_available=
+_child_of_node'
+           for (child =3D of_get_next_available_child(parent, NULL); child =
+!=3D NULL; \
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5991:6: note: Assuming 'num' is <=3D=
+ 'expected_phys'
+           if (num > expected_phys)
+               ^~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5991:2: note: Taking false branch
+           if (num > expected_phys)
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5994:14: note: Calling 'devm_kcalloc'
+           qmp->phys =3D devm_kcalloc(dev, num, sizeof(*qmp->phys), GFP_KER=
+NEL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   include/linux/device.h:223:9: note: Calling 'devm_kmalloc_array'
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:215:2: note: Taking false branch
+           if (unlikely(check_mul_overflow(n, size, &bytes)))
+           ^
+   include/linux/device.h:218:2: note: Returning pointer, which participate=
+s in a condition later
+           return devm_kmalloc(dev, bytes, flags);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:223:9: note: Returning from 'devm_kmalloc_array'
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:223:2: note: Returning pointer, which participate=
+s in a condition later
+           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5994:14: note: Returning from 'devm_=
+kcalloc'
+           qmp->phys =3D devm_kcalloc(dev, num, sizeof(*qmp->phys), GFP_KER=
+NEL);
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5995:6: note: Assuming field 'phys' =
+is non-null
+           if (!qmp->phys)
+               ^~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5995:2: note: Taking false branch
+           if (!qmp->phys)
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6007:49: note: Assuming 'child' is n=
+ot equal to null
+           for_each_available_child_of_node(dev->of_node, child) {
+                                                          ^
+   include/linux/of.h:1305:58: note: expanded from macro 'for_each_availabl=
+e_child_of_node'
+           for (child =3D of_get_next_available_child(parent, NULL); child =
+!=3D NULL; \
+                                                                   ^~~~~~~~=
+~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6007:2: note: Loop condition is true=
+.  Entering loop body
+           for_each_available_child_of_node(dev->of_node, child) {
+           ^
+   include/linux/of.h:1305:2: note: expanded from macro 'for_each_available=
+_child_of_node'
+           for (child =3D of_get_next_available_child(parent, NULL); child =
+!=3D NULL; \
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6008:7: note: Assuming the condition=
+ is true
+                   if (of_node_name_eq(child, "dp-phy")) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6008:3: note: Taking true branch
+                   if (of_node_name_eq(child, "dp-phy")) {
                    ^
-   fs/f2fs/compress.c:144:2: note: Taking false branch
-           if (cc->rpages)
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6009:4: note: Null pointer value sto=
+red to 'cfg'
+                           cfg =3D dp_cfg;
+                           ^~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6016:7: note: Assuming the condition=
+ is false
+                   if (of_node_name_eq(child, "port"))
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6016:3: note: Taking false branch
+                   if (of_node_name_eq(child, "port"))
+                   ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6020:53: note: Passing null pointer =
+value via 5th parameter 'cfg'
+                   ret =3D qcom_qmp_phy_create(dev, child, id, serdes, cfg);
+                                                                     ^~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6020:9: note: Calling 'qcom_qmp_phy_=
+create'
+                   ret =3D qcom_qmp_phy_create(dev, child, id, serdes, cfg);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5534:6: note: Assuming 'qphy' is non=
+-null
+           if (!qphy)
+               ^~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5534:2: note: Taking false branch
+           if (!qphy)
            ^
-   fs/f2fs/compress.c:147:15: note: Calling 'page_array_alloc'
-           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:31:13: note: Assuming 'size' is > field 'page_array_s=
-lab_size'
-           if (likely(size <=3D sbi->page_array_slab_size))
-                      ^
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
-                                               ^
-   fs/f2fs/compress.c:31:2: note: Taking false branch
-           if (likely(size <=3D sbi->page_array_slab_size))
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5546:6: note: Assuming field 'tx' is=
+ non-null
+           if (!qphy->tx)
+               ^~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5546:2: note: Taking false branch
+           if (!qphy->tx)
            ^
-   fs/f2fs/compress.c:34:9: note: Calling 'f2fs_kzalloc'
-           return f2fs_kzalloc(sbi, size, GFP_NOFS);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3191:9: note: Calling 'f2fs_kmalloc'
-           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3180:6: note: Assuming the condition is false
-           if (time_to_inject(sbi, FAULT_KMALLOC)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3180:2: note: Taking false branch
-           if (time_to_inject(sbi, FAULT_KMALLOC)) {
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5550:6: note: Assuming field 'rx' is=
+ non-null
+           if (!qphy->rx)
+               ^~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5550:2: note: Taking false branch
+           if (!qphy->rx)
            ^
-   fs/f2fs/f2fs.h:3185:9: note: Storing uninitialized value
-           return kmalloc(size, flags);
-                  ^~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3191:9: note: Returning from 'f2fs_kmalloc'
-           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:34:9: note: Returning from 'f2fs_kzalloc'
-           return f2fs_kzalloc(sbi, size, GFP_NOFS);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:147:15: note: Returning from 'page_array_alloc'
-           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:148:9: note: Assuming field 'rpages' is non-null
-           return cc->rpages ? 0 : -ENOMEM;
-                  ^~~~~~~~~~
-   fs/f2fs/compress.c:148:9: note: '?' condition is true
-   fs/f2fs/compress.c:1062:8: note: Returning from 'f2fs_init_compress_ctx'
-           ret =3D f2fs_init_compress_ctx(cc);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:1063:6: note: 'ret' is 0
-           if (ret)
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5554:6: note: Assuming field 'pcs' i=
+s non-null
+           if (!qphy->pcs)
+               ^~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5554:2: note: Taking false branch
+           if (!qphy->pcs)
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5563:6: note: Access to field 'is_du=
+al_lane_phy' results in a dereference of a null pointer (loaded from variab=
+le 'cfg')
+           if (cfg->is_dual_lane_phy) {
                ^~~
-   fs/f2fs/compress.c:1063:2: note: Taking false branch
-           if (ret)
-           ^
-   fs/f2fs/compress.c:1067:14: note: 'i' is < field 'cluster_size'
-           for (i =3D 0; i < cc->cluster_size; i++) {
-                       ^
-   fs/f2fs/compress.c:1067:2: note: Loop condition is true.  Entering loop =
-body
-           for (i =3D 0; i < cc->cluster_size; i++) {
-           ^
-   fs/f2fs/compress.c:1070:7: note: Assuming 'page' is null
-                   if (!page) {
-                       ^~~~~
-   fs/f2fs/compress.c:1070:3: note: Taking true branch
-                   if (!page) {
-                   ^
-   fs/f2fs/compress.c:1072:4: note: Control jumps to line 1126
-                           goto unlock_pages;
-                           ^
-   fs/f2fs/compress.c:1126:2: note: Calling 'f2fs_put_rpages'
-           f2fs_put_rpages(cc);
-           ^~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:115:2: note: Calling 'f2fs_drop_rpages'
-           f2fs_drop_rpages(cc, cc->cluster_size, false);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:103:7: note: The value 0 is assigned to 'i'
-           for (i =3D 0; i < len; i++) {
-                ^~~~~
-   fs/f2fs/compress.c:103:14: note: 'i' is < 'len'
-           for (i =3D 0; i < len; i++) {
-                       ^
-   fs/f2fs/compress.c:103:2: note: Loop condition is true.  Entering loop b=
-ody
-           for (i =3D 0; i < len; i++) {
-           ^
-   fs/f2fs/compress.c:104:7: note: Branch condition evaluates to a garbage =
-value
-                   if (!cc->rpages[i])
-                       ^~~~~~~~~~~~~~
->> fs/f2fs/compress.c:347:3: warning: Value stored to 'level' is never read=
- [clang-analyzer-deadcode.DeadStores]
-                   level =3D F2FS_ZSTD_DEFAULT_CLEVEL;
-                   ^
-   fs/f2fs/compress.c:347:3: note: Value stored to 'level' is never read
-   fs/f2fs/compress.c:1099:3: warning: Assigned value is garbage or undefin=
-ed [clang-analyzer-core.uninitialized.Assign]
-                   f2fs_bug_on(sbi, cc->rpages[i]);
-                   ^
-   fs/f2fs/f2fs.h:36:7: note: expanded from macro 'f2fs_bug_on'
-                   if (WARN_ON(condition))                                 \
-                       ^
-   include/asm-generic/bug.h:121:2: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-           ^
-   fs/f2fs/compress.c:1179:6: note: Assuming 'err' is >=3D 0
-           if (err < 0)
+>> drivers/phy/qualcomm/phy-qcom-qmp.c:5833:6: warning: Branch condition ev=
+aluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
+           if (dp_mode)
                ^~~~~~~
-   fs/f2fs/compress.c:1179:2: note: Taking false branch
-           if (err < 0)
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5804:2: note: 'dp_mode' declared wit=
+hout an initial value
+           bool dp_mode;
+           ^~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5807:2: note: 'Default' branch taken=
+. Execution continues on line 5831
+           switch (state->mode) {
            ^
-   fs/f2fs/compress.c:1183:7: note: 'err' is not equal to 0
-           if (!err)
-                ^~~
-   fs/f2fs/compress.c:1183:2: note: Taking false branch
-           if (!err)
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5833:6: note: Branch condition evalu=
+ates to a garbage value
+           if (dp_mode)
+               ^~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:6031:7: warning: Access to field 'ty=
+pe' results in a dereference of a null pointer (loaded from variable 'cfg')=
+ [clang-analyzer-core.NullDereference]
+                   if (cfg->type =3D=3D PHY_TYPE_USB3 || cfg->type =3D=3D P=
+HY_TYPE_PCIE) {
+                       ^~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5911:2: note: 'dp_cfg' initialized t=
+o a null pointer value
+           const struct qmp_phy_cfg *dp_cfg =3D NULL;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5916:6: note: Assuming 'qmp' is non-=
+null
+           if (!qmp)
+               ^~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5916:2: note: Taking false branch
+           if (!qmp)
            ^
-   fs/f2fs/compress.c:1187:8: note: Calling 'f2fs_prepare_compress_overwrit=
-e'
-           err =3D f2fs_prepare_compress_overwrite(inode, &pagep,
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:1145:9: note: Calling 'prepare_compress_overwrite'
-           return prepare_compress_overwrite(&cc, pagep, index, fsdata);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:1054:22: note: Calling 'start_idx_of_cluster'
-           pgoff_t start_idx =3D start_idx_of_cluster(cc);
-                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:72:2: note: Returning without writing to 'cc->rpages'=
-, which participates in a condition later
-           return cc->cluster_idx << cc->log_cluster_size;
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5920:2: note: Calling 'dev_set_drvda=
+ta'
+           dev_set_drvdata(dev, qmp);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/device.h:692:1: note: Returning without writing to 'data->=
+phys', which participates in a condition later
+   }
+   ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5920:2: note: Returning from 'dev_se=
+t_drvdata'
+           dev_set_drvdata(dev, qmp);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5924:6: note: Assuming 'cfg' is non-=
+null
+           if (!cfg) {
+               ^~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5924:2: note: Taking false branch
+           if (!cfg) {
            ^
-   fs/f2fs/compress.c:1054:22: note: Returning from 'start_idx_of_cluster'
-           pgoff_t start_idx =3D start_idx_of_cluster(cc);
-                               ^~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:1059:6: note: Assuming 'ret' is > 0
-           if (ret <=3D 0)
-               ^~~~~~~~
-   fs/f2fs/compress.c:1059:2: note: Taking false branch
-           if (ret <=3D 0)
-           ^
-   fs/f2fs/compress.c:1062:8: note: Calling 'f2fs_init_compress_ctx'
-           ret =3D f2fs_init_compress_ctx(cc);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:144:10: note: Field 'rpages' is null
-           if (cc->rpages)
-                   ^
-   fs/f2fs/compress.c:144:2: note: Taking false branch
-           if (cc->rpages)
-           ^
-   fs/f2fs/compress.c:147:15: note: Calling 'page_array_alloc'
-           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:31:13: note: Assuming 'size' is > field 'page_array_s=
-lab_size'
-           if (likely(size <=3D sbi->page_array_slab_size))
-                      ^
-   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
-   # define likely(x)      __builtin_expect(!!(x), 1)
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5941:6: note: Calling 'IS_ERR'
+           if (IS_ERR(serdes))
+               ^~~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
                                                ^
-   fs/f2fs/compress.c:31:2: note: Taking false branch
-           if (likely(size <=3D sbi->page_array_slab_size))
-           ^
-   fs/f2fs/compress.c:34:9: note: Calling 'f2fs_kzalloc'
-           return f2fs_kzalloc(sbi, size, GFP_NOFS);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3191:9: note: Calling 'f2fs_kmalloc'
-           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3180:6: note: Assuming the condition is false
-           if (time_to_inject(sbi, FAULT_KMALLOC)) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3180:2: note: Taking false branch
-           if (time_to_inject(sbi, FAULT_KMALLOC)) {
-           ^
-   fs/f2fs/f2fs.h:3185:9: note: Storing uninitialized value
-           return kmalloc(size, flags);
-                  ^~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/f2fs.h:3191:9: note: Returning from 'f2fs_kmalloc'
-           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:34:9: note: Returning from 'f2fs_kzalloc'
-           return f2fs_kzalloc(sbi, size, GFP_NOFS);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:147:15: note: Returning from 'page_array_alloc'
-           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
-                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:148:9: note: Assuming field 'rpages' is non-null
-           return cc->rpages ? 0 : -ENOMEM;
-                  ^~~~~~~~~~
-   fs/f2fs/compress.c:148:9: note: '?' condition is true
-   fs/f2fs/compress.c:148:2: note: Returning zero, which participates in a =
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
 condition later
-           return cc->rpages ? 0 : -ENOMEM;
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/f2fs/compress.c:1062:8: note: Returning from 'f2fs_init_compress_ctx'
-           ret =3D f2fs_init_compress_ctx(cc);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5941:6: note: Returning from 'IS_ERR'
+           if (IS_ERR(serdes))
+               ^~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5941:2: note: Taking false branch
+           if (IS_ERR(serdes))
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5945:6: note: 'combo_cfg' is null
+           if (combo_cfg || cfg->has_phy_dp_com_ctrl) {
+               ^~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5945:6: note: Left side of '||' is f=
+alse
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5945:19: note: Assuming field 'has_p=
+hy_dp_com_ctrl' is true
+           if (combo_cfg || cfg->has_phy_dp_com_ctrl) {
+                            ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5945:2: note: Taking true branch
+           if (combo_cfg || cfg->has_phy_dp_com_ctrl) {
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5947:7: note: Calling 'IS_ERR'
+                   if (IS_ERR(qmp->dp_com))
+                       ^~~~~~~~~~~~~~~~~~~
+   include/linux/err.h:36:9: note: Assuming the condition is false
+           return IS_ERR_VALUE((unsigned long)ptr);
+                  ^
+   include/linux/err.h:22:34: note: expanded from macro 'IS_ERR_VALUE'
+   #define IS_ERR_VALUE(x) unlikely((unsigned long)(void *)(x) >=3D (unsign=
+ed long)-MAX_ERRNO)
+                           ~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~~~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   include/linux/err.h:36:2: note: Returning zero, which participates in a =
+condition later
+           return IS_ERR_VALUE((unsigned long)ptr);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5947:7: note: Returning from 'IS_ERR'
+                   if (IS_ERR(qmp->dp_com))
+                       ^~~~~~~~~~~~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5947:3: note: Taking false branch
+                   if (IS_ERR(qmp->dp_com))
+                   ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5951:6: note: 'combo_cfg' is null
+           if (combo_cfg) {
+               ^~~~~~~~~
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5951:2: note: Taking false branch
+           if (combo_cfg) {
+           ^
+   drivers/phy/qualcomm/phy-qcom-qmp.c:5963:2: note: Loop condition is fals=
+e.  Exiting loop
+           mutex_init(&qmp->phy_mutex);
+           ^
+   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
 
-vim +/level +347 fs/f2fs/compress.c
+vim +5833 drivers/phy/qualcomm/phy-qcom-qmp.c
 
-50cfa66f0de02e Chao Yu      2020-03-03  336  =
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5798  =
 
-50cfa66f0de02e Chao Yu      2020-03-03  337  static int zstd_init_compress_=
-ctx(struct compress_ctx *cc)
-50cfa66f0de02e Chao Yu      2020-03-03  338  {
-cf30f6a5f0c60e Nick Terrell 2020-09-11  339  	zstd_parameters params;
-cf30f6a5f0c60e Nick Terrell 2020-09-11  340  	zstd_cstream *stream;
-50cfa66f0de02e Chao Yu      2020-03-03  341  	void *workspace;
-50cfa66f0de02e Chao Yu      2020-03-03  342  	unsigned int workspace_size;
-3fde13f817e23f Chao Yu      2021-01-22  343  	unsigned char level =3D F2FS_=
-I(cc->inode)->i_compress_flag >>
-3fde13f817e23f Chao Yu      2021-01-22  344  						COMPRESS_LEVEL_OFFSET;
-3fde13f817e23f Chao Yu      2021-01-22  345  =
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5799  static int qcom_qmp_phy_ty=
+pec_mux_set(struct typec_mux *mux,
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5800  				      struct typec_mux=
+_state *state)
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5801  {
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5802  	struct qcom_qmp *qmp =3D =
+typec_mux_get_drvdata(mux);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5803  	void __iomem *dp_com =3D =
+qmp->dp_com;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5804  	bool dp_mode;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5805  	bool usb_mode;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5806  =
 
-3fde13f817e23f Chao Yu      2021-01-22  346  	if (!level)
-3fde13f817e23f Chao Yu      2021-01-22 @347  		level =3D F2FS_ZSTD_DEFAULT_=
-CLEVEL;
-50cfa66f0de02e Chao Yu      2020-03-03  348  =
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5807  	switch (state->mode) {
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5808  	case TYPEC_STATE_SAFE:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5809  	case TYPEC_STATE_USB:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5810  		/*
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5811  		 * TODO: Figure out if w=
+e should clear DP_MODE when we enter a
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5812  		 * USB-only state.
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5813  		 */
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5814  		dp_mode =3D true;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5815  		usb_mode =3D true;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5816  		break;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5817  	case TYPEC_DP_STATE_A:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5818  	case TYPEC_DP_STATE_C:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5819  	case TYPEC_DP_STATE_E:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5820  		dp_mode =3D true;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5821  		usb_mode =3D false;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5822  		break;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5823  	case TYPEC_DP_STATE_B:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5824  	case TYPEC_DP_STATE_D:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5825  	case TYPEC_DP_STATE_F:
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5826  		dp_mode =3D true;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5827  		usb_mode =3D true;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5828  		break;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5829  	}
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5830  =
 
-cf30f6a5f0c60e Nick Terrell 2020-09-11  349  	params =3D zstd_get_params(F2=
-FS_ZSTD_DEFAULT_CLEVEL, cc->rlen);
-cf30f6a5f0c60e Nick Terrell 2020-09-11  350  	workspace_size =3D zstd_cstre=
-am_workspace_bound(&params.cParams);
-50cfa66f0de02e Chao Yu      2020-03-03  351  =
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5831  	qphy_setbits(dp_com, QPHY=
+_V3_DP_COM_RESET_OVRD_CTRL,
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5832  		     SW_DPPHY_RESET_MUX =
+| SW_USB3PHY_RESET_MUX);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27 @5833  	if (dp_mode)
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5834  		qphy_setbits(dp_com, QPH=
+Y_V3_DP_COM_PHY_MODE_CTRL, DP_MODE);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5835  	else
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5836  		qphy_clrbits(dp_com, QPH=
+Y_V3_DP_COM_PHY_MODE_CTRL, DP_MODE);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5837  =
 
-50cfa66f0de02e Chao Yu      2020-03-03  352  	workspace =3D f2fs_kvmalloc(F=
-2FS_I_SB(cc->inode),
-50cfa66f0de02e Chao Yu      2020-03-03  353  					workspace_size, GFP_NOFS);
-50cfa66f0de02e Chao Yu      2020-03-03  354  	if (!workspace)
-50cfa66f0de02e Chao Yu      2020-03-03  355  		return -ENOMEM;
-50cfa66f0de02e Chao Yu      2020-03-03  356  =
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5838  	if (usb_mode)
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5839  		qphy_setbits(dp_com, QPH=
+Y_V3_DP_COM_PHY_MODE_CTRL, USB3_MODE);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5840  	else
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5841  		qphy_clrbits(dp_com, QPH=
+Y_V3_DP_COM_PHY_MODE_CTRL, USB3_MODE);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5842  =
 
-cf30f6a5f0c60e Nick Terrell 2020-09-11  357  	stream =3D zstd_init_cstream(=
-&params, 0, workspace, workspace_size);
-50cfa66f0de02e Chao Yu      2020-03-03  358  	if (!stream) {
-cf30f6a5f0c60e Nick Terrell 2020-09-11  359  		printk_ratelimited("%sF2FS-f=
-s (%s): %s zstd_init_cstream failed\n",
-50cfa66f0de02e Chao Yu      2020-03-03  360  				KERN_ERR, F2FS_I_SB(cc->in=
-ode)->sb->s_id,
-50cfa66f0de02e Chao Yu      2020-03-03  361  				__func__);
-50cfa66f0de02e Chao Yu      2020-03-03  362  		kvfree(workspace);
-50cfa66f0de02e Chao Yu      2020-03-03  363  		return -EIO;
-50cfa66f0de02e Chao Yu      2020-03-03  364  	}
-50cfa66f0de02e Chao Yu      2020-03-03  365  =
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5843  	qphy_setbits(dp_com, QPHY=
+_V3_DP_COM_SW_RESET, SW_RESET);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5844  	qphy_clrbits(dp_com, QPHY=
+_V3_DP_COM_SWI_CTRL, 0x03);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5845  	qphy_clrbits(dp_com, QPHY=
+_V3_DP_COM_SW_RESET, SW_RESET);
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5846  =
 
-50cfa66f0de02e Chao Yu      2020-03-03  366  	cc->private =3D workspace;
-50cfa66f0de02e Chao Yu      2020-03-03  367  	cc->private2 =3D stream;
-50cfa66f0de02e Chao Yu      2020-03-03  368  =
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5847  	return 0;
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5848  }
+db0b002b5b2e10 Bjorn Andersson 2021-12-27  5849  =
 
-50cfa66f0de02e Chao Yu      2020-03-03  369  	cc->clen =3D cc->rlen - PAGE_=
-SIZE - COMPRESS_HEADER_SIZE;
-50cfa66f0de02e Chao Yu      2020-03-03  370  	return 0;
-50cfa66f0de02e Chao Yu      2020-03-03  371  }
-50cfa66f0de02e Chao Yu      2020-03-03  372  =
-
-
-:::::: The code at line 347 was first introduced by commit
-:::::: 3fde13f817e23f05ce407d136325df4cbc913e67 f2fs: compress: support com=
-press level
-
-:::::: TO: Chao Yu <yuchao0@huawei.com>
-:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============1114074602870263509==--
+--===============6493820968223996878==--
 
