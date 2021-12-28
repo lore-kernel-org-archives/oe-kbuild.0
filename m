@@ -1,122 +1,116 @@
-Content-Type: multipart/mixed; boundary="===============7051896372950252844=="
+Content-Type: multipart/mixed; boundary="===============4590813837862532313=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] nfs4: handle async processing of F_SETLK with FL_SLEEP
-Date: Tue, 28 Dec 2021 16:43:58 +0800
-Message-ID: <202112281638.RNX7e40X-lkp@intel.com>
+Subject: drivers/pinctrl/renesas/pfc-r8a779a0.c:135:0: warning: failed to expand 'PINMUX_GPSR', Wrong number of parameters for macro 'F_'. [preprocessorErrorDirective]
+Date: Tue, 28 Dec 2021 15:32:58 +0800
+Message-ID: <202112281515.PVpFgC2f-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============7051896372950252844==
+--===============4590813837862532313==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <3a2c6cb9-abe7-ab32-b11c-d78621361555@virtuozzo.com>
-References: <3a2c6cb9-abe7-ab32-b11c-d78621361555@virtuozzo.com>
-TO: Vasily Averin <vvs@virtuozzo.com>
-TO: Trond Myklebust <trond.myklebust@hammerspace.com>
-TO: Anna Schumaker <anna.schumaker@netapp.com>
-CC: kernel(a)openvz.org
-CC: linux-nfs(a)vger.kernel.org
 CC: linux-kernel(a)vger.kernel.org
+TO: Ulrich Hecht <uli+renesas@fpond.eu>
+CC: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Hi Vasily,
-
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on trondmy-nfs/linux-next]
-[also build test WARNING on v5.16-rc7 next-20211224]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Vasily-Averin/nfs4-handle-=
-async-processing-of-F_SETLK-with-FL_SLEEP/20211227-184632
-base:   git://git.linux-nfs.org/projects/trondmy/linux-nfs.git linux-next
-:::::: branch date: 22 hours ago
-:::::: commit date: 22 hours ago
-config: i386-randconfig-m021-20211227 (https://download.01.org/0day-ci/arch=
-ive/20211228/202112281638.RNX7e40X-lkp(a)intel.com/config)
-compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   a8ad9a2434dc7967ab285437f443cae633b6fc1c
+commit: 741a7370fc3b8b549ac69886be161a99109b78b6 pinctrl: renesas: Initial =
+R8A779A0 (V3U) PFC support
+date:   12 months ago
+:::::: branch date: 14 hours ago
+:::::: commit date: 12 months ago
+compiler: aarch64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-New smatch warnings:
-fs/nfs/nfs4proc.c:7202 _nfs4_proc_setlk() warn: should this be a bitwise op?
 
-Old smatch warnings:
-fs/nfs/nfs4proc.c:1382 nfs4_opendata_alloc() error: we previously assumed '=
-c' could be null (see line 1350)
-fs/nfs/nfs4proc.c:2201 _nfs4_do_open_reclaim() warn: passing a valid pointe=
-r to 'PTR_ERR'
-fs/nfs/nfs4proc.c:2310 nfs4_open_delegation_recall() warn: passing a valid =
-pointer to 'PTR_ERR'
-fs/nfs/nfs4proc.c:2728 _nfs4_open_expired() warn: passing a valid pointer t=
-o 'PTR_ERR'
+cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
 
-vim +7202 fs/nfs/nfs4proc.c
+>> drivers/pinctrl/renesas/pfc-r8a779a0.c:135:0: warning: failed to expand =
+'PINMUX_GPSR', Wrong number of parameters for macro 'F_'. [preprocessorErro=
+rDirective]
+   #define GPSR1_30 F_(GP1_30, IP3SR1_27_24)
+   ^
 
-f062eb6ced3b29 Bryan Schumaker 2011-06-02  7193  =
+vim +135 drivers/pinctrl/renesas/pfc-r8a779a0.c
 
-^1da177e4c3f41 Linus Torvalds  2005-04-16  7194  static int _nfs4_proc_setl=
-k(struct nfs4_state *state, int cmd, struct file_lock *request)
-^1da177e4c3f41 Linus Torvalds  2005-04-16  7195  {
-19e03c570e6099 Trond Myklebust 2008-12-23  7196  	struct nfs_inode *nfsi =
-=3D NFS_I(state->inode);
-11476e9dec39d9 Chuck Lever     2016-04-11  7197  	struct nfs4_state_owner *=
-sp =3D state->owner;
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7198  	unsigned char fl_flags =
-=3D request->fl_flags;
-1ea67dbd982827 Jeff Layton     2016-09-17  7199  	int status;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  7200  =
+741a7370fc3b8b Ulrich Hecht 2021-01-12  133  =
 
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7201  	request->fl_flags |=3D FL=
-_ACCESS;
-7ae55d384b2f33 Vasily Averin   2021-12-27 @7202  	if ((request->fl_flags &&=
- FL_SLEEP) && IS_SETLK(cmd))
-7ae55d384b2f33 Vasily Averin   2021-12-27  7203  		status =3D posix_lock_fi=
-le(request->fl_file, request, NULL);
-7ae55d384b2f33 Vasily Averin   2021-12-27  7204  	else
-75575ddf29cbbf Jeff Layton     2016-09-17  7205  		status =3D locks_lock_in=
-ode_wait(state->inode, request);
-7ae55d384b2f33 Vasily Averin   2021-12-27  7206  	if (status)
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7207  		goto out;
-11476e9dec39d9 Chuck Lever     2016-04-11  7208  	mutex_lock(&sp->so_delegr=
-eturn_mutex);
-19e03c570e6099 Trond Myklebust 2008-12-23  7209  	down_read(&nfsi->rwsem);
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7210  	if (test_bit(NFS_DELEGATE=
-D_STATE, &state->flags)) {
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7211  		/* Yes: cache locks! */
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7212  		/* ...but avoid races wi=
-th delegation recall... */
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7213  		request->fl_flags =3D fl=
-_flags & ~FL_SLEEP;
-75575ddf29cbbf Jeff Layton     2016-09-17  7214  		status =3D locks_lock_in=
-ode_wait(state->inode, request);
-9a99af494bd714 Trond Myklebust 2013-02-04  7215  		up_read(&nfsi->rwsem);
-11476e9dec39d9 Chuck Lever     2016-04-11  7216  		mutex_unlock(&sp->so_del=
-egreturn_mutex);
-9a99af494bd714 Trond Myklebust 2013-02-04  7217  		goto out;
-9a99af494bd714 Trond Myklebust 2013-02-04  7218  	}
-19e03c570e6099 Trond Myklebust 2008-12-23  7219  	up_read(&nfsi->rwsem);
-11476e9dec39d9 Chuck Lever     2016-04-11  7220  	mutex_unlock(&sp->so_dele=
-greturn_mutex);
-c69899a17ca483 Trond Myklebust 2015-01-24  7221  	status =3D _nfs4_do_setlk=
-(state, cmd, request, NFS_LOCK_NEW);
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7222  out:
-01c3b861cd77b2 Trond Myklebust 2006-06-29  7223  	request->fl_flags =3D fl_=
-flags;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  7224  	return status;
-^1da177e4c3f41 Linus Torvalds  2005-04-16  7225  }
-^1da177e4c3f41 Linus Torvalds  2005-04-16  7226  =
+741a7370fc3b8b Ulrich Hecht 2021-01-12  134  /* GPSR1 */
+741a7370fc3b8b Ulrich Hecht 2021-01-12 @135  #define GPSR1_30	F_(GP1_30,	IP=
+3SR1_27_24)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  136  #define GPSR1_29	F_(GP1_29,	IP=
+3SR1_23_20)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  137  #define GPSR1_28	F_(GP1_28,	IP=
+3SR1_19_16)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  138  #define GPSR1_27	F_(IRQ3,	IP3S=
+R1_15_12)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  139  #define GPSR1_26	F_(IRQ2,	IP3S=
+R1_11_8)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  140  #define GPSR1_25	F_(IRQ1,	IP3S=
+R1_7_4)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  141  #define GPSR1_24	F_(IRQ0,	IP3S=
+R1_3_0)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  142  #define GPSR1_23	F_(MSIOF2_SS2=
+,	IP2SR1_31_28)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  143  #define GPSR1_22	F_(MSIOF2_SS1=
+,	IP2SR1_27_24)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  144  #define GPSR1_21	F_(MSIOF2_SYN=
+C,	IP2SR1_23_20)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  145  #define GPSR1_20	F_(MSIOF2_SCK=
+,	IP2SR1_19_16)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  146  #define GPSR1_19	F_(MSIOF2_TXD=
+,	IP2SR1_15_12)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  147  #define GPSR1_18	F_(MSIOF2_RXD=
+,	IP2SR1_11_8)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  148  #define GPSR1_17	F_(MSIOF1_SS2=
+,	IP2SR1_7_4)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  149  #define GPSR1_16	F_(MSIOF1_SS1=
+,	IP2SR1_3_0)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  150  #define GPSR1_15	F_(MSIOF1_SYN=
+C,	IP1SR1_31_28)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  151  #define GPSR1_14	F_(MSIOF1_SCK=
+,	IP1SR1_27_24)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  152  #define GPSR1_13	F_(MSIOF1_TXD=
+,	IP1SR1_23_20)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  153  #define GPSR1_12	F_(MSIOF1_RXD=
+,	IP1SR1_19_16)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  154  #define GPSR1_11	F_(MSIOF0_SS2=
+,	IP1SR1_15_12)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  155  #define GPSR1_10	F_(MSIOF0_SS1=
+,	IP1SR1_11_8)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  156  #define GPSR1_9		F_(MSIOF0_SYN=
+C,	IP1SR1_7_4)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  157  #define GPSR1_8		F_(MSIOF0_SCK=
+,	IP1SR1_3_0)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  158  #define GPSR1_7		F_(MSIOF0_TXD=
+,	IP0SR1_31_28)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  159  #define GPSR1_6		F_(MSIOF0_RXD=
+,	IP0SR1_27_24)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  160  #define GPSR1_5		F_(HTX0,	IP0S=
+R1_23_20)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  161  #define GPSR1_4		F_(HCTS0_N,	I=
+P0SR1_19_16)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  162  #define GPSR1_3		F_(HRTS0_N,	I=
+P0SR1_15_12)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  163  #define GPSR1_2		F_(HSCK0,	IP0=
+SR1_11_8)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  164  #define GPSR1_1		F_(HRX0,	IP0S=
+R1_7_4)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  165  #define GPSR1_0		F_(SCIF_CLK,	=
+IP0SR1_3_0)
+741a7370fc3b8b Ulrich Hecht 2021-01-12  166  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============7051896372950252844==--
+--===============4590813837862532313==--
 
