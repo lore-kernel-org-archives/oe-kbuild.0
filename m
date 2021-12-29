@@ -1,137 +1,179 @@
-Content-Type: multipart/mixed; boundary="===============6388591842741368073=="
+Content-Type: multipart/mixed; boundary="===============9089693358413840120=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/msm/msm_gem.c:1137:2: warning: Address of local auto-variable assigned to a function parameter. [autoVariables]
-Date: Fri, 31 Dec 2021 09:57:03 +0800
-Message-ID: <202112310819.BCHsl1WL-lkp@intel.com>
+Subject: drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc() warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
+Date: Thu, 30 Dec 2021 03:52:57 +0800
+Message-ID: <202112300318.84tcFlXp-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============6388591842741368073==
+--===============9089693358413840120==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-CC: Rob Clark <robdclark@gmail.com>
+TO: Matthew Auld <matthew.auld@intel.com>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   012e332286e2bb9f6ac77d195f17e74b2963d663
-commit: b3ed524f84f573ece1aa2f26e9db3c34a593e0d1 drm/msm: allow compile_tes=
-t on !ARM
-date:   3 months ago
-:::::: branch date: 2 hours ago
-:::::: commit date: 3 months ago
-compiler: nds32le-linux-gcc (GCC) 11.2.0
+head:   e7c124bd04631973a3cc0df19ab881b56d8a2d50
+commit: 88be9a0a06b73ecd85a688a7c174c941e9692e92 drm/i915/ttm: add ttm_budd=
+y_man
+date:   7 months ago
+:::::: branch date: 22 hours ago
+:::::: commit date: 7 months ago
+config: i386-randconfig-m021-20211229 (https://download.01.org/0day-ci/arch=
+ive/20211230/202112300318.84tcFlXp-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+New smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:54 i915_ttm_buddy_man_alloc()=
+ warn: should 'bman_res->base.num_pages << 12' be a 64 bit type?
 
-cppcheck possible warnings: (new ones prefixed by >>, may not real problems)
+Old smatch warnings:
+drivers/gpu/drm/i915/i915_ttm_buddy_manager.c:56 i915_ttm_buddy_man_alloc()=
+ warn: should 'bo->page_alignment << 12' be a 64 bit type?
 
->> drivers/gpu/drm/msm/msm_gem.c:1137:2: warning: Address of local auto-var=
-iable assigned to a function parameter. [autoVariables]
-    *obj =3D &msm_obj->base;
-    ^
->> drivers/gpu/drm/msm/msm_gem_submit.c:100:32: warning: Local variable sub=
-mit_bo shadows outer function [shadowFunction]
-     struct drm_msm_gem_submit_bo submit_bo;
-                                  ^
-   drivers/gpu/drm/msm/msm_gem_submit.c:405:12: note: Shadowed declaration
-   static int submit_bo(struct msm_gem_submit *submit, uint32_t idx,
-              ^
-   drivers/gpu/drm/msm/msm_gem_submit.c:100:32: note: Shadow variable
-     struct drm_msm_gem_submit_bo submit_bo;
-                                  ^
->> drivers/gpu/drm/msm/msm_gem_submit.c:452:35: warning: Local variable sub=
-mit_reloc shadows outer function [shadowFunction]
-     struct drm_msm_gem_submit_reloc submit_reloc =3D relocs[i];
-                                     ^
-   drivers/gpu/drm/msm/msm_gem_submit.c:425:12: note: Shadowed declaration
-   static int submit_reloc(struct msm_gem_submit *submit, struct msm_gem_ob=
-ject *obj,
-              ^
-   drivers/gpu/drm/msm/msm_gem_submit.c:452:35: note: Shadow variable
-     struct drm_msm_gem_submit_reloc submit_reloc =3D relocs[i];
-                                     ^
+vim +54 drivers/gpu/drm/i915/i915_ttm_buddy_manager.c
 
-vim +1137 drivers/gpu/drm/msm/msm_gem.c
+88be9a0a06b73e Matthew Auld 2021-06-16   28  =
 
-3c9edd9c85f53e Thomas Zimmermann   2020-09-23  1105  =
+88be9a0a06b73e Matthew Auld 2021-06-16   29  static int i915_ttm_buddy_man_=
+alloc(struct ttm_resource_manager *man,
+88be9a0a06b73e Matthew Auld 2021-06-16   30  				    struct ttm_buffer_obje=
+ct *bo,
+88be9a0a06b73e Matthew Auld 2021-06-16   31  				    const struct ttm_place=
+ *place,
+88be9a0a06b73e Matthew Auld 2021-06-16   32  				    struct ttm_resource **=
+res)
+88be9a0a06b73e Matthew Auld 2021-06-16   33  {
+88be9a0a06b73e Matthew Auld 2021-06-16   34  	struct i915_ttm_buddy_manager=
+ *bman =3D to_buddy_manager(man);
+88be9a0a06b73e Matthew Auld 2021-06-16   35  	struct i915_ttm_buddy_resourc=
+e *bman_res;
+88be9a0a06b73e Matthew Auld 2021-06-16   36  	struct i915_buddy_mm *mm =3D =
+&bman->mm;
+88be9a0a06b73e Matthew Auld 2021-06-16   37  	unsigned long n_pages;
+88be9a0a06b73e Matthew Auld 2021-06-16   38  	unsigned int min_order;
+88be9a0a06b73e Matthew Auld 2021-06-16   39  	u64 min_page_size;
+88be9a0a06b73e Matthew Auld 2021-06-16   40  	u64 size;
+88be9a0a06b73e Matthew Auld 2021-06-16   41  	int err;
+88be9a0a06b73e Matthew Auld 2021-06-16   42  =
 
-05b849111c0745 Rob Clark           2013-09-28  1106  static int msm_gem_new=
-_impl(struct drm_device *dev,
-05b849111c0745 Rob Clark           2013-09-28  1107  		uint32_t size, uint3=
-2_t flags,
-3cbdc8d8b7f39a Akhil P Oommen      2020-07-10  1108  		struct drm_gem_objec=
-t **obj)
-c8afe684c95cd1 Rob Clark           2013-06-26  1109  {
-d12e339044a00e Jonathan Marek      2021-04-23  1110  	struct msm_drm_privat=
-e *priv =3D dev->dev_private;
-c8afe684c95cd1 Rob Clark           2013-06-26  1111  	struct msm_gem_object=
- *msm_obj;
-c8afe684c95cd1 Rob Clark           2013-06-26  1112  =
+88be9a0a06b73e Matthew Auld 2021-06-16   43  	GEM_BUG_ON(place->fpfn || pla=
+ce->lpfn);
+88be9a0a06b73e Matthew Auld 2021-06-16   44  =
 
-c8afe684c95cd1 Rob Clark           2013-06-26  1113  	switch (flags & MSM_B=
-O_CACHE_MASK) {
-c8afe684c95cd1 Rob Clark           2013-06-26  1114  	case MSM_BO_UNCACHED:
-c8afe684c95cd1 Rob Clark           2013-06-26  1115  	case MSM_BO_CACHED:
-c8afe684c95cd1 Rob Clark           2013-06-26  1116  	case MSM_BO_WC:
-c8afe684c95cd1 Rob Clark           2013-06-26  1117  		break;
-d12e339044a00e Jonathan Marek      2021-04-23  1118  	case MSM_BO_CACHED_CO=
-HERENT:
-d12e339044a00e Jonathan Marek      2021-04-23  1119  		if (priv->has_cached=
-_coherent)
-d12e339044a00e Jonathan Marek      2021-04-23  1120  			break;
-e181ad43887c6b Gustavo A. R. Silva 2021-07-12  1121  		fallthrough;
-c8afe684c95cd1 Rob Clark           2013-06-26  1122  	default:
-6a41da17e87dee Mamta Shukla        2018-10-20  1123  		DRM_DEV_ERROR(dev->d=
-ev, "invalid cache flag: %x\n",
-c8afe684c95cd1 Rob Clark           2013-06-26  1124  				(flags & MSM_BO_CA=
-CHE_MASK));
-05b849111c0745 Rob Clark           2013-09-28  1125  		return -EINVAL;
-c8afe684c95cd1 Rob Clark           2013-06-26  1126  	}
-c8afe684c95cd1 Rob Clark           2013-06-26  1127  =
+88be9a0a06b73e Matthew Auld 2021-06-16   45  	bman_res =3D kzalloc(sizeof(*=
+bman_res), GFP_KERNEL);
+88be9a0a06b73e Matthew Auld 2021-06-16   46  	if (!bman_res)
+88be9a0a06b73e Matthew Auld 2021-06-16   47  		return -ENOMEM;
+88be9a0a06b73e Matthew Auld 2021-06-16   48  =
 
-667ce33e57d0de Rob Clark           2016-09-28  1128  	msm_obj =3D kzalloc(s=
-izeof(*msm_obj), GFP_KERNEL);
-05b849111c0745 Rob Clark           2013-09-28  1129  	if (!msm_obj)
-05b849111c0745 Rob Clark           2013-09-28  1130  		return -ENOMEM;
-c8afe684c95cd1 Rob Clark           2013-06-26  1131  =
+88be9a0a06b73e Matthew Auld 2021-06-16   49  	ttm_resource_init(bo, place, =
+&bman_res->base);
+88be9a0a06b73e Matthew Auld 2021-06-16   50  	INIT_LIST_HEAD(&bman_res->blo=
+cks);
+88be9a0a06b73e Matthew Auld 2021-06-16   51  	bman_res->mm =3D mm;
+88be9a0a06b73e Matthew Auld 2021-06-16   52  =
 
-c8afe684c95cd1 Rob Clark           2013-06-26  1132  	msm_obj->flags =3D fl=
-ags;
-4cd33c48ea25ba Rob Clark           2016-05-17  1133  	msm_obj->madv =3D MSM=
-_MADV_WILLNEED;
-c8afe684c95cd1 Rob Clark           2013-06-26  1134  =
+88be9a0a06b73e Matthew Auld 2021-06-16   53  	GEM_BUG_ON(!bman_res->base.nu=
+m_pages);
+88be9a0a06b73e Matthew Auld 2021-06-16  @54  	size =3D bman_res->base.num_p=
+ages << PAGE_SHIFT;
+88be9a0a06b73e Matthew Auld 2021-06-16   55  =
 
-4b85f7f5cf776b Rob Clark           2017-06-13  1135  	INIT_LIST_HEAD(&msm_o=
-bj->vmas);
-4b85f7f5cf776b Rob Clark           2017-06-13  1136  =
+88be9a0a06b73e Matthew Auld 2021-06-16   56  	min_page_size =3D bo->page_al=
+ignment << PAGE_SHIFT;
+88be9a0a06b73e Matthew Auld 2021-06-16   57  	GEM_BUG_ON(min_page_size < mm=
+->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   58  	min_order =3D ilog2(min_page_=
+size) - ilog2(mm->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   59  	if (place->flags & TTM_PL_FLA=
+G_CONTIGUOUS) {
+88be9a0a06b73e Matthew Auld 2021-06-16   60  		size =3D roundup_pow_of_two(=
+size);
+88be9a0a06b73e Matthew Auld 2021-06-16   61  		min_order =3D ilog2(size) - =
+ilog2(mm->chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   62  	}
+88be9a0a06b73e Matthew Auld 2021-06-16   63  =
 
-05b849111c0745 Rob Clark           2013-09-28 @1137  	*obj =3D &msm_obj->ba=
-se;
-3c9edd9c85f53e Thomas Zimmermann   2020-09-23  1138  	(*obj)->funcs =3D &ms=
-m_gem_object_funcs;
-05b849111c0745 Rob Clark           2013-09-28  1139  =
+88be9a0a06b73e Matthew Auld 2021-06-16   64  	if (size > mm->size) {
+88be9a0a06b73e Matthew Auld 2021-06-16   65  		err =3D -E2BIG;
+88be9a0a06b73e Matthew Auld 2021-06-16   66  		goto err_free_res;
+88be9a0a06b73e Matthew Auld 2021-06-16   67  	}
+88be9a0a06b73e Matthew Auld 2021-06-16   68  =
 
-05b849111c0745 Rob Clark           2013-09-28  1140  	return 0;
-05b849111c0745 Rob Clark           2013-09-28  1141  }
-05b849111c0745 Rob Clark           2013-09-28  1142  =
+88be9a0a06b73e Matthew Auld 2021-06-16   69  	n_pages =3D size >> ilog2(mm-=
+>chunk_size);
+88be9a0a06b73e Matthew Auld 2021-06-16   70  =
 
+88be9a0a06b73e Matthew Auld 2021-06-16   71  	do {
+88be9a0a06b73e Matthew Auld 2021-06-16   72  		struct i915_buddy_block *blo=
+ck;
+88be9a0a06b73e Matthew Auld 2021-06-16   73  		unsigned int order;
+88be9a0a06b73e Matthew Auld 2021-06-16   74  =
 
-:::::: The code at line 1137 was first introduced by commit
-:::::: 05b849111c07454fd2f5b074ca7eb56ccdb8828c drm/msm: prime support
+88be9a0a06b73e Matthew Auld 2021-06-16   75  		order =3D fls(n_pages) - 1;
+88be9a0a06b73e Matthew Auld 2021-06-16   76  		GEM_BUG_ON(order > mm->max_o=
+rder);
+88be9a0a06b73e Matthew Auld 2021-06-16   77  		GEM_BUG_ON(order < min_order=
+);
+88be9a0a06b73e Matthew Auld 2021-06-16   78  =
 
-:::::: TO: Rob Clark <robdclark@gmail.com>
-:::::: CC: Rob Clark <robdclark@gmail.com>
+88be9a0a06b73e Matthew Auld 2021-06-16   79  		do {
+88be9a0a06b73e Matthew Auld 2021-06-16   80  			mutex_lock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16   81  			block =3D i915_buddy_alloc(=
+mm, order);
+88be9a0a06b73e Matthew Auld 2021-06-16   82  			mutex_unlock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16   83  			if (!IS_ERR(block))
+88be9a0a06b73e Matthew Auld 2021-06-16   84  				break;
+88be9a0a06b73e Matthew Auld 2021-06-16   85  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   86  			if (order-- =3D=3D min_orde=
+r) {
+88be9a0a06b73e Matthew Auld 2021-06-16   87  				err =3D -ENOSPC;
+88be9a0a06b73e Matthew Auld 2021-06-16   88  				goto err_free_blocks;
+88be9a0a06b73e Matthew Auld 2021-06-16   89  			}
+88be9a0a06b73e Matthew Auld 2021-06-16   90  		} while (1);
+88be9a0a06b73e Matthew Auld 2021-06-16   91  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   92  		n_pages -=3D BIT(order);
+88be9a0a06b73e Matthew Auld 2021-06-16   93  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   94  		list_add_tail(&block->link, =
+&bman_res->blocks);
+88be9a0a06b73e Matthew Auld 2021-06-16   95  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16   96  		if (!n_pages)
+88be9a0a06b73e Matthew Auld 2021-06-16   97  			break;
+88be9a0a06b73e Matthew Auld 2021-06-16   98  	} while (1);
+88be9a0a06b73e Matthew Auld 2021-06-16   99  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16  100  	*res =3D &bman_res->base;
+88be9a0a06b73e Matthew Auld 2021-06-16  101  	return 0;
+88be9a0a06b73e Matthew Auld 2021-06-16  102  =
+
+88be9a0a06b73e Matthew Auld 2021-06-16  103  err_free_blocks:
+88be9a0a06b73e Matthew Auld 2021-06-16  104  	mutex_lock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16  105  	i915_buddy_free_list(mm, &bma=
+n_res->blocks);
+88be9a0a06b73e Matthew Auld 2021-06-16  106  	mutex_unlock(&bman->lock);
+88be9a0a06b73e Matthew Auld 2021-06-16  107  err_free_res:
+88be9a0a06b73e Matthew Auld 2021-06-16  108  	kfree(bman_res);
+88be9a0a06b73e Matthew Auld 2021-06-16  109  	return err;
+88be9a0a06b73e Matthew Auld 2021-06-16  110  }
+88be9a0a06b73e Matthew Auld 2021-06-16  111  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============6388591842741368073==--
+--===============9089693358413840120==--
 
