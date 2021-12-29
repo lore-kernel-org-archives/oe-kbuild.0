@@ -1,55 +1,47 @@
-Content-Type: multipart/mixed; boundary="===============3140179852674951175=="
+Content-Type: multipart/mixed; boundary="===============1114074602870263509=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2] mm/damon: Add access checking for hugetlb pages
-Date: Wed, 29 Dec 2021 11:02:41 +0800
-Message-ID: <202112291022.Ut97ZGZm-lkp@intel.com>
+Subject: fs/f2fs/compress.c:347:3: warning: Value stored to 'level' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Wed, 29 Dec 2021 09:21:13 +0800
+Message-ID: <202112290901.qpqxp7wv-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3140179852674951175==
+--===============1114074602870263509==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <6afcbd1fda5f9c7c24f320d26a98188c727ceec3.1639623751.git.baoli=
-n.wang@linux.alibaba.com>
-References: <6afcbd1fda5f9c7c24f320d26a98188c727ceec3.1639623751.git.baolin=
-.wang@linux.alibaba.com>
-TO: Baolin Wang <baolin.wang@linux.alibaba.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: Nick Terrell <terrelln@fb.com>
 
-Hi Baolin,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on hnaz-mm/master]
-
-url:    https://github.com/0day-ci/linux/commits/Baolin-Wang/mm-damon-Add-a=
-ccess-checking-for-hugetlb-pages/20211216-183925
-base:   https://github.com/hnaz/linux-mm master
-:::::: branch date: 13 days ago
-:::::: commit date: 13 days ago
-config: riscv-randconfig-c006-20211228 (https://download.01.org/0day-ci/arc=
-hive/20211229/202112291022.Ut97ZGZm-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   ecf71de775a049cbfa6298deceb8ba2083331171
+commit: cf30f6a5f0c60ec98a637b836bef6915f602c6ab lib: zstd: Add kernel-spec=
+ific API
+date:   7 weeks ago
+:::::: branch date: 5 hours ago
+:::::: commit date: 7 weeks ago
+config: i386-randconfig-c001-20211228 (https://download.01.org/0day-ci/arch=
+ive/20211229/202112290901.qpqxp7wv-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7171af=
 744543433ac75b232eb7dfdaef7efd4d7a)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://github.com/0day-ci/linux/commit/468a013161dfcf6a8631ea645=
-ea9e1ec461d7c59
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Baolin-Wang/mm-damon-Add-access-ch=
-ecking-for-hugetlb-pages/20211216-183925
-        git checkout 468a013161dfcf6a8631ea645ea9e1ec461d7c59
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3Dcf30f6a5f0c60ec98a637b836bef6915f602c6ab
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout cf30f6a5f0c60ec98a637b836bef6915f602c6ab
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Di386 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -57,315 +49,286 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   drivers/mtd/ubi/build.c:643:7: note: Calling 'is_power_of_2'
-           if (!is_power_of_2(ubi->min_io_size)) {
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:47:10: note: Assuming 'n' is not equal to 0
-           return (n !=3D 0 && ((n & (n - 1)) =3D=3D 0));
-                   ^~~~~~
-   include/linux/log2.h:47:10: note: Left side of '&&' is true
-   include/linux/log2.h:47:21: note: Assuming the condition is true
-           return (n !=3D 0 && ((n & (n - 1)) =3D=3D 0));
-                              ^~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:47:2: note: Returning the value 1, which participat=
-es in a condition later
-           return (n !=3D 0 && ((n & (n - 1)) =3D=3D 0));
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/ubi/build.c:643:7: note: Returning from 'is_power_of_2'
-           if (!is_power_of_2(ubi->min_io_size)) {
-                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/mtd/ubi/build.c:643:2: note: Taking false branch
-           if (!is_power_of_2(ubi->min_io_size)) {
+   fs/f2fs/compress.c:1145:9: note: Calling 'prepare_compress_overwrite'
+           return prepare_compress_overwrite(&cc, pagep, index, fsdata);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1059:6: note: Assuming 'ret' is > 0
+           if (ret <=3D 0)
+               ^~~~~~~~
+   fs/f2fs/compress.c:1059:2: note: Taking false branch
+           if (ret <=3D 0)
            ^
-   drivers/mtd/ubi/build.c:649:13: note: Assuming field 'hdrs_min_io_size' =
-is <=3D 0
-           ubi_assert(ubi->hdrs_min_io_size > 0);
+   fs/f2fs/compress.c:1062:8: note: Calling 'f2fs_init_compress_ctx'
+           ret =3D f2fs_init_compress_ctx(cc);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:144:10: note: Field 'rpages' is null
+           if (cc->rpages)
+                   ^
+   fs/f2fs/compress.c:144:2: note: Taking false branch
+           if (cc->rpages)
+           ^
+   fs/f2fs/compress.c:147:15: note: Calling 'page_array_alloc'
+           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:31:13: note: Assuming 'size' is > field 'page_array_s=
+lab_size'
+           if (likely(size <=3D sbi->page_array_slab_size))
                       ^
-   drivers/mtd/ubi/debug.h:18:17: note: expanded from macro 'ubi_assert'
-           if (unlikely(!(expr))) {                                        =
-     \
-                          ^~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
                                                ^
-   drivers/mtd/ubi/build.c:649:2: note: Taking true branch
-           ubi_assert(ubi->hdrs_min_io_size > 0);
+   fs/f2fs/compress.c:31:2: note: Taking false branch
+           if (likely(size <=3D sbi->page_array_slab_size))
            ^
-   drivers/mtd/ubi/debug.h:18:2: note: expanded from macro 'ubi_assert'
-           if (unlikely(!(expr))) {                                        =
-     \
+   fs/f2fs/compress.c:34:9: note: Calling 'f2fs_kzalloc'
+           return f2fs_kzalloc(sbi, size, GFP_NOFS);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3191:9: note: Calling 'f2fs_kmalloc'
+           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3180:6: note: Assuming the condition is false
+           if (time_to_inject(sbi, FAULT_KMALLOC)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3180:2: note: Taking false branch
+           if (time_to_inject(sbi, FAULT_KMALLOC)) {
            ^
-   drivers/mtd/ubi/build.c:649:2: note: Loop condition is false.  Exiting l=
-oop
-           ubi_assert(ubi->hdrs_min_io_size > 0);
+   fs/f2fs/f2fs.h:3185:9: note: Storing uninitialized value
+           return kmalloc(size, flags);
+                  ^~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3191:9: note: Returning from 'f2fs_kmalloc'
+           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:34:9: note: Returning from 'f2fs_kzalloc'
+           return f2fs_kzalloc(sbi, size, GFP_NOFS);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:147:15: note: Returning from 'page_array_alloc'
+           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:148:9: note: Assuming field 'rpages' is non-null
+           return cc->rpages ? 0 : -ENOMEM;
+                  ^~~~~~~~~~
+   fs/f2fs/compress.c:148:9: note: '?' condition is true
+   fs/f2fs/compress.c:1062:8: note: Returning from 'f2fs_init_compress_ctx'
+           ret =3D f2fs_init_compress_ctx(cc);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1063:6: note: 'ret' is 0
+           if (ret)
+               ^~~
+   fs/f2fs/compress.c:1063:2: note: Taking false branch
+           if (ret)
            ^
-   drivers/mtd/ubi/debug.h:19:3: note: expanded from macro 'ubi_assert'
-                   pr_crit("UBI assert failed in %s at %u (pid %d)\n",     =
-     \
+   fs/f2fs/compress.c:1067:14: note: 'i' is < field 'cluster_size'
+           for (i =3D 0; i < cc->cluster_size; i++) {
+                       ^
+   fs/f2fs/compress.c:1067:2: note: Loop condition is true.  Entering loop =
+body
+           for (i =3D 0; i < cc->cluster_size; i++) {
+           ^
+   fs/f2fs/compress.c:1070:7: note: Assuming 'page' is null
+                   if (!page) {
+                       ^~~~~
+   fs/f2fs/compress.c:1070:3: note: Taking true branch
+                   if (!page) {
                    ^
-   include/linux/printk.h:479:2: note: expanded from macro 'pr_crit'
-           printk(KERN_CRIT pr_fmt(fmt), ##__VA_ARGS__)
-           ^
-   include/linux/printk.h:446:26: note: expanded from macro 'printk'
-   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
-                            ^
-   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
-ap'
-                   __printk_index_emit(_fmt, NULL, NULL);                  \
-                   ^
-   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
-_emit'
-   #define __printk_index_emit(...) do {} while (0)
-                                    ^
-   drivers/mtd/ubi/build.c:649:2: note: Loop condition is false.  Exiting l=
-oop
-           ubi_assert(ubi->hdrs_min_io_size > 0);
-           ^
-   drivers/mtd/ubi/debug.h:17:27: note: expanded from macro 'ubi_assert'
-   #define ubi_assert(expr)  do {                                          =
-     \
-                             ^
-   drivers/mtd/ubi/build.c:650:18: note: Field 'hdrs_min_io_size' is <=3D f=
-ield 'min_io_size'
-           ubi_assert(ubi->hdrs_min_io_size <=3D ubi->min_io_size);
+   fs/f2fs/compress.c:1072:4: note: Control jumps to line 1126
+                           goto unlock_pages;
                            ^
-   drivers/mtd/ubi/build.c:650:2: note: Taking false branch
-           ubi_assert(ubi->hdrs_min_io_size <=3D ubi->min_io_size);
+   fs/f2fs/compress.c:1126:2: note: Calling 'f2fs_put_rpages'
+           f2fs_put_rpages(cc);
+           ^~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:115:2: note: Calling 'f2fs_drop_rpages'
+           f2fs_drop_rpages(cc, cc->cluster_size, false);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:103:7: note: The value 0 is assigned to 'i'
+           for (i =3D 0; i < len; i++) {
+                ^~~~~
+   fs/f2fs/compress.c:103:14: note: 'i' is < 'len'
+           for (i =3D 0; i < len; i++) {
+                       ^
+   fs/f2fs/compress.c:103:2: note: Loop condition is true.  Entering loop b=
+ody
+           for (i =3D 0; i < len; i++) {
            ^
-   drivers/mtd/ubi/debug.h:18:2: note: expanded from macro 'ubi_assert'
-           if (unlikely(!(expr))) {                                        =
-     \
+   fs/f2fs/compress.c:104:7: note: Branch condition evaluates to a garbage =
+value
+                   if (!cc->rpages[i])
+                       ^~~~~~~~~~~~~~
+>> fs/f2fs/compress.c:347:3: warning: Value stored to 'level' is never read=
+ [clang-analyzer-deadcode.DeadStores]
+                   level =3D F2FS_ZSTD_DEFAULT_CLEVEL;
+                   ^
+   fs/f2fs/compress.c:347:3: note: Value stored to 'level' is never read
+   fs/f2fs/compress.c:1099:3: warning: Assigned value is garbage or undefin=
+ed [clang-analyzer-core.uninitialized.Assign]
+                   f2fs_bug_on(sbi, cc->rpages[i]);
+                   ^
+   fs/f2fs/f2fs.h:36:7: note: expanded from macro 'f2fs_bug_on'
+                   if (WARN_ON(condition))                                 \
+                       ^
+   include/asm-generic/bug.h:121:2: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
            ^
-   drivers/mtd/ubi/build.c:650:2: note: Loop condition is false.  Exiting l=
-oop
-           ubi_assert(ubi->hdrs_min_io_size <=3D ubi->min_io_size);
+   fs/f2fs/compress.c:1179:6: note: Assuming 'err' is >=3D 0
+           if (err < 0)
+               ^~~~~~~
+   fs/f2fs/compress.c:1179:2: note: Taking false branch
+           if (err < 0)
            ^
-   drivers/mtd/ubi/debug.h:17:27: note: expanded from macro 'ubi_assert'
-   #define ubi_assert(expr)  do {                                          =
-     \
-                             ^
-   drivers/mtd/ubi/build.c:651:30: note: Division by zero
-           ubi_assert(ubi->min_io_size % ubi->hdrs_min_io_size =3D=3D 0);
-                                       ^
-   drivers/mtd/ubi/debug.h:18:17: note: expanded from macro 'ubi_assert'
-           if (unlikely(!(expr))) {                                        =
-     \
-                          ^~~~
-   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
-   # define unlikely(x)    __builtin_expect(!!(x), 0)
+   fs/f2fs/compress.c:1183:7: note: 'err' is not equal to 0
+           if (!err)
+                ^~~
+   fs/f2fs/compress.c:1183:2: note: Taking false branch
+           if (!err)
+           ^
+   fs/f2fs/compress.c:1187:8: note: Calling 'f2fs_prepare_compress_overwrit=
+e'
+           err =3D f2fs_prepare_compress_overwrite(inode, &pagep,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1145:9: note: Calling 'prepare_compress_overwrite'
+           return prepare_compress_overwrite(&cc, pagep, index, fsdata);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1054:22: note: Calling 'start_idx_of_cluster'
+           pgoff_t start_idx =3D start_idx_of_cluster(cc);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:72:2: note: Returning without writing to 'cc->rpages'=
+, which participates in a condition later
+           return cc->cluster_idx << cc->log_cluster_size;
+           ^
+   fs/f2fs/compress.c:1054:22: note: Returning from 'start_idx_of_cluster'
+           pgoff_t start_idx =3D start_idx_of_cluster(cc);
+                               ^~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1059:6: note: Assuming 'ret' is > 0
+           if (ret <=3D 0)
+               ^~~~~~~~
+   fs/f2fs/compress.c:1059:2: note: Taking false branch
+           if (ret <=3D 0)
+           ^
+   fs/f2fs/compress.c:1062:8: note: Calling 'f2fs_init_compress_ctx'
+           ret =3D f2fs_init_compress_ctx(cc);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:144:10: note: Field 'rpages' is null
+           if (cc->rpages)
+                   ^
+   fs/f2fs/compress.c:144:2: note: Taking false branch
+           if (cc->rpages)
+           ^
+   fs/f2fs/compress.c:147:15: note: Calling 'page_array_alloc'
+           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:31:13: note: Assuming 'size' is > field 'page_array_s=
+lab_size'
+           if (likely(size <=3D sbi->page_array_slab_size))
+                      ^
+   include/linux/compiler.h:77:40: note: expanded from macro 'likely'
+   # define likely(x)      __builtin_expect(!!(x), 1)
                                                ^
-   drivers/mtd/ubi/build.c:1401:2: warning: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(buf, val);
-           ^~~~~~
-   drivers/mtd/ubi/build.c:1401:2: note: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119
-           strcpy(buf, val);
-           ^~~~~~
-   drivers/mtd/ubi/build.c:1416:2: warning: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(&p->name[0], tokens[0]);
-           ^~~~~~
-   drivers/mtd/ubi/build.c:1416:2: note: Call to function 'strcpy' is insec=
-ure as it does not provide bounding of the memory buffer. Replace unbounded=
- copy functions with analogous functions that support length arguments such=
- as 'strlcpy'. CWE-119
-           strcpy(&p->name[0], tokens[0]);
-           ^~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
->> mm/damon/vaddr.c:402:17: warning: Value stored to 'h' during its initial=
-ization is never read [clang-analyzer-deadcode.DeadStores]
-           struct hstate *h =3D hstate_vma(vma);
-                          ^   ~~~~~~~~~~~~~~~
-   mm/damon/vaddr.c:402:17: note: Value stored to 'h' during its initializa=
-tion is never read
-           struct hstate *h =3D hstate_vma(vma);
-                          ^   ~~~~~~~~~~~~~~~
-   Suppressed 4 warnings (3 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   mm/memfd.c:281:2: warning: Call to function 'strcpy' is insecure as it d=
-oes not provide bounding of the memory buffer. Replace unbounded copy funct=
-ions with analogous functions that support length arguments such as 'strlcp=
-y'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(name, MFD_NAME_PREFIX);
-           ^~~~~~
-   mm/memfd.c:281:2: note: Call to function 'strcpy' is insecure as it does=
- not provide bounding of the memory buffer. Replace unbounded copy function=
-s with analogous functions that support length arguments such as 'strlcpy'.=
- CWE-119
-           strcpy(name, MFD_NAME_PREFIX);
-           ^~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   2 warnings generated.
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   drivers/gpu/drm/nouveau/nouveau_bo0039.c:55:6: warning: Value stored to =
-'page_count' during its initialization is never read [clang-analyzer-deadco=
-de.DeadStores]
-           u32 page_count =3D new_reg->num_pages;
-               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/nouveau/nouveau_bo0039.c:55:6: note: Value stored to 'pa=
-ge_count' during its initialization is never read
-           u32 page_count =3D new_reg->num_pages;
-               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   3 warnings generated.
-   Suppressed 3 warnings (3 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/usb/chipidea/otg_fsm.c:42:2: warning: Value stored to 'next' is =
-never read [clang-analyzer-deadcode.DeadStores]
-           next +=3D t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:42:2: note: Value stored to 'next' is nev=
-er read
-           next +=3D t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:91:2: warning: Value stored to 'next' is =
-never read [clang-analyzer-deadcode.DeadStores]
-           next +=3D t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:91:2: note: Value stored to 'next' is nev=
-er read
-           next +=3D t;
-           ^       ~
-   drivers/usb/chipidea/otg_fsm.c:131:2: warning: Value stored to 'next' is=
- never read [clang-analyzer-deadcode.DeadStores]
-           next +=3D t;
+   fs/f2fs/compress.c:31:2: note: Taking false branch
+           if (likely(size <=3D sbi->page_array_slab_size))
+           ^
+   fs/f2fs/compress.c:34:9: note: Calling 'f2fs_kzalloc'
+           return f2fs_kzalloc(sbi, size, GFP_NOFS);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3191:9: note: Calling 'f2fs_kmalloc'
+           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3180:6: note: Assuming the condition is false
+           if (time_to_inject(sbi, FAULT_KMALLOC)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3180:2: note: Taking false branch
+           if (time_to_inject(sbi, FAULT_KMALLOC)) {
+           ^
+   fs/f2fs/f2fs.h:3185:9: note: Storing uninitialized value
+           return kmalloc(size, flags);
+                  ^~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/f2fs.h:3191:9: note: Returning from 'f2fs_kmalloc'
+           return f2fs_kmalloc(sbi, size, flags | __GFP_ZERO);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:34:9: note: Returning from 'f2fs_kzalloc'
+           return f2fs_kzalloc(sbi, size, GFP_NOFS);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:147:15: note: Returning from 'page_array_alloc'
+           cc->rpages =3D page_array_alloc(cc->inode, cc->cluster_size);
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:148:9: note: Assuming field 'rpages' is non-null
+           return cc->rpages ? 0 : -ENOMEM;
+                  ^~~~~~~~~~
+   fs/f2fs/compress.c:148:9: note: '?' condition is true
+   fs/f2fs/compress.c:148:2: note: Returning zero, which participates in a =
+condition later
+           return cc->rpages ? 0 : -ENOMEM;
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/f2fs/compress.c:1062:8: note: Returning from 'f2fs_init_compress_ctx'
+           ret =3D f2fs_init_compress_ctx(cc);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~
 
-vim +/h +402 mm/damon/vaddr.c
+vim +/level +347 fs/f2fs/compress.c
 
-3f49584b262cf8 SeongJae Park 2021-09-07  396  =
+50cfa66f0de02e Chao Yu      2020-03-03  336  =
 
-468a013161dfcf Baolin Wang   2021-12-16  397  #ifdef CONFIG_HUGETLB_PAGE
-468a013161dfcf Baolin Wang   2021-12-16  398  static void damon_hugetlb_mko=
-ld(pte_t *pte, struct mm_struct *mm,
-468a013161dfcf Baolin Wang   2021-12-16  399  				struct vm_area_struct *vm=
-a, unsigned long addr)
-468a013161dfcf Baolin Wang   2021-12-16  400  {
-468a013161dfcf Baolin Wang   2021-12-16  401  	bool referenced =3D false;
-468a013161dfcf Baolin Wang   2021-12-16 @402  	struct hstate *h =3D hstate_=
-vma(vma);
-468a013161dfcf Baolin Wang   2021-12-16  403  	pte_t entry =3D huge_ptep_ge=
-t(pte);
-468a013161dfcf Baolin Wang   2021-12-16  404  	struct page *page =3D pte_pa=
-ge(entry);
-468a013161dfcf Baolin Wang   2021-12-16  405  =
+50cfa66f0de02e Chao Yu      2020-03-03  337  static int zstd_init_compress_=
+ctx(struct compress_ctx *cc)
+50cfa66f0de02e Chao Yu      2020-03-03  338  {
+cf30f6a5f0c60e Nick Terrell 2020-09-11  339  	zstd_parameters params;
+cf30f6a5f0c60e Nick Terrell 2020-09-11  340  	zstd_cstream *stream;
+50cfa66f0de02e Chao Yu      2020-03-03  341  	void *workspace;
+50cfa66f0de02e Chao Yu      2020-03-03  342  	unsigned int workspace_size;
+3fde13f817e23f Chao Yu      2021-01-22  343  	unsigned char level =3D F2FS_=
+I(cc->inode)->i_compress_flag >>
+3fde13f817e23f Chao Yu      2021-01-22  344  						COMPRESS_LEVEL_OFFSET;
+3fde13f817e23f Chao Yu      2021-01-22  345  =
 
-468a013161dfcf Baolin Wang   2021-12-16  406  	if (!page)
-468a013161dfcf Baolin Wang   2021-12-16  407  		return;
-468a013161dfcf Baolin Wang   2021-12-16  408  =
+3fde13f817e23f Chao Yu      2021-01-22  346  	if (!level)
+3fde13f817e23f Chao Yu      2021-01-22 @347  		level =3D F2FS_ZSTD_DEFAULT_=
+CLEVEL;
+50cfa66f0de02e Chao Yu      2020-03-03  348  =
 
-468a013161dfcf Baolin Wang   2021-12-16  409  	get_page(page);
-468a013161dfcf Baolin Wang   2021-12-16  410  =
+cf30f6a5f0c60e Nick Terrell 2020-09-11  349  	params =3D zstd_get_params(F2=
+FS_ZSTD_DEFAULT_CLEVEL, cc->rlen);
+cf30f6a5f0c60e Nick Terrell 2020-09-11  350  	workspace_size =3D zstd_cstre=
+am_workspace_bound(&params.cParams);
+50cfa66f0de02e Chao Yu      2020-03-03  351  =
 
-468a013161dfcf Baolin Wang   2021-12-16  411  	if (pte_young(entry)) {
-468a013161dfcf Baolin Wang   2021-12-16  412  		referenced =3D true;
-468a013161dfcf Baolin Wang   2021-12-16  413  		entry =3D pte_mkold(entry);
-468a013161dfcf Baolin Wang   2021-12-16  414  		huge_ptep_set_access_flags(=
-vma, addr, pte, entry,
-468a013161dfcf Baolin Wang   2021-12-16  415  					   vma->vm_flags & VM_WR=
-ITE);
-468a013161dfcf Baolin Wang   2021-12-16  416  	}
-468a013161dfcf Baolin Wang   2021-12-16  417  =
+50cfa66f0de02e Chao Yu      2020-03-03  352  	workspace =3D f2fs_kvmalloc(F=
+2FS_I_SB(cc->inode),
+50cfa66f0de02e Chao Yu      2020-03-03  353  					workspace_size, GFP_NOFS);
+50cfa66f0de02e Chao Yu      2020-03-03  354  	if (!workspace)
+50cfa66f0de02e Chao Yu      2020-03-03  355  		return -ENOMEM;
+50cfa66f0de02e Chao Yu      2020-03-03  356  =
 
+cf30f6a5f0c60e Nick Terrell 2020-09-11  357  	stream =3D zstd_init_cstream(=
+&params, 0, workspace, workspace_size);
+50cfa66f0de02e Chao Yu      2020-03-03  358  	if (!stream) {
+cf30f6a5f0c60e Nick Terrell 2020-09-11  359  		printk_ratelimited("%sF2FS-f=
+s (%s): %s zstd_init_cstream failed\n",
+50cfa66f0de02e Chao Yu      2020-03-03  360  				KERN_ERR, F2FS_I_SB(cc->in=
+ode)->sb->s_id,
+50cfa66f0de02e Chao Yu      2020-03-03  361  				__func__);
+50cfa66f0de02e Chao Yu      2020-03-03  362  		kvfree(workspace);
+50cfa66f0de02e Chao Yu      2020-03-03  363  		return -EIO;
+50cfa66f0de02e Chao Yu      2020-03-03  364  	}
+50cfa66f0de02e Chao Yu      2020-03-03  365  =
+
+50cfa66f0de02e Chao Yu      2020-03-03  366  	cc->private =3D workspace;
+50cfa66f0de02e Chao Yu      2020-03-03  367  	cc->private2 =3D stream;
+50cfa66f0de02e Chao Yu      2020-03-03  368  =
+
+50cfa66f0de02e Chao Yu      2020-03-03  369  	cc->clen =3D cc->rlen - PAGE_=
+SIZE - COMPRESS_HEADER_SIZE;
+50cfa66f0de02e Chao Yu      2020-03-03  370  	return 0;
+50cfa66f0de02e Chao Yu      2020-03-03  371  }
+50cfa66f0de02e Chao Yu      2020-03-03  372  =
+
+
+:::::: The code at line 347 was first introduced by commit
+:::::: 3fde13f817e23f05ce407d136325df4cbc913e67 f2fs: compress: support com=
+press level
+
+:::::: TO: Chao Yu <yuchao0@huawei.com>
+:::::: CC: Jaegeuk Kim <jaegeuk@kernel.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3140179852674951175==--
+--===============1114074602870263509==--
 
