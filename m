@@ -1,258 +1,159 @@
-Content-Type: multipart/mixed; boundary="===============3190799322503522461=="
+Content-Type: multipart/mixed; boundary="===============2121523607865689805=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/radeon/radeon_agp.c:338 radeon_agp_init() warn: should 'rdev->agp->agp_info.aper_size << 20' be a 64 bit type?
-Date: Wed, 29 Dec 2021 18:41:46 +0800
-Message-ID: <202112291857.K4ms2IL8-lkp@intel.com>
+Subject: [linux-next:master 1745/9897] drivers/net/dsa/ocelot/felix_vsc9959.c:1855:22-25: ERROR: reference preceded by free on line 1865
+Date: Wed, 29 Dec 2021 16:08:08 +0800
+Message-ID: <202112291628.atuayxKa-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3190799322503522461==
+--===============2121523607865689805==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Thomas Zimmermann <tzimmermann@suse.de>
-CC: Alex Deucher <alexander.deucher@amd.com>
+CC: Linux Memory Management List <linux-mm@kvack.org>
+TO: Xiaoliang Yang <xiaoliang.yang_1@nxp.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e7c124bd04631973a3cc0df19ab881b56d8a2d50
-commit: 43359786a51e7fa7d89a45908de0ecee2d1dafa6 drm/radeon: Move AGP data =
-structures into radeon
-date:   8 months ago
-:::::: branch date: 13 hours ago
-:::::: commit date: 8 months ago
-config: parisc-randconfig-m031-20211229 (https://download.01.org/0day-ci/ar=
-chive/20211229/202112291857.K4ms2IL8-lkp(a)intel.com/config)
-compiler: hppa-linux-gcc (GCC) 11.2.0
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/next/linux-next.git=
+ master
+head:   ea586a076e8aa606c59b66d86660590f18354b11
+commit: 23ae3a7877718931474684ef4fbbaf1d1511ee84 [1745/9897] net: dsa: feli=
+x: add stream gate settings for psfp
+:::::: branch date: 5 days ago
+:::::: commit date: 6 weeks ago
+config: powerpc-randconfig-c004-20211228 (https://download.01.org/0day-ci/a=
+rchive/20211229/202112291628.atuayxKa-lkp(a)intel.com/config)
+compiler: powerpc-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
-smatch warnings:
-drivers/gpu/drm/radeon/radeon_agp.c:338 radeon_agp_init() warn: should 'rde=
-v->agp->agp_info.aper_size << 20' be a 64 bit type?
 
-vim +338 drivers/gpu/drm/radeon/radeon_agp.c
+cocci warnings: (new ones prefixed by >>)
+>> drivers/net/dsa/ocelot/felix_vsc9959.c:1855:22-25: ERROR: reference prec=
+eded by free on line 1865
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  219  =
+vim +1855 drivers/net/dsa/ocelot/felix_vsc9959.c
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  220  int radeon_agp_init(stru=
-ct radeon_device *rdev)
-771fe6b912fca54 Jerome Glisse     2009-06-05  221  {
-a7fb8a23c1afa60 Daniel Vetter     2015-09-09  222  #if IS_ENABLED(CONFIG_AG=
-P)
-771fe6b912fca54 Jerome Glisse     2009-06-05  223  	struct radeon_agpmode_q=
-uirk *p =3D radeon_agpmode_quirk_list;
-43359786a51e7fa Thomas Zimmermann 2021-05-07  224  	struct radeon_agp_mode =
-mode;
-43359786a51e7fa Thomas Zimmermann 2021-05-07  225  	struct radeon_agp_info =
-info;
-771fe6b912fca54 Jerome Glisse     2009-06-05  226  	uint32_t agp_status;
-771fe6b912fca54 Jerome Glisse     2009-06-05  227  	int default_mode;
-771fe6b912fca54 Jerome Glisse     2009-06-05  228  	bool is_v3;
-771fe6b912fca54 Jerome Glisse     2009-06-05  229  	int ret;
-771fe6b912fca54 Jerome Glisse     2009-06-05  230  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1831  =
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  231  	/* Acquire AGP. */
-43359786a51e7fa Thomas Zimmermann 2021-05-07  232  	ret =3D radeon_agp_head=
-_acquire(rdev);
-771fe6b912fca54 Jerome Glisse     2009-06-05  233  	if (ret) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  234  		DRM_ERROR("Unable to a=
-cquire AGP: %d\n", ret);
-771fe6b912fca54 Jerome Glisse     2009-06-05  235  		return ret;
-771fe6b912fca54 Jerome Glisse     2009-06-05  236  	}
-771fe6b912fca54 Jerome Glisse     2009-06-05  237  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1832  static int vsc9959_psfp_fil=
+ter_add(struct ocelot *ocelot,
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1833  				   struct flow_cls_offl=
+oad *f)
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1834  {
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1835  	struct netlink_ext_ack *ex=
+tack =3D f->common.extack;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1836  	struct felix_stream_filter=
+ sfi =3D {0};
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1837  	const struct flow_action_e=
+ntry *a;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1838  	struct felix_stream *strea=
+m_entry;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1839  	struct felix_stream stream=
+ =3D {0};
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1840  	struct felix_stream_gate *=
+sgi;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1841  	struct ocelot_psfp_list *p=
+sfp;
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1842  	int ret, i, size;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1843  =
 
-43359786a51e7fa Thomas Zimmermann 2021-05-07  238  	ret =3D radeon_agp_head=
-_info(rdev, &info);
-771fe6b912fca54 Jerome Glisse     2009-06-05  239  	if (ret) {
-43359786a51e7fa Thomas Zimmermann 2021-05-07  240  		radeon_agp_head_releas=
-e(rdev);
-771fe6b912fca54 Jerome Glisse     2009-06-05  241  		DRM_ERROR("Unable to g=
-et AGP info: %d\n", ret);
-771fe6b912fca54 Jerome Glisse     2009-06-05  242  		return ret;
-771fe6b912fca54 Jerome Glisse     2009-06-05  243  	}
-2dea2e29b9fad48 John Kacur        2010-01-31  244  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1844  	psfp =3D &ocelot->psfp;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1845  =
 
-43359786a51e7fa Thomas Zimmermann 2021-05-07  245  	if (rdev->agp->agp_info=
-.aper_size < 32) {
-43359786a51e7fa Thomas Zimmermann 2021-05-07  246  		radeon_agp_head_releas=
-e(rdev);
-2dea2e29b9fad48 John Kacur        2010-01-31  247  		dev_warn(rdev->dev, "A=
-GP aperture too small (%zuM) "
-2dea2e29b9fad48 John Kacur        2010-01-31  248  			"need at least 32M, d=
-isabling AGP\n",
-43359786a51e7fa Thomas Zimmermann 2021-05-07  249  			rdev->agp->agp_info.a=
-per_size);
-2dea2e29b9fad48 John Kacur        2010-01-31  250  		return -EINVAL;
-2dea2e29b9fad48 John Kacur        2010-01-31  251  	}
-2dea2e29b9fad48 John Kacur        2010-01-31  252  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1846  	ret =3D vsc9959_stream_ide=
+ntify(f, &stream);
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1847  	if (ret) {
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1848  		NL_SET_ERR_MSG_MOD(extack=
+, "Only can match on VID, PCP, and dest MAC");
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1849  		return ret;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1850  	}
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1851  =
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  253  	mode.mode =3D info.mode;
-e57415d85f72e36 Alex Deucher      2010-08-18  254  	/* chips with the agp t=
-o pcie bridge don't have the AGP_STATUS register
-e57415d85f72e36 Alex Deucher      2010-08-18  255  	 * Just use the whateve=
-r mode the host sets up.
-e57415d85f72e36 Alex Deucher      2010-08-18  256  	 */
-e57415d85f72e36 Alex Deucher      2010-08-18  257  	if (rdev->family <=3D C=
-HIP_RV350)
-771fe6b912fca54 Jerome Glisse     2009-06-05  258  		agp_status =3D (RREG32=
-(RADEON_AGP_STATUS) | RADEON_AGPv3_MODE) & mode.mode;
-e57415d85f72e36 Alex Deucher      2010-08-18  259  	else
-e57415d85f72e36 Alex Deucher      2010-08-18  260  		agp_status =3D mode.mo=
-de;
-771fe6b912fca54 Jerome Glisse     2009-06-05  261  	is_v3 =3D !!(agp_status=
- & RADEON_AGPv3_MODE);
-771fe6b912fca54 Jerome Glisse     2009-06-05  262  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1852  	flow_action_for_each(i, a,=
+ &f->rule->action) {
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1853  		switch (a->id) {
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1854  		case FLOW_ACTION_GATE:
+23ae3a78777189 Xiaoliang Yang 2021-11-18 @1855  			size =3D struct_size(sgi=
+, entries, a->gate.num_entries);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1856  			sgi =3D kzalloc(size, GF=
+P_KERNEL);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1857  			vsc9959_psfp_parse_gate(=
+a, sgi);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1858  			ret =3D vsc9959_psfp_sgi=
+_table_add(ocelot, sgi);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1859  			if (ret) {
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1860  				kfree(sgi);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1861  				return ret;
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1862  			}
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1863  			sfi.sg_valid =3D 1;
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1864  			sfi.sgid =3D sgi->index;
+23ae3a78777189 Xiaoliang Yang 2021-11-18 @1865  			kfree(sgi);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1866  			break;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1867  		case FLOW_ACTION_POLICE:
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1868  		default:
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1869  			return -EOPNOTSUPP;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1870  		}
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1871  	}
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1872  =
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  263  	if (is_v3) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  264  		default_mode =3D (agp_=
-status & RADEON_AGPv3_8X_MODE) ? 8 : 4;
-771fe6b912fca54 Jerome Glisse     2009-06-05  265  	} else {
-771fe6b912fca54 Jerome Glisse     2009-06-05  266  		if (agp_status & RADEO=
-N_AGP_4X_MODE) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  267  			default_mode =3D 4;
-771fe6b912fca54 Jerome Glisse     2009-06-05  268  		} else if (agp_status =
-& RADEON_AGP_2X_MODE) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  269  			default_mode =3D 2;
-771fe6b912fca54 Jerome Glisse     2009-06-05  270  		} else {
-771fe6b912fca54 Jerome Glisse     2009-06-05  271  			default_mode =3D 1;
-771fe6b912fca54 Jerome Glisse     2009-06-05  272  		}
-771fe6b912fca54 Jerome Glisse     2009-06-05  273  	}
-771fe6b912fca54 Jerome Glisse     2009-06-05  274  =
-
-771fe6b912fca54 Jerome Glisse     2009-06-05  275  	/* Apply AGPMode Quirks=
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1873  	/* Check if stream is set.=
  */
-771fe6b912fca54 Jerome Glisse     2009-06-05  276  	while (p && p->chip_dev=
-ice !=3D 0) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  277  		if (info.id_vendor =3D=
-=3D p->hostbridge_vendor &&
-771fe6b912fca54 Jerome Glisse     2009-06-05  278  		    info.id_device =3D=
-=3D p->hostbridge_device &&
-771fe6b912fca54 Jerome Glisse     2009-06-05  279  		    rdev->pdev->vendor=
- =3D=3D p->chip_vendor &&
-771fe6b912fca54 Jerome Glisse     2009-06-05  280  		    rdev->pdev->device=
- =3D=3D p->chip_device &&
-771fe6b912fca54 Jerome Glisse     2009-06-05  281  		    rdev->pdev->subsys=
-tem_vendor =3D=3D p->subsys_vendor &&
-771fe6b912fca54 Jerome Glisse     2009-06-05  282  		    rdev->pdev->subsys=
-tem_device =3D=3D p->subsys_device) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  283  			default_mode =3D p->d=
-efault_mode;
-771fe6b912fca54 Jerome Glisse     2009-06-05  284  		}
-771fe6b912fca54 Jerome Glisse     2009-06-05  285  		++p;
-771fe6b912fca54 Jerome Glisse     2009-06-05  286  	}
-771fe6b912fca54 Jerome Glisse     2009-06-05  287  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1874  	stream_entry =3D vsc9959_s=
+tream_table_lookup(&psfp->stream_list, &stream);
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1875  	if (stream_entry) {
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1876  		NL_SET_ERR_MSG_MOD(extack=
+, "This stream is already added");
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1877  		ret =3D -EEXIST;
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1878  		goto err;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1879  	}
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1880  =
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  288  	if (radeon_agpmode > 0)=
- {
-771fe6b912fca54 Jerome Glisse     2009-06-05  289  		if ((radeon_agpmode < =
-(is_v3 ? 4 : 1)) ||
-771fe6b912fca54 Jerome Glisse     2009-06-05  290  		    (radeon_agpmode > =
-(is_v3 ? 8 : 4)) ||
-771fe6b912fca54 Jerome Glisse     2009-06-05  291  		    (radeon_agpmode & =
-(radeon_agpmode - 1))) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  292  			DRM_ERROR("Illegal AG=
-P Mode: %d (valid %s), leaving at %d\n",
-771fe6b912fca54 Jerome Glisse     2009-06-05  293  				  radeon_agpmode, is=
-_v3 ? "4, 8" : "1, 2, 4",
-771fe6b912fca54 Jerome Glisse     2009-06-05  294  				  default_mode);
-771fe6b912fca54 Jerome Glisse     2009-06-05  295  			radeon_agpmode =3D de=
-fault_mode;
-771fe6b912fca54 Jerome Glisse     2009-06-05  296  		} else {
-771fe6b912fca54 Jerome Glisse     2009-06-05  297  			DRM_INFO("AGP mode re=
-quested: %d\n", radeon_agpmode);
-771fe6b912fca54 Jerome Glisse     2009-06-05  298  		}
-771fe6b912fca54 Jerome Glisse     2009-06-05  299  	} else {
-771fe6b912fca54 Jerome Glisse     2009-06-05  300  		radeon_agpmode =3D def=
-ault_mode;
-771fe6b912fca54 Jerome Glisse     2009-06-05  301  	}
-771fe6b912fca54 Jerome Glisse     2009-06-05  302  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1881  	sfi.prio_valid =3D (stream=
+.prio < 0 ? 0 : 1);
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1882  	sfi.prio =3D (sfi.prio_val=
+id ? stream.prio : 0);
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1883  	sfi.enable =3D 1;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1884  =
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  303  	mode.mode &=3D ~RADEON_=
-AGP_MODE_MASK;
-771fe6b912fca54 Jerome Glisse     2009-06-05  304  	if (is_v3) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  305  		switch (radeon_agpmode=
-) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  306  		case 8:
-771fe6b912fca54 Jerome Glisse     2009-06-05  307  			mode.mode |=3D RADEON=
-_AGPv3_8X_MODE;
-771fe6b912fca54 Jerome Glisse     2009-06-05  308  			break;
-771fe6b912fca54 Jerome Glisse     2009-06-05  309  		case 4:
-771fe6b912fca54 Jerome Glisse     2009-06-05  310  		default:
-771fe6b912fca54 Jerome Glisse     2009-06-05  311  			mode.mode |=3D RADEON=
-_AGPv3_4X_MODE;
-771fe6b912fca54 Jerome Glisse     2009-06-05  312  			break;
-771fe6b912fca54 Jerome Glisse     2009-06-05  313  		}
-771fe6b912fca54 Jerome Glisse     2009-06-05  314  	} else {
-771fe6b912fca54 Jerome Glisse     2009-06-05  315  		switch (radeon_agpmode=
-) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  316  		case 4:
-771fe6b912fca54 Jerome Glisse     2009-06-05  317  			mode.mode |=3D RADEON=
-_AGP_4X_MODE;
-771fe6b912fca54 Jerome Glisse     2009-06-05  318  			break;
-771fe6b912fca54 Jerome Glisse     2009-06-05  319  		case 2:
-771fe6b912fca54 Jerome Glisse     2009-06-05  320  			mode.mode |=3D RADEON=
-_AGP_2X_MODE;
-771fe6b912fca54 Jerome Glisse     2009-06-05  321  			break;
-771fe6b912fca54 Jerome Glisse     2009-06-05  322  		case 1:
-771fe6b912fca54 Jerome Glisse     2009-06-05  323  		default:
-771fe6b912fca54 Jerome Glisse     2009-06-05  324  			mode.mode |=3D RADEON=
-_AGP_1X_MODE;
-771fe6b912fca54 Jerome Glisse     2009-06-05  325  			break;
-771fe6b912fca54 Jerome Glisse     2009-06-05  326  		}
-771fe6b912fca54 Jerome Glisse     2009-06-05  327  	}
-771fe6b912fca54 Jerome Glisse     2009-06-05  328  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1885  	ret =3D vsc9959_psfp_sfi_t=
+able_add(ocelot, &sfi);
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1886  	if (ret)
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1887  		goto err;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1888  =
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  329  	mode.mode &=3D ~RADEON_=
-AGP_FW_MODE; /* disable fw */
-43359786a51e7fa Thomas Zimmermann 2021-05-07  330  	ret =3D radeon_agp_head=
-_enable(rdev, mode);
-771fe6b912fca54 Jerome Glisse     2009-06-05  331  	if (ret) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  332  		DRM_ERROR("Unable to e=
-nable AGP (mode =3D 0x%lx)\n", mode.mode);
-43359786a51e7fa Thomas Zimmermann 2021-05-07  333  		radeon_agp_head_releas=
-e(rdev);
-771fe6b912fca54 Jerome Glisse     2009-06-05  334  		return ret;
-771fe6b912fca54 Jerome Glisse     2009-06-05  335  	}
-771fe6b912fca54 Jerome Glisse     2009-06-05  336  =
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1889  	stream.sfid =3D sfi.index;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1890  	stream.sfid_valid =3D 1;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1891  	ret =3D vsc9959_stream_tab=
+le_add(ocelot, &psfp->stream_list,
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1892  				       &stream, extack);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1893  	if (ret) {
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1894  		vsc9959_psfp_sfi_table_de=
+l(ocelot, stream.sfid);
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1895  		goto err;
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1896  	}
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1897  =
 
-43359786a51e7fa Thomas Zimmermann 2021-05-07  337  	rdev->mc.agp_base =3D r=
-dev->agp->agp_info.aper_base;
-43359786a51e7fa Thomas Zimmermann 2021-05-07 @338  	rdev->mc.gtt_size =3D r=
-dev->agp->agp_info.aper_size << 20;
-d594e46ace22afa Jerome Glisse     2010-02-17  339  	rdev->mc.gtt_start =3D =
-rdev->mc.agp_base;
-d594e46ace22afa Jerome Glisse     2010-02-17  340  	rdev->mc.gtt_end =3D rd=
-ev->mc.gtt_start + rdev->mc.gtt_size - 1;
-d594e46ace22afa Jerome Glisse     2010-02-17  341  	dev_info(rdev->dev, "GT=
-T: %lluM 0x%08llX - 0x%08llX\n",
-d594e46ace22afa Jerome Glisse     2010-02-17  342  		rdev->mc.gtt_size >> 2=
-0, rdev->mc.gtt_start, rdev->mc.gtt_end);
-771fe6b912fca54 Jerome Glisse     2009-06-05  343  =
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1898  	return 0;
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1899  =
 
-771fe6b912fca54 Jerome Glisse     2009-06-05  344  	/* workaround some hw i=
-ssues */
-771fe6b912fca54 Jerome Glisse     2009-06-05  345  	if (rdev->family < CHIP=
-_R200) {
-771fe6b912fca54 Jerome Glisse     2009-06-05  346  		WREG32(RADEON_AGP_CNTL=
-, RREG32(RADEON_AGP_CNTL) | 0x000e0000);
-771fe6b912fca54 Jerome Glisse     2009-06-05  347  	}
-771fe6b912fca54 Jerome Glisse     2009-06-05  348  	return 0;
-771fe6b912fca54 Jerome Glisse     2009-06-05  349  #else
-771fe6b912fca54 Jerome Glisse     2009-06-05  350  	return 0;
-771fe6b912fca54 Jerome Glisse     2009-06-05  351  #endif
-771fe6b912fca54 Jerome Glisse     2009-06-05  352  }
-771fe6b912fca54 Jerome Glisse     2009-06-05  353  =
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1900  err:
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1901  	if (sfi.sg_valid)
+23ae3a78777189 Xiaoliang Yang 2021-11-18  1902  		vsc9959_psfp_sgi_table_de=
+l(ocelot, sfi.sgid);
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1903  =
+
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1904  	return ret;
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1905  }
+7d4b564d6adde3 Xiaoliang Yang 2021-11-18  1906  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
---===============3190799322503522461==--
+https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
+--===============2121523607865689805==--
 
