@@ -1,47 +1,56 @@
-Content-Type: multipart/mixed; boundary="===============0975211939951041151=="
+Content-Type: multipart/mixed; boundary="===============1902284898378840765=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/xen/swiotlb-xen.c:206:6: warning: Branch condition evaluates to a garbage value [clang-analyzer-core.uninitialized.Branch]
-Date: Thu, 30 Dec 2021 03:32:35 +0800
-Message-ID: <202112300339.Mdr4nwDf-lkp@intel.com>
+Subject: Re: [PATCH v2 1/2] memory: tegra30-emc: Print additional memory info
+Date: Thu, 30 Dec 2021 01:28:05 +0800
+Message-ID: <202112300102.VBqWE1HN-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0975211939951041151==
+--===============1902284898378840765==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Christoph Hellwig <hch@lst.de>
-CC: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+In-Reply-To: <20211222043215.28237-1-digetx@gmail.com>
+References: <20211222043215.28237-1-digetx@gmail.com>
+TO: Dmitry Osipenko <digetx@gmail.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   e7c124bd04631973a3cc0df19ab881b56d8a2d50
-commit: cbce99527ca7c4e98db9890651d5e9dfc2fb89ac xen-swiotlb: remove xen_io=
-_tlb_start and xen_io_tlb_nslabs
-date:   10 months ago
-:::::: branch date: 22 hours ago
-:::::: commit date: 10 months ago
-config: arm-randconfig-c002-20211228 (https://download.01.org/0day-ci/archi=
-ve/20211230/202112300339.Mdr4nwDf-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7171af=
-744543433ac75b232eb7dfdaef7efd4d7a)
+Hi Dmitry,
+
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on tegra/for-next]
+[also build test WARNING on v5.16-rc7]
+[cannot apply to next-20211224]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Dmitry-Osipenko/memory-teg=
+ra30-emc-Print-additional-memory-info/20211222-123518
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/tegra/linux.git for=
+-next
+:::::: branch date: 8 days ago
+:::::: commit date: 8 days ago
+config: arm-randconfig-c002-20211226 (https://download.01.org/0day-ci/archi=
+ve/20211230/202112300102.VBqWE1HN-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 0c553c=
+c1af2e4c14100df6cf4a6fc91987e778e6)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
         # install arm cross compiling tool for clang build
         # apt-get install binutils-arm-linux-gnueabi
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Dcbce99527ca7c4e98db9890651d5e9dfc2fb89ac
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout cbce99527ca7c4e98db9890651d5e9dfc2fb89ac
+        # https://github.com/0day-ci/linux/commit/8290e021c14675d913f019811=
+25996647bb3fee3
+        git remote add linux-review https://github.com/0day-ci/linux
+        git fetch --no-tags linux-review Dmitry-Osipenko/memory-tegra30-emc=
+-Print-additional-memory-info/20211222-123518
+        git checkout 8290e021c14675d913f01981125996647bb3fee3
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
 =3Darm clang-analyzer =
@@ -52,387 +61,396 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-           if (timeout)
-               ^~~~~~~
-   fs/io_uring.c:6125:2: note: Taking true branch
-           if (timeout)
-           ^
-   fs/io_uring.c:6128:6: note: Assuming the condition is false
-           if (work->flags & IO_WQ_WORK_CANCEL)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:6128:2: note: Taking false branch
-           if (work->flags & IO_WQ_WORK_CANCEL)
-           ^
-   fs/io_uring.c:6131:7: note: 'ret' is 0
-           if (!ret) {
-                ^~~
-   fs/io_uring.c:6131:2: note: Taking true branch
-           if (!ret) {
-           ^
-   fs/io_uring.c:6133:10: note: Calling 'io_issue_sqe'
-                           ret =3D io_issue_sqe(req, 0);
-                                 ^~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:5986:6: note: Assuming field 'creds' is null
-           if (req->work.creds && req->work.creds !=3D current_cred())
-               ^~~~~~~~~~~~~~~
-   fs/io_uring.c:5986:22: note: Left side of '&&' is false
-           if (req->work.creds && req->work.creds !=3D current_cred())
-                               ^
-   fs/io_uring.c:5989:2: note: Control jumps to 'case IORING_OP_WRITEV:'  a=
-t line 5998
-           switch (req->opcode) {
-           ^
-   fs/io_uring.c:6001:9: note: Calling 'io_write'
-                   ret =3D io_write(req, issue_flags);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:3337:6: note: Assuming 'rw' is null
-           if (rw) {
-               ^~
-   fs/io_uring.c:3337:2: note: Taking false branch
-           if (rw) {
-           ^
-   fs/io_uring.c:3341:9: note: Calling 'io_import_iovec'
-                   ret =3D io_import_iovec(WRITE, req, &iovec, iter, !force=
-_nonblock);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   fs/io_uring.c:2961:6: note: 'opcode' is not equal to IORING_OP_READ_FIXED
-           if (opcode =3D=3D IORING_OP_READ_FIXED || opcode =3D=3D IORING_O=
-P_WRITE_FIXED) {
-               ^~~~~~
-   fs/io_uring.c:2961:6: note: Left side of '||' is false
-   fs/io_uring.c:2961:40: note: 'opcode' is not equal to IORING_OP_WRITE_FI=
-XED
-           if (opcode =3D=3D IORING_OP_READ_FIXED || opcode =3D=3D IORING_O=
-P_WRITE_FIXED) {
-                                                 ^~~~~~
-   fs/io_uring.c:2961:2: note: Taking false branch
-           if (opcode =3D=3D IORING_OP_READ_FIXED || opcode =3D=3D IORING_O=
-P_WRITE_FIXED) {
-           ^
-   fs/io_uring.c:2967:6: note: Assuming field 'buf_index' is 0
-           if (req->buf_index && !(req->flags & REQ_F_BUFFER_SELECT))
-               ^~~~~~~~~~~~~~
-   fs/io_uring.c:2967:21: note: Left side of '&&' is false
-           if (req->buf_index && !(req->flags & REQ_F_BUFFER_SELECT))
-                              ^
-   fs/io_uring.c:2970:6: note: 'opcode' is not equal to IORING_OP_READ
-           if (opcode =3D=3D IORING_OP_READ || opcode =3D=3D IORING_OP_WRIT=
-E) {
-               ^~~~~~
-   fs/io_uring.c:2970:6: note: Left side of '||' is false
-   fs/io_uring.c:2970:34: note: 'opcode' is not equal to IORING_OP_WRITE
-           if (opcode =3D=3D IORING_OP_READ || opcode =3D=3D IORING_OP_WRIT=
-E) {
-                                           ^~~~~~
-   fs/io_uring.c:2970:2: note: Taking false branch
-           if (opcode =3D=3D IORING_OP_READ || opcode =3D=3D IORING_OP_WRIT=
-E) {
-           ^
-   fs/io_uring.c:2983:6: note: Assuming the condition is true
-           if (req->flags & REQ_F_BUFFER_SELECT) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/io_uring.c:2983:2: note: Taking true branch
-           if (req->flags & REQ_F_BUFFER_SELECT) {
-           ^
-   fs/io_uring.c:2985:7: note: Assuming 'ret' is not equal to 0
-                   if (!ret)
-                       ^~~~
-   fs/io_uring.c:2985:3: note: Taking false branch
-                   if (!ret)
-                   ^
-   fs/io_uring.c:2988:3: note: Returning without writing to 'iter->count'
-                   return ret;
-                   ^
-   fs/io_uring.c:3341:9: note: Returning from 'io_import_iovec'
-                   ret =3D io_import_iovec(WRITE, req, &iovec, iter, !force=
-_nonblock);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~
-   fs/io_uring.c:3342:7: note: Assuming 'ret' is >=3D 0
-                   if (ret < 0)
-                       ^~~~~~~
-   fs/io_uring.c:3342:3: note: Taking false branch
-                   if (ret < 0)
-                   ^
-   fs/io_uring.c:3345:12: note: Calling 'iov_iter_count'
-           io_size =3D iov_iter_count(iter);
-                     ^~~~~~~~~~~~~~~~~~~~
-   include/linux/uio.h:234:2: note: Undefined or garbage value returned to =
-caller
-           return i->count;
-           ^      ~~~~~~~~
-   Suppressed 16 warnings (16 in non-user code).
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   18 warnings generated.
->> drivers/xen/swiotlb-xen.c:206:6: warning: Branch condition evaluates to =
-a garbage value [clang-analyzer-core.uninitialized.Branch]
-           if (!start) {
-               ^~~~~~
-   drivers/xen/swiotlb-xen.c:165:2: note: 'start' declared without an initi=
-al value
-           char *start;
-           ^~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:170:6: note: Assuming 'nslabs' is 0
-           if (!nslabs)
-               ^~~~~~~
-   drivers/xen/swiotlb-xen.c:170:2: note: Taking true branch
-           if (!nslabs)
-           ^
-   drivers/xen/swiotlb-xen.c:178:6: note: Assuming 'io_tlb_start' is equal =
-to 0
-           if (io_tlb_start !=3D 0)
-               ^~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:178:2: note: Taking false branch
-           if (io_tlb_start !=3D 0)
-           ^
-   drivers/xen/swiotlb-xen.c:184:6: note: Assuming 'early' is false
-           if (early) {
-               ^~~~~
-   drivers/xen/swiotlb-xen.c:184:2: note: Taking false branch
-           if (early) {
-           ^
-   drivers/xen/swiotlb-xen.c:193:10: note: Assuming the condition is false
-                   while ((SLABS_PER_PAGE << order) > IO_TLB_MIN_SLABS) {
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:193:3: note: Loop condition is false. Executio=
-n continues on line 199
-                   while ((SLABS_PER_PAGE << order) > IO_TLB_MIN_SLABS) {
-                   ^
-   drivers/xen/swiotlb-xen.c:199:7: note: Assuming the condition is false
-                   if (order !=3D get_order(bytes)) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/swiotlb-xen.c:199:3: note: Taking false branch
-                   if (order !=3D get_order(bytes)) {
-                   ^
-   drivers/xen/swiotlb-xen.c:206:6: note: Branch condition evaluates to a g=
-arbage value
-           if (!start) {
-               ^~~~~~
-   Suppressed 17 warnings (15 in non-user code, 2 with check filters).
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   19 warnings generated.
-   drivers/xen/privcmd.c:94:2: warning: Assigned value is garbage or undefi=
-ned [clang-analyzer-core.uninitialized.Assign]
-           list_for_each_entry_safe(p, n, pages, lru)
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/media/dvb-frontends/stv0367.c:1103:2: warning: Value stored to '=
+temp' is never read [clang-analyzer-deadcode.DeadStores]
+           temp =3D stv0367_readbits(state, F367TER_TRL_NOMRATE_HI) * 512 +
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/stv0367.c:1103:2: note: Value stored to 'tem=
+p' is never read
+           temp =3D stv0367_readbits(state, F367TER_TRL_NOMRATE_HI) * 512 +
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/stv0367.c:1109:2: warning: Value stored to '=
+temp' is never read [clang-analyzer-deadcode.DeadStores]
+           temp =3D stv0367_readbits(state, F367TER_GAIN_SRC_HI) * 256 +
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/stv0367.c:1109:2: note: Value stored to 'tem=
+p' is never read
+           temp =3D stv0367_readbits(state, F367TER_GAIN_SRC_HI) * 256 +
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/stv0367.c:1530:3: warning: Value stored to '=
+tber' is never read [clang-analyzer-deadcode.DeadStores]
+                   tber =3D ter_state->pBER;
+                   ^      ~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/stv0367.c:1530:3: note: Value stored to 'tbe=
+r' is never read
+                   tber =3D ter_state->pBER;
+                   ^      ~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   drivers/media/dvb-frontends/cxd2841er.c:3600:25: warning: Value stored t=
+o 'priv' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           struct cxd2841er_priv *priv =3D fe->demodulator_priv;
+                                  ^~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cxd2841er.c:3600:25: note: Value stored to '=
+priv' during its initialization is never read
+           struct cxd2841er_priv *priv =3D fe->demodulator_priv;
+                                  ^~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cxd2841er.c:3759:25: warning: Value stored t=
+o 'priv' during its initialization is never read [clang-analyzer-deadcode.D=
+eadStores]
+           struct cxd2841er_priv *priv =3D fe->demodulator_priv;
+                                  ^~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cxd2841er.c:3759:25: note: Value stored to '=
+priv' during its initialization is never read
+           struct cxd2841er_priv *priv =3D fe->demodulator_priv;
+                                  ^~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cxd2841er.c:3812:34: warning: Value stored t=
+o 'p' during its initialization is never read [clang-analyzer-deadcode.Dead=
+Stores]
+           struct dtv_frontend_properties *p =3D &fe->dtv_property_cache;
+                                           ^   ~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/dvb-frontends/cxd2841er.c:3812:34: note: Value stored to '=
+p' during its initialization is never read
+           struct dtv_frontend_properties *p =3D &fe->dtv_property_cache;
+                                           ^   ~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:123:6: warning: Value st=
+ored to 'mux_buf_sz' during its initialization is never read [clang-analyze=
+r-deadcode.DeadStores]
+           u32 mux_buf_sz =3D mux_buf_sz_pkts * TS_PACKET_LEN;
+               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:123:6: note: Value store=
+d to 'mux_buf_sz' during its initialization is never read
+           u32 mux_buf_sz =3D mux_buf_sz_pkts * TS_PACKET_LEN;
+               ^~~~~~~~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:206:17: warning: Value s=
+tored to 'dev' during its initialization is never read [clang-analyzer-dead=
+code.DeadStores]
+           struct device *dev =3D &dvb->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   drivers/media/test-drivers/vidtv/vidtv_bridge.c:206:17: note: Value stor=
+ed to 'dev' during its initialization is never read
+           struct device *dev =3D &dvb->pdev->dev;
+                          ^~~   ~~~~~~~~~~~~~~~
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   drivers/media/test-drivers/vidtv/vidtv_s302m.c:383:3: warning: Value sto=
+red to 'nbytes_per_unit' is never read [clang-analyzer-deadcode.DeadStores]
+                   nbytes_per_unit =3D 0;
+                   ^                 ~
+   drivers/media/test-drivers/vidtv/vidtv_s302m.c:383:3: note: Value stored=
+ to 'nbytes_per_unit' is never read
+                   nbytes_per_unit =3D 0;
+                   ^                 ~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   3 warnings generated.
+   Suppressed 3 warnings (3 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+>> drivers/memory/tegra/tegra30-emc.c:1164:3: warning: Value stored to 'dra=
+m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
+                   dram_type_str =3D "DDR1";
+                   ^               ~~~~~~
+   drivers/memory/tegra/tegra30-emc.c:1164:3: note: Value stored to 'dram_t=
+ype_str' is never read
+                   dram_type_str =3D "DDR1";
+                   ^               ~~~~~~
+   drivers/memory/tegra/tegra30-emc.c:1167:3: warning: Value stored to 'dra=
+m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
+                   dram_type_str =3D "LPDDR2";
+                   ^               ~~~~~~~~
+   drivers/memory/tegra/tegra30-emc.c:1167:3: note: Value stored to 'dram_t=
+ype_str' is never read
+                   dram_type_str =3D "LPDDR2";
+                   ^               ~~~~~~~~
+   drivers/memory/tegra/tegra30-emc.c:1170:3: warning: Value stored to 'dra=
+m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
+                   dram_type_str =3D "DDR2";
+                   ^               ~~~~~~
+   drivers/memory/tegra/tegra30-emc.c:1170:3: note: Value stored to 'dram_t=
+ype_str' is never read
+                   dram_type_str =3D "DDR2";
+                   ^               ~~~~~~
+   drivers/memory/tegra/tegra30-emc.c:1173:3: warning: Value stored to 'dra=
+m_type_str' is never read [clang-analyzer-deadcode.DeadStores]
+                   dram_type_str =3D "DDR3";
+                   ^               ~~~~~~
+   drivers/memory/tegra/tegra30-emc.c:1173:3: note: Value stored to 'dram_t=
+ype_str' is never read
+                   dram_type_str =3D "DDR3";
+                   ^               ~~~~~~
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/vme/vme.c:297:16: warning: Access to field 'next' results in a d=
+ereference of a null pointer (loaded from variable 'slave_pos') [clang-anal=
+yzer-core.NullDereference]
+           list_for_each(slave_pos, &bridge->slave_resources) {
+                         ^
+   include/linux/list.h:573:48: note: expanded from macro 'list_for_each'
+           for (pos =3D (head)->next; pos !=3D (head); pos =3D pos->next)
+                                                         ^~~
+   drivers/vme/vme.c:291:6: note: Assuming 'bridge' is non-null
+           if (!bridge) {
+               ^~~~~~~
+   drivers/vme/vme.c:291:2: note: Taking false branch
+           if (!bridge) {
            ^
-   include/linux/list.h:716:7: note: expanded from macro 'list_for_each_ent=
-ry_safe'
-                   n =3D list_next_entry(pos, member);                     =
-  \
-                       ^
-   include/linux/list.h:555:2: note: expanded from macro 'list_next_entry'
-           list_entry((pos)->member.next, typeof(*(pos)), member)
+   drivers/vme/vme.c:297:16: note: Value assigned to 'slave_pos'
+           list_for_each(slave_pos, &bridge->slave_resources) {
+                         ^
+   include/linux/list.h:573:7: note: expanded from macro 'list_for_each'
+           for (pos =3D (head)->next; pos !=3D (head); pos =3D pos->next)
+                ^~~~~~~~~~~~~~~~~~
+   drivers/vme/vme.c:297:2: note: Loop condition is true.  Entering loop bo=
+dy
+           list_for_each(slave_pos, &bridge->slave_resources) {
            ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
+   include/linux/list.h:573:2: note: expanded from macro 'list_for_each'
+           for (pos =3D (head)->next; pos !=3D (head); pos =3D pos->next)
            ^
-   include/linux/kernel.h:708:2: note: expanded from macro 'container_of'
-           void *__mptr =3D (void *)(ptr);                                 =
-  \
-           ^
-   drivers/xen/privcmd.c:841:2: note: Control jumps to 'case 806914:'  at l=
-ine 846
-           switch (cmd) {
-           ^
-   drivers/xen/privcmd.c:847:9: note: Calling 'privcmd_ioctl_mmap'
-                   ret =3D privcmd_ioctl_mmap(file, udata);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/privcmd.c:261:6: note: Assuming the condition is false
-           if (xen_feature(XENFEAT_auto_translated_physmap))
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/privcmd.c:261:2: note: Taking false branch
-           if (xen_feature(XENFEAT_auto_translated_physmap))
-           ^
-   drivers/xen/privcmd.c:264:2: note: Taking false branch
-           if (copy_from_user(&mmapcmd, udata, sizeof(mmapcmd)))
-           ^
-   drivers/xen/privcmd.c:268:6: note: Assuming field 'domid' is equal to DO=
-MID_INVALID
-           if (data->domid !=3D DOMID_INVALID && data->domid !=3D mmapcmd.d=
-om)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/privcmd.c:268:35: note: Left side of '&&' is false
-           if (data->domid !=3D DOMID_INVALID && data->domid !=3D mmapcmd.d=
-om)
-                                            ^
-   drivers/xen/privcmd.c:271:7: note: Calling 'gather_array'
-           rc =3D gather_array(&pagelist,
-                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/privcmd.c:114:2: note: Taking false branch
-           if (size > PAGE_SIZE)
-           ^
-   drivers/xen/privcmd.c:119:2: note: Loop condition is false. Execution co=
-ntinues on line 141
-           while (nelem--) {
-           ^
-   drivers/xen/privcmd.c:271:7: note: Returning from 'gather_array'
-           rc =3D gather_array(&pagelist,
-                ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/xen/privcmd.c:275:6: note: 'rc' is 0
-           if (rc || list_empty(&pagelist))
-               ^~
-   drivers/xen/privcmd.c:275:6: note: Left side of '||' is false
-   drivers/xen/privcmd.c:275:2: note: Taking true branch
-           if (rc || list_empty(&pagelist))
-           ^
-   drivers/xen/privcmd.c:276:3: note: Control jumps to line 306
-                   goto out;
+   drivers/vme/vme.c:301:7: note: Assuming 'slave_image' is null
+                   if (!slave_image) {
+                       ^~~~~~~~~~~~
+   drivers/vme/vme.c:301:3: note: Taking true branch
+                   if (!slave_image) {
                    ^
-   drivers/xen/privcmd.c:306:2: note: Calling 'free_page_list'
+   drivers/vme/vme.c:302:4: note: Loop condition is false.  Exiting loop
+                           printk(KERN_ERR "Registered NULL Slave resource\=
+n");
+                           ^
+   include/linux/printk.h:446:26: note: expanded from macro 'printk'
+   #define printk(fmt, ...) printk_index_wrap(_printk, fmt, ##__VA_ARGS__)
+                            ^
+   include/linux/printk.h:417:3: note: expanded from macro 'printk_index_wr=
+ap'
+                   __printk_index_emit(_fmt, NULL, NULL);                  \
+                   ^
+   include/linux/printk.h:392:34: note: expanded from macro '__printk_index=
+_emit'
+   #define __printk_index_emit(...) do {} while (0)
+                                    ^
+   drivers/vme/vme.c:303:4: note:  Execution continues on line 297
+                           continue;
+                           ^
+   drivers/vme/vme.c:297:16: note: Access to field 'next' results in a dere=
+ference of a null pointer (loaded from variable 'slave_pos')
+           list_for_each(slave_pos, &bridge->slave_resources) {
+                         ^
+   include/linux/list.h:573:48: note: expanded from macro 'list_for_each'
+           for (pos =3D (head)->next; pos !=3D (head); pos =3D pos->next)
+                                                         ^~~
+   drivers/vme/vme.c:498:16: warning: Access to field 'next' results in a d=
+ereference of a null pointer (loaded from variable 'master_pos') [clang-ana=
+lyzer-core.NullDereference]
+           list_for_each(master_pos, &bridge->master_resources) {
+                         ^
+   include/linux/list.h:573:48: note: expanded from macro 'list_for_each'
+           for (pos =3D (head)->next; pos !=3D (head); pos =3D pos->next)
+                                                         ^~~
+   drivers/vme/vme.c:492:6: note: Assuming 'bridge' is non-null
+           if (!bridge) {
+               ^~~~~~~
+   drivers/vme/vme.c:492:2: note: Taking false branch
+           if (!bridge) {
+           ^
+   drivers/vme/vme.c:498:16: note: Value assigned to 'master_pos'
+           list_for_each(master_pos, &bridge->master_resources) {
+                         ^
+   include/linux/list.h:573:7: note: expanded from macro 'list_for_each'
+           for (pos =3D (head)->next; pos !=3D (head); pos =3D pos->next)
+                ^~~~~~~~~~~~~~~~~~
+   drivers/vme/vme.c:498:2: note: Loop condition is true.  Entering loop bo=
+dy
+           list_for_each(master_pos, &bridge->master_resources) {
 
-vim +206 drivers/xen/swiotlb-xen.c
+vim +/dram_type_str +1164 drivers/memory/tegra/tegra30-emc.c
 
-4035b43da6daa5 Christoph Hellwig     2021-03-01  158  =
+8290e021c14675 Dmitry Osipenko 2021-12-22  1117  =
 
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  159  int __ref xen_swiotlb=
-_init(int verbose, bool early)
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  160  {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  161  	unsigned long bytes,=
- order;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  162  	int rc =3D -ENOMEM;
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  163  	enum xen_swiotlb_err=
- m_ret =3D XEN_SWIOTLB_UNKNOWN;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  164  	unsigned int repeat =
-=3D 3;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  165  	char *start;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  166  	unsigned long nslabs;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  167  =
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1118  static int emc_setup_hw(st=
+ruct tegra_emc *emc)
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1119  {
+8290e021c14675 Dmitry Osipenko 2021-12-22  1120  	u32 fbio_cfg5, emc_cfg, e=
+mc_dbg, emc_adr_cfg;
+930c68180ffb05 Dmitry Osipenko 2020-03-19  1121  	u32 intmask =3D EMC_REFRE=
+SH_OVERFLOW_INT;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1122  	static bool print_sdram_i=
+nfo_once;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1123  	enum emc_dram_type dram_t=
+ype;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1124  	const char *dram_type_str;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1125  	unsigned int emem_numdev;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1126  =
 
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  168  	nslabs =3D swiotlb_n=
-r_tbl();
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  169  retry:
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  170  	if (!nslabs)
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  171  		nslabs =3D DEFAULT_=
-NSLABS;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  172  	bytes =3D nslabs << =
-IO_TLB_SHIFT;
-4035b43da6daa5 Christoph Hellwig     2021-03-01  173  	order =3D get_order(=
-bytes);
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  174  =
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1127  	fbio_cfg5 =3D readl_relax=
+ed(emc->regs + EMC_FBIO_CFG5);
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1128  	dram_type =3D fbio_cfg5 &=
+ EMC_FBIO_CFG5_DRAM_TYPE_MASK;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1129  =
 
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  175  	/*
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  176  	 * IO TLB memory alr=
-eady allocated. Just use it.
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  177  	 */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  178  	if (io_tlb_start !=
-=3D 0)
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  179  		goto end;
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  180  =
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1130  	emc_cfg =3D readl_relaxed=
+(emc->regs + EMC_CFG_2);
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1131  =
 
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  181  	/*
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  182  	 * Get IO TLB memory=
- from any location.
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  183  	 */
-8a7f97b902f4fb Mike Rapoport         2019-03-11  184  	if (early) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  185  		start =3D memblock_=
-alloc(PAGE_ALIGN(bytes),
-15c3c114ed144e Mike Rapoport         2018-10-30  186  						  PAGE_SIZE);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  187  		if (!start)
-8a7f97b902f4fb Mike Rapoport         2019-03-11  188  			panic("%s: Failed =
-to allocate %lu bytes align=3D0x%lx\n",
-8a7f97b902f4fb Mike Rapoport         2019-03-11  189  			      __func__, PA=
-GE_ALIGN(bytes), PAGE_SIZE);
-8a7f97b902f4fb Mike Rapoport         2019-03-11  190  	} else {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  191  #define SLABS_PER_PAG=
-E (1 << (PAGE_SHIFT - IO_TLB_SHIFT))
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  192  #define IO_TLB_MIN_SL=
-ABS ((1<<20) >> IO_TLB_SHIFT)
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  193  		while ((SLABS_PER_P=
-AGE << order) > IO_TLB_MIN_SLABS) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  194  			start =3D (void *)=
-xen_get_swiotlb_free_pages(order);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  195  			if (start)
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  196  				break;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  197  			order--;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  198  		}
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  199  		if (order !=3D get_=
-order(bytes)) {
-283c0972d53769 Joe Perches           2013-06-28  200  			pr_warn("Warning: =
-only able to allocate %ld MB for software IO TLB\n",
-283c0972d53769 Joe Perches           2013-06-28  201  				(PAGE_SIZE << ord=
-er) >> 20);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  202  			nslabs =3D SLABS_P=
-ER_PAGE << order;
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  203  			bytes =3D nslabs <=
-< IO_TLB_SHIFT;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  204  		}
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  205  	}
-cbce99527ca7c4 Christoph Hellwig     2021-03-01 @206  	if (!start) {
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  207  		m_ret =3D XEN_SWIOT=
-LB_ENOMEM;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  208  		goto error;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  209  	}
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  210  	/*
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  211  	 * And replace that =
-memory with pages under 4GB.
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  212  	 */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  213  	rc =3D xen_swiotlb_f=
-ixup(start,
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  214  			       bytes,
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  215  			       nslabs);
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  216  	if (rc) {
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  217  		if (early)
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  218  			memblock_free(__pa=
-(start),
-2013288f723887 Mike Rapoport         2018-10-30  219  				      PAGE_ALIGN(=
-bytes));
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  220  		else {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  221  			free_pages((unsign=
-ed long)start, order);
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  222  			start =3D NULL;
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  223  		}
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  224  		m_ret =3D XEN_SWIOT=
-LB_EFIXUP;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  225  		goto error;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  226  	}
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  227  	if (early) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  228  		if (swiotlb_init_wi=
-th_tbl(start, nslabs,
-ac2cbab21f318e Yinghai Lu            2013-01-24  229  			 verbose))
-ac2cbab21f318e Yinghai Lu            2013-01-24  230  			panic("Cannot allo=
-cate SWIOTLB buffer");
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  231  		rc =3D 0;
-c468bdee28a1cb Konrad Rzeszutek Wilk 2012-09-17  232  	} else
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  233  		rc =3D swiotlb_late=
-_init_with_tbl(start, nslabs);
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  234  =
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1132  	/* enable EMC and CAR to =
+handshake on PLL divider/source changes */
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1133  	emc_cfg |=3D EMC_CLKCHANG=
+E_REQ_ENABLE;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1134  =
 
-4e7372e0dc5d7d Stefano Stabellini    2019-05-28  235  end:
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  236  	if (!rc)
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  237  		swiotlb_set_max_seg=
-ment(PAGE_SIZE);
-7453c549f5f648 Konrad Rzeszutek Wilk 2016-12-20  238  =
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1135  	/* configure clock change=
+ mode accordingly to DRAM type */
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1136  	switch (dram_type) {
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1137  	case DRAM_TYPE_LPDDR2:
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1138  		emc_cfg |=3D EMC_CLKCHAN=
+GE_PD_ENABLE;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1139  		emc_cfg &=3D ~EMC_CLKCHA=
+NGE_SR_ENABLE;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1140  		break;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1141  =
 
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  239  	return rc;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  240  error:
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  241  	if (repeat--) {
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  242  		nslabs =3D max(1024=
-UL, /* Min is 2MB */
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  243  					(nslabs >> 1));
-283c0972d53769 Joe Perches           2013-06-28  244  		pr_info("Lowering t=
-o %luMB\n",
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  245  			(nslabs << IO_TLB_=
-SHIFT) >> 20);
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  246  		goto retry;
-f4b2f07b2ed9b4 Konrad Rzeszutek Wilk 2011-07-22  247  	}
-283c0972d53769 Joe Perches           2013-06-28  248  	pr_err("%s (rc:%d)\n=
-", xen_swiotlb_error(m_ret), rc);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  249  	if (early)
-5bab7864b1167f Konrad Rzeszutek Wilk 2012-08-23  250  		panic("%s (rc:%d)",=
- xen_swiotlb_error(m_ret), rc);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  251  	else
-cbce99527ca7c4 Christoph Hellwig     2021-03-01  252  		free_pages((unsigne=
-d long)start, order);
-b8277600536989 Konrad Rzeszutek Wilk 2012-08-23  253  	return rc;
-b097186fd29d5b Konrad Rzeszutek Wilk 2010-05-11  254  }
-dceb1a6819ab2c Christoph Hellwig     2017-05-21  255  =
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1142  	default:
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1143  		emc_cfg &=3D ~EMC_CLKCHA=
+NGE_SR_ENABLE;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1144  		emc_cfg &=3D ~EMC_CLKCHA=
+NGE_PD_ENABLE;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1145  		break;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1146  	}
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1147  =
+
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1148  	writel_relaxed(emc_cfg, e=
+mc->regs + EMC_CFG_2);
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1149  =
+
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1150  	/* initialize interrupt */
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1151  	writel_relaxed(intmask, e=
+mc->regs + EMC_INTMASK);
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1152  	writel_relaxed(0xffffffff=
+, emc->regs + EMC_INTSTATUS);
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1153  =
+
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1154  	/* ensure that unwanted d=
+ebug features are disabled */
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1155  	emc_dbg =3D readl_relaxed=
+(emc->regs + EMC_DBG);
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1156  	emc_dbg |=3D EMC_DBG_CFG_=
+PRIORITY;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1157  	emc_dbg &=3D ~EMC_DBG_REA=
+D_MUX_ASSEMBLY;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1158  	emc_dbg &=3D ~EMC_DBG_WRI=
+TE_MUX_ACTIVE;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1159  	emc_dbg &=3D ~EMC_DBG_FOR=
+CE_UPDATE;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1160  	writel_relaxed(emc_dbg, e=
+mc->regs + EMC_DBG);
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1161  =
+
+8290e021c14675 Dmitry Osipenko 2021-12-22  1162  	switch (dram_type) {
+8290e021c14675 Dmitry Osipenko 2021-12-22  1163  	case DRAM_TYPE_DDR1:
+8290e021c14675 Dmitry Osipenko 2021-12-22 @1164  		dram_type_str =3D "DDR1";
+8290e021c14675 Dmitry Osipenko 2021-12-22  1165  		break;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1166  	case DRAM_TYPE_LPDDR2:
+8290e021c14675 Dmitry Osipenko 2021-12-22  1167  		dram_type_str =3D "LPDDR=
+2";
+8290e021c14675 Dmitry Osipenko 2021-12-22  1168  		break;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1169  	case DRAM_TYPE_DDR2:
+8290e021c14675 Dmitry Osipenko 2021-12-22  1170  		dram_type_str =3D "DDR2";
+8290e021c14675 Dmitry Osipenko 2021-12-22  1171  		break;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1172  	case DRAM_TYPE_DDR3:
+8290e021c14675 Dmitry Osipenko 2021-12-22  1173  		dram_type_str =3D "DDR3";
+8290e021c14675 Dmitry Osipenko 2021-12-22  1174  		break;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1175  	}
+8290e021c14675 Dmitry Osipenko 2021-12-22  1176  =
+
+8290e021c14675 Dmitry Osipenko 2021-12-22  1177  	emc_adr_cfg =3D readl_rel=
+axed(emc->regs + EMC_ADR_CFG);
+8290e021c14675 Dmitry Osipenko 2021-12-22  1178  	emem_numdev =3D FIELD_GET=
+(EMC_ADR_CFG_EMEM_NUMDEV, emc_adr_cfg) + 1;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1179  =
+
+8290e021c14675 Dmitry Osipenko 2021-12-22  1180  	dev_info_once(emc->dev, "=
+%u %s %s attached\n", emem_numdev,
+8290e021c14675 Dmitry Osipenko 2021-12-22  1181  		      dram_type_str, eme=
+m_numdev =3D=3D 2 ? "devices" : "device");
+8290e021c14675 Dmitry Osipenko 2021-12-22  1182  =
+
+8290e021c14675 Dmitry Osipenko 2021-12-22  1183  	if (dram_type =3D=3D DRAM=
+_TYPE_LPDDR2 && !print_sdram_info_once) {
+8290e021c14675 Dmitry Osipenko 2021-12-22  1184  		while (emem_numdev--)
+8290e021c14675 Dmitry Osipenko 2021-12-22  1185  			emc_read_lpddr_sdram_in=
+fo(emc, emem_numdev);
+8290e021c14675 Dmitry Osipenko 2021-12-22  1186  =
+
+8290e021c14675 Dmitry Osipenko 2021-12-22  1187  		print_sdram_info_once =
+=3D true;
+8290e021c14675 Dmitry Osipenko 2021-12-22  1188  	}
+8290e021c14675 Dmitry Osipenko 2021-12-22  1189  =
+
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1190  	return 0;
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1191  }
+e34212c75a6899 Dmitry Osipenko 2019-08-12  1192  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0975211939951041151==--
+--===============1902284898378840765==--
 
