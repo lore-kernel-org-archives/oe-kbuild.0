@@ -1,357 +1,274 @@
-Content-Type: multipart/mixed; boundary="===============8115394332702656916=="
+Content-Type: multipart/mixed; boundary="===============2207546631981357714=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH v2 5/8] pinctrl: nuvoton: Add driver for WPCM450
-Date: Sun, 19 Dec 2021 09:24:36 +0800
-Message-ID: <202112190905.PgqrgXiI-lkp@intel.com>
+Subject: drivers/mtd/ftl.c:220 build_maps() warn: should '(i + __builtin_bswap16(((part->header.FirstPhysicalEUN)))) << part->header.EraseUnitSize' be a 64 bit type?
+Date: Fri, 31 Dec 2021 02:56:39 +0800
+Message-ID: <202112310235.ZV3zJcsD-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8115394332702656916==
+--===============2207546631981357714==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211207210823.1975632-6-j.neuschaefer@gmx.net>
-References: <20211207210823.1975632-6-j.neuschaefer@gmx.net>
-TO: "Jonathan Neusch=C3=A4fer" <j.neuschaefer@gmx.net>
-TO: linux-gpio(a)vger.kernel.org
-TO: devicetree(a)vger.kernel.org
-CC: Linus Walleij <linus.walleij@linaro.org>
-CC: Rob Herring <robh+dt@kernel.org>
-CC: openbmc(a)lists.ozlabs.org
-CC: Tomer Maimon <tmaimon77@gmail.com>
-CC: Joel Stanley <joel@jms.id.au>
 CC: linux-kernel(a)vger.kernel.org
-CC: "Jonathan Neusch=C3=A4fer" <j.neuschaefer@gmx.net>
+TO: Luc Van Oostenryck <luc.vanoostenryck@gmail.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
-Hi "Jonathan,
-
-I love your patch! Perhaps something to improve:
-
-[auto build test WARNING on linusw-pinctrl/devel]
-[also build test WARNING on robh/for-next linus/master v5.16-rc5 next-20211=
-217]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Jonathan-Neusch-fer/Nuvoto=
-n-WPCM450-pinctrl-and-GPIO-driver/20211208-051101
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/linusw/linux-pinctr=
-l.git devel
-:::::: branch date: 11 days ago
-:::::: commit date: 11 days ago
-config: arm-randconfig-c002-20211209 (https://download.01.org/0day-ci/archi=
-ve/20211219/202112190905.PgqrgXiI-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 097a1c=
-b1d5ebb3a0ec4bcaed8ba3ff6a8e33c00a)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/0day-ci/linux/commit/c08fb0aafb60234854aa86433=
-da809fe5112f55e
-        git remote add linux-review https://github.com/0day-ci/linux
-        git fetch --no-tags linux-review Jonathan-Neusch-fer/Nuvoton-WPCM45=
-0-pinctrl-and-GPIO-driver/20211208-051101
-        git checkout c08fb0aafb60234854aa86433da809fe5112f55e
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
-
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   eec4df26e24e978e49ccf9bcf49ca0f2ccdaeffe
+commit: d991bb1c8da842a2a0b9dc83b1005e655783f861 include/linux/compiler-gcc=
+.h: sparse can do constant folding of __builtin_bswap*()
+date:   8 months ago
+:::::: branch date: 25 hours ago
+:::::: commit date: 8 months ago
+config: s390-randconfig-m031-20211123 (https://download.01.org/0day-ci/arch=
+ive/20211231/202112310235.ZV3zJcsD-lkp(a)intel.com/config)
+compiler: s390-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+New smatch warnings:
+drivers/mtd/ftl.c:220 build_maps() warn: should '(i + __builtin_bswap16(((p=
+art->header.FirstPhysicalEUN)))) << part->header.EraseUnitSize' be a 64 bit=
+ type?
+
+Old smatch warnings:
+drivers/mtd/ftl.c:347 erase_xfer() warn: should '1 << part->header.EraseUni=
+tSize' be a 64 bit type?
+drivers/mtd/ftl.c:605 reclaim_block() warn: inconsistent indenting
+
+vim +220 drivers/mtd/ftl.c
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  191  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  192  static int build_maps(part=
+ition_t *part)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  193  {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  194      erase_unit_header_t he=
+ader;
+3854be7712f7b4 David Woodhouse  2008-12-10  195      uint16_t xvalid, xtran=
+s, i;
+3854be7712f7b4 David Woodhouse  2008-12-10  196      unsigned blocks, j;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  197      int hdr_ok, ret =3D -1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  198      ssize_t retval;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  199      loff_t offset;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  200  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  201      /* Set up erase unit m=
+aps */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  202      part->DataUnits =3D le=
+16_to_cpu(part->header.NumEraseUnits) -
+^1da177e4c3f41 Linus Torvalds   2005-04-16  203  	part->header.NumTransferU=
+nits;
+6da2ec56059c3c Kees Cook        2018-06-12  204      part->EUNInfo =3D kmal=
+loc_array(part->DataUnits, sizeof(struct eun_info_t),
+^1da177e4c3f41 Linus Torvalds   2005-04-16  205                            =
+        GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  206      if (!part->EUNInfo)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  207  	    goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  208      for (i =3D 0; i < part=
+->DataUnits; i++)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  209  	part->EUNInfo[i].Offset =
+=3D 0xffffffff;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  210      part->XferInfo =3D
+6da2ec56059c3c Kees Cook        2018-06-12  211  	kmalloc_array(part->heade=
+r.NumTransferUnits,
+6da2ec56059c3c Kees Cook        2018-06-12  212                        size=
+of(struct xfer_info_t),
+^1da177e4c3f41 Linus Torvalds   2005-04-16  213                        GFP_=
+KERNEL);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  214      if (!part->XferInfo)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  215  	    goto out_EUNInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  216  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  217      xvalid =3D xtrans =3D =
+0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  218      for (i =3D 0; i < le16=
+_to_cpu(part->header.NumEraseUnits); i++) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  219  	offset =3D ((i + le16_to_=
+cpu(part->header.FirstPhysicalEUN))
+^1da177e4c3f41 Linus Torvalds   2005-04-16 @220  		      << part->header.Er=
+aseUnitSize);
+329ad399a9b3ad Artem Bityutskiy 2011-12-23  221  	ret =3D mtd_read(part->mb=
+d.mtd, offset, sizeof(header), &retval,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  222                         (un=
+signed char *)&header);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  223  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  224  	if (ret)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  225  	    goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  226  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  227  	ret =3D -1;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  228  	/* Is this a transfer par=
+tition? */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  229  	hdr_ok =3D (strcmp(header=
+.DataOrgTuple+3, "FTL100") =3D=3D 0);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  230  	if (hdr_ok && (le16_to_cp=
+u(header.LogicalEUN) < part->DataUnits) &&
+^1da177e4c3f41 Linus Torvalds   2005-04-16  231  	    (part->EUNInfo[le16_t=
+o_cpu(header.LogicalEUN)].Offset =3D=3D 0xffffffff)) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  232  	    part->EUNInfo[le16_to=
+_cpu(header.LogicalEUN)].Offset =3D offset;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  233  	    part->EUNInfo[le16_to=
+_cpu(header.LogicalEUN)].EraseCount =3D
+^1da177e4c3f41 Linus Torvalds   2005-04-16  234  		le32_to_cpu(header.Erase=
+Count);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  235  	    xvalid++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  236  	} else {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  237  	    if (xtrans =3D=3D par=
+t->header.NumTransferUnits) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  238  		printk(KERN_NOTICE "ftl_=
+cs: format error: too many "
+^1da177e4c3f41 Linus Torvalds   2005-04-16  239  		       "transfer units!\=
+n");
+^1da177e4c3f41 Linus Torvalds   2005-04-16  240  		goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  241  	    }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  242  	    if (hdr_ok && (le16_t=
+o_cpu(header.LogicalEUN) =3D=3D 0xffff)) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  243  		part->XferInfo[xtrans].s=
+tate =3D XFER_PREPARED;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  244  		part->XferInfo[xtrans].E=
+raseCount =3D le32_to_cpu(header.EraseCount);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  245  	    } else {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  246  		part->XferInfo[xtrans].s=
+tate =3D XFER_UNKNOWN;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  247  		/* Pick anything reasona=
+ble for the erase count */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  248  		part->XferInfo[xtrans].E=
+raseCount =3D
+^1da177e4c3f41 Linus Torvalds   2005-04-16  249  		    le32_to_cpu(part->he=
+ader.EraseCount);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  250  	    }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  251  	    part->XferInfo[xtrans=
+].Offset =3D offset;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  252  	    xtrans++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  253  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  254      }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  255      /* Check for format tr=
+ouble */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  256      header =3D part->heade=
+r;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  257      if ((xtrans !=3D heade=
+r.NumTransferUnits) ||
+^1da177e4c3f41 Linus Torvalds   2005-04-16  258  	(xvalid+xtrans !=3D le16_=
+to_cpu(header.NumEraseUnits))) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  259  	printk(KERN_NOTICE "ftl_c=
+s: format error: erase units "
+^1da177e4c3f41 Linus Torvalds   2005-04-16  260  	       "don't add up!\n");
+^1da177e4c3f41 Linus Torvalds   2005-04-16  261  	goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  262      }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  263  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  264      /* Set up virtual page=
+ map */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  265      blocks =3D le32_to_cpu=
+(header.FormattedSize) >> header.BlockSize;
+42bc47b35320e0 Kees Cook        2018-06-12  266      part->VirtualBlockMap =
+=3D vmalloc(array_size(blocks, sizeof(uint32_t)));
+^1da177e4c3f41 Linus Torvalds   2005-04-16  267      if (!part->VirtualBloc=
+kMap)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  268  	    goto out_XferInfo;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  269  =
+
+3854be7712f7b4 David Woodhouse  2008-12-10  270      memset(part->VirtualBl=
+ockMap, 0xff, blocks * sizeof(uint32_t));
+^1da177e4c3f41 Linus Torvalds   2005-04-16  271      part->BlocksPerUnit =
+=3D (1 << header.EraseUnitSize) >> header.BlockSize;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  272  =
+
+6da2ec56059c3c Kees Cook        2018-06-12  273      part->bam_cache =3D km=
+alloc_array(part->BlocksPerUnit, sizeof(uint32_t),
+^1da177e4c3f41 Linus Torvalds   2005-04-16  274                            =
+          GFP_KERNEL);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  275      if (!part->bam_cache)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  276  	    goto out_VirtualBlock=
+Map;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  277  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  278      part->bam_index =3D 0x=
+ffff;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  279      part->FreeTotal =3D 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  280  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  281      for (i =3D 0; i < part=
+->DataUnits; i++) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  282  	part->EUNInfo[i].Free =3D=
+ 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  283  	part->EUNInfo[i].Deleted =
+=3D 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  284  	offset =3D part->EUNInfo[=
+i].Offset + le32_to_cpu(header.BAMOffset);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  285  =
+
+329ad399a9b3ad Artem Bityutskiy 2011-12-23  286  	ret =3D mtd_read(part->mb=
+d.mtd, offset,
+3854be7712f7b4 David Woodhouse  2008-12-10  287                         par=
+t->BlocksPerUnit * sizeof(uint32_t), &retval,
+^1da177e4c3f41 Linus Torvalds   2005-04-16  288                         (un=
+signed char *)part->bam_cache);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  289  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  290  	if (ret)
+^1da177e4c3f41 Linus Torvalds   2005-04-16  291  		goto out_bam_cache;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  292  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  293  	for (j =3D 0; j < part->B=
+locksPerUnit; j++) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  294  	    if (BLOCK_FREE(le32_t=
+o_cpu(part->bam_cache[j]))) {
+^1da177e4c3f41 Linus Torvalds   2005-04-16  295  		part->EUNInfo[i].Free++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  296  		part->FreeTotal++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  297  	    } else if ((BLOCK_TYP=
+E(le32_to_cpu(part->bam_cache[j])) =3D=3D BLOCK_DATA) &&
+^1da177e4c3f41 Linus Torvalds   2005-04-16  298  		     (BLOCK_NUMBER(le32_=
+to_cpu(part->bam_cache[j])) < blocks))
+^1da177e4c3f41 Linus Torvalds   2005-04-16  299  		part->VirtualBlockMap[BL=
+OCK_NUMBER(le32_to_cpu(part->bam_cache[j]))] =3D
+^1da177e4c3f41 Linus Torvalds   2005-04-16  300  		    (i << header.EraseUn=
+itSize) + (j << header.BlockSize);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  301  	    else if (BLOCK_DELETE=
+D(le32_to_cpu(part->bam_cache[j])))
+^1da177e4c3f41 Linus Torvalds   2005-04-16  302  		part->EUNInfo[i].Deleted=
+++;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  303  	}
+^1da177e4c3f41 Linus Torvalds   2005-04-16  304      }
+^1da177e4c3f41 Linus Torvalds   2005-04-16  305  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  306      ret =3D 0;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  307      goto out;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  308  =
+
+^1da177e4c3f41 Linus Torvalds   2005-04-16  309  out_bam_cache:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  310      kfree(part->bam_cache);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  311  out_VirtualBlockMap:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  312      vfree(part->VirtualBlo=
+ckMap);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  313  out_XferInfo:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  314      kfree(part->XferInfo);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  315  out_EUNInfo:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  316      kfree(part->EUNInfo);
+^1da177e4c3f41 Linus Torvalds   2005-04-16  317  out:
+^1da177e4c3f41 Linus Torvalds   2005-04-16  318      return ret;
+^1da177e4c3f41 Linus Torvalds   2005-04-16  319  } /* build_maps */
+^1da177e4c3f41 Linus Torvalds   2005-04-16  320  =
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           ^
-   include/linux/printk.h:387:14: note: expanded from macro '__printk_index=
-_emit'
-                                   .level =3D __builtin_constant_p(_level) =
-? (_level) : NULL, \
-                                            ^
-   drivers/bus/intel-ixp4xx-eb.c:195:2: note: Loop condition is false.  Exi=
-ting loop
-           dev_info(eb->dev, "CS%d at %#08x, size %#08x, config before: %#0=
-8x\n",
-           ^
-   include/linux/dev_printk.h:150:2: note: expanded from macro 'dev_info'
-           dev_printk_index_wrap(_dev_info, KERN_INFO, dev, dev_fmt(fmt), #=
-#__VA_ARGS__)
-           ^
-   include/linux/dev_printk.h:109:3: note: expanded from macro 'dev_printk_=
-index_wrap'
-                   dev_printk_index_emit(level, fmt);                      \
-                   ^
-   include/linux/dev_printk.h:105:2: note: expanded from macro 'dev_printk_=
-index_emit'
-           printk_index_subsys_emit("%s %s: ", level, fmt)
-           ^
-   include/linux/printk.h:417:2: note: expanded from macro 'printk_index_su=
-bsys_emit'
-           __printk_index_emit(fmt, level, subsys_fmt_prefix)
-           ^
-   include/linux/printk.h:373:2: note: expanded from macro '__printk_index_=
-emit'
-           do {                                                            \
-           ^
-   drivers/bus/intel-ixp4xx-eb.c:200:15: note: '?' condition is false
-           cur_cssize =3D roundup_pow_of_two(cur_cssize);
-                        ^
-   include/linux/log2.h:176:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __builtin_constant_p(n) ? (             \
-           ^
-   drivers/bus/intel-ixp4xx-eb.c:200:15: note: Calling '__roundup_pow_of_tw=
-o'
-           cur_cssize =3D roundup_pow_of_two(cur_cssize);
-                        ^
-   include/linux/log2.h:180:2: note: expanded from macro 'roundup_pow_of_tw=
-o'
-           __roundup_pow_of_two(n)                 \
-           ^~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Calling 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/bitops.h:188:2: note: Taking true branch
-           if (sizeof(l) =3D=3D 4)
-           ^
-   include/linux/bitops.h:189:10: note: Calling 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/asm-generic/bitops/fls.h:15:2: note: 'r' initialized to 32
-           int r =3D 32;
-           ^~~~~
-   include/asm-generic/bitops/fls.h:17:6: note: Assuming 'x' is not equal t=
-o 0, which participates in a condition later
-           if (!x)
-               ^~
-   include/asm-generic/bitops/fls.h:17:2: note: Taking false branch
-           if (!x)
-           ^
-   include/asm-generic/bitops/fls.h:19:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xffff0000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:19:2: note: Taking false branch
-           if (!(x & 0xffff0000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:23:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xff000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:23:2: note: Taking false branch
-           if (!(x & 0xff000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:27:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xf0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:27:2: note: Taking false branch
-           if (!(x & 0xf0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:31:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0xc0000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:31:2: note: Taking false branch
-           if (!(x & 0xc0000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:35:6: note: Assuming the condition is f=
-alse
-           if (!(x & 0x80000000u)) {
-               ^~~~~~~~~~~~~~~~~~
-   include/asm-generic/bitops/fls.h:35:2: note: Taking false branch
-           if (!(x & 0x80000000u)) {
-           ^
-   include/asm-generic/bitops/fls.h:39:2: note: Returning the value 32 (loa=
-ded from 'r')
-           return r;
-           ^~~~~~~~
-   include/linux/bitops.h:189:10: note: Returning from 'fls'
-                   return fls(l);
-                          ^~~~~~
-   include/linux/bitops.h:189:3: note: Returning the value 32
-                   return fls(l);
-                   ^~~~~~~~~~~~~
-   include/linux/log2.h:57:16: note: Returning from 'fls_long'
-           return 1UL << fls_long(n - 1);
-                         ^~~~~~~~~~~~~~~
-   include/linux/log2.h:57:13: note: The result of the left shift is undefi=
-ned due to shifting by '32', which is greater or equal to the width of type=
- 'unsigned long'
-           return 1UL << fls_long(n - 1);
-                      ^  ~~~~~~~~~~~~~~~
-   Suppressed 2 warnings (2 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
->> drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1562:26: warning: Value stored=
- to 'npcm' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1562:26: note: Value stored to=
- 'npcm' during its initialization is never read
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1590:26: warning: Value stored=
- to 'npcm' during its initialization is never read [clang-analyzer-deadcode=
-.DeadStores]
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c:1590:26: note: Value stored to=
- 'npcm' during its initialization is never read
-           struct npcm7xx_pinctrl *npcm =3D pinctrl_dev_get_drvdata(pctldev=
-);
-                                   ^~~~   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1065:19: warning: Assigned val=
-ue is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                   bank->eint_base =3D virt_base[0];
-                                   ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1102:6: note: Assuming 'drvdat=
-a' is non-null
-           if (!drvdata)
-               ^~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1102:2: note: Taking false bra=
-nch
-           if (!drvdata)
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1105:9: note: Calling 'samsung=
-_pinctrl_get_soc_data'
-           ctrl =3D samsung_pinctrl_get_soc_data(drvdata, pdev);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1019:9: note: Calling 'samsung=
-_pinctrl_get_soc_data_for_of_alias'
-           ctrl =3D samsung_pinctrl_get_soc_data_for_of_alias(pdev);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:991:6: note: Assuming 'id' is =
->=3D 0
-           if (id < 0) {
-               ^~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:991:2: note: Taking false bran=
-ch
-           if (id < 0) {
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:997:6: note: Assuming 'id' is =
-< field 'num_ctrl'
-           if (id >=3D of_data->num_ctrl) {
-               ^~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:997:2: note: Taking false bran=
-ch
-           if (id >=3D of_data->num_ctrl) {
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1002:2: note: Returning pointe=
-r, which participates in a condition later
-           return &(of_data->ctrl[id]);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1019:9: note: Returning from '=
-samsung_pinctrl_get_soc_data_for_of_alias'
-           ctrl =3D samsung_pinctrl_get_soc_data_for_of_alias(pdev);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1020:6: note: Assuming 'ctrl' =
-is non-null
-           if (!ctrl)
-               ^~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1020:2: note: Taking false bra=
-nch
-           if (!ctrl)
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1026:17: note: Calling 'devm_k=
-calloc'
-           d->pin_banks =3D devm_kcalloc(&pdev->dev, d->nr_banks,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:9: note: Calling 'devm_kmalloc_array'
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:215:2: note: Taking false branch
-           if (unlikely(check_mul_overflow(n, size, &bytes)))
-           ^
-   include/linux/device.h:218:2: note: Returning pointer, which participate=
-s in a condition later
-           return devm_kmalloc(dev, bytes, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:9: note: Returning from 'devm_kmalloc_array'
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/device.h:223:2: note: Returning pointer, which participate=
-s in a condition later
-           return devm_kmalloc_array(dev, n, size, flags | __GFP_ZERO);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1026:17: note: Returning from =
-'devm_kcalloc'
-           d->pin_banks =3D devm_kcalloc(&pdev->dev, d->nr_banks,
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1028:6: note: Assuming field '=
-pin_banks' is non-null
-           if (!d->pin_banks)
-               ^~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1028:2: note: Taking false bra=
-nch
-           if (!d->pin_banks)
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1031:6: note: Assuming the con=
-dition is false
-           if (ctrl->nr_ext_resources + 1 > SAMSUNG_PINCTRL_NUM_RESOURCES)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1031:2: note: Taking false bra=
-nch
-           if (ctrl->nr_ext_resources + 1 > SAMSUNG_PINCTRL_NUM_RESOURCES)
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1034:14: note: Assuming the co=
-ndition is false
-           for (i =3D 0; i < ctrl->nr_ext_resources + 1; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1034:2: note: Loop condition i=
-s false. Execution continues on line 1048
-           for (i =3D 0; i < ctrl->nr_ext_resources + 1; i++) {
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1050:14: note: Assuming 'i' is=
- < field 'nr_banks'
-           for (i =3D 0; i < ctrl->nr_banks; ++i, ++bdata, ++bank) {
-                       ^~~~~~~~~~~~~~~~~~
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1050:2: note: Loop condition i=
-s true.  Entering loop body
-           for (i =3D 0; i < ctrl->nr_banks; ++i, ++bdata, ++bank) {
-           ^
-   drivers/pinctrl/samsung/pinctrl-samsung.c:1060:3: note: Loop condition i=
-s false.  Exiting loop
-                   raw_spin_lock_init(&bank->slock);
+:::::: The code at line 220 was first introduced by commit
+:::::: 1da177e4c3f41524e886b7f1b8a0c1fc7321cac2 Linux-2.6.12-rc2
 
-vim +/npcm +1562 drivers/pinctrl/nuvoton/pinctrl-npcm7xx.c
-
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1559  =
-
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1560  static int npcm7xx_get_groups=
-_count(struct pinctrl_dev *pctldev)
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1561  {
-3b588e43ee5c7a Tomer Maimon 2018-08-08 @1562  	struct npcm7xx_pinctrl *npcm=
- =3D pinctrl_dev_get_drvdata(pctldev);
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1563  =
-
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1564  	dev_dbg(npcm->dev, "group si=
-ze: %d\n", ARRAY_SIZE(npcm7xx_groups));
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1565  	return ARRAY_SIZE(npcm7xx_gr=
-oups);
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1566  }
-3b588e43ee5c7a Tomer Maimon 2018-08-08  1567  =
-
+:::::: TO: Linus Torvalds <torvalds@ppc970.osdl.org>
+:::::: CC: Linus Torvalds <torvalds@ppc970.osdl.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8115394332702656916==--
+--===============2207546631981357714==--
 
