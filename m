@@ -1,424 +1,215 @@
-Content-Type: multipart/mixed; boundary="===============0604464167922411674=="
+Content-Type: multipart/mixed; boundary="===============2795919819091318195=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/input/touchscreen/elants_i2c.c:754:21: warning: Value stored to 'client' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
-Date: Wed, 29 Dec 2021 04:46:49 +0800
-Message-ID: <202112290417.j2ZyYlcG-lkp@intel.com>
+Subject: [smfrench-smb3:for-next 7/12] fs/cifs/smb1ops.c:229 cifs_get_next_mid() error: uninitialized symbol 'reconnect'.
+Date: Fri, 31 Dec 2021 07:40:48 +0800
+Message-ID: <202112310745.OYSjA6DO-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0604464167922411674==
+--===============2795919819091318195==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: linux-kernel(a)vger.kernel.org
-TO: Johnny Chuang <johnny.chuang.emc@gmail.com>
-CC: Dmitry Torokhov <dmitry.torokhov@gmail.com>
+TO: Steve French <stfrench@microsoft.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-master
-head:   a8ad9a2434dc7967ab285437f443cae633b6fc1c
-commit: 4ebfee2bbc1a9c343dd50565ba5ae249fac32267 Input: elants_i2c - do not=
- check Remark ID on eKTH3900/eKTH5312
-date:   9 days ago
-:::::: branch date: 28 hours ago
-:::::: commit date: 9 days ago
-config: i386-randconfig-c001-20211228 (https://download.01.org/0day-ci/arch=
-ive/20211229/202112290417.j2ZyYlcG-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7171af=
-744543433ac75b232eb7dfdaef7efd4d7a)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D4ebfee2bbc1a9c343dd50565ba5ae249fac32267
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout 4ebfee2bbc1a9c343dd50565ba5ae249fac32267
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Di386 clang-analyzer =
-
+tree:   git://github.com/smfrench/smb3-kernel.git for-next
+head:   3fe0b5a99f6e0726eb88cee160ee96b002d2a60d
+commit: 5ef98b085643f129a3e5a818b6b539f97e038946 [7/12] cifs: take cifs_tcp=
+_ses_lock for status checks
+:::::: branch date: 6 hours ago
+:::::: commit date: 19 hours ago
+config: i386-randconfig-m021-20211230 (https://download.01.org/0day-ci/arch=
+ive/20211231/202112310745.OYSjA6DO-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
+smatch warnings:
+fs/cifs/smb1ops.c:229 cifs_get_next_mid() error: uninitialized symbol 'reco=
+nnect'.
 
-clang-analyzer warnings: (new ones prefixed by >>)
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/list.h:282:9: note: Loop condition is false.  Exiting loop
-           return READ_ONCE(head->next) =3D=3D head;
-                  ^
-   include/asm-generic/rwonce.h:49:2: note: expanded from macro 'READ_ONCE'
-           compiletime_assert_rwonce_type(x);                              \
-           ^
-   include/asm-generic/rwonce.h:36:2: note: expanded from macro 'compiletim=
-e_assert_rwonce_type'
-           compiletime_assert(__native_word(t) || sizeof(t) =3D=3D sizeof(l=
-ong long),  \
-           ^
-   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   include/linux/list.h:282:9: note: Dereference of null pointer
-           return READ_ONCE(head->next) =3D=3D head;
-                  ^
-   include/asm-generic/rwonce.h:50:2: note: expanded from macro 'READ_ONCE'
-           __READ_ONCE(x);                                                 \
-           ^~~~~~~~~~~~~~
-   include/asm-generic/rwonce.h:44:24: note: expanded from macro '__READ_ON=
-CE'
-   #define __READ_ONCE(x)  (*(const volatile __unqual_scalar_typeof(x) *)&(=
-x))
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/input/touchscreen/edt-ft5x06.c:705:21: warning: Value stored to =
-'client' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct i2c_client *client =3D tsdata->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   drivers/input/touchscreen/edt-ft5x06.c:705:21: note: Value stored to 'cl=
-ient' during its initialization is never read
-           struct i2c_client *client =3D tsdata->client;
-                              ^~~~~~   ~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   drivers/input/touchscreen/elants_i2c.c:150:8: warning: Excessive padding=
- in 'struct elants_data' (40 padding bytes, where 8 is optimal). =
+vim +/reconnect +229 fs/cifs/smb1ops.c
 
-   Optimal fields order: =
+a891f0f895f4a7 Pavel Shilovsky            2012-05-23  139  =
 
-   buf, =
+88257360605f93 Pavel Shilovsky            2012-05-23  140  /*
+88257360605f93 Pavel Shilovsky            2012-05-23  141   * Find a free m=
+ultiplex id (SMB mid). Otherwise there could be
+88257360605f93 Pavel Shilovsky            2012-05-23  142   * mid collision=
+s which might cause problems, demultiplexing the
+88257360605f93 Pavel Shilovsky            2012-05-23  143   * wrong respons=
+e to this request. Multiplex ids could collide if
+88257360605f93 Pavel Shilovsky            2012-05-23  144   * one of a seri=
+es requests takes much longer than the others, or
+88257360605f93 Pavel Shilovsky            2012-05-23  145   * if a very lar=
+ge number of long lived requests (byte range
+88257360605f93 Pavel Shilovsky            2012-05-23  146   * locks or Find=
+Notify requests) are pending. No more than
+88257360605f93 Pavel Shilovsky            2012-05-23  147   * 64K-1 request=
+s can be outstanding at one time. If no
+88257360605f93 Pavel Shilovsky            2012-05-23  148   * mids are avai=
+lable, return zero. A future optimization
+88257360605f93 Pavel Shilovsky            2012-05-23  149   * could make th=
+e combination of mids and uid the key we use
+88257360605f93 Pavel Shilovsky            2012-05-23  150   * to demultiple=
+x on (rather than mid alone).
+88257360605f93 Pavel Shilovsky            2012-05-23  151   * In addition t=
+o the above check, the cifs demultiplex
+88257360605f93 Pavel Shilovsky            2012-05-23  152   * code already =
+used the command code as a secondary
+88257360605f93 Pavel Shilovsky            2012-05-23  153   * check of the =
+frame and if signing is negotiated the
+88257360605f93 Pavel Shilovsky            2012-05-23  154   * response woul=
+d be discarded if the mid were the same
+88257360605f93 Pavel Shilovsky            2012-05-23  155   * but the signa=
+ture was wrong. Since the mid is not put in the
+88257360605f93 Pavel Shilovsky            2012-05-23  156   * pending queue=
+ until later (when it is about to be dispatched)
+88257360605f93 Pavel Shilovsky            2012-05-23  157   * we do have to=
+ limit the number of outstanding requests
+88257360605f93 Pavel Shilovsky            2012-05-23  158   * to somewhat l=
+ess than 64K-1 although it is hard to imagine
+88257360605f93 Pavel Shilovsky            2012-05-23  159   * so many threa=
+ds being in the vfs at one time.
+88257360605f93 Pavel Shilovsky            2012-05-23  160   */
+88257360605f93 Pavel Shilovsky            2012-05-23  161  static __u64
+88257360605f93 Pavel Shilovsky            2012-05-23  162  cifs_get_next_mi=
+d(struct TCP_Server_Info *server)
+88257360605f93 Pavel Shilovsky            2012-05-23  163  {
+88257360605f93 Pavel Shilovsky            2012-05-23  164  	__u64 mid =3D 0;
+88257360605f93 Pavel Shilovsky            2012-05-23  165  	__u16 last_mid,=
+ cur_mid;
+5ef98b085643f1 Shyam Prasad N             2021-07-19  166  	bool collision,=
+ reconnect;
+88257360605f93 Pavel Shilovsky            2012-05-23  167  =
 
-   test_version, =
+88257360605f93 Pavel Shilovsky            2012-05-23  168  	spin_lock(&Glob=
+alMid_Lock);
+88257360605f93 Pavel Shilovsky            2012-05-23  169  =
 
-   fw_version, =
+88257360605f93 Pavel Shilovsky            2012-05-23  170  	/* mid is 16 bi=
+t only for CIFS/SMB */
+88257360605f93 Pavel Shilovsky            2012-05-23  171  	cur_mid =3D (__=
+u16)((server->CurrentMid) & 0xffff);
+88257360605f93 Pavel Shilovsky            2012-05-23  172  	/* we do not wa=
+nt to loop forever */
+88257360605f93 Pavel Shilovsky            2012-05-23  173  	last_mid =3D cu=
+r_mid;
+88257360605f93 Pavel Shilovsky            2012-05-23  174  	cur_mid++;
+03d9a9fe3f3aec Roberto Bergantinos Corpas 2019-10-14  175  	/* avoid 0xFFFF=
+ MID */
+03d9a9fe3f3aec Roberto Bergantinos Corpas 2019-10-14  176  	if (cur_mid =3D=
+=3D 0xffff)
+03d9a9fe3f3aec Roberto Bergantinos Corpas 2019-10-14  177  		cur_mid++;
+88257360605f93 Pavel Shilovsky            2012-05-23  178  =
 
-   client, =
+88257360605f93 Pavel Shilovsky            2012-05-23  179  	/*
+88257360605f93 Pavel Shilovsky            2012-05-23  180  	 * This nested =
+loop looks more expensive than it is.
+88257360605f93 Pavel Shilovsky            2012-05-23  181  	 * In practice =
+the list of pending requests is short,
+88257360605f93 Pavel Shilovsky            2012-05-23  182  	 * fewer than 5=
+0, and the mids are likely to be unique
+88257360605f93 Pavel Shilovsky            2012-05-23  183  	 * on the first=
+ pass through the loop unless some request
+88257360605f93 Pavel Shilovsky            2012-05-23  184  	 * takes longer=
+ than the 64 thousand requests before it
+88257360605f93 Pavel Shilovsky            2012-05-23  185  	 * (and it woul=
+d also have to have been a request that
+88257360605f93 Pavel Shilovsky            2012-05-23  186  	 * did not time=
+ out).
+88257360605f93 Pavel Shilovsky            2012-05-23  187  	 */
+88257360605f93 Pavel Shilovsky            2012-05-23  188  	while (cur_mid =
+!=3D last_mid) {
+88257360605f93 Pavel Shilovsky            2012-05-23  189  		struct mid_q_e=
+ntry *mid_entry;
+88257360605f93 Pavel Shilovsky            2012-05-23  190  		unsigned int n=
+um_mids;
+88257360605f93 Pavel Shilovsky            2012-05-23  191  =
 
-   input, =
+88257360605f93 Pavel Shilovsky            2012-05-23  192  		collision =3D =
+false;
+88257360605f93 Pavel Shilovsky            2012-05-23  193  		if (cur_mid =
+=3D=3D 0)
+88257360605f93 Pavel Shilovsky            2012-05-23  194  			cur_mid++;
+88257360605f93 Pavel Shilovsky            2012-05-23  195  =
 
-   vcc33, =
+88257360605f93 Pavel Shilovsky            2012-05-23  196  		num_mids =3D 0;
+88257360605f93 Pavel Shilovsky            2012-05-23  197  		list_for_each_=
+entry(mid_entry, &server->pending_mid_q, qhead) {
+88257360605f93 Pavel Shilovsky            2012-05-23  198  			++num_mids;
+88257360605f93 Pavel Shilovsky            2012-05-23  199  			if (mid_entry=
+->mid =3D=3D cur_mid &&
+88257360605f93 Pavel Shilovsky            2012-05-23  200  			    mid_entry=
+->mid_state =3D=3D MID_REQUEST_SUBMITTED) {
+88257360605f93 Pavel Shilovsky            2012-05-23  201  				/* This mid =
+is in use, try a different one */
+88257360605f93 Pavel Shilovsky            2012-05-23  202  				collision =
+=3D true;
+88257360605f93 Pavel Shilovsky            2012-05-23  203  				break;
+88257360605f93 Pavel Shilovsky            2012-05-23  204  			}
+88257360605f93 Pavel Shilovsky            2012-05-23  205  		}
+88257360605f93 Pavel Shilovsky            2012-05-23  206  =
 
-   vccio, =
+88257360605f93 Pavel Shilovsky            2012-05-23  207  		/*
+88257360605f93 Pavel Shilovsky            2012-05-23  208  		 * if we have =
+more than 32k mids in the list, then something
+88257360605f93 Pavel Shilovsky            2012-05-23  209  		 * is very wro=
+ng. Possibly a local user is trying to DoS the
+88257360605f93 Pavel Shilovsky            2012-05-23  210  		 * box by issu=
+ing long-running calls and SIGKILL'ing them. If
+88257360605f93 Pavel Shilovsky            2012-05-23  211  		 * we get to 2=
+^16 mids then we're in big trouble as this
+88257360605f93 Pavel Shilovsky            2012-05-23  212  		 * function co=
+uld loop forever.
+88257360605f93 Pavel Shilovsky            2012-05-23  213  		 *
+88257360605f93 Pavel Shilovsky            2012-05-23  214  		 * Go ahead an=
+d assign out the mid in this situation, but force
+88257360605f93 Pavel Shilovsky            2012-05-23  215  		 * an eventual=
+ reconnect to clean out the pending_mid_q.
+88257360605f93 Pavel Shilovsky            2012-05-23  216  		 */
+88257360605f93 Pavel Shilovsky            2012-05-23  217  		if (num_mids >=
+ 32768)
+5ef98b085643f1 Shyam Prasad N             2021-07-19  218  			reconnect =3D=
+ true;
+88257360605f93 Pavel Shilovsky            2012-05-23  219  =
 
-   reset_gpio, =
+88257360605f93 Pavel Shilovsky            2012-05-23  220  		if (!collision=
+) {
+88257360605f93 Pavel Shilovsky            2012-05-23  221  			mid =3D (__u6=
+4)cur_mid;
+88257360605f93 Pavel Shilovsky            2012-05-23  222  			server->Curre=
+ntMid =3D mid;
+88257360605f93 Pavel Shilovsky            2012-05-23  223  			break;
+88257360605f93 Pavel Shilovsky            2012-05-23  224  		}
+88257360605f93 Pavel Shilovsky            2012-05-23  225  		cur_mid++;
+88257360605f93 Pavel Shilovsky            2012-05-23  226  	}
+88257360605f93 Pavel Shilovsky            2012-05-23  227  	spin_unlock(&Gl=
+obalMid_Lock);
+5ef98b085643f1 Shyam Prasad N             2021-07-19  228  =
 
-   x_res, =
+5ef98b085643f1 Shyam Prasad N             2021-07-19 @229  	if (reconnect) {
+5ef98b085643f1 Shyam Prasad N             2021-07-19  230  		spin_lock(&cif=
+s_tcp_ses_lock);
+5ef98b085643f1 Shyam Prasad N             2021-07-19  231  		server->tcpSta=
+tus =3D CifsNeedReconnect;
+5ef98b085643f1 Shyam Prasad N             2021-07-19  232  		spin_unlock(&c=
+ifs_tcp_ses_lock);
+5ef98b085643f1 Shyam Prasad N             2021-07-19  233  	}
+5ef98b085643f1 Shyam Prasad N             2021-07-19  234  =
 
-   y_res, =
-
-   x_max, =
-
-   y_max, =
-
-   phy_x, =
-
-   phy_y, =
-
-   state, =
-
-   chip_id, =
-
-   iap_mode, =
-
-   prop, =
-
-   cmd_done, =
-
-   sysfs_mutex, =
-
-   hw_version, =
-
-   solution_version, =
-
-   bc_version, =
-
-   iap_version, =
-
-   major_res, =
-
-   wake_irq_enabled, =
-
-   keep_power_in_suspend, =
-
-   cmd_resp, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct elants_data {
-   ~~~~~~~^~~~~~~~~~~~~
-   drivers/input/touchscreen/elants_i2c.c:150:8: note: Excessive padding in=
- 'struct elants_data' (40 padding bytes, where 8 is optimal). Optimal field=
-s order: buf, test_version, fw_version, client, input, vcc33, vccio, reset_=
-gpio, x_res, y_res, x_max, y_max, phy_x, phy_y, state, chip_id, iap_mode, p=
-rop, cmd_done, sysfs_mutex, hw_version, solution_version, bc_version, iap_v=
-ersion, major_res, wake_irq_enabled, keep_power_in_suspend, cmd_resp, consi=
-der reordering the fields or adding explicit padding members
-   struct elants_data {
-   ~~~~~~~^~~~~~~~~~~~~
->> drivers/input/touchscreen/elants_i2c.c:754:21: warning: Value stored to =
-'client' during its initialization is never read [clang-analyzer-deadcode.D=
-eadStores]
-           struct i2c_client *client =3D ts->client;
-                              ^~~~~~   ~~~~~~~~~~
-   drivers/input/touchscreen/elants_i2c.c:754:21: note: Value stored to 'cl=
-ient' during its initialization is never read
-           struct i2c_client *client =3D ts->client;
-                              ^~~~~~   ~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   Suppressed 11 warnings (10 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/i2c/busses/i2c-rk3x.c:897:2: warning: Value stored to 't_low_ns'=
- is never read [clang-analyzer-deadcode.DeadStores]
-           t_low_ns =3D div_u64(((u64)calc.div_low + 1) * 8 * 1000000000, c=
-lk_rate);
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/i2c/busses/i2c-rk3x.c:897:2: note: Value stored to 't_low_ns' is=
- never read
-           t_low_ns =3D div_u64(((u64)calc.div_low + 1) * 8 * 1000000000, c=
-lk_rate);
-           ^          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/i2c/busses/i2c-rk3x.c:898:2: warning: Value stored to 't_high_ns=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           t_high_ns =3D div_u64(((u64)calc.div_high + 1) * 8 * 1000000000,
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/i2c/busses/i2c-rk3x.c:898:2: note: Value stored to 't_high_ns' i=
-s never read
-           t_high_ns =3D div_u64(((u64)calc.div_high + 1) * 8 * 1000000000,
-           ^           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/video/fbdev/savage/savagefb-i2c.c:139:3: warning: Call to functi=
-on 'strcpy' is insecure as it does not provide bounding of the memory buffe=
-r. Replace unbounded copy functions with analogous functions that support l=
-ength arguments such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecur=
-eAPI.strcpy]
-                   strcpy(chan->adapter.name, name);
-                   ^~~~~~
-   drivers/video/fbdev/savage/savagefb-i2c.c:139:3: note: Call to function =
-'strcpy' is insecure as it does not provide bounding of the memory buffer. =
-Replace unbounded copy functions with analogous functions that support leng=
-th arguments such as 'strlcpy'. CWE-119
-                   strcpy(chan->adapter.name, name);
-                   ^~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/video/fbdev/neofb.c:698:3: warning: Value stored to 'memlen' is =
-never read [clang-analyzer-deadcode.DeadStores]
-                   memlen =3D var->xres_virtual * var->bits_per_pixel *
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/video/fbdev/neofb.c:698:3: note: Value stored to 'memlen' is nev=
-er read
-                   memlen =3D var->xres_virtual * var->bits_per_pixel *
-                   ^        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   drivers/video/fbdev/s3fb.c:1254:2: warning: Call to function 'strcpy' is=
- insecure as it does not provide bounding of the memory buffer. Replace unb=
-ounded copy functions with analogous functions that support length argument=
-s such as 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(info->fix.id, s3_names [par->chip]);
-           ^~~~~~
-   drivers/video/fbdev/s3fb.c:1254:2: note: Call to function 'strcpy' is in=
-secure as it does not provide bounding of the memory buffer. Replace unboun=
-ded copy functions with analogous functions that support length arguments s=
-uch as 'strlcpy'. CWE-119
-           strcpy(info->fix.id, s3_names [par->chip]);
-           ^~~~~~
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (7 in non-user code, 2 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-
-vim +/client +754 drivers/input/touchscreen/elants_i2c.c
-
-f0b57e1901178a Johnny.Chuang 2019-12-12  751  =
-
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  752  static bool elants_i2c_should=
-_check_remark_id(struct elants_data *ts)
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  753  {
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20 @754  	struct i2c_client *client =
-=3D ts->client;
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  755  	const u8 bootcode_version =
-=3D ts->iap_version;
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  756  	bool check;
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  757  =
-
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  758  	/* I2C eKTH3900 and eKTH5312=
- are NOT support Remark ID */
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  759  	if ((bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH3900x1_I2C) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  760  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH3900x2_I2C) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  761  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH3900x3_I2C) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  762  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312x1_I2C) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  763  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312x2_I2C) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  764  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312cx1_I2C) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  765  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312cx2_I2C) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  766  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312x1_I2C_USB) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  767  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312x2_I2C_USB) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  768  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312cx1_I2C_USB) ||
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  769  	    (bootcode_version =3D=3D=
- BC_VER_H_BYTE_FOR_EKTH5312cx2_I2C_USB)) {
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  770  		dev_dbg(&client->dev,
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  771  			"eKTH3900/eKTH5312(0x%02x)=
- are not support remark id\n",
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  772  			bootcode_version);
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  773  		check =3D false;
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  774  	} else if (bootcode_version =
->=3D 0x60) {
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  775  		check =3D true;
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  776  	} else {
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  777  		check =3D false;
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  778  	}
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  779  =
-
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  780  	return check;
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  781  }
-4ebfee2bbc1a9c Johnny Chuang 2021-12-20  782  =
+88257360605f93 Pavel Shilovsky            2012-05-23  235  	return mid;
+88257360605f93 Pavel Shilovsky            2012-05-23  236  }
+88257360605f93 Pavel Shilovsky            2012-05-23  237  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0604464167922411674==--
+--===============2795919819091318195==--
 
