@@ -1,468 +1,469 @@
-Content-Type: multipart/mixed; boundary="===============2006705648638479760=="
+Content-Type: multipart/mixed; boundary="===============4301503882135494306=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [xiang-erofs:dev-test 5/10] fs/erofs/data.c:143:15: warning: Assigned value is garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-Date: Sat, 01 Jan 2022 03:51:15 +0800
-Message-ID: <202201010313.1fIwX6wo-lkp@intel.com>
+Subject: Re: [PATCH] usb: hub: Fix locking issues with address0_mutex
+Date: Thu, 30 Dec 2021 14:33:16 +0800
+Message-ID: <202112301433.c5uiNFlK-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2006705648638479760==
+--===============4301503882135494306==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: Xiang Gao <xiang@kernel.org>
-CC: linux-erofs(a)lists.ozlabs.org
-TO: Gao Xiang <hsiangkao@linux.alibaba.com>
-CC: Yue Hu <huyue2@yulong.com>
+In-Reply-To: <20211123101656.1113518-1-mathias.nyman@linux.intel.com>
+References: <20211123101656.1113518-1-mathias.nyman@linux.intel.com>
+TO: Mathias Nyman <mathias.nyman@linux.intel.com>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git dev=
--test
-head:   ab92184ff8f12979f3d3dd5ed601ed85770d81ba
-commit: 469407a3b5ed9390cfacb0363d1cc926a51f6a14 [5/10] erofs: clean up ero=
-fs_map_blocks tracepoints
-:::::: branch date: 27 hours ago
-:::::: commit date: 3 weeks ago
-config: x86_64-randconfig-c007-20211231 (https://download.01.org/0day-ci/ar=
-chive/20220101/202201010313.1fIwX6wo-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7cd109=
-b92c72855937273a6c8ab19016fbe27d33)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs.git/c=
-ommit/?id=3D469407a3b5ed9390cfacb0363d1cc926a51f6a14
-        git remote add xiang-erofs https://git.kernel.org/pub/scm/linux/ker=
-nel/git/xiang/erofs.git
-        git fetch --no-tags xiang-erofs dev-test
-        git checkout 469407a3b5ed9390cfacb0363d1cc926a51f6a14
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+Hi Mathias,
 
+I love your patch! Perhaps something to improve:
+
+[auto build test WARNING on next-20211123]
+[cannot apply to usb/usb-testing v5.16-rc2 v5.16-rc1 v5.15 v5.16-rc7]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch]
+
+url:    https://github.com/0day-ci/linux/commits/Mathias-Nyman/usb-hub-Fix-=
+locking-issues-with-address0_mutex/20211123-181633
+base:    aacdecce8147c20b01f865b4e214bb8dbe8c4af1
+:::::: branch date: 5 weeks ago
+:::::: commit date: 5 weeks ago
+config: x86_64-randconfig-c002-20211123 (https://download.01.org/0day-ci/ar=
+chive/20211230/202112301433.c5uiNFlK-lkp(a)intel.com/config)
+compiler: gcc-9 (Debian 9.3.0-22) 9.3.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-           nilfs_dispose_segment_list(&segments);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/nilfs2/recovery.c:406:2: note: Loop condition is true.  Entering loop=
- body
-           while (!list_empty(head)) {
-           ^
-   fs/nilfs2/recovery.c:411:3: note: Memory is released
-                   kfree(ent);
-                   ^~~~~~~~~~
-   fs/nilfs2/recovery.c:406:2: note: Loop condition is true.  Entering loop=
- body
-           while (!list_empty(head)) {
-           ^
-   fs/nilfs2/recovery.c:410:3: note: Calling 'list_del'
-                   list_del(&ent->list);
-                   ^~~~~~~~~~~~~~~~~~~~
-   include/linux/list.h:149:14: note: Use of memory after it is freed
-           entry->next =3D LIST_POISON1;
-           ~~~~~~~~~~~ ^
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 with check filters).
-   6 warnings generated.
-   arch/x86/kernel/cpu/intel.c:925:4: warning: 1st function call argument i=
-s an uninitialized value [clang-analyzer-core.CallAndMessage]
-                           intel_tlb_lookup(desc[j]);
-                           ^                ~~~~~~~
-   arch/x86/kernel/cpu/intel.c:909:6: note: Assuming field 'cpuid_level' is=
- >=3D 2
-           if (c->cpuid_level < 2)
-               ^~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/intel.c:909:2: note: Taking false branch
-           if (c->cpuid_level < 2)
-           ^
-   arch/x86/kernel/cpu/intel.c:915:15: note: Assuming 'i' is < 'n'
-           for (i =3D 0 ; i < n ; i++) {
-                        ^~~~~
-   arch/x86/kernel/cpu/intel.c:915:2: note: Loop condition is true.  Enteri=
-ng loop body
-           for (i =3D 0 ; i < n ; i++) {
-           ^
-   arch/x86/kernel/cpu/intel.c:916:3: note: Calling 'cpuid'
-                   cpuid(2, &regs[0], &regs[1], &regs[2], &regs[3]);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/include/asm/processor.h:604:2: note: Calling 'native_cpuid'
-           __cpuid(eax, ebx, ecx, edx);
-           ^
-   arch/x86/include/asm/processor.h:579:19: note: expanded from macro '__cp=
-uid'
-   #define __cpuid                 native_cpuid
-                                   ^
-   arch/x86/include/asm/processor.h:604:2: note: Returning from 'native_cpu=
-id'
-           __cpuid(eax, ebx, ecx, edx);
-           ^
-   arch/x86/include/asm/processor.h:579:19: note: expanded from macro '__cp=
-uid'
-   #define __cpuid                 native_cpuid
-                                   ^
-   arch/x86/kernel/cpu/intel.c:916:3: note: Returning from 'cpuid'
-                   cpuid(2, &regs[0], &regs[1], &regs[2], &regs[3]);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/intel.c:919:3: note: Loop condition is true.  Enteri=
-ng loop body
-                   for (j =3D 0 ; j < 3 ; j++)
-                   ^
-   arch/x86/kernel/cpu/intel.c:920:8: note: Assuming the condition is false
-                           if (regs[j] & (1 << 31))
-                               ^~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/intel.c:920:4: note: Taking false branch
-                           if (regs[j] & (1 << 31))
-                           ^
-   arch/x86/kernel/cpu/intel.c:919:3: note: Loop condition is true.  Enteri=
-ng loop body
-                   for (j =3D 0 ; j < 3 ; j++)
-                   ^
-   arch/x86/kernel/cpu/intel.c:920:8: note: Assuming the condition is false
-                           if (regs[j] & (1 << 31))
-                               ^~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/intel.c:920:4: note: Taking false branch
-                           if (regs[j] & (1 << 31))
-                           ^
-   arch/x86/kernel/cpu/intel.c:919:3: note: Loop condition is true.  Enteri=
-ng loop body
-                   for (j =3D 0 ; j < 3 ; j++)
-                   ^
-   arch/x86/kernel/cpu/intel.c:920:8: note: Assuming the condition is false
-                           if (regs[j] & (1 << 31))
-                               ^~~~~~~~~~~~~~~~~~~
-   arch/x86/kernel/cpu/intel.c:920:4: note: Taking false branch
-                           if (regs[j] & (1 << 31))
-                           ^
-   arch/x86/kernel/cpu/intel.c:919:3: note: Loop condition is false. Execut=
-ion continues on line 924
-                   for (j =3D 0 ; j < 3 ; j++)
-                   ^
-   arch/x86/kernel/cpu/intel.c:924:8: note: The value 1 is assigned to 'j'
-                   for (j =3D 1 ; j < 16 ; j++)
-                        ^~~~~
-   arch/x86/kernel/cpu/intel.c:924:3: note: Loop condition is true.  Enteri=
-ng loop body
-                   for (j =3D 1 ; j < 16 ; j++)
-                   ^
-   arch/x86/kernel/cpu/intel.c:925:4: note: 1st function call argument is a=
-n uninitialized value
-                           intel_tlb_lookup(desc[j]);
-                           ^                ~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
-   Suppressed 4 warnings (4 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
->> fs/erofs/data.c:143:15: warning: Assigned value is garbage or undefined =
-[clang-analyzer-core.uninitialized.Assign]
-                   map->m_llen =3D map->m_plen;
-                               ^
-   fs/erofs/data.c:201:8: note: Calling 'erofs_map_blocks'
-           ret =3D erofs_map_blocks(inode, &map, EROFS_GET_BLOCKS_RAW);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/erofs/data.c:81:2: note: Calling 'trace_erofs_map_blocks_enter'
-           trace_erofs_map_blocks_enter(inode, map, flags);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/trace/events/erofs.h:172:1: note: Taking false branch
-   DEFINE_EVENT(erofs__map_blocks_enter, erofs_map_blocks_enter,
-   ^
-   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
-T'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
-CE'
-           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-           ^
-   include/linux/tracepoint.h:247:3: note: expanded from macro '__DECLARE_T=
-RACE'
-                   if (static_key_false(&__tracepoint_##name.key))         \
-                   ^
-   include/trace/events/erofs.h:172:1: note: Left side of '&&' is true
-   DEFINE_EVENT(erofs__map_blocks_enter, erofs_map_blocks_enter,
-   ^
-   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
-T'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:419:2: note: expanded from macro 'DECLARE_TRA=
-CE'
-           __DECLARE_TRACE(name, PARAMS(proto), PARAMS(args),              \
-           ^
-   include/linux/tracepoint.h:251:7: note: expanded from macro '__DECLARE_T=
-RACE'
-                   if (IS_ENABLED(CONFIG_LOCKDEP) && (cond)) {             \
-                       ^
-   note: (skipping 1 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/kconfig.h:24:22: note: expanded from macro '__or'
-   #define __or(x, y)                      ___or(x, y)
-                                           ^
-   include/linux/kconfig.h:25:23: note: expanded from macro '___or'
-   #define ___or(x, y)                     ____or(__ARG_PLACEHOLDER_##x, y)
-                                           ^
-   include/linux/kconfig.h:26:65: note: expanded from macro '____or'
-   #define ____or(arg1_or_junk, y)         __take_second_arg(arg1_or_junk 1=
-, y)
-                                                                          ^
-   include/trace/events/erofs.h:172:1: note: Loop condition is false.  Exit=
-ing loop
-   DEFINE_EVENT(erofs__map_blocks_enter, erofs_map_blocks_enter,
-   ^
-   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
-T'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-                                      ^
-   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
-                                   ^
-   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
-read'
-   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
-_read_, pcp)
-                                           ^
-   include/linux/percpu-defs.h:319:2: note: expanded from macro '__pcpu_siz=
-e_call_return'
-           __verify_pcpu_ptr(&(variable));                                 \
-           ^
-   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
-pcpu_ptr'
-   #define __verify_pcpu_ptr(ptr)                                          \
-                                                                           ^
-   include/trace/events/erofs.h:172:1: note: Control jumps to 'case 4:'  at=
- line 172
-   DEFINE_EVENT(erofs__map_blocks_enter, erofs_map_blocks_enter,
-   ^
-   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
-T'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-                                      ^
-   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
-                                   ^
-   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
-read'
-   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
-_read_, pcp)
-                                           ^
-   include/linux/percpu-defs.h:320:2: note: expanded from macro '__pcpu_siz=
-e_call_return'
-           switch(sizeof(variable)) {                                      \
-           ^
-   include/trace/events/erofs.h:172:1: note:  Execution continues on line 1=
-72
-   DEFINE_EVENT(erofs__map_blocks_enter, erofs_map_blocks_enter,
-   ^
-   include/linux/tracepoint.h:542:2: note: expanded from macro 'DEFINE_EVEN=
-T'
-           DECLARE_TRACE(name, PARAMS(proto), PARAMS(args))
-           ^
-   include/linux/tracepoint.h:420:15: note: expanded from macro 'DECLARE_TR=
-ACE'
-                           cpu_online(raw_smp_processor_id()),             \
-                                      ^
-   arch/x86/include/asm/smp.h:166:33: note: expanded from macro 'raw_smp_pr=
-ocessor_id'
-   #define raw_smp_processor_id()  this_cpu_read(cpu_number)
-                                   ^
-   include/linux/percpu-defs.h:507:29: note: expanded from macro 'this_cpu_=
-read'
-   #define this_cpu_read(pcp)              __pcpu_size_call_return(this_cpu=
-_read_, pcp)
-                                           ^
-   include/linux/percpu-defs.h:323:42: note: expanded from macro '__pcpu_si=
-ze_call_return'
-           case 4: pscr_ret__ =3D stem##4(variable); break;                =
-  \
-                                                   ^
-   include/trace/events/erofs.h:172:1: note: Assuming the condition is false
+cocci warnings: (new ones prefixed by >>)
+>> drivers/usb/core/hub.c:5250:2-12: second lock on line 5250
 
-vim +143 fs/erofs/data.c
+vim +5250 drivers/usb/core/hub.c
 
-81781b02f9845b drivers/staging/erofs/data.c Gao Xiang 2018-07-26   68  =
+a4f55d8b8c146f David Heinzelmann         2019-10-09  5179  =
 
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   69  stat=
-ic int erofs_map_blocks(struct inode *inode,
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   70  			 =
-   struct erofs_map_blocks *map, int flags)
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   71  {
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   72  	str=
-uct super_block *sb =3D inode->i_sb;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   73  	str=
-uct erofs_inode *vi =3D EROFS_I(inode);
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   74  	str=
-uct erofs_inode_chunk_index *idx;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   75  	str=
-uct page *page;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   76  	u64=
- chunknr;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   77  	uns=
-igned int unit;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   78  	ero=
-fs_off_t pos;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   79  	int=
- err =3D 0;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   80  =
+af376a461cf075 Dan Williams              2014-05-20  5180  static void hub_=
+port_connect(struct usb_hub *hub, int port1, u16 portstatus,
+af376a461cf075 Dan Williams              2014-05-20  5181  		u16 portchange)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5182  {
+94c43b9897abf4 Alan Stern                2017-08-01  5183  	int status =3D =
+-ENODEV;
+94c43b9897abf4 Alan Stern                2017-08-01  5184  	int i;
+430ee58e03f1ed Sebastian Andrzej Siewior 2012-12-18  5185  	unsigned unit_l=
+oad;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5186  	struct usb_devi=
+ce *hdev =3D hub->hdev;
+90da096ee46b68 Balaji Rao                2007-11-22  5187  	struct usb_hcd =
+*hcd =3D bus_to_hcd(hdev->bus);
+d99f6b41308779 Dan Williams              2014-05-20  5188  	struct usb_port=
+ *port_dev =3D hub->ports[port1 - 1];
+af376a461cf075 Dan Williams              2014-05-20  5189  	struct usb_devi=
+ce *udev =3D port_dev->child;
+5ee0f803cc3a07 Oliver Neukum             2014-07-14  5190  	static int unre=
+liable_port =3D -1;
+0e162125abbf80 Mathias Nyman             2021-11-23  5191  	bool retry_lock=
+ed;
+8808f00c7adfc8 Alan Stern                2008-04-28  5192  =
 
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09   81  	tra=
-ce_erofs_map_blocks_enter(inode, map, flags);
-dfeab2e95a75a4 fs/erofs/data.c              Gao Xiang 2021-10-14   82  	map=
-->m_deviceid =3D 0;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   83  	if =
-(map->m_la >=3D inode->i_size) {
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   84  		/*=
- leave out-of-bound access unmapped */
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   85  		ma=
-p->m_flags =3D 0;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   86  		ma=
-p->m_plen =3D 0;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   87  		go=
-to out;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   88  	}
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   89  =
+24618b0cd42f93 Alan Stern                2008-04-28  5193  	/* Disconnect a=
+ny existing devices under this port */
+b76baa8154335a Peter Chen                2012-11-09  5194  	if (udev) {
+b2108f1e519e98 Peter Chen                2014-11-04  5195  		if (hcd->usb_p=
+hy && !hdev->parent)
+3d46e73dfdb840 Antoine Tenart            2014-09-24  5196  			usb_phy_notif=
+y_disconnect(hcd->usb_phy, udev->speed);
+d99f6b41308779 Dan Williams              2014-05-20  5197  		usb_disconnect=
+(&port_dev->child);
+b76baa8154335a Peter Chen                2012-11-09  5198  	}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5199  =
 
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09   90  	if =
-(vi->datalayout !=3D EROFS_INODE_CHUNK_BASED) {
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09   91  		er=
-r =3D erofs_map_blocks_flatmode(inode, map, flags);
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09   92  		go=
-to out;
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09   93  	}
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   94  =
+253e05724f9230 Alan Stern                2009-10-27  5200  	/* We can forge=
+t about a "removed" device when there's a physical
+253e05724f9230 Alan Stern                2009-10-27  5201  	 * disconnect o=
+r the connect status changes.
+253e05724f9230 Alan Stern                2009-10-27  5202  	 */
+253e05724f9230 Alan Stern                2009-10-27  5203  	if (!(portstatu=
+s & USB_PORT_STAT_CONNECTION) ||
+253e05724f9230 Alan Stern                2009-10-27  5204  			(portchange &=
+ USB_PORT_STAT_C_CONNECTION))
+253e05724f9230 Alan Stern                2009-10-27  5205  		clear_bit(port=
+1, hub->removed_bits);
+253e05724f9230 Alan Stern                2009-10-27  5206  =
 
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   95  	if =
-(vi->chunkformat & EROFS_CHUNK_FORMAT_INDEXES)
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   96  		un=
-it =3D sizeof(*idx);			/* chunk index */
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   97  	else
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   98  		un=
-it =3D EROFS_BLOCK_MAP_ENTRY_SIZE;	/* block map */
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20   99  =
+5257d97a219e17 Alan Stern                2008-09-22  5207  	if (portchange =
+& (USB_PORT_STAT_C_CONNECTION |
+5257d97a219e17 Alan Stern                2008-09-22  5208  				USB_PORT_STA=
+T_C_ENABLE)) {
+ad493e5e580546 Lan Tianyu                2013-01-23  5209  		status =3D hub=
+_port_debounce_be_stable(hub, port1);
+5257d97a219e17 Alan Stern                2008-09-22  5210  		if (status < 0=
+) {
+5ee0f803cc3a07 Oliver Neukum             2014-07-14  5211  			if (status !=
+=3D -ENODEV &&
+5ee0f803cc3a07 Oliver Neukum             2014-07-14  5212  				port1 !=3D u=
+nreliable_port &&
+5ee0f803cc3a07 Oliver Neukum             2014-07-14  5213  				printk_ratel=
+imit())
+dd5f5006d10355 Takashi Iwai              2014-08-19  5214  				dev_err(&por=
+t_dev->dev, "connect-debounce failed\n");
+5257d97a219e17 Alan Stern                2008-09-22  5215  			portstatus &=
+=3D ~USB_PORT_STAT_CONNECTION;
+5ee0f803cc3a07 Oliver Neukum             2014-07-14  5216  			unreliable_po=
+rt =3D port1;
+5257d97a219e17 Alan Stern                2008-09-22  5217  		} else {
+5257d97a219e17 Alan Stern                2008-09-22  5218  			portstatus =
+=3D status;
+5257d97a219e17 Alan Stern                2008-09-22  5219  		}
+5257d97a219e17 Alan Stern                2008-09-22  5220  	}
+5257d97a219e17 Alan Stern                2008-09-22  5221  =
 
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  100  	chu=
-nknr =3D map->m_la >> vi->chunkbits;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  101  	pos=
- =3D ALIGN(iloc(EROFS_SB(sb), vi->nid) + vi->inode_isize +
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  102  		  =
-  vi->xattr_isize, unit) + unit * chunknr;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  103  =
+253e05724f9230 Alan Stern                2009-10-27  5222  	/* Return now i=
+f debouncing failed or nothing is connected or
+253e05724f9230 Alan Stern                2009-10-27  5223  	 * the device w=
+as "removed".
+253e05724f9230 Alan Stern                2009-10-27  5224  	 */
+253e05724f9230 Alan Stern                2009-10-27  5225  	if (!(portstatu=
+s & USB_PORT_STAT_CONNECTION) ||
+253e05724f9230 Alan Stern                2009-10-27  5226  			test_bit(port=
+1, hub->removed_bits)) {
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5227  =
 
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  104  	pag=
-e =3D erofs_get_meta_page(inode->i_sb, erofs_blknr(pos));
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09  105  	if =
-(IS_ERR(page)) {
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09  106  		er=
-r =3D PTR_ERR(page);
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09  107  		go=
-to out;
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09  108  	}
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  109  	map=
-->m_la =3D chunknr << vi->chunkbits;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  110  	map=
-->m_plen =3D min_t(erofs_off_t, 1UL << vi->chunkbits,
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  111  			 =
-   roundup(inode->i_size - map->m_la, EROFS_BLKSIZ));
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  112  =
+fbaecff06a7db4 Deepak Das                2015-01-21  5228  		/*
+fbaecff06a7db4 Deepak Das                2015-01-21  5229  		 * maybe switc=
+h power back on (e.g. root hub was reset)
+fbaecff06a7db4 Deepak Das                2015-01-21  5230  		 * but only if=
+ the port isn't owned by someone else.
+fbaecff06a7db4 Deepak Das                2015-01-21  5231  		 */
+9262c19d14c433 Dan Williams              2014-05-20  5232  		if (hub_is_por=
+t_power_switchable(hub)
+fbaecff06a7db4 Deepak Das                2015-01-21  5233  				&& !port_is_=
+power_on(hub, portstatus)
+fbaecff06a7db4 Deepak Das                2015-01-21  5234  				&& !port_dev=
+->port_owner)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5235  			set_port_feat=
+ure(hdev, port1, USB_PORT_FEAT_POWER);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5236  =
 
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  113  	/* =
-handle block map */
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  114  	if =
-(!(vi->chunkformat & EROFS_CHUNK_FORMAT_INDEXES)) {
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  115  		__=
-le32 *blkaddr =3D page_address(page) + erofs_blkoff(pos);
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  116  =
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5237  		if (portstatus=
+ & USB_PORT_STAT_ENABLE)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5238  			goto done;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5239  		return;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5240  	}
+430ee58e03f1ed Sebastian Andrzej Siewior 2012-12-18  5241  	if (hub_is_supe=
+rspeed(hub->hdev))
+430ee58e03f1ed Sebastian Andrzej Siewior 2012-12-18  5242  		unit_load =3D =
+150;
+430ee58e03f1ed Sebastian Andrzej Siewior 2012-12-18  5243  	else
+430ee58e03f1ed Sebastian Andrzej Siewior 2012-12-18  5244  		unit_load =3D =
+100;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5245  =
 
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  117  		if=
- (le32_to_cpu(*blkaddr) =3D=3D EROFS_NULL_ADDR) {
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  118  			m=
-ap->m_flags =3D 0;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  119  		} =
-else {
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  120  			m=
-ap->m_pa =3D blknr_to_addr(le32_to_cpu(*blkaddr));
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  121  			m=
-ap->m_flags =3D EROFS_MAP_MAPPED;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  122  		}
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  123  		go=
-to out_unlock;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  124  	}
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  125  	/* =
-parse chunk indexes */
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  126  	idx=
- =3D page_address(page) + erofs_blkoff(pos);
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  127  	swi=
-tch (le32_to_cpu(idx->blkaddr)) {
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  128  	cas=
-e EROFS_NULL_ADDR:
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  129  		ma=
-p->m_flags =3D 0;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  130  		br=
-eak;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  131  	def=
-ault:
-dfeab2e95a75a4 fs/erofs/data.c              Gao Xiang 2021-10-14  132  		ma=
-p->m_deviceid =3D le16_to_cpu(idx->device_id) &
-dfeab2e95a75a4 fs/erofs/data.c              Gao Xiang 2021-10-14  133  			E=
-ROFS_SB(sb)->device_id_mask;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  134  		ma=
-p->m_pa =3D blknr_to_addr(le32_to_cpu(idx->blkaddr));
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  135  		ma=
-p->m_flags =3D EROFS_MAP_MAPPED;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  136  		br=
-eak;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  137  	}
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  138  out_=
-unlock:
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  139  	unl=
-ock_page(page);
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  140  	put=
-_page(page);
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  141  out:
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09  142  	if =
-(!err)
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20 @143  		ma=
-p->m_llen =3D map->m_plen;
-469407a3b5ed93 fs/erofs/data.c              Gao Xiang 2021-12-09  144  	tra=
-ce_erofs_map_blocks_exit(inode, map, flags, 0);
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  145  	ret=
-urn err;
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  146  }
-c5aa903a59db27 fs/erofs/data.c              Gao Xiang 2021-08-20  147  =
+e9e88fb7bca9f5 Alan Stern                2013-03-27  5246  	status =3D 0;
+6ae6dc22d2d1ce Mathias Nyman             2021-11-16  5247  =
 
+19502e6911e4ef Alan Stern                2020-09-28  5248  	for (i =3D 0; i=
+ < PORT_INIT_TRIES; i++) {
+0e162125abbf80 Mathias Nyman             2021-11-23  5249  		usb_lock_port(=
+port_dev);
+0e162125abbf80 Mathias Nyman             2021-11-23 @5250  		mutex_lock(hcd=
+->address0_mutex);
+0e162125abbf80 Mathias Nyman             2021-11-23  5251  		retry_locked =
+=3D true;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5252  		/* reallocate =
+for each attempt, since references
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5253  		 * to the prev=
+ious one can escape in various ways
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5254  		 */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5255  		udev =3D usb_a=
+lloc_dev(hdev, hdev->bus, port1);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5256  		if (!udev) {
+d99f6b41308779 Dan Williams              2014-05-20  5257  			dev_err(&port=
+_dev->dev,
+d99f6b41308779 Dan Williams              2014-05-20  5258  					"couldn't a=
+llocate usb_device\n");
+0e162125abbf80 Mathias Nyman             2021-11-23  5259  			mutex_unlock(=
+hcd->address0_mutex);
+0e162125abbf80 Mathias Nyman             2021-11-23  5260  			usb_unlock_po=
+rt(port_dev);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5261  			goto done;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5262  		}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5263  =
 
-:::::: The code at line 143 was first introduced by commit
-:::::: c5aa903a59db274554718cddfda9039913409ec9 erofs: support reading chun=
-k-based uncompressed files
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5264  		usb_set_device=
+_state(udev, USB_STATE_POWERED);
+55c527187c9d78 Alan Stern                2005-11-23  5265  		udev->bus_mA =
+=3D hub->mA_per_port;
+b6956ffa595db9 Alan Stern                2006-08-30  5266  		udev->level =
+=3D hdev->level + 1;
+8af548dc8e36f8 Inaky Perez-Gonzalez      2008-04-08  5267  		udev->wusb =3D=
+ hub_is_wusb(hub);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5268  =
 
-:::::: TO: Gao Xiang <hsiangkao@linux.alibaba.com>
-:::::: CC: Gao Xiang <hsiangkao@linux.alibaba.com>
+8a1b2725a60d32 Mathias Nyman             2015-12-10  5269  		/* Devices con=
+nected to SuperSpeed hubs are USB 3.0 or later */
+131dec344d5e41 Sarah Sharp               2010-12-06  5270  		if (hub_is_sup=
+erspeed(hub->hdev))
+e7b7717247f61e Sarah Sharp               2009-04-27  5271  			udev->speed =
+=3D USB_SPEED_SUPER;
+e7b7717247f61e Sarah Sharp               2009-04-27  5272  		else
+e7b7717247f61e Sarah Sharp               2009-04-27  5273  			udev->speed =
+=3D USB_SPEED_UNKNOWN;
+e7b7717247f61e Sarah Sharp               2009-04-27  5274  =
+
+3b29b68b162778 Alan Stern                2011-02-22  5275  		choose_devnum(=
+udev);
+c6515272b85874 Sarah Sharp               2009-04-27  5276  		if (udev->devn=
+um <=3D 0) {
+c6515272b85874 Sarah Sharp               2009-04-27  5277  			status =3D -E=
+NOTCONN;	/* Don't retry */
+c6515272b85874 Sarah Sharp               2009-04-27  5278  			goto loop;
+c6515272b85874 Sarah Sharp               2009-04-27  5279  		}
+c6515272b85874 Sarah Sharp               2009-04-27  5280  =
+
+e7b7717247f61e Sarah Sharp               2009-04-27  5281  		/* reset (non-=
+USB 3.0 devices) and get descriptor */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5282  		status =3D hub=
+_port_init(hub, udev, port1, i);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5283  		if (status < 0)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5284  			goto loop;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5285  =
+
+6ae6dc22d2d1ce Mathias Nyman             2021-11-16  5286  		mutex_unlock(h=
+cd->address0_mutex);
+0e162125abbf80 Mathias Nyman             2021-11-23  5287  		usb_unlock_por=
+t(port_dev);
+0e162125abbf80 Mathias Nyman             2021-11-23  5288  		retry_locked =
+=3D false;
+6ae6dc22d2d1ce Mathias Nyman             2021-11-16  5289  =
+
+93362a875fc698 Phil Dibowitz             2010-07-22  5290  		if (udev->quir=
+ks & USB_QUIRK_DELAY_INIT)
+b2a542bbb3081d Dmitry Fleytman           2017-09-05  5291  			msleep(2000);
+93362a875fc698 Phil Dibowitz             2010-07-22  5292  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5293  		/* consecutive=
+ bus-powered hubs aren't reliable; they can
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5294  		 * violate the=
+ voltage drop budget.  if the new child has
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5295  		 * a "powered"=
+ LED, users should notice we didn't enable it
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5296  		 * (without re=
+ading syslog), even without per-port LEDs
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5297  		 * on the pare=
+nt.
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5298  		 */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5299  		if (udev->desc=
+riptor.bDeviceClass =3D=3D USB_CLASS_HUB
+430ee58e03f1ed Sebastian Andrzej Siewior 2012-12-18  5300  				&& udev->bus=
+_mA <=3D unit_load) {
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5301  			u16	devstat;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5302  =
+
+d9e1e1484ade39 Felipe Balbi              2017-11-02  5303  			status =3D us=
+b_get_std_status(udev, USB_RECIP_DEVICE, 0,
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5304  					&devstat);
+15b7336e02d998 Alan Stern                2013-07-30  5305  			if (status) {
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5306  				dev_dbg(&ude=
+v->dev, "get status %d ?\n", status);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5307  				goto loop_di=
+sable;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5308  			}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5309  			if ((devstat =
+& (1 << USB_DEVICE_SELF_POWERED)) =3D=3D 0) {
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5310  				dev_err(&ude=
+v->dev,
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5311  					"can't conn=
+ect bus-powered hub "
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5312  					"to this po=
+rt\n");
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5313  				if (hub->has=
+_indicators) {
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5314  					hub->indica=
+tor[port1-1] =3D
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5315  						INDICATOR_=
+AMBER_BLINK;
+22f6a0f0e3549b Shaibal Dutta             2014-02-01  5316  					queue_delay=
+ed_work(
+22f6a0f0e3549b Shaibal Dutta             2014-02-01  5317  						system_pow=
+er_efficient_wq,
+22f6a0f0e3549b Shaibal Dutta             2014-02-01  5318  						&hub->leds=
+, 0);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5319  				}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5320  				status =3D -=
+ENOTCONN;	/* Don't retry */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5321  				goto loop_di=
+sable;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5322  			}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5323  		}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5324  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5325  		/* check for d=
+evices running slower than they could */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5326  		if (le16_to_cp=
+u(udev->descriptor.bcdUSB) >=3D 0x0200
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5327  				&& udev->spe=
+ed =3D=3D USB_SPEED_FULL
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5328  				&& highspeed=
+_hubs !=3D 0)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5329  			check_highspe=
+ed(hub, udev, port1);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5330  =
+
+fa286188ce0fce Greg Kroah-Hartman        2012-05-14  5331  		/* Store the p=
+arent's children[] pointer.  At this point
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5332  		 * udev become=
+s globally accessible, although presumably
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5333  		 * no one will=
+ look at it until hdev is unlocked.
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5334  		 */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5335  		status =3D 0;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5336  =
+
+d8521afe35862f Dan Williams              2014-05-20  5337  		mutex_lock(&us=
+b_port_peer_mutex);
+d8521afe35862f Dan Williams              2014-05-20  5338  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5339  		/* We mustn't =
+add new devices if the parent hub has
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5340  		 * been discon=
+nected; we would race with the
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5341  		 * recursively=
+_mark_NOTATTACHED() routine.
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5342  		 */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5343  		spin_lock_irq(=
+&device_state_lock);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5344  		if (hdev->stat=
+e =3D=3D USB_STATE_NOTATTACHED)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5345  			status =3D -E=
+NOTCONN;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5346  		else
+d99f6b41308779 Dan Williams              2014-05-20  5347  			port_dev->chi=
+ld =3D udev;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5348  		spin_unlock_ir=
+q(&device_state_lock);
+d8521afe35862f Dan Williams              2014-05-20  5349  		mutex_unlock(&=
+usb_port_peer_mutex);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5350  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5351  		/* Run it thro=
+ugh the hoops (find a driver, etc) */
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5352  		if (!status) {
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5353  			status =3D us=
+b_new_device(udev);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5354  			if (status) {
+d8521afe35862f Dan Williams              2014-05-20  5355  				mutex_lock(&=
+usb_port_peer_mutex);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5356  				spin_lock_ir=
+q(&device_state_lock);
+d99f6b41308779 Dan Williams              2014-05-20  5357  				port_dev->ch=
+ild =3D NULL;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5358  				spin_unlock_=
+irq(&device_state_lock);
+d8521afe35862f Dan Williams              2014-05-20  5359  				mutex_unlock=
+(&usb_port_peer_mutex);
+01ed67dc70834d Tony Zheng                2014-10-17  5360  			} else {
+01ed67dc70834d Tony Zheng                2014-10-17  5361  				if (hcd->usb=
+_phy && !hdev->parent)
+01ed67dc70834d Tony Zheng                2014-10-17  5362  					usb_phy_not=
+ify_connect(hcd->usb_phy,
+01ed67dc70834d Tony Zheng                2014-10-17  5363  							udev->spe=
+ed);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5364  			}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5365  		}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5366  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5367  		if (status)
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5368  			goto loop_dis=
+able;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5369  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5370  		status =3D hub=
+_power_remaining(hub);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5371  		if (status)
+d99f6b41308779 Dan Williams              2014-05-20  5372  			dev_dbg(hub->=
+intfdev, "%dmA power budget left\n", status);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5373  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5374  		return;
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5375  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5376  loop_disable:
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5377  		hub_port_disab=
+le(hub, port1, 1);
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5378  loop:
+fc721f5194dc98 Inaky Perez-Gonzalez      2008-04-08  5379  		usb_ep0_reinit=
+(udev);
+3b29b68b162778 Alan Stern                2011-02-22  5380  		release_devnum=
+(udev);
+f7410ced7f931b Herbert Xu                2010-01-10  5381  		hub_free_dev(u=
+dev);
+0e162125abbf80 Mathias Nyman             2021-11-23  5382  		if (retry_lock=
+ed) {
+0e162125abbf80 Mathias Nyman             2021-11-23  5383  			mutex_unlock(=
+hcd->address0_mutex);
+0e162125abbf80 Mathias Nyman             2021-11-23  5384  			usb_unlock_po=
+rt(port_dev);
+0e162125abbf80 Mathias Nyman             2021-11-23  5385  		}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5386  		usb_put_dev(ud=
+ev);
+ffcdc18d64d73e Vikram Pandita            2007-05-25  5387  		if ((status =
+=3D=3D -ENOTCONN) || (status =3D=3D -ENOTSUPP))
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5388  			break;
+973593a960ddac Mike Looijmans            2017-11-09  5389  =
+
+973593a960ddac Mike Looijmans            2017-11-09  5390  		/* When halfwa=
+y through our retry count, power-cycle the port */
+19502e6911e4ef Alan Stern                2020-09-28  5391  		if (i =3D=3D (=
+PORT_INIT_TRIES - 1) / 2) {
+973593a960ddac Mike Looijmans            2017-11-09  5392  			dev_info(&por=
+t_dev->dev, "attempt power cycle\n");
+973593a960ddac Mike Looijmans            2017-11-09  5393  			usb_hub_set_p=
+ort_power(hdev, hub, port1, false);
+973593a960ddac Mike Looijmans            2017-11-09  5394  			msleep(2 * hu=
+b_power_on_good_delay(hub));
+973593a960ddac Mike Looijmans            2017-11-09  5395  			usb_hub_set_p=
+ort_power(hdev, hub, port1, true);
+973593a960ddac Mike Looijmans            2017-11-09  5396  			msleep(hub_po=
+wer_on_good_delay(hub));
+973593a960ddac Mike Looijmans            2017-11-09  5397  		}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5398  	}
+3a31155cfff093 Alan Stern                2008-05-20  5399  	if (hub->hdev->=
+parent ||
+3a31155cfff093 Alan Stern                2008-05-20  5400  			!hcd->driver-=
+>port_handed_over ||
+e9e88fb7bca9f5 Alan Stern                2013-03-27  5401  			!(hcd->driver=
+->port_handed_over)(hcd, port1)) {
+e9e88fb7bca9f5 Alan Stern                2013-03-27  5402  		if (status !=
+=3D -ENOTCONN && status !=3D -ENODEV)
+d99f6b41308779 Dan Williams              2014-05-20  5403  			dev_err(&port=
+_dev->dev,
+d99f6b41308779 Dan Williams              2014-05-20  5404  					"unable to =
+enumerate USB device\n");
+e9e88fb7bca9f5 Alan Stern                2013-03-27  5405  	}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5406  =
+
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5407  done:
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5408  	hub_port_disabl=
+e(hub, port1, 1);
+94c43b9897abf4 Alan Stern                2017-08-01  5409  	if (hcd->driver=
+->relinquish_port && !hub->hdev->parent) {
+94c43b9897abf4 Alan Stern                2017-08-01  5410  		if (status !=
+=3D -ENOTCONN && status !=3D -ENODEV)
+90da096ee46b68 Balaji Rao                2007-11-22  5411  			hcd->driver->=
+relinquish_port(hcd, port1);
+94c43b9897abf4 Alan Stern                2017-08-01  5412  	}
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5413  }
+^1da177e4c3f41 Linus Torvalds            2005-04-16  5414  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2006705648638479760==--
+--===============4301503882135494306==--
 
