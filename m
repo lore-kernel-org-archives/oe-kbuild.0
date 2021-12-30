@@ -1,140 +1,389 @@
-Content-Type: multipart/mixed; boundary="===============0841244149883897609=="
+Content-Type: multipart/mixed; boundary="===============4743671001192975778=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: Re: [PATCH] nvmet: add support reading with offset from ANA log
-Date: Thu, 30 Dec 2021 11:09:03 +0800
-Message-ID: <202112301112.j0GHPdfj-lkp@intel.com>
+Subject: drivers/dma/sh/rz-dmac.c:253:18: warning: Value stored to 'dmac' during its initialization is never read [clang-analyzer-deadcode.DeadStores]
+Date: Thu, 30 Dec 2021 11:08:49 +0800
+Message-ID: <202112301019.TuIgtJix-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0841244149883897609==
+--===============4743671001192975778==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-In-Reply-To: <20211229155302.16789-1-dwagner@suse.de>
-References: <20211229155302.16789-1-dwagner@suse.de>
-TO: Daniel Wagner <dwagner@suse.de>
-TO: linux-nvme(a)lists.infradead.org
 CC: linux-kernel(a)vger.kernel.org
-CC: Daniel Wagner <dwagner@suse.de>
+TO: Biju Das <biju.das.jz@bp.renesas.com>
+CC: Vinod Koul <vkoul@kernel.org>
+CC: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-Hi Daniel,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   eec4df26e24e978e49ccf9bcf49ca0f2ccdaeffe
+commit: 5000d37042a61ca556fde2782ca40dbfa802ea16 dmaengine: sh: Add DMAC dr=
+iver for RZ/G2L SoC
+date:   4 months ago
+:::::: branch date: 9 hours ago
+:::::: commit date: 4 months ago
+config: arm-randconfig-c002-20211229 (https://download.01.org/0day-ci/archi=
+ve/20211230/202112301019.TuIgtJix-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project cd284b=
+7ac0615afc6e0f1a30da2777e361de27a3)
+reproduce (this is a W=3D1 build):
+        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
+make.cross -O ~/bin/make.cross
+        chmod +x ~/bin/make.cross
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D5000d37042a61ca556fde2782ca40dbfa802ea16
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 5000d37042a61ca556fde2782ca40dbfa802ea16
+        # save the config file to linux build tree
+        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
+=3Darm clang-analyzer =
 
-Thank you for the patch! Perhaps something to improve:
-
-[auto build test WARNING on linux/master]
-[also build test WARNING on linus/master v5.16-rc7 next-20211224]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch]
-
-url:    https://github.com/0day-ci/linux/commits/Daniel-Wagner/nvmet-add-su=
-pport-reading-with-offset-from-ANA-log/20211229-235321
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
-136057256686de39cc3a07c2e39ef6bc43003ff6
-:::::: branch date: 11 hours ago
-:::::: commit date: 11 hours ago
-config: ia64-randconfig-m031-20211229 (https://download.01.org/0day-ci/arch=
-ive/20211230/202112301112.j0GHPdfj-lkp(a)intel.com/config)
-compiler: ia64-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
-Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
 
-smatch warnings:
-drivers/nvme/target/admin-cmd.c:307 nvmet_execute_get_log_page_ana() warn: =
-is 'buffer' large enough for 'struct nvme_ana_rsp_hdr'? 15
 
-vim +307 drivers/nvme/target/admin-cmd.c
+clang-analyzer warnings: (new ones prefixed by >>)
+   14 warnings generated.
+   drivers/scsi/scsi_logging.c:72:3: warning: Value stored to 'off' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   off +=3D vscnprintf(logbuf + off, logbuf_len - off, fmt,=
+ args);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/scsi/scsi_logging.c:72:3: note: Value stored to 'off' is never r=
+ead
+                   off +=3D vscnprintf(logbuf + off, logbuf_len - off, fmt,=
+ args);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/scsi/scsi_logging.c:97:3: warning: Value stored to 'off' is neve=
+r read [clang-analyzer-deadcode.DeadStores]
+                   off +=3D vscnprintf(logbuf + off, logbuf_len - off, fmt,=
+ args);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/scsi/scsi_logging.c:97:3: note: Value stored to 'off' is never r=
+ead
+                   off +=3D vscnprintf(logbuf + off, logbuf_len - off, fmt,=
+ args);
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~
+   drivers/scsi/scsi_logging.c:206:3: warning: Value stored to 'off' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+                   off +=3D scnprintf(logbuf + off, logbuf_len - off, "\n");
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/scsi_logging.c:206:3: note: Value stored to 'off' is never =
+read
+                   off +=3D scnprintf(logbuf + off, logbuf_len - off, "\n");
+                   ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/scsi_logging.c:328:2: warning: Value stored to 'off' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           off +=3D scsi_format_sense_hdr(logbuf + off, logbuf_len - off, s=
+shdr);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/scsi_logging.c:328:2: note: Value stored to 'off' is never =
+read
+           off +=3D scsi_format_sense_hdr(logbuf + off, logbuf_len - off, s=
+shdr);
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   drivers/scsi/scsi_logging.c:336:2: warning: Value stored to 'off' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           off +=3D scsi_format_extd_sense(logbuf + off, logbuf_len - off,
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/scsi_logging.c:336:2: note: Value stored to 'off' is never =
+read
+           off +=3D scsi_format_extd_sense(logbuf + off, logbuf_len - off,
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/scsi_logging.c:431:2: warning: Value stored to 'off' is nev=
+er read [clang-analyzer-deadcode.DeadStores]
+           off +=3D scnprintf(logbuf + off, logbuf_len - off,
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/scsi/scsi_logging.c:431:2: note: Value stored to 'off' is never =
+read
+           off +=3D scnprintf(logbuf + off, logbuf_len - off,
+           ^      ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gpu/drm/panel/panel-elida-kd35t133.c:65:17: warning: Value store=
+d to 'dev' during its initialization is never read [clang-analyzer-deadcode=
+.DeadStores]
+           struct device *dev =3D ctx->dev;
+                          ^~~   ~~~~~~~~
+   drivers/gpu/drm/panel/panel-elida-kd35t133.c:65:17: note: Value stored t=
+o 'dev' during its initialization is never read
+           struct device *dev =3D ctx->dev;
+                          ^~~   ~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/gpu/drm/panel/panel-innolux-p079zca.c:459:3: warning: Value stor=
+ed to 'err' is never read [clang-analyzer-deadcode.DeadStores]
+                   err =3D PTR_ERR(innolux->enable_gpio);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/gpu/drm/panel/panel-innolux-p079zca.c:459:3: note: Value stored =
+to 'err' is never read
+                   err =3D PTR_ERR(innolux->enable_gpio);
+                   ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   2 warnings generated.
+   Suppressed 2 warnings (2 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   13 warnings generated.
+>> drivers/dma/sh/rz-dmac.c:253:18: warning: Value stored to 'dmac' during =
+its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+                           ^~~~
+   drivers/dma/sh/rz-dmac.c:253:18: note: Value stored to 'dmac' during its=
+ initialization is never read
+           struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+                           ^~~~
+   drivers/dma/sh/rz-dmac.c:284:18: warning: Value stored to 'dmac' during =
+its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+                           ^~~~
+   drivers/dma/sh/rz-dmac.c:284:18: note: Value stored to 'dmac' during its=
+ initialization is never read
+           struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+                           ^~~~
+   drivers/dma/sh/rz-dmac.c:311:20: warning: Value stored to 'lmdesc' durin=
+g its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct rz_lmdesc *lmdesc =3D channel->lmdesc.base;
+                             ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sh/rz-dmac.c:311:20: note: Value stored to 'lmdesc' during i=
+ts initialization is never read
+           struct rz_lmdesc *lmdesc =3D channel->lmdesc.base;
+                             ^~~~~~   ~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sh/rz-dmac.c:475:18: warning: Value stored to 'dmac' during =
+its initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+                           ^~~~
+   drivers/dma/sh/rz-dmac.c:475:18: note: Value stored to 'dmac' during its=
+ initialization is never read
+           struct rz_dmac *dmac =3D to_rz_dmac(chan->device);
+                           ^~~~
+   Suppressed 9 warnings (9 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   10 warnings generated.
+   drivers/dma/sf-pdma/sf-pdma.c:59:6: warning: Access to field 'desc' resu=
+lts in a dereference of a null pointer (loaded from variable 'chan') [clang=
+-analyzer-core.NullDereference]
+           if (chan->desc && !chan->desc->in_use) {
+               ^
+   drivers/dma/sf-pdma/sf-pdma.c:95:30: note: Calling 'to_sf_pdma_chan'
+           struct sf_pdma_chan *chan =3D to_sf_pdma_chan(dchan);
+                                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:44:9: note: Left side of '&&' is false
+           return container_of(dchan, struct sf_pdma_chan, vchan.chan);
+                  ^
+   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+                                                                      ^
+   drivers/dma/sf-pdma/sf-pdma.c:44:9: note: Taking false branch
+           return container_of(dchan, struct sf_pdma_chan, vchan.chan);
+                  ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:308:3: note: expanded from macro '__compi=
+letime_assert'
+                   if (!(condition))                                       \
+                   ^
+   drivers/dma/sf-pdma/sf-pdma.c:44:9: note: Loop condition is false.  Exit=
+ing loop
+           return container_of(dchan, struct sf_pdma_chan, vchan.chan);
+                  ^
+   include/linux/kernel.h:495:2: note: expanded from macro 'container_of'
+           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
+           ^
+   include/linux/build_bug.h:39:37: note: expanded from macro 'BUILD_BUG_ON=
+_MSG'
+   #define BUILD_BUG_ON_MSG(cond, msg) compiletime_assert(!(cond), msg)
+                                       ^
+   include/linux/compiler_types.h:328:2: note: expanded from macro 'compile=
+time_assert'
+           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
+NTER__)
+           ^
+   include/linux/compiler_types.h:316:2: note: expanded from macro '_compil=
+etime_assert'
+           __compiletime_assert(condition, msg, prefix, suffix)
+           ^
+   include/linux/compiler_types.h:306:2: note: expanded from macro '__compi=
+letime_assert'
+           do {                                                            \
+           ^
+   drivers/dma/sf-pdma/sf-pdma.c:44:2: note: Returning pointer, which parti=
+cipates in a condition later
+           return container_of(dchan, struct sf_pdma_chan, vchan.chan);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:44:2: note: Returning pointer
+           return container_of(dchan, struct sf_pdma_chan, vchan.chan);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:95:30: note: Returning from 'to_sf_pdma_ch=
+an'
+           struct sf_pdma_chan *chan =3D to_sf_pdma_chan(dchan);
+                                       ^~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:95:2: note: 'chan' initialized here
+           struct sf_pdma_chan *chan =3D to_sf_pdma_chan(dchan);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:99:6: note: Assuming 'chan' is null
+           if (chan && (!len || !dest || !src)) {
+               ^~~~
+   drivers/dma/sf-pdma/sf-pdma.c:99:11: note: Left side of '&&' is false
+           if (chan && (!len || !dest || !src)) {
+                    ^
+   drivers/dma/sf-pdma/sf-pdma.c:105:28: note: Passing null pointer value v=
+ia 1st parameter 'chan'
+           desc =3D sf_pdma_alloc_desc(chan);
+                                     ^~~~
+   drivers/dma/sf-pdma/sf-pdma.c:105:9: note: Calling 'sf_pdma_alloc_desc'
+           desc =3D sf_pdma_alloc_desc(chan);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/dma/sf-pdma/sf-pdma.c:57:2: note: Loop condition is false.  Exit=
+ing loop
+           spin_lock_irqsave(&chan->lock, flags);
 
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  268  =
+vim +/dmac +253 drivers/dma/sh/rz-dmac.c
 
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  269  static void nvmet_execute=
-_get_log_page_ana(struct nvmet_req *req)
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  270  {
-d4f2899b84cf50 Daniel Wagner     2021-12-29  271  	struct nvme_ana_rsp_hdr =
-*hdr;
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  272  	struct nvme_ana_group_de=
-sc *desc;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  273  	u64 offset =3D nvmet_get=
-_log_page_offset(req->cmd);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  274  	size_t len;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  275  	void *buffer;
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  276  	u32 grpid;
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  277  	u16 ngrps =3D 0;
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  278  	u16 status;
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  279  =
+5000d37042a61ca Biju Das 2021-08-06  249  =
 
-d4f2899b84cf50 Daniel Wagner     2021-12-29  280  	if (offset & 0x3) {
-d4f2899b84cf50 Daniel Wagner     2021-12-29  281  		req->error_loc =3D
-d4f2899b84cf50 Daniel Wagner     2021-12-29  282  			offsetof(struct nvme_g=
-et_log_page_command, lpo);
-d4f2899b84cf50 Daniel Wagner     2021-12-29  283  		status =3D NVME_SC_INVA=
-LID_FIELD | NVME_SC_DNR;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  284  		goto out;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  285  	}
-d4f2899b84cf50 Daniel Wagner     2021-12-29  286  =
+5000d37042a61ca Biju Das 2021-08-06  250  static void rz_dmac_enable_hw(str=
+uct rz_dmac_chan *channel)
+5000d37042a61ca Biju Das 2021-08-06  251  {
+5000d37042a61ca Biju Das 2021-08-06  252  	struct dma_chan *chan =3D &chann=
+el->vc.chan;
+5000d37042a61ca Biju Das 2021-08-06 @253  	struct rz_dmac *dmac =3D to_rz_d=
+mac(chan->device);
+5000d37042a61ca Biju Das 2021-08-06  254  	unsigned long flags;
+5000d37042a61ca Biju Das 2021-08-06  255  	u32 nxla;
+5000d37042a61ca Biju Das 2021-08-06  256  	u32 chctrl;
+5000d37042a61ca Biju Das 2021-08-06  257  	u32 chstat;
+5000d37042a61ca Biju Das 2021-08-06  258  =
 
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  287  	status =3D NVME_SC_INTER=
-NAL;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  288  	len =3D sizeof(*hdr) + s=
-truct_size(desc, nsids, NVMET_MAX_NAMESPACES);
-d4f2899b84cf50 Daniel Wagner     2021-12-29  289  	buffer =3D kzalloc(len, =
-GFP_KERNEL);
-d4f2899b84cf50 Daniel Wagner     2021-12-29  290  	if (!buffer)
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  291  		goto out;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  292  	hdr =3D buffer;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  293  	desc =3D buffer + sizeof=
-(*hdr);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  294  =
+5000d37042a61ca Biju Das 2021-08-06  259  	dev_dbg(dmac->dev, "%s channel %=
+d\n", __func__, channel->index);
+5000d37042a61ca Biju Das 2021-08-06  260  =
 
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  295  	down_read(&nvmet_ana_sem=
-);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  296  	for (grpid =3D 1; grpid =
-<=3D NVMET_MAX_ANAGRPS; grpid++) {
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  297  		if (!nvmet_ana_group_en=
-abled[grpid])
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  298  			continue;
-d4f2899b84cf50 Daniel Wagner     2021-12-29  299  		nvmet_format_ana_group(=
-req, grpid, desc);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  300  		ngrps++;
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  301  	}
-be1277f5eb17a2 Hannes Reinecke   2018-07-16  302  	for ( ; grpid <=3D NVMET=
-_MAX_ANAGRPS; grpid++) {
-be1277f5eb17a2 Hannes Reinecke   2018-07-16  303  		if (nvmet_ana_group_ena=
-bled[grpid])
-be1277f5eb17a2 Hannes Reinecke   2018-07-16  304  			ngrps++;
-be1277f5eb17a2 Hannes Reinecke   2018-07-16  305  	}
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  306  =
+5000d37042a61ca Biju Das 2021-08-06  261  	local_irq_save(flags);
+5000d37042a61ca Biju Das 2021-08-06  262  =
 
-d4f2899b84cf50 Daniel Wagner     2021-12-29 @307  	hdr->chgcnt =3D cpu_to_l=
-e64(nvmet_ana_chgcnt);
-d4f2899b84cf50 Daniel Wagner     2021-12-29  308  	hdr->ngrps =3D cpu_to_le=
-16(ngrps);
-7114ddeb40c0cc Jay Sternberg     2018-11-12  309  	nvmet_clear_aen_bit(req,=
- NVME_AEN_BIT_ANA_CHANGE);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  310  	up_read(&nvmet_ana_sem);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  311  =
+5000d37042a61ca Biju Das 2021-08-06  263  	rz_dmac_lmdesc_recycle(channel);
+5000d37042a61ca Biju Das 2021-08-06  264  =
 
-d4f2899b84cf50 Daniel Wagner     2021-12-29  312  	status =3D nvmet_copy_to=
-_sgl(req, 0, buffer + offset,
-d4f2899b84cf50 Daniel Wagner     2021-12-29  313  				   nvmet_get_log_page=
-_len(req->cmd));
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  314  =
+5000d37042a61ca Biju Das 2021-08-06  265  	nxla =3D channel->lmdesc.base_dm=
+a +
+5000d37042a61ca Biju Das 2021-08-06  266  		(sizeof(struct rz_lmdesc) * (ch=
+annel->lmdesc.head -
+5000d37042a61ca Biju Das 2021-08-06  267  					     channel->lmdesc.base));
+5000d37042a61ca Biju Das 2021-08-06  268  =
 
-d4f2899b84cf50 Daniel Wagner     2021-12-29  315  	kfree(buffer);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  316  out:
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  317  	nvmet_req_complete(req, =
-status);
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  318  }
-72efd25dcf4f63 Christoph Hellwig 2018-07-19  319  =
+5000d37042a61ca Biju Das 2021-08-06  269  	chstat =3D rz_dmac_ch_readl(chan=
+nel, CHSTAT, 1);
+5000d37042a61ca Biju Das 2021-08-06  270  	if (!(chstat & CHSTAT_EN)) {
+5000d37042a61ca Biju Das 2021-08-06  271  		chctrl =3D (channel->chctrl | C=
+HCTRL_SETEN);
+5000d37042a61ca Biju Das 2021-08-06  272  		rz_dmac_ch_writel(channel, nxla=
+, NXLA, 1);
+5000d37042a61ca Biju Das 2021-08-06  273  		rz_dmac_ch_writel(channel, chan=
+nel->chcfg, CHCFG, 1);
+5000d37042a61ca Biju Das 2021-08-06  274  		rz_dmac_ch_writel(channel, CHCT=
+RL_SWRST, CHCTRL, 1);
+5000d37042a61ca Biju Das 2021-08-06  275  		rz_dmac_ch_writel(channel, chct=
+rl, CHCTRL, 1);
+5000d37042a61ca Biju Das 2021-08-06  276  	}
+5000d37042a61ca Biju Das 2021-08-06  277  =
+
+5000d37042a61ca Biju Das 2021-08-06  278  	local_irq_restore(flags);
+5000d37042a61ca Biju Das 2021-08-06  279  }
+5000d37042a61ca Biju Das 2021-08-06  280  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0841244149883897609==--
+--===============4743671001192975778==--
 
