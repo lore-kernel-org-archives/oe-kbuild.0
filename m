@@ -1,340 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============0502644199081687049=="
+Content-Type: multipart/mixed; boundary="===============2315121458187425916=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/greybus/manifest.c:48:2: warning: Argument to kfree() is the address of the local variable 'list', which is not memory allocated by malloc() [clang-analyzer-unix.Malloc]
-Date: Fri, 17 Dec 2021 23:07:37 +0800
-Message-ID: <202112172247.LcIQ1uF2-lkp@intel.com>
+Subject: arch/powerpc/kernel/fadump.c:1285:34-35: WARNING opportunity for swap()
+Date: Sat, 01 Jan 2022 01:49:27 +0800
+Message-ID: <202201010139.lznvHHZR-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============0502644199081687049==
+--===============2315121458187425916==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
-CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Kees Cook <keescook@chromium.org>
+TO: Denis Efremov <efremov@linux.com>
+CC: Julia Lawall <Julia.Lawall@inria.fr>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
-head:   6441998e2e37131b0a4c310af9156d79d3351c16
-commit: a52f8a59aef46b59753e583bf4b28fccb069ce64 fortify: Explicitly disabl=
-e Clang support
-date:   3 months ago
-:::::: branch date: 16 hours ago
-:::::: commit date: 3 months ago
-config: x86_64-randconfig-c007-20211216 (https://download.01.org/0day-ci/ar=
-chive/20211217/202112172247.LcIQ1uF2-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project dd245b=
-ab9fbb364faa1581e4f92ba3119a872fba)
-reproduce (this is a W=3D1 build):
-        wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
-make.cross -O ~/bin/make.cross
-        chmod +x ~/bin/make.cross
-        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3Da52f8a59aef46b59753e583bf4b28fccb069ce64
-        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
-t/torvalds/linux.git
-        git fetch --no-tags linus master
-        git checkout a52f8a59aef46b59753e583bf4b28fccb069ce64
-        # save the config file to linux build tree
-        COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
-
+head:   4f3d93c6eaff6b84e43b63e0d7a119c5920e1020
+commit: 7845daa8bd72efa8bbc1de122edfce6e058bbe41 coccinelle: misc: add swap=
+ script
+date:   8 months ago
+:::::: branch date: 15 hours ago
+:::::: commit date: 8 months ago
+config: powerpc64-randconfig-c024-20211231 (https://download.01.org/0day-ci=
+/archive/20220101/202201010139.lznvHHZR-lkp(a)intel.com/config)
+compiler: powerpc64le-linux-gcc (GCC) 11.2.0
 
 If you fix the issue, kindly add following tag as appropriate
 Reported-by: kernel test robot <lkp@intel.com>
+Reported-by: Julia Lawall <julia.lawall@lip6.fr>
 
 
-clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/cifs/misc.c:109:7: note: 'ret_buf' is non-null
-           if (!ret_buf)
-                ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:86: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                           =
-             ^~~~
-   include/linux/compiler.h:69:3: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-            ^~~~
-   fs/cifs/misc.c:109:2: note: '?' condition is false
-           if (!ret_buf)
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/cifs/misc.c:109:2: note: Taking false branch
-           if (!ret_buf)
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/cifs/misc.c:112:6: note: Assuming field 'fid' is non-null
-           if (!ret_buf->crfid.fid) {
-               ^
-   include/linux/compiler.h:56:47: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                                                 ^~~~
-   include/linux/compiler.h:58:52: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                      ^~~~
-   fs/cifs/misc.c:112:2: note: '?' condition is false
-           if (!ret_buf->crfid.fid) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   fs/cifs/misc.c:112:22: note: Field 'fid' is non-null
-           if (!ret_buf->crfid.fid) {
-                               ^
-   fs/cifs/misc.c:112:22: note: Field 'fid' is non-null
-   fs/cifs/misc.c:112:2: note: '?' condition is false
-           if (!ret_buf->crfid.fid) {
-           ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:69: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                                                       ^
-   include/linux/compiler.h:69:2: note: expanded from macro '__trace_if_val=
-ue'
-           (cond) ?                                        \
-           ^
-   fs/cifs/misc.c:112:2: note: Taking false branch
-           if (!ret_buf->crfid.fid) {
-           ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   fs/cifs/misc.c:119:2: note: The expression is an uninitialized value. Th=
-e computed value will also be garbage
-           ++ret_buf->tc_count;
-           ^ ~~~~~~~~~~~~~~~~~
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   1 warning generated.
-   Suppressed 1 warnings (1 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   4 warnings generated.
->> drivers/greybus/manifest.c:48:2: warning: Argument to kfree() is the add=
-ress of the local variable 'list', which is not memory allocated by malloc(=
-) [clang-analyzer-unix.Malloc]
-           kfree(descriptor);
-           ^
-   drivers/greybus/manifest.c:240:2: note: Left side of '&&' is false
-           list_for_each_entry_safe(desc, next, &intf->manifest_descs, link=
-s) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/greybus/manifest.c:240:2: note: '?' condition is true
-           list_for_each_entry_safe(desc, next, &intf->manifest_descs, link=
-s) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 4 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:297:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:28: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                              ^
-   include/linux/compiler.h:58:31: note: expanded from macro '__trace_if_va=
-r'
-   #define __trace_if_var(cond) (__builtin_constant_p(cond) ? (cond) : __tr=
-ace_if_value(cond))
-                                 ^
-   drivers/greybus/manifest.c:240:2: note: Left side of '&&' is false
-           list_for_each_entry_safe(desc, next, &intf->manifest_descs, link=
-s) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   include/linux/kernel.h:495:61: note: expanded from macro 'container_of'
-           BUILD_BUG_ON_MSG(!__same_type(*(ptr), ((type *)0)->member) &&   \
-                                                                      ^
-   drivers/greybus/manifest.c:240:2: note: Taking false branch
-           list_for_each_entry_safe(desc, next, &intf->manifest_descs, link=
-s) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 3 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:305:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:297:3: note: expanded from macro '__compi=
-letime_assert'
-                   if (!(condition))                                       \
-                   ^
-   include/linux/compiler.h:56:23: note: expanded from macro 'if'
-   #define if(cond, ...) if ( __trace_if_var( !!(cond , ## __VA_ARGS__) ) )
-                         ^
-   drivers/greybus/manifest.c:240:2: note: Loop condition is false.  Exitin=
-g loop
-           list_for_each_entry_safe(desc, next, &intf->manifest_descs, link=
-s) {
-           ^
-   include/linux/list.h:715:13: note: expanded from macro 'list_for_each_en=
-try_safe'
-           for (pos =3D list_first_entry(head, typeof(*pos), member),      =
-  \
-                      ^
-   include/linux/list.h:522:2: note: expanded from macro 'list_first_entry'
-           list_entry((ptr)->next, type, member)
-           ^
-   include/linux/list.h:511:2: note: expanded from macro 'list_entry'
-           container_of(ptr, type, member)
-           ^
-   note: (skipping 2 expansions in backtrace; use -fmacro-backtrace-limit=
-=3D0 to see all)
-   include/linux/compiler_types.h:317:2: note: expanded from macro 'compile=
-time_assert'
-           _compiletime_assert(condition, msg, __compiletime_assert_, __COU=
-NTER__)
-           ^
-   include/linux/compiler_types.h:305:2: note: expanded from macro '_compil=
-etime_assert'
-           __compiletime_assert(condition, msg, prefix, suffix)
-           ^
-   include/linux/compiler_types.h:295:2: note: expanded from macro '__compi=
-letime_assert'
-           do {                                                            \
-           ^
-   drivers/greybus/manifest.c:240:2: note: Left side of '&&' is false
-           list_for_each_entry_safe(desc, next, &intf->manifest_descs, link=
-s) {
+cocci warnings: (new ones prefixed by >>)
+>> arch/powerpc/kernel/fadump.c:1285:34-35: WARNING opportunity for swap()
 
-vim +/list +48 drivers/greybus/manifest.c
-
-b09c94a1b71c82 drivers/staging/greybus/manifest.c Alex Elder 2014-10-01  44=
-  =
-
-b09c94a1b71c82 drivers/staging/greybus/manifest.c Alex Elder 2014-10-01  45=
-  static void release_manifest_descriptor(struct manifest_desc *descriptor)
-b09c94a1b71c82 drivers/staging/greybus/manifest.c Alex Elder 2014-10-01  46=
-  {
-b09c94a1b71c82 drivers/staging/greybus/manifest.c Alex Elder 2014-10-01  47=
-  	list_del(&descriptor->links);
-b09c94a1b71c82 drivers/staging/greybus/manifest.c Alex Elder 2014-10-01 @48=
-  	kfree(descriptor);
-b09c94a1b71c82 drivers/staging/greybus/manifest.c Alex Elder 2014-10-01  49=
-  }
-b09c94a1b71c82 drivers/staging/greybus/manifest.c Alex Elder 2014-10-01  50=
-  =
-
-
-:::::: The code at line 48 was first introduced by commit
-:::::: b09c94a1b71c82385ffa5f3c913d7d6e14eaea3d greybus: start improving ma=
-nifest parsing
-
-:::::: TO: Alex Elder <elder@linaro.org>
-:::::: CC: Greg Kroah-Hartman <greg@kroah.com>
+Please review and possibly fold the followup patch.
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============0502644199081687049==--
+--===============2315121458187425916==--
 
