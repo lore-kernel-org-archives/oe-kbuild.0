@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============8594189857967670600=="
+Content-Type: multipart/mixed; boundary="===============7417923481741256679=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [ojeda-linux:sync 887/889] lib/vsprintf.c:3139:14: warning: Array access (from variable 'end') results in a null pointer dereference [clang-analyzer-core.NullDereference]
-Date: Sun, 02 Jan 2022 02:40:38 +0800
-Message-ID: <202201020214.EllLQrAG-lkp@intel.com>
+Subject: fs/dax.c:1594:10: warning: Although the value stored to 'error' is used in the enclosing expression, the value is never actually read from 'error' [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 02 Jan 2022 01:09:09 +0800
+Message-ID: <202201020059.efZcSedQ-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============8594189857967670600==
+--===============7417923481741256679==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,32 +15,34 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Miguel Ojeda <ojeda@kernel.org>
+TO: Christoph Hellwig <hch@lst.de>
+CC: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   https://github.com/ojeda/linux.git sync
-head:   c2ae669696728da696ba76a2b20db84d5306893a
-commit: 3e7c98c0eeefd392badeb4ff0773fcf150b6d63b [887/889] `vsprintf`: avoi=
-d `#ifdef` in `.c` file
-:::::: branch date: 12 days ago
-:::::: commit date: 3 weeks ago
-config: arm-randconfig-c002-20211231 (https://download.01.org/0day-ci/archi=
-ve/20220102/202201020214.EllLQrAG-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7cd109=
-b92c72855937273a6c8ab19016fbe27d33)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
+master
+head:   8008293888188c3923f5bd8a69370dae25ed14e5
+commit: 65dd814a6187ff46e33718d8eb76244e027837a3 fsdax: switch the fault ha=
+ndlers to use iomap_iter
+date:   5 months ago
+:::::: branch date: 20 hours ago
+:::::: commit date: 5 months ago
+config: x86_64-randconfig-c007-20211230 (https://download.01.org/0day-ci/ar=
+chive/20220102/202201020059.efZcSedQ-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project cd284b=
+7ac0615afc6e0f1a30da2777e361de27a3)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install arm cross compiling tool for clang build
-        # apt-get install binutils-arm-linux-gnueabi
-        # https://github.com/ojeda/linux/commit/3e7c98c0eeefd392badeb4ff077=
-3fcf150b6d63b
-        git remote add ojeda-linux https://github.com/ojeda/linux.git
-        git fetch --no-tags ojeda-linux sync
-        git checkout 3e7c98c0eeefd392badeb4ff0773fcf150b6d63b
+        # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
+t/commit/?id=3D65dd814a6187ff46e33718d8eb76244e027837a3
+        git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
+t/torvalds/linux.git
+        git fetch --no-tags linus master
+        git checkout 65dd814a6187ff46e33718d8eb76244e027837a3
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Darm clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -48,432 +50,396 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   lib/vsprintf.c:2434:10: note: Calling 'ip_addr_string'
-                   return ip_addr_string(buf, end, ptr, spec, fmt);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1598:2: note: Taking false branch
-           if (check_pointer(&buf, end, ptr, spec))
+   fs/xfs/xfs_linux.h:207:10: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+                   ^~~~
+   include/linux/compiler.h:45:66: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
+                                                                        ^
+   include/linux/compiler.h:35:19: note: expanded from macro '__branch_chec=
+k__'
+                                                expect, is_constant);      \
+                                                        ^~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:145:2: note: '?' condition is true
+           ASSERT(nbblks > 0);
            ^
-   lib/vsprintf.c:1601:2: note: Control jumps to 'case 52:'  at line 1604
-           switch (fmt[1]) {
-           ^
-   lib/vsprintf.c:1605:10: note: Calling 'ip4_addr_string'
-                   return ip4_addr_string(buf, end, ptr, spec, fmt);
-                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1490:2: note: Calling 'ip4_string'
-           ip4_string(ip4_addr, addr, fmt);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1329:2: note: Control jumps to the 'default' case at line=
- 1345
-           switch (fmt[2]) {
-           ^
-   lib/vsprintf.c:1348:3: note:  Execution continues on line 1350
-                   break;
-                   ^
-   lib/vsprintf.c:1350:2: note: Loop condition is true.  Entering loop body
-           for (i =3D 0; i < 4; i++) {
-           ^
-   lib/vsprintf.c:1352:16: note: Calling 'put_dec_trunc8'
-                   int digits =3D put_dec_trunc8(temp, addr[index]) - temp;
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:220:6: note: Assuming 'r' is < 100
-           if (r < 100)
-               ^~~~~~~
-   lib/vsprintf.c:220:2: note: Taking true branch
-           if (r < 100)
-           ^
-   lib/vsprintf.c:221:3: note: Control jumps to line 250
-                   goto out_r;
-                   ^
-   lib/vsprintf.c:251:9: note: Assuming 'r' is >=3D 10
-           buf +=3D r < 10 ? 1 : 2;
-                  ^~~~~~
-   lib/vsprintf.c:251:9: note: '?' condition is false
-   lib/vsprintf.c:1352:16: note: Returning from 'put_dec_trunc8'
-                   int digits =3D put_dec_trunc8(temp, addr[index]) - temp;
-                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:1353:7: note: Assuming 'leading_zeros' is false
-                   if (leading_zeros) {
-                       ^~~~~~~~~~~~~
-   lib/vsprintf.c:1353:3: note: Taking false branch
-                   if (leading_zeros) {
-                   ^
-   lib/vsprintf.c:1360:10: note: The value 1 is assigned to 'digits'
-                   while (digits--)
-                          ^~~~~~~~
-   lib/vsprintf.c:1360:3: note: Loop condition is true.  Entering loop body
-                   while (digits--)
-                   ^
-   lib/vsprintf.c:1361:9: note: Assigned value is garbage or undefined
-                           *p++ =3D temp[digits];
-                                ^ ~~~~~~~~~~~~
-   lib/vsprintf.c:1424:4: warning: Value stored to 'needcolon' is never rea=
-d [clang-analyzer-deadcode.DeadStores]
-                           needcolon =3D false;
-                           ^           ~~~~~
-   lib/vsprintf.c:1424:4: note: Value stored to 'needcolon' is never read
-                           needcolon =3D false;
-                           ^           ~~~~~
-   lib/vsprintf.c:1792:2: warning: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
-           ^~~~~~
-   lib/vsprintf.c:1792:2: note: Call to function 'strcpy' is insecure as it=
- does not provide bounding of the memory buffer. Replace unbounded copy fun=
-ctions with analogous functions that support length arguments such as 'strl=
-cpy'. CWE-119
-           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
-           ^~~~~~
-   lib/vsprintf.c:3137:13: warning: Dereference of null pointer [clang-anal=
-yzer-core.NullDereference]
-                                           *str++ =3D '\0';
-                                           ~~~~~~~^~~~~~
-   lib/vsprintf.c:3078:2: note: Loop condition is true.  Entering loop body
-           while (*fmt) {
-           ^
-   lib/vsprintf.c:3083:3: note: Control jumps to 'case FORMAT_TYPE_PTR:'  a=
-t line 3118
-                   switch (spec.type) {
-                   ^
-   lib/vsprintf.c:3120:4: note: Control jumps to the 'default' case@line=
- 3129
-                           switch (*fmt) {
+   fs/xfs/xfs_linux.h:207:3: note: expanded from macro 'ASSERT'
+           (likely(expr) ? (void)0 : assfail(NULL, #expr, __FILE__, __LINE_=
+_))
+            ^
+   include/linux/compiler.h:45:21: note: expanded from macro 'likely'
+   #  define likely(x)     (__branch_check__(x, 1, __builtin_constant_p(x)))
                            ^
-   lib/vsprintf.c:3130:9: note: Assuming the condition is false
-                                   if (!isalnum(*fmt)) {
-                                       ^~~~~~~~~~~~~~
-   lib/vsprintf.c:3130:5: note: Taking false branch
-                                   if (!isalnum(*fmt)) {
-                                   ^
-   lib/vsprintf.c:3136:9: note: Assuming the condition is true
-                                   if (str + 1 < end)
-                                       ^~~~~~~~~~~~~
-   lib/vsprintf.c:3136:5: note: Taking true branch
-                                   if (str + 1 < end)
-                                   ^
-   lib/vsprintf.c:3137:7: note: Null pointer value stored to 'str'
-                                           *str++ =3D '\0';
-                                            ^~~~~
-   lib/vsprintf.c:3137:13: note: Dereference of null pointer
-                                           *str++ =3D '\0';
-                                           ~~~~~~~^~~~~~
->> lib/vsprintf.c:3139:14: warning: Array access (from variable 'end') resu=
-lts in a null pointer dereference [clang-analyzer-core.NullDereference]
-                                           end[-1] =3D '\0'; /* Must be nul=
- terminated */
-                                           ~~~     ^
-   lib/vsprintf.c:3052:2: note: Value assigned to 'end'
-           end =3D (char *)(bin_buf + size);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   lib/vsprintf.c:3078:2: note: Loop condition is true.  Entering loop body
-           while (*fmt) {
+   fs/xfs/xfs_log_recover.c:149:6: note: Assuming 'error' is not equal to 0=
+, which participates in a condition later
+           if (error && !XFS_FORCED_SHUTDOWN(log->l_mp)) {
+               ^~~~~
+   fs/xfs/xfs_log_recover.c:149:6: note: Left side of '&&' is true
+   fs/xfs/xfs_log_recover.c:149:15: note: Assuming the condition is false
+           if (error && !XFS_FORCED_SHUTDOWN(log->l_mp)) {
+                        ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:149:2: note: Taking false branch
+           if (error && !XFS_FORCED_SHUTDOWN(log->l_mp)) {
            ^
-   lib/vsprintf.c:3083:3: note: Control jumps to 'case FORMAT_TYPE_PTR:'  a=
-t line 3118
-                   switch (spec.type) {
+   fs/xfs/xfs_log_recover.c:155:2: note: Returning value (loaded from 'erro=
+r'), which participates in a condition later
+           return error;
+           ^~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:178:10: note: Returning from 'xlog_do_io'
+           error =3D xlog_do_io(log, blk_no, nbblks, data, REQ_OP_READ);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:179:7: note: 'error' is not equal to 0, which p=
+articipates in a condition later
+           if (!error)
+                ^~~~~
+   fs/xfs/xfs_log_recover.c:179:2: note: Taking false branch
+           if (!error)
+           ^
+   fs/xfs/xfs_log_recover.c:181:2: note: Returning value (loaded from 'erro=
+r'), which participates in a condition later
+           return error;
+           ^~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:794:11: note: Returning from 'xlog_bread'
+                   error =3D xlog_bread(log, i, 1, buffer, &offset);
+                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:795:7: note: 'error' is not equal to 0, which p=
+articipates in a condition later
+                   if (error)
+                       ^~~~~
+   fs/xfs/xfs_log_recover.c:795:3: note: Taking true branch
+                   if (error)
                    ^
-   lib/vsprintf.c:3120:4: note: Control jumps to the 'default' case at line=
- 3129
-                           switch (*fmt) {
+   fs/xfs/xfs_log_recover.c:796:4: note: Control jumps to line 831
+                           goto out_error;
                            ^
-   lib/vsprintf.c:3130:9: note: Assuming the condition is false
-                                   if (!isalnum(*fmt)) {
-                                       ^~~~~~~~~~~~~~
-   lib/vsprintf.c:3130:5: note: Taking false branch
-                                   if (!isalnum(*fmt)) {
-                                   ^
-   lib/vsprintf.c:3136:9: note: Assuming pointer value is null
-                                   if (str + 1 < end)
-                                       ^~~~~~~~~~~~~
-   lib/vsprintf.c:3136:5: note: Taking false branch
-                                   if (str + 1 < end)
-                                   ^
-   lib/vsprintf.c:3139:14: note: Array access (from variable 'end') results=
- in a null pointer dereference
-                                           end[-1] =3D '\0'; /* Must be nul=
- terminated */
-                                           ~~~     ^
-   1 warning generated.
-   drivers/hwtracing/coresight/coresight-cti-core.c:447:2: warning: Value s=
-tored to 'reg_value' is never read [clang-analyzer-deadcode.DeadStores]
-           reg_value =3D config->ctiappset;
-           ^           ~~~~~~~~~~~~~~~~~
-   drivers/hwtracing/coresight/coresight-cti-core.c:447:2: note: Value stor=
-ed to 'reg_value' is never read
-           reg_value =3D config->ctiappset;
-           ^           ~~~~~~~~~~~~~~~~~
-   2 warnings generated.
-   drivers/iio/dac/ad5360.c:74:8: warning: Excessive padding in 'struct ad5=
-360_state' (40 padding bytes, where 8 is optimal). =
-
-   Optimal fields order: =
-
-   data, =
-
-   spi, =
-
-   chip_info, =
-
-   ctrl, =
-
-   lock, =
-
-   vref_reg, =
-
-   consider reordering the fields or adding explicit padding members [clang=
--analyzer-optin.performance.Padding]
-   struct ad5360_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:74:8: note: Excessive padding in 'struct ad5360=
-_state' (40 padding bytes, where 8 is optimal). Optimal fields order: data,=
- spi, chip_info, ctrl, lock, vref_reg, consider reordering the fields or ad=
-ding explicit padding members
-   struct ad5360_state {
-   ~~~~~~~^~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:493:26: warning: Assigned value is garbage or u=
-ndefined [clang-analyzer-core.uninitialized.Assign]
-                   st->vref_reg[i].supply =3D ad5360_vref_name[i];
-                                          ^ ~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:468:6: note: Assuming 'indio_dev' is not equal =
-to NULL
-           if (indio_dev =3D=3D NULL) {
+   fs/xfs/xfs_log_recover.c:831:2: note: Returning without writing to '*rhe=
+ad'
+           return error;
+           ^
+   fs/xfs/xfs_log_recover.c:831:2: note: Returning value (loaded from 'erro=
+r'), which participates in a condition later
+           return error;
+           ^~~~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:1287:10: note: Returning from 'xlog_rseek_logre=
+c_hdr'
+           error =3D xlog_rseek_logrec_hdr(log, *head_blk, *head_blk, 1, bu=
+ffer,
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~
+   fs/xfs/xfs_log_recover.c:1289:6: note: Assuming 'error' is >=3D 0
+           if (error < 0)
+               ^~~~~~~~~
+   fs/xfs/xfs_log_recover.c:1289:2: note: Taking false branch
+           if (error < 0)
+           ^
+   fs/xfs/xfs_log_recover.c:1291:7: note: 'error' is not equal to 0
+           if (!error) {
+                ^~~~~
+   fs/xfs/xfs_log_recover.c:1291:2: note: Taking false branch
+           if (!error) {
+           ^
+   fs/xfs/xfs_log_recover.c:1296:24: note: Access to field 'h_tail_lsn' res=
+ults in a dereference of an undefined pointer value (loaded from variable '=
+rhead')
+           *tail_blk =3D BLOCK_LSN(be64_to_cpu(rhead->h_tail_lsn));
+                                 ^
+   include/linux/byteorder/generic.h:93:21: note: expanded from macro 'be64=
+_to_cpu'
+   #define be64_to_cpu __be64_to_cpu
+                       ^
+   include/uapi/linux/byteorder/little_endian.h:38:58: note: expanded from =
+macro '__be64_to_cpu'
+   #define __be64_to_cpu(x) __swab64((__force __u64)(__be64)(x))
+                                                            ^~
+   include/uapi/linux/swab.h:128:54: note: expanded from macro '__swab64'
+   #define __swab64(x) (__u64)__builtin_bswap64((__u64)(x))
+                                                        ^
+   fs/xfs/libxfs/xfs_log_format.h:52:32: note: expanded from macro 'BLOCK_L=
+SN'
+   #define BLOCK_LSN(lsn) ((uint)(lsn))
+                                  ^~~
+   fs/xfs/xfs_log_recover.c:3498:20: warning: Value stored to 'mp' during i=
+ts initialization is never read [clang-analyzer-deadcode.DeadStores]
+           struct xfs_mount        *mp =3D log->l_mp;
+                                    ^~   ~~~~~~~~~
+   fs/xfs/xfs_log_recover.c:3498:20: note: Value stored to 'mp' during its =
+initialization is never read
+           struct xfs_mount        *mp =3D log->l_mp;
+                                    ^~   ~~~~~~~~~
+   Suppressed 11 warnings (8 in non-user code, 3 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+>> fs/dax.c:1594:10: warning: Although the value stored to 'error' is used =
+in the enclosing expression, the value is never actually read from 'error' =
+[clang-analyzer-deadcode.DeadStores]
+           while ((error =3D iomap_iter(&iter, ops)) > 0) {
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~
+   fs/dax.c:1594:10: note: Although the value stored to 'error' is used in =
+the enclosing expression, the value is never actually read from 'error'
+           while ((error =3D iomap_iter(&iter, ops)) > 0) {
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~
+   fs/dax.c:1709:25: warning: The result of the left shift is undefined due=
+ to shifting by '4294967295', which is greater or equal to the width of typ=
+e 'unsigned long' [clang-analyzer-core.UndefinedBinaryOperatorResult]
+           size_t len =3D PAGE_SIZE << order;
+                                  ^  ~~~~~
+   fs/dax.c:1708:23: note: Calling 'pe_order'
+           unsigned int order =3D pe_order(pe_size);
+                                ^~~~~~~~~~~~~~~~~
+   fs/dax.c:35:6: note: Assuming 'pe_size' is not equal to PE_SIZE_PTE
+           if (pe_size =3D=3D PE_SIZE_PTE)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/dax.c:35:2: note: Taking false branch
+           if (pe_size =3D=3D PE_SIZE_PTE)
+           ^
+   fs/dax.c:37:6: note: Assuming 'pe_size' is not equal to PE_SIZE_PMD
+           if (pe_size =3D=3D PE_SIZE_PMD)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/dax.c:37:2: note: Taking false branch
+           if (pe_size =3D=3D PE_SIZE_PMD)
+           ^
+   fs/dax.c:39:6: note: Assuming 'pe_size' is not equal to PE_SIZE_PUD
+           if (pe_size =3D=3D PE_SIZE_PUD)
+               ^~~~~~~~~~~~~~~~~~~~~~
+   fs/dax.c:39:2: note: Taking false branch
+           if (pe_size =3D=3D PE_SIZE_PUD)
+           ^
+   fs/dax.c:41:2: note: Returning the value 4294967295
+           return ~0;
+           ^~~~~~~~~
+   fs/dax.c:1708:23: note: Returning from 'pe_order'
+           unsigned int order =3D pe_order(pe_size);
+                                ^~~~~~~~~~~~~~~~~
+   fs/dax.c:1708:2: note: 'order' initialized to 4294967295
+           unsigned int order =3D pe_order(pe_size);
+           ^~~~~~~~~~~~~~~~~~
+   fs/dax.c:1709:25: note: The result of the left shift is undefined due to=
+ shifting by '4294967295', which is greater or equal to the width of type '=
+unsigned long'
+           size_t len =3D PAGE_SIZE << order;
+                                  ^  ~~~~~
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   4 warnings generated.
+   Suppressed 4 warnings (4 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   fs/verity/open.c:217:2: warning: Attempt to free released memory [clang-=
+analyzer-unix.Malloc]
+           kfree(vi->tree_params.hashstate);
+           ^
+   fs/verity/open.c:347:6: note: Assuming the condition is false
+           if (!IS_VERITY(inode))
                ^~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:468:2: note: Taking false branch
-           if (indio_dev =3D=3D NULL) {
+   fs/verity/open.c:347:2: note: Taking false branch
+           if (!IS_VERITY(inode))
            ^
-   drivers/iio/dac/ad5360.c:484:2: note: Loop condition is false.  Exiting =
-loop
-           mutex_init(&st->lock);
+   fs/verity/open.c:350:6: note: Assuming the condition is false
+           if (filp->f_mode & FMODE_WRITE) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:350:2: note: Taking false branch
+           if (filp->f_mode & FMODE_WRITE) {
            ^
-   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
-   #define mutex_init(mutex)                                               \
-                                                                           ^
-   drivers/iio/dac/ad5360.c:487:6: note: Assuming 'ret' is 0
-           if (ret) {
+   fs/verity/open.c:356:9: note: Calling 'ensure_verity_info'
+           return ensure_verity_info(inode);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:312:6: note: Assuming 'vi' is null
+           if (vi)
+               ^~
+   fs/verity/open.c:312:2: note: Taking false branch
+           if (vi)
+           ^
+   fs/verity/open.c:316:6: note: 'err' is 0
+           if (err)
                ^~~
-   drivers/iio/dac/ad5360.c:487:2: note: Taking false branch
-           if (ret) {
+   fs/verity/open.c:316:2: note: Taking false branch
+           if (err)
            ^
-   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
-s'
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+   fs/verity/open.c:319:7: note: Calling 'fsverity_create_info'
+           vi =3D fsverity_create_info(inode, desc, desc_size);
+                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:157:6: note: Assuming 'vi' is non-null
+           if (!vi)
+               ^~~
+   fs/verity/open.c:157:2: note: Taking false branch
+           if (!vi)
            ^
-   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
-s'
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-           ^
-   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
-s'
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-           ^
-   drivers/iio/dac/ad5360.c:492:44: note: The value 3 is assigned to 'i'
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-                                                     ^~~
-   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
-s'
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
-loop body
-           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
-           ^
-   drivers/iio/dac/ad5360.c:493:26: note: Assigned value is garbage or unde=
-fined
+   fs/verity/open.c:161:8: note: Calling 'fsverity_init_merkle_tree_params'
+           err =3D fsverity_init_merkle_tree_params(&vi->tree_params, inode,
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/verity/open.c:43:2: note: Taking false branch
+           if (IS_ERR(hash_alg))
 
-vim +/end +3139 lib/vsprintf.c
+vim +1594 fs/dax.c
 
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3077  =
+55f81639a71528 Shiyang Ruan            2021-08-10  1533  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3078  	while (*fmt) {
-d4be151b2180fb Andr=C3=A9 Goddard Rosa      2009-12-14  3079  		int read =
-=3D format_decode(fmt, &spec);
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3080  =
+ab77dab46210bb Souptick Joarder        2018-06-07  1534  static vm_fault_t =
+dax_iomap_pmd_fault(struct vm_fault *vmf, pfn_t *pfnp,
+a2d581675d485e Dave Jiang              2017-02-24  1535  			       const st=
+ruct iomap_ops *ops)
+642261ac995e01 Ross Zwisler            2016-11-08  1536  {
+65dd814a6187ff Christoph Hellwig       2021-08-10  1537  	struct address_sp=
+ace *mapping =3D vmf->vma->vm_file->f_mapping;
+b15cd800682fca Matthew Wilcox          2018-03-29  1538  	XA_STATE_ORDER(xa=
+s, &mapping->i_pages, vmf->pgoff, PMD_ORDER);
+65dd814a6187ff Christoph Hellwig       2021-08-10  1539  	struct iomap_iter=
+ iter =3D {
+65dd814a6187ff Christoph Hellwig       2021-08-10  1540  		.inode		=3D mapp=
+ing->host,
+65dd814a6187ff Christoph Hellwig       2021-08-10  1541  		.len		=3D PMD_SI=
+ZE,
+65dd814a6187ff Christoph Hellwig       2021-08-10  1542  		.flags		=3D IOMA=
+P_FAULT,
+65dd814a6187ff Christoph Hellwig       2021-08-10  1543  	};
+c2436190e492b2 Shiyang Ruan            2021-08-10  1544  	vm_fault_t ret =
+=3D VM_FAULT_FALLBACK;
+b15cd800682fca Matthew Wilcox          2018-03-29  1545  	pgoff_t max_pgoff;
+642261ac995e01 Ross Zwisler            2016-11-08  1546  	void *entry;
+642261ac995e01 Ross Zwisler            2016-11-08  1547  	int error;
+642261ac995e01 Ross Zwisler            2016-11-08  1548  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3081  		fmt +=3D read;
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3082  =
+65dd814a6187ff Christoph Hellwig       2021-08-10  1549  	if (vmf->flags & =
+FAULT_FLAG_WRITE)
+65dd814a6187ff Christoph Hellwig       2021-08-10  1550  		iter.flags |=3D =
+IOMAP_WRITE;
+65dd814a6187ff Christoph Hellwig       2021-08-10  1551  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3083  		switch (spec.typ=
-e) {
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3084  		case FORMAT_TYPE=
-_NONE:
-d4be151b2180fb Andr=C3=A9 Goddard Rosa      2009-12-14  3085  		case FORMAT=
-_TYPE_PERCENT_CHAR:
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3086  			break;
-b006f19b055f90 Rasmus Villemoes        2015-11-06  3087  		case FORMAT_TYPE=
-_INVALID:
-b006f19b055f90 Rasmus Villemoes        2015-11-06  3088  			goto out;
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3089  =
+282a8e0391c377 Ross Zwisler            2017-02-22  1552  	/*
+282a8e0391c377 Ross Zwisler            2017-02-22  1553  	 * Check whether =
+offset isn't beyond end of file now. Caller is
+282a8e0391c377 Ross Zwisler            2017-02-22  1554  	 * supposed to ho=
+ld locks serializing us with truncate / punch hole so
+282a8e0391c377 Ross Zwisler            2017-02-22  1555  	 * this is a reli=
+able test.
+282a8e0391c377 Ross Zwisler            2017-02-22  1556  	 */
+65dd814a6187ff Christoph Hellwig       2021-08-10  1557  	max_pgoff =3D DIV=
+_ROUND_UP(i_size_read(iter.inode), PAGE_SIZE);
+282a8e0391c377 Ross Zwisler            2017-02-22  1558  =
 
-ed681a91ab8053 Vegard Nossum           2009-03-14  3090  		case FORMAT_TYPE=
-_WIDTH:
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3091  		case FORMAT_TYPE=
-_PRECISION:
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3092) 			width =3D (int)=
-save_arg(int);
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3093) 			/* Pointers may=
- require the width */
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3094) 			if (*fmt =3D=3D=
- 'p')
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3095) 				set_field_widt=
-h(&spec, width);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3096  			break;
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3097  =
+65dd814a6187ff Christoph Hellwig       2021-08-10  1559  	trace_dax_pmd_fau=
+lt(iter.inode, vmf, max_pgoff, 0);
+282a8e0391c377 Ross Zwisler            2017-02-22  1560  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3098  		case FORMAT_TYPE=
-_CHAR:
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3099  			save_arg(char);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3100  			break;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3101  =
+b15cd800682fca Matthew Wilcox          2018-03-29  1561  	if (xas.xa_index =
+>=3D max_pgoff) {
+c2436190e492b2 Shiyang Ruan            2021-08-10  1562  		ret =3D VM_FAULT=
+_SIGBUS;
+282a8e0391c377 Ross Zwisler            2017-02-22  1563  		goto out;
+282a8e0391c377 Ross Zwisler            2017-02-22  1564  	}
+642261ac995e01 Ross Zwisler            2016-11-08  1565  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3102  		case FORMAT_TYPE=
-_STR: {
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3103  			const char *sav=
-e_str =3D va_arg(args, char *);
-3e5903eb9cff70 Petr Mladek             2019-04-17  3104  			const char *err=
-_msg;
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3105  			size_t len;
-6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3106  =
+55f81639a71528 Shiyang Ruan            2021-08-10  1566  	if (dax_fault_che=
+ck_fallback(vmf, &xas, max_pgoff))
+642261ac995e01 Ross Zwisler            2016-11-08  1567  		goto fallback;
+642261ac995e01 Ross Zwisler            2016-11-08  1568  =
 
-3e5903eb9cff70 Petr Mladek             2019-04-17  3107  			err_msg =3D che=
-ck_pointer_msg(save_str);
-3e5903eb9cff70 Petr Mladek             2019-04-17  3108  			if (err_msg)
-3e5903eb9cff70 Petr Mladek             2019-04-17  3109  				save_str =3D e=
-rr_msg;
-3e5903eb9cff70 Petr Mladek             2019-04-17  3110  =
+876f29460cbd40 Ross Zwisler            2017-05-12  1569  	/*
+b15cd800682fca Matthew Wilcox          2018-03-29  1570  	 * grab_mapping_e=
+ntry() will make sure we get an empty PMD entry,
+b15cd800682fca Matthew Wilcox          2018-03-29  1571  	 * a zero PMD ent=
+ry or a DAX PMD.  If it can't (because a PTE
+b15cd800682fca Matthew Wilcox          2018-03-29  1572  	 * entry is alrea=
+dy in the array, for instance), it will return
+b15cd800682fca Matthew Wilcox          2018-03-29  1573  	 * VM_FAULT_FALLB=
+ACK.
+876f29460cbd40 Ross Zwisler            2017-05-12  1574  	 */
+23c84eb7837514 Matthew Wilcox (Oracle  2019-07-03  1575) 	entry =3D grab_ma=
+pping_entry(&xas, mapping, PMD_ORDER);
+b15cd800682fca Matthew Wilcox          2018-03-29  1576  	if (xa_is_interna=
+l(entry)) {
+c2436190e492b2 Shiyang Ruan            2021-08-10  1577  		ret =3D xa_to_in=
+ternal(entry);
+876f29460cbd40 Ross Zwisler            2017-05-12  1578  		goto fallback;
+b15cd800682fca Matthew Wilcox          2018-03-29  1579  	}
+876f29460cbd40 Ross Zwisler            2017-05-12  1580  =
 
-6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3111  			len =3D st=
-rlen(save_str) + 1;
-6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3112  			if (str + =
-len < end)
-6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3113  				memcpy(st=
-r, save_str, len);
-6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3114  			str +=3D l=
-en;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3115  			break;
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3116  		}
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3117  =
+e2093926a098a8 Ross Zwisler            2017-06-02  1581  	/*
+e2093926a098a8 Ross Zwisler            2017-06-02  1582  	 * It is possible=
+, particularly with mixed reads & writes to private
+e2093926a098a8 Ross Zwisler            2017-06-02  1583  	 * mappings, that=
+ we have raced with a PTE fault that overlaps with
+e2093926a098a8 Ross Zwisler            2017-06-02  1584  	 * the PMD we nee=
+d to set up.  If so just return and the fault will be
+e2093926a098a8 Ross Zwisler            2017-06-02  1585  	 * retried.
+e2093926a098a8 Ross Zwisler            2017-06-02  1586  	 */
+e2093926a098a8 Ross Zwisler            2017-06-02  1587  	if (!pmd_none(*vm=
+f->pmd) && !pmd_trans_huge(*vmf->pmd) &&
+e2093926a098a8 Ross Zwisler            2017-06-02  1588  			!pmd_devmap(*vm=
+f->pmd)) {
+c2436190e492b2 Shiyang Ruan            2021-08-10  1589  		ret =3D 0;
+e2093926a098a8 Ross Zwisler            2017-06-02  1590  		goto unlock_entr=
+y;
+e2093926a098a8 Ross Zwisler            2017-06-02  1591  	}
+e2093926a098a8 Ross Zwisler            2017-06-02  1592  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3118  		case FORMAT_TYPE=
-_PTR:
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3119) 			/* Dereferenced=
- pointers must be done now */
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3120) 			switch (*fmt) {
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3121) 			/* Dereference =
-of functions is still OK */
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3122) 			case 'S':
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3123) 			case 's':
-1e6338cfb50e24 Steven Rostedt (VMware  2018-04-03  3124) 			case 'x':
-1e6338cfb50e24 Steven Rostedt (VMware  2018-04-03  3125) 			case 'K':
-57f5677e535ba2 Rasmus Villemoes        2019-10-15  3126  			case 'e':
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3127  				save_arg(void =
-*);
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3128) 				break;
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3129) 			default:
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3130) 				if (!isalnum(*=
-fmt)) {
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3131) 					save_arg(void=
- *);
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3132) 					break;
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3133) 				}
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3134) 				str =3D pointe=
-r(fmt, str, end, va_arg(args, void *),
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3135) 					      spec);
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3136) 				if (str + 1 < =
-end)
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3137) 					*str++ =3D '\=
-0';
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3138) 				else
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28 @3139) 					end[-1] =3D '=
-\0'; /* Must be nul terminated */
-841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3140) 			}
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3141  			/* skip all alp=
-hanumeric pointer suffixes */
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3142  			while (isalnum(=
-*fmt))
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3143  				fmt++;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3144  			break;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3145  =
+65dd814a6187ff Christoph Hellwig       2021-08-10  1593  	iter.pos =3D (lof=
+f_t)xas.xa_index << PAGE_SHIFT;
+65dd814a6187ff Christoph Hellwig       2021-08-10 @1594  	while ((error =3D=
+ iomap_iter(&iter, ops)) > 0) {
+65dd814a6187ff Christoph Hellwig       2021-08-10  1595  		if (iomap_length=
+(&iter) < PMD_SIZE)
+65dd814a6187ff Christoph Hellwig       2021-08-10  1596  			continue; /* ac=
+tually breaks out of the loop */
+642261ac995e01 Ross Zwisler            2016-11-08  1597  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3146  		default:
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3147  			switch (spec.ty=
-pe) {
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3148  =
+65dd814a6187ff Christoph Hellwig       2021-08-10  1598  		ret =3D dax_faul=
+t_iter(vmf, &iter, pfnp, &xas, &entry, true);
+65dd814a6187ff Christoph Hellwig       2021-08-10  1599  		if (ret !=3D VM_=
+FAULT_FALLBACK)
+65dd814a6187ff Christoph Hellwig       2021-08-10  1600  			iter.processed =
+=3D PMD_SIZE;
+642261ac995e01 Ross Zwisler            2016-11-08  1601  	}
+65dd814a6187ff Christoph Hellwig       2021-08-10  1602  =
 
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3149  			case FORMAT_TYP=
-E_LONG_LONG:
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3150  				save_arg(long =
-long);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3151  				break;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3152  			case FORMAT_TYP=
-E_ULONG:
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3153  			case FORMAT_TYP=
-E_LONG:
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3154  				save_arg(unsig=
-ned long);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3155  				break;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3156  			case FORMAT_TYP=
-E_SIZE_T:
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3157  				save_arg(size_=
-t);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3158  				break;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3159  			case FORMAT_TYP=
-E_PTRDIFF:
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3160  				save_arg(ptrdi=
-ff_t);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3161  				break;
-a4e94ef0dd391e Zhaolei                 2009-03-27  3162  			case FORMAT_TYP=
-E_UBYTE:
-a4e94ef0dd391e Zhaolei                 2009-03-27  3163  			case FORMAT_TYP=
-E_BYTE:
-a4e94ef0dd391e Zhaolei                 2009-03-27  3164  				save_arg(char);
-a4e94ef0dd391e Zhaolei                 2009-03-27  3165  				break;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3166  			case FORMAT_TYP=
-E_USHORT:
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3167  			case FORMAT_TYP=
-E_SHORT:
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3168  				save_arg(short=
-);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3169  				break;
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3170  			default:
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3171  				save_arg(int);
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3172  			}
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3173  		}
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3174  	}
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3175  =
+876f29460cbd40 Ross Zwisler            2017-05-12  1603  unlock_entry:
+b15cd800682fca Matthew Wilcox          2018-03-29  1604  	dax_unlock_entry(=
+&xas, entry);
+642261ac995e01 Ross Zwisler            2016-11-08  1605  fallback:
+c2436190e492b2 Shiyang Ruan            2021-08-10  1606  	if (ret =3D=3D VM=
+_FAULT_FALLBACK) {
+65dd814a6187ff Christoph Hellwig       2021-08-10  1607  		split_huge_pmd(v=
+mf->vma, vmf->pmd, vmf->address);
+642261ac995e01 Ross Zwisler            2016-11-08  1608  		count_vm_event(T=
+HP_FAULT_FALLBACK);
+642261ac995e01 Ross Zwisler            2016-11-08  1609  	}
+282a8e0391c377 Ross Zwisler            2017-02-22  1610  out:
+65dd814a6187ff Christoph Hellwig       2021-08-10  1611  	trace_dax_pmd_fau=
+lt_done(iter.inode, vmf, max_pgoff, ret);
+c2436190e492b2 Shiyang Ruan            2021-08-10  1612  	return ret;
+642261ac995e01 Ross Zwisler            2016-11-08  1613  }
+a2d581675d485e Dave Jiang              2017-02-24  1614  #else
+ab77dab46210bb Souptick Joarder        2018-06-07  1615  static vm_fault_t =
+dax_iomap_pmd_fault(struct vm_fault *vmf, pfn_t *pfnp,
+01cddfe99008da Arnd Bergmann           2017-02-27  1616  			       const st=
+ruct iomap_ops *ops)
+a2d581675d485e Dave Jiang              2017-02-24  1617  {
+a2d581675d485e Dave Jiang              2017-02-24  1618  	return VM_FAULT_F=
+ALLBACK;
+a2d581675d485e Dave Jiang              2017-02-24  1619  }
+642261ac995e01 Ross Zwisler            2016-11-08  1620  #endif /* CONFIG_F=
+S_DAX_PMD */
+a2d581675d485e Dave Jiang              2017-02-24  1621  =
 
-b006f19b055f90 Rasmus Villemoes        2015-11-06  3176  out:
-7b9186f5eb0b17 Andr=C3=A9 Goddard Rosa      2009-12-14  3177  	return (u32 =
-*)(PTR_ALIGN(str, sizeof(u32))) - bin_buf;
-fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3178  #undef save_arg
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3179  }
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3180  EXPORT_SYMBOL_GPL(=
-vbin_printf);
-4370aa4aa75391 Lai Jiangshan           2009-03-06  3181  =
-
-
-:::::: The code@line 3139 was first introduced by commit
-:::::: 841a915d20c7b22fc4f36f12368daf94d9f8cb10 vsprintf: Do not have bprin=
-tf dereference pointers
-
-:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
-:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============8594189857967670600==--
+--===============7417923481741256679==--
 
