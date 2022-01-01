@@ -1,43 +1,49 @@
-Content-Type: multipart/mixed; boundary="===============4974429061674795165=="
+Content-Type: multipart/mixed; boundary="===============3763635622803842758=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [smfrench-smb3:for-next 10/12] fs/cifs/smb2pdu.c:3811:19: warning: Although the value stored to 'ses_selected' is used in the enclosing expression, the value is never actually read from 'ses_selected' [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 02 Jan 2022 06:27:26 +0800
-Message-ID: <202201020509.b5qCNECh-lkp@intel.com>
+Subject: [djwong-xfs:vectorized-scrub 146/327] fs/xfs/scrub/attr_repair.c:904:3: warning: Value stored to 'error' is never read [clang-analyzer-deadcode.DeadStores]
+Date: Sun, 02 Jan 2022 04:32:19 +0800
+Message-ID: <202201020442.U23C0oOm-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============4974429061674795165==
+--===============3763635622803842758==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
+CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-TO: Steve French <stfrench@microsoft.com>
+CC: "Darrick J. Wong" <darrick.wong@oracle.com>
+CC: linux-kernel(a)vger.kernel.org
+TO: "Darrick J. Wong" <djwong@kernel.org>
 
-tree:   git://github.com/smfrench/smb3-kernel.git for-next
-head:   3fe0b5a99f6e0726eb88cee160ee96b002d2a60d
-commit: 2859dc2cfd05f278e7a00a79912c32286e2d0bbe [10/12] cifs: check reconn=
-ects for channels of active tcons too
-:::::: branch date: 2 days ago
-:::::: commit date: 2 days ago
-config: x86_64-randconfig-c007-20211231 (https://download.01.org/0day-ci/ar=
-chive/20220102/202201020509.b5qCNECh-lkp(a)intel.com/config)
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
+t vectorized-scrub
+head:   7bd5ed813c460c39b9ed735852970905ad0a633b
+commit: 042c4579d40b9ecacb5d5332a8177fc5514bcbb3 [146/327] xfs: repair exte=
+nded attributes
+:::::: branch date: 26 hours ago
+:::::: commit date: 26 hours ago
+config: riscv-randconfig-c006-20211231 (https://download.01.org/0day-ci/arc=
+hive/20220102/202201020442.U23C0oOm-lkp(a)intel.com/config)
 compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c05440=
 2170cd8466683a20385befc0523aba3359)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # https://github.com/smfrench/smb3-kernel/commit/2859dc2cfd05f278e7=
-a00a79912c32286e2d0bbe
-        git remote add smfrench-smb3 git://github.com/smfrench/smb3-kernel.=
-git
-        git fetch --no-tags smfrench-smb3 for-next
-        git checkout 2859dc2cfd05f278e7a00a79912c32286e2d0bbe
+        # install riscv cross compiling tool for clang build
+        # apt-get install binutils-riscv64-linux-gnu
+        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
+git/commit/?id=3D042c4579d40b9ecacb5d5332a8177fc5514bcbb3
+        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
+el/git/djwong/xfs-linux.git
+        git fetch --no-tags djwong-xfs vectorized-scrub
+        git checkout 042c4579d40b9ecacb5d5332a8177fc5514bcbb3
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Dx86_64 clang-analyzer =
+=3Driscv clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -45,459 +51,374 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   include/linux/rcupdate.h:317:2: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-           do {                                                            \
+               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/mt6397-regulator.c:206:9: warning: Assigned value is g=
+arbage or undefined [clang-analyzer-core.uninitialized.Assign]
+           regval >>=3D ffs(info->modeset_mask) - 1;
+                  ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/mt6397-regulator.c:199:6: note: Assuming 'ret' is equa=
+l to 0
+           if (ret !=3D 0) {
+               ^~~~~~~~
+   drivers/regulator/mt6397-regulator.c:199:2: note: Taking false branch
+           if (ret !=3D 0) {
            ^
-   net/ipv4/fib_trie.c:657:7: note: Assuming 'node1' is non-null
-                   if (!node1 || !node0) {
-                       ^~~~~~
-   net/ipv4/fib_trie.c:657:7: note: Left side of '||' is false
-   net/ipv4/fib_trie.c:657:17: note: Assuming 'node0' is non-null
-                   if (!node1 || !node0) {
-                                 ^~~~~~
-   net/ipv4/fib_trie.c:657:3: note: Taking false branch
-                   if (!node1 || !node0) {
-                   ^
-   net/ipv4/fib_trie.c:664:8: note: 'inode' is non-null
-                   if (!inode)
-                        ^~~~~
-   net/ipv4/fib_trie.c:664:3: note: Taking false branch
-                   if (!inode)
-                   ^
-   net/ipv4/fib_trie.c:669:3: note: Calling 'put_child'
-                   put_child(inode, 1, node1);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
-   net/ipv4/fib_trie.c:419:27: note: Assuming the condition is false
-           struct key_vector *chi =3D get_child(tn, i);
-                                    ^
-   net/ipv4/fib_trie.c:194:26: note: expanded from macro 'get_child'
-   #define get_child(tn, i) rtnl_dereference((tn)->tnode[i])
-                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
-nce'
-           rcu_dereference_protected(p, lockdep_rtnl_is_held())
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:588:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/rcupdate.h:397:19: note: expanded from macro '__rcu_derefe=
-rence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+   drivers/regulator/mt6397-regulator.c:206:9: note: Assigned value is garb=
+age or undefined
+           regval >>=3D ffs(info->modeset_mask) - 1;
+                  ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/regulator/palmas-regulator.c:1598:36: warning: Value stored to '=
+pdata' during its initialization is never read [clang-analyzer-deadcode.Dea=
+dStores]
+           struct palmas_pmic_platform_data *pdata =3D dev_get_platdata(&pd=
+ev->dev);
+                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~=
 ~~~~~~
-   include/linux/rcupdate.h:319:8: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
-                        ^
-   net/ipv4/fib_trie.c:419:27: note: Left side of '&&' is false
-           struct key_vector *chi =3D get_child(tn, i);
-                                    ^
-   net/ipv4/fib_trie.c:194:26: note: expanded from macro 'get_child'
-   #define get_child(tn, i) rtnl_dereference((tn)->tnode[i])
-                            ^
-   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
-nce'
-           rcu_dereference_protected(p, lockdep_rtnl_is_held())
+   drivers/regulator/palmas-regulator.c:1598:36: note: Value stored to 'pda=
+ta' during its initialization is never read
+           struct palmas_pmic_platform_data *pdata =3D dev_get_platdata(&pd=
+ev->dev);
+                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   7 warnings generated.
+   drivers/regulator/pca9450-regulator.c:171:6: warning: Assigned value is =
+garbage or undefined [clang-analyzer-core.uninitialized.Assign]
+                           i <<=3D ffs(desc->vsel_mask) - 1;
+                             ^
+   drivers/regulator/pca9450-regulator.c:191:2: note: Loop condition is tru=
+e.  Entering loop body
+           for (i =3D 0; i < PCA9450_DVS_LEVEL_MAX; i++) {
            ^
-   include/linux/rcupdate.h:588:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
-           ^
-   include/linux/rcupdate.h:397:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
-           ^
-   include/linux/rcupdate.h:319:11: note: expanded from macro 'RCU_LOCKDEP_=
-WARN'
-                   if ((c) && debug_lockdep_rcu_enabled() && !__warned) {  \
+   drivers/regulator/pca9450-regulator.c:192:3: note: Control jumps to 'cas=
+e PCA9450_DVS_LEVEL_RUN:' @line 193
+                   switch (i) {
+                   ^
+   drivers/regulator/pca9450-regulator.c:197:4: note:  Execution continues =
+on line 207
+                           break;
                            ^
-   net/ipv4/fib_trie.c:419:27: note: Loop condition is false.  Exiting loop
-           struct key_vector *chi =3D get_child(tn, i);
-                                    ^
-   net/ipv4/fib_trie.c:194:26: note: expanded from macro 'get_child'
-   #define get_child(tn, i) rtnl_dereference((tn)->tnode[i])
-                            ^
-   include/linux/rtnetlink.h:81:2: note: expanded from macro 'rtnl_derefere=
-nce'
-           rcu_dereference_protected(p, lockdep_rtnl_is_held())
+   drivers/regulator/pca9450-regulator.c:207:9: note: Calling 'buck_set_dvs'
+                   ret =3D buck_set_dvs(desc, np, cfg->regmap, prop, reg, m=
+ask);
+                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~
+   drivers/regulator/pca9450-regulator.c:160:8: note: Calling 'of_property_=
+read_u32'
+           ret =3D of_property_read_u32(np, prop, &uv);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:1257:9: note: Calling 'of_property_read_u32_array'
+           return of_property_read_u32_array(np, propname, out_value, 1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:507:6: note: Assuming 'ret' is >=3D 0
+           if (ret >=3D 0)
+               ^~~~~~~~
+   include/linux/of.h:507:2: note: Taking true branch
+           if (ret >=3D 0)
            ^
-   include/linux/rcupdate.h:588:2: note: expanded from macro 'rcu_dereferen=
-ce_protected'
-           __rcu_dereference_protected((p), (c), __rcu)
+   include/linux/of.h:508:3: note: Returning zero, which participates in a =
+condition later
+                   return 0;
+                   ^~~~~~~~
+   include/linux/of.h:1257:9: note: Returning from 'of_property_read_u32_ar=
+ray'
+           return of_property_read_u32_array(np, propname, out_value, 1);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/of.h:1257:2: note: Returning zero, which participates in a=
+ condition later
+           return of_property_read_u32_array(np, propname, out_value, 1);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/pca9450-regulator.c:160:8: note: Returning from 'of_pr=
+operty_read_u32'
+           ret =3D of_property_read_u32(np, prop, &uv);
+                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/pca9450-regulator.c:161:2: note: Taking false branch
+           if (ret =3D=3D -EINVAL)
            ^
-   include/linux/rcupdate.h:397:2: note: expanded from macro '__rcu_derefer=
-ence_protected'
-           RCU_LOCKDEP_WARN(!(c), "suspicious rcu_dereference_protected() u=
-sage"); \
+   drivers/regulator/pca9450-regulator.c:163:11: note: 'ret' is 0
+           else if (ret)
+                    ^~~
+   drivers/regulator/pca9450-regulator.c:163:7: note: Taking false branch
+           else if (ret)
+                ^
+   drivers/regulator/pca9450-regulator.c:166:14: note: Assuming 'i' is < fi=
+eld 'n_voltages'
+           for (i =3D 0; i < desc->n_voltages; i++) {
+                       ^~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/pca9450-regulator.c:166:2: note: Loop condition is tru=
+e.  Entering loop body
+           for (i =3D 0; i < desc->n_voltages; i++) {
            ^
-   include/linux/rcupdate.h:317:2: note: expanded from macro 'RCU_LOCKDEP_W=
-ARN'
-           do {                                                            \
-           ^
-   net/ipv4/fib_trie.c:419:2: note: Assigned value is garbage or undefined
-           struct key_vector *chi =3D get_child(tn, i);
-           ^
-   Suppressed 9 warnings (9 in non-user code).
+   drivers/regulator/pca9450-regulator.c:168:7: note: Assuming 'ret' is >=
+=3D 0
+                   if (ret < 0)
+                       ^~~~~~~
+   drivers/regulator/pca9450-regulator.c:168:3: note: Taking false branch
+                   if (ret < 0)
+                   ^
+   drivers/regulator/pca9450-regulator.c:170:7: note: Assuming 'ret' is equ=
+al to 'uv'
+                   if (ret =3D=3D uv) {
+                       ^~~~~~~~~
+   drivers/regulator/pca9450-regulator.c:170:3: note: Taking true branch
+                   if (ret =3D=3D uv) {
+                   ^
+   drivers/regulator/pca9450-regulator.c:171:6: note: Assigned value is gar=
+bage or undefined
+                           i <<=3D ffs(desc->vsel_mask) - 1;
+                             ^   ~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+>> fs/xfs/scrub/attr_repair.c:904:3: warning: Value stored to 'error' is ne=
+ver read [clang-analyzer-deadcode.DeadStores]
+                   error =3D xfs_defer_finish(&sc->tp);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
+   fs/xfs/scrub/attr_repair.c:904:3: note: Value stored to 'error' is never=
+ read
+                   error =3D xfs_defer_finish(&sc->tp);
+                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   11 warnings generated.
+   fs/xfs/scrub/inode_repair.c:964:4: warning: Value stored to 'afork_min' =
+is never read [clang-analyzer-deadcode.DeadStores]
+                           afork_min =3D bmdr_minsz;
+                           ^           ~~~~~~~~~~
+   fs/xfs/scrub/inode_repair.c:964:4: note: Value stored to 'afork_min' is =
+never read
+                           afork_min =3D bmdr_minsz;
+                           ^           ~~~~~~~~~~
+   Suppressed 10 warnings (10 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   8 warnings generated.
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   9 warnings generated.
+   fs/xfs/scrub/repair.c:2124:3: warning: Value stored to 'dirty' is never =
+read [clang-analyzer-deadcode.DeadStores]
+                   dirty =3D false;
+                   ^       ~~~~~
+   fs/xfs/scrub/repair.c:2124:3: note: Value stored to 'dirty' is never read
+                   dirty =3D false;
+                   ^       ~~~~~
+   Suppressed 8 warnings (8 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   5 warnings generated.
+   Suppressed 5 warnings (5 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
    7 warnings generated.
    Suppressed 7 warnings (7 in non-user code).
    Use -header-filter=3D.* to display errors from all non-system headers. U=
 se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   fs/cifs/smb2misc.c:503:2: warning: Value stored to 'rc' is never read [c=
-lang-analyzer-deadcode.DeadStores]
-           rc =3D SMB2_lease_break(0, tlink_tcon(lw->tlink), lw->lease_key,
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/smb2misc.c:503:2: note: Value stored to 'rc' is never read
-           rc =3D SMB2_lease_break(0, tlink_tcon(lw->tlink), lw->lease_key,
-           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   fs/cifs/smb2pdu.c:596:3: warning: Value stored to 'pneg_ctxt' is never r=
-ead [clang-analyzer-deadcode.DeadStores]
-                   pneg_ctxt +=3D ctxt_len;
-                   ^            ~~~~~~~~
-   fs/cifs/smb2pdu.c:596:3: note: Value stored to 'pneg_ctxt' is never read
-                   pneg_ctxt +=3D ctxt_len;
-                   ^            ~~~~~~~~
->> fs/cifs/smb2pdu.c:3811:19: warning: Although the value stored to 'ses_se=
-lected' is used in the enclosing expression, the value is never actually re=
-ad from 'ses_selected' [clang-analyzer-deadcode.DeadStores]
-                   tcon_selected =3D ses_selected =3D false;
-                                   ^              ~~~~~
-   fs/cifs/smb2pdu.c:3811:19: note: Although the value stored to 'ses_selec=
-ted' is used in the enclosing expression, the value is never actually read =
-from 'ses_selected'
-                   tcon_selected =3D ses_selected =3D false;
-                                   ^              ~~~~~
->> fs/cifs/smb2pdu.c:3836:4: warning: Value stored to 'ses_selected' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                           ses_selected =3D ses_exist =3D true;
-                           ^              ~~~~~~~~~~~~~~~~
-   fs/cifs/smb2pdu.c:3836:4: note: Value stored to 'ses_selected' is never =
-read
-                           ses_selected =3D ses_exist =3D true;
-                           ^              ~~~~~~~~~~~~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   10 warnings generated.
-   fs/cifs/cifsacl.c:1141:3: warning: Value stored to 'new_aces_set' is nev=
-er read [clang-analyzer-deadcode.DeadStores]
-                   new_aces_set =3D true;
-                   ^              ~~~~
-   fs/cifs/cifsacl.c:1141:3: note: Value stored to 'new_aces_set' is never =
-read
-                   new_aces_set =3D true;
-                   ^              ~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   12 warnings generated.
-   fs/cifs/connect.c:317:4: warning: Value stored to 'rc' is never read [cl=
-ang-analyzer-deadcode.DeadStores]
-                           rc =3D reconn_set_ipaddr_from_hostname(server);
-                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/connect.c:317:4: note: Value stored to 'rc' is never read
-                           rc =3D reconn_set_ipaddr_from_hostname(server);
-                           ^    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/connect.c:3748:3: warning: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-                   strcpy(bcc_ptr, tree);
-                   ^~~~~~
-   fs/cifs/connect.c:3748:3: note: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119
-                   strcpy(bcc_ptr, tree);
-                   ^~~~~~
-   fs/cifs/connect.c:3751:2: warning: Call to function 'strcpy' is insecure=
- as it does not provide bounding of the memory buffer. Replace unbounded co=
-py functions with analogous functions that support length arguments such as=
- 'strlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
-           strcpy(bcc_ptr, "?????");
-           ^~~~~~
-   fs/cifs/connect.c:3751:2: note: Call to function 'strcpy' is insecure as=
- it does not provide bounding of the memory buffer. Replace unbounded copy =
-functions with analogous functions that support length arguments such as 's=
-trlcpy'. CWE-119
-           strcpy(bcc_ptr, "?????");
-           ^~~~~~
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (9 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   18 warnings generated.
-   fs/cifs/file.c:568:24: warning: Access to field 'f_flags' results in a d=
-ereference of a null pointer (loaded from variable 'cfile') [clang-analyzer=
--core.NullDereference]
-                   if (file->f_flags =3D=3D cfile->f_flags) {
-                                        ^~~~~
-   fs/cifs/file.c:531:8: note: Taking false branch
-           xid =3D get_xid();
-                 ^
-   fs/cifs/cifsproto.h:38:2: note: expanded from macro 'get_xid'
-           cifs_dbg(FYI, "VFS: in %s as Xid: %u with uid: %d\n",           \
-           ^
-   fs/cifs/cifs_debug.h:76:2: note: expanded from macro 'cifs_dbg'
-           if ((type) & ONCE)                                              \
-           ^
-   fs/cifs/file.c:531:8: note: Left side of '&&' is true
-           xid =3D get_xid();
-                 ^
-   fs/cifs/cifsproto.h:38:2: note: expanded from macro 'get_xid'
-           cifs_dbg(FYI, "VFS: in %s as Xid: %u with uid: %d\n",           \
-           ^
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-                   ^
-   fs/cifs/cifs_debug.h:64:6: note: expanded from macro 'cifs_dbg_func'
-           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
+   7 warnings generated.
+   drivers/regulator/helpers.c:963:6: warning: Assigned value is garbage or=
+ undefined [clang-analyzer-core.uninitialized.Assign]
+           sel <<=3D ffs(rdev->desc->ramp_mask) - 1;
+               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/regulator/helpers.c:951:14: note: Assuming field 'n_ramp_values'=
+ is not equal to 0
+           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
+y_table))
+                       ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/regulator/helpers.c:951:14: note: Left side of '||' is false
+           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
+y_table))
+                       ^
+   drivers/regulator/helpers.c:951:44: note: Assuming field 'ramp_delay_tab=
+le' is non-null
+           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
+y_table))
+                                                     ^
+   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
+           int __ret_warn_on =3D !!(condition);                            =
+  \
+                                  ^~~~~~~~~
+   drivers/regulator/helpers.c:951:6: note: Taking false branch
+           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
+y_table))
                ^
-   fs/cifs/file.c:531:8: note: Assuming the condition is false
-           xid =3D get_xid();
-                 ^
-   fs/cifs/cifsproto.h:38:2: note: expanded from macro 'get_xid'
-           cifs_dbg(FYI, "VFS: in %s as Xid: %u with uid: %d\n",           \
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/cifs/cifs_debug.h:64:22: note: expanded from macro 'cifs_dbg_func'
-           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
-                               ^~~~~~~~~~~~~~~~~~~
-   fs/cifs/file.c:531:8: note: Taking false branch
-           xid =3D get_xid();
-                 ^
-   fs/cifs/cifsproto.h:38:2: note: expanded from macro 'get_xid'
-           cifs_dbg(FYI, "VFS: in %s as Xid: %u with uid: %d\n",           \
+   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
+           if (unlikely(__ret_warn_on))                                    \
            ^
-   fs/cifs/cifs_debug.h:79:3: note: expanded from macro 'cifs_dbg'
-                   cifs_dbg_func(ratelimited, type, fmt, ##__VA_ARGS__);   \
-                   ^
-   fs/cifs/cifs_debug.h:64:2: note: expanded from macro 'cifs_dbg_func'
-           if ((type) & FYI && cifsFYI & CIFS_INFO) {                      \
+   drivers/regulator/helpers.c:951:2: note: Taking false branch
+           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
+y_table))
            ^
-   fs/cifs/file.c:531:8: note: Taking false branch
-           xid =3D get_xid();
+   drivers/regulator/helpers.c:957:6: note: 'ret' is 0
+           if (ret) {
+               ^~~
+   drivers/regulator/helpers.c:957:2: note: Taking false branch
+           if (ret) {
+           ^
+   drivers/regulator/helpers.c:963:6: note: Assigned value is garbage or un=
+defined
+           sel <<=3D ffs(rdev->desc->ramp_mask) - 1;
+               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
+   6 warnings generated.
+   Suppressed 6 warnings (6 in non-user code).
+   Use -header-filter=3D.* to display errors from all non-system headers. U=
+se -system-headers to display errors from system headers as well.
 
-vim +3811 fs/cifs/smb2pdu.c
+vim +/error +904 fs/xfs/scrub/attr_repair.c
 
-9094fad1ed90ca Pavel Shilovsky  2012-07-12  3784  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  866  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3785  void smb2_reconnect_serve=
-r(struct work_struct *work)
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3786  {
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3787  	struct TCP_Server_Info *=
-server =3D container_of(work,
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3788  					struct TCP_Server_In=
-fo, reconnect.work);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3789  	struct TCP_Server_Info *=
-pserver;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3790  	struct cifs_ses *ses, *s=
-es2;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3791  	struct cifs_tcon *tcon, =
-*tcon2;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3792  	struct list_head tmp_lis=
-t, tmp_ses_list;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3793  	bool tcon_exist =3D fals=
-e, ses_exist =3D false;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3794  	bool tcon_selected =3D f=
-alse, ses_selected =3D false;
-18ea43113f5b74 Germano Percossi 2017-04-07  3795  	int rc;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3796  	bool resched =3D false;
-18ea43113f5b74 Germano Percossi 2017-04-07  3797  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  867  /*
+042c4579d40b9e Darrick J. Wong 2021-09-01  868   * Prepare both inodes' att=
+ribute forks for extent swapping.  Promote the
+042c4579d40b9e Darrick J. Wong 2021-09-01  869   * tempfile from short form=
+at to leaf format, and if the file being repaired
+042c4579d40b9e Darrick J. Wong 2021-09-01  870   * has a short format attr =
+fork, turn it into an empty extent list.
+042c4579d40b9e Darrick J. Wong 2021-09-01  871   */
+042c4579d40b9e Darrick J. Wong 2021-09-01  872  STATIC int
+042c4579d40b9e Darrick J. Wong 2021-09-01  873  xrep_xattr_swap_prep(
+042c4579d40b9e Darrick J. Wong 2021-09-01  874  	struct xfs_scrub	*sc,
+042c4579d40b9e Darrick J. Wong 2021-09-01  875  	bool			temp_local,
+042c4579d40b9e Darrick J. Wong 2021-09-01  876  	bool			ip_local)
+042c4579d40b9e Darrick J. Wong 2021-09-01  877  {
+042c4579d40b9e Darrick J. Wong 2021-09-01  878  	int			error;
+042c4579d40b9e Darrick J. Wong 2021-09-01  879  =
 
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3798  	/* If server is a channe=
-l, select the primary channel */
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3799  	pserver =3D CIFS_SERVER_=
-IS_CHAN(server) ? server->primary_server : server;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3800  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  880  	/*
+042c4579d40b9e Darrick J. Wong 2021-09-01  881  	 * If the tempfile's attri=
+butes are in shortform format, convert that
+042c4579d40b9e Darrick J. Wong 2021-09-01  882  	 * to a single leaf extent=
+ so that we can use the atomic extent swap.
+042c4579d40b9e Darrick J. Wong 2021-09-01  883  	 */
+042c4579d40b9e Darrick J. Wong 2021-09-01  884  	if (temp_local) {
+042c4579d40b9e Darrick J. Wong 2021-09-01  885  		struct xfs_buf		*leaf_bp =
+=3D NULL;
+042c4579d40b9e Darrick J. Wong 2021-09-01  886  		struct xfs_da_args	args =
+=3D {
+042c4579d40b9e Darrick J. Wong 2021-09-01  887  			.dp		=3D sc->tempip,
+042c4579d40b9e Darrick J. Wong 2021-09-01  888  			.geo		=3D sc->mp->m_attr=
+_geo,
+042c4579d40b9e Darrick J. Wong 2021-09-01  889  			.whichfork	=3D XFS_ATTR_=
+FORK,
+042c4579d40b9e Darrick J. Wong 2021-09-01  890  			.trans		=3D sc->tp,
+042c4579d40b9e Darrick J. Wong 2021-09-01  891  			.total		=3D 1,
+042c4579d40b9e Darrick J. Wong 2021-09-01  892  		};
+042c4579d40b9e Darrick J. Wong 2021-09-01  893  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3801  	/* Prevent simultaneous =
-reconnects that can corrupt tcon->rlist list */
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3802  	mutex_lock(&pserver->rec=
-onnect_mutex);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3803  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  894  		error =3D xfs_attr_shortf=
+orm_to_leaf(&args, &leaf_bp);
+042c4579d40b9e Darrick J. Wong 2021-09-01  895  		if (error)
+042c4579d40b9e Darrick J. Wong 2021-09-01  896  			return error;
+042c4579d40b9e Darrick J. Wong 2021-09-01  897  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3804  	INIT_LIST_HEAD(&tmp_list=
-);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3805  	INIT_LIST_HEAD(&tmp_ses_=
-list);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3806  	cifs_dbg(FYI, "Reconnect=
-ing tcons and channels\n");
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3807  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  898  		/*
+042c4579d40b9e Darrick J. Wong 2021-09-01  899  		 * Roll the deferred log =
+items to get us back to a clean
+042c4579d40b9e Darrick J. Wong 2021-09-01  900  		 * transaction.  Hold on =
+to the leaf buffer across this roll
+042c4579d40b9e Darrick J. Wong 2021-09-01  901  		 * so that the AIL cannot=
+ grab our half-baked block.
+042c4579d40b9e Darrick J. Wong 2021-09-01  902  		 */
+042c4579d40b9e Darrick J. Wong 2021-09-01  903  		xfs_trans_bhold(sc->tp, l=
+eaf_bp);
+042c4579d40b9e Darrick J. Wong 2021-09-01 @904  		error =3D xfs_defer_finis=
+h(&sc->tp);
+042c4579d40b9e Darrick J. Wong 2021-09-01  905  		xfs_trans_bhold_release(s=
+c->tp, leaf_bp);
+042c4579d40b9e Darrick J. Wong 2021-09-01  906  	}
+042c4579d40b9e Darrick J. Wong 2021-09-01  907  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3808  	spin_lock(&cifs_tcp_ses_=
-lock);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3809  	list_for_each_entry(ses,=
- &pserver->smb_ses_list, smb_ses_list) {
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3810  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  908  	/*
+042c4579d40b9e Darrick J. Wong 2021-09-01  909  	 * If the file being repai=
+red had a shortform attribute fork, convert
+042c4579d40b9e Darrick J. Wong 2021-09-01  910  	 * that to an empty extent=
+ list in preparation for the atomic extent
+042c4579d40b9e Darrick J. Wong 2021-09-01  911  	 * swap.
+042c4579d40b9e Darrick J. Wong 2021-09-01  912  	 */
+042c4579d40b9e Darrick J. Wong 2021-09-01  913  	if (ip_local) {
+042c4579d40b9e Darrick J. Wong 2021-09-01  914  		struct xfs_ifork	*ifp;
+042c4579d40b9e Darrick J. Wong 2021-09-01  915  =
 
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30 @3811  		tcon_selected =3D ses_s=
-elected =3D false;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3812  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  916  		ifp =3D XFS_IFORK_PTR(sc-=
+>ip, XFS_ATTR_FORK);
+042c4579d40b9e Darrick J. Wong 2021-09-01  917  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3813  		list_for_each_entry(tco=
-n, &ses->tcon_list, tcon_list) {
-96a988ffeb90db Pavel Shilovsky  2016-11-29  3814  			if (tcon->need_reconne=
-ct || tcon->need_reopen_files) {
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3815  				tcon->tc_count++;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3816  				list_add_tail(&tcon->=
-rlist, &tmp_list);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3817  				tcon_selected =3D tco=
-n_exist =3D true;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3818  			}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3819  		}
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3820  		/*
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3821  		 * IPC has the same lif=
-etime as its session and uses its
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3822  		 * refcount.
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3823  		 */
-b327a717e50698 Aurelien Aptel   2018-01-24  3824  		if (ses->tcon_ipc && se=
-s->tcon_ipc->need_reconnect) {
-b327a717e50698 Aurelien Aptel   2018-01-24  3825  			list_add_tail(&ses->tc=
-on_ipc->rlist, &tmp_list);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3826  			tcon_selected =3D tcon=
-_exist =3D true;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3827  			ses->ses_count++;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3828  		}
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3829  		/*
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3830  		 * handle the case wher=
-e channel needs to reconnect
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3831  		 * binding session, but=
- tcon is healthy (some other channel
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3832  		 * is active)
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3833  		 */
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3834  		if (!tcon_selected && c=
-ifs_chan_needs_reconnect(ses, server)) {
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3835  			list_add_tail(&ses->rl=
-ist, &tmp_ses_list);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30 @3836  			ses_selected =3D ses_e=
-xist =3D true;
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3837  			ses->ses_count++;
-b327a717e50698 Aurelien Aptel   2018-01-24  3838  		}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3839  	}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3840  	/*
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3841  	 * Get the reference to =
-server struct to be sure that the last call of
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3842  	 * cifs_put_tcon() in th=
-e loop below won't release the server pointer.
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3843  	 */
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3844  	if (tcon_exist || ses_ex=
-ist)
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3845  		server->srv_count++;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3846  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  918  		xfs_idestroy_fork(ifp);
+042c4579d40b9e Darrick J. Wong 2021-09-01  919  		ifp->if_format =3D XFS_DI=
+NODE_FMT_EXTENTS;
+042c4579d40b9e Darrick J. Wong 2021-09-01  920  		ifp->if_nextents =3D 0;
+042c4579d40b9e Darrick J. Wong 2021-09-01  921  		ifp->if_bytes =3D 0;
+042c4579d40b9e Darrick J. Wong 2021-09-01  922  		ifp->if_u1.if_root =3D NU=
+LL;
+042c4579d40b9e Darrick J. Wong 2021-09-01  923  		ifp->if_height =3D 0;
+042c4579d40b9e Darrick J. Wong 2021-09-01  924  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3847  	spin_unlock(&cifs_tcp_se=
-s_lock);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3848  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  925  		xfs_trans_log_inode(sc->t=
+p, sc->ip,
+042c4579d40b9e Darrick J. Wong 2021-09-01  926  				XFS_ILOG_CORE | XFS_ILO=
+G_ADATA);
+042c4579d40b9e Darrick J. Wong 2021-09-01  927  	}
+042c4579d40b9e Darrick J. Wong 2021-09-01  928  =
 
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3849  	list_for_each_entry_safe=
-(tcon, tcon2, &tmp_list, rlist) {
-352d96f3acc6e0 Aurelien Aptel   2020-05-31  3850  		rc =3D smb2_reconnect(S=
-MB2_INTERNAL_CMD, tcon, server);
-18ea43113f5b74 Germano Percossi 2017-04-07  3851  		if (!rc)
-96a988ffeb90db Pavel Shilovsky  2016-11-29  3852  			cifs_reopen_persistent=
-_handles(tcon);
-18ea43113f5b74 Germano Percossi 2017-04-07  3853  		else
-18ea43113f5b74 Germano Percossi 2017-04-07  3854  			resched =3D true;
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3855  		list_del_init(&tcon->rl=
-ist);
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3856  		if (tcon->ipc)
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3857  			cifs_put_smb_ses(tcon-=
->ses);
-0ff2b018b02f89 Ronnie Sahlberg  2019-06-05  3858  		else
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3859  			cifs_put_tcon(tcon);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3860  	}
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3861  =
-
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3862  	if (!ses_exist)
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3863  		goto done;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3864  =
-
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3865  	/* allocate a dummy tcon=
- struct used for reconnect */
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3866  	tcon =3D kzalloc(sizeof(=
-struct cifs_tcon), GFP_KERNEL);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3867  	if (!tcon) {
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3868  		resched =3D true;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3869  		list_del_init(&ses->rli=
-st);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3870  		cifs_put_smb_ses(ses);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3871  		goto done;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3872  	}
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3873  =
-
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3874  	tcon->tidStatus =3D Cifs=
-Good;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3875  	tcon->retry =3D false;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3876  	tcon->need_reconnect =3D=
- false;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3877  =
-
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3878  	/* now reconnect session=
-s for necessary channels */
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3879  	list_for_each_entry_safe=
-(ses, ses2, &tmp_ses_list, rlist) {
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3880  		tcon->ses =3D ses;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3881  		rc =3D smb2_reconnect(S=
-MB2_INTERNAL_CMD, tcon, server);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3882  		if (rc)
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3883  			resched =3D true;
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3884  		list_del_init(&ses->rli=
-st);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3885  		cifs_put_smb_ses(ses);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3886  	}
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3887  	kfree(tcon);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3888  =
-
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3889  done:
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3890  	cifs_dbg(FYI, "Reconnect=
-ing tcons and channels finished\n");
-18ea43113f5b74 Germano Percossi 2017-04-07  3891  	if (resched)
-18ea43113f5b74 Germano Percossi 2017-04-07  3892  		queue_delayed_work(cifs=
-iod_wq, &server->reconnect, 2 * HZ);
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3893  	mutex_unlock(&pserver->r=
-econnect_mutex);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3894  =
-
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3895  	/* now we can safely rel=
-ease srv struct */
-2859dc2cfd05f2 Shyam Prasad N   2021-10-30  3896  	if (tcon_exist || ses_ex=
-ist)
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3897  		cifs_put_tcp_session(se=
-rver, 1);
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3898  }
-53e0e11efe9289 Pavel Shilovsky  2016-11-04  3899  =
+042c4579d40b9e Darrick J. Wong 2021-09-01  929  	return 0;
+042c4579d40b9e Darrick J. Wong 2021-09-01  930  }
+042c4579d40b9e Darrick J. Wong 2021-09-01  931  =
 
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============4974429061674795165==--
+--===============3763635622803842758==--
 
