@@ -1,49 +1,46 @@
-Content-Type: multipart/mixed; boundary="===============3763635622803842758=="
+Content-Type: multipart/mixed; boundary="===============8594189857967670600=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: [djwong-xfs:vectorized-scrub 146/327] fs/xfs/scrub/attr_repair.c:904:3: warning: Value stored to 'error' is never read [clang-analyzer-deadcode.DeadStores]
-Date: Sun, 02 Jan 2022 04:32:19 +0800
-Message-ID: <202201020442.U23C0oOm-lkp@intel.com>
+Subject: [ojeda-linux:sync 887/889] lib/vsprintf.c:3139:14: warning: Array access (from variable 'end') results in a null pointer dereference [clang-analyzer-core.NullDereference]
+Date: Sun, 02 Jan 2022 02:40:38 +0800
+Message-ID: <202201020214.EllLQrAG-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============3763635622803842758==
+--===============8594189857967670600==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
-CC: "Darrick J. Wong" <darrick.wong@oracle.com>
 CC: linux-kernel(a)vger.kernel.org
-TO: "Darrick J. Wong" <djwong@kernel.org>
+TO: Miguel Ojeda <ojeda@kernel.org>
 
-tree:   https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.gi=
-t vectorized-scrub
-head:   7bd5ed813c460c39b9ed735852970905ad0a633b
-commit: 042c4579d40b9ecacb5d5332a8177fc5514bcbb3 [146/327] xfs: repair exte=
-nded attributes
-:::::: branch date: 26 hours ago
-:::::: commit date: 26 hours ago
-config: riscv-randconfig-c006-20211231 (https://download.01.org/0day-ci/arc=
-hive/20220102/202201020442.U23C0oOm-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project c05440=
-2170cd8466683a20385befc0523aba3359)
+tree:   https://github.com/ojeda/linux.git sync
+head:   c2ae669696728da696ba76a2b20db84d5306893a
+commit: 3e7c98c0eeefd392badeb4ff0773fcf150b6d63b [887/889] `vsprintf`: avoi=
+d `#ifdef` in `.c` file
+:::::: branch date: 12 days ago
+:::::: commit date: 3 weeks ago
+config: arm-randconfig-c002-20211231 (https://download.01.org/0day-ci/archi=
+ve/20220102/202201020214.EllLQrAG-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 7cd109=
+b92c72855937273a6c8ab19016fbe27d33)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
-        # https://git.kernel.org/pub/scm/linux/kernel/git/djwong/xfs-linux.=
-git/commit/?id=3D042c4579d40b9ecacb5d5332a8177fc5514bcbb3
-        git remote add djwong-xfs https://git.kernel.org/pub/scm/linux/kern=
-el/git/djwong/xfs-linux.git
-        git fetch --no-tags djwong-xfs vectorized-scrub
-        git checkout 042c4579d40b9ecacb5d5332a8177fc5514bcbb3
+        # install arm cross compiling tool for clang build
+        # apt-get install binutils-arm-linux-gnueabi
+        # https://github.com/ojeda/linux/commit/3e7c98c0eeefd392badeb4ff077=
+3fcf150b6d63b
+        git remote add ojeda-linux https://github.com/ojeda/linux.git
+        git fetch --no-tags ojeda-linux sync
+        git checkout 3e7c98c0eeefd392badeb4ff0773fcf150b6d63b
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Darm clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -51,374 +48,432 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6397-regulator.c:206:9: warning: Assigned value is g=
-arbage or undefined [clang-analyzer-core.uninitialized.Assign]
-           regval >>=3D ffs(info->modeset_mask) - 1;
-                  ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/mt6397-regulator.c:199:6: note: Assuming 'ret' is equa=
-l to 0
-           if (ret !=3D 0) {
-               ^~~~~~~~
-   drivers/regulator/mt6397-regulator.c:199:2: note: Taking false branch
-           if (ret !=3D 0) {
+   lib/vsprintf.c:2434:10: note: Calling 'ip_addr_string'
+                   return ip_addr_string(buf, end, ptr, spec, fmt);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/vsprintf.c:1598:2: note: Taking false branch
+           if (check_pointer(&buf, end, ptr, spec))
            ^
-   drivers/regulator/mt6397-regulator.c:206:9: note: Assigned value is garb=
-age or undefined
-           regval >>=3D ffs(info->modeset_mask) - 1;
-                  ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/regulator/palmas-regulator.c:1598:36: warning: Value stored to '=
-pdata' during its initialization is never read [clang-analyzer-deadcode.Dea=
-dStores]
-           struct palmas_pmic_platform_data *pdata =3D dev_get_platdata(&pd=
-ev->dev);
-                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   drivers/regulator/palmas-regulator.c:1598:36: note: Value stored to 'pda=
-ta' during its initialization is never read
-           struct palmas_pmic_platform_data *pdata =3D dev_get_platdata(&pd=
-ev->dev);
-                                             ^~~~~   ~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/regulator/pca9450-regulator.c:171:6: warning: Assigned value is =
-garbage or undefined [clang-analyzer-core.uninitialized.Assign]
-                           i <<=3D ffs(desc->vsel_mask) - 1;
-                             ^
-   drivers/regulator/pca9450-regulator.c:191:2: note: Loop condition is tru=
-e.  Entering loop body
-           for (i =3D 0; i < PCA9450_DVS_LEVEL_MAX; i++) {
+   lib/vsprintf.c:1601:2: note: Control jumps to 'case 52:'  at line 1604
+           switch (fmt[1]) {
            ^
-   drivers/regulator/pca9450-regulator.c:192:3: note: Control jumps to 'cas=
-e PCA9450_DVS_LEVEL_RUN:' @line 193
-                   switch (i) {
+   lib/vsprintf.c:1605:10: note: Calling 'ip4_addr_string'
+                   return ip4_addr_string(buf, end, ptr, spec, fmt);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/vsprintf.c:1490:2: note: Calling 'ip4_string'
+           ip4_string(ip4_addr, addr, fmt);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/vsprintf.c:1329:2: note: Control jumps to the 'default' case at line=
+ 1345
+           switch (fmt[2]) {
+           ^
+   lib/vsprintf.c:1348:3: note:  Execution continues on line 1350
+                   break;
                    ^
-   drivers/regulator/pca9450-regulator.c:197:4: note:  Execution continues =
-on line 207
-                           break;
+   lib/vsprintf.c:1350:2: note: Loop condition is true.  Entering loop body
+           for (i =3D 0; i < 4; i++) {
+           ^
+   lib/vsprintf.c:1352:16: note: Calling 'put_dec_trunc8'
+                   int digits =3D put_dec_trunc8(temp, addr[index]) - temp;
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/vsprintf.c:220:6: note: Assuming 'r' is < 100
+           if (r < 100)
+               ^~~~~~~
+   lib/vsprintf.c:220:2: note: Taking true branch
+           if (r < 100)
+           ^
+   lib/vsprintf.c:221:3: note: Control jumps to line 250
+                   goto out_r;
+                   ^
+   lib/vsprintf.c:251:9: note: Assuming 'r' is >=3D 10
+           buf +=3D r < 10 ? 1 : 2;
+                  ^~~~~~
+   lib/vsprintf.c:251:9: note: '?' condition is false
+   lib/vsprintf.c:1352:16: note: Returning from 'put_dec_trunc8'
+                   int digits =3D put_dec_trunc8(temp, addr[index]) - temp;
+                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/vsprintf.c:1353:7: note: Assuming 'leading_zeros' is false
+                   if (leading_zeros) {
+                       ^~~~~~~~~~~~~
+   lib/vsprintf.c:1353:3: note: Taking false branch
+                   if (leading_zeros) {
+                   ^
+   lib/vsprintf.c:1360:10: note: The value 1 is assigned to 'digits'
+                   while (digits--)
+                          ^~~~~~~~
+   lib/vsprintf.c:1360:3: note: Loop condition is true.  Entering loop body
+                   while (digits--)
+                   ^
+   lib/vsprintf.c:1361:9: note: Assigned value is garbage or undefined
+                           *p++ =3D temp[digits];
+                                ^ ~~~~~~~~~~~~
+   lib/vsprintf.c:1424:4: warning: Value stored to 'needcolon' is never rea=
+d [clang-analyzer-deadcode.DeadStores]
+                           needcolon =3D false;
+                           ^           ~~~~~
+   lib/vsprintf.c:1424:4: note: Value stored to 'needcolon' is never read
+                           needcolon =3D false;
+                           ^           ~~~~~
+   lib/vsprintf.c:1792:2: warning: Call to function 'strcpy' is insecure as=
+ it does not provide bounding of the memory buffer. Replace unbounded copy =
+functions with analogous functions that support length arguments such as 's=
+trlcpy'. CWE-119 [clang-analyzer-security.insecureAPI.strcpy]
+           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
+           ^~~~~~
+   lib/vsprintf.c:1792:2: note: Call to function 'strcpy' is insecure as it=
+ does not provide bounding of the memory buffer. Replace unbounded copy fun=
+ctions with analogous functions that support length arguments such as 'strl=
+cpy'. CWE-119
+           strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
+           ^~~~~~
+   lib/vsprintf.c:3137:13: warning: Dereference of null pointer [clang-anal=
+yzer-core.NullDereference]
+                                           *str++ =3D '\0';
+                                           ~~~~~~~^~~~~~
+   lib/vsprintf.c:3078:2: note: Loop condition is true.  Entering loop body
+           while (*fmt) {
+           ^
+   lib/vsprintf.c:3083:3: note: Control jumps to 'case FORMAT_TYPE_PTR:'  a=
+t line 3118
+                   switch (spec.type) {
+                   ^
+   lib/vsprintf.c:3120:4: note: Control jumps to the 'default' case@line=
+ 3129
+                           switch (*fmt) {
                            ^
-   drivers/regulator/pca9450-regulator.c:207:9: note: Calling 'buck_set_dvs'
-                   ret =3D buck_set_dvs(desc, np, cfg->regmap, prop, reg, m=
-ask);
-                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~
-   drivers/regulator/pca9450-regulator.c:160:8: note: Calling 'of_property_=
-read_u32'
-           ret =3D of_property_read_u32(np, prop, &uv);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/of.h:1257:9: note: Calling 'of_property_read_u32_array'
-           return of_property_read_u32_array(np, propname, out_value, 1);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/of.h:507:6: note: Assuming 'ret' is >=3D 0
-           if (ret >=3D 0)
-               ^~~~~~~~
-   include/linux/of.h:507:2: note: Taking true branch
-           if (ret >=3D 0)
+   lib/vsprintf.c:3130:9: note: Assuming the condition is false
+                                   if (!isalnum(*fmt)) {
+                                       ^~~~~~~~~~~~~~
+   lib/vsprintf.c:3130:5: note: Taking false branch
+                                   if (!isalnum(*fmt)) {
+                                   ^
+   lib/vsprintf.c:3136:9: note: Assuming the condition is true
+                                   if (str + 1 < end)
+                                       ^~~~~~~~~~~~~
+   lib/vsprintf.c:3136:5: note: Taking true branch
+                                   if (str + 1 < end)
+                                   ^
+   lib/vsprintf.c:3137:7: note: Null pointer value stored to 'str'
+                                           *str++ =3D '\0';
+                                            ^~~~~
+   lib/vsprintf.c:3137:13: note: Dereference of null pointer
+                                           *str++ =3D '\0';
+                                           ~~~~~~~^~~~~~
+>> lib/vsprintf.c:3139:14: warning: Array access (from variable 'end') resu=
+lts in a null pointer dereference [clang-analyzer-core.NullDereference]
+                                           end[-1] =3D '\0'; /* Must be nul=
+ terminated */
+                                           ~~~     ^
+   lib/vsprintf.c:3052:2: note: Value assigned to 'end'
+           end =3D (char *)(bin_buf + size);
+           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   lib/vsprintf.c:3078:2: note: Loop condition is true.  Entering loop body
+           while (*fmt) {
            ^
-   include/linux/of.h:508:3: note: Returning zero, which participates in a =
-condition later
-                   return 0;
-                   ^~~~~~~~
-   include/linux/of.h:1257:9: note: Returning from 'of_property_read_u32_ar=
-ray'
-           return of_property_read_u32_array(np, propname, out_value, 1);
-                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/of.h:1257:2: note: Returning zero, which participates in a=
- condition later
-           return of_property_read_u32_array(np, propname, out_value, 1);
-           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/pca9450-regulator.c:160:8: note: Returning from 'of_pr=
-operty_read_u32'
-           ret =3D of_property_read_u32(np, prop, &uv);
-                 ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/pca9450-regulator.c:161:2: note: Taking false branch
-           if (ret =3D=3D -EINVAL)
-           ^
-   drivers/regulator/pca9450-regulator.c:163:11: note: 'ret' is 0
-           else if (ret)
-                    ^~~
-   drivers/regulator/pca9450-regulator.c:163:7: note: Taking false branch
-           else if (ret)
-                ^
-   drivers/regulator/pca9450-regulator.c:166:14: note: Assuming 'i' is < fi=
-eld 'n_voltages'
-           for (i =3D 0; i < desc->n_voltages; i++) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/pca9450-regulator.c:166:2: note: Loop condition is tru=
-e.  Entering loop body
-           for (i =3D 0; i < desc->n_voltages; i++) {
-           ^
-   drivers/regulator/pca9450-regulator.c:168:7: note: Assuming 'ret' is >=
-=3D 0
-                   if (ret < 0)
-                       ^~~~~~~
-   drivers/regulator/pca9450-regulator.c:168:3: note: Taking false branch
-                   if (ret < 0)
+   lib/vsprintf.c:3083:3: note: Control jumps to 'case FORMAT_TYPE_PTR:'  a=
+t line 3118
+                   switch (spec.type) {
                    ^
-   drivers/regulator/pca9450-regulator.c:170:7: note: Assuming 'ret' is equ=
-al to 'uv'
-                   if (ret =3D=3D uv) {
-                       ^~~~~~~~~
-   drivers/regulator/pca9450-regulator.c:170:3: note: Taking true branch
-                   if (ret =3D=3D uv) {
-                   ^
-   drivers/regulator/pca9450-regulator.c:171:6: note: Assigned value is gar=
-bage or undefined
-                           i <<=3D ffs(desc->vsel_mask) - 1;
-                             ^   ~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
->> fs/xfs/scrub/attr_repair.c:904:3: warning: Value stored to 'error' is ne=
-ver read [clang-analyzer-deadcode.DeadStores]
-                   error =3D xfs_defer_finish(&sc->tp);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
-   fs/xfs/scrub/attr_repair.c:904:3: note: Value stored to 'error' is never=
- read
-                   error =3D xfs_defer_finish(&sc->tp);
-                   ^       ~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   11 warnings generated.
-   fs/xfs/scrub/inode_repair.c:964:4: warning: Value stored to 'afork_min' =
-is never read [clang-analyzer-deadcode.DeadStores]
-                           afork_min =3D bmdr_minsz;
-                           ^           ~~~~~~~~~~
-   fs/xfs/scrub/inode_repair.c:964:4: note: Value stored to 'afork_min' is =
-never read
-                           afork_min =3D bmdr_minsz;
-                           ^           ~~~~~~~~~~
-   Suppressed 10 warnings (10 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   fs/xfs/scrub/repair.c:2124:3: warning: Value stored to 'dirty' is never =
-read [clang-analyzer-deadcode.DeadStores]
-                   dirty =3D false;
-                   ^       ~~~~~
-   fs/xfs/scrub/repair.c:2124:3: note: Value stored to 'dirty' is never read
-                   dirty =3D false;
-                   ^       ~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/regulator/helpers.c:963:6: warning: Assigned value is garbage or=
- undefined [clang-analyzer-core.uninitialized.Assign]
-           sel <<=3D ffs(rdev->desc->ramp_mask) - 1;
-               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/regulator/helpers.c:951:14: note: Assuming field 'n_ramp_values'=
- is not equal to 0
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-                       ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/regulator/helpers.c:951:14: note: Left side of '||' is false
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-                       ^
-   drivers/regulator/helpers.c:951:44: note: Assuming field 'ramp_delay_tab=
-le' is non-null
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-                                                     ^
-   include/asm-generic/bug.h:121:25: note: expanded from macro 'WARN_ON'
-           int __ret_warn_on =3D !!(condition);                            =
-  \
-                                  ^~~~~~~~~
-   drivers/regulator/helpers.c:951:6: note: Taking false branch
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
-               ^
-   include/asm-generic/bug.h:122:2: note: expanded from macro 'WARN_ON'
-           if (unlikely(__ret_warn_on))                                    \
+   lib/vsprintf.c:3120:4: note: Control jumps to the 'default' case at line=
+ 3129
+                           switch (*fmt) {
+                           ^
+   lib/vsprintf.c:3130:9: note: Assuming the condition is false
+                                   if (!isalnum(*fmt)) {
+                                       ^~~~~~~~~~~~~~
+   lib/vsprintf.c:3130:5: note: Taking false branch
+                                   if (!isalnum(*fmt)) {
+                                   ^
+   lib/vsprintf.c:3136:9: note: Assuming pointer value is null
+                                   if (str + 1 < end)
+                                       ^~~~~~~~~~~~~
+   lib/vsprintf.c:3136:5: note: Taking false branch
+                                   if (str + 1 < end)
+                                   ^
+   lib/vsprintf.c:3139:14: note: Array access (from variable 'end') results=
+ in a null pointer dereference
+                                           end[-1] =3D '\0'; /* Must be nul=
+ terminated */
+                                           ~~~     ^
+   1 warning generated.
+   drivers/hwtracing/coresight/coresight-cti-core.c:447:2: warning: Value s=
+tored to 'reg_value' is never read [clang-analyzer-deadcode.DeadStores]
+           reg_value =3D config->ctiappset;
+           ^           ~~~~~~~~~~~~~~~~~
+   drivers/hwtracing/coresight/coresight-cti-core.c:447:2: note: Value stor=
+ed to 'reg_value' is never read
+           reg_value =3D config->ctiappset;
+           ^           ~~~~~~~~~~~~~~~~~
+   2 warnings generated.
+   drivers/iio/dac/ad5360.c:74:8: warning: Excessive padding in 'struct ad5=
+360_state' (40 padding bytes, where 8 is optimal). =
+
+   Optimal fields order: =
+
+   data, =
+
+   spi, =
+
+   chip_info, =
+
+   ctrl, =
+
+   lock, =
+
+   vref_reg, =
+
+   consider reordering the fields or adding explicit padding members [clang=
+-analyzer-optin.performance.Padding]
+   struct ad5360_state {
+   ~~~~~~~^~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:74:8: note: Excessive padding in 'struct ad5360=
+_state' (40 padding bytes, where 8 is optimal). Optimal fields order: data,=
+ spi, chip_info, ctrl, lock, vref_reg, consider reordering the fields or ad=
+ding explicit padding members
+   struct ad5360_state {
+   ~~~~~~~^~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:493:26: warning: Assigned value is garbage or u=
+ndefined [clang-analyzer-core.uninitialized.Assign]
+                   st->vref_reg[i].supply =3D ad5360_vref_name[i];
+                                          ^ ~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:468:6: note: Assuming 'indio_dev' is not equal =
+to NULL
+           if (indio_dev =3D=3D NULL) {
+               ^~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:468:2: note: Taking false branch
+           if (indio_dev =3D=3D NULL) {
            ^
-   drivers/regulator/helpers.c:951:2: note: Taking false branch
-           if (WARN_ON(!rdev->desc->n_ramp_values || !rdev->desc->ramp_dela=
-y_table))
+   drivers/iio/dac/ad5360.c:484:2: note: Loop condition is false.  Exiting =
+loop
+           mutex_init(&st->lock);
            ^
-   drivers/regulator/helpers.c:957:6: note: 'ret' is 0
+   include/linux/mutex.h:101:32: note: expanded from macro 'mutex_init'
+   #define mutex_init(mutex)                                               \
+                                                                           ^
+   drivers/iio/dac/ad5360.c:487:6: note: Assuming 'ret' is 0
            if (ret) {
                ^~~
-   drivers/regulator/helpers.c:957:2: note: Taking false branch
+   drivers/iio/dac/ad5360.c:487:2: note: Taking false branch
            if (ret) {
            ^
-   drivers/regulator/helpers.c:963:6: note: Assigned value is garbage or un=
-defined
-           sel <<=3D ffs(rdev->desc->ramp_mask) - 1;
-               ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
+   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
+s'
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
+loop body
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+           ^
+   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
+s'
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
+loop body
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+           ^
+   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
+s'
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
+loop body
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+           ^
+   drivers/iio/dac/ad5360.c:492:44: note: The value 3 is assigned to 'i'
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+                                                     ^~~
+   drivers/iio/dac/ad5360.c:492:14: note: Assuming 'i' is < field 'num_vref=
+s'
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   drivers/iio/dac/ad5360.c:492:2: note: Loop condition is true.  Entering =
+loop body
+           for (i =3D 0; i < st->chip_info->num_vrefs; ++i)
+           ^
+   drivers/iio/dac/ad5360.c:493:26: note: Assigned value is garbage or unde=
+fined
 
-vim +/error +904 fs/xfs/scrub/attr_repair.c
+vim +/end +3139 lib/vsprintf.c
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  866  =
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3077  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  867  /*
-042c4579d40b9e Darrick J. Wong 2021-09-01  868   * Prepare both inodes' att=
-ribute forks for extent swapping.  Promote the
-042c4579d40b9e Darrick J. Wong 2021-09-01  869   * tempfile from short form=
-at to leaf format, and if the file being repaired
-042c4579d40b9e Darrick J. Wong 2021-09-01  870   * has a short format attr =
-fork, turn it into an empty extent list.
-042c4579d40b9e Darrick J. Wong 2021-09-01  871   */
-042c4579d40b9e Darrick J. Wong 2021-09-01  872  STATIC int
-042c4579d40b9e Darrick J. Wong 2021-09-01  873  xrep_xattr_swap_prep(
-042c4579d40b9e Darrick J. Wong 2021-09-01  874  	struct xfs_scrub	*sc,
-042c4579d40b9e Darrick J. Wong 2021-09-01  875  	bool			temp_local,
-042c4579d40b9e Darrick J. Wong 2021-09-01  876  	bool			ip_local)
-042c4579d40b9e Darrick J. Wong 2021-09-01  877  {
-042c4579d40b9e Darrick J. Wong 2021-09-01  878  	int			error;
-042c4579d40b9e Darrick J. Wong 2021-09-01  879  =
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3078  	while (*fmt) {
+d4be151b2180fb Andr=C3=A9 Goddard Rosa      2009-12-14  3079  		int read =
+=3D format_decode(fmt, &spec);
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3080  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  880  	/*
-042c4579d40b9e Darrick J. Wong 2021-09-01  881  	 * If the tempfile's attri=
-butes are in shortform format, convert that
-042c4579d40b9e Darrick J. Wong 2021-09-01  882  	 * to a single leaf extent=
- so that we can use the atomic extent swap.
-042c4579d40b9e Darrick J. Wong 2021-09-01  883  	 */
-042c4579d40b9e Darrick J. Wong 2021-09-01  884  	if (temp_local) {
-042c4579d40b9e Darrick J. Wong 2021-09-01  885  		struct xfs_buf		*leaf_bp =
-=3D NULL;
-042c4579d40b9e Darrick J. Wong 2021-09-01  886  		struct xfs_da_args	args =
-=3D {
-042c4579d40b9e Darrick J. Wong 2021-09-01  887  			.dp		=3D sc->tempip,
-042c4579d40b9e Darrick J. Wong 2021-09-01  888  			.geo		=3D sc->mp->m_attr=
-_geo,
-042c4579d40b9e Darrick J. Wong 2021-09-01  889  			.whichfork	=3D XFS_ATTR_=
-FORK,
-042c4579d40b9e Darrick J. Wong 2021-09-01  890  			.trans		=3D sc->tp,
-042c4579d40b9e Darrick J. Wong 2021-09-01  891  			.total		=3D 1,
-042c4579d40b9e Darrick J. Wong 2021-09-01  892  		};
-042c4579d40b9e Darrick J. Wong 2021-09-01  893  =
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3081  		fmt +=3D read;
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3082  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  894  		error =3D xfs_attr_shortf=
-orm_to_leaf(&args, &leaf_bp);
-042c4579d40b9e Darrick J. Wong 2021-09-01  895  		if (error)
-042c4579d40b9e Darrick J. Wong 2021-09-01  896  			return error;
-042c4579d40b9e Darrick J. Wong 2021-09-01  897  =
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3083  		switch (spec.typ=
+e) {
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3084  		case FORMAT_TYPE=
+_NONE:
+d4be151b2180fb Andr=C3=A9 Goddard Rosa      2009-12-14  3085  		case FORMAT=
+_TYPE_PERCENT_CHAR:
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3086  			break;
+b006f19b055f90 Rasmus Villemoes        2015-11-06  3087  		case FORMAT_TYPE=
+_INVALID:
+b006f19b055f90 Rasmus Villemoes        2015-11-06  3088  			goto out;
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3089  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  898  		/*
-042c4579d40b9e Darrick J. Wong 2021-09-01  899  		 * Roll the deferred log =
-items to get us back to a clean
-042c4579d40b9e Darrick J. Wong 2021-09-01  900  		 * transaction.  Hold on =
-to the leaf buffer across this roll
-042c4579d40b9e Darrick J. Wong 2021-09-01  901  		 * so that the AIL cannot=
- grab our half-baked block.
-042c4579d40b9e Darrick J. Wong 2021-09-01  902  		 */
-042c4579d40b9e Darrick J. Wong 2021-09-01  903  		xfs_trans_bhold(sc->tp, l=
-eaf_bp);
-042c4579d40b9e Darrick J. Wong 2021-09-01 @904  		error =3D xfs_defer_finis=
-h(&sc->tp);
-042c4579d40b9e Darrick J. Wong 2021-09-01  905  		xfs_trans_bhold_release(s=
-c->tp, leaf_bp);
-042c4579d40b9e Darrick J. Wong 2021-09-01  906  	}
-042c4579d40b9e Darrick J. Wong 2021-09-01  907  =
+ed681a91ab8053 Vegard Nossum           2009-03-14  3090  		case FORMAT_TYPE=
+_WIDTH:
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3091  		case FORMAT_TYPE=
+_PRECISION:
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3092) 			width =3D (int)=
+save_arg(int);
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3093) 			/* Pointers may=
+ require the width */
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3094) 			if (*fmt =3D=3D=
+ 'p')
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3095) 				set_field_widt=
+h(&spec, width);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3096  			break;
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3097  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  908  	/*
-042c4579d40b9e Darrick J. Wong 2021-09-01  909  	 * If the file being repai=
-red had a shortform attribute fork, convert
-042c4579d40b9e Darrick J. Wong 2021-09-01  910  	 * that to an empty extent=
- list in preparation for the atomic extent
-042c4579d40b9e Darrick J. Wong 2021-09-01  911  	 * swap.
-042c4579d40b9e Darrick J. Wong 2021-09-01  912  	 */
-042c4579d40b9e Darrick J. Wong 2021-09-01  913  	if (ip_local) {
-042c4579d40b9e Darrick J. Wong 2021-09-01  914  		struct xfs_ifork	*ifp;
-042c4579d40b9e Darrick J. Wong 2021-09-01  915  =
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3098  		case FORMAT_TYPE=
+_CHAR:
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3099  			save_arg(char);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3100  			break;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3101  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  916  		ifp =3D XFS_IFORK_PTR(sc-=
->ip, XFS_ATTR_FORK);
-042c4579d40b9e Darrick J. Wong 2021-09-01  917  =
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3102  		case FORMAT_TYPE=
+_STR: {
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3103  			const char *sav=
+e_str =3D va_arg(args, char *);
+3e5903eb9cff70 Petr Mladek             2019-04-17  3104  			const char *err=
+_msg;
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3105  			size_t len;
+6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3106  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  918  		xfs_idestroy_fork(ifp);
-042c4579d40b9e Darrick J. Wong 2021-09-01  919  		ifp->if_format =3D XFS_DI=
-NODE_FMT_EXTENTS;
-042c4579d40b9e Darrick J. Wong 2021-09-01  920  		ifp->if_nextents =3D 0;
-042c4579d40b9e Darrick J. Wong 2021-09-01  921  		ifp->if_bytes =3D 0;
-042c4579d40b9e Darrick J. Wong 2021-09-01  922  		ifp->if_u1.if_root =3D NU=
-LL;
-042c4579d40b9e Darrick J. Wong 2021-09-01  923  		ifp->if_height =3D 0;
-042c4579d40b9e Darrick J. Wong 2021-09-01  924  =
+3e5903eb9cff70 Petr Mladek             2019-04-17  3107  			err_msg =3D che=
+ck_pointer_msg(save_str);
+3e5903eb9cff70 Petr Mladek             2019-04-17  3108  			if (err_msg)
+3e5903eb9cff70 Petr Mladek             2019-04-17  3109  				save_str =3D e=
+rr_msg;
+3e5903eb9cff70 Petr Mladek             2019-04-17  3110  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  925  		xfs_trans_log_inode(sc->t=
-p, sc->ip,
-042c4579d40b9e Darrick J. Wong 2021-09-01  926  				XFS_ILOG_CORE | XFS_ILO=
-G_ADATA);
-042c4579d40b9e Darrick J. Wong 2021-09-01  927  	}
-042c4579d40b9e Darrick J. Wong 2021-09-01  928  =
+6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3111  			len =3D st=
+rlen(save_str) + 1;
+6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3112  			if (str + =
+len < end)
+6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3113  				memcpy(st=
+r, save_str, len);
+6c356634111c5a Andr=C3=A9 Goddard Rosa      2009-12-14  3114  			str +=3D l=
+en;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3115  			break;
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3116  		}
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3117  =
 
-042c4579d40b9e Darrick J. Wong 2021-09-01  929  	return 0;
-042c4579d40b9e Darrick J. Wong 2021-09-01  930  }
-042c4579d40b9e Darrick J. Wong 2021-09-01  931  =
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3118  		case FORMAT_TYPE=
+_PTR:
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3119) 			/* Dereferenced=
+ pointers must be done now */
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3120) 			switch (*fmt) {
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3121) 			/* Dereference =
+of functions is still OK */
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3122) 			case 'S':
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3123) 			case 's':
+1e6338cfb50e24 Steven Rostedt (VMware  2018-04-03  3124) 			case 'x':
+1e6338cfb50e24 Steven Rostedt (VMware  2018-04-03  3125) 			case 'K':
+57f5677e535ba2 Rasmus Villemoes        2019-10-15  3126  			case 'e':
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3127  				save_arg(void =
+*);
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3128) 				break;
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3129) 			default:
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3130) 				if (!isalnum(*=
+fmt)) {
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3131) 					save_arg(void=
+ *);
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3132) 					break;
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3133) 				}
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3134) 				str =3D pointe=
+r(fmt, str, end, va_arg(args, void *),
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3135) 					      spec);
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3136) 				if (str + 1 < =
+end)
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3137) 					*str++ =3D '\=
+0';
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3138) 				else
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28 @3139) 					end[-1] =3D '=
+\0'; /* Must be nul terminated */
+841a915d20c7b2 Steven Rostedt (VMware  2017-12-28  3140) 			}
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3141  			/* skip all alp=
+hanumeric pointer suffixes */
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3142  			while (isalnum(=
+*fmt))
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3143  				fmt++;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3144  			break;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3145  =
 
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3146  		default:
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3147  			switch (spec.ty=
+pe) {
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3148  =
+
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3149  			case FORMAT_TYP=
+E_LONG_LONG:
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3150  				save_arg(long =
+long);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3151  				break;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3152  			case FORMAT_TYP=
+E_ULONG:
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3153  			case FORMAT_TYP=
+E_LONG:
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3154  				save_arg(unsig=
+ned long);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3155  				break;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3156  			case FORMAT_TYP=
+E_SIZE_T:
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3157  				save_arg(size_=
+t);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3158  				break;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3159  			case FORMAT_TYP=
+E_PTRDIFF:
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3160  				save_arg(ptrdi=
+ff_t);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3161  				break;
+a4e94ef0dd391e Zhaolei                 2009-03-27  3162  			case FORMAT_TYP=
+E_UBYTE:
+a4e94ef0dd391e Zhaolei                 2009-03-27  3163  			case FORMAT_TYP=
+E_BYTE:
+a4e94ef0dd391e Zhaolei                 2009-03-27  3164  				save_arg(char);
+a4e94ef0dd391e Zhaolei                 2009-03-27  3165  				break;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3166  			case FORMAT_TYP=
+E_USHORT:
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3167  			case FORMAT_TYP=
+E_SHORT:
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3168  				save_arg(short=
+);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3169  				break;
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3170  			default:
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3171  				save_arg(int);
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3172  			}
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3173  		}
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3174  	}
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3175  =
+
+b006f19b055f90 Rasmus Villemoes        2015-11-06  3176  out:
+7b9186f5eb0b17 Andr=C3=A9 Goddard Rosa      2009-12-14  3177  	return (u32 =
+*)(PTR_ALIGN(str, sizeof(u32))) - bin_buf;
+fef20d9c1380f0 Frederic Weisbecker     2009-03-06  3178  #undef save_arg
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3179  }
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3180  EXPORT_SYMBOL_GPL(=
+vbin_printf);
+4370aa4aa75391 Lai Jiangshan           2009-03-06  3181  =
+
+
+:::::: The code@line 3139 was first introduced by commit
+:::::: 841a915d20c7b22fc4f36f12368daf94d9f8cb10 vsprintf: Do not have bprin=
+tf dereference pointers
+
+:::::: TO: Steven Rostedt (VMware) <rostedt@goodmis.org>
+:::::: CC: Steven Rostedt (VMware) <rostedt@goodmis.org>
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============3763635622803842758==--
+--===============8594189857967670600==--
 
