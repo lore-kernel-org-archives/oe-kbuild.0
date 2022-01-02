@@ -1,13 +1,13 @@
-Content-Type: multipart/mixed; boundary="===============2642328200568330587=="
+Content-Type: multipart/mixed; boundary="===============0747198360556244980=="
 MIME-Version: 1.0
 From: kernel test robot <lkp@intel.com>
-Subject: drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: warning: Dereference of null pointer [clang-analyzer-core.NullDereference]
-Date: Sun, 02 Jan 2022 23:09:53 +0800
-Message-ID: <202201022245.dCg0sgVX-lkp@intel.com>
+Subject: mm/zswap.c:991:4: warning: Null pointer passed as 1st argument to memory copy function [clang-analyzer-unix.cstring.NullArg]
+Date: Sun, 02 Jan 2022 20:58:35 +0800
+Message-ID: <202201022009.hLRIFwFU-lkp@intel.com>
 List-Id: <oe-kbuild.lists.linux.dev>
 To: kbuild@lists.01.org
 
---===============2642328200568330587==
+--===============0747198360556244980==
 Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
@@ -15,36 +15,38 @@ Content-Transfer-Encoding: quoted-printable
 CC: llvm(a)lists.linux.dev
 CC: kbuild-all(a)lists.01.org
 CC: linux-kernel(a)vger.kernel.org
-TO: Chris Down <chris@chrisdown.name>
-CC: Petr Mladek <pmladek@suse.com>
+TO: Tian Tao <tiantao6@hisilicon.com>
+CC: Nathan Chancellor <natechancellor@gmail.com>
+CC: Colin Ian King <colin.king@canonical.com>
+CC: Vitaly Wool <vitaly.wool@konsulko.com>
+CC: Andrew Morton <akpm@linux-foundation.org>
+CC: Linux Memory Management List <linux-mm@kvack.org>
 
 tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git =
 master
 head:   278218f6778bc7d6f8b67199446c56cec7ebb841
-commit: 337015573718b161891a3473d25f59273f2e626b printk: Userspace format i=
-ndexing support
-date:   6 months ago
-:::::: branch date: 21 hours ago
-:::::: commit date: 6 months ago
-config: riscv-randconfig-c006-20211229 (https://download.01.org/0day-ci/arc=
-hive/20220102/202201022245.dCg0sgVX-lkp(a)intel.com/config)
-compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project cd284b=
-7ac0615afc6e0f1a30da2777e361de27a3)
+commit: fc6697a89f56d9773b2fbff718d4cf2a6d63379d mm/zswap: add the flag can=
+_sleep_mapped
+date:   10 months ago
+:::::: branch date: 19 hours ago
+:::::: commit date: 10 months ago
+config: x86_64-randconfig-c007-20211227 (https://download.01.org/0day-ci/ar=
+chive/20220102/202201022009.hLRIFwFU-lkp(a)intel.com/config)
+compiler: clang version 14.0.0 (https://github.com/llvm/llvm-project 511726=
+c64d3b6cca66f7c54d457d586aa3129f67)
 reproduce (this is a W=3D1 build):
         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/=
 make.cross -O ~/bin/make.cross
         chmod +x ~/bin/make.cross
-        # install riscv cross compiling tool for clang build
-        # apt-get install binutils-riscv64-linux-gnu
         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.gi=
-t/commit/?id=3D337015573718b161891a3473d25f59273f2e626b
+t/commit/?id=3Dfc6697a89f56d9773b2fbff718d4cf2a6d63379d
         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/gi=
 t/torvalds/linux.git
         git fetch --no-tags linus master
-        git checkout 337015573718b161891a3473d25f59273f2e626b
+        git checkout fc6697a89f56d9773b2fbff718d4cf2a6d63379d
         # save the config file to linux build tree
         COMPILER_INSTALL_PATH=3D$HOME/0day COMPILER=3Dclang make.cross ARCH=
-=3Driscv clang-analyzer =
+=3Dx86_64 clang-analyzer =
 
 
 If you fix the issue, kindly add following tag as appropriate
@@ -52,395 +54,477 @@ Reported-by: kernel test robot <lkp@intel.com>
 
 
 clang-analyzer warnings: (new ones prefixed by >>)
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   Suppressed 9 warnings (8 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (7 in non-user code, 1 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   drivers/char/hw_random/ixp4xx-rng.c:44:17: warning: Value stored to 'dev=
-' during its initialization is never read [clang-analyzer-deadcode.DeadStor=
-es]
-           struct device *dev =3D &pdev->dev;
-                          ^~~   ~~~~~~~~~~
-   drivers/char/hw_random/ixp4xx-rng.c:44:17: note: Value stored to 'dev' d=
-uring its initialization is never read
-           struct device *dev =3D &pdev->dev;
-                          ^~~   ~~~~~~~~~~
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   5 warnings generated.
-   Suppressed 5 warnings (5 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   9 warnings generated.
-   drivers/gpu/drm/radeon/radeon_drv.c:467:2: warning: Value stored to 'ret=
-' is never read [clang-analyzer-deadcode.DeadStores]
-           ret =3D radeon_resume_kms(drm_dev, false, false);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_drv.c:467:2: note: Value stored to 'ret' i=
-s never read
-           ret =3D radeon_resume_kms(drm_dev, false, false);
-           ^     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   8 warnings generated.
-   Suppressed 8 warnings (8 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   58 warnings generated.
->> drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: warning: Dereference of=
- null pointer [clang-analyzer-core.NullDereference]
-                           rdev->pm.power_state[rdev->pm.default_power_stat=
-e_index].clock_info[0].voltage.voltage;
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2765:6: note: Assuming the cond=
-ition is true
-           if (atom_parse_data_header(mode_info->atom_context, index, NULL,
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2765:2: note: Taking true branch
-           if (atom_parse_data_header(mode_info->atom_context, index, NULL,
+                     ^~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:760:6: note: Assuming 'zswap_init_failed' is false
+           if (zswap_init_failed) {
+               ^~~~~~~~~~~~~~~~~
+   mm/zswap.c:760:2: note: Taking false branch
+           if (zswap_init_failed) {
            ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2767:3: note: Control jumps to =
-'case 5:'  at line 2774
-                   switch (frev) {
+   mm/zswap.c:766:6: note: Assuming the condition is false
+           if (!strcmp(s, *(char **)kp->arg) && zswap_has_pool)
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:766:36: note: Left side of '&&' is false
+           if (!strcmp(s, *(char **)kp->arg) && zswap_has_pool)
+                                             ^
+   mm/zswap.c:772:6: note: Assuming 'zswap_init_started' is true
+           if (!zswap_init_started)
+               ^~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:772:2: note: Taking false branch
+           if (!zswap_init_started)
+           ^
+   mm/zswap.c:775:6: note: Assuming 'type' is null
+           if (!type) {
+               ^~~~~
+   mm/zswap.c:775:2: note: Taking true branch
+           if (!type) {
+           ^
+   mm/zswap.c:776:7: note: Assuming the condition is false
+                   if (!zpool_has_pool(s)) {
+                       ^~~~~~~~~~~~~~~~~~
+   mm/zswap.c:776:3: note: Taking false branch
+                   if (!zpool_has_pool(s)) {
                    ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2776:4: note:  Execution contin=
-ues on line 2785
-                           break;
-                           ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2785:6: note: 'state_index' is =
-equal to 0
-           if (state_index =3D=3D 0) {
-               ^~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2785:2: note: Taking true branch
-           if (state_index =3D=3D 0) {
+   mm/zswap.c:795:6: note: Assuming 'pool' is null
+           if (pool) {
+               ^~~~
+   mm/zswap.c:795:2: note: Taking false branch
+           if (pool) {
            ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Calling 'kzalloc'
-                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
-wer_state), GFP_KERNEL);
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Calling 'kmalloc'
+   mm/zswap.c:803:7: note: 'pool' is null
+           if (!pool)
+                ^~~~
+   mm/zswap.c:803:2: note: Taking true branch
+           if (!pool)
+           ^
+   mm/zswap.c:804:34: note: Passing null pointer value via 2nd parameter 'c=
+ompressor'
+                   pool =3D zswap_pool_create(type, compressor);
+                                                  ^~~~~~~~~~
+   mm/zswap.c:804:10: note: Calling 'zswap_pool_create'
+                   pool =3D zswap_pool_create(type, compressor);
+                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:592:6: note: Assuming 'zswap_has_pool' is true
+           if (!zswap_has_pool) {
+               ^~~~~~~~~~~~~~~
+   mm/zswap.c:592:2: note: Taking false branch
+           if (!zswap_has_pool) {
+           ^
+   mm/zswap.c:603:9: note: Calling 'kzalloc'
+           pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   include/linux/slab.h:684:9: note: Calling 'kmalloc'
            return kmalloc(size, flags | __GFP_ZERO);
                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:579:2: note: Taking false branch
+   include/linux/slab.h:542:2: note: Taking false branch
            if (__builtin_constant_p(size)) {
            ^
-   include/linux/slab.h:596:2: note: Returning pointer
+   include/linux/slab.h:559:2: note: Returning pointer, which participates =
+in a condition later
            return __kmalloc(size, flags);
            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:9: note: Returning from 'kmalloc'
+   include/linux/slab.h:684:9: note: Returning from 'kmalloc'
            return kmalloc(size, flags | __GFP_ZERO);
                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   include/linux/slab.h:721:2: note: Returning pointer
+   include/linux/slab.h:684:2: note: Returning pointer, which participates =
+in a condition later
            return kmalloc(size, flags | __GFP_ZERO);
            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2786:26: note: Returning from '=
-kzalloc'
-                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
-wer_state), GFP_KERNEL);
-                                          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2786:3: note: Value assigned to=
- field 'power_state'
-                   rdev->pm.power_state =3D kzalloc(sizeof(struct radeon_po=
-wer_state), GFP_KERNEL);
-                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2787:7: note: Assuming field 'p=
-ower_state' is null
-                   if (rdev->pm.power_state) {
-                       ^~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2787:3: note: Taking false bran=
-ch
-                   if (rdev->pm.power_state) {
+   mm/zswap.c:603:9: note: Returning from 'kzalloc'
+           pool =3D kzalloc(sizeof(*pool), GFP_KERNEL);
+                  ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:604:6: note: Assuming 'pool' is non-null
+           if (!pool)
+               ^~~~~
+   mm/zswap.c:604:2: note: Taking false branch
+           if (!pool)
+           ^
+   mm/zswap.c:611:6: note: Assuming field 'zpool' is non-null
+           if (!pool->zpool) {
+               ^~~~~~~~~~~~
+   mm/zswap.c:611:2: note: Taking false branch
+           if (!pool->zpool) {
+           ^
+   mm/zswap.c:615:2: note: Taking false branch
+           pr_debug("using %s zpool\n", zpool_get_type(pool->zpool));
+           ^
+   include/linux/printk.h:430:2: note: expanded from macro 'pr_debug'
+           no_printk(KERN_DEBUG pr_fmt(fmt), ##__VA_ARGS__)
+           ^
+   include/linux/printk.h:139:2: note: expanded from macro 'no_printk'
+           if (0)                                          \
+           ^
+   mm/zswap.c:617:2: note: Null pointer passed as 2nd argument to string co=
+py function
+           strlcpy(pool->tfm_name, compressor, sizeof(pool->tfm_name));
+           ^                       ~~~~~~~~~~
+>> mm/zswap.c:991:4: warning: Null pointer passed as 1st argument to memory=
+ copy function [clang-analyzer-unix.cstring.NullArg]
+                           memcpy(tmp, src, entry->length);
+                           ^      ~~~
+   mm/zswap.c:938:12: note: 'tmp' initialized to a null pointer value
+           u8 *src, *tmp =3D NULL;
+                     ^~~
+   mm/zswap.c:945:6: note: Assuming the condition is false
+           if (!zpool_can_sleep_mapped(pool)) {
+               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:945:2: note: Taking false branch
+           if (!zpool_can_sleep_mapped(pool)) {
+           ^
+   mm/zswap.c:959:10: note: Calling 'zswap_entry_find_get'
+           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:391:6: note: Assuming 'entry' is non-null, which participates=
+ in a condition later
+           if (entry)
+               ^~~~~
+   mm/zswap.c:391:2: note: Taking true branch
+           if (entry)
+           ^
+   mm/zswap.c:394:2: note: Returning pointer (loaded from 'entry'), which p=
+articipates in a condition later
+           return entry;
+           ^~~~~~~~~~~~
+   mm/zswap.c:959:10: note: Returning from 'zswap_entry_find_get'
+           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:960:7: note: 'entry' is non-null
+           if (!entry) {
+                ^~~~~
+   mm/zswap.c:960:2: note: Taking false branch
+           if (!entry) {
+           ^
+   mm/zswap.c:968:9: note: Assuming 'offset' is equal to field 'offset'
+           BUG_ON(offset !=3D entry->offset);
+                  ^
+   include/asm-generic/bug.h:63:45: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                               ^~~~~~~~~
+   include/linux/compiler.h:78:42: note: expanded from macro 'unlikely'
+   # define unlikely(x)    __builtin_expect(!!(x), 0)
+                                               ^
+   mm/zswap.c:968:2: note: Taking false branch
+           BUG_ON(offset !=3D entry->offset);
+           ^
+   include/asm-generic/bug.h:63:32: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                                  ^
+   mm/zswap.c:968:2: note: Loop condition is false.  Exiting loop
+           BUG_ON(offset !=3D entry->offset);
+           ^
+   include/asm-generic/bug.h:63:27: note: expanded from macro 'BUG_ON'
+   #define BUG_ON(condition) do { if (unlikely(condition)) BUG(); } while (=
+0)
+                             ^
+   mm/zswap.c:971:10: note: Calling 'zswap_get_swap_cache_page'
+           switch (zswap_get_swap_cache_page(swpentry, &page)) {
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:908:6: note: Assuming 'page_was_allocated' is true
+           if (page_was_allocated)
+               ^~~~~~~~~~~~~~~~~~
+   mm/zswap.c:908:2: note: Taking true branch
+           if (page_was_allocated)
+           ^
+   mm/zswap.c:909:3: note: Returning zero, which participates in a conditio=
+n later
+                   return ZSWAP_SWAPCACHE_NEW;
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:971:10: note: Returning from 'zswap_get_swap_cache_page'
+           switch (zswap_get_swap_cache_page(swpentry, &page)) {
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:971:2: note: Control jumps to 'case ZSWAP_SWAPCACHE_NEW:'  at=
+ line 982
+           switch (zswap_get_swap_cache_page(swpentry, &page)) {
+           ^
+   mm/zswap.c:984:15: note: Loop condition is false.  Exiting loop
+                   acomp_ctx =3D raw_cpu_ptr(entry->pool->acomp_ctx);
+                               ^
+   include/linux/percpu-defs.h:241:2: note: expanded from macro 'raw_cpu_pt=
+r'
+           __verify_pcpu_ptr(ptr);                                         \
+           ^
+   include/linux/percpu-defs.h:217:37: note: expanded from macro '__verify_=
+pcpu_ptr'
+   #define __verify_pcpu_ptr(ptr)                                          \
+                                                                           ^
+   mm/zswap.c:989:7: note: Assuming the condition is true
+                   if (!zpool_can_sleep_mapped(pool)) {
+                       ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:989:3: note: Taking true branch
+                   if (!zpool_can_sleep_mapped(pool)) {
                    ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2814:6: note: Assuming field 'd=
-efault_power_state_index' is >=3D 0
-           if (rdev->pm.default_power_state_index >=3D 0)
-               ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/gpu/drm/radeon/radeon_atombios.c:2814:2: note: Taking true branch
-           if (rdev->pm.default_power_state_index >=3D 0)
-           ^
-   drivers/gpu/drm/radeon/radeon_atombios.c:2816:4: note: Dereference of nu=
-ll pointer
-                           rdev->pm.power_state[rdev->pm.default_power_stat=
-e_index].clock_info[0].voltage.voltage;
-                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
-~~~~~~~~~~~~~~~~~~~
-   Suppressed 57 warnings (8 in non-user code, 49 with check filters).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   Suppressed 7 warnings (7 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   6 warnings generated.
-   Suppressed 6 warnings (6 in non-user code).
-   Use -header-filter=3D.* to display errors from all non-system headers. U=
-se -system-headers to display errors from system headers as well.
-   7 warnings generated.
-   drivers/tty/serial/fsl_lpuart.c:1230:33: warning: The result of the left=
- shift is undefined because the right operand is negative [clang-analyzer-c=
-ore.UndefinedBinaryOperatorResult]
-           sport->rx_dma_rng_buf_len =3D (1 << (fls(sport->rx_dma_rng_buf_l=
-en) - 1));
-                                          ^
-   drivers/tty/serial/fsl_lpuart.c:2803:6: note: Assuming field 'suspended'=
- is 0
-           if (sport->port.suspended && !irq_wake)
-               ^~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:2803:28: note: Left side of '&&' is false
-           if (sport->port.suspended && !irq_wake)
-                                     ^
-   drivers/tty/serial/fsl_lpuart.c:2806:2: note: Taking true branch
-           if (lpuart_is_32(sport))
-           ^
-   drivers/tty/serial/fsl_lpuart.c:2811:6: note: Assuming field 'lpuart_dma=
-_rx_use' is true
-           if (sport->lpuart_dma_rx_use) {
-               ^~~~~~~~~~~~~~~~~~~~~~~~
-   drivers/tty/serial/fsl_lpuart.c:2811:2: note: Taking true branch
-           if (sport->lpuart_dma_rx_use) {
-           ^
-   drivers/tty/serial/fsl_lpuart.c:2812:7: note: Assuming 'irq_wake' is true
-                   if (irq_wake) {
+   mm/zswap.c:991:4: note: Null pointer passed as 1st argument to memory co=
+py function
+                           memcpy(tmp, src, entry->length);
+                           ^      ~~~
+   mm/zswap.c:1296:3: warning: 1st function call argument is an uninitializ=
+ed value [clang-analyzer-core.CallAndMessage]
+                   memcpy(tmp, src, entry->length);
+                   ^      ~~~
+   mm/zswap.c:1257:18: note: 'tmp' declared without an initial value
+           u8 *src, *dst, *tmp;
+                           ^~~
+   mm/zswap.c:1263:10: note: Calling 'zswap_entry_find_get'
+           entry =3D zswap_entry_find_get(&tree->rbroot, offset);
+                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   mm/zswap.c:391:6: note: Assuming 'entry' is non-null, which participates=
+ in a condition later
+           if (entry)
 
-vim +2816 drivers/gpu/drm/radeon/radeon_atombios.c
+vim +991 mm/zswap.c
 
-b0e664140a1703 Alex Deucher     2010-11-22  2754  =
+2b2811178e85553 Seth Jennings      2013-07-10   914  =
 
-560154e9a27f2f Alex Deucher     2010-11-22  2755  void radeon_atombios_get_=
-power_modes(struct radeon_device *rdev)
-560154e9a27f2f Alex Deucher     2010-11-22  2756  {
-560154e9a27f2f Alex Deucher     2010-11-22  2757  	struct radeon_mode_info =
-*mode_info =3D &rdev->mode_info;
-560154e9a27f2f Alex Deucher     2010-11-22  2758  	int index =3D GetIndexIn=
-toMasterTable(DATA, PowerPlayInfo);
-560154e9a27f2f Alex Deucher     2010-11-22  2759  	u16 data_offset;
-560154e9a27f2f Alex Deucher     2010-11-22  2760  	u8 frev, crev;
-560154e9a27f2f Alex Deucher     2010-11-22  2761  	int state_index =3D 0;
-560154e9a27f2f Alex Deucher     2010-11-22  2762  =
+2b2811178e85553 Seth Jennings      2013-07-10   915  /*
+2b2811178e85553 Seth Jennings      2013-07-10   916   * Attempts to free an=
+ entry by adding a page to the swap cache,
+2b2811178e85553 Seth Jennings      2013-07-10   917   * decompressing the e=
+ntry data into the page, and issuing a
+2b2811178e85553 Seth Jennings      2013-07-10   918   * bio write to write =
+the page back to the swap device.
+2b2811178e85553 Seth Jennings      2013-07-10   919   *
+2b2811178e85553 Seth Jennings      2013-07-10   920   * This can be thought=
+ of as a "resumed writeback" of the page
+2b2811178e85553 Seth Jennings      2013-07-10   921   * to the swap device.=
+  We are basically resuming the same swap
+2b2811178e85553 Seth Jennings      2013-07-10   922   * writeback path that=
+ was intercepted with the frontswap_store()
+2b2811178e85553 Seth Jennings      2013-07-10   923   * in the first place.=
+  After the page has been decompressed into
+2b2811178e85553 Seth Jennings      2013-07-10   924   * the swap cache, the=
+ compressed version stored by zswap can be
+2b2811178e85553 Seth Jennings      2013-07-10   925   * freed.
+2b2811178e85553 Seth Jennings      2013-07-10   926   */
+12d79d64bfd3913 Dan Streetman      2014-08-06   927  static int zswap_write=
+back_entry(struct zpool *pool, unsigned long handle)
+2b2811178e85553 Seth Jennings      2013-07-10   928  {
+2b2811178e85553 Seth Jennings      2013-07-10   929  	struct zswap_header *=
+zhdr;
+2b2811178e85553 Seth Jennings      2013-07-10   930  	swp_entry_t swpentry;
+2b2811178e85553 Seth Jennings      2013-07-10   931  	struct zswap_tree *tr=
+ee;
+2b2811178e85553 Seth Jennings      2013-07-10   932  	pgoff_t offset;
+2b2811178e85553 Seth Jennings      2013-07-10   933  	struct zswap_entry *e=
+ntry;
+2b2811178e85553 Seth Jennings      2013-07-10   934  	struct page *page;
+1ec3b5fe6eec782 Barry Song         2020-12-14   935  	struct scatterlist in=
+put, output;
+1ec3b5fe6eec782 Barry Song         2020-12-14   936  	struct crypto_acomp_c=
+tx *acomp_ctx;
+1ec3b5fe6eec782 Barry Song         2020-12-14   937  =
 
-560154e9a27f2f Alex Deucher     2010-11-22  2763  	rdev->pm.default_power_s=
-tate_index =3D -1;
-560154e9a27f2f Alex Deucher     2010-11-22  2764  =
+fc6697a89f56d97 Tian Tao           2021-02-25   938  	u8 *src, *tmp =3D NUL=
+L;
+2b2811178e85553 Seth Jennings      2013-07-10   939  	unsigned int dlen;
+0ab0abcf511545d Weijie Yang        2013-11-12   940  	int ret;
+2b2811178e85553 Seth Jennings      2013-07-10   941  	struct writeback_cont=
+rol wbc =3D {
+2b2811178e85553 Seth Jennings      2013-07-10   942  		.sync_mode =3D WB_SY=
+NC_NONE,
+2b2811178e85553 Seth Jennings      2013-07-10   943  	};
+2b2811178e85553 Seth Jennings      2013-07-10   944  =
 
-560154e9a27f2f Alex Deucher     2010-11-22  2765  	if (atom_parse_data_head=
-er(mode_info->atom_context, index, NULL,
-560154e9a27f2f Alex Deucher     2010-11-22  2766  				   &frev, &crev, &dat=
-a_offset)) {
-560154e9a27f2f Alex Deucher     2010-11-22  2767  		switch (frev) {
-560154e9a27f2f Alex Deucher     2010-11-22  2768  		case 1:
-560154e9a27f2f Alex Deucher     2010-11-22  2769  		case 2:
-560154e9a27f2f Alex Deucher     2010-11-22  2770  		case 3:
-560154e9a27f2f Alex Deucher     2010-11-22  2771  			state_index =3D radeon=
-_atombios_parse_power_table_1_3(rdev);
-560154e9a27f2f Alex Deucher     2010-11-22  2772  			break;
-560154e9a27f2f Alex Deucher     2010-11-22  2773  		case 4:
-560154e9a27f2f Alex Deucher     2010-11-22  2774  		case 5:
-560154e9a27f2f Alex Deucher     2010-11-22  2775  			state_index =3D radeon=
-_atombios_parse_power_table_4_5(rdev);
-560154e9a27f2f Alex Deucher     2010-11-22  2776  			break;
-b0e664140a1703 Alex Deucher     2010-11-22  2777  		case 6:
-b0e664140a1703 Alex Deucher     2010-11-22  2778  			state_index =3D radeon=
-_atombios_parse_power_table_6(rdev);
-b0e664140a1703 Alex Deucher     2010-11-22  2779  			break;
-560154e9a27f2f Alex Deucher     2010-11-22  2780  		default:
-560154e9a27f2f Alex Deucher     2010-11-22  2781  			break;
-56278a8edacee9 Alex Deucher     2009-12-28  2782  		}
-f8e6bfc2ce1628 Alex Deucher     2013-04-25  2783  	}
-f8e6bfc2ce1628 Alex Deucher     2013-04-25  2784  =
+fc6697a89f56d97 Tian Tao           2021-02-25   945  	if (!zpool_can_sleep_=
+mapped(pool)) {
+fc6697a89f56d97 Tian Tao           2021-02-25   946  		tmp =3D kmalloc(PAGE=
+_SIZE, GFP_ATOMIC);
+fc6697a89f56d97 Tian Tao           2021-02-25   947  		if (!tmp)
+fc6697a89f56d97 Tian Tao           2021-02-25   948  			return -ENOMEM;
+fc6697a89f56d97 Tian Tao           2021-02-25   949  	}
+fc6697a89f56d97 Tian Tao           2021-02-25   950  =
 
-f8e6bfc2ce1628 Alex Deucher     2013-04-25  2785  	if (state_index =3D=3D 0=
-) {
-0975b16274bad1 Alex Deucher     2011-02-02  2786  		rdev->pm.power_state =
-=3D kzalloc(sizeof(struct radeon_power_state), GFP_KERNEL);
-0975b16274bad1 Alex Deucher     2011-02-02  2787  		if (rdev->pm.power_stat=
-e) {
-8f3f1c9a22a642 Alex Deucher     2011-11-04  2788  			rdev->pm.power_state[0=
-].clock_info =3D
-6396bb221514d2 Kees Cook        2018-06-12  2789  				kcalloc(1,
-6396bb221514d2 Kees Cook        2018-06-12  2790  				        sizeof(struct=
- radeon_pm_clock_info),
-6396bb221514d2 Kees Cook        2018-06-12  2791  				        GFP_KERNEL);
-8f3f1c9a22a642 Alex Deucher     2011-11-04  2792  			if (rdev->pm.power_sta=
-te[0].clock_info) {
-56278a8edacee9 Alex Deucher     2009-12-28  2793  				/* add the default mo=
-de */
-0ec0e74f784ca0 Alex Deucher     2009-12-23  2794  				rdev->pm.power_state[=
-state_index].type =3D
-0ec0e74f784ca0 Alex Deucher     2009-12-23  2795  					POWER_STATE_TYPE_DEF=
-AULT;
-56278a8edacee9 Alex Deucher     2009-12-28  2796  				rdev->pm.power_state[=
-state_index].num_clock_modes =3D 1;
-56278a8edacee9 Alex Deucher     2009-12-28  2797  				rdev->pm.power_state[=
-state_index].clock_info[0].mclk =3D rdev->clock.default_mclk;
-56278a8edacee9 Alex Deucher     2009-12-28  2798  				rdev->pm.power_state[=
-state_index].clock_info[0].sclk =3D rdev->clock.default_sclk;
-56278a8edacee9 Alex Deucher     2009-12-28  2799  				rdev->pm.power_state[=
-state_index].default_clock_mode =3D
-56278a8edacee9 Alex Deucher     2009-12-28  2800  					&rdev->pm.power_stat=
-e[state_index].clock_info[0];
-56278a8edacee9 Alex Deucher     2009-12-28  2801  				rdev->pm.power_state[=
-state_index].clock_info[0].voltage.type =3D VOLTAGE_NONE;
-79daedc942813c Alex Deucher     2010-04-22  2802  				rdev->pm.power_state[=
-state_index].pcie_lanes =3D 16;
-a48b9b4edb8bb8 Alex Deucher     2010-04-22  2803  				rdev->pm.default_powe=
-r_state_index =3D state_index;
-a48b9b4edb8bb8 Alex Deucher     2010-04-22  2804  				rdev->pm.power_state[=
-state_index].flags =3D 0;
-56278a8edacee9 Alex Deucher     2009-12-28  2805  				state_index++;
-56278a8edacee9 Alex Deucher     2009-12-28  2806  			}
-0975b16274bad1 Alex Deucher     2011-02-02  2807  		}
-8f3f1c9a22a642 Alex Deucher     2011-11-04  2808  	}
-02b17cc05372ab Alex Deucher     2010-04-22  2809  =
+2b2811178e85553 Seth Jennings      2013-07-10   951  	/* extract swpentry f=
+rom data */
+12d79d64bfd3913 Dan Streetman      2014-08-06   952  	zhdr =3D zpool_map_ha=
+ndle(pool, handle, ZPOOL_MM_RO);
+2b2811178e85553 Seth Jennings      2013-07-10   953  	swpentry =3D zhdr->sw=
+pentry; /* here */
+2b2811178e85553 Seth Jennings      2013-07-10   954  	tree =3D zswap_trees[=
+swp_type(swpentry)];
+2b2811178e85553 Seth Jennings      2013-07-10   955  	offset =3D swp_offset=
+(swpentry);
+2b2811178e85553 Seth Jennings      2013-07-10   956  =
 
-56278a8edacee9 Alex Deucher     2009-12-28  2810  	rdev->pm.num_power_state=
-s =3D state_index;
-771fe6b912fca5 Jerome Glisse    2009-06-05  2811  =
+2b2811178e85553 Seth Jennings      2013-07-10   957  	/* find and ref zswap=
+ entry */
+2b2811178e85553 Seth Jennings      2013-07-10   958  	spin_lock(&tree->lock=
+);
+0ab0abcf511545d Weijie Yang        2013-11-12   959  	entry =3D zswap_entry=
+_find_get(&tree->rbroot, offset);
+2b2811178e85553 Seth Jennings      2013-07-10   960  	if (!entry) {
+2b2811178e85553 Seth Jennings      2013-07-10   961  		/* entry was invalid=
+ated */
+2b2811178e85553 Seth Jennings      2013-07-10   962  		spin_unlock(&tree->l=
+ock);
+068619e32ff6229 Vitaly Wool        2019-09-23   963  		zpool_unmap_handle(p=
+ool, handle);
+fc6697a89f56d97 Tian Tao           2021-02-25   964  		kfree(tmp);
+2b2811178e85553 Seth Jennings      2013-07-10   965  		return 0;
+2b2811178e85553 Seth Jennings      2013-07-10   966  	}
+2b2811178e85553 Seth Jennings      2013-07-10   967  	spin_unlock(&tree->lo=
+ck);
+2b2811178e85553 Seth Jennings      2013-07-10   968  	BUG_ON(offset !=3D en=
+try->offset);
+2b2811178e85553 Seth Jennings      2013-07-10   969  =
 
-a48b9b4edb8bb8 Alex Deucher     2010-04-22  2812  	rdev->pm.current_power_s=
-tate_index =3D rdev->pm.default_power_state_index;
-a48b9b4edb8bb8 Alex Deucher     2010-04-22  2813  	rdev->pm.current_clock_m=
-ode_index =3D 0;
-4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2814  	if (rdev->pm.defaul=
-t_power_state_index >=3D 0)
-4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2815  		rdev->pm.current_v=
-ddc =3D
-4376eee92e5a83 Alexander M=C3=BCller 2011-12-30 @2816  			rdev->pm.power_st=
-ate[rdev->pm.default_power_state_index].clock_info[0].voltage.voltage;
-4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2817  	else
-4376eee92e5a83 Alexander M=C3=BCller 2011-12-30  2818  		rdev->pm.current_v=
-ddc =3D 0;
-56278a8edacee9 Alex Deucher     2009-12-28  2819  }
-56278a8edacee9 Alex Deucher     2009-12-28  2820  =
+2b2811178e85553 Seth Jennings      2013-07-10   970  	/* try to allocate sw=
+ap cache page */
+2b2811178e85553 Seth Jennings      2013-07-10   971  	switch (zswap_get_swa=
+p_cache_page(swpentry, &page)) {
+67d13fe846c57a5 Weijie Yang        2013-11-12   972  	case ZSWAP_SWAPCACHE_=
+FAIL: /* no memory or invalidate happened */
+2b2811178e85553 Seth Jennings      2013-07-10   973  		ret =3D -ENOMEM;
+2b2811178e85553 Seth Jennings      2013-07-10   974  		goto fail;
+2b2811178e85553 Seth Jennings      2013-07-10   975  =
 
+67d13fe846c57a5 Weijie Yang        2013-11-12   976  	case ZSWAP_SWAPCACHE_=
+EXIST:
+2b2811178e85553 Seth Jennings      2013-07-10   977  		/* page is already i=
+n the swap cache, ignore for now */
+09cbfeaf1a5a67b Kirill A. Shutemov 2016-04-01   978  		put_page(page);
+2b2811178e85553 Seth Jennings      2013-07-10   979  		ret =3D -EEXIST;
+2b2811178e85553 Seth Jennings      2013-07-10   980  		goto fail;
+2b2811178e85553 Seth Jennings      2013-07-10   981  =
 
-:::::: The code at line 2816 was first introduced by commit
-:::::: 4376eee92e5a8332b470040e672ea99cd44c826a drm/radeon/kms/atom: fix po=
-ssible segfault in pm setup
+2b2811178e85553 Seth Jennings      2013-07-10   982  	case ZSWAP_SWAPCACHE_=
+NEW: /* page is locked */
+2b2811178e85553 Seth Jennings      2013-07-10   983  		/* decompress */
+1ec3b5fe6eec782 Barry Song         2020-12-14   984  		acomp_ctx =3D raw_cp=
+u_ptr(entry->pool->acomp_ctx);
+1ec3b5fe6eec782 Barry Song         2020-12-14   985  =
 
-:::::: TO: Alexander M=C3=BCller <serveralex@gmail.com>
-:::::: CC: Dave Airlie <airlied@redhat.com>
+2b2811178e85553 Seth Jennings      2013-07-10   986  		dlen =3D PAGE_SIZE;
+068619e32ff6229 Vitaly Wool        2019-09-23   987  		src =3D (u8 *)zhdr +=
+ sizeof(struct zswap_header);
+1ec3b5fe6eec782 Barry Song         2020-12-14   988  =
+
+fc6697a89f56d97 Tian Tao           2021-02-25   989  		if (!zpool_can_sleep=
+_mapped(pool)) {
+fc6697a89f56d97 Tian Tao           2021-02-25   990  =
+
+fc6697a89f56d97 Tian Tao           2021-02-25  @991  			memcpy(tmp, src, en=
+try->length);
+fc6697a89f56d97 Tian Tao           2021-02-25   992  			src =3D tmp;
+fc6697a89f56d97 Tian Tao           2021-02-25   993  =
+
+fc6697a89f56d97 Tian Tao           2021-02-25   994  			zpool_unmap_handle(=
+pool, handle);
+fc6697a89f56d97 Tian Tao           2021-02-25   995  		}
+fc6697a89f56d97 Tian Tao           2021-02-25   996  =
+
+1ec3b5fe6eec782 Barry Song         2020-12-14   997  		mutex_lock(acomp_ctx=
+->mutex);
+1ec3b5fe6eec782 Barry Song         2020-12-14   998  		sg_init_one(&input, =
+src, entry->length);
+1ec3b5fe6eec782 Barry Song         2020-12-14   999  		sg_init_table(&outpu=
+t, 1);
+1ec3b5fe6eec782 Barry Song         2020-12-14  1000  		sg_set_page(&output,=
+ page, PAGE_SIZE, 0);
+1ec3b5fe6eec782 Barry Song         2020-12-14  1001  		acomp_request_set_pa=
+rams(acomp_ctx->req, &input, &output, entry->length, dlen);
+1ec3b5fe6eec782 Barry Song         2020-12-14  1002  		ret =3D crypto_wait_=
+req(crypto_acomp_decompress(acomp_ctx->req), &acomp_ctx->wait);
+1ec3b5fe6eec782 Barry Song         2020-12-14  1003  		dlen =3D acomp_ctx->=
+req->dlen;
+1ec3b5fe6eec782 Barry Song         2020-12-14  1004  		mutex_unlock(acomp_c=
+tx->mutex);
+1ec3b5fe6eec782 Barry Song         2020-12-14  1005  =
+
+2b2811178e85553 Seth Jennings      2013-07-10  1006  		BUG_ON(ret);
+2b2811178e85553 Seth Jennings      2013-07-10  1007  		BUG_ON(dlen !=3D PAG=
+E_SIZE);
+2b2811178e85553 Seth Jennings      2013-07-10  1008  =
+
+2b2811178e85553 Seth Jennings      2013-07-10  1009  		/* page is up to dat=
+e */
+2b2811178e85553 Seth Jennings      2013-07-10  1010  		SetPageUptodate(page=
+);
+2b2811178e85553 Seth Jennings      2013-07-10  1011  	}
+2b2811178e85553 Seth Jennings      2013-07-10  1012  =
+
+b349acc76b7f654 Weijie Yang        2013-11-12  1013  	/* move it to the tai=
+l of the inactive list after end_writeback */
+b349acc76b7f654 Weijie Yang        2013-11-12  1014  	SetPageReclaim(page);
+b349acc76b7f654 Weijie Yang        2013-11-12  1015  =
+
+2b2811178e85553 Seth Jennings      2013-07-10  1016  	/* start writeback */
+2b2811178e85553 Seth Jennings      2013-07-10  1017  	__swap_writepage(page=
+, &wbc, end_swap_bio_write);
+09cbfeaf1a5a67b Kirill A. Shutemov 2016-04-01  1018  	put_page(page);
+2b2811178e85553 Seth Jennings      2013-07-10  1019  	zswap_written_back_pa=
+ges++;
+2b2811178e85553 Seth Jennings      2013-07-10  1020  =
+
+2b2811178e85553 Seth Jennings      2013-07-10  1021  	spin_lock(&tree->lock=
+);
+2b2811178e85553 Seth Jennings      2013-07-10  1022  	/* drop local referen=
+ce */
+0ab0abcf511545d Weijie Yang        2013-11-12  1023  	zswap_entry_put(tree,=
+ entry);
+2b2811178e85553 Seth Jennings      2013-07-10  1024  =
+
+2b2811178e85553 Seth Jennings      2013-07-10  1025  	/*
+0ab0abcf511545d Weijie Yang        2013-11-12  1026  	* There are two possi=
+ble situations for entry here:
+0ab0abcf511545d Weijie Yang        2013-11-12  1027  	* (1) refcount is 1(n=
+ormal case),  entry is valid and on the tree
+0ab0abcf511545d Weijie Yang        2013-11-12  1028  	* (2) refcount is 0, =
+entry is freed and not on the tree
+0ab0abcf511545d Weijie Yang        2013-11-12  1029  	*     because invalid=
+ate happened during writeback
+0ab0abcf511545d Weijie Yang        2013-11-12  1030  	*  search the tree an=
+d free the entry if find entry
+2b2811178e85553 Seth Jennings      2013-07-10  1031  	*/
+0ab0abcf511545d Weijie Yang        2013-11-12  1032  	if (entry =3D=3D zswa=
+p_rb_search(&tree->rbroot, offset))
+0ab0abcf511545d Weijie Yang        2013-11-12  1033  		zswap_entry_put(tree=
+, entry);
+2b2811178e85553 Seth Jennings      2013-07-10  1034  	spin_unlock(&tree->lo=
+ck);
+2b2811178e85553 Seth Jennings      2013-07-10  1035  =
+
+0ab0abcf511545d Weijie Yang        2013-11-12  1036  	goto end;
+0ab0abcf511545d Weijie Yang        2013-11-12  1037  =
+
+0ab0abcf511545d Weijie Yang        2013-11-12  1038  	/*
+0ab0abcf511545d Weijie Yang        2013-11-12  1039  	* if we get here due =
+to ZSWAP_SWAPCACHE_EXIST
+c0c641d77b9ab0d Randy Dunlap       2021-02-25  1040  	* a load may be happe=
+ning concurrently.
+c0c641d77b9ab0d Randy Dunlap       2021-02-25  1041  	* it is safe and okay=
+ to not free the entry.
+0ab0abcf511545d Weijie Yang        2013-11-12  1042  	* if we free the entr=
+y in the following put
+c0c641d77b9ab0d Randy Dunlap       2021-02-25  1043  	* it is also okay to =
+return !0
+0ab0abcf511545d Weijie Yang        2013-11-12  1044  	*/
+2b2811178e85553 Seth Jennings      2013-07-10  1045  fail:
+2b2811178e85553 Seth Jennings      2013-07-10  1046  	spin_lock(&tree->lock=
+);
+0ab0abcf511545d Weijie Yang        2013-11-12  1047  	zswap_entry_put(tree,=
+ entry);
+2b2811178e85553 Seth Jennings      2013-07-10  1048  	spin_unlock(&tree->lo=
+ck);
+0ab0abcf511545d Weijie Yang        2013-11-12  1049  =
+
+0ab0abcf511545d Weijie Yang        2013-11-12  1050  end:
+fc6697a89f56d97 Tian Tao           2021-02-25  1051  	if (zpool_can_sleep_m=
+apped(pool))
+068619e32ff6229 Vitaly Wool        2019-09-23  1052  		zpool_unmap_handle(p=
+ool, handle);
+fc6697a89f56d97 Tian Tao           2021-02-25  1053  	else
+fc6697a89f56d97 Tian Tao           2021-02-25  1054  		kfree(tmp);
+fc6697a89f56d97 Tian Tao           2021-02-25  1055  =
+
+2b2811178e85553 Seth Jennings      2013-07-10  1056  	return ret;
+2b2811178e85553 Seth Jennings      2013-07-10  1057  }
+2b2811178e85553 Seth Jennings      2013-07-10  1058  =
+
 
 ---
 0-DAY CI Kernel Test Service, Intel Corporation
 https://lists.01.org/hyperkitty/list/kbuild-all(a)lists.01.org
---===============2642328200568330587==--
+--===============0747198360556244980==--
 
